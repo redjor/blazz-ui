@@ -1,5 +1,4 @@
 import * as React from "react"
-import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 
 export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -139,7 +138,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 			>
 				{/* Page Header */}
 				{hasHeader && (
-					<div className={cn("space-y-6 py-6", headerClassName)}>
+					<div className={cn("space-y-6 pt-4 pb-3", headerClassName)}>
 						{/* Breadcrumbs */}
 						{breadcrumbs && <div className="flex items-center">{breadcrumbs}</div>}
 
@@ -148,11 +147,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 							<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 								{/* Title Section */}
 								<div className="flex-1 space-y-1">
-									{title && (
-										<h1 className="text-lg font-semibold leading-[1.5] tracking-tight text-foreground">
-											{title}
-										</h1>
-									)}
+									{title && <h1 className="text-lg font-semibold leading-normal text-foreground">{title}</h1>}
 									{subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
 								</div>
 
@@ -170,9 +165,6 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 
 						{/* Additional Metadata */}
 						{additionalMetadata && <div className="flex items-center">{additionalMetadata}</div>}
-
-						{/* Divider */}
-						{divider && <Separator />}
 					</div>
 				)}
 

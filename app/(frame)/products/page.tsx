@@ -211,6 +211,7 @@ const columns: DataTableColumnDef<Product>[] = [
 		enableSorting: true,
 		filterConfig: {
 			type: "select",
+			showQuickFilter: true,
 			options: [
 				{ label: "Actif", value: "actif" },
 				{ label: "Brouillon", value: "brouillon" },
@@ -242,6 +243,7 @@ const columns: DataTableColumnDef<Product>[] = [
 		enableSorting: true,
 		filterConfig: {
 			type: "text",
+			showQuickFilter: true,
 			placeholder: "Filtrer par catégorie...",
 		},
 	},
@@ -407,7 +409,7 @@ export default function ProductsPage() {
 
 	return (
 		<Page
-			title="Products"
+			title="Produits"
 			fullWidth
 			primaryAction={
 				<Button>
@@ -416,7 +418,7 @@ export default function ProductsPage() {
 				</Button>
 			}
 		>
-			<Card className="ring-0 p-0">
+			<Card className="p-0">
 				<DataTable
 					data={products}
 					columns={columns}

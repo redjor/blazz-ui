@@ -218,6 +218,9 @@ export interface ColumnFilterConfig {
 
 	/** Placeholder text for filter inputs */
 	placeholder?: string
+
+	/** Whether to show this filter in the quick filters bar */
+	showQuickFilter?: boolean
 }
 
 /**

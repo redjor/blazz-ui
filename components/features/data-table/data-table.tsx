@@ -37,6 +37,7 @@ import { DataTableActionsBar } from "./data-table-actions-bar"
 import { DataTableFilterBadges } from "./data-table-filter-badge"
 import { DataTableFilterBuilder } from "./data-table-filter-builder"
 import { DataTablePagination } from "./data-table-pagination"
+import { DataTableQuickFilters } from "./data-table-quick-filters"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowSelection } from "./data-table-row-selection"
 
@@ -449,8 +450,8 @@ export function DataTable<TData, TValue = unknown>({
 			)}
 
 			{/* Table */}
-			<div className="border border-border">
-				{/* Actions Bar - New Shopify-style bar */}
+			<div>
+				{/* Actions Bar */}
 				<DataTableActionsBar
 					views={views}
 					activeView={activeView}
@@ -470,6 +471,16 @@ export function DataTable<TData, TValue = unknown>({
 					onOpenFilterBuilder={() => setIsFilterBuilderOpen(true)}
 				/>
 
+				{/* Quick Filters Bar */}
+				{enableAdvancedFilters && (
+					<DataTableQuickFilters
+						columns={columns as DataTableColumnDef<TData, any>[]}
+						filterGroup={filterGroup}
+						onFilterChange={handleFilterGroupChange}
+						onOpenFilterBuilder={() => setIsFilterBuilderOpen(true)}
+					/>
+				)}
+
 				<Table className={cn(dataTableVariants({ variant, density }))}>
 					<TableHeader>
 						{/* Bulk Actions Row - Replaces column headers when rows selected */}
@@ -477,11 +488,12 @@ export function DataTable<TData, TValue = unknown>({
 						bulkActions.length > 0 &&
 						table.getFilteredSelectedRowModel().rows.length > 0 ? (
 							<TableRow className="bg-muted/50 hover:bg-muted/50">
-								<TableHead colSpan={tableColumns.length} className="h-12 px-4">
+								<TableHead colSpan={tableColumns.length} className="h-12 px-2">
 									<div className="flex items-center justify-between gap-2">
 										<div className="flex items-center gap-2 text-sm font-medium">
 											{table.getFilteredSelectedRowModel().rows.length} rows selected
-											<button
+											{/** biome-ignore lint/a11y/useButtonType: <explanation> */}
+<button
 												onClick={() => table.resetRowSelection()}
 												className="ml-2 text-muted-foreground hover:text-foreground"
 											>
