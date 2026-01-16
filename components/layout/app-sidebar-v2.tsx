@@ -134,7 +134,7 @@ function SidebarSection({ section, isActive, hasActiveChild }: SidebarSectionPro
         className="group/collapsible"
       >
         <SidebarGroup>
-          <CollapsibleTrigger render={<SidebarGroupLabel />}>
+          <CollapsibleTrigger render={<SidebarGroupLabel />} nativeButton={false}>
             {section.title}
             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
           </CollapsibleTrigger>
