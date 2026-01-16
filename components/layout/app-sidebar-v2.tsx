@@ -59,14 +59,14 @@ export function AppSidebarV2({ config, ...props }: AppSidebarProps) {
 	// Helper to check if a menu item has an active child
 	const hasActiveChild = (items?: NavigationItem[]): boolean => {
 		if (!items) return false
-		return items.some((item) => isActive(item.url) || hasActiveChild(item.items))
+		return items.some((item) => (item.url && isActive(item.url)) || hasActiveChild(item.items))
 	}
 
 	// Filter navigation items based on search query
 	const filterItems = (items: NavigationItem[]): NavigationItem[] => {
 		if (!searchQuery) return items
 
-		return items
+		const filtered = items
 			.map((item) => {
 				const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase())
 				const filteredChildren = item.items ? filterItems(item.items) : undefined
@@ -75,12 +75,14 @@ export function AppSidebarV2({ config, ...props }: AppSidebarProps) {
 					return {
 						...item,
 						items: filteredChildren,
-					}
+					} as NavigationItem
 				}
 
 				return null
 			})
-			.filter((item): item is NavigationItem => item !== null)
+			.filter((item) => item !== null) as NavigationItem[]
+
+		return filtered
 	}
 
 	const filteredNavigation = config.navigation.map((section) => ({
@@ -181,7 +183,7 @@ function MenuItem({ item, isActive, hasActiveChild, depth = 0 }: MenuItemProps) 
 	const hasChildren = item.items && item.items.length > 0
 	const childIsActive = hasChildren && hasActiveChild(item.items)
 	// Le parent n'est actif que si c'est sa propre URL, pas celle d'un enfant
-	const active = hasChildren ? false : isActive(item.url)
+	const active = hasChildren ? false : item.url ? isActive(item.url) : false
 
 	// Get badge variant class
 	const getBadgeVariantClass = (variant?: string) => {

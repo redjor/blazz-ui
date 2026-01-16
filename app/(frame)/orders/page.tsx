@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import {
 	Ban,
 	CheckCircle,
@@ -418,10 +419,16 @@ const defaultViews: DataTableView[] = [
 
 export default function OrdersPage() {
 	// Views management
-	const { views, activeView, setActiveView } = useDataTableViews({
+	const { views, activeView: activeViewId, setActiveView } = useDataTableViews({
 		storageKey: "orders-table-views",
 		defaultViews,
 	})
+
+	// Find the actual view object from the ID
+	const activeView = useMemo(
+		() => (activeViewId ? views.find((v) => v.id === activeViewId) || null : null),
+		[activeViewId, views]
+	)
 
 	// Row actions
 	const rowActions: RowAction<Order>[] = [
@@ -512,7 +519,7 @@ export default function OrdersPage() {
 				searchPlaceholder="Search orders..."
 				views={views}
 				activeView={activeView}
-				onViewChange={setActiveView}
+				onViewChange={(view) => setActiveView(view?.id || null)}
 				pagination={{
 					pageSize: 10,
 					pageSizeOptions: [5, 10, 15, 20],

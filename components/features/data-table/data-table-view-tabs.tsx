@@ -21,7 +21,7 @@ export function DataTableViewTabs({
 }: DataTableViewTabsProps) {
 	return (
 		<div className="border-b border-border" data-slot="data-table-view-tabs">
-			<div className="flex items-center gap-1 px-4">
+			<div className="flex items-center gap-1 px-3">
 				{views.map((view) => (
 					<button
 						key={view.id}

@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type * as React from "react"
@@ -20,19 +20,10 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import type { NavigationItem, NavigationSection } from "@/types/navigation"
 
-export interface NavigationItem {
-	title: string
-	url: string
-	icon?: LucideIcon
-	badge?: string | number
-	items?: NavigationItem[]
-}
-
-export interface NavigationSection {
-	title: string
-	items: NavigationItem[]
-}
+// Re-export for backward compatibility
+export type { NavigationItem, NavigationSection }
 
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	navigation: NavigationSection[]
@@ -87,7 +78,7 @@ export function AppSidebar({ navigation, header, footer, ...props }: AppSidebarP
 	// Helper to check if a menu item has an active child
 	const hasActiveChild = (items?: NavigationItem[]): boolean => {
 		if (!items) return false
-		return items.some((item) => isActive(item.url) || hasActiveChild(item.items))
+		return items.some((item) => (item.url && isActive(item.url)) || hasActiveChild(item.items))
 	}
 
 	return (
@@ -97,14 +88,14 @@ export function AppSidebar({ navigation, header, footer, ...props }: AppSidebarP
 
 			{/* Content */}
 			<SidebarContent>
-				{navigation.map((section) => (
-					<SidebarGroup key={section.title}>
-						<SidebarGroupLabel>{section.title}</SidebarGroupLabel>
+				{navigation.map((section, index) => (
+					<SidebarGroup key={section.id || section.title || `section-${index}`}>
+						{section.title && <SidebarGroupLabel>{section.title}</SidebarGroupLabel>}
 						<SidebarGroupContent>
 							<SidebarMenu>
 								{section.items.map((item) => (
 									<MenuItem
-										key={item.url}
+										key={item.id || item.url || item.title}
 										item={item}
 										isActive={isActive}
 										hasActiveChild={hasActiveChild}
@@ -129,7 +120,7 @@ interface MenuItemProps {
 }
 
 function MenuItem({ item, isActive, hasActiveChild }: MenuItemProps) {
-	const active = isActive(item.url)
+	const active = item.url ? isActive(item.url) : false
 	const hasChildren = item.items && item.items.length > 0
 	const childIsActive = hasChildren && hasActiveChild(item.items)
 
@@ -153,9 +144,21 @@ function MenuItem({ item, isActive, hasActiveChild }: MenuItemProps) {
 					<CollapsibleContent>
 						<SidebarMenuSub>
 							{item.items?.map((subItem) => (
-								<SidebarMenuSubItem key={subItem.url}>
-									<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
-										<Link href={subItem.url}>
+								<SidebarMenuSubItem key={subItem.id || subItem.url || subItem.title}>
+									{subItem.url ? (
+										<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
+											<Link href={subItem.url}>
+												{subItem.icon && <subItem.icon />}
+												<span>{subItem.title}</span>
+												{subItem.badge !== undefined && (
+													<span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
+														{subItem.badge}
+													</span>
+												)}
+											</Link>
+										</SidebarMenuSubButton>
+									) : (
+										<SidebarMenuSubButton>
 											{subItem.icon && <subItem.icon />}
 											<span>{subItem.title}</span>
 											{subItem.badge !== undefined && (
@@ -163,8 +166,8 @@ function MenuItem({ item, isActive, hasActiveChild }: MenuItemProps) {
 													{subItem.badge}
 												</span>
 											)}
-										</Link>
-									</SidebarMenuSubButton>
+										</SidebarMenuSubButton>
+									)}
 								</SidebarMenuSubItem>
 							))}
 						</SidebarMenuSub>
@@ -177,8 +180,20 @@ function MenuItem({ item, isActive, hasActiveChild }: MenuItemProps) {
 	// Simple item without children
 	return (
 		<SidebarMenuItem>
-			<SidebarMenuButton asChild tooltip={item.title} isActive={active}>
-				<Link href={item.url}>
+			{item.url ? (
+				<SidebarMenuButton asChild tooltip={item.title} isActive={active}>
+					<Link href={item.url}>
+						{item.icon && <item.icon />}
+						<span>{item.title}</span>
+						{item.badge !== undefined && (
+							<span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-md bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
+								{item.badge}
+							</span>
+						)}
+					</Link>
+				</SidebarMenuButton>
+			) : (
+				<SidebarMenuButton tooltip={item.title}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
 					{item.badge !== undefined && (
@@ -186,8 +201,8 @@ function MenuItem({ item, isActive, hasActiveChild }: MenuItemProps) {
 							{item.badge}
 						</span>
 					)}
-				</Link>
-			</SidebarMenuButton>
+				</SidebarMenuButton>
+			)}
 		</SidebarMenuItem>
 	)
 }

@@ -77,9 +77,9 @@ export function DataTableActionsBar({
 	}, [searchOpen, onSearchOpenChange])
 
 	return (
-		<div className="border-b border-border" data-slot="data-table-actions-bar">
+		<div data-slot="data-table-actions-bar">
 			{/* Main Actions Bar */}
-			<div className="flex items-center justify-between px-4 py-2">
+			<div className="flex items-center justify-between p-2">
 				{/* Left: Views or Search Bar */}
 				{searchOpen ? (
 					/* Search Bar - Replaces views when open */

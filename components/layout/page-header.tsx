@@ -68,9 +68,7 @@ export function PageHeader({
 										{isLast || !breadcrumb.href ? (
 											<BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
 										) : (
-											<BreadcrumbLink asChild>
-												<Link href={breadcrumb.href}>{breadcrumb.label}</Link>
-											</BreadcrumbLink>
+											<BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>
 										)}
 									</BreadcrumbItem>
 									{!isLast && <BreadcrumbSeparator />}

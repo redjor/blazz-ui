@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils/cn"
-import { useNavigationContextSafe } from "@/providers/navigation-provider"
+// import { useNavigationContextSafe } from "@/providers/navigation-provider"
 
 export interface NavTab {
 	label: string
@@ -32,8 +32,8 @@ export interface NavTabsProps {
 export function NavTabs({ tabs, preserveQueryParams = true, className }: NavTabsProps) {
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
-	const navigationContext = useNavigationContextSafe()
-	const isBlocked = navigationContext?.isNavigationBlocked ?? false
+	// const navigationContext = useNavigationContextSafe()
+	const isBlocked = false // navigationContext?.isNavigationBlocked ?? false
 
 	// Preserve URL parameters during navigation
 	const queryString = preserveQueryParams ? searchParams?.toString() : ""
