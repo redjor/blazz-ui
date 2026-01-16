@@ -6,6 +6,7 @@ import * as React from "react"
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
 import {
 	DropdownMenu,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuPopup,
@@ -77,34 +78,36 @@ export function DataTableRowActions<TData>({ row, actions }: DataTableRowActions
 				</DropdownMenuTrigger>
 				<DropdownMenuPortal>
 					<DropdownMenuPopup data-slot="data-table-row-actions-popup">
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						{visibleActions.map((action, index) => {
-							const isDisabled = action.disabled ? action.disabled(row) : false
-							const showSeparator = action.separator && index > 0
+						<DropdownMenuGroup>
+							<DropdownMenuLabel>Actions</DropdownMenuLabel>
+							{visibleActions.map((action, index) => {
+								const isDisabled = action.disabled ? action.disabled(row) : false
+								const showSeparator = action.separator && index > 0
 
-							return (
-								<React.Fragment key={action.id}>
-									{showSeparator && <DropdownMenuSeparator />}
-									<DropdownMenuItem
-										onClick={() => handleActionClick(action)}
-										disabled={isDisabled}
-										className={
-											action.variant === "destructive"
-												? "text-destructive focus:text-destructive"
-												: ""
-										}
-									>
-										{action.icon && <action.icon className="mr-2 h-4 w-4" />}
-										{action.label}
-										{action.shortcut && (
-											<span className="ml-auto text-xs tracking-widest opacity-60">
-												{action.shortcut}
-											</span>
-										)}
-									</DropdownMenuItem>
-								</React.Fragment>
-							)
-						})}
+								return (
+									<React.Fragment key={action.id}>
+										{showSeparator && <DropdownMenuSeparator />}
+										<DropdownMenuItem
+											onClick={() => handleActionClick(action)}
+											disabled={isDisabled}
+											className={
+												action.variant === "destructive"
+													? "text-destructive focus:text-destructive"
+													: ""
+											}
+										>
+											{action.icon && <action.icon className="mr-2 h-4 w-4" />}
+											{action.label}
+											{action.shortcut && (
+												<span className="ml-auto text-xs tracking-widest opacity-60">
+													{action.shortcut}
+												</span>
+											)}
+										</DropdownMenuItem>
+									</React.Fragment>
+								)
+							})}
+						</DropdownMenuGroup>
 					</DropdownMenuPopup>
 				</DropdownMenuPortal>
 			</DropdownMenu>
