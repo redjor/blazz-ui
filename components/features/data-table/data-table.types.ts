@@ -1,11 +1,4 @@
-import type {
-  ColumnDef,
-  Row,
-  SortingState,
-  VisibilityState,
-  FilterFn,
-  SortingFn,
-} from "@tanstack/react-table"
+import type { ColumnDef, Row, SortingState, VisibilityState } from "@tanstack/react-table"
 import type { LucideIcon } from "lucide-react"
 
 /**
@@ -29,21 +22,21 @@ import type { LucideIcon } from "lucide-react"
  * ```
  */
 export type FilterOperator =
-  | "equals"
-  | "notEquals"
-  | "contains"
-  | "notContains"
-  | "startsWith"
-  | "endsWith"
-  | "greaterThan"
-  | "greaterThanOrEqual"
-  | "lessThan"
-  | "lessThanOrEqual"
-  | "between"
-  | "in"
-  | "notIn"
-  | "isEmpty"
-  | "isNotEmpty"
+	| "equals"
+	| "notEquals"
+	| "contains"
+	| "notContains"
+	| "startsWith"
+	| "endsWith"
+	| "greaterThan"
+	| "greaterThanOrEqual"
+	| "lessThan"
+	| "lessThanOrEqual"
+	| "between"
+	| "in"
+	| "notIn"
+	| "isEmpty"
+	| "isNotEmpty"
 
 /**
  * Data types for filter conditions.
@@ -92,23 +85,23 @@ export type FilterType = "text" | "number" | "date" | "boolean" | "select"
  * ```
  */
 export interface FilterCondition {
-  /** Unique identifier for this condition */
-  id: string
+	/** Unique identifier for this condition */
+	id: string
 
-  /** Column accessorKey to filter on */
-  column: string
+	/** Column accessorKey to filter on */
+	column: string
 
-  /** Comparison operator */
-  operator: FilterOperator
+	/** Comparison operator */
+	operator: FilterOperator
 
-  /** Filter value */
-  value: any
+	/** Filter value */
+	value: any
 
-  /** Second value for "between" operator */
-  value2?: any
+	/** Second value for "between" operator */
+	value2?: any
 
-  /** Data type determines available operators */
-  type: FilterType
+	/** Data type determines available operators */
+	type: FilterType
 }
 
 /**
@@ -148,17 +141,17 @@ export interface FilterCondition {
  * ```
  */
 export interface FilterGroup {
-  /** Unique identifier for this group */
-  id: string
+	/** Unique identifier for this group */
+	id: string
 
-  /** How to combine conditions/groups (AND requires all, OR requires at least one) */
-  operator: "AND" | "OR"
+	/** How to combine conditions/groups (AND requires all, OR requires at least one) */
+	operator: "AND" | "OR"
 
-  /** Filter conditions at this level */
-  conditions: FilterCondition[]
+	/** Filter conditions at this level */
+	conditions: FilterCondition[]
 
-  /** Nested filter groups for complex logic */
-  groups?: FilterGroup[]
+	/** Nested filter groups for complex logic */
+	groups?: FilterGroup[]
 }
 
 /**
@@ -205,26 +198,26 @@ export interface FilterGroup {
  * ```
  */
 export interface ColumnFilterConfig {
-  /** Data type of the column - determines available operators */
-  type: FilterType
+	/** Data type of the column - determines available operators */
+	type: FilterType
 
-  /** Allowed filter operators (if not specified, all operators for type are available) */
-  operators?: FilterOperator[]
+	/** Allowed filter operators (if not specified, all operators for type are available) */
+	operators?: FilterOperator[]
 
-  /** Options for select type (required for type: "select") */
-  options?: { label: string; value: any }[]
+	/** Options for select type (required for type: "select") */
+	options?: { label: string; value: any }[]
 
-  /** Minimum value for number inputs */
-  min?: number
+	/** Minimum value for number inputs */
+	min?: number
 
-  /** Maximum value for number inputs */
-  max?: number
+	/** Maximum value for number inputs */
+	max?: number
 
-  /** Step increment for number inputs */
-  step?: number
+	/** Step increment for number inputs */
+	step?: number
 
-  /** Placeholder text for filter inputs */
-  placeholder?: string
+	/** Placeholder text for filter inputs */
+	placeholder?: string
 }
 
 /**
@@ -258,8 +251,8 @@ export interface ColumnFilterConfig {
  * ```
  */
 export type DataTableColumnDef<TData, TValue = unknown> = ColumnDef<TData, TValue> & {
-  /** Optional filter configuration for this column */
-  filterConfig?: ColumnFilterConfig
+	/** Optional filter configuration for this column */
+	filterConfig?: ColumnFilterConfig
 }
 
 /**
@@ -296,52 +289,52 @@ export type DataTableColumnDef<TData, TValue = unknown> = ColumnDef<TData, TValu
  * ```
  */
 export interface DataTableView {
-  /** Unique identifier */
-  id: string
+	/** Unique identifier */
+	id: string
 
-  /** Display name */
-  name: string
+	/** Display name */
+	name: string
 
-  /** Optional description */
-  description?: string
+	/** Optional description */
+	description?: string
 
-  /** Optional icon (Lucide icon component) */
-  icon?: LucideIcon
+	/** Optional icon (Lucide icon component) */
+	icon?: LucideIcon
 
-  /** If true, view cannot be deleted by user */
-  isSystem: boolean
+	/** If true, view cannot be deleted by user */
+	isSystem: boolean
 
-  /** If true, this view is selected by default on first load */
-  isDefault?: boolean
+	/** If true, this view is selected by default on first load */
+	isDefault?: boolean
 
-  /** Filter configuration for this view */
-  filters: FilterGroup
+	/** Filter configuration for this view */
+	filters: FilterGroup
 
-  /** Sort configuration (optional) */
-  sorting?: SortingState
+	/** Sort configuration (optional) */
+	sorting?: SortingState
 
-  /** Column visibility state (optional) */
-  columnVisibility?: VisibilityState
+	/** Column visibility state (optional) */
+	columnVisibility?: VisibilityState
 
-  /** Column order (optional) */
-  columnOrder?: string[]
+	/** Column order (optional) */
+	columnOrder?: string[]
 
-  /** Pinned columns (optional) */
-  pinnedColumns?: {
-    /** Columns pinned to left */
-    left?: string[]
-    /** Columns pinned to right */
-    right?: string[]
-  }
+	/** Pinned columns (optional) */
+	pinnedColumns?: {
+		/** Columns pinned to left */
+		left?: string[]
+		/** Columns pinned to right */
+		right?: string[]
+	}
 
-  /** Timestamp when view was created */
-  createdAt?: Date
+	/** Timestamp when view was created */
+	createdAt?: Date
 
-  /** Timestamp when view was last updated */
-  updatedAt?: Date
+	/** Timestamp when view was last updated */
+	updatedAt?: Date
 
-  /** User ID who created the view */
-  createdBy?: string
+	/** User ID who created the view */
+	createdBy?: string
 }
 
 /**
@@ -376,38 +369,38 @@ export interface DataTableView {
  * ```
  */
 export interface RowAction<TData = any> {
-  /** Unique identifier */
-  id: string
+	/** Unique identifier */
+	id: string
 
-  /** Display label */
-  label: string
+	/** Display label */
+	label: string
 
-  /** Optional icon (Lucide icon component) */
-  icon?: LucideIcon
+	/** Optional icon (Lucide icon component) */
+	icon?: LucideIcon
 
-  /** Visual style variant */
-  variant?: "default" | "outline" | "ghost" | "destructive"
+	/** Visual style variant */
+	variant?: "default" | "outline" | "ghost" | "destructive"
 
-  /** Action handler - can be async */
-  handler: (row: Row<TData>) => void | Promise<void>
+	/** Action handler - can be async */
+	handler: (row: Row<TData>) => void | Promise<void>
 
-  /** Function to conditionally hide action for specific rows */
-  hidden?: (row: Row<TData>) => boolean
+	/** Function to conditionally hide action for specific rows */
+	hidden?: (row: Row<TData>) => boolean
 
-  /** Function to conditionally disable action for specific rows */
-  disabled?: (row: Row<TData>) => boolean
+	/** Function to conditionally disable action for specific rows */
+	disabled?: (row: Row<TData>) => boolean
 
-  /** If true, shows confirmation dialog before executing */
-  requireConfirmation?: boolean
+	/** If true, shows confirmation dialog before executing */
+	requireConfirmation?: boolean
 
-  /** Confirmation message (can be function for dynamic message) */
-  confirmationMessage?: string | ((row: Row<TData>) => string)
+	/** Confirmation message (can be function for dynamic message) */
+	confirmationMessage?: string | ((row: Row<TData>) => string)
 
-  /** If true, renders visual separator above this action */
-  separator?: boolean
+	/** If true, renders visual separator above this action */
+	separator?: boolean
 
-  /** Keyboard shortcut (display only, not functional) */
-  shortcut?: string
+	/** Keyboard shortcut (display only, not functional) */
+	shortcut?: string
 }
 
 /**
@@ -445,29 +438,29 @@ export interface RowAction<TData = any> {
  * ```
  */
 export interface BulkAction<TData = any> {
-  /** Unique identifier */
-  id: string
+	/** Unique identifier */
+	id: string
 
-  /** Display label */
-  label: string
+	/** Display label */
+	label: string
 
-  /** Optional icon (Lucide icon component) */
-  icon?: LucideIcon
+	/** Optional icon (Lucide icon component) */
+	icon?: LucideIcon
 
-  /** Visual style variant */
-  variant?: "default" | "outline" | "destructive"
+	/** Visual style variant */
+	variant?: "default" | "outline" | "destructive"
 
-  /** Action handler - receives array of selected rows, can be async */
-  handler: (selectedRows: Row<TData>[]) => void | Promise<void>
+	/** Action handler - receives array of selected rows, can be async */
+	handler: (selectedRows: Row<TData>[]) => void | Promise<void>
 
-  /** Function to conditionally disable action based on selection */
-  disabled?: (selectedRows: Row<TData>[]) => boolean
+	/** Function to conditionally disable action based on selection */
+	disabled?: (selectedRows: Row<TData>[]) => boolean
 
-  /** If true, shows confirmation dialog before executing */
-  requireConfirmation?: boolean
+	/** If true, shows confirmation dialog before executing */
+	requireConfirmation?: boolean
 
-  /** Confirmation message (can be function with row count) */
-  confirmationMessage?: string | ((count: number) => string)
+	/** Confirmation message (can be function with row count) */
+	confirmationMessage?: string | ((count: number) => string)
 }
 
 /**
@@ -482,17 +475,17 @@ export interface BulkAction<TData = any> {
  * ```
  */
 export interface PaginationConfig {
-  /** Number of rows per page */
-  pageSize: number
+	/** Number of rows per page */
+	pageSize: number
 
-  /** Available page size options in dropdown */
-  pageSizeOptions?: number[]
+	/** Available page size options in dropdown */
+	pageSizeOptions?: number[]
 
-  /** Show page number indicators (not yet implemented) */
-  showPageNumbers?: boolean
+	/** Show page number indicators (not yet implemented) */
+	showPageNumbers?: boolean
 
-  /** Show "Showing X-Y of Z" text */
-  showPageInfo?: boolean
+	/** Show "Showing X-Y of Z" text */
+	showPageInfo?: boolean
 }
 
 /**
@@ -522,117 +515,113 @@ export interface PaginationConfig {
  * ```
  */
 export interface DataTableProps<TData, TValue = unknown> {
-  // Required
-  data: TData[]
-  columns: DataTableColumnDef<TData, TValue>[]
+	// Required
+	data: TData[]
+	columns: DataTableColumnDef<TData, TValue>[]
 
-  // Row identification
-  getRowId?: (row: TData) => string
+	// Row identification
+	getRowId?: (row: TData) => string
 
-  // Filtering
-  enableFiltering?: boolean
-  enableAdvancedFilters?: boolean
-  filterableColumns?: string[]
-  defaultFilterGroup?: FilterGroup
-  onFilterGroupChange?: (filterGroup: FilterGroup | null) => void
-  onFiltersChange?: (filters: FilterGroup) => void
+	// Filtering
+	enableFiltering?: boolean
+	enableAdvancedFilters?: boolean
+	filterableColumns?: string[]
+	defaultFilterGroup?: FilterGroup
+	onFilterGroupChange?: (filterGroup: FilterGroup | null) => void
+	onFiltersChange?: (filters: FilterGroup) => void
 
-  // Views
-  views?: DataTableView[]
-  activeView?: DataTableView | null
-  defaultView?: string
-  enableCustomViews?: boolean
-  onViewChange?: (view: DataTableView) => void
-  onViewSave?: (view: DataTableView) => void
-  onViewDelete?: (viewId: string) => void
-  onCreateView?: () => void
+	// Views
+	views?: DataTableView[]
+	activeView?: DataTableView | null
+	defaultView?: string
+	enableCustomViews?: boolean
+	onViewChange?: (view: DataTableView) => void
+	onViewSave?: (view: DataTableView) => void
+	onViewDelete?: (viewId: string) => void
+	onCreateView?: () => void
 
-  // Sorting
-  enableSorting?: boolean
-  enableMultiSort?: boolean
-  defaultSorting?: SortingState
-  onSortingChange?: (sorting: SortingState) => void
+	// Sorting
+	enableSorting?: boolean
+	enableMultiSort?: boolean
+	defaultSorting?: SortingState
+	onSortingChange?: (sorting: SortingState) => void
 
-  // Pagination
-  enablePagination?: boolean
-  pagination?: PaginationConfig
-  onPaginationChange?: (pagination: {
-    pageIndex: number
-    pageSize: number
-  }) => void
+	// Pagination
+	enablePagination?: boolean
+	pagination?: PaginationConfig
+	onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void
 
-  // Selection
-  enableRowSelection?: boolean
-  enableSelectAll?: boolean
-  onRowSelectionChange?: (selection: Record<string, boolean>) => void
+	// Selection
+	enableRowSelection?: boolean
+	enableSelectAll?: boolean
+	onRowSelectionChange?: (selection: Record<string, boolean>) => void
 
-  // Actions
-  rowActions?: RowAction<TData>[]
-  bulkActions?: BulkAction<TData>[]
+	// Actions
+	rowActions?: RowAction<TData>[]
+	bulkActions?: BulkAction<TData>[]
 
-  // Search
-  enableGlobalSearch?: boolean
-  searchPlaceholder?: string
-  onSearchChange?: (search: string) => void
+	// Search
+	enableGlobalSearch?: boolean
+	searchPlaceholder?: string
+	onSearchChange?: (search: string) => void
 
-  // Styling
-  variant?: "default" | "lined" | "striped"
-  density?: "compact" | "default" | "comfortable"
-  className?: string
+	// Styling
+	variant?: "default" | "lined" | "striped"
+	density?: "compact" | "default" | "comfortable"
+	className?: string
 
-  // Loading/Empty states
-  isLoading?: boolean
-  loadingComponent?: React.ReactNode
-  emptyComponent?: React.ReactNode
+	// Loading/Empty states
+	isLoading?: boolean
+	loadingComponent?: React.ReactNode
+	emptyComponent?: React.ReactNode
 
-  // Toolbar customization
-  toolbarActions?: React.ReactNode
-  hideToolbar?: boolean
+	// Toolbar customization
+	toolbarActions?: React.ReactNode
+	hideToolbar?: boolean
 }
 
 // Operator definitions for each filter type
 export const textOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: "contains", label: "Contains", requiresValue: true },
-  { value: "notContains", label: "Does not contain", requiresValue: true },
-  { value: "equals", label: "Is equal to", requiresValue: true },
-  { value: "notEquals", label: "Is not equal to", requiresValue: true },
-  { value: "startsWith", label: "Starts with", requiresValue: true },
-  { value: "endsWith", label: "Ends with", requiresValue: true },
-  { value: "isEmpty", label: "Is empty", requiresValue: false },
-  { value: "isNotEmpty", label: "Is not empty", requiresValue: false },
+	{ value: "contains", label: "Contains", requiresValue: true },
+	{ value: "notContains", label: "Does not contain", requiresValue: true },
+	{ value: "equals", label: "Is equal to", requiresValue: true },
+	{ value: "notEquals", label: "Is not equal to", requiresValue: true },
+	{ value: "startsWith", label: "Starts with", requiresValue: true },
+	{ value: "endsWith", label: "Ends with", requiresValue: true },
+	{ value: "isEmpty", label: "Is empty", requiresValue: false },
+	{ value: "isNotEmpty", label: "Is not empty", requiresValue: false },
 ]
 
 export const numberOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: "equals", label: "Equals", requiresValue: true },
-  { value: "notEquals", label: "Not equals", requiresValue: true },
-  { value: "greaterThan", label: "Greater than", requiresValue: true },
-  { value: "greaterThanOrEqual", label: "Greater than or equal", requiresValue: true },
-  { value: "lessThan", label: "Less than", requiresValue: true },
-  { value: "lessThanOrEqual", label: "Less than or equal", requiresValue: true },
-  { value: "between", label: "Between", requiresValue: true },
-  { value: "isEmpty", label: "Is empty", requiresValue: false },
-  { value: "isNotEmpty", label: "Is not empty", requiresValue: false },
+	{ value: "equals", label: "Equals", requiresValue: true },
+	{ value: "notEquals", label: "Not equals", requiresValue: true },
+	{ value: "greaterThan", label: "Greater than", requiresValue: true },
+	{ value: "greaterThanOrEqual", label: "Greater than or equal", requiresValue: true },
+	{ value: "lessThan", label: "Less than", requiresValue: true },
+	{ value: "lessThanOrEqual", label: "Less than or equal", requiresValue: true },
+	{ value: "between", label: "Between", requiresValue: true },
+	{ value: "isEmpty", label: "Is empty", requiresValue: false },
+	{ value: "isNotEmpty", label: "Is not empty", requiresValue: false },
 ]
 
 export const selectOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: "equals", label: "Is", requiresValue: true },
-  { value: "notEquals", label: "Is not", requiresValue: true },
-  { value: "in", label: "Is one of", requiresValue: true },
-  { value: "notIn", label: "Is not one of", requiresValue: true },
+	{ value: "equals", label: "Is", requiresValue: true },
+	{ value: "notEquals", label: "Is not", requiresValue: true },
+	{ value: "in", label: "Is one of", requiresValue: true },
+	{ value: "notIn", label: "Is not one of", requiresValue: true },
 ]
 
-export const booleanOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: "equals", label: "Is", requiresValue: true },
-]
+export const booleanOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] =
+	[{ value: "equals", label: "Is", requiresValue: true }]
 
 export const dateOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: "equals", label: "Is", requiresValue: true },
-  { value: "notEquals", label: "Is not", requiresValue: true },
-  { value: "greaterThan", label: "Is after", requiresValue: true },
-  { value: "greaterThanOrEqual", label: "Is on or after", requiresValue: true },
-  { value: "lessThan", label: "Is before", requiresValue: true },
-  { value: "lessThanOrEqual", label: "Is on or before", requiresValue: true },
-  { value: "between", label: "Is between", requiresValue: true },
-  { value: "isEmpty", label: "Is empty", requiresValue: false },
-  { value: "isNotEmpty", label: "Is not empty", requiresValue: false },
+	{ value: "equals", label: "Is", requiresValue: true },
+	{ value: "notEquals", label: "Is not", requiresValue: true },
+	{ value: "greaterThan", label: "Is after", requiresValue: true },
+	{ value: "greaterThanOrEqual", label: "Is on or after", requiresValue: true },
+	{ value: "lessThan", label: "Is before", requiresValue: true },
+	{ value: "lessThanOrEqual", label: "Is on or before", requiresValue: true },
+	{ value: "between", label: "Is between", requiresValue: true },
+	{ value: "isEmpty", label: "Is empty", requiresValue: false },
+	{ value: "isNotEmpty", label: "Is not empty", requiresValue: false },
 ]

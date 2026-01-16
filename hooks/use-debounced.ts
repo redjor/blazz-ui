@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 
 /**
  * Hook that debounces a value
@@ -9,17 +9,17 @@ import { useEffect, useState } from 'react'
  * @returns Debounced value
  */
 export function useDebouncedValue<T>(value: T, delay = 300): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+	const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			setDebouncedValue(value)
+		}, delay)
 
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [value, delay])
+		return () => {
+			clearTimeout(handler)
+		}
+	}, [value, delay])
 
-  return debouncedValue
+	return debouncedValue
 }

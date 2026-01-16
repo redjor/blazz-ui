@@ -4,7 +4,7 @@
  * @returns Masked card number (e.g., "**** **** **** 1234")
  */
 export function maskCardNumber(cardLast4: string): string {
-  return `**** **** **** ${cardLast4}`
+	return `**** **** **** ${cardLast4}`
 }
 
 /**
@@ -13,6 +13,6 @@ export function maskCardNumber(cardLast4: string): string {
  * @returns Masked card number with last 4 visible
  */
 export function maskFullCardNumber(fullCardNumber: string): string {
-  const last4 = fullCardNumber.slice(-4)
-  return maskCardNumber(last4)
+	const last4 = fullCardNumber.slice(-4)
+	return maskCardNumber(last4)
 }

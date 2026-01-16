@@ -21,14 +21,14 @@
  * Combines symbols from both original implementations
  */
 const CURRENCY_SYMBOLS: Record<string, string> = {
-  EUR: '€',
-  USD: '$',
-  GBP: '£',
-  CHF: 'CHF',
-  JPY: '¥',
-  CNY: '¥',
-  CAD: 'CAD',
-  AUD: 'AUD',
+	EUR: "€",
+	USD: "$",
+	GBP: "£",
+	CHF: "CHF",
+	JPY: "¥",
+	CNY: "¥",
+	CAD: "CAD",
+	AUD: "AUD",
 } as const
 
 /**
@@ -45,8 +45,8 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
  * ```
  */
 export function getCurrencySymbol(currencyCode: string): string {
-  const normalized = currencyCode.toUpperCase()
-  return CURRENCY_SYMBOLS[normalized] || currencyCode
+	const normalized = currencyCode.toUpperCase()
+	return CURRENCY_SYMBOLS[normalized] || currencyCode
 }
 
 /**
@@ -64,20 +64,16 @@ export function getCurrencySymbol(currencyCode: string): string {
  * formatCurrency(1234.56, 'GBP', 'en-GB') // "£1,234.56"
  * ```
  */
-export function formatCurrency(
-  amount: number,
-  currency: string,
-  locale: string = 'fr-FR'
-): string {
-  try {
-    return new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-    }).format(amount)
-  } catch {
-    // Fallback if Intl.NumberFormat fails (invalid currency/locale)
-    return `${amount.toFixed(2)} ${getCurrencySymbol(currency)}`
-  }
+export function formatCurrency(amount: number, currency: string, locale: string = "fr-FR"): string {
+	try {
+		return new Intl.NumberFormat(locale, {
+			style: "currency",
+			currency: currency.toUpperCase(),
+		}).format(amount)
+	} catch {
+		// Fallback if Intl.NumberFormat fails (invalid currency/locale)
+		return `${amount.toFixed(2)} ${getCurrencySymbol(currency)}`
+	}
 }
 
 /**
@@ -101,20 +97,20 @@ export function formatCurrency(
  * ```
  */
 export function formatCurrencyAdvanced(
-  amount: number,
-  currency: string,
-  options: Intl.NumberFormatOptions = {},
-  locale: string = 'fr-FR'
+	amount: number,
+	currency: string,
+	options: Intl.NumberFormatOptions = {},
+	locale: string = "fr-FR"
 ): string {
-  try {
-    return new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-      ...options,
-    }).format(amount)
-  } catch {
-    return `${amount.toFixed(2)} ${getCurrencySymbol(currency)}`
-  }
+	try {
+		return new Intl.NumberFormat(locale, {
+			style: "currency",
+			currency: currency.toUpperCase(),
+			...options,
+		}).format(amount)
+	} catch {
+		return `${amount.toFixed(2)} ${getCurrencySymbol(currency)}`
+	}
 }
 
 /**
@@ -132,15 +128,15 @@ export function formatCurrencyAdvanced(
  * ```
  */
 export function parseCurrency(currencyString: string): number | null {
-  // Remove all non-digit characters except comma and dot
-  const cleaned = currencyString.replace(/[^\d,.-]/g, '')
+	// Remove all non-digit characters except comma and dot
+	const cleaned = currencyString.replace(/[^\d,.-]/g, "")
 
-  // Replace comma with dot for parsing (handles French format)
-  const normalized = cleaned.replace(/,/g, '.')
+	// Replace comma with dot for parsing (handles French format)
+	const normalized = cleaned.replace(/,/g, ".")
 
-  const parsed = parseFloat(normalized)
+	const parsed = parseFloat(normalized)
 
-  return Number.isNaN(parsed) ? null : parsed
+	return Number.isNaN(parsed) ? null : parsed
 }
 
 /**
@@ -157,8 +153,8 @@ export function parseCurrency(currencyString: string): number | null {
  * ```
  */
 export function isValidCurrencyCode(code: string): boolean {
-  const normalized = code.toUpperCase()
-  return normalized in CURRENCY_SYMBOLS
+	const normalized = code.toUpperCase()
+	return normalized in CURRENCY_SYMBOLS
 }
 
 /**
@@ -172,5 +168,5 @@ export function isValidCurrencyCode(code: string): boolean {
  * ```
  */
 export function getSupportedCurrencies(): string[] {
-  return Object.keys(CURRENCY_SYMBOLS)
+	return Object.keys(CURRENCY_SYMBOLS)
 }

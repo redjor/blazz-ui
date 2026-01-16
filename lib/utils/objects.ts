@@ -30,11 +30,9 @@
  * isEmpty(undefined) // true
  * ```
  */
-export function isEmpty(
-  obj: Record<string, unknown> | null | undefined
-): boolean {
-  if (!obj) return true
-  return Object.keys(obj).length === 0
+export function isEmpty(obj: Record<string, unknown> | null | undefined): boolean {
+	if (!obj) return true
+	return Object.keys(obj).length === 0
 }
 
 /**
@@ -49,10 +47,8 @@ export function isEmpty(
  * isNotEmpty({}) // false
  * ```
  */
-export function isNotEmpty(
-  obj: Record<string, unknown> | null | undefined
-): boolean {
-  return !isEmpty(obj)
+export function isNotEmpty(obj: Record<string, unknown> | null | undefined): boolean {
+	return !isEmpty(obj)
 }
 
 /**
@@ -69,16 +65,16 @@ export function isNotEmpty(
  * ```
  */
 export function pick<T extends Record<string, unknown>, K extends keyof T>(
-  obj: T,
-  keys: K[]
+	obj: T,
+	keys: K[]
 ): Pick<T, K> {
-  const result = {} as Pick<T, K>
-  for (const key of keys) {
-    if (key in obj) {
-      result[key] = obj[key]
-    }
-  }
-  return result
+	const result = {} as Pick<T, K>
+	for (const key of keys) {
+		if (key in obj) {
+			result[key] = obj[key]
+		}
+	}
+	return result
 }
 
 /**
@@ -95,14 +91,14 @@ export function pick<T extends Record<string, unknown>, K extends keyof T>(
  * ```
  */
 export function omit<T extends Record<string, unknown>, K extends keyof T>(
-  obj: T,
-  keys: K[]
+	obj: T,
+	keys: K[]
 ): Omit<T, K> {
-  const result = { ...obj }
-  for (const key of keys) {
-    delete result[key]
-  }
-  return result as Omit<T, K>
+	const result = { ...obj }
+	for (const key of keys) {
+		delete result[key]
+	}
+	return result as Omit<T, K>
 }
 
 /**
@@ -118,7 +114,7 @@ export function omit<T extends Record<string, unknown>, K extends keyof T>(
  * ```
  */
 export function keys<T extends Record<string, unknown>>(obj: T): (keyof T)[] {
-  return Object.keys(obj) as (keyof T)[]
+	return Object.keys(obj) as (keyof T)[]
 }
 
 /**
@@ -133,10 +129,8 @@ export function keys<T extends Record<string, unknown>>(obj: T): (keyof T)[] {
  * values(obj) // [1, 2, 3]
  * ```
  */
-export function values<T extends Record<string, unknown>>(
-  obj: T
-): T[keyof T][] {
-  return Object.values(obj) as T[keyof T][]
+export function values<T extends Record<string, unknown>>(obj: T): T[keyof T][] {
+	return Object.values(obj) as T[keyof T][]
 }
 
 /**
@@ -151,10 +145,8 @@ export function values<T extends Record<string, unknown>>(
  * entries(obj) // [['a', 1], ['b', 2]]
  * ```
  */
-export function entries<T extends Record<string, unknown>>(
-  obj: T
-): [keyof T, T[keyof T]][] {
-  return Object.entries(obj) as [keyof T, T[keyof T]][]
+export function entries<T extends Record<string, unknown>>(obj: T): [keyof T, T[keyof T]][] {
+	return Object.entries(obj) as [keyof T, T[keyof T]][]
 }
 
 /**
@@ -169,9 +161,9 @@ export function entries<T extends Record<string, unknown>>(
  * ```
  */
 export function fromEntries<K extends string | number | symbol, V>(
-  entries: [K, V][]
+	entries: [K, V][]
 ): Record<K, V> {
-  return Object.fromEntries(entries) as Record<K, V>
+	return Object.fromEntries(entries) as Record<K, V>
 }
 
 /**
@@ -188,10 +180,10 @@ export function fromEntries<K extends string | number | symbol, V>(
  * ```
  */
 export function hasKey<T extends Record<string, unknown>>(
-  obj: T,
-  key: string | number | symbol
+	obj: T,
+	key: string | number | symbol
 ): key is keyof T {
-  return key in obj
+	return key in obj
 }
 
 /**
@@ -209,7 +201,7 @@ export function hasKey<T extends Record<string, unknown>>(
  * ```
  */
 export function deepClone<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj))
+	return JSON.parse(JSON.stringify(obj))
 }
 
 /**
@@ -224,10 +216,8 @@ export function deepClone<T>(obj: T): T {
  * merge({ a: 1 }, { a: 2 }) // { a: 2 } (last value wins)
  * ```
  */
-export function merge<T extends Record<string, unknown>>(
-  ...objects: Partial<T>[]
-): T {
-  return Object.assign({}, ...objects) as T
+export function merge<T extends Record<string, unknown>>(...objects: Partial<T>[]): T {
+	return Object.assign({}, ...objects) as T
 }
 
 /**
@@ -244,27 +234,24 @@ export function merge<T extends Record<string, unknown>>(
  * deepMerge(target, source) // { a: { b: 3, c: 2, d: 4 } }
  * ```
  */
-export function deepMerge<T extends Record<string, unknown>>(
-  target: T,
-  source: Partial<T>
-): T {
-  const result = { ...target }
+export function deepMerge<T extends Record<string, unknown>>(target: T, source: Partial<T>): T {
+	const result = { ...target }
 
-  for (const key in source) {
-    const sourceValue = source[key]
-    const targetValue = result[key]
+	for (const key in source) {
+		const sourceValue = source[key]
+		const targetValue = result[key]
 
-    if (isPlainObject(sourceValue) && isPlainObject(targetValue)) {
-      result[key] = deepMerge(
-        targetValue as Record<string, unknown>,
-        sourceValue as Record<string, unknown>
-      ) as T[Extract<keyof T, string>]
-    } else {
-      result[key] = sourceValue as T[Extract<keyof T, string>]
-    }
-  }
+		if (isPlainObject(sourceValue) && isPlainObject(targetValue)) {
+			result[key] = deepMerge(
+				targetValue as Record<string, unknown>,
+				sourceValue as Record<string, unknown>
+			) as T[Extract<keyof T, string>]
+		} else {
+			result[key] = sourceValue as T[Extract<keyof T, string>]
+		}
+	}
 
-  return result
+	return result
 }
 
 /**
@@ -282,15 +269,13 @@ export function deepMerge<T extends Record<string, unknown>>(
  * isPlainObject(new Date()) // false
  * ```
  */
-export function isPlainObject(
-  value: unknown
-): value is Record<string, unknown> {
-  if (typeof value !== 'object' || value === null) {
-    return false
-  }
+export function isPlainObject(value: unknown): value is Record<string, unknown> {
+	if (typeof value !== "object" || value === null) {
+		return false
+	}
 
-  const prototype = Object.getPrototypeOf(value)
-  return prototype === null || prototype === Object.prototype
+	const prototype = Object.getPrototypeOf(value)
+	return prototype === null || prototype === Object.prototype
 }
 
 /**
@@ -307,14 +292,14 @@ export function isPlainObject(
  * ```
  */
 export function mapValues<T extends Record<string, unknown>, R>(
-  obj: T,
-  fn: (value: T[keyof T], key: keyof T) => R
+	obj: T,
+	fn: (value: T[keyof T], key: keyof T) => R
 ): Record<keyof T, R> {
-  const result = {} as Record<keyof T, R>
-  for (const key in obj) {
-    result[key] = fn(obj[key], key)
-  }
-  return result
+	const result = {} as Record<keyof T, R>
+	for (const key in obj) {
+		result[key] = fn(obj[key], key)
+	}
+	return result
 }
 
 /**
@@ -331,14 +316,14 @@ export function mapValues<T extends Record<string, unknown>, R>(
  * ```
  */
 export function mapKeys<T extends Record<string, unknown>>(
-  obj: T,
-  fn: (key: keyof T) => string
+	obj: T,
+	fn: (key: keyof T) => string
 ): Record<string, T[keyof T]> {
-  const result: Record<string, T[keyof T]> = {}
-  for (const key in obj) {
-    result[fn(key)] = obj[key]
-  }
-  return result
+	const result: Record<string, T[keyof T]> = {}
+	for (const key in obj) {
+		result[fn(key)] = obj[key]
+	}
+	return result
 }
 
 /**
@@ -355,16 +340,16 @@ export function mapKeys<T extends Record<string, unknown>>(
  * ```
  */
 export function filterObject<T extends Record<string, unknown>>(
-  obj: T,
-  predicate: (value: T[keyof T], key: keyof T) => boolean
+	obj: T,
+	predicate: (value: T[keyof T], key: keyof T) => boolean
 ): Partial<T> {
-  const result = {} as Partial<T>
-  for (const key in obj) {
-    if (predicate(obj[key], key)) {
-      result[key] = obj[key]
-    }
-  }
-  return result
+	const result = {} as Partial<T>
+	for (const key in obj) {
+		if (predicate(obj[key], key)) {
+			result[key] = obj[key]
+		}
+	}
+	return result
 }
 
 /**
@@ -385,22 +370,22 @@ export function filterObject<T extends Record<string, unknown>>(
  * ```
  */
 export function get<T>(
-  obj: Record<string, unknown>,
-  path: string | string[],
-  defaultValue?: T
+	obj: Record<string, unknown>,
+	path: string | string[],
+	defaultValue?: T
 ): T | undefined {
-  const keys = Array.isArray(path) ? path : path.split('.')
-  let result: unknown = obj
+	const keys = Array.isArray(path) ? path : path.split(".")
+	let result: unknown = obj
 
-  for (const key of keys) {
-    if (result && typeof result === 'object' && key in result) {
-      result = (result as Record<string, unknown>)[key]
-    } else {
-      return defaultValue
-    }
-  }
+	for (const key of keys) {
+		if (result && typeof result === "object" && key in result) {
+			result = (result as Record<string, unknown>)[key]
+		} else {
+			return defaultValue
+		}
+	}
 
-  return result as T
+	return result as T
 }
 
 /**
@@ -419,25 +404,25 @@ export function get<T>(
  * ```
  */
 export function set<T>(
-  obj: Record<string, unknown>,
-  path: string | string[],
-  value: T
+	obj: Record<string, unknown>,
+	path: string | string[],
+	value: T
 ): Record<string, unknown> {
-  const keys = Array.isArray(path) ? path : path.split('.')
-  const lastKey = keys.pop()
+	const keys = Array.isArray(path) ? path : path.split(".")
+	const lastKey = keys.pop()
 
-  if (!lastKey) return obj
+	if (!lastKey) return obj
 
-  let current = obj
-  for (const key of keys) {
-    if (!(key in current) || typeof current[key] !== 'object') {
-      current[key] = {}
-    }
-    current = current[key] as Record<string, unknown>
-  }
+	let current = obj
+	for (const key of keys) {
+		if (!(key in current) || typeof current[key] !== "object") {
+			current[key] = {}
+		}
+		current = current[key] as Record<string, unknown>
+	}
 
-  current[lastKey] = value
-  return obj
+	current[lastKey] = value
+	return obj
 }
 
 /**
@@ -453,20 +438,17 @@ export function set<T>(
  * isEqual({ a: 1 }, { a: 2 }) // false
  * ```
  */
-export function isEqual(
-  obj1: Record<string, unknown>,
-  obj2: Record<string, unknown>
-): boolean {
-  const keys1 = Object.keys(obj1)
-  const keys2 = Object.keys(obj2)
+export function isEqual(obj1: Record<string, unknown>, obj2: Record<string, unknown>): boolean {
+	const keys1 = Object.keys(obj1)
+	const keys2 = Object.keys(obj2)
 
-  if (keys1.length !== keys2.length) return false
+	if (keys1.length !== keys2.length) return false
 
-  for (const key of keys1) {
-    if (obj1[key] !== obj2[key]) return false
-  }
+	for (const key of keys1) {
+		if (obj1[key] !== obj2[key]) return false
+	}
 
-  return true
+	return true
 }
 
 /**
@@ -480,10 +462,8 @@ export function isEqual(
  * removeUndefined({ a: 1, b: undefined, c: 3 }) // { a: 1, c: 3 }
  * ```
  */
-export function removeUndefined<T extends Record<string, unknown>>(
-  obj: T
-): Partial<T> {
-  return filterObject(obj, value => value !== undefined)
+export function removeUndefined<T extends Record<string, unknown>>(obj: T): Partial<T> {
+	return filterObject(obj, (value) => value !== undefined)
 }
 
 /**
@@ -497,10 +477,8 @@ export function removeUndefined<T extends Record<string, unknown>>(
  * removeNull({ a: 1, b: null, c: 3 }) // { a: 1, c: 3 }
  * ```
  */
-export function removeNull<T extends Record<string, unknown>>(
-  obj: T
-): Partial<T> {
-  return filterObject(obj, value => value !== null)
+export function removeNull<T extends Record<string, unknown>>(obj: T): Partial<T> {
+	return filterObject(obj, (value) => value !== null)
 }
 
 /**
@@ -514,10 +492,8 @@ export function removeNull<T extends Record<string, unknown>>(
  * removeNullish({ a: 1, b: null, c: undefined, d: 4 }) // { a: 1, d: 4 }
  * ```
  */
-export function removeNullish<T extends Record<string, unknown>>(
-  obj: T
-): Partial<T> {
-  return filterObject(obj, value => value != null)
+export function removeNullish<T extends Record<string, unknown>>(obj: T): Partial<T> {
+	return filterObject(obj, (value) => value != null)
 }
 
 /**
@@ -531,12 +507,10 @@ export function removeNullish<T extends Record<string, unknown>>(
  * invert({ a: 'x', b: 'y' }) // { x: 'a', y: 'b' }
  * ```
  */
-export function invert<T extends Record<string, string | number>>(
-  obj: T
-): Record<string, keyof T> {
-  const result: Record<string, keyof T> = {}
-  for (const key in obj) {
-    result[String(obj[key])] = key
-  }
-  return result
+export function invert<T extends Record<string, string | number>>(obj: T): Record<string, keyof T> {
+	const result: Record<string, keyof T> = {}
+	for (const key in obj) {
+		result[String(obj[key])] = key
+	}
+	return result
 }

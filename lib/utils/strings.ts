@@ -27,8 +27,8 @@
  * ```
  */
 export function capitalize(str: string): string {
-  if (!str) return str
-  return str.charAt(0).toUpperCase() + str.slice(1)
+	if (!str) return str
+	return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 /**
@@ -44,7 +44,7 @@ export function capitalize(str: string): string {
  * ```
  */
 export function capitalizeWords(str: string): string {
-  return str.replace(/\b\w/g, char => char.toUpperCase())
+	return str.replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
 /**
@@ -59,7 +59,7 @@ export function capitalizeWords(str: string): string {
  * ```
  */
 export function lowercase(str: string): string {
-  return str.toLowerCase()
+	return str.toLowerCase()
 }
 
 /**
@@ -74,7 +74,7 @@ export function lowercase(str: string): string {
  * ```
  */
 export function uppercase(str: string): string {
-  return str.toUpperCase()
+	return str.toUpperCase()
 }
 
 /**
@@ -92,13 +92,9 @@ export function uppercase(str: string): string {
  * truncate('Short', 10) // 'Short'
  * ```
  */
-export function truncate(
-  str: string,
-  length: number,
-  suffix: string = '...'
-): string {
-  if (str.length <= length) return str
-  return str.slice(0, length - suffix.length) + suffix
+export function truncate(str: string, length: number, suffix: string = "..."): string {
+	if (str.length <= length) return str
+	return str.slice(0, length - suffix.length) + suffix
 }
 
 /**
@@ -115,21 +111,17 @@ export function truncate(
  * truncateWords('Short', 10) // 'Short'
  * ```
  */
-export function truncateWords(
-  str: string,
-  length: number,
-  suffix: string = '...'
-): string {
-  if (str.length <= length) return str
+export function truncateWords(str: string, length: number, suffix: string = "..."): string {
+	if (str.length <= length) return str
 
-  const truncated = str.slice(0, length - suffix.length)
-  const lastSpace = truncated.lastIndexOf(' ')
+	const truncated = str.slice(0, length - suffix.length)
+	const lastSpace = truncated.lastIndexOf(" ")
 
-  if (lastSpace > 0) {
-    return truncated.slice(0, lastSpace) + suffix
-  }
+	if (lastSpace > 0) {
+		return truncated.slice(0, lastSpace) + suffix
+	}
 
-  return truncated + suffix
+	return truncated + suffix
 }
 
 /**
@@ -146,14 +138,14 @@ export function truncateWords(
  * ```
  */
 export function slugify(str: string): string {
-  return str
-    .normalize('NFD') // Normalize unicode characters
-    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '') // Remove non-word chars (except spaces and hyphens)
-    .replace(/[\s_-]+/g, '-') // Replace spaces, underscores with single hyphen
-    .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
+	return str
+		.normalize("NFD") // Normalize unicode characters
+		.replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+		.toLowerCase()
+		.trim()
+		.replace(/[^\w\s-]/g, "") // Remove non-word chars (except spaces and hyphens)
+		.replace(/[\s_-]+/g, "-") // Replace spaces, underscores with single hyphen
+		.replace(/^-+|-+$/g, "") // Remove leading/trailing hyphens
 }
 
 /**
@@ -169,7 +161,7 @@ export function slugify(str: string): string {
  * ```
  */
 export function normalizeWhitespace(str: string): string {
-  return str.replace(/\s+/g, ' ').trim()
+	return str.replace(/\s+/g, " ").trim()
 }
 
 /**
@@ -185,7 +177,7 @@ export function normalizeWhitespace(str: string): string {
  * ```
  */
 export function removeWhitespace(str: string): string {
-  return str.replace(/\s/g, '')
+	return str.replace(/\s/g, "")
 }
 
 /**
@@ -202,12 +194,8 @@ export function removeWhitespace(str: string): string {
  * padLeft('abc', 5) // '  abc'
  * ```
  */
-export function padLeft(
-  str: string,
-  length: number,
-  padChar: string = ' '
-): string {
-  return str.padStart(length, padChar)
+export function padLeft(str: string, length: number, padChar: string = " "): string {
+	return str.padStart(length, padChar)
 }
 
 /**
@@ -224,12 +212,8 @@ export function padLeft(
  * padRight('abc', 5) // 'abc  '
  * ```
  */
-export function padRight(
-  str: string,
-  length: number,
-  padChar: string = ' '
-): string {
-  return str.padEnd(length, padChar)
+export function padRight(str: string, length: number, padChar: string = " "): string {
+	return str.padEnd(length, padChar)
 }
 
 /**
@@ -247,15 +231,11 @@ export function padRight(
  * startsWith('Hello World', 'World') // false
  * ```
  */
-export function startsWith(
-  str: string,
-  prefix: string,
-  ignoreCase = false
-): boolean {
-  if (ignoreCase) {
-    return str.toLowerCase().startsWith(prefix.toLowerCase())
-  }
-  return str.startsWith(prefix)
+export function startsWith(str: string, prefix: string, ignoreCase = false): boolean {
+	if (ignoreCase) {
+		return str.toLowerCase().startsWith(prefix.toLowerCase())
+	}
+	return str.startsWith(prefix)
 }
 
 /**
@@ -273,15 +253,11 @@ export function startsWith(
  * endsWith('Hello World', 'Hello') // false
  * ```
  */
-export function endsWith(
-  str: string,
-  suffix: string,
-  ignoreCase = false
-): boolean {
-  if (ignoreCase) {
-    return str.toLowerCase().endsWith(suffix.toLowerCase())
-  }
-  return str.endsWith(suffix)
+export function endsWith(str: string, suffix: string, ignoreCase = false): boolean {
+	if (ignoreCase) {
+		return str.toLowerCase().endsWith(suffix.toLowerCase())
+	}
+	return str.endsWith(suffix)
 }
 
 /**
@@ -299,15 +275,11 @@ export function endsWith(
  * contains('Hello World', 'xyz') // false
  * ```
  */
-export function contains(
-  str: string,
-  substring: string,
-  ignoreCase = false
-): boolean {
-  if (ignoreCase) {
-    return str.toLowerCase().includes(substring.toLowerCase())
-  }
-  return str.includes(substring)
+export function contains(str: string, substring: string, ignoreCase = false): boolean {
+	if (ignoreCase) {
+		return str.toLowerCase().includes(substring.toLowerCase())
+	}
+	return str.includes(substring)
 }
 
 /**
@@ -323,7 +295,7 @@ export function contains(
  * ```
  */
 export function reverse(str: string): string {
-  return str.split('').reverse().join('')
+	return str.split("").reverse().join("")
 }
 
 /**
@@ -340,7 +312,7 @@ export function reverse(str: string): string {
  * ```
  */
 export function repeat(str: string, times: number): string {
-  return str.repeat(times)
+	return str.repeat(times)
 }
 
 /**
@@ -357,14 +329,10 @@ export function repeat(str: string, times: number): string {
  * countOccurrences('Hello World', 'o', true) // 2
  * ```
  */
-export function countOccurrences(
-  str: string,
-  substring: string,
-  ignoreCase = false
-): number {
-  const searchStr = ignoreCase ? str.toLowerCase() : str
-  const searchSubstr = ignoreCase ? substring.toLowerCase() : substring
-  return (searchStr.match(new RegExp(searchSubstr, 'g')) || []).length
+export function countOccurrences(str: string, substring: string, ignoreCase = false): number {
+	const searchStr = ignoreCase ? str.toLowerCase() : str
+	const searchSubstr = ignoreCase ? substring.toLowerCase() : substring
+	return (searchStr.match(new RegExp(searchSubstr, "g")) || []).length
 }
 
 /**
@@ -380,12 +348,8 @@ export function countOccurrences(
  * replaceAll('hello world', 'o', '0') // 'hell0 w0rld'
  * ```
  */
-export function replaceAll(
-  str: string,
-  search: string,
-  replacement: string
-): string {
-  return str.replace(new RegExp(search, 'g'), replacement)
+export function replaceAll(str: string, search: string, replacement: string): string {
+	return str.replace(new RegExp(search, "g"), replacement)
 }
 
 /**
@@ -402,7 +366,7 @@ export function replaceAll(
  * ```
  */
 export function isBlank(str: string): boolean {
-  return str.trim().length === 0
+	return str.trim().length === 0
 }
 
 /**
@@ -419,7 +383,7 @@ export function isBlank(str: string): boolean {
  * ```
  */
 export function isNotBlank(str: string): boolean {
-  return str.trim().length > 0
+	return str.trim().length > 0
 }
 
 /**
@@ -437,12 +401,12 @@ export function isNotBlank(str: string): boolean {
  * ```
  */
 export function getInitials(name: string, maxInitials = 2): string {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, maxInitials)
-    .map(word => word.charAt(0).toUpperCase())
-    .join('')
+	return name
+		.split(/\s+/)
+		.filter(Boolean)
+		.slice(0, maxInitials)
+		.map((word) => word.charAt(0).toUpperCase())
+		.join("")
 }
 
 /**
@@ -461,19 +425,14 @@ export function getInitials(name: string, maxInitials = 2): string {
  * mask('secret', 0, 0, 'x') // 'xxxxxx'
  * ```
  */
-export function mask(
-  str: string,
-  visibleStart = 2,
-  visibleEnd = 2,
-  maskChar = '*'
-): string {
-  if (str.length <= visibleStart + visibleEnd) return str
+export function mask(str: string, visibleStart = 2, visibleEnd = 2, maskChar = "*"): string {
+	if (str.length <= visibleStart + visibleEnd) return str
 
-  const start = str.slice(0, visibleStart)
-  const end = str.slice(-visibleEnd)
-  const masked = maskChar.repeat(str.length - visibleStart - visibleEnd)
+	const start = str.slice(0, visibleStart)
+	const end = str.slice(-visibleEnd)
+	const masked = maskChar.repeat(str.length - visibleStart - visibleEnd)
 
-  return start + masked + end
+	return start + masked + end
 }
 
 /**
@@ -488,11 +447,11 @@ export function mask(
  * ```
  */
 export function maskEmail(email: string): string {
-  const [localPart, domain] = email.split('@')
-  if (!domain) return email
+	const [localPart, domain] = email.split("@")
+	if (!domain) return email
 
-  const maskedLocal = mask(localPart, 2, 1)
-  return `${maskedLocal}@${domain}`
+	const maskedLocal = mask(localPart, 2, 1)
+	return `${maskedLocal}@${domain}`
 }
 
 /**
@@ -509,9 +468,7 @@ export function maskEmail(email: string): string {
  * ```
  */
 export function camelCase(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
+	return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, char) => char.toUpperCase())
 }
 
 /**
@@ -527,8 +484,8 @@ export function camelCase(str: string): string {
  * ```
  */
 export function pascalCase(str: string): string {
-  const camel = camelCase(str)
-  return capitalize(camel)
+	const camel = camelCase(str)
+	return capitalize(camel)
 }
 
 /**
@@ -544,11 +501,11 @@ export function pascalCase(str: string): string {
  * ```
  */
 export function snakeCase(str: string): string {
-  return str
-    .replace(/([A-Z])/g, '_$1')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_|_$/g, '')
+	return str
+		.replace(/([A-Z])/g, "_$1")
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "_")
+		.replace(/^_|_$/g, "")
 }
 
 /**
@@ -564,9 +521,9 @@ export function snakeCase(str: string): string {
  * ```
  */
 export function kebabCase(str: string): string {
-  return str
-    .replace(/([A-Z])/g, '-$1')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
+	return str
+		.replace(/([A-Z])/g, "-$1")
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-|-$/g, "")
 }

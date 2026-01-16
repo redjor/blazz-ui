@@ -1,18 +1,18 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import { Frame } from '@/components/layout/frame'
-import { AppSidebarV2 } from '@/components/layout/app-sidebar-v2'
-import { AppTopBar } from '@/components/layout/app-top-bar'
-import { sidebarConfig } from '@/config/navigation'
-import type { NavigationSection } from '@/types/navigation'
+import * as React from "react"
+import { AppSidebarV2 } from "@/components/layout/app-sidebar-v2"
+import { AppTopBar } from "@/components/layout/app-top-bar"
+import { Frame } from "@/components/layout/frame"
+import { sidebarConfig } from "@/config/navigation"
+import type { NavigationSection } from "@/types/navigation"
 
 export interface AppFrameProps {
-  navigation?: NavigationSection[]
-  children: React.ReactNode
-  sidebarHeader?: React.ReactNode
-  sidebarFooter?: React.ReactNode
-  onOpenCommandPalette?: () => void
+	navigation?: NavigationSection[]
+	children: React.ReactNode
+	sidebarHeader?: React.ReactNode
+	sidebarFooter?: React.ReactNode
+	onOpenCommandPalette?: () => void
 }
 
 /**
@@ -50,34 +50,29 @@ export interface AppFrameProps {
  * ```
  */
 export function AppFrame({
-  navigation,
-  children,
-  sidebarHeader,
-  sidebarFooter,
-  onOpenCommandPalette,
+	navigation,
+	children,
+	sidebarHeader: _sidebarHeader,
+	sidebarFooter: _sidebarFooter,
+	onOpenCommandPalette,
 }: AppFrameProps) {
-  // Utiliser sidebarConfig par défaut, ou le merger avec navigation si fourni
-  const config = React.useMemo(() => {
-    if (navigation) {
-      return {
-        ...sidebarConfig,
-        navigation,
-      }
-    }
-    return sidebarConfig
-  }, [navigation])
+	// Utiliser sidebarConfig par défaut, ou le merger avec navigation si fourni
+	const config = React.useMemo(() => {
+		if (navigation) {
+			return {
+				...sidebarConfig,
+				navigation,
+			}
+		}
+		return sidebarConfig
+	}, [navigation])
 
-  return (
-    <Frame
-      topBar={<AppTopBar onOpenCommandPalette={onOpenCommandPalette} />}
-      navigation={
-        <AppSidebarV2
-          config={config}
-          collapsible="none"
-        />
-      }
-    >
-      {children}
-    </Frame>
-  )
+	return (
+		<Frame
+			topBar={<AppTopBar onOpenCommandPalette={onOpenCommandPalette} />}
+			navigation={<AppSidebarV2 config={config} collapsible="none" />}
+		>
+			{children}
+		</Frame>
+	)
 }

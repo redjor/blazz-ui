@@ -14,12 +14,12 @@
  * ```
  */
 
-import { round } from './numbers'
+import { round } from "./numbers"
 
 /**
  * Discount type
  */
-export type DiscountType = 'percentage' | 'fixed'
+export type DiscountType = "percentage" | "fixed"
 
 /**
  * Format price to fixed decimal places (replaces .toFixed(2) pattern)
@@ -36,7 +36,7 @@ export type DiscountType = 'percentage' | 'fixed'
  * ```
  */
 export function formatPrice(amount: number, decimals = 2): string {
-  return amount.toFixed(decimals)
+	return amount.toFixed(decimals)
 }
 
 /**
@@ -53,10 +53,10 @@ export function formatPrice(amount: number, decimals = 2): string {
  * ```
  */
 export function parsePrice(priceString: string): number | null {
-  // Remove spaces and replace comma with dot
-  const cleaned = priceString.replace(/\s/g, '').replace(',', '.')
-  const parsed = parseFloat(cleaned)
-  return Number.isNaN(parsed) ? null : parsed
+	// Remove spaces and replace comma with dot
+	const cleaned = priceString.replace(/\s/g, "").replace(",", ".")
+	const parsed = parseFloat(cleaned)
+	return Number.isNaN(parsed) ? null : parsed
 }
 
 /**
@@ -74,12 +74,8 @@ export function parsePrice(priceString: string): number | null {
  * calculatePercentage(99.99, 15) // 15
  * ```
  */
-export function calculatePercentage(
-  amount: number,
-  percent: number,
-  decimals = 2
-): number {
-  return round((amount * percent) / 100, decimals)
+export function calculatePercentage(amount: number, percent: number, decimals = 2): number {
+	return round((amount * percent) / 100, decimals)
 }
 
 /**
@@ -100,18 +96,18 @@ export function calculatePercentage(
  * ```
  */
 export function calculateDiscount(
-  amount: number,
-  discount: number,
-  type: DiscountType = 'percentage',
-  decimals = 2
+	amount: number,
+	discount: number,
+	type: DiscountType = "percentage",
+	decimals = 2
 ): number {
-  if (type === 'percentage') {
-    const discountAmount = calculatePercentage(amount, discount, decimals)
-    return round(amount - discountAmount, decimals)
-  }
+	if (type === "percentage") {
+		const discountAmount = calculatePercentage(amount, discount, decimals)
+		return round(amount - discountAmount, decimals)
+	}
 
-  // Fixed discount
-  return round(Math.max(0, amount - discount), decimals)
+	// Fixed discount
+	return round(Math.max(0, amount - discount), decimals)
 }
 
 /**
@@ -132,15 +128,14 @@ export function calculateDiscount(
  * ```
  */
 export function getDiscountDetails(
-  originalPrice: number,
-  discountedPrice: number,
-  decimals = 2
+	originalPrice: number,
+	discountedPrice: number,
+	decimals = 2
 ): { amount: number; percentage: number } {
-  const amount = round(originalPrice - discountedPrice, decimals)
-  const percentage =
-    originalPrice > 0 ? round((amount / originalPrice) * 100, decimals) : 0
+	const amount = round(originalPrice - discountedPrice, decimals)
+	const percentage = originalPrice > 0 ? round((amount / originalPrice) * 100, decimals) : 0
 
-  return { amount, percentage }
+	return { amount, percentage }
 }
 
 /**
@@ -157,12 +152,8 @@ export function getDiscountDetails(
  * calculateTax(150, 5.5) // 8.25
  * ```
  */
-export function calculateTax(
-  amount: number,
-  taxRate: number,
-  decimals = 2
-): number {
-  return calculatePercentage(amount, taxRate, decimals)
+export function calculateTax(amount: number, taxRate: number, decimals = 2): number {
+	return calculatePercentage(amount, taxRate, decimals)
 }
 
 /**
@@ -179,13 +170,9 @@ export function calculateTax(
  * addTax(150, 5.5) // 158.25
  * ```
  */
-export function addTax(
-  amountExcludingTax: number,
-  taxRate: number,
-  decimals = 2
-): number {
-  const tax = calculateTax(amountExcludingTax, taxRate, decimals)
-  return round(amountExcludingTax + tax, decimals)
+export function addTax(amountExcludingTax: number, taxRate: number, decimals = 2): number {
+	const tax = calculateTax(amountExcludingTax, taxRate, decimals)
+	return round(amountExcludingTax + tax, decimals)
 }
 
 /**
@@ -202,12 +189,8 @@ export function addTax(
  * removeTax(158.25, 5.5) // 150
  * ```
  */
-export function removeTax(
-  amountIncludingTax: number,
-  taxRate: number,
-  decimals = 2
-): number {
-  return round(amountIncludingTax / (1 + taxRate / 100), decimals)
+export function removeTax(amountIncludingTax: number, taxRate: number, decimals = 2): number {
+	return round(amountIncludingTax / (1 + taxRate / 100), decimals)
 }
 
 /**
@@ -233,22 +216,19 @@ export function removeTax(
  * ```
  */
 export function calculatePriceBreakdown(
-  items: Array<{ price: number; quantity: number }>,
-  taxRate: number,
-  decimals = 2
+	items: Array<{ price: number; quantity: number }>,
+	taxRate: number,
+	decimals = 2
 ): { subtotal: number; tax: number; total: number } {
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  )
-  const tax = calculateTax(subtotal, taxRate, decimals)
-  const total = round(subtotal + tax, decimals)
+	const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+	const tax = calculateTax(subtotal, taxRate, decimals)
+	const total = round(subtotal + tax, decimals)
 
-  return {
-    subtotal: round(subtotal, decimals),
-    tax,
-    total,
-  }
+	return {
+		subtotal: round(subtotal, decimals),
+		tax,
+		total,
+	}
 }
 
 /**
@@ -265,13 +245,9 @@ export function calculatePriceBreakdown(
  * calculateUnitPrice(99.99, 3) // 33.33
  * ```
  */
-export function calculateUnitPrice(
-  totalPrice: number,
-  quantity: number,
-  decimals = 2
-): number {
-  if (quantity === 0) return 0
-  return round(totalPrice / quantity, decimals)
+export function calculateUnitPrice(totalPrice: number, quantity: number, decimals = 2): number {
+	if (quantity === 0) return 0
+	return round(totalPrice / quantity, decimals)
 }
 
 /**
@@ -288,12 +264,8 @@ export function calculateUnitPrice(
  * calculateTotalPrice(33.33, 3) // 99.99
  * ```
  */
-export function calculateTotalPrice(
-  unitPrice: number,
-  quantity: number,
-  decimals = 2
-): number {
-  return round(unitPrice * quantity, decimals)
+export function calculateTotalPrice(unitPrice: number, quantity: number, decimals = 2): number {
+	return round(unitPrice * quantity, decimals)
 }
 
 /**
@@ -310,13 +282,9 @@ export function calculateTotalPrice(
  * calculateMargin(200, 100) // 50
  * ```
  */
-export function calculateMargin(
-  sellingPrice: number,
-  costPrice: number,
-  decimals = 2
-): number {
-  if (sellingPrice === 0) return 0
-  return round(((sellingPrice - costPrice) / sellingPrice) * 100, decimals)
+export function calculateMargin(sellingPrice: number, costPrice: number, decimals = 2): number {
+	if (sellingPrice === 0) return 0
+	return round(((sellingPrice - costPrice) / sellingPrice) * 100, decimals)
 }
 
 /**
@@ -333,13 +301,9 @@ export function calculateMargin(
  * calculateMarkup(200, 100) // 100
  * ```
  */
-export function calculateMarkup(
-  sellingPrice: number,
-  costPrice: number,
-  decimals = 2
-): number {
-  if (costPrice === 0) return 0
-  return round(((sellingPrice - costPrice) / costPrice) * 100, decimals)
+export function calculateMarkup(sellingPrice: number, costPrice: number, decimals = 2): number {
+	if (costPrice === 0) return 0
+	return round(((sellingPrice - costPrice) / costPrice) * 100, decimals)
 }
 
 /**
@@ -357,11 +321,11 @@ export function calculateMarkup(
  * ```
  */
 export function calculatePriceFromMargin(
-  costPrice: number,
-  marginPercentage: number,
-  decimals = 2
+	costPrice: number,
+	marginPercentage: number,
+	decimals = 2
 ): number {
-  return round(costPrice / (1 - marginPercentage / 100), decimals)
+	return round(costPrice / (1 - marginPercentage / 100), decimals)
 }
 
 /**
@@ -379,11 +343,11 @@ export function calculatePriceFromMargin(
  * ```
  */
 export function calculatePriceFromMarkup(
-  costPrice: number,
-  markupPercentage: number,
-  decimals = 2
+	costPrice: number,
+	markupPercentage: number,
+	decimals = 2
 ): number {
-  return round(costPrice * (1 + markupPercentage / 100), decimals)
+	return round(costPrice * (1 + markupPercentage / 100), decimals)
 }
 
 /**
@@ -405,23 +369,22 @@ export function calculatePriceFromMarkup(
  * ```
  */
 export function comparePrices(
-  price1: number,
-  price2: number,
-  decimals = 2
+	price1: number,
+	price2: number,
+	decimals = 2
 ): {
-  difference: number
-  percentageDifference: number
-  isHigher: boolean
+	difference: number
+	percentageDifference: number
+	isHigher: boolean
 } {
-  const difference = round(price1 - price2, decimals)
-  const percentageDifference =
-    price2 > 0 ? round((difference / price2) * 100, decimals) : 0
+	const difference = round(price1 - price2, decimals)
+	const percentageDifference = price2 > 0 ? round((difference / price2) * 100, decimals) : 0
 
-  return {
-    difference,
-    percentageDifference,
-    isHigher: price1 > price2,
-  }
+	return {
+		difference,
+		percentageDifference,
+		isHigher: price1 > price2,
+	}
 }
 
 /**
@@ -438,9 +401,9 @@ export function comparePrices(
  * ```
  */
 export function averagePrice(prices: number[], decimals = 2): number {
-  if (prices.length === 0) return 0
-  const sum = prices.reduce((acc, price) => acc + price, 0)
-  return round(sum / prices.length, decimals)
+	if (prices.length === 0) return 0
+	const sum = prices.reduce((acc, price) => acc + price, 0)
+	return round(sum / prices.length, decimals)
 }
 
 /**
@@ -461,22 +424,17 @@ export function averagePrice(prices: number[], decimals = 2): number {
  * ```
  */
 export function applyMultipleDiscounts(
-  amount: number,
-  discounts: Array<{ value: number; type: DiscountType }>,
-  decimals = 2
+	amount: number,
+	discounts: Array<{ value: number; type: DiscountType }>,
+	decimals = 2
 ): number {
-  let finalAmount = amount
+	let finalAmount = amount
 
-  for (const discount of discounts) {
-    finalAmount = calculateDiscount(
-      finalAmount,
-      discount.value,
-      discount.type,
-      decimals
-    )
-  }
+	for (const discount of discounts) {
+		finalAmount = calculateDiscount(finalAmount, discount.value, discount.type, decimals)
+	}
 
-  return finalAmount
+	return finalAmount
 }
 
 /**
@@ -493,7 +451,7 @@ export function applyMultipleDiscounts(
  * ```
  */
 export function isWithinBudget(price: number, budget: number): boolean {
-  return price <= budget
+	return price <= budget
 }
 
 /**
@@ -512,13 +470,13 @@ export function isWithinBudget(price: number, budget: number): boolean {
  * ```
  */
 export function calculateSavings(
-  originalPrice: number,
-  discount: number,
-  type: DiscountType = 'percentage',
-  decimals = 2
+	originalPrice: number,
+	discount: number,
+	type: DiscountType = "percentage",
+	decimals = 2
 ): number {
-  if (type === 'percentage') {
-    return calculatePercentage(originalPrice, discount, decimals)
-  }
-  return round(Math.min(discount, originalPrice), decimals)
+	if (type === "percentage") {
+		return calculatePercentage(originalPrice, discount, decimals)
+	}
+	return round(Math.min(discount, originalPrice), decimals)
 }

@@ -1,13 +1,13 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import { cn } from '@/lib/utils'
+import type * as React from "react"
+import { cn } from "@/lib/utils"
 
 interface LayoutFrameProps {
-  children: React.ReactNode
-  topBar: React.ReactNode
-  sidebar: React.ReactNode
-  className?: string
+	children: React.ReactNode
+	topBar: React.ReactNode
+	sidebar: React.ReactNode
+	className?: string
 }
 
 /**
@@ -26,30 +26,19 @@ interface LayoutFrameProps {
  * - Easy to maintain
  */
 export function LayoutFrame({ children, topBar, sidebar, className }: LayoutFrameProps) {
-  return (
-    <div className="flex flex-col h-screen overflow-hidden bg-gray-50">
-      {/* TopBar - fixed at top, never scrolls */}
-      <div className="flex-shrink-0">
-        {topBar}
-      </div>
+	return (
+		<div className="flex flex-col h-screen overflow-hidden bg-gray-50">
+			{/* TopBar - fixed at top, never scrolls */}
+			<div className="flex-shrink-0">{topBar}</div>
 
-      {/* Content area - flex container taking remaining space */}
-      <div className="flex flex-1 overflow-hidden min-h-0">
-        {/* Sidebar - flex item with fixed width */}
-        <div className="flex-shrink-0 w-[240px] overflow-y-auto">
-          {sidebar}
-        </div>
+			{/* Content area - flex container taking remaining space */}
+			<div className="flex flex-1 overflow-hidden min-h-0">
+				{/* Sidebar - flex item with fixed width */}
+				<div className="flex-shrink-0 w-[240px] overflow-y-auto">{sidebar}</div>
 
-        {/* Main content - flexible, fills remaining space */}
-        <main
-          className={cn(
-            'flex-1 overflow-y-auto',
-            className
-          )}
-        >
-          {children}
-        </main>
-      </div>
-    </div>
-  )
+				{/* Main content - flexible, fills remaining space */}
+				<main className={cn("flex-1 overflow-y-auto", className)}>{children}</main>
+			</div>
+		</div>
+	)
 }

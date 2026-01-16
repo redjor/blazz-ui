@@ -1,28 +1,28 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import Link from "next/link"
+import * as React from "react"
 import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { cn } from "@/lib/utils"
 
 export interface BreadcrumbItemType {
-  label: string
-  href?: string
+	label: string
+	href?: string
 }
 
 export interface PageHeaderProps {
-  breadcrumbs?: BreadcrumbItemType[]
-  title?: string
-  description?: string
-  actions?: React.ReactNode
-  className?: string
+	breadcrumbs?: BreadcrumbItemType[]
+	title?: string
+	description?: string
+	actions?: React.ReactNode
+	className?: string
 }
 
 /**
@@ -47,57 +47,55 @@ export interface PageHeaderProps {
  * />
  */
 export function PageHeader({
-  breadcrumbs,
-  title,
-  description,
-  actions,
-  className,
+	breadcrumbs,
+	title,
+	description,
+	actions,
+	className,
 }: PageHeaderProps) {
-  return (
-    <div className={cn('border-b border-gray-200 bg-white px-6 py-4', className)}>
-      {/* Breadcrumbs */}
-      {breadcrumbs && breadcrumbs.length > 0 && (
-        <Breadcrumb className="mb-2">
-          <BreadcrumbList>
-            {breadcrumbs.map((breadcrumb, index) => {
-              const isLast = index === breadcrumbs.length - 1
+	return (
+		<div className={cn("border-b border-gray-200 bg-white px-6 py-4", className)}>
+			{/* Breadcrumbs */}
+			{breadcrumbs && breadcrumbs.length > 0 && (
+				<Breadcrumb className="mb-2">
+					<BreadcrumbList>
+						{breadcrumbs.map((breadcrumb, index) => {
+							const isLast = index === breadcrumbs.length - 1
 
-              return (
-                <React.Fragment key={index}>
-                  <BreadcrumbItem>
-                    {isLast || !breadcrumb.href ? (
-                      <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
-                    ) : (
-                      <BreadcrumbLink asChild>
-                        <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
-                      </BreadcrumbLink>
-                    )}
-                  </BreadcrumbItem>
-                  {!isLast && <BreadcrumbSeparator />}
-                </React.Fragment>
-              )
-            })}
-          </BreadcrumbList>
-        </Breadcrumb>
-      )}
+							return (
+								<React.Fragment key={index}>
+									<BreadcrumbItem>
+										{isLast || !breadcrumb.href ? (
+											<BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+										) : (
+											<BreadcrumbLink asChild>
+												<Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+											</BreadcrumbLink>
+										)}
+									</BreadcrumbItem>
+									{!isLast && <BreadcrumbSeparator />}
+								</React.Fragment>
+							)
+						})}
+					</BreadcrumbList>
+				</Breadcrumb>
+			)}
 
-      {/* Title + Actions */}
-      {(title || actions) && (
-        <div className="flex items-center justify-between">
-          {/* Title + Description */}
-          {(title || description) && (
-            <div>
-              {title && <h1 className="text-2xl font-bold tracking-tight">{title}</h1>}
-              {description && (
-                <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-              )}
-            </div>
-          )}
+			{/* Title + Actions */}
+			{(title || actions) && (
+				<div className="flex items-center justify-between">
+					{/* Title + Description */}
+					{(title || description) && (
+						<div>
+							{title && <h1 className="text-2xl font-bold tracking-tight">{title}</h1>}
+							{description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
+						</div>
+					)}
 
-          {/* Actions */}
-          {actions && <div className="flex items-center gap-2">{actions}</div>}
-        </div>
-      )}
-    </div>
-  )
+					{/* Actions */}
+					{actions && <div className="flex items-center gap-2">{actions}</div>}
+				</div>
+			)}
+		</div>
+	)
 }

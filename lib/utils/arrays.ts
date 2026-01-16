@@ -33,8 +33,8 @@
  * ```
  */
 export function ensureArray<T>(value: T | T[] | null | undefined): T[] {
-  if (value === null || value === undefined) return []
-  return Array.isArray(value) ? value : [value]
+	if (value === null || value === undefined) return []
+	return Array.isArray(value) ? value : [value]
 }
 
 /**
@@ -52,7 +52,7 @@ export function ensureArray<T>(value: T | T[] | null | undefined): T[] {
  * ```
  */
 export function compact<T>(arr: (T | null | undefined)[]): T[] {
-  return arr.filter((item): item is T => item !== null && item !== undefined)
+	return arr.filter((item): item is T => item !== null && item !== undefined)
 }
 
 /**
@@ -69,7 +69,7 @@ export function compact<T>(arr: (T | null | undefined)[]): T[] {
  * ```
  */
 export function compactAll<T>(arr: T[]): NonNullable<T>[] {
-  return arr.filter(Boolean) as NonNullable<T>[]
+	return arr.filter(Boolean) as NonNullable<T>[]
 }
 
 /**
@@ -85,7 +85,7 @@ export function compactAll<T>(arr: T[]): NonNullable<T>[] {
  * ```
  */
 export function unique<T>(arr: T[]): T[] {
-  return Array.from(new Set(arr))
+	return Array.from(new Set(arr))
 }
 
 /**
@@ -106,22 +106,18 @@ export function unique<T>(arr: T[]): T[] {
  * uniqueBy(users, u => u.id) // Same result
  * ```
  */
-export function uniqueBy<T>(
-  arr: T[],
-  selector: keyof T | ((item: T) => unknown)
-): T[] {
-  const seen = new Set()
-  const getValue =
-    typeof selector === 'function' ? selector : (item: T) => item[selector]
+export function uniqueBy<T>(arr: T[], selector: keyof T | ((item: T) => unknown)): T[] {
+	const seen = new Set()
+	const getValue = typeof selector === "function" ? selector : (item: T) => item[selector]
 
-  return arr.filter(item => {
-    const key = getValue(item)
-    if (seen.has(key)) {
-      return false
-    }
-    seen.add(key)
-    return true
-  })
+	return arr.filter((item) => {
+		const key = getValue(item)
+		if (seen.has(key)) {
+			return false
+		}
+		seen.add(key)
+		return true
+	})
 }
 
 /**
@@ -146,25 +142,22 @@ export function uniqueBy<T>(
  * ```
  */
 export function groupBy<T>(
-  arr: T[],
-  selector: keyof T | ((item: T) => string | number)
+	arr: T[],
+	selector: keyof T | ((item: T) => string | number)
 ): Record<string, T[]> {
-  const getValue =
-    typeof selector === 'function'
-      ? selector
-      : (item: T) => String(item[selector])
+	const getValue = typeof selector === "function" ? selector : (item: T) => String(item[selector])
 
-  return arr.reduce(
-    (groups, item) => {
-      const key = String(getValue(item))
-      if (!groups[key]) {
-        groups[key] = []
-      }
-      groups[key].push(item)
-      return groups
-    },
-    {} as Record<string, T[]>
-  )
+	return arr.reduce(
+		(groups, item) => {
+			const key = String(getValue(item))
+			if (!groups[key]) {
+				groups[key] = []
+			}
+			groups[key].push(item)
+			return groups
+		},
+		{} as Record<string, T[]>
+	)
 }
 
 /**
@@ -181,11 +174,11 @@ export function groupBy<T>(
  * ```
  */
 export function chunk<T>(arr: T[], size: number): T[][] {
-  const chunks: T[][] = []
-  for (let i = 0; i < arr.length; i += size) {
-    chunks.push(arr.slice(i, i + size))
-  }
-  return chunks
+	const chunks: T[][] = []
+	for (let i = 0; i < arr.length; i += size) {
+		chunks.push(arr.slice(i, i + size))
+	}
+	return chunks
 }
 
 /**
@@ -201,7 +194,7 @@ export function chunk<T>(arr: T[], size: number): T[][] {
  * ```
  */
 export function flatten<T>(arr: T[][]): T[] {
-  return arr.flat()
+	return arr.flat()
 }
 
 /**
@@ -217,7 +210,7 @@ export function flatten<T>(arr: T[][]): T[] {
  * ```
  */
 export function flattenDeep<T>(arr: unknown[]): T[] {
-  return arr.flat(Infinity) as T[]
+	return arr.flat(Infinity) as T[]
 }
 
 /**
@@ -233,7 +226,7 @@ export function flattenDeep<T>(arr: unknown[]): T[] {
  * ```
  */
 export function first<T>(arr: T[]): T | undefined {
-  return arr[0]
+	return arr[0]
 }
 
 /**
@@ -249,7 +242,7 @@ export function first<T>(arr: T[]): T | undefined {
  * ```
  */
 export function last<T>(arr: T[]): T | undefined {
-  return arr[arr.length - 1]
+	return arr[arr.length - 1]
 }
 
 /**
@@ -266,7 +259,7 @@ export function last<T>(arr: T[]): T | undefined {
  * ```
  */
 export function take<T>(arr: T[], n: number): T[] {
-  return arr.slice(0, n)
+	return arr.slice(0, n)
 }
 
 /**
@@ -283,7 +276,7 @@ export function take<T>(arr: T[], n: number): T[] {
  * ```
  */
 export function drop<T>(arr: T[], n: number): T[] {
-  return arr.slice(n)
+	return arr.slice(n)
 }
 
 /**
@@ -299,7 +292,7 @@ export function drop<T>(arr: T[], n: number): T[] {
  * ```
  */
 export function isEmpty<T>(arr: T[]): boolean {
-  return arr.length === 0
+	return arr.length === 0
 }
 
 /**
@@ -315,7 +308,7 @@ export function isEmpty<T>(arr: T[]): boolean {
  * ```
  */
 export function isNotEmpty<T>(arr: T[]): boolean {
-  return arr.length > 0
+	return arr.length > 0
 }
 
 /**
@@ -332,22 +325,19 @@ export function isNotEmpty<T>(arr: T[]): boolean {
  * // odds: [1, 3, 5]
  * ```
  */
-export function partition<T>(
-  arr: T[],
-  predicate: (item: T) => boolean
-): [T[], T[]] {
-  const matches: T[] = []
-  const nonMatches: T[] = []
+export function partition<T>(arr: T[], predicate: (item: T) => boolean): [T[], T[]] {
+	const matches: T[] = []
+	const nonMatches: T[] = []
 
-  for (const item of arr) {
-    if (predicate(item)) {
-      matches.push(item)
-    } else {
-      nonMatches.push(item)
-    }
-  }
+	for (const item of arr) {
+		if (predicate(item)) {
+			matches.push(item)
+		} else {
+			nonMatches.push(item)
+		}
+	}
 
-  return [matches, nonMatches]
+	return [matches, nonMatches]
 }
 
 /**
@@ -364,8 +354,8 @@ export function partition<T>(
  * ```
  */
 export function difference<T>(arr1: T[], arr2: T[]): T[] {
-  const set2 = new Set(arr2)
-  return arr1.filter(item => !set2.has(item))
+	const set2 = new Set(arr2)
+	return arr1.filter((item) => !set2.has(item))
 }
 
 /**
@@ -382,8 +372,8 @@ export function difference<T>(arr1: T[], arr2: T[]): T[] {
  * ```
  */
 export function intersection<T>(arr1: T[], arr2: T[]): T[] {
-  const set2 = new Set(arr2)
-  return unique(arr1.filter(item => set2.has(item)))
+	const set2 = new Set(arr2)
+	return unique(arr1.filter((item) => set2.has(item)))
 }
 
 /**
@@ -400,7 +390,7 @@ export function intersection<T>(arr1: T[], arr2: T[]): T[] {
  * ```
  */
 export function union<T>(arr1: T[], arr2: T[]): T[] {
-  return unique(arr1.concat(arr2))
+	return unique(arr1.concat(arr2))
 }
 
 /**
@@ -415,14 +405,14 @@ export function union<T>(arr1: T[], arr2: T[]): T[] {
  * ```
  */
 export function shuffle<T>(arr: T[]): T[] {
-  const result = arr.slice()
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const temp = result[i]
-    result[i] = result[j]
-    result[j] = temp
-  }
-  return result
+	const result = arr.slice()
+	for (let i = result.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1))
+		const temp = result[i]
+		result[i] = result[j]
+		result[j] = temp
+	}
+	return result
 }
 
 /**
@@ -438,8 +428,8 @@ export function shuffle<T>(arr: T[]): T[] {
  * ```
  */
 export function sample<T>(arr: T[]): T | undefined {
-  if (arr.length === 0) return undefined
-  return arr[Math.floor(Math.random() * arr.length)]
+	if (arr.length === 0) return undefined
+	return arr[Math.floor(Math.random() * arr.length)]
 }
 
 /**
@@ -455,5 +445,5 @@ export function sample<T>(arr: T[]): T | undefined {
  * ```
  */
 export function sampleSize<T>(arr: T[], n: number): T[] {
-  return shuffle(arr).slice(0, n)
+	return shuffle(arr).slice(0, n)
 }

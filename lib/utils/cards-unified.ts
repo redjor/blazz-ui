@@ -20,7 +20,7 @@
 /**
  * Supported card types
  */
-export type CardType = 'visa' | 'mastercard' | 'amex' | 'unknown'
+export type CardType = "visa" | "mastercard" | "amex" | "unknown"
 
 /**
  * Detect card type based on card number
@@ -37,24 +37,24 @@ export type CardType = 'visa' | 'mastercard' | 'amex' | 'unknown'
  * ```
  */
 export function detectCardType(cardNumber: string): CardType {
-  const cleanNumber = cardNumber.replace(/\s+/g, '')
+	const cleanNumber = cardNumber.replace(/\s+/g, "")
 
-  // Visa: starts with 4
-  if (/^4/.test(cleanNumber)) {
-    return 'visa'
-  }
+	// Visa: starts with 4
+	if (/^4/.test(cleanNumber)) {
+		return "visa"
+	}
 
-  // Mastercard: starts with 51-55 or 2221-2720
-  if (/^5[1-5]/.test(cleanNumber) || /^2[2-7]/.test(cleanNumber)) {
-    return 'mastercard'
-  }
+	// Mastercard: starts with 51-55 or 2221-2720
+	if (/^5[1-5]/.test(cleanNumber) || /^2[2-7]/.test(cleanNumber)) {
+		return "mastercard"
+	}
 
-  // Amex: starts with 34 or 37
-  if (/^3[47]/.test(cleanNumber)) {
-    return 'amex'
-  }
+	// Amex: starts with 34 or 37
+	if (/^3[47]/.test(cleanNumber)) {
+		return "amex"
+	}
 
-  return 'unknown'
+	return "unknown"
 }
 
 /**
@@ -70,18 +70,16 @@ export function detectCardType(cardNumber: string): CardType {
  * ```
  */
 export function formatCardNumber(cardNumber: string): string {
-  const cleanNumber = cardNumber.replace(/\s+/g, '')
-  const cardType = detectCardType(cleanNumber)
+	const cleanNumber = cardNumber.replace(/\s+/g, "")
+	const cardType = detectCardType(cleanNumber)
 
-  // Amex format: 4-6-5 (XXXX XXXXXX XXXXX)
-  if (cardType === 'amex') {
-    return cleanNumber.replace(/(\d{4})(\d{6})(\d{5})/, '$1 $2 $3').trim()
-  }
+	// Amex format: 4-6-5 (XXXX XXXXXX XXXXX)
+	if (cardType === "amex") {
+		return cleanNumber.replace(/(\d{4})(\d{6})(\d{5})/, "$1 $2 $3").trim()
+	}
 
-  // Other cards: 4-4-4-4 (XXXX XXXX XXXX XXXX)
-  return cleanNumber
-    .replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, '$1 $2 $3 $4')
-    .trim()
+	// Other cards: 4-4-4-4 (XXXX XXXX XXXX XXXX)
+	return cleanNumber.replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, "$1 $2 $3 $4").trim()
 }
 
 /**
@@ -97,37 +95,37 @@ export function formatCardNumber(cardNumber: string): string {
  * ```
  */
 export function validateCardNumber(cardNumber: string): boolean {
-  const cleanNumber = cardNumber.replace(/\s+/g, '')
+	const cleanNumber = cardNumber.replace(/\s+/g, "")
 
-  // Must be numeric
-  if (!/^\d+$/.test(cleanNumber)) {
-    return false
-  }
+	// Must be numeric
+	if (!/^\d+$/.test(cleanNumber)) {
+		return false
+	}
 
-  // Must be between 13-19 digits
-  if (cleanNumber.length < 13 || cleanNumber.length > 19) {
-    return false
-  }
+	// Must be between 13-19 digits
+	if (cleanNumber.length < 13 || cleanNumber.length > 19) {
+		return false
+	}
 
-  // Luhn algorithm
-  let sum = 0
-  let isEven = false
+	// Luhn algorithm
+	let sum = 0
+	let isEven = false
 
-  for (let i = cleanNumber.length - 1; i >= 0; i--) {
-    let digit = parseInt(cleanNumber[i], 10)
+	for (let i = cleanNumber.length - 1; i >= 0; i--) {
+		let digit = parseInt(cleanNumber[i], 10)
 
-    if (isEven) {
-      digit *= 2
-      if (digit > 9) {
-        digit -= 9
-      }
-    }
+		if (isEven) {
+			digit *= 2
+			if (digit > 9) {
+				digit -= 9
+			}
+		}
 
-    sum += digit
-    isEven = !isEven
-  }
+		sum += digit
+		isEven = !isEven
+	}
 
-  return sum % 10 === 0
+	return sum % 10 === 0
 }
 
 /**
@@ -145,29 +143,29 @@ export function validateCardNumber(cardNumber: string): boolean {
  * ```
  */
 export function validateExpiryDate(month: string, year: string): boolean {
-  const monthNum = parseInt(month, 10)
-  const yearNum = parseInt(year, 10)
+	const monthNum = parseInt(month, 10)
+	const yearNum = parseInt(year, 10)
 
-  // Validate month
-  if (monthNum < 1 || monthNum > 12) {
-    return false
-  }
+	// Validate month
+	if (monthNum < 1 || monthNum > 12) {
+		return false
+	}
 
-  // Get current date
-  const now = new Date()
-  const currentYear = now.getFullYear() % 100 // Get last 2 digits
-  const currentMonth = now.getMonth() + 1
+	// Get current date
+	const now = new Date()
+	const currentYear = now.getFullYear() % 100 // Get last 2 digits
+	const currentMonth = now.getMonth() + 1
 
-  // Check if card is expired
-  if (yearNum < currentYear) {
-    return false
-  }
+	// Check if card is expired
+	if (yearNum < currentYear) {
+		return false
+	}
 
-  if (yearNum === currentYear && monthNum < currentMonth) {
-    return false
-  }
+	if (yearNum === currentYear && monthNum < currentMonth) {
+		return false
+	}
 
-  return true
+	return true
 }
 
 /**
@@ -186,14 +184,14 @@ export function validateExpiryDate(month: string, year: string): boolean {
  * ```
  */
 export function validateCVV(cvv: string, cardType: CardType): boolean {
-  // Amex has 4 digits, others have 3
-  const requiredLength = cardType === 'amex' ? 4 : 3
+	// Amex has 4 digits, others have 3
+	const requiredLength = cardType === "amex" ? 4 : 3
 
-  if (!/^\d+$/.test(cvv)) {
-    return false
-  }
+	if (!/^\d+$/.test(cvv)) {
+		return false
+	}
 
-  return cvv.length === requiredLength
+	return cvv.length === requiredLength
 }
 
 /**
@@ -209,17 +207,17 @@ export function validateCVV(cvv: string, cardType: CardType): boolean {
  * ```
  */
 export function maskCardNumber(cardNumber: string): string {
-  const cleanNumber = cardNumber.replace(/\s+/g, '')
+	const cleanNumber = cardNumber.replace(/\s+/g, "")
 
-  // If only 4 digits provided, assume it's last 4
-  if (cleanNumber.length === 4) {
-    return `**** **** **** ${cleanNumber}`
-  }
+	// If only 4 digits provided, assume it's last 4
+	if (cleanNumber.length === 4) {
+		return `**** **** **** ${cleanNumber}`
+	}
 
-  // Full card number: mask all but last 4
-  const last4 = cleanNumber.slice(-4)
-  const masked = '*'.repeat(cleanNumber.length - 4)
-  return `${masked}${last4}`
+	// Full card number: mask all but last 4
+	const last4 = cleanNumber.slice(-4)
+	const masked = "*".repeat(cleanNumber.length - 4)
+	return `${masked}${last4}`
 }
 
 /**
@@ -235,16 +233,16 @@ export function maskCardNumber(cardNumber: string): string {
  * ```
  */
 export function maskCardNumberFormatted(cardNumber: string): string {
-  const cleanNumber = cardNumber.replace(/\s+/g, '')
+	const cleanNumber = cardNumber.replace(/\s+/g, "")
 
-  // If only 4 digits provided, use standard format
-  if (cleanNumber.length === 4) {
-    return `**** **** **** ${cleanNumber}`
-  }
+	// If only 4 digits provided, use standard format
+	if (cleanNumber.length === 4) {
+		return `**** **** **** ${cleanNumber}`
+	}
 
-  // Full card number: format with spaces
-  const last4 = cleanNumber.slice(-4)
-  return `**** **** **** ${last4}`
+	// Full card number: format with spaces
+	const last4 = cleanNumber.slice(-4)
+	return `**** **** **** ${last4}`
 }
 
 /**
@@ -260,7 +258,7 @@ export function maskCardNumberFormatted(cardNumber: string): string {
  * ```
  */
 export function getCVVLength(cardType: CardType): number {
-  return cardType === 'amex' ? 4 : 3
+	return cardType === "amex" ? 4 : 3
 }
 
 /**
@@ -277,16 +275,16 @@ export function getCVVLength(cardType: CardType): number {
  * ```
  */
 export function getCardNumberLength(cardType: CardType): number[] {
-  switch (cardType) {
-    case 'visa':
-      return [13, 16, 19]
-    case 'amex':
-      return [15]
-    case 'mastercard':
-      return [16]
-    default:
-      return [13, 14, 15, 16, 17, 18, 19]
-  }
+	switch (cardType) {
+		case "visa":
+			return [13, 16, 19]
+		case "amex":
+			return [15]
+		case "mastercard":
+			return [16]
+		default:
+			return [13, 14, 15, 16, 17, 18, 19]
+	}
 }
 
 /**
@@ -302,7 +300,7 @@ export function getCardNumberLength(cardType: CardType): number[] {
  * ```
  */
 export function sanitizeCardNumber(cardNumber: string): string {
-  return cardNumber.replace(/\D/g, '')
+	return cardNumber.replace(/\D/g, "")
 }
 
 /**
@@ -324,31 +322,31 @@ export function sanitizeCardNumber(cardNumber: string): string {
  * ```
  */
 export function validateCard(
-  cardNumber: string,
-  expiryMonth: string,
-  expiryYear: string,
-  cvv: string
+	cardNumber: string,
+	expiryMonth: string,
+	expiryYear: string,
+	cvv: string
 ): { valid: boolean; errors: string[] } {
-  const errors: string[] = []
+	const errors: string[] = []
 
-  // Validate card number
-  if (!validateCardNumber(cardNumber)) {
-    errors.push('Invalid card number')
-  }
+	// Validate card number
+	if (!validateCardNumber(cardNumber)) {
+		errors.push("Invalid card number")
+	}
 
-  // Validate expiry
-  if (!validateExpiryDate(expiryMonth, expiryYear)) {
-    errors.push('Invalid or expired card')
-  }
+	// Validate expiry
+	if (!validateExpiryDate(expiryMonth, expiryYear)) {
+		errors.push("Invalid or expired card")
+	}
 
-  // Validate CVV
-  const cardType = detectCardType(cardNumber)
-  if (!validateCVV(cvv, cardType)) {
-    errors.push(`Invalid CVV (${getCVVLength(cardType)} digits required)`)
-  }
+	// Validate CVV
+	const cardType = detectCardType(cardNumber)
+	if (!validateCVV(cvv, cardType)) {
+		errors.push(`Invalid CVV (${getCVVLength(cardType)} digits required)`)
+	}
 
-  return {
-    valid: errors.length === 0,
-    errors,
-  }
+	return {
+		valid: errors.length === 0,
+		errors,
+	}
 }

@@ -1,59 +1,62 @@
 "use client"
 
-import * as React from "react"
 import {
-  useReactTable,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  flexRender,
-  type SortingState,
-  type VisibilityState,
-  type ColumnFiltersState,
-  type RowSelectionState,
-  type ColumnDef,
-  type Row,
+	type ColumnDef,
+	type ColumnFiltersState,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getPaginationRowModel,
+	getSortedRowModel,
+	type Row,
+	type RowSelectionState,
+	type SortingState,
+	useReactTable,
+	type VisibilityState,
 } from "@tanstack/react-table"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
+import * as React from "react"
 import { Button } from "@/components/ui/button"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from "@/components/ui/table"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTablePagination } from "./data-table-pagination"
-import { DataTableRowSelection } from "./data-table-row-selection"
-import { DataTableRowActions } from "./data-table-row-actions"
-import { DataTableBulkActions } from "./data-table-bulk-actions"
+import { cn } from "@/lib/utils"
+import type {
+	DataTableColumnDef,
+	DataTableProps,
+	DataTableView,
+	FilterGroup,
+} from "./data-table.types"
+import { countActiveFilters, createFilterFn } from "./data-table.utils"
 import { DataTableActionsBar } from "./data-table-actions-bar"
 import { DataTableFilterBadges } from "./data-table-filter-badge"
 import { DataTableFilterBuilder } from "./data-table-filter-builder"
-import type { DataTableProps, FilterGroup, DataTableColumnDef, DataTableView } from "./data-table.types"
-import { createFilterFn, countActiveFilters } from "./data-table.utils"
+import { DataTablePagination } from "./data-table-pagination"
+import { DataTableRowActions } from "./data-table-row-actions"
+import { DataTableRowSelection } from "./data-table-row-selection"
 
 const dataTableVariants = cva("w-full", {
-  variants: {
-    variant: {
-      default: "border-collapse",
-      lined: "[&_tr]:border-b [&_tr]:border-border",
-      striped: "[&_tbody_tr:nth-child(even)]:bg-muted/50",
-    },
-    density: {
-      compact: "[&_td]:!py-2 [&_th]:!py-2 [&_td]:!px-2 [&_th]:!px-2",
-      default: "",
-      comfortable: "[&_td]:!py-4 [&_th]:!py-4 [&_td]:!px-4 [&_th]:!px-4",
-    },
-  },
-  defaultVariants: {
-    variant: "lined",
-    density: "default",
-  },
+	variants: {
+		variant: {
+			default: "border-collapse",
+			lined: "[&_tr]:border-b [&_tr]:border-border",
+			striped: "[&_tbody_tr:nth-child(even)]:bg-muted/50",
+		},
+		density: {
+			compact: "[&_td]:!py-2 [&_th]:!py-2 [&_td]:!px-2 [&_th]:!px-2",
+			default: "",
+			comfortable: "[&_td]:!py-4 [&_th]:!py-4 [&_td]:!px-4 [&_th]:!px-4",
+		},
+	},
+	defaultVariants: {
+		variant: "lined",
+		density: "default",
+	},
 })
 
 /**
@@ -104,468 +107,455 @@ const dataTableVariants = cva("w-full", {
  * @see {@link /examples/nextjs-app/components/features/data-table/DATA_TABLE_README.md Complete Documentation}
  */
 export function DataTable<TData, TValue = unknown>({
-  data,
-  columns,
-  getRowId,
-  enableSorting = true,
-  enableMultiSort = false,
-  defaultSorting = [],
-  onSortingChange,
-  enablePagination = true,
-  pagination = { pageSize: 25, pageSizeOptions: [10, 25, 50, 100] },
-  onPaginationChange,
-  enableRowSelection = false,
-  enableSelectAll = true,
-  onRowSelectionChange,
-  enableGlobalSearch = true,
-  searchPlaceholder = "Search...",
-  enableAdvancedFilters = false,
-  defaultFilterGroup,
-  onFilterGroupChange,
-  views,
-  activeView: externalActiveView,
-  onViewChange,
-  onViewDelete,
-  onCreateView,
-  enableCustomViews = false,
-  rowActions,
-  bulkActions,
-  variant = "lined",
-  density = "default",
-  className,
-  isLoading = false,
-  loadingComponent,
-  emptyComponent,
-  hideToolbar = false,
-  toolbarActions,
-  ...props
+	data,
+	columns,
+	getRowId,
+	enableSorting = true,
+	enableMultiSort = false,
+	defaultSorting = [],
+	onSortingChange,
+	enablePagination = true,
+	pagination = { pageSize: 25, pageSizeOptions: [10, 25, 50, 100] },
+	onPaginationChange,
+	enableRowSelection = false,
+	enableSelectAll = true,
+	onRowSelectionChange,
+	enableGlobalSearch = true,
+	searchPlaceholder = "Search...",
+	enableAdvancedFilters = false,
+	defaultFilterGroup,
+	onFilterGroupChange,
+	views,
+	activeView: externalActiveView,
+	onViewChange,
+	onViewDelete,
+	onCreateView,
+	enableCustomViews = false,
+	rowActions,
+	bulkActions,
+	variant = "lined",
+	density = "default",
+	className,
+	isLoading = false,
+	loadingComponent,
+	emptyComponent,
+	hideToolbar = false,
+	toolbarActions,
+	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
-  // Prevent hydration mismatch by only rendering after mount
-  const [isMounted, setIsMounted] = React.useState(false)
+	// Prevent hydration mismatch by only rendering after mount
+	const [isMounted, setIsMounted] = React.useState(false)
 
-  React.useEffect(() => {
-    setIsMounted(true)
-  }, [])
+	React.useEffect(() => {
+		setIsMounted(true)
+	}, [])
 
-  // State
-  const [sorting, setSorting] = React.useState<SortingState>(defaultSorting)
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
-  const [globalFilter, setGlobalFilter] = React.useState("")
+	// State
+	const [sorting, setSorting] = React.useState<SortingState>(defaultSorting)
+	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+	const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+	const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({})
+	const [globalFilter, setGlobalFilter] = React.useState("")
 
-  // Search state for actions bar
-  const [searchOpen, setSearchOpen] = React.useState(false)
-  const [searchValue, setSearchValue] = React.useState("")
+	// Search state for actions bar
+	const [searchOpen, setSearchOpen] = React.useState(false)
+	const [searchValue, setSearchValue] = React.useState("")
 
-  // Advanced filter state
-  const [filterGroup, setFilterGroup] = React.useState<FilterGroup | null>(
-    defaultFilterGroup || null
-  )
-  const [isFilterBuilderOpen, setIsFilterBuilderOpen] = React.useState(false)
+	// Advanced filter state
+	const [filterGroup, setFilterGroup] = React.useState<FilterGroup | null>(
+		defaultFilterGroup || null
+	)
+	const [isFilterBuilderOpen, setIsFilterBuilderOpen] = React.useState(false)
 
-  // Internal active view state (if not controlled externally)
-  const [internalActiveView, setInternalActiveView] = React.useState<DataTableView | null>(
-    externalActiveView || (views && views.length > 0 ? views.find(v => v.isDefault) || views[0] : null)
-  )
+	// Internal active view state (if not controlled externally)
+	const [internalActiveView, setInternalActiveView] = React.useState<DataTableView | null>(
+		externalActiveView ||
+			(views && views.length > 0 ? views.find((v) => v.isDefault) || views[0] : null)
+	)
 
-  // Use external activeView if provided, otherwise use internal state
-  const activeView = externalActiveView !== undefined ? externalActiveView : internalActiveView
+	// Use external activeView if provided, otherwise use internal state
+	const activeView = externalActiveView !== undefined ? externalActiveView : internalActiveView
 
-  // Apply view when it changes
-  React.useEffect(() => {
-    if (!activeView) return
+	// Track if filters came from view (to hide filter badges for view filters)
+	const [filtersFromView, setFiltersFromView] = React.useState(false)
 
-    // Apply filters from view
-    if (activeView.filters) {
-      setFilterGroup(activeView.filters)
-    }
+	// Apply view when it changes
+	React.useEffect(() => {
+		if (!activeView) return
 
-    // Apply sorting from view
-    if (activeView.sorting) {
-      setSorting(activeView.sorting)
-    }
+		// Apply filters from view
+		if (activeView.filters) {
+			setFilterGroup(activeView.filters)
+			setFiltersFromView(true) // Mark filters as coming from view
+		}
 
-    // Apply column visibility from view
-    if (activeView.columnVisibility) {
-      setColumnVisibility(activeView.columnVisibility)
-    }
-  }, [activeView])
+		// Apply sorting from view
+		if (activeView.sorting) {
+			setSorting(activeView.sorting)
+		}
 
-  // Handle view change
-  const handleViewChange = React.useCallback(
-    (view: DataTableView) => {
-      if (onViewChange) {
-        onViewChange(view)
-      } else {
-        setInternalActiveView(view)
-      }
-    },
-    [onViewChange]
-  )
+		// Apply column visibility from view
+		if (activeView.columnVisibility) {
+			setColumnVisibility(activeView.columnVisibility)
+		}
+	}, [activeView])
 
-  // Handle filter group changes
-  const handleFilterGroupChange = React.useCallback(
-    (newFilterGroup: FilterGroup | null) => {
-      setFilterGroup(newFilterGroup)
-      if (onFilterGroupChange) {
-        onFilterGroupChange(newFilterGroup)
-      }
-    },
-    [onFilterGroupChange]
-  )
+	// Handle view change
+	const handleViewChange = React.useCallback(
+		(view: DataTableView) => {
+			if (onViewChange) {
+				onViewChange(view)
+			} else {
+				setInternalActiveView(view)
+			}
+		},
+		[onViewChange]
+	)
 
-  // Handle remove individual filter condition
-  const handleRemoveCondition = React.useCallback(
-    (conditionId: string) => {
-      if (!filterGroup) return
+	// Handle filter group changes
+	const handleFilterGroupChange = React.useCallback(
+		(newFilterGroup: FilterGroup | null) => {
+			setFilterGroup(newFilterGroup)
+			setFiltersFromView(false) // Mark filters as manually created
+			if (onFilterGroupChange) {
+				onFilterGroupChange(newFilterGroup)
+			}
+		},
+		[onFilterGroupChange]
+	)
 
-      const newFilterGroup = {
-        ...filterGroup,
-        conditions: filterGroup.conditions.filter((c) => c.id !== conditionId),
-      }
+	// Handle remove individual filter condition
+	const handleRemoveCondition = React.useCallback(
+		(conditionId: string) => {
+			if (!filterGroup) return
 
-      handleFilterGroupChange(
-        newFilterGroup.conditions.length > 0 ? newFilterGroup : null
-      )
-    },
-    [filterGroup, handleFilterGroupChange]
-  )
+			const newFilterGroup = {
+				...filterGroup,
+				conditions: filterGroup.conditions.filter((c) => c.id !== conditionId),
+			}
 
-  // Handle clear all filters
-  const handleClearAllFilters = React.useCallback(() => {
-    handleFilterGroupChange(null)
-  }, [handleFilterGroupChange])
+			setFiltersFromView(false) // Mark as manually modified
+			handleFilterGroupChange(newFilterGroup.conditions.length > 0 ? newFilterGroup : null)
+		},
+		[filterGroup, handleFilterGroupChange]
+	)
 
-  // Build columns with selection and actions
-  const tableColumns = React.useMemo<ColumnDef<TData, any>[]>(() => {
-    const cols: ColumnDef<TData, any>[] = []
+	// Handle clear all filters
+	const handleClearAllFilters = React.useCallback(() => {
+		setFiltersFromView(false) // Mark as manually modified
+		handleFilterGroupChange(null)
+	}, [handleFilterGroupChange])
 
-    // Add selection column if enabled
-    if (enableRowSelection) {
-      cols.push({
-        id: "select",
-        header: ({ table }) => (
-          <DataTableRowSelection table={table} type="header" />
-        ),
-        cell: ({ row }) => <DataTableRowSelection row={row} type="cell" />,
-        enableSorting: false,
-        enableHiding: false,
-        size: 40,
-      })
-    }
+	// Build columns with selection and actions
+	const tableColumns = React.useMemo<ColumnDef<TData, any>[]>(() => {
+		const cols: ColumnDef<TData, any>[] = []
 
-    // Add data columns
-    cols.push(...columns)
+		// Add selection column if enabled
+		if (enableRowSelection) {
+			cols.push({
+				id: "select",
+				header: ({ table }) => <DataTableRowSelection table={table} type="header" />,
+				cell: ({ row }) => <DataTableRowSelection row={row} type="cell" />,
+				enableSorting: false,
+				enableHiding: false,
+				size: 40,
+			})
+		}
 
-    // Add actions column if provided
-    if (rowActions && rowActions.length > 0) {
-      cols.push({
-        id: "actions",
-        header: () => null,
-        cell: ({ row }) => <DataTableRowActions row={row} actions={rowActions} />,
-        enableSorting: false,
-        enableHiding: false,
-        size: 50,
-      })
-    }
+		// Add data columns
+		cols.push(...columns)
 
-    return cols
-  }, [columns, enableRowSelection, rowActions])
+		// Add actions column if provided
+		if (rowActions && rowActions.length > 0) {
+			cols.push({
+				id: "actions",
+				header: () => null,
+				cell: ({ row }) => <DataTableRowActions row={row} actions={rowActions} />,
+				enableSorting: false,
+				enableHiding: false,
+				size: 50,
+			})
+		}
 
-  // Extract sortable columns for sort menu
-  const sortableColumns = React.useMemo(() => {
-    return columns
-      .filter(col => col.enableSorting !== false)
-      .map(col => {
-        const id = 'accessorKey' in col ? String(col.accessorKey) : col.id || ''
-        let label = id
+		return cols
+	}, [columns, enableRowSelection, rowActions])
 
-        // Try to extract label from header
-        if (typeof col.header === 'string') {
-          label = col.header
-        } else if ('header' in col && col.header) {
-          // For DataTableColumnHeader, extract title prop if possible
-          // This is a simplified version - in production might need more robust extraction
-          label = id.charAt(0).toUpperCase() + id.slice(1)
-        }
+	// Extract sortable columns for sort menu
+	const sortableColumns = React.useMemo(() => {
+		return columns
+			.filter((col) => col.enableSorting !== false)
+			.map((col) => {
+				const id = "accessorKey" in col ? String(col.accessorKey) : col.id || ""
+				let label = id
 
-        return { id, label }
-      })
-      .filter(col => col.id) // Remove columns without id
-  }, [columns])
+				// Try to extract label from header
+				if (typeof col.header === "string") {
+					label = col.header
+				} else if ("header" in col && col.header) {
+					// For DataTableColumnHeader, extract title prop if possible
+					// This is a simplified version - in production might need more robust extraction
+					label = id.charAt(0).toUpperCase() + id.slice(1)
+				}
 
-  // Handle search change with debounce
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      setGlobalFilter(searchValue)
-    }, 300)
+				return { id, label }
+			})
+			.filter((col) => col.id) // Remove columns without id
+	}, [columns])
 
-    return () => clearTimeout(timeout)
-  }, [searchValue])
+	// Handle search change with debounce
+	React.useEffect(() => {
+		const timeout = setTimeout(() => {
+			setGlobalFilter(searchValue)
+		}, 300)
 
-  // Filter data based on advanced filters
-  const filteredData = React.useMemo(() => {
-    if (!enableAdvancedFilters || !filterGroup) {
-      return data
-    }
+		return () => clearTimeout(timeout)
+	}, [searchValue])
 
-    const filterFn = createFilterFn<TData>(filterGroup)
+	// Filter data based on advanced filters
+	const filteredData = React.useMemo(() => {
+		if (!enableAdvancedFilters || !filterGroup) {
+			return data
+		}
 
-    // Create temporary rows to filter
-    return data.filter((item, index) => {
-      // Create a minimal row object for filtering
-      const row = {
-        id: getRowId ? getRowId(item) : String(index),
-        original: item,
-        getValue: (columnId: string) => {
-          const column = columns.find(col =>
-            'accessorKey' in col && col.accessorKey === columnId
-          )
-          if (!column || !('accessorKey' in column)) return undefined
-          return (item as any)[column.accessorKey as string]
-        },
-      } as Row<TData>
+		const filterFn = createFilterFn<TData>(filterGroup)
 
-      return filterFn(row)
-    })
-  }, [data, enableAdvancedFilters, filterGroup, columns, getRowId])
+		// Create temporary rows to filter
+		return data.filter((item, index) => {
+			// Create a minimal row object for filtering
+			const row = {
+				id: getRowId ? getRowId(item) : String(index),
+				original: item,
+				getValue: (columnId: string) => {
+					const column = columns.find((col) => "accessorKey" in col && col.accessorKey === columnId)
+					if (!column || !("accessorKey" in column)) return undefined
+					return (item as any)[column.accessorKey as string]
+				},
+			} as Row<TData>
 
-  // Create table instance
-  const table = useReactTable({
-    data: filteredData,
-    columns: tableColumns,
-    getRowId,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-      globalFilter,
-    },
-    enableRowSelection,
-    onSortingChange: (updater) => {
-      setSorting(updater)
-      if (onSortingChange) {
-        const newSorting = typeof updater === "function" ? updater(sorting) : updater
-        onSortingChange(newSorting)
-      }
-    },
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: (updater) => {
-      setRowSelection(updater)
-      if (onRowSelectionChange) {
-        const newSelection = typeof updater === "function" ? updater(rowSelection) : updater
-        onRowSelectionChange(newSelection)
-      }
-    },
-    onGlobalFilterChange: setGlobalFilter,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
-    getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
-    enableMultiSort,
-    initialState: {
-      pagination: enablePagination
-        ? {
-            pageSize: pagination.pageSize,
-            pageIndex: 0,
-          }
-        : undefined,
-    },
-  })
+			return filterFn(row)
+		})
+	}, [data, enableAdvancedFilters, filterGroup, columns, getRowId])
 
-  // Handle pagination changes
-  React.useEffect(() => {
-    if (onPaginationChange && enablePagination) {
-      const state = table.getState().pagination
-      onPaginationChange(state)
-    }
-  }, [table.getState().pagination, onPaginationChange, enablePagination])
+	// Create table instance
+	const table = useReactTable({
+		data: filteredData,
+		columns: tableColumns,
+		getRowId,
+		state: {
+			sorting,
+			columnFilters,
+			columnVisibility,
+			rowSelection,
+			globalFilter,
+		},
+		enableRowSelection,
+		onSortingChange: (updater) => {
+			setSorting(updater)
+			if (onSortingChange) {
+				const newSorting = typeof updater === "function" ? updater(sorting) : updater
+				onSortingChange(newSorting)
+			}
+		},
+		onColumnFiltersChange: setColumnFilters,
+		onColumnVisibilityChange: setColumnVisibility,
+		onRowSelectionChange: (updater) => {
+			setRowSelection(updater)
+			if (onRowSelectionChange) {
+				const newSelection = typeof updater === "function" ? updater(rowSelection) : updater
+				onRowSelectionChange(newSelection)
+			}
+		},
+		onGlobalFilterChange: setGlobalFilter,
+		getCoreRowModel: getCoreRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
+		getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
+		getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
+		enableMultiSort,
+		initialState: {
+			pagination: enablePagination
+				? {
+						pageSize: pagination.pageSize,
+						pageIndex: 0,
+					}
+				: undefined,
+		},
+	})
 
-  // Wait for mount to prevent hydration mismatch
-  if (!isMounted) {
-    return (
-      <div className="flex h-[400px] flex-col items-center justify-center space-y-2">
-        {loadingComponent || (
-          <>
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
-            <p className="text-sm text-muted-foreground">Loading...</p>
-          </>
-        )}
-      </div>
-    )
-  }
+	// Handle pagination changes
+	React.useEffect(() => {
+		if (onPaginationChange && enablePagination) {
+			const state = table.getState().pagination
+			onPaginationChange(state)
+		}
+	}, [onPaginationChange, enablePagination, table.getState])
 
-  // Empty state
-  if (!isLoading && data.length === 0) {
-    return (
-      <div className="flex h-[400px] flex-col items-center justify-center space-y-2">
-        {emptyComponent || (
-          <>
-            <p className="text-sm text-muted-foreground">No data available</p>
-          </>
-        )}
-      </div>
-    )
-  }
+	// Wait for mount to prevent hydration mismatch
+	if (!isMounted) {
+		return (
+			<div className="flex h-[400px] flex-col items-center justify-center space-y-2">
+				{loadingComponent || (
+					<>
+						<div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
+						<p className="text-sm text-muted-foreground">Loading...</p>
+					</>
+				)}
+			</div>
+		)
+	}
 
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="flex h-[400px] flex-col items-center justify-center space-y-2">
-        {loadingComponent || (
-          <>
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
-            <p className="text-sm text-muted-foreground">Loading...</p>
-          </>
-        )}
-      </div>
-    )
-  }
+	// Empty state
+	if (!isLoading && data.length === 0) {
+		return (
+			<div className="flex h-[400px] flex-col items-center justify-center space-y-2">
+				{emptyComponent || <p className="text-sm text-muted-foreground">No data available</p>}
+			</div>
+		)
+	}
 
-  return (
-    <div className={cn("space-y-4", className)} data-slot="data-table">
-      {/* Filter Badges */}
-      {enableAdvancedFilters && filterGroup && (
-        <DataTableFilterBadges
-          filterGroup={filterGroup}
-          onRemoveCondition={handleRemoveCondition}
-          onClearAll={handleClearAllFilters}
-        />
-      )}
+	// Loading state
+	if (isLoading) {
+		return (
+			<div className="flex h-[400px] flex-col items-center justify-center space-y-2">
+				{loadingComponent || (
+					<>
+						<div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
+						<p className="text-sm text-muted-foreground">Loading...</p>
+					</>
+				)}
+			</div>
+		)
+	}
 
-      {/* Filter Builder Dialog */}
-      {enableAdvancedFilters && (
-        <DataTableFilterBuilder
-          open={isFilterBuilderOpen}
-          onOpenChange={setIsFilterBuilderOpen}
-          columns={columns as DataTableColumnDef<TData, any>[]}
-          filterGroup={filterGroup}
-          onApply={handleFilterGroupChange}
-        />
-      )}
+	return (
+		<div className={cn("space-y-4", className)} data-slot="data-table">
+			{/* Filter Badges - Only show for manually created filters, not view filters */}
+			{enableAdvancedFilters && filterGroup && !filtersFromView && (
+				<DataTableFilterBadges
+					filterGroup={filterGroup}
+					onRemoveCondition={handleRemoveCondition}
+					onClearAll={handleClearAllFilters}
+				/>
+			)}
 
-      {/* Table */}
-      <div className="border border-border">
-        {/* Actions Bar - New Shopify-style bar */}
-        <DataTableActionsBar
-          views={views}
-          activeView={activeView}
-          onViewChange={handleViewChange}
-          onViewDelete={onViewDelete}
-          onCreateView={onCreateView}
-          enableCustomViews={enableCustomViews}
-          searchOpen={searchOpen}
-          onSearchOpenChange={setSearchOpen}
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          searchPlaceholder={searchPlaceholder}
-          sorting={sorting}
-          onSortingChange={setSorting}
-          sortableColumns={sortableColumns}
-          filterCount={filterGroup ? countActiveFilters(filterGroup) : 0}
-          onOpenFilterBuilder={() => setIsFilterBuilderOpen(true)}
-        />
+			{/* Filter Builder Dialog */}
+			{enableAdvancedFilters && (
+				<DataTableFilterBuilder
+					open={isFilterBuilderOpen}
+					onOpenChange={setIsFilterBuilderOpen}
+					columns={columns as DataTableColumnDef<TData, any>[]}
+					filterGroup={filterGroup}
+					onApply={handleFilterGroupChange}
+				/>
+			)}
 
-        <Table className={cn(dataTableVariants({ variant, density }))}>
-          <TableHeader>
-            {/* Bulk Actions Row - Replaces column headers when rows selected */}
-            {bulkActions && bulkActions.length > 0 && table.getFilteredSelectedRowModel().rows.length > 0 ? (
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead colSpan={tableColumns.length} className="h-12 px-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-sm font-medium">
-                      {table.getFilteredSelectedRowModel().rows.length} rows selected
-                      <button
-                        onClick={() => table.resetRowSelection()}
-                        className="ml-2 text-muted-foreground hover:text-foreground"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {bulkActions.map((action) => (
-                        <Button
-                          key={action.id}
-                          variant={action.variant || "outline"}
-                          size="sm"
-                          onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
-                          disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
-                          className="h-8"
-                        >
-                          {action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
-                          {action.label}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </TableHead>
-              </TableRow>
-            ) : (
-              /* Column Headers Row - Only shown when no rows selected */
-              table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead
-                        key={header.id}
-                        style={{
-                          width: header.getSize() !== 150 ? header.getSize() : undefined,
-                        }}
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    )
-                  })}
-                </TableRow>
-              ))
-            )}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+			{/* Table */}
+			<div className="border border-border">
+				{/* Actions Bar - New Shopify-style bar */}
+				<DataTableActionsBar
+					views={views}
+					activeView={activeView}
+					onViewChange={handleViewChange}
+					onViewDelete={onViewDelete}
+					onCreateView={onCreateView}
+					enableCustomViews={enableCustomViews}
+					searchOpen={searchOpen}
+					onSearchOpenChange={setSearchOpen}
+					searchValue={searchValue}
+					onSearchChange={setSearchValue}
+					searchPlaceholder={searchPlaceholder}
+					sorting={sorting}
+					onSortingChange={setSorting}
+					sortableColumns={sortableColumns}
+					filterCount={filterGroup ? countActiveFilters(filterGroup) : 0}
+					onOpenFilterBuilder={() => setIsFilterBuilderOpen(true)}
+				/>
 
-      {/* Pagination */}
-      {enablePagination && (
-        <DataTablePagination
-          table={table}
-          pageSizeOptions={pagination.pageSizeOptions}
-        />
-      )}
-    </div>
-  )
+				<Table className={cn(dataTableVariants({ variant, density }))}>
+					<TableHeader>
+						{/* Bulk Actions Row - Replaces column headers when rows selected */}
+						{bulkActions &&
+						bulkActions.length > 0 &&
+						table.getFilteredSelectedRowModel().rows.length > 0 ? (
+							<TableRow className="bg-muted/50 hover:bg-muted/50">
+								<TableHead colSpan={tableColumns.length} className="h-12 px-4">
+									<div className="flex items-center justify-between gap-2">
+										<div className="flex items-center gap-2 text-sm font-medium">
+											{table.getFilteredSelectedRowModel().rows.length} rows selected
+											<button
+												onClick={() => table.resetRowSelection()}
+												className="ml-2 text-muted-foreground hover:text-foreground"
+											>
+												✕
+											</button>
+										</div>
+										<div className="flex items-center gap-2">
+											{bulkActions.map((action) => (
+												<Button
+													key={action.id}
+													variant={action.variant || "outline"}
+													size="sm"
+													onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
+													disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
+													className="h-8"
+												>
+													{action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
+													{action.label}
+												</Button>
+											))}
+										</div>
+									</div>
+								</TableHead>
+							</TableRow>
+						) : (
+							/* Column Headers Row - Only shown when no rows selected */
+							table
+								.getHeaderGroups()
+								.map((headerGroup) => (
+									<TableRow key={headerGroup.id}>
+										{headerGroup.headers.map((header) => {
+											return (
+												<TableHead
+													key={header.id}
+													style={{
+														width: header.getSize() !== 150 ? header.getSize() : undefined,
+													}}
+												>
+													{header.isPlaceholder
+														? null
+														: flexRender(header.column.columnDef.header, header.getContext())}
+												</TableHead>
+											)
+										})}
+									</TableRow>
+								))
+						)}
+					</TableHeader>
+					<TableBody>
+						{table.getRowModel().rows?.length ? (
+							table.getRowModel().rows.map((row) => (
+								<TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell key={cell.id}>
+											{flexRender(cell.column.columnDef.cell, cell.getContext())}
+										</TableCell>
+									))}
+								</TableRow>
+							))
+						) : (
+							<TableRow>
+								<TableCell colSpan={columns.length} className="h-24 text-center">
+									No results.
+								</TableCell>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+			</div>
+
+			{/* Pagination */}
+			{enablePagination && (
+				<DataTablePagination table={table} pageSizeOptions={pagination.pageSizeOptions} />
+			)}
+		</div>
+	)
 }

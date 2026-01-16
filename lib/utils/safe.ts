@@ -33,15 +33,12 @@
  * safeJsonParse<User>('invalid', { name: 'Default' }) // { name: 'Default' }
  * ```
  */
-export function safeJsonParse<T>(
-  json: string,
-  fallback: T | null = null
-): T | null {
-  try {
-    return JSON.parse(json) as T
-  } catch {
-    return fallback
-  }
+export function safeJsonParse<T>(json: string, fallback: T | null = null): T | null {
+	try {
+		return JSON.parse(json) as T
+	} catch {
+		return fallback
+	}
 }
 
 /**
@@ -59,15 +56,12 @@ export function safeJsonParse<T>(
  * safeJsonStringify(circularObj, '{}') // '{}'
  * ```
  */
-export function safeJsonStringify<T>(
-  value: T,
-  fallback: string | null = null
-): string | null {
-  try {
-    return JSON.stringify(value)
-  } catch {
-    return fallback
-  }
+export function safeJsonStringify<T>(value: T, fallback: string | null = null): string | null {
+	try {
+		return JSON.stringify(value)
+	} catch {
+		return fallback
+	}
 }
 
 /**
@@ -88,17 +82,13 @@ export function safeJsonStringify<T>(
  * safeParseInt('invalid', 0, 16) // 0
  * ```
  */
-export function safeParseInt(
-  value: string | number,
-  fallback = 0,
-  radix = 10
-): number {
-  if (typeof value === 'number') {
-    return Number.isInteger(value) ? value : Math.floor(value)
-  }
+export function safeParseInt(value: string | number, fallback = 0, radix = 10): number {
+	if (typeof value === "number") {
+		return Number.isInteger(value) ? value : Math.floor(value)
+	}
 
-  const parsed = parseInt(value, radix)
-  return Number.isNaN(parsed) ? fallback : parsed
+	const parsed = parseInt(value, radix)
+	return Number.isNaN(parsed) ? fallback : parsed
 }
 
 /**
@@ -118,12 +108,12 @@ export function safeParseInt(
  * ```
  */
 export function safeParseFloat(value: string | number, fallback = 0): number {
-  if (typeof value === 'number') {
-    return value
-  }
+	if (typeof value === "number") {
+		return value
+	}
 
-  const parsed = parseFloat(value)
-  return Number.isNaN(parsed) ? fallback : parsed
+	const parsed = parseFloat(value)
+	return Number.isNaN(parsed) ? fallback : parsed
 }
 
 /**
@@ -141,7 +131,7 @@ export function safeParseFloat(value: string | number, fallback = 0): number {
  * ```
  */
 export function safeParseNumber(value: string | number, fallback = 0): number {
-  return safeParseFloat(value, fallback)
+	return safeParseFloat(value, fallback)
 }
 
 /**
@@ -163,27 +153,24 @@ export function safeParseNumber(value: string | number, fallback = 0): number {
  * safeParseBoolean('invalid') // false (fallback)
  * ```
  */
-export function safeParseBoolean(
-  value: string | boolean,
-  fallback = false
-): boolean {
-  if (typeof value === 'boolean') {
-    return value
-  }
+export function safeParseBoolean(value: string | boolean, fallback = false): boolean {
+	if (typeof value === "boolean") {
+		return value
+	}
 
-  const normalized = value.toLowerCase().trim()
+	const normalized = value.toLowerCase().trim()
 
-  // Truthy values
-  if (['true', '1', 'yes', 'on', 'y'].includes(normalized)) {
-    return true
-  }
+	// Truthy values
+	if (["true", "1", "yes", "on", "y"].includes(normalized)) {
+		return true
+	}
 
-  // Falsy values
-  if (['false', '0', 'no', 'off', 'n'].includes(normalized)) {
-    return false
-  }
+	// Falsy values
+	if (["false", "0", "no", "off", "n"].includes(normalized)) {
+		return false
+	}
 
-  return fallback
+	return fallback
 }
 
 /**
@@ -201,20 +188,17 @@ export function safeParseBoolean(
  * safeParseDate('invalid', new Date()) // Current date
  * ```
  */
-export function safeParseDate(
-  value: string | Date,
-  fallback: Date | null = null
-): Date | null {
-  if (value instanceof Date) {
-    return Number.isNaN(value.getTime()) ? fallback : value
-  }
+export function safeParseDate(value: string | Date, fallback: Date | null = null): Date | null {
+	if (value instanceof Date) {
+		return Number.isNaN(value.getTime()) ? fallback : value
+	}
 
-  try {
-    const date = new Date(value)
-    return Number.isNaN(date.getTime()) ? fallback : date
-  } catch {
-    return fallback
-  }
+	try {
+		const date = new Date(value)
+		return Number.isNaN(date.getTime()) ? fallback : date
+	} catch {
+		return fallback
+	}
 }
 
 /**
@@ -233,15 +217,11 @@ export function safeParseDate(
  * safeArrayAccess([1, 2, 3], -1) // undefined
  * ```
  */
-export function safeArrayAccess<T>(
-  arr: T[],
-  index: number,
-  fallback?: T
-): T | undefined {
-  if (index < 0 || index >= arr.length) {
-    return fallback
-  }
-  return arr[index]
+export function safeArrayAccess<T>(arr: T[], index: number, fallback?: T): T | undefined {
+	if (index < 0 || index >= arr.length) {
+		return fallback
+	}
+	return arr[index]
 }
 
 /**
@@ -262,27 +242,23 @@ export function safeArrayAccess<T>(
  * safeAccess(obj, 'invalid.path') // undefined
  * ```
  */
-export function safeAccess<T>(
-  obj: unknown,
-  path: string,
-  fallback?: T
-): T | undefined {
-  if (!obj || typeof obj !== 'object') {
-    return fallback
-  }
+export function safeAccess<T>(obj: unknown, path: string, fallback?: T): T | undefined {
+	if (!obj || typeof obj !== "object") {
+		return fallback
+	}
 
-  const keys = path.split('.')
-  let current: unknown = obj
+	const keys = path.split(".")
+	let current: unknown = obj
 
-  for (const key of keys) {
-    if (current && typeof current === 'object' && key in current) {
-      current = (current as Record<string, unknown>)[key]
-    } else {
-      return fallback
-    }
-  }
+	for (const key of keys) {
+		if (current && typeof current === "object" && key in current) {
+			current = (current as Record<string, unknown>)[key]
+		} else {
+			return fallback
+		}
+	}
 
-  return current as T
+	return current as T
 }
 
 /**
@@ -300,15 +276,11 @@ export function safeAccess<T>(
  * safeDivide(10, 0, Infinity) // Infinity
  * ```
  */
-export function safeDivide(
-  numerator: number,
-  denominator: number,
-  fallback = 0
-): number {
-  if (denominator === 0) {
-    return fallback
-  }
-  return numerator / denominator
+export function safeDivide(numerator: number, denominator: number, fallback = 0): number {
+	if (denominator === 0) {
+		return fallback
+	}
+	return numerator / denominator
 }
 
 /**
@@ -326,11 +298,11 @@ export function safeDivide(
  * ```
  */
 export function safeTry<T>(fn: () => T, fallback: T): T {
-  try {
-    return fn()
-  } catch {
-    return fallback
-  }
+	try {
+		return fn()
+	} catch {
+		return fallback
+	}
 }
 
 /**
@@ -346,15 +318,12 @@ export function safeTry<T>(fn: () => T, fallback: T): T {
  * // Returns user or null if fetch fails
  * ```
  */
-export async function safeTryAsync<T>(
-  fn: () => Promise<T>,
-  fallback: T
-): Promise<T> {
-  try {
-    return await fn()
-  } catch {
-    return fallback
-  }
+export async function safeTryAsync<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
+	try {
+		return await fn()
+	} catch {
+		return fallback
+	}
 }
 
 /**
@@ -371,15 +340,12 @@ export async function safeTryAsync<T>(
  * safeParseUrl('invalid') // null
  * ```
  */
-export function safeParseUrl(
-  urlString: string,
-  fallback: URL | null = null
-): URL | null {
-  try {
-    return new URL(urlString)
-  } catch {
-    return fallback
-  }
+export function safeParseUrl(urlString: string, fallback: URL | null = null): URL | null {
+	try {
+		return new URL(urlString)
+	} catch {
+		return fallback
+	}
 }
 
 /**
@@ -397,11 +363,11 @@ export function safeParseUrl(
  * ```
  */
 export function safeRegex(pattern: string, flags?: string): RegExp | null {
-  try {
-    return new RegExp(pattern, flags)
-  } catch {
-    return null
-  }
+	try {
+		return new RegExp(pattern, flags)
+	} catch {
+		return null
+	}
 }
 
 /**
@@ -418,8 +384,8 @@ export function safeRegex(pattern: string, flags?: string): RegExp | null {
  * ```
  */
 export function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+	return emailRegex.test(email)
 }
 
 /**
@@ -436,7 +402,7 @@ export function isValidEmail(email: string): boolean {
  * ```
  */
 export function isValidUrl(url: string): boolean {
-  return safeParseUrl(url) !== null
+	return safeParseUrl(url) !== null
 }
 
 /**
@@ -454,7 +420,5 @@ export function isValidUrl(url: string): boolean {
  * ```
  */
 export function isValidNumber(value: unknown): value is number {
-  return (
-    typeof value === 'number' && !Number.isNaN(value) && Number.isFinite(value)
-  )
+	return typeof value === "number" && !Number.isNaN(value) && Number.isFinite(value)
 }

@@ -33,7 +33,7 @@
  * ```
  */
 export function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
+	return Math.min(Math.max(value, min), max)
 }
 
 /**
@@ -51,7 +51,7 @@ export function clamp(value: number, min: number, max: number): number {
  * ```
  */
 export function clampMin(value: number, min = 0): number {
-  return Math.max(value, min)
+	return Math.max(value, min)
 }
 
 /**
@@ -68,7 +68,7 @@ export function clampMin(value: number, min = 0): number {
  * ```
  */
 export function clampMax(value: number, max: number): number {
-  return Math.min(value, max)
+	return Math.min(value, max)
 }
 
 /**
@@ -87,8 +87,8 @@ export function clampMax(value: number, max: number): number {
  * ```
  */
 export function round(value: number, decimals = 2): number {
-  const multiplier = 10 ** decimals
-  return Math.round(value * multiplier) / multiplier
+	const multiplier = 10 ** decimals
+	return Math.round(value * multiplier) / multiplier
 }
 
 /**
@@ -105,8 +105,8 @@ export function round(value: number, decimals = 2): number {
  * ```
  */
 export function roundDown(value: number, decimals = 2): number {
-  const multiplier = 10 ** decimals
-  return Math.floor(value * multiplier) / multiplier
+	const multiplier = 10 ** decimals
+	return Math.floor(value * multiplier) / multiplier
 }
 
 /**
@@ -123,8 +123,8 @@ export function roundDown(value: number, decimals = 2): number {
  * ```
  */
 export function roundUp(value: number, decimals = 2): number {
-  const multiplier = 10 ** decimals
-  return Math.ceil(value * multiplier) / multiplier
+	const multiplier = 10 ** decimals
+	return Math.ceil(value * multiplier) / multiplier
 }
 
 /**
@@ -143,8 +143,8 @@ export function roundUp(value: number, decimals = 2): number {
  * ```
  */
 export function percentage(value: number, total: number, decimals = 2): number {
-  if (total === 0) return 0
-  return round((value / total) * 100, decimals)
+	if (total === 0) return 0
+	return round((value / total) * 100, decimals)
 }
 
 /**
@@ -162,12 +162,8 @@ export function percentage(value: number, total: number, decimals = 2): number {
  * percentageOf(33.33, 100) // 33.33
  * ```
  */
-export function percentageOf(
-  percent: number,
-  total: number,
-  decimals = 2
-): number {
-  return round((percent / 100) * total, decimals)
+export function percentageOf(percent: number, total: number, decimals = 2): number {
+	return round((percent / 100) * total, decimals)
 }
 
 /**
@@ -188,7 +184,7 @@ export function percentageOf(
  * ```
  */
 export function inRange(value: number, min: number, max: number): boolean {
-  return value >= min && value <= max
+	return value >= min && value <= max
 }
 
 /**
@@ -204,8 +200,8 @@ export function inRange(value: number, min: number, max: number): boolean {
  * formatNumber(1234567.89, 'en-US') // "1,234,567.89"
  * ```
  */
-export function formatNumber(value: number, locale: string = 'fr-FR'): string {
-  return new Intl.NumberFormat(locale).format(value)
+export function formatNumber(value: number, locale: string = "fr-FR"): string {
+	return new Intl.NumberFormat(locale).format(value)
 }
 
 /**
@@ -222,11 +218,11 @@ export function formatNumber(value: number, locale: string = 'fr-FR'): string {
  * formatCompact(1234) // "1,2 k"
  * ```
  */
-export function formatCompact(value: number, locale: string = 'fr-FR'): string {
-  return new Intl.NumberFormat(locale, {
-    notation: 'compact',
-    maximumFractionDigits: 1,
-  }).format(value)
+export function formatCompact(value: number, locale: string = "fr-FR"): string {
+	return new Intl.NumberFormat(locale, {
+		notation: "compact",
+		maximumFractionDigits: 1,
+	}).format(value)
 }
 
 /**
@@ -244,9 +240,7 @@ export function formatCompact(value: number, locale: string = 'fr-FR'): string {
  * ```
  */
 export function isValidNumber(value: unknown): value is number {
-  return (
-    typeof value === 'number' && !Number.isNaN(value) && Number.isFinite(value)
-  )
+	return typeof value === "number" && !Number.isNaN(value) && Number.isFinite(value)
 }
 
 /**
@@ -264,9 +258,9 @@ export function isValidNumber(value: unknown): value is number {
  * ```
  */
 export function average(numbers: number[], decimals = 2): number {
-  if (numbers.length === 0) return 0
-  const sum = numbers.reduce((acc, n) => acc + n, 0)
-  return round(sum / numbers.length, decimals)
+	if (numbers.length === 0) return 0
+	const sum = numbers.reduce((acc, n) => acc + n, 0)
+	return round(sum / numbers.length, decimals)
 }
 
 /**
@@ -284,8 +278,8 @@ export function average(numbers: number[], decimals = 2): number {
  * ```
  */
 export function sum(numbers: number[], decimals = 2): number {
-  const total = numbers.reduce((acc, n) => acc + n, 0)
-  return round(total, decimals)
+	const total = numbers.reduce((acc, n) => acc + n, 0)
+	return round(total, decimals)
 }
 
 /**
@@ -301,8 +295,8 @@ export function sum(numbers: number[], decimals = 2): number {
  * ```
  */
 export function min(numbers: number[]): number | undefined {
-  if (numbers.length === 0) return undefined
-  return Math.min(...numbers)
+	if (numbers.length === 0) return undefined
+	return Math.min(...numbers)
 }
 
 /**
@@ -318,8 +312,8 @@ export function min(numbers: number[]): number | undefined {
  * ```
  */
 export function max(numbers: number[]): number | undefined {
-  if (numbers.length === 0) return undefined
-  return Math.max(...numbers)
+	if (numbers.length === 0) return undefined
+	return Math.max(...numbers)
 }
 
 /**
@@ -336,7 +330,7 @@ export function max(numbers: number[]): number | undefined {
  * ```
  */
 export function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+	return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 /**
@@ -354,5 +348,5 @@ export function randomInt(min: number, max: number): number {
  * ```
  */
 export function randomFloat(min: number, max: number, decimals = 2): number {
-  return round(Math.random() * (max - min) + min, decimals)
+	return round(Math.random() * (max - min) + min, decimals)
 }
