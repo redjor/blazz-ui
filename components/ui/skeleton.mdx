@@ -1,0 +1,260 @@
+import { Canvas, Meta, Controls } from "@storybook/blocks"
+import * as SkeletonStories from "./skeleton.stories"
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+<p className="text-lg text-muted-foreground">
+	A loading placeholder component that displays an animated pulse effect while content is being
+	fetched or processed.
+</p>
+
+## Overview
+
+The Skeleton component provides visual feedback during loading states by displaying placeholder elements that mimic the shape and layout of the actual content. This technique, known as "skeleton screens," improves perceived performance and provides a better user experience than traditional loading spinners by showing users what type of content to expect.
+
+Key features:
+
+- **Simple and lightweight**: Minimal implementation with maximum flexibility
+- **Pulse animation**: Smooth pulsing effect indicates loading state
+- **Flexible sizing**: Easily customizable through Tailwind classes
+- **Shape variants**: Supports any shape through border radius utilities
+- **Composable**: Build complex loading patterns by combining multiple skeletons
+- **Accessible**: Properly indicates loading state to assistive technologies
+
+## Examples
+
+### Default
+
+Basic skeleton with custom sizing using Tailwind classes.
+
+<Canvas of={SkeletonStories.Default} />
+
+<Controls of={SkeletonStories.Default} />
+
+### Shapes
+
+Different skeleton shapes for various content types including text, blocks, circles, buttons, and images.
+
+<Canvas of={SkeletonStories.Shapes} />
+
+### Compositions
+
+Complete skeleton layouts demonstrating common UI loading patterns.
+
+<Canvas of={SkeletonStories.Compositions} />
+
+### Dark Mode
+
+Skeleton component displayed in dark theme mode.
+
+<Canvas of={SkeletonStories.DarkMode} />
+
+## Usage Guidelines
+
+### When to Use
+
+- **Data fetching**: While loading API data or database queries
+- **Page transitions**: During navigation between routes
+- **Lazy loading**: For images or components loaded on demand
+- **Infinite scroll**: While fetching additional content
+- **Search results**: While performing search operations
+- **Form submission**: During processing of form data
+- **Complex calculations**: While performing intensive operations
+
+### When Not to Use
+
+- **Quick operations**: For operations under 300ms, avoid showing loading state
+- **Indeterminate wait**: When you can't predict content structure, use a spinner instead
+- **Full page loads**: Use a global loading indicator for initial page load
+- **Small components**: For tiny elements, a spinner may be more appropriate
+- **Modal dialogs**: For modal content, consider using a spinner or progress indicator
+
+### Best Practices
+
+1. **Match content structure**: Skeleton shapes should closely resemble the actual content layout
+2. **Respect spacing**: Maintain the same spacing as real content to prevent layout shift
+3. **Use appropriate shapes**: Circles for avatars, rectangles for text, squares for images
+4. **Progressive loading**: Show skeletons for each section as it loads, not all at once
+5. **Vary widths**: For text skeletons, use different widths to look more natural
+6. **Limit animation**: The pulse animation is subtle and shouldn't be distracting
+7. **Test accessibility**: Ensure screen readers announce loading states properly
+8. **Consider mobile**: Skeleton layouts should be responsive
+
+### Loading State Patterns
+
+**Instant (< 300ms)**: No loading indicator needed
+
+**Fast (300ms - 1s)**: Simple spinner or small skeleton
+
+**Medium (1-3s)**: Content-shaped skeletons
+
+**Slow (> 3s)**: Skeletons + progress indicator or percentage
+
+## Accessibility
+
+### Screen Reader Behavior
+
+Skeleton components should be properly announced to screen reader users:
+
+```tsx
+<div role="status" aria-live="polite" aria-label="Loading content">
+  <Skeleton className="h-4 w-full" />
+  <span className="sr-only">Loading...</span>
+</div>
+```
+
+### Best Practices for Accessibility
+
+- **Add ARIA labels**: Use `aria-label` or `aria-labelledby` to describe what's loading
+- **Use role="status"**: Indicates the element is a status message
+- **Include hidden text**: Provide "Loading..." text for screen readers with `sr-only` class
+- **Announce completion**: When content loads, screen readers should be notified
+- **Avoid too many announcements**: Group skeletons under a single status region
+
+### Focus Management
+
+- Skeletons are non-interactive and don't receive focus
+- Focus should move to loaded content once available
+- Maintain focus position during content replacement
+
+### ARIA Attributes
+
+```tsx
+// Container for loading state
+<div
+  role="status"
+  aria-live="polite"
+  aria-busy="true"
+  aria-label="Loading user profile"
+>
+  <Skeleton className="h-12 w-12 rounded-full" />
+  <span className="sr-only">Loading user profile...</span>
+</div>
+
+// Once loaded, update aria-busy
+<div role="status" aria-busy="false">
+  {/* Actual content */}
+</div>
+```
+
+## Technical Details
+
+### Component API
+
+Simple React component that renders a `<div>` with:
+- Base styling for background and animation
+- Flexible sizing through className prop
+- No state management required
+
+### Styling
+
+**Base classes**:
+- Background: `bg-muted` (adapts to theme)
+- Border radius: `rounded-md` (can be overridden)
+- Animation: `animate-pulse` (Tailwind's pulse animation)
+
+**Customization**:
+All styling is customizable through the `className` prop using Tailwind utilities.
+
+### Dependencies
+
+- `tailwind-merge` - Class name utility
+
+### Type Definition
+
+```typescript
+interface SkeletonProps extends React.ComponentProps<"div"> {
+	className?: string
+}
+```
+
+### Common Patterns
+
+**Text lines**:
+```tsx
+<div className="space-y-2">
+  <Skeleton className="h-4 w-full" />
+  <Skeleton className="h-4 w-[90%]" />
+  <Skeleton className="h-4 w-[80%]" />
+</div>
+```
+
+**Avatar**:
+```tsx
+<Skeleton className="h-12 w-12 rounded-full" />
+```
+
+**Card**:
+```tsx
+<div className="rounded-lg border p-4">
+  <Skeleton className="h-6 w-[200px] mb-4" />
+  <Skeleton className="h-4 w-full mb-2" />
+  <Skeleton className="h-4 w-[90%]" />
+</div>
+```
+
+**List item**:
+```tsx
+<div className="flex items-center gap-4">
+  <Skeleton className="h-10 w-10 rounded-full" />
+  <div className="flex-1 space-y-2">
+    <Skeleton className="h-4 w-[60%]" />
+    <Skeleton className="h-3 w-[40%]" />
+  </div>
+</div>
+```
+
+**With conditional loading**:
+```tsx
+{isLoading ? (
+  <Skeleton className="h-12 w-full" />
+) : (
+  <div>{content}</div>
+)}
+```
+
+### Animation Control
+
+The pulse animation is provided by Tailwind's `animate-pulse` utility. To customize:
+
+```tsx
+// Slower pulse
+<Skeleton className="h-12 w-full animate-pulse [animation-duration:2s]" />
+
+// No animation
+<Skeleton className="h-12 w-full animate-none" />
+
+// Custom animation
+<Skeleton className="h-12 w-full animate-[pulse_1.5s_ease-in-out_infinite]" />
+```
+
+## Performance Considerations
+
+### Optimization Tips
+
+1. **Limit skeleton count**: Too many animated elements can impact performance
+2. **Use CSS containment**: For lists, use CSS containment to improve rendering
+3. **Simplify complex layouts**: During loading, simplify the skeleton structure
+4. **Lazy render skeletons**: For off-screen content, delay skeleton rendering
+5. **Consider reduced motion**: Respect user's motion preferences
+
+```tsx
+// Respect prefers-reduced-motion
+<Skeleton className="h-12 w-full motion-reduce:animate-none" />
+```
+
+### Memory Management
+
+- Skeletons are lightweight and don't require cleanup
+- Remove skeletons from DOM once content loads
+- Use React.Suspense boundaries for automatic skeleton management
+
+## Related Components
+
+- [Spinner](#) - For indeterminate loading states
+- [Progress Bar](#) - For determinate loading progress
+- [Loading Overlay](#) - For blocking UI during loads
+- [Placeholder](#) - For empty states after loading
+- [Suspense Boundary](#) - For automatic loading state management

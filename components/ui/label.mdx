@@ -1,0 +1,202 @@
+import { Canvas, Meta, Controls } from "@storybook/blocks"
+import * as LabelStories from "./label.stories"
+
+<Meta of={LabelStories} />
+
+# Label
+
+<p className="text-lg text-muted-foreground">
+	An accessible label component for form controls that improves usability and meets accessibility
+	standards.
+</p>
+
+## Overview
+
+The Label component provides semantic labeling for form controls. It's essential for creating accessible forms by clearly identifying the purpose of input fields, checkboxes, switches, and other interactive elements. The component automatically handles disabled states through peer and group modifiers, ensuring visual consistency across your forms.
+
+Key features:
+
+- **Accessible**: Properly associates labels with form controls using `htmlFor`
+- **Smart styling**: Automatically adjusts opacity when associated control is disabled
+- **Flexible**: Works with all form control types (input, checkbox, switch, etc.)
+- **Typography**: Consistent text styling across all form labels
+- **Selectable text**: Prevents text selection for better UX with inline controls
+
+## Examples
+
+### Default
+
+The default label with interactive controls.
+
+<Canvas of={LabelStories.Default} />
+
+<Controls of={LabelStories.Default} />
+
+### With Form Controls
+
+Labels paired with the form controls they typically accompany.
+
+<Canvas of={LabelStories.WithFormControls} />
+
+### States
+
+Different label states including default, disabled, and with required indicators.
+
+<Canvas of={LabelStories.States} />
+
+### Composition
+
+Real-world examples showing common label patterns in forms and settings.
+
+<Canvas of={LabelStories.Composition} />
+
+### Dark Mode
+
+Label component displayed in dark theme mode.
+
+<Canvas of={LabelStories.DarkMode} />
+
+## Usage Guidelines
+
+### When to Use
+
+- **Form inputs**: Always use labels with input fields for accessibility
+- **Checkboxes and radio buttons**: Associate labels with selection controls
+- **Switches**: Clearly identify what the switch controls
+- **File uploads**: Label file input buttons
+- **Required fields**: Mark required fields with visual indicators
+- **Form sections**: Use as headers for groups of related controls
+
+### When Not to Use
+
+- **Buttons**: Buttons have their own text content and don't need separate labels
+- **Decorative elements**: Don't use labels for purely visual elements
+- **Already labeled controls**: Some controls like Select may have built-in labeling
+- **Headings**: Use proper heading elements (h1-h6) for page/section headings
+
+### Best Practices
+
+1. **Always use with form controls**: Every form control should have an associated label
+2. **Use `htmlFor` attribute**: Always connect labels to their controls with matching IDs
+3. **Keep labels concise**: Use clear, brief text that describes the input purpose
+4. **Indicate required fields**: Use consistent visual indicators (*, "required", etc.) for required fields
+5. **Provide help text separately**: Use description text below the input for additional guidance
+6. **Don't put instructions in labels**: Labels should identify the field, not provide lengthy instructions
+7. **Consider label placement**: Place labels above inputs for vertical forms, or to the left for horizontal layouts
+8. **Test with screen readers**: Ensure labels are announced correctly by assistive technology
+
+## Accessibility
+
+### Keyboard Support
+
+Labels themselves don't have keyboard interactions, but they enable better keyboard navigation:
+
+- Clicking a label focuses its associated control
+- Screen reader users can navigate by form controls more easily
+- Labels are announced when controls receive focus
+
+### ARIA and Semantic HTML
+
+- **`htmlFor` attribute**: Creates explicit association between label and control (maps to `for` in HTML)
+- **Implicit association**: Labels can wrap controls for automatic association, but explicit `htmlFor` is preferred
+- **`aria-labelledby`**: Form controls automatically get labeled by their associated label
+
+### Screen Reader Behavior
+
+- When a form control receives focus, screen readers announce its associated label
+- Required indicators (like asterisks) are announced when properly structured
+- Disabled controls announce their disabled state along with their label
+- Help text is announced when connected via `aria-describedby` on the control
+
+### Best Practices for Accessibility
+
+1. **Use with semantic form controls**: Ensure controls use proper HTML elements (`<input>`, `<select>`, etc.)
+2. **One label per control**: Each form control should have exactly one associated label
+3. **Visible labels**: Always provide visible labels (don't rely solely on placeholder text)
+4. **Label clickable area**: The entire label is clickable, making it easier to focus small controls like checkboxes
+5. **Group related controls**: Use `<fieldset>` and `<legend>` for groups of related controls
+
+## Technical Details
+
+### Component API
+
+The Label component is a styled native HTML `<label>` element with:
+
+- Semantic HTML for proper form association
+- Built-in accessibility through `htmlFor` attribute
+- Peer and group utilities for automatic disabled state styling
+
+### Styling
+
+Uses Tailwind CSS utility classes:
+
+**Base styles**:
+- Typography: `text-sm font-medium leading-none`
+- Layout: `flex items-center gap-2`
+- User interaction: `select-none` (prevents text selection)
+
+**Conditional states**:
+- **Peer disabled**: `peer-disabled:opacity-50 peer-disabled:cursor-not-allowed`
+- **Group disabled**: `group-data-[disabled=true]:opacity-50 group-data-[disabled=true]:pointer-events-none`
+
+The component automatically reduces opacity when its associated control (peer) or parent group is disabled.
+
+### Dependencies
+
+- `tailwind-merge` - Class name utility
+
+### Type Definition
+
+```typescript
+interface LabelProps extends React.ComponentProps<"label"> {
+	htmlFor?: string
+	children?: React.ReactNode
+	className?: string
+}
+```
+
+### Common Patterns
+
+**With input**:
+```tsx
+<div className="flex flex-col gap-2">
+  <Label htmlFor="email">Email</Label>
+  <Input id="email" type="email" />
+</div>
+```
+
+**With required indicator**:
+```tsx
+<Label htmlFor="name">
+  Name <span className="text-destructive">*</span>
+</Label>
+<Input id="name" required />
+```
+
+**With description**:
+```tsx
+<div className="flex flex-col gap-2">
+  <Label htmlFor="password">Password</Label>
+  <Input id="password" type="password" />
+  <p className="text-xs text-muted-foreground">
+    Must be at least 8 characters
+  </p>
+</div>
+```
+
+**Inline with checkbox**:
+```tsx
+<div className="flex items-center gap-2">
+  <Checkbox id="terms" />
+  <Label htmlFor="terms">I agree to terms</Label>
+</div>
+```
+
+## Related Components
+
+- [Input](#) - Text input fields that require labels
+- [Checkbox](#) - Selection control typically paired with labels
+- [Switch](#) - Toggle control that needs labeling
+- [Radio Group](#) - Radio button groups with labels
+- [Select](#) - Dropdown selection with labels
+- [Form](#) - Complete form with validation and labels
