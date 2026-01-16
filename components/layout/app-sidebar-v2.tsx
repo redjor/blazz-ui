@@ -46,6 +46,12 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export function AppSidebarV2({ config, ...props }: AppSidebarProps) {
 	const pathname = usePathname()
 	const [searchQuery, _setSearchQuery] = React.useState("")
+	const [mounted, setMounted] = React.useState(false)
+
+	// Prevent hydration mismatch by only rendering interactive elements after mount
+	React.useEffect(() => {
+		setMounted(true)
+	}, [])
 
 	// Helper to check if a path is active
 	const isActive = (url?: string) => {
@@ -104,6 +110,7 @@ export function AppSidebarV2({ config, ...props }: AppSidebarProps) {
 							section={section}
 							isActive={isActive}
 							hasActiveChild={hasActiveChild}
+							mounted={mounted}
 						/>
 					)
 				})}
@@ -118,14 +125,48 @@ interface SidebarSectionProps {
 	section: NavigationSection
 	isActive: (url?: string) => boolean
 	hasActiveChild: (items?: NavigationItem[]) => boolean
+	mounted: boolean
 }
 
-function SidebarSection({ section, isActive, hasActiveChild }: SidebarSectionProps) {
+function SidebarSection({ section, isActive, hasActiveChild, mounted }: SidebarSectionProps) {
 	const childIsActive = hasActiveChild(section.items)
 	const hasTitle = section.title && section.title.trim() !== ""
 
 	if (section.collapsible && hasTitle) {
 		const [open, setOpen] = React.useState(section.defaultOpen !== false || childIsActive)
+
+		// Render non-interactive version during SSR to prevent hydration mismatch
+		if (!mounted) {
+			const isOpen = section.defaultOpen !== false || childIsActive
+			return (
+				<SidebarGroup>
+					<SidebarGroupLabel>
+						{section.title}
+						<ChevronRight
+							className={cn(
+								"ml-auto transition-transform duration-200",
+								isOpen && "rotate-90"
+							)}
+						/>
+					</SidebarGroupLabel>
+					{isOpen && (
+						<SidebarGroupContent>
+							<SidebarMenu>
+								{section.items.map((item) => (
+									<MenuItem
+										key={item.id || item.url || item.title}
+										item={item}
+										isActive={isActive}
+										hasActiveChild={hasActiveChild}
+										mounted={mounted}
+									/>
+								))}
+							</SidebarMenu>
+						</SidebarGroupContent>
+					)}
+				</SidebarGroup>
+			)
+		}
 
 		return (
 			<Collapsible open={open} onOpenChange={setOpen} className="group/collapsible">
@@ -143,6 +184,7 @@ function SidebarSection({ section, isActive, hasActiveChild }: SidebarSectionPro
 										item={item}
 										isActive={isActive}
 										hasActiveChild={hasActiveChild}
+										mounted={mounted}
 									/>
 								))}
 							</SidebarMenu>
@@ -164,6 +206,7 @@ function SidebarSection({ section, isActive, hasActiveChild }: SidebarSectionPro
 							item={item}
 							isActive={isActive}
 							hasActiveChild={hasActiveChild}
+							mounted={mounted}
 						/>
 					))}
 				</SidebarMenu>
@@ -176,10 +219,11 @@ interface MenuItemProps {
 	item: NavigationItem
 	isActive: (url?: string) => boolean
 	hasActiveChild: (items?: NavigationItem[]) => boolean
+	mounted: boolean
 	depth?: number
 }
 
-function MenuItem({ item, isActive, hasActiveChild, depth = 0 }: MenuItemProps) {
+function MenuItem({ item, isActive, hasActiveChild, mounted, depth = 0 }: MenuItemProps) {
 	const hasChildren = item.items && item.items.length > 0
 	const childIsActive = hasChildren && hasActiveChild(item.items)
 	// Le parent n'est actif que si c'est sa propre URL, pas celle d'un enfant
@@ -202,6 +246,64 @@ function MenuItem({ item, isActive, hasActiveChild, depth = 0 }: MenuItemProps) 
 	// Item with nested children
 	if (hasChildren) {
 		const [open, setOpen] = React.useState(childIsActive)
+
+		// Render non-interactive version during SSR to prevent hydration mismatch
+		if (!mounted) {
+			return (
+				<SidebarMenuItem>
+					<div
+						className={cn(
+							"peer/menu-button flex w-full items-center gap-1 overflow-hidden rounded-none px-4 py-2 text-left text-13 font-semibold outline-none ring-sidebar-ring transition-[width,height,padding] group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125]",
+							"h-8 text-13 font-semibold",
+							active && "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+						)}
+					>
+						{item.icon && <item.icon />}
+						<span>{item.title}</span>
+						{item.badge !== undefined && (
+							<span
+								className={cn(
+									"ml-auto flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium",
+									getBadgeVariantClass(item.badgeVariant)
+								)}
+							>
+								{item.badge}
+							</span>
+						)}
+						<ChevronRight
+							className={cn(
+								"ml-auto transition-transform duration-200",
+								childIsActive && "rotate-90"
+							)}
+						/>
+					</div>
+					{childIsActive && (
+						<SidebarMenuSub>
+							{item.items?.map((subItem) => (
+								<SidebarMenuSubItem key={subItem.id || subItem.url || subItem.title}>
+									<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
+										<Link href={subItem.url || "#"}>
+											{subItem.icon && <subItem.icon />}
+											<span>{subItem.title}</span>
+											{subItem.badge !== undefined && (
+												<span
+													className={cn(
+														"ml-auto flex h-4 min-w-4 items-center justify-center rounded px-1 text-xs font-medium",
+														getBadgeVariantClass(subItem.badgeVariant)
+													)}
+												>
+													{subItem.badge}
+												</span>
+											)}
+										</Link>
+									</SidebarMenuSubButton>
+								</SidebarMenuSubItem>
+							))}
+						</SidebarMenuSub>
+					)}
+				</SidebarMenuItem>
+			)
+		}
 
 		return (
 			<Collapsible open={open} onOpenChange={setOpen} className="group/collapsible">
@@ -260,7 +362,12 @@ function MenuItem({ item, isActive, hasActiveChild, depth = 0 }: MenuItemProps) 
 	// Simple item without children
 	return (
 		<SidebarMenuItem>
-			<SidebarMenuButton asChild tooltip={item.title} isActive={active} disabled={item.disabled}>
+			<SidebarMenuButton
+				asChild
+				tooltip={mounted ? item.title : undefined}
+				isActive={active}
+				disabled={item.disabled}
+			>
 				<Link href={item.url || "#"}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
