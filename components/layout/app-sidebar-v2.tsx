@@ -128,9 +128,12 @@ function SidebarSection({ section, isActive, hasActiveChild }: SidebarSectionPro
   const hasTitle = section.title && section.title.trim() !== ''
 
   if (section.collapsible && hasTitle) {
+    const [open, setOpen] = React.useState(section.defaultOpen !== false || childIsActive)
+
     return (
       <Collapsible
-        defaultOpen={section.defaultOpen !== false || childIsActive}
+        open={open}
+        onOpenChange={setOpen}
         className="group/collapsible"
       >
         <SidebarGroup>
@@ -205,8 +208,10 @@ function MenuItem({ item, isActive, hasActiveChild, depth = 0 }: MenuItemProps) 
 
   // Item with nested children
   if (hasChildren) {
+    const [open, setOpen] = React.useState(childIsActive)
+
     return (
-      <Collapsible defaultOpen={childIsActive} className="group/collapsible">
+      <Collapsible open={open} onOpenChange={setOpen} className="group/collapsible">
         <SidebarMenuItem>
           <CollapsibleTrigger
             className={cn(
