@@ -11,6 +11,5 @@ export { DataTableQuickFilters } from "./data-table-quick-filters"
 export { DataTableRowActions } from "./data-table-row-actions"
 export { DataTableRowSelection } from "./data-table-row-selection"
 export { DataTableSortMenu } from "./data-table-sort-menu"
-export { DataTableToolbar } from "./data-table-toolbar" // @deprecated - Use DataTableActionsBar
 export { DataTableViewSelector } from "./data-table-view-selector"
 export { DataTableViewTabs } from "./data-table-view-tabs"

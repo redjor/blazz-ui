@@ -28,7 +28,10 @@ export function DataTablePagination<TData>({
 	const _endRow = Math.min(currentPage * pageSize, totalRows)
 
 	return (
-		<div className="flex items-center justify-between px-2 py-4" data-slot="data-table-pagination">
+		<div
+			className="flex items-center justify-between px-2 py-4 border border-t"
+			data-slot="data-table-pagination"
+		>
 			<div className="flex-1 text-sm text-muted-foreground">
 				{table.getFilteredSelectedRowModel().rows.length > 0 && (
 					<span>

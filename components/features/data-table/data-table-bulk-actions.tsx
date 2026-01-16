@@ -4,6 +4,7 @@ import type { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
 import * as React from "react"
 import { Button } from "@/components/ui/button"
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
 import { cn } from "@/lib/utils"
 import type { BulkAction } from "./data-table.types"
 
@@ -108,51 +109,27 @@ export function DataTableBulkActions<TData>({ table, actions }: DataTableBulkAct
 			</div>
 
 			{/* Confirmation Dialog */}
-			{isConfirmOpen && pendingAction && (
-				<div
-					className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
-					onClick={() => setIsConfirmOpen(false)}
-					onKeyDown={(e) => {
-						if (e.key === "Escape") setIsConfirmOpen(false)
+			{pendingAction && (
+				<ConfirmationDialog
+					open={isConfirmOpen}
+					onOpenChange={(open) => {
+						setIsConfirmOpen(open)
+						if (!open) setPendingAction(null)
 					}}
-					role="button"
-					tabIndex={0}
-				>
-					<div
-						className="relative z-50 w-full max-w-lg rounded-lg border border-border bg-background p-6 shadow-lg"
-						onClick={(e) => e.stopPropagation()}
-						onKeyDown={(e) => e.stopPropagation()}
-						role="dialog"
-						aria-modal="true"
-					>
-						<h2 className="text-lg font-semibold">Confirm Bulk Action</h2>
-						<p className="mt-2 text-sm text-muted-foreground">
-							{typeof pendingAction.confirmationMessage === "function"
-								? pendingAction.confirmationMessage(selectedCount)
-								: pendingAction.confirmationMessage ||
-									`Are you sure you want to perform this action on ${selectedCount} ${
-										selectedCount === 1 ? "item" : "items"
-									}?`}
-						</p>
-						<div className="mt-4 flex justify-end space-x-2">
-							<Button
-								variant="outline"
-								onClick={() => {
-									setIsConfirmOpen(false)
-									setPendingAction(null)
-								}}
-							>
-								Cancel
-							</Button>
-							<Button
-								variant={pendingAction.variant === "destructive" ? "destructive" : "default"}
-								onClick={confirmAction}
-							>
-								Confirm
-							</Button>
-						</div>
-					</div>
-				</div>
+					title="Confirm Bulk Action"
+					description={
+						typeof pendingAction.confirmationMessage === "function"
+							? pendingAction.confirmationMessage(selectedCount)
+							: pendingAction.confirmationMessage ||
+								`Are you sure you want to perform this action on ${selectedCount} ${
+									selectedCount === 1 ? "item" : "items"
+								}?`
+					}
+					confirmLabel="Confirm"
+					cancelLabel="Cancel"
+					variant={pendingAction.variant === "destructive" ? "destructive" : "default"}
+					onConfirm={confirmAction}
+				/>
 			)}
 		</>
 	)

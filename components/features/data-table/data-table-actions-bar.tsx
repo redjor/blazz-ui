@@ -10,6 +10,7 @@ import { Menu, MenuPopup, MenuPortal, MenuPositioner, MenuTrigger } from "@/comp
 import { cn } from "@/lib/utils"
 import type { DataTableView } from "./data-table.types"
 import { DataTableSortMenu } from "./data-table-sort-menu"
+import { useDataTableTranslations } from "./data-table.i18n"
 
 interface DataTableActionsBarProps {
 	// Views
@@ -35,6 +36,9 @@ interface DataTableActionsBarProps {
 	// Filters
 	filterCount: number
 	onOpenFilterBuilder: () => void
+
+	// Locale
+	locale?: "fr" | "en"
 }
 
 export function DataTableActionsBar({
@@ -48,13 +52,15 @@ export function DataTableActionsBar({
 	onSearchOpenChange,
 	searchValue,
 	onSearchChange,
-	searchPlaceholder = "Recherche...",
+	searchPlaceholder,
 	sorting,
 	onSortingChange,
 	sortableColumns,
 	filterCount,
 	onOpenFilterBuilder,
+	locale = "fr",
 }: DataTableActionsBarProps) {
+	const t = useDataTableTranslations(locale)
 	const searchInputRef = React.useRef<HTMLInputElement>(null)
 
 	// Focus search input when search opens
@@ -89,7 +95,7 @@ export function DataTableActionsBar({
 							<Input
 								ref={searchInputRef}
 								type="search"
-								placeholder={searchPlaceholder}
+								placeholder={searchPlaceholder || t.searchPlaceholder}
 								value={searchValue}
 								onChange={(e) => onSearchChange(e.target.value)}
 								className="h-8 pl-9 pr-9"
@@ -115,7 +121,7 @@ export function DataTableActionsBar({
 							}}
 							className="h-8 px-3 text-xs"
 						>
-							Annuler
+							{t.cancel}
 						</Button>
 					</div>
 				) : (
@@ -220,6 +226,7 @@ export function DataTableActionsBar({
 										columns={sortableColumns}
 										sorting={sorting}
 										onSortingChange={onSortingChange}
+										locale={locale}
 									/>
 								</MenuPopup>
 							</MenuPositioner>

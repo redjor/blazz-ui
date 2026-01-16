@@ -11,14 +11,15 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
 import type { DataTableColumnDef, FilterGroup } from "./data-table.types"
+import { useDataTableTranslations } from "./data-table.i18n"
 
 export interface DataTableQuickFiltersProps<TData> {
 	columns: DataTableColumnDef<TData, any>[]
 	filterGroup: FilterGroup | null
 	onFilterChange: (filterGroup: FilterGroup | null) => void
 	onOpenFilterBuilder: () => void
+	locale?: "fr" | "en"
 }
 
 export function DataTableQuickFilters<TData>({
@@ -26,7 +27,10 @@ export function DataTableQuickFilters<TData>({
 	filterGroup,
 	onFilterChange,
 	onOpenFilterBuilder,
+	locale = "fr",
 }: DataTableQuickFiltersProps<TData>) {
+	const t = useDataTableTranslations(locale)
+
 	// Helper to get column key
 	const getColumnKey = (col: DataTableColumnDef<TData, any>): string | undefined => {
 		return "accessorKey" in col ? (col.accessorKey as string) : undefined
@@ -115,7 +119,7 @@ export function DataTableQuickFilters<TData>({
 	const hasActiveFilters = filterGroup && filterGroup.conditions.length > 0
 
 	return (
-		<div className="flex items-center gap-2 border-t border-border px-4 py-3">
+		<div className="flex items-center gap-2 border-y border-border px-4 py-3">
 			{/* Quick filter dropdowns/inputs */}
 			{quickFilterColumns.map((column) => {
 				const columnKey = getColumnKey(column)!
@@ -157,26 +161,16 @@ export function DataTableQuickFilters<TData>({
 			})}
 
 			{/* Add Filter button */}
-			<Button
-				variant="ghost"
-				size="sm"
-				onClick={onOpenFilterBuilder}
-				className="h-8 px-3 text-xs"
-			>
+			<Button variant="ghost" size="sm" onClick={onOpenFilterBuilder} className="h-8 px-3 text-xs">
 				<Plus className="mr-1 h-3 w-3" />
-				Ajouter un filtre
+				{t.addFilter}
 			</Button>
 
 			{/* Clear All button - only show when filters exist */}
 			{hasActiveFilters && (
-				<Button
-					variant="ghost"
-					size="sm"
-					onClick={handleClearAll}
-					className="h-8 px-3 text-xs"
-				>
+				<Button variant="ghost" size="sm" onClick={handleClearAll} className="h-8 px-3 text-xs">
 					<X className="mr-1 h-3 w-3" />
-					Tout effacer
+					{t.clearAll}
 				</Button>
 			)}
 		</div>

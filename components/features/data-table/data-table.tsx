@@ -428,7 +428,7 @@ export function DataTable<TData, TValue = unknown>({
 	}
 
 	return (
-		<div className={cn("space-y-4", className)} data-slot="data-table">
+		<div className={cn(className)} data-slot="data-table">
 			{/* Filter Badges - Only show for manually created filters, not view filters */}
 			{enableAdvancedFilters && filterGroup && !filtersFromView && (
 				<DataTableFilterBadges
@@ -488,12 +488,12 @@ export function DataTable<TData, TValue = unknown>({
 						bulkActions.length > 0 &&
 						table.getFilteredSelectedRowModel().rows.length > 0 ? (
 							<TableRow className="bg-muted/50 hover:bg-muted/50">
-								<TableHead colSpan={tableColumns.length} className="h-12 px-2">
+								<TableHead colSpan={tableColumns.length} className="h-8 px-2">
 									<div className="flex items-center justify-between gap-2">
-										<div className="flex items-center gap-2 text-sm font-medium">
+										<div className="flex items-center gap-2 pl-2">
 											{table.getFilteredSelectedRowModel().rows.length} rows selected
 											{/** biome-ignore lint/a11y/useButtonType: <explanation> */}
-<button
+											<button
 												onClick={() => table.resetRowSelection()}
 												className="ml-2 text-muted-foreground hover:text-foreground"
 											>
@@ -508,7 +508,7 @@ export function DataTable<TData, TValue = unknown>({
 													size="sm"
 													onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
 													disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
-													className="h-8"
+													className="h-8 "
 												>
 													{action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
 													{action.label}

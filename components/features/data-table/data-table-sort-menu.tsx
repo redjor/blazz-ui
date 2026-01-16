@@ -10,14 +10,17 @@ import {
 	MenuRadioItem,
 	MenuSeparator,
 } from "@/components/ui/menu"
+import { useDataTableTranslations } from "./data-table.i18n"
 
 interface DataTableSortMenuProps {
 	columns: Array<{ id: string; label: string }>
 	sorting: SortingState
 	onSortingChange: (sorting: SortingState) => void
+	locale?: "fr" | "en"
 }
 
-export function DataTableSortMenu({ columns, sorting, onSortingChange }: DataTableSortMenuProps) {
+export function DataTableSortMenu({ columns, sorting, onSortingChange, locale = "fr" }: DataTableSortMenuProps) {
+	const t = useDataTableTranslations(locale)
 	const currentSort = sorting[0]
 	const currentColumnId = currentSort?.id
 	const isDescending = currentSort?.desc ?? false
@@ -36,7 +39,7 @@ export function DataTableSortMenu({ columns, sorting, onSortingChange }: DataTab
 		<div className="w-64" data-slot="data-table-sort-menu">
 			{/* Column Selection */}
 			<MenuGroup>
-				<MenuGroupLabel>Trier par</MenuGroupLabel>
+				<MenuGroupLabel>{t.sortBy}</MenuGroupLabel>
 				<MenuRadioGroup value={currentColumnId || ""} onValueChange={handleColumnChange}>
 					{columns.map((col) => (
 						<MenuRadioItem key={col.id} value={col.id}>
@@ -54,11 +57,11 @@ export function DataTableSortMenu({ columns, sorting, onSortingChange }: DataTab
 					<MenuGroup>
 						<MenuItem onClick={() => handleDirectionChange(false)}>
 							<ArrowUp className="mr-2 h-4 w-4" />
-							<span>Du plus ancien au plus récent</span>
+							<span>{t.sortAscending}</span>
 						</MenuItem>
 						<MenuItem onClick={() => handleDirectionChange(true)}>
 							<ArrowDown className="mr-2 h-4 w-4" />
-							<span>Du plus récent au plus ancien</span>
+							<span>{t.sortDescending}</span>
 						</MenuItem>
 					</MenuGroup>
 				</>

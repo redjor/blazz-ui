@@ -3,7 +3,7 @@
 import type { Row } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import * as React from "react"
-import { Button } from "@/components/ui/button"
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
 import {
 	DropdownMenu,
 	DropdownMenuItem,
@@ -109,50 +109,25 @@ export function DataTableRowActions<TData>({ row, actions }: DataTableRowActions
 				</DropdownMenuPortal>
 			</DropdownMenu>
 
-			{/* Confirmation Dialog - Simple version */}
-			{isConfirmOpen && pendingAction && (
-				<div
-					className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
-					onClick={() => setIsConfirmOpen(false)}
-					onKeyDown={(e) => {
-						if (e.key === "Escape") setIsConfirmOpen(false)
+			{/* Confirmation Dialog */}
+			{pendingAction && (
+				<ConfirmationDialog
+					open={isConfirmOpen}
+					onOpenChange={(open) => {
+						setIsConfirmOpen(open)
+						if (!open) setPendingAction(null)
 					}}
-					role="button"
-					tabIndex={0}
-				>
-					<div
-						className="relative z-50 w-full max-w-lg rounded-lg border border-border bg-background p-6 shadow-lg"
-						onClick={(e) => e.stopPropagation()}
-						onKeyDown={(e) => e.stopPropagation()}
-						role="dialog"
-						aria-modal="true"
-					>
-						<h2 className="text-lg font-semibold">Confirm Action</h2>
-						<p className="mt-2 text-sm text-muted-foreground">
-							{typeof pendingAction.confirmationMessage === "function"
-								? pendingAction.confirmationMessage(row)
-								: pendingAction.confirmationMessage ||
-									"Are you sure you want to perform this action?"}
-						</p>
-						<div className="mt-4 flex justify-end space-x-2">
-							<Button
-								variant="outline"
-								onClick={() => {
-									setIsConfirmOpen(false)
-									setPendingAction(null)
-								}}
-							>
-								Cancel
-							</Button>
-							<Button
-								variant={pendingAction.variant === "destructive" ? "destructive" : "default"}
-								onClick={confirmAction}
-							>
-								Confirm
-							</Button>
-						</div>
-					</div>
-				</div>
+					title="Confirm Action"
+					description={
+						typeof pendingAction.confirmationMessage === "function"
+							? pendingAction.confirmationMessage(row)
+							: pendingAction.confirmationMessage || "Are you sure you want to perform this action?"
+					}
+					confirmLabel="Confirm"
+					cancelLabel="Cancel"
+					variant={pendingAction.variant === "destructive" ? "destructive" : "default"}
+					onConfirm={confirmAction}
+				/>
 			)}
 		</>
 	)
