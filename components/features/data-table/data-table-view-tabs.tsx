@@ -28,7 +28,7 @@ export function DataTableViewTabs({
             key={view.id}
             onClick={() => onViewChange(view)}
             className={cn(
-              "relative px-4 py-3 text-sm font-medium transition-colors hover:text-foreground",
+              "relative px-4 py-3 text-xs font-medium transition-colors hover:text-foreground",
               "border-b-2 -mb-px",
               activeView?.id === view.id
                 ? "border-foreground text-foreground"
@@ -45,7 +45,7 @@ export function DataTableViewTabs({
         {enableCustomViews && onCreateView && (
           <button
             onClick={onCreateView}
-            className="relative px-3 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="relative px-3 py-3 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <Plus className="h-4 w-4" />
           </button>

@@ -96,7 +96,7 @@ export function DataTableActionsBar({
                     type="button"
                     onClick={() => onViewChange?.(view)}
                     className={cn(
-                      "relative inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-sm font-medium transition-colors",
+                      "relative inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-colors",
                       activeView?.id === view.id
                         ? "bg-muted text-foreground"
                         : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"

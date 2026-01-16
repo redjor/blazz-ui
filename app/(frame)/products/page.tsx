@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Plus, Edit, Eye, Trash, Archive } from 'lucide-react'
 import {
   DataTable,
+  DataTableColumnHeader,
   type DataTableColumnDef,
   type DataTableView,
   type RowAction,
@@ -164,7 +165,9 @@ const products: Product[] = [
 const columns: DataTableColumnDef<Product>[] = [
   {
     accessorKey: 'name',
-    header: 'Produit',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Produit" />
+    ),
     cell: ({ row }) => {
       const product = row.original
       return (
@@ -184,7 +187,9 @@ const columns: DataTableColumnDef<Product>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Statut',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Statut" />
+    ),
     cell: ({ row }) => {
       const status = row.getValue('status') as string
       const variants = {
@@ -233,7 +238,9 @@ const columns: DataTableColumnDef<Product>[] = [
   },
   {
     accessorKey: 'category',
-    header: 'Catégorie',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Catégorie" />
+    ),
     enableSorting: true,
     filterConfig: {
       type: 'text',
@@ -242,7 +249,9 @@ const columns: DataTableColumnDef<Product>[] = [
   },
   {
     accessorKey: 'channels',
-    header: 'Canaux',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Canaux" />
+    ),
     cell: ({ row }) => {
       const channels = row.getValue('channels') as number
       return <span className="text-body-md text-foreground">{channels}</span>
@@ -254,7 +263,9 @@ const columns: DataTableColumnDef<Product>[] = [
   },
   {
     accessorKey: 'catalogues',
-    header: 'Catalogues',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Catalogues" />
+    ),
     cell: ({ row }) => {
       const catalogues = row.getValue('catalogues') as number
       return <span className="text-body-md text-foreground">{catalogues}</span>
