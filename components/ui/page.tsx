@@ -139,15 +139,33 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 				{/* Page Header */}
 				{hasHeader && (
 					<div className={cn("space-y-6 pt-4 pb-3", headerClassName)}>
-						{/* Breadcrumbs */}
-						{breadcrumbs && <div className="flex items-center">{breadcrumbs}</div>}
+						{/* Breadcrumbs and Actions on same row (when no title) */}
+						{breadcrumbs && !title && (
+							<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+								{/* Breadcrumbs */}
+								<div className="flex items-center">{breadcrumbs}</div>
 
-						{/* Title and Actions Row */}
-						{(title || primaryAction || secondaryActions) && (
+								{/* Actions Section */}
+								{(primaryAction || secondaryActions) && (
+									<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+										{secondaryActions && (
+											<div className="flex items-center gap-2">{secondaryActions}</div>
+										)}
+										{primaryAction && <div className="flex items-center">{primaryAction}</div>}
+									</div>
+								)}
+							</div>
+						)}
+
+						{/* Breadcrumbs (when title exists) */}
+						{breadcrumbs && title && <div className="flex items-center">{breadcrumbs}</div>}
+
+						{/* Title and Actions Row (when title exists) */}
+						{title && (
 							<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 								{/* Title Section */}
 								<div className="flex-1 space-y-1">
-									{title && <h1 className="text-lg font-semibold leading-normal text-foreground">{title}</h1>}
+									<h1 className="text-lg font-semibold leading-normal text-foreground">{title}</h1>
 									{subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
 								</div>
 
@@ -160,6 +178,16 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 										{primaryAction && <div className="flex items-center">{primaryAction}</div>}
 									</div>
 								)}
+							</div>
+						)}
+
+						{/* Actions only (when no breadcrumbs and no title) */}
+						{!breadcrumbs && !title && (primaryAction || secondaryActions) && (
+							<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+								{secondaryActions && (
+									<div className="flex items-center gap-2">{secondaryActions}</div>
+								)}
+								{primaryAction && <div className="flex items-center">{primaryAction}</div>}
 							</div>
 						)}
 
