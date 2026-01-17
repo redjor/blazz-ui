@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import * as React from "react"
-import type { NavigationSection } from "@/components/layout/app-sidebar"
+import type { NavigationSection } from "@/types/navigation"
 
 export interface CommandItem {
 	id: string

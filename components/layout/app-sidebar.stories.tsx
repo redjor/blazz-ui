@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { sidebarConfig } from "@/config/navigation"
-import { AppSidebarV2 } from "./app-sidebar-v2"
+import { AppSidebar } from "./app-sidebar"
 
 const meta = {
-	title: "Layout/AppSidebar V2",
-	component: AppSidebarV2,
+	title: "Layout/AppSidebar",
+	component: AppSidebar,
 	parameters: {
 		layout: "fullscreen",
 	},
@@ -20,7 +20,7 @@ const meta = {
 								<h1 className="text-lg font-semibold">Main Content Area</h1>
 							</div>
 							<div className="flex-1 rounded-lg border p-4">
-								<h2 className="mb-4 text-xl font-semibold">AppSidebar V2 Features</h2>
+								<h2 className="mb-4 text-xl font-semibold">AppSidebar Features</h2>
 								<ul className="space-y-2 text-sm">
 									<li>✅ Integrated search functionality</li>
 									<li>✅ Multi-level navigation (recursive)</li>
@@ -33,6 +33,7 @@ const meta = {
 									<li>✅ Responsive design</li>
 									<li>✅ Keyboard shortcuts (Cmd/Ctrl + B)</li>
 									<li>✅ Shopify Polaris-inspired design</li>
+									<li>✅ Properly uses shadCN components with CVA variants</li>
 								</ul>
 							</div>
 						</div>
@@ -41,7 +42,7 @@ const meta = {
 			</SidebarProvider>
 		),
 	],
-} satisfies Meta<typeof AppSidebarV2>
+} satisfies Meta<typeof AppSidebar>
 
 export default meta
 type Story = StoryObj<typeof meta>

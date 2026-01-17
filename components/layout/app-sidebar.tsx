@@ -1,208 +1,141 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
+import { Badge, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import type * as React from "react"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import * as React from "react"
 import {
 	Sidebar,
+	SidebarCollapsible,
+	SidebarCollapsibleContent,
 	SidebarContent,
-	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
-	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
+	SidebarMenuCollapsibleTrigger,
 	SidebarMenuItem,
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
+	SidebarRail,
 } from "@/components/ui/sidebar"
-import type { NavigationItem, NavigationSection } from "@/types/navigation"
-
-// Re-export for backward compatibility
-export type { NavigationItem, NavigationSection }
+import type { NavigationItem, NavigationSection, SidebarConfig } from "@/types/navigation"
 
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-	navigation: NavigationSection[]
-	header?: React.ReactNode
-	footer?: React.ReactNode
+	config: SidebarConfig
 }
 
 /**
- * AppSidebar - Custom sidebar implementation using shadcn primitives
+ * AppSidebar - Sidebar simple avec navigation hiérarchique
  *
- * Features:
- * - Sectioned navigation with titles
- * - Nested collapsible submenus
- * - Active state highlighting
- * - Badge/count indicators
- * - Icon support
- * - Shopify Polaris-inspired design
- *
- * @example
- * <AppSidebar
- *   navigation={[
- *     {
- *       title: 'Main',
- *       items: [
- *         { title: 'Dashboard', url: '/', icon: Home },
- *         {
- *           title: 'Products',
- *           url: '/products',
- *           icon: Package,
- *           badge: 12,
- *           items: [
- *             { title: 'All Products', url: '/products' },
- *             { title: 'Categories', url: '/products/categories' },
- *           ],
- *         },
- *       ],
- *     },
- *   ]}
- * />
+ * Fonctionnalités:
+ * - Navigation par sections
+ * - Sections collapsibles (optionnel)
+ * - Items avec sous-items
+ * - Badges
+ * - Icônes
+ * - État actif automatique basé sur l'URL
  */
-export function AppSidebar({ navigation, header, footer, ...props }: AppSidebarProps) {
+export function AppSidebar({ config, ...props }: AppSidebarProps) {
 	const pathname = usePathname()
 
-	// Helper to check if a path is active
-	const isActive = (url: string) => {
-		if (url === "/") {
-			return pathname === "/"
-		}
+	// Vérifie si une URL est active
+	const isActive = (url?: string) => {
+		if (!pathname || !url) return false
+		if (url === "/") return pathname === "/"
 		return pathname.startsWith(url)
 	}
 
-	// Helper to check if a menu item has an active child
-	const hasActiveChild = (items?: NavigationItem[]): boolean => {
-		if (!items) return false
-		return items.some((item) => (item.url && isActive(item.url)) || hasActiveChild(item.items))
-	}
-
 	return (
-		<Sidebar collapsible="icon" {...props}>
-			{/* Header */}
-			{header && <SidebarHeader>{header}</SidebarHeader>}
-
-			{/* Content */}
+		<Sidebar collapsible="none" {...props} className="w-[240px] top-14">
 			<SidebarContent>
-				{navigation.map((section, index) => (
-					<SidebarGroup key={section.id || section.title || `section-${index}`}>
-						{section.title && <SidebarGroupLabel>{section.title}</SidebarGroupLabel>}
-						<SidebarGroupContent>
-							<SidebarMenu>
-								{section.items.map((item) => (
-									<MenuItem
-										key={item.id || item.url || item.title}
-										item={item}
-										isActive={isActive}
-										hasActiveChild={hasActiveChild}
-									/>
-								))}
-							</SidebarMenu>
-						</SidebarGroupContent>
-					</SidebarGroup>
+				{config.navigation.map((section) => (
+					<NavSection key={section.id || section.title} section={section} isActive={isActive} />
 				))}
 			</SidebarContent>
-
-			{/* Footer */}
-			{footer && <SidebarFooter>{footer}</SidebarFooter>}
+			<SidebarRail />
 		</Sidebar>
 	)
 }
 
-interface MenuItemProps {
-	item: NavigationItem
-	isActive: (url: string) => boolean
-	hasActiveChild: (items?: NavigationItem[]) => boolean
+/**
+ * Section de navigation
+ */
+function NavSection({
+	section,
+	isActive,
+}: {
+	section: NavigationSection
+	isActive: (url?: string) => boolean
+}) {
+	// Section simple
+	return (
+		<SidebarGroup>
+			{section.title && <SidebarGroupLabel>{section.title}</SidebarGroupLabel>}
+			<SidebarGroupContent>
+				<SidebarMenu>
+					{section.items.map((item) => (
+						<NavItem key={item.id || item.url || item.title} item={item} isActive={isActive} />
+					))}
+				</SidebarMenu>
+			</SidebarGroupContent>
+		</SidebarGroup>
+	)
 }
 
-function MenuItem({ item, isActive, hasActiveChild }: MenuItemProps) {
-	const active = item.url ? isActive(item.url) : false
+/**
+ * Item de navigation (avec ou sans sous-items)
+ */
+function NavItem({
+	item,
+	isActive,
+}: {
+	item: NavigationItem
+	isActive: (url?: string) => boolean
+}) {
 	const hasChildren = item.items && item.items.length > 0
-	const childIsActive = hasChildren && hasActiveChild(item.items)
+	const [open, setOpen] = React.useState(false)
 
-	// Item with nested children
+	// Item avec sous-items (collapsible)
 	if (hasChildren) {
 		return (
-			<SidebarMenuItem>
-				<Collapsible defaultOpen={childIsActive} className="group/collapsible">
-					<SidebarMenuButton asChild isActive={active}>
-						<CollapsibleTrigger className="w-full">
-							{item.icon && <item.icon />}
-							<span>{item.title}</span>
-							{item.badge !== undefined && (
-								<span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-md bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
-									{item.badge}
-								</span>
-							)}
-							<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-						</CollapsibleTrigger>
-					</SidebarMenuButton>
-					<CollapsibleContent>
+			<SidebarCollapsible open={open} onOpenChange={setOpen}>
+				<SidebarMenuItem>
+					<SidebarMenuCollapsibleTrigger spacing="compact">
+						{item.icon && <item.icon />}
+						<span>{item.title}</span>
+						<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+					</SidebarMenuCollapsibleTrigger>
+					<SidebarCollapsibleContent>
 						<SidebarMenuSub>
 							{item.items?.map((subItem) => (
 								<SidebarMenuSubItem key={subItem.id || subItem.url || subItem.title}>
-									{subItem.url ? (
-										<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
-											<Link href={subItem.url}>
-												{subItem.icon && <subItem.icon />}
-												<span>{subItem.title}</span>
-												{subItem.badge !== undefined && (
-													<span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
-														{subItem.badge}
-													</span>
-												)}
-											</Link>
-										</SidebarMenuSubButton>
-									) : (
-										<SidebarMenuSubButton>
+									<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
+										<Link href={subItem.url || "#"}>
 											{subItem.icon && <subItem.icon />}
 											<span>{subItem.title}</span>
-											{subItem.badge !== undefined && (
-												<span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
-													{subItem.badge}
-												</span>
-											)}
-										</SidebarMenuSubButton>
-									)}
+										</Link>
+									</SidebarMenuSubButton>
 								</SidebarMenuSubItem>
 							))}
 						</SidebarMenuSub>
-					</CollapsibleContent>
-				</Collapsible>
-			</SidebarMenuItem>
+					</SidebarCollapsibleContent>
+				</SidebarMenuItem>
+			</SidebarCollapsible>
 		)
 	}
 
-	// Simple item without children
+	// Item simple (sans sous-items)
 	return (
 		<SidebarMenuItem>
-			{item.url ? (
-				<SidebarMenuButton asChild tooltip={item.title} isActive={active}>
-					<Link href={item.url}>
-						{item.icon && <item.icon />}
-						<span>{item.title}</span>
-						{item.badge !== undefined && (
-							<span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-md bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
-								{item.badge}
-							</span>
-						)}
-					</Link>
-				</SidebarMenuButton>
-			) : (
-				<SidebarMenuButton tooltip={item.title}>
+			<SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
+				<Link href={item.url || "#"}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
-					{item.badge !== undefined && (
-						<span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-md bg-sidebar-primary/10 px-1 text-xs font-medium text-sidebar-primary">
-							{item.badge}
-						</span>
-					)}
-				</SidebarMenuButton>
-			)}
+				</Link>
+			</SidebarMenuButton>
 		</SidebarMenuItem>
 	)
 }

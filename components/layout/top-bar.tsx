@@ -11,7 +11,7 @@ import {
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { cn } from "@/lib/utils"
-import { type BreadcrumbItem as BreadcrumbItemType, useFrame } from "./frame-context"
+import { type Breadcrumb as BreadcrumbItemType, useFrame } from "./frame-context"
 
 export interface TopBarProps {
 	breadcrumbs?: BreadcrumbItemType[]

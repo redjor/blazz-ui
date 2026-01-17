@@ -2,7 +2,7 @@
 
 import { Clock, Search } from "lucide-react"
 import * as React from "react"
-import type { NavigationSection } from "@/components/layout/app-sidebar"
+import type { NavigationSection } from "@/types/navigation"
 import {
 	CommandDialog,
 	CommandEmpty,

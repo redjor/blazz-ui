@@ -184,11 +184,4 @@
 	*::-webkit-scrollbar-thumb:hover {
 		background-color: rgb(0 0 0 / 0.3);
 	}
-
-	/* Force sidebar menu text to 13px */
-	[data-sidebar="menu-button"],
-	[data-sidebar="menu-sub-button"],
-	[data-sidebar="group-content"] {
-		font-size: 13px;
-	}
 }

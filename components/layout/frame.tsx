@@ -36,7 +36,7 @@ export function Frame({ topBar, navigation, children, className }: FrameProps) {
 			className={cn(
 				"frame-container",
 				"grid h-screen w-full overflow-hidden bg-black",
-				'[grid-template-areas:"topbar_topbar"_"nav_main"] [grid-template-rows:var(--frame-top-bar-height,_56px)_1fr] [grid-template-columns:var(--frame-navigation-width,_240px)_1fr]',
+				'[grid-template-areas:"topbar_topbar"_"nav_main"] grid-rows-[var(--frame-top-bar-height,56px)_1fr] grid-cols-[var(--frame-navigation-width,240px)_1fr]',
 				className
 			)}
 			style={
