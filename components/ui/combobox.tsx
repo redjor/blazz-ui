@@ -47,19 +47,19 @@ export function Combobox({
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				<Button
-					variant="outline"
-					role="combobox"
-					aria-expanded={open}
-					className={cn("w-full justify-between", className)}
-				>
-					<span className="flex items-center gap-2">
-						{icon}
-						{selectedOption ? selectedOption.label : placeholder}
-					</span>
-					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-				</Button>
+			<PopoverTrigger
+				className={cn(
+					"focus-visible:border-ring focus-visible:ring-ring/50 border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none h-8 gap-1.5 px-2.5 w-full",
+					className
+				)}
+				role="combobox"
+				aria-expanded={open}
+			>
+				<span className="flex items-center gap-2">
+					{icon}
+					{selectedOption ? selectedOption.label : placeholder}
+				</span>
+				<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 			</PopoverTrigger>
 			<PopoverContent className="w-full p-0" align="start">
 				<Command>

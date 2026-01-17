@@ -131,7 +131,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 					"w-full px-4",
 					!fullWidth && "mx-auto",
 					!fullWidth && !narrowWidth && "max-w-7xl",
-					!fullWidth && narrowWidth && "max-w-4xl",
+					!fullWidth && narrowWidth && "max-w-5xl",
 					className
 				)}
 				{...props}

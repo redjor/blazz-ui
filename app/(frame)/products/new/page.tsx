@@ -3,14 +3,7 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-	Copy,
-	ChevronDown,
-	Tag,
-	Store,
-	Info,
-	Search,
-} from "lucide-react"
+import { Copy, ChevronDown, Tag, Store, Info, Search } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import {
@@ -21,7 +14,8 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
 	DropdownMenu,
@@ -30,7 +24,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Form } from "@/components/ui/field"
+import { Form, Field, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Page } from "@/components/ui/page"
@@ -143,6 +137,7 @@ export default function ProductNewPage() {
 			<form onSubmit={form.handleSubmit(onSubmit)}>
 				<Page
 					breadcrumbs={breadcrumb}
+					narrowWidth
 					primaryAction={
 						<div className="flex gap-2">
 							<Button variant="outline" type="button">
@@ -153,44 +148,43 @@ export default function ProductNewPage() {
 								Prévisualiser
 							</Button>
 							<DropdownMenu>
-								<DropdownMenuTrigger asChild>
-									<Button variant="outline" type="button">
-										Autres actions
-										<ChevronDown className="ml-2 h-4 w-4" />
-									</Button>
+								<DropdownMenuTrigger
+									className={cn(buttonVariants({ variant: "outline" }))}
+									type="button"
+								>
+									Autres actions
+									<ChevronDown className="ml-2 h-4 w-4" />
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end">
 									<DropdownMenuItem>Archiver le produit</DropdownMenuItem>
 									<DropdownMenuSeparator />
-									<DropdownMenuItem variant="destructive">
-										Supprimer le produit
-									</DropdownMenuItem>
+									<DropdownMenuItem variant="destructive">Supprimer le produit</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
 						</div>
 					}
 				>
-					<div className="grid gap-6 md:grid-cols-3">
+					<div className="grid gap-4 md:grid-cols-3">
 						{/* Colonne Gauche */}
-						<div className="md:col-span-2 space-y-6">
+						<div className="md:col-span-2 space-y-4">
 							{/* Carte Titre */}
 							<Card>
 								<CardHeader>
 									<CardTitle>Titre</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<div className="space-y-2">
-										<Input
-											placeholder="Short sleeve t-shirt"
-											{...form.register("title")}
-											aria-invalid={!!form.formState.errors.title}
-										/>
-										{form.formState.errors.title && (
-											<p className="text-sm text-destructive">
-												{form.formState.errors.title.message}
-											</p>
+									<Field
+										control={form.control}
+										name="title"
+										render={({ field }) => (
+											<FormItem>
+												<FormControl>
+													<Input placeholder="Short sleeve t-shirt" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
 										)}
-									</div>
+									/>
 								</CardContent>
 							</Card>
 
@@ -200,18 +194,18 @@ export default function ProductNewPage() {
 									<CardTitle>Description</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<div className="space-y-2">
-										<Textarea
-											placeholder="Décrivez votre produit..."
-											rows={6}
-											{...form.register("description")}
-										/>
-										{form.formState.errors.description && (
-											<p className="text-sm text-destructive">
-												{form.formState.errors.description.message}
-											</p>
+									<Field
+										control={form.control}
+										name="description"
+										render={({ field }) => (
+											<FormItem>
+												<FormControl>
+													<Textarea placeholder="Décrivez votre produit..." rows={6} {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
 										)}
-									</div>
+									/>
 								</CardContent>
 							</Card>
 
@@ -245,17 +239,15 @@ export default function ProductNewPage() {
 									/>
 									{selectedCategory?.suggested && (
 										<div className="flex items-center gap-2 text-sm">
-											<span className="text-muted-foreground">
-												{selectedCategory.label}
-											</span>
+											<span className="text-muted-foreground">{selectedCategory.label}</span>
 											<Badge variant="outline" className="text-purple-600 border-purple-200">
 												Suggéré
 											</Badge>
 										</div>
 									)}
 									<p className="text-sm text-muted-foreground">
-										Détermine les taux de taxation et ajoute des champs méta pour améliorer
-										la recherche, les filtres et les ventes intercanaux.
+										Détermine les taux de taxation et ajoute des champs méta pour améliorer la
+										recherche, les filtres et les ventes intercanaux.
 									</p>
 								</CardContent>
 							</Card>
@@ -267,22 +259,29 @@ export default function ProductNewPage() {
 								</CardHeader>
 								<CardContent>
 									<div className="space-y-4">
-										<div>
-											<Label htmlFor="price">Prix</Label>
-											<div className="relative">
-												<Input
-													id="price"
-													type="number"
-													step="0.01"
-													{...form.register("pricing.price", {
-														valueAsNumber: true,
-													})}
-												/>
-												<span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-													€
-												</span>
-											</div>
-										</div>
+										<Field
+											control={form.control}
+											name="pricing.price"
+											render={({ field }) => (
+												<FormItem>
+													<FormLabel>Prix</FormLabel>
+													<FormControl>
+														<div className="relative">
+															<Input
+																type="number"
+																step="0.01"
+																{...field}
+																onChange={(e) => field.onChange(e.target.valueAsNumber)}
+															/>
+															<span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+																€
+															</span>
+														</div>
+													</FormControl>
+													<FormMessage />
+												</FormItem>
+											)}
+										/>
 
 										<Tabs defaultValue="price" className="w-full">
 											<TabsList className="grid w-full grid-cols-4">
@@ -292,21 +291,38 @@ export default function ProductNewPage() {
 												<TabsTrigger value="cost">Coût par article</TabsTrigger>
 											</TabsList>
 											<TabsContent value="price" className="mt-4">
-												<Label htmlFor="compareAtPrice">Prix avant réduction</Label>
-												<Input
-													id="compareAtPrice"
-													type="number"
-													step="0.01"
-													{...form.register("pricing.compareAtPrice", {
-														valueAsNumber: true,
-													})}
+												<Field
+													control={form.control}
+													name="pricing.compareAtPrice"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Prix avant réduction</FormLabel>
+															<FormControl>
+																<Input
+																	type="number"
+																	step="0.01"
+																	{...field}
+																	onChange={(e) => field.onChange(e.target.valueAsNumber)}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
 												/>
 											</TabsContent>
 											<TabsContent value="unit" className="mt-4">
-												<Label>Prix unitaire</Label>
-												<Input
-													placeholder="ex: 10,00 € / kg"
-													{...form.register("pricing.unitPrice")}
+												<Field
+													control={form.control}
+													name="pricing.unitPrice"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Prix unitaire</FormLabel>
+															<FormControl>
+																<Input placeholder="ex: 10,00 € / kg" {...field} />
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
 												/>
 											</TabsContent>
 											<TabsContent value="tax" className="mt-4">
@@ -314,21 +330,29 @@ export default function ProductNewPage() {
 													<Label>Facturer la taxe sur ce produit</Label>
 													<Switch
 														checked={form.watch("pricing.taxable")}
-														onCheckedChange={(checked) =>
-															form.setValue("pricing.taxable", checked)
-														}
+														onCheckedChange={(checked) => form.setValue("pricing.taxable", checked)}
 													/>
 												</div>
 											</TabsContent>
 											<TabsContent value="cost" className="mt-4">
-												<Label>Coût par article</Label>
-												<Input
-													type="number"
-													step="0.01"
-													placeholder="0,00"
-													{...form.register("pricing.costPerItem", {
-														valueAsNumber: true,
-													})}
+												<Field
+													control={form.control}
+													name="pricing.costPerItem"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Coût par article</FormLabel>
+															<FormControl>
+																<Input
+																	type="number"
+																	step="0.01"
+																	placeholder="0,00"
+																	{...field}
+																	onChange={(e) => field.onChange(e.target.valueAsNumber)}
+																/>
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
 												/>
 											</TabsContent>
 										</Tabs>
@@ -348,23 +372,33 @@ export default function ProductNewPage() {
 										</div>
 										<Switch
 											checked={!watchInventoryTracked}
-											onCheckedChange={(checked) =>
-												form.setValue("inventory.tracked", !checked)
-											}
+											onCheckedChange={(checked) => form.setValue("inventory.tracked", !checked)}
 										/>
 									</div>
 
 									{watchInventoryTracked && (
 										<>
-											<div>
-												<Label htmlFor="sku">SKU</Label>
-												<div className="flex gap-2">
-													<Input id="sku" {...form.register("inventory.sku")} />
-													<Badge variant="outline" className="shrink-0 h-8 px-3 bg-orange-50 text-orange-700 border-orange-200">
-														sku-untracked-1
-													</Badge>
-												</div>
-											</div>
+											<Field
+												control={form.control}
+												name="inventory.sku"
+												render={({ field }) => (
+													<FormItem>
+														<FormLabel>SKU</FormLabel>
+														<div className="flex gap-2">
+															<FormControl>
+																<Input {...field} />
+															</FormControl>
+															<Badge
+																variant="outline"
+																className="shrink-0 h-8 px-3 bg-orange-50 text-orange-700 border-orange-200"
+															>
+																sku-untracked-1
+															</Badge>
+														</div>
+														<FormMessage />
+													</FormItem>
+												)}
+											/>
 
 											<Button variant="outline" type="button" className="w-fit">
 												Code-barres
@@ -391,9 +425,7 @@ export default function ProductNewPage() {
 										<Label>Produit physique</Label>
 										<Switch
 											checked={form.watch("shipping.isPhysical")}
-											onCheckedChange={(checked) =>
-												form.setValue("shipping.isPhysical", checked)
-											}
+											onCheckedChange={(checked) => form.setValue("shipping.isPhysical", checked)}
 										/>
 									</div>
 
@@ -412,41 +444,48 @@ export default function ProductNewPage() {
 										</Select>
 									</div>
 
-									<div>
-										<Label htmlFor="weight">Poids du produit</Label>
-										<div className="flex gap-2">
-											<Input
-												id="weight"
-												type="number"
-												step="0.01"
-												defaultValue="0.0"
-												className="flex-1"
-												{...form.register("shipping.weight", {
-													valueAsNumber: true,
-												})}
-											/>
-											<Select
-												value={form.watch("shipping.weightUnit")}
-												onValueChange={(value) =>
-													form.setValue("shipping.weightUnit", value as "kg" | "lb")
-												}
-											>
-												<SelectTrigger className="w-24">
-													<SelectValue />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value="kg">kg</SelectItem>
-													<SelectItem value="lb">lb</SelectItem>
-												</SelectContent>
-											</Select>
-										</div>
-									</div>
+									<Field
+										control={form.control}
+										name="shipping.weight"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Poids du produit</FormLabel>
+												<div className="flex gap-2">
+													<FormControl>
+														<Input
+															type="number"
+															step="0.01"
+															defaultValue="0.0"
+															className="flex-1"
+															{...field}
+															onChange={(e) => field.onChange(e.target.valueAsNumber)}
+														/>
+													</FormControl>
+													<Select
+														value={form.watch("shipping.weightUnit")}
+														onValueChange={(value) =>
+															form.setValue("shipping.weightUnit", value as "kg" | "lb")
+														}
+													>
+														<SelectTrigger className="w-24">
+															<SelectValue />
+														</SelectTrigger>
+														<SelectContent>
+															<SelectItem value="kg">kg</SelectItem>
+															<SelectItem value="lb">lb</SelectItem>
+														</SelectContent>
+													</Select>
+												</div>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 						</div>
 
 						{/* Colonne Droite */}
-						<div className="space-y-6">
+						<div className="space-y-4">
 							{/* Carte Statut */}
 							<Card>
 								<CardHeader>
@@ -518,22 +557,32 @@ export default function ProductNewPage() {
 									</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-4">
-									<div>
-										<Label htmlFor="type">Type</Label>
-										<Input
-											id="type"
-											{...form.register("organization.type")}
-											placeholder="snowboard"
-										/>
-									</div>
-									<div>
-										<Label htmlFor="vendor">Fournisseur</Label>
-										<Input
-											id="vendor"
-											{...form.register("organization.vendor")}
-											placeholder="blazz-develop"
-										/>
-									</div>
+									<Field
+										control={form.control}
+										name="organization.type"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Type</FormLabel>
+												<FormControl>
+													<Input placeholder="snowboard" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<Field
+										control={form.control}
+										name="organization.vendor"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>Fournisseur</FormLabel>
+												<FormControl>
+													<Input placeholder="blazz-develop" {...field} />
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
 								</CardContent>
 							</Card>
 
