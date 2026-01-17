@@ -16,13 +16,6 @@ import {
 import type { SidebarConfig } from "@/types/navigation"
 
 export const sidebarConfig: SidebarConfig = {
-	searchEnabled: false,
-	user: {
-		name: "John Doe",
-		email: "john@example.com",
-		avatar: "/avatars/01.png",
-		role: "Admin",
-	},
 	navigation: [
 		{
 			id: "main",
@@ -75,8 +68,6 @@ export const sidebarConfig: SidebarConfig = {
 		{
 			id: "analytics",
 			title: "Analytics & Reports",
-			collapsible: true,
-			defaultOpen: true,
 			items: [
 				{
 					id: "reports",
@@ -126,7 +117,6 @@ export const sidebarConfig: SidebarConfig = {
 		{
 			id: "admin",
 			title: "Administration",
-			collapsible: true,
 			items: [
 				{
 					id: "settings",

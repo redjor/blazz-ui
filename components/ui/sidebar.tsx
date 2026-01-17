@@ -325,7 +325,7 @@ const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<"main
 				ref={ref}
 				className={cn(
 					"relative flex min-h-svh flex-1 flex-col bg-background",
-					"peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
+					"peer-data-[variant=inset]:min-h-[calc(100svh-(--spacing(4)))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
 					className
 				)}
 				{...props}
@@ -385,7 +385,7 @@ const SidebarContent = React.forwardRef<HTMLDivElement, React.ComponentProps<"di
 				ref={ref}
 				data-sidebar="content"
 				className={cn(
-					"flex min-h-0 flex-1 flex-col gap-2 overflow-auto pt-3 group-data-[collapsible=icon]:overflow-hidden",
+					"flex min-h-0 flex-1 flex-col gap-3 overflow-auto pt-3 group-data-[collapsible=icon]:overflow-hidden",
 					className
 				)}
 				{...props}
@@ -420,7 +420,7 @@ const SidebarGroupLabel = React.forwardRef<
 			ref={ref}
 			data-sidebar="group-label"
 			className={cn(
-				"duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+				"duration-200 flex h-6 shrink-0 items-center rounded-md px-4 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
 				"group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
 				className
 			)}
@@ -520,7 +520,7 @@ const SidebarMenuItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"li
 		<li
 			ref={ref}
 			data-sidebar="menu-item"
-			className={cn("group/menu-item relative px-1.5", className)}
+			className={cn("group/menu-item relative px-3", className)}
 			{...props}
 		/>
 	)
@@ -537,7 +537,7 @@ const sidebarMenuButtonVariants = cva(
 					"bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
 			},
 			size: {
-				default: "h-8 text-[13px] font-semibold",
+				default: "h-7 text-[13px] font-semibold",
 				sm: "h-7 text-[13px] font-semibold",
 				lg: "h-12 text-[13px] font-semibold group-data-[collapsible=icon]:p-0",
 			},
@@ -548,8 +548,8 @@ const sidebarMenuButtonVariants = cva(
 				md: "rounded-md",
 			},
 			spacing: {
-				default: "px-4 py-2",
-				compact: "px-3 py-1",
+				default: "px-2 py-0",
+				compact: "px-2 py-0",
 				tight: "px-2 py-1",
 			},
 		},
@@ -787,7 +787,7 @@ const SidebarMenuSubButton = React.forwardRef<
 			data-size={size}
 			data-active={isActive}
 			className={cn(
-				"flex h-7 min-w-0 -translate-x-px items-center gap-1 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>svg]:text-sidebar-foreground/50",
+				"flex h-7 min-w-0 -translate-x-px items-center gap-1 overflow-hidden rounded-md px-2 text-xs text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>svg]:text-sidebar-foreground/50",
 				"data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
 				size === "sm" && "text-xs",
 				size === "md" && "text-13",

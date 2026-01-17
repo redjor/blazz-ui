@@ -29,15 +29,8 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 /**
  * AppSidebar - Sidebar simple avec navigation hiérarchique
- *
- * Fonctionnalités:
- * - Navigation par sections
- * - Sections collapsibles (optionnel)
- * - Items avec sous-items
- * - Badges
- * - Icônes
- * - État actif automatique basé sur l'URL
  */
+
 export function AppSidebar({ config, ...props }: AppSidebarProps) {
 	const pathname = usePathname()
 

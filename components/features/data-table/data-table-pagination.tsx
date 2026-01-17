@@ -29,7 +29,7 @@ export function DataTablePagination<TData>({
 
 	return (
 		<div
-			className="flex items-center justify-between px-2 py-4 border border-t"
+			className="flex items-center justify-between p-2 border-t"
 			data-slot="data-table-pagination"
 		>
 			<div className="flex-1 text-sm text-muted-foreground">
@@ -41,7 +41,7 @@ export function DataTablePagination<TData>({
 			</div>
 			<div className="flex items-center space-x-6 lg:space-x-8">
 				<div className="flex items-center space-x-2">
-					<p className="text-sm font-medium">Rows per page</p>
+					<p className="text-xs font-medium">Rows per page</p>
 					<Select
 						value={String(pageSize)}
 						onValueChange={(value) => {
@@ -60,7 +60,7 @@ export function DataTablePagination<TData>({
 						</SelectContent>
 					</Select>
 				</div>
-				<div className="flex w-[100px] items-center justify-center text-sm font-medium">
+				<div className="flex w-[100px] items-center justify-center text-xs font-medium">
 					Page {currentPage} of {totalPages}
 				</div>
 				<div className="flex items-center space-x-2">

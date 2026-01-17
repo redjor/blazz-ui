@@ -432,12 +432,17 @@ export default function ProductNewPage() {
 									<div>
 										<Label htmlFor="package">Emballage</Label>
 										<Select defaultValue="default">
-											<SelectTrigger id="package">
+											<SelectTrigger id="package" className="w-full">
 												<SelectValue />
 											</SelectTrigger>
 											<SelectContent>
 												<SelectItem value="default">
-													Par défaut de la boutique • Boîte d'échantillons - 22 × 1
+													<div className="flex flex-col gap-0.5">
+														<span className="font-medium">Par défaut de la boutique</span>
+														<span className="text-xs text-muted-foreground">
+															Boîte d'échantillons - 22 × 1
+														</span>
+													</div>
 												</SelectItem>
 												<SelectItem value="custom">Personnalisé</SelectItem>
 											</SelectContent>
