@@ -482,64 +482,62 @@ export function DataTable<TData, TValue = unknown>({
 				)}
 
 				<Table className={cn(dataTableVariants({ variant, density }))}>
-					<TableHeader>
-						{/* Bulk Actions Row - Replaces column headers when rows selected */}
+					<TableHeader className="relative">
+						{/* Column Headers Row - Always visible */}
+						{table
+							.getHeaderGroups()
+							.map((headerGroup) => (
+								<TableRow key={headerGroup.id}>
+									{headerGroup.headers.map((header) => {
+										return (
+											<TableHead
+												key={header.id}
+												style={{
+													width: header.getSize() !== 150 ? header.getSize() : undefined,
+												}}
+											>
+												{header.isPlaceholder
+													? null
+													: flexRender(header.column.columnDef.header, header.getContext())}
+											</TableHead>
+										)
+									})}
+								</TableRow>
+							))}
+
+						{/* Bulk Actions Overlay - Appears over headers when rows selected */}
 						{bulkActions &&
 						bulkActions.length > 0 &&
-						table.getFilteredSelectedRowModel().rows.length > 0 ? (
-							<TableRow className="bg-muted/50 hover:bg-muted/50">
-								<TableHead colSpan={tableColumns.length} className="h-8 px-2">
-									<div className="flex items-center justify-between gap-2">
-										<div className="flex items-center gap-2 pl-2">
-											{table.getFilteredSelectedRowModel().rows.length} rows selected
-											{/** biome-ignore lint/a11y/useButtonType: <explanation> */}
-											<button
-												onClick={() => table.resetRowSelection()}
-												className="ml-2 text-muted-foreground hover:text-foreground"
-											>
-												✕
-											</button>
-										</div>
-										<div className="flex items-center gap-2">
-											{bulkActions.map((action) => (
-												<Button
-													key={action.id}
-													variant={action.variant || "outline"}
-													size="sm"
-													onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
-													disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
-													className="h-8 "
-												>
-													{action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
-													{action.label}
-												</Button>
-											))}
-										</div>
+						table.getFilteredSelectedRowModel().rows.length > 0 && (
+							<div className="absolute inset-0 bg-muted/95 backdrop-blur-sm animate-in fade-in-0 duration-200 flex items-center px-4">
+								<div className="flex items-center justify-between gap-2 w-full">
+									<div className="flex items-center gap-2">
+										{table.getFilteredSelectedRowModel().rows.length} rows selected
+										{/** biome-ignore lint/a11y/useButtonType: <explanation> */}
+										<button
+											onClick={() => table.resetRowSelection()}
+											className="ml-2 text-muted-foreground hover:text-foreground"
+										>
+											✕
+										</button>
 									</div>
-								</TableHead>
-							</TableRow>
-						) : (
-							/* Column Headers Row - Only shown when no rows selected */
-							table
-								.getHeaderGroups()
-								.map((headerGroup) => (
-									<TableRow key={headerGroup.id}>
-										{headerGroup.headers.map((header) => {
-											return (
-												<TableHead
-													key={header.id}
-													style={{
-														width: header.getSize() !== 150 ? header.getSize() : undefined,
-													}}
-												>
-													{header.isPlaceholder
-														? null
-														: flexRender(header.column.columnDef.header, header.getContext())}
-												</TableHead>
-											)
-										})}
-									</TableRow>
-								))
+									<div className="flex items-center gap-2">
+										{bulkActions.map((action) => (
+											<Button
+												key={action.id}
+												variant={action.variant || "outline"}
+												size="sm"
+												onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
+												disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
+												className="h-8"
+											>
+												{action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
+												{action.label}
+											</Button>
+										))}
+									</div>
+								</div>
+							</div>
 						)}
 					</TableHeader>
 					<TableBody>
