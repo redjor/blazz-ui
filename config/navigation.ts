@@ -4,8 +4,6 @@ import {
 	BarChart,
 	Calendar,
 	FileText,
-	Home,
-	Inbox,
 	Layers,
 	Mail,
 	Package,
@@ -21,18 +19,6 @@ export const sidebarConfig: SidebarConfig = {
 			id: "main",
 			title: "",
 			items: [
-				{
-					id: "dashboard",
-					title: "Dashboard",
-					url: "/dashboard",
-					icon: Home,
-				},
-				{
-					id: "inbox",
-					title: "Inbox",
-					url: "/inbox",
-					icon: Inbox,
-				},
 				{
 					id: "products",
 					title: "Produits",

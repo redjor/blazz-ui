@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Page } from "@/components/ui/page"
 import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
+import Link from "next/link"
 
 interface Product {
 	id: string
@@ -412,10 +413,9 @@ export default function ProductsPage() {
 			title="Produits"
 			fullWidth
 			primaryAction={
-				<Button>
-					<Plus className="mr-2 h-4 w-4" />
-					Add Product
-				</Button>
+				<Link href="/products/new" passHref>
+					<Button>Ajouter un produit</Button>
+				</Link>
 			}
 		>
 			<Card className="p-0">

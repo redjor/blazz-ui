@@ -38,24 +38,8 @@
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
 	--radius-2xl: calc(var(--radius) + 8px);
-	--text-xxs: 0.75rem;
-	--text-xs: 0.813rem;
-
-	/* Shopify Polaris Typography Scale */
-	--fontSize-heading-3xl: 2.25rem / 2.75rem 700;
-	--fontSize-heading-2xl: 1.125rem / 1.6875rem 600;
-	--fontSize-heading-xl: 1.5rem / 2rem 700;
-	--fontSize-heading-lg: 1.25rem / 1.75rem 600;
-	--fontSize-heading-md: 0.875rem / 1.25rem 600;
-	--fontSize-heading-sm: 0.8125rem / 1.25rem 600;
-	--fontSize-heading-xs: 0.75rem / 1rem 600;
-	--fontSize-body-lg: 0.875rem / 1.25rem 400;
-	--fontSize-body-md: 0.8125rem / 1.25rem 400;
-	--fontSize-body-sm: 0.75rem / 1rem 400;
-	--fontSize-body-xs: 0.6875rem / 1rem 400;
-
-	/* Custom sidebar menu size */
-	--fontSize-13: 13px / 1.25rem 600;
+	--text-tiny: 0.75rem;
+	--text-xs: 0.8125rem;
 }
 
 :root {

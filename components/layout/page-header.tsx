@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import * as React from "react"
 import {
 	Breadcrumb,
@@ -63,6 +62,7 @@ export function PageHeader({
 							const isLast = index === breadcrumbs.length - 1
 
 							return (
+								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 								<React.Fragment key={index}>
 									<BreadcrumbItem>
 										{isLast || !breadcrumb.href ? (
