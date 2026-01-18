@@ -5,8 +5,8 @@ import { Inter } from "next/font/google"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-	title: "UI Boilerplate Example",
-	description: "Exemple d'utilisation du package @blazz/ui-boilerplate avec Base UI",
+	title: "Blazz UI Boilerplate",
+	description: "Boilerplate pour utiliser le package @blazz/ui-boilerplate avec Base UI",
 	icons: {
 		icon: "/favicon.png",
 	},
