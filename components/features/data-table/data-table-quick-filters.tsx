@@ -119,7 +119,7 @@ export function DataTableQuickFilters<TData>({
 	const hasActiveFilters = filterGroup && filterGroup.conditions.length > 0
 
 	return (
-		<div className="flex items-center gap-2 border-y border-border px-4 py-3">
+		<div className="flex items-center gap-2 border-b border-border px-4 py-3">
 			{/* Quick filter dropdowns/inputs */}
 			{quickFilterColumns.map((column) => {
 				const columnKey = getColumnKey(column)!

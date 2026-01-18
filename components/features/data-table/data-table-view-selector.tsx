@@ -23,7 +23,10 @@ export function DataTableViewSelector({
 	enableCustomViews = false,
 }: DataTableViewSelectorProps) {
 	return (
-		<div className="flex items-center gap-1" data-slot="data-table-view-selector">
+		<div
+			className="flex items-center gap-1 border-b border-border"
+			data-slot="data-table-view-selector"
+		>
 			{views.map((view) => (
 				<div key={view.id} className="relative group">
 					<button

@@ -1,11 +1,11 @@
 "use client"
 
-import { Badge, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
 import {
-	Sidebar,
 	SidebarCollapsible,
 	SidebarCollapsibleContent,
 	SidebarContent,
@@ -19,19 +19,16 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
-	SidebarRail,
 } from "@/components/ui/sidebar"
 import type { NavigationItem, NavigationSection, SidebarConfig } from "@/types/navigation"
 
-export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+interface MobileSidebarSheetProps {
+	open: boolean
+	onOpenChange: (open: boolean) => void
 	config: SidebarConfig
 }
 
-/**
- * AppSidebar - Sidebar simple avec navigation hiérarchique
- */
-
-export function AppSidebar({ config, ...props }: AppSidebarProps) {
+export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebarSheetProps) {
 	const pathname = usePathname()
 
 	// Vérifie si une URL est active
@@ -41,36 +38,55 @@ export function AppSidebar({ config, ...props }: AppSidebarProps) {
 		return pathname.startsWith(url)
 	}
 
+	// Ferme le Sheet quand on clique sur un lien
+	const handleLinkClick = () => {
+		onOpenChange(false)
+	}
+
 	return (
-		<Sidebar collapsible="none" {...props} className="w-[240px] top-[56px]">
-			<SidebarContent>
-				{config.navigation.map((section) => (
-					<NavSection key={section.id || section.title} section={section} isActive={isActive} />
-				))}
-			</SidebarContent>
-			<SidebarRail />
-		</Sidebar>
+		<Sheet open={open} onOpenChange={onOpenChange}>
+			<SheetContent side="left" className="w-[240px] p-0 bg-sidebar">
+				<div className="flex h-full flex-col pt-[56px]">
+					<SidebarContent>
+						{config.navigation.map((section) => (
+							<NavSection
+								key={section.id || section.title}
+								section={section}
+								isActive={isActive}
+								onLinkClick={handleLinkClick}
+							/>
+						))}
+					</SidebarContent>
+				</div>
+			</SheetContent>
+		</Sheet>
 	)
 }
 
 /**
- * Section de navigation
+ * Section de navigation pour mobile
  */
 function NavSection({
 	section,
 	isActive,
+	onLinkClick,
 }: {
 	section: NavigationSection
 	isActive: (url?: string) => boolean
+	onLinkClick: () => void
 }) {
-	// Section simple
 	return (
 		<SidebarGroup>
 			{section.title && <SidebarGroupLabel>{section.title}</SidebarGroupLabel>}
 			<SidebarGroupContent>
 				<SidebarMenu>
 					{section.items.map((item) => (
-						<NavItem key={item.id || item.url || item.title} item={item} isActive={isActive} />
+						<NavItem
+							key={item.id || item.url || item.title}
+							item={item}
+							isActive={isActive}
+							onLinkClick={onLinkClick}
+						/>
 					))}
 				</SidebarMenu>
 			</SidebarGroupContent>
@@ -79,14 +95,16 @@ function NavSection({
 }
 
 /**
- * Item de navigation (avec ou sans sous-items)
+ * Item de navigation mobile (avec ou sans sous-items)
  */
 function NavItem({
 	item,
 	isActive,
+	onLinkClick,
 }: {
 	item: NavigationItem
 	isActive: (url?: string) => boolean
+	onLinkClick: () => void
 }) {
 	const hasChildren = item.items && item.items.length > 0
 	const [open, setOpen] = React.useState(false)
@@ -106,7 +124,7 @@ function NavItem({
 							{item.items?.map((subItem) => (
 								<SidebarMenuSubItem key={subItem.id || subItem.url || subItem.title}>
 									<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
-										<Link href={subItem.url || "#"}>
+										<Link href={subItem.url || "#"} onClick={onLinkClick}>
 											{subItem.icon && <subItem.icon />}
 											<span>{subItem.title}</span>
 										</Link>
@@ -124,7 +142,7 @@ function NavItem({
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild isActive={isActive(item.url)} disabled={item.disabled}>
-				<Link href={item.url || "#"}>
+				<Link href={item.url || "#"} onClick={onLinkClick}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
 				</Link>

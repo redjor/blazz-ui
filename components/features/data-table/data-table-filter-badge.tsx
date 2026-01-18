@@ -64,7 +64,10 @@ export function DataTableFilterBadges({
 	}
 
 	return (
-		<div className="flex flex-wrap items-center gap-2 py-2" data-slot="data-table-filter-badges">
+		<div
+			className="flex flex-wrap items-center gap-2 py-2 border-b border-border"
+			data-slot="data-table-filter-badges"
+		>
 			<span className="text-sm text-muted-foreground">Filters:</span>
 
 			{/* Display filter conditions as badges */}

@@ -1,11 +1,12 @@
 "use client"
 
-import { Bell, ChevronDown, Search } from "lucide-react"
+import { Bell, ChevronDown, Menu, Search } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 export interface AppTopBarProps {
 	onOpenCommandPalette?: () => void
+	onOpenMobileMenu?: () => void
 	className?: string
 }
 
@@ -20,7 +21,7 @@ export interface AppTopBarProps {
  * @example
  * <AppTopBar onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
  */
-export function AppTopBar({ onOpenCommandPalette, className }: AppTopBarProps) {
+export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }: AppTopBarProps) {
 	return (
 		<header
 			className={cn(
@@ -28,18 +29,31 @@ export function AppTopBar({ onOpenCommandPalette, className }: AppTopBarProps) {
 				className
 			)}
 		>
-			{/* Left: Logo + App Name */}
+			{/* Left: Mobile - Hamburger | Desktop - Logo + App Name */}
 			<div className="flex items-center gap-3">
-				<div className="flex h-8 w-8 items-center justify-center">
-					<Image
-						src="/logo_blazz_white.svg"
-						alt="Blazz Logo"
-						width={32}
-						height={32}
-						className="h-8 w-8"
-					/>
+				{/* Mobile: Hamburger Menu Button */}
+				<button
+					type="button"
+					onClick={onOpenMobileMenu}
+					className="flex h-8 w-8 items-center justify-center md:hidden"
+					aria-label="Ouvrir le menu"
+				>
+					<Menu className="h-5 w-5 text-white" />
+				</button>
+
+				{/* Desktop: Logo + App Name */}
+				<div className="hidden md:flex items-center gap-3">
+					<div className="flex h-8 w-8 items-center justify-center">
+						<Image
+							src="/logo_blazz_white.svg"
+							alt="Blazz Logo"
+							width={32}
+							height={32}
+							className="h-8 w-8"
+						/>
+					</div>
+					<span className="text-base font-semibold text-white">Blazz</span>
 				</div>
-				<span className="text-base font-semibold text-white">Blazz</span>
 			</div>
 
 			{/* Center: Search Bar */}

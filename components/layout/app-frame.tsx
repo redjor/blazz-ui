@@ -4,6 +4,7 @@ import * as React from "react"
 import { AppSidebar } from "@/components/layout/app-sidebar"
 import { AppTopBar } from "@/components/layout/app-top-bar"
 import { Frame } from "@/components/layout/frame"
+import { MobileSidebarSheet } from "@/components/layout/mobile-sidebar-sheet"
 import { sidebarConfig } from "@/config/navigation"
 import type { NavigationSection } from "@/types/navigation"
 
@@ -56,6 +57,9 @@ export function AppFrame({
 	sidebarFooter: _sidebarFooter,
 	onOpenCommandPalette,
 }: AppFrameProps) {
+	// État pour le Sheet mobile
+	const [mobileSheetOpen, setMobileSheetOpen] = React.useState(false)
+
 	// Utiliser sidebarConfig par défaut, ou le merger avec navigation si fourni
 	const config = React.useMemo(() => {
 		if (navigation) {
@@ -68,11 +72,25 @@ export function AppFrame({
 	}, [navigation])
 
 	return (
-		<Frame
-			topBar={<AppTopBar onOpenCommandPalette={onOpenCommandPalette} />}
-			navigation={<AppSidebar config={config} />}
-		>
-			{children}
-		</Frame>
+		<>
+			{/* Sheet mobile via Portal */}
+			<MobileSidebarSheet
+				open={mobileSheetOpen}
+				onOpenChange={setMobileSheetOpen}
+				config={config}
+			/>
+
+			<Frame
+				topBar={
+					<AppTopBar
+						onOpenCommandPalette={onOpenCommandPalette}
+						onOpenMobileMenu={() => setMobileSheetOpen(true)}
+					/>
+				}
+				navigation={<AppSidebar config={config} />}
+			>
+				{children}
+			</Frame>
+		</>
 	)
 }
