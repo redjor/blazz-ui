@@ -44,17 +44,7 @@ export default function DashboardPage() {
 	return (
 		<Page
 			title="Dashboard"
-			subtitle="Welcome to your Shopify-style dashboard"
 			fullWidth
-			breadcrumbs={
-				<Breadcrumb>
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbPage>Dashboard</BreadcrumbPage>
-						</BreadcrumbItem>
-					</BreadcrumbList>
-				</Breadcrumb>
-			}
 			primaryAction={
 				<Button>
 					<Plus className="mr-2 h-4 w-4" />

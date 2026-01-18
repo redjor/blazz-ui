@@ -77,7 +77,7 @@ const TableHead = React.forwardRef<
 		ref={ref}
 		data-slot="table-head"
 		className={cn(
-			"h-8 px-1.5 text-left align-middle text-heading-xs text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+			"h-8 px-3 py-1 text-left align-middle text-xs font-medium leading-none text-muted-foreground [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
 			className
 		)}
 		{...props}
@@ -93,7 +93,7 @@ const TableCell = React.forwardRef<
 		ref={ref}
 		data-slot="table-cell"
 		className={cn(
-			"px-1.5 py-1.5 align-middle first:pl-3 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+			"px-1.5 py-1.5 align-middle first:pl-3 [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
 			className
 		)}
 		{...props}

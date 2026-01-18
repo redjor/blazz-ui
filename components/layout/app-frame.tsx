@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { AppSidebarV2 } from "@/components/layout/app-sidebar-v2"
+import { AppSidebar } from "@/components/layout/app-sidebar"
 import { AppTopBar } from "@/components/layout/app-top-bar"
 import { Frame } from "@/components/layout/frame"
 import { sidebarConfig } from "@/config/navigation"
@@ -70,7 +70,7 @@ export function AppFrame({
 	return (
 		<Frame
 			topBar={<AppTopBar onOpenCommandPalette={onOpenCommandPalette} />}
-			navigation={<AppSidebarV2 config={config} collapsible="none" />}
+			navigation={<AppSidebar config={config} />}
 		>
 			{children}
 		</Frame>
