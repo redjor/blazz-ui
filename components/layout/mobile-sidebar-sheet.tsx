@@ -45,8 +45,8 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
-			<SheetContent side="left" className="w-[240px] p-0 bg-sidebar">
-				<div className="flex h-full flex-col pt-[56px]">
+			<SheetContent side="left" className="w-[240px] p-0 bg-sidebar" topOffset="56px">
+				<div className="flex h-full flex-col">
 					<SidebarContent>
 						{config.navigation.map((section) => (
 							<NavSection

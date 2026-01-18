@@ -84,7 +84,7 @@ export function AppFrame({
 				topBar={
 					<AppTopBar
 						onOpenCommandPalette={onOpenCommandPalette}
-						onOpenMobileMenu={() => setMobileSheetOpen(true)}
+						onOpenMobileMenu={() => setMobileSheetOpen((prev) => !prev)}
 					/>
 				}
 				navigation={<AppSidebar config={config} />}

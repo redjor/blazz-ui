@@ -11,16 +11,22 @@ const SheetClose = DialogPrimitive.Close
 const SheetPortal = DialogPrimitive.Portal
 
 // Overlay backdrop similaire à Dialog
-function SheetOverlay({ className, ...props }: DialogPrimitive.Backdrop.Props) {
+function SheetOverlay({
+	className,
+	topOffset,
+	...props
+}: DialogPrimitive.Backdrop.Props & { topOffset?: string }) {
 	return (
 		<DialogPrimitive.Backdrop
 			className={cn(
-				"fixed inset-0 z-50 bg-black/80",
+				"fixed z-50 bg-black/80",
 				"data-open:animate-in data-closed:animate-out",
 				"data-closed:fade-out-0 data-open:fade-in-0",
 				"duration-200",
+				topOffset ? `inset-x-0 bottom-0` : "inset-0",
 				className
 			)}
+			style={topOffset ? { top: topOffset } : undefined}
 			{...props}
 		/>
 	)
@@ -31,20 +37,29 @@ function SheetContent({
 	side = "left",
 	className,
 	children,
+	topOffset,
 	...props
 }: DialogPrimitive.Popup.Props & {
 	side?: "left" | "right" | "top" | "bottom"
+	topOffset?: string
 }) {
-	const sideClasses = {
-		left: "inset-y-0 left-0 h-full w-[300px] data-closed:slide-out-to-left data-open:slide-in-from-left border-r",
-		right: "inset-y-0 right-0 h-full w-[300px] data-closed:slide-out-to-right data-open:slide-in-from-right border-l",
-		top: "inset-x-0 top-0 w-full h-[300px] data-closed:slide-out-to-top data-open:slide-in-from-top border-b",
-		bottom: "inset-x-0 bottom-0 w-full h-[300px] data-closed:slide-out-to-bottom data-open:slide-in-from-bottom border-t",
-	}
+	const sideClasses = topOffset
+		? {
+				left: "left-0 bottom-0 w-[300px] data-closed:slide-out-to-left data-open:slide-in-from-left border-r",
+				right: "right-0 bottom-0 w-[300px] data-closed:slide-out-to-right data-open:slide-in-from-right border-l",
+				top: "inset-x-0 top-0 w-full h-[300px] data-closed:slide-out-to-top data-open:slide-in-from-top border-b",
+				bottom: "inset-x-0 bottom-0 w-full h-[300px] data-closed:slide-out-to-bottom data-open:slide-in-from-bottom border-t",
+		  }
+		: {
+				left: "inset-y-0 left-0 h-full w-[300px] data-closed:slide-out-to-left data-open:slide-in-from-left border-r",
+				right: "inset-y-0 right-0 h-full w-[300px] data-closed:slide-out-to-right data-open:slide-in-from-right border-l",
+				top: "inset-x-0 top-0 w-full h-[300px] data-closed:slide-out-to-top data-open:slide-in-from-top border-b",
+				bottom: "inset-x-0 bottom-0 w-full h-[300px] data-closed:slide-out-to-bottom data-open:slide-in-from-bottom border-t",
+		  }
 
 	return (
 		<SheetPortal>
-			<SheetOverlay />
+			<SheetOverlay topOffset={topOffset} />
 			<DialogPrimitive.Popup
 				className={cn(
 					"fixed z-50 bg-background shadow-lg",
@@ -53,6 +68,7 @@ function SheetContent({
 					sideClasses[side],
 					className
 				)}
+				style={topOffset && (side === "left" || side === "right") ? { top: topOffset } : undefined}
 				{...props}
 			>
 				{children}
