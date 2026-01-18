@@ -2,6 +2,7 @@
 
 import type * as React from "react"
 import { cn } from "@/lib/utils"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export interface FrameProps {
 	topBar: React.ReactNode
@@ -38,15 +39,17 @@ export function Frame({ topBar, navigation, children, className }: FrameProps) {
 			<div className="fixed top-0 left-0 right-0 z-20 h-[56px]">{topBar}</div>
 
 			{/* Container pour Sidebar + Main (nécessaire pour le spacer de Shadcn Sidebar) */}
-			<div className="flex h-screen rounded-tl-[20px] rounded-tr-[20px]">
+			<div className="flex h-screen overflow-hidden">
 				{/* Navigation desktop uniquement - Mobile géré par MobileSidebarSheet dans app-frame.tsx */}
-				<div className="fixed left-0 z-10 h-screen overflow-y-auto top-[56px] hidden md:block">
+				<div className="fixed left-0 z-10 h-screen overflow-y-auto top-[56px] hidden md:block rounded-tl-[10px]">
 					{navigation}
 				</div>
 
 				{/* Main Content - Prend l'espace restant */}
-				<main className="flex-1 overflow-auto bg-[#f1f1f1] mt-[56px] md:pl-[240px]">
-					{children}
+				<main className="flex-1  mt-[56px] md:pl-[240px]">
+					<ScrollArea className="h-full w-full rounded-tr-[10px] bg-[#f1f1f1]">
+						{children}
+					</ScrollArea>
 				</main>
 			</div>
 		</div>

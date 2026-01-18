@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
 import {
 	SidebarCollapsible,
@@ -45,8 +46,12 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
-			<SheetContent side="left" className="w-[240px] p-0 bg-sidebar" topOffset="56px">
-				<div className="flex h-full flex-col">
+			<SheetContent
+				side="left"
+				className="w-[240px] p-0 bg-sidebar rounded-t-[10px]"
+				topOffset="56px"
+			>
+				<ScrollArea className="h-full">
 					<SidebarContent>
 						{config.navigation.map((section) => (
 							<NavSection
@@ -57,7 +62,7 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 							/>
 						))}
 					</SidebarContent>
-				</div>
+				</ScrollArea>
 			</SheetContent>
 		</Sheet>
 	)

@@ -1,6 +1,6 @@
 "use client"
 
-import { Badge, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"

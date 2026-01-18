@@ -24,10 +24,7 @@ export interface AppTopBarProps {
 export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }: AppTopBarProps) {
 	return (
 		<header
-			className={cn(
-				"flex h-[56px] shrink-0 items-center justify-between border-b border-gray-800 bg-black px-4",
-				className
-			)}
+			className={cn("flex h-[56px] shrink-0 items-center justify-between bg-black px-4", className)}
 		>
 			{/* Left: Mobile - Hamburger | Desktop - Logo + App Name */}
 			<div className="flex items-center gap-3">

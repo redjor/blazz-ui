@@ -18,45 +18,8 @@ export interface AppFrameProps {
 
 /**
  * AppFrame - Composant Frame préconfiguré avec sidebar Polaris
- *
- * Ce composant combine automatiquement Frame, LayoutSidebar et AppTopBar
- * pour créer une mise en page d'application complète avec une largeur de sidebar de 240px.
- *
- * @example
- * ```tsx
- * import { AppFrame } from '@/components/layout/app-frame'
- * import { navigationConfig } from '@/config/navigation'
- *
- * export default function Layout({ children }) {
- *   return (
- *     <AppFrame navigation={navigationConfig}>
- *       {children}
- *     </AppFrame>
- *   )
- * }
- * ```
- *
- * @example Avec footer personnalisé
- * ```tsx
- * <AppFrame
- *   navigation={navigationConfig}
- *   sidebarFooter={
- *     <div className="flex items-center gap-2 text-xs">
- *       <kbd>⌘K</kbd> to search
- *     </div>
- *   }
- * >
- *   {children}
- * </AppFrame>
- * ```
  */
-export function AppFrame({
-	navigation,
-	children,
-	sidebarHeader: _sidebarHeader,
-	sidebarFooter: _sidebarFooter,
-	onOpenCommandPalette,
-}: AppFrameProps) {
+export function AppFrame({ navigation, children, onOpenCommandPalette }: AppFrameProps) {
 	// État pour le Sheet mobile
 	const [mobileSheetOpen, setMobileSheetOpen] = React.useState(false)
 
