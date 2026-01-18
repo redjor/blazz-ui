@@ -40,10 +40,9 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }:
 
 				{/* Desktop: Logo + App Name */}
 				<div className="hidden md:flex items-center gap-2">
-					<div className="flex h-8 w-8 items-center justify-center">
-						<Image src="/logo_blazz_white.svg" alt="Blazz Logo" width={24} height={24} />
+					<div className="flex h-24 w-24 items-center justify-center">
+						<Image src="/logo_blazz_white.svg" alt="Blazz Logo" width={87} height={24} />
 					</div>
-					<span className="text-base font-bold text-white">Blazz</span>
 				</div>
 			</div>
 
