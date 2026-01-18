@@ -10,7 +10,6 @@ import {
 	Phone,
 	Star,
 	UserCheck,
-	UserPlus,
 	Users,
 	XCircle,
 } from "lucide-react"
@@ -267,7 +266,11 @@ const columns: DataTableColumnDef<Client>[] = [
 		header: ({ column }) => <DataTableColumnHeader column={column} title="Total Spent" />,
 		cell: ({ row }) => {
 			const total = row.getValue("totalSpent") as number
-			return <span className="font-medium">${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+			return (
+				<span className="font-medium">
+					${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+				</span>
+			)
 		},
 		enableSorting: true,
 		meta: {
@@ -398,7 +401,11 @@ const defaultViews: DataTableView[] = [
 
 export default function ClientsPage() {
 	// Views management
-	const { views, activeView: activeViewId, setActiveView } = useDataTableViews({
+	const {
+		views,
+		activeView: activeViewId,
+		setActiveView,
+	} = useDataTableViews({
 		storageKey: "clients-table-views",
 		defaultViews,
 	})
@@ -434,8 +441,7 @@ export default function ClientsPage() {
 			variant: "destructive",
 			separator: true,
 			requireConfirmation: true,
-			confirmationMessage: (row) =>
-				`Are you sure you want to deactivate ${row.original.name}?`,
+			confirmationMessage: (row) => `Are you sure you want to deactivate ${row.original.name}?`,
 			handler: async (row) => {
 				await new Promise((resolve) => setTimeout(resolve, 1000))
 				alert(`Deactivated client: ${row.original.name}`)

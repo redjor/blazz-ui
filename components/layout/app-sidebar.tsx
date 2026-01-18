@@ -27,6 +27,33 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 
 /**
+ * Trouve l'ID du parent de l'item actif dans la navigation
+ */
+function findActiveParentItemId(navigation: NavigationSection[], pathname: string): string | null {
+	for (const section of navigation) {
+		for (const item of section.items) {
+			const itemKey = item.id || item.url || null
+
+			// Si le pathname correspond à ce parent et qu'il a des enfants
+			if (item.url && pathname.startsWith(item.url) && item.items) {
+				return itemKey
+			}
+
+			// Si le pathname correspond à un sous-item
+			if (item.items) {
+				const hasActiveSubItem = item.items.some(
+					(subItem) => subItem.url && pathname.startsWith(subItem.url)
+				)
+				if (hasActiveSubItem) {
+					return itemKey
+				}
+			}
+		}
+	}
+	return null
+}
+
+/**
  * AppSidebar - Sidebar simple avec navigation hiérarchique
  */
 
@@ -43,23 +70,9 @@ export function AppSidebar({ config, ...props }: AppSidebarProps) {
 
 	// Trouver le parent de l'item actif et l'ouvrir automatiquement
 	React.useEffect(() => {
-		for (const section of config.navigation) {
-			for (const item of section.items) {
-				// Si le pathname correspond à ce parent
-				if (item.url && pathname.startsWith(item.url) && item.items) {
-					setOpenItemId(item.id || item.url)
-					return
-				}
-				// Si le pathname correspond à un sous-item
-				if (item.items) {
-					for (const subItem of item.items) {
-						if (subItem.url && pathname.startsWith(subItem.url)) {
-							setOpenItemId(item.id || item.url)
-							return
-						}
-					}
-				}
-			}
+		const activeParentId = findActiveParentItemId(config.navigation, pathname)
+		if (activeParentId) {
+			setOpenItemId(activeParentId)
 		}
 	}, [pathname, config.navigation])
 
