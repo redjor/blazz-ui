@@ -21,6 +21,7 @@ import {
 	type RowAction,
 } from "@/components/features/data-table"
 import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
 import { Page } from "@/components/ui/page"
 import { useDataTableViews } from "@/hooks/use-data-table-views"
 
@@ -507,28 +508,31 @@ export default function OrdersPage() {
 		<Page
 			title="Orders"
 			subtitle="Manage and track customer orders with advanced filtering and views"
+			fullWidth
 		>
-			<DataTable
-				data={orders}
-				columns={columns}
-				enableSorting
-				enablePagination
-				enableRowSelection
-				enableGlobalSearch
-				enableAdvancedFilters
-				searchPlaceholder="Search orders..."
-				views={views}
-				activeView={activeView}
-				onViewChange={(view) => setActiveView(view?.id || null)}
-				pagination={{
-					pageSize: 10,
-					pageSizeOptions: [5, 10, 15, 20],
-				}}
-				rowActions={rowActions}
-				bulkActions={bulkActions}
-				variant="lined"
-				density="default"
-			/>
+			<Card className="p-0">
+				<DataTable
+					data={orders}
+					columns={columns}
+					enableSorting
+					enablePagination
+					enableRowSelection
+					enableGlobalSearch
+					enableAdvancedFilters
+					searchPlaceholder="Search orders..."
+					views={views}
+					activeView={activeView}
+					onViewChange={(view) => setActiveView(view?.id || null)}
+					pagination={{
+						pageSize: 10,
+						pageSizeOptions: [5, 10, 15, 20],
+					}}
+					rowActions={rowActions}
+					bulkActions={bulkActions}
+					variant="lined"
+					density="default"
+				/>
+			</Card>
 		</Page>
 	)
 }

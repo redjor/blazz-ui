@@ -58,9 +58,9 @@ export const sidebarConfig: SidebarConfig = {
 					],
 				},
 				{
-					id: "customers",
-					title: "Customers",
-					url: "/customers",
+					id: "clients",
+					title: "Clients",
+					url: "/clients",
 					icon: Users,
 				},
 			],
