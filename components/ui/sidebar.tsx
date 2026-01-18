@@ -773,7 +773,7 @@ const SidebarMenuSubItem = React.forwardRef<
 	HTMLLIElement,
 	React.ComponentProps<"li"> & { isActive?: boolean }
 >(({ className, isActive, ...props }, ref) => (
-	<li ref={ref} data-active={isActive} className={cn(className)} {...props} />
+	<li ref={ref} data-active={isActive ? "true" : "false"} className={cn(className)} {...props} />
 ))
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem"
 
@@ -792,7 +792,7 @@ const SidebarMenuSubButton = React.forwardRef<
 			ref={ref}
 			data-sidebar="menu-sub-button"
 			data-size={size}
-			data-active={isActive}
+			data-active={isActive ? "true" : "false"}
 			className={cn(
 				"relative sidebar-connector flex h-7 min-w-0 -translate-x-px items-center gap-0 rounded-md pl-[32px] pr-2 text-xs text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-[#f1f1f1] hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>svg]:text-sidebar-foreground/50",
 				"data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[active=true]:font-semibold",
