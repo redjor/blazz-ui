@@ -35,11 +35,10 @@ export const sidebarConfig: SidebarConfig = {
 				},
 				{
 					id: "products",
-					title: "Products",
+					title: "Produits",
 					url: "/products",
 					icon: Package,
 					items: [
-						{ title: "All Products", url: "/products" },
 						{ title: "Categories", url: "/products/categories" },
 						{ title: "Collections", url: "/products/collections" },
 						{ title: "Inventory", url: "/products/inventory" },
@@ -51,7 +50,6 @@ export const sidebarConfig: SidebarConfig = {
 					url: "/orders",
 					icon: ShoppingCart,
 					items: [
-						{ title: "All Orders", url: "/orders" },
 						{ title: "Pending", url: "/orders/pending" },
 						{ title: "Fulfilled", url: "/orders/fulfilled" },
 						{ title: "Archived", url: "/orders/archived" },

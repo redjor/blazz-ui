@@ -1,6 +1,5 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
@@ -33,6 +32,7 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function AppSidebar({ config, ...props }: AppSidebarProps) {
 	const pathname = usePathname()
+	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 
 	// Vérifie si une URL est active
 	const isActive = (url?: string) => {
@@ -41,11 +41,39 @@ export function AppSidebar({ config, ...props }: AppSidebarProps) {
 		return pathname.startsWith(url)
 	}
 
+	// Trouver le parent de l'item actif et l'ouvrir automatiquement
+	React.useEffect(() => {
+		for (const section of config.navigation) {
+			for (const item of section.items) {
+				// Si le pathname correspond à ce parent
+				if (item.url && pathname.startsWith(item.url) && item.items) {
+					setOpenItemId(item.id || item.url)
+					return
+				}
+				// Si le pathname correspond à un sous-item
+				if (item.items) {
+					for (const subItem of item.items) {
+						if (subItem.url && pathname.startsWith(subItem.url)) {
+							setOpenItemId(item.id || item.url)
+							return
+						}
+					}
+				}
+			}
+		}
+	}, [pathname, config.navigation])
+
 	return (
 		<Sidebar collapsible="none" {...props} className="w-[240px] top-[56px]">
 			<SidebarContent>
 				{config.navigation.map((section) => (
-					<NavSection key={section.id || section.title} section={section} isActive={isActive} />
+					<NavSection
+						key={section.id || section.title}
+						section={section}
+						isActive={isActive}
+						openItemId={openItemId}
+						setOpenItemId={setOpenItemId}
+					/>
 				))}
 			</SidebarContent>
 			<SidebarRail />
@@ -59,18 +87,27 @@ export function AppSidebar({ config, ...props }: AppSidebarProps) {
 function NavSection({
 	section,
 	isActive,
+	openItemId,
+	setOpenItemId,
 }: {
 	section: NavigationSection
 	isActive: (url?: string) => boolean
+	openItemId: string | null
+	setOpenItemId: (id: string | null) => void
 }) {
-	// Section simple
 	return (
 		<SidebarGroup>
 			{section.title && <SidebarGroupLabel>{section.title}</SidebarGroupLabel>}
 			<SidebarGroupContent>
 				<SidebarMenu>
 					{section.items.map((item) => (
-						<NavItem key={item.id || item.url || item.title} item={item} isActive={isActive} />
+						<NavItem
+							key={item.id || item.url || item.title}
+							item={item}
+							isActive={isActive}
+							openItemId={openItemId}
+							setOpenItemId={setOpenItemId}
+						/>
 					))}
 				</SidebarMenu>
 			</SidebarGroupContent>
@@ -84,27 +121,44 @@ function NavSection({
 function NavItem({
 	item,
 	isActive,
+	openItemId,
+	setOpenItemId,
 }: {
 	item: NavigationItem
 	isActive: (url?: string) => boolean
+	openItemId: string | null
+	setOpenItemId: (id: string | null) => void
 }) {
 	const hasChildren = item.items && item.items.length > 0
-	const [open, setOpen] = React.useState(false)
+	const itemKey = item.id || item.url || item.title
+	const isOpen = openItemId === itemKey
 
 	// Item avec sous-items (collapsible)
 	if (hasChildren) {
 		return (
-			<SidebarCollapsible open={open} onOpenChange={setOpen}>
+			<SidebarCollapsible
+				open={isOpen}
+				onOpenChange={(newOpen) => {
+					// Ouvrir uniquement (pas de toggle pour fermer)
+					if (newOpen) {
+						setOpenItemId(itemKey)
+					}
+				}}
+			>
 				<SidebarMenuItem>
-					<SidebarMenuCollapsibleTrigger spacing="compact">
-						{item.icon && <item.icon />}
-						<span>{item.title}</span>
-						<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+					<SidebarMenuCollapsibleTrigger spacing="compact" asChild>
+						<Link href={item.url || "#"}>
+							{item.icon && <item.icon />}
+							<span>{item.title}</span>
+						</Link>
 					</SidebarMenuCollapsibleTrigger>
 					<SidebarCollapsibleContent>
 						<SidebarMenuSub>
 							{item.items?.map((subItem) => (
-								<SidebarMenuSubItem key={subItem.id || subItem.url || subItem.title}>
+								<SidebarMenuSubItem
+									key={subItem.id || subItem.url || subItem.title}
+									isActive={isActive(subItem.url)}
+								>
 									<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
 										<Link href={subItem.url || "#"}>
 											{subItem.icon && <subItem.icon />}

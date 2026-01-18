@@ -1,6 +1,5 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
@@ -31,6 +30,7 @@ interface MobileSidebarSheetProps {
 
 export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebarSheetProps) {
 	const pathname = usePathname()
+	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 
 	// Vérifie si une URL est active
 	const isActive = (url?: string) => {
@@ -43,6 +43,28 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 	const handleLinkClick = () => {
 		onOpenChange(false)
 	}
+
+	// Trouver le parent de l'item actif et l'ouvrir automatiquement
+	React.useEffect(() => {
+		for (const section of config.navigation) {
+			for (const item of section.items) {
+				// Si le pathname correspond à ce parent
+				if (item.url && pathname.startsWith(item.url) && item.items) {
+					setOpenItemId(item.id || item.url)
+					return
+				}
+				// Si le pathname correspond à un sous-item
+				if (item.items) {
+					for (const subItem of item.items) {
+						if (subItem.url && pathname.startsWith(subItem.url)) {
+							setOpenItemId(item.id || item.url)
+							return
+						}
+					}
+				}
+			}
+		}
+	}, [pathname, config.navigation])
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
@@ -59,6 +81,8 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 								section={section}
 								isActive={isActive}
 								onLinkClick={handleLinkClick}
+								openItemId={openItemId}
+								setOpenItemId={setOpenItemId}
 							/>
 						))}
 					</SidebarContent>
@@ -75,10 +99,14 @@ function NavSection({
 	section,
 	isActive,
 	onLinkClick,
+	openItemId,
+	setOpenItemId,
 }: {
 	section: NavigationSection
 	isActive: (url?: string) => boolean
 	onLinkClick: () => void
+	openItemId: string | null
+	setOpenItemId: (id: string | null) => void
 }) {
 	return (
 		<SidebarGroup>
@@ -91,6 +119,8 @@ function NavSection({
 							item={item}
 							isActive={isActive}
 							onLinkClick={onLinkClick}
+							openItemId={openItemId}
+							setOpenItemId={setOpenItemId}
 						/>
 					))}
 				</SidebarMenu>
@@ -106,28 +136,45 @@ function NavItem({
 	item,
 	isActive,
 	onLinkClick,
+	openItemId,
+	setOpenItemId,
 }: {
 	item: NavigationItem
 	isActive: (url?: string) => boolean
 	onLinkClick: () => void
+	openItemId: string | null
+	setOpenItemId: (id: string | null) => void
 }) {
 	const hasChildren = item.items && item.items.length > 0
-	const [open, setOpen] = React.useState(false)
+	const itemKey = item.id || item.url || item.title
+	const isOpen = openItemId === itemKey
 
 	// Item avec sous-items (collapsible)
 	if (hasChildren) {
 		return (
-			<SidebarCollapsible open={open} onOpenChange={setOpen}>
+			<SidebarCollapsible
+				open={isOpen}
+				onOpenChange={(newOpen) => {
+					// Ouvrir uniquement (pas de toggle pour fermer)
+					if (newOpen) {
+						setOpenItemId(itemKey)
+					}
+				}}
+			>
 				<SidebarMenuItem>
-					<SidebarMenuCollapsibleTrigger spacing="compact">
-						{item.icon && <item.icon />}
-						<span>{item.title}</span>
-						<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+					<SidebarMenuCollapsibleTrigger spacing="compact" asChild>
+						<Link href={item.url || "#"} onClick={onLinkClick}>
+							{item.icon && <item.icon />}
+							<span>{item.title}</span>
+						</Link>
 					</SidebarMenuCollapsibleTrigger>
 					<SidebarCollapsibleContent>
 						<SidebarMenuSub>
 							{item.items?.map((subItem) => (
-								<SidebarMenuSubItem key={subItem.id || subItem.url || subItem.title}>
+								<SidebarMenuSubItem
+									key={subItem.id || subItem.url || subItem.title}
+									isActive={isActive(subItem.url)}
+								>
 									<SidebarMenuSubButton asChild isActive={isActive(subItem.url)}>
 										<Link href={subItem.url || "#"} onClick={onLinkClick}>
 											{subItem.icon && <subItem.icon />}
