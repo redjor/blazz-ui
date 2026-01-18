@@ -481,12 +481,11 @@ export function DataTable<TData, TValue = unknown>({
 					/>
 				)}
 
-				<Table className={cn(dataTableVariants({ variant, density }))}>
-					<TableHeader className="relative">
-						{/* Column Headers Row - Always visible */}
-						{table
-							.getHeaderGroups()
-							.map((headerGroup) => (
+				<div className="relative">
+					<Table className={cn(dataTableVariants({ variant, density }))}>
+						<TableHeader>
+							{/* Column Headers Row - Always visible */}
+							{table.getHeaderGroups().map((headerGroup) => (
 								<TableRow key={headerGroup.id}>
 									{headerGroup.headers.map((header) => {
 										return (
@@ -504,17 +503,38 @@ export function DataTable<TData, TValue = unknown>({
 									})}
 								</TableRow>
 							))}
+						</TableHeader>
+						<TableBody>
+							{table.getRowModel().rows?.length ? (
+								table.getRowModel().rows.map((row) => (
+									<TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell key={cell.id}>
+												{flexRender(cell.column.columnDef.cell, cell.getContext())}
+											</TableCell>
+										))}
+									</TableRow>
+								))
+							) : (
+								<TableRow>
+									<TableCell colSpan={columns.length} className="h-24 text-center">
+										No results.
+									</TableCell>
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
 
-						{/* Bulk Actions Overlay - Appears over headers when rows selected */}
-						{bulkActions &&
+					{/* Bulk Actions Overlay - Appears over table header when rows selected */}
+					{bulkActions &&
 						bulkActions.length > 0 &&
 						table.getFilteredSelectedRowModel().rows.length > 0 && (
-							<div className="absolute inset-0 bg-muted/95 backdrop-blur-sm animate-in fade-in-0 duration-200 flex items-center px-4">
+							<div className="absolute top-0 left-0 right-0 h-[42px] bg-muted/95 backdrop-blur-sm animate-in fade-in-0 duration-200 flex items-center px-4 z-10">
 								<div className="flex items-center justify-between gap-2 w-full">
-									<div className="flex items-center gap-2">
+									<div className="flex items-center gap-2 text-sm">
 										{table.getFilteredSelectedRowModel().rows.length} rows selected
-										{/** biome-ignore lint/a11y/useButtonType: <explanation> */}
 										<button
+											type="button"
 											onClick={() => table.resetRowSelection()}
 											className="ml-2 text-muted-foreground hover:text-foreground"
 										>
@@ -539,33 +559,13 @@ export function DataTable<TData, TValue = unknown>({
 								</div>
 							</div>
 						)}
-					</TableHeader>
-					<TableBody>
-						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(cell.column.columnDef.cell, cell.getContext())}
-										</TableCell>
-									))}
-								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell colSpan={columns.length} className="h-24 text-center">
-									No results.
-								</TableCell>
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
-			</div>
+				</div>
 
-			{/* Pagination */}
-			{enablePagination && (
-				<DataTablePagination table={table} pageSizeOptions={pagination.pageSizeOptions} />
-			)}
+				{/* Pagination */}
+				{enablePagination && (
+					<DataTablePagination table={table} pageSizeOptions={pagination.pageSizeOptions} />
+				)}
+			</div>
 		</div>
 	)
 }
