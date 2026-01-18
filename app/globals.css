@@ -63,16 +63,21 @@
 	--input: oklch(0.922 0 0);
 	--ring: oklch(0.708 0 0);
 	--radius: 0.5rem;
+	--topbar-height: 56px;
+	--top-background: oklch(0.175 0.002 264);
+	--main-radius: 10px;
+	--main-background: oklch(0.96 0 0);
 
 	/* Sidebar - Light mode (Shopify style) */
-	--sidebar-background: oklch(0.9401 0 0);
-	--sidebar-foreground: oklch(0.3 0 0);
+	--sidebar-background: oklch(0.94 0 0);
+	--sidebar-foreground: oklch(0.4 0 0);
 	--sidebar-primary: oklch(0.3 0 0);
 	--sidebar-primary-foreground: oklch(0.99 0 0);
 	--sidebar-accent: oklch(1 0 0);
 	--sidebar-accent-foreground: oklch(0.18 0 0);
 	--sidebar-border: oklch(0.82 0 0);
 	--sidebar-ring: oklch(0.3 0 0);
+	--sidebar-width: 240px;
 }
 
 .dark {
@@ -95,8 +100,13 @@
 	--border: oklch(1 0 0 / 10%);
 	--input: oklch(1 0 0 / 15%);
 	--ring: oklch(0.556 0 0);
+	--radius: 0.5rem;
+	--topbar-height: 56px;
+	--top-background: oklch(0.175 0.002 264);
+	--main-radius: 10px;
+	--main-background: oklch(0.2 0 0);
 
-	/* Sidebar - Dark mode (Shopify style: #1a1a1a background) */
+	/* Sidebar */
 	--sidebar-background: oklch(0.175 0.002 264);
 	--sidebar-foreground: oklch(0.85 0 0);
 	--sidebar-primary: oklch(0.85 0 0);

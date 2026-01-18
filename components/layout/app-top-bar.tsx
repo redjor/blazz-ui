@@ -22,7 +22,10 @@ export interface AppTopBarProps {
 export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }: AppTopBarProps) {
 	return (
 		<header
-			className={cn("flex h-[56px] shrink-0 items-center justify-between bg-black px-4", className)}
+			className={cn(
+				"flex h-(--topbar-height) shrink-0 items-center justify-between px-4",
+				className
+			)}
 		>
 			{/* Left: Mobile - Hamburger | Desktop - Logo + App Name */}
 			<div className="flex items-center gap-3">
@@ -45,20 +48,22 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }:
 			</div>
 
 			{/* Center: Search Bar */}
-			<button
-				type="button"
-				onClick={onOpenCommandPalette}
-				className="mx-4 flex max-w-md flex-1 items-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 transition-colors hover:border-gray-600 hover:bg-gray-700"
-			>
-				<Search className="h-4 w-4 text-gray-400" />
-				<span className="text-sm text-gray-400">Search...</span>
-				<kbd className="ml-auto hidden rounded border border-gray-700 bg-gray-700 px-1.5 py-0.5 text-xs text-gray-300 md:inline-flex">
-					⌘K
-				</kbd>
-			</button>
+			<div className="flex justify-center">
+				<button
+					type="button"
+					onClick={onOpenCommandPalette}
+					className="mx-4 flex min-w-lg max-w-md flex-1 items-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 transition-colors hover:border-gray-600 hover:bg-gray-700"
+				>
+					<Search className="h-4 w-4 text-gray-400" />
+					<span className="text-sm text-gray-400">Search...</span>
+					<kbd className="ml-auto hidden rounded border border-gray-700 bg-gray-700 px-1.5 py-0.5 text-xs text-gray-300 md:inline-flex">
+						⌘K
+					</kbd>
+				</button>
+			</div>
 
 			{/* Right: Notifications + User Menu */}
-			<div className="flex items-center gap-2">
+			<div className="flex items-center gap-2 shrink-0 justify-end">
 				<button
 					type="button"
 					className="rounded-lg p-2 transition-colors hover:bg-gray-800"

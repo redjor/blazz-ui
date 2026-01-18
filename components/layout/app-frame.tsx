@@ -17,7 +17,7 @@ export interface AppFrameProps {
 }
 
 /**
- * AppFrame - Composant Frame préconfiguré avec sidebar Polaris
+ * AppFrame
  */
 export function AppFrame({ navigation, children, onOpenCommandPalette }: AppFrameProps) {
 	// État pour le Sheet mobile

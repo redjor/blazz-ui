@@ -190,7 +190,9 @@ const Sidebar = React.forwardRef<
 		if (isMobile) {
 			return (
 				<>
-					<div
+					<button
+						type="button"
+						aria-label="Close sidebar"
 						data-sidebar="sidebar"
 						data-mobile="true"
 						className="fixed inset-0 z-50 hidden bg-background/80 data-[mobile=true]:data-[state=open]:block md:hidden"
@@ -304,7 +306,7 @@ const SidebarRail = React.forwardRef<HTMLButtonElement, React.ComponentProps<"bu
 				title="Toggle Sidebar"
 				className={cn(
 					"absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex",
-					"[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize",
+					"in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",
 					"[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
 					"group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full group-data-[collapsible=offcanvas]:hover:bg-sidebar",
 					"[[data-side=left][data-collapsible=offcanvas]_&]:-right-2",
@@ -532,7 +534,7 @@ const sidebarMenuButtonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+				default: "hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground",
 				outline:
 					"bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
 			},
@@ -794,7 +796,7 @@ const SidebarMenuSubButton = React.forwardRef<
 			data-size={size}
 			data-active={isActive ? "true" : "false"}
 			className={cn(
-				"relative sidebar-connector flex h-7 min-w-0 -translate-x-px items-center gap-0 rounded-md pl-[32px] pr-2 text-xs text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-[#f1f1f1] hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>svg]:text-sidebar-foreground/50",
+				"relative sidebar-connector flex h-7 min-w-0 -translate-x-px items-center gap-0 rounded-md pl-[32px] pr-2 text-xs text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>svg]:text-sidebar-foreground/50",
 				"data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground data-[active=true]:font-semibold",
 				"group-data-[collapsible=icon]:hidden",
 				className
