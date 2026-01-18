@@ -133,6 +133,11 @@ function NavItem({
 	const itemKey = item.id || item.url || item.title
 	const isOpen = openItemId === itemKey
 
+	// Vérifier si un des sous-items est actif
+	const hasActiveChild = hasChildren && item.items?.some((subItem) => isActive(subItem.url))
+	// Le parent est actif uniquement si on est sur sa page ET qu'aucun enfant n'est actif
+	const isParentActive = isActive(item.url) && !hasActiveChild
+
 	// Item avec sous-items (collapsible)
 	if (hasChildren) {
 		return (
@@ -146,7 +151,7 @@ function NavItem({
 				}}
 			>
 				<SidebarMenuItem>
-					<SidebarMenuCollapsibleTrigger spacing="compact" asChild>
+					<SidebarMenuCollapsibleTrigger spacing="compact" asChild isActive={isParentActive}>
 						<Link href={item.url || "#"}>
 							{item.icon && <item.icon />}
 							<span>{item.title}</span>
