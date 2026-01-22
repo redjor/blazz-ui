@@ -14,6 +14,11 @@ import {
 import type { SidebarConfig } from "@/types/navigation"
 
 export const sidebarConfig: SidebarConfig = {
+	user: {
+		name: "Jean Dupont",
+		email: "",
+		role: "Administrateur",
+	},
 	navigation: [
 		{
 			id: "main",

@@ -1,11 +1,18 @@
-import { Bell, ChevronDown, Menu, Search } from "lucide-react"
+import { Bell, Menu, Search } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { UserMenu } from "./user-menu"
 
 export interface AppTopBarProps {
 	onOpenCommandPalette?: () => void
 	onOpenMobileMenu?: () => void
 	className?: string
+	user?: {
+		name: string
+		email: string
+		avatar?: string
+		role?: string
+	}
 }
 
 /**
@@ -19,7 +26,7 @@ export interface AppTopBarProps {
  * @example
  * <AppTopBar onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
  */
-export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }: AppTopBarProps) {
+export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, user }: AppTopBarProps) {
 	return (
 		<header
 			className={cn(
@@ -71,16 +78,7 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className }:
 				>
 					<Bell className="h-5 w-5 text-gray-300" />
 				</button>
-				<button
-					type="button"
-					className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-800"
-				>
-					<div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs font-semibold text-white">
-						U
-					</div>
-					<span className="hidden text-sm font-medium text-white md:inline-block">User</span>
-					<ChevronDown className="h-4 w-4 text-gray-400" />
-				</button>
+				<UserMenu user={user} />
 			</div>
 		</header>
 	)
