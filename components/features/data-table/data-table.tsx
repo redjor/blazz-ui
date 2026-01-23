@@ -34,10 +34,9 @@ import type {
 } from "./data-table.types"
 import { countActiveFilters, createFilterFn } from "./data-table.utils"
 import { DataTableActionsBar } from "./data-table-actions-bar"
-import { DataTableFilterBadges } from "./data-table-filter-badge"
 import { DataTableFilterBuilder } from "./data-table-filter-builder"
 import { DataTablePagination } from "./data-table-pagination"
-import { DataTableQuickFilters } from "./data-table-quick-filters"
+import { DataTableReUIFilters } from "./data-table-reui-filters"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowSelection } from "./data-table-row-selection"
 
@@ -142,6 +141,7 @@ export function DataTable<TData, TValue = unknown>({
 	emptyComponent,
 	hideToolbar = false,
 	toolbarActions,
+	locale = "fr",
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
 	// Prevent hydration mismatch by only rendering after mount
@@ -167,6 +167,7 @@ export function DataTable<TData, TValue = unknown>({
 		defaultFilterGroup || null
 	)
 	const [isFilterBuilderOpen, setIsFilterBuilderOpen] = React.useState(false)
+	const [showInlineFilters, setShowInlineFilters] = React.useState(false)
 
 	// Internal active view state (if not controlled externally)
 	const [internalActiveView, setInternalActiveView] = React.useState<DataTableView | null>(
@@ -429,15 +430,6 @@ export function DataTable<TData, TValue = unknown>({
 
 	return (
 		<div className={cn(className)} data-slot="data-table">
-			{/* Filter Badges - Only show for manually created filters, not view filters */}
-			{enableAdvancedFilters && filterGroup && !filtersFromView && (
-				<DataTableFilterBadges
-					filterGroup={filterGroup}
-					onRemoveCondition={handleRemoveCondition}
-					onClearAll={handleClearAllFilters}
-				/>
-			)}
-
 			{/* Filter Builder Dialog */}
 			{enableAdvancedFilters && (
 				<DataTableFilterBuilder
@@ -469,15 +461,19 @@ export function DataTable<TData, TValue = unknown>({
 					sortableColumns={sortableColumns}
 					filterCount={filterGroup ? countActiveFilters(filterGroup) : 0}
 					onOpenFilterBuilder={() => setIsFilterBuilderOpen(true)}
+					showInlineFilters={showInlineFilters}
+					onToggleInlineFilters={() => setShowInlineFilters(!showInlineFilters)}
 				/>
 
-				{/* Quick Filters Bar */}
-				{enableAdvancedFilters && (
-					<DataTableQuickFilters
+				{/* Inline Filters */}
+				{enableAdvancedFilters && showInlineFilters && (
+					<DataTableReUIFilters
 						columns={columns as DataTableColumnDef<TData, any>[]}
 						filterGroup={filterGroup}
 						onFilterChange={handleFilterGroupChange}
-						onOpenFilterBuilder={() => setIsFilterBuilderOpen(true)}
+						locale={locale}
+						variant="outline"
+						size="sm"
 					/>
 				)}
 
