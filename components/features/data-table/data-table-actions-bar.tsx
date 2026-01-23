@@ -5,6 +5,7 @@ import { ArrowUpDown, Copy, Edit2, MoreVertical, Plus, Search, SlidersHorizontal
 import * as React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -144,79 +145,146 @@ export function DataTableActionsBar({
 					<div className="flex items-center gap-1">
 						{views && views.length > 0 ? (
 							<>
-								{views.map((view) => (
-									<div key={view.id} className="relative group flex items-center">
-										<button
-											type="button"
-											onClick={() => onViewChange?.(view)}
-											className={cn(
-												"relative inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-colors",
-												!view.isSystem && "pr-1", // Less padding on right if custom view (to fit dropdown)
-												activeView?.id === view.id
-													? "bg-muted text-foreground"
-													: "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-											)}
-										>
-											<span>{view.name}</span>
-										</button>
+								{views.map((view) => {
+									const isCustomView = !view.isSystem
+									const isActive = activeView?.id === view.id
+									const hasDropdownActions = isCustomView && (onViewDuplicate || onViewRename || onViewDelete)
 
-										{/* Dropdown menu for custom views */}
-										{!view.isSystem && (onViewDuplicate || onViewRename || onViewDelete) && (
-											<DropdownMenu>
-												<DropdownMenuTrigger asChild>
-													<button
-														type="button"
-														className={cn(
-															"inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:bg-muted/50 hover:text-foreground group-hover:opacity-100 focus:opacity-100",
-															activeView?.id === view.id && "hover:bg-muted/80"
+									// Use ButtonGroup for active custom views with dropdown
+									if (isActive && hasDropdownActions) {
+										return (
+											<ButtonGroup key={view.id}>
+												<Button
+													variant="outline"
+													size="sm"
+													onClick={() => onViewChange?.(view)}
+													className="rounded-r-none"
+												>
+													{view.name}
+												</Button>
+												<DropdownMenu>
+													<DropdownMenuTrigger
+														render={
+															<Button variant="outline" size="sm" className="!pl-2 rounded-l-none">
+																<MoreVertical className="h-3.5 w-3.5" />
+															</Button>
+														}
+													/>
+													<DropdownMenuContent align="end" sideOffset={4}>
+														{onViewDuplicate && (
+															<DropdownMenuItem
+																onSelect={(e) => {
+																	e.preventDefault()
+																	onViewDuplicate(view.id)
+																}}
+															>
+																<Copy className="h-4 w-4" />
+																<span>Duplicate</span>
+															</DropdownMenuItem>
 														)}
-														aria-label="View options"
-														onClick={(e) => e.stopPropagation()}
-													>
-														<MoreVertical className="h-3.5 w-3.5" />
-													</button>
-												</DropdownMenuTrigger>
-												<DropdownMenuContent align="end" sideOffset={4}>
-													{onViewDuplicate && (
-														<DropdownMenuItem
-															onSelect={(e) => {
-																e.preventDefault()
-																onViewDuplicate(view.id)
-															}}
+														{onViewRename && (
+															<DropdownMenuItem
+																onSelect={(e) => {
+																	e.preventDefault()
+																	onViewRename(view.id)
+																}}
+															>
+																<Edit2 className="h-4 w-4" />
+																<span>Rename</span>
+															</DropdownMenuItem>
+														)}
+														{(onViewDuplicate || onViewRename) && onViewDelete && <DropdownMenuSeparator />}
+														{onViewDelete && (
+															<DropdownMenuItem
+																variant="destructive"
+																onSelect={(e) => {
+																	e.preventDefault()
+																	onViewDelete(view.id)
+																}}
+															>
+																<Trash2 className="h-4 w-4" />
+																<span>Delete</span>
+															</DropdownMenuItem>
+														)}
+													</DropdownMenuContent>
+												</DropdownMenu>
+											</ButtonGroup>
+										)
+									}
+
+									// Regular view button (system views or inactive custom views)
+									return (
+										<div key={view.id} className="relative group flex items-center">
+											<button
+												type="button"
+												onClick={() => onViewChange?.(view)}
+												className={cn(
+													"relative inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-colors",
+													isActive
+														? "bg-muted text-foreground"
+														: "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+												)}
+											>
+												<span>{view.name}</span>
+											</button>
+
+											{/* Dropdown menu for inactive custom views */}
+											{hasDropdownActions && !isActive && (
+												<DropdownMenu>
+													<DropdownMenuTrigger asChild>
+														<button
+															type="button"
+															className={cn(
+																"inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:bg-muted/50 hover:text-foreground group-hover:opacity-100 focus:opacity-100"
+															)}
+															aria-label="View options"
+															onClick={(e) => e.stopPropagation()}
 														>
-															<Copy className="h-4 w-4" />
-															<span>Duplicate</span>
-														</DropdownMenuItem>
-													)}
-													{onViewRename && (
-														<DropdownMenuItem
-															onSelect={(e) => {
-																e.preventDefault()
-																onViewRename(view.id)
-															}}
-														>
-															<Edit2 className="h-4 w-4" />
-															<span>Rename</span>
-														</DropdownMenuItem>
-													)}
-													{(onViewDuplicate || onViewRename) && onViewDelete && <DropdownMenuSeparator />}
-													{onViewDelete && (
-														<DropdownMenuItem
-															variant="destructive"
-															onSelect={(e) => {
-																e.preventDefault()
-																onViewDelete(view.id)
-															}}
-														>
-															<Trash2 className="h-4 w-4" />
-															<span>Delete</span>
-														</DropdownMenuItem>
-													)}
-												</DropdownMenuContent>
-											</DropdownMenu>
-										)}
-									</div>
-								))}
+															<MoreVertical className="h-3.5 w-3.5" />
+														</button>
+													</DropdownMenuTrigger>
+													<DropdownMenuContent align="end" sideOffset={4}>
+														{onViewDuplicate && (
+															<DropdownMenuItem
+																onSelect={(e) => {
+																	e.preventDefault()
+																	onViewDuplicate(view.id)
+																}}
+															>
+																<Copy className="h-4 w-4" />
+																<span>Duplicate</span>
+															</DropdownMenuItem>
+														)}
+														{onViewRename && (
+															<DropdownMenuItem
+																onSelect={(e) => {
+																	e.preventDefault()
+																	onViewRename(view.id)
+																}}
+															>
+																<Edit2 className="h-4 w-4" />
+																<span>Rename</span>
+															</DropdownMenuItem>
+														)}
+														{(onViewDuplicate || onViewRename) && onViewDelete && <DropdownMenuSeparator />}
+														{onViewDelete && (
+															<DropdownMenuItem
+																variant="destructive"
+																onSelect={(e) => {
+																	e.preventDefault()
+																	onViewDelete(view.id)
+																}}
+															>
+																<Trash2 className="h-4 w-4" />
+																<span>Delete</span>
+															</DropdownMenuItem>
+														)}
+													</DropdownMenuContent>
+												</DropdownMenu>
+											)}
+										</div>
+									)
+								})}
 
 								{/* Create View Button */}
 								{enableCustomViews && onCreateView && (

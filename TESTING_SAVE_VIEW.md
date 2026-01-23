@@ -1,8 +1,16 @@
 # Guide de test - Sauvegarde de vues personnalisées
 
-## ✅ Problème résolu
+## ✅ Fonctionnalités implémentées
 
-La page `/products` utilisait `useDataTableUrlState` qui ne supporte pas la sauvegarde de vues personnalisées. Elle a été mise à jour pour utiliser `useDataTableViews` avec localStorage.
+✅ **Sauvegarde de vues** - Les utilisateurs peuvent créer et sauvegarder des vues personnalisées
+✅ **Dropdown menu** - Menu contextuel avec actions Dupliquer, Renommer, Effacer
+✅ **Duplication** - Copier une vue existante avec un nom incrémenté
+✅ **Renommage** - Modifier le nom d'une vue avec validation
+✅ **Suppression** - Effacer une vue custom (vues système protégées)
+
+## 📝 Changement d'architecture
+
+La page `/products` utilisait `useDataTableUrlState` qui ne supporte pas la gestion complète des vues personnalisées. Elle a été mise à jour pour utiliser `useDataTableViews` avec localStorage.
 
 ## 🧪 Comment tester
 
