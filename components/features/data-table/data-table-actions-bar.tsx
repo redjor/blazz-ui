@@ -173,8 +173,7 @@ export function DataTableActionsBar({
 													<DropdownMenuContent align="end" sideOffset={4}>
 														{onViewDuplicate && (
 															<DropdownMenuItem
-																onSelect={(e) => {
-																	e.preventDefault()
+																onClick={() => {
 																	onViewDuplicate(view.id)
 																}}
 															>
@@ -184,8 +183,7 @@ export function DataTableActionsBar({
 														)}
 														{onViewRename && (
 															<DropdownMenuItem
-																onSelect={(e) => {
-																	e.preventDefault()
+																onClick={() => {
 																	onViewRename(view.id)
 																}}
 															>
@@ -197,8 +195,7 @@ export function DataTableActionsBar({
 														{onViewDelete && (
 															<DropdownMenuItem
 																variant="destructive"
-																onSelect={(e) => {
-																	e.preventDefault()
+																onClick={() => {
 																	onViewDelete(view.id)
 																}}
 															>
@@ -235,11 +232,8 @@ export function DataTableActionsBar({
 														render={
 															<button
 																type="button"
-																className={cn(
-																	"inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:bg-muted/50 hover:text-foreground group-hover:opacity-100 focus:opacity-100"
-																)}
+																className="hidden group-hover:inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50 hover:text-foreground focus:inline-flex"
 																aria-label="View options"
-																onClick={(e) => e.stopPropagation()}
 															>
 																<MoreVertical className="h-3.5 w-3.5" />
 															</button>
@@ -248,8 +242,7 @@ export function DataTableActionsBar({
 													<DropdownMenuContent align="end" sideOffset={4}>
 														{onViewDuplicate && (
 															<DropdownMenuItem
-																onSelect={(e) => {
-																	e.preventDefault()
+																onClick={() => {
 																	onViewDuplicate(view.id)
 																}}
 															>
@@ -259,8 +252,7 @@ export function DataTableActionsBar({
 														)}
 														{onViewRename && (
 															<DropdownMenuItem
-																onSelect={(e) => {
-																	e.preventDefault()
+																onClick={() => {
 																	onViewRename(view.id)
 																}}
 															>
@@ -272,8 +264,7 @@ export function DataTableActionsBar({
 														{onViewDelete && (
 															<DropdownMenuItem
 																variant="destructive"
-																onSelect={(e) => {
-																	e.preventDefault()
+																onClick={() => {
 																	onViewDelete(view.id)
 																}}
 															>

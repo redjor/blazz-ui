@@ -51,10 +51,10 @@ export function DataTableBulkSelectionBar<TData>({
 	return (
 		<div
 			className={cn(
-				"absolute top-0 left-0 right-0 h-[42px]",
-				"bg-muted/95 backdrop-blur-sm",
+				"absolute top-0 left-0 right-0 h-[42px] border-b border-border",
+				"bg-muted/95 backdrop-blur-sm animate-in fade-in-0 duration-200",
 				"animate-in fade-in-0 duration-200",
-				"flex items-center px-4 z-10",
+				"flex items-center pl-3 pr-1.5 z-10",
 				className
 			)}
 		>
@@ -62,11 +62,11 @@ export function DataTableBulkSelectionBar<TData>({
 				{/* Left: Checkbox + Selection count + Deselect all */}
 				<div className="flex items-center gap-3">
 					<DataTableRowSelection table={table} type="header" />
-					<span className="text-sm font-medium">{t.selectedCount(selectedCount)}</span>
+					<span className="text-xs font-medium">{t.selectedCount(selectedCount)}</span>
 					<button
 						type="button"
 						onClick={() => table.resetRowSelection()}
-						className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+						className="text-xs text-muted-foreground hover:text-foreground transition-colors"
 					>
 						{t.deselectAll}
 					</button>
@@ -78,12 +78,11 @@ export function DataTableBulkSelectionBar<TData>({
 						<Button
 							key={action.id}
 							variant={action.variant || "outline"}
-							size="sm"
+							size="xs"
 							onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
 							disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
-							className="h-8"
+							className="h-7"
 						>
-							{action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
 							{action.label}
 						</Button>
 					))}
