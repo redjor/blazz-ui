@@ -9,7 +9,9 @@
       "Bash(npx shadcn@latest add:*)",
       "Bash(curl:*)",
       "Bash(chmod:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:base-ui.com)",
+      "WebFetch(domain:reui.io)"
     ]
   },
   "enableAllProjectMcpServers": true,
