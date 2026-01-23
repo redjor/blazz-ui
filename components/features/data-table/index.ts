@@ -8,6 +8,7 @@ export { DataTablePagination } from "./data-table-pagination"
 export { DataTableRowActions } from "./data-table-row-actions"
 export { DataTableRowSelection } from "./data-table-row-selection"
 export { DataTableSaveViewDialog } from "./data-table-save-view-dialog"
+export { DataTableRenameViewDialog } from "./data-table-rename-view-dialog"
 export { DataTableSortMenu } from "./data-table-sort-menu"
 
 // Factories - Reusable builders for columns, views, and actions

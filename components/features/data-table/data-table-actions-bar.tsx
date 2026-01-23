@@ -1,10 +1,17 @@
 "use client"
 
 import type { SortingState } from "@tanstack/react-table"
-import { ArrowUpDown, Plus, Search, SlidersHorizontal, X } from "lucide-react"
+import { ArrowUpDown, Copy, Edit2, MoreVertical, Plus, Search, SlidersHorizontal, Trash2, X } from "lucide-react"
 import * as React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Menu, MenuPopup, MenuPortal, MenuPositioner, MenuTrigger } from "@/components/ui/menu"
 import { cn } from "@/lib/utils"
@@ -17,6 +24,8 @@ interface DataTableActionsBarProps {
 	views?: DataTableView[]
 	activeView?: DataTableView | null
 	onViewChange?: (view: DataTableView) => void
+	onViewDuplicate?: (viewId: string) => void
+	onViewRename?: (viewId: string) => void
 	onViewDelete?: (viewId: string) => void
 	onCreateView?: () => void
 	enableCustomViews?: boolean
@@ -47,6 +56,8 @@ export function DataTableActionsBar({
 	views,
 	activeView,
 	onViewChange,
+	onViewDuplicate,
+	onViewRename,
 	onViewDelete,
 	onCreateView,
 	enableCustomViews = false,
@@ -134,12 +145,13 @@ export function DataTableActionsBar({
 						{views && views.length > 0 ? (
 							<>
 								{views.map((view) => (
-									<div key={view.id} className="relative group">
+									<div key={view.id} className="relative group flex items-center">
 										<button
 											type="button"
 											onClick={() => onViewChange?.(view)}
 											className={cn(
 												"relative inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-colors",
+												!view.isSystem && "pr-1", // Less padding on right if custom view (to fit dropdown)
 												activeView?.id === view.id
 													? "bg-muted text-foreground"
 													: "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
@@ -148,19 +160,60 @@ export function DataTableActionsBar({
 											<span>{view.name}</span>
 										</button>
 
-										{/* Delete button for custom views */}
-										{!view.isSystem && onViewDelete && (
-											<button
-												type="button"
-												onClick={(e) => {
-													e.stopPropagation()
-													onViewDelete(view.id)
-												}}
-												className="absolute -right-1 -top-1 hidden h-4 w-4 items-center justify-center rounded-full bg-destructive text-destructive-foreground opacity-0 transition-opacity hover:opacity-100 group-hover:flex group-hover:opacity-100"
-												aria-label="Delete view"
-											>
-												<X className="h-2.5 w-2.5" />
-											</button>
+										{/* Dropdown menu for custom views */}
+										{!view.isSystem && (onViewDuplicate || onViewRename || onViewDelete) && (
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<button
+														type="button"
+														className={cn(
+															"inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:bg-muted/50 hover:text-foreground group-hover:opacity-100 focus:opacity-100",
+															activeView?.id === view.id && "hover:bg-muted/80"
+														)}
+														aria-label="View options"
+														onClick={(e) => e.stopPropagation()}
+													>
+														<MoreVertical className="h-3.5 w-3.5" />
+													</button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end" sideOffset={4}>
+													{onViewDuplicate && (
+														<DropdownMenuItem
+															onSelect={(e) => {
+																e.preventDefault()
+																onViewDuplicate(view.id)
+															}}
+														>
+															<Copy className="h-4 w-4" />
+															<span>Duplicate</span>
+														</DropdownMenuItem>
+													)}
+													{onViewRename && (
+														<DropdownMenuItem
+															onSelect={(e) => {
+																e.preventDefault()
+																onViewRename(view.id)
+															}}
+														>
+															<Edit2 className="h-4 w-4" />
+															<span>Rename</span>
+														</DropdownMenuItem>
+													)}
+													{(onViewDuplicate || onViewRename) && onViewDelete && <DropdownMenuSeparator />}
+													{onViewDelete && (
+														<DropdownMenuItem
+															variant="destructive"
+															onSelect={(e) => {
+																e.preventDefault()
+																onViewDelete(view.id)
+															}}
+														>
+															<Trash2 className="h-4 w-4" />
+															<span>Delete</span>
+														</DropdownMenuItem>
+													)}
+												</DropdownMenuContent>
+											</DropdownMenu>
 										)}
 									</div>
 								))}

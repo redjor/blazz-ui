@@ -41,6 +41,7 @@ import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowSelection } from "./data-table-row-selection"
 import { DataTableBulkSelectionBar } from "./data-table-bulk-selection-bar"
 import { DataTableSaveViewDialog } from "./data-table-save-view-dialog"
+import { DataTableRenameViewDialog } from "./data-table-rename-view-dialog"
 import { useDataTableConfig } from "./config/data-table-config"
 
 const dataTableVariants = cva("w-full", {
@@ -203,6 +204,10 @@ export function DataTable<TData, TValue = unknown>({
 	// Save view dialog state
 	const [showSaveViewDialog, setShowSaveViewDialog] = React.useState(false)
 
+	// Rename view dialog state
+	const [showRenameViewDialog, setShowRenameViewDialog] = React.useState(false)
+	const [viewToRename, setViewToRename] = React.useState<DataTableView | null>(null)
+
 	// Apply view when it changes
 	React.useEffect(() => {
 		if (!activeView) return
@@ -331,6 +336,59 @@ export function DataTable<TData, TValue = unknown>({
 			views,
 			onViewUpdate,
 		]
+	)
+
+	// Handle duplicate view
+	const handleDuplicateView = React.useCallback(
+		(viewId: string) => {
+			const viewToDuplicate = views?.find((v) => v.id === viewId)
+			if (!viewToDuplicate || !onViewSave) return
+
+			// Create a copy with a new name
+			const duplicateNumber = views?.filter((v) => v.name.startsWith(viewToDuplicate.name)).length || 1
+			const newName = `${viewToDuplicate.name} (${duplicateNumber})`
+
+			const duplicatedView: DataTableView = {
+				...viewToDuplicate,
+				id: generateViewId(newName),
+				name: newName,
+				isSystem: false,
+				isDefault: false,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			}
+
+			onViewSave(duplicatedView)
+			handleViewChange(duplicatedView)
+		},
+		[views, onViewSave, generateViewId, handleViewChange]
+	)
+
+	// Handle rename view (open dialog)
+	const handleRenameView = React.useCallback(
+		(viewId: string) => {
+			const view = views?.find((v) => v.id === viewId)
+			if (!view) return
+
+			setViewToRename(view)
+			setShowRenameViewDialog(true)
+		},
+		[views]
+	)
+
+	// Handle save rename
+	const handleSaveRename = React.useCallback(
+		(viewId: string, newName: string) => {
+			if (!onViewUpdate) return
+
+			onViewUpdate(viewId, {
+				name: newName,
+				updatedAt: new Date(),
+			})
+			setShowRenameViewDialog(false)
+			setViewToRename(null)
+		},
+		[onViewUpdate]
 	)
 
 	// Build columns with selection and actions
@@ -542,6 +600,18 @@ export function DataTable<TData, TValue = unknown>({
 				/>
 			)}
 
+			{/* Rename View Dialog */}
+			{enableCustomViews && (
+				<DataTableRenameViewDialog
+					open={showRenameViewDialog}
+					onOpenChange={setShowRenameViewDialog}
+					view={viewToRename}
+					existingViews={views || []}
+					onRename={handleSaveRename}
+					locale={finalLocale}
+				/>
+			)}
+
 			{/* Table */}
 			<div>
 				{/* Actions Bar */}
@@ -549,6 +619,8 @@ export function DataTable<TData, TValue = unknown>({
 					views={views}
 					activeView={activeView}
 					onViewChange={handleViewChange}
+					onViewDuplicate={handleDuplicateView}
+					onViewRename={handleRenameView}
 					onViewDelete={onViewDelete}
 					onCreateView={handleCreateView}
 					enableCustomViews={enableCustomViews}
