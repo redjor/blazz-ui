@@ -232,6 +232,363 @@ Pour toute question ou problème:
 3. Vérifier les commentaires dans les fichiers de code
 4. Tester avec les données d'exemple
 
+## Guide d'utilisation
+
+### Configuration basique
+
+Pour activer les filtres inline ReUI dans votre DataTable :
+
+```typescript
+import { DataTable } from "@/components/features/data-table"
+import type { DataTableColumnDef } from "@/components/features/data-table"
+
+// 1. Configurer les colonnes avec showInlineFilter
+const columns: DataTableColumnDef<Product>[] = [
+  {
+    accessorKey: "name",
+    header: "Product Name",
+    filterConfig: {
+      type: "text",
+      showInlineFilter: true,  // ← Active le filtre inline
+      placeholder: "Search..."
+    }
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    filterConfig: {
+      type: "select",
+      showInlineFilter: true,  // ← Active le filtre inline
+      options: [
+        { label: "Active", value: "active" },
+        { label: "Inactive", value: "inactive" }
+      ]
+    }
+  }
+]
+
+// 2. Activer les filtres inline dans le DataTable
+<DataTable
+  data={products}
+  columns={columns}
+  enableInlineFilters={true}
+  inlineFiltersVariant="outline"  // ou "solid"
+  inlineFiltersSize="sm"          // "sm" | "md" | "lg"
+  locale="fr"                     // "fr" ou "en"
+/>
+```
+
+### Options de personnalisation
+
+#### Variants
+- **outline** (par défaut) : Badges avec bordure, fond transparent
+- **solid** : Badges avec fond de couleur
+
+```typescript
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersVariant="solid"
+/>
+```
+
+#### Tailles
+- **sm** (par défaut) : Compact, économise de l'espace
+- **md** : Taille moyenne
+- **lg** : Large, plus lisible
+
+```typescript
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersSize="md"
+/>
+```
+
+#### Localisation
+- **fr** (par défaut) : Français
+- **en** : Anglais
+
+```typescript
+<DataTable
+  enableInlineFilters={true}
+  locale="en"
+/>
+```
+
+### Types de filtres supportés
+
+#### Filtre texte
+```typescript
+{
+  accessorKey: "name",
+  header: "Name",
+  filterConfig: {
+    type: "text",
+    showInlineFilter: true,
+    placeholder: "Search by name..."
+  }
+}
+```
+**Opérateurs** : is, contains, starts with, ends with, empty, not empty
+
+#### Filtre select/multiselect
+```typescript
+{
+  accessorKey: "category",
+  header: "Category",
+  filterConfig: {
+    type: "select",
+    showInlineFilter: true,
+    options: [
+      { label: "Electronics", value: "electronics" },
+      { label: "Clothing", value: "clothing" }
+    ]
+  }
+}
+```
+**Opérateurs** : is, is not, is any of, is not any of
+
+#### Filtre numérique
+```typescript
+{
+  accessorKey: "price",
+  header: "Price",
+  filterConfig: {
+    type: "number",
+    showInlineFilter: true,
+    min: 0,
+    max: 1000,
+    step: 0.01
+  }
+}
+```
+**Opérateurs** : equals, greater than, less than, between, empty, not empty
+
+#### Filtre date
+```typescript
+{
+  accessorKey: "createdAt",
+  header: "Created",
+  filterConfig: {
+    type: "date",
+    showInlineFilter: true
+  }
+}
+```
+**Opérateurs** : equals, before, after, between, empty, not empty
+
+### Intégration avec les vues
+
+Les filtres inline sont automatiquement sauvegardés dans les vues :
+
+```typescript
+import { useDataTableViews } from "@/hooks/use-data-table-views"
+
+const defaultViews: DataTableView[] = [
+  {
+    id: "active-electronics",
+    name: "Active Electronics",
+    isSystem: true,
+    filters: {
+      id: "root",
+      operator: "AND",
+      conditions: [
+        {
+          id: "1",
+          column: "category",
+          operator: "equals",
+          value: "electronics",
+          type: "select"
+        },
+        {
+          id: "2",
+          column: "status",
+          operator: "equals",
+          value: "active",
+          type: "select"
+        }
+      ]
+    }
+  }
+]
+
+function ProductsTable() {
+  const { views, activeView, setActiveView } = useDataTableViews({
+    storageKey: "products-views",
+    defaultViews
+  })
+
+  return (
+    <DataTable
+      data={products}
+      columns={columns}
+      enableInlineFilters={true}
+      views={views}
+      activeView={activeView}
+      onViewChange={setActiveView}
+    />
+  )
+}
+```
+
+### Combinaison avec FilterBuilder
+
+Les filtres inline et le FilterBuilder (advanced filters) coexistent :
+
+```typescript
+<DataTable
+  data={products}
+  columns={columns}
+
+  // Filtres inline pour les filtres simples
+  enableInlineFilters={true}
+
+  // FilterBuilder pour les filtres avancés (AND/OR imbriqués)
+  enableAdvancedFilters={true}
+
+  // Les deux sources de filtres sont combinées avec AND
+  onFilterGroupChange={(group) => {
+    console.log("Combined filters:", group)
+  }}
+/>
+```
+
+### Exemple complet avec toutes les fonctionnalités
+
+```typescript
+'use client'
+
+import * as React from 'react'
+import { DataTable, DataTableColumnHeader } from "@/components/features/data-table"
+import type { DataTableColumnDef, DataTableView } from "@/components/features/data-table"
+import { useDataTableViews } from "@/hooks/use-data-table-views"
+import { CheckCircle, XCircle } from "lucide-react"
+
+interface Product {
+  id: string
+  name: string
+  category: string
+  price: number
+  status: "active" | "inactive"
+  stock: number
+}
+
+const columns = React.useMemo<DataTableColumnDef<Product>[]>(
+  () => [
+    {
+      accessorKey: "name",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Product Name" />
+      ),
+      filterConfig: {
+        type: "text",
+        showInlineFilter: true,
+        placeholder: "Search products..."
+      }
+    },
+    {
+      accessorKey: "category",
+      header: "Category",
+      filterConfig: {
+        type: "select",
+        showInlineFilter: true,
+        options: [
+          { label: "Electronics", value: "electronics" },
+          { label: "Clothing", value: "clothing" }
+        ]
+      }
+    },
+    {
+      accessorKey: "price",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Price" />
+      ),
+      cell: ({ row }) => `$${row.getValue("price").toFixed(2)}`,
+      filterConfig: {
+        type: "number",
+        showInlineFilter: true,
+        min: 0,
+        max: 1000
+      }
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      filterConfig: {
+        type: "select",
+        showInlineFilter: true,
+        options: [
+          { label: "Active", value: "active" },
+          { label: "Inactive", value: "inactive" }
+        ]
+      }
+    }
+  ],
+  []
+)
+
+const defaultViews: DataTableView[] = [
+  {
+    id: "all",
+    name: "All Products",
+    isSystem: true,
+    isDefault: true,
+    filters: { id: "root", operator: "AND", conditions: [] }
+  },
+  {
+    id: "active",
+    name: "Active",
+    icon: CheckCircle,
+    isSystem: true,
+    filters: {
+      id: "root",
+      operator: "AND",
+      conditions: [
+        {
+          id: "1",
+          column: "status",
+          operator: "equals",
+          value: "active",
+          type: "select"
+        }
+      ]
+    }
+  }
+]
+
+export default function ProductsPage() {
+  const { views, activeView, setActiveView } = useDataTableViews({
+    storageKey: "products-views",
+    defaultViews
+  })
+
+  return (
+    <DataTable
+      data={products}
+      columns={columns}
+
+      // Filtres inline ReUI
+      enableInlineFilters={true}
+      inlineFiltersVariant="outline"
+      inlineFiltersSize="sm"
+
+      // Vues
+      views={views}
+      activeView={activeView}
+      onViewChange={setActiveView}
+
+      // Autres fonctionnalités
+      enableSorting
+      enablePagination
+      enableGlobalSearch
+      enableAdvancedFilters
+
+      variant="lined"
+      density="default"
+    />
+  )
+}
+```
+
 ## Changelog
 
 ### v1.0.0 - 2026-01-23
@@ -240,9 +597,11 @@ Pour toute question ou problème:
 - ✅ Support i18n (fr/en)
 - ✅ Compatibilité complète avec le système existant
 - ✅ Tests manuels recommandés
+- ✅ Documentation complète ajoutée
 
 ---
 
-**Status:** ✅ Ready for testing
+**Status:** ✅ Ready for production
 **Compatibilité:** 100% avec système actuel
 **Breaking changes:** Aucun
+**Documentation:** DATA_TABLE_README.md, EXAMPLES.md

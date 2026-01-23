@@ -639,6 +639,187 @@ export default function OrdersPage() {
 
 ---
 
+## Table with Inline Filters (ReUI)
+
+Modern table with inline filters powered by ReUI Filters component.
+
+```typescript
+'use client'
+
+import * as React from 'react'
+import { DataTable, DataTableColumnHeader } from "@/components/features/data-table"
+import type { DataTableColumnDef } from "@/components/features/data-table"
+
+interface Product {
+  id: string
+  name: string
+  category: string
+  price: number
+  status: "active" | "inactive"
+  stock: number
+  createdAt: string
+}
+
+const products: Product[] = [
+  {
+    id: "1",
+    name: "Wireless Mouse",
+    category: "electronics",
+    price: 29.99,
+    status: "active",
+    stock: 45,
+    createdAt: "2024-01-15"
+  },
+  // ... more products
+]
+
+const columns = React.useMemo<DataTableColumnDef<Product>[]>(
+  () => [
+    {
+      accessorKey: "name",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Product Name" />
+      ),
+      filterConfig: {
+        type: "text",
+        showInlineFilter: true,
+        placeholder: "Search by name..."
+      }
+    },
+    {
+      accessorKey: "category",
+      header: "Category",
+      cell: ({ row }) => (
+        <span className="capitalize">{row.getValue("category")}</span>
+      ),
+      filterConfig: {
+        type: "select",
+        showInlineFilter: true,
+        options: [
+          { label: "Electronics", value: "electronics" },
+          { label: "Clothing", value: "clothing" },
+          { label: "Food", value: "food" }
+        ]
+      }
+    },
+    {
+      accessorKey: "price",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Price" />
+      ),
+      cell: ({ row }) => {
+        const price = row.getValue("price") as number
+        return <span className="font-medium">${price.toFixed(2)}</span>
+      },
+      filterConfig: {
+        type: "number",
+        showInlineFilter: true,
+        min: 0,
+        max: 1000
+      },
+      meta: { align: "right" }
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string
+        const colors = {
+          active: "bg-green-500",
+          inactive: "bg-gray-500"
+        }
+        return (
+          <div className="flex items-center gap-2">
+            <div className={`h-2 w-2 rounded-full ${colors[status]}`} />
+            <span className="capitalize">{status}</span>
+          </div>
+        )
+      },
+      filterConfig: {
+        type: "select",
+        showInlineFilter: true,
+        options: [
+          { label: "Active", value: "active" },
+          { label: "Inactive", value: "inactive" }
+        ]
+      }
+    },
+    {
+      accessorKey: "stock",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Stock" />
+      ),
+      filterConfig: {
+        type: "number",
+        showInlineFilter: true,
+        min: 0
+      },
+      meta: { align: "right" }
+    },
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Created" />
+      ),
+      cell: ({ row }) => {
+        const date = new Date(row.getValue("createdAt"))
+        return (
+          <span>
+            {date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric"
+            })}
+          </span>
+        )
+      },
+      filterConfig: {
+        type: "date",
+        showInlineFilter: true
+      }
+    }
+  ],
+  []
+)
+
+export default function ProductsPage() {
+  return (
+    <DataTable
+      data={products}
+      columns={columns}
+
+      // Enable inline filters
+      enableInlineFilters={true}
+      inlineFiltersVariant="outline"
+      inlineFiltersSize="sm"
+
+      // Other features
+      enableSorting
+      enablePagination
+      enableGlobalSearch
+
+      pagination={{
+        pageSize: 25,
+        pageSizeOptions: [10, 25, 50, 100]
+      }}
+
+      variant="lined"
+      density="default"
+    />
+  )
+}
+```
+
+**Features:**
+- Inline filters for all columns (text, select, number, date)
+- Multi-select for category and status
+- Number range filter for price
+- Date range filter for createdAt
+- "Clear all" button to reset filters
+- French/English localization
+
+---
+
 ## Complex Filters (AND/OR Logic)
 
 Build complex filter expressions with nested groups.

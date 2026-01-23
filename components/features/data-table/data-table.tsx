@@ -39,6 +39,7 @@ import { DataTablePagination } from "./data-table-pagination"
 import { DataTableReUIFilters } from "./data-table-reui-filters"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowSelection } from "./data-table-row-selection"
+import { useDataTableConfig } from "./config/data-table-config"
 
 const dataTableVariants = cva("w-full", {
 	variants: {
@@ -115,7 +116,7 @@ export function DataTable<TData, TValue = unknown>({
 	defaultSorting = [],
 	onSortingChange,
 	enablePagination = true,
-	pagination = { pageSize: 25, pageSizeOptions: [10, 25, 50, 100] },
+	pagination,
 	onPaginationChange,
 	enableRowSelection = false,
 	enableSelectAll = true,
@@ -133,17 +134,31 @@ export function DataTable<TData, TValue = unknown>({
 	enableCustomViews = false,
 	rowActions,
 	bulkActions,
-	variant = "lined",
-	density = "default",
+	variant,
+	density,
 	className,
 	isLoading = false,
 	loadingComponent,
 	emptyComponent,
 	hideToolbar = false,
 	toolbarActions,
-	locale = "fr",
+	locale,
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
+	// Get configuration from context (with overrides from props)
+	const config = useDataTableConfig()
+
+	// Apply configuration with prop overrides
+	const finalPagination = {
+		pageSize: pagination?.pageSize ?? config.pagination.defaultPageSize,
+		pageSizeOptions: pagination?.pageSizeOptions ?? config.pagination.pageSizeOptions,
+		showPageInfo: pagination?.showPageInfo ?? config.pagination.showPageInfo,
+	}
+	const finalVariant = variant ?? config.ui.defaultVariant
+	const finalDensity = density ?? config.ui.defaultDensity
+	const finalLocale = locale ?? config.i18n.defaultLocale
+	const debounceMs = config.performance.searchDebounceMs
+
 	// Prevent hydration mismatch by only rendering after mount
 	const [isMounted, setIsMounted] = React.useState(false)
 
@@ -304,11 +319,11 @@ export function DataTable<TData, TValue = unknown>({
 			.filter((col) => col.id) // Remove columns without id
 	}, [columns])
 
-	// Handle search change with debounce
+	// Handle search change with debounce (using config)
 	React.useEffect(() => {
 		const timeout = setTimeout(() => {
 			setGlobalFilter(searchValue)
-		}, 300)
+		}, debounceMs)
 
 		return () => clearTimeout(timeout)
 	}, [searchValue])
@@ -376,7 +391,7 @@ export function DataTable<TData, TValue = unknown>({
 		initialState: {
 			pagination: enablePagination
 				? {
-						pageSize: pagination.pageSize,
+						pageSize: finalPagination.pageSize,
 						pageIndex: 0,
 					}
 				: undefined,
@@ -471,14 +486,14 @@ export function DataTable<TData, TValue = unknown>({
 						columns={columns as DataTableColumnDef<TData, any>[]}
 						filterGroup={filterGroup}
 						onFilterChange={handleFilterGroupChange}
-						locale={locale}
+						locale={finalLocale}
 						variant="outline"
 						size="sm"
 					/>
 				)}
 
 				<div className="relative">
-					<Table className={cn(dataTableVariants({ variant, density }))}>
+					<Table className={cn(dataTableVariants({ variant: finalVariant, density: finalDensity }))}>
 						<TableHeader>
 							{/* Column Headers Row - Always visible */}
 							{table.getHeaderGroups().map((headerGroup) => (
@@ -559,7 +574,7 @@ export function DataTable<TData, TValue = unknown>({
 
 				{/* Pagination */}
 				{enablePagination && (
-					<DataTablePagination table={table} pageSizeOptions={pagination.pageSizeOptions} />
+					<DataTablePagination table={table} pageSizeOptions={finalPagination.pageSizeOptions} />
 				)}
 			</div>
 		</div>

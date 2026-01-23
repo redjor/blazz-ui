@@ -2,7 +2,7 @@
  * Internationalization (i18n) support for DataTable
  *
  * Provides translations for all user-facing text in the DataTable component.
- * Currently supports French (fr) and English (en).
+ * Supports French (fr), English (en), Spanish (es), German (de), Italian (it), and Portuguese (pt).
  *
  * @example
  * ```tsx
@@ -11,7 +11,14 @@
  * ```
  */
 
-export type DataTableLocale = "fr" | "en"
+import {
+	spanishTranslations,
+	germanTranslations,
+	italianTranslations,
+	portugueseTranslations,
+} from "./i18n/extended-i18n"
+
+export type DataTableLocale = "fr" | "en" | "es" | "de" | "it" | "pt"
 
 export interface DataTableTranslations {
 	// Search
@@ -162,6 +169,11 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 		saveView: "Save view",
 		deleteView: "Delete view",
 	},
+	// Extended translations - Spanish, German, Italian, Portuguese
+	es: spanishTranslations,
+	de: germanTranslations,
+	it: italianTranslations,
+	pt: portugueseTranslations,
 }
 
 /**

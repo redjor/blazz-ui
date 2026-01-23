@@ -123,6 +123,19 @@ enableAdvancedFilters?: boolean
 // Enable advanced filter builder with AND/OR logic
 // Default: true
 
+enableInlineFilters?: boolean
+// Enable inline filters (ReUI Filters component)
+// Shows filterable columns as interactive badges above the table
+// Default: false
+
+inlineFiltersVariant?: "outline" | "solid"
+// Visual style of inline filter badges
+// Default: "outline"
+
+inlineFiltersSize?: "sm" | "md" | "lg"
+// Size of inline filter badges
+// Default: "sm"
+
 defaultFilterGroup?: FilterGroup
 // Initial filter state
 // See "FilterGroup" type below
@@ -1384,6 +1397,7 @@ These are used internally by DataTable and typically don't need to be imported d
 - **DataTableFilterBadges** - Active filter chips
 - **DataTableFilterBuilder** - Dialog for creating complex filters
 - **DataTableViewSelector** - Dropdown for selecting views
+- **DataTableReUIFilters** - Inline filters powered by ReUI Filters component (used when enableInlineFilters is true)
 
 ---
 
@@ -1967,6 +1981,421 @@ Available operators for `type: "boolean"` columns:
 
 ---
 
+## Inline Filters (ReUI Filters)
+
+The DataTable component now supports inline filters powered by the ReUI Filters component. Inline filters appear as interactive badges above the table, providing a modern and intuitive filtering experience.
+
+### Overview
+
+Inline filters offer several advantages:
+- **Modern UI**: Clean, polished design with smooth animations
+- **Better UX**: Filters are always visible and easy to modify
+- **Multi-select Support**: Select multiple values for select-type filters
+- **Type-specific Inputs**: Date pickers, number inputs, and text fields
+- **Real-time Filtering**: Changes apply immediately as you type
+- **i18n Support**: Fully localized in French and English
+
+### Enabling Inline Filters
+
+To enable inline filters, set the `enableInlineFilters` prop to `true` and configure your columns with `showInlineFilter`:
+
+```typescript
+<DataTable
+  data={products}
+  columns={columns}
+  enableInlineFilters={true}
+  inlineFiltersVariant="outline"  // or "solid"
+  inlineFiltersSize="sm"           // "sm" | "md" | "lg"
+/>
+```
+
+### Column Configuration
+
+Mark columns as filterable by adding `showInlineFilter: true` to their `filterConfig`:
+
+```typescript
+const columns: DataTableColumnDef<Product>[] = [
+  {
+    accessorKey: "name",
+    header: "Product Name",
+    filterConfig: {
+      type: "text",
+      showInlineFilter: true,  // ← Enable inline filter for this column
+      placeholder: "Search products..."
+    }
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+    filterConfig: {
+      type: "select",
+      showInlineFilter: true,
+      options: [
+        { label: "Electronics", value: "electronics" },
+        { label: "Clothing", value: "clothing" }
+      ]
+    }
+  }
+]
+```
+
+### Complete Example with Inline Filters
+
+```typescript
+'use client'
+
+import * as React from 'react'
+import { DataTable, DataTableColumnHeader } from "@/components/features/data-table"
+import type { DataTableColumnDef } from "@/components/features/data-table"
+
+interface Product {
+  id: string
+  name: string
+  category: string
+  price: number
+  status: "active" | "inactive"
+  stock: number
+}
+
+const products: Product[] = [
+  {
+    id: "1",
+    name: "Wireless Mouse",
+    category: "electronics",
+    price: 29.99,
+    status: "active",
+    stock: 45
+  },
+  // ... more products
+]
+
+export default function ProductsPage() {
+  const columns = React.useMemo<DataTableColumnDef<Product>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Product Name" />
+        ),
+        filterConfig: {
+          type: "text",
+          showInlineFilter: true,
+          placeholder: "Search by name..."
+        }
+      },
+      {
+        accessorKey: "category",
+        header: "Category",
+        cell: ({ row }) => (
+          <span className="capitalize">{row.getValue("category")}</span>
+        ),
+        filterConfig: {
+          type: "select",
+          showInlineFilter: true,
+          options: [
+            { label: "Electronics", value: "electronics" },
+            { label: "Clothing", value: "clothing" },
+            { label: "Food", value: "food" }
+          ]
+        }
+      },
+      {
+        accessorKey: "price",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Price" />
+        ),
+        cell: ({ row }) => {
+          const price = row.getValue("price") as number
+          return <span className="font-medium">${price.toFixed(2)}</span>
+        },
+        filterConfig: {
+          type: "number",
+          showInlineFilter: true,
+          min: 0,
+          max: 1000
+        },
+        meta: {
+          align: "right"
+        }
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => {
+          const status = row.getValue("status") as string
+          return (
+            <div className="flex items-center gap-2">
+              <div className={`h-2 w-2 rounded-full ${
+                status === "active" ? "bg-green-500" : "bg-gray-500"
+              }`} />
+              <span className="capitalize">{status}</span>
+            </div>
+          )
+        },
+        filterConfig: {
+          type: "select",
+          showInlineFilter: true,
+          options: [
+            { label: "Active", value: "active" },
+            { label: "Inactive", value: "inactive" }
+          ]
+        }
+      },
+      {
+        accessorKey: "stock",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Stock" />
+        ),
+        filterConfig: {
+          type: "number",
+          showInlineFilter: true,
+          min: 0
+        },
+        meta: {
+          align: "right"
+        }
+      }
+    ],
+    []
+  )
+
+  return (
+    <div className="container py-10">
+      <DataTable
+        data={products}
+        columns={columns}
+
+        // Enable inline filters
+        enableInlineFilters={true}
+        inlineFiltersVariant="outline"
+        inlineFiltersSize="sm"
+
+        // Other features
+        enableSorting
+        enablePagination
+        enableGlobalSearch
+
+        pagination={{
+          pageSize: 25,
+          pageSizeOptions: [10, 25, 50, 100]
+        }}
+
+        variant="lined"
+        density="default"
+      />
+    </div>
+  )
+}
+```
+
+### Filter Types and Operators
+
+Inline filters support all standard filter types with type-specific UIs:
+
+#### Text Filters
+- **Operators**: is, contains, starts with, ends with, is empty, is not empty
+- **UI**: Text input with debouncing
+- **Example**: Search product names, emails, descriptions
+
+#### Number Filters
+- **Operators**: equals, greater than, less than, between, is empty, is not empty
+- **UI**: Number input (single or range for "between")
+- **Example**: Filter by price, stock quantity, ratings
+
+#### Date Filters
+- **Operators**: equals, before, after, between, is empty, is not empty
+- **UI**: Date picker (single or range for "between")
+- **Example**: Filter by creation date, last modified date
+
+#### Select Filters (Single or Multi-select)
+- **Operators**: is, is not, is any of, is not any of
+- **UI**: Dropdown with checkboxes for multi-select
+- **Example**: Filter by status, category, tags
+
+#### Boolean Filters
+- **Operators**: is true, is false
+- **UI**: Toggle or dropdown
+- **Example**: Filter by active/inactive, published/draft
+
+### Filter Badge Variants
+
+Inline filters support two visual variants:
+
+```typescript
+// Outline variant (default) - lighter, less prominent
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersVariant="outline"
+/>
+
+// Solid variant - more prominent, better for emphasis
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersVariant="solid"
+/>
+```
+
+### Filter Badge Sizes
+
+Choose from three sizes to match your design:
+
+```typescript
+// Small (default) - compact, space-efficient
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersSize="sm"
+/>
+
+// Medium - balanced size
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersSize="md"
+/>
+
+// Large - more prominent, easier to read
+<DataTable
+  enableInlineFilters={true}
+  inlineFiltersSize="lg"
+/>
+```
+
+### Combining with Advanced Filters
+
+Inline filters work seamlessly with the advanced filter builder. Both filter types are combined using AND logic:
+
+```typescript
+<DataTable
+  data={products}
+  columns={columns}
+
+  // Enable both inline and advanced filters
+  enableInlineFilters={true}
+  enableAdvancedFilters={true}
+
+  // Filters from both sources are combined
+  onFilterGroupChange={(group) => {
+    console.log("Combined filters:", group)
+    // group contains conditions from both inline and advanced filters
+  }}
+/>
+```
+
+**Example scenario:**
+1. User sets inline filter: "Category = Electronics"
+2. User opens advanced filter builder and adds: "Price > 100"
+3. Result: Products where category is electronics AND price is greater than 100
+
+### Localization (i18n)
+
+Inline filters support French and English localization:
+
+```typescript
+// French (default)
+<DataTable
+  enableInlineFilters={true}
+  locale="fr"  // "Ajouter un filtre", "Tout effacer", etc.
+/>
+
+// English
+<DataTable
+  enableInlineFilters={true}
+  locale="en"  // "Add filter", "Clear all", etc.
+/>
+```
+
+The component automatically translates:
+- Button labels ("Add filter" / "Ajouter un filtre")
+- Operator labels ("contains" / "contient")
+- Placeholder text
+- Validation messages
+
+### Inline Filters with Views
+
+Inline filters are saved and restored when using views:
+
+```typescript
+const defaultViews: DataTableView[] = [
+  {
+    id: "electronics-high-stock",
+    name: "Electronics with High Stock",
+    isSystem: true,
+    filters: {
+      id: "root",
+      operator: "AND",
+      conditions: [
+        {
+          id: "1",
+          column: "category",
+          operator: "equals",
+          value: "electronics",
+          type: "select"
+        },
+        {
+          id: "2",
+          column: "stock",
+          operator: "greaterThan",
+          value: 50,
+          type: "number"
+        }
+      ]
+    }
+  }
+]
+
+// When the view is loaded, inline filters will display:
+// - Category badge showing "Electronics"
+// - Stock badge showing "> 50"
+```
+
+### Clearing Filters
+
+Users can clear filters in multiple ways:
+
+1. **Individual Filter**: Click the X button on any filter badge
+2. **Clear All**: Click the "Tout effacer" / "Clear all" button
+3. **Change View**: Select a different view
+
+```typescript
+// Programmatically clear all filters
+<DataTable
+  filterGroup={filterGroup}
+  onFilterGroupChange={(group) => {
+    // Pass null to clear all filters
+    setFilterGroup(null)
+  }}
+/>
+```
+
+### Technical Details
+
+The inline filters system uses an adapter pattern to convert between:
+- **FilterGroup** (DataTable's internal format) ↔ **Filter[]** (ReUI Filters format)
+
+This allows the ReUI Filters component to integrate seamlessly while maintaining compatibility with:
+- Existing filter logic
+- View persistence
+- Advanced filter builder
+- URL synchronization
+
+**Key adapter files:**
+- `adapters/reui-filters-adapter.ts` - Bidirectional conversion logic
+- `adapters/reui-config-adapter.ts` - Column configuration mapping
+
+### Performance Considerations
+
+Inline filters are optimized for performance:
+- **Debounced text input** (300ms delay)
+- **Memoized filter configurations**
+- **Efficient filter evaluation** using TanStack Table's built-in filtering
+- **Real-time updates** without blocking the UI
+
+For tables with thousands of rows, consider:
+1. Using server-side filtering
+2. Implementing pagination
+3. Limiting the number of inline filters shown
+
+---
+
 ## Common Errors and Solutions
 
 ### Error 1: Hydration Mismatch with Dates
@@ -2250,6 +2679,21 @@ const rowActions: RowAction<Product>[] = [
 - **File:** `/examples/nextjs-app/components/features/data-table/data-table-bulk-actions.tsx`
   - Bulk action toolbar
 
+#### Inline Filters (ReUI Integration)
+- **File:** `components/features/data-table/data-table-reui-filters.tsx`
+  - Wrapper around ReUI Filters component for inline filtering
+  - Provides bidirectional conversion between FilterGroup and Filter[] formats
+
+- **File:** `components/features/data-table/adapters/reui-filters-adapter.ts`
+  - Adapter for converting FilterGroup ↔ ReUI Filter[]
+  - Operator mapping and value normalization
+  - Filter validation logic
+
+- **File:** `components/features/data-table/adapters/reui-config-adapter.ts`
+  - Converts DataTableColumnDef to FilterFieldConfig
+  - Maps column filter types to ReUI filter types
+  - Generates operator lists for each field type
+
 #### Barrel Export
 - **File:** `/examples/nextjs-app/components/features/data-table/index.ts`
 - **Description:** Re-exports all public components and types
@@ -2278,6 +2722,10 @@ const rowActions: RowAction<Product>[] = [
 - [Official Docs](https://base-ui.com/)
 - [Menu Component](https://base-ui.com/react/components/menu)
 - [Popover Component](https://base-ui.com/react/components/popover)
+
+### DataTable Documentation
+- [Quick Examples](./EXAMPLES.md) - Copy-paste examples for common use cases
+- [ReUI Filters Migration Guide](./REUI_FILTERS_MIGRATION.md) - Testing guide and implementation details for inline filters
 
 ### Related Patterns
 - [Server-Side Filtering/Sorting](https://tanstack.com/table/v8/docs/guide/pagination#manual-server-side-pagination)

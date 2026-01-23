@@ -1,34 +1,16 @@
 "use client"
 
-import { Archive, Edit, Eye, Plus } from "lucide-react"
-import {
-	type BulkAction,
-	DataTable,
-	type DataTableColumnDef,
-	DataTableColumnHeader,
-	type DataTableView,
-	type RowAction,
-} from "@/components/features/data-table"
-import { Badge } from "@/components/ui/badge"
+import { DataTable, createEcommerceProductPreset } from "@/components/features/data-table"
+import type { EcommerceProduct } from "@/components/features/data-table"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Page } from "@/components/ui/page"
 import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
 import Link from "next/link"
+import { useMemo } from "react"
 
-interface Product {
-	id: string
-	name: string
-	image: string
-	status: "actif" | "brouillon" | "archivé"
-	stock: string
-	stockCount: number
-	category: string
-	channels: number
-	catalogues: number
-}
-
-const products: Product[] = [
+// Sample products data
+const products: EcommerceProduct[] = [
 	{
 		id: "1",
 		name: "The Collection Snowboard: Liquid",
@@ -36,9 +18,13 @@ const products: Product[] = [
 		status: "actif",
 		stock: "50 en stock pour 4 variantes",
 		stockCount: 50,
-		category: "Non classé",
+		category: "Sports d'hiver",
 		channels: 1,
 		catalogues: 1,
+		price: 749.99,
+		vendor: "Snowboard Co.",
+		sku: "SB-LIQ-001",
+		createdAt: "2024-01-15",
 	},
 	{
 		id: "2",
@@ -47,9 +33,13 @@ const products: Product[] = [
 		status: "actif",
 		stock: "20 en stock",
 		stockCount: 20,
-		category: "Non classé",
+		category: "Sports d'hiver",
 		channels: 1,
 		catalogues: 1,
+		price: 649.99,
+		vendor: "Snowboard Co.",
+		sku: "SB-3PF-002",
+		createdAt: "2024-01-20",
 	},
 	{
 		id: "3",
@@ -58,9 +48,13 @@ const products: Product[] = [
 		status: "actif",
 		stock: "100 en stock",
 		stockCount: 100,
-		category: "Non classé",
-		channels: 1,
+		category: "Sports d'hiver",
+		channels: 2,
 		catalogues: 1,
+		price: 699.99,
+		vendor: "Snowboard Co.",
+		sku: "SB-MM-003",
+		createdAt: "2024-02-01",
 	},
 	{
 		id: "4",
@@ -69,344 +63,233 @@ const products: Product[] = [
 		status: "actif",
 		stock: "50 en stock",
 		stockCount: 50,
-		category: "Non classé",
+		category: "Sports d'hiver",
 		channels: 1,
-		catalogues: 1,
+		catalogues: 2,
+		price: 759.99,
+		vendor: "Snowboard Co.",
+		sku: "SB-OXY-004",
+		createdAt: "2024-02-10",
 	},
 	{
 		id: "5",
 		name: "The Multi-location Snowboard",
 		image: "🏂",
 		status: "actif",
-		stock: "100 en stock",
-		stockCount: 100,
-		category: "Non classé",
+		stock: "25 en stock",
+		stockCount: 25,
+		category: "Sports d'hiver",
 		channels: 1,
 		catalogues: 1,
+		price: 629.99,
+		vendor: "Snowboard Co.",
+		sku: "SB-ML-005",
+		createdAt: "2024-02-15",
 	},
 	{
 		id: "6",
-		name: "The Complete Snowboard",
-		image: "🏂",
+		name: "Snowboard Boots - Premium",
+		image: "👢",
 		status: "actif",
-		stock: "50 en stock pour 5 variantes",
-		stockCount: 50,
-		category: "Non classé",
+		stock: "75 en stock",
+		stockCount: 75,
+		category: "Accessoires",
 		channels: 1,
 		catalogues: 1,
+		price: 299.99,
+		vendor: "Boot Masters",
+		sku: "BT-PRM-001",
+		createdAt: "2024-03-01",
 	},
 	{
 		id: "7",
-		name: "Selling Plans Ski Wax",
-		image: "🎿",
+		name: "Ski Goggles - Pro Vision",
+		image: "🥽",
 		status: "actif",
-		stock: "30 en stock pour 3 variantes",
-		stockCount: 30,
-		category: "Non classé",
-		channels: 1,
-		catalogues: 1,
+		stock: "150 en stock",
+		stockCount: 150,
+		category: "Accessoires",
+		channels: 2,
+		catalogues: 2,
+		price: 179.99,
+		vendor: "Vision Tech",
+		sku: "GG-PRO-001",
+		createdAt: "2024-03-05",
 	},
 	{
 		id: "8",
-		name: "The Draft Snowboard",
-		image: "🏂",
-		status: "brouillon",
-		stock: "20 en stock",
-		stockCount: 20,
-		category: "Non classé",
-		channels: 0,
+		name: "Winter Jacket - Insulated",
+		image: "🧥",
+		status: "actif",
+		stock: "40 en stock",
+		stockCount: 40,
+		category: "Vêtements",
+		channels: 1,
 		catalogues: 1,
+		price: 449.99,
+		vendor: "Outdoor Gear",
+		sku: "JK-INS-001",
+		createdAt: "2024-03-10",
 	},
 	{
 		id: "9",
-		name: "The Compare at Price Snowboard",
-		image: "🏂",
+		name: "Thermal Base Layer Set",
+		image: "👕",
 		status: "actif",
-		stock: "10 en stock",
-		stockCount: 10,
-		category: "Non classé",
-		channels: 1,
+		stock: "200 en stock",
+		stockCount: 200,
+		category: "Vêtements",
+		channels: 2,
 		catalogues: 1,
+		price: 89.99,
+		vendor: "Thermal Wear Co.",
+		sku: "TH-BASE-001",
+		createdAt: "2024-03-15",
 	},
 	{
 		id: "10",
-		name: "The Collection Snowboard: Hydrogen",
-		image: "🏂",
+		name: "Snowboard Bindings - Elite",
+		image: "🔗",
 		status: "actif",
-		stock: "50 en stock",
-		stockCount: 50,
-		category: "Non classé",
+		stock: "60 en stock",
+		stockCount: 60,
+		category: "Équipement",
 		channels: 1,
-		catalogues: 1,
+		catalogues: 2,
+		price: 349.99,
+		vendor: "Binding Specialists",
+		sku: "BD-ELI-001",
+		createdAt: "2024-03-20",
 	},
 	{
 		id: "11",
-		name: "The Out of Stock Snowboard",
-		image: "🏂",
-		status: "actif",
+		name: "Helmet - Safety First",
+		image: "⛑️",
+		status: "brouillon",
 		stock: "0 en stock",
 		stockCount: 0,
-		category: "Non classé",
-		channels: 1,
-		catalogues: 1,
+		category: "Équipement",
+		channels: 0,
+		catalogues: 0,
+		price: 129.99,
+		vendor: "Safety Gear Inc.",
+		sku: "HM-SAF-001",
+		createdAt: "2024-03-25",
 	},
 	{
 		id: "12",
-		name: "The Archived Snowboard",
-		image: "🏂",
-		status: "archivé",
-		stock: "50 en stock",
-		stockCount: 50,
-		category: "Non classé",
-		channels: 0,
+		name: "Gloves - Waterproof",
+		image: "🧤",
+		status: "actif",
+		stock: "100 en stock",
+		stockCount: 100,
+		category: "Accessoires",
+		channels: 1,
 		catalogues: 1,
-	},
-]
-
-const columns: DataTableColumnDef<Product>[] = [
-	{
-		accessorKey: "name",
-		header: ({ column }) => <DataTableColumnHeader column={column} title="Produit" />,
-		cell: ({ row }) => {
-			const product = row.original
-			return (
-				<div className="flex items-center gap-3">
-					<div className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted/50 text-xl">
-						{product.image}
-					</div>
-					<span className="text-body-md">{product.name}</span>
-				</div>
-			)
-		},
-		enableSorting: true,
-		filterConfig: {
-			type: "text",
-			placeholder: "Rechercher par nom...",
-		},
+		price: 69.99,
+		vendor: "Hand Warmers",
+		sku: "GL-WP-001",
+		createdAt: "2024-04-01",
 	},
 	{
-		accessorKey: "status",
-		header: ({ column }) => <DataTableColumnHeader column={column} title="Statut" />,
-		cell: ({ row }) => {
-			const status = row.getValue("status") as string
-			const variants = {
-				actif: "default" as const,
-				brouillon: "secondary" as const,
-				archivé: "outline" as const,
-			}
-			return (
-				<Badge
-					variant={variants[status as keyof typeof variants]}
-					className={
-						status === "actif"
-							? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200"
-							: status === "brouillon"
-								? "bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200"
-								: "bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200"
-					}
-				>
-					{status.charAt(0).toUpperCase() + status.slice(1)}
-				</Badge>
-			)
-		},
-		enableSorting: true,
-		filterConfig: {
-			type: "select",
-			showQuickFilter: true,
-			options: [
-				{ label: "Actif", value: "actif" },
-				{ label: "Brouillon", value: "brouillon" },
-				{ label: "Archivé", value: "archivé" },
-			],
-		},
+		id: "13",
+		name: "Ski Poles - Carbon Fiber",
+		image: "🎿",
+		status: "actif",
+		stock: "80 en stock",
+		stockCount: 80,
+		category: "Équipement",
+		channels: 1,
+		catalogues: 1,
+		price: 199.99,
+		vendor: "Pole Crafters",
+		sku: "PL-CF-001",
+		createdAt: "2024-04-05",
 	},
 	{
-		accessorKey: "stock",
-		header: "Stock",
-		cell: ({ row }) => {
-			const stock = row.getValue("stock") as string
-			const stockCount = row.original.stockCount
-			return (
-				<span
-					className={
-						stockCount === 0 ? "text-body-md text-red-600" : "text-body-md text-foreground"
-					}
-				>
-					{stock}
-				</span>
-			)
-		},
-		enableSorting: false,
+		id: "14",
+		name: "Backpack - Mountain Explorer",
+		image: "🎒",
+		status: "actif",
+		stock: "45 en stock",
+		stockCount: 45,
+		category: "Accessoires",
+		channels: 2,
+		catalogues: 1,
+		price: 159.99,
+		vendor: "Adventure Bags",
+		sku: "BP-ME-001",
+		createdAt: "2024-04-10",
 	},
 	{
-		accessorKey: "category",
-		header: ({ column }) => <DataTableColumnHeader column={column} title="Catégorie" />,
-		enableSorting: true,
-		filterConfig: {
-			type: "text",
-			showQuickFilter: true,
-			placeholder: "Filtrer par catégorie...",
-		},
-	},
-	{
-		accessorKey: "channels",
-		header: ({ column }) => <DataTableColumnHeader column={column} title="Canaux" />,
-		cell: ({ row }) => {
-			const channels = row.getValue("channels") as number
-			return <span className="text-body-md text-foreground">{channels}</span>
-		},
-		enableSorting: true,
-		meta: {
-			align: "center",
-		},
-	},
-	{
-		accessorKey: "catalogues",
-		header: ({ column }) => <DataTableColumnHeader column={column} title="Catalogues" />,
-		cell: ({ row }) => {
-			const catalogues = row.getValue("catalogues") as number
-			return <span className="text-body-md text-foreground">{catalogues}</span>
-		},
-		enableSorting: true,
-		meta: {
-			align: "center",
-		},
-	},
-]
-
-const defaultViews: DataTableView[] = [
-	{
-		id: "all",
-		name: "Tous",
-		isSystem: true,
-		isDefault: true,
-		filters: {
-			id: "root",
-			operator: "AND",
-			conditions: [],
-		},
-	},
-	{
-		id: "active",
-		name: "Actif",
-		isSystem: true,
-		filters: {
-			id: "root",
-			operator: "AND",
-			conditions: [
-				{
-					id: "status-active",
-					column: "status",
-					operator: "equals",
-					value: "actif",
-					type: "select",
-				},
-			],
-		},
-	},
-	{
-		id: "draft",
-		name: "Brouillon",
-		isSystem: true,
-		filters: {
-			id: "root",
-			operator: "AND",
-			conditions: [
-				{
-					id: "status-draft",
-					column: "status",
-					operator: "equals",
-					value: "brouillon",
-					type: "select",
-				},
-			],
-		},
-	},
-	{
-		id: "archived",
-		name: "Archivé",
-		isSystem: true,
-		filters: {
-			id: "root",
-			operator: "AND",
-			conditions: [
-				{
-					id: "status-archived",
-					column: "status",
-					operator: "equals",
-					value: "archivé",
-					type: "select",
-				},
-			],
-		},
+		id: "15",
+		name: "Neck Warmer - Fleece",
+		image: "🧣",
+		status: "archivé",
+		stock: "0 en stock",
+		stockCount: 0,
+		category: "Accessoires",
+		channels: 0,
+		catalogues: 0,
+		price: 29.99,
+		vendor: "Warm Essentials",
+		sku: "NW-FL-001",
+		createdAt: "2024-04-15",
 	},
 ]
 
 export default function ProductsPage() {
+	// Create preset with all configuration (replaces 700+ lines of manual setup)
+	const preset = useMemo(
+		() =>
+			createEcommerceProductPreset({
+				locale: "fr",
+				currency: "EUR",
+				categories: [
+					{ label: "Sports d'hiver", value: "Sports d'hiver" },
+					{ label: "Accessoires", value: "Accessoires" },
+					{ label: "Vêtements", value: "Vêtements" },
+					{ label: "Équipement", value: "Équipement" },
+				],
+				vendors: [
+					{ label: "Snowboard Co.", value: "Snowboard Co." },
+					{ label: "Boot Masters", value: "Boot Masters" },
+					{ label: "Vision Tech", value: "Vision Tech" },
+					{ label: "Outdoor Gear", value: "Outdoor Gear" },
+					{ label: "Thermal Wear Co.", value: "Thermal Wear Co." },
+					{ label: "Binding Specialists", value: "Binding Specialists" },
+					{ label: "Safety Gear Inc.", value: "Safety Gear Inc." },
+					{ label: "Hand Warmers", value: "Hand Warmers" },
+					{ label: "Pole Crafters", value: "Pole Crafters" },
+					{ label: "Adventure Bags", value: "Adventure Bags" },
+					{ label: "Warm Essentials", value: "Warm Essentials" },
+				],
+				onView: (product) => {
+					alert(`Viewing product: ${product.name}`)
+				},
+				onEdit: (product) => {
+					alert(`Editing product: ${product.name}`)
+				},
+				onArchive: async (product) => {
+					await new Promise((resolve) => setTimeout(resolve, 1000))
+					alert(`Archived product: ${product.name}`)
+				},
+				onBulkActivate: async (products) => {
+					await new Promise((resolve) => setTimeout(resolve, 500))
+					alert(`Activated ${products.length} products`)
+				},
+				onBulkArchive: async (products) => {
+					await new Promise((resolve) => setTimeout(resolve, 1000))
+					alert(`Archived ${products.length} products`)
+				},
+			}),
+		[]
+	)
+
 	const { activeView, setActiveView } = useDataTableUrlState({
-		views: defaultViews,
-		defaultView: defaultViews[0],
+		views: preset.views,
+		defaultView: preset.views[0],
 	})
-
-	// Row actions
-	const rowActions: RowAction<Product>[] = [
-		{
-			id: "view",
-			label: "View Details",
-			icon: Eye,
-			handler: (row) => {
-				alert(`Viewing product: ${row.original.name}`)
-			},
-		},
-		{
-			id: "edit",
-			label: "Edit",
-			icon: Edit,
-			handler: (row) => {
-				alert(`Editing product: ${row.original.name}`)
-			},
-		},
-		{
-			id: "archive",
-			label: "Archive",
-			icon: Archive,
-			variant: "destructive",
-			separator: true,
-			requireConfirmation: true,
-			confirmationMessage: (row) => `Are you sure you want to archive ${row.original.name}?`,
-			handler: async (row) => {
-				await new Promise((resolve) => setTimeout(resolve, 1000))
-				alert(`Archived product: ${row.original.name}`)
-			},
-			hidden: (row) => row.original.status === "archivé",
-		},
-	]
-
-	// Bulk actions
-	const bulkActions: BulkAction<Product>[] = [
-		{
-			id: "activate",
-			label: "Set as Active",
-			icon: Plus,
-			variant: "default",
-			handler: async (rows) => {
-				await new Promise((resolve) => setTimeout(resolve, 500))
-				alert(`Activated ${rows.length} products`)
-			},
-		},
-		{
-			id: "archive",
-			label: "Archive Products",
-			icon: Archive,
-			variant: "destructive",
-			requireConfirmation: true,
-			confirmationMessage: (count) => `Are you sure you want to archive ${count} products?`,
-			handler: async (rows) => {
-				await new Promise((resolve) => setTimeout(resolve, 1000))
-				alert(`Archived ${rows.length} products`)
-			},
-		},
-	]
 
 	return (
 		<Page
@@ -421,19 +304,19 @@ export default function ProductsPage() {
 			<Card className="p-0">
 				<DataTable
 					data={products}
-					columns={columns}
+					columns={preset.columns}
+					views={preset.views}
+					activeView={activeView}
+					onViewChange={setActiveView}
+					rowActions={preset.rowActions}
+					bulkActions={preset.bulkActions}
 					enableSorting
 					enablePagination
 					enableRowSelection
 					enableGlobalSearch
 					enableAdvancedFilters
-					searchPlaceholder="Rechercher dans tous les produits..."
-					views={defaultViews}
-					activeView={activeView}
-					onViewChange={setActiveView}
 					enableCustomViews
-					rowActions={rowActions}
-					bulkActions={bulkActions}
+					searchPlaceholder="Rechercher dans tous les produits..."
 					pagination={{
 						pageSize: 15,
 						pageSizeOptions: [10, 15, 25, 50],

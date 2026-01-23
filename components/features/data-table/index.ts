@@ -13,3 +13,12 @@ export { DataTableRowSelection } from "./data-table-row-selection"
 export { DataTableSortMenu } from "./data-table-sort-menu"
 export { DataTableViewSelector } from "./data-table-view-selector"
 export { DataTableViewTabs } from "./data-table-view-tabs"
+
+// Factories - Reusable builders for columns, views, and actions
+export * from "./factories"
+
+// Configuration - Global and per-instance configuration
+export * from "./config/data-table-config"
+
+// Presets - Domain-specific pre-configured table setups
+export * from "./presets"
