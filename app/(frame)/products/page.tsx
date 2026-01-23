@@ -5,7 +5,7 @@ import type { EcommerceProduct } from "@/components/features/data-table"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Page } from "@/components/ui/page"
-import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
+import { useDataTableViews } from "@/hooks/use-data-table-views"
 import Link from "next/link"
 import { useMemo } from "react"
 
@@ -333,9 +333,9 @@ export default function ProductsPage() {
 		[]
 	)
 
-	const { activeView, setActiveView } = useDataTableUrlState({
-		views: preset.views,
-		defaultView: preset.views[0],
+	const { views, activeView, setActiveView, addView, updateView, deleteView } = useDataTableViews({
+		storageKey: "products-table",
+		defaultViews: preset.views,
 	})
 
 	return (
@@ -352,9 +352,12 @@ export default function ProductsPage() {
 				<DataTable
 					data={products}
 					columns={preset.columns}
-					views={preset.views}
+					views={views}
 					activeView={activeView}
-					onViewChange={setActiveView}
+					onViewChange={(view) => setActiveView(view.id)}
+					onViewSave={addView}
+					onViewUpdate={updateView}
+					onViewDelete={deleteView}
 					rowActions={preset.rowActions}
 					bulkActions={preset.bulkActions}
 					enableSorting
