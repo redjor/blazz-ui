@@ -155,7 +155,7 @@ export function DataTableActionsBar({
 										return (
 											<ButtonGroup key={view.id}>
 												<Button
-													variant="outline"
+													variant="ghost"
 													size="sm"
 													onClick={() => onViewChange?.(view)}
 													className="rounded-r-none"
@@ -165,7 +165,7 @@ export function DataTableActionsBar({
 												<DropdownMenu>
 													<DropdownMenuTrigger
 														render={
-															<Button variant="outline" size="sm" className="!pl-2 rounded-l-none">
+															<Button variant="ghost" size="sm" className="!pl-2 rounded-l-none">
 																<MoreVertical className="h-3.5 w-3.5" />
 															</Button>
 														}
@@ -231,18 +231,20 @@ export function DataTableActionsBar({
 											{/* Dropdown menu for inactive custom views */}
 											{hasDropdownActions && !isActive && (
 												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<button
-															type="button"
-															className={cn(
-																"inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:bg-muted/50 hover:text-foreground group-hover:opacity-100 focus:opacity-100"
-															)}
-															aria-label="View options"
-															onClick={(e) => e.stopPropagation()}
-														>
-															<MoreVertical className="h-3.5 w-3.5" />
-														</button>
-													</DropdownMenuTrigger>
+													<DropdownMenuTrigger
+														render={
+															<button
+																type="button"
+																className={cn(
+																	"inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:bg-muted/50 hover:text-foreground group-hover:opacity-100 focus:opacity-100"
+																)}
+																aria-label="View options"
+																onClick={(e) => e.stopPropagation()}
+															>
+																<MoreVertical className="h-3.5 w-3.5" />
+															</button>
+														}
+													/>
 													<DropdownMenuContent align="end" sideOffset={4}>
 														{onViewDuplicate && (
 															<DropdownMenuItem
@@ -252,7 +254,7 @@ export function DataTableActionsBar({
 																}}
 															>
 																<Copy className="h-4 w-4" />
-																<span>Duplicate</span>
+																<span>Dupliquer</span>
 															</DropdownMenuItem>
 														)}
 														{onViewRename && (
@@ -263,7 +265,7 @@ export function DataTableActionsBar({
 																}}
 															>
 																<Edit2 className="h-4 w-4" />
-																<span>Rename</span>
+																<span>Renommer</span>
 															</DropdownMenuItem>
 														)}
 														{(onViewDuplicate || onViewRename) && onViewDelete && <DropdownMenuSeparator />}
@@ -276,7 +278,7 @@ export function DataTableActionsBar({
 																}}
 															>
 																<Trash2 className="h-4 w-4" />
-																<span>Delete</span>
+																<span>Effacer</span>
 															</DropdownMenuItem>
 														)}
 													</DropdownMenuContent>
