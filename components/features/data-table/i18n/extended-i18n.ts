@@ -41,6 +41,7 @@ export const spanishTranslations: DataTableTranslations = {
 
 	// Selection
 	rowsSelected: (count) => `${count} ${count === 1 ? "fila seleccionada" : "filas seleccionadas"}`,
+	selectedCount: (count) => `${count} seleccionado${count > 1 ? "s" : ""}`,
 	selectAll: "Seleccionar todo",
 	deselectAll: "Deseleccionar todo",
 
@@ -57,6 +58,8 @@ export const spanishTranslations: DataTableTranslations = {
 	// Actions
 	actions: "Acciones",
 	moreActions: "Más acciones",
+	export: "Exportar",
+	import: "Importar",
 
 	// Views
 	views: "Vistas",
@@ -94,6 +97,7 @@ export const germanTranslations: DataTableTranslations = {
 
 	// Selection
 	rowsSelected: (count) => `${count} ${count === 1 ? "Zeile ausgewählt" : "Zeilen ausgewählt"}`,
+	selectedCount: (count) => `${count} ausgewählt`,
 	selectAll: "Alle auswählen",
 	deselectAll: "Alle abwählen",
 
@@ -110,6 +114,8 @@ export const germanTranslations: DataTableTranslations = {
 	// Actions
 	actions: "Aktionen",
 	moreActions: "Weitere Aktionen",
+	export: "Exportieren",
+	import: "Importieren",
 
 	// Views
 	views: "Ansichten",
@@ -147,6 +153,7 @@ export const italianTranslations: DataTableTranslations = {
 
 	// Selection
 	rowsSelected: (count) => `${count} ${count === 1 ? "riga selezionata" : "righe selezionate"}`,
+	selectedCount: (count) => `${count} selezionat${count > 1 ? "e" : "a"}`,
 	selectAll: "Seleziona tutto",
 	deselectAll: "Deseleziona tutto",
 
@@ -163,6 +170,8 @@ export const italianTranslations: DataTableTranslations = {
 	// Actions
 	actions: "Azioni",
 	moreActions: "Altre azioni",
+	export: "Esportare",
+	import: "Importare",
 
 	// Views
 	views: "Viste",
@@ -200,6 +209,7 @@ export const portugueseTranslations: DataTableTranslations = {
 
 	// Selection
 	rowsSelected: (count) => `${count} ${count === 1 ? "linha selecionada" : "linhas selecionadas"}`,
+	selectedCount: (count) => `${count} selecionado${count > 1 ? "s" : ""}`,
 	selectAll: "Selecionar tudo",
 	deselectAll: "Desselecionar tudo",
 
@@ -216,6 +226,8 @@ export const portugueseTranslations: DataTableTranslations = {
 	// Actions
 	actions: "Ações",
 	moreActions: "Mais ações",
+	export: "Exportar",
+	import: "Importar",
 
 	// Views
 	views: "Visualizações",

@@ -175,6 +175,12 @@ export function createEcommerceProductPreset(
 						variant: "outline" as const,
 						className: "bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200",
 					},
+					cartes_cadeaux: {
+						value: "cartes_cadeaux",
+						label: "Cartes Cadeaux",
+						variant: "secondary" as const,
+						className: "bg-purple-100 text-purple-800 hover:bg-purple-100 border-purple-200",
+					},
 				}
 			: {
 					active: {
@@ -194,6 +200,12 @@ export function createEcommerceProductPreset(
 						label: "Archived",
 						variant: "outline" as const,
 						className: "bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200",
+					},
+					gift_cards: {
+						value: "gift_cards",
+						label: "Gift Cards",
+						variant: "secondary" as const,
+						className: "bg-purple-100 text-purple-800 hover:bg-purple-100 border-purple-200",
 					},
 				})
 

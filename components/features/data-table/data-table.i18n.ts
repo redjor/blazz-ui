@@ -45,6 +45,7 @@ export interface DataTableTranslations {
 
 	// Selection
 	rowsSelected: (count: number) => string
+	selectedCount: (count: number) => string
 	selectAll: string
 	deselectAll: string
 
@@ -61,6 +62,8 @@ export interface DataTableTranslations {
 	// Actions
 	actions: string
 	moreActions: string
+	export: string
+	import: string
 
 	// Views
 	views: string
@@ -96,6 +99,7 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 
 		// Selection
 		rowsSelected: (count) => `${count} ${count === 1 ? "ligne sélectionnée" : "lignes sélectionnées"}`,
+		selectedCount: (count) => `${count} sélectionné${count > 1 ? "s" : ""}`,
 		selectAll: "Tout sélectionner",
 		deselectAll: "Tout désélectionner",
 
@@ -112,6 +116,8 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 		// Actions
 		actions: "Actions",
 		moreActions: "Plus d'actions",
+		export: "Exporter",
+		import: "Importer",
 
 		// Views
 		views: "Vues",
@@ -145,6 +151,7 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 
 		// Selection
 		rowsSelected: (count) => `${count} ${count === 1 ? "row selected" : "rows selected"}`,
+		selectedCount: (count) => `${count} selected`,
 		selectAll: "Select all",
 		deselectAll: "Deselect all",
 
@@ -161,6 +168,8 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 		// Actions
 		actions: "Actions",
 		moreActions: "More actions",
+		export: "Export",
+		import: "Import",
 
 		// Views
 		views: "Views",

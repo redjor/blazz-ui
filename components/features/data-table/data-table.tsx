@@ -39,6 +39,7 @@ import { DataTablePagination } from "./data-table-pagination"
 import { DataTableReUIFilters } from "./data-table-reui-filters"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowSelection } from "./data-table-row-selection"
+import { DataTableBulkSelectionBar } from "./data-table-bulk-selection-bar"
 import { useDataTableConfig } from "./config/data-table-config"
 
 const dataTableVariants = cva("w-full", {
@@ -536,40 +537,14 @@ export function DataTable<TData, TValue = unknown>({
 						</TableBody>
 					</Table>
 
-					{/* Bulk Actions Overlay - Appears over table header when rows selected */}
-					{bulkActions &&
-						bulkActions.length > 0 &&
-						table.getFilteredSelectedRowModel().rows.length > 0 && (
-							<div className="absolute top-0 left-0 right-0 h-[42px] bg-muted/95 backdrop-blur-sm animate-in fade-in-0 duration-200 flex items-center px-4 z-10">
-								<div className="flex items-center justify-between gap-2 w-full">
-									<div className="flex items-center gap-2 text-sm">
-										{table.getFilteredSelectedRowModel().rows.length} rows selected
-										<button
-											type="button"
-											onClick={() => table.resetRowSelection()}
-											className="ml-2 text-muted-foreground hover:text-foreground"
-										>
-											✕
-										</button>
-									</div>
-									<div className="flex items-center gap-2">
-										{bulkActions.map((action) => (
-											<Button
-												key={action.id}
-												variant={action.variant || "outline"}
-												size="sm"
-												onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
-												disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
-												className="h-8"
-											>
-												{action.icon && <action.icon className="mr-2 h-3.5 w-3.5" />}
-												{action.label}
-											</Button>
-										))}
-									</div>
-								</div>
-							</div>
-						)}
+					{/* Bulk Selection Bar - Appears over table header when rows selected */}
+					{bulkActions && bulkActions.length > 0 && (
+						<DataTableBulkSelectionBar
+							table={table}
+							bulkActions={bulkActions}
+							locale={finalLocale}
+						/>
+					)}
 				</div>
 
 				{/* Pagination */}

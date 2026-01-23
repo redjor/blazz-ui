@@ -32,13 +32,7 @@ export function DataTablePagination<TData>({
 			className="flex items-center justify-between p-2 border-t"
 			data-slot="data-table-pagination"
 		>
-			<div className="flex-1 text-sm text-muted-foreground">
-				{table.getFilteredSelectedRowModel().rows.length > 0 && (
-					<span>
-						{table.getFilteredSelectedRowModel().rows.length} of {totalRows} row(s) selected
-					</span>
-				)}
-			</div>
+			<div className="flex-1 text-sm text-muted-foreground" />
 			<div className="flex items-center space-x-6 lg:space-x-8">
 				<div className="flex items-center space-x-2">
 					<p className="text-xs font-medium">Rows per page</p>
