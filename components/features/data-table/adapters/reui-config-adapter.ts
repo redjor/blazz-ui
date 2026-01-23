@@ -31,8 +31,8 @@ function mapTypeToReui(type: FilterType): FilterFieldConfig["type"] {
 export function getDefaultOperator(type: FilterType): string {
 	const defaults: Record<FilterType, string> = {
 		text: "contains",
-		number: "is",
-		date: "is",
+		number: "equals",  // ReUI uses "equals" for number, not "is"
+		date: "equals",    // ReUI uses "equals" for date, not "is"
 		boolean: "is",
 		select: "is_any_of",
 	}
@@ -59,9 +59,9 @@ export function getOperatorsForType(
 	// Use custom operators if provided, otherwise use defaults
 	const operators = customOperators || defaultOperators[type] || []
 
-	// Convert to ReUI format
+	// Convert to ReUI format - IMPORTANT: pass type for context-specific mapping
 	return operators.map((op) => {
-		const reuiOp = mapOperatorToReui(op)
+		const reuiOp = mapOperatorToReui(op, type)
 
 		// Determine if operator supports multiple values
 		const supportsMultiple = [
@@ -171,6 +171,14 @@ export function columnToFilterFieldConfig<TData>(
 	const operators = getOperatorsForType(filterConfig.type, filterConfig.operators)
 	if (operators.length > 0) {
 		config.operators = operators
+	}
+
+	// Debug: log operators
+	if (process.env.NODE_ENV === 'development') {
+		console.log(`[ReUI Config] ${label} (${filterConfig.type}):`, {
+			operators: operators.map(o => o.value),
+			defaultOperator: config.defaultOperator
+		})
 	}
 
 	// Add options for select type

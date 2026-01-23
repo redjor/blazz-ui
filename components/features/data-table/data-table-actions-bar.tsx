@@ -36,6 +36,8 @@ interface DataTableActionsBarProps {
 	// Filters
 	filterCount: number
 	onOpenFilterBuilder: () => void
+	showInlineFilters?: boolean
+	onToggleInlineFilters?: () => void
 
 	// Locale
 	locale?: "fr" | "en"
@@ -58,6 +60,8 @@ export function DataTableActionsBar({
 	sortableColumns,
 	filterCount,
 	onOpenFilterBuilder,
+	showInlineFilters = false,
+	onToggleInlineFilters,
 	locale = "fr",
 }: DataTableActionsBarProps) {
 	const t = useDataTableTranslations(locale)
@@ -196,9 +200,13 @@ export function DataTableActionsBar({
 					<Button
 						variant="ghost"
 						size="icon-sm"
-						onClick={onOpenFilterBuilder}
-						className="relative h-8 w-8"
-						aria-label="Open filters"
+						onClick={onToggleInlineFilters || onOpenFilterBuilder}
+						className={cn(
+							"relative h-8 w-8",
+							showInlineFilters && "bg-accent text-accent-foreground"
+						)}
+						aria-label="Toggle filters"
+						aria-expanded={showInlineFilters}
 					>
 						<SlidersHorizontal className="h-4 w-4" />
 						{filterCount > 0 && (

@@ -216,8 +216,17 @@ export interface ColumnFilterConfig {
 	/** Placeholder text for filter inputs */
 	placeholder?: string
 
-	/** Whether to show this filter in the quick filters bar */
+	/** @deprecated Use showInlineFilter and defaultInlineFilter instead */
 	showQuickFilter?: boolean
+
+	/** Whether this filter is available in the inline filter system */
+	showInlineFilter?: boolean
+
+	/** Whether this filter is displayed by default (vs "Ajouter un filtre") */
+	defaultInlineFilter?: boolean
+
+	/** Custom label for the filter dropdown (defaults to column header) */
+	filterLabel?: string
 }
 
 // Operator definitions for each filter type

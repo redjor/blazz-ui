@@ -1,5 +1,11 @@
 import type { Row } from "@tanstack/react-table"
-import type { FilterCondition, FilterGroup } from "./data-table.types"
+import type {
+	ColumnFilterConfig,
+	FilterCondition,
+	FilterGroup,
+	FilterOperator,
+} from "./data-table-filter.types"
+import type { DataTableColumnDef } from "./data-table.types"
 
 /**
  * Evaluate a single filter condition against a row
@@ -237,4 +243,129 @@ export function describeFilterGroup(group: FilterGroup, depth = 0): string {
 	}
 
 	return description
+}
+
+/**
+ * Get the accessor key from a column definition
+ */
+export function getColumnKey<TData>(column: DataTableColumnDef<TData, any>): string | undefined {
+	return "accessorKey" in column ? (column.accessorKey as string) : undefined
+}
+
+/**
+ * Format a filter value for display in a badge
+ */
+export function formatFilterValue(value: any, config: ColumnFilterConfig): string {
+	// Handle array values (multi-select)
+	if (Array.isArray(value)) {
+		if (value.length === 0) return ""
+
+		// For select type with options, show labels
+		if (config.type === "select" && config.options) {
+			const labels = value
+				.map((v) => {
+					const option = config.options!.find((opt) => opt.value === v)
+					return option?.label || String(v)
+				})
+				.filter(Boolean)
+
+			if (labels.length > 2) {
+				return `${labels.slice(0, 2).join(", ")} +${labels.length - 2}`
+			}
+			return labels.join(", ")
+		}
+
+		// For other types, just join the values
+		if (value.length > 2) {
+			return `${value.slice(0, 2).join(", ")} +${value.length - 2}`
+		}
+		return value.join(", ")
+	}
+
+	// Handle single select value
+	if (config.type === "select" && config.options) {
+		const option = config.options.find((opt) => opt.value === value)
+		return option?.label || String(value)
+	}
+
+	// Handle date
+	if (config.type === "date" && value instanceof Date) {
+		return value.toLocaleDateString()
+	}
+
+	// Default: convert to string
+	return String(value)
+}
+
+/**
+ * Get the filter label from column configuration or header
+ */
+export function getFilterLabel<TData>(column: DataTableColumnDef<TData, any>): string {
+	// Use custom filter label if provided
+	if (column.filterConfig?.filterLabel) {
+		return column.filterConfig.filterLabel
+	}
+
+	// Use column header if it's a string
+	if (typeof column.header === "string") {
+		return column.header
+	}
+
+	// Fallback to column key
+	const columnKey = getColumnKey(column)
+	if (columnKey) {
+		// Capitalize first letter
+		return columnKey.charAt(0).toUpperCase() + columnKey.slice(1)
+	}
+
+	return "Filter"
+}
+
+/**
+ * Extract the current filter value for a specific column from a filter group
+ */
+export function getCurrentFilterValue(
+	filterGroup: FilterGroup | null,
+	columnKey: string
+): any {
+	if (!filterGroup) return undefined
+
+	const condition = filterGroup.conditions.find((c) => c.column === columnKey)
+	return condition?.value
+}
+
+/**
+ * Create a FilterCondition with implicit operator based on filter type
+ */
+export function createInlineFilterCondition<TData>(
+	column: DataTableColumnDef<TData, any>,
+	value: any
+): FilterCondition {
+	const columnKey = getColumnKey(column)
+	if (!columnKey) {
+		throw new Error("Column must have an accessorKey")
+	}
+
+	const filterType = column.filterConfig?.type
+	if (!filterType) {
+		throw new Error("Column must have a filterConfig with type")
+	}
+
+	// Determine operator based on type and value
+	let operator: FilterOperator
+	if (filterType === "select" && Array.isArray(value) && value.length > 1) {
+		operator = "in"
+	} else if (filterType === "text") {
+		operator = "contains"
+	} else {
+		operator = "equals"
+	}
+
+	return {
+		id: `inline-filter-${columnKey}-${Date.now()}`,
+		column: columnKey,
+		operator,
+		value,
+		type: filterType,
+	}
 }

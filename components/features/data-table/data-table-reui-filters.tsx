@@ -217,7 +217,7 @@ export function DataTableReUIFilters<TData>({
             radius={radius}
             i18n={i18nConfig}
             showAddButton={true}
-            allowMultiple={false} // One filter per column
+            allowMultiple={true}
             className={className}
           />
         </div>

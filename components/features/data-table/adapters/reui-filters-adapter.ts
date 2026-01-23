@@ -15,11 +15,16 @@ import type {
 
 /**
  * Map FilterOperator (current system) to ReUI operator string
+ * @param operator The operator to map
+ * @param type Optional filter type for context-specific mapping
  */
-export function mapOperatorToReui(operator: FilterOperator): string {
+export function mapOperatorToReui(operator: FilterOperator, type?: FilterType): string {
+	// For number and date types, use "equals" instead of "is"
+	const useEquals = type === "number" || type === "date"
+
 	const mapping: Record<FilterOperator, string> = {
-		equals: "is",
-		notEquals: "is_not",
+		equals: useEquals ? "equals" : "is",
+		notEquals: useEquals ? "not_equals" : "is_not",
 		contains: "contains",
 		notContains: "not_contains",
 		startsWith: "starts_with",
@@ -35,7 +40,7 @@ export function mapOperatorToReui(operator: FilterOperator): string {
 		isNotEmpty: "not_empty",
 	}
 
-	return mapping[operator] || "is"
+	return mapping[operator] || (useEquals ? "equals" : "is")
 }
 
 /**
@@ -141,7 +146,7 @@ export function filterGroupToReuiFilters(filterGroup: FilterGroup | null): Filte
 		return {
 			id: condition.id,
 			field: condition.column,
-			operator: mapOperatorToReui(condition.operator),
+			operator: mapOperatorToReui(condition.operator, condition.type),
 			values,
 		}
 	})

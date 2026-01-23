@@ -24,6 +24,9 @@ export interface DataTableTranslations {
 	clearAll: string
 	filters: string
 	noFilters: string
+	filterWith: string
+	noMoreFilters: string
+	clearFilter: string
 
 	// Sorting
 	sortBy: string
@@ -72,6 +75,9 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 		clearAll: "Tout effacer",
 		filters: "Filtres",
 		noFilters: "Aucun filtre",
+		filterWith: "avec:",
+		noMoreFilters: "Aucun filtre disponible",
+		clearFilter: "Effacer le filtre",
 
 		// Sorting
 		sortBy: "Trier par",
@@ -118,6 +124,9 @@ export const dataTableTranslations: Record<DataTableLocale, DataTableTranslation
 		clearAll: "Clear all",
 		filters: "Filters",
 		noFilters: "No filters",
+		filterWith: "with:",
+		noMoreFilters: "No more filters",
+		clearFilter: "Clear filter",
 
 		// Sorting
 		sortBy: "Sort by",

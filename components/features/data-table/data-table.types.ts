@@ -160,4 +160,7 @@ export interface DataTableProps<TData, TValue = unknown> {
 	// Toolbar customization
 	toolbarActions?: React.ReactNode
 	hideToolbar?: boolean
+
+	// Internationalization
+	locale?: "fr" | "en"
 }

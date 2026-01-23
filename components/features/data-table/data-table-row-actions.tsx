@@ -6,11 +6,10 @@ import * as React from "react"
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
 import {
 	DropdownMenu,
+	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuPopup,
-	DropdownMenuPortal,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -76,8 +75,7 @@ export function DataTableRowActions<TData>({ row, actions }: DataTableRowActions
 					<span className="sr-only">Open menu</span>
 					<MoreHorizontal className="h-4 w-4" />
 				</DropdownMenuTrigger>
-				<DropdownMenuPortal>
-					<DropdownMenuPopup data-slot="data-table-row-actions-popup">
+					<DropdownMenuContent data-slot="data-table-row-actions-popup">
 						<DropdownMenuGroup>
 							<DropdownMenuLabel>Actions</DropdownMenuLabel>
 							{visibleActions.map((action, index) => {
@@ -108,8 +106,7 @@ export function DataTableRowActions<TData>({ row, actions }: DataTableRowActions
 								)
 							})}
 						</DropdownMenuGroup>
-					</DropdownMenuPopup>
-				</DropdownMenuPortal>
+					</DropdownMenuContent>
 			</DropdownMenu>
 
 			{/* Confirmation Dialog */}
