@@ -10,11 +10,12 @@ interface UseDataTableViewsOptions {
 
 interface UseDataTableViewsReturn {
 	views: DataTableView[]
-	activeView: string | null
+	activeView: DataTableView | null
 	setActiveView: (viewId: string | null) => void
 	addView: (view: DataTableView) => void
 	updateView: (viewId: string, updates: Partial<DataTableView>) => void
 	deleteView: (viewId: string) => void
+	setDefaultView: (viewId: string) => void
 }
 
 export function useDataTableViews({
@@ -84,12 +85,25 @@ export function useDataTableViews({
 		}
 	}
 
+	const setDefaultView = (viewId: string) => {
+		setViews((prev) =>
+			prev.map((view) => ({
+				...view,
+				isDefault: view.id === viewId,
+			}))
+		)
+	}
+
+	// Convert activeView ID to full object
+	const activeViewObject = activeView ? views.find((v) => v.id === activeView) || null : null
+
 	return {
 		views,
-		activeView,
+		activeView: activeViewObject,
 		setActiveView,
 		addView,
 		updateView,
 		deleteView,
+		setDefaultView,
 	}
 }

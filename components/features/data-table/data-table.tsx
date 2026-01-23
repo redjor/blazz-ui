@@ -40,6 +40,7 @@ import { DataTableReUIFilters } from "./data-table-reui-filters"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { DataTableRowSelection } from "./data-table-row-selection"
 import { DataTableBulkSelectionBar } from "./data-table-bulk-selection-bar"
+import { DataTableSaveViewDialog } from "./data-table-save-view-dialog"
 import { useDataTableConfig } from "./config/data-table-config"
 
 const dataTableVariants = cva("w-full", {
@@ -130,6 +131,8 @@ export function DataTable<TData, TValue = unknown>({
 	views,
 	activeView: externalActiveView,
 	onViewChange,
+	onViewSave,
+	onViewUpdate,
 	onViewDelete,
 	onCreateView,
 	enableCustomViews = false,
@@ -197,6 +200,9 @@ export function DataTable<TData, TValue = unknown>({
 	// Track if filters came from view (to hide filter badges for view filters)
 	const [filtersFromView, setFiltersFromView] = React.useState(false)
 
+	// Save view dialog state
+	const [showSaveViewDialog, setShowSaveViewDialog] = React.useState(false)
+
 	// Apply view when it changes
 	React.useEffect(() => {
 		if (!activeView) return
@@ -263,6 +269,69 @@ export function DataTable<TData, TValue = unknown>({
 		setFiltersFromView(false) // Mark as manually modified
 		handleFilterGroupChange(null)
 	}, [handleFilterGroupChange])
+
+	// Handle create view
+	const handleCreateView = React.useCallback(() => {
+		if (onCreateView) {
+			onCreateView()
+		} else {
+			setShowSaveViewDialog(true)
+		}
+	}, [onCreateView])
+
+	// Generate unique view ID
+	const generateViewId = React.useCallback((name: string): string => {
+		const slug = name
+			.toLowerCase()
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/^-+|-+$/g, "")
+		return `custom-${slug}-${Date.now()}`
+	}, [])
+
+	// Handle save view
+	const handleSaveView = React.useCallback(
+		(viewData: Omit<DataTableView, "id" | "createdAt" | "updatedAt">) => {
+			const newView: DataTableView = {
+				...viewData,
+				id: generateViewId(viewData.name),
+				filters: filterGroup || { id: "root", operator: "AND", conditions: [] },
+				sorting,
+				columnVisibility,
+				isSystem: false,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			}
+
+			if (onViewSave) {
+				onViewSave(newView)
+			}
+
+			// Si vue par défaut, mettre à jour toutes les autres vues
+			if (viewData.isDefault && views && onViewUpdate) {
+				views.forEach((v) => {
+					if (v.isDefault && v.id !== newView.id) {
+						onViewUpdate(v.id, { isDefault: false })
+					}
+				})
+			}
+
+			// Activer la nouvelle vue
+			handleViewChange(newView)
+			setShowSaveViewDialog(false)
+		},
+		[
+			generateViewId,
+			filterGroup,
+			sorting,
+			columnVisibility,
+			onViewSave,
+			handleViewChange,
+			views,
+			onViewUpdate,
+		]
+	)
 
 	// Build columns with selection and actions
 	const tableColumns = React.useMemo<ColumnDef<TData, any>[]>(() => {
@@ -457,6 +526,22 @@ export function DataTable<TData, TValue = unknown>({
 				/>
 			)}
 
+			{/* Save View Dialog */}
+			{enableCustomViews && (
+				<DataTableSaveViewDialog
+					open={showSaveViewDialog}
+					onOpenChange={setShowSaveViewDialog}
+					currentState={{
+						filters: filterGroup,
+						sorting,
+						columnVisibility,
+					}}
+					existingViews={views || []}
+					onSave={handleSaveView}
+					locale={finalLocale}
+				/>
+			)}
+
 			{/* Table */}
 			<div>
 				{/* Actions Bar */}
@@ -465,7 +550,7 @@ export function DataTable<TData, TValue = unknown>({
 					activeView={activeView}
 					onViewChange={handleViewChange}
 					onViewDelete={onViewDelete}
-					onCreateView={onCreateView}
+					onCreateView={handleCreateView}
 					enableCustomViews={enableCustomViews}
 					searchOpen={searchOpen}
 					onSearchOpenChange={setSearchOpen}

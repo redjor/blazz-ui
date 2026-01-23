@@ -119,6 +119,7 @@ export interface DataTableProps<TData, TValue = unknown> {
 	enableCustomViews?: boolean
 	onViewChange?: (view: DataTableView) => void
 	onViewSave?: (view: DataTableView) => void
+	onViewUpdate?: (viewId: string, updates: Partial<DataTableView>) => void
 	onViewDelete?: (viewId: string) => void
 	onCreateView?: () => void
 
