@@ -5,6 +5,7 @@ import type { Table } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import type { BulkAction } from "./data-table.types"
 import { useDataTableTranslations } from "./data-table.i18n"
+import { DataTableRowSelection } from "./data-table-row-selection"
 import { cn } from "@/lib/utils"
 
 interface DataTableBulkSelectionBarProps<TData> {
@@ -58,8 +59,9 @@ export function DataTableBulkSelectionBar<TData>({
 			)}
 		>
 			<div className="flex items-center justify-between gap-2 w-full">
-				{/* Left: Selection count + Deselect all */}
+				{/* Left: Checkbox + Selection count + Deselect all */}
 				<div className="flex items-center gap-3">
+					<DataTableRowSelection table={table} type="header" />
 					<span className="text-sm font-medium">{t.selectedCount(selectedCount)}</span>
 					<button
 						type="button"
