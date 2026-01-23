@@ -147,13 +147,10 @@ export function DataTableReUIFilters<TData>({
   // Handle filter changes from ReUI component
   const handleChange = React.useCallback(
     (filters: Filter[]) => {
-      // Filter out inactive filters (empty values)
-      const activeFilters = filterActiveFilters(filters);
-
-      // Convert back to FilterGroup
+      // Convert to FilterGroup
       // Pass columns with proper type casting for the adapter
       const newFilterGroup = reuiFiltersToFilterGroup(
-        activeFilters,
+        filters,
         columns as Array<{
           accessorKey?: string;
           filterConfig?: { type: FilterType };

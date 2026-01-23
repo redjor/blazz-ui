@@ -1004,14 +1004,6 @@ function FilterOperatorDropdown<T = unknown>({
     operators.find((op) => op.value === operator)?.label ||
     context.i18n.helpers.formatOperator(operator);
 
-  // Debug logging to help identify the issue
-  if (!operators.find((op) => op.value === operator)) {
-    console.warn(
-      `Operator "${operator}" not found in operators for field "${field.key}" (type: ${field.type}). Available operators:`,
-      operators.map((op) => op.value),
-    );
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -1996,6 +1988,7 @@ export function Filters<T = unknown>({
   const addFilter = useCallback(
     (fieldKey: string) => {
       const field = fieldsMap[fieldKey];
+
       if (field && field.key) {
         // For select and multiselect types, show options directly
         if (field.type === "select" || field.type === "multiselect") {
@@ -2157,27 +2150,28 @@ export function Filters<T = unknown>({
               }
             }}
           >
-            <PopoverTrigger asChild>
-              {addButton ? (
-                addButton
-              ) : (
-                <button
-                  className={cn(
-                    filterAddButtonVariants({
-                      variant: variant,
-                      size: size,
-                      cursorPointer: cursorPointer,
-                      radius: radius,
-                    }),
-                    addButtonClassName,
-                  )}
-                  title={mergedI18n.addFilterTitle}
-                >
-                  {addButtonIcon || <Plus />}
-                  {addButtonText || mergedI18n.addFilter}
-                </button>
-              )}
-            </PopoverTrigger>
+            {addButton ? (
+              <PopoverTrigger asChild>
+                {addButton}
+              </PopoverTrigger>
+            ) : (
+              <PopoverTrigger
+                className={cn(
+                  filterAddButtonVariants({
+                    variant: variant,
+                    size: size,
+                    cursorPointer: cursorPointer,
+                    radius: radius,
+                  }),
+                  addButtonClassName,
+                )}
+                title={mergedI18n.addFilterTitle}
+              >
+                {addButtonIcon || <Plus />}
+                {addButtonText || mergedI18n.addFilter}
+              </PopoverTrigger>
+            )}
+
             <PopoverContent
               className={cn("w-[200px] p-0", popoverContentClassName)}
               align="start"

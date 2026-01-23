@@ -167,18 +167,13 @@ export function columnToFilterFieldConfig<TData>(
 		defaultOperator: getDefaultOperator(filterConfig.type),
 	}
 
-	// Add operators if specified
-	const operators = getOperatorsForType(filterConfig.type, filterConfig.operators)
-	if (operators.length > 0) {
-		config.operators = operators
-	}
-
-	// Debug: log operators
-	if (process.env.NODE_ENV === 'development') {
-		console.log(`[ReUI Config] ${label} (${filterConfig.type}):`, {
-			operators: operators.map(o => o.value),
-			defaultOperator: config.defaultOperator
-		})
+	// Don't pass operators - let ReUI Filters use its own with i18n
+	// Only pass operators if custom ones are specified in filterConfig
+	if (filterConfig.operators) {
+		const operators = getOperatorsForType(filterConfig.type, filterConfig.operators)
+		if (operators.length > 0) {
+			config.operators = operators
+		}
 	}
 
 	// Add options for select type
