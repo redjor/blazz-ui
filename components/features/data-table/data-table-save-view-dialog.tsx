@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
 	Dialog,
 	DialogClose,
@@ -45,7 +44,6 @@ const translations = {
 		title: "Enregistrer la vue",
 		nameLabel: "Nom de la vue",
 		namePlaceholder: "Ma vue personnalisée",
-		defaultLabel: "Définir comme vue par défaut",
 		cancel: "Annuler",
 		save: "Enregistrer",
 		errors: {
@@ -58,7 +56,6 @@ const translations = {
 		title: "Save View",
 		nameLabel: "View Name",
 		namePlaceholder: "My custom view",
-		defaultLabel: "Set as default view",
 		cancel: "Cancel",
 		save: "Save",
 		errors: {
@@ -79,14 +76,12 @@ export function DataTableSaveViewDialog({
 }: SaveViewDialogProps) {
 	const t = translations[locale]
 	const [viewName, setViewName] = React.useState("")
-	const [isDefault, setIsDefault] = React.useState(false)
 	const [error, setError] = React.useState<string | null>(null)
 
 	// Reset form when dialog opens
 	React.useEffect(() => {
 		if (open) {
 			setViewName("")
-			setIsDefault(false)
 			setError(null)
 		}
 	}, [open])
@@ -127,7 +122,7 @@ export function DataTableSaveViewDialog({
 			description: undefined,
 			icon: undefined,
 			isSystem: false,
-			isDefault,
+			isDefault: false,
 			filters: currentState.filters || { id: "root", operator: "AND", conditions: [] },
 			sorting: currentState.sorting.length > 0 ? currentState.sorting : undefined,
 			columnVisibility: Object.keys(currentState.columnVisibility).length > 0
@@ -167,14 +162,6 @@ export function DataTableSaveViewDialog({
 								className={error ? "border-destructive" : ""}
 							/>
 							{error && <p className="text-sm text-destructive">{error}</p>}
-						</div>
-
-						{/* Default Checkbox */}
-						<div className="flex items-center space-x-2">
-							<Checkbox id="is-default" checked={isDefault} onCheckedChange={(checked) => setIsDefault(checked === true)} />
-							<Label htmlFor="is-default" className="text-sm font-normal cursor-pointer">
-								{t.defaultLabel}
-							</Label>
 						</div>
 					</div>
 				</div>
