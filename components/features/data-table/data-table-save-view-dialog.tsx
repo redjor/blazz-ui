@@ -7,15 +7,12 @@ import {
 	Dialog,
 	DialogClose,
 	DialogContent,
-	DialogDescription,
 	DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
 import type { DataTableView, FilterGroup } from "./data-table.types"
 import type { SortingState, VisibilityState } from "@tanstack/react-table"
-import { countActiveFilters } from "./data-table.utils"
 
 interface SaveViewDialogProps {
 	open: boolean
@@ -46,15 +43,9 @@ const generateViewId = (name: string): string => {
 const translations = {
 	fr: {
 		title: "Enregistrer la vue",
-		description: "Créez une vue personnalisée avec les filtres et paramètres actuels",
 		nameLabel: "Nom de la vue",
 		namePlaceholder: "Ma vue personnalisée",
 		defaultLabel: "Définir comme vue par défaut",
-		filtersInfo: (count: number) => `${count} filtre${count > 1 ? "s" : ""} actif${count > 1 ? "s" : ""}`,
-		sortingInfo: (column: string, desc: boolean) =>
-			`Tri par ${column} (${desc ? "décroissant" : "croissant"})`,
-		noFilters: "Aucun filtre actif",
-		noSorting: "Aucun tri",
 		cancel: "Annuler",
 		save: "Enregistrer",
 		errors: {
@@ -65,14 +56,9 @@ const translations = {
 	},
 	en: {
 		title: "Save View",
-		description: "Create a custom view with current filters and settings",
 		nameLabel: "View Name",
 		namePlaceholder: "My custom view",
 		defaultLabel: "Set as default view",
-		filtersInfo: (count: number) => `${count} active filter${count > 1 ? "s" : ""}`,
-		sortingInfo: (column: string, desc: boolean) => `Sort by ${column} (${desc ? "descending" : "ascending"})`,
-		noFilters: "No active filters",
-		noSorting: "No sorting",
 		cancel: "Cancel",
 		save: "Save",
 		errors: {
@@ -104,19 +90,6 @@ export function DataTableSaveViewDialog({
 			setError(null)
 		}
 	}, [open])
-
-	// Calculate filter count
-	const filterCount = currentState.filters ? countActiveFilters(currentState.filters) : 0
-
-	// Get sorting info
-	const sortingInfo = React.useMemo(() => {
-		if (currentState.sorting.length === 0) return null
-		const firstSort = currentState.sorting[0]
-		return {
-			column: firstSort.id,
-			desc: firstSort.desc,
-		}
-	}, [currentState.sorting])
 
 	// Validate name
 	const validateName = (name: string): string | null => {
@@ -174,30 +147,11 @@ export function DataTableSaveViewDialog({
 				<div className="flex items-start justify-between">
 					<div>
 						<DialogTitle>{t.title}</DialogTitle>
-						<DialogDescription>{t.description}</DialogDescription>
 					</div>
 					<DialogClose />
 				</div>
 
 				<div className="mt-6 space-y-4">
-					{/* Current State Info */}
-					<div className="rounded-lg border border-border bg-muted/50 p-3 space-y-2">
-						<div className="flex items-center gap-2">
-							{filterCount > 0 ? (
-								<Badge variant="secondary">{t.filtersInfo(filterCount)}</Badge>
-							) : (
-								<span className="text-sm text-muted-foreground">{t.noFilters}</span>
-							)}
-						</div>
-						{sortingInfo ? (
-							<p className="text-sm text-muted-foreground">
-								{t.sortingInfo(sortingInfo.column, sortingInfo.desc)}
-							</p>
-						) : (
-							<p className="text-sm text-muted-foreground">{t.noSorting}</p>
-						)}
-					</div>
-
 					{/* Form */}
 					<div className="space-y-4">
 						{/* Name Input */}
