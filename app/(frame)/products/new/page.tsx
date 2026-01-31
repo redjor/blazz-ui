@@ -613,7 +613,7 @@ export default function ProductNewPage() {
 									{form.watch("collections").length > 0 && (
 										<div className="mt-3 flex flex-wrap gap-2">
 											{form.watch("collections").map((collection) => (
-												<Badge key={collection} variant="secondary">
+												<Badge key={collection} variant="info">
 													{mockCollections.find((c) => c.value === collection)?.label}
 												</Badge>
 											))}

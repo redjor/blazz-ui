@@ -40,6 +40,169 @@
 	--radius-2xl: calc(var(--radius) + 8px);
 	--text-tiny: 0.75rem;
 	--text-xs: 0.8125rem;
+
+	/* Polaris Spacing */
+	--spacing-p-0: var(--p-space-0);
+	--spacing-p-025: var(--p-space-025);
+	--spacing-p-050: var(--p-space-050);
+	--spacing-p-1: var(--p-space-100);
+	--spacing-p-1\.5: var(--p-space-150);
+	--spacing-p-2: var(--p-space-200);
+	--spacing-p-3: var(--p-space-300);
+	--spacing-p-4: var(--p-space-400);
+	--spacing-p-5: var(--p-space-500);
+	--spacing-p-6: var(--p-space-600);
+	--spacing-p-8: var(--p-space-800);
+	--spacing-p-10: var(--p-space-1000);
+	--spacing-p-12: var(--p-space-1200);
+	--spacing-p-16: var(--p-space-1600);
+	--spacing-p-20: var(--p-space-2000);
+	--spacing-p-24: var(--p-space-2400);
+	--spacing-p-28: var(--p-space-2800);
+	--spacing-p-32: var(--p-space-3200);
+
+	/* Polaris Border Radius */
+	--radius-p-none: var(--p-border-radius-0);
+	--radius-p-sm: var(--p-border-radius-050);
+	--radius-p: var(--p-border-radius-100);
+	--radius-p-md: var(--p-border-radius-150);
+	--radius-p-lg: var(--p-border-radius-200);
+	--radius-p-xl: var(--p-border-radius-300);
+	--radius-p-2xl: var(--p-border-radius-400);
+	--radius-p-3xl: var(--p-border-radius-500);
+	--radius-p-4xl: var(--p-border-radius-750);
+	--radius-p-full: var(--p-border-radius-full);
+
+	/* Polaris Colors - Background */
+	--color-p-bg: var(--p-color-bg);
+	--color-p-bg-surface: var(--p-color-bg-surface);
+	--color-p-bg-surface-hover: var(--p-color-bg-surface-hover);
+	--color-p-bg-surface-active: var(--p-color-bg-surface-active);
+	--color-p-bg-surface-secondary: var(--p-color-bg-surface-secondary);
+	--color-p-bg-surface-tertiary: var(--p-color-bg-surface-tertiary);
+
+	/* Polaris Colors - Fill */
+	--color-p-fill: var(--p-color-bg-fill);
+	--color-p-fill-hover: var(--p-color-bg-fill-hover);
+	--color-p-fill-active: var(--p-color-bg-fill-active);
+	--color-p-fill-secondary: var(--p-color-bg-fill-secondary);
+	--color-p-fill-tertiary: var(--p-color-bg-fill-tertiary);
+	--color-p-fill-brand: var(--p-color-bg-fill-brand);
+	--color-p-fill-brand-hover: var(--p-color-bg-fill-brand-hover);
+
+	/* Polaris Colors - Text */
+	--color-p-text: var(--p-color-text);
+	--color-p-text-secondary: var(--p-color-text-secondary);
+	--color-p-text-disabled: var(--p-color-text-disabled);
+	--color-p-text-brand: var(--p-color-text-brand);
+	--color-p-text-on-fill: var(--p-color-text-brand-on-bg-fill);
+
+	/* Polaris Colors - Border */
+	--color-p-border: var(--p-color-border);
+	--color-p-border-hover: var(--p-color-border-hover);
+	--color-p-border-secondary: var(--p-color-border-secondary);
+	--color-p-border-focus: var(--p-color-border-focus);
+
+	/* Polaris Colors - Icon */
+	--color-p-icon: var(--p-color-icon);
+	--color-p-icon-hover: var(--p-color-icon-hover);
+	--color-p-icon-secondary: var(--p-color-icon-secondary);
+
+	/* Polaris Colors - Info */
+	--color-p-info-surface: var(--p-color-bg-surface-info);
+	--color-p-info-fill: var(--p-color-bg-fill-info);
+	--color-p-info-text: var(--p-color-text-info);
+	--color-p-info-border: var(--p-color-border-info);
+	--color-p-info-icon: var(--p-color-icon-info);
+
+	/* Polaris Colors - Success */
+	--color-p-success-surface: var(--p-color-bg-surface-success);
+	--color-p-success-fill: var(--p-color-bg-fill-success);
+	--color-p-success-text: var(--p-color-text-success);
+	--color-p-success-border: var(--p-color-border-success);
+	--color-p-success-icon: var(--p-color-icon-success);
+
+	/* Polaris Colors - Warning */
+	--color-p-warning-surface: var(--p-color-bg-surface-warning);
+	--color-p-warning-fill: var(--p-color-bg-fill-warning);
+	--color-p-warning-text: var(--p-color-text-warning);
+	--color-p-warning-border: var(--p-color-border-warning);
+	--color-p-warning-icon: var(--p-color-icon-warning);
+
+	/* Polaris Colors - Caution */
+	--color-p-caution-surface: var(--p-color-bg-surface-caution);
+	--color-p-caution-fill: var(--p-color-bg-fill-caution);
+	--color-p-caution-text: var(--p-color-text-caution);
+	--color-p-caution-border: var(--p-color-border-caution);
+	--color-p-caution-icon: var(--p-color-icon-caution);
+
+	/* Polaris Colors - Critical */
+	--color-p-critical-surface: var(--p-color-bg-surface-critical);
+	--color-p-critical-fill: var(--p-color-bg-fill-critical);
+	--color-p-critical-text: var(--p-color-text-critical);
+	--color-p-critical-border: var(--p-color-border-critical);
+	--color-p-critical-icon: var(--p-color-icon-critical);
+
+	/* Polaris Shadows */
+	--shadow-p-none: var(--p-shadow-0);
+	--shadow-p-sm: var(--p-shadow-100);
+	--shadow-p: var(--p-shadow-200);
+	--shadow-p-md: var(--p-shadow-300);
+	--shadow-p-lg: var(--p-shadow-400);
+	--shadow-p-xl: var(--p-shadow-500);
+	--shadow-p-2xl: var(--p-shadow-600);
+	--shadow-p-bevel: var(--p-shadow-bevel-100);
+	--shadow-p-inset: var(--p-shadow-inset-100);
+	--shadow-p-inset-lg: var(--p-shadow-inset-200);
+	--shadow-p-button: var(--p-shadow-button);
+	--shadow-p-button-hover: var(--p-shadow-button-hover);
+	--shadow-p-button-active: var(--p-shadow-button-inset);
+	--shadow-p-button-primary: var(--p-shadow-button-primary);
+	--shadow-p-button-primary-hover: var(--p-shadow-button-primary-hover);
+	--shadow-p-button-primary-active: var(--p-shadow-button-primary-inset);
+
+	/* Polaris Font Sizes */
+	--font-size-p-xs: var(--p-font-size-275);
+	--font-size-p-sm: var(--p-font-size-300);
+	--font-size-p-base: var(--p-font-size-325);
+	--font-size-p-md: var(--p-font-size-350);
+	--font-size-p-lg: var(--p-font-size-400);
+	--font-size-p-xl: var(--p-font-size-500);
+	--font-size-p-2xl: var(--p-font-size-600);
+	--font-size-p-3xl: var(--p-font-size-750);
+	--font-size-p-4xl: var(--p-font-size-900);
+
+	/* Polaris Font Weights */
+	--font-weight-p-regular: var(--p-font-weight-regular);
+	--font-weight-p-medium: var(--p-font-weight-medium);
+	--font-weight-p-semibold: var(--p-font-weight-semibold);
+	--font-weight-p-bold: var(--p-font-weight-bold);
+
+	/* Polaris Line Heights */
+	--line-height-p-xs: var(--p-font-line-height-300);
+	--line-height-p-sm: var(--p-font-line-height-400);
+	--line-height-p-base: var(--p-font-line-height-500);
+	--line-height-p-md: var(--p-font-line-height-500);
+	--line-height-p-lg: var(--p-font-line-height-600);
+	--line-height-p-xl: var(--p-font-line-height-600);
+	--line-height-p-2xl: var(--p-font-line-height-800);
+	--line-height-p-3xl: var(--p-font-line-height-1000);
+	--line-height-p-4xl: var(--p-font-line-height-1200);
+
+	/* Polaris Transition Duration */
+	--transition-duration-p-0: var(--p-motion-duration-0);
+	--transition-duration-p-50: var(--p-motion-duration-50);
+	--transition-duration-p-100: var(--p-motion-duration-100);
+	--transition-duration-p-150: var(--p-motion-duration-150);
+	--transition-duration-p-200: var(--p-motion-duration-200);
+	--transition-duration-p-250: var(--p-motion-duration-250);
+	--transition-duration-p-300: var(--p-motion-duration-300);
+
+	/* Polaris Transition Timing */
+	--transition-timing-function-p-ease: var(--p-motion-ease);
+	--transition-timing-function-p-ease-in: var(--p-motion-ease-in);
+	--transition-timing-function-p-ease-out: var(--p-motion-ease-out);
+	--transition-timing-function-p-ease-in-out: var(--p-motion-ease-in-out);
 }
 
 :root {

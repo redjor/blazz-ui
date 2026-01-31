@@ -9,11 +9,11 @@ export const productSchema = z.object({
 		price: z.number().min(0, "Le prix doit être positif"),
 		compareAtPrice: z.number().optional(),
 		unitPrice: z.string().optional(),
-		taxable: z.boolean().default(true),
+		taxable: z.boolean(),
 		costPerItem: z.number().optional(),
 	}),
 	inventory: z.object({
-		tracked: z.boolean().default(false),
+		tracked: z.boolean(),
 		sku: z.string().optional(),
 		barcode: z.string().optional(),
 		location: z.string().optional(),
@@ -21,19 +21,19 @@ export const productSchema = z.object({
 	shipping: z.object({
 		packageType: z.string().optional(),
 		weight: z.number().optional(),
-		weightUnit: z.enum(["kg", "lb"]).default("kg"),
-		isPhysical: z.boolean().default(true),
+		weightUnit: z.enum(["kg", "lb"]),
+		isPhysical: z.boolean(),
 	}),
-	status: z.enum(["draft", "active", "archived"]).default("draft"),
-	publication: z.string().default("Boutique en ligne"),
-	region: z.string().default("Mexico"),
+	status: z.enum(["draft", "active", "archived"]),
+	publication: z.string().optional(),
+	region: z.string().optional(),
 	organization: z.object({
 		type: z.string().optional(),
 		vendor: z.string().optional(),
 	}),
-	collections: z.array(z.string()).default([]),
-	tags: z.array(z.string()).default([]),
-	themeTemplate: z.string().default("default"),
+	collections: z.array(z.string()),
+	tags: z.array(z.string()),
+	themeTemplate: z.string().optional(),
 })
 
 export type ProductFormValues = z.infer<typeof productSchema>
