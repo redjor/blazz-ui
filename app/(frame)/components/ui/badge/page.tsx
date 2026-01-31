@@ -34,14 +34,16 @@ export default function BadgePage() {
 						title="Variants"
 						description="Different visual styles for various contexts."
 						code={`<Badge variant="default">Default</Badge>
-<Badge variant="secondary">Secondary</Badge>
-<Badge variant="destructive">Destructive</Badge>
+<Badge variant="info">Secondary</Badge>
+<Badge variant="critical">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge variant="default">Default</Badge>
-							<Badge variant="secondary">Secondary</Badge>
-							<Badge variant="destructive">Destructive</Badge>
+							<Badge variant="info">Info</Badge>
+							<Badge variant="success">Success</Badge>
+							<Badge variant="warning">Warning</Badge>
+							<Badge variant="critical">Critical</Badge>
 							<Badge variant="outline">Outline</Badge>
 						</div>
 					</ComponentExample>
@@ -50,13 +52,13 @@ export default function BadgePage() {
 						title="With Icons"
 						description="Add icons for additional visual context."
 						code={`<Badge><Check /> Approved</Badge>
-<Badge variant="destructive"><X /> Rejected</Badge>`}
+<Badge variant="critical"><X /> Rejected</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge>
 								<Check /> Approved
 							</Badge>
-							<Badge variant="destructive">
+							<Badge variant="critical">
 								<X /> Rejected
 							</Badge>
 						</div>
@@ -66,14 +68,14 @@ export default function BadgePage() {
 						title="Status Indicators"
 						description="Use badges to show status in lists or tables."
 						code={`<Badge variant="default">Active</Badge>
-<Badge variant="secondary">Pending</Badge>
-<Badge variant="destructive">Cancelled</Badge>
+<Badge variant="info">Pending</Badge>
+<Badge variant="critical">Cancelled</Badge>
 <Badge variant="outline">Draft</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge variant="default">Active</Badge>
-							<Badge variant="secondary">Pending</Badge>
-							<Badge variant="destructive">Cancelled</Badge>
+							<Badge variant="info">Pending</Badge>
+							<Badge variant="critical">Cancelled</Badge>
 							<Badge variant="outline">Draft</Badge>
 						</div>
 					</ComponentExample>
@@ -82,13 +84,13 @@ export default function BadgePage() {
 						title="Counts"
 						description="Display notification counts or quantities."
 						code={`<Badge>3</Badge>
-<Badge variant="secondary">99+</Badge>
-<Badge variant="destructive">5</Badge>`}
+<Badge variant="info">99+</Badge>
+<Badge variant="critical">5</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge>3</Badge>
-							<Badge variant="secondary">99+</Badge>
-							<Badge variant="destructive">5</Badge>
+							<Badge variant="info">99+</Badge>
+							<Badge variant="critical">5</Badge>
 						</div>
 					</ComponentExample>
 				</section>

@@ -415,7 +415,7 @@ export default function DashboardPage() {
 									<span className="text-sm text-muted-foreground">
 										Tickets support ouverts
 									</span>
-									<Badge variant="secondary">12</Badge>
+									<Badge variant="info">12</Badge>
 								</div>
 								<Separator />
 								<div className="flex justify-between items-center">

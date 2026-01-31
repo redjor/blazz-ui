@@ -49,8 +49,8 @@ export const AllVariants: Story = {
 	render: () => (
 		<div className="flex flex-wrap gap-4">
 			<Badge variant="default">Default</Badge>
-			<Badge variant="secondary">Secondary</Badge>
-			<Badge variant="destructive">Destructive</Badge>
+			<Badge variant="info">Secondary</Badge>
+			<Badge variant="critical">Destructive</Badge>
 			<Badge variant="outline">Outline</Badge>
 			<Badge variant="ghost">Ghost</Badge>
 			<Badge variant="link">Link</Badge>
@@ -71,11 +71,11 @@ export const WithIcons: Story = {
 						<Check />
 						Verified
 					</Badge>
-					<Badge variant="secondary">
+					<Badge variant="info">
 						<Star />
 						Featured
 					</Badge>
-					<Badge variant="destructive">
+					<Badge variant="critical">
 						<X />
 						Error
 					</Badge>
@@ -93,7 +93,7 @@ export const WithIcons: Story = {
 						Premium
 						<Crown />
 					</Badge>
-					<Badge variant="secondary">
+					<Badge variant="info">
 						Fast
 						<Zap />
 					</Badge>
@@ -106,10 +106,10 @@ export const WithIcons: Story = {
 					<Badge variant="default">
 						<Check />
 					</Badge>
-					<Badge variant="secondary">
+					<Badge variant="info">
 						<Star />
 					</Badge>
-					<Badge variant="destructive">
+					<Badge variant="critical">
 						<X />
 					</Badge>
 					<Badge variant="outline">
@@ -131,8 +131,8 @@ export const WithNumbers: Story = {
 				<h3 className="text-sm font-semibold mb-2">Notification Counts</h3>
 				<div className="flex flex-wrap gap-4">
 					<Badge variant="default">3</Badge>
-					<Badge variant="destructive">99+</Badge>
-					<Badge variant="secondary">12</Badge>
+					<Badge variant="critical">99+</Badge>
+					<Badge variant="info">12</Badge>
 					<Badge variant="outline">5</Badge>
 				</div>
 			</div>
@@ -141,8 +141,8 @@ export const WithNumbers: Story = {
 				<h3 className="text-sm font-semibold mb-2">Stats</h3>
 				<div className="flex flex-wrap gap-4">
 					<Badge variant="default">+12.5%</Badge>
-					<Badge variant="destructive">-3.2%</Badge>
-					<Badge variant="secondary">42 items</Badge>
+					<Badge variant="critical">-3.2%</Badge>
+					<Badge variant="info">42 items</Badge>
 					<Badge variant="outline">$99.00</Badge>
 				</div>
 			</div>
@@ -163,8 +163,8 @@ export const Composition: Story = {
 						<Check />
 						Active
 					</Badge>
-					<Badge variant="secondary">Pending</Badge>
-					<Badge variant="destructive">
+					<Badge variant="info">Pending</Badge>
+					<Badge variant="critical">
 						<X />
 						Failed
 					</Badge>
@@ -175,8 +175,8 @@ export const Composition: Story = {
 			<div>
 				<h3 className="text-sm font-semibold mb-4">Product Tags</h3>
 				<div className="flex flex-wrap gap-2">
-					<Badge variant="secondary">Electronics</Badge>
-					<Badge variant="secondary">Sale</Badge>
+					<Badge variant="info">Electronics</Badge>
+					<Badge variant="info">Sale</Badge>
 					<Badge variant="default">
 						<Star />
 						New
@@ -192,7 +192,7 @@ export const Composition: Story = {
 						<Crown />
 						Admin
 					</Badge>
-					<Badge variant="secondary">Moderator</Badge>
+					<Badge variant="info">Moderator</Badge>
 					<Badge variant="outline">Member</Badge>
 					<Badge variant="ghost">Guest</Badge>
 				</div>
@@ -219,7 +219,7 @@ export const Composition: Story = {
 				<div className="flex gap-4">
 					<button className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-muted">
 						<span>Notifications</span>
-						<Badge variant="destructive">5</Badge>
+						<Badge variant="critical">5</Badge>
 					</button>
 					<button className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-muted">
 						<span>Messages</span>
@@ -249,13 +249,13 @@ export const Composition: Story = {
 									</Badge>
 								</td>
 								<td className="p-2">
-									<Badge variant="secondary">Admin</Badge>
+									<Badge variant="info">Admin</Badge>
 								</td>
 							</tr>
 							<tr className="border-b">
 								<td className="p-2 text-sm">Jane Smith</td>
 								<td className="p-2">
-									<Badge variant="secondary">Pending</Badge>
+									<Badge variant="info">Pending</Badge>
 								</td>
 								<td className="p-2">
 									<Badge variant="outline">Member</Badge>
@@ -264,7 +264,7 @@ export const Composition: Story = {
 							<tr>
 								<td className="p-2 text-sm">Bob Johnson</td>
 								<td className="p-2">
-									<Badge variant="destructive">
+									<Badge variant="critical">
 										<X />
 										Suspended
 									</Badge>
@@ -298,8 +298,8 @@ export const DarkMode: Story = {
 	render: () => (
 		<div className="flex flex-wrap gap-4">
 			<Badge variant="default">Default</Badge>
-			<Badge variant="secondary">Secondary</Badge>
-			<Badge variant="destructive">Destructive</Badge>
+			<Badge variant="info">Secondary</Badge>
+			<Badge variant="critical">Destructive</Badge>
 			<Badge variant="outline">Outline</Badge>
 			<Badge variant="ghost">Ghost</Badge>
 			<Badge variant="link">Link</Badge>

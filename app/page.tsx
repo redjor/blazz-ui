@@ -66,9 +66,9 @@ export default function Home() {
 								<h4 className="text-heading-md">Badges</h4>
 								<div className="flex gap-2 flex-wrap">
 									<Badge>Default</Badge>
-									<Badge variant="secondary">Secondary</Badge>
+									<Badge variant="info">Secondary</Badge>
 									<Badge variant="outline">Outline</Badge>
-									<Badge variant="destructive">Destructive</Badge>
+									<Badge variant="critical">Destructive</Badge>
 								</div>
 							</div>
 						</CardContent>
