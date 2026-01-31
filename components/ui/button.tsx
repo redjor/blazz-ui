@@ -11,25 +11,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: [
-          "bg-p-fill-brand text-p-text-on-fill",
-          "shadow-p-button-primary",
-          "hover:bg-p-fill-brand-hover hover:shadow-p-button-primary-hover",
-          "active:shadow-p-button-primary-active",
+          "bg-p-fill-brand [color:white]",
+          "shadow-sm",
+          "hover:bg-p-fill-brand-hover hover:shadow",
+          "active:shadow-none",
           "rounded-p-lg border-0",
-          // Polaris gradient overlay (behind text with z-index)
-          "relative before:absolute before:inset-0 before:rounded-p-lg before:-z-10",
-          "before:bg-[image:var(--p-color-button-gradient-bg-fill)]",
-          "before:pointer-events-none",
-          // Ensure text is above gradient
-          "[&>*]:relative [&>*]:z-10",
           // Focus states
           "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20 focus-visible:border-p-border-focus",
         ],
         outline: [
           "bg-p-bg-surface border border-p-border",
-          "shadow-p-button",
-          "hover:bg-p-bg-surface-hover hover:shadow-p-button-hover",
-          "active:shadow-p-button-active",
+          "hover:bg-p-bg-surface-hover",
+          "active:bg-p-bg-surface-active",
           "text-p-text",
           "rounded-p-lg",
           "aria-expanded:bg-p-bg-surface-hover",
@@ -37,9 +30,8 @@ const buttonVariants = cva(
         ],
         secondary: [
           "bg-p-fill-secondary text-p-text",
-          "shadow-p-button",
-          "hover:bg-p-fill-secondary hover:shadow-p-button-hover",
-          "active:shadow-p-button-active",
+          "hover:bg-p-fill-active",
+          "active:bg-p-fill-tertiary",
           "rounded-p-lg border-0",
           "aria-expanded:bg-p-fill-secondary",
           "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20",
@@ -53,9 +45,9 @@ const buttonVariants = cva(
         ],
         destructive: [
           "bg-p-critical-fill text-white",
-          "shadow-p-button-primary-critical",
-          "hover:shadow-p-button-primary-critical-hover",
-          "active:shadow-p-button-primary-critical-active",
+          "shadow-sm",
+          "hover:shadow",
+          "active:shadow-none",
           "rounded-p-lg border-0",
           "focus-visible:ring-[3px] focus-visible:ring-p-critical-fill/20",
         ],
