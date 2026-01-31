@@ -12,17 +12,18 @@ const buttonVariants = cva(
       variant: {
         default: [
           "bg-p-fill-brand [color:white]",
-          "shadow-sm",
-          "hover:bg-p-fill-brand-hover hover:shadow",
-          "active:shadow-none",
+          "shadow-p-sm",
+          "hover:bg-p-fill-brand-hover hover:shadow-p",
+          "active:shadow-p-none",
           "rounded-p-lg border-0",
           // Focus states
           "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20 focus-visible:border-p-border-focus",
         ],
         outline: [
           "bg-p-bg-surface border border-p-border",
-          "hover:bg-p-bg-surface-hover",
-          "active:bg-p-bg-surface-active",
+          "shadow-p-sm",
+          "hover:bg-p-bg-surface-hover hover:shadow-p",
+          "active:bg-p-bg-surface-active active:shadow-p-none",
           "text-p-text",
           "rounded-p-lg",
           "aria-expanded:bg-p-bg-surface-hover",
@@ -30,8 +31,9 @@ const buttonVariants = cva(
         ],
         secondary: [
           "bg-p-fill-secondary text-p-text",
-          "hover:bg-p-fill-active",
-          "active:bg-p-fill-tertiary",
+          "shadow-p-sm",
+          "hover:bg-p-fill-active hover:shadow-p",
+          "active:bg-p-fill-tertiary active:shadow-p-none",
           "rounded-p-lg border-0",
           "aria-expanded:bg-p-fill-secondary",
           "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20",
@@ -45,9 +47,9 @@ const buttonVariants = cva(
         ],
         destructive: [
           "bg-p-critical-fill text-white",
-          "shadow-sm",
-          "hover:shadow",
-          "active:shadow-none",
+          "shadow-p-sm",
+          "hover:shadow-p",
+          "active:shadow-p-none",
           "rounded-p-lg border-0",
           "focus-visible:ring-[3px] focus-visible:ring-p-critical-fill/20",
         ],
