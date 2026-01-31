@@ -15,7 +15,7 @@ function Card({
 				"bg-p-bg-surface text-p-text",
 				"border border-p-border",
 				"rounded-p-xl",
-				"shadow-p-md",
+				"shadow-p-sm",
 				"p-p-4",
 				"gap-p-4",
 				"overflow-hidden",
