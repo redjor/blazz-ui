@@ -46,7 +46,7 @@ const buttonVariants = cva(
           "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20",
         ],
         destructive: [
-          "bg-p-critical-fill text-white",
+          "bg-p-critical-fill [color:white]",
           "shadow-p-sm",
           "hover:shadow-p",
           "active:shadow-p-none",
