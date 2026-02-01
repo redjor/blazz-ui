@@ -325,9 +325,6 @@
     --p-font-line-height-1000: 2.5rem;
     --p-font-line-height-1200: 3rem;
 
-    /* Typography - Font Family */
-    --p-font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-
     /* Typography - Heading Presets */
     --p-text-heading-3xl-font-family: var(--p-font-family-sans);
     --p-text-heading-3xl-font-size: var(--p-font-size-900);
