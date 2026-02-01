@@ -17,24 +17,18 @@ function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
 /**
  * DropdownMenuTrigger - Trigger button for dropdown menus
  *
- * IMPORTANT ACCESSIBILITY RULE:
- * ⚠️ DropdownMenuTrigger already renders a <button> element.
- * ⚠️ DO NOT wrap a Button component inside DropdownMenuTrigger - this creates invalid nested buttons!
+ * USAGE:
  *
- * ✅ CORRECT - Use asChild with a Button:
- * <DropdownMenuTrigger asChild>
- *   <Button variant="outline">Open</Button>
- * </DropdownMenuTrigger>
+ * ✅ CORRECT - Use render prop with a component:
+ * <DropdownMenuTrigger render={<Button variant="outline">Open</Button>} />
  *
- * ✅ CORRECT - Use className directly:
+ * ✅ CORRECT - Use className directly with children:
  * <DropdownMenuTrigger className="px-4 py-2 rounded">
  *   Open
  * </DropdownMenuTrigger>
  *
- * ❌ WRONG - This creates a button inside a button:
- * <DropdownMenuTrigger>
- *   <Button>Open</Button>
- * </DropdownMenuTrigger>
+ * The render prop clones the provided element and merges the trigger props with it.
+ * This prevents nested button issues while allowing full component composition.
  */
 function DropdownMenuTrigger({ ...props }: MenuPrimitive.Trigger.Props & { asChild?: boolean }) {
   return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />

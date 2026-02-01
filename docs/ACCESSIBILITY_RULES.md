@@ -18,59 +18,62 @@ Ce document décrit les règles importantes d'accessibilité et les erreurs cour
 #### ❌ INCORRECT
 
 ```tsx
-// NE PAS FAIRE - Bouton dans un bouton
+// NE PAS FAIRE - Bouton dans un bouton (enfant direct)
 <DropdownMenuTrigger>
   <Button variant="outline">Actions</Button>
 </DropdownMenuTrigger>
-
-// NE PAS FAIRE - render prop avec Button
-<DropdownMenuTrigger
-  render={<Button variant="outline">Actions</Button>}
-/>
 ```
 
 #### ✅ CORRECT
 
 ```tsx
-// Option 1: Utiliser asChild pour composer avec Button
-<DropdownMenuTrigger asChild>
-  <Button variant="outline">Actions</Button>
-</DropdownMenuTrigger>
+// Option 1: Utiliser render prop avec un composant
+<DropdownMenuTrigger render={<Button variant="outline">Actions</Button>} />
 
-// Option 2: Styler le trigger directement
+// Option 2: Utiliser render prop avec SidebarMenuButton
+<DropdownMenuTrigger
+  render={
+    <SidebarMenuButton size="lg">
+      Content
+    </SidebarMenuButton>
+  }
+/>
+
+// Option 3: Styler le trigger directement avec className
 <DropdownMenuTrigger className="px-4 py-2 rounded-lg bg-primary text-white">
   Actions
 </DropdownMenuTrigger>
 
-// Option 3: Utiliser un élément HTML standard avec asChild
-<DropdownMenuTrigger asChild>
-  <button type="button" className="custom-class">
-    Actions
-  </button>
-</DropdownMenuTrigger>
-
-// Option 4: Composer DEUX composants avec asChild (pour composants bouton imbriqués)
-<DropdownMenuTrigger asChild>
-  <SidebarMenuButton asChild>
-    <button type="button">
-      Content
+// Option 4: Utiliser un élément HTML avec render
+<DropdownMenuTrigger
+  render={
+    <button type="button" className="custom-class">
+      Actions
     </button>
-  </SidebarMenuButton>
-</DropdownMenuTrigger>
+  }
+/>
 ```
 
-### 2. Utilisation de asChild
+### 2. Utilisation de render prop
 
-La prop `asChild` permet de composer des composants sans créer d'éléments imbriqués. Le trigger fusionnera ses props avec l'enfant au lieu de le wrapper.
+La prop `render` permet de composer des composants en clonant l'élément fourni et en fusionnant ses props avec celles du trigger.
 
-**Quand utiliser asChild:**
-- ✅ Quand vous voulez appliquer le style d'un composant Button
-- ✅ Quand vous voulez utiliser un élément custom comme trigger
-- ✅ Quand vous avez besoin de contrôle total sur l'élément rendu
+**Pourquoi utiliser render:**
+- ✅ Clone et fusionne les props au lieu de créer des éléments imbriqués
+- ✅ Permet d'utiliser des composants Button, SidebarMenuButton, etc.
+- ✅ Évite automatiquement les boutons imbriqués
 
-**Quand NE PAS utiliser asChild:**
-- ❌ Si vous mettez un composant qui est déjà un bouton et que vous ne voulez pas le composer
-- ❌ Si vous voulez juste styler le trigger (utilisez className directement)
+**Exemples d'utilisation:**
+```tsx
+// Avec Button
+<DropdownMenuTrigger render={<Button variant="outline">Actions</Button>} />
+
+// Avec composant custom
+<DropdownMenuTrigger render={<SidebarMenuButton>Menu</SidebarMenuButton>} />
+
+// Avec élément HTML
+<DropdownMenuTrigger render={<button type="button">Click</button>} />
+```
 
 ## 🔍 Comment Détecter ces Erreurs
 
@@ -117,28 +120,26 @@ Pour automatiser la détection de ces erreurs, nous pouvons ajouter une règle E
 - [MDN - Button Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
 - [Radix UI - Composition avec asChild](https://www.radix-ui.com/primitives/docs/guides/composition)
 
-### 3. Cas Spécial: Composants Bouton Composés
+### 3. Composants Bouton Personnalisés
 
-Certains composants personnalisés rendent eux-mêmes des boutons (comme `SidebarMenuButton`, `MenuButton`, etc.). Si vous utilisez ces composants dans un trigger, vous devez utiliser `asChild` sur LES DEUX composants:
+Les composants personnalisés qui rendent des boutons (comme `SidebarMenuButton`, `MenuButton`, etc.) fonctionnent parfaitement avec la prop `render`:
 
 ```tsx
-// ❌ WRONG - SidebarMenuButton rend un bouton
-<DropdownMenuTrigger asChild>
-  <SidebarMenuButton>Content</SidebarMenuButton>
-</DropdownMenuTrigger>
-
-// ✅ CORRECT - asChild sur les deux + button explicite
-<DropdownMenuTrigger asChild>
-  <SidebarMenuButton asChild>
-    <button type="button">Content</button>
-  </SidebarMenuButton>
-</DropdownMenuTrigger>
+// ✅ CORRECT - render clone et fusionne
+<DropdownMenuTrigger
+  render={
+    <SidebarMenuButton size="lg">
+      Content
+    </SidebarMenuButton>
+  }
+/>
 ```
 
-**Règle:** Si vous emboîtez 2+ composants qui supportent `asChild`, utilisez `asChild` sur TOUS sauf le dernier (qui doit être un élément HTML).
+Le trigger clone `SidebarMenuButton` et fusionne ses props, créant un seul bouton au final.
 
 ## 🔄 Historique des Corrections
 
-- **2026-02-01**: Correction de `data-table-actions-bar.tsx` - Remplacement de `render` prop par `asChild`
-- **2026-02-01**: Correction de `sidebar-user.tsx` - Ajout de `asChild` sur `SidebarMenuButton` + button explicite
-- **2026-02-01**: Ajout de documentation sur `DropdownMenuTrigger`
+- **2026-02-01**: Migration vers `render` prop pour tous les triggers
+- **2026-02-01**: Correction de `data-table-actions-bar.tsx` - Utilisation de `render` prop
+- **2026-02-01**: Correction de `sidebar-user.tsx` - Utilisation de `render` prop avec `SidebarMenuButton`
+- **2026-02-01**: Mise à jour de la documentation pour recommander `render` au lieu de `asChild`

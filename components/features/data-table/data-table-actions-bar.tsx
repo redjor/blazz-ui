@@ -163,11 +163,13 @@ export function DataTableActionsBar({
 													{view.name}
 												</Button>
 												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<Button variant="ghost" size="sm" className="!pl-2 rounded-l-none">
-															<MoreVertical className="h-3.5 w-3.5" />
-														</Button>
-													</DropdownMenuTrigger>
+													<DropdownMenuTrigger
+														render={
+															<Button variant="ghost" size="sm" className="!pl-2 rounded-l-none">
+																<MoreVertical className="h-3.5 w-3.5" />
+															</Button>
+														}
+													/>
 													<DropdownMenuContent align="end" sideOffset={4}>
 														{onViewDuplicate && (
 															<DropdownMenuItem
@@ -226,15 +228,17 @@ export function DataTableActionsBar({
 											{/* Dropdown menu for inactive custom views */}
 											{hasDropdownActions && !isActive && (
 												<DropdownMenu>
-													<DropdownMenuTrigger asChild>
-														<button
-															type="button"
-															className="hidden group-hover:inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50 hover:text-foreground focus:inline-flex"
-															aria-label="View options"
-														>
-															<MoreVertical className="h-3.5 w-3.5" />
-														</button>
-													</DropdownMenuTrigger>
+													<DropdownMenuTrigger
+														render={
+															<button
+																type="button"
+																className="hidden group-hover:inline-flex h-8 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50 hover:text-foreground focus:inline-flex"
+																aria-label="View options"
+															>
+																<MoreVertical className="h-3.5 w-3.5" />
+															</button>
+														}
+													/>
 													<DropdownMenuContent align="end" sideOffset={4}>
 														{onViewDuplicate && (
 															<DropdownMenuItem
