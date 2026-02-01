@@ -1,52 +1,71 @@
-import Link from "next/link"
 import { Page } from "@/components/ui/page"
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ComponentSection } from "@/components/features/docs/component-card"
+import {
+	CheckSquare,
+	Search,
+	FileText,
+	Type,
+	Tag,
+	ChevronDown,
+	ToggleLeft,
+	Hash,
+	AlignLeft
+} from "lucide-react"
 
 const formComponents = [
 	{
 		title: "Checkbox",
 		href: "/components/ui/checkbox",
-		description: "A control that allows the user to toggle between checked and unchecked states.",
+		description: "A control that allows the user to toggle between checked and unchecked states with indeterminate support.",
+		icon: CheckSquare,
 	},
 	{
 		title: "Combobox",
 		href: "/components/ui/combobox",
-		description: "An input with autocomplete functionality.",
+		description: "An input with autocomplete functionality for searching and selecting from a list of options.",
+		icon: Search,
 	},
 	{
 		title: "Field",
 		href: "/components/ui/field",
-		description: "A wrapper component for form inputs with label and error handling.",
+		description: "A wrapper component for form inputs with label, description, and error handling.",
+		icon: FileText,
 	},
 	{
 		title: "Input",
 		href: "/components/ui/input",
-		description: "A text input field for single-line data entry.",
+		description: "A text input field for single-line data entry with validation and accessibility support.",
+		icon: Type,
 	},
 	{
 		title: "Label",
 		href: "/components/ui/label",
-		description: "A label for form controls.",
+		description: "A label component for form controls with proper association and accessibility.",
+		icon: Tag,
 	},
 	{
 		title: "Select",
 		href: "/components/ui/select",
-		description: "A control for selecting from a list of options.",
+		description: "A dropdown control for selecting from a list of options with keyboard navigation.",
+		icon: ChevronDown,
 	},
 	{
 		title: "Switch",
 		href: "/components/ui/switch",
-		description: "A toggle switch for binary choices.",
+		description: "A toggle switch for binary choices with clear on/off states.",
+		icon: ToggleLeft,
 	},
 	{
 		title: "Tags Input",
 		href: "/components/ui/tags-input",
-		description: "An input for managing multiple tags or values.",
+		description: "An input for managing multiple tags or values with add, remove, and validation capabilities.",
+		icon: Hash,
 	},
 	{
 		title: "Textarea",
 		href: "/components/ui/textarea",
-		description: "A multi-line text input field.",
+		description: "A multi-line text input field with auto-resize and character count support.",
+		icon: AlignLeft,
 	},
 ]
 
@@ -54,20 +73,9 @@ export default function FormsPage() {
 	return (
 		<Page
 			title="Selection and Input"
-			subtitle="Components for capturing user input and making selections."
+			subtitle="Form components enable users to enter data and make selections. They provide clear feedback, validation, and accessibility features to create intuitive data entry experiences."
 		>
-			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{formComponents.map((component) => (
-					<Link key={component.href} href={component.href}>
-						<Card className="h-full transition-colors hover:bg-muted/50">
-							<CardHeader>
-								<CardTitle className="text-base">{component.title}</CardTitle>
-								<CardDescription>{component.description}</CardDescription>
-							</CardHeader>
-						</Card>
-					</Link>
-				))}
-			</div>
+			<ComponentSection components={formComponents} />
 		</Page>
 	)
 }

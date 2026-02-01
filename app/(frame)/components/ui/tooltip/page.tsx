@@ -156,6 +156,34 @@ export default function TooltipPage() {
 					<PropsTable props={tooltipContentProps} />
 				</section>
 
+				{/* Design Tokens */}
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Tooltip uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-popover</code> - Tooltip background color
+						</li>
+						<li>
+							<code className="text-xs">text-popover-foreground</code> - Tooltip text color
+						</li>
+						<li>
+							<code className="text-xs">shadow-md</code> - Medium shadow for elevation
+						</li>
+						<li>
+							<code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)
+						</li>
+						<li>
+							<code className="text-xs">px-p-2 py-p-1</code> - Compact padding
+						</li>
+						<li>
+							<code className="text-xs">text-p-xs</code> - Small text size (0.6875rem)
+						</li>
+					</ul>
+				</section>
+
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">

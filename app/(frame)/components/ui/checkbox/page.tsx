@@ -117,11 +117,24 @@ export default function CheckboxPage() {
 					<ComponentExample
 						title="Error State"
 						description="Show validation errors using aria-invalid."
-						code={`<Checkbox aria-invalid />`}
+						code={`<div className="space-y-2">
+  <div className="flex items-center gap-2">
+    <Checkbox id="error" aria-invalid />
+    <Label htmlFor="error">Required field</Label>
+  </div>
+  <p className="text-sm text-p-critical-text">
+    You must accept the terms to continue.
+  </p>
+</div>`}
 					>
-						<div className="flex items-center gap-2">
-							<Checkbox id="error" aria-invalid />
-							<Label htmlFor="error">Required field</Label>
+						<div className="space-y-2">
+							<div className="flex items-center gap-2">
+								<Checkbox id="error" aria-invalid />
+								<Label htmlFor="error">Accept terms and conditions</Label>
+							</div>
+							<p className="text-sm text-p-critical-text">
+								You must accept the terms to continue.
+							</p>
 						</div>
 					</ComponentExample>
 
@@ -163,6 +176,27 @@ export default function CheckboxPage() {
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Props</h2>
 					<PropsTable props={checkboxProps} />
+				</section>
+
+				<section className="space-y-4">
+					<h2 className="text-lg font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Checkbox uses the design system for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">border-p-border</code> - Default border color
+						</li>
+						<li>
+							<code className="text-xs">bg-p-fill-brand</code> - Checked state background
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-md</code> - Border radius
+						</li>
+						<li>
+							<code className="text-xs">shadow-p-sm</code> - Subtle elevation
+						</li>
+					</ul>
 				</section>
 
 				<section className="space-y-4">

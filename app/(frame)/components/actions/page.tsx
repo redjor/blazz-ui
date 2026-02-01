@@ -1,22 +1,25 @@
-import Link from "next/link"
 import { Page } from "@/components/ui/page"
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ComponentSection } from "@/components/features/docs/component-card"
+import { MousePointerClick, Menu, MoreHorizontal } from "lucide-react"
 
 const actionComponents = [
 	{
 		title: "Button",
 		href: "/components/ui/button",
-		description: "Triggers an action or event when clicked.",
+		description: "Triggers an action or event when clicked. Supports multiple variants and sizes.",
+		icon: MousePointerClick,
 	},
 	{
 		title: "Button Group",
 		href: "/components/ui/button-group",
-		description: "Groups related buttons together.",
+		description: "Groups related buttons together for better organization and visual hierarchy.",
+		icon: Menu,
 	},
 	{
 		title: "Dropdown Menu",
 		href: "/components/ui/dropdown-menu",
-		description: "Displays a menu of actions in a dropdown.",
+		description: "Displays a menu of actions in a dropdown overlay with keyboard navigation support.",
+		icon: MoreHorizontal,
 	},
 ]
 
@@ -24,20 +27,9 @@ export default function ActionsPage() {
 	return (
 		<Page
 			title="Actions"
-			subtitle="Components that allow users to trigger actions and interact with your application."
+			subtitle="Action components enable users to perform tasks and navigate through your application. They provide clear affordances for interaction and follow consistent visual patterns."
 		>
-			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{actionComponents.map((component) => (
-					<Link key={component.href} href={component.href}>
-						<Card className="h-full transition-colors hover:bg-muted/50">
-							<CardHeader>
-								<CardTitle className="text-base">{component.title}</CardTitle>
-								<CardDescription>{component.description}</CardDescription>
-							</CardHeader>
-						</Card>
-					</Link>
-				))}
-			</div>
+			<ComponentSection components={actionComponents} />
 		</Page>
 	)
 }

@@ -1,27 +1,31 @@
-import Link from "next/link"
 import { Page } from "@/components/ui/page"
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ComponentSection } from "@/components/features/docs/component-card"
+import { ChevronRight, Command, Menu, FolderTree } from "lucide-react"
 
 const navigationComponents = [
 	{
 		title: "Breadcrumb",
 		href: "/components/ui/breadcrumb",
-		description: "Shows the user's current location within the application hierarchy.",
+		description: "Shows the current page's location within the navigational hierarchy and allows quick navigation to parent pages.",
+		icon: ChevronRight,
 	},
 	{
 		title: "Command",
 		href: "/components/ui/command",
-		description: "A command palette for searching and executing actions.",
+		description: "A command palette for quick navigation and actions with keyboard shortcuts and fuzzy search.",
+		icon: Command,
 	},
 	{
 		title: "Menu",
 		href: "/components/ui/menu",
-		description: "A list of options for navigating or taking actions.",
+		description: "An unstyled, accessible menu component for building custom navigation and action menus.",
+		icon: Menu,
 	},
 	{
 		title: "Tabs",
 		href: "/components/ui/tabs",
-		description: "Organizes content into separate views within the same context.",
+		description: "Organize content into multiple sections that can be easily switched between.",
+		icon: FolderTree,
 	},
 ]
 
@@ -29,20 +33,9 @@ export default function NavigationPage() {
 	return (
 		<Page
 			title="Navigation"
-			subtitle="Components that help users navigate through your application."
+			subtitle="Navigation components help users understand where they are in your application and move efficiently between different sections and pages."
 		>
-			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{navigationComponents.map((component) => (
-					<Link key={component.href} href={component.href}>
-						<Card className="h-full transition-colors hover:bg-muted/50">
-							<CardHeader>
-								<CardTitle className="text-base">{component.title}</CardTitle>
-								<CardDescription>{component.description}</CardDescription>
-							</CardHeader>
-						</Card>
-					</Link>
-				))}
-			</div>
+			<ComponentSection components={navigationComponents} />
 		</Page>
 	)
 }

@@ -1,12 +1,31 @@
-import Link from "next/link"
 import { Page } from "@/components/ui/page"
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ComponentSection } from "@/components/features/docs/component-card"
+import { AlertCircle, Tag, MessageSquare, Loader2 } from "lucide-react"
 
 const feedbackComponents = [
 	{
+		title: "Alert",
+		href: "/components/ui/alert",
+		description: "Displays important inline messages and notifications with different severity levels.",
+		icon: AlertCircle,
+	},
+	{
+		title: "Badge",
+		href: "/components/ui/badge",
+		description: "Small status indicators for labeling, categorizing, or showing counts with semantic colors.",
+		icon: Tag,
+	},
+	{
 		title: "Banner",
-		description: "Informs users about important changes or persistent conditions.",
-		href: "/components/feedback/banner",
+		href: "/components/ui/banner",
+		description: "Informs users about important page-level changes or persistent conditions that need attention.",
+		icon: MessageSquare,
+	},
+	{
+		title: "Skeleton",
+		href: "/components/ui/skeleton",
+		description: "Display placeholder content while data is loading to improve perceived performance.",
+		icon: Loader2,
 	},
 ]
 
@@ -14,41 +33,9 @@ export default function FeedbackComponentsPage() {
 	return (
 		<Page
 			title="Feedback Indicators"
-			subtitle="Components that provide feedback to users about the state of the system or their actions."
+			subtitle="Feedback components communicate important information, status changes, and system responses to users. Choose the right component based on the severity, persistence, and context of your message."
 		>
-			<div className="space-y-8">
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Components</h2>
-					<p className="text-sm text-muted-foreground">
-						Use feedback components to communicate important information, status changes, and
-						system responses to users.
-					</p>
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{feedbackComponents.map((component) => (
-							<Link key={component.href} href={component.href}>
-								<Card className="h-full transition-colors hover:bg-muted/50">
-									<CardHeader>
-										<CardTitle className="text-base">{component.title}</CardTitle>
-										<CardDescription className="line-clamp-2">
-											{component.description}
-										</CardDescription>
-									</CardHeader>
-								</Card>
-							</Link>
-						))}
-					</div>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Usage Guidelines</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Use the appropriate component based on the severity and persistence of the message</li>
-						<li>Keep messages concise and actionable</li>
-						<li>Provide clear next steps when action is required</li>
-						<li>Consider accessibility - use appropriate ARIA roles for urgent messages</li>
-					</ul>
-				</section>
-			</div>
+			<ComponentSection components={feedbackComponents} />
 		</Page>
 	)
 }

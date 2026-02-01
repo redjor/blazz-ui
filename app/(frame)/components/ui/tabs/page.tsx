@@ -249,6 +249,37 @@ export default function TabsPage() {
 					<PropsTable props={tabsListProps} />
 				</section>
 
+				{/* Design Tokens */}
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Tabs uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-muted</code> - Tab list background color
+						</li>
+						<li>
+							<code className="text-xs">text-muted-foreground</code> - Inactive tab text
+						</li>
+						<li>
+							<code className="text-xs">bg-background</code> - Active tab background
+						</li>
+						<li>
+							<code className="text-xs">text-foreground</code> - Active tab text
+						</li>
+						<li>
+							<code className="text-xs">shadow-sm</code> - Active tab shadow
+						</li>
+						<li>
+							<code className="text-xs">rounded-md</code> - Tab list and trigger radius
+						</li>
+						<li>
+							<code className="text-xs">gap-1</code> - Spacing between tabs (0.25rem)
+						</li>
+					</ul>
+				</section>
+
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">

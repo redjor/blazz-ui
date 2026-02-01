@@ -139,6 +139,7 @@ export function DataTable<TData, TValue = unknown>({
 	enableCustomViews = false,
 	rowActions,
 	bulkActions,
+	onRowClick,
 	variant,
 	density,
 	className,
@@ -676,7 +677,22 @@ export function DataTable<TData, TValue = unknown>({
 						<TableBody>
 							{table.getRowModel().rows?.length ? (
 								table.getRowModel().rows.map((row) => (
-									<TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+									<TableRow
+										key={row.id}
+										data-state={row.getIsSelected() && "selected"}
+										className={onRowClick ? "cursor-pointer hover:bg-muted/50" : ""}
+										onClick={(e) => {
+											// Don't trigger row click if clicking on checkbox or actions
+											const target = e.target as HTMLElement
+											const isCheckbox = target.closest('[role="checkbox"]')
+											const isActions = target.closest('[data-slot="dropdown-menu-trigger"]')
+											const isButton = target.closest('button')
+
+											if (!isCheckbox && !isActions && !isButton && onRowClick) {
+												onRowClick(row.original)
+											}
+										}}
+									>
 										{row.getVisibleCells().map((cell) => (
 											<TableCell key={cell.id}>
 												{flexRender(cell.column.columnDef.cell, cell.getContext())}

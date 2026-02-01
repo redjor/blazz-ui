@@ -164,7 +164,7 @@ export function FiltersPanel({
 				<div className="flex items-center gap-2">
 					<h3 className="font-semibold">Filtres</h3>
 					{activeFiltersCount > 0 && (
-						<Badge variant="secondary">{activeFiltersCount}</Badge>
+						<Badge variant="info">{activeFiltersCount}</Badge>
 					)}
 				</div>
 				{activeFiltersCount > 0 && (

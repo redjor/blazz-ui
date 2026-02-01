@@ -142,6 +142,7 @@ export interface DataTableProps<TData, TValue = unknown> {
 	// Actions
 	rowActions?: RowAction<TData>[]
 	bulkActions?: BulkAction<TData>[]
+	onRowClick?: (row: TData) => void
 
 	// Search
 	enableGlobalSearch?: boolean

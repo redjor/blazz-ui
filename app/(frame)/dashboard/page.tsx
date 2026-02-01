@@ -51,7 +51,7 @@ export default function DashboardPage() {
 					New Product
 				</Button>
 			}
-			additionalMetadata={<Badge variant="secondary">Live</Badge>}
+			additionalMetadata={<Badge variant="info">Live</Badge>}
 		>
 			{/* Stats Grid */}
 			<PageSection>

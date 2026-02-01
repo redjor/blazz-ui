@@ -9,7 +9,7 @@ import { Mail, ChevronRight, Loader2, Plus } from "lucide-react"
 const buttonProps: PropDefinition[] = [
 	{
 		name: "variant",
-		type: '"default" | "outline" | "secondary" | "ghost" | "destructive" | "link"',
+		type: '"default" | "outline" | "secondary" | "tertiary" | "ghost" | "destructive" | "link"',
 		default: '"default"',
 		description: "The visual style of the button.",
 	},
@@ -48,6 +48,7 @@ export default function ButtonPage() {
 						code={`<Button variant="default">Default</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="secondary">Secondary</Button>
+<Button variant="tertiary">Tertiary</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Destructive</Button>
 <Button variant="link">Link</Button>`}
@@ -56,6 +57,7 @@ export default function ButtonPage() {
 							<Button variant="default">Default</Button>
 							<Button variant="outline">Outline</Button>
 							<Button variant="secondary">Secondary</Button>
+							<Button variant="tertiary">Tertiary</Button>
 							<Button variant="ghost">Ghost</Button>
 							<Button variant="destructive">Destructive</Button>
 							<Button variant="link">Link</Button>

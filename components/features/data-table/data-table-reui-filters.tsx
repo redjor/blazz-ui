@@ -223,7 +223,7 @@ export function DataTableReUIFilters<TData>({
         {hasActiveFilters && (
           <Button
             variant="outline"
-            size={size}
+            size={size === "md" ? "default" : size}
             onClick={handleClearAll}
             className="gap-1.5 shrink-0"
           >

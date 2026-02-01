@@ -34,14 +34,16 @@ export default function BadgePage() {
 						title="Variants"
 						description="Different visual styles for various contexts."
 						code={`<Badge variant="default">Default</Badge>
-<Badge variant="secondary">Secondary</Badge>
-<Badge variant="destructive">Destructive</Badge>
+<Badge variant="info">Secondary</Badge>
+<Badge variant="critical">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge variant="default">Default</Badge>
-							<Badge variant="secondary">Secondary</Badge>
-							<Badge variant="destructive">Destructive</Badge>
+							<Badge variant="info">Info</Badge>
+							<Badge variant="success">Success</Badge>
+							<Badge variant="warning">Warning</Badge>
+							<Badge variant="critical">Critical</Badge>
 							<Badge variant="outline">Outline</Badge>
 						</div>
 					</ComponentExample>
@@ -50,13 +52,13 @@ export default function BadgePage() {
 						title="With Icons"
 						description="Add icons for additional visual context."
 						code={`<Badge><Check /> Approved</Badge>
-<Badge variant="destructive"><X /> Rejected</Badge>`}
+<Badge variant="critical"><X /> Rejected</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge>
 								<Check /> Approved
 							</Badge>
-							<Badge variant="destructive">
+							<Badge variant="critical">
 								<X /> Rejected
 							</Badge>
 						</div>
@@ -66,14 +68,14 @@ export default function BadgePage() {
 						title="Status Indicators"
 						description="Use badges to show status in lists or tables."
 						code={`<Badge variant="default">Active</Badge>
-<Badge variant="secondary">Pending</Badge>
-<Badge variant="destructive">Cancelled</Badge>
+<Badge variant="info">Pending</Badge>
+<Badge variant="critical">Cancelled</Badge>
 <Badge variant="outline">Draft</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge variant="default">Active</Badge>
-							<Badge variant="secondary">Pending</Badge>
-							<Badge variant="destructive">Cancelled</Badge>
+							<Badge variant="info">Pending</Badge>
+							<Badge variant="critical">Cancelled</Badge>
 							<Badge variant="outline">Draft</Badge>
 						</div>
 					</ComponentExample>
@@ -82,13 +84,13 @@ export default function BadgePage() {
 						title="Counts"
 						description="Display notification counts or quantities."
 						code={`<Badge>3</Badge>
-<Badge variant="secondary">99+</Badge>
-<Badge variant="destructive">5</Badge>`}
+<Badge variant="info">99+</Badge>
+<Badge variant="critical">5</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge>3</Badge>
-							<Badge variant="secondary">99+</Badge>
-							<Badge variant="destructive">5</Badge>
+							<Badge variant="info">99+</Badge>
+							<Badge variant="critical">5</Badge>
 						</div>
 					</ComponentExample>
 				</section>
@@ -96,6 +98,43 @@ export default function BadgePage() {
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Props</h2>
 					<PropsTable props={badgeProps} />
+				</section>
+
+				{/* Design Tokens */}
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Badge uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-fill-brand</code> - Default badge background
+						</li>
+						<li>
+							<code className="text-xs">text-p-text-on-fill</code> - Default badge text
+						</li>
+						<li>
+							<code className="text-xs">bg-p-info-surface</code> - Info variant background
+						</li>
+						<li>
+							<code className="text-xs">text-p-info-text</code> - Info variant text
+						</li>
+						<li>
+							<code className="text-xs">bg-p-success-surface</code> - Success variant background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-warning-surface</code> - Warning variant background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-critical-surface</code> - Critical variant background
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-full</code> - Fully rounded pill shape
+						</li>
+						<li>
+							<code className="text-xs">h-5 px-p-2</code> - Badge height and padding
+						</li>
+					</ul>
 				</section>
 
 				<section className="space-y-4">

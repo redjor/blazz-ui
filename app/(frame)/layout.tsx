@@ -6,19 +6,18 @@ import { AppFrame } from "@/components/layout/app-frame"
 import { FrameProvider, useFrame } from "@/components/layout/frame-context"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { navigationConfig } from "@/config/navigation"
+import { Toaster } from "sonner"
 
 function FrameLayoutInner({ children }: { children: React.ReactNode }) {
 	const { setCommandPaletteOpen } = useFrame()
 
 	return (
 		<SidebarProvider>
-			<AppFrame
-				navigation={navigationConfig}
-				onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-			>
+			<AppFrame onOpenCommandPalette={() => setCommandPaletteOpen(true)}>
 				{children}
 			</AppFrame>
 			<CommandPalette navigation={navigationConfig} />
+			<Toaster />
 		</SidebarProvider>
 	)
 }

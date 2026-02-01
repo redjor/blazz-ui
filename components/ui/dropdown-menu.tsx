@@ -14,6 +14,22 @@ function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
   return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
 }
 
+/**
+ * DropdownMenuTrigger - Trigger button for dropdown menus
+ *
+ * USAGE:
+ *
+ * ✅ CORRECT - Use render prop with a component:
+ * <DropdownMenuTrigger render={<Button variant="outline">Open</Button>} />
+ *
+ * ✅ CORRECT - Use className directly with children:
+ * <DropdownMenuTrigger className="px-4 py-2 rounded">
+ *   Open
+ * </DropdownMenuTrigger>
+ *
+ * The render prop clones the provided element and merges the trigger props with it.
+ * This prevents nested button issues while allowing full component composition.
+ */
 function DropdownMenuTrigger({ ...props }: MenuPrimitive.Trigger.Props & { asChild?: boolean }) {
   return <MenuPrimitive.Trigger data-slot="dropdown-menu-trigger" {...props} />
 }

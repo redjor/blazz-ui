@@ -114,56 +114,56 @@ export default function DropdownMenuPage() {
 					title="Basic Dropdown Menu"
 					description="A simple dropdown menu with items."
 					code={`<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">Open Menu</Button>
-  </DropdownMenuTrigger>
+  <DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
   <DropdownMenuContent>
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>
-      <User className="mr-2 h-4 w-4" />
-      Profile
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <CreditCard className="mr-2 h-4 w-4" />
-      Billing
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <Settings className="mr-2 h-4 w-4" />
-      Settings
-    </DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem variant="destructive">
-      <LogOut className="mr-2 h-4 w-4" />
-      Log out
-    </DropdownMenuItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
+        <User className="mr-2 h-4 w-4" />
+        Profile
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <CreditCard className="mr-2 h-4 w-4" />
+        Billing
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Settings className="mr-2 h-4 w-4" />
+        Settings
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem variant="destructive">
+        <LogOut className="mr-2 h-4 w-4" />
+        Log out
+      </DropdownMenuItem>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline">Open Menu</Button>
-						</DropdownMenuTrigger>
+						<DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
 						<DropdownMenuContent>
-							<DropdownMenuLabel>My Account</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem>
-								<User className="mr-2 h-4 w-4" />
-								Profile
-							</DropdownMenuItem>
-							<DropdownMenuItem>
-								<CreditCard className="mr-2 h-4 w-4" />
-								Billing
-							</DropdownMenuItem>
-							<DropdownMenuItem>
-								<Settings className="mr-2 h-4 w-4" />
-								Settings
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem variant="destructive">
-								<LogOut className="mr-2 h-4 w-4" />
-								Log out
-							</DropdownMenuItem>
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>My Account</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								<DropdownMenuItem>
+									<User className="mr-2 h-4 w-4" />
+									Profile
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									<CreditCard className="mr-2 h-4 w-4" />
+									Billing
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									<Settings className="mr-2 h-4 w-4" />
+									Settings
+								</DropdownMenuItem>
+								<DropdownMenuSeparator />
+								<DropdownMenuItem variant="destructive">
+									<LogOut className="mr-2 h-4 w-4" />
+									Log out
+								</DropdownMenuItem>
+							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</ComponentExample>
@@ -173,9 +173,7 @@ export default function DropdownMenuPage() {
 					title="With Keyboard Shortcuts"
 					description="Display keyboard shortcuts for menu items."
 					code={`<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">Edit</Button>
-  </DropdownMenuTrigger>
+  <DropdownMenuTrigger render={<Button variant="outline">Edit</Button>} />
   <DropdownMenuContent>
     <DropdownMenuItem>
       Undo
@@ -202,9 +200,7 @@ export default function DropdownMenuPage() {
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline">Edit</Button>
-						</DropdownMenuTrigger>
+						<DropdownMenuTrigger render={<Button variant="outline">Edit</Button>} />
 						<DropdownMenuContent>
 							<DropdownMenuItem>
 								Undo
@@ -239,46 +235,46 @@ export default function DropdownMenuPage() {
 const [showActivityBar, setShowActivityBar] = React.useState(false)
 
 <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">View</Button>
-  </DropdownMenuTrigger>
+  <DropdownMenuTrigger render={<Button variant="outline">View</Button>} />
   <DropdownMenuContent>
-    <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuCheckboxItem
-      checked={showStatusBar}
-      onCheckedChange={setShowStatusBar}
-    >
-      Status Bar
-    </DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem
-      checked={showActivityBar}
-      onCheckedChange={setShowActivityBar}
-    >
-      Activity Bar
-    </DropdownMenuCheckboxItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuCheckboxItem
+        checked={showStatusBar}
+        onCheckedChange={setShowStatusBar}
+      >
+        Status Bar
+      </DropdownMenuCheckboxItem>
+      <DropdownMenuCheckboxItem
+        checked={showActivityBar}
+        onCheckedChange={setShowActivityBar}
+      >
+        Activity Bar
+      </DropdownMenuCheckboxItem>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline">View</Button>
-						</DropdownMenuTrigger>
+						<DropdownMenuTrigger render={<Button variant="outline">View</Button>} />
 						<DropdownMenuContent>
-							<DropdownMenuLabel>Appearance</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuCheckboxItem
-								checked={showStatusBar}
-								onCheckedChange={setShowStatusBar}
-							>
-								Status Bar
-							</DropdownMenuCheckboxItem>
-							<DropdownMenuCheckboxItem
-								checked={showActivityBar}
-								onCheckedChange={setShowActivityBar}
-							>
-								Activity Bar
-							</DropdownMenuCheckboxItem>
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>Appearance</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								<DropdownMenuCheckboxItem
+									checked={showStatusBar}
+									onCheckedChange={setShowStatusBar}
+								>
+									Status Bar
+								</DropdownMenuCheckboxItem>
+								<DropdownMenuCheckboxItem
+									checked={showActivityBar}
+									onCheckedChange={setShowActivityBar}
+								>
+									Activity Bar
+								</DropdownMenuCheckboxItem>
+							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</ComponentExample>
@@ -290,32 +286,32 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 					code={`const [position, setPosition] = React.useState("bottom")
 
 <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">Position</Button>
-  </DropdownMenuTrigger>
+  <DropdownMenuTrigger render={<Button variant="outline">Position</Button>} />
   <DropdownMenuContent>
-    <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-      <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+        <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+      </DropdownMenuRadioGroup>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline">Position</Button>
-						</DropdownMenuTrigger>
+						<DropdownMenuTrigger render={<Button variant="outline">Position</Button>} />
 						<DropdownMenuContent>
-							<DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-								<DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-							</DropdownMenuRadioGroup>
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								<DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+									<DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+									<DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+									<DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+								</DropdownMenuRadioGroup>
+							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</ComponentExample>
@@ -325,9 +321,7 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 					title="With Submenu"
 					description="Nested submenus for hierarchical options."
 					code={`<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">Actions</Button>
-  </DropdownMenuTrigger>
+  <DropdownMenuTrigger render={<Button variant="outline">Actions</Button>} />
   <DropdownMenuContent>
     <DropdownMenuGroup>
       <DropdownMenuItem>
@@ -360,9 +354,7 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="outline">Actions</Button>
-						</DropdownMenuTrigger>
+						<DropdownMenuTrigger render={<Button variant="outline">Actions</Button>} />
 						<DropdownMenuContent>
 							<DropdownMenuGroup>
 								<DropdownMenuItem>
@@ -400,11 +392,13 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 					title="Icon Button Trigger"
 					description="Use an icon button as the dropdown trigger."
 					code={`<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="ghost" size="icon">
-      <MoreHorizontal className="h-4 w-4" />
-    </Button>
-  </DropdownMenuTrigger>
+  <DropdownMenuTrigger
+    render={
+      <Button variant="ghost" size="icon">
+        <MoreHorizontal className="h-4 w-4" />
+      </Button>
+    }
+  />
   <DropdownMenuContent align="end">
     <DropdownMenuItem>Edit</DropdownMenuItem>
     <DropdownMenuItem>Duplicate</DropdownMenuItem>
@@ -414,11 +408,13 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="ghost" size="icon">
-								<MoreHorizontal className="h-4 w-4" />
-							</Button>
-						</DropdownMenuTrigger>
+						<DropdownMenuTrigger
+							render={
+								<Button variant="ghost" size="icon">
+									<MoreHorizontal className="h-4 w-4" />
+								</Button>
+							}
+						/>
 						<DropdownMenuContent align="end">
 							<DropdownMenuItem>Edit</DropdownMenuItem>
 							<DropdownMenuItem>Duplicate</DropdownMenuItem>
@@ -448,6 +444,7 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 				<section className="space-y-4">
 					<h2 className="text-xl font-semibold">Best Practices</h2>
 					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
+						<li>Use render prop to avoid nested button issues</li>
 						<li>Use labels and separators to organize related items</li>
 						<li>Keep the menu concise - move complex options to submenus</li>
 						<li>Use icons consistently to help users scan options</li>

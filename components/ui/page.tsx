@@ -69,7 +69,7 @@ export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "t
 /**
  * Page - A container component for page-level layout
  *
- * Inspired by Shopify Polaris Page component. Provides a consistent structure
+ * Provides a consistent structure
  * for pages with title, actions, breadcrumbs, and content areas.
  *
  * @example
