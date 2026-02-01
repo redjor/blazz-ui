@@ -211,40 +211,40 @@ export function createUserManagementPreset(
 
 	if (onView) {
 		rowActions.push({
+			id: "view",
 			label: "View profile",
-			onClick: onView,
+			handler: onView,
 		})
 	}
 
 	if (onEdit) {
 		rowActions.push({
+			id: "edit",
 			label: "Edit",
-			onClick: onEdit,
+			handler: onEdit,
 		})
 	}
 
 	if (onSuspend) {
 		rowActions.push({
+			id: "suspend",
 			label: "Suspend",
-			onClick: onSuspend,
+			handler: onSuspend,
 			variant: "destructive",
-			showIf: (row) => row.original.status !== "suspended",
-			confirmation: {
-				title: "Suspend user",
-				description: (row) => `Are you sure you want to suspend ${row.original.name}?`,
-			},
+			hidden: (row) => row.original.status === "suspended",
+			requireConfirmation: true,
+			confirmationMessage: (row) => `Are you sure you want to suspend ${row.original.name}?`,
 		})
 	}
 
 	if (onDelete) {
 		rowActions.push({
+			id: "delete",
 			label: "Delete",
-			onClick: onDelete,
+			handler: onDelete,
 			variant: "destructive",
-			confirmation: {
-				title: "Delete user",
-				description: (row) => `Are you sure you want to delete ${row.original.name}? This action cannot be undone.`,
-			},
+			requireConfirmation: true,
+			confirmationMessage: (row) => `Are you sure you want to delete ${row.original.name}? This action cannot be undone.`,
 		})
 	}
 
@@ -253,25 +253,29 @@ export function createUserManagementPreset(
 
 	if (onBulkSuspend) {
 		bulkActions.push({
+			id: "bulk-suspend",
 			label: "Suspend selected",
-			onClick: onBulkSuspend,
-			variant: "destructive",
-			confirmation: {
-				title: "Suspend users",
-				description: (count) => `Are you sure you want to suspend ${count} user(s)?`,
+			handler: async (rows) => {
+				const users = rows.map(r => r.original)
+				await onBulkSuspend(users)
 			},
+			variant: "destructive",
+			requireConfirmation: true,
+			confirmationMessage: (count) => `Are you sure you want to suspend ${count} user(s)?`,
 		})
 	}
 
 	if (onBulkDelete) {
 		bulkActions.push({
+			id: "bulk-delete",
 			label: "Delete selected",
-			onClick: onBulkDelete,
-			variant: "destructive",
-			confirmation: {
-				title: "Delete users",
-				description: (count) => `Are you sure you want to delete ${count} user(s)? This action cannot be undone.`,
+			handler: async (rows) => {
+				const users = rows.map(r => r.original)
+				await onBulkDelete(users)
 			},
+			variant: "destructive",
+			requireConfirmation: true,
+			confirmationMessage: (count) => `Are you sure you want to delete ${count} user(s)? This action cannot be undone.`,
 		})
 	}
 

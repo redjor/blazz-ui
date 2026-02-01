@@ -169,22 +169,22 @@ export function createInvitationPreset(
 
 	if (onResend) {
 		rowActions.push({
+			id: "resend",
 			label: "Resend",
-			onClick: onResend,
-			showIf: (row) => row.original.status === "pending" || row.original.status === "expired",
+			handler: onResend,
+			hidden: (row) => row.original.status !== "pending" && row.original.status !== "expired",
 		})
 	}
 
 	if (onRevoke) {
 		rowActions.push({
+			id: "revoke",
 			label: "Revoke",
-			onClick: onRevoke,
+			handler: onRevoke,
 			variant: "destructive",
-			showIf: (row) => row.original.status === "pending",
-			confirmation: {
-				title: "Revoke invitation",
-				description: (row) => `Are you sure you want to revoke the invitation for ${row.original.email}?`,
-			},
+			hidden: (row) => row.original.status !== "pending",
+			requireConfirmation: true,
+			confirmationMessage: (row) => `Are you sure you want to revoke the invitation for ${row.original.email}?`,
 		})
 	}
 
@@ -193,13 +193,15 @@ export function createInvitationPreset(
 
 	if (onBulkRevoke) {
 		bulkActions.push({
+			id: "bulk-revoke",
 			label: "Revoke selected",
-			onClick: onBulkRevoke,
-			variant: "destructive",
-			confirmation: {
-				title: "Revoke invitations",
-				description: (count) => `Are you sure you want to revoke ${count} invitation(s)?`,
+			handler: async (rows) => {
+				const invitations = rows.map(r => r.original)
+				await onBulkRevoke(invitations)
 			},
+			variant: "destructive",
+			requireConfirmation: true,
+			confirmationMessage: (count) => `Are you sure you want to revoke ${count} invitation(s)?`,
 		})
 	}
 
