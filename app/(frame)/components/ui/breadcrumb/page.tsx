@@ -10,7 +10,7 @@ import {
 	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbLink,
-	BreadcrumbPage,
+	BreadcrumbPage as BreadcrumbCurrent,
 	BreadcrumbSeparator,
 	BreadcrumbEllipsis,
 } from "@/components/ui/breadcrumb"
@@ -53,7 +53,7 @@ export default function BreadcrumbPage() {
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Current Page</BreadcrumbPage>
+      <BreadcrumbCurrent>Current Page</BreadcrumbCurrent>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`}
@@ -69,7 +69,7 @@ export default function BreadcrumbPage() {
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
 							<BreadcrumbItem>
-								<BreadcrumbPage>Current Page</BreadcrumbPage>
+								<BreadcrumbCurrent>Current Page</BreadcrumbCurrent>
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
@@ -94,7 +94,7 @@ export default function BreadcrumbPage() {
       <Slash />
     </BreadcrumbSeparator>
     <BreadcrumbItem>
-      <BreadcrumbPage>Components</BreadcrumbPage>
+      <BreadcrumbCurrent>Components</BreadcrumbCurrent>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`}
@@ -114,7 +114,7 @@ export default function BreadcrumbPage() {
 								<Slash />
 							</BreadcrumbSeparator>
 							<BreadcrumbItem>
-								<BreadcrumbPage>Components</BreadcrumbPage>
+								<BreadcrumbCurrent>Components</BreadcrumbCurrent>
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
@@ -156,7 +156,7 @@ export default function BreadcrumbPage() {
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      <BreadcrumbCurrent>Breadcrumb</BreadcrumbCurrent>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`}
@@ -193,7 +193,7 @@ export default function BreadcrumbPage() {
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
 							<BreadcrumbItem>
-								<BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+								<BreadcrumbCurrent>Breadcrumb</BreadcrumbCurrent>
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
@@ -217,7 +217,7 @@ export default function BreadcrumbPage() {
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Electronics</BreadcrumbPage>
+      <BreadcrumbCurrent>Electronics</BreadcrumbCurrent>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`}
@@ -236,7 +236,7 @@ export default function BreadcrumbPage() {
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
 							<BreadcrumbItem>
-								<BreadcrumbPage>Electronics</BreadcrumbPage>
+								<BreadcrumbCurrent>Electronics</BreadcrumbCurrent>
 							</BreadcrumbItem>
 						</BreadcrumbList>
 					</Breadcrumb>
@@ -280,7 +280,7 @@ export default function BreadcrumbPage() {
 				<section className="space-y-4">
 					<h2 className="text-xl font-semibold">Best Practices</h2>
 					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Always make the current page non-interactive (use BreadcrumbPage)</li>
+						<li>Always make the current page non-interactive (use BreadcrumbCurrent)</li>
 						<li>Use breadcrumbs for hierarchical navigation with 2+ levels</li>
 						<li>Keep breadcrumb labels concise (1-2 words when possible)</li>
 						<li>Use ellipsis with dropdown for paths longer than 4 levels</li>
