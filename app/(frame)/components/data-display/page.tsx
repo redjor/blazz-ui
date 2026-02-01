@@ -1,17 +1,25 @@
-import Link from "next/link"
 import { Page } from "@/components/ui/page"
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ComponentSection } from "@/components/features/docs/component-card"
+import { User, Table, Table2 } from "lucide-react"
 
 const dataDisplayComponents = [
 	{
 		title: "Avatar",
 		href: "/components/ui/avatar",
-		description: "An image element representing a user or entity.",
+		description: "Display user profile images with fallback support for initials or icons in various sizes.",
+		icon: User,
+	},
+	{
+		title: "Data Table",
+		href: "/components/ui/data-table",
+		description: "Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions.",
+		icon: Table2,
 	},
 	{
 		title: "Table",
 		href: "/components/ui/table",
-		description: "Displays data in a structured tabular format.",
+		description: "Display data in rows and columns with semantic HTML table elements for simple tabular layouts.",
+		icon: Table,
 	},
 ]
 
@@ -21,18 +29,11 @@ export default function DataDisplayPage() {
 			title="Data Display"
 			subtitle="Components for presenting data and information to users."
 		>
-			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{dataDisplayComponents.map((component) => (
-					<Link key={component.href} href={component.href}>
-						<Card className="h-full transition-colors hover:bg-muted/50">
-							<CardHeader>
-								<CardTitle className="text-base">{component.title}</CardTitle>
-								<CardDescription>{component.description}</CardDescription>
-							</CardHeader>
-						</Card>
-					</Link>
-				))}
-			</div>
+			<ComponentSection
+				title="Data Display"
+				description="Data display components help users understand and interact with information. They present data in structured, scannable formats that make patterns and relationships clear."
+				components={dataDisplayComponents}
+			/>
 		</Page>
 	)
 }
