@@ -163,6 +163,37 @@ export default function AvatarPage() {
 					<PropsTable props={avatarImageProps} />
 				</section>
 
+				{/* Design Tokens */}
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Avatar uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-muted</code> - Fallback background color
+						</li>
+						<li>
+							<code className="text-xs">text-muted-foreground</code> - Fallback text color
+						</li>
+						<li>
+							<code className="text-xs">rounded-full</code> - Circular shape
+						</li>
+						<li>
+							<code className="text-xs">size-8</code> - Small avatar (2rem)
+						</li>
+						<li>
+							<code className="text-xs">size-10</code> - Default avatar (2.5rem)
+						</li>
+						<li>
+							<code className="text-xs">size-12</code> - Large avatar (3rem)
+						</li>
+						<li>
+							<code className="text-xs">bg-green-500</code> - Badge status indicator
+						</li>
+					</ul>
+				</section>
+
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
