@@ -137,6 +137,43 @@ export default function AlertPage() {
 					<PropsTable props={alertProps} />
 				</section>
 
+				{/* Design Tokens */}
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Alert uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-bg-surface</code> - Default alert background
+						</li>
+						<li>
+							<code className="text-xs">text-p-text</code> - Alert text color
+						</li>
+						<li>
+							<code className="text-xs">bg-p-info-surface</code> - Info variant background
+						</li>
+						<li>
+							<code className="text-xs">text-p-info-text</code> - Info variant text
+						</li>
+						<li>
+							<code className="text-xs">bg-p-success-surface</code> - Success variant background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-warning-surface</code> - Warning variant background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-critical-surface</code> - Destructive variant background
+						</li>
+						<li>
+							<code className="text-xs">border-p-border</code> - Alert border color
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-lg</code> - Border radius (0.5rem)
+						</li>
+					</ul>
+				</section>
+
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">

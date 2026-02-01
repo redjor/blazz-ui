@@ -100,6 +100,43 @@ export default function BadgePage() {
 					<PropsTable props={badgeProps} />
 				</section>
 
+				{/* Design Tokens */}
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Badge uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-fill-brand</code> - Default badge background
+						</li>
+						<li>
+							<code className="text-xs">text-p-text-on-fill</code> - Default badge text
+						</li>
+						<li>
+							<code className="text-xs">bg-p-info-surface</code> - Info variant background
+						</li>
+						<li>
+							<code className="text-xs">text-p-info-text</code> - Info variant text
+						</li>
+						<li>
+							<code className="text-xs">bg-p-success-surface</code> - Success variant background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-warning-surface</code> - Warning variant background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-critical-surface</code> - Critical variant background
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-full</code> - Fully rounded pill shape
+						</li>
+						<li>
+							<code className="text-xs">h-5 px-p-2</code> - Badge height and padding
+						</li>
+					</ul>
+				</section>
+
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
