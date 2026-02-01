@@ -15,6 +15,7 @@ import {
   Settings,
   ShoppingCart,
   Table2,
+  Type,
   Users,
   UserCog,
 } from "lucide-react";
@@ -211,6 +212,15 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Avatar", url: "/components/ui/avatar" },
             { title: "Data Table", url: "/components/ui/data-table" },
             { title: "Table", url: "/components/ui/table" },
+          ],
+        },
+        {
+          id: "comp-typography",
+          title: "Typography",
+          url: "/components/typography",
+          icon: Type,
+          items: [
+            { title: "Text", url: "/components/ui/text" },
           ],
         },
       ],
