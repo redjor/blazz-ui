@@ -4,87 +4,6 @@ import { cn } from "@/lib/utils"
 
 const textVariants = cva("", {
 	variants: {
-		variant: {
-			// Heading variants
-			"heading-3xl": [
-				"font-[family:var(--p-text-heading-3xl-font-family)]",
-				"text-[length:var(--p-text-heading-3xl-font-size)]",
-				"font-[weight:var(--p-text-heading-3xl-font-weight)]",
-				"tracking-[var(--p-text-heading-3xl-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-3xl-font-line-height)]",
-			],
-			"heading-2xl": [
-				"font-[family:var(--p-text-heading-2xl-font-family)]",
-				"text-[length:var(--p-text-heading-2xl-font-size)]",
-				"font-[weight:var(--p-text-heading-2xl-font-weight)]",
-				"tracking-[var(--p-text-heading-2xl-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-2xl-font-line-height)]",
-			],
-			"heading-xl": [
-				"font-[family:var(--p-text-heading-xl-font-family)]",
-				"text-[length:var(--p-text-heading-xl-font-size)]",
-				"font-[weight:var(--p-text-heading-xl-font-weight)]",
-				"tracking-[var(--p-text-heading-xl-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-xl-font-line-height)]",
-			],
-			"heading-lg": [
-				"font-[family:var(--p-text-heading-lg-font-family)]",
-				"text-[length:var(--p-text-heading-lg-font-size)]",
-				"font-[weight:var(--p-text-heading-lg-font-weight)]",
-				"tracking-[var(--p-text-heading-lg-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-lg-font-line-height)]",
-			],
-			"heading-md": [
-				"font-[family:var(--p-text-heading-md-font-family)]",
-				"text-[length:var(--p-text-heading-md-font-size)]",
-				"font-[weight:var(--p-text-heading-md-font-weight)]",
-				"tracking-[var(--p-text-heading-md-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-md-font-line-height)]",
-			],
-			"heading-sm": [
-				"font-[family:var(--p-text-heading-sm-font-family)]",
-				"text-[length:var(--p-text-heading-sm-font-size)]",
-				"font-[weight:var(--p-text-heading-sm-font-weight)]",
-				"tracking-[var(--p-text-heading-sm-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-sm-font-line-height)]",
-			],
-			"heading-xs": [
-				"font-[family:var(--p-text-heading-xs-font-family)]",
-				"text-[length:var(--p-text-heading-xs-font-size)]",
-				"font-[weight:var(--p-text-heading-xs-font-weight)]",
-				"tracking-[var(--p-text-heading-xs-font-letter-spacing)]",
-				"leading-[var(--p-text-heading-xs-font-line-height)]",
-			],
-			// Body variants
-			"body-lg": [
-				"font-[family:var(--p-text-body-lg-font-family)]",
-				"text-[length:var(--p-text-body-lg-font-size)]",
-				"font-[weight:var(--p-text-body-lg-font-weight)]",
-				"tracking-[var(--p-text-body-lg-font-letter-spacing)]",
-				"leading-[var(--p-text-body-lg-font-line-height)]",
-			],
-			"body-md": [
-				"font-[family:var(--p-text-body-md-font-family)]",
-				"text-[length:var(--p-text-body-md-font-size)]",
-				"font-[weight:var(--p-text-body-md-font-weight)]",
-				"tracking-[var(--p-text-body-md-font-letter-spacing)]",
-				"leading-[var(--p-text-body-md-font-line-height)]",
-			],
-			"body-sm": [
-				"font-[family:var(--p-text-body-sm-font-family)]",
-				"text-[length:var(--p-text-body-sm-font-size)]",
-				"font-[weight:var(--p-text-body-sm-font-weight)]",
-				"tracking-[var(--p-text-body-sm-font-letter-spacing)]",
-				"leading-[var(--p-text-body-sm-font-line-height)]",
-			],
-			"body-xs": [
-				"font-[family:var(--p-text-body-xs-font-family)]",
-				"text-[length:var(--p-text-body-xs-font-size)]",
-				"font-[weight:var(--p-text-body-xs-font-weight)]",
-				"tracking-[var(--p-text-body-xs-font-letter-spacing)]",
-				"leading-[var(--p-text-body-xs-font-line-height)]",
-			],
-		},
 		tone: {
 			base: "text-p-text",
 			subdued: "text-p-text-secondary",
@@ -114,10 +33,22 @@ const textVariants = cva("", {
 		},
 	},
 	defaultVariants: {
-		variant: "body-md",
 		tone: "base",
 	},
 })
+
+type TypographyVariant =
+	| "heading-3xl"
+	| "heading-2xl"
+	| "heading-xl"
+	| "heading-lg"
+	| "heading-md"
+	| "heading-sm"
+	| "heading-xs"
+	| "body-lg"
+	| "body-md"
+	| "body-sm"
+	| "body-xs"
 
 export interface TextProps
 	extends React.HTMLAttributes<HTMLElement>,
@@ -127,6 +58,12 @@ export interface TextProps
 	 * @default "span"
 	 */
 	as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "strong" | "em" | "dt" | "dd" | "legend"
+
+	/**
+	 * The typographic style variant to apply
+	 * @default "body-md"
+	 */
+	variant?: TypographyVariant
 
 	/**
 	 * Truncate text with ellipsis
@@ -167,7 +104,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
 	(
 		{
 			as: Component = "span",
-			variant,
+			variant = "body-md",
 			tone,
 			alignment,
 			fontWeight,
@@ -177,16 +114,26 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
 			numeric,
 			visuallyHidden,
 			className,
+			style,
 			children,
 			...props
 		},
 		ref
 	) => {
+		// Get typography styles from CSS variables
+		const typographyStyle: React.CSSProperties = variant ? {
+			fontFamily: `var(--p-text-${variant}-font-family)`,
+			fontSize: `var(--p-text-${variant}-font-size)`,
+			fontWeight: fontWeight ? `var(--p-font-weight-${fontWeight})` : `var(--p-text-${variant}-font-weight)`,
+			letterSpacing: `var(--p-text-${variant}-font-letter-spacing)`,
+			lineHeight: `var(--p-text-${variant}-font-line-height)`,
+		} : {}
+
 		return (
 			<Component
 				ref={ref as any}
 				className={cn(
-					textVariants({ variant, tone, alignment, fontWeight, textDecorationLine }),
+					textVariants({ tone, alignment, textDecorationLine }),
 					{
 						"truncate": truncate,
 						"break-words": breakWord,
@@ -195,6 +142,7 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
 					},
 					className
 				)}
+				style={{ ...typographyStyle, ...style }}
 				{...props}
 			>
 				{children}
