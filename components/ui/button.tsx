@@ -66,10 +66,10 @@ const buttonVariants = cva(
       },
       size: {
         default:
-          "h-8 gap-p-1.5 px-p-3 text-p-sm font-p-semibold has-data-[icon=inline-end]:pr-p-2 has-data-[icon=inline-start]:pl-p-2",
-        xs: "h-6 gap-p-1 px-p-2 text-p-xs font-p-semibold rounded-p-md in-data-[slot=button-group]:rounded-p-md has-data-[icon=inline-end]:pr-p-1.5 has-data-[icon=inline-start]:pl-p-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-p-1 px-p-2.5 text-p-sm font-p-semibold rounded-p-md in-data-[slot=button-group]:rounded-p-md has-data-[icon=inline-end]:pr-p-1.5 has-data-[icon=inline-start]:pl-p-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-9 gap-p-2 px-p-4 text-p-base font-p-semibold has-data-[icon=inline-end]:pr-p-3 has-data-[icon=inline-start]:pl-p-3",
+          "h-8 gap-p-1.5 px-p-3 text-p-sm font-p-medium has-data-[icon=inline-end]:pr-p-2 has-data-[icon=inline-start]:pl-p-2",
+        xs: "h-6 gap-p-1 px-p-2 text-p-xs font-p-medium rounded-p-md in-data-[slot=button-group]:rounded-p-md has-data-[icon=inline-end]:pr-p-1.5 has-data-[icon=inline-start]:pl-p-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-7 gap-p-1 px-p-2.5 text-p-sm font-p-medium rounded-p-md in-data-[slot=button-group]:rounded-p-md has-data-[icon=inline-end]:pr-p-1.5 has-data-[icon=inline-start]:pl-p-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-9 gap-p-2 px-p-4 text-p-base font-p-medium has-data-[icon=inline-end]:pr-p-3 has-data-[icon=inline-start]:pl-p-3",
         icon: "size-8 p-0",
         "icon-xs":
           "size-6 p-0 rounded-p-md in-data-[slot=button-group]:rounded-p-md [&_svg:not([class*='size-'])]:size-3",

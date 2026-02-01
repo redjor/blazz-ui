@@ -54,7 +54,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger>
+			<DropdownMenuTrigger asChild>
 				<SidebarMenuButton
 					size="lg"
 					className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"

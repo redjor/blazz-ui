@@ -48,8 +48,11 @@
     --spacing-p-1: var(--p-space-100);
     --spacing-p-1\.5: var(--p-space-150);
     --spacing-p-2: var(--p-space-200);
+    --spacing-p-2\.5: var(--p-space-250);
     --spacing-p-3: var(--p-space-300);
+    --spacing-p-3\.5: var(--p-space-350);
     --spacing-p-4: var(--p-space-400);
+    --spacing-p-4\.5: var(--p-space-450);
     --spacing-p-5: var(--p-space-500);
     --spacing-p-6: var(--p-space-600);
     --spacing-p-8: var(--p-space-800);
@@ -261,8 +264,11 @@
     --p-space-100: 0.25rem;
     --p-space-150: 0.375rem;
     --p-space-200: 0.5rem;
+    --p-space-250: 0.625rem;
     --p-space-300: 0.75rem;
+    --p-space-350: 0.875rem;
     --p-space-400: 1rem;
+    --p-space-450: 1.125rem;
     --p-space-500: 1.25rem;
     --p-space-600: 1.5rem;
     --p-space-800: 2rem;

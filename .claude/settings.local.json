@@ -11,7 +11,11 @@
       "Bash(chmod:*)",
       "Bash(git commit:*)",
       "WebFetch(domain:base-ui.com)",
-      "WebFetch(domain:reui.io)"
+      "WebFetch(domain:reui.io)",
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:polaris.shopify.com)",
+      "WebFetch(domain:polaris-react.shopify.com)",
+      "Bash(git add:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -8,6 +8,7 @@ import {
 	SidebarCollapsible,
 	SidebarCollapsibleContent,
 	SidebarContent,
+	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
@@ -20,6 +21,7 @@ import {
 	SidebarMenuSubItem,
 	SidebarRail,
 } from "@/components/ui/sidebar"
+import { SidebarUserMenu } from "@/components/layout/sidebar-user"
 import type { NavigationItem, NavigationSection, SidebarConfig } from "@/types/navigation"
 
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
@@ -89,6 +91,15 @@ export function AppSidebar({ config, ...props }: AppSidebarProps) {
 					/>
 				))}
 			</SidebarContent>
+			{config.user && (
+				<SidebarFooter>
+					<SidebarMenu>
+						<SidebarMenuItem>
+							<SidebarUserMenu user={config.user} />
+						</SidebarMenuItem>
+					</SidebarMenu>
+				</SidebarFooter>
+			)}
 			<SidebarRail />
 		</Sidebar>
 	)

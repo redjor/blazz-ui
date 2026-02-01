@@ -15,3 +15,7 @@ export * from "./crm"
 
 // Order Management preset - Order tracking and fulfillment
 export * from "./orders"
+
+// User Management preset - User and invitation management
+export * from "./users"
+export * from "./invitations"
