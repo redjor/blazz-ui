@@ -235,6 +235,33 @@ export default function SelectPage() {
 				</section>
 
 				<section className="space-y-4">
+					<h2 className="text-lg font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Select components use the design system tokens:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-input-bg-surface</code> - Trigger background
+						</li>
+						<li>
+							<code className="text-xs">border-p-input-border</code> - Trigger border
+						</li>
+						<li>
+							<code className="text-xs">bg-p-bg-surface</code> - Dropdown content background
+						</li>
+						<li>
+							<code className="text-xs">text-p-base</code> - Text size with proper line height
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-lg</code> - Consistent border radius
+						</li>
+						<li>
+							<code className="text-xs">shadow-p-md</code> - Dropdown elevation
+						</li>
+					</ul>
+				</section>
+
+				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
 						<li>Use select for 5+ options, radio buttons for fewer</li>

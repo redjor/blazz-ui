@@ -88,7 +88,17 @@ export default function TextareaPage() {
 					<ComponentExample
 						title="Error State"
 						description="Show validation errors using aria-invalid."
-						code={`<Textarea aria-invalid placeholder="Invalid textarea" />`}
+						code={`<div className="space-y-2">
+  <Label htmlFor="error-textarea">Description</Label>
+  <Textarea
+    id="error-textarea"
+    aria-invalid
+    placeholder="This field has an error"
+  />
+  <p className="text-sm text-p-critical-text">
+    Description is required.
+  </p>
+</div>`}
 					>
 						<div className="max-w-md space-y-2">
 							<Label htmlFor="error-textarea">Description</Label>
@@ -97,7 +107,7 @@ export default function TextareaPage() {
 								aria-invalid
 								placeholder="This field has an error"
 							/>
-							<p className="text-sm text-destructive">Description is required.</p>
+							<p className="text-sm text-p-critical-text">Description is required.</p>
 						</div>
 					</ComponentExample>
 
@@ -132,6 +142,30 @@ export default function TextareaPage() {
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Props</h2>
 					<PropsTable props={textareaProps} />
+				</section>
+
+				<section className="space-y-4">
+					<h2 className="text-lg font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Textarea uses the same design tokens as Input for consistency:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-input-bg-surface</code> - Input-specific background
+						</li>
+						<li>
+							<code className="text-xs">border-p-input-border</code> - Input-specific border
+						</li>
+						<li>
+							<code className="text-xs">text-p-base</code> - Base font size with proper line height
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-lg</code> - Consistent border radius
+						</li>
+						<li>
+							<code className="text-xs">shadow-p-inset</code> - Subtle inset shadow on focus
+						</li>
+					</ul>
 				</section>
 
 				<section className="space-y-4">

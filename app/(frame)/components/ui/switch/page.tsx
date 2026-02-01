@@ -170,6 +170,30 @@ export default function SwitchPage() {
 				</section>
 
 				<section className="space-y-4">
+					<h2 className="text-lg font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Switch uses the design system for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-fill-secondary</code> - Unchecked background
+						</li>
+						<li>
+							<code className="text-xs">bg-p-fill-brand</code> - Checked background
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-full</code> - Pill-shaped container
+						</li>
+						<li>
+							<code className="text-xs">shadow-p-sm</code> - Subtle elevation
+						</li>
+						<li>
+							<code className="text-xs">transition-p-150</code> - Smooth state transitions
+						</li>
+					</ul>
+				</section>
+
+				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
 						<li>Use switches for settings that take effect immediately</li>

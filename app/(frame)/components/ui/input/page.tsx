@@ -110,6 +110,30 @@ export default function InputPage() {
 				</section>
 
 				<section className="space-y-4">
+					<h2 className="text-lg font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Input uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-p-input-bg-surface</code> - Input-specific background
+						</li>
+						<li>
+							<code className="text-xs">border-p-input-border</code> - Input-specific border color
+						</li>
+						<li>
+							<code className="text-xs">text-p-base</code> - Base font size with proper line height
+						</li>
+						<li>
+							<code className="text-xs">rounded-p-lg</code> - Consistent border radius
+						</li>
+						<li>
+							<code className="text-xs">shadow-p-inset</code> - Subtle inset shadow on focus
+						</li>
+					</ul>
+				</section>
+
+				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
 						<li>Always associate inputs with labels for accessibility</li>
