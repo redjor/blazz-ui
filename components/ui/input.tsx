@@ -11,14 +11,14 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 			className={cn(
 				// Base styles
 				"w-full min-w-0 outline-none",
-				// Polaris input surface
+				// Input surface
 				"bg-p-input-bg-surface",
 				"hover:bg-p-input-bg-surface-hover",
-				// Polaris borders
+				// Borders
 				"border border-p-input-border",
 				"hover:border-p-input-border-hover",
 				"focus:border-p-border-focus",
-				// Polaris inset shadow on focus
+				// Inset shadow on focus
 				"focus:shadow-p-inset",
 				// Focus ring
 				"focus:ring-[3px] focus:ring-p-border-focus/20",
