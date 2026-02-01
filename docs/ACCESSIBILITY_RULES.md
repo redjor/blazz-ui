@@ -96,10 +96,10 @@ Ces outils d'accessibilité détecteront les boutons imbriqués automatiquement.
 
 Lors de la revue de code, vérifiez:
 
-- [ ] Aucun `<Button>` à l'intérieur d'un trigger sans `asChild`
-- [ ] Pas d'utilisation de `render` prop avec des Buttons
-- [ ] Les triggers utilisent soit `asChild` soit `className` directement
+- [ ] Aucun `<Button>` à l'intérieur d'un trigger (utiliser `render` prop)
+- [ ] Tous les triggers utilisent `render` prop pour les composants boutons
 - [ ] Pas de boutons imbriqués dans le DOM final
+- [ ] Tous les `DropdownMenuLabel` sont à l'intérieur de `DropdownMenuGroup`
 
 ## 🛠️ Configuration ESLint (Futur)
 
@@ -137,9 +137,41 @@ Les composants personnalisés qui rendent des boutons (comme `SidebarMenuButton`
 
 Le trigger clone `SidebarMenuButton` et fusionne ses props, créant un seul bouton au final.
 
+### 4. DropdownMenuLabel doit être dans DropdownMenuGroup
+
+**Problème:** Base UI (la bibliothèque sous-jacente) requiert que `DropdownMenuLabel` soit utilisé à l'intérieur de `DropdownMenuGroup`.
+
+**Erreur:** `Base UI: MenuGroupRootContext is missing. Menu group parts must be used within <Menu.Group>.`
+
+#### ❌ INCORRECT
+
+```tsx
+// NE PAS FAIRE - Label en dehors du groupe
+<DropdownMenuContent>
+  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+  <DropdownMenuSeparator />
+  <DropdownMenuItem>Profile</DropdownMenuItem>
+</DropdownMenuContent>
+```
+
+#### ✅ CORRECT
+
+```tsx
+// FAIRE - Label dans un groupe
+<DropdownMenuContent>
+  <DropdownMenuGroup>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+  </DropdownMenuGroup>
+</DropdownMenuContent>
+```
+
 ## 🔄 Historique des Corrections
 
 - **2026-02-01**: Migration vers `render` prop pour tous les triggers
 - **2026-02-01**: Correction de `data-table-actions-bar.tsx` - Utilisation de `render` prop
 - **2026-02-01**: Correction de `sidebar-user.tsx` - Utilisation de `render` prop avec `SidebarMenuButton`
 - **2026-02-01**: Mise à jour de la documentation pour recommander `render` au lieu de `asChild`
+- **2026-02-01**: Correction de `dropdown-menu/page.tsx` - Wrapping de tous les `DropdownMenuLabel` dans `DropdownMenuGroup`
+- **2026-02-01**: Ajout de la règle 4: `DropdownMenuLabel` doit être dans `DropdownMenuGroup`

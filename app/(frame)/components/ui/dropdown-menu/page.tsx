@@ -116,50 +116,54 @@ export default function DropdownMenuPage() {
 					code={`<DropdownMenu>
   <DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
   <DropdownMenuContent>
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>
-      <User className="mr-2 h-4 w-4" />
-      Profile
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <CreditCard className="mr-2 h-4 w-4" />
-      Billing
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <Settings className="mr-2 h-4 w-4" />
-      Settings
-    </DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem variant="destructive">
-      <LogOut className="mr-2 h-4 w-4" />
-      Log out
-    </DropdownMenuItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
+        <User className="mr-2 h-4 w-4" />
+        Profile
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <CreditCard className="mr-2 h-4 w-4" />
+        Billing
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Settings className="mr-2 h-4 w-4" />
+        Settings
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem variant="destructive">
+        <LogOut className="mr-2 h-4 w-4" />
+        Log out
+      </DropdownMenuItem>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
 						<DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
 						<DropdownMenuContent>
-							<DropdownMenuLabel>My Account</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem>
-								<User className="mr-2 h-4 w-4" />
-								Profile
-							</DropdownMenuItem>
-							<DropdownMenuItem>
-								<CreditCard className="mr-2 h-4 w-4" />
-								Billing
-							</DropdownMenuItem>
-							<DropdownMenuItem>
-								<Settings className="mr-2 h-4 w-4" />
-								Settings
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem variant="destructive">
-								<LogOut className="mr-2 h-4 w-4" />
-								Log out
-							</DropdownMenuItem>
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>My Account</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								<DropdownMenuItem>
+									<User className="mr-2 h-4 w-4" />
+									Profile
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									<CreditCard className="mr-2 h-4 w-4" />
+									Billing
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									<Settings className="mr-2 h-4 w-4" />
+									Settings
+								</DropdownMenuItem>
+								<DropdownMenuSeparator />
+								<DropdownMenuItem variant="destructive">
+									<LogOut className="mr-2 h-4 w-4" />
+									Log out
+								</DropdownMenuItem>
+							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</ComponentExample>
@@ -233,40 +237,44 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 <DropdownMenu>
   <DropdownMenuTrigger render={<Button variant="outline">View</Button>} />
   <DropdownMenuContent>
-    <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuCheckboxItem
-      checked={showStatusBar}
-      onCheckedChange={setShowStatusBar}
-    >
-      Status Bar
-    </DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem
-      checked={showActivityBar}
-      onCheckedChange={setShowActivityBar}
-    >
-      Activity Bar
-    </DropdownMenuCheckboxItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuCheckboxItem
+        checked={showStatusBar}
+        onCheckedChange={setShowStatusBar}
+      >
+        Status Bar
+      </DropdownMenuCheckboxItem>
+      <DropdownMenuCheckboxItem
+        checked={showActivityBar}
+        onCheckedChange={setShowActivityBar}
+      >
+        Activity Bar
+      </DropdownMenuCheckboxItem>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
 						<DropdownMenuTrigger render={<Button variant="outline">View</Button>} />
 						<DropdownMenuContent>
-							<DropdownMenuLabel>Appearance</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuCheckboxItem
-								checked={showStatusBar}
-								onCheckedChange={setShowStatusBar}
-							>
-								Status Bar
-							</DropdownMenuCheckboxItem>
-							<DropdownMenuCheckboxItem
-								checked={showActivityBar}
-								onCheckedChange={setShowActivityBar}
-							>
-								Activity Bar
-							</DropdownMenuCheckboxItem>
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>Appearance</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								<DropdownMenuCheckboxItem
+									checked={showStatusBar}
+									onCheckedChange={setShowStatusBar}
+								>
+									Status Bar
+								</DropdownMenuCheckboxItem>
+								<DropdownMenuCheckboxItem
+									checked={showActivityBar}
+									onCheckedChange={setShowActivityBar}
+								>
+									Activity Bar
+								</DropdownMenuCheckboxItem>
+							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</ComponentExample>
@@ -280,26 +288,30 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 <DropdownMenu>
   <DropdownMenuTrigger render={<Button variant="outline">Position</Button>} />
   <DropdownMenuContent>
-    <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-      <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+        <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+        <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+      </DropdownMenuRadioGroup>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`}
 				>
 					<DropdownMenu>
 						<DropdownMenuTrigger render={<Button variant="outline">Position</Button>} />
 						<DropdownMenuContent>
-							<DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-								<DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-							</DropdownMenuRadioGroup>
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								<DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+									<DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+									<DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+									<DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+								</DropdownMenuRadioGroup>
+							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</ComponentExample>
