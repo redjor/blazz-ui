@@ -56,20 +56,23 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<SidebarMenuButton
+					asChild
 					size="lg"
 					className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 				>
-					<Avatar className="h-8 w-8 rounded-lg">
-						<AvatarImage src={user.avatar} alt={user.name} />
-						<AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
-					</Avatar>
-					<div className="grid flex-1 text-left text-sm leading-tight">
-						<span className="truncate font-semibold">{user.name}</span>
-						{user.role && (
-							<span className="truncate text-xs text-muted-foreground">{user.role}</span>
-						)}
-					</div>
-					<ChevronsUpDown className="ml-auto size-4" />
+					<button type="button">
+						<Avatar className="h-8 w-8 rounded-lg">
+							<AvatarImage src={user.avatar} alt={user.name} />
+							<AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+						</Avatar>
+						<div className="grid flex-1 text-left text-sm leading-tight">
+							<span className="truncate font-semibold">{user.name}</span>
+							{user.role && (
+								<span className="truncate text-xs text-muted-foreground">{user.role}</span>
+							)}
+						</div>
+						<ChevronsUpDown className="ml-auto size-4" />
+					</button>
 				</SidebarMenuButton>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent

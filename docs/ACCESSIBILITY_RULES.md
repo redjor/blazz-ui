@@ -32,7 +32,7 @@ Ce document décrit les règles importantes d'accessibilité et les erreurs cour
 #### ✅ CORRECT
 
 ```tsx
-// Option 1: Utiliser asChild pour composer
+// Option 1: Utiliser asChild pour composer avec Button
 <DropdownMenuTrigger asChild>
   <Button variant="outline">Actions</Button>
 </DropdownMenuTrigger>
@@ -47,6 +47,15 @@ Ce document décrit les règles importantes d'accessibilité et les erreurs cour
   <button type="button" className="custom-class">
     Actions
   </button>
+</DropdownMenuTrigger>
+
+// Option 4: Composer DEUX composants avec asChild (pour composants bouton imbriqués)
+<DropdownMenuTrigger asChild>
+  <SidebarMenuButton asChild>
+    <button type="button">
+      Content
+    </button>
+  </SidebarMenuButton>
 </DropdownMenuTrigger>
 ```
 
@@ -108,7 +117,28 @@ Pour automatiser la détection de ces erreurs, nous pouvons ajouter une règle E
 - [MDN - Button Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
 - [Radix UI - Composition avec asChild](https://www.radix-ui.com/primitives/docs/guides/composition)
 
+### 3. Cas Spécial: Composants Bouton Composés
+
+Certains composants personnalisés rendent eux-mêmes des boutons (comme `SidebarMenuButton`, `MenuButton`, etc.). Si vous utilisez ces composants dans un trigger, vous devez utiliser `asChild` sur LES DEUX composants:
+
+```tsx
+// ❌ WRONG - SidebarMenuButton rend un bouton
+<DropdownMenuTrigger asChild>
+  <SidebarMenuButton>Content</SidebarMenuButton>
+</DropdownMenuTrigger>
+
+// ✅ CORRECT - asChild sur les deux + button explicite
+<DropdownMenuTrigger asChild>
+  <SidebarMenuButton asChild>
+    <button type="button">Content</button>
+  </SidebarMenuButton>
+</DropdownMenuTrigger>
+```
+
+**Règle:** Si vous emboîtez 2+ composants qui supportent `asChild`, utilisez `asChild` sur TOUS sauf le dernier (qui doit être un élément HTML).
+
 ## 🔄 Historique des Corrections
 
 - **2026-02-01**: Correction de `data-table-actions-bar.tsx` - Remplacement de `render` prop par `asChild`
+- **2026-02-01**: Correction de `sidebar-user.tsx` - Ajout de `asChild` sur `SidebarMenuButton` + button explicite
 - **2026-02-01**: Ajout de documentation sur `DropdownMenuTrigger`
