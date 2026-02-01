@@ -224,8 +224,36 @@ export default function DialogPage() {
 					<PropsTable props={dialogContentProps} />
 				</section>
 
+				{/* Design Tokens */}
 				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
+					<h2 className="text-xl font-semibold">Design Tokens</h2>
+					<p className="text-sm text-p-text-secondary">
+						Dialog uses the design system tokens for consistent styling:
+					</p>
+					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
+						<li>
+							<code className="text-xs">bg-background</code> - Dialog background color
+						</li>
+						<li>
+							<code className="text-xs">text-foreground</code> - Main text color
+						</li>
+						<li>
+							<code className="text-xs">text-muted-foreground</code> - Description text color
+						</li>
+						<li>
+							<code className="text-xs">shadow-lg</code> - Large shadow for elevation
+						</li>
+						<li>
+							<code className="text-xs">rounded-lg</code> - Large border radius (0.5rem)
+						</li>
+						<li>
+							<code className="text-xs">bg-black/80</code> - Backdrop overlay (80% opacity)
+						</li>
+					</ul>
+				</section>
+
+				<section className="space-y-4">
+					<h2 className="text-xl font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
 						<li>Use dialogs sparingly - they interrupt the user's workflow</li>
 						<li>Always provide a clear way to close the dialog</li>
