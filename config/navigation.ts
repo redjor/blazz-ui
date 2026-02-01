@@ -209,6 +209,7 @@ export const sidebarConfig: SidebarConfig = {
           icon: Table2,
           items: [
             { title: "Avatar", url: "/components/ui/avatar" },
+            { title: "Data Table", url: "/components/ui/data-table" },
             { title: "Table", url: "/components/ui/table" },
           ],
         },
