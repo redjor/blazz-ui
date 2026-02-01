@@ -33,13 +33,9 @@ export default function FeedbackComponentsPage() {
 	return (
 		<Page
 			title="Feedback Indicators"
-			subtitle="Components that provide feedback to users about the state of the system or their actions."
+			subtitle="Feedback components communicate important information, status changes, and system responses to users. Choose the right component based on the severity, persistence, and context of your message."
 		>
-			<ComponentSection
-				title="Feedback Indicators"
-				description="Feedback components communicate important information, status changes, and system responses to users. Choose the right component based on the severity, persistence, and context of your message."
-				components={feedbackComponents}
-			/>
+			<ComponentSection components={feedbackComponents} />
 		</Page>
 	)
 }

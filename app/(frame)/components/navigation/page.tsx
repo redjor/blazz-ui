@@ -33,13 +33,9 @@ export default function NavigationPage() {
 	return (
 		<Page
 			title="Navigation"
-			subtitle="Components that help users navigate through your application."
+			subtitle="Navigation components help users understand where they are in your application and move efficiently between different sections and pages."
 		>
-			<ComponentSection
-				title="Navigation"
-				description="Navigation components help users understand where they are in your application and move efficiently between different sections and pages."
-				components={navigationComponents}
-			/>
+			<ComponentSection components={navigationComponents} />
 		</Page>
 	)
 }

@@ -27,13 +27,9 @@ export default function ActionsPage() {
 	return (
 		<Page
 			title="Actions"
-			subtitle="Components that allow users to trigger actions and interact with your application."
+			subtitle="Action components enable users to perform tasks and navigate through your application. They provide clear affordances for interaction and follow consistent visual patterns."
 		>
-			<ComponentSection
-				title="Actions"
-				description="Action components enable users to perform tasks and navigate through your application. They provide clear affordances for interaction and follow consistent visual patterns."
-				components={actionComponents}
-			/>
+			<ComponentSection components={actionComponents} />
 		</Page>
 	)
 }

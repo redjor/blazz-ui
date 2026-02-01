@@ -27,13 +27,9 @@ export default function DataDisplayPage() {
 	return (
 		<Page
 			title="Data Display"
-			subtitle="Components for presenting data and information to users."
+			subtitle="Data display components help users understand and interact with information. They present data in structured, scannable formats that make patterns and relationships clear."
 		>
-			<ComponentSection
-				title="Data Display"
-				description="Data display components help users understand and interact with information. They present data in structured, scannable formats that make patterns and relationships clear."
-				components={dataDisplayComponents}
-			/>
+			<ComponentSection components={dataDisplayComponents} />
 		</Page>
 	)
 }

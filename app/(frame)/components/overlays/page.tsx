@@ -39,13 +39,9 @@ export default function OverlaysPage() {
 	return (
 		<Page
 			title="Overlays"
-			subtitle="Components that display content on top of the main interface."
+			subtitle="Overlay components present temporary content and actions above the main interface. They help users focus on specific tasks while maintaining context of the underlying page."
 		>
-			<ComponentSection
-				title="Overlays"
-				description="Overlay components present temporary content and actions above the main interface. They help users focus on specific tasks while maintaining context of the underlying page."
-				components={overlayComponents}
-			/>
+			<ComponentSection components={overlayComponents} />
 		</Page>
 	)
 }

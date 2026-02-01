@@ -73,13 +73,9 @@ export default function FormsPage() {
 	return (
 		<Page
 			title="Selection and Input"
-			subtitle="Components for capturing user input and making selections."
+			subtitle="Form components enable users to enter data and make selections. They provide clear feedback, validation, and accessibility features to create intuitive data entry experiences."
 		>
-			<ComponentSection
-				title="Selection and Input"
-				description="Form components enable users to enter data and make selections. They provide clear feedback, validation, and accessibility features to create intuitive data entry experiences."
-				components={formComponents}
-			/>
+			<ComponentSection components={formComponents} />
 		</Page>
 	)
 }

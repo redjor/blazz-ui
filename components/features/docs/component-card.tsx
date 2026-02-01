@@ -49,23 +49,15 @@ export function ComponentCard({
 }
 
 export interface ComponentSectionProps {
-	title: string
-	description: string
 	components: ComponentCardProps[]
 }
 
-export function ComponentSection({ title, description, components }: ComponentSectionProps) {
+export function ComponentSection({ components }: ComponentSectionProps) {
 	return (
-		<div className="space-y-p-6">
-			<div className="space-y-p-2">
-				<h1 className="text-p-2xl font-p-bold text-p-text">{title}</h1>
-				<p className="text-p-md text-p-text-secondary max-w-3xl">{description}</p>
-			</div>
-			<div className="grid gap-p-4 sm:grid-cols-2 lg:grid-cols-3">
-				{components.map((component) => (
-					<ComponentCard key={component.href} {...component} />
-				))}
-			</div>
+		<div className="grid gap-p-4 sm:grid-cols-2 lg:grid-cols-3">
+			{components.map((component) => (
+				<ComponentCard key={component.href} {...component} />
+			))}
 		</div>
 	)
 }
