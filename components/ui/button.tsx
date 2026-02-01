@@ -38,6 +38,15 @@ const buttonVariants = cva(
           "aria-expanded:bg-p-fill-secondary",
           "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20",
         ],
+        tertiary: [
+          "bg-p-fill-tertiary text-p-text",
+          "shadow-p-sm",
+          "hover:bg-p-border hover:shadow-p",
+          "active:bg-p-border-hover active:shadow-p-none",
+          "rounded-p-lg border-0",
+          "aria-expanded:bg-p-fill-tertiary",
+          "focus-visible:ring-[3px] focus-visible:ring-p-border-focus/20",
+        ],
         ghost: [
           "hover:bg-p-bg-surface-hover",
           "text-p-text",
