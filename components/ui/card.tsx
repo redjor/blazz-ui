@@ -16,7 +16,6 @@ function Card({
         "border border-p-border",
         "rounded-p-xl",
         "shadow-p-sm",
-        "gap-p-4",
         "overflow-hidden",
         "has-data-[slot=card-footer]:pb-0",
         "has-[>img:first-child]:pt-0",
@@ -91,7 +90,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("group-data-[size=sm]/card:px-2 px-4 pb-4", className)}
+      className={cn("group-data-[size=sm]/card:px-2 p-4", className)}
       {...props}
     />
   );

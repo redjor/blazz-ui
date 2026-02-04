@@ -136,6 +136,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Grid", url: "/components/layout/grid" },
             { title: "Inline Grid", url: "/components/layout/inline-grid" },
             { title: "Inline Stack", url: "/components/layout/inline-stack" },
+            { title: "Page", url: "/components/layout/page-component" },
           ],
         },
         {
