@@ -51,6 +51,11 @@ const layoutCompositions = [
 		description: "Used to group similar concepts and tasks together for easier scanning and reading.",
 		href: "/components/layout/card",
 	},
+	{
+		title: "Page",
+		description: "A container component for page-level layout with title, actions, and breadcrumbs.",
+		href: "/components/layout/page-component",
+	},
 ]
 
 export default function LayoutComponentsPage() {
