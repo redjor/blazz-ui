@@ -2,8 +2,11 @@
 
 import { Page, PageSection } from "@/components/ui/page"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { ComponentExample } from "@/components/features/docs/component-example"
 import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Package, Tag } from "lucide-react"
 
 const pageProps: PropDefinition[] = [
 	{
@@ -28,8 +31,14 @@ const pageProps: PropDefinition[] = [
 	},
 	{
 		name: "breadcrumbs",
+		type: "React.ReactNode | BreadcrumbConfig",
+		description:
+			"Breadcrumb navigation. Accepts a ReactNode for custom breadcrumbs, or a BreadcrumbConfig object { backHref, backIcon, title } for the common pattern.",
+	},
+	{
+		name: "titleMetadata",
 		type: "React.ReactNode",
-		description: "Breadcrumb navigation displayed above the title.",
+		description: "Inline metadata displayed next to the title or breadcrumb title (e.g., status badge).",
 	},
 	{
 		name: "additionalMetadata",
@@ -166,6 +175,188 @@ export default function PageComponentPage() {
 					</ComponentExample>
 
 					<ComponentExample
+						title="With Breadcrumbs (object)"
+						description="Pass a BreadcrumbConfig object to automatically render breadcrumb navigation in place of the title."
+						code={`<Page
+  narrowWidth
+  breadcrumbs={{
+    backHref: "/products",
+    backIcon: Package,
+    title: "Wireless Headphones",
+  }}
+  primaryAction={<Button>Save</Button>}
+>
+  <p>Page content here</p>
+</Page>`}
+					>
+						<div className="rounded-lg border bg-background">
+							<Page
+								narrowWidth
+								breadcrumbs={{
+									backHref: "/products",
+									backIcon: Package,
+									title: "Wireless Headphones",
+								}}
+								primaryAction={<Button size="sm">Save</Button>}
+							>
+								<p className="text-sm text-muted-foreground">Page content here</p>
+							</Page>
+						</div>
+					</ComponentExample>
+
+					<ComponentExample
+						title="With Breadcrumbs (parent step)"
+						description="Add a parent step that truncates to save space. Hover to reveal the full text."
+						code={`<Page
+  narrowWidth
+  breadcrumbs={{
+    backHref: "/collections",
+    backIcon: Package,
+    parent: {
+      label: "The Connoisseur Collection",
+      href: "/collections/12",
+    },
+    title: "Sunset",
+  }}
+  primaryAction={<Button>Save</Button>}
+>
+  <p>Page content here</p>
+</Page>`}
+					>
+						<div className="rounded-lg border bg-background">
+							<Page
+								narrowWidth
+								breadcrumbs={{
+									backHref: "/collections",
+									backIcon: Package,
+									parent: {
+										label: "The Connoisseur Collection",
+										href: "/collections/12",
+									},
+									title: "Sunset",
+								}}
+								primaryAction={<Button size="sm">Save</Button>}
+							>
+								<p className="text-sm text-muted-foreground">Page content here</p>
+							</Page>
+						</div>
+					</ComponentExample>
+
+					<ComponentExample
+						title="With Breadcrumbs and Title Metadata"
+						description="Combine breadcrumbs with titleMetadata to display a badge inline next to the title."
+						code={`<Page
+  narrowWidth
+  breadcrumbs={{
+    backHref: "/products",
+    backIcon: Tag,
+    title: "Wireless Headphones",
+  }}
+  titleMetadata={
+    <Badge variant="outline">
+      Active
+    </Badge>
+  }
+  primaryAction={<Button>Save</Button>}
+>
+  <p>Page content here</p>
+</Page>`}
+					>
+						<div className="rounded-lg border bg-background">
+							<Page
+								narrowWidth
+								breadcrumbs={{
+									backHref: "/products",
+									backIcon: Tag,
+									title: "Wireless Headphones",
+								}}
+								titleMetadata={
+									<Badge variant="outline">
+										Active
+									</Badge>
+								}
+								primaryAction={<Button size="sm">Save</Button>}
+							>
+								<p className="text-sm text-muted-foreground">Page content here</p>
+							</Page>
+						</div>
+					</ComponentExample>
+
+					<ComponentExample
+						title="With Additional Metadata"
+						description="Use additionalMetadata to display contextual information below the title row."
+						code={`<Page
+  title="Wireless Headphones"
+  subtitle="SKU: WH-1000"
+  primaryAction={<Button>Save</Button>}
+  additionalMetadata={
+    <p className="text-sm text-muted-foreground">
+      Mis à jour par une app le 2 janvier à 10:39
+    </p>
+  }
+>
+  <p>Page content here</p>
+</Page>`}
+					>
+						<div className="rounded-lg border bg-background">
+							<Page
+								title="Wireless Headphones"
+								subtitle="SKU: WH-1000"
+								primaryAction={<Button size="sm">Save</Button>}
+								additionalMetadata={
+									<p className="text-sm text-muted-foreground">
+										Mis à jour par une app le 2 janvier à 10:39
+									</p>
+								}
+							>
+								<p className="text-sm text-muted-foreground">Page content here</p>
+							</Page>
+						</div>
+					</ComponentExample>
+
+					<ComponentExample
+						title="With Additional Metadata (Tabs)"
+						description="additionalMetadata can also be used for tabs or filters below the header."
+						code={`<Page
+  title="Products"
+  subtitle="Manage your product catalog"
+  primaryAction={<Button>Add product</Button>}
+  additionalMetadata={
+    <Tabs defaultValue="all">
+      <TabsList>
+        <TabsTrigger value="all">All</TabsTrigger>
+        <TabsTrigger value="active">Active</TabsTrigger>
+        <TabsTrigger value="draft">Draft</TabsTrigger>
+        <TabsTrigger value="archived">Archived</TabsTrigger>
+      </TabsList>
+    </Tabs>
+  }
+>
+  <p>Page content here</p>
+</Page>`}
+					>
+						<div className="rounded-lg border bg-background">
+							<Page
+								title="Products"
+								subtitle="Manage your product catalog"
+								primaryAction={<Button size="sm">Add product</Button>}
+								additionalMetadata={
+									<Tabs defaultValue="all">
+										<TabsList>
+											<TabsTrigger value="all">All</TabsTrigger>
+											<TabsTrigger value="active">Active</TabsTrigger>
+											<TabsTrigger value="draft">Draft</TabsTrigger>
+											<TabsTrigger value="archived">Archived</TabsTrigger>
+										</TabsList>
+									</Tabs>
+								}
+							>
+								<p className="text-sm text-muted-foreground">Page content here</p>
+							</Page>
+						</div>
+					</ComponentExample>
+
+					<ComponentExample
 						title="Full Width"
 						description="A page that spans the full viewport width without max-width constraint."
 						code={`<Page title="Dashboard" fullWidth>
@@ -257,6 +448,10 @@ export default function PageComponentPage() {
 						<li>Use narrowWidth for form-heavy pages like settings or creation flows</li>
 						<li>Use PageSection to group related content within a page</li>
 						<li>Use breadcrumbs for pages deeper than one level in the navigation hierarchy</li>
+						<li>
+							Prefer the BreadcrumbConfig object shorthand for the common icon &gt; title
+							pattern, and use ReactNode for custom breadcrumb layouts
+						</li>
 					</ul>
 				</section>
 			</div>

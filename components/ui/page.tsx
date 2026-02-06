@@ -1,5 +1,29 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import {
+	Breadcrumb,
+	BreadcrumbList,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbSeparator,
+	BreadcrumbPage,
+} from "@/components/ui/breadcrumb"
+
+export interface BreadcrumbParent {
+	label: string
+	href: string
+}
+
+export interface BreadcrumbConfig {
+	backHref: string
+	backIcon: React.ComponentType<{ className?: string }>
+	parent?: BreadcrumbParent
+	title: React.ReactNode
+}
+
+function isBreadcrumbConfig(value: unknown): value is BreadcrumbConfig {
+	return typeof value === "object" && value !== null && "backHref" in value && "title" in value
+}
 
 export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
 	/**
@@ -23,9 +47,16 @@ export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "t
 	secondaryActions?: React.ReactNode
 
 	/**
-	 * Breadcrumb navigation displayed above the title
+	 * Breadcrumb navigation displayed above the title.
+	 * Accepts a ReactNode for custom breadcrumbs, or a BreadcrumbConfig object
+	 * for the common pattern: icon link > title
 	 */
-	breadcrumbs?: React.ReactNode
+	breadcrumbs?: React.ReactNode | BreadcrumbConfig
+
+	/**
+	 * Inline metadata displayed next to the title or breadcrumb title (e.g., status badge)
+	 */
+	titleMetadata?: React.ReactNode
 
 	/**
 	 * Additional content in the header (e.g., tabs, metadata)
@@ -109,6 +140,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 			primaryAction,
 			secondaryActions,
 			breadcrumbs,
+			titleMetadata,
 			additionalMetadata,
 			fullWidth = false,
 			narrowWidth = false,
@@ -121,8 +153,37 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 		},
 		ref
 	) => {
+		const resolvedBreadcrumbs = isBreadcrumbConfig(breadcrumbs) ? (
+			<Breadcrumb>
+				<BreadcrumbList>
+					<BreadcrumbItem>
+						<BreadcrumbLink href={breadcrumbs.backHref}>
+							<breadcrumbs.backIcon className="h-4 w-4" />
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					{breadcrumbs.parent && (
+						<>
+							<BreadcrumbSeparator />
+							<BreadcrumbItem>
+								<BreadcrumbLink
+									href={breadcrumbs.parent.href}
+									className="inline-block max-w-[8ch] truncate align-bottom transition-all duration-200 ease-out hover:max-w-[200px]"
+								>
+									{breadcrumbs.parent.label}
+								</BreadcrumbLink>
+							</BreadcrumbItem>
+						</>
+					)}
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbPage>{breadcrumbs.title}</BreadcrumbPage>
+					</BreadcrumbItem>
+				</BreadcrumbList>
+			</Breadcrumb>
+		) : breadcrumbs
+
 		const hasHeader =
-			title || primaryAction || secondaryActions || breadcrumbs || additionalMetadata
+			title || primaryAction || secondaryActions || resolvedBreadcrumbs || titleMetadata || additionalMetadata
 
 		return (
 			<div
@@ -140,10 +201,13 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 				{hasHeader && (
 					<div className={cn("space-y-6 pt-4 pb-3", headerClassName)}>
 						{/* Breadcrumbs and Actions on same row (when no title) */}
-						{breadcrumbs && !title && (
+						{resolvedBreadcrumbs && !title && (
 							<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-								{/* Breadcrumbs */}
-								<div className="flex items-center">{breadcrumbs}</div>
+								{/* Breadcrumbs + Title Metadata */}
+								<div className="flex items-center gap-3">
+									{resolvedBreadcrumbs}
+									{titleMetadata}
+								</div>
 
 								{/* Actions Section */}
 								{(primaryAction || secondaryActions) && (
@@ -158,14 +222,17 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 						)}
 
 						{/* Breadcrumbs (when title exists) */}
-						{breadcrumbs && title && <div className="flex items-center">{breadcrumbs}</div>}
+						{resolvedBreadcrumbs && title && <div className="flex items-center gap-3">{resolvedBreadcrumbs}{titleMetadata}</div>}
 
 						{/* Title and Actions Row (when title exists) */}
 						{title && (
 							<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 								{/* Title Section */}
 								<div className="flex-1 space-y-1">
+									<div className="flex items-center gap-3">
 									<h1 className="text-lg font-semibold leading-normal text-foreground">{title}</h1>
+									{titleMetadata}
+								</div>
 									{subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
 								</div>
 
@@ -182,7 +249,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 						)}
 
 						{/* Actions only (when no breadcrumbs and no title) */}
-						{!breadcrumbs && !title && (primaryAction || secondaryActions) && (
+						{!resolvedBreadcrumbs && !title && (primaryAction || secondaryActions) && (
 							<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
 								{secondaryActions && (
 									<div className="flex items-center gap-2">{secondaryActions}</div>
