@@ -1,10 +1,11 @@
 "use client"
 
-import { useMemo } from "react"
+import { Suspense, useMemo } from "react"
 import { DataTable, createCRMContactPreset } from "@/components/features/data-table"
 import type { CRMContact } from "@/components/features/data-table"
 import { Card } from "@/components/ui/card"
 import { Page } from "@/components/ui/page"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
 
 // Sample clients data matching CRMContact preset interface
@@ -166,6 +167,14 @@ const clients: CRMContact[] = [
 ]
 
 export default function ClientsPage() {
+	return (
+		<Suspense fallback={<Skeleton className="h-[600px] m-6 rounded-lg" />}>
+			<ClientsPageContent />
+		</Suspense>
+	)
+}
+
+function ClientsPageContent() {
 	// Create preset with all configuration (replaces 400+ lines of manual setup)
 	const preset = useMemo(
 		() =>

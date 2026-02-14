@@ -597,7 +597,7 @@ export function DataTable<TData, TValue = unknown>({
 					}}
 					existingViews={views || []}
 					onSave={handleSaveView}
-					locale={finalLocale}
+					locale={finalLocale as "fr" | "en"}
 				/>
 			)}
 
@@ -609,7 +609,7 @@ export function DataTable<TData, TValue = unknown>({
 					view={viewToRename}
 					existingViews={views || []}
 					onRename={handleSaveRename}
-					locale={finalLocale}
+					locale={finalLocale as "fr" | "en"}
 				/>
 			)}
 
@@ -645,7 +645,7 @@ export function DataTable<TData, TValue = unknown>({
 						columns={columns as DataTableColumnDef<TData, any>[]}
 						filterGroup={filterGroup}
 						onFilterChange={handleFilterGroupChange}
-						locale={finalLocale}
+						locale={finalLocale as "fr" | "en"}
 						variant="outline"
 						size="sm"
 					/>
@@ -715,7 +715,7 @@ export function DataTable<TData, TValue = unknown>({
 						<DataTableBulkSelectionBar
 							table={table}
 							bulkActions={bulkActions}
-							locale={finalLocale}
+							locale={finalLocale as "fr" | "en"}
 						/>
 					)}
 				</div>

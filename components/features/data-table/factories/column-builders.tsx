@@ -159,7 +159,7 @@ export function createStatusColumn<TData>(
 			const displayLabel = statusConfig.label || status.charAt(0).toUpperCase() + status.slice(1)
 
 			return (
-				<Badge variant={statusConfig.variant} className={statusConfig.className}>
+				<Badge variant={statusConfig.variant as "default" | "info" | "outline" | "success" | "warning" | "critical"} className={statusConfig.className}>
 					{displayLabel}
 				</Badge>
 			)

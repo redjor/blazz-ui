@@ -1,10 +1,11 @@
 "use client"
 
-import { useMemo } from "react"
+import { Suspense, useMemo } from "react"
 import { DataTable, createOrderManagementPreset } from "@/components/features/data-table"
 import type { Order } from "@/components/features/data-table"
 import { Card } from "@/components/ui/card"
 import { Page } from "@/components/ui/page"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
 
 // Sample orders data matching Order preset interface
@@ -154,6 +155,14 @@ const orders: Order[] = [
 ]
 
 export default function OrdersPage() {
+	return (
+		<Suspense fallback={<Skeleton className="h-[600px] m-6 rounded-lg" />}>
+			<OrdersPageContent />
+		</Suspense>
+	)
+}
+
+function OrdersPageContent() {
 	// Create preset with all configuration (replaces 400+ lines of manual setup)
 	const preset = useMemo(
 		() =>

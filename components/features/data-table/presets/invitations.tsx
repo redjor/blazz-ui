@@ -171,7 +171,7 @@ export function createInvitationPreset(
 		rowActions.push({
 			id: "resend",
 			label: "Resend",
-			handler: onResend,
+			handler: (row) => onResend(row.original),
 			hidden: (row) => row.original.status !== "pending" && row.original.status !== "expired",
 		})
 	}
@@ -180,7 +180,7 @@ export function createInvitationPreset(
 		rowActions.push({
 			id: "revoke",
 			label: "Revoke",
-			handler: onRevoke,
+			handler: (row) => onRevoke(row.original),
 			variant: "destructive",
 			hidden: (row) => row.original.status !== "pending",
 			requireConfirmation: true,

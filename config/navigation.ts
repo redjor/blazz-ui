@@ -35,7 +35,7 @@ export const sidebarConfig: SidebarConfig = {
         {
           id: "products",
           title: "Produits",
-          url: "/products",
+          url: "/showcase-products",
           icon: Package,
           items: [
             { title: "Categories", url: "/products/categories" },
@@ -63,7 +63,7 @@ export const sidebarConfig: SidebarConfig = {
         {
           id: "reports",
           title: "Reports",
-          url: "/reports",
+          url: "/showcase-reports",
           icon: BarChart,
           items: [
             { title: "Sales Report", url: "/reports/sales" },

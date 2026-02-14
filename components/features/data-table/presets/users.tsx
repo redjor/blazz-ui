@@ -213,7 +213,7 @@ export function createUserManagementPreset(
 		rowActions.push({
 			id: "view",
 			label: "View profile",
-			handler: onView,
+			handler: (row) => onView(row.original),
 		})
 	}
 
@@ -221,7 +221,7 @@ export function createUserManagementPreset(
 		rowActions.push({
 			id: "edit",
 			label: "Edit",
-			handler: onEdit,
+			handler: (row) => onEdit(row.original),
 		})
 	}
 
@@ -229,7 +229,7 @@ export function createUserManagementPreset(
 		rowActions.push({
 			id: "suspend",
 			label: "Suspend",
-			handler: onSuspend,
+			handler: (row) => onSuspend(row.original),
 			variant: "destructive",
 			hidden: (row) => row.original.status === "suspended",
 			requireConfirmation: true,
@@ -241,7 +241,7 @@ export function createUserManagementPreset(
 		rowActions.push({
 			id: "delete",
 			label: "Delete",
-			handler: onDelete,
+			handler: (row) => onDelete(row.original),
 			variant: "destructive",
 			requireConfirmation: true,
 			confirmationMessage: (row) => `Are you sure you want to delete ${row.original.name}? This action cannot be undone.`,

@@ -322,7 +322,7 @@ const handleAsyncAction = async () => {
 					<Banner
 						tone="info"
 						title="Special Offer"
-						icon={<Info className="h-5 w-5" />}
+						icon={Info}
 					>
 						Get 20% off your next purchase with code SPECIAL20.
 					</Banner>

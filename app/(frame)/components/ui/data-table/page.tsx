@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 // Mock data for examples
-const mockUsers: User[] = [
+const mockUsers = [
 	{
 		id: "1",
 		email: "alice@example.com",
@@ -21,8 +21,8 @@ const mockUsers: User[] = [
 		lastName: "Johnson",
 		username: "alice",
 		status: "active",
-		lastSignedIn: new Date("2024-01-15"),
-		createdAt: new Date("2023-06-10"),
+		lastSignedIn: "2024-01-15",
+		createdAt: "2023-06-10",
 	},
 	{
 		id: "2",
@@ -32,8 +32,8 @@ const mockUsers: User[] = [
 		lastName: "Smith",
 		username: "bob",
 		status: "active",
-		lastSignedIn: new Date("2024-01-14"),
-		createdAt: new Date("2023-07-22"),
+		lastSignedIn: "2024-01-14",
+		createdAt: "2023-07-22",
 	},
 	{
 		id: "3",
@@ -43,8 +43,8 @@ const mockUsers: User[] = [
 		lastName: "Brown",
 		username: "charlie",
 		status: "suspended",
-		lastSignedIn: new Date("2024-01-10"),
-		createdAt: new Date("2023-05-15"),
+		lastSignedIn: "2024-01-10",
+		createdAt: "2023-05-15",
 	},
 	{
 		id: "4",
@@ -54,8 +54,8 @@ const mockUsers: User[] = [
 		lastName: "Prince",
 		username: "diana",
 		status: "inactive",
-		lastSignedIn: new Date("2023-12-01"),
-		createdAt: new Date("2023-08-30"),
+		lastSignedIn: "2023-12-01",
+		createdAt: "2023-08-30",
 	},
 	{
 		id: "5",
@@ -66,9 +66,9 @@ const mockUsers: User[] = [
 		username: "evan",
 		status: "never_active",
 		lastSignedIn: null,
-		createdAt: new Date("2024-01-05"),
+		createdAt: "2024-01-05",
 	},
-]
+] as User[]
 
 // Simple product data for basic examples
 interface Product {
