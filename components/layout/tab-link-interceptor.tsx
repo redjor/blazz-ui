@@ -1,7 +1,17 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
+import { usePathname } from "next/navigation"
+import { useCallback, useEffect, useRef } from "react"
 import { useTabs } from "@/components/layout/tabs-context"
+
+/**
+ * Derives a short page title from a CRM pathname.
+ * e.g. "/contacts" → "Contacts", "/deals/123" → "deals/123", "/dashboard" → "Dashboard"
+ */
+function titleFromPathname(pathname: string): string {
+	const segment = pathname.split("/").filter(Boolean)[0] || "Dashboard"
+	return segment.charAt(0).toUpperCase() + segment.slice(1)
+}
 
 /**
  * Intercepts Cmd/Ctrl+click on links within the CRM to open them as new tabs.
@@ -10,6 +20,13 @@ import { useTabs } from "@/components/layout/tabs-context"
  */
 export function TabLinkInterceptor() {
 	const { addTab, closeTab, activeTabId, tabs } = useTabs()
+	const pathname = usePathname()
+
+	// Use refs to avoid recreating callbacks on every state change
+	const tabsRef = useRef(tabs)
+	tabsRef.current = tabs
+	const pathnameRef = useRef(pathname)
+	pathnameRef.current = pathname
 
 	const handleClick = useCallback(
 		(e: MouseEvent) => {
@@ -29,6 +46,11 @@ export function TabLinkInterceptor() {
 			// Prevent default navigation
 			e.preventDefault()
 			e.stopPropagation()
+
+			// If no tabs exist yet, first create a tab for the current page
+			if (tabsRef.current.length === 0 && pathnameRef.current) {
+				addTab({ url: pathnameRef.current, title: titleFromPathname(pathnameRef.current) })
+			}
 
 			// Derive a title from the link text or URL
 			const title = anchor.textContent?.trim() || href.split("/").pop() || "New Tab"
