@@ -13,6 +13,7 @@ export interface AppFrameProps {
 	children: React.ReactNode
 	sidebarHeader?: React.ReactNode
 	sidebarFooter?: React.ReactNode
+	tabBar?: React.ReactNode
 	onOpenCommandPalette?: () => void
 	activeSection?: AppTopBarProps["activeSection"]
 }
@@ -20,7 +21,13 @@ export interface AppFrameProps {
 /**
  * AppFrame
  */
-export function AppFrame({ navigation, children, onOpenCommandPalette, activeSection }: AppFrameProps) {
+export function AppFrame({
+	navigation,
+	children,
+	tabBar,
+	onOpenCommandPalette,
+	activeSection,
+}: AppFrameProps) {
 	// État pour le Sheet mobile
 	const [mobileSheetOpen, setMobileSheetOpen] = React.useState(false)
 
@@ -53,6 +60,7 @@ export function AppFrame({ navigation, children, onOpenCommandPalette, activeSec
 					/>
 				}
 				navigation={<AppSidebar config={config} />}
+				tabBar={tabBar}
 			>
 				{children}
 			</Frame>

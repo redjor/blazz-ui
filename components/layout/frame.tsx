@@ -1,12 +1,13 @@
 "use client"
 
 import type * as React from "react"
-import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { cn } from "@/lib/utils"
 
 export interface FrameProps {
 	topBar: React.ReactNode
 	navigation: React.ReactNode
+	tabBar?: React.ReactNode
 	children: React.ReactNode
 	className?: string
 }
@@ -22,7 +23,7 @@ export interface FrameProps {
  *   <YourPageContent />
  * </Frame>
  */
-export function Frame({ topBar, navigation, children, className }: FrameProps) {
+export function Frame({ topBar, navigation, tabBar, children, className }: FrameProps) {
 	return (
 		<div className={cn("h-screen w-full bg-(--top-background)", className)}>
 			<div className="fixed top-0 left-0 right-0 z-20 h-(--topbar-height)">{topBar}</div>
@@ -33,9 +34,10 @@ export function Frame({ topBar, navigation, children, className }: FrameProps) {
 				</aside>
 
 				<main className="flex-1 mt-(--topbar-height) md:pl-(--sidebar-width)">
-					<ScrollArea className="h-full w-full rounded-tr-(--main-radius) bg-(--main-background)">
-						{children}
-					</ScrollArea>
+					<div className="flex h-full flex-col rounded-tr-(--main-radius) bg-(--main-background)">
+						{tabBar}
+						<ScrollArea className="h-full w-full">{children}</ScrollArea>
+					</div>
 				</main>
 			</div>
 		</div>
