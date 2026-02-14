@@ -2,19 +2,21 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { forgotPasswordSchema, type ForgotPasswordFormData } from "@/lib/schemas"
 
 export default function ForgotPasswordPage() {
-	const [loading, setLoading] = useState(false)
 	const [sent, setSent] = useState(false)
+	const form = useForm<ForgotPasswordFormData>({
+		resolver: zodResolver(forgotPasswordSchema),
+	})
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		setLoading(true)
+	const onSubmit = async (_data: ForgotPasswordFormData) => {
 		await new Promise((resolve) => setTimeout(resolve, 800))
-		setLoading(false)
 		setSent(true)
 	}
 
@@ -36,7 +38,7 @@ export default function ForgotPasswordPage() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
+		<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1 text-center">
 				<h2 className="text-lg font-semibold">Mot de passe oublié</h2>
 				<p className="text-sm text-muted-foreground">
@@ -50,12 +52,15 @@ export default function ForgotPasswordPage() {
 					id="email"
 					type="email"
 					placeholder="sophie@forge-crm.com"
-					required
+					{...form.register("email")}
 				/>
+				{form.formState.errors.email && (
+					<p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+				)}
 			</div>
 
-			<Button type="submit" className="w-full" disabled={loading}>
-				{loading ? "Envoi..." : "Envoyer le lien"}
+			<Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+				{form.formState.isSubmitting ? "Envoi..." : "Envoyer le lien"}
 			</Button>
 
 			<p className="text-center text-xs text-muted-foreground">

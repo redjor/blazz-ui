@@ -1,7 +1,9 @@
 "use client"
 
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Save, X } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { FormSection } from "@/components/blocks/form-section"
@@ -9,27 +11,18 @@ import { FormField } from "@/components/blocks/form-field"
 import { FieldGrid } from "@/components/blocks/field-grid"
 import { Button } from "@/components/ui/button"
 import { companies, contacts } from "@/lib/sample-data"
-
-interface DealForm {
-	title: string
-	amount: string
-	stage: string
-	probability: string
-	expectedCloseDate: string
-	source: string
-	companyId: string
-	contactId: string
-}
+import { dealSchema, type DealFormData } from "@/lib/schemas"
 
 export default function NewDealPage() {
 	const router = useRouter()
-	const form = useForm<DealForm>({
+	const form = useForm<DealFormData>({
+		resolver: zodResolver(dealSchema),
 		defaultValues: { stage: "lead", probability: "15" },
 	})
 
-	const onSubmit = async (data: DealForm) => {
+	const onSubmit = async (data: DealFormData) => {
 		await new Promise((r) => setTimeout(r, 500))
-		alert(`Deal "${data.title}" créé`)
+		toast.success(`Deal "${data.title}" créé`)
 		router.push("/deals")
 	}
 

@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation"
 import { use } from "react"
+import { toast } from "sonner"
 import { Printer, Send } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { DetailPanel } from "@/components/blocks/detail-panel"
@@ -48,7 +49,7 @@ export default function QuoteDetailPage({
 					{ label: "Imprimer", href: `/print/quote/${id}`, icon: Printer, variant: "outline" },
 					{
 						label: "Envoyer",
-						onClick: () => alert(`Devis ${quote.reference} envoyé`),
+						onClick: () => toast.success(`Devis ${quote.reference} envoyé`),
 						icon: Send,
 					},
 				]}

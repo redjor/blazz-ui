@@ -1,26 +1,28 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { loginSchema, type LoginFormData } from "@/lib/schemas"
 
 export default function LoginPage() {
 	const router = useRouter()
-	const [loading, setLoading] = useState(false)
+	const form = useForm<LoginFormData>({
+		resolver: zodResolver(loginSchema),
+		defaultValues: { email: "sophie@forge-crm.com", password: "demo1234" },
+	})
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		setLoading(true)
-		// Simulate auth — in production, call a server action
+	const onSubmit = async (_data: LoginFormData) => {
 		await new Promise((resolve) => setTimeout(resolve, 800))
 		router.push("/dashboard")
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
+		<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1 text-center">
 				<h2 className="text-lg font-semibold">Connexion</h2>
 				<p className="text-sm text-muted-foreground">
@@ -35,9 +37,11 @@ export default function LoginPage() {
 						id="email"
 						type="email"
 						placeholder="sophie@forge-crm.com"
-						defaultValue="sophie@forge-crm.com"
-						required
+						{...form.register("email")}
 					/>
+					{form.formState.errors.email && (
+						<p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+					)}
 				</div>
 
 				<div className="space-y-1.5">
@@ -54,14 +58,16 @@ export default function LoginPage() {
 						id="password"
 						type="password"
 						placeholder="••••••••"
-						defaultValue="demo1234"
-						required
+						{...form.register("password")}
 					/>
+					{form.formState.errors.password && (
+						<p className="text-xs text-destructive">{form.formState.errors.password.message}</p>
+					)}
 				</div>
 			</div>
 
-			<Button type="submit" className="w-full" disabled={loading}>
-				{loading ? "Connexion..." : "Se connecter"}
+			<Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+				{form.formState.isSubmitting ? "Connexion..." : "Se connecter"}
 			</Button>
 
 			<p className="text-center text-xs text-muted-foreground">

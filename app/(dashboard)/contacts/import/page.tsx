@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { PageHeader } from "@/components/blocks/page-header"
 import { MultiStepForm, type StepComponentProps } from "@/components/blocks/multi-step-form"
 import { Input } from "@/components/ui/input"
@@ -117,7 +118,7 @@ export default function ImportContactsPage() {
 					]}
 					onSubmit={async () => {
 						await new Promise((r) => setTimeout(r, 1000))
-						alert("Import terminé (simulation)")
+						toast.success("Import terminé — 42 contacts importés")
 						router.push("/contacts")
 					}}
 				/>

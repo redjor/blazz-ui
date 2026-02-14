@@ -3,7 +3,9 @@
 import { notFound } from "next/navigation"
 import { use } from "react"
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Save, X } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { FormSection } from "@/components/blocks/form-section"
@@ -11,19 +13,7 @@ import { FormField } from "@/components/blocks/form-field"
 import { FieldGrid } from "@/components/blocks/field-grid"
 import { Button } from "@/components/ui/button"
 import { getCompanyById } from "@/lib/sample-data"
-
-interface CompanyForm {
-	name: string
-	domain: string
-	industry: string
-	size: string
-	phone: string
-	email: string
-	address: string
-	city: string
-	country: string
-	status: string
-}
+import { companySchema, type CompanyFormData } from "@/lib/schemas"
 
 export default function EditCompanyPage({
 	params,
@@ -36,7 +26,8 @@ export default function EditCompanyPage({
 
 	if (!company) notFound()
 
-	const form = useForm<CompanyForm>({
+	const form = useForm<CompanyFormData>({
+		resolver: zodResolver(companySchema),
 		defaultValues: {
 			name: company.name,
 			domain: company.domain ?? "",
@@ -51,9 +42,9 @@ export default function EditCompanyPage({
 		},
 	})
 
-	const onSubmit = async (data: CompanyForm) => {
+	const onSubmit = async (data: CompanyFormData) => {
 		await new Promise((r) => setTimeout(r, 500))
-		alert(`Entreprise "${data.name}" mise à jour`)
+		toast.success(`Entreprise "${data.name}" mise à jour`)
 		router.push(`/companies/${id}`)
 	}
 

@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation"
 import { use } from "react"
+import { toast } from "sonner"
 import { Edit } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { DetailPanel } from "@/components/blocks/detail-panel"
@@ -67,7 +68,7 @@ export default function DealDetailPage({
 				statuses={dealStatuses}
 				transitions={dealTransitions}
 				onTransition={async (from, to) => {
-					alert(`Transition: ${stageLabel[from]} → ${stageLabel[to]}`)
+					toast.success(`Transition: ${stageLabel[from]} → ${stageLabel[to]}`)
 				}}
 			/>
 

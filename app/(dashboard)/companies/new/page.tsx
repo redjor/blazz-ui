@@ -1,37 +1,27 @@
 "use client"
 
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import { Save, X } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { FormSection } from "@/components/blocks/form-section"
 import { FormField } from "@/components/blocks/form-field"
 import { FieldGrid } from "@/components/blocks/field-grid"
 import { Button } from "@/components/ui/button"
-
-interface CompanyForm {
-	name: string
-	domain: string
-	industry: string
-	size: string
-	revenue: string
-	phone: string
-	email: string
-	address: string
-	city: string
-	country: string
-	status: string
-}
+import { companySchema, type CompanyFormData } from "@/lib/schemas"
 
 export default function NewCompanyPage() {
 	const router = useRouter()
-	const form = useForm<CompanyForm>({
+	const form = useForm<CompanyFormData>({
+		resolver: zodResolver(companySchema),
 		defaultValues: { country: "France", status: "prospect" },
 	})
 
-	const onSubmit = async (data: CompanyForm) => {
+	const onSubmit = async (data: CompanyFormData) => {
 		await new Promise((r) => setTimeout(r, 500))
-		alert(`Entreprise "${data.name}" créée`)
+		toast.success(`Entreprise "${data.name}" créée`)
 		router.push("/companies")
 	}
 
