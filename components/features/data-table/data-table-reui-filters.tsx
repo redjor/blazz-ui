@@ -1,32 +1,26 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import {
-  Filters,
-  type Filter,
-  type FilterI18nConfig,
-  DEFAULT_I18N,
-} from "@/components/ui/filters";
-import type { FilterGroup, FilterType } from "./data-table-filter.types";
-import type { DataTableColumnDef } from "./data-table.types";
-import type { DataTableLocale } from "./data-table.i18n";
+import { X } from 'lucide-react';
+import * as React from 'react';
+import { Button } from '@/components/ui/button';
+import { DEFAULT_I18N, type Filter, type FilterI18nConfig, Filters } from '@/components/ui/filters';
+import { columnsToFilterFields } from './adapters/reui-config-adapter';
 import {
   filterGroupToReuiFilters,
   reuiFiltersToFilterGroup,
-  filterActiveFilters,
-} from "./adapters/reui-filters-adapter";
-import { columnsToFilterFields } from "./adapters/reui-config-adapter";
-import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from './adapters/reui-filters-adapter';
+import type { DataTableLocale } from './data-table.i18n';
+import type { DataTableColumnDef } from './data-table.types';
+import type { FilterGroup, FilterType } from './data-table-filter.types';
 
 export interface DataTableReUIFiltersProps<TData> {
   columns: DataTableColumnDef<TData, any>[];
   filterGroup: FilterGroup | null;
   onFilterChange: (filterGroup: FilterGroup | null) => void;
   locale?: DataTableLocale;
-  variant?: "outline" | "solid";
-  size?: "sm" | "md" | "lg";
-  radius?: "md" | "full";
+  variant?: 'outline' | 'solid';
+  size?: 'sm' | 'md' | 'lg';
+  radius?: 'md' | 'full';
   className?: string;
 }
 
@@ -34,68 +28,67 @@ export interface DataTableReUIFiltersProps<TData> {
  * French i18n configuration for ReUI Filters
  */
 const FRENCH_I18N: Partial<FilterI18nConfig> = {
-  addFilter: "Ajouter un filtre",
-  searchFields: "Rechercher des champs...",
-  noFieldsFound: "Aucun champ trouvé.",
-  noResultsFound: "Aucun résultat trouvé.",
-  select: "Sélectionner...",
-  true: "Vrai",
-  false: "Faux",
-  min: "Min",
-  max: "Max",
-  to: "à",
-  typeAndPressEnter: "Tapez et appuyez sur Entrée pour ajouter",
-  selected: "sélectionné(s)",
-  selectedCount: "sélectionné(s)",
-  addFilterTitle: "Ajouter un filtre",
+  addFilter: 'Ajouter un filtre',
+  searchFields: 'Rechercher des champs...',
+  noFieldsFound: 'Aucun champ trouvé.',
+  noResultsFound: 'Aucun résultat trouvé.',
+  select: 'Sélectionner...',
+  true: 'Vrai',
+  false: 'Faux',
+  min: 'Min',
+  max: 'Max',
+  to: 'à',
+  typeAndPressEnter: 'Tapez et appuyez sur Entrée pour ajouter',
+  selected: 'sélectionné(s)',
+  selectedCount: 'sélectionné(s)',
+  addFilterTitle: 'Ajouter un filtre',
 
   operators: {
-    is: "est",
+    is: 'est',
     isNot: "n'est pas",
-    isAnyOf: "est parmi",
+    isAnyOf: 'est parmi',
     isNotAnyOf: "n'est pas parmi",
-    includesAll: "inclut tous",
-    excludesAll: "exclut tous",
-    before: "avant",
-    after: "après",
-    between: "entre",
-    notBetween: "pas entre",
-    contains: "contient",
-    notContains: "ne contient pas",
-    startsWith: "commence par",
-    endsWith: "se termine par",
-    isExactly: "est exactement",
-    equals: "égal à",
-    notEquals: "différent de",
-    greaterThan: "supérieur à",
-    lessThan: "inférieur à",
-    overlaps: "chevauche",
-    includes: "inclut",
-    excludes: "exclut",
-    includesAllOf: "inclut tous",
-    includesAnyOf: "inclut au moins un",
-    empty: "est vide",
+    includesAll: 'inclut tous',
+    excludesAll: 'exclut tous',
+    before: 'avant',
+    after: 'après',
+    between: 'entre',
+    notBetween: 'pas entre',
+    contains: 'contient',
+    notContains: 'ne contient pas',
+    startsWith: 'commence par',
+    endsWith: 'se termine par',
+    isExactly: 'est exactement',
+    equals: 'égal à',
+    notEquals: 'différent de',
+    greaterThan: 'supérieur à',
+    lessThan: 'inférieur à',
+    overlaps: 'chevauche',
+    includes: 'inclut',
+    excludes: 'exclut',
+    includesAllOf: 'inclut tous',
+    includesAnyOf: 'inclut au moins un',
+    empty: 'est vide',
     notEmpty: "n'est pas vide",
   },
 
   placeholders: {
     enterField: (fieldType: string) => `Saisir ${fieldType}...`,
-    selectField: "Sélectionner...",
-    searchField: (fieldName: string) =>
-      `Rechercher ${fieldName.toLowerCase()}...`,
-    enterKey: "Saisir la clé...",
-    enterValue: "Saisir la valeur...",
+    selectField: 'Sélectionner...',
+    searchField: (fieldName: string) => `Rechercher ${fieldName.toLowerCase()}...`,
+    enterKey: 'Saisir la clé...',
+    enterValue: 'Saisir la valeur...',
   },
 
   helpers: {
-    formatOperator: (operator: string) => operator.replace(/_/g, " "),
+    formatOperator: (operator: string) => operator.replace(/_/g, ' '),
   },
 
   validation: {
     invalidEmail: "Format d'email invalide",
     invalidUrl: "Format d'URL invalide",
-    invalidTel: "Format de téléphone invalide",
-    invalid: "Format invalide",
+    invalidTel: 'Format de téléphone invalide',
+    invalid: 'Format invalide',
   },
 };
 
@@ -129,20 +122,17 @@ export function DataTableReUIFilters<TData>({
   columns,
   filterGroup,
   onFilterChange,
-  locale = "fr",
-  variant = "outline",
-  size = "sm",
-  radius = "full",
+  locale = 'fr',
+  variant = 'outline',
+  size = 'sm',
+  radius = 'md',
   className,
 }: DataTableReUIFiltersProps<TData>) {
   // Convert columns to ReUI FilterFieldConfig[]
   const fields = React.useMemo(() => columnsToFilterFields(columns), [columns]);
 
   // Convert FilterGroup to ReUI Filter[]
-  const reuiFilters = React.useMemo(
-    () => filterGroupToReuiFilters(filterGroup),
-    [filterGroup],
-  );
+  const reuiFilters = React.useMemo(() => filterGroupToReuiFilters(filterGroup), [filterGroup]);
 
   // Handle filter changes from ReUI component
   const handleChange = React.useCallback(
@@ -152,19 +142,20 @@ export function DataTableReUIFilters<TData>({
       const newFilterGroup = reuiFiltersToFilterGroup(
         filters,
         columns as Array<{
+          id?: string;
           accessorKey?: string;
           filterConfig?: { type: FilterType };
-        }>,
+        }>
       );
 
       onFilterChange(newFilterGroup);
     },
-    [columns, onFilterChange],
+    [columns, onFilterChange]
   );
 
   // Merge i18n configuration based on locale
   const i18nConfig = React.useMemo(() => {
-    if (locale === "fr") {
+    if (locale === 'fr') {
       return {
         ...DEFAULT_I18N,
         ...FRENCH_I18N,
@@ -223,12 +214,12 @@ export function DataTableReUIFilters<TData>({
         {hasActiveFilters && (
           <Button
             variant="outline"
-            size={size === "md" ? "default" : size}
+            size={size === 'md' ? 'default' : size}
             onClick={handleClearAll}
             className="gap-1.5 shrink-0"
           >
             <X className="h-4 w-4" />
-            {locale === "fr" ? "Tout effacer" : "Clear all"}
+            {locale === 'fr' ? 'Tout effacer' : 'Clear all'}
           </Button>
         )}
       </div>

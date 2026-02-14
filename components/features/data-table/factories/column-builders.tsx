@@ -1,34 +1,60 @@
-"use client"
+'use client';
 
-import type { ColumnDef } from "@tanstack/react-table"
-import * as React from "react"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
-import { DataTableColumnHeader } from "../data-table-column-header"
-import type { DataTableColumnDef } from "../data-table.types"
+import type * as React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import type { ColumnFilterConfig } from '../data-table-filter.types';
+import type { DataTableColumnDef } from '../data-table.types';
+import { DataTableColumnHeader } from '../data-table-column-header';
+
+// ---------------------------------------------------------------------------
+// Internal base column factory – shared structure for all public factories
+// ---------------------------------------------------------------------------
+
+interface BaseColumnConfig<TData> {
+  accessorKey: string;
+  title: string;
+  enableSorting?: boolean;
+  filterConfig?: ColumnFilterConfig;
+  meta?: Record<string, unknown>;
+  size?: number;
+  cell: DataTableColumnDef<TData>['cell'];
+}
+
+function createBaseColumn<TData>(config: BaseColumnConfig<TData>): DataTableColumnDef<TData> {
+  return {
+    accessorKey: config.accessorKey,
+    header: ({ column }) => <DataTableColumnHeader column={column} title={config.title} />,
+    cell: config.cell,
+    enableSorting: config.enableSorting ?? true,
+    ...(config.filterConfig && { filterConfig: config.filterConfig }),
+    ...(config.meta && { meta: config.meta }),
+    ...(config.size !== undefined && { size: config.size }),
+  } as DataTableColumnDef<TData>;
+}
 
 /**
  * Configuration for createTextColumn factory
  */
 export interface TextColumnConfig<TData> {
-	/** The accessor key for the column data */
-	accessorKey: string
-	/** Display title for the column header */
-	title: string
-	/** Placeholder for filter input */
-	placeholder?: string
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
-	/** Custom CSS classes for the cell */
-	className?: string
-	/** Custom cell renderer (overrides default) */
-	cellRenderer?: (value: string, row: TData) => React.ReactNode
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Placeholder for filter input */
+  placeholder?: string;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Custom CSS classes for the cell */
+  className?: string;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: string, row: TData) => React.ReactNode;
 }
 
 /**
@@ -45,68 +71,68 @@ export interface TextColumnConfig<TData> {
  * ```
  */
 export function createTextColumn<TData>(
-	config: TextColumnConfig<TData>
+  config: TextColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		placeholder,
-		showInlineFilter = false,
-		defaultInlineFilter = false,
-		filterLabel,
-		enableSorting = true,
-		className,
-		cellRenderer,
-	} = config
+  const {
+    accessorKey,
+    title,
+    placeholder,
+    showInlineFilter = false,
+    defaultInlineFilter = false,
+    filterLabel,
+    enableSorting = true,
+    className,
+    cellRenderer,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const value = row.getValue(accessorKey) as string
-			if (cellRenderer) {
-				return cellRenderer(value, row.original)
-			}
-			return <span className={cn("text-body-md", className)}>{value}</span>
-		},
-		enableSorting,
-		filterConfig: {
-			type: "text",
-			placeholder: placeholder || `Search by ${title.toLowerCase()}...`,
-			showInlineFilter,
-			defaultInlineFilter,
-			filterLabel: filterLabel || title,
-		},
-	} as DataTableColumnDef<TData>
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string;
+      if (cellRenderer) {
+        return cellRenderer(value, row.original);
+      }
+      return <span className={cn('text-body-md', className)}>{value}</span>;
+    },
+    filterConfig: {
+      type: 'text',
+      placeholder: placeholder || `Search by ${title.toLowerCase()}...`,
+      showInlineFilter,
+      defaultInlineFilter,
+      filterLabel: filterLabel || title,
+    },
+  });
 }
 
 /**
  * Configuration for createStatusColumn factory
  */
-export interface StatusColumnConfig<TData> {
-	/** The accessor key for the column data */
-	accessorKey: string
-	/** Display title for the column header */
-	title: string
-	/** Mapping of status values to Badge variants and custom styling */
-	statusMap: Record<
-		string,
-		{
-			variant: "default" | "secondary" | "outline" | "destructive"
-			className?: string
-			label?: string
-		}
-	>
-	/** Options for the filter dropdown */
-	filterOptions?: Array<{ label: string; value: string }>
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
+export interface StatusColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Mapping of status values to Badge variants and custom styling */
+  statusMap: Record<
+    string,
+    {
+      variant: 'primary' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning' | 'info';
+      className?: string;
+      label?: string;
+    }
+  >;
+  /** Options for the filter dropdown */
+  filterOptions?: Array<{ label: string; value: string }>;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
 }
 
 /**
@@ -118,7 +144,7 @@ export interface StatusColumnConfig<TData> {
  *   accessorKey: "status",
  *   title: "Status",
  *   statusMap: {
- *     active: { variant: "default", className: "bg-green-100 text-green-800" },
+ *     active: { variant: "secondary", className: "bg-green-100 text-green-800" },
  *     draft: { variant: "secondary", className: "bg-blue-100 text-blue-800" },
  *     archived: { variant: "outline" },
  *   },
@@ -132,79 +158,79 @@ export interface StatusColumnConfig<TData> {
  * ```
  */
 export function createStatusColumn<TData>(
-	config: StatusColumnConfig<TData>
+  config: StatusColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		statusMap,
-		filterOptions,
-		showInlineFilter = true,
-		defaultInlineFilter = true,
-		filterLabel,
-		enableSorting = true,
-	} = config
+  const {
+    accessorKey,
+    title,
+    statusMap,
+    filterOptions,
+    showInlineFilter = true,
+    defaultInlineFilter = true,
+    filterLabel,
+    enableSorting = true,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const status = row.getValue(accessorKey) as string
-			const statusConfig = statusMap[status]
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const status = row.getValue(accessorKey) as string;
+      const statusConfig = statusMap[status];
 
-			if (!statusConfig) {
-				return <span className="text-body-md">{status}</span>
-			}
+      if (!statusConfig) {
+        return <span className="text-body-md">{status}</span>;
+      }
 
-			const displayLabel = statusConfig.label || status.charAt(0).toUpperCase() + status.slice(1)
+      const displayLabel = statusConfig.label || status.charAt(0).toUpperCase() + status.slice(1);
 
-			return (
-				<Badge variant={statusConfig.variant as "default" | "info" | "outline" | "success" | "warning" | "critical"} className={statusConfig.className}>
-					{displayLabel}
-				</Badge>
-			)
-		},
-		enableSorting,
-		filterConfig: filterOptions
-			? {
-					type: "select",
-					options: filterOptions,
-					showInlineFilter,
-					defaultInlineFilter,
-					filterLabel: filterLabel || title,
-				}
-			: undefined,
-	} as DataTableColumnDef<TData>
+      return (
+        <Badge variant={statusConfig.variant} className={statusConfig.className}>
+          {displayLabel}
+        </Badge>
+      );
+    },
+    ...(filterOptions && {
+      filterConfig: {
+        type: 'select' as const,
+        options: filterOptions,
+        showInlineFilter,
+        defaultInlineFilter,
+        filterLabel: filterLabel || title,
+      },
+    }),
+  });
 }
 
 /**
  * Configuration for createNumericColumn factory
  */
-export interface NumericColumnConfig<TData> {
-	/** The accessor key for the column data */
-	accessorKey: string
-	/** Display title for the column header */
-	title: string
-	/** Custom formatter function for displaying the number */
-	formatter?: (value: number) => string
-	/** Minimum value for filter */
-	min?: number
-	/** Maximum value for filter */
-	max?: number
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Placeholder for filter input */
-	placeholder?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
-	/** Alignment (defaults to right for numbers) */
-	align?: "left" | "center" | "right"
-	/** Custom CSS classes for the cell */
-	className?: string
+export interface NumericColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Custom formatter function for displaying the number */
+  formatter?: (value: number) => string;
+  /** Minimum value for filter */
+  min?: number;
+  /** Maximum value for filter */
+  max?: number;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Placeholder for filter input */
+  placeholder?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Alignment (defaults to right for numbers) */
+  align?: 'left' | 'center' | 'right';
+  /** Custom CSS classes for the cell */
+  className?: string;
 }
 
 /**
@@ -222,75 +248,75 @@ export interface NumericColumnConfig<TData> {
  * ```
  */
 export function createNumericColumn<TData>(
-	config: NumericColumnConfig<TData>
+  config: NumericColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		formatter,
-		min,
-		max,
-		showInlineFilter = false,
-		defaultInlineFilter = false,
-		filterLabel,
-		placeholder,
-		enableSorting = true,
-		align = "right",
-		className,
-	} = config
+  const {
+    accessorKey,
+    title,
+    formatter,
+    min,
+    max,
+    showInlineFilter = false,
+    defaultInlineFilter = false,
+    filterLabel,
+    placeholder,
+    enableSorting = true,
+    align = 'right',
+    className,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const value = row.getValue(accessorKey) as number
-			const formatted = formatter ? formatter(value) : value.toString()
-			return <span className={cn("text-body-md", className)}>{formatted}</span>
-		},
-		enableSorting,
-		filterConfig: {
-			type: "number",
-			min,
-			max,
-			placeholder: placeholder || `Filter by ${title.toLowerCase()}...`,
-			showInlineFilter,
-			defaultInlineFilter,
-			filterLabel: filterLabel || title,
-		},
-		meta: {
-			align,
-		},
-	} as DataTableColumnDef<TData>
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as number;
+      const formatted = formatter ? formatter(value) : value.toString();
+      return <span className={cn('text-body-md', className)}>{formatted}</span>;
+    },
+    filterConfig: {
+      type: 'number',
+      min,
+      max,
+      placeholder: placeholder || `Filter by ${title.toLowerCase()}...`,
+      showInlineFilter,
+      defaultInlineFilter,
+      filterLabel: filterLabel || title,
+    },
+    meta: {
+      align,
+    },
+  });
 }
 
 /**
  * Configuration for createCurrencyColumn factory
  */
-export interface CurrencyColumnConfig<TData> {
-	/** The accessor key for the column data */
-	accessorKey: string
-	/** Display title for the column header */
-	title: string
-	/** Currency code (e.g., "EUR", "USD") */
-	currency?: string
-	/** Locale for formatting (e.g., "fr-FR", "en-US") */
-	locale?: string
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Placeholder for filter input */
-	placeholder?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
-	/** Minimum value for filter */
-	min?: number
-	/** Maximum value for filter */
-	max?: number
-	/** Custom CSS classes for the cell */
-	className?: string
+export interface CurrencyColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Currency code (e.g., "EUR", "USD") */
+  currency?: string;
+  /** Locale for formatting (e.g., "fr-FR", "en-US") */
+  locale?: string;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Placeholder for filter input */
+  placeholder?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Minimum value for filter */
+  min?: number;
+  /** Maximum value for filter */
+  max?: number;
+  /** Custom CSS classes for the cell */
+  className?: string;
 }
 
 /**
@@ -308,74 +334,74 @@ export interface CurrencyColumnConfig<TData> {
  * ```
  */
 export function createCurrencyColumn<TData>(
-	config: CurrencyColumnConfig<TData>
+  config: CurrencyColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		currency = "EUR",
-		locale = "fr-FR",
-		showInlineFilter = false,
-		defaultInlineFilter = false,
-		filterLabel,
-		placeholder,
-		enableSorting = true,
-		min,
-		max,
-		className,
-	} = config
+  const {
+    accessorKey,
+    title,
+    currency = 'EUR',
+    locale = 'fr-FR',
+    showInlineFilter = false,
+    defaultInlineFilter = false,
+    filterLabel,
+    placeholder,
+    enableSorting = true,
+    min,
+    max,
+    className,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const value = row.getValue(accessorKey) as number
-			const formatted = new Intl.NumberFormat(locale, {
-				style: "currency",
-				currency,
-			}).format(value)
-			return <span className={cn("text-body-md text-foreground", className)}>{formatted}</span>
-		},
-		enableSorting,
-		filterConfig: {
-			type: "number",
-			min,
-			max,
-			placeholder: placeholder || `Filter by ${title.toLowerCase()}...`,
-			showInlineFilter,
-			defaultInlineFilter,
-			filterLabel: filterLabel || title,
-		},
-		meta: {
-			align: "right",
-		},
-	} as DataTableColumnDef<TData>
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as number;
+      const formatted = new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+      }).format(value);
+      return <span className={cn('text-body-md text-foreground', className)}>{formatted}</span>;
+    },
+    filterConfig: {
+      type: 'number',
+      min,
+      max,
+      placeholder: placeholder || `Filter by ${title.toLowerCase()}...`,
+      showInlineFilter,
+      defaultInlineFilter,
+      filterLabel: filterLabel || title,
+    },
+    meta: {
+      align: 'right',
+    },
+  });
 }
 
 /**
  * Configuration for createDateColumn factory
  */
-export interface DateColumnConfig<TData> {
-	/** The accessor key for the column data */
-	accessorKey: string
-	/** Display title for the column header */
-	title: string
-	/** Locale for date formatting */
-	locale?: string
-	/** Intl.DateTimeFormat options */
-	format?: Intl.DateTimeFormatOptions
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Placeholder for filter input */
-	placeholder?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
-	/** Custom CSS classes for the cell */
-	className?: string
+export interface DateColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Locale for date formatting */
+  locale?: string;
+  /** Intl.DateTimeFormat options */
+  format?: Intl.DateTimeFormatOptions;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Placeholder for filter input */
+  placeholder?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Custom CSS classes for the cell */
+  className?: string;
 }
 
 /**
@@ -392,65 +418,65 @@ export interface DateColumnConfig<TData> {
  * ```
  */
 export function createDateColumn<TData>(
-	config: DateColumnConfig<TData>
+  config: DateColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		locale = "fr-FR",
-		format,
-		showInlineFilter = false,
-		defaultInlineFilter = false,
-		filterLabel,
-		placeholder,
-		enableSorting = true,
-		className,
-	} = config
+  const {
+    accessorKey,
+    title,
+    locale = 'fr-FR',
+    format,
+    showInlineFilter = false,
+    defaultInlineFilter = false,
+    filterLabel,
+    placeholder,
+    enableSorting = true,
+    className,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const value = row.getValue(accessorKey) as string
-			const date = new Date(value)
-			const formatted = date.toLocaleDateString(locale, format)
-			return (
-				<span className={cn("text-body-md text-muted-foreground", className)}>{formatted}</span>
-			)
-		},
-		enableSorting,
-		filterConfig: {
-			type: "date",
-			placeholder: placeholder || `Filter by ${title.toLowerCase()}...`,
-			showInlineFilter,
-			defaultInlineFilter,
-			filterLabel: filterLabel || title,
-		},
-	} as DataTableColumnDef<TData>
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string;
+      const date = new Date(value);
+      const formatted = date.toLocaleDateString(locale, format);
+      return (
+        <span className={cn('text-body-md text-muted-foreground', className)}>{formatted}</span>
+      );
+    },
+    filterConfig: {
+      type: 'date',
+      placeholder: placeholder || `Filter by ${title.toLowerCase()}...`,
+      showInlineFilter,
+      defaultInlineFilter,
+      filterLabel: filterLabel || title,
+    },
+  });
 }
 
 /**
  * Configuration for createSelectColumn factory
  */
 export interface SelectColumnConfig<TData> {
-	/** The accessor key for the column data */
-	accessorKey: string
-	/** Display title for the column header */
-	title: string
-	/** Options for the select filter and display */
-	options: Array<{ label: string; value: string }>
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
-	/** Custom CSS classes for the cell */
-	className?: string
-	/** Custom cell renderer (overrides default) */
-	cellRenderer?: (value: string, row: TData) => React.ReactNode
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Options for the select filter and display */
+  options: Array<{ label: string; value: string }>;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Custom CSS classes for the cell */
+  className?: string;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: string, row: TData) => React.ReactNode;
 }
 
 /**
@@ -470,65 +496,65 @@ export interface SelectColumnConfig<TData> {
  * ```
  */
 export function createSelectColumn<TData>(
-	config: SelectColumnConfig<TData>
+  config: SelectColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		options,
-		showInlineFilter = true,
-		defaultInlineFilter = false,
-		filterLabel,
-		enableSorting = true,
-		className,
-		cellRenderer,
-	} = config
+  const {
+    accessorKey,
+    title,
+    options,
+    showInlineFilter = true,
+    defaultInlineFilter = false,
+    filterLabel,
+    enableSorting = true,
+    className,
+    cellRenderer,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const value = row.getValue(accessorKey) as string
-			if (cellRenderer) {
-				return cellRenderer(value, row.original)
-			}
-			return <span className={cn("text-body-md", className)}>{value}</span>
-		},
-		enableSorting,
-		filterConfig: {
-			type: "select",
-			options,
-			showInlineFilter,
-			defaultInlineFilter,
-			filterLabel: filterLabel || title,
-		},
-	} as DataTableColumnDef<TData>
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string;
+      if (cellRenderer) {
+        return cellRenderer(value, row.original);
+      }
+      return <span className={cn('text-body-md', className)}>{value}</span>;
+    },
+    filterConfig: {
+      type: 'select',
+      options,
+      showInlineFilter,
+      defaultInlineFilter,
+      filterLabel: filterLabel || title,
+    },
+  });
 }
 
 /**
  * Configuration for createImageTextColumn factory
  */
-export interface ImageTextColumnConfig<TData> {
-	/** The accessor key for the text data */
-	accessorKey: string
-	/** The accessor key for the image/emoji data */
-	imageAccessor: string
-	/** Display title for the column header */
-	title: string
-	/** Placeholder for filter input */
-	placeholder?: string
-	/** Show this filter in the inline filter system */
-	showInlineFilter?: boolean
-	/** Show this filter by default (not in "Add filter" dropdown) */
-	defaultInlineFilter?: boolean
-	/** Custom filter label (defaults to title) */
-	filterLabel?: string
-	/** Enable sorting for this column */
-	enableSorting?: boolean
-	/** Custom image container classes */
-	imageClassName?: string
-	/** Custom text classes */
-	textClassName?: string
+export interface ImageTextColumnConfig<_TData> {
+  /** The accessor key for the text data */
+  accessorKey: string;
+  /** The accessor key for the image/emoji data */
+  imageAccessor: string;
+  /** Display title for the column header */
+  title: string;
+  /** Placeholder for filter input */
+  placeholder?: string;
+  /** Show this filter in the inline filter system */
+  showInlineFilter?: boolean;
+  /** Show this filter by default (not in "Add filter" dropdown) */
+  defaultInlineFilter?: boolean;
+  /** Custom filter label (defaults to title) */
+  filterLabel?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Custom image container classes */
+  imageClassName?: string;
+  /** Custom text classes */
+  textClassName?: string;
 }
 
 /**
@@ -546,49 +572,49 @@ export interface ImageTextColumnConfig<TData> {
  * ```
  */
 export function createImageTextColumn<TData>(
-	config: ImageTextColumnConfig<TData>
+  config: ImageTextColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		imageAccessor,
-		title,
-		placeholder,
-		showInlineFilter = false,
-		defaultInlineFilter = false,
-		filterLabel,
-		enableSorting = true,
-		imageClassName,
-		textClassName,
-	} = config
+  const {
+    accessorKey,
+    imageAccessor,
+    title,
+    placeholder,
+    showInlineFilter = false,
+    defaultInlineFilter = false,
+    filterLabel,
+    enableSorting = true,
+    imageClassName,
+    textClassName,
+  } = config;
 
-	return {
-		accessorKey,
-		header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
-		cell: ({ row }) => {
-			const text = row.getValue(accessorKey) as string
-			const image = (row.original as any)[imageAccessor] as string
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    cell: ({ row }) => {
+      const text = row.getValue(accessorKey) as string;
+      const image = (row.original as any)[imageAccessor] as string;
 
-			return (
-				<div className="flex items-center gap-3">
-					<div
-						className={cn(
-							"flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted/50 text-xl",
-							imageClassName
-						)}
-					>
-						{image}
-					</div>
-					<span className={cn("text-body-md", textClassName)}>{text}</span>
-				</div>
-			)
-		},
-		enableSorting,
-		filterConfig: {
-			type: "text",
-			placeholder: placeholder || `Search by ${title.toLowerCase()}...`,
-			showInlineFilter,
-			defaultInlineFilter,
-			filterLabel: filterLabel || title,
-		},
-	} as DataTableColumnDef<TData>
+      return (
+        <div className="flex items-center gap-3">
+          <div
+            className={cn(
+              'flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted/50 text-xl',
+              imageClassName
+            )}
+          >
+            {image}
+          </div>
+          <span className={cn('text-body-md', textClassName)}>{text}</span>
+        </div>
+      );
+    },
+    filterConfig: {
+      type: 'text',
+      placeholder: placeholder || `Search by ${title.toLowerCase()}...`,
+      showInlineFilter,
+      defaultInlineFilter,
+      filterLabel: filterLabel || title,
+    },
+  });
 }

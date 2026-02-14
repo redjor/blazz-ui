@@ -7,11 +7,11 @@
  * @module factories
  */
 
-// Column builders - Create column definitions with automatic filtering and styling
-export * from "./column-builders"
-
-// View builders - Create predefined views with filters
-export * from "./view-builders"
-
 // Action builders - Create row and bulk actions
-export * from "./action-builders"
+export * from './action-builders';
+// Column builders - Create column definitions with automatic filtering and styling
+export * from './column-builders';
+// View builders - Create predefined views with filters
+export * from './view-builders';
+// Editable column builders - Create inline-editable column definitions
+export * from './editable-column-builders';

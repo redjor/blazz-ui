@@ -1,14 +1,14 @@
-import type { ColumnDef, SortingState, VisibilityState } from "@tanstack/react-table"
+import type { ColumnDef, SortingState } from '@tanstack/react-table';
 
+export * from './data-table-action.types';
 // Re-export all types from domain-specific type files
-export * from "./data-table-filter.types"
-export * from "./data-table-action.types"
-export * from "./data-table-view.types"
+export * from './data-table-filter.types';
+export * from './data-table-view.types';
 
+import type { BulkAction, RowAction } from './data-table-action.types';
 // Import types needed for core definitions
-import type { ColumnFilterConfig, FilterGroup } from "./data-table-filter.types"
-import type { RowAction, BulkAction } from "./data-table-action.types"
-import type { DataTableView } from "./data-table-view.types"
+import type { ColumnFilterConfig, FilterGroup } from './data-table-filter.types';
+import type { DataTableView } from './data-table-view.types';
 
 /**
  * Extended column definition for DataTable.
@@ -41,9 +41,9 @@ import type { DataTableView } from "./data-table-view.types"
  * ```
  */
 export type DataTableColumnDef<TData, TValue = unknown> = ColumnDef<TData, TValue> & {
-	/** Optional filter configuration for this column */
-	filterConfig?: ColumnFilterConfig
-}
+  /** Optional filter configuration for this column */
+  filterConfig?: ColumnFilterConfig;
+};
 
 /**
  * Pagination configuration for the DataTable.
@@ -57,17 +57,23 @@ export type DataTableColumnDef<TData, TValue = unknown> = ColumnDef<TData, TValu
  * ```
  */
 export interface PaginationConfig {
-	/** Number of rows per page */
-	pageSize: number
+  /** Current page index (0-based) */
+  pageIndex?: number;
 
-	/** Available page size options in dropdown */
-	pageSizeOptions?: number[]
+  /** Number of rows per page */
+  pageSize: number;
 
-	/** Show page number indicators (not yet implemented) */
-	showPageNumbers?: boolean
+  /** Available page size options in dropdown */
+  pageSizeOptions?: number[];
 
-	/** Show "Showing X-Y of Z" text */
-	showPageInfo?: boolean
+  /** Total number of pages (for server-side pagination) */
+  pageCount?: number;
+
+  /** Show page number indicators (not yet implemented) */
+  showPageNumbers?: boolean;
+
+  /** Show "Showing X-Y of Z" text */
+  showPageInfo?: boolean;
 }
 
 /**
@@ -97,72 +103,73 @@ export interface PaginationConfig {
  * ```
  */
 export interface DataTableProps<TData, TValue = unknown> {
-	// Required
-	data: TData[]
-	columns: DataTableColumnDef<TData, TValue>[]
+  // Required
+  data: TData[];
+  columns: DataTableColumnDef<TData, TValue>[];
 
-	// Row identification
-	getRowId?: (row: TData) => string
+  // Row identification
+  getRowId?: (row: TData) => string;
 
-	// Filtering
-	enableFiltering?: boolean
-	enableAdvancedFilters?: boolean
-	filterableColumns?: string[]
-	defaultFilterGroup?: FilterGroup
-	onFilterGroupChange?: (filterGroup: FilterGroup | null) => void
-	onFiltersChange?: (filters: FilterGroup) => void
+  // Filtering
+  enableAdvancedFilters?: boolean;
+  defaultFilterGroup?: FilterGroup;
+  onFilterGroupChange?: (filterGroup: FilterGroup | null) => void;
 
-	// Views
-	views?: DataTableView[]
-	activeView?: DataTableView | null
-	defaultView?: string
-	enableCustomViews?: boolean
-	onViewChange?: (view: DataTableView) => void
-	onViewSave?: (view: DataTableView) => void
-	onViewUpdate?: (viewId: string, updates: Partial<DataTableView>) => void
-	onViewDelete?: (viewId: string) => void
-	onCreateView?: () => void
+  // Views
+  views?: DataTableView[];
+  activeView?: DataTableView | null;
+  enableCustomViews?: boolean;
+  onViewChange?: (view: DataTableView) => void;
+  onViewSave?: (view: DataTableView) => void;
+  onViewUpdate?: (viewId: string, updates: Partial<DataTableView>) => void;
+  onViewDelete?: (viewId: string) => void;
+  onCreateView?: () => void;
 
-	// Sorting
-	enableSorting?: boolean
-	enableMultiSort?: boolean
-	defaultSorting?: SortingState
-	onSortingChange?: (sorting: SortingState) => void
+  // Sorting
+  enableSorting?: boolean;
+  enableMultiSort?: boolean;
+  defaultSorting?: SortingState;
+  onSortingChange?: (sorting: SortingState) => void;
 
-	// Pagination
-	enablePagination?: boolean
-	pagination?: PaginationConfig
-	onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void
+  // Column visibility
+  defaultColumnVisibility?: Record<string, boolean>;
 
-	// Selection
-	enableRowSelection?: boolean
-	enableSelectAll?: boolean
-	onRowSelectionChange?: (selection: Record<string, boolean>) => void
+  // Pagination
+  enablePagination?: boolean;
+  pagination?: PaginationConfig;
+  onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
 
-	// Actions
-	rowActions?: RowAction<TData>[]
-	bulkActions?: BulkAction<TData>[]
-	onRowClick?: (row: TData) => void
+  // Selection
+  enableRowSelection?: boolean;
+  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
 
-	// Search
-	enableGlobalSearch?: boolean
-	searchPlaceholder?: string
-	onSearchChange?: (search: string) => void
+  // Actions
+  rowActions?: RowAction<TData>[];
+  bulkActions?: BulkAction<TData>[];
+  onRowClick?: (row: TData) => void;
 
-	// Styling
-	variant?: "default" | "lined" | "striped"
-	density?: "compact" | "default" | "comfortable"
-	className?: string
+  // Search
+  enableGlobalSearch?: boolean;
+  searchPlaceholder?: string;
+  onSearchChange?: (search: string) => void;
 
-	// Loading/Empty states
-	isLoading?: boolean
-	loadingComponent?: React.ReactNode
-	emptyComponent?: React.ReactNode
+  // Styling
+  variant?: 'default' | 'lined' | 'striped';
+  density?: 'compact' | 'default' | 'comfortable';
+  className?: string;
 
-	// Toolbar customization
-	toolbarActions?: React.ReactNode
-	hideToolbar?: boolean
+  // Loading/Empty states
+  isLoading?: boolean;
+  loadingComponent?: React.ReactNode;
+  emptyComponent?: React.ReactNode;
 
-	// Internationalization
-	locale?: "fr" | "en"
+  // Toolbar customization
+  hideToolbar?: boolean;
+  hideHeaders?: boolean;
+
+  /** When true, a single button toggles both search bar and inline filters together */
+  combineSearchAndFilters?: boolean;
+
+  // Internationalization
+  locale?: 'fr' | 'en';
 }

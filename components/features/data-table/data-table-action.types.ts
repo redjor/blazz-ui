@@ -1,5 +1,5 @@
-import type { Row } from "@tanstack/react-table"
-import type { LucideIcon } from "lucide-react"
+import type { Row } from '@tanstack/react-table';
+import type { LucideIcon } from 'lucide-react';
 
 /**
  * Action available for individual table rows.
@@ -33,38 +33,38 @@ import type { LucideIcon } from "lucide-react"
  * ```
  */
 export interface RowAction<TData = any> {
-	/** Unique identifier */
-	id: string
+  /** Unique identifier */
+  id: string;
 
-	/** Display label */
-	label: string
+  /** Display label */
+  label: string;
 
-	/** Optional icon (Lucide icon component) */
-	icon?: LucideIcon
+  /** Optional icon (Lucide icon component) */
+  icon?: LucideIcon;
 
-	/** Visual style variant */
-	variant?: "default" | "outline" | "ghost" | "destructive"
+  /** Visual style variant */
+  variant?: 'default' | 'outline' | 'ghost' | 'destructive';
 
-	/** Action handler - can be async */
-	handler: (row: Row<TData>) => void | Promise<void>
+  /** Action handler - can be async */
+  handler: (row: Row<TData>) => void | Promise<void>;
 
-	/** Function to conditionally hide action for specific rows */
-	hidden?: (row: Row<TData>) => boolean
+  /** Function to conditionally hide action for specific rows */
+  hidden?: (row: Row<TData>) => boolean;
 
-	/** Function to conditionally disable action for specific rows */
-	disabled?: (row: Row<TData>) => boolean
+  /** Function to conditionally disable action for specific rows */
+  disabled?: (row: Row<TData>) => boolean;
 
-	/** If true, shows confirmation dialog before executing */
-	requireConfirmation?: boolean
+  /** If true, shows confirmation dialog before executing */
+  requireConfirmation?: boolean;
 
-	/** Confirmation message (can be function for dynamic message) */
-	confirmationMessage?: string | ((row: Row<TData>) => string)
+  /** Confirmation message (can be function for dynamic message) */
+  confirmationMessage?: string | ((row: Row<TData>) => string);
 
-	/** If true, renders visual separator above this action */
-	separator?: boolean
+  /** If true, renders visual separator above this action */
+  separator?: boolean;
 
-	/** Keyboard shortcut (display only, not functional) */
-	shortcut?: string
+  /** Keyboard shortcut (display only, not functional) */
+  shortcut?: string;
 }
 
 /**
@@ -102,27 +102,27 @@ export interface RowAction<TData = any> {
  * ```
  */
 export interface BulkAction<TData = any> {
-	/** Unique identifier */
-	id: string
+  /** Unique identifier */
+  id: string;
 
-	/** Display label */
-	label: string
+  /** Display label */
+  label: string;
 
-	/** Optional icon (Lucide icon component) */
-	icon?: LucideIcon
+  /** Optional icon (Lucide icon component) */
+  icon?: LucideIcon;
 
-	/** Visual style variant */
-	variant?: "default" | "outline" | "destructive"
+  /** Visual style variant */
+  variant?: 'default' | 'outline' | 'destructive';
 
-	/** Action handler - receives array of selected rows, can be async */
-	handler: (selectedRows: Row<TData>[]) => void | Promise<void>
+  /** Action handler - receives array of selected rows, can be async */
+  handler: (selectedRows: Row<TData>[]) => void | Promise<void>;
 
-	/** Function to conditionally disable action based on selection */
-	disabled?: (selectedRows: Row<TData>[]) => boolean
+  /** Function to conditionally disable action based on selection */
+  disabled?: (selectedRows: Row<TData>[]) => boolean;
 
-	/** If true, shows confirmation dialog before executing */
-	requireConfirmation?: boolean
+  /** If true, shows confirmation dialog before executing */
+  requireConfirmation?: boolean;
 
-	/** Confirmation message (can be function with row count) */
-	confirmationMessage?: string | ((count: number) => string)
+  /** Confirmation message (can be function with row count) */
+  confirmationMessage?: string | ((count: number) => string);
 }

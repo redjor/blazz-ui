@@ -128,11 +128,11 @@ interface DataTableView {
 ```typescript
 "use client"
 
-import { DataTable, createEcommerceProductPreset } from "@/components/features/data-table"
+import { DataTable, createProductsPreset } from "@/components/features/data-table"
 import { useDataTableViews } from "@/hooks/use-data-table-views"
 
 export default function ProductsPage() {
-  const preset = createEcommerceProductPreset()
+  const preset = createProductsPreset()
 
   // Hook pour gérer les vues
   const { views, activeView, setActiveView, addView, updateView, deleteView } = useDataTableViews({

@@ -1,6 +1,6 @@
-import type { SortingState, VisibilityState } from "@tanstack/react-table"
-import type { LucideIcon } from "lucide-react"
-import type { FilterGroup } from "./data-table-filter.types"
+import type { SortingState, VisibilityState } from '@tanstack/react-table';
+import type { LucideIcon } from 'lucide-react';
+import type { FilterGroup } from './data-table-filter.types';
 
 /**
  * A saved view configuration for the DataTable.
@@ -36,50 +36,53 @@ import type { FilterGroup } from "./data-table-filter.types"
  * ```
  */
 export interface DataTableView {
-	/** Unique identifier */
-	id: string
+  /** Unique identifier */
+  id: string;
 
-	/** Display name */
-	name: string
+  /** Display name */
+  name: string;
 
-	/** Optional description */
-	description?: string
+  /** Optional description */
+  description?: string;
 
-	/** Optional icon (Lucide icon component) */
-	icon?: LucideIcon
+  /** Optional icon (Lucide icon component) */
+  icon?: LucideIcon;
 
-	/** If true, view cannot be deleted by user */
-	isSystem: boolean
+  /** If true, view cannot be deleted by user */
+  isSystem: boolean;
 
-	/** If true, this view is selected by default on first load */
-	isDefault?: boolean
+  /** If true, this view is selected by default on first load */
+  isDefault?: boolean;
 
-	/** Filter configuration for this view */
-	filters: FilterGroup
+  /** Filter configuration for this view */
+  filters: FilterGroup;
 
-	/** Sort configuration (optional) */
-	sorting?: SortingState
+  /** Sort configuration (optional) */
+  sorting?: SortingState;
 
-	/** Column visibility state (optional) */
-	columnVisibility?: VisibilityState
+  /** Column visibility state (optional) */
+  columnVisibility?: VisibilityState;
 
-	/** Column order (optional) */
-	columnOrder?: string[]
+  /** Column order (optional) */
+  columnOrder?: string[];
 
-	/** Pinned columns (optional) */
-	pinnedColumns?: {
-		/** Columns pinned to left */
-		left?: string[]
-		/** Columns pinned to right */
-		right?: string[]
-	}
+  /** Pinned columns (optional) */
+  pinnedColumns?: {
+    /** Columns pinned to left */
+    left?: string[];
+    /** Columns pinned to right */
+    right?: string[];
+  };
 
-	/** Timestamp when view was created */
-	createdAt?: Date
+  /** Timestamp when view was created */
+  createdAt?: Date;
 
-	/** Timestamp when view was last updated */
-	updatedAt?: Date
+  /** Timestamp when view was last updated */
+  updatedAt?: Date;
 
-	/** User ID who created the view */
-	createdBy?: string
+  /** User ID who created the view */
+  createdBy?: string;
+
+  /** Custom metadata for view-specific data (e.g., poleCode) */
+  metadata?: Record<string, unknown>;
 }

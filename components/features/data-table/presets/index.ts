@@ -7,15 +7,19 @@
  * @module presets
  */
 
-// E-commerce preset - Product management
-export * from "./ecommerce"
-
-// CRM preset - Contact/Customer management
-export * from "./crm"
+// CRM Deals Editable preset - Inline-editable deals table
+export * from './crm-deals-editable';
 
 // Order Management preset - Order tracking and fulfillment
-export * from "./orders"
+export * from './orders';
 
 // User Management preset - User and invitation management
-export * from "./users"
-export * from "./invitations"
+export * from './users';
+export * from './invitations';
+
+// CRM Forge presets - Domain-specific table configurations for Forge CRM
+export * from './crm-companies';
+export * from './crm-contacts';
+export * from './crm-deals';
+export * from './crm-quotes';
+export * from './crm-products';
