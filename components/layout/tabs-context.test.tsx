@@ -1,14 +1,6 @@
 import { act, renderHook } from "@testing-library/react"
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it } from "vitest"
 import { TabsProvider, useTabs } from "./tabs-context"
-
-// Mock next/navigation
-vi.mock("next/navigation", () => ({
-	useRouter: () => ({
-		push: vi.fn(),
-	}),
-	usePathname: () => "/dashboard",
-}))
 
 function wrapper({ children }: { children: React.ReactNode }) {
 	return <TabsProvider>{children}</TabsProvider>
