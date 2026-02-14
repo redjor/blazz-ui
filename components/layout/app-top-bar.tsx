@@ -1,5 +1,6 @@
 import { Bell, Menu, Search } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { UserMenu } from "./user-menu"
 
@@ -7,6 +8,8 @@ export interface AppTopBarProps {
 	onOpenCommandPalette?: () => void
 	onOpenMobileMenu?: () => void
 	className?: string
+	/** Highlight the active section in the top bar nav */
+	activeSection?: "showcase" | "crm" | "docs"
 	user?: {
 		name: string
 		email: string
@@ -15,18 +18,21 @@ export interface AppTopBarProps {
 	}
 }
 
+const sections = [
+	{ id: "showcase" as const, label: "Showcase", href: "/showcase-products" },
+	{ id: "crm" as const, label: "CRM", href: "/dashboard" },
+	{ id: "docs" as const, label: "Docs", href: "/docs" },
+]
+
 /**
  * AppTopBar - Global header for the application
  *
  * Structure:
- * - Left: Logo + App Name
+ * - Left: Logo + Section Nav (Showcase / CRM / Docs)
  * - Center: Search Bar (opens Command Palette)
  * - Right: Notifications + User Menu
- *
- * @example
- * <AppTopBar onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
  */
-export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, user }: AppTopBarProps) {
+export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, activeSection, user }: AppTopBarProps) {
 	return (
 		<header
 			className={cn(
@@ -34,7 +40,7 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, u
 				className
 			)}
 		>
-			{/* Left: Mobile - Hamburger | Desktop - Logo + App Name */}
+			{/* Left: Mobile - Hamburger | Desktop - Logo + Section Nav */}
 			<div className="flex items-center gap-3">
 				{/* Mobile: Hamburger Menu Button */}
 				<button
@@ -46,10 +52,26 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, u
 					<Menu className="h-5 w-5 text-white" />
 				</button>
 
-				{/* Desktop: Logo + App Name */}
+				{/* Desktop: Logo + Section Nav */}
 				<div className="hidden md:flex items-center gap-2">
 					<div className="flex h-24 w-24 items-center justify-center">
 						<Image src="/logo_blazz_white.svg" alt="Blazz Logo" width={87} height={24} />
+					</div>
+					<div className="ml-2 flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
+						{sections.map((section) => (
+							<Link
+								key={section.id}
+								href={section.href}
+								className={cn(
+									"rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
+									activeSection === section.id
+										? "bg-white/20 text-white"
+										: "text-gray-400 hover:text-white hover:bg-white/10"
+								)}
+							>
+								{section.label}
+							</Link>
+						))}
 					</div>
 				</div>
 			</div>

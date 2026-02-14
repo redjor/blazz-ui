@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { AppSidebar } from "@/components/layout/app-sidebar"
-import { AppTopBar } from "@/components/layout/app-top-bar"
+import { AppTopBar, type AppTopBarProps } from "@/components/layout/app-top-bar"
 import { Frame } from "@/components/layout/frame"
 import { MobileSidebarSheet } from "@/components/layout/mobile-sidebar-sheet"
 import { sidebarConfig } from "@/config/navigation"
@@ -14,12 +14,13 @@ export interface AppFrameProps {
 	sidebarHeader?: React.ReactNode
 	sidebarFooter?: React.ReactNode
 	onOpenCommandPalette?: () => void
+	activeSection?: AppTopBarProps["activeSection"]
 }
 
 /**
  * AppFrame
  */
-export function AppFrame({ navigation, children, onOpenCommandPalette }: AppFrameProps) {
+export function AppFrame({ navigation, children, onOpenCommandPalette, activeSection }: AppFrameProps) {
 	// État pour le Sheet mobile
 	const [mobileSheetOpen, setMobileSheetOpen] = React.useState(false)
 
@@ -48,6 +49,7 @@ export function AppFrame({ navigation, children, onOpenCommandPalette }: AppFram
 					<AppTopBar
 						onOpenCommandPalette={onOpenCommandPalette}
 						onOpenMobileMenu={() => setMobileSheetOpen((prev) => !prev)}
+						activeSection={activeSection}
 					/>
 				}
 				navigation={<AppSidebar config={config} />}

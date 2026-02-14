@@ -6,16 +6,19 @@ import { AppFrame } from "@/components/layout/app-frame"
 import { FrameProvider, useFrame } from "@/components/layout/frame-context"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { crmNavigationConfig } from "@/config/crm-navigation"
+import { useFrameLayout } from "@/lib/use-frame-layout"
 import { Toaster } from "sonner"
 
 function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 	const { setCommandPaletteOpen } = useFrame()
+	useFrameLayout()
 
 	return (
 		<SidebarProvider>
 			<AppFrame
 				navigation={crmNavigationConfig}
 				onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+				activeSection="crm"
 			>
 				{children}
 			</AppFrame>

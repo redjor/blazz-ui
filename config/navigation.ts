@@ -2,7 +2,6 @@
 
 import {
   BarChart,
-  BookOpen,
   Calendar,
   FileText,
   FormInput,
@@ -224,18 +223,6 @@ export const sidebarConfig: SidebarConfig = {
           items: [
             { title: "Text", url: "/components/ui/text" },
           ],
-        },
-      ],
-    },
-    {
-      id: "resources",
-      title: "Resources",
-      items: [
-        {
-          id: "documentation",
-          title: "Documentation",
-          url: "/docs",
-          icon: BookOpen,
         },
       ],
     },
