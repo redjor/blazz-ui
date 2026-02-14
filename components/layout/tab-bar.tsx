@@ -38,7 +38,7 @@ export function TabBar() {
 	}
 
 	return (
-		<div className="flex h-9 items-center border-b border-border bg-(--main-background) overflow-x-auto hidden md:flex">
+		<div className="hidden h-(--tabbar-height) items-center overflow-x-auto border-b border-border bg-(--main-background) md:flex">
 			<div className="flex items-center">
 				{tabs.map((tab) => (
 					<TabItem
@@ -53,7 +53,7 @@ export function TabBar() {
 			<button
 				type="button"
 				onClick={handleAddTab}
-				className="flex h-9 w-9 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
+				className="flex h-(--tabbar-height) w-9 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
 				aria-label="Open new tab"
 			>
 				<Plus className="h-4 w-4" />
