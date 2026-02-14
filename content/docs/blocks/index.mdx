@@ -1,0 +1,28 @@
+---
+title: Blocks
+description: Composants metier de haut niveau pour construire des pages CRM et dashboards.
+---
+
+Les **blocks** sont des composants React de haut niveau conçus pour etre assembles en pages completes. Contrairement aux primitives UI (Button, Input, Card...), les blocks encapsulent une logique metier et gerent automatiquement les etats loading, empty et error.
+
+## Liste des blocks
+
+| Block | Description | Etats |
+|-------|-------------|-------|
+| [PageHeader](/docs/blocks/page-header) | En-tete de page avec breadcrumbs et actions | - |
+| [StatsGrid](/docs/blocks/stats-grid) | Grille de statistiques avec tendances | loading |
+| [DataGrid](/docs/blocks/data-grid) | Table de donnees avec tri, pagination et selection | loading, empty |
+| [KanbanBoard](/docs/blocks/kanban-board) | Board kanban avec drag & drop | - |
+| [EmptyState](/docs/blocks/empty-state) | Etat vide avec action | - |
+| FilterBar | Barre de filtres dynamique | - |
+| FormSection | Section de formulaire structuree | - |
+| ActivityTimeline | Timeline d'activites | loading |
+| DetailPanel | Panneau de detail lateral | - |
+| ChartCard | Carte avec graphique Recharts | loading |
+
+## Principes
+
+1. **Composables** — Chaque block est independant et peut etre combine librement
+2. **Type-safe** — Props TypeScript strictes avec generics quand necessaire
+3. **4 etats** — loading (Skeleton), empty, error, success sont geres quand applicable
+4. **Server-first** — Server Components par defaut, Client uniquement pour l'interactivite (drag, formulaires)

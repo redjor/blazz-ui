@@ -1,0 +1,95 @@
+---
+title: Presets CRM
+description: Configurations pre-construites de DataTable pour chaque entite CRM.
+---
+
+## Vue d'ensemble
+
+Les **presets** sont des configurations completes de colonnes et filtres pour le DataTable. Chaque preset exporte :
+- `columns` — Definition des colonnes TanStack Table
+- `filterFields` — Champs de filtre pour le filter builder
+
+## Presets disponibles
+
+| Preset | Fichier | Entite |
+|--------|---------|--------|
+| Companies | `presets/crm-companies.tsx` | Entreprises |
+| Contacts | `presets/crm-contacts.tsx` | Contacts |
+| Deals | `presets/crm-deals.tsx` | Opportunites |
+| Deals Editable | `presets/crm-deals-editable.tsx` | Opportunites (edition inline) |
+| Products | `presets/crm-products.tsx` | Produits |
+| Quotes | `presets/crm-quotes.tsx` | Devis |
+| Orders | `presets/orders.tsx` | Commandes |
+| Users | `presets/users.tsx` | Utilisateurs |
+
+## Utilisation
+
+### Import d'un preset
+
+```tsx
+import {
+  columns,
+  filterFields,
+} from "@/components/features/data-table/presets/crm-contacts"
+```
+
+### Integration dans une page
+
+```tsx
+import { DataTable } from "@/components/features/data-table/data-table"
+import { columns, filterFields } from "@/components/features/data-table/presets/crm-contacts"
+
+interface PageProps {
+  searchParams: Promise<Record<string, string>>
+}
+
+export default async function ContactsPage({ searchParams }: PageProps) {
+  const params = await searchParams
+  const { data, totalCount } = await fetchContacts(params)
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      totalCount={totalCount}
+      filterFields={filterFields}
+    />
+  )
+}
+```
+
+## Creer un nouveau preset
+
+Pour creer un preset pour une nouvelle entite :
+
+```tsx
+// presets/my-entity.tsx
+import { createColumnHelper } from "@tanstack/react-table"
+import { buildTextColumn, buildBadgeColumn } from "../factories/column-builders"
+
+interface MyEntity {
+  id: string
+  name: string
+  status: string
+}
+
+const columnHelper = createColumnHelper<MyEntity>()
+
+export const columns = [
+  buildTextColumn(columnHelper, "name", { header: "Nom" }),
+  buildBadgeColumn(columnHelper, "status", {
+    header: "Statut",
+    variants: {
+      active: "success",
+      inactive: "outline",
+    },
+  }),
+]
+
+export const filterFields = [
+  { id: "name", label: "Nom", type: "text" as const },
+  { id: "status", label: "Statut", type: "select" as const, options: ["active", "inactive"] },
+]
+```
+
+Voir [Column Factories](/docs/data-table/columns) pour la liste complete des builders.

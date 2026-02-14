@@ -1,0 +1,111 @@
+---
+title: KanbanBoard
+description: Board kanban generique avec drag & drop natif HTML5.
+---
+
+## Import
+
+```tsx
+import { KanbanBoard } from "@/components/blocks/kanban-board"
+```
+
+## Utilisation
+
+```tsx
+import type { KanbanColumn } from "@/components/blocks/kanban-board"
+
+interface Deal {
+  id: string
+  title: string
+  amount: number
+  stage: string
+}
+
+const columns: KanbanColumn<Deal>[] = [
+  { id: "prospection", label: "Prospection" },
+  { id: "qualification", label: "Qualification" },
+  { id: "proposal", label: "Proposition" },
+  { id: "won", label: "Gagne", variant: "success" },
+]
+
+<KanbanBoard
+  columns={columns}
+  items={deals}
+  getColumnId={(deal) => deal.stage}
+  onMove={async (dealId, from, to) => {
+    await updateDealStage(dealId, to)
+  }}
+  renderCard={(deal) => (
+    <Card className="p-3">
+      <p className="font-medium">{deal.title}</p>
+      <p className="text-sm text-muted-foreground">{deal.amount} €</p>
+    </Card>
+  )}
+/>
+```
+
+## Props
+
+### `KanbanBoardProps<T>`
+
+Le composant est generique : `T` doit avoir un champ `id: string`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `columns` | `KanbanColumn<T>[]` | **requis** | Definition des colonnes |
+| `items` | `T[]` | **requis** | Tous les items a distribuer dans les colonnes |
+| `getColumnId` | `(item: T) => string` | **requis** | Fonction pour determiner la colonne d'un item |
+| `onMove` | `(itemId, from, to) => void \| Promise<void>` | - | Callback apres un drag & drop |
+| `renderCard` | `(item: T) => ReactNode` | **requis** | Rendu d'une carte dans le board |
+| `renderColumnHeader` | `(column, items) => ReactNode` | - | Rendu custom de l'en-tete de colonne |
+| `columnClassName` | `string` | - | Classes CSS par colonne |
+| `className` | `string` | - | Classes CSS du conteneur |
+
+### `KanbanColumn<T>`
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `id` | `string` | Identifiant unique de la colonne |
+| `label` | `string` | Libelle affiche |
+| `variant` | `"default" \| "success" \| "info" \| "warning" \| "critical" \| "outline"` | Badge de couleur dans l'en-tete par defaut |
+
+## Variantes
+
+### En-tete custom
+
+```tsx
+<KanbanBoard
+  columns={columns}
+  items={deals}
+  getColumnId={(d) => d.stage}
+  renderCard={(d) => <DealCard deal={d} />}
+  renderColumnHeader={(col, items) => (
+    <div className="flex items-center justify-between p-3 border-b">
+      <span className="font-semibold">{col.label}</span>
+      <span className="text-sm text-muted-foreground">
+        {items.reduce((sum, d) => sum + d.amount, 0).toLocaleString()} €
+      </span>
+    </div>
+  )}
+/>
+```
+
+### Sans drag & drop
+
+Sans passer `onMove`, les cartes ne sont pas draggable :
+
+```tsx
+<KanbanBoard
+  columns={columns}
+  items={deals}
+  getColumnId={(d) => d.stage}
+  renderCard={(d) => <DealCard deal={d} />}
+/>
+```
+
+## Notes
+
+- **Client Component** — utilise `useState` et l'API HTML5 Drag & Drop.
+- Le drag & drop est natif (pas de librairie externe), ce qui garde le bundle leger.
+- Les colonnes vides affichent un message "Aucun element" par defaut.
+- Le board est scrollable horizontalement si les colonnes depassent l'ecran.

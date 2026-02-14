@@ -1,0 +1,124 @@
+---
+title: DataGrid
+description: Table de donnees simple avec tri URL, pagination, selection et actions par ligne.
+---
+
+## Import
+
+```tsx
+import { DataGrid } from "@/components/blocks/data-grid"
+```
+
+## Utilisation
+
+```tsx
+import type { ColumnDef } from "@/components/blocks/data-grid"
+
+interface Contact {
+  id: string
+  name: string
+  email: string
+  company: string
+}
+
+const columns: ColumnDef<Contact>[] = [
+  { id: "name", header: "Nom", sortable: true, cell: (row) => row.name },
+  { id: "email", header: "Email", cell: (row) => row.email },
+  { id: "company", header: "Societe", sortable: true, cell: (row) => row.company },
+]
+
+<DataGrid
+  columns={columns}
+  data={contacts}
+  totalCount={150}
+  pageSize={25}
+  currentPage={1}
+  selectable
+/>
+```
+
+## Props
+
+### `DataGridProps<T>`
+
+Le composant est generique : `T` doit avoir un champ `id: string`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `columns` | `ColumnDef<T>[]` | **requis** | Definition des colonnes |
+| `data` | `T[]` | **requis** | Donnees a afficher (page courante) |
+| `totalCount` | `number` | **requis** | Nombre total de resultats (pour pagination) |
+| `pageSize` | `number` | `25` | Nombre de lignes par page |
+| `currentPage` | `number` | `1` | Page courante |
+| `sortField` | `string` | - | Champ de tri actif |
+| `sortDirection` | `"asc" \| "desc"` | - | Direction du tri |
+| `selectable` | `boolean` | `false` | Activer la selection par checkbox |
+| `onSelectionChange` | `(ids: string[]) => void` | - | Callback quand la selection change |
+| `actions` | `RowAction<T>[]` | - | Actions par ligne |
+| `bulkActions` | `DataGridBulkAction[]` | - | Actions en masse |
+| `loading` | `boolean` | `false` | Etat de chargement |
+| `emptyState` | `ReactNode` | - | Composant a afficher quand `data` est vide |
+| `className` | `string` | - | Classes CSS additionnelles |
+
+### `ColumnDef<T>`
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `id` | `string` | Identifiant unique de la colonne |
+| `header` | `string` | Texte de l'en-tete |
+| `sortable` | `boolean` | Activer le tri sur cette colonne |
+| `cell` | `(row: T) => ReactNode` | Rendu de la cellule |
+| `className` | `string` | Classes CSS de la colonne |
+
+### `RowAction<T>`
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `label` | `string` | Texte de l'action |
+| `icon` | `LucideIcon` | Icone du bouton |
+| `onClick` | `(row: T) => void` | Handler d'action |
+| `variant` | `"default" \| "destructive"` | Style du bouton |
+| `hidden` | `(row: T) => boolean` | Masquer l'action conditionnellement |
+
+## Variantes
+
+### Avec actions par ligne
+
+```tsx
+import { Pencil, Trash2 } from "lucide-react"
+
+<DataGrid
+  columns={columns}
+  data={contacts}
+  totalCount={50}
+  actions={[
+    { label: "Modifier", icon: Pencil, onClick: (row) => router.push(`/contacts/${row.id}`) },
+    { label: "Supprimer", icon: Trash2, variant: "destructive", onClick: handleDelete },
+  ]}
+/>
+```
+
+### Etat vide
+
+```tsx
+import { EmptyState } from "@/components/blocks/empty-state"
+
+<DataGrid
+  columns={columns}
+  data={[]}
+  totalCount={0}
+  emptyState={
+    <EmptyState
+      title="Aucun contact"
+      description="Ajoutez votre premier contact."
+      action={{ label: "Ajouter", href: "/contacts/new" }}
+    />
+  }
+/>
+```
+
+## Notes
+
+- **Client Component** — utilise `useRouter`, `useSearchParams` pour la pagination et le tri URL-driven.
+- Le tri et la pagination modifient les query params de l'URL (`?sortField=name&sortDirection=asc&page=2`), ce qui permet le partage de liens et la navigation back/forward.
+- Pour des tables plus avancees (filtres, vues, editable), voir le composant [DataTable](/docs/data-table).

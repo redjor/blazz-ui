@@ -1,0 +1,150 @@
+---
+title: Column Factories
+description: Fonctions utilitaires pour construire rapidement des colonnes DataTable.
+---
+
+## Vue d'ensemble
+
+Les **column factories** sont des fonctions qui creent des definitions de colonnes TanStack Table avec un rendu pre-configure. Elles evitent le code boilerplate et garantissent un style coherent.
+
+## Import
+
+```tsx
+import {
+  buildTextColumn,
+  buildBadgeColumn,
+  buildDateColumn,
+  buildCurrencyColumn,
+  buildAvatarColumn,
+} from "@/components/features/data-table/factories/column-builders"
+```
+
+## Factories standard
+
+### `buildTextColumn`
+
+Colonne texte simple avec tri et filtre.
+
+```tsx
+buildTextColumn(columnHelper, "name", {
+  header: "Nom",
+  sortable: true,
+})
+```
+
+### `buildBadgeColumn`
+
+Colonne avec Badge colore selon la valeur.
+
+```tsx
+buildBadgeColumn(columnHelper, "status", {
+  header: "Statut",
+  variants: {
+    active: "success",
+    pending: "warning",
+    inactive: "outline",
+  },
+})
+```
+
+### `buildDateColumn`
+
+Colonne avec formatage de date.
+
+```tsx
+buildDateColumn(columnHelper, "createdAt", {
+  header: "Cree le",
+  format: "dd/MM/yyyy",
+})
+```
+
+### `buildCurrencyColumn`
+
+Colonne avec formatage monetaire.
+
+```tsx
+buildCurrencyColumn(columnHelper, "amount", {
+  header: "Montant",
+  currency: "EUR",
+  locale: "fr-FR",
+})
+```
+
+### `buildAvatarColumn`
+
+Colonne avec avatar et nom.
+
+```tsx
+buildAvatarColumn(columnHelper, "name", {
+  header: "Contact",
+  getImageUrl: (row) => row.avatarUrl,
+})
+```
+
+## Factories editables
+
+Pour les colonnes avec edition inline :
+
+```tsx
+import {
+  buildEditableTextColumn,
+  buildEditableSelectColumn,
+  buildEditableNumberColumn,
+} from "@/components/features/data-table/factories/editable-column-builders"
+```
+
+### `buildEditableTextColumn`
+
+```tsx
+buildEditableTextColumn(columnHelper, "name", {
+  header: "Nom",
+  onSave: async (rowId, value) => {
+    await updateContact(rowId, { name: value })
+  },
+})
+```
+
+### `buildEditableSelectColumn`
+
+```tsx
+buildEditableSelectColumn(columnHelper, "status", {
+  header: "Statut",
+  options: [
+    { label: "Actif", value: "active" },
+    { label: "Inactif", value: "inactive" },
+  ],
+  onSave: async (rowId, value) => {
+    await updateContact(rowId, { status: value })
+  },
+})
+```
+
+## Creer une factory custom
+
+```tsx
+import { createColumnHelper, type ColumnDef } from "@tanstack/react-table"
+
+export function buildProgressColumn<T>(
+  columnHelper: ReturnType<typeof createColumnHelper<T>>,
+  accessorKey: keyof T & string,
+  options: { header: string },
+): ColumnDef<T> {
+  return columnHelper.accessor(accessorKey as any, {
+    header: options.header,
+    cell: ({ getValue }) => {
+      const value = getValue() as number
+      return (
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-16 rounded-full bg-muted">
+            <div
+              className="h-2 rounded-full bg-primary"
+              style={{ width: `${value}%` }}
+            />
+          </div>
+          <span className="text-sm">{value}%</span>
+        </div>
+      )
+    },
+  })
+}
+```

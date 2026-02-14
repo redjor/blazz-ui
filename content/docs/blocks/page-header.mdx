@@ -1,0 +1,97 @@
+---
+title: PageHeader
+description: En-tete de page avec titre, description, breadcrumbs et boutons d'action.
+---
+
+## Import
+
+```tsx
+import { PageHeader } from "@/components/blocks/page-header"
+```
+
+## Utilisation
+
+```tsx
+<PageHeader
+  title="Contacts"
+  description="Gerez vos contacts et prospects."
+  breadcrumbs={[
+    { label: "CRM", href: "/dashboard" },
+    { label: "Contacts" },
+  ]}
+  actions={[
+    { label: "Exporter", variant: "outline", onClick: handleExport },
+    { label: "Ajouter", icon: Plus, href: "/contacts/new" },
+  ]}
+/>
+```
+
+## Props
+
+### `PageHeaderProps`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | **requis** | Titre principal de la page |
+| `description` | `string` | - | Description sous le titre |
+| `breadcrumbs` | `PageHeaderBreadcrumb[]` | - | Fil d'Ariane |
+| `actions` | `PageHeaderAction[]` | - | Boutons d'action a droite |
+| `className` | `string` | - | Classes CSS additionnelles |
+
+### `PageHeaderBreadcrumb`
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `label` | `string` | Texte affiche |
+| `href` | `string` | Lien (dernier element sans href = page courante) |
+
+### `PageHeaderAction`
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | **requis** | Texte du bouton |
+| `onClick` | `() => void` | - | Handler de clic |
+| `href` | `string` | - | Lien (rend un `<Link>` au lieu d'un `<Button>`) |
+| `icon` | `LucideIcon` | - | Icone a gauche du label |
+| `variant` | `"default" \| "outline" \| "ghost" \| "destructive"` | `"default"` | Variante visuelle |
+
+## Variantes
+
+### Minimal — titre seul
+
+```tsx
+<PageHeader title="Dashboard" />
+```
+
+### Avec breadcrumbs et description
+
+```tsx
+<PageHeader
+  title="Fiche Contact"
+  description="Detaillez les informations du contact."
+  breadcrumbs={[
+    { label: "CRM", href: "/dashboard" },
+    { label: "Contacts", href: "/contacts" },
+    { label: "Jean Dupont" },
+  ]}
+/>
+```
+
+### Avec actions multiples
+
+```tsx
+<PageHeader
+  title="Deals"
+  actions={[
+    { label: "Filtrer", variant: "ghost", icon: Filter },
+    { label: "Exporter", variant: "outline", icon: Download },
+    { label: "Nouveau Deal", icon: Plus, href: "/deals/new" },
+  ]}
+/>
+```
+
+## Notes
+
+- Le composant est un **Client Component** (`"use client"`) car les actions peuvent contenir des handlers `onClick`.
+- Le dernier element de `breadcrumbs` sans `href` est automatiquement rendu comme la page courante.
+- Les actions avec `href` sont rendues comme des `<Link>` Next.js, les autres comme des `<Button>`.
