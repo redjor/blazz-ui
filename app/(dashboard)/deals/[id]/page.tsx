@@ -13,7 +13,8 @@ import { DealLinesEditor, type DealLine } from "@/components/blocks/deal-lines-e
 import { QuickLogActivity } from "@/components/blocks/quick-log-activity"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { getDealById, getQuoteLines, formatCurrency, formatDate, recentActivities } from "@/lib/sample-data"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { getDealById, formatCurrency, formatDate, recentActivities } from "@/lib/sample-data"
 
 const stageLabel: Record<string, string> = {
 	lead: "Lead",
@@ -41,7 +42,6 @@ const dealTransitions = [
 	{ from: "negotiation", to: "closed_lost", action: "Marquer perdu" },
 ]
 
-// Sample deal lines for demo — in production these come from the deal record
 const sampleDealLines: DealLine[] = [
 	{ id: "dl1", product: "Licence CRM Enterprise", description: "50 utilisateurs, 12 mois", quantity: 1, unitPrice: 24000 },
 	{ id: "dl2", product: "Module Analytics", description: "Tableaux de bord avancés", quantity: 1, unitPrice: 8500 },
@@ -99,51 +99,80 @@ export default function DealDetailPage({
 						</Badge>
 					}
 				/>
-
-				<DetailPanel.Section title="Détails du deal">
-					<FieldGrid columns={3}>
-						<Field label="Montant" value={formatCurrency(deal.amount)} />
-						<Field label="Probabilité" value={`${deal.probability}%`} />
-						<Field label="Date de clôture prévue" value={formatDate(deal.expectedCloseDate)} />
-						<Field label="Source" value={deal.source} />
-						<Field label="Assigné à" value={deal.assignedTo} />
-						<Field label="Créé le" value={formatDate(deal.createdAt)} />
-					</FieldGrid>
-				</DetailPanel.Section>
-
-				<DetailPanel.Section title="Entreprise & Contact">
-					<FieldGrid columns={2}>
-						<Field
-							label="Entreprise"
-							value={
-								<a href={`/companies/${deal.companyId}`} className="hover:underline">
-									{deal.companyName}
-								</a>
-							}
-						/>
-						<Field label="Contact" value={deal.contactName} />
-					</FieldGrid>
-				</DetailPanel.Section>
 			</DetailPanel>
 
-			{/* Deal line items */}
-			<Card>
-				<CardHeader>
-					<CardTitle>Lignes du deal</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<DealLinesEditor lines={sampleDealLines} onChange={() => {}} readOnly />
-				</CardContent>
-			</Card>
+			<Tabs defaultValue="details">
+				<TabsList variant="line">
+					<TabsTrigger value="details">Détails</TabsTrigger>
+					<TabsTrigger value="lines">Lignes</TabsTrigger>
+					<TabsTrigger value="history">Historique</TabsTrigger>
+				</TabsList>
 
-			<Card>
-				<CardHeader>
-					<CardTitle>Historique</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<ActivityTimeline events={recentActivities.slice(0, 4)} />
-				</CardContent>
-			</Card>
+				<TabsContent value="details">
+					<div className="space-y-6 pt-4">
+						<Card>
+							<CardHeader>
+								<CardTitle>Informations du deal</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<FieldGrid columns={3}>
+									<Field label="Montant" value={formatCurrency(deal.amount)} />
+									<Field label="Probabilité" value={`${deal.probability}%`} />
+									<Field label="Date de clôture prévue" value={formatDate(deal.expectedCloseDate)} />
+									<Field label="Source" value={deal.source} />
+									<Field label="Assigné à" value={deal.assignedTo} />
+									<Field label="Créé le" value={formatDate(deal.createdAt)} />
+								</FieldGrid>
+							</CardContent>
+						</Card>
+
+						<Card>
+							<CardHeader>
+								<CardTitle>Entreprise & Contact</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<FieldGrid columns={2}>
+									<Field
+										label="Entreprise"
+										value={
+											<a href={`/companies/${deal.companyId}`} className="hover:underline">
+												{deal.companyName}
+											</a>
+										}
+									/>
+									<Field label="Contact" value={deal.contactName} />
+								</FieldGrid>
+							</CardContent>
+						</Card>
+					</div>
+				</TabsContent>
+
+				<TabsContent value="lines">
+					<div className="pt-4">
+						<Card>
+							<CardHeader>
+								<CardTitle>Lignes du deal</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<DealLinesEditor lines={sampleDealLines} onChange={() => {}} readOnly />
+							</CardContent>
+						</Card>
+					</div>
+				</TabsContent>
+
+				<TabsContent value="history">
+					<div className="pt-4">
+						<Card>
+							<CardHeader>
+								<CardTitle>Historique d&apos;activité</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<ActivityTimeline events={recentActivities.slice(0, 8)} />
+							</CardContent>
+						</Card>
+					</div>
+				</TabsContent>
+			</Tabs>
 		</div>
 	)
 }
