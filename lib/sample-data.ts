@@ -86,6 +86,14 @@ export interface Product {
 	status: "active" | "inactive" | "discontinued"
 }
 
+export interface QuoteLine {
+	id: string
+	product: string
+	description: string
+	quantity: number
+	unitPrice: number
+}
+
 export interface Activity {
 	date: string
 	user: string
@@ -507,6 +515,56 @@ export const dealsByAssigneeData = [
 	{ name: "Julie Dufresne", count: 5 },
 	{ name: "Antoine Moreau", count: 5 },
 	{ name: "Léa Petit", count: 4 },
+]
+
+/* ─── Quote Lines (sample) ─── */
+
+export const quoteLines: Record<string, QuoteLine[]> = {
+	q1: [
+		{ id: "ql1", product: "CRM Enterprise", description: "Licence annuelle — 50 utilisateurs", quantity: 1, unitPrice: 24000 },
+		{ id: "ql2", product: "Module Reporting", description: "Dashboards + exports PDF", quantity: 1, unitPrice: 8500 },
+		{ id: "ql3", product: "Formation", description: "2 jours sur site", quantity: 2, unitPrice: 1500 },
+		{ id: "ql4", product: "Support Premium", description: "12 mois, SLA 4h", quantity: 1, unitPrice: 6000 },
+	],
+	q2: [
+		{ id: "ql5", product: "ERP Standard", description: "Licence perpétuelle", quantity: 1, unitPrice: 35000 },
+		{ id: "ql6", product: "Migration données", description: "Import historique 3 ans", quantity: 1, unitPrice: 12000 },
+		{ id: "ql7", product: "Formation", description: "5 jours — 15 personnes", quantity: 5, unitPrice: 1800 },
+	],
+	q3: [
+		{ id: "ql8", product: "Plateforme IoT", description: "Base 500 capteurs", quantity: 1, unitPrice: 18000 },
+		{ id: "ql9", product: "Dashboard temps réel", description: "Visualisation + alertes", quantity: 1, unitPrice: 7500 },
+		{ id: "ql10", product: "API Gateway", description: "Accès données brutes", quantity: 1, unitPrice: 4500 },
+	],
+}
+
+export function getQuoteLines(quoteId: string): QuoteLine[] {
+	return quoteLines[quoteId] ?? []
+}
+
+/* ─── Forecast Data ─── */
+
+export const forecastData = [
+	{ period: "Sep", actual: 165000, target: 180000 },
+	{ period: "Oct", actual: 198000, target: 200000 },
+	{ period: "Nov", actual: 245000, target: 220000 },
+	{ period: "Déc", actual: 188000, target: 240000 },
+	{ period: "Jan", actual: 313000, target: 260000 },
+	{ period: "Fév", actual: 380000, target: 280000 },
+	{ period: "Mar", forecast: 340000, target: 300000 },
+	{ period: "Avr", forecast: 365000, target: 320000 },
+	{ period: "Mai", forecast: 410000, target: 340000 },
+	{ period: "Jun", forecast: 445000, target: 360000 },
+]
+
+/* ─── Funnel Data ─── */
+
+export const pipelineFunnelData = [
+	{ label: "Leads", value: 5 },
+	{ label: "Qualifiés", value: 7 },
+	{ label: "Propositions", value: 8 },
+	{ label: "Négociations", value: 6 },
+	{ label: "Gagnés", value: 7 },
 ]
 
 /* ─── Helpers ─── */
