@@ -4,12 +4,17 @@ import { Building2, Handshake, TrendingUp, FileText } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { StatsGrid } from "@/components/blocks/stats-grid"
 import { ChartCard } from "@/components/blocks/chart-card"
+import { FunnelChart } from "@/components/blocks/funnel-chart"
+import { ForecastChart } from "@/components/blocks/forecast-chart"
 import {
 	revenueChartData,
 	dealsByStageData,
 	deals,
 	companies,
 	formatCurrency,
+	pipelineFunnelData,
+	forecastData,
+	dealsByAssigneeData,
 } from "@/lib/sample-data"
 
 export default function ReportsPage() {
@@ -65,6 +70,19 @@ export default function ReportsPage() {
 			</div>
 
 			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+				<FunnelChart
+					title="Entonnoir pipeline"
+					description="Conversion entre les étapes du pipeline"
+					stages={pipelineFunnelData}
+				/>
+				<ForecastChart
+					title="Prévision de revenus"
+					description="Réalisé vs prévision sur 10 mois"
+					data={forecastData}
+				/>
+			</div>
+
+			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 				<ChartCard
 					title="Sources des deals"
 					type="pie"
@@ -76,10 +94,7 @@ export default function ReportsPage() {
 				<ChartCard
 					title="Répartition par assigné"
 					type="bar"
-					data={[
-						{ name: "Sophie Martin", count: deals.filter((d) => d.assignedTo === "Sophie Martin").length },
-						{ name: "Marc Leroy", count: deals.filter((d) => d.assignedTo === "Marc Leroy").length },
-					]}
+					data={dealsByAssigneeData}
 					xKey="name"
 					yKey="count"
 					height={300}

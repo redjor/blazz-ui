@@ -1,24 +1,33 @@
 "use client"
 
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { Plus } from "lucide-react"
+import { toast } from "sonner"
 import { PageHeader } from "@/components/blocks/page-header"
+import { KanbanBoard, type KanbanColumn } from "@/components/blocks/kanban-board"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { deals, formatCurrency, type Deal } from "@/lib/sample-data"
+import { deals as initialDeals, formatCurrency, type Deal } from "@/lib/sample-data"
 import { useSearchParams } from "next/navigation"
 
-const stageConfig: Record<string, { label: string; color: string; variant: "success" | "info" | "warning" | "critical" | "outline" | "default" }> = {
-	lead: { label: "Lead", color: "bg-gray-50 border-gray-200", variant: "outline" },
-	qualified: { label: "Qualifié", color: "bg-blue-50 border-blue-200", variant: "info" },
-	proposal: { label: "Proposition", color: "bg-yellow-50 border-yellow-200", variant: "warning" },
-	negotiation: { label: "Négociation", color: "bg-purple-50 border-purple-200", variant: "default" },
-	closed_won: { label: "Gagné", color: "bg-green-50 border-green-200", variant: "success" },
-	closed_lost: { label: "Perdu", color: "bg-red-50 border-red-200", variant: "critical" },
+const stageConfig: Record<string, { label: string; variant: "success" | "info" | "warning" | "critical" | "outline" | "default" }> = {
+	lead: { label: "Lead", variant: "outline" },
+	qualified: { label: "Qualifié", variant: "info" },
+	proposal: { label: "Proposition", variant: "warning" },
+	negotiation: { label: "Négociation", variant: "default" },
+	closed_won: { label: "Gagné", variant: "success" },
+	closed_lost: { label: "Perdu", variant: "critical" },
 }
 
-const pipelineStages = ["lead", "qualified", "proposal", "negotiation", "closed_won", "closed_lost"]
+const kanbanColumns: KanbanColumn<Deal>[] = [
+	{ id: "lead", label: "Lead" },
+	{ id: "qualified", label: "Qualifié" },
+	{ id: "proposal", label: "Proposition" },
+	{ id: "negotiation", label: "Négociation" },
+	{ id: "closed_won", label: "Gagné" },
+	{ id: "closed_lost", label: "Perdu" },
+]
 
 function DealCard({ deal }: { deal: Deal }) {
 	return (
@@ -43,54 +52,24 @@ function DealCard({ deal }: { deal: Deal }) {
 	)
 }
 
-function KanbanView() {
-	return (
-		<div className="flex gap-4 overflow-x-auto pb-4">
-			{pipelineStages.map((stage) => {
-				const config = stageConfig[stage]
-				const stageDeals = deals.filter((d) => d.stage === stage)
-				const stageTotal = stageDeals.reduce((sum, d) => sum + d.amount, 0)
-
-				return (
-					<div
-						key={stage}
-						className="flex min-w-[280px] flex-col rounded-lg border bg-muted/30"
-					>
-						<div className="flex items-center justify-between p-3 border-b">
-							<div className="flex items-center gap-2">
-								<span className="text-sm font-semibold">{config.label}</span>
-								<Badge variant="outline" className="text-xs">
-									{stageDeals.length}
-								</Badge>
-							</div>
-							<span className="text-xs text-muted-foreground">
-								{formatCurrency(stageTotal)}
-							</span>
-						</div>
-						<div className="flex-1 space-y-2 p-2">
-							{stageDeals.map((deal) => (
-								<DealCard key={deal.id} deal={deal} />
-							))}
-							{stageDeals.length === 0 && (
-								<p className="py-8 text-center text-xs text-muted-foreground">
-									Aucun deal
-								</p>
-							)}
-						</div>
-					</div>
-				)
-			})}
-		</div>
-	)
-}
-
 function DealsContent() {
 	const searchParams = useSearchParams()
 	const view = searchParams.get("view") ?? "kanban"
+	const [dealsList, setDealsList] = useState(initialDeals)
 
-	const totalPipeline = deals
+	const totalPipeline = dealsList
 		.filter((d) => !["closed_won", "closed_lost"].includes(d.stage))
 		.reduce((sum, d) => sum + d.amount, 0)
+
+	const handleMove = (itemId: string, _from: string, toColumn: string) => {
+		const stage = toColumn as Deal["stage"]
+		setDealsList((prev) =>
+			prev.map((d) => (d.id === itemId ? { ...d, stage } : d))
+		)
+		const deal = dealsList.find((d) => d.id === itemId)
+		const stageLabel = stageConfig[stage]?.label ?? stage
+		toast.success(`${deal?.title ?? "Deal"} → ${stageLabel}`)
+	}
 
 	return (
 		<div className="p-6 space-y-4">
@@ -112,7 +91,29 @@ function DealsContent() {
 			/>
 
 			{view === "kanban" ? (
-				<KanbanView />
+				<KanbanBoard
+					columns={kanbanColumns}
+					items={dealsList}
+					getColumnId={(deal) => deal.stage}
+					onMove={handleMove}
+					renderCard={(deal) => <DealCard deal={deal} />}
+					renderColumnHeader={(column, items) => {
+						const stageTotal = items.reduce((sum, d) => sum + d.amount, 0)
+						return (
+							<div className="flex items-center justify-between border-b p-3">
+								<div className="flex items-center gap-2">
+									<span className="text-sm font-semibold">{column.label}</span>
+									<Badge variant="outline" className="text-xs">
+										{items.length}
+									</Badge>
+								</div>
+								<span className="text-xs text-muted-foreground">
+									{formatCurrency(stageTotal)}
+								</span>
+							</div>
+						)
+					}}
+				/>
 			) : (
 				<Card>
 					<CardContent className="p-0">
@@ -128,7 +129,7 @@ function DealsContent() {
 								</tr>
 							</thead>
 							<tbody>
-								{deals.map((deal) => (
+								{dealsList.map((deal) => (
 									<tr key={deal.id} className="border-b last:border-0 hover:bg-muted/30">
 										<td className="px-4 py-3">
 											<a href={`/deals/${deal.id}`} className="font-medium hover:underline">

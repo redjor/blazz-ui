@@ -2,11 +2,13 @@
 
 import { notFound } from "next/navigation"
 import { use } from "react"
-import { Edit, Trash } from "lucide-react"
+import { toast } from "sonner"
+import { Edit } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { DetailPanel } from "@/components/blocks/detail-panel"
 import { FieldGrid, Field } from "@/components/blocks/field-grid"
 import { ActivityTimeline } from "@/components/blocks/activity-timeline"
+import { QuickLogActivity } from "@/components/blocks/quick-log-activity"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import {
@@ -58,6 +60,15 @@ export default function CompanyDetailPage({
 					{ label: "Modifier", href: `/companies/${id}/edit`, icon: Edit, variant: "outline" },
 				]}
 			/>
+
+			<div className="flex justify-end">
+				<QuickLogActivity
+					onLog={async ({ type, note }) => {
+						const typeLabels = { call: "Appel", email: "Email", note: "Note", meeting: "RDV" }
+						toast.success(`${typeLabels[type]} enregistré pour ${company.name} : ${note}`)
+					}}
+				/>
+			</div>
 
 			<DetailPanel>
 				<DetailPanel.Header

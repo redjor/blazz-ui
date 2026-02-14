@@ -9,9 +9,11 @@ import { DetailPanel } from "@/components/blocks/detail-panel"
 import { StatusFlow } from "@/components/blocks/status-flow"
 import { FieldGrid, Field } from "@/components/blocks/field-grid"
 import { ActivityTimeline } from "@/components/blocks/activity-timeline"
+import { DealLinesEditor, type DealLine } from "@/components/blocks/deal-lines-editor"
+import { QuickLogActivity } from "@/components/blocks/quick-log-activity"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { getDealById, formatCurrency, formatDate, recentActivities } from "@/lib/sample-data"
+import { getDealById, getQuoteLines, formatCurrency, formatDate, recentActivities } from "@/lib/sample-data"
 
 const stageLabel: Record<string, string> = {
 	lead: "Lead",
@@ -39,6 +41,13 @@ const dealTransitions = [
 	{ from: "negotiation", to: "closed_lost", action: "Marquer perdu" },
 ]
 
+// Sample deal lines for demo — in production these come from the deal record
+const sampleDealLines: DealLine[] = [
+	{ id: "dl1", product: "Licence CRM Enterprise", description: "50 utilisateurs, 12 mois", quantity: 1, unitPrice: 24000 },
+	{ id: "dl2", product: "Module Analytics", description: "Tableaux de bord avancés", quantity: 1, unitPrice: 8500 },
+	{ id: "dl3", product: "Formation sur site", description: "2 jours, 10 participants", quantity: 2, unitPrice: 1500 },
+]
+
 export default function DealDetailPage({
 	params,
 }: {
@@ -63,14 +72,22 @@ export default function DealDetailPage({
 				]}
 			/>
 
-			<StatusFlow
-				currentStatus={deal.stage}
-				statuses={dealStatuses}
-				transitions={dealTransitions}
-				onTransition={async (from, to) => {
-					toast.success(`Transition: ${stageLabel[from]} → ${stageLabel[to]}`)
-				}}
-			/>
+			<div className="flex items-center justify-between">
+				<StatusFlow
+					currentStatus={deal.stage}
+					statuses={dealStatuses}
+					transitions={dealTransitions}
+					onTransition={async (from, to) => {
+						toast.success(`Transition: ${stageLabel[from]} → ${stageLabel[to]}`)
+					}}
+				/>
+				<QuickLogActivity
+					onLog={async ({ type, note }) => {
+						const typeLabels = { call: "Appel", email: "Email", note: "Note", meeting: "RDV" }
+						toast.success(`${typeLabels[type]} enregistré : ${note}`)
+					}}
+				/>
+			</div>
 
 			<DetailPanel>
 				<DetailPanel.Header
@@ -108,6 +125,16 @@ export default function DealDetailPage({
 					</FieldGrid>
 				</DetailPanel.Section>
 			</DetailPanel>
+
+			{/* Deal line items */}
+			<Card>
+				<CardHeader>
+					<CardTitle>Lignes du deal</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<DealLinesEditor lines={sampleDealLines} onChange={() => {}} readOnly />
+				</CardContent>
+			</Card>
 
 			<Card>
 				<CardHeader>

@@ -7,8 +7,10 @@ import { Printer, Send } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { DetailPanel } from "@/components/blocks/detail-panel"
 import { FieldGrid, Field } from "@/components/blocks/field-grid"
+import { DealLinesEditor, type DealLine } from "@/components/blocks/deal-lines-editor"
 import { Badge } from "@/components/ui/badge"
-import { getQuoteById, formatCurrency, formatDate } from "@/lib/sample-data"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { getQuoteById, getQuoteLines, formatCurrency, formatDate } from "@/lib/sample-data"
 
 const statusVariant: Record<string, "success" | "info" | "warning" | "critical" | "outline"> = {
 	draft: "outline",
@@ -35,6 +37,15 @@ export default function QuoteDetailPage({
 	const quote = getQuoteById(id)
 
 	if (!quote) notFound()
+
+	const lines = getQuoteLines(id)
+	const dealLines: DealLine[] = lines.map((l) => ({
+		id: l.id,
+		product: l.product,
+		description: l.description,
+		quantity: l.quantity,
+		unitPrice: l.unitPrice,
+	}))
 
 	return (
 		<div className="p-6 space-y-6">
@@ -77,6 +88,18 @@ export default function QuoteDetailPage({
 					</FieldGrid>
 				</DetailPanel.Section>
 			</DetailPanel>
+
+			{/* Quote line items */}
+			{dealLines.length > 0 && (
+				<Card>
+					<CardHeader>
+						<CardTitle>Lignes du devis</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<DealLinesEditor lines={dealLines} onChange={() => {}} readOnly />
+					</CardContent>
+				</Card>
+			)}
 		</div>
 	)
 }
