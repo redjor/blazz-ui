@@ -6,14 +6,17 @@ import { CommandPalette } from "@/components/features/command-palette/command-pa
 import { AppFrame } from "@/components/layout/app-frame"
 import { FrameProvider, useFrame } from "@/components/layout/frame-context"
 import { TabBar } from "@/components/layout/tab-bar"
+import { TabLinkInterceptor } from "@/components/layout/tab-link-interceptor"
 import { TabsProvider } from "@/components/layout/tabs-context"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { crmNavigationConfig } from "@/config/crm-navigation"
 import { useFrameLayout } from "@/lib/use-frame-layout"
+import { useTabUrlSync } from "@/lib/use-tab-url-sync"
 
 function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 	const { setCommandPaletteOpen } = useFrame()
 	useFrameLayout()
+	useTabUrlSync()
 
 	return (
 		<SidebarProvider>
@@ -25,6 +28,7 @@ function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 			>
 				{children}
 			</AppFrame>
+			<TabLinkInterceptor />
 			<CommandPalette navigation={crmNavigationConfig} />
 			<Toaster />
 		</SidebarProvider>
