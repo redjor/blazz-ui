@@ -23,3 +23,6 @@ export * from './crm-contacts';
 export * from './crm-deals';
 export * from './crm-quotes';
 export * from './crm-products';
+
+// Spreadsheet preset - Generic Airtable-style editable table
+export * from './spreadsheet';

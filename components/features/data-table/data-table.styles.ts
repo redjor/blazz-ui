@@ -42,6 +42,16 @@ export const dataTableVariants = cva('w-full', {
       lined: '[&_tr]:border-b [&_tr]:border-border',
       striped: '[&_tbody_tr:nth-child(even)]:bg-muted/50',
       editable: `[&_tr]:border-b [&_tr]:border-border ${editableTableStyles}`,
+      spreadsheet: [
+        'table-fixed',
+        '[&_tr]:border-b [&_tr]:border-border',
+        '[&_th]:border-r [&_th:last-child]:border-r-0',
+        '[&_td]:border-r [&_td:last-child]:border-r-0',
+        // tbody_td = higher specificity than density's [&_td] — forces zero padding
+        // Padding is on the cell content (button/input/span) so the ring is flush
+        '[&_tbody_td]:!px-0 [&_tbody_td]:!py-0',
+        '[&_th]:bg-muted/50',
+      ].join(' '),
     },
     density: {
       compact: '[&_td]:!py-1.5 [&_th]:!py-1.5 [&_td]:!px-3 [&_th]:!px-3',

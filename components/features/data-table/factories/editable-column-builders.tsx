@@ -1,7 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { useCallback, useRef, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -99,11 +98,21 @@ function useEditableCell<T>({
 }
 
 // ---------------------------------------------------------------------------
-// Internal cell components
+// Shared styles
 // ---------------------------------------------------------------------------
 
-const cellBase =
-  'h-8 border-0 rounded-none bg-transparent focus-visible:ring-1 focus-visible:ring-inset';
+/** Shared base for both idle button and editing input — identical box model = zero layout shift.
+ *  Padding is on the content (not the td) so the edit ring fills the entire cell. */
+export const cellShared =
+  'w-full px-3 py-3 text-body-md text-foreground rounded-none bg-transparent';
+
+const idleCell = `${cellShared} cursor-text text-left hover:bg-muted/40`;
+
+const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-p-border-focus`;
+
+// ---------------------------------------------------------------------------
+// Internal cell components
+// ---------------------------------------------------------------------------
 
 interface EditableTextCellProps {
   value: string;
@@ -122,21 +131,45 @@ function EditableTextCell({
   placeholder,
   className,
 }: EditableTextCellProps) {
-  const { localValue, setLocalValue, handleBlur, handleKeyDown } = useEditableCell({
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown } = useEditableCell({
     value,
     rowId,
     columnId,
     onCellEdit,
   });
 
+  const handleBlur = useCallback(() => {
+    setEditing(false);
+    hookBlur();
+  }, [hookBlur]);
+
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        className={cn(idleCell, className)}
+        onClick={() => {
+          setLocalValue(String(value ?? ''));
+          setEditing(true);
+        }}
+      >
+        {value || <span className="text-muted-foreground">{placeholder}</span>}
+      </button>
+    );
+  }
+
   return (
-    <Input
+    <input
+      ref={inputRef}
       value={localValue}
       onChange={(e) => setLocalValue(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       placeholder={placeholder}
-      className={cn(cellBase, className)}
+      autoFocus
+      className={cn(editInput, className)}
     />
   );
 }
@@ -169,7 +202,8 @@ function EditableNumberCell({
   step,
   className,
 }: EditableNumberCellProps) {
-  const { localValue, setLocalValue, handleBlur, handleKeyDown } = useEditableCell({
+  const [editing, setEditing] = useState(false);
+  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown } = useEditableCell({
     value,
     rowId,
     columnId,
@@ -177,17 +211,36 @@ function EditableNumberCell({
     parse: parseNumber,
   });
 
+  const handleBlur = useCallback(() => {
+    setEditing(false);
+    hookBlur();
+  }, [hookBlur]);
+
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        className={cn(idleCell, 'text-right', className)}
+        onClick={() => {
+          setLocalValue(String(value ?? ''));
+          setEditing(true);
+        }}
+      >
+        {value != null ? String(value) : ''}
+      </button>
+    );
+  }
+
   return (
-    <Input
-      type="number"
+    <input
+      type="text"
+      inputMode="decimal"
       value={localValue}
       onChange={(e) => setLocalValue(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
-      min={min}
-      max={max}
-      step={step}
-      className={cn(cellBase, className)}
+      autoFocus
+      className={cn(editInput, 'text-right', className)}
     />
   );
 }
@@ -236,10 +289,7 @@ function EditableCurrencyCell({
     return (
       <button
         type="button"
-        className={cn(
-          'h-8 w-full cursor-text text-left px-2 text-sm text-foreground hover:ring-1 hover:ring-inset hover:ring-border rounded-none',
-          className
-        )}
+        className={cn(idleCell, 'text-right', className)}
         onClick={() => {
           setLocalValue(String(value ?? ''));
           setEditing(true);
@@ -251,14 +301,15 @@ function EditableCurrencyCell({
   }
 
   return (
-    <Input
-      type="number"
+    <input
+      type="text"
+      inputMode="decimal"
       value={localValue}
       onChange={(e) => setLocalValue(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       autoFocus
-      className={cn(cellBase, className)}
+      className={cn(editInput, 'text-right', className)}
     />
   );
 }
@@ -282,20 +333,43 @@ function EditableSelectCell({
   options,
   className,
 }: EditableSelectCellProps) {
+  const [editing, setEditing] = useState(false);
+  const selectedOption = options.find((opt) => opt.value === value);
+
   const handleChange = useCallback(
     (newValue: string | null) => {
       if (newValue != null && newValue !== value) {
         onCellEdit(rowId, columnId, newValue);
       }
+      setEditing(false);
     },
     [value, rowId, columnId, onCellEdit]
   );
 
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        className={cn(idleCell, className)}
+        onClick={() => setEditing(true)}
+      >
+        {selectedOption?.label ?? value}
+      </button>
+    );
+  }
+
   return (
-    <Select value={value ?? ''} onValueChange={handleChange}>
+    <Select
+      value={value ?? ''}
+      onValueChange={handleChange}
+      open
+      onOpenChange={(open) => {
+        if (!open) setEditing(false);
+      }}
+    >
       <SelectTrigger
         className={cn(
-          'h-8 border-0 rounded-none bg-transparent shadow-none focus-visible:ring-1 focus-visible:ring-inset',
+          'h-8 border-0 rounded-none bg-transparent shadow-none ring-2 ring-inset ring-p-border-focus',
           className
         )}
       >
@@ -329,21 +403,41 @@ function EditableDateCell({
   onCellEdit,
   className,
 }: EditableDateCellProps) {
+  const [editing, setEditing] = useState(false);
   const dateStr = value ? new Date(value).toISOString().split('T')[0] : '';
+
+  const formatted = value
+    ? new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(value))
+    : '';
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onCellEdit(rowId, columnId, e.target.value);
+      setEditing(false);
     },
     [rowId, columnId, onCellEdit]
   );
 
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        className={cn(idleCell, className)}
+        onClick={() => setEditing(true)}
+      >
+        {formatted}
+      </button>
+    );
+  }
+
   return (
-    <Input
+    <input
       type="date"
       defaultValue={dateStr}
       onChange={handleChange}
-      className={cn(cellBase, className)}
+      onBlur={() => setEditing(false)}
+      autoFocus
+      className={cn(editInput, className)}
     />
   );
 }
@@ -354,7 +448,7 @@ function EditableDateCell({
 
 /**
  * Creates an editable text column.
- * The cell renders an Input that saves on blur or Enter.
+ * Displays plain text when idle; shows an Input on click.
  */
 export function createEditableTextColumn<TData>(
   config: EditableTextColumnConfig<TData>
@@ -385,7 +479,7 @@ export function createEditableTextColumn<TData>(
 
 /**
  * Creates an editable number column.
- * The cell renders an Input[type=number] that saves on blur or Enter.
+ * Displays the number as plain text when idle; shows an Input on click.
  */
 export function createEditableNumberColumn<TData>(
   config: EditableNumberColumnConfig<TData>
@@ -473,7 +567,7 @@ export function createEditableCurrencyColumn<TData>(
 
 /**
  * Creates an editable select column.
- * Renders a Select component that saves immediately on selection.
+ * Displays the selected option label when idle; opens a Select on click.
  */
 export function createEditableSelectColumn<TData>(
   config: EditableSelectColumnConfig<TData>
@@ -504,7 +598,7 @@ export function createEditableSelectColumn<TData>(
 
 /**
  * Creates an editable date column.
- * Renders an Input[type=date] that saves on change.
+ * Displays a formatted date when idle; shows an Input[type=date] on click.
  */
 export function createEditableDateColumn<TData>(
   config: EditableDateColumnConfig<TData>

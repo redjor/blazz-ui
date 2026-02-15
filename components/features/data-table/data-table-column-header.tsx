@@ -30,7 +30,7 @@ export function DataTableColumnHeader<TData, TValue>({
       <Button
         variant="ghost"
         size="sm"
-        className="-ml-3 h-8 data-[state=open]:bg-accent text-xs font-medium"
+        className="-ml-3 data-[state=open]:bg-accent text-xs font-medium"
         onClick={() => {
           // Toggle sorting: false -> asc -> desc -> false
           const currentSort = column.getIsSorted();
