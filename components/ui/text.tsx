@@ -5,15 +5,15 @@ import { cn } from "@/lib/utils"
 const textVariants = cva("", {
 	variants: {
 		tone: {
-			base: "text-p-text",
-			subdued: "text-p-text-secondary",
-			disabled: "text-p-text-disabled",
-			success: "text-p-success-text",
-			critical: "text-p-critical-text",
-			caution: "text-p-caution-text",
-			warning: "text-p-warning-text",
-			info: "text-p-info-text",
-			"text-inverse": "text-p-text-on-fill",
+			base: "text-fg",
+			subdued: "text-fg-muted",
+			disabled: "text-fg-subtle",
+			success: "text-positive",
+			critical: "text-negative",
+			caution: "text-caution",
+			warning: "text-caution",
+			info: "text-inform",
+			"text-inverse": "text-brand-fg",
 			inherit: "text-inherit",
 		},
 		alignment: {
@@ -23,10 +23,10 @@ const textVariants = cva("", {
 			justify: "text-justify",
 		},
 		fontWeight: {
-			regular: "font-[weight:var(--p-font-weight-regular)]",
-			medium: "font-[weight:var(--p-font-weight-medium)]",
-			semibold: "font-[weight:var(--p-font-weight-semibold)]",
-			bold: "font-[weight:var(--p-font-weight-bold)]",
+			regular: "font-normal",
+			medium: "font-medium",
+			semibold: "font-semibold",
+			bold: "font-bold",
 		},
 		textDecorationLine: {
 			"line-through": "line-through",
@@ -36,6 +36,20 @@ const textVariants = cva("", {
 		tone: "base",
 	},
 })
+
+const variantSizeMap: Record<string, string> = {
+	"heading-3xl": "text-3xl leading-tight",
+	"heading-2xl": "text-2xl leading-tight",
+	"heading-xl": "text-xl leading-snug",
+	"heading-lg": "text-lg leading-snug",
+	"heading-md": "text-base leading-normal",
+	"heading-sm": "text-sm leading-normal",
+	"heading-xs": "text-xs leading-normal",
+	"body-lg": "text-base leading-normal",
+	"body-md": "text-sm leading-normal",
+	"body-sm": "text-xs leading-normal",
+	"body-xs": "text-[11px] leading-normal",
+}
 
 type TypographyVariant =
 	| "heading-3xl"
@@ -53,53 +67,14 @@ type TypographyVariant =
 export interface TextProps
 	extends React.HTMLAttributes<HTMLElement>,
 		VariantProps<typeof textVariants> {
-	/**
-	 * The HTML element to render
-	 * @default "span"
-	 */
 	as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "strong" | "em" | "dt" | "dd" | "legend"
-
-	/**
-	 * The typographic style variant to apply
-	 * @default "body-md"
-	 */
 	variant?: TypographyVariant
-
-	/**
-	 * Truncate text with ellipsis
-	 */
 	truncate?: boolean
-
-	/**
-	 * Break long words to prevent overflow
-	 */
 	breakWord?: boolean
-
-	/**
-	 * Use monospace font for numeric values
-	 */
 	numeric?: boolean
-
-	/**
-	 * Visually hide the element but keep it accessible to screen readers
-	 */
 	visuallyHidden?: boolean
 }
 
-/**
- * Text component for displaying text content with consistent typography.
- *
- * Based on Shopify Polaris design system, provides semantic HTML elements
- * with predefined typographic styles and tones.
- *
- * @example
- * ```tsx
- * <Text variant="heading-lg" as="h1">Welcome</Text>
- * <Text variant="body-md" tone="subdued">Optional description</Text>
- * <Text as="p" truncate>Long text that will be truncated...</Text>
- * <Text numeric>$1,234.56</Text>
- * ```
- */
 export const Text = React.forwardRef<HTMLElement, TextProps>(
 	(
 		{
@@ -114,26 +89,17 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
 			numeric,
 			visuallyHidden,
 			className,
-			style,
 			children,
 			...props
 		},
 		ref
 	) => {
-		// Get typography styles from CSS variables
-		const typographyStyle: React.CSSProperties = variant ? {
-			fontFamily: `var(--p-text-${variant}-font-family)`,
-			fontSize: `var(--p-text-${variant}-font-size)`,
-			fontWeight: fontWeight ? `var(--p-font-weight-${fontWeight})` : `var(--p-text-${variant}-font-weight)`,
-			letterSpacing: `var(--p-text-${variant}-font-letter-spacing)`,
-			lineHeight: `var(--p-text-${variant}-font-line-height)`,
-		} : {}
-
 		return (
 			<Component
 				ref={ref as any}
 				className={cn(
-					textVariants({ tone, alignment, textDecorationLine }),
+					variantSizeMap[variant] ?? "",
+					textVariants({ tone, alignment, fontWeight, textDecorationLine }),
 					{
 						"truncate": truncate,
 						"break-words": breakWord,
@@ -142,7 +108,6 @@ export const Text = React.forwardRef<HTMLElement, TextProps>(
 					},
 					className
 				)}
-				style={{ ...typographyStyle, ...style }}
 				{...props}
 			>
 				{children}

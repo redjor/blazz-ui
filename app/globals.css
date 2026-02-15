@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/neutral.css";
-@import "fumadocs-ui/css/preset.css";
 
 @source "../app/**/*.{js,ts,jsx,tsx}";
 @source "../components/**/*.{js,ts,jsx,tsx}";
@@ -208,6 +206,40 @@
 	--transition-timing-function-p-ease-in: var(--p-motion-ease-in);
 	--transition-timing-function-p-ease-out: var(--p-motion-ease-out);
 	--transition-timing-function-p-ease-in-out: var(--p-motion-ease-in-out);
+
+	/* =============================================
+	   PRO UI DESIGN SYSTEM — Tailwind Utilities
+	   ============================================= */
+
+	/* Surfaces */
+	--color-surface: var(--bg-surface);
+	--color-raised: var(--bg-raised);
+	--color-panel: var(--bg-overlay);
+
+	/* Text */
+	--color-fg: var(--text-primary);
+	--color-fg-muted: var(--text-secondary);
+	--color-fg-subtle: var(--text-muted);
+
+	/* Borders */
+	--color-edge: var(--border-default);
+	--color-edge-subtle: var(--border-subtle);
+
+	/* Accent / Brand */
+	--color-brand: var(--accent);
+	--color-brand-hover: var(--accent-hover);
+	--color-brand-fg: var(--accent-foreground);
+
+	/* Semantic */
+	--color-positive: var(--success);
+	--color-caution: var(--warning);
+	--color-negative: var(--destructive);
+	--color-inform: var(--info);
+
+	/* Spacing */
+	--spacing-section: var(--section-gap);
+	--spacing-cell-x: var(--cell-padding-x);
+	--spacing-cell-y: var(--cell-padding-y);
 }
 
 :root {
@@ -735,6 +767,101 @@
 	--sidebar-ring: oklch(0.85 0 0);
 }
 
+/* =============================================
+   PRO UI DESIGN SYSTEM — Light Theme (default)
+   ============================================= */
+
+:root {
+	/* Surfaces */
+	--bg-app: oklch(0.97 0 0);
+	--bg-surface: oklch(1 0 0);
+	--bg-raised: oklch(0.94 0 0);
+	--bg-overlay: oklch(1 0 0);
+
+	/* Borders */
+	--border-default: oklch(0.87 0 0);
+	--border-subtle: oklch(0.92 0 0);
+
+	/* Text */
+	--text-primary: oklch(0.14 0 0);
+	--text-secondary: oklch(0.45 0 0);
+	--text-muted: oklch(0.55 0 0);
+
+	/* Accent — Indigo/Violet */
+	--accent: oklch(0.50 0.22 275);
+	--accent-hover: oklch(0.44 0.22 275);
+	--accent-foreground: oklch(0.985 0 0);
+
+	/* Semantic */
+	--success: oklch(0.45 0.18 145);
+	--warning: oklch(0.55 0.15 70);
+	--destructive: oklch(0.50 0.2 25);
+	--info: oklch(0.45 0.2 265);
+
+	/* Density */
+	--row-height: 40px;
+	--cell-padding-x: 12px;
+	--cell-padding-y: 8px;
+	--input-height: 32px;
+	--section-gap: 24px;
+	--sidebar-width: 240px;
+	--sidebar-collapsed: 64px;
+}
+
+/* =============================================
+   PRO UI DESIGN SYSTEM — Theme: Slate (Dark)
+   ============================================= */
+
+html.dark {
+	color-scheme: dark;
+
+	/* Surfaces */
+	--bg-app: oklch(0.145 0.005 285);
+	--bg-surface: oklch(0.178 0.005 285);
+	--bg-raised: oklch(0.215 0.005 285);
+	--bg-overlay: oklch(0.25 0.005 285);
+
+	/* Borders */
+	--border-default: oklch(0.35 0.005 285 / 0.6);
+	--border-subtle: oklch(0.35 0.005 285 / 0.3);
+
+	/* Text */
+	--text-primary: oklch(0.985 0 0);
+	--text-secondary: oklch(0.65 0.01 285);
+	--text-muted: oklch(0.5 0.01 285);
+
+	/* Accent — Indigo/Violet */
+	--accent: oklch(0.585 0.22 275);
+	--accent-hover: oklch(0.52 0.22 275);
+	--accent-foreground: oklch(0.985 0 0);
+
+	/* Semantic */
+	--success: oklch(0.6 0.18 145);
+	--warning: oklch(0.7 0.15 70);
+	--destructive: oklch(0.6 0.2 25);
+	--info: oklch(0.55 0.2 265);
+
+	/* Density */
+	--row-height: 40px;
+	--cell-padding-x: 12px;
+	--cell-padding-y: 8px;
+	--input-height: 32px;
+	--section-gap: 24px;
+	--sidebar-width: 240px;
+	--sidebar-collapsed: 64px;
+
+	/* Layout (consumed by Frame/Sidebar) */
+	--top-background: var(--bg-app);
+	--main-background: var(--bg-surface);
+	--main-radius: 10px;
+	--topbar-height: 56px;
+	--tabbar-height: 36px;
+
+	/* Legacy aliases (shadcn compat) */
+	--background: var(--bg-app);
+	--foreground: var(--text-primary);
+}
+
 @layer base {
 	@keyframes slide-in-from-left {
 		from {
@@ -983,18 +1110,18 @@
 	}
 
 	body {
-		background-color: var(--background);
-		color: var(--foreground);
+		background-color: var(--bg-app, var(--background));
+		color: var(--text-primary, var(--foreground));
 		font-size: 13px;
 		font-feature-settings:
 			"rlig" 1,
 			"calt" 1;
 	}
 
-	/* Force sidebar colors - direct values */
+	/* Sidebar colors — follow theme */
 	.sidebar-container {
-		background-color: oklch(0.88 0 0);
-		color: oklch(0.3 0 0);
+		background-color: var(--bg-surface, oklch(0.88 0 0));
+		color: var(--text-primary, oklch(0.3 0 0));
 	}
 
 	[data-sidebar="content"] {
@@ -1008,6 +1135,10 @@
 	}
 
 	*:hover {
+		scrollbar-color: rgb(255 255 255 / 0.15) transparent;
+	}
+
+	:root:not(.dark) *:hover {
 		scrollbar-color: rgb(0 0 0 / 0.2) transparent;
 	}
 
@@ -1027,7 +1158,7 @@
 	}
 
 	*:hover::-webkit-scrollbar-thumb {
-		background-color: rgb(0 0 0 / 0.2);
+		background-color: rgb(255 255 255 / 0.15);
 	}
 
 	*::-webkit-scrollbar-thumb:hover {

@@ -226,24 +226,22 @@ const useFilterContext = () => useContext(FilterContext);
 // Reusable input variant component for consistent styling
 const filterInputVariants = cva(
   [
-    "transition shrink-0 outline-none text-foreground relative flex items-center",
-    "has-[[data-slot=filters-input]:focus-visible]:ring-ring/30",
-    "has-[[data-slot=filters-input]:focus-visible]:border-ring",
+    "transition shrink-0 outline-none text-fg relative flex items-center",
+    "has-[[data-slot=filters-input]:focus-visible]:ring-brand/20",
+    "has-[[data-slot=filters-input]:focus-visible]:border-brand",
     "has-[[data-slot=filters-input]:focus-visible]:outline-none",
     "has-[[data-slot=filters-input]:focus-visible]:ring-[3px]",
     "has-[[data-slot=filters-input]:focus-visible]:z-1",
     "has-[[data-slot=filters-input]:[aria-invalid=true]]:border",
     "has-[[data-slot=filters-input]:[aria-invalid=true]]:border-solid",
-    "has-[[data-slot=filters-input]:[aria-invalid=true]]:border-destructive/60",
-    "has-[[data-slot=filters-input]:[aria-invalid=true]]:ring-destructive/10",
-    "dark:has-[[data-slot=filters-input]:[aria-invalid=true]]:border-destructive",
-    "dark:has-[[data-slot=filters-input]:[aria-invalid=true]]:ring-destructive/20",
+    "has-[[data-slot=filters-input]:[aria-invalid=true]]:border-negative/60",
+    "has-[[data-slot=filters-input]:[aria-invalid=true]]:ring-negative/10",
   ],
   {
     variants: {
       variant: {
-        solid: "border-0 bg-secondary",
-        outline: "bg-background border border-border",
+        solid: "border-0 bg-raised",
+        outline: "bg-background border border-edge",
       },
       size: {
         lg: "h-10 text-sm px-2.5 has-[[data-slot=filters-prefix]]:ps-0 has-[[data-slot=filters-suffix]]:pe-0",
@@ -266,13 +264,13 @@ const filterInputVariants = cva(
 // Reusable remove button variant component
 const filterRemoveButtonVariants = cva(
   [
-    "inline-flex items-center shrink-0 justify-center transition shrink-0 text-muted-foreground hover:text-foreground",
+    "inline-flex items-center shrink-0 justify-center transition shrink-0 text-fg-muted hover:text-fg",
   ],
   {
     variants: {
       variant: {
-        solid: "bg-secondary",
-        outline: "border border-border border-s-0 hover:bg-secondary",
+        solid: "bg-raised",
+        outline: "border border-edge border-s-0 hover:bg-raised",
       },
       size: {
         lg: "h-10 w-10 [&_svg:not([class*=size-])]:size-4",
@@ -299,14 +297,14 @@ const filterRemoveButtonVariants = cva(
 
 const filterAddButtonVariants = cva(
   [
-    "inline-flex items-center shrink-0 justify-center transition shrink-0 text-foreground shadow-xs shadow-black/5",
+    "inline-flex items-center shrink-0 justify-center transition shrink-0 text-fg shadow-xs shadow-black/5",
     "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
   ],
   {
     variants: {
       variant: {
-        solid: "border border-input hover:bg-secondary/60",
-        outline: "border border-border hover:bg-secondary",
+        solid: "border border-edge hover:bg-raised/60",
+        outline: "border border-edge hover:bg-raised",
       },
       size: {
         lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
@@ -332,14 +330,14 @@ const filterAddButtonVariants = cva(
 
 const filterOperatorVariants = cva(
   [
-    "transition text-muted-foreground hover:text-foreground data-[state=open]:text-foreground shrink-0 flex items-center relative focus-visible:z-1",
+    "transition text-fg-muted hover:text-fg data-[state=open]:text-fg shrink-0 flex items-center relative focus-visible:z-1",
   ],
   {
     variants: {
       variant: {
-        solid: "bg-secondary",
+        solid: "bg-raised",
         outline:
-          "bg-background border border-border border-e-0 hover:bg-secondary data-[state=open]:bg-secondary [&+[data-slot=filters-remove]]:border-s",
+          "bg-background border border-edge border-e-0 hover:bg-raised data-[state=open]:bg-raised [&+[data-slot=filters-remove]]:border-s",
       },
       size: {
         lg: "h-10 px-4 text-sm gap-1.5",
@@ -361,14 +359,14 @@ const filterOperatorVariants = cva(
 
 const filterFieldLabelVariants = cva(
   [
-    "flex gap-1.5 shrink-0 px-1.5 py-1 items-center text-foreground",
+    "flex gap-1.5 shrink-0 px-1.5 py-1 items-center text-fg",
     "[&_svg:not([class*=size-])]:size-3.5 [&_svg:not([class*=opacity-])]:opacity-60",
   ],
   {
     variants: {
       variant: {
-        solid: "bg-secondary",
-        outline: "border border-border border-e-0",
+        solid: "bg-raised",
+        outline: "border border-edge border-e-0",
       },
       size: {
         lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
@@ -388,13 +386,13 @@ const filterFieldLabelVariants = cva(
 );
 
 const filterFieldValueVariants = cva(
-  "text-foreground transition shrink-0 flex items-center gap-1 relative focus-visible:z-1",
+  "text-fg transition shrink-0 flex items-center gap-1 relative focus-visible:z-1",
   {
     variants: {
       variant: {
-        solid: "bg-secondary",
+        solid: "bg-raised",
         outline:
-          "bg-background border border-border hover:bg-secondary has-[[data-slot=switch]]:hover:bg-transparent",
+          "bg-background border border-edge hover:bg-raised has-[[data-slot=switch]]:hover:bg-transparent",
       },
       size: {
         lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
@@ -415,7 +413,7 @@ const filterFieldValueVariants = cva(
 );
 
 const filterFieldAddonVariants = cva(
-  "text-foreground shrink-0 flex items-center justify-center",
+  "text-fg shrink-0 flex items-center justify-center",
   {
     variants: {
       variant: {
@@ -436,12 +434,12 @@ const filterFieldAddonVariants = cva(
 );
 
 const filterFieldBetweenVariants = cva(
-  "text-muted-foreground shrink-0 flex items-center",
+  "text-fg-muted shrink-0 flex items-center",
   {
     variants: {
       variant: {
-        solid: "bg-secondary",
-        outline: "bg-background border border-border border-x-0",
+        solid: "bg-raised",
+        outline: "bg-background border border-edge border-x-0",
       },
       size: {
         lg: "h-10 px-4 text-sm",
@@ -649,7 +647,7 @@ function FilterInput<T = unknown>({
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
-                <AlertCircle className="size-3.5 text-destructive" />
+                <AlertCircle className="size-3.5 text-negative" />
               </div>
             </TooltipTrigger>
             <TooltipContent>
@@ -1023,7 +1021,7 @@ function FilterOperatorDropdown<T = unknown>({
           >
             <span>{op.label}</span>
             <Check
-              className={`text-primary ms-auto ${op.value === operator ? "opacity-100" : "opacity-0"}`}
+              className={`text-brand ms-auto ${op.value === operator ? "opacity-100" : "opacity-0"}`}
             />
           </DropdownMenuItem>
         ))}
@@ -1118,10 +1116,10 @@ function SelectOptionsPopover<T = unknown>({
                     }}
                   >
                     {option.icon && option.icon}
-                    <span className="text-accent-foreground truncate">
+                    <span className="text-fg truncate">
                       {option.label}
                     </span>
-                    <Check className="text-primary ms-auto" />
+                    <Check className="text-brand ms-auto" />
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -1166,10 +1164,10 @@ function SelectOptionsPopover<T = unknown>({
                       }}
                     >
                       {option.icon && option.icon}
-                      <span className="text-accent-foreground truncate">
+                      <span className="text-fg truncate">
                         {option.label}
                       </span>
-                      <Check className="text-primary ms-auto opacity-0" />
+                      <Check className="text-brand ms-auto opacity-0" />
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -1264,10 +1262,10 @@ function SelectOptionsPopover<T = unknown>({
                     }}
                   >
                     {option.icon && option.icon}
-                    <span className="text-accent-foreground truncate">
+                    <span className="text-fg truncate">
                       {option.label}
                     </span>
-                    <Check className="text-primary ms-auto" />
+                    <Check className="text-brand ms-auto" />
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -1301,10 +1299,10 @@ function SelectOptionsPopover<T = unknown>({
                       }}
                     >
                       {option.icon && option.icon}
-                      <span className="text-accent-foreground truncate">
+                      <span className="text-fg truncate">
                         {option.label}
                       </span>
-                      <Check className="text-primary ms-auto opacity-0" />
+                      <Check className="text-brand ms-auto opacity-0" />
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -1369,7 +1367,7 @@ function FilterValueSelector<T = unknown>({
             size="sm"
           />
           {field.onLabel && field.offLabel && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-fg-muted">
               {isChecked ? onLabel : offLabel}
             </span>
           )}
@@ -1723,10 +1721,10 @@ function FilterValueSelector<T = unknown>({
                     }}
                   >
                     {option.icon && option.icon}
-                    <span className="text-accent-foreground truncate">
+                    <span className="text-fg truncate">
                       {option.label}
                     </span>
-                    <Check className="text-primary ms-auto" />
+                    <Check className="text-brand ms-auto" />
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -1759,10 +1757,10 @@ function FilterValueSelector<T = unknown>({
                       }}
                     >
                       {option.icon && option.icon}
-                      <span className="text-accent-foreground truncate">
+                      <span className="text-fg truncate">
                         {option.label}
                       </span>
-                      <Check className="text-primary ms-auto opacity-0" />
+                      <Check className="text-brand ms-auto opacity-0" />
                     </CommandItem>
                   ))}
                 </CommandGroup>

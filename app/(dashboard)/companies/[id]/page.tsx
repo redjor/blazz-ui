@@ -1,15 +1,24 @@
 "use client"
 
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { use } from "react"
 import { toast } from "sonner"
 import { Edit } from "lucide-react"
-import { PageHeader } from "@/components/blocks/page-header"
 import { DetailPanel } from "@/components/blocks/detail-panel"
 import { FieldGrid, Field } from "@/components/blocks/field-grid"
 import { ActivityTimeline } from "@/components/blocks/activity-timeline"
 import { QuickLogActivity } from "@/components/blocks/quick-log-activity"
 import { Badge } from "@/components/ui/badge"
+import {
+	Breadcrumb,
+	BreadcrumbList,
+	BreadcrumbItem as BreadcrumbItemPrimitive,
+	BreadcrumbLink,
+	BreadcrumbSeparator,
+	BreadcrumbPage,
+} from "@/components/ui/breadcrumb"
+import { buttonVariants } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import {
@@ -59,19 +68,23 @@ export default function CompanyDetailPage({
 
 	return (
 		<div className="p-6 space-y-6">
-			<PageHeader
-				title={company.name}
-				breadcrumbs={[
-					{ label: "Dashboard", href: "/dashboard" },
-					{ label: "Entreprises", href: "/companies" },
-					{ label: company.name },
-				]}
-				actions={[
-					{ label: "Modifier", href: `/companies/${id}/edit`, icon: Edit, variant: "outline" },
-				]}
-			/>
+			<Breadcrumb>
+				<BreadcrumbList>
+					<BreadcrumbItemPrimitive>
+						<BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+					</BreadcrumbItemPrimitive>
+					<BreadcrumbSeparator />
+					<BreadcrumbItemPrimitive>
+						<BreadcrumbLink href="/companies">Entreprises</BreadcrumbLink>
+					</BreadcrumbItemPrimitive>
+					<BreadcrumbSeparator />
+					<BreadcrumbItemPrimitive>
+						<BreadcrumbPage>{company.name}</BreadcrumbPage>
+					</BreadcrumbItemPrimitive>
+				</BreadcrumbList>
+			</Breadcrumb>
 
-			<div className="flex items-center justify-between">
+			<div className="flex items-start justify-between gap-4">
 				<DetailPanel.Header
 					title={company.name}
 					subtitle={company.domain}
@@ -80,13 +93,23 @@ export default function CompanyDetailPage({
 							{statusLabel[company.status] ?? company.status}
 						</Badge>
 					}
+					className="border-b-0 pb-0"
 				/>
-				<QuickLogActivity
-					onLog={async ({ type, note }) => {
-						const typeLabels = { call: "Appel", email: "Email", note: "Note", meeting: "RDV" }
-						toast.success(`${typeLabels[type]} enregistré pour ${company.name} : ${note}`)
-					}}
-				/>
+				<div className="flex items-center gap-2">
+					<QuickLogActivity
+						onLog={async ({ type, note }) => {
+							const typeLabels = { call: "Appel", email: "Email", note: "Note", meeting: "RDV" }
+							toast.success(`${typeLabels[type]} enregistré pour ${company.name} : ${note}`)
+						}}
+					/>
+					<Link
+						href={`/companies/${id}/edit`}
+						className={buttonVariants({ variant: "outline", size: "sm" })}
+					>
+						<Edit className="size-4" data-icon="inline-start" />
+						Modifier
+					</Link>
+				</div>
 			</div>
 
 			<Tabs defaultValue="overview">

@@ -230,10 +230,10 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 								{/* Title Section */}
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center gap-3">
-									<h1 className="text-lg font-semibold leading-normal text-foreground">{title}</h1>
+									<h1 className="text-lg font-semibold leading-normal text-fg">{title}</h1>
 									{titleMetadata}
 								</div>
-									{subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+									{subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}
 								</div>
 
 								{/* Actions Section */}
@@ -289,7 +289,7 @@ export const PageSection = React.forwardRef<HTMLElement, PageSectionProps>(
 				{(title || description) && (
 					<div className="space-y-1">
 						{title && <h2 className="text-heading-lg tracking-tight">{title}</h2>}
-						{description && <p className="text-body-md text-muted-foreground">{description}</p>}
+						{description && <p className="text-body-md text-fg-muted">{description}</p>}
 					</div>
 				)}
 				{children}

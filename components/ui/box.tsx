@@ -13,13 +13,13 @@ const boxVariants = cva("", {
 		},
 		background: {
 			transparent: "bg-transparent",
-			white: "bg-card",
-			muted: "bg-muted",
-			accent: "bg-accent",
+			white: "bg-surface",
+			muted: "bg-raised",
+			accent: "bg-raised",
 		},
 		border: {
 			none: "border-0",
-			default: "border border-border",
+			default: "border border-edge",
 		},
 		borderRadius: {
 			none: "rounded-none",

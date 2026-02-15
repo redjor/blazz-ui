@@ -162,7 +162,7 @@ const MenuPopup = React.forwardRef<
 	<MenuPrimitive.Popup
 		ref={ref}
 		className={cn(
-			"z-50 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+			"z-50 min-w-32 overflow-hidden rounded-md border bg-panel p-1 text-fg shadow-md",
 			"origin-[var(--transform-origin)] transition-[transform,scale,opacity]",
 			"data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
 			"data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
@@ -214,7 +214,7 @@ const MenuItem = React.forwardRef<
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
 			"transition-colors",
-			"data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
+			"data-[highlighted]:bg-raised data-[highlighted]:text-fg",
 			"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}
@@ -244,7 +244,7 @@ const MenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<MenuPrimitive.Separator
 		ref={ref}
-		className={cn("-mx-1 my-1 h-px bg-border", className)}
+		className={cn("-mx-1 my-1 h-px bg-edge", className)}
 		{...props}
 	/>
 ))
@@ -355,7 +355,7 @@ const MenuRadioItem = React.forwardRef<
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
 			"transition-colors",
-			"data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
+			"data-[highlighted]:bg-raised data-[highlighted]:text-fg",
 			"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}
@@ -425,7 +425,7 @@ const MenuCheckboxItem = React.forwardRef<
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
 			"transition-colors",
-			"data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground",
+			"data-[highlighted]:bg-raised data-[highlighted]:text-fg",
 			"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}

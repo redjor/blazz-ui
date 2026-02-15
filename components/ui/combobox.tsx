@@ -49,7 +49,7 @@ export function Combobox({
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger
 				className={cn(
-					"focus-visible:border-ring focus-visible:ring-ring/50 border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none h-8 gap-1.5 px-2.5 w-full",
+					"focus-visible:border-brand focus-visible:ring-brand/20 border-edge bg-background hover:bg-raised hover:text-fg aria-expanded:bg-raised aria-expanded:text-fg rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none h-8 gap-1.5 px-2.5 w-full",
 					className
 				)}
 				role="combobox"

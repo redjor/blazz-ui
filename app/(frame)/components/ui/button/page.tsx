@@ -9,7 +9,7 @@ import { Mail, ChevronRight, Loader2, Plus } from "lucide-react"
 const buttonProps: PropDefinition[] = [
 	{
 		name: "variant",
-		type: '"default" | "outline" | "secondary" | "tertiary" | "ghost" | "destructive" | "link"',
+		type: '"default" | "outline" | "secondary" | "ghost" | "destructive" | "link"',
 		default: '"default"',
 		description: "The visual style of the button.",
 	},
@@ -48,16 +48,32 @@ export default function ButtonPage() {
 						code={`<Button variant="default">Default</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="secondary">Secondary</Button>
-<Button variant="tertiary">Tertiary</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Destructive</Button>
 <Button variant="link">Link</Button>`}
 					>
-						<div className="flex flex-wrap gap-2">
+						<div className="flex flex-wrap items-center gap-2">
 							<Button variant="default">Default</Button>
 							<Button variant="outline">Outline</Button>
 							<Button variant="secondary">Secondary</Button>
-							<Button variant="tertiary">Tertiary</Button>
+							<Button variant="ghost">Ghost</Button>
+							<Button variant="destructive">Destructive</Button>
+							<Button variant="link">Link</Button>
+						</div>
+					</ComponentExample>
+
+					<ComponentExample
+						title="Variants on dark surface"
+						description="How variants render on a dark background (Slate theme)."
+						code={`<div className="bg-surface rounded-lg p-4">
+  <Button variant="default">Default</Button>
+  <Button variant="outline">Outline</Button>
+</div>`}
+					>
+						<div className="flex flex-wrap items-center gap-2 rounded-lg bg-[var(--bg-app,#1e1e2e)] p-4">
+							<Button variant="default">Default</Button>
+							<Button variant="outline">Outline</Button>
+							<Button variant="secondary">Secondary</Button>
 							<Button variant="ghost">Ghost</Button>
 							<Button variant="destructive">Destructive</Button>
 							<Button variant="link">Link</Button>

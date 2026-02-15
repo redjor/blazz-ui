@@ -72,7 +72,7 @@ export function TagsInput({
 						<button
 							type="button"
 							onClick={() => removeTag(tag)}
-							className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+							className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-brand focus:ring-offset-2"
 						>
 							<X className="h-3 w-3" />
 						</button>
@@ -100,13 +100,13 @@ export function TagsInput({
 				/>
 
 				{showSuggestions && filteredSuggestions.length > 0 && (
-					<div className="absolute top-full left-0 right-0 mt-1 bg-popover border border-input rounded-lg shadow-md z-50 max-h-60 overflow-auto">
+					<div className="absolute top-full left-0 right-0 mt-1 bg-panel border border-edge rounded-lg shadow-md z-50 max-h-60 overflow-auto">
 						{filteredSuggestions.map((suggestion) => (
 							<button
 								key={suggestion}
 								type="button"
 								onClick={() => addTag(suggestion)}
-								className="w-full text-left px-3 py-2 text-sm hover:bg-accent transition-colors"
+								className="w-full text-left px-3 py-2 text-sm hover:bg-raised transition-colors"
 							>
 								{suggestion}
 							</button>

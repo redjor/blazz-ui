@@ -50,7 +50,7 @@ export function CalloutCard({
 		<div
 			data-slot="callout-card"
 			className={cn(
-				"relative flex gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground",
+				"relative flex gap-4 rounded-xl border border-edge bg-surface p-4 text-fg",
 				className
 			)}
 		>
@@ -58,7 +58,7 @@ export function CalloutCard({
 				<button
 					type="button"
 					onClick={onDismiss}
-					className="absolute right-2 top-2 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+					className="absolute right-2 top-2 rounded-md p-1 text-fg-muted hover:bg-raised hover:text-fg"
 					aria-label="Dismiss"
 				>
 					<X className="h-4 w-4" />
@@ -68,7 +68,7 @@ export function CalloutCard({
 			<div className="flex flex-1 flex-col gap-3">
 				<h2 className="text-sm font-medium leading-snug pr-6">{title}</h2>
 
-				{children && <div className="text-sm text-muted-foreground">{children}</div>}
+				{children && <div className="text-sm text-fg-muted">{children}</div>}
 
 				<div className="flex flex-wrap gap-2">
 					<Button size="sm" onClick={handlePrimaryAction}>

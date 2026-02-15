@@ -2,6 +2,7 @@ import { Bell, Menu, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { ThemeToggle } from "./theme-toggle"
 import { UserMenu } from "./user-menu"
 
 export interface AppTopBarProps {
@@ -9,7 +10,7 @@ export interface AppTopBarProps {
 	onOpenMobileMenu?: () => void
 	className?: string
 	/** Highlight the active section in the top bar nav */
-	activeSection?: "showcase" | "crm" | "docs"
+	activeSection?: "showcase" | "crm"
 	user?: {
 		name: string
 		email: string
@@ -21,7 +22,6 @@ export interface AppTopBarProps {
 const sections = [
 	{ id: "showcase" as const, label: "Showcase", href: "/showcase-products" },
 	{ id: "crm" as const, label: "CRM", href: "/dashboard" },
-	{ id: "docs" as const, label: "Docs", href: "/docs" },
 ]
 
 /**
@@ -93,6 +93,7 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 
 			{/* Right: Notifications + User Menu */}
 			<div className="flex items-center gap-2 shrink-0 justify-end">
+				<ThemeToggle />
 				<button
 					type="button"
 					className="rounded-lg p-2 transition-colors hover:bg-gray-800"

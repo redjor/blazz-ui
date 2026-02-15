@@ -22,7 +22,7 @@ const TableHeader = React.forwardRef<
 	<thead
 		ref={ref}
 		data-slot="table-header"
-		className={cn("bg-muted/50 [&_tr]:border-b", className)}
+		className={cn("bg-raised/50 [&_tr]:border-b", className)}
 		{...props}
 	/>
 ))
@@ -48,7 +48,7 @@ const TableFooter = React.forwardRef<
 	<tfoot
 		ref={ref}
 		data-slot="table-footer"
-		className={cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)}
+		className={cn("border-t bg-raised/50 font-medium [&>tr]:last:border-b-0", className)}
 		{...props}
 	/>
 ))
@@ -60,7 +60,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 			ref={ref}
 			data-slot="table-row"
 			className={cn(
-				"border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-primary/5",
+				"border-b border-edge transition-colors hover:bg-raised/50 data-[state=selected]:bg-brand/5",
 				className
 			)}
 			{...props}
@@ -77,7 +77,7 @@ const TableHead = React.forwardRef<
 		ref={ref}
 		data-slot="table-head"
 		className={cn(
-			"h-8 px-3 py-1 text-left align-middle text-xs font-medium leading-none text-muted-foreground [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
+			"h-8 px-3 py-1 text-left align-middle text-xs font-medium leading-none text-fg-muted [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
 			className
 		)}
 		{...props}
@@ -108,7 +108,7 @@ const TableCaption = React.forwardRef<
 	<caption
 		ref={ref}
 		data-slot="table-caption"
-		className={cn("mt-4 text-sm text-muted-foreground", className)}
+		className={cn("mt-4 text-sm text-fg-muted", className)}
 		{...props}
 	/>
 ))

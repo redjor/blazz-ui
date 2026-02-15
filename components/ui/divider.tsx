@@ -7,9 +7,9 @@ export interface DividerProps {
 }
 
 const borderColorMap = {
-	default: "border-border",
-	secondary: "border-border/50",
-	inverse: "border-foreground/20",
+	default: "border-edge",
+	secondary: "border-edge/50",
+	inverse: "border-fg/20",
 	transparent: "border-transparent",
 }
 
