@@ -118,7 +118,7 @@ export interface StatusColumnConfig<_TData> {
   statusMap: Record<
     string,
     {
-      variant: 'primary' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning' | 'info';
+      variant: 'default' | 'secondary' | 'outline' | 'critical' | 'success' | 'warning' | 'info';
       className?: string;
       label?: string;
     }

@@ -1,17 +1,43 @@
 "use client"
 
+import { useState } from "react"
 import { Page } from "@/components/ui/page"
 import { Badge } from "@/components/ui/badge"
 import { ComponentExample } from "@/components/features/docs/component-example"
 import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-import { Check, X } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Check, X, XIcon, Star, Zap, Crown, Shield, CircleAlert, Mail, Tag } from "lucide-react"
 
 const badgeProps: PropDefinition[] = [
 	{
 		name: "variant",
-		type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+		type: '"default" | "secondary" | "info" | "success" | "warning" | "critical" | "outline"',
 		default: '"default"',
-		description: "The visual style of the badge.",
+		description: "The semantic color variant.",
+	},
+	{
+		name: "size",
+		type: '"xs" | "sm" | "md"',
+		default: '"sm"',
+		description: "The size of the badge.",
+	},
+	{
+		name: "fill",
+		type: '"solid" | "subtle"',
+		default: '"solid"',
+		description: "Solid fills the background, subtle uses a tinted background with colored text.",
+	},
+	{
+		name: "dot",
+		type: "boolean",
+		default: "false",
+		description: "Show a small colored dot before the content.",
+	},
+	{
+		name: "onDismiss",
+		type: "() => void",
+		description: "When provided, shows a close button and calls this function on click.",
 	},
 	{
 		name: "children",
@@ -19,6 +45,34 @@ const badgeProps: PropDefinition[] = [
 		description: "The content of the badge.",
 	},
 ]
+
+function DismissableDemo() {
+	const [tags, setTags] = useState(["React", "TypeScript", "Tailwind", "Next.js"])
+
+	return (
+		<div className="flex flex-wrap gap-2">
+			{tags.map((tag) => (
+				<Badge
+					key={tag}
+					variant="secondary"
+					fill="subtle"
+					onDismiss={() => setTags((t) => t.filter((v) => v !== tag))}
+				>
+					{tag}
+				</Badge>
+			))}
+			{tags.length === 0 && (
+				<button
+					type="button"
+					className="text-xs text-fg-muted hover:text-fg transition-colors"
+					onClick={() => setTags(["React", "TypeScript", "Tailwind", "Next.js"])}
+				>
+					Reset tags
+				</button>
+			)}
+		</div>
+	)
+}
 
 export default function BadgePage() {
 	return (
@@ -30,16 +84,21 @@ export default function BadgePage() {
 				<section className="space-y-6">
 					<h2 className="text-lg font-semibold">Examples</h2>
 
+					{/* ── Variants ── */}
 					<ComponentExample
 						title="Variants"
-						description="Different visual styles for various contexts."
+						description="Seven semantic variants for different contexts."
 						code={`<Badge variant="default">Default</Badge>
-<Badge variant="info">Secondary</Badge>
-<Badge variant="critical">Destructive</Badge>
+<Badge variant="secondary">Secondary</Badge>
+<Badge variant="info">Info</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="critical">Critical</Badge>
 <Badge variant="outline">Outline</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
 							<Badge variant="default">Default</Badge>
+							<Badge variant="secondary">Secondary</Badge>
 							<Badge variant="info">Info</Badge>
 							<Badge variant="success">Success</Badge>
 							<Badge variant="warning">Warning</Badge>
@@ -48,38 +107,167 @@ export default function BadgePage() {
 						</div>
 					</ComponentExample>
 
+					{/* ── Fill: Solid vs Subtle ── */}
+					<ComponentExample
+						title="Fill: Solid vs Subtle"
+						description="Solid fills the background with the full color. Subtle uses a tinted background with colored text and a light border."
+						code={`// Solid (default)
+<Badge variant="info">Info</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="critical">Critical</Badge>
+
+// Subtle
+<Badge variant="info" fill="subtle">Info</Badge>
+<Badge variant="success" fill="subtle">Success</Badge>
+<Badge variant="warning" fill="subtle">Warning</Badge>
+<Badge variant="critical" fill="subtle">Critical</Badge>`}
+					>
+						<div className="flex flex-col gap-3">
+							<div className="flex flex-wrap gap-2">
+								<span className="w-12 text-xs text-fg-muted self-center">Solid</span>
+								<Badge variant="default">Default</Badge>
+								<Badge variant="secondary">Secondary</Badge>
+								<Badge variant="info">Info</Badge>
+								<Badge variant="success">Success</Badge>
+								<Badge variant="warning">Warning</Badge>
+								<Badge variant="critical">Critical</Badge>
+							</div>
+							<div className="flex flex-wrap gap-2">
+								<span className="w-12 text-xs text-fg-muted self-center">Subtle</span>
+								<Badge variant="default" fill="subtle">Default</Badge>
+								<Badge variant="secondary" fill="subtle">Secondary</Badge>
+								<Badge variant="info" fill="subtle">Info</Badge>
+								<Badge variant="success" fill="subtle">Success</Badge>
+								<Badge variant="warning" fill="subtle">Warning</Badge>
+								<Badge variant="critical" fill="subtle">Critical</Badge>
+							</div>
+						</div>
+					</ComponentExample>
+
+					{/* ── Sizes ── */}
+					<ComponentExample
+						title="Sizes"
+						description="Three sizes to fit different contexts — xs for inline labels, sm for general use, md for emphasis."
+						code={`<Badge size="xs">Extra Small</Badge>
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>`}
+					>
+						<div className="flex items-center gap-2">
+							<Badge size="xs">Extra Small</Badge>
+							<Badge size="sm">Small</Badge>
+							<Badge size="md">Medium</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── With Dot ── */}
+					<ComponentExample
+						title="With Dot"
+						description="A small colored dot before the text, ideal for status indicators."
+						code={`<Badge variant="success" fill="subtle" dot>Online</Badge>
+<Badge variant="warning" fill="subtle" dot>Away</Badge>
+<Badge variant="secondary" fill="subtle" dot>Offline</Badge>
+<Badge variant="critical" fill="subtle" dot>Busy</Badge>
+<Badge variant="outline" dot>Unknown</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="success" fill="subtle" dot>Online</Badge>
+							<Badge variant="warning" fill="subtle" dot>Away</Badge>
+							<Badge variant="secondary" fill="subtle" dot>Offline</Badge>
+							<Badge variant="critical" fill="subtle" dot>Busy</Badge>
+							<Badge variant="outline" dot>Unknown</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── With Dot Solid ── */}
+					<ComponentExample
+						title="Dot + Solid Fill"
+						description="Dots work with both fill modes."
+						code={`<Badge variant="success" dot>Active</Badge>
+<Badge variant="info" dot>Syncing</Badge>
+<Badge variant="critical" dot>Error</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="success" dot>Active</Badge>
+							<Badge variant="info" dot>Syncing</Badge>
+							<Badge variant="critical" dot>Error</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── With Icons ── */}
 					<ComponentExample
 						title="With Icons"
-						description="Add icons for additional visual context."
+						description="Pass icons as children for additional visual context. Icons are automatically sized to match the badge."
 						code={`<Badge><Check /> Approved</Badge>
-<Badge variant="critical"><X /> Rejected</Badge>`}
+<Badge variant="critical"><X /> Rejected</Badge>
+<Badge variant="info"><Zap /> Fast</Badge>
+<Badge variant="warning"><CircleAlert /> Attention</Badge>
+<Badge variant="success" fill="subtle"><Shield /> Secure</Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
-							<Badge>
-								<Check /> Approved
-							</Badge>
-							<Badge variant="critical">
-								<X /> Rejected
-							</Badge>
+							<Badge><Check /> Approved</Badge>
+							<Badge variant="critical"><X /> Rejected</Badge>
+							<Badge variant="info"><Zap /> Fast</Badge>
+							<Badge variant="warning"><CircleAlert /> Attention</Badge>
+							<Badge variant="success" fill="subtle"><Shield /> Secure</Badge>
 						</div>
 					</ComponentExample>
 
+					{/* ── Icon Only ── */}
 					<ComponentExample
-						title="Status Indicators"
-						description="Use badges to show status in lists or tables."
-						code={`<Badge variant="default">Active</Badge>
-<Badge variant="info">Pending</Badge>
-<Badge variant="critical">Cancelled</Badge>
-<Badge variant="outline">Draft</Badge>`}
+						title="Icon Only"
+						description="Compact icon-only badges for tight spaces."
+						code={`<Badge><Check /></Badge>
+<Badge variant="critical"><X /></Badge>
+<Badge variant="info"><Star /></Badge>
+<Badge variant="warning"><CircleAlert /></Badge>`}
 					>
 						<div className="flex flex-wrap gap-2">
-							<Badge variant="default">Active</Badge>
-							<Badge variant="info">Pending</Badge>
-							<Badge variant="critical">Cancelled</Badge>
-							<Badge variant="outline">Draft</Badge>
+							<Badge><Check /></Badge>
+							<Badge variant="critical"><X /></Badge>
+							<Badge variant="info"><Star /></Badge>
+							<Badge variant="warning"><CircleAlert /></Badge>
 						</div>
 					</ComponentExample>
 
+					{/* ── Dismissable ── */}
+					<ComponentExample
+						title="Dismissable"
+						description="Add onDismiss to show a close button. Ideal for filter tags, selected items, or removable labels."
+						code={`const [tags, setTags] = useState(["React", "TypeScript", "Tailwind"])
+
+{tags.map((tag) => (
+  <Badge
+    key={tag}
+    variant="secondary"
+    fill="subtle"
+    onDismiss={() => setTags(t => t.filter(v => v !== tag))}
+  >
+    {tag}
+  </Badge>
+))}`}
+					>
+						<DismissableDemo />
+					</ComponentExample>
+
+					{/* ── Dismissable Variants ── */}
+					<ComponentExample
+						title="Dismissable + Variants"
+						description="Close buttons work with all variants and fills."
+						code={`<Badge variant="default" onDismiss={() => {}}>Default</Badge>
+<Badge variant="info" fill="subtle" onDismiss={() => {}}>Info</Badge>
+<Badge variant="success" onDismiss={() => {}}>Success</Badge>
+<Badge variant="outline" onDismiss={() => {}}>Outline</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="default" onDismiss={() => {}}>Default</Badge>
+							<Badge variant="info" fill="subtle" onDismiss={() => {}}>Info</Badge>
+							<Badge variant="success" onDismiss={() => {}}>Success</Badge>
+							<Badge variant="outline" onDismiss={() => {}}>Outline</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── Counts ── */}
 					<ComponentExample
 						title="Counts"
 						description="Display notification counts or quantities."
@@ -93,57 +281,168 @@ export default function BadgePage() {
 							<Badge variant="critical">5</Badge>
 						</div>
 					</ComponentExample>
+
+					{/* ── Status Indicators ── */}
+					<ComponentExample
+						title="Status Indicators"
+						description="Combine dot, fill, and variants for a complete status system."
+						code={`<Badge variant="success" fill="subtle" dot>Active</Badge>
+<Badge variant="info" fill="subtle" dot>Pending</Badge>
+<Badge variant="warning" fill="subtle" dot>Review</Badge>
+<Badge variant="critical" fill="subtle" dot>Cancelled</Badge>
+<Badge variant="outline" dot>Draft</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="success" fill="subtle" dot>Active</Badge>
+							<Badge variant="info" fill="subtle" dot>Pending</Badge>
+							<Badge variant="warning" fill="subtle" dot>Review</Badge>
+							<Badge variant="critical" fill="subtle" dot>Cancelled</Badge>
+							<Badge variant="outline" dot>Draft</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── Composition: Filter Bar ── */}
+					<ComponentExample
+						title="Composition: Filter Bar"
+						description="Real-world pattern combining icons, dismiss, and variants for an active filter display."
+						code={`<Badge variant="secondary" fill="subtle" onDismiss={() => {}}>
+  <Tag /> Catégorie: SaaS
+</Badge>
+<Badge variant="info" fill="subtle" onDismiss={() => {}}>
+  <Mail /> Assigné: Jean
+</Badge>
+<Badge variant="success" fill="subtle" dot onDismiss={() => {}}>
+  Statut: Actif
+</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="secondary" fill="subtle" onDismiss={() => {}}>
+								<Tag /> Catégorie: SaaS
+							</Badge>
+							<Badge variant="info" fill="subtle" onDismiss={() => {}}>
+								<Mail /> Assigné: Jean
+							</Badge>
+							<Badge variant="success" fill="subtle" dot onDismiss={() => {}}>
+								Statut: Actif
+							</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── Composition: User Roles ── */}
+					<ComponentExample
+						title="Composition: User Roles"
+						description="Icon badges for role indicators."
+						code={`<Badge variant="default"><Crown /> Admin</Badge>
+<Badge variant="info"><Shield /> Moderator</Badge>
+<Badge variant="secondary">Member</Badge>
+<Badge variant="outline">Guest</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="default"><Crown /> Admin</Badge>
+							<Badge variant="info"><Shield /> Moderator</Badge>
+							<Badge variant="secondary">Member</Badge>
+							<Badge variant="outline">Guest</Badge>
+						</div>
+					</ComponentExample>
+
+					{/* ── Composition: With Avatar ── */}
+					<ComponentExample
+						title="Composition: With Avatar"
+						description="Combine with Avatar for user tags — ideal for assignees, mentions, or collaborator lists."
+						code={`<Badge variant="outline" size="md">
+  <Avatar className="size-3.5">
+    <AvatarImage src="..." />
+    <AvatarFallback>AL</AvatarFallback>
+  </Avatar>
+  Alex
+  <Button variant="ghost" size="icon" className="size-3 hover:bg-transparent">
+    <XIcon />
+  </Button>
+</Badge>`}
+					>
+						<div className="flex flex-wrap gap-2">
+							<Badge variant="outline" size="md">
+								<Avatar className="size-3.5">
+									<AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80" />
+									<AvatarFallback>AL</AvatarFallback>
+								</Avatar>
+								Alex
+								<Button variant="ghost" size="icon" className="size-3 hover:bg-transparent">
+									<XIcon />
+								</Button>
+							</Badge>
+							<Badge variant="outline" size="md">
+								<Avatar className="size-3.5">
+									<AvatarImage src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&dpr=2&q=80" />
+									<AvatarFallback>SC</AvatarFallback>
+								</Avatar>
+								Sarah
+								<Button variant="ghost" size="icon" className="size-3 hover:bg-transparent">
+									<XIcon />
+								</Button>
+							</Badge>
+							<Badge variant="outline" size="md">
+								<Avatar className="size-3.5">
+									<AvatarImage src="https://images.unsplash.com/photo-1599566150163-29194dcabd9c?w=96&h=96&dpr=2&q=80" />
+									<AvatarFallback>MK</AvatarFallback>
+								</Avatar>
+								Marc
+							</Badge>
+						</div>
+					</ComponentExample>
 				</section>
 
+				{/* ── Props ── */}
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Props</h2>
 					<PropsTable props={badgeProps} />
 				</section>
 
-				{/* Design Tokens */}
+				{/* ── Configuration ── */}
 				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
+					<h2 className="text-lg font-semibold">Configuration</h2>
+					<p className="text-sm text-fg-muted">
+						The badge border radius is configured globally via a CSS variable. Change it once in your globals.css and all badges follow.
+					</p>
+					<div className="rounded-lg border border-edge-subtle bg-raised p-4">
+						<pre className="text-xs text-fg-muted">
+{`/* globals.css */
+--badge-radius: 9999px;           /* pill (default) */
+--badge-radius: var(--radius-md);  /* rounded corners */
+--badge-radius: 0px;              /* square */`}
+						</pre>
+					</div>
+				</section>
+
+				{/* ── Design Tokens ── */}
+				<section className="space-y-4">
+					<h2 className="text-lg font-semibold">Design Tokens</h2>
+					<p className="text-sm text-fg-muted">
 						Badge uses the design system tokens for consistent styling:
 					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-p-fill-brand</code> - Default badge background
-						</li>
-						<li>
-							<code className="text-xs">text-p-text-on-fill</code> - Default badge text
-						</li>
-						<li>
-							<code className="text-xs">bg-p-info-surface</code> - Info variant background
-						</li>
-						<li>
-							<code className="text-xs">text-p-info-text</code> - Info variant text
-						</li>
-						<li>
-							<code className="text-xs">bg-p-success-surface</code> - Success variant background
-						</li>
-						<li>
-							<code className="text-xs">bg-p-warning-surface</code> - Warning variant background
-						</li>
-						<li>
-							<code className="text-xs">bg-p-critical-surface</code> - Critical variant background
-						</li>
-						<li>
-							<code className="text-xs">rounded-p-full</code> - Fully rounded pill shape
-						</li>
-						<li>
-							<code className="text-xs">h-5 px-p-2</code> - Badge height and padding
-						</li>
+					<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+						<li><code className="text-xs">--badge-radius</code> - Global border radius for all badges</li>
+						<li><code className="text-xs">bg-brand / text-brand-fg</code> - Default variant</li>
+						<li><code className="text-xs">bg-raised / text-fg-muted</code> - Secondary variant</li>
+						<li><code className="text-xs">bg-inform</code> - Info variant</li>
+						<li><code className="text-xs">bg-positive</code> - Success variant</li>
+						<li><code className="text-xs">bg-caution</code> - Warning variant</li>
+						<li><code className="text-xs">bg-negative</code> - Critical variant</li>
 					</ul>
 				</section>
 
+				{/* ── Best Practices ── */}
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Best Practices</h2>
 					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
 						<li>Keep badge text short and concise</li>
+						<li>Use <strong>solid</strong> for high-emphasis badges (calls to action, key statuses)</li>
+						<li>Use <strong>subtle</strong> for low-emphasis badges in dense UIs (tables, lists)</li>
+						<li>Use <strong>dot</strong> for presence/connection status indicators</li>
+						<li>Use <strong>onDismiss</strong> for removable tags and active filters</li>
 						<li>Use consistent colors for the same status across the app</li>
-						<li>Don't use badges for long text - they're meant to be glanceable</li>
-						<li>Use destructive variant sparingly for error or warning states</li>
+						<li>Use xs size when pairing with small text (names, inline labels)</li>
+						<li>Configure <code className="text-xs">--badge-radius</code> once to match your design language</li>
 					</ul>
 				</section>
 			</div>

@@ -75,7 +75,7 @@ export function UserMenu({ user, className }: UserMenuProps) {
 				<div className="flex flex-col">
 					<div className="flex items-center gap-1.5">
 						<span className="text-sm font-semibold">{displayName}</span>
-						<Badge variant="default" className="h-4 px-1.5 text-[10px]">
+						<Badge variant="default" size="xs">
 							Pro
 						</Badge>
 					</div>

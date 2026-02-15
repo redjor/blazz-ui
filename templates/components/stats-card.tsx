@@ -264,7 +264,7 @@ export function StatsCardCompact({
 export interface StatsCardWithBadgeProps extends StatsCardProps {
 	badge?: {
 		label: string
-		variant?: 'default' | 'secondary' | 'outline' | 'destructive'
+		variant?: 'default' | 'secondary' | 'outline' | 'critical'
 	}
 }
 

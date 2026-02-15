@@ -22,6 +22,15 @@ const meta = {
 				defaultValue: { summary: "default" },
 			},
 		},
+		size: {
+			control: "select",
+			options: ["xs", "sm", "md"],
+			description: "Size of the badge",
+			table: {
+				type: { summary: "string" },
+				defaultValue: { summary: "sm" },
+			},
+		},
 		children: {
 			control: "text",
 			description: "Badge content (text, numbers, or icons)",
@@ -39,6 +48,7 @@ export const Default: Story = {
 	args: {
 		children: "Badge",
 		variant: "default",
+		size: "sm",
 	},
 }
 
@@ -49,11 +59,38 @@ export const AllVariants: Story = {
 	render: () => (
 		<div className="flex flex-wrap gap-4">
 			<Badge variant="default">Default</Badge>
-			<Badge variant="info">Secondary</Badge>
-			<Badge variant="critical">Destructive</Badge>
+			<Badge variant="secondary">Secondary</Badge>
+			<Badge variant="info">Info</Badge>
+			<Badge variant="success">Success</Badge>
+			<Badge variant="warning">Warning</Badge>
+			<Badge variant="critical">Critical</Badge>
 			<Badge variant="outline">Outline</Badge>
-			<Badge variant="ghost">Ghost</Badge>
-			<Badge variant="link">Link</Badge>
+		</div>
+	),
+}
+
+/**
+ * All available sizes for comparison.
+ */
+export const AllSizes: Story = {
+	render: () => (
+		<div className="flex flex-col gap-4">
+			<div className="flex items-center gap-4">
+				<Badge size="xs">Extra Small</Badge>
+				<Badge size="sm">Small</Badge>
+				<Badge size="md">Medium</Badge>
+			</div>
+			<div className="flex items-center gap-4">
+				<Badge variant="info" size="xs">
+					<Star /> Featured
+				</Badge>
+				<Badge variant="info" size="sm">
+					<Star /> Featured
+				</Badge>
+				<Badge variant="info" size="md">
+					<Star /> Featured
+				</Badge>
+			</div>
 		</div>
 	),
 }
@@ -175,8 +212,8 @@ export const Composition: Story = {
 			<div>
 				<h3 className="text-sm font-semibold mb-4">Product Tags</h3>
 				<div className="flex flex-wrap gap-2">
-					<Badge variant="info">Electronics</Badge>
-					<Badge variant="info">Sale</Badge>
+					<Badge variant="secondary">Electronics</Badge>
+					<Badge variant="secondary">Sale</Badge>
 					<Badge variant="default">
 						<Star />
 						New
@@ -194,7 +231,7 @@ export const Composition: Story = {
 					</Badge>
 					<Badge variant="info">Moderator</Badge>
 					<Badge variant="outline">Member</Badge>
-					<Badge variant="ghost">Guest</Badge>
+					<Badge variant="secondary">Guest</Badge>
 				</div>
 			</div>
 
@@ -298,11 +335,12 @@ export const DarkMode: Story = {
 	render: () => (
 		<div className="flex flex-wrap gap-4">
 			<Badge variant="default">Default</Badge>
-			<Badge variant="info">Secondary</Badge>
-			<Badge variant="critical">Destructive</Badge>
+			<Badge variant="secondary">Secondary</Badge>
+			<Badge variant="info">Info</Badge>
+			<Badge variant="success">Success</Badge>
+			<Badge variant="warning">Warning</Badge>
+			<Badge variant="critical">Critical</Badge>
 			<Badge variant="outline">Outline</Badge>
-			<Badge variant="ghost">Ghost</Badge>
-			<Badge variant="link">Link</Badge>
 		</div>
 	),
 }
