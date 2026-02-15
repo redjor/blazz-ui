@@ -191,8 +191,8 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 				className={cn(
 					"w-full px-4",
 					!fullWidth && "mx-auto",
-					!fullWidth && !narrowWidth && "max-w-7xl",
-					!fullWidth && narrowWidth && "max-w-5xl",
+					!fullWidth && !narrowWidth && "max-w-5xl",
+					!fullWidth && narrowWidth && "max-w-3xl",
 					className
 				)}
 				{...props}
@@ -230,7 +230,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 								{/* Title Section */}
 								<div className="flex-1 space-y-1">
 									<div className="flex items-center gap-3">
-									<h1 className="text-lg font-semibold leading-normal text-fg">{title}</h1>
+									<h1 className="text-xl font-bold leading-none text-fg">{title}</h1>
 									{titleMetadata}
 								</div>
 									{subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}

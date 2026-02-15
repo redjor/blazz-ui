@@ -45,11 +45,11 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 	}
 
 	const handleProfile = () => {
-		router.push("/profile")
+		router.push("/examples/crm/settings")
 	}
 
 	const handleSettings = () => {
-		router.push("/settings")
+		router.push("/examples/crm/settings")
 	}
 
 	return (

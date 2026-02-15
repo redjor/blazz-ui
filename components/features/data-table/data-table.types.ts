@@ -154,7 +154,7 @@ export interface DataTableProps<TData, TValue = unknown> {
   onSearchChange?: (search: string) => void;
 
   // Styling
-  variant?: 'default' | 'lined' | 'striped';
+  variant?: 'default' | 'lined' | 'striped' | 'editable' | 'spreadsheet';
   density?: 'compact' | 'default' | 'comfortable';
   className?: string;
 

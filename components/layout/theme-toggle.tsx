@@ -14,9 +14,9 @@ export function ThemeToggle() {
 			aria-label={resolvedTheme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
 		>
 			{resolvedTheme === "dark" ? (
-				<Sun className="h-5 w-5 text-gray-300" />
+				<Sun className="h-4 w-4 text-gray-300" />
 			) : (
-				<Moon className="h-5 w-5 text-gray-300" />
+				<Moon className="h-4 w-4 text-gray-300" />
 			)}
 		</button>
 	)

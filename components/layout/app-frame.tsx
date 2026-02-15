@@ -16,6 +16,8 @@ export interface AppFrameProps {
 	tabBar?: React.ReactNode
 	onOpenCommandPalette?: () => void
 	activeSection?: AppTopBarProps["activeSection"]
+	/** Hide notifications and user menu in the top bar */
+	minimalTopBar?: boolean
 }
 
 /**
@@ -27,6 +29,7 @@ export function AppFrame({
 	tabBar,
 	onOpenCommandPalette,
 	activeSection,
+	minimalTopBar,
 }: AppFrameProps) {
 	// État pour le Sheet mobile
 	const [mobileSheetOpen, setMobileSheetOpen] = React.useState(false)
@@ -57,6 +60,7 @@ export function AppFrame({
 						onOpenCommandPalette={onOpenCommandPalette}
 						onOpenMobileMenu={() => setMobileSheetOpen((prev) => !prev)}
 						activeSection={activeSection}
+						minimal={minimalTopBar}
 					/>
 				}
 				navigation={<AppSidebar config={config} />}

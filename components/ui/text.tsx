@@ -49,7 +49,7 @@ const Text = React.forwardRef<HTMLElement, TextProps>(
 				ref={ref as any}
 				className={cn(
 					textVariants({ variant, tone }),
-					truncate && "truncate",
+					truncate && "block truncate",
 					numeric && "font-mono tabular-nums",
 					className,
 				)}

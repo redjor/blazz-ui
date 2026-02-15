@@ -18,7 +18,7 @@ export default function LoginPage() {
 
 	const onSubmit = async (_data: LoginFormData) => {
 		await new Promise((resolve) => setTimeout(resolve, 800))
-		router.push("/dashboard")
+		router.push("/examples/crm/dashboard")
 	}
 
 	return (

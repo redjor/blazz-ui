@@ -196,7 +196,7 @@ export const auth = {
 	},
 
 	/** Redirection après connexion */
-	redirectAfterSignIn: "/dashboard",
+	redirectAfterSignIn: "/examples/crm/dashboard",
 
 	/** Redirection après déconnexion */
 	redirectAfterSignOut: "/",

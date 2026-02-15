@@ -57,11 +57,11 @@ export function UserMenu({ user, className }: UserMenuProps) {
 	}
 
 	const handleProfile = () => {
-		router.push("/profile")
+		router.push("/examples/crm/settings")
 	}
 
 	const handleSettings = () => {
-		router.push("/settings")
+		router.push("/examples/crm/settings")
 	}
 
 	return (

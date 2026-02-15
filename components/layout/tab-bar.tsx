@@ -23,14 +23,14 @@ import {
  * Used to display "Section > Title" in tabs.
  */
 const routeMap: { prefix: string; icon: LucideIcon; label: string }[] = [
-	{ prefix: "/dashboard", icon: LayoutDashboard, label: "CRM" },
-	{ prefix: "/companies", icon: Building2, label: "Entreprises" },
-	{ prefix: "/contacts", icon: Users, label: "Contacts" },
-	{ prefix: "/deals", icon: Handshake, label: "Pipeline" },
-	{ prefix: "/quotes", icon: FileText, label: "Devis" },
-	{ prefix: "/products", icon: Package, label: "Produits" },
-	{ prefix: "/reports", icon: BarChart3, label: "Rapports" },
-	{ prefix: "/settings", icon: Settings, label: "Paramètres" },
+	{ prefix: "/examples/crm/dashboard", icon: LayoutDashboard, label: "CRM" },
+	{ prefix: "/examples/crm/companies", icon: Building2, label: "Entreprises" },
+	{ prefix: "/examples/crm/contacts", icon: Users, label: "Contacts" },
+	{ prefix: "/examples/crm/deals", icon: Handshake, label: "Pipeline" },
+	{ prefix: "/examples/crm/quotes", icon: FileText, label: "Devis" },
+	{ prefix: "/examples/crm/products", icon: Package, label: "Produits" },
+	{ prefix: "/examples/crm/reports", icon: BarChart3, label: "Rapports" },
+	{ prefix: "/examples/crm/settings", icon: Settings, label: "Paramètres" },
 ]
 
 function getRouteInfo(url: string): { icon: LucideIcon; label: string } {
@@ -63,8 +63,8 @@ export function TabBar() {
 	}
 
 	function handleAddTab() {
-		addTab({ url: "/dashboard", title: "Tableau de bord" })
-		router.push("/dashboard")
+		addTab({ url: "/examples/crm/dashboard", title: "Tableau de bord" })
+		router.push("/examples/crm/dashboard")
 	}
 
 	return (

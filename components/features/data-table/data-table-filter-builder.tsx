@@ -13,9 +13,8 @@ import {
 import { Input } from '@/components/ui/input';
 import {
   Select,
-  SelectOption,
-  SelectPopup,
-  SelectPortal,
+  SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
@@ -192,20 +191,18 @@ export function DataTableFilterBuilder<TData>({
                       <SelectTrigger className="w-full">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectPortal>
-                        <SelectPopup>
-                          {filterableColumns.map((col) => (
-                            <SelectOption
-                              key={col.accessorKey as string}
-                              value={col.accessorKey as string}
-                            >
-                              {typeof col.header === 'string'
-                                ? col.header
-                                : (col.accessorKey as string)}
-                            </SelectOption>
-                          ))}
-                        </SelectPopup>
-                      </SelectPortal>
+                      <SelectContent>
+                        {filterableColumns.map((col) => (
+                          <SelectItem
+                            key={col.accessorKey as string}
+                            value={col.accessorKey as string}
+                          >
+                            {typeof col.header === 'string'
+                              ? col.header
+                              : (col.accessorKey as string)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
                     </Select>
 
                     <div className="flex gap-2">
@@ -221,15 +218,13 @@ export function DataTableFilterBuilder<TData>({
                         <SelectTrigger className="w-45">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectPortal>
-                          <SelectPopup>
-                            {operators.map((op) => (
-                              <SelectOption key={op.value} value={op.value}>
-                                {op.label}
-                              </SelectOption>
-                            ))}
-                          </SelectPopup>
-                        </SelectPortal>
+                        <SelectContent>
+                          {operators.map((op) => (
+                            <SelectItem key={op.value} value={op.value}>
+                              {op.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
                       </Select>
 
                       {/* Value Input */}
@@ -242,15 +237,13 @@ export function DataTableFilterBuilder<TData>({
                             <SelectTrigger className="flex-1">
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectPortal>
-                              <SelectPopup>
-                                {column.filterConfig.options.map((opt) => (
-                                  <SelectOption key={opt.value} value={String(opt.value)}>
-                                    {opt.label}
-                                  </SelectOption>
-                                ))}
-                              </SelectPopup>
-                            </SelectPortal>
+                            <SelectContent>
+                              {column.filterConfig.options.map((opt) => (
+                                <SelectItem key={opt.value} value={String(opt.value)}>
+                                  {opt.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
                           </Select>
                         ) : (
                           <Input

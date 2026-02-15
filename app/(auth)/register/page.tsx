@@ -17,7 +17,7 @@ export default function RegisterPage() {
 
 	const onSubmit = async (_data: RegisterFormData) => {
 		await new Promise((resolve) => setTimeout(resolve, 800))
-		router.push("/dashboard")
+		router.push("/examples/crm/dashboard")
 	}
 
 	return (

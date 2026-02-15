@@ -1,8 +1,9 @@
-import { Bell, Menu, Search } from "lucide-react"
+import { Menu, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "./theme-toggle"
+import { NotificationSheet } from "./notification-sheet"
 import { UserMenu } from "./user-menu"
 
 export interface AppTopBarProps {
@@ -10,7 +11,9 @@ export interface AppTopBarProps {
 	onOpenMobileMenu?: () => void
 	className?: string
 	/** Highlight the active section in the top bar nav */
-	activeSection?: "showcase" | "crm"
+	activeSection?: "docs" | "crm"
+	/** Hide notifications and user menu (used in docs mode) */
+	minimal?: boolean
 	user?: {
 		name: string
 		email: string
@@ -20,8 +23,8 @@ export interface AppTopBarProps {
 }
 
 const sections = [
-	{ id: "showcase" as const, label: "Showcase", href: "/showcase-products" },
-	{ id: "crm" as const, label: "CRM", href: "/dashboard" },
+	{ id: "docs" as const, label: "Docs", href: "/docs/components" },
+	{ id: "crm" as const, label: "CRM", href: "/examples/crm/dashboard" },
 ]
 
 /**
@@ -32,7 +35,7 @@ const sections = [
  * - Center: Search Bar (opens Command Palette)
  * - Right: Notifications + User Menu
  */
-export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, activeSection, user }: AppTopBarProps) {
+export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, activeSection, minimal, user }: AppTopBarProps) {
 	return (
 		<header
 			className={cn(
@@ -91,17 +94,15 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 				</button>
 			</div>
 
-			{/* Right: Notifications + User Menu */}
+			{/* Right: Theme + optional Notifications + User Menu */}
 			<div className="flex items-center gap-2 shrink-0 justify-end">
 				<ThemeToggle />
-				<button
-					type="button"
-					className="rounded-lg p-2 transition-colors hover:bg-gray-800"
-					aria-label="Notifications"
-				>
-					<Bell className="h-5 w-5 text-gray-300" />
-				</button>
-				<UserMenu user={user} />
+				{!minimal && (
+					<>
+						<NotificationSheet />
+						<UserMenu user={user} />
+					</>
+				)}
 			</div>
 		</header>
 	)

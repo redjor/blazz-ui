@@ -31,14 +31,14 @@ export default function Home() {
 							palette de commandes (Cmd+K). Design sage green inspiré de Shopify.
 						</p>
 						<div className="flex gap-2">
-							<Link href="/dashboard">
+							<Link href="/examples/crm/dashboard">
 								<Button>
-									Voir la démo
+									Voir la démo CRM
 									<ArrowRight className="ml-2 h-4 w-4" />
 								</Button>
 							</Link>
-							<Link href="/products">
-								<Button variant="outline">Exemple produits</Button>
+							<Link href="/docs/components">
+								<Button variant="outline">Documentation</Button>
 							</Link>
 						</div>
 					</CardContent>
