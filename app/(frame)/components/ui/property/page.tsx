@@ -1,13 +1,18 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { Property } from "@/components/ui/property"
 import { Badge } from "@/components/ui/badge"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-import { Building2, Globe, Mail, Phone, Calendar, MapPin, DollarSign } from "lucide-react"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
 
-const propertyProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "guidelines", title: "Guidelines" },
+]
+
+const propertyProps: DocProp[] = [
 	{
 		name: "label",
 		type: "string",
@@ -27,32 +32,40 @@ const propertyProps: PropDefinition[] = [
 
 export default function PropertyPage() {
 	return (
-		<Page
+		<DocPage
 			title="Property"
 			subtitle="Display a label-value pair for showing entity details, metadata, or read-only fields."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
+			<DocHero>
+				<div className="flex gap-10">
+					<Property label="Entreprise">Acme Corp</Property>
+					<Property label="Statut">
+						<Badge variant="success">Actif</Badge>
+					</Property>
+					<Property label="Secteur">Technologie</Property>
+				</div>
+			</DocHero>
 
-					<ComponentExample
-						title="Basic"
-						description="A simple label and text value."
-						code={`<Property label="Secteur">Technologie</Property>
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Basic"
+					description="A simple label and text value."
+					code={`<Property label="Secteur">Technologie</Property>
 <Property label="Taille">250 employés</Property>
 <Property label="Localisation">Paris, France</Property>`}
-					>
-						<div className="flex gap-10">
-							<Property label="Secteur">Technologie</Property>
-							<Property label="Taille">250 employés</Property>
-							<Property label="Localisation">Paris, France</Property>
-						</div>
-					</ComponentExample>
+				>
+					<div className="flex gap-10">
+						<Property label="Secteur">Technologie</Property>
+						<Property label="Taille">250 employés</Property>
+						<Property label="Localisation">Paris, France</Property>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Badges"
-						description="Combine with Badge for status or category values."
-						code={`<Property label="Statut">
+				<DocExample
+					title="With Badges"
+					description="Combine with Badge for status or category values."
+					code={`<Property label="Statut">
   <Badge variant="success">Actif</Badge>
 </Property>
 <Property label="Priorité">
@@ -61,44 +74,44 @@ export default function PropertyPage() {
 <Property label="Plan">
   <Badge variant="default">Pro</Badge>
 </Property>`}
-					>
-						<div className="flex gap-10">
-							<Property label="Statut">
-								<Badge variant="success">Actif</Badge>
-							</Property>
-							<Property label="Priorité">
-								<Badge variant="critical">Haute</Badge>
-							</Property>
-							<Property label="Plan">
-								<Badge variant="default">Pro</Badge>
-							</Property>
-						</div>
-					</ComponentExample>
+				>
+					<div className="flex gap-10">
+						<Property label="Statut">
+							<Badge variant="success">Actif</Badge>
+						</Property>
+						<Property label="Priorité">
+							<Badge variant="critical">Haute</Badge>
+						</Property>
+						<Property label="Plan">
+							<Badge variant="default">Pro</Badge>
+						</Property>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Links"
-						description="Use links for clickable values like emails or websites."
-						code={`<Property label="Email">
+				<DocExample
+					title="With Links"
+					description="Use links for clickable values like emails or websites."
+					code={`<Property label="Email">
   <a href="#" className="text-brand hover:underline">contact@acme.com</a>
 </Property>
 <Property label="Site web">
   <a href="#" className="text-brand hover:underline">acme.com</a>
 </Property>`}
-					>
-						<div className="flex gap-10">
-							<Property label="Email">
-								<a href="#" className="text-sm font-semibold text-brand hover:underline">contact@acme.com</a>
-							</Property>
-							<Property label="Site web">
-								<a href="#" className="text-sm font-semibold text-brand hover:underline">acme.com</a>
-							</Property>
-						</div>
-					</ComponentExample>
+				>
+					<div className="flex gap-10">
+						<Property label="Email">
+							<a href="#" className="text-sm font-semibold text-brand hover:underline">contact@acme.com</a>
+						</Property>
+						<Property label="Site web">
+							<a href="#" className="text-sm font-semibold text-brand hover:underline">acme.com</a>
+						</Property>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Company Detail Card"
-						description="Real-world layout for an entity detail view."
-						code={`<div className="grid grid-cols-2 gap-x-10 gap-y-4">
+				<DocExample
+					title="Company Detail Card"
+					description="Real-world layout for an entity detail view."
+					code={`<div className="grid grid-cols-2 gap-x-10 gap-y-4">
   <Property label="Entreprise">Acme Corp</Property>
   <Property label="Secteur">Technologie</Property>
   <Property label="Chiffre d'affaires">12.5M €</Property>
@@ -108,51 +121,48 @@ export default function PropertyPage() {
     <Badge variant="success">Client actif</Badge>
   </Property>
 </div>`}
-					>
-						<div className="grid grid-cols-2 gap-x-10 gap-y-4 sm:grid-cols-3">
-							<Property label="Entreprise">Acme Corp</Property>
-							<Property label="Secteur">Technologie</Property>
-							<Property label="Chiffre d'affaires">12.5M €</Property>
-							<Property label="Employés">250</Property>
-							<Property label="Localisation">Paris, France</Property>
-							<Property label="Statut">
-								<Badge variant="success">Client actif</Badge>
-							</Property>
-						</div>
-					</ComponentExample>
+				>
+					<div className="grid grid-cols-2 gap-x-10 gap-y-4 sm:grid-cols-3">
+						<Property label="Entreprise">Acme Corp</Property>
+						<Property label="Secteur">Technologie</Property>
+						<Property label="Chiffre d'affaires">12.5M €</Property>
+						<Property label="Employés">250</Property>
+						<Property label="Localisation">Paris, France</Property>
+						<Property label="Statut">
+							<Badge variant="success">Client actif</Badge>
+						</Property>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Empty & Fallback"
-						description="Handle missing data gracefully."
-						code={`<Property label="Téléphone">—</Property>
+				<DocExample
+					title="Empty & Fallback"
+					description="Handle missing data gracefully."
+					code={`<Property label="Téléphone">—</Property>
 <Property label="Notes">
   <span className="text-fg-subtle italic">Aucune note</span>
 </Property>`}
-					>
-						<div className="flex gap-10">
-							<Property label="Téléphone">—</Property>
-							<Property label="Notes">
-								<span className="text-sm text-fg-subtle italic">Aucune note</span>
-							</Property>
-						</div>
-					</ComponentExample>
-				</section>
+				>
+					<div className="flex gap-10">
+						<Property label="Téléphone">—</Property>
+						<Property label="Notes">
+							<span className="text-sm text-fg-subtle italic">Aucune note</span>
+						</Property>
+					</div>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={propertyProps} />
-				</section>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={propertyProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Keep labels short and consistent across the page</li>
-						<li>Use a grid layout for structured detail views</li>
-						<li>Show a dash or placeholder for empty values instead of hiding the field</li>
-						<li>Pair with Badge for status values, links for emails/URLs</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			<DocSection id="guidelines" title="Guidelines">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Keep labels short and consistent across the page</li>
+					<li>Use a grid layout for structured detail views</li>
+					<li>Show a dash or placeholder for empty values instead of hiding the field</li>
+					<li>Pair with Badge for status values, links for emails/URLs</li>
+				</ul>
+			</DocSection>
+		</DocPage>
 	)
 }

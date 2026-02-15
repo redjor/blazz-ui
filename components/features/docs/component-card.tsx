@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import type { LucideIcon } from "lucide-react"
 
@@ -22,27 +22,26 @@ export function ComponentCard({
 		<Link href={href} className="group">
 			<Card
 				className={cn(
-					"h-full transition-all duration-p-200 ease-p-ease-out",
-					"hover:shadow-p-md hover:border-p-border-hover",
-					"group-focus-visible:ring-2 group-focus-visible:ring-p-border-focus group-focus-visible:ring-offset-2",
+					"h-full transition-colors hover:bg-raised/50",
+					"group-focus-visible:ring-2 group-focus-visible:ring-brand group-focus-visible:ring-offset-2",
 					className
 				)}
 			>
-				<CardHeader className="space-y-p-3">
+				<CardHeader>
 					{Icon && (
-						<div className="flex h-10 w-10 items-center justify-center rounded-p-lg bg-p-fill-secondary">
-							<Icon className="h-5 w-5 text-p-icon" />
+						<div className="flex size-10 items-center justify-center rounded-lg bg-raised">
+							<Icon className="size-5 text-fg-muted" />
 						</div>
 					)}
-					<div className="space-y-p-1">
-						<CardTitle className="text-p-md font-p-semibold group-hover:text-p-text-brand transition-colors">
-							{title}
-						</CardTitle>
-						<CardDescription className="text-p-sm text-p-text-secondary line-clamp-2">
-							{description}
-						</CardDescription>
-					</div>
+					<CardTitle className="text-sm group-hover:text-brand transition-colors">
+						{title}
+					</CardTitle>
 				</CardHeader>
+				<CardContent className="pt-0">
+					<p className="text-xs text-fg-muted line-clamp-2">
+						{description}
+					</p>
+				</CardContent>
 			</Card>
 		</Link>
 	)
@@ -54,7 +53,7 @@ export interface ComponentSectionProps {
 
 export function ComponentSection({ components }: ComponentSectionProps) {
 	return (
-		<div className="grid gap-p-4 sm:grid-cols-2 lg:grid-cols-3">
+		<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 			{components.map((component) => (
 				<ComponentCard key={component.href} {...component} />
 			))}

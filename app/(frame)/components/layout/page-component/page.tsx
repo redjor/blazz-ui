@@ -1,14 +1,22 @@
-"use client"
-
 import { Page, PageSection } from "@/components/ui/page"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Package, Tag } from "lucide-react"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 
-const pageProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "page-props", title: "Page Props" },
+	{ id: "section-props", title: "PageSection Props" },
+	{ id: "related", title: "Related" },
+]
+
+const pageProps: DocProp[] = [
 	{
 		name: "title",
 		type: "React.ReactNode",
@@ -80,7 +88,7 @@ const pageProps: PropDefinition[] = [
 	},
 ]
 
-const pageSectionProps: PropDefinition[] = [
+const pageSectionProps: DocProp[] = [
 	{
 		name: "title",
 		type: "string",
@@ -105,49 +113,47 @@ const pageSectionProps: PropDefinition[] = [
 
 export default function PageComponentPage() {
 	return (
-		<Page
+		<DocPage
 			title="Page"
 			subtitle="A container component for page-level layout with title, actions, and breadcrumbs."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
-						title="Basic"
-						description="A page with just a title."
-						code={`<Page title="Products">
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Basic"
+					description="A page with just a title."
+					code={`<Page title="Products">
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page title="Products">
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page title="Products">
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Subtitle"
-						description="A page with a title and subtitle."
-						code={`<Page
+				<DocExample
+					title="With Subtitle"
+					description="A page with a title and subtitle."
+					code={`<Page
   title="Products"
   subtitle="Manage your product catalog"
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page title="Products" subtitle="Manage your product catalog">
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page title="Products" subtitle="Manage your product catalog">
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Actions"
-						description="A page with primary and secondary action buttons."
-						code={`<Page
+				<DocExample
+					title="With Actions"
+					description="A page with primary and secondary action buttons."
+					code={`<Page
   title="Products"
   subtitle="Manage your product catalog"
   primaryAction={<Button>Add product</Button>}
@@ -157,27 +163,27 @@ export default function PageComponentPage() {
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page
-								title="Products"
-								subtitle="Manage your product catalog"
-								primaryAction={<Button size="sm">Add product</Button>}
-								secondaryActions={
-									<Button variant="outline" size="sm">
-										Export
-									</Button>
-								}
-							>
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page
+							title="Products"
+							subtitle="Manage your product catalog"
+							primaryAction={<Button size="sm">Add product</Button>}
+							secondaryActions={
+								<Button variant="outline" size="sm">
+									Export
+								</Button>
+							}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Breadcrumbs (object)"
-						description="Pass a BreadcrumbConfig object to automatically render breadcrumb navigation in place of the title."
-						code={`<Page
+				<DocExample
+					title="With Breadcrumbs (object)"
+					description="Pass a BreadcrumbConfig object to automatically render breadcrumb navigation in place of the title."
+					code={`<Page
   narrowWidth
   breadcrumbs={{
     backHref: "/products",
@@ -188,26 +194,26 @@ export default function PageComponentPage() {
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page
-								narrowWidth
-								breadcrumbs={{
-									backHref: "/products",
-									backIcon: Package,
-									title: "Wireless Headphones",
-								}}
-								primaryAction={<Button size="sm">Save</Button>}
-							>
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page
+							narrowWidth
+							breadcrumbs={{
+								backHref: "/products",
+								backIcon: Package,
+								title: "Wireless Headphones",
+							}}
+							primaryAction={<Button size="sm">Save</Button>}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Breadcrumbs (parent step)"
-						description="Add a parent step that truncates to save space. Hover to reveal the full text."
-						code={`<Page
+				<DocExample
+					title="With Breadcrumbs (parent step)"
+					description="Add a parent step that truncates to save space. Hover to reveal the full text."
+					code={`<Page
   narrowWidth
   breadcrumbs={{
     backHref: "/collections",
@@ -222,30 +228,30 @@ export default function PageComponentPage() {
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page
-								narrowWidth
-								breadcrumbs={{
-									backHref: "/collections",
-									backIcon: Package,
-									parent: {
-										label: "The Connoisseur Collection",
-										href: "/collections/12",
-									},
-									title: "Sunset",
-								}}
-								primaryAction={<Button size="sm">Save</Button>}
-							>
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page
+							narrowWidth
+							breadcrumbs={{
+								backHref: "/collections",
+								backIcon: Package,
+								parent: {
+									label: "The Connoisseur Collection",
+									href: "/collections/12",
+								},
+								title: "Sunset",
+							}}
+							primaryAction={<Button size="sm">Save</Button>}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Breadcrumbs and Title Metadata"
-						description="Combine breadcrumbs with titleMetadata to display a badge inline next to the title."
-						code={`<Page
+				<DocExample
+					title="With Breadcrumbs and Title Metadata"
+					description="Combine breadcrumbs with titleMetadata to display a badge inline next to the title."
+					code={`<Page
   narrowWidth
   breadcrumbs={{
     backHref: "/products",
@@ -253,71 +259,67 @@ export default function PageComponentPage() {
     title: "Wireless Headphones",
   }}
   titleMetadata={
-    <Badge variant="outline">
-      Active
-    </Badge>
+    <Badge variant="outline">Active</Badge>
   }
   primaryAction={<Button>Save</Button>}
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page
-								narrowWidth
-								breadcrumbs={{
-									backHref: "/products",
-									backIcon: Tag,
-									title: "Wireless Headphones",
-								}}
-								titleMetadata={
-									<Badge variant="outline">
-										Active
-									</Badge>
-								}
-								primaryAction={<Button size="sm">Save</Button>}
-							>
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page
+							narrowWidth
+							breadcrumbs={{
+								backHref: "/products",
+								backIcon: Tag,
+								title: "Wireless Headphones",
+							}}
+							titleMetadata={
+								<Badge variant="outline">Active</Badge>
+							}
+							primaryAction={<Button size="sm">Save</Button>}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Additional Metadata"
-						description="Use additionalMetadata to display contextual information below the title row."
-						code={`<Page
+				<DocExample
+					title="With Additional Metadata"
+					description="Use additionalMetadata to display contextual information below the title row."
+					code={`<Page
   title="Wireless Headphones"
   subtitle="SKU: WH-1000"
   primaryAction={<Button>Save</Button>}
   additionalMetadata={
-    <p className="text-sm text-muted-foreground">
-      Mis à jour par une app le 2 janvier à 10:39
+    <p className="text-sm text-fg-muted">
+      Updated by an app on January 2 at 10:39
     </p>
   }
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page
-								title="Wireless Headphones"
-								subtitle="SKU: WH-1000"
-								primaryAction={<Button size="sm">Save</Button>}
-								additionalMetadata={
-									<p className="text-sm text-muted-foreground">
-										Mis à jour par une app le 2 janvier à 10:39
-									</p>
-								}
-							>
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page
+							title="Wireless Headphones"
+							subtitle="SKU: WH-1000"
+							primaryAction={<Button size="sm">Save</Button>}
+							additionalMetadata={
+								<p className="text-sm text-fg-muted">
+									Updated by an app on January 2 at 10:39
+								</p>
+							}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="With Additional Metadata (Tabs)"
-						description="additionalMetadata can also be used for tabs or filters below the header."
-						code={`<Page
+				<DocExample
+					title="With Additional Metadata (Tabs)"
+					description="additionalMetadata can also be used for tabs or filters below the header."
+					code={`<Page
   title="Products"
   subtitle="Manage your product catalog"
   primaryAction={<Button>Add product</Button>}
@@ -334,62 +336,62 @@ export default function PageComponentPage() {
 >
   <p>Page content here</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page
-								title="Products"
-								subtitle="Manage your product catalog"
-								primaryAction={<Button size="sm">Add product</Button>}
-								additionalMetadata={
-									<Tabs defaultValue="all">
-										<TabsList>
-											<TabsTrigger value="all">All</TabsTrigger>
-											<TabsTrigger value="active">Active</TabsTrigger>
-											<TabsTrigger value="draft">Draft</TabsTrigger>
-											<TabsTrigger value="archived">Archived</TabsTrigger>
-										</TabsList>
-									</Tabs>
-								}
-							>
-								<p className="text-sm text-muted-foreground">Page content here</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page
+							title="Products"
+							subtitle="Manage your product catalog"
+							primaryAction={<Button size="sm">Add product</Button>}
+							additionalMetadata={
+								<Tabs defaultValue="all">
+									<TabsList>
+										<TabsTrigger value="all">All</TabsTrigger>
+										<TabsTrigger value="active">Active</TabsTrigger>
+										<TabsTrigger value="draft">Draft</TabsTrigger>
+										<TabsTrigger value="archived">Archived</TabsTrigger>
+									</TabsList>
+								</Tabs>
+							}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Full Width"
-						description="A page that spans the full viewport width without max-width constraint."
-						code={`<Page title="Dashboard" fullWidth>
+				<DocExample
+					title="Full Width"
+					description="A page that spans the full viewport width without max-width constraint."
+					code={`<Page title="Dashboard" fullWidth>
   <p>Full width content</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page title="Dashboard" fullWidth>
-								<p className="text-sm text-muted-foreground">Full width content</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page title="Dashboard" fullWidth>
+							<p className="text-sm text-fg-muted">Full width content</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Narrow Width"
-						description="A page with a narrower max-width, ideal for forms and settings."
-						code={`<Page title="Settings" narrowWidth>
+				<DocExample
+					title="Narrow Width"
+					description="A page with a narrower max-width, ideal for forms and settings."
+					code={`<Page title="Settings" narrowWidth>
   <p>Narrow content for forms</p>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page title="Settings" narrowWidth>
-								<p className="text-sm text-muted-foreground">
-									Narrow content for forms
-								</p>
-							</Page>
-						</div>
-					</ComponentExample>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page title="Settings" narrowWidth>
+							<p className="text-sm text-fg-muted">
+								Narrow content for forms
+							</p>
+						</Page>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="PageSection"
-						description="Use PageSection to organize content into sub-sections within a page."
-						code={`<Page title="Settings">
+				<DocExample
+					title="PageSection"
+					description="Use PageSection to organize content into sub-sections within a page."
+					code={`<Page title="Settings">
   <PageSection
     title="General"
     description="Basic settings for your store"
@@ -403,58 +405,56 @@ export default function PageComponentPage() {
     <p>Notification settings content</p>
   </PageSection>
 </Page>`}
-					>
-						<div className="rounded-lg border bg-background">
-							<Page title="Settings">
-								<div className="space-y-8">
-									<PageSection
-										title="General"
-										description="Basic settings for your store"
-									>
-										<p className="text-sm text-muted-foreground">
-											General settings content
-										</p>
-									</PageSection>
-									<PageSection
-										title="Notifications"
-										description="Configure notification preferences"
-									>
-										<p className="text-sm text-muted-foreground">
-											Notification settings content
-										</p>
-									</PageSection>
-								</div>
-							</Page>
-						</div>
-					</ComponentExample>
-				</section>
+				>
+					<div className="rounded-lg border bg-background">
+						<Page title="Settings">
+							<div className="space-y-8">
+								<PageSection
+									title="General"
+									description="Basic settings for your store"
+								>
+									<p className="text-sm text-fg-muted">
+										General settings content
+									</p>
+								</PageSection>
+								<PageSection
+									title="Notifications"
+									description="Configure notification preferences"
+								>
+									<p className="text-sm text-fg-muted">
+										Notification settings content
+									</p>
+								</PageSection>
+							</div>
+						</Page>
+					</div>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Page Props</h2>
-					<PropsTable props={pageProps} />
-				</section>
+			<DocSection id="page-props" title="Page Props">
+				<DocPropsTable props={pageProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">PageSection Props</h2>
-					<PropsTable props={pageSectionProps} />
-				</section>
+			<DocSection id="section-props" title="PageSection Props">
+				<DocPropsTable props={pageSectionProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Use a single Page component as the root layout for each route</li>
-						<li>Keep titles short and descriptive to clearly identify the page purpose</li>
-						<li>Limit to one primary action per page to maintain a clear hierarchy</li>
-						<li>Use narrowWidth for form-heavy pages like settings or creation flows</li>
-						<li>Use PageSection to group related content within a page</li>
-						<li>Use breadcrumbs for pages deeper than one level in the navigation hierarchy</li>
-						<li>
-							Prefer the BreadcrumbConfig object shorthand for the common icon &gt; title
-							pattern, and use ReactNode for custom breadcrumb layouts
-						</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Card",
+							href: "/components/layout/card",
+							description: "Group similar concepts and tasks together within a page.",
+						},
+						{
+							title: "Block Stack",
+							href: "/components/layout/block-stack",
+							description: "Stack content vertically with consistent spacing.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

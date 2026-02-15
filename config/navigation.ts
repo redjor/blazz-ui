@@ -124,7 +124,7 @@ export const sidebarConfig: SidebarConfig = {
           items: [
             { title: "Alert", url: "/components/ui/alert" },
             { title: "Badge", url: "/components/ui/badge" },
-            { title: "Banner", url: "/components/feedback/banner" },
+            { title: "Banner", url: "/components/ui/banner" },
             { title: "Skeleton", url: "/components/ui/skeleton" },
           ],
         },

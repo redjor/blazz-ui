@@ -52,6 +52,11 @@ const layoutCompositions = [
 		href: "/components/layout/card",
 	},
 	{
+		title: "Frame",
+		description: "Groups related panels with consistent spacing, borders, and visual hierarchy.",
+		href: "/components/ui/frame-panel",
+	},
+	{
 		title: "Page",
 		description: "A container component for page-level layout with title, actions, and breadcrumbs.",
 		href: "/components/layout/page-component",
@@ -67,14 +72,14 @@ export default function LayoutComponentsPage() {
 			<div className="space-y-8">
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Layout Primitives</h2>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm text-fg-muted">
 						All layouts and spacing should be handled using layout primitives. This keeps our
 						components simple and consistent.
 					</p>
 					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 						{layoutComponents.map((component) => (
 							<Link key={component.href} href={component.href}>
-								<Card className="h-full transition-colors hover:bg-muted/50">
+								<Card className="h-full transition-colors hover:bg-raised/50">
 									<CardHeader>
 										<CardTitle className="text-base">{component.title}</CardTitle>
 										<CardDescription className="line-clamp-2">
@@ -89,14 +94,14 @@ export default function LayoutComponentsPage() {
 
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold">Layout Compositions</h2>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm text-fg-muted">
 						Layout compositions are built with layout primitives. Use these components to build
 						common layouts in your app.
 					</p>
 					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 						{layoutCompositions.map((component) => (
 							<Link key={component.href} href={component.href}>
-								<Card className="h-full transition-colors hover:bg-muted/50">
+								<Card className="h-full transition-colors hover:bg-raised/50">
 									<CardHeader>
 										<CardTitle className="text-base">{component.title}</CardTitle>
 										<CardDescription className="line-clamp-2">

@@ -1,9 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import { Button } from "@/components/ui/button"
 import {
 	DropdownMenu,
@@ -31,10 +34,18 @@ import {
 	MessageSquare,
 	PlusCircle,
 	UserPlus,
-	Plus,
 } from "lucide-react"
 
-const dropdownMenuProps = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "dropdown-menu-props", title: "DropdownMenu Props" },
+	{ id: "dropdown-menu-content-props", title: "DropdownMenuContent Props" },
+	{ id: "dropdown-menu-item-props", title: "DropdownMenuItem Props" },
+	{ id: "best-practices", title: "Best Practices" },
+	{ id: "related", title: "Related" },
+]
+
+const dropdownMenuProps: DocProp[] = [
 	{
 		name: "children",
 		type: "React.ReactNode",
@@ -58,7 +69,7 @@ const dropdownMenuProps = [
 	},
 ]
 
-const dropdownMenuContentProps = [
+const dropdownMenuContentProps: DocProp[] = [
 	{
 		name: "align",
 		type: "'start' | 'center' | 'end'",
@@ -79,7 +90,7 @@ const dropdownMenuContentProps = [
 	},
 ]
 
-const dropdownMenuItemProps = [
+const dropdownMenuItemProps: DocProp[] = [
 	{
 		name: "inset",
 		type: "boolean",
@@ -104,13 +115,35 @@ export default function DropdownMenuPage() {
 	const [position, setPosition] = React.useState("bottom")
 
 	return (
-		<Page
+		<DocPage
 			title="Dropdown Menu"
 			subtitle="Displays a menu of actions in a dropdown."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<DropdownMenu>
+					<DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
+					<DropdownMenuContent>
+						<DropdownMenuGroup>
+							<DropdownMenuLabel>My Account</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<User className="mr-2 h-4 w-4" />
+								Profile
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<Settings className="mr-2 h-4 w-4" />
+								Settings
+							</DropdownMenuItem>
+						</DropdownMenuGroup>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Dropdown Menu"
 					description="A simple dropdown menu with items."
 					code={`<DropdownMenu>
@@ -166,10 +199,9 @@ export default function DropdownMenuPage() {
 							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Shortcuts */}
-				<ComponentExample
+				<DocExample
 					title="With Keyboard Shortcuts"
 					description="Display keyboard shortcuts for menu items."
 					code={`<DropdownMenu>
@@ -225,10 +257,9 @@ export default function DropdownMenuPage() {
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Checkbox Items */}
-				<ComponentExample
+				<DocExample
 					title="With Checkbox Items"
 					description="Menu items with checkbox state."
 					code={`const [showStatusBar, setShowStatusBar] = React.useState(true)
@@ -277,10 +308,9 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Radio Items */}
-				<ComponentExample
+				<DocExample
 					title="With Radio Items"
 					description="Menu items with radio selection."
 					code={`const [position, setPosition] = React.useState("bottom")
@@ -314,10 +344,9 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Submenu */}
-				<ComponentExample
+				<DocExample
 					title="With Submenu"
 					description="Nested submenus for hierarchical options."
 					code={`<DropdownMenu>
@@ -385,10 +414,9 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 							</DropdownMenuGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Icon Button Trigger */}
-				<ComponentExample
+				<DocExample
 					title="Icon Button Trigger"
 					description="Use an icon button as the dropdown trigger."
 					code={`<DropdownMenu>
@@ -422,38 +450,59 @@ const [showActivityBar, setShowActivityBar] = React.useState(false)
 							<DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Props Tables */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">DropdownMenu Props</h2>
-					<PropsTable props={dropdownMenuProps} />
-				</section>
+			{/* DropdownMenu Props */}
+			<DocSection id="dropdown-menu-props" title="DropdownMenu Props">
+				<DocPropsTable props={dropdownMenuProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">DropdownMenuContent Props</h2>
-					<PropsTable props={dropdownMenuContentProps} />
-				</section>
+			{/* DropdownMenuContent Props */}
+			<DocSection id="dropdown-menu-content-props" title="DropdownMenuContent Props">
+				<DocPropsTable props={dropdownMenuContentProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">DropdownMenuItem Props</h2>
-					<PropsTable props={dropdownMenuItemProps} />
-				</section>
+			{/* DropdownMenuItem Props */}
+			<DocSection id="dropdown-menu-item-props" title="DropdownMenuItem Props">
+				<DocPropsTable props={dropdownMenuItemProps} />
+			</DocSection>
 
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Use render prop to avoid nested button issues</li>
-						<li>Use labels and separators to organize related items</li>
-						<li>Keep the menu concise - move complex options to submenus</li>
-						<li>Use icons consistently to help users scan options</li>
-						<li>Show keyboard shortcuts for frequently used actions</li>
-						<li>Use the destructive variant for dangerous actions</li>
-						<li>Consider alignment based on the trigger position</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Best Practices */}
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Use render prop to avoid nested button issues</li>
+					<li>Use labels and separators to organize related items</li>
+					<li>Keep the menu concise - move complex options to submenus</li>
+					<li>Use icons consistently to help users scan options</li>
+					<li>Show keyboard shortcuts for frequently used actions</li>
+					<li>Use the destructive variant for dangerous actions</li>
+					<li>Consider alignment based on the trigger position</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Menu",
+							href: "/components/ui/menu",
+							description: "Unstyled dropdown with full keyboard navigation and accessibility.",
+						},
+						{
+							title: "Popover",
+							href: "/components/ui/popover",
+							description: "Floating container for rich content anchored to a trigger.",
+						},
+						{
+							title: "Button",
+							href: "/components/ui/button",
+							description: "Button component commonly used as dropdown trigger.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

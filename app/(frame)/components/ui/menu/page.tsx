@@ -1,10 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable } from "@/components/features/docs/props-table"
-import { Button } from "@/components/ui/button"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import {
 	Menu,
 	MenuTrigger,
@@ -21,7 +23,18 @@ import {
 } from "@/components/ui/menu"
 import { User, Settings, LogOut, ChevronDown } from "lucide-react"
 
-const menuProps = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "menu-props", title: "Menu Props" },
+	{ id: "menu-positioner-props", title: "MenuPositioner Props" },
+	{ id: "design-tokens", title: "Design Tokens" },
+	{ id: "best-practices", title: "Best Practices" },
+	{ id: "accessibility", title: "Accessibility" },
+	{ id: "keyboard-shortcuts", title: "Keyboard Shortcuts" },
+	{ id: "related", title: "Related" },
+]
+
+const menuProps: DocProp[] = [
 	{
 		name: "open",
 		type: "boolean",
@@ -45,7 +58,7 @@ const menuProps = [
 	},
 ]
 
-const menuPositionerProps = [
+const menuPositionerProps: DocProp[] = [
 	{
 		name: "side",
 		type: "'top' | 'right' | 'bottom' | 'left'",
@@ -72,13 +85,34 @@ export default function MenuPage() {
 	const [theme, setTheme] = React.useState("light")
 
 	return (
-		<Page
+		<DocPage
 			title="Menu"
 			subtitle="An unstyled dropdown component with full keyboard navigation and accessibility."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<Menu>
+					<MenuTrigger className="px-4 py-2 rounded-md bg-primary text-white">
+						Open Menu
+					</MenuTrigger>
+					<MenuPortal>
+						<MenuPositioner sideOffset={8}>
+							<MenuPopup>
+								<MenuItem>New File</MenuItem>
+								<MenuItem>Open...</MenuItem>
+								<MenuItem>Save</MenuItem>
+								<MenuSeparator />
+								<MenuItem>Exit</MenuItem>
+							</MenuPopup>
+						</MenuPositioner>
+					</MenuPortal>
+				</Menu>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Menu"
 					description="A simple menu with action items."
 					code={`<Menu>
@@ -130,10 +164,9 @@ export default function MenuPage() {
 							</MenuPositioner>
 						</MenuPortal>
 					</Menu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Groups */}
-				<ComponentExample
+				<DocExample
 					title="With Groups"
 					description="Organize menu items into labeled groups."
 					code={`<Menu>
@@ -197,10 +230,9 @@ export default function MenuPage() {
 							</MenuPositioner>
 						</MenuPortal>
 					</Menu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Checkbox Items */}
-				<ComponentExample
+				<DocExample
 					title="With Checkbox Items"
 					description="Menu items with checkbox toggles."
 					code={`const [notifications, setNotifications] = React.useState(true)
@@ -259,10 +291,9 @@ const [autoSave, setAutoSave] = React.useState(false)
 							</MenuPositioner>
 						</MenuPortal>
 					</Menu>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Radio Items */}
-				<ComponentExample
+				<DocExample
 					title="With Radio Items"
 					description="Menu items with radio selection."
 					code={`const [theme, setTheme] = React.useState("light")
@@ -306,116 +337,129 @@ const [autoSave, setAutoSave] = React.useState(false)
 							</MenuPositioner>
 						</MenuPortal>
 					</Menu>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Props Tables */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Menu Props</h2>
-					<PropsTable props={menuProps} />
-				</section>
+			{/* Menu Props */}
+			<DocSection id="menu-props" title="Menu Props">
+				<DocPropsTable props={menuProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">MenuPositioner Props</h2>
-					<PropsTable props={menuPositionerProps} />
-				</section>
+			{/* MenuPositioner Props */}
+			<DocSection id="menu-positioner-props" title="MenuPositioner Props">
+				<DocPropsTable props={menuPositionerProps} />
+			</DocSection>
 
-				{/* Design Tokens */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Menu uses the design system tokens for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-popover</code> - Menu background color
-						</li>
-						<li>
-							<code className="text-xs">text-popover-foreground</code> - Menu text color
-						</li>
-						<li>
-							<code className="text-xs">bg-accent</code> - Highlighted item background
-						</li>
-						<li>
-							<code className="text-xs">text-accent-foreground</code> - Highlighted item text
-						</li>
-						<li>
-							<code className="text-xs">border</code> - Menu border color
-						</li>
-						<li>
-							<code className="text-xs">shadow-md</code> - Medium shadow for elevation
-						</li>
-						<li>
-							<code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)
-						</li>
-					</ul>
-				</section>
+			{/* Design Tokens */}
+			<DocSection id="design-tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Menu uses the design system tokens for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>
+						<code className="text-xs">bg-popover</code> - Menu background color
+					</li>
+					<li>
+						<code className="text-xs">text-popover-foreground</code> - Menu text color
+					</li>
+					<li>
+						<code className="text-xs">bg-accent</code> - Highlighted item background
+					</li>
+					<li>
+						<code className="text-xs">text-accent-foreground</code> - Highlighted item text
+					</li>
+					<li>
+						<code className="text-xs">border</code> - Menu border color
+					</li>
+					<li>
+						<code className="text-xs">shadow-md</code> - Medium shadow for elevation
+					</li>
+					<li>
+						<code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)
+					</li>
+				</ul>
+			</DocSection>
 
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Keep menu items concise and action-oriented</li>
-						<li>Use MenuSeparator to group related actions logically</li>
-						<li>Set closeOnClick=false for non-dismissing items (checkboxes)</li>
-						<li>Provide visual feedback for disabled items</li>
-						<li>Use keyboard shortcuts alongside menu options when possible</li>
-						<li>Limit nesting depth for better UX (max 2-3 levels)</li>
-						<li>Use MenuGroup with MenuGroupLabel for organized sections</li>
-						<li>Consider using DropdownMenu for styled menus with icons</li>
-					</ul>
-				</section>
+			{/* Best Practices */}
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Keep menu items concise and action-oriented</li>
+					<li>Use MenuSeparator to group related actions logically</li>
+					<li>Set closeOnClick=false for non-dismissing items (checkboxes)</li>
+					<li>Provide visual feedback for disabled items</li>
+					<li>Use keyboard shortcuts alongside menu options when possible</li>
+					<li>Limit nesting depth for better UX (max 2-3 levels)</li>
+					<li>Use MenuGroup with MenuGroupLabel for organized sections</li>
+					<li>Consider using DropdownMenu for styled menus with icons</li>
+				</ul>
+			</DocSection>
 
-				{/* Accessibility */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Accessibility</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Full keyboard navigation with arrow keys</li>
-						<li>Enter/Space to select items</li>
-						<li>Escape to close menu</li>
-						<li>Roving focus pattern for efficient navigation</li>
-						<li>Text-based item matching (type to search)</li>
-						<li>Screen reader compatible with proper ARIA attributes</li>
-						<li>Focus management when menu opens/closes</li>
-					</ul>
-				</section>
+			{/* Accessibility */}
+			<DocSection id="accessibility" title="Accessibility">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Full keyboard navigation with arrow keys</li>
+					<li>Enter/Space to select items</li>
+					<li>Escape to close menu</li>
+					<li>Roving focus pattern for efficient navigation</li>
+					<li>Text-based item matching (type to search)</li>
+					<li>Screen reader compatible with proper ARIA attributes</li>
+					<li>Focus management when menu opens/closes</li>
+				</ul>
+			</DocSection>
 
-				{/* Keyboard Shortcuts */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Keyboard Shortcuts</h2>
-					<div className="rounded-lg border">
-						<table className="w-full text-sm">
-							<thead className="border-b bg-muted/50">
-								<tr>
-									<th className="p-3 text-left font-medium">Key</th>
-									<th className="p-3 text-left font-medium">Action</th>
-								</tr>
-							</thead>
-							<tbody className="divide-y">
-								<tr>
-									<td className="p-3 font-mono text-xs">↑ ↓</td>
-									<td className="p-3 text-muted-foreground">Navigate between items</td>
-								</tr>
-								<tr>
-									<td className="p-3 font-mono text-xs">Enter / Space</td>
-									<td className="p-3 text-muted-foreground">Select item</td>
-								</tr>
-								<tr>
-									<td className="p-3 font-mono text-xs">Esc</td>
-									<td className="p-3 text-muted-foreground">Close menu</td>
-								</tr>
-								<tr>
-									<td className="p-3 font-mono text-xs">Home / End</td>
-									<td className="p-3 text-muted-foreground">Jump to first/last item</td>
-								</tr>
-								<tr>
-									<td className="p-3 font-mono text-xs">Type</td>
-									<td className="p-3 text-muted-foreground">Jump to item by text</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</section>
-			</div>
-		</Page>
+			{/* Keyboard Shortcuts */}
+			<DocSection id="keyboard-shortcuts" title="Keyboard Shortcuts">
+				<div className="rounded-lg border">
+					<table className="w-full text-sm">
+						<thead className="border-b bg-raised/50">
+							<tr>
+								<th className="p-3 text-left font-medium">Key</th>
+								<th className="p-3 text-left font-medium">Action</th>
+							</tr>
+						</thead>
+						<tbody className="divide-y">
+							<tr>
+								<td className="p-3 font-mono text-xs">&#8593; &#8595;</td>
+								<td className="p-3 text-fg-muted">Navigate between items</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Enter / Space</td>
+								<td className="p-3 text-fg-muted">Select item</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Esc</td>
+								<td className="p-3 text-fg-muted">Close menu</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Home / End</td>
+								<td className="p-3 text-fg-muted">Jump to first/last item</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Type</td>
+								<td className="p-3 text-fg-muted">Jump to item by text</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Dropdown Menu",
+							href: "/components/ui/dropdown-menu",
+							description: "Pre-styled dropdown menu with icons, shortcuts, and variants.",
+						},
+						{
+							title: "Popover",
+							href: "/components/ui/popover",
+							description: "Floating container for rich content anchored to a trigger.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

@@ -1,12 +1,24 @@
-"use client"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
+import { DocDoDont } from "@/components/features/docs/doc-do-dont"
+import {
+	CalloutCardDefaultDemo,
+	CalloutCardSecondaryActionDemo,
+	CalloutCardDismissDemo,
+	CalloutCardIllustrationDemo,
+} from "./callout-card-demos"
 
-import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { CalloutCard } from "@/components/ui/callout-card"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "guidelines", title: "Guidelines" },
+	{ id: "related", title: "Related" },
+]
 
-const calloutCardProps: PropDefinition[] = [
+const calloutCardProps: DocProp[] = [
 	{
 		name: "title",
 		type: "React.ReactNode",
@@ -31,34 +43,29 @@ const calloutCardProps: PropDefinition[] = [
 	},
 	{
 		name: "secondaryAction",
-		type: '{ content: string; url?: string; onAction?: () => void; variant?: "default" | "outline" | "secondary" | "ghost" | "destructive" | "link" }',
+		type: '{ content: string; url?: string; onAction?: () => void; variant?: ButtonVariant }',
 		description: "Secondary action for the card.",
 	},
 	{
 		name: "onDismiss",
 		type: "() => void",
-		description: "Callback when banner is dismissed. Shows a dismiss button when provided.",
+		description: "Callback when the card is dismissed. Shows a dismiss button when provided.",
 	},
 ]
 
 export default function CalloutCardPage() {
-	const [dismissed1, setDismissed1] = React.useState(false)
-
 	return (
-		<Page
+		<DocPage
 			title="Callout Card"
 			subtitle="Callout cards are used to encourage users to take an action related to a new feature or opportunity."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
-						title="Default"
-						description="Use to let users know about a feature or opportunity where there is a clear, single action they need to take."
-						code={`<CalloutCard
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Default"
+					description="Use to let users know about a feature or opportunity where there is a clear, single action they need to take."
+					code={`<CalloutCard
   title="Customize the style of your checkout"
-  illustration="/images/checkout.svg"
   primaryAction={{
     content: "Customize checkout",
     url: "/settings/checkout"
@@ -66,22 +73,14 @@ export default function CalloutCardPage() {
 >
   Upload your store's logo, change colors and fonts, and more.
 </CalloutCard>`}
-					>
-						<CalloutCard
-							title="Customize the style of your checkout"
-							primaryAction={{
-								content: "Customize checkout",
-								onAction: () => alert("Customize checkout clicked"),
-							}}
-						>
-							Upload your store's logo, change colors and fonts, and more.
-						</CalloutCard>
-					</ComponentExample>
+				>
+					<CalloutCardDefaultDemo />
+				</DocExample>
 
-					<ComponentExample
-						title="With Secondary Action"
-						description="Use when there's a secondary action that's less important than the primary action."
-						code={`<CalloutCard
+				<DocExample
+					title="With Secondary Action"
+					description="Use when there's a secondary action that's less important than the primary action."
+					code={`<CalloutCard
   title="Set up two-step authentication"
   primaryAction={{
     content: "Enable",
@@ -95,28 +94,14 @@ export default function CalloutCardPage() {
 >
   Add an extra layer of security to your account.
 </CalloutCard>`}
-					>
-						<CalloutCard
-							title="Set up two-step authentication"
-							primaryAction={{
-								content: "Enable",
-								onAction: () => alert("Enable clicked"),
-							}}
-							secondaryAction={{
-								content: "Learn more",
-								variant: "ghost",
-								onAction: () => alert("Learn more clicked"),
-							}}
-						>
-							Add an extra layer of security to your account by requiring a code in addition
-							to your password.
-						</CalloutCard>
-					</ComponentExample>
+				>
+					<CalloutCardSecondaryActionDemo />
+				</DocExample>
 
-					<ComponentExample
-						title="Dismissable"
-						description="Allow users to dismiss the callout card when they're not interested."
-						code={`<CalloutCard
+				<DocExample
+					title="Dismissable"
+					description="Allow users to dismiss the callout card when they're not interested."
+					code={`<CalloutCard
   title="Try the new inventory management"
   primaryAction={{
     content: "Get started",
@@ -126,36 +111,14 @@ export default function CalloutCardPage() {
 >
   Track your inventory across multiple locations.
 </CalloutCard>`}
-					>
-						{dismissed1 ? (
-							<div className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-								<p>Callout card was dismissed.</p>
-								<button
-									type="button"
-									className="mt-2 text-primary underline"
-									onClick={() => setDismissed1(false)}
-								>
-									Show again
-								</button>
-							</div>
-						) : (
-							<CalloutCard
-								title="Try the new inventory management"
-								primaryAction={{
-									content: "Get started",
-									onAction: () => alert("Get started clicked"),
-								}}
-								onDismiss={() => setDismissed1(true)}
-							>
-								Track your inventory across multiple locations with our new tools.
-							</CalloutCard>
-						)}
-					</ComponentExample>
+				>
+					<CalloutCardDismissDemo />
+				</DocExample>
 
-					<ComponentExample
-						title="With Illustration"
-						description="Add an illustration to make the callout card more visually appealing."
-						code={`<CalloutCard
+				<DocExample
+					title="With Illustration"
+					description="Add an illustration to make the callout card more visually appealing."
+					code={`<CalloutCard
   title="Start selling on Facebook and Instagram"
   illustration="/images/social-selling.svg"
   primaryAction={{
@@ -169,87 +132,50 @@ export default function CalloutCardPage() {
 >
   Reach millions of shoppers and grow your business.
 </CalloutCard>`}
-					>
-						<CalloutCard
-							title="Start selling on Facebook and Instagram"
-							illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94514f5cc91768e42bb4e3c3cc3766b54290.svg"
-							primaryAction={{
-								content: "Connect accounts",
-								onAction: () => alert("Connect clicked"),
-							}}
-							secondaryAction={{
-								content: "Learn more",
-								variant: "link",
-								onAction: () => alert("Learn more clicked"),
-							}}
-						>
-							Reach millions of shoppers and grow your business by selling on social media.
-						</CalloutCard>
-					</ComponentExample>
-				</section>
+				>
+					<CalloutCardIllustrationDemo />
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={calloutCardProps} />
-				</section>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={calloutCardProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<p className="text-sm text-muted-foreground">Callout cards should:</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Clearly articulate the benefit of the feature and what it does</li>
-						<li>Provide users with a clear call to action</li>
-						<li>Be targeted to users who will most benefit from the feature</li>
-						<li>
-							Be dismissable so users can get rid of cards about features they're not
-							interested in
-						</li>
-						<li>
-							Use an illustration that helps to communicate the subject or user benefit
-						</li>
-					</ul>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Content Guidelines</h2>
-					<div className="space-y-4">
-						<div>
-							<h3 className="text-sm font-medium">Title</h3>
-							<p className="text-sm text-muted-foreground">
-								Keep titles short and actionable. Focus on the benefit, not the feature.
-							</p>
+			<DocSection id="guidelines" title="Guidelines">
+				<DocDoDont
+					doExample={
+						<div className="text-sm">
+							<p className="font-medium">Customize the style of your checkout</p>
+							<p className="text-fg-muted">Upload your store's logo, change colors and fonts.</p>
 						</div>
-						<div>
-							<h3 className="text-sm font-medium">Body Content</h3>
-							<ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
-								<li>Start sentences with imperative verbs when telling users what actions are available</li>
-								<li>Put the most critical information first</li>
-								<li>Keep it concise - 1-2 sentences maximum</li>
-							</ul>
+					}
+					doText="Clearly articulate the benefit of the feature and provide a single call to action."
+					dontExample={
+						<div className="text-sm">
+							<p className="font-medium">New feature!</p>
+							<p className="text-fg-muted">Check it out now.</p>
 						</div>
-						<div>
-							<h3 className="text-sm font-medium">Call to Action</h3>
-							<ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
-								<li>Be clear and predictable about what will happen</li>
-								<li>Lead with a strong verb that encourages action</li>
-								<li>Avoid unnecessary words like "the", "an", or "a"</li>
-							</ul>
-						</div>
-					</div>
-				</section>
+					}
+					dontText="Don't use vague titles or descriptions that don't explain the value."
+				/>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Related Components</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>To group similar concepts and tasks together, use the Card component</li>
-						<li>To create page-level layout, use the Layout component</li>
-						<li>
-							To explain a feature that users haven't tried yet, use the Empty State
-							component
-						</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Card",
+							href: "/components/layout/card",
+							description: "Group similar concepts and tasks together.",
+						},
+						{
+							title: "Banner",
+							href: "/components/ui/banner",
+							description: "Display important page-level messages and notifications.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

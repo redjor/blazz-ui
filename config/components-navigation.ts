@@ -71,7 +71,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 		items: [
 			{ title: "Alert", href: "/components/ui/alert" },
 			{ title: "Badge", href: "/components/ui/badge" },
-			{ title: "Banner", href: "/components/feedback/banner" },
+			{ title: "Banner", href: "/components/ui/banner" },
 			{ title: "Skeleton", href: "/components/ui/skeleton" },
 		],
 	},

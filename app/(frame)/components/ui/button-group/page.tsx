@@ -1,13 +1,21 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { ChevronLeft, ChevronRight, Bold, Italic, Underline } from "lucide-react"
 
-const buttonGroupProps = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "best-practices", title: "Best Practices" },
+	{ id: "related", title: "Related" },
+]
+
+const buttonGroupProps: DocProp[] = [
 	{
 		name: "children",
 		type: "React.ReactNode",
@@ -23,13 +31,23 @@ const buttonGroupProps = [
 
 export default function ButtonGroupPage() {
 	return (
-		<Page
+		<DocPage
 			title="Button Group"
 			subtitle="Groups related buttons together with connected styling."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<ButtonGroup>
+					<Button variant="outline">Left</Button>
+					<Button variant="outline">Center</Button>
+					<Button variant="outline">Right</Button>
+				</ButtonGroup>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Button Group"
 					description="Group buttons together for related actions."
 					code={`<ButtonGroup>
@@ -43,10 +61,9 @@ export default function ButtonGroupPage() {
 						<Button variant="outline">Center</Button>
 						<Button variant="outline">Right</Button>
 					</ButtonGroup>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Icons */}
-				<ComponentExample
+				<DocExample
 					title="With Icons"
 					description="Button groups work well with icon-only buttons."
 					code={`<ButtonGroup>
@@ -66,10 +83,9 @@ export default function ButtonGroupPage() {
 							<ChevronRight className="h-4 w-4" />
 						</Button>
 					</ButtonGroup>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Toolbar Example */}
-				<ComponentExample
+				<DocExample
 					title="Toolbar"
 					description="Create a text formatting toolbar with button groups."
 					code={`<ButtonGroup>
@@ -95,10 +111,9 @@ export default function ButtonGroupPage() {
 							<Underline className="h-4 w-4" />
 						</Button>
 					</ButtonGroup>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Different Variants */}
-				<ComponentExample
+				<DocExample
 					title="Different Variants"
 					description="Button groups work with different button variants."
 					code={`<div className="flex flex-col gap-4">
@@ -126,26 +141,42 @@ export default function ButtonGroupPage() {
 							<Button variant="secondary">Option C</Button>
 						</ButtonGroup>
 					</div>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Props Table */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Props</h2>
-					<PropsTable props={buttonGroupProps} />
-				</section>
+			{/* Props */}
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={buttonGroupProps} />
+			</DocSection>
 
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Use button groups for related actions that should be visually connected</li>
-						<li>Keep the number of buttons in a group small (2-4 buttons)</li>
-						<li>Use consistent button variants within a group</li>
-						<li>Consider icon-only buttons for compact toolbars</li>
-						<li>Ensure buttons in the group have similar importance levels</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Best Practices */}
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Use button groups for related actions that should be visually connected</li>
+					<li>Keep the number of buttons in a group small (2-4 buttons)</li>
+					<li>Use consistent button variants within a group</li>
+					<li>Consider icon-only buttons for compact toolbars</li>
+					<li>Ensure buttons in the group have similar importance levels</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Button",
+							href: "/components/ui/button",
+							description: "The individual button component used within groups.",
+						},
+						{
+							title: "Toolbar",
+							href: "/components/ui/toolbar",
+							description: "A more structured toolbar component for complex toolbars.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

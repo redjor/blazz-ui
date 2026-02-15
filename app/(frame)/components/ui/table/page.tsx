@@ -1,8 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import {
 	Table,
 	TableHeader,
@@ -16,7 +19,15 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { MoreHorizontal, ArrowUpDown } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
+
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "design-tokens", title: "Design Tokens" },
+	{ id: "best-practices", title: "Best Practices" },
+	{ id: "accessibility", title: "Accessibility" },
+	{ id: "related", title: "Related" },
+]
 
 export default function TablePage() {
 	const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
@@ -48,13 +59,38 @@ export default function TablePage() {
 	}
 
 	return (
-		<Page
+		<DocPage
 			title="Table"
 			subtitle="Display data in rows and columns with semantic HTML table elements."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead>Invoice</TableHead>
+							<TableHead>Status</TableHead>
+							<TableHead>Method</TableHead>
+							<TableHead className="text-right">Amount</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{invoices.slice(0, 3).map((invoice) => (
+							<TableRow key={invoice.id}>
+								<TableCell className="font-medium">{invoice.id}</TableCell>
+								<TableCell>{invoice.status}</TableCell>
+								<TableCell>{invoice.method}</TableCell>
+								<TableCell className="text-right">{invoice.amount}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Table"
 					description="A simple table with header and body rows."
 					code={`<Table>
@@ -99,10 +135,9 @@ export default function TablePage() {
 							))}
 						</TableBody>
 					</Table>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Footer */}
-				<ComponentExample
+				<DocExample
 					title="With Footer"
 					description="Add a footer row for totals or summaries."
 					code={`<Table>
@@ -148,10 +183,9 @@ export default function TablePage() {
 							</TableRow>
 						</TableFooter>
 					</Table>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Status Badges */}
-				<ComponentExample
+				<DocExample
 					title="With Status Badges"
 					description="Use badges to highlight status or categories."
 					code={`<Table>
@@ -207,10 +241,9 @@ export default function TablePage() {
 							))}
 						</TableBody>
 					</Table>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Selection */}
-				<ComponentExample
+				<DocExample
 					title="With Row Selection"
 					description="Add checkboxes for row selection."
 					code={`const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
@@ -282,10 +315,9 @@ export default function TablePage() {
 							))}
 						</TableBody>
 					</Table>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Actions */}
-				<ComponentExample
+				<DocExample
 					title="With Row Actions"
 					description="Add action buttons to table rows."
 					code={`<Table>
@@ -335,67 +367,87 @@ export default function TablePage() {
 							))}
 						</TableBody>
 					</Table>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Design Tokens */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Table uses the design system tokens for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-muted/50</code> - Header and footer background
-						</li>
-						<li>
-							<code className="text-xs">text-muted-foreground</code> - Header text color
-						</li>
-						<li>
-							<code className="text-xs">border-border</code> - Row borders
-						</li>
-						<li>
-							<code className="text-xs">hover:bg-muted/50</code> - Row hover state
-						</li>
-						<li>
-							<code className="text-xs">data-[state=selected]:bg-primary/5</code> - Selected row
-						</li>
-						<li>
-							<code className="text-xs">text-xs</code> - Table text size
-						</li>
-						<li>
-							<code className="text-xs">px-3 py-1</code> - Cell padding
-						</li>
-					</ul>
-				</section>
+			{/* Design Tokens */}
+			<DocSection id="design-tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Table uses the design system tokens for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>
+						<code className="text-xs">bg-raised/50</code> - Header and footer background
+					</li>
+					<li>
+						<code className="text-xs">text-fg-muted</code> - Header text color
+					</li>
+					<li>
+						<code className="text-xs">border-border</code> - Row borders
+					</li>
+					<li>
+						<code className="text-xs">hover:bg-raised/50</code> - Row hover state
+					</li>
+					<li>
+						<code className="text-xs">data-[state=selected]:bg-primary/5</code> - Selected row
+					</li>
+					<li>
+						<code className="text-xs">text-xs</code> - Table text size
+					</li>
+					<li>
+						<code className="text-xs">px-3 py-1</code> - Cell padding
+					</li>
+				</ul>
+			</DocSection>
 
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Use TableCaption for accessibility and context</li>
-						<li>Align numerical data to the right for easier scanning</li>
-						<li>Keep tables responsive - consider horizontal scrolling for mobile</li>
-						<li>Use consistent column widths for better readability</li>
-						<li>Highlight important data with font-medium or badges</li>
-						<li>Provide sorting and filtering for large datasets</li>
-						<li>Use sticky headers for long tables</li>
-						<li>Consider DataTable component for advanced features</li>
-					</ul>
-				</section>
+			{/* Best Practices */}
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Use TableCaption for accessibility and context</li>
+					<li>Align numerical data to the right for easier scanning</li>
+					<li>Keep tables responsive - consider horizontal scrolling for mobile</li>
+					<li>Use consistent column widths for better readability</li>
+					<li>Highlight important data with font-medium or badges</li>
+					<li>Provide sorting and filtering for large datasets</li>
+					<li>Use sticky headers for long tables</li>
+					<li>Consider DataTable component for advanced features</li>
+				</ul>
+			</DocSection>
 
-				{/* Accessibility */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Accessibility</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Uses semantic HTML table elements</li>
-						<li>TableCaption provides context for screen readers</li>
-						<li>Proper heading scope with TableHead elements</li>
-						<li>Keyboard navigable with proper focus states</li>
-						<li>Selection state announced with data-state attribute</li>
-						<li>Consider adding aria-label for complex tables</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Accessibility */}
+			<DocSection id="accessibility" title="Accessibility">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Uses semantic HTML table elements</li>
+					<li>TableCaption provides context for screen readers</li>
+					<li>Proper heading scope with TableHead elements</li>
+					<li>Keyboard navigable with proper focus states</li>
+					<li>Selection state announced with data-state attribute</li>
+					<li>Consider adding aria-label for complex tables</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Data Table",
+							href: "/components/ui/data-table",
+							description: "Advanced table with sorting, filtering, pagination, and more.",
+						},
+						{
+							title: "Badge",
+							href: "/components/ui/badge",
+							description: "Status indicators commonly used in table cells.",
+						},
+						{
+							title: "Checkbox",
+							href: "/components/ui/checkbox",
+							description: "Checkbox component for row selection patterns.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

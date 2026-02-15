@@ -1,11 +1,17 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
 import { Text } from "@/components/ui/text"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
 
-const textProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "guidelines", title: "Guidelines" },
+]
+
+const textProps: DocProp[] = [
 	{
 		name: "variant",
 		type: '"heading-3xl" | "heading-2xl" | "heading-xl" | "heading-lg" | "heading-md" | "heading-sm" | "heading-xs" | "body-lg" | "body-md" | "body-sm" | "body-xs"',
@@ -40,12 +46,22 @@ const textProps: PropDefinition[] = [
 
 export default function TextPage() {
 	return (
-		<Page
+		<DocPage
 			title="Text"
 			subtitle="Consistent typography across your application. Enforces a type scale so every heading and paragraph stays in sync."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<div className="space-y-1 text-center">
+					<Text variant="heading-lg" as="h2">Invoice #1042</Text>
+					<Text tone="muted" as="p">Due in 14 days</Text>
+				</div>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Heading Scale"
 					description="Seven heading sizes for content hierarchy."
 					code={`<Text variant="heading-3xl" as="h1">Heading 3XL</Text>
@@ -65,9 +81,9 @@ export default function TextPage() {
 						<Text variant="heading-sm" as="h6">Heading SM</Text>
 						<Text variant="heading-xs">Heading XS</Text>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				<ComponentExample
+				<DocExample
 					title="Body Scale"
 					description="Four body sizes for content, descriptions, and captions."
 					code={`<Text variant="body-lg" as="p">Large body text</Text>
@@ -81,9 +97,9 @@ export default function TextPage() {
 						<Text variant="body-sm" as="p">Small body text for secondary information.</Text>
 						<Text variant="body-xs" as="p">Extra small for captions, labels, metadata.</Text>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				<ComponentExample
+				<DocExample
 					title="Tones"
 					description="Semantic color tones for meaning."
 					code={`<Text tone="default">Default text</Text>
@@ -103,9 +119,9 @@ export default function TextPage() {
 						<div><Text tone="warning">Warning message</Text></div>
 						<div><Text tone="info">Information</Text></div>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				<ComponentExample
+				<DocExample
 					title="Truncate"
 					description="Cut off long text with ellipsis."
 					code={`<div className="max-w-xs">
@@ -119,9 +135,9 @@ export default function TextPage() {
 							This is a very long text that will be truncated with an ellipsis when it exceeds the container width.
 						</Text>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				<ComponentExample
+				<DocExample
 					title="Numeric"
 					description="Tabular figures for aligned numbers in tables and financial data."
 					code={`<Text>Regular: $1,234.56</Text>
@@ -132,9 +148,9 @@ export default function TextPage() {
 						<div><Text numeric>Numeric: $1,234.56</Text></div>
 						<div><Text numeric>Phone: +1 (555) 123-4567</Text></div>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				<ComponentExample
+				<DocExample
 					title="Composition"
 					description="Combine variant, tone, and className for full control."
 					code={`<Text variant="heading-lg" as="h2">Invoice #1042</Text>
@@ -151,24 +167,24 @@ export default function TextPage() {
 							<Text tone="danger" className="font-semibold">$79.99</Text>
 						</div>
 					</div>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={textProps} />
-				</section>
+			{/* Props */}
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={textProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Design Principles</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-						<li>Use <code>variant</code> for size — never set <code>text-lg</code> directly on Text</li>
-						<li>Use <code>tone</code> for semantic color — not <code>className="text-red-500"</code></li>
-						<li>Use <code>as</code> for semantic HTML — headings get h1-h6, paragraphs get p</li>
-						<li>For anything else (alignment, decoration, weight override), use <code>className</code></li>
-						<li>Keep the API surface small — <code>className</code> handles edge cases</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Guidelines */}
+			<DocSection id="guidelines" title="Guidelines">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Use <code>variant</code> for size -- never set <code>text-lg</code> directly on Text</li>
+					<li>Use <code>tone</code> for semantic color -- not <code>className="text-red-500"</code></li>
+					<li>Use <code>as</code> for semantic HTML -- headings get h1-h6, paragraphs get p</li>
+					<li>For anything else (alignment, decoration, weight override), use <code>className</code></li>
+					<li>Keep the API surface small -- <code>className</code> handles edge cases</li>
+				</ul>
+			</DocSection>
+		</DocPage>
 	)
 }

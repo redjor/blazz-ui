@@ -1,14 +1,18 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { InlineStack } from "@/components/ui/inline-stack"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-
-const inlineStackProps: PropDefinition[] = [
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "related", title: "Related" },
+]
+const inlineStackProps: DocProp[] = [
 	{
 		name: "as",
 		type: '"div" | "span" | "li" | "ol" | "ul"',
@@ -46,7 +50,6 @@ const inlineStackProps: PropDefinition[] = [
 		description: "Wrap stack elements to additional rows as needed on small screens.",
 	},
 ]
-
 function Placeholder({ width = "auto" }: { width?: string }) {
 	return (
 		<div
@@ -57,18 +60,15 @@ function Placeholder({ width = "auto" }: { width?: string }) {
 		</div>
 	)
 }
-
 export default function InlineStackPage() {
 	return (
-		<Page
+		<DocPage
 			title="Inline Stack"
 			subtitle="Use to display children horizontally in a row. Based on CSS Flexbox."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
+			<DocSection id="examples" title="Examples">
+					<DocExample
 						title="Gap"
 						description="Control the horizontal space between children using the gap prop."
 						code={`<InlineStack gap="400">
@@ -84,126 +84,8 @@ export default function InlineStackPage() {
 								</InlineStack>
 							</CardContent>
 						</Card>
-					</ComponentExample>
-
-					<ComponentExample
-						title="Align"
-						description="Control horizontal alignment of children."
-						code={`<InlineStack align="space-between">
-  <Button>Left</Button>
-  <Button variant="outline">Right</Button>
-</InlineStack>`}
-					>
-						<div className="space-y-4">
-							<div>
-								<p className="mb-2 text-xs font-medium">align="start"</p>
-								<Card>
-									<CardContent>
-										<InlineStack align="start" gap="200">
-											<Badge>Tag 1</Badge>
-											<Badge>Tag 2</Badge>
-											<Badge>Tag 3</Badge>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-							<div>
-								<p className="mb-2 text-xs font-medium">align="center"</p>
-								<Card>
-									<CardContent>
-										<InlineStack align="center" gap="200">
-											<Badge>Tag 1</Badge>
-											<Badge>Tag 2</Badge>
-											<Badge>Tag 3</Badge>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-							<div>
-								<p className="mb-2 text-xs font-medium">align="end"</p>
-								<Card>
-									<CardContent>
-										<InlineStack align="end" gap="200">
-											<Badge>Tag 1</Badge>
-											<Badge>Tag 2</Badge>
-											<Badge>Tag 3</Badge>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-							<div>
-								<p className="mb-2 text-xs font-medium">align="space-between"</p>
-								<Card>
-									<CardContent>
-										<InlineStack align="space-between" gap="200">
-											<Badge>Tag 1</Badge>
-											<Badge>Tag 2</Badge>
-											<Badge>Tag 3</Badge>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-						</div>
-					</ComponentExample>
-
-					<ComponentExample
-						title="Block Align"
-						description="Control vertical alignment of children with different heights."
-						code={`<InlineStack blockAlign="center" gap="200">
-  <div style={{ height: 40 }}>Short</div>
-  <div style={{ height: 80 }}>Tall</div>
-</InlineStack>`}
-					>
-						<div className="grid grid-cols-3 gap-4">
-							<div>
-								<p className="mb-2 text-xs font-medium">blockAlign="start"</p>
-								<Card>
-									<CardContent>
-										<InlineStack blockAlign="start" gap="200">
-											<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
-												40px
-											</div>
-											<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
-												80px
-											</div>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-							<div>
-								<p className="mb-2 text-xs font-medium">blockAlign="center"</p>
-								<Card>
-									<CardContent>
-										<InlineStack blockAlign="center" gap="200">
-											<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
-												40px
-											</div>
-											<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
-												80px
-											</div>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-							<div>
-								<p className="mb-2 text-xs font-medium">blockAlign="end"</p>
-								<Card>
-									<CardContent>
-										<InlineStack blockAlign="end" gap="200">
-											<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
-												40px
-											</div>
-											<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
-												80px
-											</div>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-						</div>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Non-wrapping"
 						description="Prevent items from wrapping to the next line using wrap={false}."
 						code={`<InlineStack wrap={false} gap="200">
@@ -224,59 +106,178 @@ export default function InlineStackPage() {
 								</InlineStack>
 							</CardContent>
 						</Card>
-					</ComponentExample>
-
-					<ComponentExample
-						title="Direction"
-						description="Reverse the direction of items using direction='row-reverse'."
-						code={`<InlineStack direction="row-reverse" gap="200">
+					</DocExample>
+				<DocExample
+					title="Align"
+					description="Control horizontal alignment of children."
+					code={`<InlineStack align="space-between">
+  <Button>Left</Button>
+  <Button variant="outline">Right</Button>
+</InlineStack>`}
+				>
+					<div className="space-y-4">
+						<div>
+							<p className="mb-2 text-xs font-medium">align="start"</p>
+							<Card>
+								<CardContent>
+									<InlineStack align="start" gap="200">
+										<Badge>Tag 1</Badge>
+										<Badge>Tag 2</Badge>
+										<Badge>Tag 3</Badge>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+						<div>
+							<p className="mb-2 text-xs font-medium">align="center"</p>
+							<Card>
+								<CardContent>
+									<InlineStack align="center" gap="200">
+										<Badge>Tag 1</Badge>
+										<Badge>Tag 2</Badge>
+										<Badge>Tag 3</Badge>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+						<div>
+							<p className="mb-2 text-xs font-medium">align="end"</p>
+							<Card>
+								<CardContent>
+									<InlineStack align="end" gap="200">
+										<Badge>Tag 1</Badge>
+										<Badge>Tag 2</Badge>
+										<Badge>Tag 3</Badge>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+						<div>
+							<p className="mb-2 text-xs font-medium">align="space-between"</p>
+							<Card>
+								<CardContent>
+									<InlineStack align="space-between" gap="200">
+										<Badge>Tag 1</Badge>
+										<Badge>Tag 2</Badge>
+										<Badge>Tag 3</Badge>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+					</div>
+				</DocExample>
+				<DocExample
+					title="Block Align"
+					description="Control vertical alignment of children with different heights."
+					code={`<InlineStack blockAlign="center" gap="200">
+  <div style={{ height: 40 }}>Short</div>
+  <div style={{ height: 80 }}>Tall</div>
+</InlineStack>`}
+				>
+					<div className="grid grid-cols-3 gap-4">
+						<div>
+							<p className="mb-2 text-xs font-medium">blockAlign="start"</p>
+							<Card>
+								<CardContent>
+									<InlineStack blockAlign="start" gap="200">
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+											40px
+										</div>
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+											80px
+										</div>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+						<div>
+							<p className="mb-2 text-xs font-medium">blockAlign="center"</p>
+							<Card>
+								<CardContent>
+									<InlineStack blockAlign="center" gap="200">
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+											40px
+										</div>
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+											80px
+										</div>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+						<div>
+							<p className="mb-2 text-xs font-medium">blockAlign="end"</p>
+							<Card>
+								<CardContent>
+									<InlineStack blockAlign="end" gap="200">
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+											40px
+										</div>
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+											80px
+										</div>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+					</div>
+				</DocExample>
+				<DocExample
+					title="Direction"
+					description="Reverse the direction of items using direction='row-reverse'."
+					code={`<InlineStack direction="row-reverse" gap="200">
   <Badge>First</Badge>
   <Badge>Second</Badge>
   <Badge>Third</Badge>
 </InlineStack>`}
-					>
-						<div className="grid grid-cols-2 gap-4">
-							<div>
-								<p className="mb-2 text-xs font-medium">direction="row"</p>
-								<Card>
-									<CardContent>
-										<InlineStack direction="row" gap="200">
-											<Badge>First</Badge>
-											<Badge>Second</Badge>
-											<Badge>Third</Badge>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
-							<div>
-								<p className="mb-2 text-xs font-medium">direction="row-reverse"</p>
-								<Card>
-									<CardContent>
-										<InlineStack direction="row-reverse" gap="200">
-											<Badge>First</Badge>
-											<Badge>Second</Badge>
-											<Badge>Third</Badge>
-										</InlineStack>
-									</CardContent>
-								</Card>
-							</div>
+				>
+					<div className="grid grid-cols-2 gap-4">
+						<div>
+							<p className="mb-2 text-xs font-medium">direction="row"</p>
+							<Card>
+								<CardContent>
+									<InlineStack direction="row" gap="200">
+										<Badge>First</Badge>
+										<Badge>Second</Badge>
+										<Badge>Third</Badge>
+									</InlineStack>
+								</CardContent>
+							</Card>
 						</div>
-					</ComponentExample>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={inlineStackProps} />
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Related Components</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>To create the large-scale structure of pages, use the InlineGrid component</li>
-						<li>To display elements vertically, use the BlockStack component</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+						<div>
+							<p className="mb-2 text-xs font-medium">direction="row-reverse"</p>
+							<Card>
+								<CardContent>
+									<InlineStack direction="row-reverse" gap="200">
+										<Badge>First</Badge>
+										<Badge>Second</Badge>
+										<Badge>Third</Badge>
+									</InlineStack>
+								</CardContent>
+							</Card>
+						</div>
+					</div>
+				</DocExample>
+			</DocSection>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={inlineStackProps} />
+			</DocSection>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Inline Grid",
+							href: "/components/layout/inline-grid",
+							description: "Create the large-scale structure of pages with CSS Grid.",
+						},
+						{
+							title: "Grid",
+							href: "/components/layout/grid",
+							description: "Create complex responsive layouts based on CSS Grid.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

@@ -1,9 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { Page } from '@/components/ui/page';
-import { ComponentExample } from '@/components/features/docs/component-example';
-import { PropsTable, type PropDefinition } from '@/components/features/docs/props-table';
 import { DataTable } from '@/components/features/data-table/data-table';
 import { createUserManagementPreset } from '@/components/features/data-table/presets/users';
 import { createCompaniesPreset } from '@/components/features/data-table/presets/crm-companies';
@@ -11,7 +8,7 @@ import { createContactsPreset } from '@/components/features/data-table/presets/c
 import { createDealsPreset } from '@/components/features/data-table/presets/crm-deals';
 import { createQuotesPreset } from '@/components/features/data-table/presets/crm-quotes';
 import { createProductsPreset } from '@/components/features/data-table/presets/crm-products';
-import { createEditableDealsPreset } from '@/components/features/data-table/presets/crm-deals-editable';
+import { createSpreadsheetPreset } from '@/components/features/data-table/presets/spreadsheet';
 import type { User } from '@/types/user-management';
 import type { DataTableColumnDef } from '@/components/features/data-table/data-table.types';
 import {
@@ -21,8 +18,24 @@ import {
   quotes,
   products,
 } from '@/lib/sample-data';
+import type { Deal } from '@/lib/sample-data';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DocPage } from '@/components/features/docs/doc-page';
+import { DocSection } from '@/components/features/docs/doc-section';
+import { DocHero } from '@/components/features/docs/doc-hero';
+import { DocExample } from '@/components/features/docs/doc-example';
+import { DocPropsTable, type DocProp } from '@/components/features/docs/doc-props-table';
+
+const toc = [
+  { id: 'examples', title: 'Examples' },
+  { id: 'crm-presets', title: 'CRM Presets' },
+  { id: 'props', title: 'Props' },
+  { id: 'available-presets', title: 'Available Presets' },
+  { id: 'key-features', title: 'Key Features' },
+  { id: 'column-definition', title: 'Column Definition' },
+  { id: 'best-practices', title: 'Best Practices' },
+];
 
 // Mock data for examples
 const mockUsers = [
@@ -101,7 +114,7 @@ const mockProducts: SimpleProduct[] = [
   { id: '5', name: 'Notebook Set', category: 'Stationery', price: 12, stock: 50, status: 'in_stock' },
 ];
 
-const dataTableProps: PropDefinition[] = [
+const dataTableProps: DocProp[] = [
   { name: 'data', type: 'TData[]', description: 'Array of data objects to display in the table.' },
   { name: 'columns', type: 'DataTableColumnDef<TData>[]', description: 'Column definitions for the table.' },
   { name: 'enableSorting', type: 'boolean', default: 'true', description: 'Enable column sorting functionality.' },
@@ -188,20 +201,60 @@ export default function DataTablePage() {
     onDuplicate: (p) => console.log('Duplicate product:', p.id),
   });
 
-  const editablePreset = createEditableDealsPreset({
-    onCellEdit: (rowId, columnId, value) => {
-      console.log(`Cell edited: row=${rowId}, col=${columnId}, value=${value}`);
-    },
-  });
+  const [editableDeals, setEditableDeals] = React.useState(deals.slice(0, 8));
+
+  const handleCellEdit = React.useCallback((rowId: string, columnId: string, value: unknown) => {
+    setEditableDeals((prev) =>
+      prev.map((deal) =>
+        deal.id === rowId ? { ...deal, [columnId]: value } : deal
+      )
+    );
+  }, []);
+
+  const editablePreset = React.useMemo(
+    () => createSpreadsheetPreset<Deal>({
+      columns: [
+        { accessorKey: 'title', title: 'Titre', type: 'text' },
+        { accessorKey: 'companyName', title: 'Entreprise', type: 'text', editable: false },
+        { accessorKey: 'contactName', title: 'Contact', type: 'text', editable: false },
+        { accessorKey: 'amount', title: 'Montant', type: 'currency', currency: 'EUR', locale: 'fr-FR' },
+        { accessorKey: 'probability', title: 'Probabilité (%)', type: 'number', min: 0, max: 100 },
+        {
+          accessorKey: 'stage', title: 'Étape', type: 'select', options: [
+            { label: 'Lead', value: 'lead' },
+            { label: 'Qualifié', value: 'qualified' },
+            { label: 'Proposition', value: 'proposal' },
+            { label: 'Négociation', value: 'negotiation' },
+            { label: 'Gagné', value: 'closed_won' },
+            { label: 'Perdu', value: 'closed_lost' },
+          ],
+        },
+      ],
+      onCellEdit: handleCellEdit,
+    }),
+    [handleCellEdit]
+  );
 
   return (
-    <Page
+    <DocPage
       title="Data Table"
       subtitle="Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions. Built with TanStack React Table v8."
+      toc={toc}
     >
-      <div className="space-y-12">
-        {/* Basic Example */}
-        <ComponentExample
+      {/* Hero */}
+      <DocHero className="p-0 overflow-hidden">
+        <DataTable
+          data={mockProducts}
+          columns={productColumns}
+          enableSorting
+          enablePagination
+          pagination={{ pageSize: 5 }}
+        />
+      </DocHero>
+
+      {/* Examples */}
+      <DocSection id="examples" title="Examples">
+        <DocExample
           title="Basic Table"
           description="Simple data table with sorting and pagination."
           code={`const columns: DataTableColumnDef<Product>[] = [
@@ -219,10 +272,9 @@ export default function DataTablePage() {
             enablePagination
             pagination={{ pageSize: 5 }}
           />
-        </ComponentExample>
+        </DocExample>
 
-        {/* With Row Selection */}
-        <ComponentExample
+        <DocExample
           title="With Row Selection"
           description="Enable row selection with checkboxes for bulk operations."
           code={`<DataTable data={products} columns={columns} enableRowSelection enablePagination pagination={{ pageSize: 10 }} />`}
@@ -234,10 +286,9 @@ export default function DataTablePage() {
             enablePagination
             pagination={{ pageSize: 5 }}
           />
-        </ComponentExample>
+        </DocExample>
 
-        {/* Variants */}
-        <ComponentExample
+        <DocExample
           title="Visual Variants"
           description="Different visual styles: lined (default), striped, and default."
           code={`<DataTable variant="lined" data={products} columns={columns} />
@@ -264,10 +315,9 @@ export default function DataTablePage() {
               />
             </div>
           </div>
-        </ComponentExample>
+        </DocExample>
 
-        {/* Density */}
-        <ComponentExample
+        <DocExample
           title="Density Options"
           description="Control row spacing with compact, default, or comfortable density."
           code={`<DataTable density="compact" data={products} columns={columns} />
@@ -294,10 +344,9 @@ export default function DataTablePage() {
               />
             </div>
           </div>
-        </ComponentExample>
+        </DocExample>
 
-        {/* Full-Featured with Preset */}
-        <ComponentExample
+        <DocExample
           title="Full-Featured with Preset"
           description="Complete example using the User Management preset with views, filters, row actions, and bulk actions."
           code={`import { createUserManagementPreset } from "@/components/features/data-table"
@@ -332,263 +381,267 @@ const preset = createUserManagementPreset({
             enableCustomViews
             pagination={{ pageSize: 5 }}
           />
-        </ComponentExample>
+        </DocExample>
 
-        {/* CRM Presets */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">CRM Presets</h2>
-          <p className="text-sm text-muted-foreground">
-            Domain-specific presets for the Forge CRM. Each preset provides columns, views, row actions, and bulk actions tailored to the domain.
-          </p>
-          <Tabs defaultValue="companies" className="w-full">
-            <TabsList>
-              <TabsTrigger value="companies">Entreprises</TabsTrigger>
-              <TabsTrigger value="contacts">Contacts</TabsTrigger>
-              <TabsTrigger value="deals">Deals</TabsTrigger>
-              <TabsTrigger value="quotes">Devis</TabsTrigger>
-              <TabsTrigger value="products">Produits</TabsTrigger>
-            </TabsList>
-            <TabsContent value="companies" className="mt-4">
-              <DataTable
-                data={companies.slice(0, 15)}
-                columns={companiesPreset.columns}
-                views={companiesPreset.views}
-                rowActions={companiesPreset.rowActions}
-                bulkActions={companiesPreset.bulkActions}
-                getRowId={(row) => row.id}
-                enableSorting
-                enablePagination
-                enableRowSelection
-                enableGlobalSearch
-                enableAdvancedFilters
-                enableCustomViews
-                combineSearchAndFilters
-                searchPlaceholder="Rechercher..."
-                locale="fr"
-                variant="lined"
-                pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
-              />
-            </TabsContent>
-            <TabsContent value="contacts" className="mt-4">
-              <DataTable
-                data={contacts.slice(0, 15)}
-                columns={contactsPreset.columns}
-                views={contactsPreset.views}
-                rowActions={contactsPreset.rowActions}
-                getRowId={(row) => row.id}
-                enableSorting
-                enablePagination
-                enableRowSelection
-                enableGlobalSearch
-                enableAdvancedFilters
-                enableCustomViews
-                combineSearchAndFilters
-                searchPlaceholder="Rechercher..."
-                locale="fr"
-                variant="lined"
-                pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
-              />
-            </TabsContent>
-            <TabsContent value="deals" className="mt-4">
-              <DataTable
-                data={deals.slice(0, 15)}
-                columns={dealsPreset.columns}
-                views={dealsPreset.views}
-                rowActions={dealsPreset.rowActions}
-                bulkActions={dealsPreset.bulkActions}
-                getRowId={(row) => row.id}
-                enableSorting
-                enablePagination
-                enableRowSelection
-                enableGlobalSearch
-                enableAdvancedFilters
-                enableCustomViews
-                combineSearchAndFilters
-                searchPlaceholder="Rechercher..."
-                locale="fr"
-                variant="lined"
-                pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
-              />
-            </TabsContent>
-            <TabsContent value="quotes" className="mt-4">
-              <DataTable
-                data={quotes}
-                columns={quotesPreset.columns}
-                views={quotesPreset.views}
-                rowActions={quotesPreset.rowActions}
-                getRowId={(row) => row.id}
-                enableSorting
-                enablePagination
-                enableGlobalSearch
-                enableAdvancedFilters
-                enableCustomViews
-                combineSearchAndFilters
-                searchPlaceholder="Rechercher..."
-                locale="fr"
-                variant="lined"
-                pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
-              />
-            </TabsContent>
-            <TabsContent value="products" className="mt-4">
-              <DataTable
-                data={products}
-                columns={productsPreset.columns}
-                views={productsPreset.views}
-                rowActions={productsPreset.rowActions}
-                getRowId={(row) => row.id}
-                enableSorting
-                enablePagination
-                enableGlobalSearch
-                enableAdvancedFilters
-                enableCustomViews
-                combineSearchAndFilters
-                searchPlaceholder="Rechercher..."
-                locale="fr"
-                variant="lined"
-                pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
-              />
-            </TabsContent>
-          </Tabs>
-        </section>
-
-        {/* Editable Mode */}
-        <ComponentExample
+        <DocExample
           title="Editable Mode"
-          description="Inline-editable cells for spreadsheet-like data entry. Uses editable column builders with onCellEdit callbacks."
-          code={`import { createEditableDealsPreset } from "@/components/features/data-table"
+          description="Inline-editable cells for spreadsheet-like data entry. Uses createSpreadsheetPreset with variant='spreadsheet' for the full editing experience."
+          code={`import { createSpreadsheetPreset } from "@/components/features/data-table"
 
-const { columns, views } = createEditableDealsPreset({
-  onCellEdit: (rowId, columnId, value) => {
-    console.log(\`Cell edited: row=\${rowId}, col=\${columnId}, value=\${value}\`);
-  },
-});
+const [deals, setDeals] = useState(initialDeals);
 
-<DataTable data={deals} columns={columns} views={views} variant="lined" density="compact" />`}
+const handleCellEdit = useCallback((rowId, columnId, value) => {
+  setDeals((prev) => prev.map((d) => d.id === rowId ? { ...d, [columnId]: value } : d));
+}, []);
+
+const preset = useMemo(() => createSpreadsheetPreset({
+  columns: [
+    { accessorKey: "title", title: "Titre", type: "text" },
+    { accessorKey: "companyName", title: "Entreprise", type: "text", editable: false },
+    { accessorKey: "amount", title: "Montant", type: "currency", currency: "EUR" },
+    { accessorKey: "stage", title: "Étape", type: "select", options: stageOptions },
+  ],
+  onCellEdit: handleCellEdit,
+}), [handleCellEdit]);
+
+<DataTable data={deals} columns={preset.columns} variant="spreadsheet" />`}
         >
           <DataTable
-            data={deals.slice(0, 8)}
+            data={editableDeals}
             columns={editablePreset.columns}
             getRowId={(row) => row.id}
             enableSorting
             enablePagination={false}
             locale="fr"
-            variant="lined"
-            density="compact"
+            variant="spreadsheet"
           />
-        </ComponentExample>
+        </DocExample>
+      </DocSection>
 
-        {/* Props Table */}
-        <section className="space-y-4">
-          <h2 className="text-lg font-semibold">Props</h2>
-          <PropsTable props={dataTableProps} />
-        </section>
+      {/* CRM Presets */}
+      <DocSection id="crm-presets" title="CRM Presets">
+        <p className="text-sm text-fg-muted">
+          Domain-specific presets for the Forge CRM. Each preset provides columns, views, row actions, and bulk actions tailored to the domain.
+        </p>
+        <Tabs defaultValue="companies" className="w-full">
+          <TabsList>
+            <TabsTrigger value="companies">Entreprises</TabsTrigger>
+            <TabsTrigger value="contacts">Contacts</TabsTrigger>
+            <TabsTrigger value="deals">Deals</TabsTrigger>
+            <TabsTrigger value="quotes">Devis</TabsTrigger>
+            <TabsTrigger value="products">Produits</TabsTrigger>
+          </TabsList>
+          <TabsContent value="companies" className="mt-4">
+            <DataTable
+              data={companies.slice(0, 15)}
+              columns={companiesPreset.columns}
+              views={companiesPreset.views}
+              rowActions={companiesPreset.rowActions}
+              bulkActions={companiesPreset.bulkActions}
+              getRowId={(row) => row.id}
+              enableSorting
+              enablePagination
+              enableRowSelection
+              enableGlobalSearch
+              enableAdvancedFilters
+              enableCustomViews
+              combineSearchAndFilters
+              searchPlaceholder="Rechercher..."
+              locale="fr"
+              variant="lined"
+              pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
+            />
+          </TabsContent>
+          <TabsContent value="contacts" className="mt-4">
+            <DataTable
+              data={contacts.slice(0, 15)}
+              columns={contactsPreset.columns}
+              views={contactsPreset.views}
+              rowActions={contactsPreset.rowActions}
+              getRowId={(row) => row.id}
+              enableSorting
+              enablePagination
+              enableRowSelection
+              enableGlobalSearch
+              enableAdvancedFilters
+              enableCustomViews
+              combineSearchAndFilters
+              searchPlaceholder="Rechercher..."
+              locale="fr"
+              variant="lined"
+              pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
+            />
+          </TabsContent>
+          <TabsContent value="deals" className="mt-4">
+            <DataTable
+              data={deals.slice(0, 15)}
+              columns={dealsPreset.columns}
+              views={dealsPreset.views}
+              rowActions={dealsPreset.rowActions}
+              bulkActions={dealsPreset.bulkActions}
+              getRowId={(row) => row.id}
+              enableSorting
+              enablePagination
+              enableRowSelection
+              enableGlobalSearch
+              enableAdvancedFilters
+              enableCustomViews
+              combineSearchAndFilters
+              searchPlaceholder="Rechercher..."
+              locale="fr"
+              variant="lined"
+              pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
+            />
+          </TabsContent>
+          <TabsContent value="quotes" className="mt-4">
+            <DataTable
+              data={quotes}
+              columns={quotesPreset.columns}
+              views={quotesPreset.views}
+              rowActions={quotesPreset.rowActions}
+              getRowId={(row) => row.id}
+              enableSorting
+              enablePagination
+              enableGlobalSearch
+              enableAdvancedFilters
+              enableCustomViews
+              combineSearchAndFilters
+              searchPlaceholder="Rechercher..."
+              locale="fr"
+              variant="lined"
+              pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
+            />
+          </TabsContent>
+          <TabsContent value="products" className="mt-4">
+            <DataTable
+              data={products}
+              columns={productsPreset.columns}
+              views={productsPreset.views}
+              rowActions={productsPreset.rowActions}
+              getRowId={(row) => row.id}
+              enableSorting
+              enablePagination
+              enableGlobalSearch
+              enableAdvancedFilters
+              enableCustomViews
+              combineSearchAndFilters
+              searchPlaceholder="Rechercher..."
+              locale="fr"
+              variant="lined"
+              pagination={{ pageSize: 10, pageSizeOptions: [5, 10, 25] }}
+            />
+          </TabsContent>
+        </Tabs>
+      </DocSection>
 
-        {/* Available Presets */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Available Presets</h2>
-          <p className="text-sm text-muted-foreground">
-            Presets provide pre-configured columns, views, and actions for common use cases:
-          </p>
-          <div className="grid gap-3 md:grid-cols-2">
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">User Management</h3>
-              <code className="text-xs text-muted-foreground">createUserManagementPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">User listing with status filtering and bulk operations.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">Invitations</h3>
-              <code className="text-xs text-muted-foreground">createInvitationPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Invitation management with status tracking and resend.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">Order Management</h3>
-              <code className="text-xs text-muted-foreground">createOrderManagementPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Order tracking with fulfillment and payment status.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">CRM Companies</h3>
-              <code className="text-xs text-muted-foreground">createCompaniesPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Company management with industry, revenue, and status views.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">CRM Contacts</h3>
-              <code className="text-xs text-muted-foreground">createContactsPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Contact management with company links and primary badge.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">CRM Deals</h3>
-              <code className="text-xs text-muted-foreground">createDealsPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Deal pipeline with stage badges, probability, and amount.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">CRM Quotes</h3>
-              <code className="text-xs text-muted-foreground">createQuotesPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Quote management with duplicate, print, and delete actions.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">CRM Products</h3>
-              <code className="text-xs text-muted-foreground">createProductsPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Product catalog with category filters and deactivation.</p>
-            </div>
-            <div className="border rounded-lg p-4">
-              <h3 className="font-semibold text-sm mb-1">Editable Deals</h3>
-              <code className="text-xs text-muted-foreground">createEditableDealsPreset()</code>
-              <p className="text-sm text-muted-foreground mt-2">Inline-editable deal table with text, number, and select cells.</p>
-            </div>
+      {/* Props */}
+      <DocSection id="props" title="Props">
+        <DocPropsTable props={dataTableProps} />
+      </DocSection>
+
+      {/* Available Presets */}
+      <DocSection id="available-presets" title="Available Presets">
+        <p className="text-sm text-fg-muted">
+          Presets provide pre-configured columns, views, and actions for common use cases:
+        </p>
+        <div className="grid gap-3 md:grid-cols-2">
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">User Management</h3>
+            <code className="text-xs text-fg-muted">createUserManagementPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">User listing with status filtering and bulk operations.</p>
           </div>
-        </section>
-
-        {/* Key Features */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Key Features</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <h3 className="font-semibold text-sm">Filtering & Search</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Global search with debouncing</li>
-                <li>Advanced filter builder with AND/OR logic</li>
-                <li>Inline column filters</li>
-                <li>Predefined filter views</li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-sm">Sorting & Views</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Single and multi-column sorting</li>
-                <li>Predefined views with saved state</li>
-                <li>Custom user-created views</li>
-                <li>View duplication and renaming</li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-sm">Selection & Actions</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Row selection with checkboxes</li>
-                <li>Select all functionality</li>
-                <li>Row-level actions menu</li>
-                <li>Bulk actions for selected rows</li>
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-sm">Inline Editing</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Editable text, number, currency cells</li>
-                <li>Editable select and date cells</li>
-                <li>Save on blur or Enter key</li>
-                <li>onCellEdit callback for persistence</li>
-              </ul>
-            </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">Invitations</h3>
+            <code className="text-xs text-fg-muted">createInvitationPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Invitation management with status tracking and resend.</p>
           </div>
-        </section>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">Order Management</h3>
+            <code className="text-xs text-fg-muted">createOrderManagementPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Order tracking with fulfillment and payment status.</p>
+          </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">CRM Companies</h3>
+            <code className="text-xs text-fg-muted">createCompaniesPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Company management with industry, revenue, and status views.</p>
+          </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">CRM Contacts</h3>
+            <code className="text-xs text-fg-muted">createContactsPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Contact management with company links and primary badge.</p>
+          </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">CRM Deals</h3>
+            <code className="text-xs text-fg-muted">createDealsPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Deal pipeline with stage badges, probability, and amount.</p>
+          </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">CRM Quotes</h3>
+            <code className="text-xs text-fg-muted">createQuotesPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Quote management with duplicate, print, and delete actions.</p>
+          </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">CRM Products</h3>
+            <code className="text-xs text-fg-muted">createProductsPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Product catalog with category filters and deactivation.</p>
+          </div>
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold text-sm mb-1">Editable Deals</h3>
+            <code className="text-xs text-fg-muted">createEditableDealsPreset()</code>
+            <p className="text-sm text-fg-muted mt-2">Inline-editable deal table with text, number, and select cells.</p>
+          </div>
+        </div>
+      </DocSection>
 
-        {/* Column Definition */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Column Definition</h2>
-          <p className="text-sm text-muted-foreground">
-            Columns extend TanStack Table's ColumnDef with additional filter configuration:
-          </p>
-          <pre className="bg-muted p-4 rounded-lg overflow-x-auto">
-            <code className="text-xs">{`const columns: DataTableColumnDef<Product>[] = [
+      {/* Key Features */}
+      <DocSection id="key-features" title="Key Features">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <h3 className="font-semibold text-sm">Filtering & Search</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
+              <li>Global search with debouncing</li>
+              <li>Advanced filter builder with AND/OR logic</li>
+              <li>Inline column filters</li>
+              <li>Predefined filter views</li>
+            </ul>
+          </div>
+          <div className="space-y-2">
+            <h3 className="font-semibold text-sm">Sorting & Views</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
+              <li>Single and multi-column sorting</li>
+              <li>Predefined views with saved state</li>
+              <li>Custom user-created views</li>
+              <li>View duplication and renaming</li>
+            </ul>
+          </div>
+          <div className="space-y-2">
+            <h3 className="font-semibold text-sm">Selection & Actions</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
+              <li>Row selection with checkboxes</li>
+              <li>Select all functionality</li>
+              <li>Row-level actions menu</li>
+              <li>Bulk actions for selected rows</li>
+            </ul>
+          </div>
+          <div className="space-y-2">
+            <h3 className="font-semibold text-sm">Inline Editing</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
+              <li>Editable text, number, currency cells</li>
+              <li>Editable select and date cells</li>
+              <li>Save on blur or Enter key</li>
+              <li>onCellEdit callback for persistence</li>
+            </ul>
+          </div>
+        </div>
+      </DocSection>
+
+      {/* Column Definition */}
+      <DocSection id="column-definition" title="Column Definition">
+        <p className="text-sm text-fg-muted">
+          Columns extend TanStack Table's ColumnDef with additional filter configuration:
+        </p>
+        <pre className="bg-raised p-4 rounded-lg overflow-x-auto">
+          <code className="text-xs">{`const columns: DataTableColumnDef<Product>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
@@ -615,24 +668,22 @@ const { columns, views } = createEditableDealsPreset({
     }
   }
 ]`}</code>
-          </pre>
-        </section>
+        </pre>
+      </DocSection>
 
-        {/* Best Practices */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Best Practices</h2>
-          <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-            <li>Use presets when available to save development time</li>
-            <li>Enable pagination for datasets with more than 25 rows</li>
-            <li>Use advanced filters for complex data filtering needs</li>
-            <li>Provide row actions for common operations (view, edit, delete)</li>
-            <li>Enable bulk actions when users need to operate on multiple rows</li>
-            <li>Use custom views to save frequently used filter combinations</li>
-            <li>Use appropriate density for your use case (compact for dashboards, comfortable for detailed views)</li>
-            <li>Use the editable variant with density="compact" for spreadsheet-like editing</li>
-          </ul>
-        </section>
-      </div>
-    </Page>
+      {/* Best Practices */}
+      <DocSection id="best-practices" title="Best Practices">
+        <ul className="list-disc list-inside space-y-2 text-fg-muted">
+          <li>Use presets when available to save development time</li>
+          <li>Enable pagination for datasets with more than 25 rows</li>
+          <li>Use advanced filters for complex data filtering needs</li>
+          <li>Provide row actions for common operations (view, edit, delete)</li>
+          <li>Enable bulk actions when users need to operate on multiple rows</li>
+          <li>Use custom views to save frequently used filter combinations</li>
+          <li>Use appropriate density for your use case (compact for dashboards, comfortable for detailed views)</li>
+          <li>Use the editable variant with density="compact" for spreadsheet-like editing</li>
+        </ul>
+      </DocSection>
+    </DocPage>
   );
 }

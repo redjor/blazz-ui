@@ -1,12 +1,15 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-
-const cardProps: PropDefinition[] = [
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "best-practices", title: "Best Practices" },
+]
+const cardProps: DocProp[] = [
 	{
 		name: "size",
 		type: '"default" | "sm"',
@@ -24,18 +27,15 @@ const cardProps: PropDefinition[] = [
 		description: "The content to display inside the card.",
 	},
 ]
-
 export default function CardPage() {
 	return (
-		<Page
+		<DocPage
 			title="Card"
 			subtitle="Cards are used to group similar concepts and tasks together for users to scan, read, and get things done more easily."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
+			<DocSection id="examples" title="Examples">
+					<DocExample
 						title="Default"
 						description="A basic card with content."
 						code={`<Card>
@@ -46,12 +46,11 @@ export default function CardPage() {
 					>
 						<Card>
 							<CardContent>
-								<p className="text-sm text-muted-foreground">Content inside a card</p>
+								<p className="text-sm text-fg-muted">Content inside a card</p>
 							</CardContent>
 						</Card>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="With Header"
 						description="A card with a header section including title and description."
 						code={`<Card>
@@ -72,12 +71,11 @@ export default function CardPage() {
 								<CardDescription>Card description goes here</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<p className="text-sm text-muted-foreground">Card content</p>
+								<p className="text-sm text-fg-muted">Card content</p>
 							</CardContent>
 						</Card>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="With Header Action"
 						description="A card with an action button in the header."
 						code={`<Card>
@@ -108,44 +106,11 @@ export default function CardPage() {
 								</CardAction>
 							</CardHeader>
 							<CardContent>
-								<p className="text-sm text-muted-foreground">Order list goes here</p>
+								<p className="text-sm text-fg-muted">Order list goes here</p>
 							</CardContent>
 						</Card>
-					</ComponentExample>
-
-					<ComponentExample
-						title="With Footer"
-						description="A card with a footer for actions."
-						code={`<Card>
-  <CardHeader>
-    <CardTitle>Settings</CardTitle>
-    <CardDescription>
-      Manage your account settings
-    </CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>Settings form goes here</p>
-  </CardContent>
-  <CardFooter>
-    <Button>Save changes</Button>
-  </CardFooter>
-</Card>`}
-					>
-						<Card>
-							<CardHeader>
-								<CardTitle>Settings</CardTitle>
-								<CardDescription>Manage your account settings</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<p className="text-sm text-muted-foreground">Settings form goes here</p>
-							</CardContent>
-							<CardFooter>
-								<Button>Save changes</Button>
-							</CardFooter>
-						</Card>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Small Size"
 						description="A compact card with reduced padding."
 						code={`<Card size="sm">
@@ -162,28 +127,54 @@ export default function CardPage() {
 								<CardTitle>Compact Card</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<p className="text-sm text-muted-foreground">Smaller padding for dense UIs</p>
+								<p className="text-sm text-fg-muted">Smaller padding for dense UIs</p>
 							</CardContent>
 						</Card>
-					</ComponentExample>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={cardProps} />
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Group related information together</li>
-						<li>Display information in a way that prioritizes what the user needs to know first</li>
-						<li>Use headings that set clear expectations about the card's purpose</li>
-						<li>Stick to single user flows or break more complicated flows into multiple sections</li>
-						<li>Avoid too many call-to-action buttons and only one primary call to action per card</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+					</DocExample>
+				<DocExample
+					title="With Footer"
+					description="A card with a footer for actions."
+					code={`<Card>
+  <CardHeader>
+    <CardTitle>Settings</CardTitle>
+    <CardDescription>
+      Manage your account settings
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Settings form goes here</p>
+  </CardContent>
+  <CardFooter>
+    <Button>Save changes</Button>
+  </CardFooter>
+</Card>`}
+				>
+					<Card>
+						<CardHeader>
+							<CardTitle>Settings</CardTitle>
+							<CardDescription>Manage your account settings</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<p className="text-sm text-fg-muted">Settings form goes here</p>
+						</CardContent>
+						<CardFooter>
+							<Button>Save changes</Button>
+						</CardFooter>
+					</Card>
+				</DocExample>
+			</DocSection>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={cardProps} />
+			</DocSection>
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Group related information together</li>
+					<li>Display information in a way that prioritizes what the user needs to know first</li>
+					<li>Use headings that set clear expectations about the card's purpose</li>
+					<li>Stick to single user flows or break more complicated flows into multiple sections</li>
+					<li>Avoid too many call-to-action buttons and only one primary call to action per card</li>
+				</ul>
+			</DocSection>
+		</DocPage>
 	)
 }

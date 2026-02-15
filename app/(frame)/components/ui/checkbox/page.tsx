@@ -1,13 +1,22 @@
-"use client"
-
-import * as React from "react"
-import { Page } from "@/components/ui/page"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
+import { ControlledCheckboxDemo } from "./_demos"
 
-const checkboxProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "tokens", title: "Tokens" },
+	{ id: "guidelines", title: "Guidelines" },
+	{ id: "related", title: "Related" },
+]
+
+const checkboxProps: DocProp[] = [
 	{
 		name: "checked",
 		type: "boolean",
@@ -37,43 +46,48 @@ const checkboxProps: PropDefinition[] = [
 ]
 
 export default function CheckboxPage() {
-	const [checked, setChecked] = React.useState(false)
-
 	return (
-		<Page
+		<DocPage
 			title="Checkbox"
 			subtitle="A control that allows users to select one or more items from a set."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
+			{/* Hero */}
+			<DocHero>
+				<div className="flex items-center gap-2">
+					<Checkbox id="hero-checkbox" defaultChecked />
+					<Label htmlFor="hero-checkbox">Accept terms and conditions</Label>
+				</div>
+			</DocHero>
 
-					<ComponentExample
-						title="Default"
-						description="A basic checkbox."
-						code={`<Checkbox />`}
-					>
-						<Checkbox />
-					</ComponentExample>
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Default"
+					description="A basic checkbox."
+					code={`<Checkbox />`}
+				>
+					<Checkbox />
+				</DocExample>
 
-					<ComponentExample
-						title="With Label"
-						description="Checkbox with an associated label for better accessibility."
-						code={`<div className="flex items-center gap-2">
+				<DocExample
+					title="With Label"
+					description="Checkbox with an associated label for better accessibility."
+					code={`<div className="flex items-center gap-2">
   <Checkbox id="terms" />
   <Label htmlFor="terms">Accept terms and conditions</Label>
 </div>`}
-					>
-						<div className="flex items-center gap-2">
-							<Checkbox id="terms" />
-							<Label htmlFor="terms">Accept terms and conditions</Label>
-						</div>
-					</ComponentExample>
+				>
+					<div className="flex items-center gap-2">
+						<Checkbox id="terms" />
+						<Label htmlFor="terms">Accept terms and conditions</Label>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Controlled"
-						description="Control the checkbox state programmatically."
-						code={`const [checked, setChecked] = React.useState(false)
+				<DocExample
+					title="Controlled"
+					description="Control the checkbox state programmatically."
+					code={`const [checked, setChecked] = React.useState(false)
 
 <div className="flex items-center gap-2">
   <Checkbox
@@ -85,39 +99,36 @@ export default function CheckboxPage() {
     {checked ? "Checked" : "Unchecked"}
   </Label>
 </div>`}
-					>
-						<div className="flex items-center gap-2">
-							<Checkbox id="controlled" checked={checked} onCheckedChange={setChecked} />
-							<Label htmlFor="controlled">{checked ? "Checked" : "Unchecked"}</Label>
-						</div>
-					</ComponentExample>
+				>
+					<ControlledCheckboxDemo />
+				</DocExample>
 
-					<ComponentExample
-						title="Disabled"
-						description="Disabled checkboxes prevent interaction."
-						code={`<Checkbox disabled />
+				<DocExample
+					title="Disabled"
+					description="Disabled checkboxes prevent interaction."
+					code={`<Checkbox disabled />
 <Checkbox disabled defaultChecked />`}
-					>
-						<div className="flex items-center gap-4">
-							<div className="flex items-center gap-2">
-								<Checkbox id="disabled" disabled />
-								<Label htmlFor="disabled" className="opacity-50">
-									Disabled
-								</Label>
-							</div>
-							<div className="flex items-center gap-2">
-								<Checkbox id="disabled-checked" disabled defaultChecked />
-								<Label htmlFor="disabled-checked" className="opacity-50">
-									Disabled checked
-								</Label>
-							</div>
+				>
+					<div className="flex items-center gap-4">
+						<div className="flex items-center gap-2">
+							<Checkbox id="disabled" disabled />
+							<Label htmlFor="disabled" className="opacity-50">
+								Disabled
+							</Label>
 						</div>
-					</ComponentExample>
+						<div className="flex items-center gap-2">
+							<Checkbox id="disabled-checked" disabled defaultChecked />
+							<Label htmlFor="disabled-checked" className="opacity-50">
+								Disabled checked
+							</Label>
+						</div>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Error State"
-						description="Show validation errors using aria-invalid."
-						code={`<div className="space-y-2">
+				<DocExample
+					title="Error State"
+					description="Show validation errors using aria-invalid."
+					code={`<div className="space-y-2">
   <div className="flex items-center gap-2">
     <Checkbox id="error" aria-invalid />
     <Label htmlFor="error">Required field</Label>
@@ -126,22 +137,22 @@ export default function CheckboxPage() {
     You must accept the terms to continue.
   </p>
 </div>`}
-					>
-						<div className="space-y-2">
-							<div className="flex items-center gap-2">
-								<Checkbox id="error" aria-invalid />
-								<Label htmlFor="error">Accept terms and conditions</Label>
-							</div>
-							<p className="text-sm text-p-critical-text">
-								You must accept the terms to continue.
-							</p>
+				>
+					<div className="space-y-2">
+						<div className="flex items-center gap-2">
+							<Checkbox id="error" aria-invalid />
+							<Label htmlFor="error">Accept terms and conditions</Label>
 						</div>
-					</ComponentExample>
+						<p className="text-sm text-p-critical-text">
+							You must accept the terms to continue.
+						</p>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Checkbox Group"
-						description="Group multiple checkboxes for related options."
-						code={`<div className="space-y-2">
+				<DocExample
+					title="Checkbox Group"
+					description="Group multiple checkboxes for related options."
+					code={`<div className="space-y-2">
   <div className="flex items-center gap-2">
     <Checkbox id="option1" />
     <Label htmlFor="option1">Option 1</Label>
@@ -155,60 +166,69 @@ export default function CheckboxPage() {
     <Label htmlFor="option3">Option 3</Label>
   </div>
 </div>`}
-					>
-						<div className="space-y-2">
-							<div className="flex items-center gap-2">
-								<Checkbox id="option1" defaultChecked />
-								<Label htmlFor="option1">Email notifications</Label>
-							</div>
-							<div className="flex items-center gap-2">
-								<Checkbox id="option2" />
-								<Label htmlFor="option2">SMS notifications</Label>
-							</div>
-							<div className="flex items-center gap-2">
-								<Checkbox id="option3" defaultChecked />
-								<Label htmlFor="option3">Push notifications</Label>
-							</div>
+				>
+					<div className="space-y-2">
+						<div className="flex items-center gap-2">
+							<Checkbox id="option1" defaultChecked />
+							<Label htmlFor="option1">Email notifications</Label>
 						</div>
-					</ComponentExample>
-				</section>
+						<div className="flex items-center gap-2">
+							<Checkbox id="option2" />
+							<Label htmlFor="option2">SMS notifications</Label>
+						</div>
+						<div className="flex items-center gap-2">
+							<Checkbox id="option3" defaultChecked />
+							<Label htmlFor="option3">Push notifications</Label>
+						</div>
+					</div>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={checkboxProps} />
-				</section>
+			{/* Props */}
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={checkboxProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Checkbox uses the design system for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">border-p-border</code> - Default border color
-						</li>
-						<li>
-							<code className="text-xs">bg-p-fill-brand</code> - Checked state background
-						</li>
-						<li>
-							<code className="text-xs">rounded-p-md</code> - Border radius
-						</li>
-						<li>
-							<code className="text-xs">shadow-p-sm</code> - Subtle elevation
-						</li>
-					</ul>
-				</section>
+			{/* Tokens */}
+			<DocSection id="tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Checkbox uses the design system for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li><code className="text-xs">border-edge</code> - Default border color</li>
+					<li><code className="text-xs">bg-brand</code> - Checked state background</li>
+					<li><code className="text-xs">rounded-md</code> - Border radius</li>
+					<li><code className="text-xs">shadow-sm</code> - Subtle elevation</li>
+				</ul>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Always pair checkboxes with labels for accessibility</li>
-						<li>Use checkboxes for multiple selections, radio buttons for single selection</li>
-						<li>Group related checkboxes together with a fieldset</li>
-						<li>Use clear, positive labels (avoid negative phrasing)</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Guidelines */}
+			<DocSection id="guidelines" title="Guidelines">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Always pair checkboxes with labels for accessibility</li>
+					<li>Use checkboxes for multiple selections, radio buttons for single selection</li>
+					<li>Group related checkboxes together with a fieldset</li>
+					<li>Use clear, positive labels (avoid negative phrasing)</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Switch",
+							href: "/components/ui/switch",
+							description: "For immediate-effect toggles instead of form submissions.",
+						},
+						{
+							title: "Select",
+							href: "/components/ui/select",
+							description: "For single selection from a larger set of options.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

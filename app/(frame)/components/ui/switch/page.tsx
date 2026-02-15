@@ -1,13 +1,22 @@
-"use client"
-
-import * as React from "react"
-import { Page } from "@/components/ui/page"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
+import { ControlledSwitchDemo } from "./_demos"
 
-const switchProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "tokens", title: "Tokens" },
+	{ id: "guidelines", title: "Guidelines" },
+	{ id: "related", title: "Related" },
+]
+
+const switchProps: DocProp[] = [
 	{
 		name: "size",
 		type: '"sm" | "default"',
@@ -38,61 +47,66 @@ const switchProps: PropDefinition[] = [
 ]
 
 export default function SwitchPage() {
-	const [enabled, setEnabled] = React.useState(false)
-
 	return (
-		<Page
+		<DocPage
 			title="Switch"
 			subtitle="A toggle control for turning options on or off. Use for binary settings that take effect immediately."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
+			{/* Hero */}
+			<DocHero>
+				<div className="flex items-center gap-2">
+					<Switch id="hero-switch" defaultChecked />
+					<Label htmlFor="hero-switch">Notifications</Label>
+				</div>
+			</DocHero>
 
-					<ComponentExample
-						title="Default"
-						description="A basic switch toggle."
-						code={`<Switch />`}
-					>
-						<Switch />
-					</ComponentExample>
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Default"
+					description="A basic switch toggle."
+					code={`<Switch />`}
+				>
+					<Switch />
+				</DocExample>
 
-					<ComponentExample
-						title="With Label"
-						description="Switch with an associated label."
-						code={`<div className="flex items-center gap-2">
+				<DocExample
+					title="With Label"
+					description="Switch with an associated label."
+					code={`<div className="flex items-center gap-2">
   <Switch id="airplane" />
   <Label htmlFor="airplane">Airplane Mode</Label>
 </div>`}
-					>
-						<div className="flex items-center gap-2">
-							<Switch id="airplane" />
-							<Label htmlFor="airplane">Airplane Mode</Label>
-						</div>
-					</ComponentExample>
+				>
+					<div className="flex items-center gap-2">
+						<Switch id="airplane" />
+						<Label htmlFor="airplane">Airplane Mode</Label>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Sizes"
-						description="Available switch sizes."
-						code={`<Switch size="sm" />
+				<DocExample
+					title="Sizes"
+					description="Available switch sizes."
+					code={`<Switch size="sm" />
 <Switch size="default" />`}
-					>
-						<div className="flex items-center gap-4">
-							<div className="flex items-center gap-2">
-								<Switch id="small" size="sm" />
-								<Label htmlFor="small">Small</Label>
-							</div>
-							<div className="flex items-center gap-2">
-								<Switch id="default-size" size="default" />
-								<Label htmlFor="default-size">Default</Label>
-							</div>
+				>
+					<div className="flex items-center gap-4">
+						<div className="flex items-center gap-2">
+							<Switch id="small" size="sm" />
+							<Label htmlFor="small">Small</Label>
 						</div>
-					</ComponentExample>
+						<div className="flex items-center gap-2">
+							<Switch id="default-size" size="default" />
+							<Label htmlFor="default-size">Default</Label>
+						</div>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Controlled"
-						description="Control the switch state programmatically."
-						code={`const [enabled, setEnabled] = React.useState(false)
+				<DocExample
+					title="Controlled"
+					description="Control the switch state programmatically."
+					code={`const [enabled, setEnabled] = React.useState(false)
 
 <div className="flex items-center gap-2">
   <Switch
@@ -104,39 +118,36 @@ export default function SwitchPage() {
     {enabled ? "Enabled" : "Disabled"}
   </Label>
 </div>`}
-					>
-						<div className="flex items-center gap-2">
-							<Switch id="controlled" checked={enabled} onCheckedChange={setEnabled} />
-							<Label htmlFor="controlled">{enabled ? "Enabled" : "Disabled"}</Label>
-						</div>
-					</ComponentExample>
+				>
+					<ControlledSwitchDemo />
+				</DocExample>
 
-					<ComponentExample
-						title="Disabled"
-						description="Disabled switches prevent interaction."
-						code={`<Switch disabled />
+				<DocExample
+					title="Disabled"
+					description="Disabled switches prevent interaction."
+					code={`<Switch disabled />
 <Switch disabled defaultChecked />`}
-					>
-						<div className="flex items-center gap-4">
-							<div className="flex items-center gap-2">
-								<Switch id="disabled-off" disabled />
-								<Label htmlFor="disabled-off" className="opacity-50">
-									Disabled off
-								</Label>
-							</div>
-							<div className="flex items-center gap-2">
-								<Switch id="disabled-on" disabled defaultChecked />
-								<Label htmlFor="disabled-on" className="opacity-50">
-									Disabled on
-								</Label>
-							</div>
+				>
+					<div className="flex items-center gap-4">
+						<div className="flex items-center gap-2">
+							<Switch id="disabled-off" disabled />
+							<Label htmlFor="disabled-off" className="opacity-50">
+								Disabled off
+							</Label>
 						</div>
-					</ComponentExample>
+						<div className="flex items-center gap-2">
+							<Switch id="disabled-on" disabled defaultChecked />
+							<Label htmlFor="disabled-on" className="opacity-50">
+								Disabled on
+							</Label>
+						</div>
+					</div>
+				</DocExample>
 
-					<ComponentExample
-						title="Settings List"
-						description="Use switches in a settings list."
-						code={`<div className="space-y-4">
+				<DocExample
+					title="Settings List"
+					description="Use switches in a settings list."
+					code={`<div className="space-y-4">
   <div className="flex items-center justify-between">
     <Label htmlFor="notifications">Notifications</Label>
     <Switch id="notifications" defaultChecked />
@@ -146,63 +157,70 @@ export default function SwitchPage() {
     <Switch id="marketing" />
   </div>
 </div>`}
-					>
-						<div className="w-full max-w-sm space-y-4">
-							<div className="flex items-center justify-between">
-								<Label htmlFor="notifications">Notifications</Label>
-								<Switch id="notifications" defaultChecked />
-							</div>
-							<div className="flex items-center justify-between">
-								<Label htmlFor="marketing">Marketing emails</Label>
-								<Switch id="marketing" />
-							</div>
-							<div className="flex items-center justify-between">
-								<Label htmlFor="updates">Product updates</Label>
-								<Switch id="updates" defaultChecked />
-							</div>
+				>
+					<div className="w-full max-w-sm space-y-4">
+						<div className="flex items-center justify-between">
+							<Label htmlFor="notifications">Notifications</Label>
+							<Switch id="notifications" defaultChecked />
 						</div>
-					</ComponentExample>
-				</section>
+						<div className="flex items-center justify-between">
+							<Label htmlFor="marketing">Marketing emails</Label>
+							<Switch id="marketing" />
+						</div>
+						<div className="flex items-center justify-between">
+							<Label htmlFor="updates">Product updates</Label>
+							<Switch id="updates" defaultChecked />
+						</div>
+					</div>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={switchProps} />
-				</section>
+			{/* Props */}
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={switchProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Switch uses the design system for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-p-fill-secondary</code> - Unchecked background
-						</li>
-						<li>
-							<code className="text-xs">bg-p-fill-brand</code> - Checked background
-						</li>
-						<li>
-							<code className="text-xs">rounded-p-full</code> - Pill-shaped container
-						</li>
-						<li>
-							<code className="text-xs">shadow-p-sm</code> - Subtle elevation
-						</li>
-						<li>
-							<code className="text-xs">transition-p-150</code> - Smooth state transitions
-						</li>
-					</ul>
-				</section>
+			{/* Tokens */}
+			<DocSection id="tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Switch uses the design system for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li><code className="text-xs">bg-raised</code> - Unchecked background</li>
+					<li><code className="text-xs">bg-brand</code> - Checked background</li>
+					<li><code className="text-xs">rounded-full</code> - Pill-shaped container</li>
+					<li><code className="text-xs">shadow-sm</code> - Subtle elevation</li>
+					<li><code className="text-xs">transition-p-150</code> - Smooth state transitions</li>
+				</ul>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Use switches for settings that take effect immediately</li>
-						<li>Use checkboxes instead when changes require a submit action</li>
-						<li>Always provide a label to describe what the switch controls</li>
-						<li>Place the label on the left for settings lists</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Guidelines */}
+			<DocSection id="guidelines" title="Guidelines">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Use switches for settings that take effect immediately</li>
+					<li>Use checkboxes instead when changes require a submit action</li>
+					<li>Always provide a label to describe what the switch controls</li>
+					<li>Place the label on the left for settings lists</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Checkbox",
+							href: "/components/ui/checkbox",
+							description: "For selections that require a submit action.",
+						},
+						{
+							title: "Label",
+							href: "/components/ui/input",
+							description: "Accessible labels for form controls.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

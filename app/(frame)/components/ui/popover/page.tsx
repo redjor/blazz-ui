@@ -1,9 +1,9 @@
-"use client"
-
-import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import { Button } from "@/components/ui/button"
 import {
 	Popover,
@@ -15,9 +15,18 @@ import {
 } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Settings, HelpCircle, Calendar } from "lucide-react"
+import { HelpCircle } from "lucide-react"
 
-const popoverProps = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "popover-props", title: "Popover Props" },
+	{ id: "popover-content-props", title: "PopoverContent Props" },
+	{ id: "design-tokens", title: "Design Tokens" },
+	{ id: "best-practices", title: "Best Practices" },
+	{ id: "related", title: "Related" },
+]
+
+const popoverProps: DocProp[] = [
 	{
 		name: "open",
 		type: "boolean",
@@ -35,7 +44,7 @@ const popoverProps = [
 	},
 ]
 
-const popoverContentProps = [
+const popoverContentProps: DocProp[] = [
 	{
 		name: "align",
 		type: "'start' | 'center' | 'end'",
@@ -64,13 +73,29 @@ const popoverContentProps = [
 
 export default function PopoverPage() {
 	return (
-		<Page
+		<DocPage
 			title="Popover"
 			subtitle="Displays rich content in a floating container anchored to a trigger."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<Popover>
+					<PopoverTrigger render={<Button variant="outline">Open Popover</Button>} />
+					<PopoverContent>
+						<PopoverHeader>
+							<PopoverTitle>Settings</PopoverTitle>
+							<PopoverDescription>
+								Configure your preferences
+							</PopoverDescription>
+						</PopoverHeader>
+					</PopoverContent>
+				</Popover>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Popover"
 					description="A simple popover with title and description."
 					code={`<Popover>
@@ -96,10 +121,9 @@ export default function PopoverPage() {
 							</PopoverHeader>
 						</PopoverContent>
 					</Popover>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Form */}
-				<ComponentExample
+				<DocExample
 					title="With Form"
 					description="A popover containing form inputs."
 					code={`<Popover>
@@ -147,10 +171,9 @@ export default function PopoverPage() {
 							</div>
 						</PopoverContent>
 					</Popover>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Different Positions */}
-				<ComponentExample
+				<DocExample
 					title="Positioning"
 					description="Control the side and alignment of the popover."
 					code={`<div className="flex gap-4">
@@ -216,10 +239,9 @@ export default function PopoverPage() {
 							</PopoverContent>
 						</Popover>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Icon Button */}
-				<ComponentExample
+				<DocExample
 					title="Icon Button Trigger"
 					description="Use an icon button to trigger the popover."
 					code={`<Popover>
@@ -259,61 +281,81 @@ export default function PopoverPage() {
 							</PopoverContent>
 						</Popover>
 					</div>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Props Tables */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Popover Props</h2>
-					<PropsTable props={popoverProps} />
-				</section>
+			{/* Popover Props */}
+			<DocSection id="popover-props" title="Popover Props">
+				<DocPropsTable props={popoverProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">PopoverContent Props</h2>
-					<PropsTable props={popoverContentProps} />
-				</section>
+			{/* PopoverContent Props */}
+			<DocSection id="popover-content-props" title="PopoverContent Props">
+				<DocPropsTable props={popoverContentProps} />
+			</DocSection>
 
-				{/* Design Tokens */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Popover uses the design system tokens for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-popover</code> - Background color for the popover
-						</li>
-						<li>
-							<code className="text-xs">text-popover-foreground</code> - Text color in popover
-						</li>
-						<li>
-							<code className="text-xs">text-muted-foreground</code> - Description text color
-						</li>
-						<li>
-							<code className="text-xs">ring-foreground/10</code> - Border with 10% opacity
-						</li>
-						<li>
-							<code className="text-xs">shadow-md</code> - Medium shadow for elevation
-						</li>
-						<li>
-							<code className="text-xs">rounded-lg</code> - Large border radius (0.5rem)
-						</li>
-					</ul>
-				</section>
+			{/* Design Tokens */}
+			<DocSection id="design-tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Popover uses the design system tokens for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>
+						<code className="text-xs">bg-popover</code> - Background color for the popover
+					</li>
+					<li>
+						<code className="text-xs">text-popover-foreground</code> - Text color in popover
+					</li>
+					<li>
+						<code className="text-xs">text-fg-muted</code> - Description text color
+					</li>
+					<li>
+						<code className="text-xs">ring-foreground/10</code> - Border with 10% opacity
+					</li>
+					<li>
+						<code className="text-xs">shadow-md</code> - Medium shadow for elevation
+					</li>
+					<li>
+						<code className="text-xs">rounded-lg</code> - Large border radius (0.5rem)
+					</li>
+				</ul>
+			</DocSection>
 
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Use render prop to avoid nested button issues</li>
-						<li>Use popovers for non-critical information and interactions</li>
-						<li>Keep content concise and focused on a single purpose</li>
-						<li>Consider using Dialog for critical actions that require user attention</li>
-						<li>Provide a clear way to dismiss (click outside, Esc key)</li>
-						<li>Use PopoverTitle for accessibility</li>
-						<li>Limit the width to maintain readability (default: 18rem)</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Best Practices */}
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Use render prop to avoid nested button issues</li>
+					<li>Use popovers for non-critical information and interactions</li>
+					<li>Keep content concise and focused on a single purpose</li>
+					<li>Consider using Dialog for critical actions that require user attention</li>
+					<li>Provide a clear way to dismiss (click outside, Esc key)</li>
+					<li>Use PopoverTitle for accessibility</li>
+					<li>Limit the width to maintain readability (default: 18rem)</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Tooltip",
+							href: "/components/ui/tooltip",
+							description: "Lightweight floating label for brief hints on hover.",
+						},
+						{
+							title: "Dialog",
+							href: "/components/ui/dialog",
+							description: "Modal overlay for critical actions requiring user attention.",
+						},
+						{
+							title: "Dropdown Menu",
+							href: "/components/ui/dropdown-menu",
+							description: "Floating menu of actions triggered by a button.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

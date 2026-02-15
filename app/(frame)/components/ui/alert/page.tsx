@@ -1,13 +1,22 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { Alert, AlertTitle, AlertDescription, AlertAction } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import { AlertCircle, CheckCircle, Info, X } from "lucide-react"
 
-const alertProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "tokens", title: "Design Tokens" },
+	{ id: "guidelines", title: "Guidelines" },
+	{ id: "related", title: "Related" },
+]
+
+const alertProps: DocProp[] = [
 	{
 		name: "variant",
 		type: '"default" | "destructive"',
@@ -23,74 +32,80 @@ const alertProps: PropDefinition[] = [
 
 export default function AlertPage() {
 	return (
-		<Page
+		<DocPage
 			title="Alert"
 			subtitle="Displays important messages in a highlighted box. Use for inline feedback and notifications."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
+			<DocHero>
+				<Alert className="max-w-md">
+					<Info />
+					<AlertTitle>Information</AlertTitle>
+					<AlertDescription>Your session will expire in 5 minutes.</AlertDescription>
+				</Alert>
+			</DocHero>
 
-					<ComponentExample
-						title="Default"
-						description="A simple alert with title and description."
-						code={`<Alert>
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Default"
+					description="A simple alert with title and description."
+					code={`<Alert>
   <Info />
   <AlertTitle>Information</AlertTitle>
   <AlertDescription>
     Your session will expire in 5 minutes.
   </AlertDescription>
 </Alert>`}
-					>
-						<Alert>
-							<Info />
-							<AlertTitle>Information</AlertTitle>
-							<AlertDescription>Your session will expire in 5 minutes.</AlertDescription>
-						</Alert>
-					</ComponentExample>
+				>
+					<Alert>
+						<Info />
+						<AlertTitle>Information</AlertTitle>
+						<AlertDescription>Your session will expire in 5 minutes.</AlertDescription>
+					</Alert>
+				</DocExample>
 
-					<ComponentExample
-						title="Destructive"
-						description="Use for error messages or critical warnings."
-						code={`<Alert variant="destructive">
+				<DocExample
+					title="Destructive"
+					description="Use for error messages or critical warnings."
+					code={`<Alert variant="destructive">
   <AlertCircle />
   <AlertTitle>Error</AlertTitle>
   <AlertDescription>
     Your payment could not be processed.
   </AlertDescription>
 </Alert>`}
-					>
-						<Alert variant="destructive">
-							<AlertCircle />
-							<AlertTitle>Error</AlertTitle>
-							<AlertDescription>
-								Your payment could not be processed. Please try again.
-							</AlertDescription>
-						</Alert>
-					</ComponentExample>
+				>
+					<Alert variant="destructive">
+						<AlertCircle />
+						<AlertTitle>Error</AlertTitle>
+						<AlertDescription>
+							Your payment could not be processed. Please try again.
+						</AlertDescription>
+					</Alert>
+				</DocExample>
 
-					<ComponentExample
-						title="Success"
-						description="Indicate successful operations."
-						code={`<Alert>
+				<DocExample
+					title="Success"
+					description="Indicate successful operations."
+					code={`<Alert>
   <CheckCircle className="text-green-600" />
   <AlertTitle>Success</AlertTitle>
   <AlertDescription>
     Your changes have been saved.
   </AlertDescription>
 </Alert>`}
-					>
-						<Alert>
-							<CheckCircle className="text-green-600" />
-							<AlertTitle>Success</AlertTitle>
-							<AlertDescription>Your changes have been saved successfully.</AlertDescription>
-						</Alert>
-					</ComponentExample>
+				>
+					<Alert>
+						<CheckCircle className="text-green-600" />
+						<AlertTitle>Success</AlertTitle>
+						<AlertDescription>Your changes have been saved successfully.</AlertDescription>
+					</Alert>
+				</DocExample>
 
-					<ComponentExample
-						title="With Action"
-						description="Add an action button for dismissible alerts."
-						code={`<Alert>
+				<DocExample
+					title="With Action"
+					description="Add an action button for dismissible alerts."
+					code={`<Alert>
   <Info />
   <AlertTitle>New update available</AlertTitle>
   <AlertDescription>
@@ -102,97 +117,101 @@ export default function AlertPage() {
     </Button>
   </AlertAction>
 </Alert>`}
-					>
-						<Alert>
-							<Info />
-							<AlertTitle>New update available</AlertTitle>
-							<AlertDescription>A new version is ready to install.</AlertDescription>
-							<AlertAction>
-								<Button size="icon-sm" variant="ghost">
-									<X />
-								</Button>
-							</AlertAction>
-						</Alert>
-					</ComponentExample>
+				>
+					<Alert>
+						<Info />
+						<AlertTitle>New update available</AlertTitle>
+						<AlertDescription>A new version is ready to install.</AlertDescription>
+						<AlertAction>
+							<Button size="icon-sm" variant="ghost">
+								<X />
+							</Button>
+						</AlertAction>
+					</Alert>
+				</DocExample>
 
-					<ComponentExample
-						title="Without Icon"
-						description="Alerts can be used without an icon."
-						code={`<Alert>
+				<DocExample
+					title="Without Icon"
+					description="Alerts can be used without an icon."
+					code={`<Alert>
   <AlertTitle>Note</AlertTitle>
   <AlertDescription>
     This is a simple alert without an icon.
   </AlertDescription>
 </Alert>`}
-					>
-						<Alert>
-							<AlertTitle>Note</AlertTitle>
-							<AlertDescription>This is a simple alert without an icon.</AlertDescription>
-						</Alert>
-					</ComponentExample>
-				</section>
+				>
+					<Alert>
+						<AlertTitle>Note</AlertTitle>
+						<AlertDescription>This is a simple alert without an icon.</AlertDescription>
+					</Alert>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={alertProps} />
-				</section>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={alertProps} />
+			</DocSection>
 
-				{/* Design Tokens */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Alert uses the design system tokens for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-p-bg-surface</code> - Default alert background
-						</li>
-						<li>
-							<code className="text-xs">text-p-text</code> - Alert text color
-						</li>
-						<li>
-							<code className="text-xs">bg-p-info-surface</code> - Info variant background
-						</li>
-						<li>
-							<code className="text-xs">text-p-info-text</code> - Info variant text
-						</li>
-						<li>
-							<code className="text-xs">bg-p-success-surface</code> - Success variant background
-						</li>
-						<li>
-							<code className="text-xs">bg-p-warning-surface</code> - Warning variant background
-						</li>
-						<li>
-							<code className="text-xs">bg-p-critical-surface</code> - Destructive variant background
-						</li>
-						<li>
-							<code className="text-xs">border-p-border</code> - Alert border color
-						</li>
-						<li>
-							<code className="text-xs">rounded-p-lg</code> - Border radius (0.5rem)
-						</li>
-					</ul>
-				</section>
+			<DocSection id="tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Alert uses the design system tokens for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>
+						<code className="text-xs">bg-surface</code> - Default alert background
+					</li>
+					<li>
+						<code className="text-xs">text-fg</code> - Alert text color
+					</li>
+					<li>
+						<code className="text-xs">bg-inform</code> - Info variant background
+					</li>
+					<li>
+						<code className="text-xs">text-inform</code> - Info variant text
+					</li>
+					<li>
+						<code className="text-xs">bg-positive</code> - Success variant background
+					</li>
+					<li>
+						<code className="text-xs">bg-caution</code> - Warning variant background
+					</li>
+					<li>
+						<code className="text-xs">bg-negative</code> - Destructive variant background
+					</li>
+					<li>
+						<code className="text-xs">border-edge</code> - Alert border color
+					</li>
+					<li>
+						<code className="text-xs">rounded-lg</code> - Border radius (0.5rem)
+					</li>
+				</ul>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Best Practices</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>Use alerts for important, inline messages</li>
-						<li>Keep alert content concise and actionable</li>
-						<li>Use destructive variant only for errors</li>
-						<li>For page-level messages, consider using Banner instead</li>
-						<li>Provide a way to dismiss non-critical alerts</li>
-					</ul>
-				</section>
+			<DocSection id="guidelines" title="Guidelines">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Use alerts for important, inline messages</li>
+					<li>Keep alert content concise and actionable</li>
+					<li>Use destructive variant only for errors</li>
+					<li>For page-level messages, consider using Banner instead</li>
+					<li>Provide a way to dismiss non-critical alerts</li>
+				</ul>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Related Components</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>For page-level notifications, use the Banner component</li>
-						<li>For temporary feedback, use a Toast component</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Banner",
+							href: "/components/ui/banner",
+							description: "Page-level notifications and messages.",
+						},
+						{
+							title: "Dialog",
+							href: "/components/ui/dialog",
+							description: "Modal dialogs for confirmations and forms.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

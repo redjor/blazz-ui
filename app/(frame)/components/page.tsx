@@ -13,13 +13,13 @@ export default function ComponentsPage() {
 				{componentsNavigation.map((category) => (
 					<section key={category.id} className="space-y-4">
 						<div className="flex items-center gap-2">
-							<category.icon className="h-5 w-5 text-muted-foreground" />
+							<category.icon className="h-5 w-5 text-fg-muted" />
 							<h2 className="text-lg font-semibold">{category.title}</h2>
 						</div>
 						<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
 							{category.items.map((component) => (
 								<Link key={component.href} href={component.href}>
-									<Card className="h-full transition-colors hover:bg-muted/50">
+									<Card className="h-full transition-colors hover:bg-raised/50">
 										<CardHeader className="p-4">
 											<CardTitle className="text-sm font-medium">
 												{component.title}

@@ -1,12 +1,18 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { Bleed } from "@/components/ui/bleed"
 import { Card, CardContent } from "@/components/ui/card"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 
-const bleedProps: PropDefinition[] = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "related", title: "Related" },
+]
+
+const bleedProps: DocProp[] = [
 	{
 		name: "marginInline",
 		type: "SpaceScale",
@@ -46,18 +52,16 @@ const bleedProps: PropDefinition[] = [
 
 export default function BleedPage() {
 	return (
-		<Page
+		<DocPage
 			title="Bleed"
 			subtitle="Applies negative margin to allow content to bleed out into the surrounding layout."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
-						title="Horizontal Bleed"
-						description="Content will bleed horizontally into the surrounding layout using the marginInline prop."
-						code={`<Card>
+			<DocSection id="examples" title="Examples">
+				<DocExample
+					title="Horizontal Bleed"
+					description="Content will bleed horizontally into the surrounding layout using the marginInline prop."
+					code={`<Card>
   <CardContent>
     <p>Content inside a card</p>
     <Bleed marginInline="400">
@@ -67,23 +71,23 @@ export default function BleedPage() {
     </Bleed>
   </CardContent>
 </Card>`}
-					>
-						<Card>
-							<CardContent>
-								<p className="mb-4 text-sm">Content inside a card</p>
-								<Bleed marginInline="400">
-									<div className="bg-primary/10 px-4 py-3 text-sm">
-										This content bleeds horizontally
-									</div>
-								</Bleed>
-							</CardContent>
-						</Card>
-					</ComponentExample>
+				>
+					<Card>
+						<CardContent>
+							<p className="mb-4 text-sm">Content inside a card</p>
+							<Bleed marginInline="400">
+								<div className="bg-primary/10 px-4 py-3 text-sm">
+									This content bleeds horizontally
+								</div>
+							</Bleed>
+						</CardContent>
+					</Card>
+				</DocExample>
 
-					<ComponentExample
-						title="Vertical Bleed"
-						description="Content will bleed vertically using the marginBlock prop."
-						code={`<Card>
+				<DocExample
+					title="Vertical Bleed"
+					description="Content will bleed vertically using the marginBlock prop."
+					code={`<Card>
   <CardContent>
     <Bleed marginBlock="400">
       <div className="bg-blue-100 p-4">
@@ -93,23 +97,23 @@ export default function BleedPage() {
     <p>Content below the bleed</p>
   </CardContent>
 </Card>`}
-					>
-						<Card>
-							<CardContent>
-								<Bleed marginBlock="400">
-									<div className="bg-primary/10 px-4 py-3 text-sm">
-										This content bleeds vertically
-									</div>
-								</Bleed>
-								<p className="mt-4 text-sm">Content below the bleed</p>
-							</CardContent>
-						</Card>
-					</ComponentExample>
+				>
+					<Card>
+						<CardContent>
+							<Bleed marginBlock="400">
+								<div className="bg-primary/10 px-4 py-3 text-sm">
+									This content bleeds vertically
+								</div>
+							</Bleed>
+							<p className="mt-4 text-sm">Content below the bleed</p>
+						</CardContent>
+					</Card>
+				</DocExample>
 
-					<ComponentExample
-						title="Specific Direction"
-						description="Bleed in a specific direction using individual margin props."
-						code={`<Card>
+				<DocExample
+					title="Specific Direction"
+					description="Bleed in a specific direction using individual margin props."
+					code={`<Card>
   <CardContent>
     <Bleed marginInlineStart="400">
       <div className="bg-blue-100 p-4">
@@ -118,20 +122,20 @@ export default function BleedPage() {
     </Bleed>
   </CardContent>
 </Card>`}
-					>
-						<Card>
-							<CardContent>
-								<Bleed marginInlineStart="400">
-									<div className="bg-primary/10 px-4 py-3 text-sm">Bleeds only to the left</div>
-								</Bleed>
-							</CardContent>
-						</Card>
-					</ComponentExample>
+				>
+					<Card>
+						<CardContent>
+							<Bleed marginInlineStart="400">
+								<div className="bg-primary/10 px-4 py-3 text-sm">Bleeds only to the left</div>
+							</Bleed>
+						</CardContent>
+					</Card>
+				</DocExample>
 
-					<ComponentExample
-						title="Full Bleed"
-						description="Combine marginInline and marginBlock for a full bleed effect."
-						code={`<Card>
+				<DocExample
+					title="Full Bleed"
+					description="Combine marginInline and marginBlock for a full bleed effect."
+					code={`<Card>
   <CardContent>
     <p>Content above</p>
     <Bleed marginInline="400" marginBlock="400">
@@ -142,43 +146,39 @@ export default function BleedPage() {
     <p>Content below</p>
   </CardContent>
 </Card>`}
-					>
-						<Card>
-							<CardContent>
-								<p className="mb-4 text-sm">Content above</p>
-								<Bleed marginInline="400" marginBlock="200">
-									<div className="bg-primary/10 px-4 py-3 text-sm">Full bleed content</div>
-								</Bleed>
-								<p className="mt-4 text-sm">Content below</p>
-							</CardContent>
-						</Card>
-					</ComponentExample>
-				</section>
+				>
+					<Card>
+						<CardContent>
+							<p className="mb-4 text-sm">Content above</p>
+							<Bleed marginInline="400" marginBlock="200">
+								<div className="bg-primary/10 px-4 py-3 text-sm">Full bleed content</div>
+							</Bleed>
+							<p className="mt-4 text-sm">Content below</p>
+						</CardContent>
+					</Card>
+				</DocExample>
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={bleedProps} />
-				</section>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={bleedProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Bleed Values</h2>
-					<p className="text-sm text-muted-foreground">
-						Content should never go beyond the edges of the parent container. Choose a bleed
-						value that works with your container's padding. Available values: 0, 050, 100,
-						150, 200, 300, 400, 500, 600, 800, 1000, 1200, 1600.
-					</p>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Related Resources</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>
-							Bleed props are named following the convention of CSS logical properties,
-							such as marginInlineStart instead of marginLeft
-						</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Box",
+							href: "/components/layout/box",
+							description: "The most primitive layout component for accessing design tokens.",
+						},
+						{
+							title: "Card",
+							href: "/components/layout/card",
+							description: "Group similar concepts and tasks together.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

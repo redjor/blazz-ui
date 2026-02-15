@@ -1,20 +1,41 @@
-"use client"
-
-import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "tokens", title: "Tokens" },
+	{ id: "guidelines", title: "Guidelines" },
+]
 
 export default function SkeletonPage() {
 	return (
-		<Page
+		<DocPage
 			title="Skeleton"
 			subtitle="Display placeholder content while data is loading."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<div className="w-full max-w-sm space-y-3">
+					<div className="flex items-center gap-3">
+						<Skeleton className="h-10 w-10 rounded-full" />
+						<div className="space-y-2 flex-1">
+							<Skeleton className="h-4 w-1/2" />
+							<Skeleton className="h-3 w-1/3" />
+						</div>
+					</div>
+					<Skeleton className="h-4 w-full" />
+					<Skeleton className="h-4 w-3/4" />
+				</div>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Skeleton"
 					description="Simple skeleton shapes for loading states."
 					code={`<div className="space-y-2">
@@ -28,10 +49,9 @@ export default function SkeletonPage() {
 						<Skeleton className="h-4 w-full" />
 						<Skeleton className="h-4 w-3/4" />
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Card Pattern */}
-				<ComponentExample
+				<DocExample
 					title="Card Skeleton"
 					description="Skeleton for a card with avatar and text."
 					code={`<Card>
@@ -71,10 +91,9 @@ export default function SkeletonPage() {
 							</div>
 						</CardContent>
 					</Card>
-				</ComponentExample>
+				</DocExample>
 
-				{/* List Pattern */}
-				<ComponentExample
+				<DocExample
 					title="List Skeleton"
 					description="Skeleton for a list of items."
 					code={`<div className="space-y-4">
@@ -100,10 +119,9 @@ export default function SkeletonPage() {
 							</div>
 						))}
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Table Pattern */}
-				<ComponentExample
+				<DocExample
 					title="Table Skeleton"
 					description="Skeleton for a table layout."
 					code={`<div className="space-y-3">
@@ -139,10 +157,9 @@ export default function SkeletonPage() {
 							</div>
 						))}
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Article Pattern */}
-				<ComponentExample
+				<DocExample
 					title="Article Skeleton"
 					description="Skeleton for article or blog post."
 					code={`<div className="space-y-4">
@@ -168,88 +185,67 @@ export default function SkeletonPage() {
 							<Skeleton className="h-4 w-2/3" />
 						</div>
 					</div>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Design Tokens */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Skeleton uses the design system tokens for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-muted</code> - Skeleton background color
-						</li>
-						<li>
-							<code className="text-xs">rounded-md</code> - Default border radius (0.375rem)
-						</li>
-						<li>
-							<code className="text-xs">animate-pulse</code> - Pulsing animation
-						</li>
-						<li>
-							<code className="text-xs">rounded-full</code> - For circular skeletons (avatars)
-						</li>
-					</ul>
-				</section>
-
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Match skeleton shape to final content layout</li>
-						<li>Use similar proportions to actual content</li>
-						<li>Keep animation subtle - pulse is less distracting than shimmer</li>
-						<li>Show skeleton for minimum 300ms to avoid flash</li>
-						<li>Use consistent skeleton patterns across your app</li>
-						<li>Consider showing partial content instead of full skeleton</li>
-						<li>Avoid showing skeleton for very fast operations (&lt;200ms)</li>
-						<li>Combine with Suspense for automatic loading states</li>
-					</ul>
-				</section>
-
-				{/* Common Patterns */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Common Patterns</h2>
+			{/* Tokens */}
+			<DocSection id="tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Skeleton uses the design system tokens for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li><code className="text-xs">bg-raised</code> - Skeleton background color</li>
+					<li><code className="text-xs">rounded-md</code> - Default border radius (0.375rem)</li>
+					<li><code className="text-xs">animate-pulse</code> - Pulsing animation</li>
+					<li><code className="text-xs">rounded-full</code> - For circular skeletons (avatars)</li>
+				</ul>
+				<div className="space-y-4">
+					<h3 className="font-semibold text-sm text-fg">Common Patterns</h3>
 					<div className="space-y-4">
 						<div>
-							<h3 className="font-semibold text-sm mb-2">Avatar + Text</h3>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
+							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Avatar + Text</h4>
+							<code className="text-xs bg-raised px-2 py-1 rounded">
 								&lt;Skeleton className="h-12 w-12 rounded-full" /&gt;
 							</code>
 						</div>
 						<div>
-							<h3 className="font-semibold text-sm mb-2">Text Line</h3>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
+							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Text Line</h4>
+							<code className="text-xs bg-raised px-2 py-1 rounded">
 								&lt;Skeleton className="h-4 w-full" /&gt;
 							</code>
 						</div>
 						<div>
-							<h3 className="font-semibold text-sm mb-2">Image/Thumbnail</h3>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
+							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Image/Thumbnail</h4>
+							<code className="text-xs bg-raised px-2 py-1 rounded">
 								&lt;Skeleton className="h-48 w-full" /&gt;
 							</code>
 						</div>
 						<div>
-							<h3 className="font-semibold text-sm mb-2">Button</h3>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
+							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Button</h4>
+							<code className="text-xs bg-raised px-2 py-1 rounded">
 								&lt;Skeleton className="h-10 w-24" /&gt;
 							</code>
 						</div>
 					</div>
-				</section>
+				</div>
+			</DocSection>
 
-				{/* Accessibility */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Accessibility</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Consider adding aria-busy="true" to parent container</li>
-						<li>Use aria-label="Loading" on skeleton containers</li>
-						<li>Ensure sufficient color contrast for visibility</li>
-						<li>Avoid relying solely on animation for loading indication</li>
-						<li>Provide text alternative for screen readers when possible</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Guidelines */}
+			<DocSection id="guidelines" title="Guidelines">
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Match skeleton shape to final content layout</li>
+					<li>Use similar proportions to actual content</li>
+					<li>Keep animation subtle - pulse is less distracting than shimmer</li>
+					<li>Show skeleton for minimum 300ms to avoid flash</li>
+					<li>Use consistent skeleton patterns across your app</li>
+					<li>Consider showing partial content instead of full skeleton</li>
+					<li>Avoid showing skeleton for very fast operations (&lt;200ms)</li>
+					<li>Combine with Suspense for automatic loading states</li>
+					<li>Consider adding aria-busy="true" to parent container</li>
+					<li>Use aria-label="Loading" on skeleton containers</li>
+					<li>Ensure sufficient color contrast for visibility</li>
+				</ul>
+			</DocSection>
+		</DocPage>
 	)
 }

@@ -1,9 +1,9 @@
-"use client"
-
-import * as React from "react"
-import { Page } from "@/components/ui/page"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable } from "@/components/features/docs/props-table"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
 import { Button } from "@/components/ui/button"
 import {
 	Sheet,
@@ -15,7 +15,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Menu, Settings, X } from "lucide-react"
 
-const sheetProps = [
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "sheet-props", title: "Sheet Props" },
+	{ id: "sheet-content-props", title: "SheetContent Props" },
+	{ id: "design-tokens", title: "Design Tokens" },
+	{ id: "best-practices", title: "Best Practices" },
+	{ id: "related", title: "Related" },
+]
+
+const sheetProps: DocProp[] = [
 	{
 		name: "open",
 		type: "boolean",
@@ -33,7 +42,7 @@ const sheetProps = [
 	},
 ]
 
-const sheetContentProps = [
+const sheetContentProps: DocProp[] = [
 	{
 		name: "side",
 		type: "'left' | 'right' | 'top' | 'bottom'",
@@ -49,13 +58,42 @@ const sheetContentProps = [
 
 export default function SheetPage() {
 	return (
-		<Page
+		<DocPage
 			title="Sheet"
 			subtitle="A slide-in panel that slides from the edge of the screen."
+			toc={toc}
 		>
-			<div className="space-y-12">
-				{/* Basic Example */}
-				<ComponentExample
+			{/* Hero */}
+			<DocHero>
+				<div className="flex gap-3">
+					<Sheet>
+						<SheetTrigger render={<Button variant="outline">Open Left</Button>} />
+						<SheetContent side="left">
+							<div className="p-6">
+								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
+								<p className="text-sm text-fg-muted">
+									This is a sheet component that slides in from the side.
+								</p>
+							</div>
+						</SheetContent>
+					</Sheet>
+					<Sheet>
+						<SheetTrigger render={<Button variant="outline">Open Right</Button>} />
+						<SheetContent side="right">
+							<div className="p-6">
+								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
+								<p className="text-sm text-fg-muted">
+									This is a sheet component that slides in from the right.
+								</p>
+							</div>
+						</SheetContent>
+					</Sheet>
+				</div>
+			</DocHero>
+
+			{/* Examples */}
+			<DocSection id="examples" title="Examples">
+				<DocExample
 					title="Basic Sheet"
 					description="A simple sheet that slides from the left."
 					code={`<Sheet>
@@ -63,7 +101,7 @@ export default function SheetPage() {
   <SheetContent>
     <div className="p-6">
       <h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
-      <p className="text-sm text-p-text-secondary">
+      <p className="text-sm text-fg-muted">
         This is a sheet component that slides in from the side.
       </p>
     </div>
@@ -75,16 +113,15 @@ export default function SheetPage() {
 						<SheetContent>
 							<div className="p-6">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
-								<p className="text-sm text-p-text-secondary">
+								<p className="text-sm text-fg-muted">
 									This is a sheet component that slides in from the side.
 								</p>
 							</div>
 						</SheetContent>
 					</Sheet>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Different Sides */}
-				<ComponentExample
+				<DocExample
 					title="Slide from Different Sides"
 					description="Control which edge the sheet slides from."
 					code={`<div className="flex gap-4">
@@ -93,7 +130,7 @@ export default function SheetPage() {
     <SheetContent side="left">
       <div className="p-6">
         <h2 className="text-lg font-semibold">Left Sheet</h2>
-        <p className="text-sm text-p-text-secondary mt-2">
+        <p className="text-sm text-fg-muted mt-2">
           Slides from the left edge
         </p>
       </div>
@@ -105,7 +142,7 @@ export default function SheetPage() {
     <SheetContent side="right">
       <div className="p-6">
         <h2 className="text-lg font-semibold">Right Sheet</h2>
-        <p className="text-sm text-p-text-secondary mt-2">
+        <p className="text-sm text-fg-muted mt-2">
           Slides from the right edge
         </p>
       </div>
@@ -117,7 +154,7 @@ export default function SheetPage() {
     <SheetContent side="top">
       <div className="p-6">
         <h2 className="text-lg font-semibold">Top Sheet</h2>
-        <p className="text-sm text-p-text-secondary mt-2">
+        <p className="text-sm text-fg-muted mt-2">
           Slides from the top edge
         </p>
       </div>
@@ -129,7 +166,7 @@ export default function SheetPage() {
     <SheetContent side="bottom">
       <div className="p-6">
         <h2 className="text-lg font-semibold">Bottom Sheet</h2>
-        <p className="text-sm text-p-text-secondary mt-2">
+        <p className="text-sm text-fg-muted mt-2">
           Slides from the bottom edge
         </p>
       </div>
@@ -143,7 +180,7 @@ export default function SheetPage() {
 							<SheetContent side="left">
 								<div className="p-6">
 									<h2 className="text-lg font-semibold">Left Sheet</h2>
-									<p className="text-sm text-p-text-secondary mt-2">
+									<p className="text-sm text-fg-muted mt-2">
 										Slides from the left edge
 									</p>
 								</div>
@@ -155,7 +192,7 @@ export default function SheetPage() {
 							<SheetContent side="right">
 								<div className="p-6">
 									<h2 className="text-lg font-semibold">Right Sheet</h2>
-									<p className="text-sm text-p-text-secondary mt-2">
+									<p className="text-sm text-fg-muted mt-2">
 										Slides from the right edge
 									</p>
 								</div>
@@ -167,7 +204,7 @@ export default function SheetPage() {
 							<SheetContent side="top">
 								<div className="p-6">
 									<h2 className="text-lg font-semibold">Top Sheet</h2>
-									<p className="text-sm text-p-text-secondary mt-2">
+									<p className="text-sm text-fg-muted mt-2">
 										Slides from the top edge
 									</p>
 								</div>
@@ -179,17 +216,16 @@ export default function SheetPage() {
 							<SheetContent side="bottom">
 								<div className="p-6">
 									<h2 className="text-lg font-semibold">Bottom Sheet</h2>
-									<p className="text-sm text-p-text-secondary mt-2">
+									<p className="text-sm text-fg-muted mt-2">
 										Slides from the bottom edge
 									</p>
 								</div>
 							</SheetContent>
 						</Sheet>
 					</div>
-				</ComponentExample>
+				</DocExample>
 
-				{/* With Form */}
-				<ComponentExample
+				<DocExample
 					title="Settings Sheet"
 					description="A sheet with form inputs for settings."
 					code={`<Sheet>
@@ -277,10 +313,9 @@ export default function SheetPage() {
 							</div>
 						</SheetContent>
 					</Sheet>
-				</ComponentExample>
+				</DocExample>
 
-				{/* Navigation Sheet */}
-				<ComponentExample
+				<DocExample
 					title="Navigation Menu"
 					description="A mobile-style navigation sheet."
 					code={`<Sheet>
@@ -324,62 +359,77 @@ export default function SheetPage() {
 							</div>
 						</SheetContent>
 					</Sheet>
-				</ComponentExample>
+				</DocExample>
+			</DocSection>
 
-				{/* Props Tables */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Sheet Props</h2>
-					<PropsTable props={sheetProps} />
-				</section>
+			{/* Sheet Props */}
+			<DocSection id="sheet-props" title="Sheet Props">
+				<DocPropsTable props={sheetProps} />
+			</DocSection>
 
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">SheetContent Props</h2>
-					<PropsTable props={sheetContentProps} />
-				</section>
+			{/* SheetContent Props */}
+			<DocSection id="sheet-content-props" title="SheetContent Props">
+				<DocPropsTable props={sheetContentProps} />
+			</DocSection>
 
-				{/* Design Tokens */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Design Tokens</h2>
-					<p className="text-sm text-p-text-secondary">
-						Sheet uses the design system tokens for consistent styling:
-					</p>
-					<ul className="list-inside list-disc space-y-2 text-sm text-p-text-secondary">
-						<li>
-							<code className="text-xs">bg-background</code> - Sheet background color
-						</li>
-						<li>
-							<code className="text-xs">shadow-lg</code> - Large shadow for elevation
-						</li>
-						<li>
-							<code className="text-xs">bg-black/80</code> - Backdrop overlay color (80% black)
-						</li>
-						<li>
-							<code className="text-xs">duration-300</code> - Animation duration (300ms)
-						</li>
-						<li>
-							<code className="text-xs">w-[300px]</code> - Default width for side sheets
-						</li>
-						<li>
-							<code className="text-xs">h-[300px]</code> - Default height for top/bottom sheets
-						</li>
-					</ul>
-				</section>
+			{/* Design Tokens */}
+			<DocSection id="design-tokens" title="Design Tokens">
+				<p className="text-sm text-fg-muted">
+					Sheet uses the design system tokens for consistent styling:
+				</p>
+				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>
+						<code className="text-xs">bg-background</code> - Sheet background color
+					</li>
+					<li>
+						<code className="text-xs">shadow-lg</code> - Large shadow for elevation
+					</li>
+					<li>
+						<code className="text-xs">bg-black/80</code> - Backdrop overlay color (80% black)
+					</li>
+					<li>
+						<code className="text-xs">duration-300</code> - Animation duration (300ms)
+					</li>
+					<li>
+						<code className="text-xs">w-[300px]</code> - Default width for side sheets
+					</li>
+					<li>
+						<code className="text-xs">h-[300px]</code> - Default height for top/bottom sheets
+					</li>
+				</ul>
+			</DocSection>
 
-				{/* Best Practices */}
-				<section className="space-y-4">
-					<h2 className="text-xl font-semibold">Best Practices</h2>
-					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
-						<li>Use render prop with SheetTrigger to avoid nested button issues</li>
-						<li>Use sheets for contextual panels and secondary navigation</li>
-						<li>Consider using Dialog for critical actions requiring user attention</li>
-						<li>Provide a close button with SheetClose for better UX</li>
-						<li>Keep sheet content focused and avoid excessive scrolling</li>
-						<li>Use left/right sheets for navigation and settings</li>
-						<li>Use bottom sheets on mobile for contextual actions</li>
-						<li>Consider the topOffset prop when you have a fixed header</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+			{/* Best Practices */}
+			<DocSection id="best-practices" title="Best Practices">
+				<ul className="list-disc list-inside space-y-2 text-fg-muted">
+					<li>Use render prop with SheetTrigger to avoid nested button issues</li>
+					<li>Use sheets for contextual panels and secondary navigation</li>
+					<li>Consider using Dialog for critical actions requiring user attention</li>
+					<li>Provide a close button with SheetClose for better UX</li>
+					<li>Keep sheet content focused and avoid excessive scrolling</li>
+					<li>Use left/right sheets for navigation and settings</li>
+					<li>Use bottom sheets on mobile for contextual actions</li>
+					<li>Consider the topOffset prop when you have a fixed header</li>
+				</ul>
+			</DocSection>
+
+			{/* Related */}
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Dialog",
+							href: "/components/ui/dialog",
+							description: "Modal overlay for critical actions requiring user attention.",
+						},
+						{
+							title: "Popover",
+							href: "/components/ui/popover",
+							description: "Smaller floating container for lightweight interactions.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

@@ -1,11 +1,15 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { Box } from "@/components/ui/box"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-
-const boxProps: PropDefinition[] = [
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "props", title: "Props" },
+	{ id: "related", title: "Related" },
+]
+const boxProps: DocProp[] = [
 	{
 		name: "as",
 		type: "React.ElementType",
@@ -43,18 +47,15 @@ const boxProps: PropDefinition[] = [
 		description: "Shadow applied to the box.",
 	},
 ]
-
 export default function BoxPage() {
 	return (
-		<Page
+		<DocPage
 			title="Box"
 			subtitle="Box is the most primitive layout component. It's a way to access design tokens for background, padding, border, and shadow."
+			toc={toc}
 		>
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
+			<DocSection id="examples" title="Examples">
+					<DocExample
 						title="Background"
 						description="Use different background colors."
 						code={`<Box background="muted" padding="4">
@@ -72,9 +73,8 @@ export default function BoxPage() {
 								<p className="text-sm">White</p>
 							</Box>
 						</div>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Padding"
 						description="Apply different padding values."
 						code={`<Box padding="4" background="muted" borderRadius="md">
@@ -95,9 +95,8 @@ export default function BoxPage() {
 								<p className="text-sm">p-8</p>
 							</Box>
 						</div>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Border"
 						description="Add borders to the box."
 						code={`<Box border="default" padding="4" borderRadius="md">
@@ -105,11 +104,10 @@ export default function BoxPage() {
 </Box>`}
 					>
 						<Box border="default" padding="4" borderRadius="md">
-							<p className="text-sm text-muted-foreground">Box with border</p>
+							<p className="text-sm text-fg-muted">Box with border</p>
 						</Box>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Border Radius"
 						description="Different border radius options."
 						code={`<Box background="muted" padding="4" borderRadius="lg">
@@ -130,9 +128,8 @@ export default function BoxPage() {
 								<p className="text-sm">xl</p>
 							</Box>
 						</div>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Shadow"
 						description="Apply different shadow levels."
 						code={`<Box shadow="md" padding="4" background="white" borderRadius="lg">
@@ -150,9 +147,8 @@ export default function BoxPage() {
 								<p className="text-sm">lg</p>
 							</Box>
 						</div>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Polymorphic"
 						description="Render as different HTML elements using the 'as' prop."
 						code={`<Box as="section" background="muted" padding="4" borderRadius="md">
@@ -160,25 +156,26 @@ export default function BoxPage() {
 </Box>`}
 					>
 						<Box as="section" background="muted" padding="4" borderRadius="md">
-							<p className="text-sm text-muted-foreground">
+							<p className="text-sm text-fg-muted">
 								Rendered as a section element
 							</p>
 						</Box>
-					</ComponentExample>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Props</h2>
-					<PropsTable props={boxProps} />
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Related Components</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>For more specific use cases, use the Card component</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+					</DocExample>
+			</DocSection>
+			<DocSection id="props" title="Props">
+				<DocPropsTable props={boxProps} />
+			</DocSection>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Card",
+							href: "/components/layout/card",
+							description: "For more specific use cases, use the Card component.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }

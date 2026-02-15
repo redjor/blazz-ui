@@ -6,6 +6,7 @@ import {
   FileText,
   Type,
   Tag,
+  Phone,
   ChevronDown,
   ToggleLeft,
   Hash,
@@ -47,6 +48,13 @@ const formComponents = [
     description:
       "A label component for form controls with proper association and accessibility.",
     icon: Tag,
+  },
+  {
+    title: "Phone Input",
+    href: "/components/ui/phone-input",
+    description:
+      "An international phone number input with country selector, flag display, and E.164 formatting.",
+    icon: Phone,
   },
   {
     title: "Select",

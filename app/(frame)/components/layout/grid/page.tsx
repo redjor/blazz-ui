@@ -1,12 +1,17 @@
-"use client"
-
-import { Page } from "@/components/ui/page"
 import { Grid } from "@/components/ui/grid"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { ComponentExample } from "@/components/features/docs/component-example"
-import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-
-const gridProps: PropDefinition[] = [
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocExample } from "@/components/features/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocRelated } from "@/components/features/docs/doc-related"
+const toc = [
+	{ id: "examples", title: "Examples" },
+	{ id: "grid-props", title: "Grid Props" },
+	{ id: "grid-cell-props", title: "Grid.Cell Props" },
+	{ id: "related", title: "Related" },
+]
+const gridProps: DocProp[] = [
 	{
 		name: "columns",
 		type: '{ xs?: number; sm?: number; md?: number; lg?: number; xl?: number }',
@@ -25,8 +30,7 @@ const gridProps: PropDefinition[] = [
 		description: "Grid.Cell components to display in the grid.",
 	},
 ]
-
-const gridCellProps: PropDefinition[] = [
+const gridCellProps: DocProp[] = [
 	{
 		name: "columnSpan",
 		type: '{ xs?: number; sm?: number; md?: number; lg?: number; xl?: number }',
@@ -39,7 +43,6 @@ const gridCellProps: PropDefinition[] = [
 		description: "Content to display in the cell.",
 	},
 ]
-
 function Placeholder({ label }: { label: string }) {
 	return (
 		<div className="flex h-24 items-center justify-center rounded-lg bg-primary/10 text-sm font-medium">
@@ -47,15 +50,15 @@ function Placeholder({ label }: { label: string }) {
 		</div>
 	)
 }
-
 export default function GridPage() {
 	return (
-		<Page title="Grid" subtitle="Create complex layouts based on CSS Grid.">
-			<div className="space-y-10">
-				<section className="space-y-6">
-					<h2 className="text-lg font-semibold">Examples</h2>
-
-					<ComponentExample
+		<DocPage
+			title="Grid"
+			subtitle="Create complex layouts based on CSS Grid."
+			toc={toc}
+		>
+			<DocSection id="examples" title="Examples">
+					<DocExample
 						title="Two Column"
 						description="A two column layout that wraps at a breakpoint and aligns to a twelve column grid."
 						code={`<Grid>
@@ -74,7 +77,7 @@ export default function GridPage() {
 										<CardTitle>Sales</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<p className="text-sm text-muted-foreground">
+										<p className="text-sm text-fg-muted">
 											View a summary of your store's sales
 										</p>
 									</CardContent>
@@ -86,16 +89,15 @@ export default function GridPage() {
 										<CardTitle>Orders</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<p className="text-sm text-muted-foreground">
+										<p className="text-sm text-fg-muted">
 											View a summary of your store's orders
 										</p>
 									</CardContent>
 								</Card>
 							</Grid.Cell>
 						</Grid>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Two-thirds and One-third"
 						description="An asymmetric layout with a main content area and a sidebar."
 						code={`<Grid>
@@ -115,9 +117,8 @@ export default function GridPage() {
 								<Placeholder label="Sidebar (1/3)" />
 							</Grid.Cell>
 						</Grid>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Three Column"
 						description="A three column layout for equal-width content sections."
 						code={`<Grid>
@@ -143,9 +144,8 @@ export default function GridPage() {
 								<Placeholder label="Column 3" />
 							</Grid.Cell>
 						</Grid>
-					</ComponentExample>
-
-					<ComponentExample
+					</DocExample>
+					<DocExample
 						title="Four Column"
 						description="A four column layout for dashboard-style content."
 						code={`<Grid>
@@ -177,12 +177,11 @@ export default function GridPage() {
 								<Placeholder label="Stat 4" />
 							</Grid.Cell>
 						</Grid>
-					</ComponentExample>
-
-					<ComponentExample
-						title="Mixed Layout"
-						description="Combine different column spans for complex layouts."
-						code={`<Grid>
+					</DocExample>
+				<DocExample
+					title="Mixed Layout"
+					description="Combine different column spans for complex layouts."
+					code={`<Grid>
   <Grid.Cell columnSpan={{ xs: 6, md: 12, lg: 12 }}>
     <Card>Full Width Header</Card>
   </Grid.Cell>
@@ -193,39 +192,42 @@ export default function GridPage() {
     <Card>Sidebar</Card>
   </Grid.Cell>
 </Grid>`}
-					>
-						<Grid>
-							<Grid.Cell columnSpan={{ xs: 6, md: 12, lg: 12 }}>
-								<Placeholder label="Full Width Header" />
-							</Grid.Cell>
-							<Grid.Cell columnSpan={{ xs: 6, md: 8, lg: 8 }}>
-								<Placeholder label="Main Content" />
-							</Grid.Cell>
-							<Grid.Cell columnSpan={{ xs: 6, md: 4, lg: 4 }}>
-								<Placeholder label="Sidebar" />
-							</Grid.Cell>
-						</Grid>
-					</ComponentExample>
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Grid Props</h2>
-					<PropsTable props={gridProps} />
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Grid.Cell Props</h2>
-					<PropsTable props={gridCellProps} />
-				</section>
-
-				<section className="space-y-4">
-					<h2 className="text-lg font-semibold">Related Components</h2>
-					<ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-						<li>To lay out a set of smaller components in a row, use the InlineStack component</li>
-						<li>To lay out form fields, use the FormLayout component</li>
-					</ul>
-				</section>
-			</div>
-		</Page>
+				>
+					<Grid>
+						<Grid.Cell columnSpan={{ xs: 6, md: 12, lg: 12 }}>
+							<Placeholder label="Full Width Header" />
+						</Grid.Cell>
+						<Grid.Cell columnSpan={{ xs: 6, md: 8, lg: 8 }}>
+							<Placeholder label="Main Content" />
+						</Grid.Cell>
+						<Grid.Cell columnSpan={{ xs: 6, md: 4, lg: 4 }}>
+							<Placeholder label="Sidebar" />
+						</Grid.Cell>
+					</Grid>
+				</DocExample>
+			</DocSection>
+			<DocSection id="grid-props" title="Grid Props">
+				<DocPropsTable props={gridProps} />
+			</DocSection>
+			<DocSection id="grid-cell-props" title="Grid.Cell Props">
+				<DocPropsTable props={gridCellProps} />
+			</DocSection>
+			<DocSection id="related" title="Related">
+				<DocRelated
+					items={[
+						{
+							title: "Inline Stack",
+							href: "/components/layout/inline-stack",
+							description: "Lay out a set of smaller components in a row.",
+						},
+						{
+							title: "Inline Grid",
+							href: "/components/layout/inline-grid",
+							description: "Lay out children horizontally with equal gap between columns.",
+						},
+					]}
+				/>
+			</DocSection>
+		</DocPage>
 	)
 }
