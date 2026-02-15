@@ -6,7 +6,7 @@ import { DataTable } from "@/components/features/data-table"
 import { createUserManagementPreset } from "@/components/features/data-table/presets/users"
 import { createInvitationPreset } from "@/components/features/data-table/presets/invitations"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Box } from "@/components/ui/box"
 import { Page } from "@/components/ui/page"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useDataTableViews } from "@/hooks/use-data-table-views"
@@ -166,7 +166,7 @@ export default function UsersPage() {
 				</TabsList>
 
 				<TabsContent value="users">
-					<Card className="p-0">
+					<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
 						<DataTable
 							data={users}
 							columns={userPreset.columns}
@@ -193,11 +193,11 @@ export default function UsersPage() {
 							variant="lined"
 							density="default"
 						/>
-					</Card>
+					</Box>
 				</TabsContent>
 
 				<TabsContent value="invitations">
-					<Card className="p-0">
+					<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
 						<DataTable
 							data={invitations}
 							columns={invitationPreset.columns}
@@ -223,7 +223,7 @@ export default function UsersPage() {
 							variant="lined"
 							density="default"
 						/>
-					</Card>
+					</Box>
 				</TabsContent>
 			</Tabs>
 

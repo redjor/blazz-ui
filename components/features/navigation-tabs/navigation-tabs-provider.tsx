@@ -1,33 +1,27 @@
 "use client"
 
 import * as React from "react"
+import type { NavigationTab } from "./navigation-tabs.types"
 
-export interface Tab {
-	id: string
-	url: string
-	title: string
-	icon?: string
-}
-
-interface TabsState {
-	tabs: Tab[]
+interface NavigationTabsState {
+	tabs: NavigationTab[]
 	activeTabId: string | null
 }
 
-type TabsAction =
+type NavigationTabsAction =
 	| { type: "ADD_TAB"; payload: { url: string; title: string; icon?: string } }
 	| { type: "CLOSE_TAB"; payload: { id: string } }
 	| { type: "ACTIVATE_TAB"; payload: { id: string } }
 	| { type: "UPDATE_ACTIVE_URL"; payload: { url: string } }
 	| { type: "UPDATE_TAB_TITLE"; payload: { id: string; title: string } }
-	| { type: "RESTORE"; payload: TabsState }
+	| { type: "RESTORE"; payload: NavigationTabsState }
 
 function generateId(): string {
 	return crypto.randomUUID()
 }
 
 function resolveActiveTabAfterClose(
-	tabs: Tab[],
+	tabs: NavigationTab[],
 	closedIndex: number,
 	closedId: string,
 	currentActiveId: string | null
@@ -38,14 +32,14 @@ function resolveActiveTabAfterClose(
 	return tabs[0].id
 }
 
-function tabsReducer(state: TabsState, action: TabsAction): TabsState {
+function tabsReducer(state: NavigationTabsState, action: NavigationTabsAction): NavigationTabsState {
 	switch (action.type) {
 		case "ADD_TAB": {
 			const existing = state.tabs.find((t) => t.url === action.payload.url)
 			if (existing) {
 				return { ...state, activeTabId: existing.id }
 			}
-			const newTab: Tab = {
+			const newTab: NavigationTab = {
 				id: generateId(),
 				url: action.payload.url,
 				title: action.payload.title,
@@ -99,9 +93,7 @@ function tabsReducer(state: TabsState, action: TabsAction): TabsState {
 	}
 }
 
-const STORAGE_KEY = "blazz-crm-tabs"
-
-function isValidTabsState(data: unknown): data is TabsState {
+function isValidTabsState(data: unknown): data is NavigationTabsState {
 	if (!data || typeof data !== "object") return false
 	const obj = data as Record<string, unknown>
 	if (!Array.isArray(obj.tabs)) return false
@@ -116,28 +108,8 @@ function isValidTabsState(data: unknown): data is TabsState {
 	)
 }
 
-function loadTabsFromStorage(): TabsState | null {
-	try {
-		const raw = localStorage.getItem(STORAGE_KEY)
-		if (!raw) return null
-		const parsed = JSON.parse(raw)
-		if (isValidTabsState(parsed)) return parsed
-	} catch {
-		// ignore corrupt storage
-	}
-	return null
-}
-
-function saveTabsToStorage(state: TabsState): void {
-	try {
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
-	} catch {
-		// ignore storage errors
-	}
-}
-
-interface TabsContextValue {
-	tabs: Tab[]
+export interface NavigationTabsContextValue {
+	tabs: NavigationTab[]
 	activeTabId: string | null
 	showTabBar: boolean
 	addTab: (payload: { url: string; title: string; icon?: string }) => void
@@ -147,29 +119,45 @@ interface TabsContextValue {
 	updateTabTitle: (id: string, title: string) => void
 }
 
-const TabsContext = React.createContext<TabsContextValue | undefined>(undefined)
+export const NavigationTabsContext = React.createContext<NavigationTabsContextValue | undefined>(undefined)
 
-const initialState: TabsState = { tabs: [], activeTabId: null }
+const initialState: NavigationTabsState = { tabs: [], activeTabId: null }
 
-export function TabsProvider({ children }: { children: React.ReactNode }) {
+interface NavigationTabsProviderProps {
+	storageKey: string
+	children: React.ReactNode
+}
+
+export function NavigationTabsProvider({ storageKey, children }: NavigationTabsProviderProps) {
 	const [state, dispatch] = React.useReducer(tabsReducer, initialState)
 	const [hydrated, setHydrated] = React.useState(false)
 
-	// Restore from localStorage on mount
 	React.useEffect(() => {
-		const stored = loadTabsFromStorage()
-		if (stored && stored.tabs.length > 0) {
-			dispatch({ type: "RESTORE", payload: stored })
+		try {
+			const raw = localStorage.getItem(storageKey)
+			if (raw) {
+				const parsed = JSON.parse(raw)
+				if (isValidTabsState(parsed) && parsed.tabs.length > 0) {
+					dispatch({ type: "RESTORE", payload: parsed })
+				}
+			}
+		} catch {
+			// ignore corrupt storage
 		}
 		setHydrated(true)
-	}, [])
+	}, [storageKey])
 
-	// Persist to localStorage on change (debounced)
 	React.useEffect(() => {
 		if (!hydrated) return
-		const timer = setTimeout(() => saveTabsToStorage(state), 300)
+		const timer = setTimeout(() => {
+			try {
+				localStorage.setItem(storageKey, JSON.stringify(state))
+			} catch {
+				// ignore storage errors
+			}
+		}, 300)
 		return () => clearTimeout(timer)
-	}, [state, hydrated])
+	}, [state, hydrated, storageKey])
 
 	const addTab = React.useCallback((payload: { url: string; title: string; icon?: string }) => {
 		dispatch({ type: "ADD_TAB", payload })
@@ -191,7 +179,7 @@ export function TabsProvider({ children }: { children: React.ReactNode }) {
 		dispatch({ type: "UPDATE_TAB_TITLE", payload: { id, title } })
 	}, [])
 
-	const value = React.useMemo<TabsContextValue>(
+	const value = React.useMemo<NavigationTabsContextValue>(
 		() => ({
 			tabs: state.tabs,
 			activeTabId: state.activeTabId,
@@ -205,13 +193,5 @@ export function TabsProvider({ children }: { children: React.ReactNode }) {
 		[state, addTab, closeTab, activateTab, updateActiveTabUrl, updateTabTitle]
 	)
 
-	return <TabsContext.Provider value={value}>{children}</TabsContext.Provider>
-}
-
-export function useTabs() {
-	const context = React.useContext(TabsContext)
-	if (context === undefined) {
-		throw new Error("useTabs must be used within a TabsProvider")
-	}
-	return context
+	return <NavigationTabsContext.Provider value={value}>{children}</NavigationTabsContext.Provider>
 }

@@ -1,20 +1,20 @@
 import { renderHook } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
-import { useTabTitle } from "./use-tab-title"
+import { useNavigationTabTitle } from "./use-navigation-tab-title"
 
 const mockUpdateTabTitle = vi.fn()
 const mockActiveTabId = "tab-1"
 
-vi.mock("@/components/layout/tabs-context", () => ({
-	useTabs: () => ({
+vi.mock("./use-navigation-tabs", () => ({
+	useNavigationTabs: () => ({
 		activeTabId: mockActiveTabId,
 		updateTabTitle: mockUpdateTabTitle,
 	}),
 }))
 
-describe("useTabTitle", () => {
+describe("useNavigationTabTitle", () => {
 	it("calls updateTabTitle with activeTabId and title", () => {
-		renderHook(() => useTabTitle("Marie Dupont"))
+		renderHook(() => useNavigationTabTitle("Marie Dupont"))
 		expect(mockUpdateTabTitle).toHaveBeenCalledWith("tab-1", "Marie Dupont")
 	})
 })

@@ -8,13 +8,15 @@ import {
 	Handshake,
 	LayoutDashboard,
 	Package,
-	Plus,
 	Settings,
 	Users,
 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { TabItem } from "@/components/layout/tab-item"
-import { useTabs } from "@/components/layout/tabs-context"
+import {
+	NavigationTabsBar,
+	NavigationTabsItem,
+	useNavigationTabs,
+} from "@/components/features/navigation-tabs"
 
 /**
  * Maps a CRM URL to its entity icon and section label.
@@ -37,10 +39,8 @@ function getRouteInfo(url: string): { icon: LucideIcon; label: string } {
 }
 
 export function TabBar() {
-	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab } = useTabs()
+	const { tabs, activeTabId, activateTab, closeTab, addTab } = useNavigationTabs()
 	const router = useRouter()
-
-	if (!showTabBar) return null
 
 	function handleActivate(tabId: string, url: string) {
 		activateTab(tabId)
@@ -68,32 +68,21 @@ export function TabBar() {
 	}
 
 	return (
-		<div className="hidden h-(--tabbar-height) shrink-0 items-center overflow-x-auto border-b border-(--sidebar-border) bg-(--sidebar-background) md:flex">
-			<div className="flex flex-1 items-center">
-				{tabs.map((tab, index) => {
-					const { icon, label } = getRouteInfo(tab.url)
-					const displayTitle = `${label} > ${tab.title}`
-					return (
-						<TabItem
-							key={tab.id}
-							title={displayTitle}
-							icon={icon}
-							isActive={tab.id === activeTabId}
-							isLast={index === tabs.length - 1}
-							onClick={() => handleActivate(tab.id, tab.url)}
-							onClose={() => handleClose(tab.id)}
-						/>
-					)
-				})}
-			</div>
-			<button
-				type="button"
-				onClick={handleAddTab}
-				className="flex h-(--tabbar-height) w-9 shrink-0 items-center justify-center border-l border-(--sidebar-border) text-(--sidebar-foreground) transition-colors hover:bg-(--sidebar-accent)"
-				aria-label="Open new tab"
-			>
-				<Plus className="h-4 w-4" />
-			</button>
-		</div>
+		<NavigationTabsBar onAddTab={handleAddTab}>
+			{tabs.map((tab) => {
+				const { icon, label } = getRouteInfo(tab.url)
+				const displayTitle = tab.title === label ? label : `${label} > ${tab.title}`
+				return (
+					<NavigationTabsItem
+						key={tab.id}
+						title={displayTitle}
+						icon={icon}
+						isActive={tab.id === activeTabId}
+						onClick={() => handleActivate(tab.id, tab.url)}
+						onClose={() => handleClose(tab.id)}
+					/>
+				)
+			})}
+		</NavigationTabsBar>
 	)
 }

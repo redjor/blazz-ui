@@ -11,7 +11,7 @@ import {
 } from "@/components/features/data-table"
 import type { Deal } from "@/lib/sample-data"
 import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
+import { Box } from "@/components/ui/box"
 import { Page } from "@/components/ui/page"
 
 const initialDeals: Deal[] = [
@@ -102,28 +102,28 @@ export default function EditableTablePage() {
 			<div className="space-y-6">
 				{/* KPI Cards */}
 				<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-					<Card className="p-4">
+					<Box background="white" border="default" borderRadius="lg" padding="4">
 						<p className="text-xs text-muted-foreground">Deals actifs</p>
 						<p className="text-2xl font-semibold">{deals.filter((d) => !["closed_won", "closed_lost"].includes(d.stage)).length}</p>
-					</Card>
-					<Card className="p-4">
+					</Box>
+					<Box background="white" border="default" borderRadius="lg" padding="4">
 						<p className="text-xs text-muted-foreground">Pipeline total</p>
 						<p className="text-2xl font-semibold">{new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(totalPipeline)}</p>
-					</Card>
-					<Card className="p-4">
+					</Box>
+					<Box background="white" border="default" borderRadius="lg" padding="4">
 						<p className="text-xs text-muted-foreground">Pipeline pondéré</p>
 						<p className="text-2xl font-semibold">{new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(weightedPipeline)}</p>
-					</Card>
-					<Card className="p-4">
+					</Box>
+					<Box background="white" border="default" borderRadius="lg" padding="4">
 						<p className="text-xs text-muted-foreground">Taux moyen</p>
 						<p className="text-2xl font-semibold">
 							{Math.round(deals.reduce((sum, d) => sum + d.probability, 0) / deals.length)}%
 						</p>
-					</Card>
+					</Box>
 				</div>
 
 				{/* Editable Table */}
-				<Card>
+				<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
 					<DataTable
 						data={deals}
 						columns={preset.columns}
@@ -133,12 +133,12 @@ export default function EditableTablePage() {
 						locale="fr"
 						variant="spreadsheet"
 					/>
-				</Card>
+				</Box>
 
 				{/* Read-only comparison table */}
 				<div>
 					<p className="mb-2 text-sm font-medium text-muted-foreground">Comparaison — Tableau standard (non éditable, variant par défaut)</p>
-					<Card>
+					<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
 						<DataTable
 							data={deals}
 							columns={readOnlyColumns}
@@ -147,12 +147,12 @@ export default function EditableTablePage() {
 							enablePagination={false}
 							locale="fr"
 						/>
-					</Card>
+					</Box>
 				</div>
 
-			{/* Edit Log */}
+				{/* Edit Log */}
 				{editLog.length > 0 && (
-					<Card className="p-4">
+					<Box background="muted" borderRadius="lg" padding="4">
 						<p className="mb-2 text-xs font-medium text-muted-foreground">Modifications récentes</p>
 						<div className="space-y-1">
 							{editLog.map((entry, i) => (
@@ -161,7 +161,7 @@ export default function EditableTablePage() {
 								</p>
 							))}
 						</div>
-					</Card>
+					</Box>
 				)}
 
 				{/* Stage Legend */}

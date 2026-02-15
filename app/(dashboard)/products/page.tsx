@@ -5,6 +5,7 @@ import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/blocks/page-header';
 import { DataTable, createProductsPreset } from '@/components/features/data-table';
+import { Box } from '@/components/ui/box';
 import { products } from '@/lib/sample-data';
 
 export default function ProductsPage() {
@@ -34,25 +35,27 @@ export default function ProductsPage() {
         ]}
       />
 
-      <DataTable
-        data={products}
-        columns={columns}
-        views={views}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        getRowId={(row) => row.id}
-        enableSorting
-        enablePagination
-        enableRowSelection
-        enableGlobalSearch
-        enableAdvancedFilters
-        enableCustomViews
-        combineSearchAndFilters
-        searchPlaceholder="Rechercher par nom, SKU..."
-        locale="fr"
-        variant="lined"
-        pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50] }}
-      />
+      <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+        <DataTable
+          data={products}
+          columns={columns}
+          views={views}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          getRowId={(row) => row.id}
+          enableSorting
+          enablePagination
+          enableRowSelection
+          enableGlobalSearch
+          enableAdvancedFilters
+          enableCustomViews
+          combineSearchAndFilters
+          searchPlaceholder="Rechercher par nom, SKU..."
+          locale="fr"
+          variant="lined"
+          pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50] }}
+        />
+      </Box>
     </div>
   );
 }

@@ -36,9 +36,14 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 				<main className="flex-1 mt-(--topbar-height) md:pl-(--sidebar-width)">
 					<div className="flex h-full flex-col">
 						{tabBar}
-						<ScrollArea className="min-h-0 w-full flex-1 rounded-tr-(--main-radius) bg-(--main-background)">
-							{children}
-						</ScrollArea>
+						<ScrollArea
+						className={cn(
+							"min-h-0 w-full flex-1 bg-(--main-background)",
+							!tabBar && "rounded-tr-(--main-radius)"
+						)}
+					>
+						{children}
+					</ScrollArea>
 					</div>
 				</main>
 			</div>

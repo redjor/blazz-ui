@@ -3,7 +3,7 @@
 import { Suspense, useMemo } from "react"
 import { DataTable, createContactsPreset } from "@/components/features/data-table"
 import type { Contact } from "@/lib/sample-data"
-import { Card } from "@/components/ui/card"
+import { Box } from "@/components/ui/box"
 import { Page } from "@/components/ui/page"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
@@ -244,7 +244,7 @@ function ClientsPageContent() {
 			subtitle="Manage customer contacts and relationships"
 			fullWidth
 		>
-			<Card className="p-0">
+			<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
 				<DataTable
 					data={clients}
 					columns={preset.columns}
@@ -265,7 +265,7 @@ function ClientsPageContent() {
 					variant="lined"
 					density="default"
 				/>
-			</Card>
+			</Box>
 		</Page>
 	)
 }

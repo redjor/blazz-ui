@@ -6,6 +6,7 @@ import { Plus, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/blocks/page-header';
 import { DataTable, createContactsPreset } from '@/components/features/data-table';
+import { Box } from '@/components/ui/box';
 import { contacts } from '@/lib/sample-data';
 
 export default function ContactsPage() {
@@ -37,25 +38,27 @@ export default function ContactsPage() {
         ]}
       />
 
-      <DataTable
-        data={contacts}
-        columns={columns}
-        views={views}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        getRowId={(row) => row.id}
-        enableSorting
-        enablePagination
-        enableRowSelection
-        enableGlobalSearch
-        enableAdvancedFilters
-        enableCustomViews
-        combineSearchAndFilters
-        searchPlaceholder="Rechercher par nom, email..."
-        locale="fr"
-        variant="lined"
-        pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50, 100] }}
-      />
+      <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+        <DataTable
+          data={contacts}
+          columns={columns}
+          views={views}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          getRowId={(row) => row.id}
+          enableSorting
+          enablePagination
+          enableRowSelection
+          enableGlobalSearch
+          enableAdvancedFilters
+          enableCustomViews
+          combineSearchAndFilters
+          searchPlaceholder="Rechercher par nom, email..."
+          locale="fr"
+          variant="lined"
+          pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50, 100] }}
+        />
+      </Box>
     </div>
   );
 }

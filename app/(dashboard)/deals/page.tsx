@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { PageHeader } from '@/components/blocks/page-header';
 import { KanbanBoard, type KanbanColumn } from '@/components/blocks/kanban-board';
 import { Badge } from '@/components/ui/badge';
+import { Box } from '@/components/ui/box';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DataTable, createDealsPreset } from '@/components/features/data-table';
 import { deals as initialDeals, formatCurrency, type Deal } from '@/lib/sample-data';
@@ -119,25 +120,27 @@ function DealsContent() {
           }}
         />
       ) : (
-        <DataTable
-          data={dealsList}
-          columns={columns}
-          views={views}
-          rowActions={rowActions}
-          bulkActions={bulkActions}
-          getRowId={(row) => row.id}
-          enableSorting
-          enablePagination
-          enableRowSelection
-          enableGlobalSearch
-          enableAdvancedFilters
-          enableCustomViews
-          combineSearchAndFilters
-          searchPlaceholder="Rechercher par titre..."
-          locale="fr"
-          variant="lined"
-          pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50, 100] }}
-        />
+        <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+          <DataTable
+            data={dealsList}
+            columns={columns}
+            views={views}
+            rowActions={rowActions}
+            bulkActions={bulkActions}
+            getRowId={(row) => row.id}
+            enableSorting
+            enablePagination
+            enableRowSelection
+            enableGlobalSearch
+            enableAdvancedFilters
+            enableCustomViews
+            combineSearchAndFilters
+            searchPlaceholder="Rechercher par titre..."
+            locale="fr"
+            variant="lined"
+            pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50, 100] }}
+          />
+        </Box>
       )}
     </div>
   );

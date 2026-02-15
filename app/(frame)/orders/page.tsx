@@ -3,7 +3,7 @@
 import { Suspense, useMemo } from "react"
 import { DataTable, createOrderManagementPreset } from "@/components/features/data-table"
 import type { Order } from "@/components/features/data-table"
-import { Card } from "@/components/ui/card"
+import { Box } from "@/components/ui/box"
 import { Page } from "@/components/ui/page"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useDataTableUrlState } from "@/hooks/use-data-table-url-state"
@@ -206,7 +206,7 @@ function OrdersPageContent() {
 			subtitle="Manage and track customer orders with advanced filtering and views"
 			fullWidth
 		>
-			<Card className="p-0">
+			<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
 				<DataTable
 					data={orders}
 					columns={preset.columns}
@@ -228,7 +228,7 @@ function OrdersPageContent() {
 					variant="lined"
 					density="default"
 				/>
-			</Card>
+			</Box>
 		</Page>
 	)
 }

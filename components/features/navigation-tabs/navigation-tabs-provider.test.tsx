@@ -1,24 +1,25 @@
 import { act, renderHook } from "@testing-library/react"
 import { beforeEach, describe, expect, it } from "vitest"
-import { TabsProvider, useTabs } from "./tabs-context"
+import { NavigationTabsProvider } from "./navigation-tabs-provider"
+import { useNavigationTabs } from "./use-navigation-tabs"
 
 function wrapper({ children }: { children: React.ReactNode }) {
-	return <TabsProvider>{children}</TabsProvider>
+	return <NavigationTabsProvider storageKey="test-tabs">{children}</NavigationTabsProvider>
 }
 
-describe("useTabs", () => {
+describe("useNavigationTabs", () => {
 	beforeEach(() => {
 		localStorage.clear()
 	})
 
 	it("starts with no tabs", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		expect(result.current.tabs).toEqual([])
 		expect(result.current.activeTabId).toBeNull()
 	})
 
 	it("adds a tab", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Marie Dupont" })
 		})
@@ -28,7 +29,7 @@ describe("useTabs", () => {
 	})
 
 	it("does not duplicate an existing URL — activates instead", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Marie" })
 			result.current.addTab({ url: "/deals/1", title: "Deal A" })
@@ -42,7 +43,7 @@ describe("useTabs", () => {
 	})
 
 	it("closes a tab and activates the previous one", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Tab 1" })
 			result.current.addTab({ url: "/contacts/2", title: "Tab 2" })
@@ -57,7 +58,7 @@ describe("useTabs", () => {
 	})
 
 	it("closes the first tab and activates the next one", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Tab 1" })
 			result.current.addTab({ url: "/contacts/2", title: "Tab 2" })
@@ -74,7 +75,7 @@ describe("useTabs", () => {
 	})
 
 	it("switches active tab", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Tab 1" })
 			result.current.addTab({ url: "/contacts/2", title: "Tab 2" })
@@ -86,7 +87,7 @@ describe("useTabs", () => {
 	})
 
 	it("updates the active tab URL on navigation", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts", title: "Contacts" })
 		})
@@ -97,7 +98,7 @@ describe("useTabs", () => {
 	})
 
 	it("updates a tab title", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Loading..." })
 		})
@@ -108,7 +109,7 @@ describe("useTabs", () => {
 	})
 
 	it("showTabBar is false with 0-1 tabs", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		expect(result.current.showTabBar).toBe(false)
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Tab 1" })
@@ -117,7 +118,7 @@ describe("useTabs", () => {
 	})
 
 	it("showTabBar is true with 2+ tabs", () => {
-		const { result } = renderHook(() => useTabs(), { wrapper })
+		const { result } = renderHook(() => useNavigationTabs(), { wrapper })
 		act(() => {
 			result.current.addTab({ url: "/contacts/1", title: "Tab 1" })
 			result.current.addTab({ url: "/contacts/2", title: "Tab 2" })

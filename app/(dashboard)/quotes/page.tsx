@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/blocks/page-header';
 import { DataTable, createQuotesPreset } from '@/components/features/data-table';
+import { Box } from '@/components/ui/box';
 import { quotes } from '@/lib/sample-data';
 
 export default function QuotesPage() {
@@ -41,25 +42,27 @@ export default function QuotesPage() {
         ]}
       />
 
-      <DataTable
-        data={quotes}
-        columns={columns}
-        views={views}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        getRowId={(row) => row.id}
-        enableSorting
-        enablePagination
-        enableRowSelection
-        enableGlobalSearch
-        enableAdvancedFilters
-        enableCustomViews
-        combineSearchAndFilters
-        searchPlaceholder="Rechercher par référence..."
-        locale="fr"
-        variant="lined"
-        pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50] }}
-      />
+      <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+        <DataTable
+          data={quotes}
+          columns={columns}
+          views={views}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          getRowId={(row) => row.id}
+          enableSorting
+          enablePagination
+          enableRowSelection
+          enableGlobalSearch
+          enableAdvancedFilters
+          enableCustomViews
+          combineSearchAndFilters
+          searchPlaceholder="Rechercher par référence..."
+          locale="fr"
+          variant="lined"
+          pagination={{ pageSize: 25, pageSizeOptions: [10, 25, 50] }}
+        />
+      </Box>
     </div>
   );
 }

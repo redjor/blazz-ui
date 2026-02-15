@@ -4,7 +4,8 @@ import { Page } from "@/components/ui/page"
 import { Button } from "@/components/ui/button"
 import { ComponentExample } from "@/components/features/docs/component-example"
 import { PropsTable, type PropDefinition } from "@/components/features/docs/props-table"
-import { Mail, ChevronRight, Loader2, Plus } from "lucide-react"
+import { Mail, ChevronRight, Plus } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
 
 const buttonProps: PropDefinition[] = [
 	{
@@ -147,12 +148,12 @@ export default function ButtonPage() {
 						title="Loading State"
 						description="Show a loading indicator while an action is processing."
 						code={`<Button disabled>
-  <Loader2 className="animate-spin" />
+  <Spinner />
   Please wait
 </Button>`}
 					>
 						<Button disabled>
-							<Loader2 className="animate-spin" />
+							<Spinner />
 							Please wait
 						</Button>
 					</ComponentExample>

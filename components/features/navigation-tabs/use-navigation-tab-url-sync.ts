@@ -2,22 +2,22 @@
 
 import { usePathname } from "next/navigation"
 import { useEffect, useRef } from "react"
-import { useTabs } from "@/components/layout/tabs-context"
+import { useNavigationTabs } from "./use-navigation-tabs"
 
 /**
  * Syncs the current URL (pathname) with the active tab.
  * When the user navigates within a tab (e.g., from /contacts to /contacts/123),
- * the active tab's URL is updated to reflect the new page.
+ * the active tab's URL and title are updated to reflect the new page.
  *
  * Also handles direct URL access: if the URL matches an existing tab, activate it.
- * If no tab exists for the URL and there are tabs open, create one.
+ *
+ * @param titleResolver - Function that derives a tab title from a pathname
  */
-export function useTabUrlSync() {
+export function useNavigationTabUrlSync(titleResolver: (pathname: string) => string) {
 	const pathname = usePathname()
-	const { tabs, activeTabId, updateActiveTabUrl, activateTab } = useTabs()
+	const { tabs, activeTabId, updateActiveTabUrl, updateTabTitle, activateTab } = useNavigationTabs()
 	const isInitialMount = useRef(true)
 
-	// Keep refs for values we read but don't want to trigger re-runs
 	const tabsRef = useRef(tabs)
 	tabsRef.current = tabs
 	const activeTabIdRef = useRef(activeTabId)
@@ -29,7 +29,6 @@ export function useTabUrlSync() {
 		const currentTabs = tabsRef.current
 		const currentActiveTabId = activeTabIdRef.current
 
-		// On initial mount with restored tabs, just activate the matching tab
 		if (isInitialMount.current) {
 			isInitialMount.current = false
 			const existing = currentTabs.find((t) => t.url === pathname)
@@ -39,7 +38,6 @@ export function useTabUrlSync() {
 			return
 		}
 
-		// Check if the new URL matches an existing tab
 		const existing = currentTabs.find((t) => t.url === pathname)
 		if (existing) {
 			if (existing.id !== currentActiveTabId) {
@@ -48,9 +46,9 @@ export function useTabUrlSync() {
 			return
 		}
 
-		// Otherwise update the active tab's URL
 		if (currentActiveTabId) {
 			updateActiveTabUrl(pathname)
+			updateTabTitle(currentActiveTabId, titleResolver(pathname))
 		}
-	}, [pathname, activateTab, updateActiveTabUrl])
+	}, [pathname, activateTab, updateActiveTabUrl, updateTabTitle, titleResolver])
 }
