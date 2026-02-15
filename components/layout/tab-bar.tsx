@@ -68,7 +68,7 @@ export function TabBar() {
 	}
 
 	return (
-		<div className="hidden h-(--tabbar-height) shrink-0 items-center overflow-x-auto bg-(--top-background) md:flex">
+		<div className="hidden h-(--tabbar-height) shrink-0 items-center overflow-x-auto border-b border-(--sidebar-border) bg-(--sidebar-background) md:flex">
 			<div className="flex flex-1 items-center">
 				{tabs.map((tab, index) => {
 					const { icon, label } = getRouteInfo(tab.url)
@@ -89,7 +89,7 @@ export function TabBar() {
 			<button
 				type="button"
 				onClick={handleAddTab}
-				className="flex h-(--tabbar-height) w-9 shrink-0 items-center justify-center border-l border-white/10 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+				className="flex h-(--tabbar-height) w-9 shrink-0 items-center justify-center border-l border-(--sidebar-border) text-(--sidebar-foreground) transition-colors hover:bg-(--sidebar-accent)"
 				aria-label="Open new tab"
 			>
 				<Plus className="h-4 w-4" />
