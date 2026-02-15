@@ -3,6 +3,7 @@
 import { ChevronDown, LogOut, Settings, User as UserIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -65,17 +66,21 @@ export function UserMenu({ user, className }: UserMenuProps) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
-				<Avatar className="h-6 w-6">
+			<DropdownMenuTrigger className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
+				<Avatar>
 					<AvatarImage src={user?.avatar} alt={displayName} />
-					<AvatarFallback className="bg-blue-500 text-xs font-semibold text-white">
-						{initials}
-					</AvatarFallback>
+					<AvatarFallback>{initials}</AvatarFallback>
 				</Avatar>
-				<span className="hidden text-sm font-medium text-white md:inline-block">
-					{displayName}
-				</span>
-				<ChevronDown className="h-4 w-4 text-gray-400" />
+
+				<div className="flex flex-col">
+					<div className="flex items-center gap-1.5">
+						<span className="text-sm font-semibold">{displayName}</span>
+						<Badge variant="default" className="h-4 px-1.5 text-[10px]">
+							Pro
+						</Badge>
+					</div>
+					<span className="text-muted-foreground text-xs">{displayRole}</span>
+				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				className="w-56"

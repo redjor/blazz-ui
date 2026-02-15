@@ -81,11 +81,11 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 				<button
 					type="button"
 					onClick={onOpenCommandPalette}
-					className="mx-4 flex min-w-lg max-w-md flex-1 items-center gap-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-1.5 transition-colors hover:border-gray-600 hover:bg-gray-700"
+					className="mx-4 flex min-w-lg max-w-md flex-1 items-center gap-2 rounded-lg border border-edge-subtle bg-surface px-3 py-1.5 transition-colors hover:border-edge hover:bg-raised"
 				>
-					<Search className="h-4 w-4 text-gray-400" />
-					<span className="text-sm text-gray-400">Search...</span>
-					<kbd className="ml-auto hidden rounded border border-gray-700 bg-gray-700 px-1.5 py-0.5 text-xs text-gray-300 md:inline-flex">
+					<Search className="h-4 w-4 text-fg-subtle" />
+					<span className="text-sm text-fg-muted">Search...</span>
+					<kbd className="ml-auto hidden rounded border border-edge-subtle bg-raised px-1.5 py-0.5 text-xs text-fg-muted md:inline-flex">
 						⌘K
 					</kbd>
 				</button>
