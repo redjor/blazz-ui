@@ -1,10 +1,10 @@
 "use client"
 
+import { Calendar, Mail, Phone, Send, StickyNote } from "lucide-react"
 import { useState } from "react"
-import { Phone, Mail, StickyNote, Calendar, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
 export type ActivityType = "call" | "email" | "note" | "meeting"
@@ -42,14 +42,14 @@ export function QuickLogActivity({ onLog, trigger, className }: QuickLogActivity
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild>
-				{trigger || (
-					<Button variant="outline" size="sm" className={className}>
-						<StickyNote className="size-4" data-icon="inline-start" />
-						Activité
-					</Button>
-				)}
-			</PopoverTrigger>
+			{trigger ? (
+				<PopoverTrigger render={trigger}>{null}</PopoverTrigger>
+			) : (
+				<PopoverTrigger render={<Button variant="outline" size="sm" className={className} />}>
+					<StickyNote className="size-4" data-icon="inline-start" />
+					Activité
+				</PopoverTrigger>
+			)}
 			<PopoverContent className="w-80" align="end">
 				<div className="space-y-3">
 					<Label className="text-sm font-medium">Type d&apos;activité</Label>
