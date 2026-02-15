@@ -1,9 +1,40 @@
 "use client"
 
-import { Plus } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
+import {
+	BarChart3,
+	Building2,
+	FileText,
+	Handshake,
+	LayoutDashboard,
+	Package,
+	Plus,
+	Settings,
+	Users,
+} from "lucide-react"
 import { useRouter } from "next/navigation"
 import { TabItem } from "@/components/layout/tab-item"
 import { useTabs } from "@/components/layout/tabs-context"
+
+/**
+ * Maps a CRM URL to its entity icon and section label.
+ * Used to display "Section > Title" in tabs.
+ */
+const routeMap: { prefix: string; icon: LucideIcon; label: string }[] = [
+	{ prefix: "/dashboard", icon: LayoutDashboard, label: "CRM" },
+	{ prefix: "/companies", icon: Building2, label: "Entreprises" },
+	{ prefix: "/contacts", icon: Users, label: "Contacts" },
+	{ prefix: "/deals", icon: Handshake, label: "Pipeline" },
+	{ prefix: "/quotes", icon: FileText, label: "Devis" },
+	{ prefix: "/products", icon: Package, label: "Produits" },
+	{ prefix: "/reports", icon: BarChart3, label: "Rapports" },
+	{ prefix: "/settings", icon: Settings, label: "Paramètres" },
+]
+
+function getRouteInfo(url: string): { icon: LucideIcon; label: string } {
+	const match = routeMap.find((r) => url.startsWith(r.prefix))
+	return match ?? { icon: LayoutDashboard, label: "CRM" }
+}
 
 export function TabBar() {
 	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab } = useTabs()
@@ -21,7 +52,6 @@ export function TabBar() {
 
 		closeTab(tabId)
 
-		// If closing the active tab, navigate to the new active tab
 		if (isActive) {
 			const index = tabs.findIndex((t) => t.id === tabId)
 			const remaining = tabs.filter((t) => t.id !== tabId)
@@ -33,27 +63,33 @@ export function TabBar() {
 	}
 
 	function handleAddTab() {
-		addTab({ url: "/dashboard", title: "Dashboard" })
+		addTab({ url: "/dashboard", title: "Tableau de bord" })
 		router.push("/dashboard")
 	}
 
 	return (
-		<div className="hidden h-(--tabbar-height) items-center overflow-x-auto border-b border-border bg-(--main-background) md:flex">
-			<div className="flex items-center">
-				{tabs.map((tab) => (
-					<TabItem
-						key={tab.id}
-						title={tab.title}
-						isActive={tab.id === activeTabId}
-						onClick={() => handleActivate(tab.id, tab.url)}
-						onClose={() => handleClose(tab.id)}
-					/>
-				))}
+		<div className="hidden h-(--tabbar-height) shrink-0 items-center overflow-x-auto bg-(--top-background) md:flex">
+			<div className="flex flex-1 items-center">
+				{tabs.map((tab, index) => {
+					const { icon, label } = getRouteInfo(tab.url)
+					const displayTitle = `${label} > ${tab.title}`
+					return (
+						<TabItem
+							key={tab.id}
+							title={displayTitle}
+							icon={icon}
+							isActive={tab.id === activeTabId}
+							isLast={index === tabs.length - 1}
+							onClick={() => handleActivate(tab.id, tab.url)}
+							onClose={() => handleClose(tab.id)}
+						/>
+					)
+				})}
 			</div>
 			<button
 				type="button"
 				onClick={handleAddTab}
-				className="flex h-(--tabbar-height) w-9 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
+				className="flex h-(--tabbar-height) w-9 shrink-0 items-center justify-center border-l border-white/10 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
 				aria-label="Open new tab"
 			>
 				<Plus className="h-4 w-4" />
