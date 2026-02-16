@@ -15,5 +15,7 @@ export * from './column-builders';
 export * from './view-builders';
 // Editable column builders - Create inline-editable column definitions
 export * from './editable-column-builders';
+// Preset builder - Create typed preset configurations
+export { definePreset } from './preset-builder';
 // Col namespace - Shorthand column builder facade
 export { col } from './col';
