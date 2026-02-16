@@ -8,7 +8,7 @@
 
 import type { DataTableColumnDef, DataTableView, RowAction, BulkAction } from '../data-table.types';
 import type { DataTableDefaultConfig } from '../config/data-table-config';
-import { createTextColumn, createStatusColumn, createDateColumn } from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import type { Invitation } from '@/types/user-management';
 
@@ -62,15 +62,13 @@ export function createInvitationPreset(
   };
 
   const columns: DataTableColumnDef<Invitation>[] = [
-    createTextColumn<Invitation>({
-      accessorKey: 'email',
+    col.text<Invitation>('email', {
       title: 'Email',
       placeholder: 'Search by email...',
       showInlineFilter: true,
       defaultInlineFilter: true,
     }),
-    createStatusColumn<Invitation>({
-      accessorKey: 'status',
+    col.status<Invitation>('status', {
       title: 'Status',
       statusMap,
       filterOptions: [
@@ -82,24 +80,21 @@ export function createInvitationPreset(
       showInlineFilter: true,
       defaultInlineFilter: true,
     }),
-    createDateColumn<Invitation>({
-      accessorKey: 'invitedAt',
+    col.date<Invitation>('invitedAt', {
       title: 'Invited Date',
       locale: 'en-US',
       format: { month: 'short', day: 'numeric', year: 'numeric' },
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createDateColumn<Invitation>({
-      accessorKey: 'expiresAt',
+    col.date<Invitation>('expiresAt', {
       title: 'Expiry Date',
       locale: 'en-US',
       format: { month: 'short', day: 'numeric', year: 'numeric' },
       showInlineFilter: false,
       defaultInlineFilter: false,
     }),
-    createTextColumn<Invitation>({
-      accessorKey: 'invitedBy',
+    col.text<Invitation>('invitedBy', {
       title: 'Invited By',
       placeholder: 'Search by inviter...',
       showInlineFilter: false,

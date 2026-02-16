@@ -13,12 +13,7 @@ import Link from 'next/link';
 import { Copy, Printer, Trash } from 'lucide-react';
 import type { Quote } from '@/lib/sample-data';
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '../data-table.types';
-import {
-  createTextColumn,
-  createStatusColumn,
-  createCurrencyColumn,
-  createDateColumn,
-} from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import { createCRUDActions, createCustomRowAction, createBulkActions } from '../factories/action-builders';
 
@@ -60,10 +55,9 @@ export function createQuotesPreset(config: QuotesPresetConfig = {}): QuotesPrese
   const { onView, onDuplicate, onPrint, onDelete, onBulkDelete } = config;
 
   const columns: DataTableColumnDef<Quote>[] = [
-    createTextColumn<Quote>({
-      accessorKey: 'reference',
-      title: 'R\u00e9f\u00e9rence',
-      placeholder: 'Rechercher par r\u00e9f\u00e9rence...',
+    col.text<Quote>('reference', {
+      title: 'Référence',
+      placeholder: 'Rechercher par référence...',
       showInlineFilter: true,
       defaultInlineFilter: false,
       cellRenderer: (_value, row) => (
@@ -75,46 +69,41 @@ export function createQuotesPreset(config: QuotesPresetConfig = {}): QuotesPrese
         </Link>
       ),
     }),
-    createTextColumn<Quote>({
-      accessorKey: 'dealTitle',
-      title: 'Opportunit\u00e9',
+    col.text<Quote>('dealTitle', {
+      title: 'Opportunité',
       showInlineFilter: false,
     }),
-    createTextColumn<Quote>({
-      accessorKey: 'companyName',
+    col.text<Quote>('companyName', {
       title: 'Entreprise',
       showInlineFilter: false,
     }),
-    createCurrencyColumn<Quote>({
-      accessorKey: 'total',
+    col.currency<Quote>('total', {
       title: 'Total',
       currency: 'EUR',
       locale: 'fr-FR',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createStatusColumn<Quote>({
-      accessorKey: 'status',
+    col.status<Quote>('status', {
       title: 'Statut',
       statusMap: {
         draft: { variant: 'secondary', label: 'Brouillon' },
-        sent: { variant: 'info', label: 'Envoy\u00e9' },
-        accepted: { variant: 'success', label: 'Accept\u00e9' },
-        rejected: { variant: 'destructive', label: 'Refus\u00e9' },
-        expired: { variant: 'outline', label: 'Expir\u00e9' },
+        sent: { variant: 'info', label: 'Envoyé' },
+        accepted: { variant: 'success', label: 'Accepté' },
+        rejected: { variant: 'destructive', label: 'Refusé' },
+        expired: { variant: 'outline', label: 'Expiré' },
       },
       filterOptions: [
         { label: 'Brouillon', value: 'draft' },
-        { label: 'Envoy\u00e9', value: 'sent' },
-        { label: 'Accept\u00e9', value: 'accepted' },
-        { label: 'Refus\u00e9', value: 'rejected' },
-        { label: 'Expir\u00e9', value: 'expired' },
+        { label: 'Envoyé', value: 'sent' },
+        { label: 'Accepté', value: 'accepted' },
+        { label: 'Refusé', value: 'rejected' },
+        { label: 'Expiré', value: 'expired' },
       ],
       showInlineFilter: true,
       defaultInlineFilter: true,
     }),
-    createDateColumn<Quote>({
-      accessorKey: 'validUntil',
+    col.date<Quote>('validUntil', {
       title: 'Valide jusqu\u2019au',
       locale: 'fr-FR',
       showInlineFilter: false,
@@ -125,8 +114,8 @@ export function createQuotesPreset(config: QuotesPresetConfig = {}): QuotesPrese
     column: 'status',
     statuses: [
       { id: 'draft', name: 'Brouillons', value: 'draft' },
-      { id: 'sent', name: 'Envoy\u00e9s', value: 'sent' },
-      { id: 'accepted', name: 'Accept\u00e9s', value: 'accepted' },
+      { id: 'sent', name: 'Envoyés', value: 'sent' },
+      { id: 'accepted', name: 'Acceptés', value: 'accepted' },
     ],
     allViewName: 'Tous',
   });
@@ -173,7 +162,7 @@ export function createQuotesPreset(config: QuotesPresetConfig = {}): QuotesPrese
         separator: true,
         requireConfirmation: true,
         confirmationMessage: (quote) =>
-          `\u00cates-vous s\u00fbr de vouloir supprimer le devis "${quote.reference}" ?`,
+          `Êtes-vous sûr de vouloir supprimer le devis "${quote.reference}" ?`,
       }),
     );
   }

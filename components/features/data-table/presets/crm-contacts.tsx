@@ -14,10 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import type { Contact } from '@/lib/sample-data';
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
-import {
-  createTextColumn,
-  createStatusColumn,
-} from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import { createCRUDActions, createBulkActions } from '../factories/action-builders';
 
@@ -82,20 +79,17 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
         filterLabel: 'Nom',
       },
     } as DataTableColumnDef<Contact>,
-    createTextColumn<Contact>({
-      accessorKey: 'email',
+    col.text<Contact>('email', {
       title: 'Email',
       placeholder: 'Rechercher par email...',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createTextColumn<Contact>({
-      accessorKey: 'jobTitle',
+    col.text<Contact>('jobTitle', {
       title: 'Poste',
       showInlineFilter: false,
     }),
-    createTextColumn<Contact>({
-      accessorKey: 'companyName',
+    col.text<Contact>('companyName', {
       title: 'Entreprise',
       showInlineFilter: true,
       defaultInlineFilter: false,
@@ -108,9 +102,8 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
         </Link>
       ),
     }),
-    createTextColumn<Contact>({
-      accessorKey: 'phone',
-      title: 'T\u00e9l\u00e9phone',
+    col.text<Contact>('phone', {
+      title: 'Téléphone',
       showInlineFilter: false,
     }),
     {
@@ -123,18 +116,17 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
       },
       enableSorting: true,
     } as DataTableColumnDef<Contact>,
-    createStatusColumn<Contact>({
-      accessorKey: 'status',
+    col.status<Contact>('status', {
       title: 'Statut',
       statusMap: {
         active: { variant: 'success', label: 'Actif' },
         inactive: { variant: 'secondary', label: 'Inactif' },
-        archived: { variant: 'outline', label: 'Archiv\u00e9' },
+        archived: { variant: 'outline', label: 'Archivé' },
       },
       filterOptions: [
         { label: 'Actif', value: 'active' },
         { label: 'Inactif', value: 'inactive' },
-        { label: 'Archiv\u00e9', value: 'archived' },
+        { label: 'Archivé', value: 'archived' },
       ],
       showInlineFilter: true,
       defaultInlineFilter: true,
@@ -146,7 +138,7 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
     statuses: [
       { id: 'active', name: 'Actifs', value: 'active' },
       { id: 'inactive', name: 'Inactifs', value: 'inactive' },
-      { id: 'archived', name: 'Archiv\u00e9s', value: 'archived' },
+      { id: 'archived', name: 'Archivés', value: 'archived' },
     ],
     allViewName: 'Tous',
   });
@@ -156,7 +148,7 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
     onEdit,
     onArchive,
     archiveConfirmation: (row) =>
-      `\u00cates-vous s\u00fbr de vouloir archiver ${row.original.firstName} ${row.original.lastName} ?`,
+      `Êtes-vous sûr de vouloir archiver ${row.original.firstName} ${row.original.lastName} ?`,
     hideArchive: (row) => row.original.status === 'archived',
     labels: {
       view: 'Voir',

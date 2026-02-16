@@ -3,14 +3,8 @@
 import { cn } from '@/lib/utils';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
-import {
-  cellShared,
-  createEditableTextColumn,
-  createEditableNumberColumn,
-  createEditableCurrencyColumn,
-  createEditableSelectColumn,
-  createEditableDateColumn,
-} from '../factories/editable-column-builders';
+import { cellShared } from '../factories/editable-column-builders';
+import { col } from '../factories/col';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -59,71 +53,66 @@ export function createSpreadsheetPreset<TData>(
 ): { columns: DataTableColumnDef<TData>[] } {
   const { columns: colDefs, onCellEdit } = config;
 
-  const columns = colDefs.map((col): DataTableColumnDef<TData> => {
-    const editable = col.editable !== false;
+  const columns = colDefs.map((colDef): DataTableColumnDef<TData> => {
+    const editable = colDef.editable !== false;
 
     if (!editable) {
-      const align = col.type === 'number' || col.type === 'currency' ? 'text-right' : 'text-left';
+      const align = colDef.type === 'number' || colDef.type === 'currency' ? 'text-right' : 'text-left';
       return {
-        accessorKey: col.accessorKey,
-        header: ({ column }) => <DataTableColumnHeader column={column} title={col.title} />,
+        accessorKey: colDef.accessorKey,
+        header: ({ column }) => <DataTableColumnHeader column={column} title={colDef.title} />,
         cell: ({ row }) => {
-          const value = row.getValue(col.accessorKey) as string;
+          const value = row.getValue(colDef.accessorKey) as string;
           return (
             <span className={cn(cellShared, align, 'cursor-default')}>
               {value}
             </span>
           );
         },
-        enableSorting: col.enableSorting ?? true,
+        enableSorting: colDef.enableSorting ?? true,
       } as DataTableColumnDef<TData>;
     }
 
-    switch (col.type) {
+    switch (colDef.type) {
       case 'text':
-        return createEditableTextColumn<TData>({
-          accessorKey: col.accessorKey,
-          title: col.title,
-          placeholder: col.placeholder,
-          enableSorting: col.enableSorting,
+        return col.editableText<TData>(colDef.accessorKey, {
+          title: colDef.title,
+          placeholder: colDef.placeholder,
+          enableSorting: colDef.enableSorting,
           onCellEdit,
         });
 
       case 'number':
-        return createEditableNumberColumn<TData>({
-          accessorKey: col.accessorKey,
-          title: col.title,
-          min: col.min,
-          max: col.max,
-          step: col.step,
-          enableSorting: col.enableSorting,
+        return col.editableNumber<TData>(colDef.accessorKey, {
+          title: colDef.title,
+          min: colDef.min,
+          max: colDef.max,
+          step: colDef.step,
+          enableSorting: colDef.enableSorting,
           onCellEdit,
         });
 
       case 'currency':
-        return createEditableCurrencyColumn<TData>({
-          accessorKey: col.accessorKey,
-          title: col.title,
-          currency: col.currency,
-          locale: col.locale,
-          enableSorting: col.enableSorting,
+        return col.editableCurrency<TData>(colDef.accessorKey, {
+          title: colDef.title,
+          currency: colDef.currency,
+          locale: colDef.locale,
+          enableSorting: colDef.enableSorting,
           onCellEdit,
         });
 
       case 'select':
-        return createEditableSelectColumn<TData>({
-          accessorKey: col.accessorKey,
-          title: col.title,
-          options: col.options ?? [],
-          enableSorting: col.enableSorting,
+        return col.editableSelect<TData>(colDef.accessorKey, {
+          title: colDef.title,
+          options: colDef.options ?? [],
+          enableSorting: colDef.enableSorting,
           onCellEdit,
         });
 
       case 'date':
-        return createEditableDateColumn<TData>({
-          accessorKey: col.accessorKey,
-          title: col.title,
-          enableSorting: col.enableSorting,
+        return col.editableDate<TData>(colDef.accessorKey, {
+          title: colDef.title,
+          enableSorting: colDef.enableSorting,
           onCellEdit,
         });
     }

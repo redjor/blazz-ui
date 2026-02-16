@@ -12,13 +12,7 @@
 import Link from 'next/link';
 import type { Company } from '@/lib/sample-data';
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '../data-table.types';
-import {
-  createTextColumn,
-  createStatusColumn,
-  createSelectColumn,
-  createCurrencyColumn,
-  createDateColumn,
-} from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import { createCRUDActions, createBulkActions } from '../factories/action-builders';
 
@@ -50,11 +44,11 @@ export interface CompaniesPreset {
 const industryOptions = [
   { label: 'Technologie', value: 'Technologie' },
   { label: 'Finance', value: 'Finance' },
-  { label: 'Sant\u00e9', value: 'Sant\u00e9' },
+  { label: 'Santé', value: 'Santé' },
   { label: 'Industrie', value: 'Industrie' },
   { label: 'Services', value: 'Services' },
   { label: 'Commerce', value: 'Commerce' },
-  { label: '\u00c9ducation', value: '\u00c9ducation' },
+  { label: 'Éducation', value: 'Éducation' },
 ];
 
 /**
@@ -75,8 +69,7 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
   const { onView, onEdit, onArchive, onDelete, onBulkArchive, onBulkDelete } = config;
 
   const columns: DataTableColumnDef<Company>[] = [
-    createTextColumn<Company>({
-      accessorKey: 'name',
+    col.text<Company>('name', {
       title: 'Entreprise',
       placeholder: 'Rechercher par nom...',
       showInlineFilter: true,
@@ -90,28 +83,24 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
         </Link>
       ),
     }),
-    createSelectColumn<Company>({
-      accessorKey: 'industry',
+    col.select<Company>('industry', {
       title: 'Secteur',
       options: industryOptions,
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createTextColumn<Company>({
-      accessorKey: 'city',
+    col.text<Company>('city', {
       title: 'Ville',
       showInlineFilter: false,
     }),
-    createCurrencyColumn<Company>({
-      accessorKey: 'revenue',
+    col.currency<Company>('revenue', {
       title: 'Chiffre d\u2019affaires',
       currency: 'EUR',
       locale: 'fr-FR',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createStatusColumn<Company>({
-      accessorKey: 'status',
+    col.status<Company>('status', {
       title: 'Statut',
       statusMap: {
         prospect: { variant: 'warning', label: 'Prospect' },
@@ -128,14 +117,12 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
       showInlineFilter: true,
       defaultInlineFilter: true,
     }),
-    createTextColumn<Company>({
-      accessorKey: 'assignedTo',
+    col.text<Company>('assignedTo', {
       title: 'Responsable',
       showInlineFilter: false,
     }),
-    createDateColumn<Company>({
-      accessorKey: 'createdAt',
-      title: 'Cr\u00e9\u00e9 le',
+    col.date<Company>('createdAt', {
+      title: 'Créé le',
       locale: 'fr-FR',
       showInlineFilter: false,
     }),
@@ -157,9 +144,9 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
     onArchive,
     onDelete,
     archiveConfirmation: (row) =>
-      `\u00cates-vous s\u00fbr de vouloir archiver ${row.original.name} ?`,
+      `Êtes-vous sûr de vouloir archiver ${row.original.name} ?`,
     deleteConfirmation: (row) =>
-      `\u00cates-vous s\u00fbr de vouloir supprimer ${row.original.name} ?`,
+      `Êtes-vous sûr de vouloir supprimer ${row.original.name} ?`,
     labels: {
       view: 'Voir',
       edit: 'Modifier',
@@ -172,12 +159,12 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
     onArchive: onBulkArchive,
     onDelete: onBulkDelete,
     archiveConfirmation: (count) =>
-      `\u00cates-vous s\u00fbr de vouloir archiver ${count} entreprise(s) ?`,
+      `Êtes-vous sûr de vouloir archiver ${count} entreprise(s) ?`,
     deleteConfirmation: (count) =>
-      `\u00cates-vous s\u00fbr de vouloir supprimer ${count} entreprise(s) ?`,
+      `Êtes-vous sûr de vouloir supprimer ${count} entreprise(s) ?`,
     labels: {
-      archive: 'Archiver la s\u00e9lection',
-      delete: 'Supprimer la s\u00e9lection',
+      archive: 'Archiver la sélection',
+      delete: 'Supprimer la sélection',
     },
   });
 

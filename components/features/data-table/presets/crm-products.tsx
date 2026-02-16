@@ -13,11 +13,7 @@ import { Copy, XCircle } from 'lucide-react';
 import type { Product } from '@/lib/sample-data';
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
-import {
-  createStatusColumn,
-  createCurrencyColumn,
-  createSelectColumn,
-} from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import { createCRUDActions, createCustomRowAction, createBulkActions } from '../factories/action-builders';
 
@@ -92,33 +88,30 @@ export function createProductsPreset(config: ProductsPresetConfig = {}): Product
         filterLabel: 'Produit',
       },
     } as DataTableColumnDef<Product>,
-    createSelectColumn<Product>({
-      accessorKey: 'category',
-      title: 'Cat\u00e9gorie',
+    col.select<Product>('category', {
+      title: 'Catégorie',
       options: categoryOptions,
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createCurrencyColumn<Product>({
-      accessorKey: 'unitPrice',
+    col.currency<Product>('unitPrice', {
       title: 'Prix unitaire',
       currency: 'EUR',
       locale: 'fr-FR',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createStatusColumn<Product>({
-      accessorKey: 'status',
+    col.status<Product>('status', {
       title: 'Statut',
       statusMap: {
         active: { variant: 'success', label: 'Actif' },
         inactive: { variant: 'secondary', label: 'Inactif' },
-        discontinued: { variant: 'destructive', label: 'Arr\u00eat\u00e9' },
+        discontinued: { variant: 'destructive', label: 'Arrêté' },
       },
       filterOptions: [
         { label: 'Actif', value: 'active' },
         { label: 'Inactif', value: 'inactive' },
-        { label: 'Arr\u00eat\u00e9', value: 'discontinued' },
+        { label: 'Arrêté', value: 'discontinued' },
       ],
       showInlineFilter: true,
       defaultInlineFilter: true,
@@ -159,13 +152,13 @@ export function createProductsPreset(config: ProductsPresetConfig = {}): Product
     customActions.push(
       createCustomRowAction<Product>({
         id: 'deactivate',
-        label: 'D\u00e9sactiver',
+        label: 'Désactiver',
         icon: XCircle,
         handler: onDeactivate,
         hidden: (product) => product.status !== 'active',
         requireConfirmation: true,
         confirmationMessage: (product) =>
-          `\u00cates-vous s\u00fbr de vouloir d\u00e9sactiver "${product.name}" ?`,
+          `Êtes-vous sûr de vouloir désactiver "${product.name}" ?`,
       }),
     );
   }

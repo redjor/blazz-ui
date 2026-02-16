@@ -13,14 +13,7 @@ import Link from 'next/link';
 import { ArrowRightLeft } from 'lucide-react';
 import type { Deal } from '@/lib/sample-data';
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '../data-table.types';
-import {
-  createTextColumn,
-  createStatusColumn,
-  createCurrencyColumn,
-  createNumericColumn,
-  createSelectColumn,
-  createDateColumn,
-} from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import { createCustomView } from '../factories/view-builders';
 import { createCRUDActions, createCustomRowAction, createBulkActions } from '../factories/action-builders';
@@ -76,9 +69,8 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
   const { onView, onEdit, onDelete, onChangeStage, onBulkArchive, onBulkDelete } = config;
 
   const columns: DataTableColumnDef<Deal>[] = [
-    createTextColumn<Deal>({
-      accessorKey: 'title',
-      title: 'Opportunit\u00e9',
+    col.text<Deal>('title', {
+      title: 'Opportunité',
       placeholder: 'Rechercher par titre...',
       showInlineFilter: true,
       defaultInlineFilter: false,
@@ -91,68 +83,60 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
         </Link>
       ),
     }),
-    createTextColumn<Deal>({
-      accessorKey: 'companyName',
+    col.text<Deal>('companyName', {
       title: 'Entreprise',
       showInlineFilter: false,
     }),
-    createTextColumn<Deal>({
-      accessorKey: 'contactName',
+    col.text<Deal>('contactName', {
       title: 'Contact',
       showInlineFilter: false,
     }),
-    createCurrencyColumn<Deal>({
-      accessorKey: 'amount',
+    col.currency<Deal>('amount', {
       title: 'Montant',
       currency: 'EUR',
       locale: 'fr-FR',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createNumericColumn<Deal>({
-      accessorKey: 'probability',
-      title: 'Probabilit\u00e9',
+    col.numeric<Deal>('probability', {
+      title: 'Probabilité',
       formatter: (value) => `${value}%`,
       align: 'right',
       showInlineFilter: false,
     }),
-    createStatusColumn<Deal>({
-      accessorKey: 'stage',
-      title: '\u00c9tape',
+    col.status<Deal>('stage', {
+      title: 'Étape',
       statusMap: {
         lead: { variant: 'secondary', label: 'Lead' },
-        qualified: { variant: 'info', label: 'Qualifi\u00e9' },
+        qualified: { variant: 'info', label: 'Qualifié' },
         proposal: { variant: 'warning', label: 'Proposition' },
-        negotiation: { variant: 'primary', label: 'N\u00e9gociation' },
-        closed_won: { variant: 'success', label: 'Gagn\u00e9' },
+        negotiation: { variant: 'primary', label: 'Négociation' },
+        closed_won: { variant: 'success', label: 'Gagné' },
         closed_lost: { variant: 'destructive', label: 'Perdu' },
       },
       filterOptions: [
         { label: 'Lead', value: 'lead' },
-        { label: 'Qualifi\u00e9', value: 'qualified' },
+        { label: 'Qualifié', value: 'qualified' },
         { label: 'Proposition', value: 'proposal' },
-        { label: 'N\u00e9gociation', value: 'negotiation' },
-        { label: 'Gagn\u00e9', value: 'closed_won' },
+        { label: 'Négociation', value: 'negotiation' },
+        { label: 'Gagné', value: 'closed_won' },
         { label: 'Perdu', value: 'closed_lost' },
       ],
       showInlineFilter: true,
       defaultInlineFilter: true,
     }),
-    createSelectColumn<Deal>({
-      accessorKey: 'source',
+    col.select<Deal>('source', {
       title: 'Source',
       options: sourceOptions,
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createTextColumn<Deal>({
-      accessorKey: 'assignedTo',
+    col.text<Deal>('assignedTo', {
       title: 'Responsable',
       showInlineFilter: false,
     }),
-    createDateColumn<Deal>({
-      accessorKey: 'expectedCloseDate',
-      title: 'Cl\u00f4ture pr\u00e9vue',
+    col.date<Deal>('expectedCloseDate', {
+      title: 'Clôture prévue',
       locale: 'fr-FR',
       showInlineFilter: false,
     }),
@@ -162,10 +146,10 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
     column: 'stage',
     statuses: [
       { id: 'lead', name: 'Lead', value: 'lead' },
-      { id: 'qualified', name: 'Qualifi\u00e9', value: 'qualified' },
+      { id: 'qualified', name: 'Qualifié', value: 'qualified' },
       { id: 'proposal', name: 'Proposition', value: 'proposal' },
-      { id: 'negotiation', name: 'N\u00e9gociation', value: 'negotiation' },
-      { id: 'closed_won', name: 'Gagn\u00e9s', value: 'closed_won' },
+      { id: 'negotiation', name: 'Négociation', value: 'negotiation' },
+      { id: 'closed_won', name: 'Gagnés', value: 'closed_won' },
       { id: 'closed_lost', name: 'Perdus', value: 'closed_lost' },
     ],
     allViewName: 'Tous',
@@ -193,7 +177,7 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
     onEdit,
     onDelete,
     deleteConfirmation: (row) =>
-      `\u00cates-vous s\u00fbr de vouloir supprimer l\u2019opportunit\u00e9 "${row.original.title}" ?`,
+      `Êtes-vous sûr de vouloir supprimer l\u2019opportunité "${row.original.title}" ?`,
     labels: {
       view: 'Voir',
       edit: 'Modifier',
@@ -205,7 +189,7 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
     ? [
         createCustomRowAction<Deal>({
           id: 'change-stage',
-          label: 'Changer \u00e9tape',
+          label: 'Changer étape',
           icon: ArrowRightLeft,
           handler: onChangeStage,
           separator: true,
@@ -219,12 +203,12 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
     onArchive: onBulkArchive,
     onDelete: onBulkDelete,
     archiveConfirmation: (count) =>
-      `\u00cates-vous s\u00fbr de vouloir archiver ${count} opportunit\u00e9(s) ?`,
+      `Êtes-vous sûr de vouloir archiver ${count} opportunité(s) ?`,
     deleteConfirmation: (count) =>
-      `\u00cates-vous s\u00fbr de vouloir supprimer ${count} opportunit\u00e9(s) ?`,
+      `Êtes-vous sûr de vouloir supprimer ${count} opportunité(s) ?`,
     labels: {
-      archive: 'Archiver la s\u00e9lection',
-      delete: 'Supprimer la s\u00e9lection',
+      archive: 'Archiver la sélection',
+      delete: 'Supprimer la sélection',
     },
   });
 

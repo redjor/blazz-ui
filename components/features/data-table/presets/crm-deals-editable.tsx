@@ -2,13 +2,7 @@
 
 import type { Deal } from '@/lib/sample-data';
 import type { DataTableColumnDef } from '../data-table.types';
-import { createTextColumn } from '../factories/column-builders';
-import {
-  createEditableTextColumn,
-  createEditableNumberColumn,
-  createEditableCurrencyColumn,
-  createEditableSelectColumn,
-} from '../factories/editable-column-builders';
+import { col } from '../factories/col';
 
 export interface EditableDealsPresetConfig {
   onCellEdit: (rowId: string, columnId: string, value: unknown) => void;
@@ -19,49 +13,43 @@ export function createEditableDealsPreset(config: EditableDealsPresetConfig) {
 
   const columns: DataTableColumnDef<Deal>[] = [
     // title - editable
-    createEditableTextColumn<Deal>({
-      accessorKey: 'title',
+    col.editableText<Deal>('title', {
       title: 'Titre',
       onCellEdit,
     }),
     // companyName - read-only
-    createTextColumn<Deal>({
-      accessorKey: 'companyName',
+    col.text<Deal>('companyName', {
       title: 'Entreprise',
       showInlineFilter: false,
     }),
     // contactName - read-only
-    createTextColumn<Deal>({
-      accessorKey: 'contactName',
+    col.text<Deal>('contactName', {
       title: 'Contact',
       showInlineFilter: false,
     }),
     // amount - editable
-    createEditableCurrencyColumn<Deal>({
-      accessorKey: 'amount',
+    col.editableCurrency<Deal>('amount', {
       title: 'Montant',
       currency: 'EUR',
       locale: 'fr-FR',
       onCellEdit,
     }),
     // probability - editable
-    createEditableNumberColumn<Deal>({
-      accessorKey: 'probability',
-      title: 'Probabilit\u00e9 (%)',
+    col.editableNumber<Deal>('probability', {
+      title: 'Probabilité (%)',
       min: 0,
       max: 100,
       onCellEdit,
     }),
     // stage - editable select
-    createEditableSelectColumn<Deal>({
-      accessorKey: 'stage',
-      title: '\u00c9tape',
+    col.editableSelect<Deal>('stage', {
+      title: 'Étape',
       options: [
         { label: 'Lead', value: 'lead' },
-        { label: 'Qualifi\u00e9', value: 'qualified' },
+        { label: 'Qualifié', value: 'qualified' },
         { label: 'Proposition', value: 'proposal' },
-        { label: 'N\u00e9gociation', value: 'negotiation' },
-        { label: 'Gagn\u00e9', value: 'closed_won' },
+        { label: 'Négociation', value: 'negotiation' },
+        { label: 'Gagné', value: 'closed_won' },
         { label: 'Perdu', value: 'closed_lost' },
       ],
       onCellEdit,

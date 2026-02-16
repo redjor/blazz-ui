@@ -10,12 +10,7 @@
 
 import type { DataTableColumnDef, DataTableView, RowAction, BulkAction } from '../data-table.types';
 import type { DataTableDefaultConfig } from '../config/data-table-config';
-import {
-  createTextColumn,
-  createStatusColumn,
-  createCurrencyColumn,
-  createDateColumn,
-} from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import { createCRUDActions, createBulkActions } from '../factories/action-builders';
 
@@ -254,31 +249,27 @@ export function createOrderManagementPreset(
   });
 
   const columns: DataTableColumnDef<Order>[] = [
-    createTextColumn<Order>({
-      accessorKey: 'orderNumber',
+    col.text<Order>('orderNumber', {
       title: labels.orderNumber || (locale === 'fr' ? 'N° Commande' : 'Order Number'),
       placeholder: locale === 'fr' ? 'Rechercher par numéro...' : 'Search by order number...',
       showInlineFilter: true,
       defaultInlineFilter: false,
       className: 'font-mono text-sm font-semibold text-fg',
     }),
-    createTextColumn<Order>({
-      accessorKey: 'customer',
+    col.text<Order>('customer', {
       title: labels.customer || (locale === 'fr' ? 'Client' : 'Customer'),
       placeholder: locale === 'fr' ? 'Rechercher par client...' : 'Search by customer...',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createStatusColumn<Order>({
-      accessorKey: 'status',
+    col.status<Order>('status', {
       title: labels.status || (locale === 'fr' ? 'Statut' : 'Status'),
       statusMap: statusColumnMap,
       filterOptions: statusFilterOptions,
       showInlineFilter: true,
       defaultInlineFilter: true,
     }),
-    createCurrencyColumn<Order>({
-      accessorKey: 'total',
+    col.currency<Order>('total', {
       title: labels.total || (locale === 'fr' ? 'Montant' : 'Total'),
       currency,
       locale: locale === 'fr' ? 'fr-FR' : 'en-US',
@@ -290,8 +281,7 @@ export function createOrderManagementPreset(
 
   if (paymentStatusFilterOptions.length > 0) {
     columns.push(
-      createStatusColumn<Order>({
-        accessorKey: 'paymentStatus',
+      col.status<Order>('paymentStatus', {
         title: labels.paymentStatus || (locale === 'fr' ? 'Paiement' : 'Payment'),
         statusMap: paymentStatusColumnMap,
         filterOptions: paymentStatusFilterOptions,
@@ -302,21 +292,18 @@ export function createOrderManagementPreset(
   }
 
   columns.push(
-    createDateColumn<Order>({
-      accessorKey: 'createdAt',
+    col.date<Order>('createdAt', {
       title: labels.createdAt || (locale === 'fr' ? 'Créée le' : 'Created at'),
       locale: locale === 'fr' ? 'fr-FR' : 'en-US',
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createDateColumn<Order>({
-      accessorKey: 'shippedAt',
+    col.date<Order>('shippedAt', {
       title: labels.shippedAt || (locale === 'fr' ? 'Expédiée le' : 'Shipped at'),
       locale: locale === 'fr' ? 'fr-FR' : 'en-US',
       showInlineFilter: false,
     }),
-    createDateColumn<Order>({
-      accessorKey: 'deliveredAt',
+    col.date<Order>('deliveredAt', {
       title: labels.deliveredAt || (locale === 'fr' ? 'Livrée le' : 'Delivered at'),
       locale: locale === 'fr' ? 'fr-FR' : 'en-US',
       showInlineFilter: false,

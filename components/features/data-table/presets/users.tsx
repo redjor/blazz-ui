@@ -8,7 +8,7 @@
 
 import type { DataTableColumnDef, DataTableView, RowAction, BulkAction } from '../data-table.types';
 import type { DataTableDefaultConfig } from '../config/data-table-config';
-import { createTextColumn, createStatusColumn, createDateColumn } from '../factories/column-builders';
+import { col } from '../factories/col';
 import { createStatusViews } from '../factories/view-builders';
 import type { User } from '@/types/user-management';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -94,8 +94,7 @@ export function createUserManagementPreset(
         filterLabel: 'User',
       },
     },
-    createTextColumn<User>({
-      accessorKey: 'username',
+    col.text<User>('username', {
       title: 'Username',
       placeholder: 'Search by username...',
       showInlineFilter: true,
@@ -129,16 +128,14 @@ export function createUserManagementPreset(
         filterLabel: 'Last signed in',
       },
     },
-    createDateColumn<User>({
-      accessorKey: 'createdAt',
+    col.date<User>('createdAt', {
       title: 'Joined',
       locale: 'en-US',
       format: { month: 'short', day: 'numeric', year: 'numeric' },
       showInlineFilter: true,
       defaultInlineFilter: false,
     }),
-    createStatusColumn<User>({
-      accessorKey: 'status',
+    col.status<User>('status', {
       title: 'Status',
       statusMap,
       filterOptions: [
