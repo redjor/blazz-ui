@@ -6,6 +6,13 @@ import { cn } from '@/lib/utils';
 import type { ColumnFilterConfig } from '../data-table-filter.types';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
+import { CellTags } from '../cells/cell-tags';
+import { CellValidation } from '../cells/cell-validation';
+import { CellProgress } from '../cells/cell-progress';
+import { CellRating } from '../cells/cell-rating';
+import { CellLink } from '../cells/cell-link';
+import { CellBoolean } from '../cells/cell-boolean';
+import { CellAvatarGroup, type AvatarItem } from '../cells/cell-avatar-group';
 
 // ---------------------------------------------------------------------------
 // Internal base column factory – shared structure for all public factories
@@ -615,6 +622,473 @@ export function createImageTextColumn<TData>(
       showInlineFilter,
       defaultInlineFilter,
       filterLabel: filterLabel || title,
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Tags column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createTagsColumn factory
+ */
+export interface TagsColumnConfig<_TData> {
+  /** The accessor key for the column data (array of strings) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Map tag values to Badge variant names */
+  colorMap?: Record<string, string>;
+  /** Maximum visible tags before overflow (default 3) */
+  max?: number;
+  /** Display style: badge or colored dot */
+  variant?: 'badge' | 'dot';
+  /** Options for the select filter */
+  filterOptions?: Array<{ label: string; value: string }>;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: string[], row: _TData) => React.ReactNode;
+}
+
+/**
+ * Creates a tags column that renders an array of strings as inline badges.
+ *
+ * @example
+ * ```typescript
+ * createTagsColumn<Contact>({
+ *   accessorKey: "tags",
+ *   title: "Tags",
+ *   colorMap: { vip: "success", new: "info" },
+ *   max: 2,
+ * })
+ * ```
+ */
+export function createTagsColumn<TData>(
+  config: TagsColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    colorMap,
+    max,
+    variant,
+    filterOptions,
+    enableSorting = false,
+    size,
+    cellRenderer,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string[];
+      if (cellRenderer) return cellRenderer(value, row.original);
+      return <CellTags items={value ?? []} colorMap={colorMap} max={max} variant={variant} />;
+    },
+    ...(filterOptions && {
+      filterConfig: {
+        type: 'select' as const,
+        options: filterOptions,
+      },
+    }),
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Validation column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createValidationColumn factory
+ */
+export interface ValidationColumnConfig<TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Validation rules evaluated per row — first non-null match wins */
+  rules: Array<(row: TData) => { level: 'success' | 'warning' | 'error' | 'info'; message: string } | null>;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a computed validation column that shows an icon + tooltip based on rules.
+ *
+ * @example
+ * ```typescript
+ * createValidationColumn<Deal>({
+ *   accessorKey: "validation",
+ *   title: "Status",
+ *   rules: [
+ *     (row) => row.amount === 0 ? { level: "error", message: "Amount is zero" } : null,
+ *     (row) => row.amount < 100 ? { level: "warning", message: "Low value deal" } : null,
+ *   ],
+ * })
+ * ```
+ */
+export function createValidationColumn<TData>(
+  config: ValidationColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, rules, enableSorting = false, size } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      for (const rule of rules) {
+        const result = rule(row.original);
+        if (result) {
+          return <CellValidation level={result.level} message={result.message} />;
+        }
+      }
+      return <CellValidation level="success" message="Valid" />;
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Progress column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createProgressColumn factory
+ */
+export interface ProgressColumnConfig<_TData> {
+  /** The accessor key for the column data (number 0-100) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Show percentage label to the right */
+  showLabel?: boolean;
+  /** Thresholds that change the bar colour */
+  colorThresholds?: { warn: number; danger: number };
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: number, row: _TData) => React.ReactNode;
+}
+
+/**
+ * Creates a progress bar column for 0-100 percentage values.
+ *
+ * @example
+ * ```typescript
+ * createProgressColumn<Task>({
+ *   accessorKey: "completion",
+ *   title: "Progress",
+ *   showLabel: true,
+ *   colorThresholds: { warn: 50, danger: 25 },
+ * })
+ * ```
+ */
+export function createProgressColumn<TData>(
+  config: ProgressColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    showLabel,
+    colorThresholds,
+    enableSorting = true,
+    size,
+    cellRenderer,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as number;
+      if (cellRenderer) return cellRenderer(value, row.original);
+      return (
+        <CellProgress value={value} showLabel={showLabel} colorThresholds={colorThresholds} />
+      );
+    },
+    filterConfig: {
+      type: 'number',
+      min: 0,
+      max: 100,
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Rating column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createRatingColumn factory
+ */
+export interface RatingColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Maximum rating (default 5) */
+  max?: number;
+  /** Display style: star icons or small dots */
+  variant?: 'star' | 'dot';
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: number, row: _TData) => React.ReactNode;
+}
+
+/**
+ * Creates a rating column displaying filled/empty stars or dots.
+ *
+ * @example
+ * ```typescript
+ * createRatingColumn<Product>({
+ *   accessorKey: "rating",
+ *   title: "Rating",
+ *   max: 5,
+ *   variant: "star",
+ * })
+ * ```
+ */
+export function createRatingColumn<TData>(
+  config: RatingColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    max = 5,
+    variant,
+    enableSorting = true,
+    size,
+    cellRenderer,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as number;
+      if (cellRenderer) return cellRenderer(value, row.original);
+      return <CellRating value={value} max={max} variant={variant} />;
+    },
+    filterConfig: {
+      type: 'number',
+      min: 0,
+      max,
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Link column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createLinkColumn factory
+ */
+export interface LinkColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Type of link */
+  type?: 'url' | 'email' | 'tel';
+  /** Show an icon next to the link */
+  showIcon?: boolean;
+  /** Maximum width in pixels */
+  maxWidth?: number;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: string, row: _TData) => React.ReactNode;
+}
+
+/**
+ * Creates a clickable link column for URLs, emails, or phone numbers.
+ *
+ * @example
+ * ```typescript
+ * createLinkColumn<Contact>({
+ *   accessorKey: "email",
+ *   title: "Email",
+ *   type: "email",
+ * })
+ * ```
+ */
+export function createLinkColumn<TData>(
+  config: LinkColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    type,
+    showIcon,
+    maxWidth,
+    enableSorting = true,
+    size,
+    cellRenderer,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string;
+      if (cellRenderer) return cellRenderer(value, row.original);
+      return <CellLink value={value} type={type} showIcon={showIcon} maxWidth={maxWidth} />;
+    },
+    filterConfig: {
+      type: 'text',
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Boolean column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createBooleanColumn factory
+ */
+export interface BooleanColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Display style */
+  variant?: 'checkbox' | 'badge' | 'icon';
+  /** Custom labels for true/false states */
+  labels?: { true: string; false: string };
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: boolean, row: _TData) => React.ReactNode;
+}
+
+/**
+ * Creates a boolean column displayed as checkbox, badge, or icon.
+ *
+ * @example
+ * ```typescript
+ * createBooleanColumn<Contact>({
+ *   accessorKey: "isActive",
+ *   title: "Active",
+ *   variant: "badge",
+ *   labels: { true: "Active", false: "Inactive" },
+ * })
+ * ```
+ */
+export function createBooleanColumn<TData>(
+  config: BooleanColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    variant,
+    labels,
+    enableSorting = true,
+    size,
+    cellRenderer,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as boolean;
+      if (cellRenderer) return cellRenderer(value, row.original);
+      return <CellBoolean value={value} variant={variant} labels={labels} />;
+    },
+    filterConfig: {
+      type: 'boolean',
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Avatar Group column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createAvatarGroupColumn factory
+ */
+export interface AvatarGroupColumnConfig<_TData> {
+  /** The accessor key for the column data (array of { name, avatar? }) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Maximum visible avatars before overflow (default 4) */
+  max?: number;
+  /** Avatar size */
+  avatarSize?: 'sm' | 'md';
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+  /** Custom cell renderer (overrides default) */
+  cellRenderer?: (value: AvatarItem[], row: _TData) => React.ReactNode;
+}
+
+/**
+ * Creates an avatar group column displaying overlapping circular avatars.
+ *
+ * @example
+ * ```typescript
+ * createAvatarGroupColumn<Project>({
+ *   accessorKey: "members",
+ *   title: "Team",
+ *   max: 3,
+ *   avatarSize: "sm",
+ * })
+ * ```
+ */
+export function createAvatarGroupColumn<TData>(
+  config: AvatarGroupColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    max,
+    avatarSize,
+    enableSorting = false,
+    size,
+    cellRenderer,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as AvatarItem[];
+      if (cellRenderer) return cellRenderer(value, row.original);
+      return <CellAvatarGroup items={value ?? []} max={max} size={avatarSize} />;
     },
   });
 }

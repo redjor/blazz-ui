@@ -15,6 +15,8 @@ export { DataTableSaveViewDialog } from './data-table-save-view-dialog';
 export type { DataTableSkeletonProps } from './data-table-skeleton';
 export { DataTableSkeleton } from './data-table-skeleton';
 export { DataTableSortMenu } from './data-table-sort-menu';
+// Cell components - Reusable cell renderers for column factories
+export * from './cells';
 // Factories - Reusable builders for columns, views, and actions
 export * from './factories';
 

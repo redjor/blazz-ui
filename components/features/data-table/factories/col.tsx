@@ -12,6 +12,13 @@ import {
   createDateColumn,
   createSelectColumn,
   createImageTextColumn,
+  createTagsColumn,
+  createValidationColumn,
+  createProgressColumn,
+  createRatingColumn,
+  createLinkColumn,
+  createBooleanColumn,
+  createAvatarGroupColumn,
   type TextColumnConfig,
   type StatusColumnConfig,
   type NumericColumnConfig,
@@ -19,6 +26,13 @@ import {
   type DateColumnConfig,
   type SelectColumnConfig,
   type ImageTextColumnConfig,
+  type TagsColumnConfig,
+  type ValidationColumnConfig,
+  type ProgressColumnConfig,
+  type RatingColumnConfig,
+  type LinkColumnConfig,
+  type BooleanColumnConfig,
+  type AvatarGroupColumnConfig,
 } from './column-builders';
 
 import {
@@ -160,6 +174,90 @@ export const col = {
       ...opts,
       accessorKey: key,
       title: opts.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Tags column — renders array of strings as inline badges */
+  tags<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<TagsColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createTagsColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Validation column — computed icon + tooltip from rules */
+  validation<TData>(
+    key: string,
+    opts: ColOpts<ValidationColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createValidationColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Progress bar column (0-100) */
+  progress<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<ProgressColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createProgressColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Rating column — stars or dots */
+  rating<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<RatingColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createRatingColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Clickable link column (URL, email, or phone) */
+  link<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<LinkColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createLinkColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Boolean column — checkbox, badge, or icon */
+  boolean<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<BooleanColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createBooleanColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Avatar group column — overlapping circular avatars */
+  avatarGroup<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<AvatarGroupColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createAvatarGroupColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
     });
   },
 
