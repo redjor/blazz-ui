@@ -8,7 +8,7 @@ export * from './data-table-view.types';
 import type { BulkAction, RowAction } from './data-table-action.types';
 // Import types needed for core definitions
 import type { ColumnFilterConfig, FilterGroup } from './data-table-filter.types';
-import type { DataTableView } from './data-table-view.types';
+import type { AggregationType, DataTableView } from './data-table-view.types';
 
 /**
  * Extended column definition for DataTable.
@@ -151,6 +151,16 @@ export interface DataTableProps<TData, TValue = unknown> {
   expandMode?: 'single' | 'multiple';
   /** Default expanded state: false (all closed), true (all open), or array of row IDs */
   defaultExpanded?: boolean | string[];
+
+  // Grouping
+  /** Enable row grouping */
+  enableGrouping?: boolean;
+  /** Default grouped columns */
+  defaultGrouping?: string[];
+  /** Callback when grouping changes */
+  onGroupingChange?: (grouping: string[]) => void;
+  /** Aggregation config per column */
+  groupAggregations?: Record<string, AggregationType>;
 
   // Pagination
   enablePagination?: boolean;

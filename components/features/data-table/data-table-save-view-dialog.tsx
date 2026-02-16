@@ -16,6 +16,7 @@ interface SaveViewDialogProps {
     sorting: SortingState;
     columnVisibility: VisibilityState;
     columnPinning?: ColumnPinningState;
+    grouping?: string[];
   };
   existingViews: DataTableView[];
   onSave: (view: Omit<DataTableView, 'id' | 'createdAt' | 'updatedAt'>) => void;
@@ -133,6 +134,10 @@ export function DataTableSaveViewDialog({
             right: currentState.columnPinning.right ?? [],
           }
         : undefined,
+      grouping:
+        currentState.grouping && currentState.grouping.length > 0
+          ? currentState.grouping
+          : undefined,
     };
 
     onSave(newView);

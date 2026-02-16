@@ -6,10 +6,13 @@ import {
   type ColumnFiltersState,
   type ColumnPinningState,
   type ExpandedState,
+  type GroupingState,
+  type Row,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
   getFilteredRowModel,
+  getGroupedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   type RowSelectionState,
@@ -32,6 +35,7 @@ import { cn } from '@/lib/utils';
 import { useDataTableConfig } from './config/data-table-config';
 import { dataTableVariants } from './data-table.styles';
 import type { DataTableColumnDef, DataTableProps } from './data-table.types';
+import type { AggregationType } from './data-table-view.types';
 import { countActiveFilters, createDataFilterFn } from './data-table.utils';
 import { DataTableActionsBar } from './data-table-actions-bar';
 import { DataTableBulkSelectionBar } from './data-table-bulk-selection-bar';
@@ -45,6 +49,40 @@ import { DataTableSaveViewDialog } from './data-table-save-view-dialog';
 import { DataTableSkeleton } from './data-table-skeleton';
 import { useDataTableSearch } from './hooks/use-data-table-search';
 import { useDataTableViews } from './hooks/use-data-table-views';
+
+function computeAggregation(
+  subRows: Row<any>[],
+  columnId: string,
+  aggType: AggregationType
+): React.ReactNode {
+  if (typeof aggType === 'function') {
+    const values = subRows.map((r) => r.getValue(columnId));
+    return aggType(values);
+  }
+
+  const values = subRows
+    .map((r) => r.getValue(columnId))
+    .filter((v): v is number => typeof v === 'number');
+
+  if (values.length === 0) return null;
+
+  switch (aggType) {
+    case 'sum':
+      return values.reduce((a, b) => a + b, 0).toLocaleString();
+    case 'avg':
+      return (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1);
+    case 'min':
+      return Math.min(...values).toLocaleString();
+    case 'max':
+      return Math.max(...values).toLocaleString();
+    case 'count':
+      return `${subRows.length}`;
+    case 'range':
+      return `${Math.min(...values).toLocaleString()} – ${Math.max(...values).toLocaleString()}`;
+    default:
+      return null;
+  }
+}
 
 function getPinningStyles(column: Column<any, unknown>, isHeader = false): React.CSSProperties {
   const isPinned = column.getIsPinned();
@@ -74,6 +112,10 @@ export function DataTable<TData, TValue = unknown>({
   renderExpandedRow,
   expandMode = 'multiple',
   defaultExpanded = false,
+  enableGrouping = false,
+  defaultGrouping = [],
+  onGroupingChange,
+  groupAggregations,
   enablePagination = true,
   pagination,
   onPaginationChange,
@@ -159,6 +201,7 @@ export function DataTable<TData, TValue = unknown>({
     }
     return {};
   });
+  const [grouping, setGrouping] = React.useState<GroupingState>(defaultGrouping);
   const [paginationState, setPaginationState] = React.useState({
     pageIndex: finalPagination.pageIndex,
     pageSize: finalPagination.pageSize,
@@ -195,10 +238,12 @@ export function DataTable<TData, TValue = unknown>({
       setSorting,
       setColumnVisibility,
       setColumnPinning,
+      setGrouping: enableGrouping ? setGrouping : undefined,
     },
     sorting,
     columnVisibility,
-    columnPinning
+    columnPinning,
+    enableGrouping ? grouping : undefined
   );
 
   // Fade effect on data/view changes
@@ -296,6 +341,26 @@ export function DataTable<TData, TValue = unknown>({
       .filter((col) => col.id);
   }, [columns]);
 
+  // Extract groupable columns for group menu
+  const groupableColumns = React.useMemo(() => {
+    if (!enableGrouping) return [];
+    return columns
+      .filter((col) => {
+        const id = 'accessorKey' in col ? String(col.accessorKey) : col.id || '';
+        return id && col.enableSorting !== false;
+      })
+      .map((col) => {
+        const id = 'accessorKey' in col ? String(col.accessorKey) : col.id || '';
+        let label = id;
+        if (typeof col.header === 'string') {
+          label = col.header;
+        } else {
+          label = id.charAt(0).toUpperCase() + id.slice(1);
+        }
+        return { id, label };
+      });
+  }, [columns, enableGrouping]);
+
   // Determine if we're doing server-side filtering
   const isServerSideFiltering = props.onSearchChange !== undefined;
 
@@ -321,13 +386,25 @@ export function DataTable<TData, TValue = unknown>({
       columnVisibility,
       columnPinning: enableColumnPinning ? columnPinning : undefined,
       rowSelection,
-      expanded: enableRowExpand ? expanded : undefined,
+      expanded: enableRowExpand || enableGrouping ? expanded : undefined,
+      grouping: enableGrouping ? grouping : undefined,
       globalFilter,
       pagination: enablePagination ? paginationState : undefined,
     },
+    enableGrouping,
     enableColumnPinning,
     enableRowSelection,
-    onExpandedChange: enableRowExpand
+    onGroupingChange: enableGrouping
+      ? (updater) => {
+          setGrouping((prev) => {
+            const next = typeof updater === 'function' ? updater(prev) : updater;
+            onGroupingChange?.(next);
+            return next;
+          });
+        }
+      : undefined,
+    getGroupedRowModel: enableGrouping ? getGroupedRowModel() : undefined,
+    onExpandedChange: enableRowExpand || enableGrouping
       ? (updater) => {
           setExpanded((prev) => {
             const next = typeof updater === 'function' ? updater(prev) : updater;
@@ -348,7 +425,7 @@ export function DataTable<TData, TValue = unknown>({
           });
         }
       : undefined,
-    getExpandedRowModel: enableRowExpand ? getExpandedRowModel() : undefined,
+    getExpandedRowModel: enableRowExpand || enableGrouping ? getExpandedRowModel() : undefined,
     getRowCanExpand: enableRowExpand ? () => true : undefined,
     onColumnPinningChange: enableColumnPinning
       ? (updater) => {
@@ -472,6 +549,7 @@ export function DataTable<TData, TValue = unknown>({
             sorting,
             columnVisibility,
             columnPinning: enableColumnPinning ? columnPinning : undefined,
+            grouping: enableGrouping ? grouping : undefined,
           }}
           existingViews={views || []}
           onSave={(viewData) => {
@@ -517,6 +595,13 @@ export function DataTable<TData, TValue = unknown>({
             sorting={sorting}
             onSortingChange={setSorting}
             sortableColumns={sortableColumns}
+            enableGrouping={enableGrouping}
+            groupableColumns={groupableColumns}
+            grouping={grouping}
+            onGroupingChange={(g) => {
+              setGrouping(g);
+              onGroupingChange?.(g);
+            }}
             filterCount={viewsHook.filterGroup ? countActiveFilters(viewsHook.filterGroup) : 0}
             onOpenFilterBuilder={() => viewsHook.setIsFilterBuilderOpen(true)}
             showInlineFilters={viewsHook.showInlineFilters}
@@ -584,53 +669,105 @@ export function DataTable<TData, TValue = unknown>({
             )}
             <TableBody ref={tableBodyRef}>
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <React.Fragment key={row.id}>
-                    <TableRow
-                      data-state={row.getIsSelected() && 'selected'}
-                      className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
-                      onClick={(e) => {
-                        const target = e.target as HTMLElement;
-                        const isCheckbox = target.closest('[role="checkbox"]');
-                        const isActions = target.closest('[data-slot="dropdown-menu-trigger"]');
-                        const isButton = target.closest('button');
-                        const isLink = target.closest('a');
+                table.getRowModel().rows.map((row) => {
+                  // Grouped row: render group header
+                  if (row.getIsGrouped()) {
+                    return (
+                      <React.Fragment key={row.id}>
+                        <TableRow className="bg-raised/30 hover:bg-raised/50">
+                          <TableCell colSpan={row.getVisibleCells().length} className="py-2">
+                            <button
+                              type="button"
+                              onClick={row.getToggleExpandedHandler()}
+                              className="flex w-full items-center gap-2 text-left font-medium"
+                            >
+                              <ChevronRight
+                                className={cn(
+                                  'h-4 w-4 shrink-0 transition-transform duration-200',
+                                  row.getIsExpanded() && 'rotate-90'
+                                )}
+                              />
+                              {/* Render group value using the grouped column's cell renderer */}
+                              {row.getVisibleCells().map((cell) => {
+                                if (cell.getIsGrouped()) {
+                                  return (
+                                    <span key={cell.id} className="flex items-center gap-2">
+                                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                      <span className="text-body-sm font-normal text-fg-muted">
+                                        ({row.subRows.length})
+                                      </span>
+                                    </span>
+                                  );
+                                }
+                                return null;
+                              })}
+                              {/* Render aggregations */}
+                              {groupAggregations && (
+                                <span className="ml-auto flex items-center gap-4 text-body-sm font-normal text-fg-muted">
+                                  {Object.entries(groupAggregations).map(([colId, aggType]) => {
+                                    if (colId === '_count') return null;
+                                    const aggValue = computeAggregation(row.subRows, colId, aggType);
+                                    if (aggValue === null) return null;
+                                    return <span key={colId}>{aggValue}</span>;
+                                  })}
+                                </span>
+                              )}
+                            </button>
+                          </TableCell>
+                        </TableRow>
+                      </React.Fragment>
+                    );
+                  }
 
-                        if (!isCheckbox && !isActions && !isButton && !isLink && onRowClick) {
-                          onRowClick(row.original);
-                        }
-                      }}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          style={getPinningStyles(cell.column)}
-                          className={cn(
-                            cell.column.getIsPinned() && 'bg-surface',
-                            cell.column.getIsPinned() === 'left' &&
-                              cell.column.getIsLastColumn('left') &&
-                              'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
-                            cell.column.getIsPinned() === 'right' &&
-                              cell.column.getIsFirstColumn('right') &&
-                              'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
-                          )}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                    {enableRowExpand && row.getIsExpanded() && renderExpandedRow && (
-                      <TableRow data-state="expanded">
-                        <TableCell
-                          colSpan={row.getVisibleCells().length}
-                          className="bg-muted/30 p-4"
-                        >
-                          {renderExpandedRow(row)}
-                        </TableCell>
+                  // Normal row rendering
+                  return (
+                    <React.Fragment key={row.id}>
+                      <TableRow
+                        data-state={row.getIsSelected() && 'selected'}
+                        className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
+                        onClick={(e) => {
+                          const target = e.target as HTMLElement;
+                          const isCheckbox = target.closest('[role="checkbox"]');
+                          const isActions = target.closest('[data-slot="dropdown-menu-trigger"]');
+                          const isButton = target.closest('button');
+                          const isLink = target.closest('a');
+
+                          if (!isCheckbox && !isActions && !isButton && !isLink && onRowClick) {
+                            onRowClick(row.original);
+                          }
+                        }}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            key={cell.id}
+                            style={getPinningStyles(cell.column)}
+                            className={cn(
+                              cell.column.getIsPinned() && 'bg-surface',
+                              cell.column.getIsPinned() === 'left' &&
+                                cell.column.getIsLastColumn('left') &&
+                                'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                              cell.column.getIsPinned() === 'right' &&
+                                cell.column.getIsFirstColumn('right') &&
+                                'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                            )}
+                          >
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </TableCell>
+                        ))}
                       </TableRow>
-                    )}
-                  </React.Fragment>
-                ))
+                      {enableRowExpand && row.getIsExpanded() && renderExpandedRow && (
+                        <TableRow data-state="expanded">
+                          <TableCell
+                            colSpan={row.getVisibleCells().length}
+                            className="bg-muted/30 p-4"
+                          >
+                            {renderExpandedRow(row)}
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </React.Fragment>
+                  );
+                })
               ) : (
                 <TableRow>
                   <TableCell colSpan={tableColumns.length} className="h-24 text-center">

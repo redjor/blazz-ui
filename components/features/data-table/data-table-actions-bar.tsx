@@ -31,6 +31,7 @@ import { Menu, MenuPopup, MenuPortal, MenuPositioner, MenuTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 import { useDataTableTranslations } from './data-table.i18n';
 import type { DataTableView } from './data-table.types';
+import { DataTableGroupMenu } from './data-table-group-menu';
 import { DataTableSortMenu } from './data-table-sort-menu';
 
 interface DataTableActionsBarProps {
@@ -56,6 +57,12 @@ interface DataTableActionsBarProps {
   sorting: SortingState;
   onSortingChange: (sorting: SortingState) => void;
   sortableColumns: Array<{ id: string; label: string }>;
+
+  // Grouping
+  enableGrouping?: boolean;
+  groupableColumns?: Array<{ id: string; label: string }>;
+  grouping?: string[];
+  onGroupingChange?: (grouping: string[]) => void;
 
   // Filters
   filterCount: number;
@@ -159,6 +166,10 @@ export function DataTableActionsBar({
   sorting,
   onSortingChange,
   sortableColumns,
+  enableGrouping = false,
+  groupableColumns = [],
+  grouping = [],
+  onGroupingChange,
   filterCount,
   onOpenFilterBuilder,
   showInlineFilters = false,
@@ -561,6 +572,16 @@ export function DataTableActionsBar({
                 )}
               </Button>
             </>
+          )}
+
+          {/* Group by */}
+          {enableGrouping && onGroupingChange && (
+            <DataTableGroupMenu
+              groupableColumns={groupableColumns}
+              grouping={grouping}
+              onGroupingChange={onGroupingChange}
+              locale={locale}
+            />
           )}
 
           {/* Sort Icon */}
