@@ -1,6 +1,6 @@
 # Pro UI Kit — Roadmap & Suivi des Phases
 
-> Derniere mise a jour : 16 fevrier 2026
+> Derniere mise a jour : 17 fevrier 2026
 
 ---
 
@@ -8,8 +8,8 @@
 
 ```
 Phase 1  ████████████████████  DONE      Setup + Primitives
-Phase 2  ████████████████░░░░  ~80%      Blocks + CRM + Docs
-Phase 3  ░░░░░░░░░░░░░░░░░░░░  TODO      Polish + Themes
+Phase 2  ████████████████████  ~95%      Blocks + CRM + Docs (reste 2D docs)
+Phase 3  ████████████░░░░░░░░  ~50%      3A themes + 3B TalentFlow done
 Phase 4  ░░░░░░░░░░░░░░░░░░░░  TODO      Landing + Marketing
 Phase 5  ░░░░░░░░░░░░░░░░░░░░  TODO      Launch
 ```
@@ -73,7 +73,7 @@ Objectif : Construire les composants metier, la demo CRM complete, et la documen
 | Reports | /examples/crm/reports | ✅ |
 | Settings | /examples/crm/settings | ✅ |
 
-### 2C. Design tokens migration 🔄 EN COURS
+### 2C. Design tokens migration ✅ DONE
 
 Migration de tous les composants vers les 25 tokens (plus de Polaris `--p-*` ni shadcn `:root`).
 
@@ -105,17 +105,19 @@ Migration de tous les composants vers les 25 tokens (plus de Polaris `--p-*` ni 
 
 ---
 
-## Phase 3 — Polish + Themes ⬜ TODO
+## Phase 3 — Polish + Themes 🔄 EN COURS
 
 Objectif : Polir le produit, ajouter les themes pre-packages, et preparer le contenu visual.
 
-### 3A. Themes pre-packages
+### 3A. Themes pre-packages ✅ DONE
 
 | Theme | Description | Statut |
 |-------|------------|--------|
 | **Slate** (dark) | Defaut flagship — Linear/Vercel vibe | ✅ Actif (theme actuel) |
-| **Corporate** (light) | Blanc casse, accent bleu navy — Notion/Stripe vibe | ⬜ TODO |
-| **Warm** (light) | Creme, tons chauds — Intercom/HelpScout vibe | ⬜ TODO |
+| **Corporate** (light) | Blanc casse, accent bleu navy — Notion/Stripe vibe | ✅ DONE |
+| **Warm** (light) | Creme, tons chauds — Intercom/HelpScout vibe | ✅ DONE |
+| Palette switcher (dropdown top bar) | Paintbrush icon + 3 palettes + localStorage | ✅ DONE |
+| ThemePaletteProvider (context) | data-theme attribute + recommended mode switch | ✅ DONE |
 
 ### 3B. Apps secondaires (marketing)
 
@@ -124,7 +126,7 @@ Objectif : Polir le produit, ajouter les themes pre-packages, et preparer le con
 | App | Domaine | Theme | Statut |
 |-----|---------|-------|--------|
 | PulseOps | Interventions terrain | Corporate | ⬜ TODO |
-| TalentFlow | Recrutement ATS | Warm | ⬜ TODO |
+| **TalentFlow** | Recrutement ATS | Warm | ✅ DONE (3 pages) |
 | StockBase | Gestion inventaire | Slate | ⬜ TODO |
 | TeamDesk | Helpdesk support | Corporate | ⬜ TODO |
 
@@ -204,10 +206,11 @@ Objectif : Construire la vitrine et commencer le marketing.
 
 > Ce qu'il faut faire MAINTENANT pour debloquer la suite.
 
-1. **Finir Phase 2D** — Redesign des pages doc (Shiki + nouveaux composants)
-2. **Nettoyage legacy** — Audit + suppression variables `--p-*` et `:root` inutilisees
-3. **Theme Corporate** — Premier theme alternatif (light) pour montrer la flexibilite
-4. **1 app secondaire** — StockBase ou TeamDesk (2 pages, prouve l'adaptabilite)
+1. ~~**Nettoyage legacy**~~ ✅ DONE
+2. ~~**Themes Corporate + Warm**~~ ✅ DONE
+3. **Phase 3B** — 1ere app secondaire (PulseOps ou TalentFlow, 2 pages)
+4. **Phase 2D** — Redesign pages doc (Shiki + nouveaux composants)
+5. **Phase 4A** — Landing page
 
 ---
 
@@ -219,6 +222,6 @@ Objectif : Construire la vitrine et commencer le marketing.
 | Blocks metier | 23 | 23+ |
 | Pages CRM | 16 | 15+ |
 | Pages doc | 39 | 39+ (redesignees) |
-| Themes | 1 (Slate) | 3 |
-| Apps demo | 1 (Forge CRM) | 5 |
-| Variables legacy | ~quelques | 0 |
+| Themes | 3 (Slate, Corporate, Warm) | 3 ✅ |
+| Apps demo | 2 (Forge CRM, TalentFlow) | 5 |
+| Variables legacy | 0 | 0 ✅ |
