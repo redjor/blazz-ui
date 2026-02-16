@@ -369,7 +369,8 @@ function EditableSelectCell({
     >
       <SelectTrigger
         className={cn(
-          'h-8 border-0 rounded-none bg-transparent shadow-none ring-2 ring-inset ring-p-border-focus',
+          editInput,
+          'shadow-none',
           className
         )}
       >

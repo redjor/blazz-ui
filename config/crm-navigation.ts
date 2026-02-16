@@ -3,6 +3,7 @@
 import {
 	BarChart3,
 	Building2,
+	ClipboardList,
 	FileText,
 	LayoutDashboard,
 	Package,
@@ -65,6 +66,12 @@ export const crmSidebarConfig: SidebarConfig = {
 					title: "Produits",
 					url: "/examples/crm/products",
 					icon: Package,
+				},
+				{
+					id: "inventory",
+					title: "Inventaire",
+					url: "/examples/crm/inventory",
+					icon: ClipboardList,
 				},
 			],
 		},

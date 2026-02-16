@@ -84,6 +84,8 @@ export interface Product {
 	currency: string
 	category: string
 	status: "active" | "inactive" | "discontinued"
+	stock: number
+	reorderDate: string
 }
 
 export interface QuoteLine {
@@ -421,26 +423,26 @@ export const quotes: Quote[] = [
 /* ─── Products (20) ─── */
 
 export const products: Product[] = [
-	{ id: "p1", name: "Forge CRM — Starter", description: "Licence CRM pour petites équipes (jusqu'à 5 utilisateurs)", sku: "CRM-START-01", unitPrice: 49, currency: "EUR", category: "Licence", status: "active" },
-	{ id: "p2", name: "Forge CRM — Business", description: "Licence CRM pour équipes moyennes (jusqu'à 25 utilisateurs)", sku: "CRM-BIZ-01", unitPrice: 149, currency: "EUR", category: "Licence", status: "active" },
-	{ id: "p3", name: "Forge CRM — Enterprise", description: "Licence CRM illimitée avec support dédié", sku: "CRM-ENT-01", unitPrice: 499, currency: "EUR", category: "Licence", status: "active" },
-	{ id: "p4", name: "Migration données", description: "Service de migration depuis un CRM existant", sku: "SRV-MIG-01", unitPrice: 2500, currency: "EUR", category: "Service", status: "active" },
-	{ id: "p5", name: "Formation utilisateur", description: "Formation d'une journée pour l'équipe commerciale", sku: "SRV-FORM-01", unitPrice: 800, currency: "EUR", category: "Service", status: "active" },
-	{ id: "p6", name: "Intégration API", description: "Développement sur mesure d'intégrations API", sku: "SRV-API-01", unitPrice: 5000, currency: "EUR", category: "Service", status: "active" },
-	{ id: "p7", name: "Support Premium", description: "Support prioritaire 24/7 avec SLA garanti", sku: "SUP-PREM-01", unitPrice: 200, currency: "EUR", category: "Support", status: "active" },
-	{ id: "p8", name: "Module Analytics", description: "Add-on reporting et analytics avancés", sku: "MOD-ANA-01", unitPrice: 79, currency: "EUR", category: "Module", status: "active" },
-	{ id: "p9", name: "Module Email", description: "Add-on campagnes email intégrées", sku: "MOD-MAIL-01", unitPrice: 59, currency: "EUR", category: "Module", status: "active" },
-	{ id: "p10", name: "Ancien CRM v1", description: "Ancienne version du CRM (obsolète)", sku: "CRM-V1-01", unitPrice: 29, currency: "EUR", category: "Licence", status: "discontinued" },
-	{ id: "p11", name: "Module Devis", description: "Génération et suivi de devis automatisés", sku: "MOD-DEVIS-01", unitPrice: 69, currency: "EUR", category: "Module", status: "active" },
-	{ id: "p12", name: "Formation Admin", description: "Formation administration et configuration avancée (2 jours)", sku: "SRV-FORM-02", unitPrice: 1500, currency: "EUR", category: "Service", status: "active" },
-	{ id: "p13", name: "Module Téléphonie", description: "Intégration CTI pour appels depuis le CRM", sku: "MOD-TEL-01", unitPrice: 89, currency: "EUR", category: "Module", status: "active" },
-	{ id: "p14", name: "Support Standard", description: "Support par email du lundi au vendredi", sku: "SUP-STD-01", unitPrice: 50, currency: "EUR", category: "Support", status: "active" },
-	{ id: "p15", name: "Module Import/Export", description: "Import et export de données en masse (CSV, Excel)", sku: "MOD-IMP-01", unitPrice: 39, currency: "EUR", category: "Module", status: "active" },
-	{ id: "p16", name: "Audit Sécurité", description: "Audit complet de sécurité et conformité RGPD", sku: "SRV-AUDIT-01", unitPrice: 3500, currency: "EUR", category: "Service", status: "active" },
-	{ id: "p17", name: "Module Signature", description: "Signature électronique intégrée pour devis et contrats", sku: "MOD-SIGN-01", unitPrice: 99, currency: "EUR", category: "Module", status: "active" },
-	{ id: "p18", name: "Connecteur ERP", description: "Synchronisation bidirectionnelle avec ERP (SAP, Sage, etc.)", sku: "SRV-ERP-01", unitPrice: 8000, currency: "EUR", category: "Service", status: "active" },
-	{ id: "p19", name: "Module Prévisions", description: "Prédiction de CA et scoring de deals par IA", sku: "MOD-PREV-01", unitPrice: 129, currency: "EUR", category: "Module", status: "inactive" },
-	{ id: "p20", name: "Pack Onboarding", description: "Migration + Formation + 3 mois de support premium", sku: "PKG-ONB-01", unitPrice: 4500, currency: "EUR", category: "Service", status: "active" },
+	{ id: "p1", name: "Forge CRM — Starter", description: "Licence CRM pour petites équipes (jusqu'à 5 utilisateurs)", sku: "CRM-START-01", unitPrice: 49, currency: "EUR", category: "Licence", status: "active", stock: 320, reorderDate: "2025-03-15" },
+	{ id: "p2", name: "Forge CRM — Business", description: "Licence CRM pour équipes moyennes (jusqu'à 25 utilisateurs)", sku: "CRM-BIZ-01", unitPrice: 149, currency: "EUR", category: "Licence", status: "active", stock: 185, reorderDate: "2025-04-01" },
+	{ id: "p3", name: "Forge CRM — Enterprise", description: "Licence CRM illimitée avec support dédié", sku: "CRM-ENT-01", unitPrice: 499, currency: "EUR", category: "Licence", status: "active", stock: 42, reorderDate: "2025-03-20" },
+	{ id: "p4", name: "Migration données", description: "Service de migration depuis un CRM existant", sku: "SRV-MIG-01", unitPrice: 2500, currency: "EUR", category: "Service", status: "active", stock: 15, reorderDate: "2025-06-01" },
+	{ id: "p5", name: "Formation utilisateur", description: "Formation d'une journée pour l'équipe commerciale", sku: "SRV-FORM-01", unitPrice: 800, currency: "EUR", category: "Service", status: "active", stock: 50, reorderDate: "2025-05-10" },
+	{ id: "p6", name: "Intégration API", description: "Développement sur mesure d'intégrations API", sku: "SRV-API-01", unitPrice: 5000, currency: "EUR", category: "Service", status: "active", stock: 8, reorderDate: "2025-04-15" },
+	{ id: "p7", name: "Support Premium", description: "Support prioritaire 24/7 avec SLA garanti", sku: "SUP-PREM-01", unitPrice: 200, currency: "EUR", category: "Support", status: "active", stock: 200, reorderDate: "2025-03-01" },
+	{ id: "p8", name: "Module Analytics", description: "Add-on reporting et analytics avancés", sku: "MOD-ANA-01", unitPrice: 79, currency: "EUR", category: "Module", status: "active", stock: 410, reorderDate: "2025-07-01" },
+	{ id: "p9", name: "Module Email", description: "Add-on campagnes email intégrées", sku: "MOD-MAIL-01", unitPrice: 59, currency: "EUR", category: "Module", status: "active", stock: 375, reorderDate: "2025-06-15" },
+	{ id: "p10", name: "Ancien CRM v1", description: "Ancienne version du CRM (obsolète)", sku: "CRM-V1-01", unitPrice: 29, currency: "EUR", category: "Licence", status: "discontinued", stock: 0, reorderDate: "2024-01-01" },
+	{ id: "p11", name: "Module Devis", description: "Génération et suivi de devis automatisés", sku: "MOD-DEVIS-01", unitPrice: 69, currency: "EUR", category: "Module", status: "active", stock: 290, reorderDate: "2025-05-20" },
+	{ id: "p12", name: "Formation Admin", description: "Formation administration et configuration avancée (2 jours)", sku: "SRV-FORM-02", unitPrice: 1500, currency: "EUR", category: "Service", status: "active", stock: 25, reorderDate: "2025-04-10" },
+	{ id: "p13", name: "Module Téléphonie", description: "Intégration CTI pour appels depuis le CRM", sku: "MOD-TEL-01", unitPrice: 89, currency: "EUR", category: "Module", status: "active", stock: 155, reorderDate: "2025-08-01" },
+	{ id: "p14", name: "Support Standard", description: "Support par email du lundi au vendredi", sku: "SUP-STD-01", unitPrice: 50, currency: "EUR", category: "Support", status: "active", stock: 500, reorderDate: "2025-03-10" },
+	{ id: "p15", name: "Module Import/Export", description: "Import et export de données en masse (CSV, Excel)", sku: "MOD-IMP-01", unitPrice: 39, currency: "EUR", category: "Module", status: "active", stock: 440, reorderDate: "2025-09-01" },
+	{ id: "p16", name: "Audit Sécurité", description: "Audit complet de sécurité et conformité RGPD", sku: "SRV-AUDIT-01", unitPrice: 3500, currency: "EUR", category: "Service", status: "active", stock: 10, reorderDate: "2025-05-01" },
+	{ id: "p17", name: "Module Signature", description: "Signature électronique intégrée pour devis et contrats", sku: "MOD-SIGN-01", unitPrice: 99, currency: "EUR", category: "Module", status: "active", stock: 230, reorderDate: "2025-06-20" },
+	{ id: "p18", name: "Connecteur ERP", description: "Synchronisation bidirectionnelle avec ERP (SAP, Sage, etc.)", sku: "SRV-ERP-01", unitPrice: 8000, currency: "EUR", category: "Service", status: "active", stock: 3, reorderDate: "2025-04-20" },
+	{ id: "p19", name: "Module Prévisions", description: "Prédiction de CA et scoring de deals par IA", sku: "MOD-PREV-01", unitPrice: 129, currency: "EUR", category: "Module", status: "inactive", stock: 60, reorderDate: "2025-10-01" },
+	{ id: "p20", name: "Pack Onboarding", description: "Migration + Formation + 3 mois de support premium", sku: "PKG-ONB-01", unitPrice: 4500, currency: "EUR", category: "Service", status: "active", stock: 12, reorderDate: "2025-03-25" },
 ]
 
 /* ─── Dashboard Stats ─── */
