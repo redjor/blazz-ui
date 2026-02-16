@@ -4,7 +4,7 @@ import * as React from "react"
 import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
-import { DocExample } from "@/components/features/docs/doc-example"
+import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
 import { DocRelated } from "@/components/features/docs/doc-related"
 import {

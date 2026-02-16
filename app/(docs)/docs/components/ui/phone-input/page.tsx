@@ -5,7 +5,7 @@ import { PhoneInput } from "@/components/ui/phone-input"
 import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
-import { DocExample } from "@/components/features/docs/doc-example"
+import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
 
 const toc = [

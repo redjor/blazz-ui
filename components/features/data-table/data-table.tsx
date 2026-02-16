@@ -389,7 +389,7 @@ export function DataTable<TData, TValue = unknown>({
       sorting,
       columnFilters,
       columnVisibility,
-      columnPinning: enableColumnPinning ? columnPinning : undefined,
+      columnPinning: enableColumnPinning ? columnPinning : { left: [], right: [] },
       rowSelection,
       expanded: enableRowExpand || enableGrouping ? expanded : undefined,
       grouping: enableGrouping ? grouping : undefined,
@@ -606,7 +606,7 @@ export function DataTable<TData, TValue = unknown>({
             filters: viewsHook.filterGroup,
             sorting,
             columnVisibility,
-            columnPinning: enableColumnPinning ? columnPinning : undefined,
+            columnPinning: enableColumnPinning ? columnPinning : { left: [], right: [] },
             grouping: enableGrouping ? grouping : undefined,
           }}
           existingViews={views || []}

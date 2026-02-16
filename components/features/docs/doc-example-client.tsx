@@ -16,6 +16,27 @@ interface DocExampleClientProps {
 	defaultExpanded?: boolean
 }
 
+function escapeHtml(str: string) {
+	return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+}
+
+/**
+ * Client-safe variant of DocExample — skips Shiki highlighting.
+ * Use this when the parent page is a Client Component ('use client').
+ */
+export function DocExampleSync({
+	code,
+	...props
+}: Omit<DocExampleClientProps, "highlightedCode">) {
+	return (
+		<DocExampleClient
+			{...props}
+			code={code}
+			highlightedCode={`<pre class="shiki" style="background-color:transparent"><code>${escapeHtml(code)}</code></pre>`}
+		/>
+	)
+}
+
 export function DocExampleClient({
 	title,
 	description,
