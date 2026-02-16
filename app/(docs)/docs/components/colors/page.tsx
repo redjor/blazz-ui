@@ -139,7 +139,7 @@ function TextPreview() {
 				<h2 className="text-lg font-semibold text-fg">Text Hierarchy</h2>
 				<p className="text-sm text-fg-muted">Three levels of text emphasis for content hierarchy.</p>
 			</div>
-			<div className="space-y-3 rounded-lg border border-edge bg-surface p-6">
+			<div className="space-y-3 rounded-lg border border-edge bg-raised p-6">
 				<p className="text-base text-fg font-medium">Primary text — headings, labels, key content</p>
 				<p className="text-sm text-fg-muted">Secondary text — descriptions, supporting information</p>
 				<p className="text-xs text-fg-subtle">Muted text — timestamps, metadata, disabled states</p>

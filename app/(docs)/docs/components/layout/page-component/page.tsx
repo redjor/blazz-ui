@@ -126,7 +126,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Products">
 							<p className="text-sm text-fg-muted">Page content here</p>
 						</Page>
@@ -143,7 +143,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Products" subtitle="Manage your product catalog">
 							<p className="text-sm text-fg-muted">Page content here</p>
 						</Page>
@@ -164,7 +164,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							title="Products"
 							subtitle="Manage your product catalog"
@@ -195,7 +195,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							narrowWidth
 							breadcrumbs={{
@@ -229,7 +229,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							narrowWidth
 							breadcrumbs={{
@@ -266,7 +266,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							narrowWidth
 							breadcrumbs={{
@@ -300,7 +300,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							title="Wireless Headphones"
 							subtitle="SKU: WH-1000"
@@ -337,7 +337,7 @@ export default function PageComponentPage() {
   <p>Page content here</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							title="Products"
 							subtitle="Manage your product catalog"
@@ -365,7 +365,7 @@ export default function PageComponentPage() {
   <p>Full width content</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Dashboard" fullWidth>
 							<p className="text-sm text-fg-muted">Full width content</p>
 						</Page>
@@ -379,7 +379,7 @@ export default function PageComponentPage() {
   <p>Narrow content for forms</p>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Settings" narrowWidth>
 							<p className="text-sm text-fg-muted">
 								Narrow content for forms
@@ -406,7 +406,7 @@ export default function PageComponentPage() {
   </PageSection>
 </Page>`}
 				>
-					<div className="rounded-lg border bg-surface">
+					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Settings">
 							<div className="space-y-8">
 								<PageSection
