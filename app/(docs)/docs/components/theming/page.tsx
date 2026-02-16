@@ -2,11 +2,13 @@
 
 import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
+import { ThemeEditor } from "@/components/features/docs/theme-editor/theme-editor"
 
 const toc = [
 	{ id: "how-it-works", title: "How It Works" },
 	{ id: "tokens", title: "Token Reference" },
 	{ id: "palettes", title: "Built-in Palettes" },
+	{ id: "theme-editor", title: "Theme Editor" },
 	{ id: "custom-theme", title: "Create Your Own Theme" },
 	{ id: "dark-mode", title: "Dark Mode" },
 	{ id: "density", title: "Density & Spacing" },
@@ -301,6 +303,15 @@ export default function ThemingPage() {
 						{warmCode}
 					</pre>
 				</div>
+			</DocSection>
+
+			{/* Theme Editor */}
+			<DocSection id="theme-editor" title="Theme Editor">
+				<p className="text-sm text-fg-muted">
+					Experiment with every token in real time. Pick a preset as starting point, tweak the sliders,
+					and export the CSS when you're happy.
+				</p>
+				<ThemeEditor />
 			</DocSection>
 
 			{/* Create Your Own Theme */}

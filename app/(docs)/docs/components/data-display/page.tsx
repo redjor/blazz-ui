@@ -1,6 +1,6 @@
 import { Page } from "@/components/ui/page"
 import { ComponentSection } from "@/components/features/docs/component-card"
-import { User, Table, Table2 } from "lucide-react"
+import { User, Table, Table2, Grid3X3 } from "lucide-react"
 
 const dataDisplayComponents = [
 	{
@@ -8,6 +8,12 @@ const dataDisplayComponents = [
 		href: "/docs/components/ui/avatar",
 		description: "Display user profile images with fallback support for initials or icons in various sizes.",
 		icon: User,
+	},
+	{
+		title: "Cell Types",
+		href: "/docs/components/ui/cells",
+		description: "15 specialized cell renderers for DataTable: tags, progress, rating, sparkline, avatar group, and more.",
+		icon: Grid3X3,
 	},
 	{
 		title: "Data Table",

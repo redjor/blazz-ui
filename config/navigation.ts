@@ -111,6 +111,7 @@ export const sidebarConfig: SidebarConfig = {
           icon: Table2,
           items: [
             { title: "Avatar", url: "/docs/components/ui/avatar" },
+            { title: "Cell Types", url: "/docs/components/ui/cells" },
             { title: "Data Table", url: "/docs/components/ui/data-table" },
             { title: "Property", url: "/docs/components/ui/property" },
             { title: "Table", url: "/docs/components/ui/table" },
