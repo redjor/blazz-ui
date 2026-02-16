@@ -12,7 +12,7 @@ export interface AppTopBarProps {
 	onOpenMobileMenu?: () => void
 	className?: string
 	/** Highlight the active section in the top bar nav */
-	activeSection?: "docs" | "crm"
+	activeSection?: "docs" | "crm" | "talentflow"
 	/** Hide notifications and user menu (used in docs mode) */
 	minimal?: boolean
 	user?: {
@@ -26,6 +26,7 @@ export interface AppTopBarProps {
 const sections = [
 	{ id: "docs" as const, label: "Docs", href: "/docs/components" },
 	{ id: "crm" as const, label: "CRM", href: "/examples/crm/dashboard" },
+	{ id: "talentflow" as const, label: "TalentFlow", href: "/examples/talentflow/dashboard" },
 ]
 
 /**
