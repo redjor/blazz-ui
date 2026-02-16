@@ -13,6 +13,14 @@ import { CellRating } from '../cells/cell-rating';
 import { CellLink } from '../cells/cell-link';
 import { CellBoolean } from '../cells/cell-boolean';
 import { CellAvatarGroup, type AvatarItem } from '../cells/cell-avatar-group';
+import { CellRelativeDate } from '../cells/cell-relative-date';
+import { CellUser } from '../cells/cell-user';
+import { CellDuration } from '../cells/cell-duration';
+import { CellColorDot } from '../cells/cell-color-dot';
+import { CellImage } from '../cells/cell-image';
+import { CellSparkline } from '../cells/cell-sparkline';
+import { CellTwoLines } from '../cells/cell-two-lines';
+import { CellKeyValue } from '../cells/cell-key-value';
 
 // ---------------------------------------------------------------------------
 // Internal base column factory – shared structure for all public factories
@@ -1089,6 +1097,484 @@ export function createAvatarGroupColumn<TData>(
       const value = row.getValue(accessorKey) as AvatarItem[];
       if (cellRenderer) return cellRenderer(value, row.original);
       return <CellAvatarGroup items={value ?? []} max={max} size={avatarSize} />;
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Relative Date column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createRelativeDateColumn factory
+ */
+export interface RelativeDateColumnConfig<_TData> {
+  /** The accessor key for the column data (date string or Date) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Locale for formatting (default 'fr-FR') */
+  locale?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a relative-date column that renders "3h ago", "In 2 days", etc.
+ * Tooltip shows the exact date.
+ *
+ * @example
+ * ```typescript
+ * createRelativeDateColumn<Activity>({
+ *   accessorKey: "updatedAt",
+ *   title: "Last Update",
+ *   locale: "fr-FR",
+ * })
+ * ```
+ */
+export function createRelativeDateColumn<TData>(
+  config: RelativeDateColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, locale = 'fr-FR', enableSorting = true, size } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string | Date;
+      return <CellRelativeDate value={value} locale={locale} />;
+    },
+    filterConfig: {
+      type: 'date',
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// User column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createUserColumn factory
+ */
+export interface UserColumnConfig<TData> {
+  /** The accessor key for the name (or the full object if no accessor) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Custom accessor to extract { name, avatar?, subtitle? } from a row */
+  accessor?: (row: TData) => { name: string; avatar?: string; subtitle?: string };
+  /** Key in row.original for avatar URL (simple mode) */
+  avatarKey?: string;
+  /** Key in row.original for subtitle text (simple mode) */
+  subtitleKey?: string;
+  /** Avatar size */
+  size?: 'sm' | 'md';
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  columnSize?: number;
+}
+
+/**
+ * Creates a user column with avatar + name + optional subtitle.
+ *
+ * @example
+ * ```typescript
+ * createUserColumn<Contact>({
+ *   accessorKey: "name",
+ *   title: "Contact",
+ *   avatarKey: "avatar",
+ *   subtitleKey: "email",
+ * })
+ * ```
+ */
+export function createUserColumn<TData>(
+  config: UserColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    accessor,
+    avatarKey,
+    subtitleKey,
+    size = 'sm',
+    enableSorting = true,
+    columnSize,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size: columnSize,
+    cell: ({ row }) => {
+      if (accessor) {
+        const data = accessor(row.original);
+        return <CellUser name={data.name} avatar={data.avatar} subtitle={data.subtitle} size={size} />;
+      }
+      const name = row.getValue(accessorKey) as string;
+      const avatar = avatarKey ? ((row.original as Record<string, unknown>)[avatarKey] as string) : undefined;
+      const subtitle = subtitleKey ? ((row.original as Record<string, unknown>)[subtitleKey] as string) : undefined;
+      return <CellUser name={name} avatar={avatar} subtitle={subtitle} size={size} />;
+    },
+    filterConfig: {
+      type: 'text',
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Duration column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createDurationColumn factory
+ */
+export interface DurationColumnConfig<_TData> {
+  /** The accessor key for the column data (number) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Unit of the input value (default 'minutes') */
+  unit?: 'seconds' | 'minutes' | 'hours';
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a duration column that formats numbers into human-readable durations.
+ *
+ * @example
+ * ```typescript
+ * createDurationColumn<Task>({
+ *   accessorKey: "timeSpent",
+ *   title: "Time Spent",
+ *   unit: "minutes",
+ * })
+ * ```
+ */
+export function createDurationColumn<TData>(
+  config: DurationColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, unit = 'minutes', enableSorting = true, size } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as number;
+      return <CellDuration value={value} unit={unit} />;
+    },
+    filterConfig: {
+      type: 'number',
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Color Dot column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createColorDotColumn factory
+ */
+export interface ColorDotColumnConfig<_TData> {
+  /** The accessor key for the column data */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Map value → Tailwind bg class */
+  colorMap?: Record<string, string>;
+  /** Options for the select filter */
+  filterOptions?: Array<{ label: string; value: string }>;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a color-dot column showing a colored dot + label.
+ *
+ * @example
+ * ```typescript
+ * createColorDotColumn<Lead>({
+ *   accessorKey: "priority",
+ *   title: "Priority",
+ *   colorMap: { high: "bg-red-500", medium: "bg-yellow-500", low: "bg-green-500" },
+ *   filterOptions: [
+ *     { label: "High", value: "high" },
+ *     { label: "Medium", value: "medium" },
+ *     { label: "Low", value: "low" },
+ *   ],
+ * })
+ * ```
+ */
+export function createColorDotColumn<TData>(
+  config: ColorDotColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, colorMap, filterOptions, enableSorting = true, size } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      const value = row.getValue(accessorKey) as string;
+      return <CellColorDot value={value} colorMap={colorMap} />;
+    },
+    ...(filterOptions && {
+      filterConfig: {
+        type: 'select' as const,
+        options: filterOptions,
+      },
+    }),
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Image column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createImageColumn factory
+ */
+export interface ImageColumnConfig<_TData> {
+  /** The accessor key for the image src */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Image size in pixels (default 40) */
+  size?: number;
+  /** Border radius style */
+  rounded?: 'sm' | 'md' | 'full';
+  /** Key in row.original for alt text */
+  altKey?: string;
+  /** Column width */
+  columnSize?: number;
+}
+
+/**
+ * Creates an image thumbnail column.
+ *
+ * @example
+ * ```typescript
+ * createImageColumn<Product>({
+ *   accessorKey: "thumbnail",
+ *   title: "Image",
+ *   size: 48,
+ *   rounded: "md",
+ *   altKey: "name",
+ * })
+ * ```
+ */
+export function createImageColumn<TData>(
+  config: ImageColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, size: imgSize = 40, rounded, altKey, columnSize } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting: false,
+    size: columnSize,
+    cell: ({ row }) => {
+      const src = row.getValue(accessorKey) as string;
+      const alt = altKey ? ((row.original as Record<string, unknown>)[altKey] as string) : undefined;
+      return <CellImage src={src} alt={alt} size={imgSize} rounded={rounded} />;
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Sparkline column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createSparklineColumn factory
+ */
+export interface SparklineColumnConfig<_TData> {
+  /** The accessor key for the column data (number[]) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Chart type */
+  type?: 'line' | 'bar';
+  /** Stroke/fill color */
+  color?: string;
+  /** SVG height (default 24) */
+  height?: number;
+  /** SVG width (default 80) */
+  width?: number;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a sparkline column rendering inline SVG charts.
+ *
+ * @example
+ * ```typescript
+ * createSparklineColumn<Product>({
+ *   accessorKey: "salesTrend",
+ *   title: "Trend",
+ *   type: "line",
+ * })
+ * ```
+ */
+export function createSparklineColumn<TData>(
+  config: SparklineColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const {
+    accessorKey,
+    title,
+    type: chartType,
+    color,
+    height,
+    width,
+    size,
+  } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting: false,
+    size,
+    cell: ({ row }) => {
+      const values = row.getValue(accessorKey) as number[];
+      return <CellSparkline values={values} type={chartType} color={color} height={height} width={width} />;
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Two Lines column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createTwoLinesColumn factory
+ */
+export interface TwoLinesColumnConfig<TData> {
+  /** The accessor key for the main text */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Custom accessor to extract { main, sub } from a row */
+  accessor?: (row: TData) => { main: string; sub: string };
+  /** Key in row.original for the sub line (simple mode) */
+  subKey?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a two-line column with primary and secondary text.
+ *
+ * @example
+ * ```typescript
+ * createTwoLinesColumn<Contact>({
+ *   accessorKey: "name",
+ *   title: "Contact",
+ *   subKey: "company",
+ * })
+ * ```
+ */
+export function createTwoLinesColumn<TData>(
+  config: TwoLinesColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, accessor, subKey, enableSorting = true, size } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      if (accessor) {
+        const data = accessor(row.original);
+        return <CellTwoLines main={data.main} sub={data.sub} />;
+      }
+      const main = row.getValue(accessorKey) as string;
+      const sub = subKey ? ((row.original as Record<string, unknown>)[subKey] as string) : '';
+      return <CellTwoLines main={main} sub={sub} />;
+    },
+    filterConfig: {
+      type: 'text',
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Key Value column
+// ---------------------------------------------------------------------------
+
+/**
+ * Configuration for createKeyValueColumn factory
+ */
+export interface KeyValueColumnConfig<TData> {
+  /** The accessor key for the value (or the full object if using accessor) */
+  accessorKey: string;
+  /** Display title for the column header */
+  title: string;
+  /** Custom accessor to extract { label, value } from a row */
+  accessor?: (row: TData) => { label: string; value: string };
+  /** Key in row.original for the label (simple mode) */
+  labelKey?: string;
+  /** Key in row.original for the value (simple mode, defaults to accessorKey) */
+  valueKey?: string;
+  /** Enable sorting for this column */
+  enableSorting?: boolean;
+  /** Column width */
+  size?: number;
+}
+
+/**
+ * Creates a key-value column displaying "label: value" inline.
+ *
+ * @example
+ * ```typescript
+ * createKeyValueColumn<Setting>({
+ *   accessorKey: "value",
+ *   title: "Setting",
+ *   labelKey: "key",
+ * })
+ * ```
+ */
+export function createKeyValueColumn<TData>(
+  config: KeyValueColumnConfig<TData>,
+): DataTableColumnDef<TData> {
+  const { accessorKey, title, accessor, labelKey, valueKey, enableSorting = true, size } = config;
+
+  return createBaseColumn<TData>({
+    accessorKey,
+    title,
+    enableSorting,
+    size,
+    cell: ({ row }) => {
+      if (accessor) {
+        const data = accessor(row.original);
+        return <CellKeyValue label={data.label} value={data.value} />;
+      }
+      const label = labelKey ? ((row.original as Record<string, unknown>)[labelKey] as string) : '';
+      const value = valueKey
+        ? ((row.original as Record<string, unknown>)[valueKey] as string)
+        : (row.getValue(accessorKey) as string);
+      return <CellKeyValue label={label} value={value} />;
+    },
+    filterConfig: {
+      type: 'text',
     },
   });
 }

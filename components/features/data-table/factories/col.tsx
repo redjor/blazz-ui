@@ -33,6 +33,22 @@ import {
   type LinkColumnConfig,
   type BooleanColumnConfig,
   type AvatarGroupColumnConfig,
+  createRelativeDateColumn,
+  createUserColumn,
+  createDurationColumn,
+  createColorDotColumn,
+  createImageColumn,
+  createSparklineColumn,
+  createTwoLinesColumn,
+  createKeyValueColumn,
+  type RelativeDateColumnConfig,
+  type UserColumnConfig,
+  type DurationColumnConfig,
+  type ColorDotColumnConfig,
+  type ImageColumnConfig,
+  type SparklineColumnConfig,
+  type TwoLinesColumnConfig,
+  type KeyValueColumnConfig,
 } from './column-builders';
 
 import {
@@ -255,6 +271,102 @@ export const col = {
     opts?: ColOptsOptionalTitle<AvatarGroupColumnConfig<TData>>,
   ): DataTableColumnDef<TData> {
     return createAvatarGroupColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Relative date column — "3h ago", "In 2 days" with exact-date tooltip */
+  relativeDate<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<RelativeDateColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createRelativeDateColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** User column — avatar + name + optional subtitle */
+  user<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<UserColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createUserColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Duration column — human-readable durations (2h 30m, 45s) */
+  duration<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<DurationColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createDurationColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Color dot column — colored dot + label */
+  colorDot<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<ColorDotColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createColorDotColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Image thumbnail column */
+  image<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<ImageColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createImageColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Sparkline column — inline SVG chart (line or bar) */
+  sparkline<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<SparklineColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createSparklineColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Two-line column — primary text + muted subtitle */
+  twoLines<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<TwoLinesColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createTwoLinesColumn<TData>({
+      ...opts,
+      accessorKey: key,
+      title: opts?.title ?? titleFromKey(key),
+    });
+  },
+
+  /** Key-value column — "label: value" inline */
+  keyValue<TData>(
+    key: string,
+    opts?: ColOptsOptionalTitle<KeyValueColumnConfig<TData>>,
+  ): DataTableColumnDef<TData> {
+    return createKeyValueColumn<TData>({
       ...opts,
       accessorKey: key,
       title: opts?.title ?? titleFromKey(key),
