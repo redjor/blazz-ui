@@ -84,7 +84,7 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
       cellRenderer: (_value, row) => (
         <Link
           href={`/companies/${row.id}`}
-          className="font-medium text-foreground hover:underline"
+          className="font-medium text-fg hover:underline"
         >
           {row.name}
         </Link>

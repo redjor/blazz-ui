@@ -67,7 +67,7 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
         return (
           <Link
             href={`/contacts/${row.original.id}`}
-            className="font-medium text-foreground hover:underline"
+            className="font-medium text-fg hover:underline"
           >
             {firstName} {lastName}
           </Link>
@@ -102,7 +102,7 @@ export function createContactsPreset(config: ContactsPresetConfig = {}): Contact
       cellRenderer: (_value, row) => (
         <Link
           href={`/companies/${row.companyId}`}
-          className="text-foreground hover:underline"
+          className="text-fg hover:underline"
         >
           {row.companyName}
         </Link>

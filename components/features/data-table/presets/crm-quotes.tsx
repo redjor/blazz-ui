@@ -69,7 +69,7 @@ export function createQuotesPreset(config: QuotesPresetConfig = {}): QuotesPrese
       cellRenderer: (_value, row) => (
         <Link
           href={`/quotes/${row.id}`}
-          className="font-medium text-foreground hover:underline"
+          className="font-medium text-fg hover:underline"
         >
           {row.reference}
         </Link>

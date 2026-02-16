@@ -93,7 +93,7 @@ export default function MenuPage() {
 			{/* Hero */}
 			<DocHero>
 				<Menu>
-					<MenuTrigger className="px-4 py-2 rounded-md bg-primary text-white">
+					<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-white">
 						Open Menu
 					</MenuTrigger>
 					<MenuPortal>
@@ -141,7 +141,7 @@ export default function MenuPage() {
 </Menu>`}
 				>
 					<Menu>
-						<MenuTrigger className="px-4 py-2 rounded-md bg-primary text-white">
+						<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-white">
 							Open Menu
 						</MenuTrigger>
 						<MenuPortal>

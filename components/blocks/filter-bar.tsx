@@ -82,7 +82,7 @@ export function FilterBar({
 					case "search":
 						return (
 							<div key={filter.id} className="relative">
-								<Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+								<Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-fg-muted" />
 								<Input
 									type="search"
 									placeholder={filter.placeholder || "Rechercher..."}
@@ -101,9 +101,9 @@ export function FilterBar({
 							<select
 								key={filter.id}
 								className={cn(
-									"flex h-8 rounded-md border border-input bg-background px-3 text-sm",
-									"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-									!values[filter.id] && "text-muted-foreground"
+									"flex h-8 rounded-md border border-edge bg-surface px-3 text-sm",
+									"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
+									!values[filter.id] && "text-fg-muted"
 								)}
 								value={values[filter.id] || ""}
 								onChange={(e) =>

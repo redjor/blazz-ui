@@ -24,7 +24,7 @@ export default function RegisterPage() {
 		<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1 text-center">
 				<h2 className="text-lg font-semibold">Créer un compte</h2>
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-fg-muted">
 					Commencez à utiliser Forge CRM
 				</p>
 			</div>
@@ -35,14 +35,14 @@ export default function RegisterPage() {
 						<Label htmlFor="firstName">Prénom</Label>
 						<Input id="firstName" placeholder="Sophie" {...form.register("firstName")} />
 						{form.formState.errors.firstName && (
-							<p className="text-xs text-destructive">{form.formState.errors.firstName.message}</p>
+							<p className="text-xs text-negative">{form.formState.errors.firstName.message}</p>
 						)}
 					</div>
 					<div className="space-y-1.5">
 						<Label htmlFor="lastName">Nom</Label>
 						<Input id="lastName" placeholder="Martin" {...form.register("lastName")} />
 						{form.formState.errors.lastName && (
-							<p className="text-xs text-destructive">{form.formState.errors.lastName.message}</p>
+							<p className="text-xs text-negative">{form.formState.errors.lastName.message}</p>
 						)}
 					</div>
 				</div>
@@ -56,7 +56,7 @@ export default function RegisterPage() {
 						{...form.register("email")}
 					/>
 					{form.formState.errors.email && (
-						<p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+						<p className="text-xs text-negative">{form.formState.errors.email.message}</p>
 					)}
 				</div>
 
@@ -69,7 +69,7 @@ export default function RegisterPage() {
 						{...form.register("password")}
 					/>
 					{form.formState.errors.password && (
-						<p className="text-xs text-destructive">{form.formState.errors.password.message}</p>
+						<p className="text-xs text-negative">{form.formState.errors.password.message}</p>
 					)}
 				</div>
 			</div>
@@ -78,9 +78,9 @@ export default function RegisterPage() {
 				{form.formState.isSubmitting ? "Création..." : "Créer mon compte"}
 			</Button>
 
-			<p className="text-center text-xs text-muted-foreground">
+			<p className="text-center text-xs text-fg-muted">
 				Déjà un compte ?{" "}
-				<Link href="/login" className="text-foreground hover:underline">
+				<Link href="/login" className="text-fg hover:underline">
 					Se connecter
 				</Link>
 			</p>

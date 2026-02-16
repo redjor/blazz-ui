@@ -58,7 +58,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 				render={
 					<SidebarMenuButton
 						size="lg"
-						className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+						className="data-[state=open]:bg-raised data-[state=open]:text-fg"
 					>
 						<Avatar className="h-8 w-8 rounded-lg">
 							<AvatarImage src={user.avatar} alt={user.name} />
@@ -67,7 +67,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 						<div className="grid flex-1 text-left text-sm leading-tight">
 							<span className="truncate font-semibold">{user.name}</span>
 							{user.role && (
-								<span className="truncate text-xs text-muted-foreground">{user.role}</span>
+								<span className="truncate text-xs text-fg-muted">{user.role}</span>
 							)}
 						</div>
 						<ChevronsUpDown className="ml-auto size-4" />
@@ -88,7 +88,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 					<div className="grid flex-1 text-left text-sm leading-tight">
 						<span className="truncate font-semibold">{user.name}</span>
 						{user.role && (
-							<span className="truncate text-xs text-muted-foreground font-medium">
+							<span className="truncate text-xs text-fg-muted font-medium">
 								{user.role}
 							</span>
 						)}

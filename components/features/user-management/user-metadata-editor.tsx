@@ -40,12 +40,12 @@ export function UserMetadataEditor({ metadata, onSave, label }: UserMetadataEdit
 		<div className="space-y-2">
 			<Label>{label}</Label>
 			<textarea
-				className="w-full min-h-[150px] p-3 text-sm font-mono border rounded-md bg-muted/50 focus:outline-none focus:ring-2 focus:ring-ring"
+				className="w-full min-h-[150px] p-3 text-sm font-mono border rounded-md bg-raised/50 focus:outline-none focus:ring-2 focus:ring-brand"
 				value={value}
 				onChange={(e) => handleChange(e.target.value)}
 				placeholder={`{\n  "key": "value"\n}`}
 			/>
-			{error && <p className="text-sm text-destructive">{error}</p>}
+			{error && <p className="text-sm text-negative">{error}</p>}
 			<Button onClick={handleSave} size="sm">
 				Save {label.toLowerCase()}
 			</Button>

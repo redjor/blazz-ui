@@ -79,7 +79,7 @@ export function UserMenu({ user, className }: UserMenuProps) {
 							Pro
 						</Badge>
 					</div>
-					<span className="text-muted-foreground text-xs">{displayRole}</span>
+					<span className="text-fg-muted text-xs">{displayRole}</span>
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
@@ -97,7 +97,7 @@ export function UserMenu({ user, className }: UserMenuProps) {
 					<div className="grid flex-1 text-left leading-tight">
 						<span className="truncate font-semibold">{displayName}</span>
 						{displayRole && (
-							<span className="truncate text-xs text-muted-foreground font-medium">
+							<span className="truncate text-xs text-fg-muted font-medium">
 								{displayRole}
 							</span>
 						)}

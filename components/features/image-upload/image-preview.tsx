@@ -12,7 +12,7 @@ export interface ImagePreviewProps {
 
 export function ImagePreview({ image, onRemove }: ImagePreviewProps) {
 	return (
-		<div className="relative group aspect-square rounded-lg border border-input overflow-hidden bg-muted">
+		<div className="relative group aspect-square rounded-lg border border-edge overflow-hidden bg-raised">
 			<img
 				src={image.preview}
 				alt="Preview"

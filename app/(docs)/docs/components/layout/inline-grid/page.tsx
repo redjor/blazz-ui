@@ -35,7 +35,7 @@ const inlineGridProps: DocProp[] = [
 function Placeholder({ height = "80px", label }: { height?: string; label?: string }) {
 	return (
 		<div
-			className="flex items-center justify-center rounded-lg bg-primary/10 text-sm font-medium"
+			className="flex items-center justify-center rounded-lg bg-brand/10 text-sm font-medium"
 			style={{ height }}
 		>
 			{label || height}

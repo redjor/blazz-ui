@@ -64,14 +64,14 @@ export function ChartCard({
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
 				{description && (
-					<p className="text-sm text-muted-foreground">{description}</p>
+					<p className="text-sm text-fg-muted">{description}</p>
 				)}
 			</CardHeader>
 			<CardContent>
 				<ResponsiveContainer width="100%" height={height}>
 					{type === "line" ? (
 						<LineChart data={data}>
-							<CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+							<CartesianGrid strokeDasharray="3 3" className="stroke-edge" />
 							<XAxis
 								dataKey={xKey}
 								className="text-xs"
@@ -104,7 +104,7 @@ export function ChartCard({
 						</LineChart>
 					) : type === "bar" ? (
 						<BarChart data={data}>
-							<CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+							<CartesianGrid strokeDasharray="3 3" className="stroke-edge" />
 							<XAxis
 								dataKey={xKey}
 								className="text-xs"

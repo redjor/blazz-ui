@@ -95,8 +95,8 @@ export function KanbanBoard<T extends { id: string }>({
 					<div
 						key={column.id}
 						className={cn(
-							"flex min-w-[280px] flex-col rounded-lg border bg-muted/30 transition-colors",
-							isOver && "border-foreground/30 bg-muted/60",
+							"flex min-w-[280px] flex-col rounded-lg border bg-raised/30 transition-colors",
+							isOver && "border-fg/30 bg-raised/60",
 							columnClassName
 						)}
 						onDragOver={(e) => handleDragOver(e, column.id)}
@@ -135,7 +135,7 @@ export function KanbanBoard<T extends { id: string }>({
 								</div>
 							))}
 							{columnItems.length === 0 && (
-								<p className="py-8 text-center text-xs text-muted-foreground">
+								<p className="py-8 text-center text-xs text-fg-muted">
 									Aucun élément
 								</p>
 							)}

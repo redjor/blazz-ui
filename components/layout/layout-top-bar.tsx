@@ -21,7 +21,7 @@ export interface LayoutTopBarProps {
  */
 export function LayoutTopBar({ onOpenCommandPalette, className }: LayoutTopBarProps) {
 	return (
-		<header className={cn("flex h-14 items-center justify-between bg-foreground px-4", className)}>
+		<header className={cn("flex h-14 items-center justify-between bg-fg px-4", className)}>
 			{/* Left: Logo + App Name */}
 			<div className="flex items-center gap-3">
 				<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white">

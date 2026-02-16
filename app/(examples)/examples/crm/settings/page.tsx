@@ -118,14 +118,14 @@ export default function SettingsPage() {
 								<div className="flex items-center justify-between rounded-md border p-3">
 									<div>
 										<p className="text-sm font-medium">Plan actuel</p>
-										<p className="text-xs text-muted-foreground">Forge CRM Enterprise</p>
+										<p className="text-xs text-fg-muted">Forge CRM Enterprise</p>
 									</div>
 									<Badge variant="success">Actif</Badge>
 								</div>
 								<div className="flex items-center justify-between rounded-md border p-3">
 									<div>
 										<p className="text-sm font-medium">Prochain renouvellement</p>
-										<p className="text-xs text-muted-foreground">15 mars 2026</p>
+										<p className="text-xs text-fg-muted">15 mars 2026</p>
 									</div>
 									<span className="text-sm font-medium">2 400 €/an</span>
 								</div>
@@ -152,7 +152,7 @@ export default function SettingsPage() {
 										<div key={item.id} className="flex items-center justify-between">
 											<div>
 												<p className="text-sm font-medium">{item.label}</p>
-												<p className="text-xs text-muted-foreground">{item.desc}</p>
+												<p className="text-xs text-fg-muted">{item.desc}</p>
 											</div>
 											<Switch id={item.id} defaultChecked={item.defaultChecked} />
 										</div>
@@ -175,7 +175,7 @@ export default function SettingsPage() {
 										<div key={item.id} className="flex items-center justify-between">
 											<div>
 												<p className="text-sm font-medium">{item.label}</p>
-												<p className="text-xs text-muted-foreground">{item.desc}</p>
+												<p className="text-xs text-fg-muted">{item.desc}</p>
 											</div>
 											<Switch id={item.id} defaultChecked={item.defaultChecked} />
 										</div>
@@ -199,7 +199,7 @@ export default function SettingsPage() {
 								<CardContent className="flex items-center justify-between p-4">
 									<div>
 										<p className="text-sm font-medium">{integration.name}</p>
-										<p className="text-xs text-muted-foreground">{integration.desc}</p>
+										<p className="text-xs text-fg-muted">{integration.desc}</p>
 									</div>
 									{integration.connected ? (
 										<div className="flex items-center gap-2">

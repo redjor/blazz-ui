@@ -361,7 +361,7 @@ export function createCurrencyColumn<TData>(
         style: 'currency',
         currency,
       }).format(value);
-      return <span className={cn('text-body-md text-foreground', className)}>{formatted}</span>;
+      return <span className={cn('text-body-md text-fg', className)}>{formatted}</span>;
     },
     filterConfig: {
       type: 'number',
@@ -442,7 +442,7 @@ export function createDateColumn<TData>(
       const date = new Date(value);
       const formatted = date.toLocaleDateString(locale, format);
       return (
-        <span className={cn('text-body-md text-muted-foreground', className)}>{formatted}</span>
+        <span className={cn('text-body-md text-fg-muted', className)}>{formatted}</span>
       );
     },
     filterConfig: {
@@ -599,7 +599,7 @@ export function createImageTextColumn<TData>(
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              'flex h-10 w-10 items-center justify-center rounded-md border border-border bg-muted/50 text-xl',
+              'flex h-10 w-10 items-center justify-center rounded-md border border-edge bg-raised/50 text-xl',
               imageClassName
             )}
           >

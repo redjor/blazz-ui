@@ -80,7 +80,7 @@ export function createUserManagementPreset(
             </Avatar>
             <div className="flex flex-col">
               <span className="text-body-md font-medium">{user.name}</span>
-              <span className="text-body-sm text-muted-foreground">{user.email}</span>
+              <span className="text-body-sm text-fg-muted">{user.email}</span>
             </div>
           </div>
         );
@@ -101,7 +101,7 @@ export function createUserManagementPreset(
       showInlineFilter: true,
       defaultInlineFilter: false,
       cellRenderer: (value) => (
-        <span className="text-body-md text-muted-foreground">@{value}</span>
+        <span className="text-body-md text-fg-muted">@{value}</span>
       ),
     }),
     {
@@ -110,7 +110,7 @@ export function createUserManagementPreset(
       cell: ({ row }) => {
         const lastSignedIn = row.original.lastSignedIn;
         if (!lastSignedIn) {
-          return <span className="text-body-md text-muted-foreground">Never</span>;
+          return <span className="text-body-md text-fg-muted">Never</span>;
         }
         const date = new Date(lastSignedIn);
         const formatted = date.toLocaleDateString('en-US', {
@@ -118,7 +118,7 @@ export function createUserManagementPreset(
           day: 'numeric',
           year: 'numeric',
         });
-        return <span className="text-body-md text-muted-foreground">{formatted}</span>;
+        return <span className="text-body-md text-fg-muted">{formatted}</span>;
       },
       enableSorting: true,
       filterConfig: {

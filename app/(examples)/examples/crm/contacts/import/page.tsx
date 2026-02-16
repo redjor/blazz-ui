@@ -11,7 +11,7 @@ function UploadStep({ data, onChange }: StepComponentProps) {
 	return (
 		<div className="space-y-4">
 			<h3 className="text-sm font-semibold">1. Choisissez un fichier</h3>
-			<p className="text-sm text-muted-foreground">
+			<p className="text-sm text-fg-muted">
 				Formats acceptés : CSV, XLSX. Taille max : 5 Mo.
 			</p>
 			<div className="space-y-1.5">
@@ -27,7 +27,7 @@ function UploadStep({ data, onChange }: StepComponentProps) {
 				/>
 			</div>
 			{data.fileName && (
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-fg-muted">
 					Fichier sélectionné : <strong>{data.fileName as string}</strong>
 				</p>
 			)}
@@ -39,10 +39,10 @@ function MappingStep({ data, onChange }: StepComponentProps) {
 	return (
 		<div className="space-y-4">
 			<h3 className="text-sm font-semibold">2. Correspondance des colonnes</h3>
-			<p className="text-sm text-muted-foreground">
+			<p className="text-sm text-fg-muted">
 				Associez les colonnes de votre fichier aux champs CRM.
 			</p>
-			<div className="rounded-md border p-4 text-sm text-muted-foreground">
+			<div className="rounded-md border p-4 text-sm text-fg-muted">
 				Aperçu des colonnes détectées dans votre fichier.
 				<br />
 				(Simulation — en production, les colonnes seraient parsées du fichier)
@@ -75,19 +75,19 @@ function ReviewStep({ data }: StepComponentProps) {
 			<h3 className="text-sm font-semibold">3. Récapitulatif</h3>
 			<div className="rounded-md border p-4 space-y-2">
 				<p className="text-sm">
-					<span className="text-muted-foreground">Fichier :</span>{" "}
+					<span className="text-fg-muted">Fichier :</span>{" "}
 					<strong>{(data.fileName as string) || "Non sélectionné"}</strong>
 				</p>
 				<p className="text-sm">
-					<span className="text-muted-foreground">Contacts à importer :</span>{" "}
+					<span className="text-fg-muted">Contacts à importer :</span>{" "}
 					<strong>42</strong> (simulation)
 				</p>
 				<p className="text-sm">
-					<span className="text-muted-foreground">Doublons détectés :</span>{" "}
+					<span className="text-fg-muted">Doublons détectés :</span>{" "}
 					<strong>3</strong>
 				</p>
 			</div>
-			<p className="text-xs text-muted-foreground">
+			<p className="text-xs text-fg-muted">
 				Cliquez sur "Terminer" pour lancer l'import.
 			</p>
 		</div>

@@ -307,8 +307,8 @@ export function DataTable<TData, TValue = unknown>({
       <div className="flex h-100 flex-col items-center justify-center space-y-2">
         {loadingComponent || (
           <>
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
-            <p className="text-sm text-muted-foreground">Loading...</p>
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-raised border-t-brand" />
+            <p className="text-sm text-fg-muted">Loading...</p>
           </>
         )}
       </div>
@@ -340,7 +340,7 @@ export function DataTable<TData, TValue = unknown>({
   if (!isLoading && data.length === 0 && !showToolbarWithEmptyData) {
     return (
       <div className="flex h-100 flex-col items-center justify-center space-y-2">
-        {emptyComponent || <p className="text-sm text-muted-foreground">No data available</p>}
+        {emptyComponent || <p className="text-sm text-fg-muted">No data available</p>}
       </div>
     );
   }
@@ -440,7 +440,7 @@ export function DataTable<TData, TValue = unknown>({
         <div
           className={cn(
             'relative grid w-full',
-            finalVariant === 'editable' && 'overflow-hidden rounded-lg border border-border'
+            finalVariant === 'editable' && 'overflow-hidden rounded-lg border border-edge'
           )}
         >
           <Table
@@ -474,7 +474,7 @@ export function DataTable<TData, TValue = unknown>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    className={onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''}
+                    className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
                     onClick={(e) => {
                       const target = e.target as HTMLElement;
                       const isCheckbox = target.closest('[role="checkbox"]');
@@ -497,7 +497,7 @@ export function DataTable<TData, TValue = unknown>({
               ) : (
                 <TableRow>
                   <TableCell colSpan={tableColumns.length} className="h-24 text-center">
-                    {emptyComponent || <p className="text-sm text-muted-foreground">No results.</p>}
+                    {emptyComponent || <p className="text-sm text-fg-muted">No results.</p>}
                   </TableCell>
                 </TableRow>
               )}

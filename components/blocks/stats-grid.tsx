@@ -34,14 +34,14 @@ function StatCard({ stat }: { stat: StatItem }) {
 			<CardContent className="pt-4">
 				<div className="flex items-start justify-between">
 					<div className="space-y-2">
-						<p className="text-sm text-muted-foreground">{stat.label}</p>
+						<p className="text-sm text-fg-muted">{stat.label}</p>
 						<p className="text-2xl font-semibold tracking-tight">
 							{stat.value}
 						</p>
 					</div>
 					{Icon && (
-						<div className="rounded-md bg-muted p-2">
-							<Icon className="size-4 text-muted-foreground" />
+						<div className="rounded-md bg-raised p-2">
+							<Icon className="size-4 text-fg-muted" />
 						</div>
 					)}
 				</div>
@@ -64,9 +64,9 @@ function StatCard({ stat }: { stat: StatItem }) {
 							</>
 						)}
 						{!trendIsGood && !trendIsBad && (
-							<span className="text-muted-foreground">0%</span>
+							<span className="text-fg-muted">0%</span>
 						)}
-						<span className="text-muted-foreground">vs période précédente</span>
+						<span className="text-fg-muted">vs période précédente</span>
 					</div>
 				)}
 			</CardContent>

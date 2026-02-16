@@ -168,7 +168,7 @@ export function DataGrid<T extends { id: string }>({
 					return (
 						<button
 							type="button"
-							className="flex items-center gap-1 text-sm font-medium hover:text-foreground"
+							className="flex items-center gap-1 text-sm font-medium hover:text-fg"
 							onClick={() => handleSort(col.id)}
 						>
 							{col.header}
@@ -306,7 +306,7 @@ export function DataGrid<T extends { id: string }>({
 			{/* Pagination */}
 			{totalPages > 1 && (
 				<div className="flex items-center justify-between">
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm text-fg-muted">
 						{(currentPage - 1) * pageSize + 1}–
 						{Math.min(currentPage * pageSize, totalCount)} sur {totalCount}
 					</p>

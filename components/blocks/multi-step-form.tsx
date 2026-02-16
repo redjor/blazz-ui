@@ -128,12 +128,12 @@ export function MultiStepForm({
 									className={cn(
 										"flex size-7 items-center justify-center rounded-full border text-xs font-medium transition-colors",
 										isCompleted &&
-											"border-foreground bg-foreground text-background",
+											"border-fg bg-fg text-surface",
 										isCurrent &&
-											"border-foreground text-foreground",
+											"border-fg text-fg",
 										!isCompleted &&
 											!isCurrent &&
-											"border-border text-muted-foreground"
+											"border-edge text-fg-muted"
 									)}
 								>
 									{isCompleted ? (
@@ -146,8 +146,8 @@ export function MultiStepForm({
 									className={cn(
 										"text-sm",
 										isCurrent
-											? "font-medium text-foreground"
-											: "text-muted-foreground"
+											? "font-medium text-fg"
+											: "text-fg-muted"
 									)}
 								>
 									{s.title}

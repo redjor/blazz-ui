@@ -31,20 +31,20 @@ function TimelineItem({ event }: { event: TimelineEvent }) {
 			{/* Connector line */}
 			<div className="absolute left-[4.5px] top-2 -bottom-2 w-px bg-border last:hidden" />
 			{/* Dot */}
-			<div className="absolute left-0 top-1.5 size-[10px] rounded-full border-2 border-foreground/20 bg-background" />
+			<div className="absolute left-0 top-1.5 size-[10px] rounded-full border-2 border-fg/20 bg-surface" />
 
 			<div className="space-y-0.5">
 				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium text-foreground">
+					<span className="text-sm font-medium text-fg">
 						{event.user}
 					</span>
-					<span className="text-xs text-muted-foreground">
+					<span className="text-xs text-fg-muted">
 						{formatEventDate(event.date)}
 					</span>
 				</div>
-				<p className="text-sm text-foreground">{event.action}</p>
+				<p className="text-sm text-fg">{event.action}</p>
 				{event.detail && (
-					<p className="text-sm text-muted-foreground">{event.detail}</p>
+					<p className="text-sm text-fg-muted">{event.detail}</p>
 				)}
 			</div>
 		</li>
@@ -55,7 +55,7 @@ function TimelineSkeleton() {
 	return (
 		<li className="relative pb-6 pl-6">
 			<div className="absolute left-[4.5px] top-2 -bottom-2 w-px bg-border" />
-			<div className="absolute left-0 top-1.5 size-[10px] rounded-full bg-muted" />
+			<div className="absolute left-0 top-1.5 size-[10px] rounded-full bg-raised" />
 			<div className="space-y-1.5">
 				<div className="flex items-center gap-2">
 					<Skeleton className="h-4 w-20" />

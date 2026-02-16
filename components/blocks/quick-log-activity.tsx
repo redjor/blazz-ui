@@ -62,8 +62,8 @@ export function QuickLogActivity({ onLog, trigger, className }: QuickLogActivity
 								className={cn(
 									"flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs transition-colors",
 									type === at.type
-										? "border-foreground bg-foreground text-background"
-										: "border-border hover:bg-muted"
+										? "border-fg bg-fg text-surface"
+										: "border-edge hover:bg-raised"
 								)}
 							>
 								<at.icon className="size-4" />
@@ -83,9 +83,9 @@ export function QuickLogActivity({ onLog, trigger, className }: QuickLogActivity
 							placeholder="Résumé de l'activité..."
 							rows={3}
 							className={cn(
-								"flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors",
-								"placeholder:text-muted-foreground",
-								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+								"flex w-full rounded-md border border-edge bg-surface px-3 py-2 text-sm shadow-sm transition-colors",
+								"placeholder:text-fg-muted",
+								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
 							)}
 						/>
 					</div>

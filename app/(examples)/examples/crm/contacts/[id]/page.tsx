@@ -121,7 +121,7 @@ export default function ContactDetailPage({
 										<Field label="Ville" value={company.city ?? "—"} />
 									</FieldGrid>
 								) : (
-									<p className="text-sm text-muted-foreground">Entreprise non trouvée</p>
+									<p className="text-sm text-fg-muted">Entreprise non trouvée</p>
 								)}
 							</CardContent>
 						</Card>
@@ -137,11 +137,11 @@ export default function ContactDetailPage({
 											<a
 												key={d.id}
 												href={`/deals/${d.id}`}
-												className="flex items-center justify-between p-3 hover:bg-muted rounded-md transition-colors"
+												className="flex items-center justify-between p-3 hover:bg-raised rounded-md transition-colors"
 											>
 												<div>
 													<p className="text-sm font-medium">{d.title}</p>
-													<p className="text-xs text-muted-foreground">{d.assignedTo}</p>
+													<p className="text-xs text-fg-muted">{d.assignedTo}</p>
 												</div>
 												<span className="text-sm font-semibold">{formatCurrency(d.amount)}</span>
 											</a>

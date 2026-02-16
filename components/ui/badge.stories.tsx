@@ -245,7 +245,7 @@ export const Composition: Story = {
 							Live
 						</Badge>
 					</div>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm text-fg-muted">
 						Your project is live and accepting users
 					</p>
 				</div>
@@ -254,11 +254,11 @@ export const Composition: Story = {
 			<div>
 				<h3 className="text-sm font-semibold mb-4">With Button</h3>
 				<div className="flex gap-4">
-					<button className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-muted">
+					<button className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-raised">
 						<span>Notifications</span>
 						<Badge variant="critical">5</Badge>
 					</button>
-					<button className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-muted">
+					<button className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-raised">
 						<span>Messages</span>
 						<Badge variant="default">12</Badge>
 					</button>
@@ -269,7 +269,7 @@ export const Composition: Story = {
 				<h3 className="text-sm font-semibold mb-4">Table Cell</h3>
 				<div className="rounded-lg border">
 					<table className="w-full">
-						<thead className="border-b bg-muted/50">
+						<thead className="border-b bg-raised/50">
 							<tr>
 								<th className="p-2 text-left text-sm font-medium">Name</th>
 								<th className="p-2 text-left text-sm font-medium">Status</th>

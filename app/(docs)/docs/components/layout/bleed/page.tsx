@@ -76,7 +76,7 @@ export default function BleedPage() {
 						<CardContent>
 							<p className="mb-4 text-sm">Content inside a card</p>
 							<Bleed marginInline="400">
-								<div className="bg-primary/10 px-4 py-3 text-sm">
+								<div className="bg-brand/10 px-4 py-3 text-sm">
 									This content bleeds horizontally
 								</div>
 							</Bleed>
@@ -101,7 +101,7 @@ export default function BleedPage() {
 					<Card>
 						<CardContent>
 							<Bleed marginBlock="400">
-								<div className="bg-primary/10 px-4 py-3 text-sm">
+								<div className="bg-brand/10 px-4 py-3 text-sm">
 									This content bleeds vertically
 								</div>
 							</Bleed>
@@ -126,7 +126,7 @@ export default function BleedPage() {
 					<Card>
 						<CardContent>
 							<Bleed marginInlineStart="400">
-								<div className="bg-primary/10 px-4 py-3 text-sm">Bleeds only to the left</div>
+								<div className="bg-brand/10 px-4 py-3 text-sm">Bleeds only to the left</div>
 							</Bleed>
 						</CardContent>
 					</Card>
@@ -151,7 +151,7 @@ export default function BleedPage() {
 						<CardContent>
 							<p className="mb-4 text-sm">Content above</p>
 							<Bleed marginInline="400" marginBlock="200">
-								<div className="bg-primary/10 px-4 py-3 text-sm">Full bleed content</div>
+								<div className="bg-brand/10 px-4 py-3 text-sm">Full bleed content</div>
 							</Bleed>
 							<p className="mt-4 text-sm">Content below</p>
 						</CardContent>

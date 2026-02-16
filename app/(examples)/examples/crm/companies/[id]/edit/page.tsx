@@ -109,7 +109,7 @@ export default function EditCompanyPage({
 					</FieldGrid>
 				</FormSection>
 
-				<div className="sticky bottom-0 flex items-center justify-end gap-3 border-t bg-background py-4">
+				<div className="sticky bottom-0 flex items-center justify-end gap-3 border-t bg-surface py-4">
 					<Button type="button" variant="outline" onClick={() => router.back()}>
 						<X className="size-4" data-icon="inline-start" />
 						Annuler

@@ -79,7 +79,7 @@ export function InlineEdit({
 					type="button"
 					onMouseDown={(e) => e.preventDefault()}
 					onClick={save}
-					className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:text-foreground"
+					className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-fg-muted hover:text-fg"
 				>
 					<Check className="size-3.5" />
 				</button>
@@ -87,7 +87,7 @@ export function InlineEdit({
 					type="button"
 					onMouseDown={(e) => e.preventDefault()}
 					onClick={cancel}
-					className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:text-destructive"
+					className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-fg-muted hover:text-negative"
 				>
 					<X className="size-3.5" />
 				</button>
@@ -100,13 +100,13 @@ export function InlineEdit({
 			type="button"
 			onClick={() => setEditing(true)}
 			className={cn(
-				"group inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-sm transition-colors hover:bg-muted",
-				!value && "text-muted-foreground",
+				"group inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-sm transition-colors hover:bg-raised",
+				!value && "text-fg-muted",
 				className
 			)}
 		>
 			{renderValue ? renderValue(value) : value || placeholder}
-			<Pencil className="size-3 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+			<Pencil className="size-3 shrink-0 text-fg-muted opacity-0 transition-opacity group-hover:opacity-100" />
 		</button>
 	)
 }

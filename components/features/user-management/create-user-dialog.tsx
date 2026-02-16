@@ -143,7 +143,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							autoFocus
 						/>
 						{errors.email && (
-							<p className="text-sm text-destructive">{errors.email.message}</p>
+							<p className="text-sm text-negative">{errors.email.message}</p>
 						)}
 					</div>
 
@@ -152,7 +152,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							<Label htmlFor="firstName">First name *</Label>
 							<Input id="firstName" placeholder="John" {...register("firstName")} />
 							{errors.firstName && (
-								<p className="text-sm text-destructive">{errors.firstName.message}</p>
+								<p className="text-sm text-negative">{errors.firstName.message}</p>
 							)}
 						</div>
 
@@ -160,7 +160,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							<Label htmlFor="lastName">Last name *</Label>
 							<Input id="lastName" placeholder="Doe" {...register("lastName")} />
 							{errors.lastName && (
-								<p className="text-sm text-destructive">{errors.lastName.message}</p>
+								<p className="text-sm text-negative">{errors.lastName.message}</p>
 							)}
 						</div>
 					</div>
@@ -168,11 +168,11 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 					<div className="space-y-2">
 						<Label htmlFor="username">Username *</Label>
 						<div className="flex items-center gap-2">
-							<span className="text-muted-foreground text-sm">@</span>
+							<span className="text-fg-muted text-sm">@</span>
 							<Input id="username" placeholder="johndoe" {...register("username")} />
 						</div>
 						{errors.username && (
-							<p className="text-sm text-destructive">{errors.username.message}</p>
+							<p className="text-sm text-negative">{errors.username.message}</p>
 						)}
 					</div>
 
@@ -189,7 +189,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							</SelectContent>
 						</Select>
 						{errors.role && (
-							<p className="text-sm text-destructive">{errors.role.message}</p>
+							<p className="text-sm text-negative">{errors.role.message}</p>
 						)}
 					</div>
 
@@ -202,7 +202,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							{...register("password")}
 						/>
 						{errors.password && (
-							<p className="text-sm text-destructive">{errors.password.message}</p>
+							<p className="text-sm text-negative">{errors.password.message}</p>
 						)}
 					</div>
 

@@ -30,10 +30,10 @@ export function DataTablePagination<TData>({
 
   return (
     <div
-      className="flex items-center justify-between p-2 border-t bg-primary-foreground"
+      className="flex items-center justify-between p-2 border-t bg-brand-fg"
       data-slot="data-table-pagination"
     >
-      <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex-1 text-sm text-fg-muted">
         <div className="flex items-center space-x-2">
           <Select
             value={String(pageSize)}

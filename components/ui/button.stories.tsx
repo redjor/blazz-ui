@@ -216,7 +216,7 @@ export const Composition: Story = {
 				<h3 className="text-sm font-semibold mb-2">Call to Action</h3>
 				<div className="flex flex-col gap-2 rounded-lg border p-4">
 					<h4 className="font-semibold">Ready to get started?</h4>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm text-fg-muted">
 						Join thousands of users already using our platform.
 					</p>
 					<div className="flex gap-2 mt-2">
@@ -232,7 +232,7 @@ export const Composition: Story = {
 				<h3 className="text-sm font-semibold mb-2">Destructive Actions</h3>
 				<div className="flex flex-col gap-2 rounded-lg border border-destructive/20 p-4">
 					<h4 className="font-semibold">Delete Account</h4>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-sm text-fg-muted">
 						This action cannot be undone. This will permanently delete your account.
 					</p>
 					<div className="flex gap-2 mt-2">

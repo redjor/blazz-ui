@@ -50,7 +50,7 @@ export function FunnelChart({
 							<span className="font-medium">{stage.label}</span>
 							<div className="flex items-center gap-2">
 								{conversionRate && (
-									<span className="text-xs text-muted-foreground">
+									<span className="text-xs text-fg-muted">
 										{conversionRate}%
 									</span>
 								)}
@@ -59,7 +59,7 @@ export function FunnelChart({
 								</span>
 							</div>
 						</div>
-						<div className="h-8 w-full rounded-md bg-muted/50">
+						<div className="h-8 w-full rounded-md bg-raised/50">
 							<div
 								className={cn(
 									"flex h-full items-center rounded-md transition-all",
@@ -81,7 +81,7 @@ export function FunnelChart({
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
 				{description && (
-					<p className="text-sm text-muted-foreground">{description}</p>
+					<p className="text-sm text-fg-muted">{description}</p>
 				)}
 			</CardHeader>
 			<CardContent>{content}</CardContent>

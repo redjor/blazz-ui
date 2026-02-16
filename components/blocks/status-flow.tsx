@@ -81,7 +81,7 @@ export function StatusFlow({
 					return (
 						<div key={status.id} className="flex items-center gap-1">
 							{i > 0 && (
-								<ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+								<ChevronRight className="size-4 shrink-0 text-fg-muted" />
 							)}
 							<span
 								className={cn(
@@ -90,7 +90,7 @@ export function StatusFlow({
 										? activeColorMap[status.color]
 										: isPast
 											? colorMap[status.color]
-											: "border-border bg-muted/50 text-muted-foreground"
+											: "border-edge bg-raised/50 text-fg-muted"
 								)}
 							>
 								{status.label}

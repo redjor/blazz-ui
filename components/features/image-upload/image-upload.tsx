@@ -72,22 +72,22 @@ export function ImageUpload({
 					<div
 						{...getRootProps()}
 						className={cn(
-							"aspect-square rounded-lg border-2 border-dashed border-input cursor-pointer",
+							"aspect-square rounded-lg border-2 border-dashed border-edge cursor-pointer",
 							"flex flex-col items-center justify-center gap-2",
-							"hover:border-primary hover:bg-primary/5 transition-colors",
-							isDragActive && "border-primary bg-primary/10"
+							"hover:border-brand hover:bg-brand/5 transition-colors",
+							isDragActive && "border-brand bg-brand/10"
 						)}
 					>
 						<input {...getInputProps()} />
 						{isDragActive ? (
 							<>
-								<Upload className="h-8 w-8 text-muted-foreground" />
-								<p className="text-sm text-muted-foreground">Drop the files here...</p>
+								<Upload className="h-8 w-8 text-fg-muted" />
+								<p className="text-sm text-fg-muted">Drop the files here...</p>
 							</>
 						) : (
 							<>
-								<Plus className="h-8 w-8 text-muted-foreground" />
-								<p className="text-sm text-muted-foreground text-center px-2">
+								<Plus className="h-8 w-8 text-fg-muted" />
+								<p className="text-sm text-fg-muted text-center px-2">
 									Add image
 								</p>
 							</>
@@ -97,7 +97,7 @@ export function ImageUpload({
 			</div>
 
 			{images.length > 0 && (
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-fg-muted">
 					{images.length} / {maxFiles} images
 				</p>
 			)}

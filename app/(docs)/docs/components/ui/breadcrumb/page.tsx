@@ -198,7 +198,7 @@ export default function BreadcrumbPage() {
 								<DropdownMenu>
 									<DropdownMenuTrigger
 										render={
-											<button className="flex items-center gap-1 hover:text-foreground">
+											<button className="flex items-center gap-1 hover:text-fg">
 												<BreadcrumbEllipsis />
 											</button>
 										}

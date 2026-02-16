@@ -155,11 +155,11 @@ export function DataTableFilterBuilder<TData>({
           {/* Operator Toggle */}
           {localFilterGroup.conditions.length > 1 && (
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">{t.matchRows}</span>
+              <span className="text-sm text-fg-muted">{t.matchRows}</span>
               <Button variant="outline" size="sm" onClick={toggleOperator} className="font-mono">
                 {localFilterGroup.operator === 'AND' ? t.allConditions : t.anyCondition}
               </Button>
-              <span className="text-sm text-muted-foreground">{t.followingConditions}</span>
+              <span className="text-sm text-fg-muted">{t.followingConditions}</span>
             </div>
           )}
 
@@ -170,7 +170,7 @@ export function DataTableFilterBuilder<TData>({
               const operators = getOperatorsForType(condition.type);
 
               return (
-                <div key={condition.id} className="flex items-start gap-2 border border-border p-3">
+                <div key={condition.id} className="flex items-start gap-2 border border-edge p-3">
                   <div className="flex-1 space-y-2">
                     {/* Column Selection */}
                     <Select
@@ -291,7 +291,7 @@ export function DataTableFilterBuilder<TData>({
           )}
 
           {filterableColumns.length === 0 && (
-            <p className="text-sm text-muted-foreground text-center py-4">
+            <p className="text-sm text-fg-muted text-center py-4">
               {t.noFilterableColumns}
             </p>
           )}

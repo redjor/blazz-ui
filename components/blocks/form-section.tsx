@@ -29,14 +29,14 @@ export function FormSection({
 				onClick={() => setOpen(!open)}
 			>
 				<div>
-					<h3 className="text-sm font-semibold text-foreground">{title}</h3>
+					<h3 className="text-sm font-semibold text-fg">{title}</h3>
 					{description && (
-						<p className="text-sm text-muted-foreground">{description}</p>
+						<p className="text-sm text-fg-muted">{description}</p>
 					)}
 				</div>
 				<ChevronDown
 					className={cn(
-						"size-4 text-muted-foreground transition-transform",
+						"size-4 text-fg-muted transition-transform",
 						open && "rotate-180"
 					)}
 				/>

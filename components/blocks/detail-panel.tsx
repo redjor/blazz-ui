@@ -38,11 +38,11 @@ function DetailPanelHeader({
 		>
 			<div className="space-y-1">
 				<div className="flex items-center gap-3">
-					<h2 className="text-lg font-semibold text-foreground">{title}</h2>
+					<h2 className="text-lg font-semibold text-fg">{title}</h2>
 					{status}
 				</div>
 				{subtitle && (
-					<p className="text-sm text-muted-foreground">{subtitle}</p>
+					<p className="text-sm text-fg-muted">{subtitle}</p>
 				)}
 			</div>
 
@@ -85,9 +85,9 @@ function DetailPanelSection({
 	return (
 		<div className={cn("space-y-3", className)}>
 			<div>
-				<h3 className="text-sm font-semibold text-foreground">{title}</h3>
+				<h3 className="text-sm font-semibold text-fg">{title}</h3>
 				{description && (
-					<p className="text-sm text-muted-foreground">{description}</p>
+					<p className="text-sm text-fg-muted">{description}</p>
 				)}
 			</div>
 			{children}

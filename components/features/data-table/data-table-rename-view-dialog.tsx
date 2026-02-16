@@ -133,14 +133,14 @@ export function DataTableRenameViewDialog({
               onChange={handleNameChange}
               autoFocus
               maxLength={50}
-              className={error ? 'border-destructive' : ''}
+              className={error ? 'border-negative' : ''}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && isValid) {
                   handleSave();
                 }
               }}
             />
-            {error && <p className="text-sm text-destructive">{error}</p>}
+            {error && <p className="text-sm text-negative">{error}</p>}
           </div>
         </div>
 

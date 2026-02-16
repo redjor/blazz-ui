@@ -49,17 +49,17 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 				>
 					<Label htmlFor={name}>
 						{label}
-						{required && <span className="text-destructive ml-0.5">*</span>}
+						{required && <span className="text-negative ml-0.5">*</span>}
 					</Label>
 
 					{type === "select" && options ? (
 						<select
 							id={name}
 							className={cn(
-								"flex h-8 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors",
-								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+								"flex h-8 w-full rounded-md border border-edge bg-surface px-3 py-1 text-sm shadow-sm transition-colors",
+								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
 								"disabled:cursor-not-allowed disabled:opacity-50",
-								fieldState.error && "border-destructive"
+								fieldState.error && "border-negative"
 							)}
 							value={field.value ?? ""}
 							onChange={field.onChange}
@@ -76,11 +76,11 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 						<textarea
 							id={name}
 							className={cn(
-								"flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors",
-								"placeholder:text-muted-foreground",
-								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+								"flex w-full rounded-md border border-edge bg-surface px-3 py-2 text-sm shadow-sm transition-colors",
+								"placeholder:text-fg-muted",
+								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
 								"disabled:cursor-not-allowed disabled:opacity-50",
-								fieldState.error && "border-destructive"
+								fieldState.error && "border-negative"
 							)}
 							rows={rows}
 							placeholder={placeholder}
@@ -93,7 +93,7 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 							id={name}
 							type={type}
 							placeholder={placeholder}
-							className={cn(fieldState.error && "border-destructive")}
+							className={cn(fieldState.error && "border-negative")}
 							value={field.value ?? ""}
 							onChange={field.onChange}
 							onBlur={field.onBlur}
@@ -101,10 +101,10 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 					)}
 
 					{description && !fieldState.error && (
-						<p className="text-xs text-muted-foreground">{description}</p>
+						<p className="text-xs text-fg-muted">{description}</p>
 					)}
 					{fieldState.error && (
-						<p className="text-xs text-destructive">
+						<p className="text-xs text-negative">
 							{fieldState.error.message}
 						</p>
 					)}

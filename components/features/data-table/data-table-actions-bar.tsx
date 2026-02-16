@@ -301,7 +301,7 @@ export function DataTableActionsBar({
   const overflowViews = !showAllViews && views ? views.slice(visibleCount ?? views.length) : [];
 
   return (
-    <div data-slot="data-table-actions-bar" className="border-b border-border">
+    <div data-slot="data-table-actions-bar" className="border-b border-edge">
       {/* Main Actions Bar */}
       <div ref={barRef} className="flex items-center justify-between p-2">
         {/* Left: Views or Search Bar */}
@@ -309,7 +309,7 @@ export function DataTableActionsBar({
           /* Search Bar - Replaces views when open */
           <div className="flex flex-1 items-center gap-2 mr-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-muted" />
               <Input
                 ref={searchInputRef}
                 type="text"
@@ -323,7 +323,7 @@ export function DataTableActionsBar({
                 <button
                   type="button"
                   onClick={() => onSearchChange('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg"
                   aria-label="Clear search"
                 >
                   <X className="h-4 w-4" />
@@ -417,8 +417,8 @@ export function DataTableActionsBar({
                         className={cn(
                           'relative inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-3 text-xs font-medium transition-colors',
                           isActive
-                            ? 'bg-muted text-foreground'
-                            : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                            ? 'bg-raised text-fg'
+                            : 'text-fg-muted hover:bg-raised/50 hover:text-fg'
                         )}
                       >
                         <span>{view.name}</span>
@@ -431,7 +431,7 @@ export function DataTableActionsBar({
                             render={
                               <button
                                 type="button"
-                                className="inline-flex opacity-0 group-hover:opacity-100 data-[popup-open]:opacity-100 focus:opacity-100 h-8 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-opacity"
+                                className="inline-flex opacity-0 group-hover:opacity-100 data-[popup-open]:opacity-100 focus:opacity-100 h-8 w-6 items-center justify-center rounded-md text-fg-muted hover:bg-raised/50 hover:text-fg transition-opacity"
                                 aria-label="View options"
                               >
                                 <MoreVertical className="h-3.5 w-3.5" />
@@ -473,7 +473,7 @@ export function DataTableActionsBar({
                           key={view.id}
                           onClick={() => onViewChange?.(view)}
                           className={cn(
-                            activeView?.id === view.id && 'bg-accent text-accent-foreground'
+                            activeView?.id === view.id && 'bg-raised text-fg'
                           )}
                         >
                           {view.name}
@@ -531,7 +531,7 @@ export function DataTableActionsBar({
                 variant="outline"
                 size="icon-sm"
                 onClick={() => onSearchOpenChange(!searchOpen)}
-                className={cn('h-8 w-8', searchOpen && 'bg-accent text-accent-foreground')}
+                className={cn('h-8 w-8', searchOpen && 'bg-raised text-fg')}
                 aria-label="Toggle search"
                 aria-expanded={searchOpen}
               >
@@ -545,7 +545,7 @@ export function DataTableActionsBar({
                 onClick={onToggleInlineFilters || onOpenFilterBuilder}
                 className={cn(
                   'relative h-8 w-8',
-                  showInlineFilters && 'bg-accent text-accent-foreground'
+                  showInlineFilters && 'bg-raised text-fg'
                 )}
                 aria-label="Toggle filters"
                 aria-expanded={showInlineFilters}
@@ -566,7 +566,7 @@ export function DataTableActionsBar({
           {/* Sort Icon */}
           <Menu>
             <MenuTrigger
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-edge bg-surface text-sm font-medium transition-colors hover:bg-raised hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-50"
               aria-label="Sort options"
             >
               <ArrowUpDown className="h-4 w-4" />

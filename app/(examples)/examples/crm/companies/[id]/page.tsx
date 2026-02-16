@@ -174,14 +174,14 @@ export default function CompanyDetailPage({
 							</CardHeader>
 							<CardContent>
 								{companyContacts.length === 0 ? (
-									<p className="py-6 text-center text-sm text-muted-foreground">Aucun contact associé</p>
+									<p className="py-6 text-center text-sm text-fg-muted">Aucun contact associé</p>
 								) : (
 									<div className="divide-y">
 										{companyContacts.map((ct) => (
 											<a
 												key={ct.id}
 												href={`/contacts/${ct.id}`}
-												className="flex items-center justify-between p-3 hover:bg-muted rounded-md transition-colors"
+												className="flex items-center justify-between p-3 hover:bg-raised rounded-md transition-colors"
 											>
 												<div>
 													<p className="text-sm font-medium">
@@ -190,11 +190,11 @@ export default function CompanyDetailPage({
 															<Badge variant="outline" className="ml-2 text-xs">Principal</Badge>
 														)}
 													</p>
-													<p className="text-xs text-muted-foreground">{ct.jobTitle}</p>
+													<p className="text-xs text-fg-muted">{ct.jobTitle}</p>
 												</div>
 												<div className="text-right">
-													<p className="text-sm text-muted-foreground">{ct.email}</p>
-													{ct.phone && <p className="text-xs text-muted-foreground">{ct.phone}</p>}
+													<p className="text-sm text-fg-muted">{ct.email}</p>
+													{ct.phone && <p className="text-xs text-fg-muted">{ct.phone}</p>}
 												</div>
 											</a>
 										))}
@@ -213,24 +213,24 @@ export default function CompanyDetailPage({
 							</CardHeader>
 							<CardContent>
 								{companyDeals.length === 0 ? (
-									<p className="py-6 text-center text-sm text-muted-foreground">Aucun deal associé</p>
+									<p className="py-6 text-center text-sm text-fg-muted">Aucun deal associé</p>
 								) : (
 									<div className="divide-y">
 										{companyDeals.map((d) => (
 											<a
 												key={d.id}
 												href={`/deals/${d.id}`}
-												className="flex items-center justify-between p-3 hover:bg-muted rounded-md transition-colors"
+												className="flex items-center justify-between p-3 hover:bg-raised rounded-md transition-colors"
 											>
 												<div>
 													<p className="text-sm font-medium">{d.title}</p>
-													<p className="text-xs text-muted-foreground">
+													<p className="text-xs text-fg-muted">
 														{stageLabel[d.stage] ?? d.stage} · {d.assignedTo}
 													</p>
 												</div>
 												<div className="text-right">
 													<p className="text-sm font-semibold">{formatCurrency(d.amount)}</p>
-													<p className="text-xs text-muted-foreground">{d.probability}%</p>
+													<p className="text-xs text-fg-muted">{d.probability}%</p>
 												</div>
 											</a>
 										))}

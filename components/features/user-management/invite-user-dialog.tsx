@@ -109,7 +109,7 @@ export function InviteUserDialog({ open, onOpenChange, onSubmit }: InviteUserDia
 							autoFocus
 						/>
 						{errors.email && (
-							<p className="text-sm text-destructive">{errors.email.message}</p>
+							<p className="text-sm text-negative">{errors.email.message}</p>
 						)}
 					</div>
 
@@ -126,7 +126,7 @@ export function InviteUserDialog({ open, onOpenChange, onSubmit }: InviteUserDia
 							</SelectContent>
 						</Select>
 						{errors.role && (
-							<p className="text-sm text-destructive">{errors.role.message}</p>
+							<p className="text-sm text-negative">{errors.role.message}</p>
 						)}
 					</div>
 

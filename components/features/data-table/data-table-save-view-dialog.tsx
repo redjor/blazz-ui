@@ -155,9 +155,9 @@ export function DataTableSaveViewDialog({
                 placeholder={t.namePlaceholder}
                 autoFocus
                 maxLength={50}
-                className={error ? 'border-destructive' : ''}
+                className={error ? 'border-negative' : ''}
               />
-              {error && <p className="text-sm text-destructive">{error}</p>}
+              {error && <p className="text-sm text-negative">{error}</p>}
             </div>
           </div>
         </div>

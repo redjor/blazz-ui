@@ -59,36 +59,36 @@ export function QuotePreview({
 	return (
 		<div
 			className={cn(
-				"mx-auto max-w-[800px] rounded-lg border bg-background p-8 shadow-sm print:border-0 print:shadow-none",
+				"mx-auto max-w-[800px] rounded-lg border bg-surface p-8 shadow-sm print:border-0 print:shadow-none",
 				className
 			)}
 		>
 			{/* Header */}
 			<div className="flex items-start justify-between border-b pb-6">
 				<div>
-					<h1 className="text-xl font-bold text-foreground">Forge CRM</h1>
-					<p className="mt-1 text-sm text-muted-foreground">
+					<h1 className="text-xl font-bold text-fg">Forge CRM</h1>
+					<p className="mt-1 text-sm text-fg-muted">
 						123 Avenue des Champs-Élysées<br />
 						75008 Paris, France
 					</p>
 				</div>
 				<div className="text-right">
-					<h2 className="text-lg font-semibold text-foreground">DEVIS</h2>
-					<p className="mt-1 text-sm text-muted-foreground">{reference}</p>
+					<h2 className="text-lg font-semibold text-fg">DEVIS</h2>
+					<p className="mt-1 text-sm text-fg-muted">{reference}</p>
 				</div>
 			</div>
 
 			{/* Dates + Client */}
 			<div className="mt-6 grid grid-cols-2 gap-8">
 				<div>
-					<h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+					<h3 className="text-xs font-semibold uppercase tracking-wide text-fg-muted">
 						Client
 					</h3>
 					<div className="mt-2 text-sm">
 						<p className="font-medium">{company.name}</p>
-						{company.address && <p className="text-muted-foreground">{company.address}</p>}
+						{company.address && <p className="text-fg-muted">{company.address}</p>}
 						{company.city && (
-							<p className="text-muted-foreground">
+							<p className="text-fg-muted">
 								{company.city}
 								{company.country ? `, ${company.country}` : ""}
 							</p>
@@ -97,7 +97,7 @@ export function QuotePreview({
 							<div className="mt-2">
 								<p>{contact.name}</p>
 								{contact.email && (
-									<p className="text-muted-foreground">{contact.email}</p>
+									<p className="text-fg-muted">{contact.email}</p>
 								)}
 							</div>
 						)}
@@ -106,11 +106,11 @@ export function QuotePreview({
 				<div className="text-right">
 					<div className="space-y-1 text-sm">
 						<p>
-							<span className="text-muted-foreground">Date : </span>
+							<span className="text-fg-muted">Date : </span>
 							<span className="font-medium">{formatDate(date)}</span>
 						</p>
 						<p>
-							<span className="text-muted-foreground">Valide jusqu&apos;au : </span>
+							<span className="text-fg-muted">Valide jusqu&apos;au : </span>
 							<span className="font-medium">{formatDate(validUntil)}</span>
 						</p>
 					</div>
@@ -134,7 +134,7 @@ export function QuotePreview({
 								<td className="py-3">
 									<p className="font-medium">{line.product}</p>
 									{line.description && (
-										<p className="text-muted-foreground">{line.description}</p>
+										<p className="text-fg-muted">{line.description}</p>
 									)}
 								</td>
 								<td className="py-3 text-right tabular-nums">{line.quantity}</td>
@@ -154,11 +154,11 @@ export function QuotePreview({
 			<div className="mt-4 flex justify-end">
 				<div className="w-64 space-y-1 text-sm">
 					<div className="flex justify-between">
-						<span className="text-muted-foreground">Sous-total HT</span>
+						<span className="text-fg-muted">Sous-total HT</span>
 						<span className="tabular-nums">{formatAmount(subtotal, currency)}</span>
 					</div>
 					<div className="flex justify-between">
-						<span className="text-muted-foreground">TVA (20%)</span>
+						<span className="text-fg-muted">TVA (20%)</span>
 						<span className="tabular-nums">{formatAmount(tax, currency)}</span>
 					</div>
 					<div className="flex justify-between border-t pt-1 font-semibold">
@@ -170,11 +170,11 @@ export function QuotePreview({
 
 			{/* Notes */}
 			{notes && (
-				<div className="mt-8 rounded-md bg-muted/50 p-4">
-					<h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+				<div className="mt-8 rounded-md bg-raised/50 p-4">
+					<h3 className="text-xs font-semibold uppercase tracking-wide text-fg-muted">
 						Conditions
 					</h3>
-					<p className="mt-1 text-sm text-muted-foreground">{notes}</p>
+					<p className="mt-1 text-sm text-fg-muted">{notes}</p>
 				</div>
 			)}
 		</div>

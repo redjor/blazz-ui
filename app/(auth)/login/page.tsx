@@ -25,7 +25,7 @@ export default function LoginPage() {
 		<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1 text-center">
 				<h2 className="text-lg font-semibold">Connexion</h2>
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-fg-muted">
 					Entrez vos identifiants pour accéder au CRM
 				</p>
 			</div>
@@ -40,7 +40,7 @@ export default function LoginPage() {
 						{...form.register("email")}
 					/>
 					{form.formState.errors.email && (
-						<p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+						<p className="text-xs text-negative">{form.formState.errors.email.message}</p>
 					)}
 				</div>
 
@@ -49,7 +49,7 @@ export default function LoginPage() {
 						<Label htmlFor="password">Mot de passe</Label>
 						<Link
 							href="/forgot-password"
-							className="text-xs text-muted-foreground hover:underline"
+							className="text-xs text-fg-muted hover:underline"
 						>
 							Mot de passe oublié ?
 						</Link>
@@ -61,7 +61,7 @@ export default function LoginPage() {
 						{...form.register("password")}
 					/>
 					{form.formState.errors.password && (
-						<p className="text-xs text-destructive">{form.formState.errors.password.message}</p>
+						<p className="text-xs text-negative">{form.formState.errors.password.message}</p>
 					)}
 				</div>
 			</div>
@@ -70,9 +70,9 @@ export default function LoginPage() {
 				{form.formState.isSubmitting ? "Connexion..." : "Se connecter"}
 			</Button>
 
-			<p className="text-center text-xs text-muted-foreground">
+			<p className="text-center text-xs text-fg-muted">
 				Pas encore de compte ?{" "}
-				<Link href="/register" className="text-foreground hover:underline">
+				<Link href="/register" className="text-fg hover:underline">
 					Créer un compte
 				</Link>
 			</p>

@@ -154,14 +154,14 @@ export const WithIcons: Story = {
 			<div>
 				<Label htmlFor="search-icon">Search with icon</Label>
 				<div className="relative">
-					<Search className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground" />
+					<Search className="absolute left-2.5 top-2 h-4 w-4 text-fg-muted" />
 					<Input id="search-icon" placeholder="Search..." className="pl-9" />
 				</div>
 			</div>
 			<div>
 				<Label htmlFor="email-icon">Email with icon</Label>
 				<div className="relative">
-					<Mail className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground" />
+					<Mail className="absolute left-2.5 top-2 h-4 w-4 text-fg-muted" />
 					<Input id="email-icon" type="email" placeholder="name@example.com" className="pl-9" />
 				</div>
 			</div>
@@ -216,7 +216,7 @@ export const Composition: Story = {
 			<div className="w-[400px]">
 				<h3 className="text-sm font-semibold mb-4">Search Bar</h3>
 				<div className="relative">
-					<Search className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground" />
+					<Search className="absolute left-2.5 top-2 h-4 w-4 text-fg-muted" />
 					<Input placeholder="Search for anything..." className="pl-9" />
 				</div>
 			</div>
@@ -242,7 +242,7 @@ export const Composition: Story = {
 							defaultValue="invalid-email"
 							aria-invalid
 						/>
-						<p className="text-xs text-destructive mt-1">Please enter a valid email</p>
+						<p className="text-xs text-negative mt-1">Please enter a valid email</p>
 					</div>
 				</form>
 			</div>
@@ -289,7 +289,7 @@ function PasswordToggle() {
 
 	return (
 		<div className="relative">
-			<Lock className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground" />
+			<Lock className="absolute left-2.5 top-2 h-4 w-4 text-fg-muted" />
 			<Input
 				type={showPassword ? "text" : "password"}
 				placeholder="••••••••"
@@ -298,7 +298,7 @@ function PasswordToggle() {
 			<button
 				type="button"
 				onClick={() => setShowPassword(!showPassword)}
-				className="absolute right-2.5 top-2 text-muted-foreground hover:text-foreground"
+				className="absolute right-2.5 top-2 text-fg-muted hover:text-fg"
 			>
 				{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
 			</button>

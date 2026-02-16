@@ -37,15 +37,15 @@ function DealCard({ deal }: { deal: Deal }) {
   return (
     <a
       href={`/deals/${deal.id}`}
-      className="block rounded-lg border bg-background p-3 shadow-sm hover:shadow-md transition-shadow"
+      className="block rounded-lg border bg-surface p-3 shadow-sm hover:shadow-md transition-shadow"
     >
       <p className="text-sm font-medium truncate">{deal.title}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{deal.companyName}</p>
+      <p className="mt-1 text-xs text-fg-muted">{deal.companyName}</p>
       <div className="mt-2 flex items-center justify-between">
         <span className="text-sm font-semibold">{formatCurrency(deal.amount)}</span>
-        <span className="text-xs text-muted-foreground">{deal.probability}%</span>
+        <span className="text-xs text-fg-muted">{deal.probability}%</span>
       </div>
-      <p className="mt-1 text-xs text-muted-foreground">{deal.assignedTo}</p>
+      <p className="mt-1 text-xs text-fg-muted">{deal.assignedTo}</p>
     </a>
   );
 }
@@ -112,7 +112,7 @@ function DealsContent() {
                     {items.length}
                   </Badge>
                 </div>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-fg-muted">
                   {formatCurrency(stageTotal)}
                 </span>
               </div>

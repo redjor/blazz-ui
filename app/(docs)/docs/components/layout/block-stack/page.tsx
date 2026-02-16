@@ -47,7 +47,7 @@ const blockStackProps: DocProp[] = [
 
 function Placeholder({ label }: { label: string }) {
 	return (
-		<div className="flex h-12 items-center justify-center rounded-md bg-primary/10 px-4 text-sm">
+		<div className="flex h-12 items-center justify-center rounded-md bg-brand/10 px-4 text-sm">
 			{label}
 		</div>
 	)
@@ -176,9 +176,9 @@ export default function BlockStackPage() {
 							<Card>
 								<CardContent>
 									<BlockStack inlineAlign="start" gap="200">
-										<div className="h-8 w-24 rounded bg-primary/10" />
-										<div className="h-8 w-32 rounded bg-primary/10" />
-										<div className="h-8 w-20 rounded bg-primary/10" />
+										<div className="h-8 w-24 rounded bg-brand/10" />
+										<div className="h-8 w-32 rounded bg-brand/10" />
+										<div className="h-8 w-20 rounded bg-brand/10" />
 									</BlockStack>
 								</CardContent>
 							</Card>
@@ -188,9 +188,9 @@ export default function BlockStackPage() {
 							<Card>
 								<CardContent>
 									<BlockStack inlineAlign="center" gap="200">
-										<div className="h-8 w-24 rounded bg-primary/10" />
-										<div className="h-8 w-32 rounded bg-primary/10" />
-										<div className="h-8 w-20 rounded bg-primary/10" />
+										<div className="h-8 w-24 rounded bg-brand/10" />
+										<div className="h-8 w-32 rounded bg-brand/10" />
+										<div className="h-8 w-20 rounded bg-brand/10" />
 									</BlockStack>
 								</CardContent>
 							</Card>
@@ -200,9 +200,9 @@ export default function BlockStackPage() {
 							<Card>
 								<CardContent>
 									<BlockStack inlineAlign="end" gap="200">
-										<div className="h-8 w-24 rounded bg-primary/10" />
-										<div className="h-8 w-32 rounded bg-primary/10" />
-										<div className="h-8 w-20 rounded bg-primary/10" />
+										<div className="h-8 w-24 rounded bg-brand/10" />
+										<div className="h-8 w-32 rounded bg-brand/10" />
+										<div className="h-8 w-20 rounded bg-brand/10" />
 									</BlockStack>
 								</CardContent>
 							</Card>

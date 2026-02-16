@@ -31,11 +31,11 @@ export function BulkActionBar({
 		<div
 			className={cn(
 				"fixed bottom-6 left-1/2 z-50 -translate-x-1/2",
-				"flex items-center gap-3 rounded-lg border bg-background px-4 py-2.5 shadow-lg",
+				"flex items-center gap-3 rounded-lg border bg-surface px-4 py-2.5 shadow-lg",
 				className
 			)}
 		>
-			<span className="text-sm font-medium text-foreground">
+			<span className="text-sm font-medium text-fg">
 				{selectedCount} sélectionné{selectedCount > 1 ? "s" : ""}
 			</span>
 

@@ -24,12 +24,12 @@ export function ErrorState({
 				className
 			)}
 		>
-			<div className="mb-4 rounded-full bg-destructive/10 p-3">
-				<AlertTriangle className="size-6 text-destructive" />
+			<div className="mb-4 rounded-full bg-negative/10 p-3">
+				<AlertTriangle className="size-6 text-negative" />
 			</div>
-			<h3 className="text-sm font-semibold text-foreground">{title}</h3>
+			<h3 className="text-sm font-semibold text-fg">{title}</h3>
 			{description && (
-				<p className="mt-1 max-w-sm text-sm text-muted-foreground">
+				<p className="mt-1 max-w-sm text-sm text-fg-muted">
 					{description}
 				</p>
 			)}

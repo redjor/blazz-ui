@@ -69,7 +69,7 @@ export function ForecastChart({
 						<stop offset="95%" stopColor="#16a34a" stopOpacity={0} />
 					</linearGradient>
 				</defs>
-				<CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+				<CartesianGrid strokeDasharray="3 3" className="stroke-edge" />
 				<XAxis
 					dataKey="period"
 					className="text-xs"
@@ -131,7 +131,7 @@ export function ForecastChart({
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
 				{description && (
-					<p className="text-sm text-muted-foreground">{description}</p>
+					<p className="text-sm text-fg-muted">{description}</p>
 				)}
 			</CardHeader>
 			<CardContent>{content}</CardContent>

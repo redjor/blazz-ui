@@ -76,7 +76,7 @@ export function DealLinesEditor({
 			<div className="overflow-x-auto rounded-lg border">
 				<table className="w-full text-sm">
 					<thead>
-						<tr className="border-b bg-muted/50">
+						<tr className="border-b bg-raised/50">
 							<th className="px-3 py-2 text-left font-medium">Produit</th>
 							<th className="px-3 py-2 text-left font-medium">Description</th>
 							<th className="w-24 px-3 py-2 text-right font-medium">Qté</th>
@@ -102,7 +102,7 @@ export function DealLinesEditor({
 								</td>
 								<td className="px-3 py-1.5">
 									{readOnly ? (
-										<span className="text-muted-foreground">{line.description}</span>
+										<span className="text-fg-muted">{line.description}</span>
 									) : (
 										<Input
 											value={line.description}
@@ -147,7 +147,7 @@ export function DealLinesEditor({
 										<button
 											type="button"
 											onClick={() => removeLine(line.id)}
-											className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground hover:text-destructive"
+											className="inline-flex size-6 items-center justify-center rounded-md text-fg-muted hover:text-negative"
 										>
 											<Trash2 className="size-3.5" />
 										</button>
@@ -157,14 +157,14 @@ export function DealLinesEditor({
 						))}
 						{lines.length === 0 && (
 							<tr>
-								<td colSpan={readOnly ? 5 : 6} className="px-3 py-6 text-center text-muted-foreground">
+								<td colSpan={readOnly ? 5 : 6} className="px-3 py-6 text-center text-fg-muted">
 									Aucune ligne. Cliquez sur &quot;Ajouter&quot; pour commencer.
 								</td>
 							</tr>
 						)}
 					</tbody>
 					<tfoot>
-						<tr className="border-t bg-muted/30">
+						<tr className="border-t bg-raised/30">
 							<td colSpan={readOnly ? 4 : 4} className="px-3 py-2 text-right text-sm font-semibold">
 								Sous-total
 							</td>

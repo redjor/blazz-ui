@@ -78,8 +78,8 @@ export function createProductsPreset(config: ProductsPresetConfig = {}): Product
         const sku = row.original.sku;
         return (
           <div className="flex flex-col gap-0.5">
-            <span className="font-medium text-foreground">{name}</span>
-            <span className="text-xs text-muted-foreground font-mono">{sku}</span>
+            <span className="font-medium text-fg">{name}</span>
+            <span className="text-xs text-fg-muted font-mono">{sku}</span>
           </div>
         );
       },

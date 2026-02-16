@@ -70,7 +70,7 @@ export function SplitView({
 
 			{/* Resize handle */}
 			<div
-				className="flex w-1 shrink-0 cursor-col-resize items-center justify-center hover:bg-muted"
+				className="flex w-1 shrink-0 cursor-col-resize items-center justify-center hover:bg-raised"
 				onMouseDown={handleMouseDown}
 			>
 				<div className="h-8 w-0.5 rounded-full bg-border" />

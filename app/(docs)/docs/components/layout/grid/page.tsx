@@ -45,7 +45,7 @@ const gridCellProps: DocProp[] = [
 ]
 function Placeholder({ label }: { label: string }) {
 	return (
-		<div className="flex h-24 items-center justify-center rounded-lg bg-primary/10 text-sm font-medium">
+		<div className="flex h-24 items-center justify-center rounded-lg bg-brand/10 text-sm font-medium">
 			{label}
 		</div>
 	)

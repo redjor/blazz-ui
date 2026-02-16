@@ -35,8 +35,8 @@ export function Field({ label, value, span, className }: FieldProps) {
 			className={cn("min-w-0", className)}
 			style={span ? { gridColumn: `span ${span}` } : undefined}
 		>
-			<dt className="text-sm text-muted-foreground">{label}</dt>
-			<dd className="mt-0.5 text-sm font-medium text-foreground">
+			<dt className="text-sm text-fg-muted">{label}</dt>
+			<dd className="mt-0.5 text-sm font-medium text-fg">
 				{value ?? "—"}
 			</dd>
 		</div>

@@ -85,7 +85,7 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
       cellRenderer: (_value, row) => (
         <Link
           href={`/deals/${row.id}`}
-          className="font-medium text-foreground hover:underline"
+          className="font-medium text-fg hover:underline"
         >
           {row.title}
         </Link>

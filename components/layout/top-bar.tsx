@@ -90,7 +90,7 @@ export function TopBar({
 										) : (
 											<Link
 												href={breadcrumb.href}
-												className="transition-colors hover:text-foreground"
+												className="transition-colors hover:text-fg"
 											>
 												{breadcrumb.label}
 											</Link>

@@ -260,7 +260,7 @@ export function createOrderManagementPreset(
       placeholder: locale === 'fr' ? 'Rechercher par numéro...' : 'Search by order number...',
       showInlineFilter: true,
       defaultInlineFilter: false,
-      className: 'font-mono text-sm font-semibold text-foreground',
+      className: 'font-mono text-sm font-semibold text-fg',
     }),
     createTextColumn<Order>({
       accessorKey: 'customer',

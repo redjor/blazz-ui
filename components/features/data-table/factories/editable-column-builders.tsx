@@ -104,9 +104,9 @@ function useEditableCell<T>({
 /** Shared base for both idle button and editing input — identical box model = zero layout shift.
  *  Padding is on the content (not the td) so the edit ring fills the entire cell. */
 export const cellShared =
-  'w-full px-3 py-3 text-body-md text-foreground rounded-none bg-transparent';
+  'w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent';
 
-const idleCell = `${cellShared} cursor-text text-left hover:bg-muted/40`;
+const idleCell = `${cellShared} cursor-text text-left hover:bg-raised/40`;
 
 const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-p-border-focus`;
 
@@ -155,7 +155,7 @@ function EditableTextCell({
           setEditing(true);
         }}
       >
-        {value || <span className="text-muted-foreground">{placeholder}</span>}
+        {value || <span className="text-fg-muted">{placeholder}</span>}
       </button>
     );
   }

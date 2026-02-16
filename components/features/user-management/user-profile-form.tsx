@@ -173,7 +173,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 										)}
 										{!emailAddress.isPrimary && (
 											<DropdownMenuItem
-												className="text-destructive"
+												className="text-negative"
 												onClick={() =>
 													toast.success("Email removed", {
 														description: `${emailAddress.email} has been removed.`,
@@ -198,7 +198,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 						<div className="space-y-2">
 							<Label htmlFor="username">Username</Label>
 							<div className="flex items-center gap-2">
-								<span className="text-muted-foreground text-sm">@</span>
+								<span className="text-fg-muted text-sm">@</span>
 								<Input
 									id="username"
 									value={username}
@@ -216,7 +216,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 			<div className="space-y-4">
 				{/* User ID */}
 				<Card className="p-4">
-					<Label className="text-xs text-muted-foreground">User ID</Label>
+					<Label className="text-xs text-fg-muted">User ID</Label>
 					<div className="flex items-center justify-between mt-2">
 						<p className="text-sm font-mono">{user.id}</p>
 						<Button
@@ -236,7 +236,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 				{/* Primary Email */}
 				{primaryEmail && (
 					<Card className="p-4">
-						<Label className="text-xs text-muted-foreground">Primary email</Label>
+						<Label className="text-xs text-fg-muted">Primary email</Label>
 						<div className="flex items-center justify-between mt-2">
 							<p className="text-sm truncate">{primaryEmail.email}</p>
 							<Button
@@ -256,7 +256,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 
 				{/* Username */}
 				<Card className="p-4">
-					<Label className="text-xs text-muted-foreground">Username</Label>
+					<Label className="text-xs text-fg-muted">Username</Label>
 					<div className="flex items-center justify-between mt-2">
 						<p className="text-sm font-mono">@{user.username}</p>
 						<Button
@@ -275,7 +275,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 
 				{/* User Since */}
 				<Card className="p-4">
-					<Label className="text-xs text-muted-foreground">User since</Label>
+					<Label className="text-xs text-fg-muted">User since</Label>
 					<p className="text-sm mt-2">
 						{new Date(user.createdAt).toLocaleDateString("en-US", {
 							month: "long",
@@ -287,7 +287,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 
 				{/* Profile Updated */}
 				<Card className="p-4">
-					<Label className="text-xs text-muted-foreground">Profile updated</Label>
+					<Label className="text-xs text-fg-muted">Profile updated</Label>
 					<p className="text-sm mt-2">
 						{new Date(user.updatedAt).toLocaleDateString("en-US", {
 							month: "long",

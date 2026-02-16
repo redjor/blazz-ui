@@ -53,7 +53,7 @@ const inlineStackProps: DocProp[] = [
 function Placeholder({ width = "auto" }: { width?: string }) {
 	return (
 		<div
-			className="flex h-10 items-center justify-center rounded-md bg-primary/10 px-4 text-sm"
+			className="flex h-10 items-center justify-center rounded-md bg-brand/10 px-4 text-sm"
 			style={{ width }}
 		>
 			{width}
@@ -180,10 +180,10 @@ export default function InlineStackPage() {
 							<Card>
 								<CardContent>
 									<InlineStack blockAlign="start" gap="200">
-										<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">
 											40px
 										</div>
-										<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">
 											80px
 										</div>
 									</InlineStack>
@@ -195,10 +195,10 @@ export default function InlineStackPage() {
 							<Card>
 								<CardContent>
 									<InlineStack blockAlign="center" gap="200">
-										<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">
 											40px
 										</div>
-										<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">
 											80px
 										</div>
 									</InlineStack>
@@ -210,10 +210,10 @@ export default function InlineStackPage() {
 							<Card>
 								<CardContent>
 									<InlineStack blockAlign="end" gap="200">
-										<div className="flex h-10 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">
 											40px
 										</div>
-										<div className="flex h-20 w-16 items-center justify-center rounded bg-primary/10 text-xs">
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">
 											80px
 										</div>
 									</InlineStack>

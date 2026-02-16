@@ -35,14 +35,14 @@ export function ComponentsSidebar() {
 	}
 
 	return (
-		<aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 border-r bg-background lg:block">
+		<aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-64 shrink-0 border-r bg-surface lg:block">
 			<ScrollArea className="h-full py-6">
 				<div className="px-4 pb-4">
 					<Link
 						href="/components"
 						className={cn(
-							"text-sm font-semibold hover:text-foreground",
-							pathname === "/components" ? "text-foreground" : "text-muted-foreground"
+							"text-sm font-semibold hover:text-fg",
+							pathname === "/components" ? "text-fg" : "text-fg-muted"
 						)}
 					>
 						Components
@@ -83,8 +83,8 @@ function CategoryItem({
 				type="button"
 				onClick={onToggle}
 				className={cn(
-					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted",
-					hasActiveItem ? "text-foreground" : "text-muted-foreground"
+					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-raised",
+					hasActiveItem ? "text-fg" : "text-fg-muted"
 				)}
 			>
 				<ChevronRight
@@ -103,10 +103,10 @@ function CategoryItem({
 							key={item.href}
 							href={item.href}
 							className={cn(
-								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted",
+								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-raised",
 								isItemActive(item.href)
-									? "bg-muted font-medium text-foreground"
-									: "text-muted-foreground hover:text-foreground"
+									? "bg-raised font-medium text-fg"
+									: "text-fg-muted hover:text-fg"
 							)}
 						>
 							{item.title}
@@ -155,7 +155,7 @@ export function ComponentsSidebarMobile() {
 			<button
 				type="button"
 				onClick={() => setOpen(!open)}
-				className="flex w-full items-center justify-between rounded-lg border bg-background px-4 py-2 text-sm font-medium"
+				className="flex w-full items-center justify-between rounded-lg border bg-surface px-4 py-2 text-sm font-medium"
 			>
 				<span>{currentComponent?.title || "Components"}</span>
 				<ChevronRight
@@ -166,14 +166,14 @@ export function ComponentsSidebarMobile() {
 				/>
 			</button>
 			{open && (
-				<div className="mt-2 rounded-lg border bg-background p-2">
+				<div className="mt-2 rounded-lg border bg-surface p-2">
 					<nav className="space-y-1">
 						{componentsNavigation.map((category) => (
 							<div key={category.id}>
 								<button
 									type="button"
 									onClick={() => toggleCategory(category.id)}
-									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-fg-muted hover:bg-raised hover:text-fg"
 								>
 									<ChevronRight
 										className={cn(
@@ -192,10 +192,10 @@ export function ComponentsSidebarMobile() {
 												href={item.href}
 												onClick={() => setOpen(false)}
 												className={cn(
-													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted",
+													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-raised",
 													isItemActive(item.href)
-														? "bg-muted font-medium text-foreground"
-														: "text-muted-foreground hover:text-foreground"
+														? "bg-raised font-medium text-fg"
+														: "text-fg-muted hover:text-fg"
 												)}
 											>
 												{item.title}

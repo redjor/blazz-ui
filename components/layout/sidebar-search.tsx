@@ -26,13 +26,13 @@ export function SidebarSearch({
 
 	return (
 		<div className={cn("relative", className)}>
-			<Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+			<Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-muted" />
 			<Input
 				type="search"
 				placeholder={placeholder}
 				value={query}
 				onChange={handleChange}
-				className="h-9 pl-8 bg-background"
+				className="h-9 pl-8 bg-surface"
 			/>
 		</div>
 	)

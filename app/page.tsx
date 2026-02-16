@@ -6,19 +6,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function Home() {
 	return (
-		<div className="min-h-screen p-8 bg-background">
+		<div className="min-h-screen p-8 bg-surface">
 			<div className="max-w-4xl mx-auto space-y-8">
 				<div>
 					<h1 className="text-heading-3xl tracking-tight">@blazz/ui-boilerplate</h1>
-					<p className="text-body-lg text-muted-foreground mt-2">
+					<p className="text-body-lg text-fg-muted mt-2">
 						Package UI réutilisable avec shadcn/ui et Base UI pour Next.js 16 + React 19
 					</p>
 				</div>
 
-				<Card className="border-primary/20 bg-primary/5">
+				<Card className="border-brand/20 bg-brand/5">
 					<CardHeader>
 						<div className="flex items-center gap-2">
-							<LayoutDashboard className="h-5 w-5 text-primary" />
+							<LayoutDashboard className="h-5 w-5 text-brand" />
 							<CardTitle>Shopify Frame Layout</CardTitle>
 						</div>
 						<CardDescription>
@@ -26,7 +26,7 @@ export default function Home() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-4">
-						<p className="text-body-md text-muted-foreground">
+						<p className="text-body-md text-fg-muted">
 							Navigation avec sidebar officielle ShadCn, menus imbriqués, breadcrumbs dynamiques, et
 							palette de commandes (Cmd+K). Design sage green inspiré de Shopify.
 						</p>
@@ -80,13 +80,13 @@ export default function Home() {
 							<CardDescription>Informations sur le package</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-4">
-							<p className="text-body-md text-muted-foreground">
+							<p className="text-body-md text-fg-muted">
 								Ce package contient des composants UI basés sur <strong>Base UI</strong> (la
 								nouvelle architecture de shadcn), un système de layout, et des utilities complètes.
 							</p>
 							<div className="space-y-2">
 								<h4 className="text-heading-md">Inclus:</h4>
-								<ul className="text-body-md text-muted-foreground space-y-1 list-disc list-inside">
+								<ul className="text-body-md text-fg-muted space-y-1 list-disc list-inside">
 									<li>Composants shadcn/ui avec Base UI</li>
 									<li>DashboardLayout + Navbar + NavTabs</li>
 									<li>Design system avec Tailwind v4</li>

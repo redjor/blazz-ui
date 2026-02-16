@@ -94,7 +94,7 @@ export const States: Story = {
 				<h3 className="text-sm font-semibold mb-4">With Required Indicator</h3>
 				<div className="flex flex-col gap-2">
 					<Label htmlFor="required">
-						Email <span className="text-destructive">*</span>
+						Email <span className="text-negative">*</span>
 					</Label>
 					<Input id="required" type="email" placeholder="name@example.com" required />
 				</div>
@@ -105,7 +105,7 @@ export const States: Story = {
 				<div className="flex flex-col gap-2">
 					<Label htmlFor="help">Password</Label>
 					<Input id="help" type="password" placeholder="••••••••" />
-					<p className="text-xs text-muted-foreground">Must be at least 8 characters</p>
+					<p className="text-xs text-fg-muted">Must be at least 8 characters</p>
 				</div>
 			</div>
 		</div>
@@ -123,14 +123,14 @@ export const Composition: Story = {
 				<form className="flex flex-col gap-4">
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name">
-							Full Name <span className="text-destructive">*</span>
+							Full Name <span className="text-negative">*</span>
 						</Label>
 						<Input id="name" placeholder="John Doe" required />
 					</div>
 
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="email">
-							Email <span className="text-destructive">*</span>
+							Email <span className="text-negative">*</span>
 						</Label>
 						<Input id="email" type="email" placeholder="john@example.com" required />
 					</div>
@@ -138,7 +138,7 @@ export const Composition: Story = {
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="bio">Bio</Label>
 						<Input id="bio" placeholder="Tell us about yourself" />
-						<p className="text-xs text-muted-foreground">Optional field</p>
+						<p className="text-xs text-fg-muted">Optional field</p>
 					</div>
 				</form>
 			</div>
@@ -166,7 +166,7 @@ export const Composition: Story = {
 				<div className="flex flex-col gap-2">
 					<div>
 						<Label htmlFor="api-key">API Key</Label>
-						<p className="text-xs text-muted-foreground mt-1">
+						<p className="text-xs text-fg-muted mt-1">
 							Your API key is used to authenticate requests
 						</p>
 					</div>
@@ -179,7 +179,7 @@ export const Composition: Story = {
 				<div className="flex items-center justify-between rounded-lg border p-4">
 					<div className="flex flex-col gap-1">
 						<Label htmlFor="marketing">Marketing emails</Label>
-						<p className="text-xs text-muted-foreground">
+						<p className="text-xs text-fg-muted">
 							Receive emails about new products and features
 						</p>
 					</div>

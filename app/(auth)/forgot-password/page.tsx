@@ -24,7 +24,7 @@ export default function ForgotPasswordPage() {
 		return (
 			<div className="space-y-4 text-center">
 				<h2 className="text-lg font-semibold">Email envoyé</h2>
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-fg-muted">
 					Si un compte existe avec cette adresse, vous recevrez un lien
 					de réinitialisation.
 				</p>
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
 		<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1 text-center">
 				<h2 className="text-lg font-semibold">Mot de passe oublié</h2>
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-fg-muted">
 					Entrez votre email pour recevoir un lien de réinitialisation
 				</p>
 			</div>
@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
 					{...form.register("email")}
 				/>
 				{form.formState.errors.email && (
-					<p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+					<p className="text-xs text-negative">{form.formState.errors.email.message}</p>
 				)}
 			</div>
 
@@ -63,8 +63,8 @@ export default function ForgotPasswordPage() {
 				{form.formState.isSubmitting ? "Envoi..." : "Envoyer le lien"}
 			</Button>
 
-			<p className="text-center text-xs text-muted-foreground">
-				<Link href="/login" className="text-foreground hover:underline">
+			<p className="text-center text-xs text-fg-muted">
+				<Link href="/login" className="text-fg hover:underline">
 					Retour à la connexion
 				</Link>
 			</p>
