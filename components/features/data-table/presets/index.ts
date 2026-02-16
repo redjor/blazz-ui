@@ -28,5 +28,9 @@ export * from './crm-products';
 export * from './talentflow-candidates';
 export * from './talentflow-jobs';
 
+// StockBase Inventory presets
+export * from './stockbase-inventory';
+export * from './stockbase-movements';
+
 // Spreadsheet preset - Generic Airtable-style editable table
 export * from './spreadsheet';

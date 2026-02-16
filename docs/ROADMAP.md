@@ -127,7 +127,7 @@ Objectif : Polir le produit, ajouter les themes pre-packages, et preparer le con
 |-----|---------|-------|--------|
 | PulseOps | Interventions terrain | Corporate | ⬜ TODO |
 | **TalentFlow** | Recrutement ATS | Warm | ✅ DONE (3 pages) |
-| StockBase | Gestion inventaire | Slate | ⬜ TODO |
+| **StockBase** | Gestion inventaire | Slate | ✅ DONE (3 pages) |
 | TeamDesk | Helpdesk support | Corporate | ⬜ TODO |
 
 ### 3C. QA & Polish
@@ -223,5 +223,5 @@ Objectif : Construire la vitrine et commencer le marketing.
 | Pages CRM | 16 | 15+ |
 | Pages doc | 39 | 39+ (redesignees) |
 | Themes | 3 (Slate, Corporate, Warm) | 3 ✅ |
-| Apps demo | 2 (Forge CRM, TalentFlow) | 5 |
+| Apps demo | 3 (Forge CRM, TalentFlow, StockBase) | 5 |
 | Variables legacy | 0 | 0 ✅ |
