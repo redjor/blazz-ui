@@ -12,6 +12,7 @@ interface DocExampleClientProps {
 	highlightedCode: string
 	children: React.ReactNode
 	className?: string
+	previewClassName?: string
 	defaultExpanded?: boolean
 }
 
@@ -22,6 +23,7 @@ export function DocExampleClient({
 	highlightedCode,
 	children,
 	className,
+	previewClassName,
 	defaultExpanded = false,
 }: DocExampleClientProps) {
 	const [showCode, setShowCode] = React.useState(defaultExpanded)
@@ -45,7 +47,7 @@ export function DocExampleClient({
 			)}
 
 			{/* Preview */}
-			<div className="rounded-lg border border-edge bg-surface p-6">{children}</div>
+			<div className={cn("rounded-lg border border-edge bg-surface p-6", previewClassName)}>{children}</div>
 
 			{/* Code toggle bar */}
 			<div className="flex items-center gap-2">

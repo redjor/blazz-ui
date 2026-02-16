@@ -1,3 +1,5 @@
+"use client"
+
 import { Banner } from "@/components/ui/banner"
 import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"

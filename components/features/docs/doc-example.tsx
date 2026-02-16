@@ -7,6 +7,7 @@ interface DocExampleProps {
 	code: string
 	children: React.ReactNode
 	className?: string
+	previewClassName?: string
 	defaultExpanded?: boolean
 }
 
@@ -16,6 +17,7 @@ export async function DocExample({
 	code,
 	children,
 	className,
+	previewClassName,
 	defaultExpanded,
 }: DocExampleProps) {
 	const highlightedCode = await highlight(code, "tsx")
@@ -27,6 +29,7 @@ export async function DocExample({
 			code={code}
 			highlightedCode={highlightedCode}
 			className={className}
+			previewClassName={previewClassName}
 			defaultExpanded={defaultExpanded}
 		>
 			{children}
