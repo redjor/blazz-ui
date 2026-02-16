@@ -20,6 +20,18 @@ export const sidebarConfig: SidebarConfig = {
   },
   navigation: [
     {
+      id: "foundations",
+      title: "Foundations",
+      items: [
+        {
+          id: "theming",
+          title: "Theming",
+          url: "/docs/theming",
+          icon: Palette,
+        },
+      ],
+    },
+    {
       id: "components",
       title: "Components",
       items: [
@@ -124,7 +136,6 @@ export const sidebarConfig: SidebarConfig = {
           icon: Palette,
           items: [
             { title: "Colors", url: "/docs/components/colors" },
-            { title: "Theming", url: "/docs/components/theming" },
             { title: "Typography", url: "/docs/components/typography" },
             { title: "Text", url: "/docs/components/ui/text" },
           ],
