@@ -123,6 +123,7 @@ export const sidebarConfig: SidebarConfig = {
           icon: Palette,
           items: [
             { title: "Colors", url: "/docs/components/colors" },
+            { title: "Theming", url: "/docs/components/theming" },
             { title: "Typography", url: "/docs/components/typography" },
             { title: "Text", url: "/docs/components/ui/text" },
           ],
