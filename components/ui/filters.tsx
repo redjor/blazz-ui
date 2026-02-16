@@ -241,7 +241,7 @@ const filterInputVariants = cva(
     variants: {
       variant: {
         solid: "border-0 bg-raised",
-        outline: "bg-background border border-edge",
+        outline: "bg-surface border border-edge",
       },
       size: {
         lg: "h-10 text-sm px-2.5 has-[[data-slot=filters-prefix]]:ps-0 has-[[data-slot=filters-suffix]]:pe-0",
@@ -337,7 +337,7 @@ const filterOperatorVariants = cva(
       variant: {
         solid: "bg-raised",
         outline:
-          "bg-background border border-edge border-e-0 hover:bg-raised data-[state=open]:bg-raised [&+[data-slot=filters-remove]]:border-s",
+          "bg-surface border border-edge border-e-0 hover:bg-raised data-[state=open]:bg-raised [&+[data-slot=filters-remove]]:border-s",
       },
       size: {
         lg: "h-10 px-4 text-sm gap-1.5",
@@ -392,7 +392,7 @@ const filterFieldValueVariants = cva(
       variant: {
         solid: "bg-raised",
         outline:
-          "bg-background border border-edge hover:bg-raised has-[[data-slot=switch]]:hover:bg-transparent",
+          "bg-surface border border-edge hover:bg-raised has-[[data-slot=switch]]:hover:bg-transparent",
       },
       size: {
         lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
@@ -439,7 +439,7 @@ const filterFieldBetweenVariants = cva(
     variants: {
       variant: {
         solid: "bg-raised",
-        outline: "bg-background border border-edge border-x-0",
+        outline: "bg-surface border border-edge border-x-0",
       },
       size: {
         lg: "h-10 px-4 text-sm",

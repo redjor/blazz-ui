@@ -72,7 +72,7 @@ export function TagsInput({
 						<button
 							type="button"
 							onClick={() => removeTag(tag)}
-							className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-brand focus:ring-offset-2"
+							className="ml-1 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brand/20"
 						>
 							<X className="h-3 w-3" />
 						</button>

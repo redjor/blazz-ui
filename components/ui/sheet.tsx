@@ -62,7 +62,7 @@ function SheetContent({
 			<SheetOverlay topOffset={topOffset} />
 			<DialogPrimitive.Popup
 				className={cn(
-					"fixed z-50 bg-background shadow-lg",
+					"fixed z-50 bg-panel shadow-lg",
 					"data-open:animate-in data-closed:animate-out",
 					"duration-300 ease-in-out",
 					sideClasses[side],
