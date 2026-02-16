@@ -383,13 +383,13 @@ export default function TablePage() {
 						<code className="text-xs">text-fg-muted</code> - Header text color
 					</li>
 					<li>
-						<code className="text-xs">border-border</code> - Row borders
+						<code className="text-xs">border-edge</code> - Row borders
 					</li>
 					<li>
 						<code className="text-xs">hover:bg-raised/50</code> - Row hover state
 					</li>
 					<li>
-						<code className="text-xs">data-[state=selected]:bg-primary/5</code> - Selected row
+						<code className="text-xs">data-[state=selected]:bg-brand/5</code> - Selected row
 					</li>
 					<li>
 						<code className="text-xs">text-xs</code> - Table text size

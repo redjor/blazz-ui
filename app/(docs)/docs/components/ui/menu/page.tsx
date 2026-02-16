@@ -93,7 +93,7 @@ export default function MenuPage() {
 			{/* Hero */}
 			<DocHero>
 				<Menu>
-					<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-white">
+					<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">
 						Open Menu
 					</MenuTrigger>
 					<MenuPortal>
@@ -116,7 +116,7 @@ export default function MenuPage() {
 					title="Basic Menu"
 					description="A simple menu with action items."
 					code={`<Menu>
-  <MenuTrigger className="px-4 py-2 rounded-md bg-primary text-white">
+  <MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">
     Open Menu
   </MenuTrigger>
   <MenuPortal>
@@ -141,7 +141,7 @@ export default function MenuPage() {
 </Menu>`}
 				>
 					<Menu>
-						<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-white">
+						<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">
 							Open Menu
 						</MenuTrigger>
 						<MenuPortal>
@@ -357,16 +357,16 @@ const [autoSave, setAutoSave] = React.useState(false)
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-popover</code> - Menu background color
+						<code className="text-xs">bg-raised</code> - Menu background color
 					</li>
 					<li>
-						<code className="text-xs">text-popover-foreground</code> - Menu text color
+						<code className="text-xs">text-fg</code> - Menu text color
 					</li>
 					<li>
-						<code className="text-xs">bg-accent</code> - Highlighted item background
+						<code className="text-xs">bg-brand/10</code> - Highlighted item background
 					</li>
 					<li>
-						<code className="text-xs">text-accent-foreground</code> - Highlighted item text
+						<code className="text-xs">text-fg</code> - Highlighted item text
 					</li>
 					<li>
 						<code className="text-xs">border</code> - Menu border color

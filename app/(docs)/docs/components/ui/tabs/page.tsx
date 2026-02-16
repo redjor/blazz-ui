@@ -275,10 +275,10 @@ export default function TabsPage() {
 						<code className="text-xs">text-fg-muted</code> - Inactive tab text
 					</li>
 					<li>
-						<code className="text-xs">bg-background</code> - Active tab background
+						<code className="text-xs">bg-surface</code> - Active tab background
 					</li>
 					<li>
-						<code className="text-xs">text-foreground</code> - Active tab text
+						<code className="text-xs">text-fg</code> - Active tab text
 					</li>
 					<li>
 						<code className="text-xs">shadow-sm</code> - Active tab shadow

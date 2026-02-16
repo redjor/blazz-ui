@@ -255,10 +255,10 @@ export default function DialogPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-background</code> - Dialog background color
+						<code className="text-xs">bg-surface</code> - Dialog background color
 					</li>
 					<li>
-						<code className="text-xs">text-foreground</code> - Main text color
+						<code className="text-xs">text-fg</code> - Main text color
 					</li>
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Description text color
@@ -270,7 +270,7 @@ export default function DialogPage() {
 						<code className="text-xs">rounded-lg</code> - Large border radius (0.5rem)
 					</li>
 					<li>
-						<code className="text-xs">bg-black/80</code> - Backdrop overlay (80% opacity)
+						<code className="text-xs">bg-overlay</code> - Backdrop overlay
 					</li>
 				</ul>
 			</DocSection>

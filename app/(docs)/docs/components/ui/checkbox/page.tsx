@@ -133,7 +133,7 @@ export default function CheckboxPage() {
     <Checkbox id="error" aria-invalid />
     <Label htmlFor="error">Required field</Label>
   </div>
-  <p className="text-sm text-p-critical-text">
+  <p className="text-sm text-negative">
     You must accept the terms to continue.
   </p>
 </div>`}
@@ -143,7 +143,7 @@ export default function CheckboxPage() {
 							<Checkbox id="error" aria-invalid />
 							<Label htmlFor="error">Accept terms and conditions</Label>
 						</div>
-						<p className="text-sm text-p-critical-text">
+						<p className="text-sm text-negative">
 							You must accept the terms to continue.
 						</p>
 					</div>

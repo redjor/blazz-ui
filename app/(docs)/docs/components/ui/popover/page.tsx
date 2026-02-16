@@ -301,10 +301,10 @@ export default function PopoverPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-popover</code> - Background color for the popover
+						<code className="text-xs">bg-raised</code> - Background color for the popover
 					</li>
 					<li>
-						<code className="text-xs">text-popover-foreground</code> - Text color in popover
+						<code className="text-xs">text-fg</code> - Text color in popover
 					</li>
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Description text color

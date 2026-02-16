@@ -326,10 +326,10 @@ const handleArchive = () => {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-background</code> - Dialog background color
+						<code className="text-xs">bg-surface</code> - Dialog background color
 					</li>
 					<li>
-						<code className="text-xs">text-foreground</code> - Main text color
+						<code className="text-xs">text-fg</code> - Main text color
 					</li>
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Description text color

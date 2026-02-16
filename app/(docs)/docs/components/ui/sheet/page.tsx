@@ -379,13 +379,13 @@ export default function SheetPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-background</code> - Sheet background color
+						<code className="text-xs">bg-surface</code> - Sheet background color
 					</li>
 					<li>
 						<code className="text-xs">shadow-lg</code> - Large shadow for elevation
 					</li>
 					<li>
-						<code className="text-xs">bg-black/80</code> - Backdrop overlay color (80% black)
+						<code className="text-xs">bg-overlay</code> - Backdrop overlay
 					</li>
 					<li>
 						<code className="text-xs">duration-300</code> - Animation duration (300ms)

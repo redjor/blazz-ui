@@ -284,7 +284,7 @@ export default function BreadcrumbPage() {
 						<code className="text-xs">text-fg-muted</code> - Breadcrumb link color
 					</li>
 					<li>
-						<code className="text-xs">text-foreground</code> - Current page and hover color
+						<code className="text-xs">text-fg</code> - Current page and hover color
 					</li>
 					<li>
 						<code className="text-xs">gap-1.5</code> - Spacing between items (0.375rem)

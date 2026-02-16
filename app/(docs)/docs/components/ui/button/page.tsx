@@ -163,7 +163,7 @@ export default function ButtonPage() {
   <Button variant="outline">Outline</Button>
 </div>`}
 				>
-					<div className="flex flex-wrap items-center gap-2 rounded-lg bg-[var(--bg-app,#1e1e2e)] p-4">
+					<div className="flex flex-wrap items-center gap-2 rounded-lg bg-[var(--bg-app)] p-4">
 						<Button variant="default">Default</Button>
 						<Button variant="outline">Outline</Button>
 						<Button variant="secondary">Secondary</Button>

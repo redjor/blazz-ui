@@ -315,16 +315,16 @@ React.useEffect(() => {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-popover</code> - Command background color
+						<code className="text-xs">bg-raised</code> - Command background color
 					</li>
 					<li>
-						<code className="text-xs">text-popover-foreground</code> - Command text color
+						<code className="text-xs">text-fg</code> - Command text color
 					</li>
 					<li>
-						<code className="text-xs">bg-accent</code> - Selected item background
+						<code className="text-xs">bg-brand/10</code> - Selected item background
 					</li>
 					<li>
-						<code className="text-xs">text-accent-foreground</code> - Selected item text
+						<code className="text-xs">text-fg</code> - Selected item text
 					</li>
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Group headings and shortcuts
