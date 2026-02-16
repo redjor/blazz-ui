@@ -24,5 +24,9 @@ export * from './crm-deals';
 export * from './crm-quotes';
 export * from './crm-products';
 
+// TalentFlow ATS presets
+export * from './talentflow-candidates';
+export * from './talentflow-jobs';
+
 // Spreadsheet preset - Generic Airtable-style editable table
 export * from './spreadsheet';
