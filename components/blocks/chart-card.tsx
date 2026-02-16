@@ -19,15 +19,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 const CHART_COLORS = [
-	"hsl(var(--chart-1))",
-	"hsl(var(--chart-2))",
-	"hsl(var(--chart-3))",
-	"hsl(var(--chart-4))",
-	"hsl(var(--chart-5))",
-]
-
-// Fallback colors if CSS variables aren't defined
-const FALLBACK_COLORS = [
 	"#2563eb",
 	"#16a34a",
 	"#eab308",
@@ -75,16 +66,16 @@ export function ChartCard({
 							<XAxis
 								dataKey={xKey}
 								className="text-xs"
-								tick={{ fill: "hsl(var(--muted-foreground))" }}
+								tick={{ fill: "var(--text-secondary)" }}
 							/>
 							<YAxis
 								className="text-xs"
-								tick={{ fill: "hsl(var(--muted-foreground))" }}
+								tick={{ fill: "var(--text-secondary)" }}
 							/>
 							<Tooltip
 								contentStyle={{
-									backgroundColor: "hsl(var(--background))",
-									border: "1px solid hsl(var(--border))",
+									backgroundColor: "var(--bg-surface)",
+									border: "1px solid var(--border-default)",
 									borderRadius: "8px",
 									fontSize: "12px",
 								}}
@@ -95,7 +86,7 @@ export function ChartCard({
 									key={key}
 									type="monotone"
 									dataKey={key}
-									stroke={FALLBACK_COLORS[i % FALLBACK_COLORS.length]}
+									stroke={CHART_COLORS[i % CHART_COLORS.length]}
 									strokeWidth={2}
 									dot={false}
 									activeDot={{ r: 4 }}
@@ -108,16 +99,16 @@ export function ChartCard({
 							<XAxis
 								dataKey={xKey}
 								className="text-xs"
-								tick={{ fill: "hsl(var(--muted-foreground))" }}
+								tick={{ fill: "var(--text-secondary)" }}
 							/>
 							<YAxis
 								className="text-xs"
-								tick={{ fill: "hsl(var(--muted-foreground))" }}
+								tick={{ fill: "var(--text-secondary)" }}
 							/>
 							<Tooltip
 								contentStyle={{
-									backgroundColor: "hsl(var(--background))",
-									border: "1px solid hsl(var(--border))",
+									backgroundColor: "var(--bg-surface)",
+									border: "1px solid var(--border-default)",
 									borderRadius: "8px",
 									fontSize: "12px",
 								}}
@@ -127,7 +118,7 @@ export function ChartCard({
 								<Bar
 									key={key}
 									dataKey={key}
-									fill={FALLBACK_COLORS[i % FALLBACK_COLORS.length]}
+									fill={CHART_COLORS[i % CHART_COLORS.length]}
 									radius={[4, 4, 0, 0]}
 								/>
 							))}
@@ -149,14 +140,14 @@ export function ChartCard({
 								{data.map((_, i) => (
 									<Cell
 										key={i}
-										fill={FALLBACK_COLORS[i % FALLBACK_COLORS.length]}
+										fill={CHART_COLORS[i % CHART_COLORS.length]}
 									/>
 								))}
 							</Pie>
 							<Tooltip
 								contentStyle={{
-									backgroundColor: "hsl(var(--background))",
-									border: "1px solid hsl(var(--border))",
+									backgroundColor: "var(--bg-surface)",
+									border: "1px solid var(--border-default)",
 									borderRadius: "8px",
 									fontSize: "12px",
 								}}

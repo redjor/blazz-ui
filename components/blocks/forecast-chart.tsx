@@ -37,8 +37,8 @@ function formatYAxis(value: number) {
 }
 
 const tooltipStyle = {
-	backgroundColor: "hsl(var(--background))",
-	border: "1px solid hsl(var(--border))",
+	backgroundColor: "var(--bg-surface)",
+	border: "1px solid var(--border-default)",
 	borderRadius: "8px",
 	fontSize: "12px",
 }
@@ -73,11 +73,11 @@ export function ForecastChart({
 				<XAxis
 					dataKey="period"
 					className="text-xs"
-					tick={{ fill: "hsl(var(--muted-foreground))" }}
+					tick={{ fill: "var(--text-secondary)" }}
 				/>
 				<YAxis
 					className="text-xs"
-					tick={{ fill: "hsl(var(--muted-foreground))" }}
+					tick={{ fill: "var(--text-secondary)" }}
 					tickFormatter={formatYAxis}
 				/>
 				<Tooltip

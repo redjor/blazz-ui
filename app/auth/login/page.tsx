@@ -41,7 +41,7 @@ export default function LoginPage() {
       </div>
 
       {/* Form Card */}
-      <Card className="backdrop-blur-sm bg-card/95 shadow-2xl">
+      <Card className="backdrop-blur-sm bg-surface/95 shadow-2xl">
         <CardHeader>
           <CardTitle className="text-2xl">Connexion</CardTitle>
           <CardDescription>
