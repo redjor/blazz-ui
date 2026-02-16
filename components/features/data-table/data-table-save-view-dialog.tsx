@@ -1,6 +1,6 @@
 'use client';
 
-import type { SortingState, VisibilityState } from '@tanstack/react-table';
+import type { ColumnPinningState, SortingState, VisibilityState } from '@tanstack/react-table';
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -15,6 +15,7 @@ interface SaveViewDialogProps {
     filters: FilterGroup | null;
     sorting: SortingState;
     columnVisibility: VisibilityState;
+    columnPinning?: ColumnPinningState;
   };
   existingViews: DataTableView[];
   onSave: (view: Omit<DataTableView, 'id' | 'createdAt' | 'updatedAt'>) => void;
@@ -124,6 +125,14 @@ export function DataTableSaveViewDialog({
         Object.keys(currentState.columnVisibility).length > 0
           ? currentState.columnVisibility
           : undefined,
+      pinnedColumns: currentState.columnPinning &&
+        ((currentState.columnPinning.left?.length ?? 0) > 0 ||
+          (currentState.columnPinning.right?.length ?? 0) > 0)
+        ? {
+            left: currentState.columnPinning.left ?? [],
+            right: currentState.columnPinning.right ?? [],
+          }
+        : undefined,
     };
 
     onSave(newView);

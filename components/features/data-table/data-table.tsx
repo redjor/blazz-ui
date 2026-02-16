@@ -1,8 +1,10 @@
 'use client';
 
 import {
+  type Column,
   type ColumnDef,
   type ColumnFiltersState,
+  type ColumnPinningState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -41,6 +43,18 @@ import { DataTableSkeleton } from './data-table-skeleton';
 import { useDataTableSearch } from './hooks/use-data-table-search';
 import { useDataTableViews } from './hooks/use-data-table-views';
 
+function getPinningStyles(column: Column<any, unknown>, isHeader = false): React.CSSProperties {
+  const isPinned = column.getIsPinned();
+  if (!isPinned) return {};
+
+  return {
+    position: 'sticky',
+    left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
+    right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
+    zIndex: isHeader ? 2 : 1,
+  };
+}
+
 export function DataTable<TData, TValue = unknown>({
   data,
   columns,
@@ -50,6 +64,9 @@ export function DataTable<TData, TValue = unknown>({
   defaultSorting = [],
   onSortingChange,
   defaultColumnVisibility = {},
+  enableColumnPinning = false,
+  defaultColumnPinning,
+  onColumnPinningChange,
   enablePagination = true,
   pagination,
   onPaginationChange,
@@ -123,6 +140,10 @@ export function DataTable<TData, TValue = unknown>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>(defaultColumnVisibility);
+  const [columnPinning, setColumnPinning] = React.useState<ColumnPinningState>({
+    left: defaultColumnPinning?.left ?? [],
+    right: defaultColumnPinning?.right ?? [],
+  });
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [paginationState, setPaginationState] = React.useState({
     pageIndex: finalPagination.pageIndex,
@@ -159,9 +180,11 @@ export function DataTable<TData, TValue = unknown>({
       enableCustomViews,
       setSorting,
       setColumnVisibility,
+      setColumnPinning,
     },
     sorting,
-    columnVisibility
+    columnVisibility,
+    columnPinning
   );
 
   // Fade effect on data/view changes
@@ -255,11 +278,26 @@ export function DataTable<TData, TValue = unknown>({
       sorting,
       columnFilters,
       columnVisibility,
+      columnPinning: enableColumnPinning ? columnPinning : undefined,
       rowSelection,
       globalFilter,
       pagination: enablePagination ? paginationState : undefined,
     },
+    enableColumnPinning,
     enableRowSelection,
+    onColumnPinningChange: enableColumnPinning
+      ? (updater) => {
+          setColumnPinning(updater);
+          if (onColumnPinningChange) {
+            const newPinning =
+              typeof updater === 'function' ? updater(columnPinning) : updater;
+            onColumnPinningChange({
+              left: newPinning.left ?? [],
+              right: newPinning.right ?? [],
+            });
+          }
+        }
+      : undefined,
     onSortingChange: (updater) => {
       setSorting(updater);
       if (onSortingChange) {
@@ -368,6 +406,7 @@ export function DataTable<TData, TValue = unknown>({
             filters: viewsHook.filterGroup,
             sorting,
             columnVisibility,
+            columnPinning: enableColumnPinning ? columnPinning : undefined,
           }}
           existingViews={views || []}
           onSave={(viewData) => {
@@ -456,7 +495,17 @@ export function DataTable<TData, TValue = unknown>({
                           key={header.id}
                           style={{
                             width: header.getSize() !== 150 ? header.getSize() : undefined,
+                            ...getPinningStyles(header.column, true),
                           }}
+                          className={cn(
+                            header.column.getIsPinned() && 'bg-surface',
+                            header.column.getIsPinned() === 'left' &&
+                              header.column.getIsLastColumn('left') &&
+                              'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                            header.column.getIsPinned() === 'right' &&
+                              header.column.getIsFirstColumn('right') &&
+                              'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                          )}
                         >
                           {header.isPlaceholder
                             ? null
@@ -488,7 +537,19 @@ export function DataTable<TData, TValue = unknown>({
                     }}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell
+                        key={cell.id}
+                        style={getPinningStyles(cell.column)}
+                        className={cn(
+                          cell.column.getIsPinned() && 'bg-surface',
+                          cell.column.getIsPinned() === 'left' &&
+                            cell.column.getIsLastColumn('left') &&
+                            'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                          cell.column.getIsPinned() === 'right' &&
+                            cell.column.getIsFirstColumn('right') &&
+                            'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                        )}
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}

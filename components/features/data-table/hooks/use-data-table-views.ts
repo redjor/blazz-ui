@@ -1,4 +1,4 @@
-import type { SortingState, VisibilityState } from '@tanstack/react-table';
+import type { ColumnPinningState, SortingState, VisibilityState } from '@tanstack/react-table';
 import * as React from 'react';
 import type { DataTableView, FilterGroup } from '../data-table.types';
 
@@ -15,6 +15,7 @@ export interface UseDataTableViewsOptions {
   enableCustomViews?: boolean;
   setSorting: (sorting: SortingState) => void;
   setColumnVisibility: (vis: VisibilityState) => void;
+  setColumnPinning?: (pinning: ColumnPinningState) => void;
 }
 
 export interface UseDataTableViewsReturn {
@@ -42,7 +43,8 @@ export interface UseDataTableViewsReturn {
 export function useDataTableViews(
   options: UseDataTableViewsOptions,
   sorting: SortingState,
-  columnVisibility: VisibilityState
+  columnVisibility: VisibilityState,
+  columnPinning?: ColumnPinningState
 ): UseDataTableViewsReturn {
   const {
     views,
@@ -55,6 +57,7 @@ export function useDataTableViews(
     onFilterGroupChange,
     setSorting,
     setColumnVisibility,
+    setColumnPinning,
   } = options;
 
   // Advanced filter state
@@ -103,7 +106,15 @@ export function useDataTableViews(
     if (activeView.columnVisibility) {
       setColumnVisibility(activeView.columnVisibility);
     }
-  }, [activeView, setSorting, setColumnVisibility]);
+
+    // Apply column pinning from view
+    if (activeView.pinnedColumns && setColumnPinning) {
+      setColumnPinning({
+        left: activeView.pinnedColumns.left ?? [],
+        right: activeView.pinnedColumns.right ?? [],
+      });
+    }
+  }, [activeView, setSorting, setColumnVisibility, setColumnPinning]);
 
   // Handle view change
   const handleViewChange = React.useCallback(
@@ -157,6 +168,9 @@ export function useDataTableViews(
         filters: filterGroup || { id: 'root', operator: 'AND', conditions: [] },
         sorting,
         columnVisibility,
+        pinnedColumns: columnPinning
+          ? { left: columnPinning.left ?? [], right: columnPinning.right ?? [] }
+          : undefined,
         isSystem: false,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -185,6 +199,7 @@ export function useDataTableViews(
       filterGroup,
       sorting,
       columnVisibility,
+      columnPinning,
       onViewSave,
       handleViewChange,
       views,
@@ -239,10 +254,14 @@ export function useDataTableViews(
       onViewUpdate(viewId, {
         filters: filterGroup || { id: 'root', operator: 'AND', conditions: [] },
         sorting,
+        columnVisibility,
+        pinnedColumns: columnPinning
+          ? { left: columnPinning.left ?? [], right: columnPinning.right ?? [] }
+          : undefined,
         updatedAt: new Date(),
       });
     },
-    [onViewUpdate, filterGroup, sorting]
+    [onViewUpdate, filterGroup, sorting, columnVisibility, columnPinning]
   );
 
   // Handle save rename

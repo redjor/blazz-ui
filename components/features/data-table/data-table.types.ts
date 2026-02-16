@@ -134,6 +134,14 @@ export interface DataTableProps<TData, TValue = unknown> {
   // Column visibility
   defaultColumnVisibility?: Record<string, boolean>;
 
+  // Column pinning
+  /** Enable column pinning (sticky left/right columns) */
+  enableColumnPinning?: boolean;
+  /** Default pinned columns */
+  defaultColumnPinning?: { left?: string[]; right?: string[] };
+  /** Callback when pinning changes */
+  onColumnPinningChange?: (pinning: { left: string[]; right: string[] }) => void;
+
   // Pagination
   enablePagination?: boolean;
   pagination?: PaginationConfig;
