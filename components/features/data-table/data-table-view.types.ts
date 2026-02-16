@@ -1,6 +1,10 @@
+import type * as React from 'react';
 import type { SortingState, VisibilityState } from '@tanstack/react-table';
 import type { LucideIcon } from 'lucide-react';
 import type { FilterGroup } from './data-table-filter.types';
+
+/** Aggregation function type for grouped columns */
+export type AggregationType = 'sum' | 'avg' | 'min' | 'max' | 'count' | 'range' | ((values: unknown[]) => React.ReactNode);
 
 /**
  * A saved view configuration for the DataTable.
@@ -73,6 +77,15 @@ export interface DataTableView {
     /** Columns pinned to right */
     right?: string[];
   };
+
+  /** Grouping columns (optional) */
+  grouping?: string[];
+
+  /** Expanded group IDs by default (optional) */
+  expandedGroups?: string[];
+
+  /** Aggregation config per column (optional) */
+  aggregations?: Record<string, AggregationType>;
 
   /** Timestamp when view was created */
   createdAt?: Date;
