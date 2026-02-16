@@ -15,3 +15,5 @@ export * from './column-builders';
 export * from './view-builders';
 // Editable column builders - Create inline-editable column definitions
 export * from './editable-column-builders';
+// Col namespace - Shorthand column builder facade
+export { col } from './col';
