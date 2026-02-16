@@ -17,6 +17,7 @@ export interface ComponentNavItem {
 export interface ComponentNavCategory {
 	id: string
 	title: string
+	description: string
 	icon: LucideIcon
 	items: ComponentNavItem[]
 }
@@ -25,6 +26,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "layout",
 		title: "Layout and Structure",
+		description: "Primitives for spacing, alignment and page composition.",
 		icon: LayoutGrid,
 		items: [
 			{ title: "Bleed", href: "/docs/components/layout/bleed" },
@@ -41,6 +43,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "actions",
 		title: "Actions",
+		description: "Buttons, menus and interactive triggers.",
 		icon: MousePointerClick,
 		items: [
 			{ title: "Button", href: "/docs/components/ui/button" },
@@ -51,6 +54,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "forms",
 		title: "Selection and Input",
+		description: "Form controls for collecting and editing data.",
 		icon: FormInput,
 		items: [
 			{ title: "Checkbox", href: "/docs/components/ui/checkbox" },
@@ -67,6 +71,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "feedback",
 		title: "Feedback Indicators",
+		description: "Alerts, badges and loading states.",
 		icon: MessageSquare,
 		items: [
 			{ title: "Alert", href: "/docs/components/ui/alert" },
@@ -78,6 +83,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "overlays",
 		title: "Overlays",
+		description: "Dialogs, popovers and floating surfaces.",
 		icon: Layers,
 		items: [
 			{ title: "Confirmation Dialog", href: "/docs/components/ui/confirmation-dialog" },
@@ -90,6 +96,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "navigation",
 		title: "Navigation",
+		description: "Breadcrumbs, tabs and wayfinding patterns.",
 		icon: Navigation,
 		items: [
 			{ title: "Breadcrumb", href: "/docs/components/ui/breadcrumb" },
@@ -101,6 +108,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "data-display",
 		title: "Data Display",
+		description: "Tables, avatars and content presentation.",
 		icon: Table2,
 		items: [
 			{ title: "Avatar", href: "/docs/components/ui/avatar" },
