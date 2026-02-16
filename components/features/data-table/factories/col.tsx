@@ -1,5 +1,8 @@
 'use client';
 
+import { ChevronRight } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
 import { DataTableRowSelection } from '../data-table-row-selection';
@@ -454,6 +457,34 @@ export const col = {
       enableSorting: false,
       enableHiding: false,
       size: 40,
+    } as DataTableColumnDef<TData>;
+  },
+
+  /** Row expand chevron column — toggles the expanded row detail panel */
+  expand<TData>(): DataTableColumnDef<TData> {
+    return {
+      id: 'expand',
+      header: () => null,
+      cell: ({ row }) => (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            row.toggleExpanded();
+          }}
+          className="flex items-center justify-center p-1 text-fg-muted hover:text-fg"
+        >
+          <ChevronRight
+            className={cn(
+              'h-4 w-4 transition-transform duration-200',
+              row.getIsExpanded() && 'rotate-90'
+            )}
+          />
+        </button>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+      size: 32,
     } as DataTableColumnDef<TData>;
   },
 } as const;

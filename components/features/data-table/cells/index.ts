@@ -22,3 +22,8 @@ export { CellImage, type CellImageProps } from './cell-image';
 export { CellSparkline, type CellSparklineProps } from './cell-sparkline';
 export { CellTwoLines, type CellTwoLinesProps } from './cell-two-lines';
 export { CellKeyValue, type CellKeyValueProps } from './cell-key-value';
+
+// Expanded row helpers
+export { ExpandedRowGrid } from './expanded-row-grid';
+export { ExpandedRowTabs } from './expanded-row-tabs';
+export { ExpandedRowSubTable } from './expanded-row-sub-table';

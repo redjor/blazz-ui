@@ -142,6 +142,16 @@ export interface DataTableProps<TData, TValue = unknown> {
   /** Callback when pinning changes */
   onColumnPinningChange?: (pinning: { left: string[]; right: string[] }) => void;
 
+  // Row expand
+  /** Enable row expand with detail panel */
+  enableRowExpand?: boolean;
+  /** Render function for the expanded row panel */
+  renderExpandedRow?: (row: import('@tanstack/react-table').Row<TData>) => React.ReactNode;
+  /** Expand mode: single (accordion) or multiple */
+  expandMode?: 'single' | 'multiple';
+  /** Default expanded state: false (all closed), true (all open), or array of row IDs */
+  defaultExpanded?: boolean | string[];
+
   // Pagination
   enablePagination?: boolean;
   pagination?: PaginationConfig;

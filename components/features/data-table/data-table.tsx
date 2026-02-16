@@ -5,8 +5,10 @@ import {
   type ColumnDef,
   type ColumnFiltersState,
   type ColumnPinningState,
+  type ExpandedState,
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -16,6 +18,7 @@ import {
   type VisibilityState,
 } from '@tanstack/react-table';
 import type { VariantProps } from 'class-variance-authority';
+import { ChevronRight } from 'lucide-react';
 import * as React from 'react';
 import {
   Table,
@@ -67,6 +70,10 @@ export function DataTable<TData, TValue = unknown>({
   enableColumnPinning = false,
   defaultColumnPinning,
   onColumnPinningChange,
+  enableRowExpand = false,
+  renderExpandedRow,
+  expandMode = 'multiple',
+  defaultExpanded = false,
   enablePagination = true,
   pagination,
   onPaginationChange,
@@ -145,6 +152,13 @@ export function DataTable<TData, TValue = unknown>({
     right: defaultColumnPinning?.right ?? [],
   });
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+  const [expanded, setExpanded] = React.useState<ExpandedState>(() => {
+    if (defaultExpanded === true) return true;
+    if (Array.isArray(defaultExpanded)) {
+      return Object.fromEntries(defaultExpanded.map((id) => [id, true]));
+    }
+    return {};
+  });
   const [paginationState, setPaginationState] = React.useState({
     pageIndex: finalPagination.pageIndex,
     pageSize: finalPagination.pageSize,
@@ -220,6 +234,33 @@ export function DataTable<TData, TValue = unknown>({
       });
     }
 
+    if (enableRowExpand) {
+      cols.push({
+        id: 'expand',
+        header: () => null,
+        cell: ({ row }) => (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              row.toggleExpanded();
+            }}
+            className="flex items-center justify-center p-1 text-fg-muted hover:text-fg"
+          >
+            <ChevronRight
+              className={cn(
+                'h-4 w-4 transition-transform duration-200',
+                row.getIsExpanded() && 'rotate-90'
+              )}
+            />
+          </button>
+        ),
+        enableSorting: false,
+        enableHiding: false,
+        size: 32,
+      });
+    }
+
     cols.push(...columns);
 
     if (rowActions && rowActions.length > 0) {
@@ -234,7 +275,7 @@ export function DataTable<TData, TValue = unknown>({
     }
 
     return cols;
-  }, [columns, enableRowSelection, rowActions]);
+  }, [columns, enableRowSelection, enableRowExpand, rowActions]);
 
   // Extract sortable columns for sort menu
   const sortableColumns = React.useMemo(() => {
@@ -280,11 +321,35 @@ export function DataTable<TData, TValue = unknown>({
       columnVisibility,
       columnPinning: enableColumnPinning ? columnPinning : undefined,
       rowSelection,
+      expanded: enableRowExpand ? expanded : undefined,
       globalFilter,
       pagination: enablePagination ? paginationState : undefined,
     },
     enableColumnPinning,
     enableRowSelection,
+    onExpandedChange: enableRowExpand
+      ? (updater) => {
+          setExpanded((prev) => {
+            const next = typeof updater === 'function' ? updater(prev) : updater;
+            if (expandMode === 'single' && typeof next === 'object') {
+              const prevKeys =
+                typeof prev === 'object'
+                  ? Object.keys(prev).filter((k) => (prev as Record<string, boolean>)[k])
+                  : [];
+              const nextKeys = Object.keys(next).filter(
+                (k) => (next as Record<string, boolean>)[k]
+              );
+              const newlyExpanded = nextKeys.filter((k) => !prevKeys.includes(k));
+              if (newlyExpanded.length > 0) {
+                return { [newlyExpanded[0]]: true };
+              }
+            }
+            return next;
+          });
+        }
+      : undefined,
+    getExpandedRowModel: enableRowExpand ? getExpandedRowModel() : undefined,
+    getRowCanExpand: enableRowExpand ? () => true : undefined,
     onColumnPinningChange: enableColumnPinning
       ? (updater) => {
           setColumnPinning(updater);
@@ -520,40 +585,51 @@ export function DataTable<TData, TValue = unknown>({
             <TableBody ref={tableBodyRef}>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                    className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
-                    onClick={(e) => {
-                      const target = e.target as HTMLElement;
-                      const isCheckbox = target.closest('[role="checkbox"]');
-                      const isActions = target.closest('[data-slot="dropdown-menu-trigger"]');
-                      const isButton = target.closest('button');
-                      const isLink = target.closest('a');
+                  <React.Fragment key={row.id}>
+                    <TableRow
+                      data-state={row.getIsSelected() && 'selected'}
+                      className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
+                      onClick={(e) => {
+                        const target = e.target as HTMLElement;
+                        const isCheckbox = target.closest('[role="checkbox"]');
+                        const isActions = target.closest('[data-slot="dropdown-menu-trigger"]');
+                        const isButton = target.closest('button');
+                        const isLink = target.closest('a');
 
-                      if (!isCheckbox && !isActions && !isButton && !isLink && onRowClick) {
-                        onRowClick(row.original);
-                      }
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        style={getPinningStyles(cell.column)}
-                        className={cn(
-                          cell.column.getIsPinned() && 'bg-surface',
-                          cell.column.getIsPinned() === 'left' &&
-                            cell.column.getIsLastColumn('left') &&
-                            'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
-                          cell.column.getIsPinned() === 'right' &&
-                            cell.column.getIsFirstColumn('right') &&
-                            'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
-                        )}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                        if (!isCheckbox && !isActions && !isButton && !isLink && onRowClick) {
+                          onRowClick(row.original);
+                        }
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          style={getPinningStyles(cell.column)}
+                          className={cn(
+                            cell.column.getIsPinned() && 'bg-surface',
+                            cell.column.getIsPinned() === 'left' &&
+                              cell.column.getIsLastColumn('left') &&
+                              'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                            cell.column.getIsPinned() === 'right' &&
+                              cell.column.getIsFirstColumn('right') &&
+                              'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                          )}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    {enableRowExpand && row.getIsExpanded() && renderExpandedRow && (
+                      <TableRow data-state="expanded">
+                        <TableCell
+                          colSpan={row.getVisibleCells().length}
+                          className="bg-muted/30 p-4"
+                        >
+                          {renderExpandedRow(row)}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </React.Fragment>
                 ))
               ) : (
                 <TableRow>
