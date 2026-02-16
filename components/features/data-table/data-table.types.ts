@@ -198,6 +198,14 @@ export interface DataTableProps<TData, TValue = unknown> {
   /** When true, a single button toggles both search bar and inline filters together */
   combineSearchAndFilters?: boolean;
 
+  // Cell editing
+  /** Enable cell-level focus and keyboard navigation (arrow keys, Tab, Enter/F2 to edit) */
+  enableCellEditing?: boolean;
+  /** Callback when a cell value is changed (also used by undo/redo to apply reverted values) */
+  onCellEdit?: (rowId: string, columnId: string, value: unknown, previousValue: unknown) => void;
+  /** Max entries in the undo/redo history stack (default 50) */
+  editHistorySize?: number;
+
   // Internationalization
   locale?: 'fr' | 'en';
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { AlertTriangle, Info, XCircle } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import {
   Select,
@@ -8,6 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
@@ -16,8 +23,18 @@ import { DataTableColumnHeader } from '../data-table-column-header';
 // Types
 // ---------------------------------------------------------------------------
 
+/** Validation result returned by a cell validate function */
+export interface CellValidationResult {
+  level: 'error' | 'warning' | 'info';
+  message: string;
+}
+
 export interface EditableCellConfig {
   onCellEdit: (rowId: string, columnId: string, value: unknown) => void;
+  /** Validation function — return null when valid */
+  validate?: (value: unknown) => CellValidationResult | null;
+  /** When to run validation: on blur (default) or on every change */
+  validateOn?: 'blur' | 'change';
 }
 
 export interface EditableTextColumnConfig<_TData> extends EditableCellConfig {
@@ -72,21 +89,57 @@ function useEditableCell<T>({
   columnId,
   onCellEdit,
   parse,
+  validate,
+  validateOn = 'blur',
 }: {
   value: T;
   rowId: string;
   columnId: string;
   onCellEdit: (rowId: string, columnId: string, value: unknown) => void;
   parse?: (raw: string) => T | undefined;
+  validate?: (value: unknown) => CellValidationResult | null;
+  validateOn?: 'blur' | 'change';
 }) {
   const [localValue, setLocalValue] = useState(String(value ?? ''));
+  const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null);
+
+  const runValidation = useCallback(
+    (val: unknown): CellValidationResult | null => {
+      if (!validate) return null;
+      const result = validate(val);
+      setValidationResult(result);
+      return result;
+    },
+    [validate]
+  );
 
   const handleBlur = useCallback(() => {
     const parsed = parse ? parse(localValue) : localValue;
-    if (parsed !== undefined && parsed !== value) {
+    if (parsed === undefined) return;
+
+    const vResult = validateOn === 'blur' ? runValidation(parsed) : validationResult;
+
+    // If validation returns an error, restore the previous value
+    if (vResult?.level === 'error') {
+      setLocalValue(String(value ?? ''));
+      return;
+    }
+
+    if (parsed !== value) {
       onCellEdit(rowId, columnId, parsed);
     }
-  }, [localValue, value, rowId, columnId, onCellEdit, parse]);
+  }, [localValue, value, rowId, columnId, onCellEdit, parse, validateOn, runValidation, validationResult]);
+
+  const handleChange = useCallback(
+    (newValue: string) => {
+      setLocalValue(newValue);
+      if (validateOn === 'change' && validate) {
+        const parsed = parse ? parse(newValue) : newValue;
+        if (parsed !== undefined) runValidation(parsed);
+      }
+    },
+    [parse, validate, validateOn, runValidation]
+  );
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -94,7 +147,7 @@ function useEditableCell<T>({
     }
   }, []);
 
-  return { localValue, setLocalValue, handleBlur, handleKeyDown };
+  return { localValue, setLocalValue: handleChange, handleBlur, handleKeyDown, validationResult };
 }
 
 // ---------------------------------------------------------------------------
@@ -111,6 +164,46 @@ const idleCell = `${cellShared} cursor-text text-left hover:bg-raised/40`;
 const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-p-border-focus`;
 
 // ---------------------------------------------------------------------------
+// Validation feedback component
+// ---------------------------------------------------------------------------
+
+const validationRingColor: Record<CellValidationResult['level'], string> = {
+  error: 'ring-red-500',
+  warning: 'ring-amber-500',
+  info: 'ring-blue-500',
+};
+
+const ValidationIcon = ({ level }: { level: CellValidationResult['level'] }) => {
+  switch (level) {
+    case 'error':
+      return <XCircle className="h-3.5 w-3.5 shrink-0 text-red-500" />;
+    case 'warning':
+      return <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-500" />;
+    case 'info':
+      return <Info className="h-3.5 w-3.5 shrink-0 text-blue-500" />;
+  }
+};
+
+function ValidationFeedback({ result }: { result: CellValidationResult | null }) {
+  if (!result) return null;
+
+  return (
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="absolute right-1 top-1/2 -translate-y-1/2">
+            <ValidationIcon level={result.level} />
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="max-w-60 text-xs">
+          {result.message}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Internal cell components
 // ---------------------------------------------------------------------------
 
@@ -121,6 +214,8 @@ interface EditableTextCellProps {
   onCellEdit: (rowId: string, columnId: string, value: unknown) => void;
   placeholder?: string;
   className?: string;
+  validate?: (value: unknown) => CellValidationResult | null;
+  validateOn?: 'blur' | 'change';
 }
 
 function EditableTextCell({
@@ -130,15 +225,20 @@ function EditableTextCell({
   onCellEdit,
   placeholder,
   className,
+  validate,
+  validateOn,
 }: EditableTextCellProps) {
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown } = useEditableCell({
-    value,
-    rowId,
-    columnId,
-    onCellEdit,
-  });
+  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown, validationResult } =
+    useEditableCell({
+      value,
+      rowId,
+      columnId,
+      onCellEdit,
+      validate,
+      validateOn,
+    });
 
   const handleBlur = useCallback(() => {
     setEditing(false);
@@ -147,30 +247,40 @@ function EditableTextCell({
 
   if (!editing) {
     return (
-      <button
-        type="button"
-        className={cn(idleCell, className)}
-        onClick={() => {
-          setLocalValue(String(value ?? ''));
-          setEditing(true);
-        }}
-      >
-        {value || <span className="text-fg-muted">{placeholder}</span>}
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          className={cn(idleCell, className)}
+          onClick={() => {
+            setLocalValue(String(value ?? ''));
+            setEditing(true);
+          }}
+        >
+          {value || <span className="text-fg-muted">{placeholder}</span>}
+        </button>
+        <ValidationFeedback result={validationResult} />
+      </div>
     );
   }
 
   return (
-    <input
-      ref={inputRef}
-      value={localValue}
-      onChange={(e) => setLocalValue(e.target.value)}
-      onBlur={handleBlur}
-      onKeyDown={handleKeyDown}
-      placeholder={placeholder}
-      autoFocus
-      className={cn(editInput, className)}
-    />
+    <div className="relative">
+      <input
+        ref={inputRef}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        autoFocus
+        className={cn(
+          editInput,
+          validationResult && validationRingColor[validationResult.level],
+          className,
+        )}
+      />
+      <ValidationFeedback result={validationResult} />
+    </div>
   );
 }
 
@@ -185,6 +295,8 @@ interface EditableNumberCellProps {
   max?: number;
   step?: number;
   className?: string;
+  validate?: (value: unknown) => CellValidationResult | null;
+  validateOn?: 'blur' | 'change';
 }
 
 const parseNumber = (raw: string): number | undefined => {
@@ -201,15 +313,20 @@ function EditableNumberCell({
   max,
   step,
   className,
+  validate,
+  validateOn,
 }: EditableNumberCellProps) {
   const [editing, setEditing] = useState(false);
-  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown } = useEditableCell({
-    value,
-    rowId,
-    columnId,
-    onCellEdit,
-    parse: parseNumber,
-  });
+  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown, validationResult } =
+    useEditableCell({
+      value,
+      rowId,
+      columnId,
+      onCellEdit,
+      parse: parseNumber,
+      validate,
+      validateOn,
+    });
 
   const handleBlur = useCallback(() => {
     setEditing(false);
@@ -218,30 +335,41 @@ function EditableNumberCell({
 
   if (!editing) {
     return (
-      <button
-        type="button"
-        className={cn(idleCell, 'text-right', className)}
-        onClick={() => {
-          setLocalValue(String(value ?? ''));
-          setEditing(true);
-        }}
-      >
-        {value != null ? String(value) : ''}
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          className={cn(idleCell, 'text-right', className)}
+          onClick={() => {
+            setLocalValue(String(value ?? ''));
+            setEditing(true);
+          }}
+        >
+          {value != null ? String(value) : ''}
+        </button>
+        <ValidationFeedback result={validationResult} />
+      </div>
     );
   }
 
   return (
-    <input
-      type="text"
-      inputMode="decimal"
-      value={localValue}
-      onChange={(e) => setLocalValue(e.target.value)}
-      onBlur={handleBlur}
-      onKeyDown={handleKeyDown}
-      autoFocus
-      className={cn(editInput, 'text-right', className)}
-    />
+    <div className="relative">
+      <input
+        type="text"
+        inputMode="decimal"
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        autoFocus
+        className={cn(
+          editInput,
+          'text-right',
+          validationResult && validationRingColor[validationResult.level],
+          className,
+        )}
+      />
+      <ValidationFeedback result={validationResult} />
+    </div>
   );
 }
 
@@ -255,6 +383,8 @@ interface EditableCurrencyCellProps {
   currency: string;
   locale: string;
   className?: string;
+  validate?: (value: unknown) => CellValidationResult | null;
+  validateOn?: 'blur' | 'change';
 }
 
 function EditableCurrencyCell({
@@ -265,15 +395,20 @@ function EditableCurrencyCell({
   currency,
   locale,
   className,
+  validate,
+  validateOn,
 }: EditableCurrencyCellProps) {
   const [editing, setEditing] = useState(false);
-  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown } = useEditableCell({
-    value,
-    rowId,
-    columnId,
-    onCellEdit,
-    parse: parseNumber,
-  });
+  const { localValue, setLocalValue, handleBlur: hookBlur, handleKeyDown, validationResult } =
+    useEditableCell({
+      value,
+      rowId,
+      columnId,
+      onCellEdit,
+      parse: parseNumber,
+      validate,
+      validateOn,
+    });
 
   const formatted = new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -287,30 +422,41 @@ function EditableCurrencyCell({
 
   if (!editing) {
     return (
-      <button
-        type="button"
-        className={cn(idleCell, 'text-right', className)}
-        onClick={() => {
-          setLocalValue(String(value ?? ''));
-          setEditing(true);
-        }}
-      >
-        {formatted}
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          className={cn(idleCell, 'text-right', className)}
+          onClick={() => {
+            setLocalValue(String(value ?? ''));
+            setEditing(true);
+          }}
+        >
+          {formatted}
+        </button>
+        <ValidationFeedback result={validationResult} />
+      </div>
     );
   }
 
   return (
-    <input
-      type="text"
-      inputMode="decimal"
-      value={localValue}
-      onChange={(e) => setLocalValue(e.target.value)}
-      onBlur={handleBlur}
-      onKeyDown={handleKeyDown}
-      autoFocus
-      className={cn(editInput, 'text-right', className)}
-    />
+    <div className="relative">
+      <input
+        type="text"
+        inputMode="decimal"
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        autoFocus
+        className={cn(
+          editInput,
+          'text-right',
+          validationResult && validationRingColor[validationResult.level],
+          className,
+        )}
+      />
+      <ValidationFeedback result={validationResult} />
+    </div>
   );
 }
 
@@ -323,6 +469,8 @@ interface EditableSelectCellProps {
   onCellEdit: (rowId: string, columnId: string, value: unknown) => void;
   options: Array<{ label: string; value: string }>;
   className?: string;
+  validate?: (value: unknown) => CellValidationResult | null;
+  validateOn?: 'blur' | 'change';
 }
 
 function EditableSelectCell({
@@ -332,29 +480,43 @@ function EditableSelectCell({
   onCellEdit,
   options,
   className,
+  validate,
 }: EditableSelectCellProps) {
   const [editing, setEditing] = useState(false);
+  const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null);
   const selectedOption = options.find((opt) => opt.value === value);
 
   const handleChange = useCallback(
     (newValue: string | null) => {
       if (newValue != null && newValue !== value) {
+        // Run validation before committing
+        if (validate) {
+          const result = validate(newValue);
+          setValidationResult(result);
+          if (result?.level === 'error') {
+            setEditing(false);
+            return;
+          }
+        }
         onCellEdit(rowId, columnId, newValue);
       }
       setEditing(false);
     },
-    [value, rowId, columnId, onCellEdit]
+    [value, rowId, columnId, onCellEdit, validate]
   );
 
   if (!editing) {
     return (
-      <button
-        type="button"
-        className={cn(idleCell, className)}
-        onClick={() => setEditing(true)}
-      >
-        {selectedOption?.label ?? value}
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          className={cn(idleCell, className)}
+          onClick={() => setEditing(true)}
+        >
+          {selectedOption?.label ?? value}
+        </button>
+        <ValidationFeedback result={validationResult} />
+      </div>
     );
   }
 
@@ -371,7 +533,8 @@ function EditableSelectCell({
         className={cn(
           editInput,
           'shadow-none',
-          className
+          validationResult && validationRingColor[validationResult.level],
+          className,
         )}
       >
         <SelectValue />
@@ -395,6 +558,8 @@ interface EditableDateCellProps {
   columnId: string;
   onCellEdit: (rowId: string, columnId: string, value: unknown) => void;
   className?: string;
+  validate?: (value: unknown) => CellValidationResult | null;
+  validateOn?: 'blur' | 'change';
 }
 
 function EditableDateCell({
@@ -403,43 +568,65 @@ function EditableDateCell({
   columnId,
   onCellEdit,
   className,
+  validate,
 }: EditableDateCellProps) {
   const [editing, setEditing] = useState(false);
+  const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null);
   const dateStr = value ? new Date(value).toISOString().split('T')[0] : '';
 
   const formatted = value
-    ? new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(value))
+    ? new Intl.DateTimeFormat('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }).format(new Date(value))
     : '';
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onCellEdit(rowId, columnId, e.target.value);
+      const newValue = e.target.value;
+      if (validate) {
+        const result = validate(newValue);
+        setValidationResult(result);
+        if (result?.level === 'error') return;
+      }
+      onCellEdit(rowId, columnId, newValue);
       setEditing(false);
     },
-    [rowId, columnId, onCellEdit]
+    [rowId, columnId, onCellEdit, validate]
   );
 
   if (!editing) {
     return (
-      <button
-        type="button"
-        className={cn(idleCell, className)}
-        onClick={() => setEditing(true)}
-      >
-        {formatted}
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          className={cn(idleCell, className)}
+          onClick={() => setEditing(true)}
+        >
+          {formatted}
+        </button>
+        <ValidationFeedback result={validationResult} />
+      </div>
     );
   }
 
   return (
-    <input
-      type="date"
-      defaultValue={dateStr}
-      onChange={handleChange}
-      onBlur={() => setEditing(false)}
-      autoFocus
-      className={cn(editInput, className)}
-    />
+    <div className="relative">
+      <input
+        type="date"
+        defaultValue={dateStr}
+        onChange={handleChange}
+        onBlur={() => setEditing(false)}
+        autoFocus
+        className={cn(
+          editInput,
+          validationResult && validationRingColor[validationResult.level],
+          className,
+        )}
+      />
+      <ValidationFeedback result={validationResult} />
+    </div>
   );
 }
 
@@ -454,7 +641,16 @@ function EditableDateCell({
 export function createEditableTextColumn<TData>(
   config: EditableTextColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-  const { accessorKey, title, placeholder, className, enableSorting = true, onCellEdit } = config;
+  const {
+    accessorKey,
+    title,
+    placeholder,
+    className,
+    enableSorting = true,
+    onCellEdit,
+    validate,
+    validateOn,
+  } = config;
 
   return {
     accessorKey,
@@ -471,6 +667,8 @@ export function createEditableTextColumn<TData>(
           onCellEdit={onCellEdit}
           placeholder={placeholder}
           className={className}
+          validate={validate}
+          validateOn={validateOn}
         />
       );
     },
@@ -494,6 +692,8 @@ export function createEditableNumberColumn<TData>(
     className,
     enableSorting = true,
     onCellEdit,
+    validate,
+    validateOn,
   } = config;
 
   return {
@@ -513,6 +713,8 @@ export function createEditableNumberColumn<TData>(
           max={max}
           step={step}
           className={className}
+          validate={validate}
+          validateOn={validateOn}
         />
       );
     },
@@ -538,6 +740,8 @@ export function createEditableCurrencyColumn<TData>(
     className,
     enableSorting = true,
     onCellEdit,
+    validate,
+    validateOn,
   } = config;
 
   return {
@@ -556,6 +760,8 @@ export function createEditableCurrencyColumn<TData>(
           currency={currency}
           locale={locale}
           className={className}
+          validate={validate}
+          validateOn={validateOn}
         />
       );
     },
@@ -573,7 +779,16 @@ export function createEditableCurrencyColumn<TData>(
 export function createEditableSelectColumn<TData>(
   config: EditableSelectColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-  const { accessorKey, title, options, className, enableSorting = true, onCellEdit } = config;
+  const {
+    accessorKey,
+    title,
+    options,
+    className,
+    enableSorting = true,
+    onCellEdit,
+    validate,
+    validateOn,
+  } = config;
 
   return {
     accessorKey,
@@ -590,6 +805,8 @@ export function createEditableSelectColumn<TData>(
           onCellEdit={onCellEdit}
           options={options}
           className={className}
+          validate={validate}
+          validateOn={validateOn}
         />
       );
     },
@@ -604,7 +821,15 @@ export function createEditableSelectColumn<TData>(
 export function createEditableDateColumn<TData>(
   config: EditableDateColumnConfig<TData>
 ): DataTableColumnDef<TData> {
-  const { accessorKey, title, className, enableSorting = true, onCellEdit } = config;
+  const {
+    accessorKey,
+    title,
+    className,
+    enableSorting = true,
+    onCellEdit,
+    validate,
+    validateOn,
+  } = config;
 
   return {
     accessorKey,
@@ -620,6 +845,8 @@ export function createEditableDateColumn<TData>(
           columnId={accessorKey}
           onCellEdit={onCellEdit}
           className={className}
+          validate={validate}
+          validateOn={validateOn}
         />
       );
     },

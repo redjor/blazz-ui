@@ -47,8 +47,10 @@ import { DataTableRowActions } from './data-table-row-actions';
 import { DataTableRowSelection } from './data-table-row-selection';
 import { DataTableSaveViewDialog } from './data-table-save-view-dialog';
 import { DataTableSkeleton } from './data-table-skeleton';
+import { useCellNavigation } from './hooks/use-cell-navigation';
 import { useDataTableSearch } from './hooks/use-data-table-search';
 import { useDataTableViews } from './hooks/use-data-table-views';
+import { useEditHistory } from './hooks/use-edit-history';
 
 function computeAggregation(
   subRows: Row<any>[],
@@ -143,6 +145,9 @@ export function DataTable<TData, TValue = unknown>({
   isLoading = false,
   loadingComponent,
   emptyComponent,
+  enableCellEditing = false,
+  onCellEdit,
+  editHistorySize = 50,
   hideToolbar = false,
   hideHeaders = false,
   combineSearchAndFilters = false,
@@ -481,6 +486,59 @@ export function DataTable<TData, TValue = unknown>({
     }
   }, [finalPagination.pageSize, enablePagination, paginationState.pageSize]);
 
+  // ---------------------------------------------------------------------------
+  // Cell navigation & edit history
+  // ---------------------------------------------------------------------------
+
+  const visibleRowIds = React.useMemo(() => {
+    if (!enableCellEditing) return [];
+    return table.getRowModel().rows.map((r) => r.id);
+  }, [table.getRowModel().rows, enableCellEditing]);
+
+  const visibleColumnIds = React.useMemo(() => {
+    if (!enableCellEditing) return [];
+    return table
+      .getVisibleLeafColumns()
+      .filter((col) => col.id !== 'select' && col.id !== 'actions' && col.id !== 'expand')
+      .map((col) => col.id);
+  }, [table, enableCellEditing]);
+
+  const cellNav = useCellNavigation({
+    enabled: enableCellEditing,
+    rowIds: visibleRowIds,
+    columnIds: visibleColumnIds,
+  });
+
+  const editHistory = useEditHistory(editHistorySize);
+
+  const handleTableKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      // Undo / Redo (Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y)
+      if (enableCellEditing && (e.ctrlKey || e.metaKey)) {
+        if (e.key === 'z' && !e.shiftKey) {
+          e.preventDefault();
+          const edit = editHistory.undo();
+          if (edit && onCellEdit) {
+            onCellEdit(edit.rowId, edit.columnId, edit.previousValue, edit.newValue);
+          }
+          return;
+        }
+        if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+          e.preventDefault();
+          const edit = editHistory.redo();
+          if (edit && onCellEdit) {
+            onCellEdit(edit.rowId, edit.columnId, edit.newValue, edit.previousValue);
+          }
+          return;
+        }
+      }
+
+      // Delegate to cell navigation
+      cellNav.handleKeyDown(e);
+    },
+    [enableCellEditing, editHistory, onCellEdit, cellNav]
+  );
+
   // Wait for mount to prevent hydration mismatch
   if (!isMounted) {
     return (
@@ -629,8 +687,11 @@ export function DataTable<TData, TValue = unknown>({
         <div
           className={cn(
             'relative grid w-full',
-            finalVariant === 'editable' && 'overflow-hidden rounded-lg border border-edge'
+            finalVariant === 'editable' && 'overflow-hidden rounded-lg border border-edge',
+            enableCellEditing && 'outline-none'
           )}
+          tabIndex={enableCellEditing ? 0 : undefined}
+          onKeyDown={enableCellEditing ? handleTableKeyDown : undefined}
         >
           <Table
             className={cn(dataTableVariants({ variant: finalVariant, density: finalDensity }))}
@@ -737,23 +798,38 @@ export function DataTable<TData, TValue = unknown>({
                           }
                         }}
                       >
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell
-                            key={cell.id}
-                            style={getPinningStyles(cell.column)}
-                            className={cn(
-                              cell.column.getIsPinned() && 'bg-surface',
-                              cell.column.getIsPinned() === 'left' &&
-                                cell.column.getIsLastColumn('left') &&
-                                'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
-                              cell.column.getIsPinned() === 'right' &&
-                                cell.column.getIsFirstColumn('right') &&
-                                'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
-                            )}
-                          >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
-                        ))}
+                        {row.getVisibleCells().map((cell) => {
+                          const isCellActive =
+                            enableCellEditing &&
+                            cellNav.activeCell?.rowId === row.id &&
+                            cellNav.activeCell?.columnId === cell.column.id;
+
+                          return (
+                            <TableCell
+                              key={cell.id}
+                              data-row={enableCellEditing ? row.id : undefined}
+                              data-col={enableCellEditing ? cell.column.id : undefined}
+                              style={getPinningStyles(cell.column)}
+                              onClick={
+                                enableCellEditing
+                                  ? () => cellNav.focusCell(row.id, cell.column.id)
+                                  : undefined
+                              }
+                              className={cn(
+                                cell.column.getIsPinned() && 'bg-surface',
+                                cell.column.getIsPinned() === 'left' &&
+                                  cell.column.getIsLastColumn('left') &&
+                                  'shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                                cell.column.getIsPinned() === 'right' &&
+                                  cell.column.getIsFirstColumn('right') &&
+                                  'shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]',
+                                isCellActive && 'ring-2 ring-inset ring-brand',
+                              )}
+                            >
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </TableCell>
+                          );
+                        })}
                       </TableRow>
                       {enableRowExpand && row.getIsExpanded() && renderExpandedRow && (
                         <TableRow data-state="expanded">
