@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "./theme-toggle"
+import { ThemePaletteSwitcher } from "./theme-palette-switcher"
 import { NotificationSheet } from "./notification-sheet"
 import { UserMenu } from "./user-menu"
 
@@ -96,6 +97,7 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 
 			{/* Right: Theme + optional Notifications + User Menu */}
 			<div className="flex items-center gap-2 shrink-0 justify-end">
+				<ThemePaletteSwitcher />
 				<ThemeToggle />
 				{!minimal && (
 					<>
