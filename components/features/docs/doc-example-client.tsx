@@ -47,7 +47,7 @@ export function DocExampleClient({
 			)}
 
 			{/* Preview */}
-			<div className={cn("rounded-lg border border-edge bg-surface p-6", previewClassName)}>{children}</div>
+			<div className={cn("rounded-lg border border-edge bg-raised p-6", previewClassName)}>{children}</div>
 
 			{/* Code toggle bar */}
 			<div className="flex items-center gap-2">
