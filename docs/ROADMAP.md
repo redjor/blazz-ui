@@ -10,7 +10,7 @@
 Phase 1  ████████████████████  DONE      Setup + Primitives
 Phase 2  ████████████████████  ~95%      Blocks + CRM + Docs (reste 2D docs)
 Phase 3  ████████████░░░░░░░░  ~50%      3A themes + 3B TalentFlow done
-Phase 4  ░░░░░░░░░░░░░░░░░░░░  TODO      Landing + Marketing
+Phase 4  ████░░░░░░░░░░░░░░░░  ~20%      Landing + Marketing
 Phase 5  ░░░░░░░░░░░░░░░░░░░░  TODO      Launch
 ```
 
@@ -142,22 +142,24 @@ Objectif : Polir le produit, ajouter les themes pre-packages, et preparer le con
 
 ---
 
-## Phase 4 — Landing Page + Marketing ⬜ TODO
+## Phase 4 — Landing Page + Marketing 🔄 EN COURS
 
 Objectif : Construire la vitrine et commencer le marketing.
 
-### 4A. Landing page
+### 4A. Landing page 🔄 EN COURS
 
 | Section | Statut |
 |---------|--------|
-| Hero ("Arretez de payer Salesforce") + video autoplay | ⬜ TODO |
-| Switcher multi-apps (5 previews) | ⬜ TODO |
-| Calculateur ROI interactif | ⬜ TODO |
-| Grille composants avec hover preview | ⬜ TODO |
-| Video complete embed | ⬜ TODO |
-| Pricing (3 tiers) | ⬜ TODO |
-| FAQ | ⬜ TODO |
-| Waitlist email capture | ⬜ TODO |
+| Navbar sticky (logo + liens ancres + CTA) | ✅ DONE |
+| Hero ("Ship internal apps 10x faster") + screenshot placeholder | ✅ DONE |
+| Stats bar (4 metriques) | ✅ DONE |
+| Features grid (6 features) | ✅ DONE |
+| Switcher multi-apps (5 previews) | ✅ DONE |
+| Calculateur ROI interactif | ✅ DONE |
+| Pricing (3 tiers) | ✅ DONE |
+| FAQ (6 questions) | ✅ DONE |
+| Footer + Waitlist email capture | ✅ DONE |
+| Screenshots/videos reelles | ⬜ TODO |
 
 ### 4B. Contenu marketing
 

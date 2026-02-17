@@ -2,14 +2,17 @@
 
 import * as React from 'react';
 import { DataTable } from '@/components/features/data-table/data-table';
-import { createUserManagementPreset } from '@/components/features/data-table/presets/users';
+import { col } from '@/components/features/data-table/factories/col';
+import { ExpandedRowGrid } from '@/components/features/data-table/cells/expanded-row-grid';
+import { ExpandedRowTabs } from '@/components/features/data-table/cells/expanded-row-tabs';
 import { createCompaniesPreset } from '@/components/features/data-table/presets/crm-companies';
 import { createContactsPreset } from '@/components/features/data-table/presets/crm-contacts';
 import { createDealsPreset } from '@/components/features/data-table/presets/crm-deals';
 import { createQuotesPreset } from '@/components/features/data-table/presets/crm-quotes';
 import { createProductsPreset } from '@/components/features/data-table/presets/crm-products';
-import { createSpreadsheetPreset } from '@/components/features/data-table/presets/spreadsheet';
-import type { User } from '@/types/user-management';
+import { createEditableDealsPreset } from '@/components/features/data-table/presets/crm-deals-editable';
+import { createLinearIssuesPreset } from '@/components/features/data-table/presets/linear-issues';
+import type { Deal } from '@/lib/sample-data';
 import type { DataTableColumnDef } from '@/components/features/data-table/data-table.types';
 import {
   companies,
@@ -18,164 +21,190 @@ import {
   quotes,
   products,
 } from '@/lib/sample-data';
-import type { Deal } from '@/lib/sample-data';
-import { Badge } from '@/components/ui/badge';
+import { linearIssues } from '@/lib/linear-data';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DocPage } from '@/components/features/docs/doc-page';
 import { DocSection } from '@/components/features/docs/doc-section';
 import { DocHero } from '@/components/features/docs/doc-hero';
 import { DocExampleSync as DocExample } from '@/components/features/docs/doc-example-client';
-import { DocPropsTable, type DocProp } from '@/components/features/docs/doc-props-table';
+import { DocPropsTable, type DocPropGroup } from '@/components/features/docs/doc-props-table';
+import { DocRelated } from '@/components/features/docs/doc-related';
+
+/* ─── TOC ─── */
 
 const toc = [
-  { id: 'examples', title: 'Examples' },
+  { id: 'col-namespace', title: 'col.* Namespace' },
+  { id: 'define-preset', title: 'definePreset()' },
+  { id: 'column-pinning', title: 'Column Pinning' },
+  { id: 'row-expand', title: 'Row Expand' },
+  { id: 'grouping', title: 'Grouping & Aggregations' },
+  { id: 'inline-editing', title: 'Inline Editing' },
   { id: 'crm-presets', title: 'CRM Presets' },
+  { id: 'linear-preset', title: 'Linear Issues' },
   { id: 'props', title: 'Props' },
   { id: 'available-presets', title: 'Available Presets' },
-  { id: 'key-features', title: 'Key Features' },
-  { id: 'column-definition', title: 'Column Definition' },
   { id: 'best-practices', title: 'Best Practices' },
+  { id: 'related', title: 'Related' },
 ];
 
-// Mock data for examples
-const mockUsers = [
-  {
-    id: '1',
-    email: 'alice@example.com',
-    name: 'Alice Johnson',
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    username: 'alice',
-    status: 'active',
-    lastSignedIn: '2024-01-15',
-    createdAt: '2023-06-10',
-  },
-  {
-    id: '2',
-    email: 'bob@example.com',
-    name: 'Bob Smith',
-    firstName: 'Bob',
-    lastName: 'Smith',
-    username: 'bob',
-    status: 'active',
-    lastSignedIn: '2024-01-14',
-    createdAt: '2023-07-22',
-  },
-  {
-    id: '3',
-    email: 'charlie@example.com',
-    name: 'Charlie Brown',
-    firstName: 'Charlie',
-    lastName: 'Brown',
-    username: 'charlie',
-    status: 'suspended',
-    lastSignedIn: '2024-01-10',
-    createdAt: '2023-05-15',
-  },
-  {
-    id: '4',
-    email: 'diana@example.com',
-    name: 'Diana Prince',
-    firstName: 'Diana',
-    lastName: 'Prince',
-    username: 'diana',
-    status: 'inactive',
-    lastSignedIn: '2023-12-01',
-    createdAt: '2023-08-30',
-  },
-  {
-    id: '5',
-    email: 'evan@example.com',
-    name: 'Evan Davis',
-    firstName: 'Evan',
-    lastName: 'Davis',
-    username: 'evan',
-    status: 'never_active',
-    lastSignedIn: null,
-    createdAt: '2024-01-05',
-  },
-] as User[];
+/* ─── Stage status map (reused across examples) ─── */
 
-// Simple product data for basic examples
-interface SimpleProduct {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  status: 'in_stock' | 'low_stock' | 'out_of_stock';
-}
+const stageStatusMap = {
+  lead: { variant: 'secondary' as const, label: 'Lead' },
+  qualified: { variant: 'info' as const, label: 'Qualifié' },
+  proposal: { variant: 'warning' as const, label: 'Proposition' },
+  negotiation: { variant: 'primary' as const, label: 'Négociation' },
+  closed_won: { variant: 'success' as const, label: 'Gagné' },
+  closed_lost: { variant: 'destructive' as const, label: 'Perdu' },
+};
 
-const mockProducts: SimpleProduct[] = [
-  { id: '1', name: 'Laptop Pro', category: 'Electronics', price: 1299, stock: 15, status: 'in_stock' },
-  { id: '2', name: 'Wireless Mouse', category: 'Electronics', price: 29, stock: 3, status: 'low_stock' },
-  { id: '3', name: 'USB-C Cable', category: 'Accessories', price: 19, stock: 0, status: 'out_of_stock' },
-  { id: '4', name: 'Desk Lamp', category: 'Office', price: 45, stock: 22, status: 'in_stock' },
-  { id: '5', name: 'Notebook Set', category: 'Stationery', price: 12, stock: 50, status: 'in_stock' },
+/* ─── Props definition (grouped) ─── */
+
+const propGroups: DocPropGroup[] = [
+  {
+    title: 'Core',
+    props: [
+      { name: 'data', type: 'TData[]', description: 'Array of data objects to display.', required: true },
+      { name: 'columns', type: 'DataTableColumnDef<TData>[]', description: 'Column definitions — use col.* builders.', required: true },
+      { name: 'getRowId', type: '(row: TData) => string', description: 'Custom row ID accessor. Required for editing & selection persistence.' },
+      { name: 'variant', type: '"default" | "lined" | "striped" | "editable" | "spreadsheet"', default: '"lined"', description: 'Visual style variant.' },
+      { name: 'density', type: '"compact" | "default" | "comfortable"', default: '"default"', description: 'Row spacing density.' },
+      { name: 'locale', type: '"fr" | "en"', default: '"en"', description: 'Locale for i18n (labels, formats).' },
+      { name: 'className', type: 'string', description: 'Additional CSS classes on the wrapper.' },
+    ],
+  },
+  {
+    title: 'Search & Filtering',
+    props: [
+      { name: 'enableGlobalSearch', type: 'boolean', default: 'true', description: 'Enable global search input.' },
+      { name: 'searchPlaceholder', type: 'string', description: 'Placeholder text for search input.' },
+      { name: 'onSearchChange', type: '(search: string) => void', description: 'Callback when search value changes.' },
+      { name: 'enableAdvancedFilters', type: 'boolean', default: 'false', description: 'Enable advanced filter builder with AND/OR logic.' },
+      { name: 'defaultFilterGroup', type: 'FilterGroup', description: 'Default filter group configuration.' },
+      { name: 'onFilterGroupChange', type: '(group: FilterGroup | null) => void', description: 'Callback when filter group changes.' },
+      { name: 'combineSearchAndFilters', type: 'boolean', description: 'Single button toggles both search and inline filters.' },
+    ],
+  },
+  {
+    title: 'Sorting',
+    props: [
+      { name: 'enableSorting', type: 'boolean', default: 'true', description: 'Enable column sorting.' },
+      { name: 'enableMultiSort', type: 'boolean', description: 'Enable multi-column sorting.' },
+      { name: 'defaultSorting', type: 'SortingState', description: 'Default sorting configuration.' },
+      { name: 'onSortingChange', type: '(sorting: SortingState) => void', description: 'Callback when sorting changes.' },
+    ],
+  },
+  {
+    title: 'Column Pinning',
+    props: [
+      { name: 'enableColumnPinning', type: 'boolean', description: 'Enable sticky left/right columns.' },
+      { name: 'defaultColumnPinning', type: '{ left?: string[]; right?: string[] }', description: 'Columns pinned by default.' },
+      { name: 'onColumnPinningChange', type: '(pinning) => void', description: 'Callback when pinning changes.' },
+    ],
+  },
+  {
+    title: 'Row Expand',
+    props: [
+      { name: 'enableRowExpand', type: 'boolean', description: 'Enable expandable row detail panel.' },
+      { name: 'renderExpandedRow', type: '(row: Row<TData>) => ReactNode', description: 'Render function for the expanded panel.' },
+      { name: 'expandMode', type: '"single" | "multiple"', description: 'Accordion (single) or multi-expand.' },
+      { name: 'defaultExpanded', type: 'boolean | string[]', description: 'Default expanded state (false, true, or row IDs).' },
+    ],
+  },
+  {
+    title: 'Grouping & Aggregations',
+    props: [
+      { name: 'enableGrouping', type: 'boolean', description: 'Enable row grouping by column values.' },
+      { name: 'defaultGrouping', type: 'string[]', description: 'Columns to group by on mount.' },
+      { name: 'onGroupingChange', type: '(grouping: string[]) => void', description: 'Callback when grouping changes.' },
+      { name: 'groupAggregations', type: 'Record<string, AggregationType>', description: 'Aggregation per column: "sum", "avg", "min", "max", "count".' },
+    ],
+  },
+  {
+    title: 'Cell Editing',
+    props: [
+      { name: 'enableCellEditing', type: 'boolean', description: 'Enable cell focus, keyboard nav, and edit mode.' },
+      { name: 'onCellEdit', type: '(rowId, columnId, value, previousValue) => void', description: 'Callback on cell change (also used by undo/redo).' },
+      { name: 'editHistorySize', type: 'number', default: '50', description: 'Max entries in the undo/redo stack.' },
+    ],
+  },
+  {
+    title: 'Selection & Actions',
+    props: [
+      { name: 'enableRowSelection', type: 'boolean', default: 'false', description: 'Enable row selection with checkboxes.' },
+      { name: 'onRowSelectionChange', type: '(selection) => void', description: 'Callback when selection changes.' },
+      { name: 'rowActions', type: 'RowAction<TData>[]', description: 'Per-row dropdown actions (view, edit, delete, ...).' },
+      { name: 'bulkActions', type: 'BulkAction<TData>[]', description: 'Actions for multiple selected rows.' },
+      { name: 'onRowClick', type: '(row: TData) => void', description: 'Callback when a row is clicked.' },
+    ],
+  },
+  {
+    title: 'Views',
+    props: [
+      { name: 'views', type: 'DataTableView[]', description: 'Predefined views (filters + sorting presets).' },
+      { name: 'activeView', type: 'DataTableView | null', description: 'Currently active view.' },
+      { name: 'onViewChange', type: '(view: DataTableView) => void', description: 'Callback when view changes.' },
+      { name: 'enableCustomViews', type: 'boolean', default: 'false', description: 'Allow users to create and save custom views.' },
+      { name: 'onViewSave', type: '(view: DataTableView) => void', description: 'Callback when user saves a view.' },
+      { name: 'onViewUpdate', type: '(viewId, updates) => void', description: 'Callback when user updates a view.' },
+      { name: 'onViewDelete', type: '(viewId: string) => void', description: 'Callback when user deletes a view.' },
+    ],
+  },
+  {
+    title: 'Pagination',
+    props: [
+      { name: 'enablePagination', type: 'boolean', default: 'true', description: 'Enable pagination controls.' },
+      { name: 'pagination', type: 'PaginationConfig', description: 'Pagination config (pageSize, pageSizeOptions).' },
+      { name: 'onPaginationChange', type: '(pagination) => void', description: 'Callback when pagination changes.' },
+    ],
+  },
+  {
+    title: 'Loading States',
+    props: [
+      { name: 'isLoading', type: 'boolean', description: 'Show loading skeleton state.' },
+      { name: 'loadingComponent', type: 'ReactNode', description: 'Custom loading component.' },
+      { name: 'emptyComponent', type: 'ReactNode', description: 'Custom empty state component.' },
+      { name: 'hideToolbar', type: 'boolean', description: 'Hide the toolbar (search, filters, views).' },
+      { name: 'hideHeaders', type: 'boolean', description: 'Hide column headers.' },
+      { name: 'defaultColumnVisibility', type: 'Record<string, boolean>', description: 'Default column visibility.' },
+    ],
+  },
 ];
 
-const dataTableProps: DocProp[] = [
-  { name: 'data', type: 'TData[]', description: 'Array of data objects to display in the table.' },
-  { name: 'columns', type: 'DataTableColumnDef<TData>[]', description: 'Column definitions for the table.' },
-  { name: 'enableSorting', type: 'boolean', default: 'true', description: 'Enable column sorting functionality.' },
-  { name: 'enablePagination', type: 'boolean', default: 'true', description: 'Enable pagination controls.' },
-  { name: 'enableRowSelection', type: 'boolean', default: 'false', description: 'Enable row selection with checkboxes.' },
-  { name: 'enableGlobalSearch', type: 'boolean', default: 'true', description: 'Enable global search functionality.' },
-  { name: 'enableAdvancedFilters', type: 'boolean', default: 'false', description: 'Enable advanced filter builder with AND/OR logic.' },
-  { name: 'views', type: 'DataTableView[]', description: 'Predefined views for quick filtering and sorting.' },
-  { name: 'activeView', type: 'DataTableView | null', description: 'Currently active view.' },
-  { name: 'onViewChange', type: '(view: DataTableView) => void', description: 'Callback when view changes.' },
-  { name: 'enableCustomViews', type: 'boolean', default: 'false', description: 'Allow users to create and save custom views.' },
-  { name: 'rowActions', type: 'RowAction<TData>[]', description: 'Actions available for each row (edit, delete, etc.).' },
-  { name: 'bulkActions', type: 'BulkAction<TData>[]', description: 'Actions available for multiple selected rows.' },
-  { name: 'variant', type: '"default" | "lined" | "striped"', default: '"lined"', description: 'Visual style variant of the table.' },
-  { name: 'density', type: '"compact" | "default" | "comfortable"', default: '"default"', description: 'Row spacing density.' },
-  { name: 'pagination', type: 'PaginationConfig', description: 'Pagination configuration (pageSize, pageSizeOptions).' },
-  { name: 'locale', type: '"fr" | "en"', default: '"en"', description: 'Locale for internationalization.' },
-];
+/* ─── Component ─── */
 
 export default function DataTablePage() {
-  // Basic example columns
-  const productColumns: DataTableColumnDef<SimpleProduct>[] = [
-    { accessorKey: 'name', header: 'Product', enableSorting: true },
-    { accessorKey: 'category', header: 'Category', enableSorting: true },
-    {
-      accessorKey: 'price',
-      header: 'Price',
-      cell: ({ row }) => `$${row.getValue('price')}`,
-      enableSorting: true,
-    },
-    { accessorKey: 'stock', header: 'Stock', enableSorting: true },
-    {
-      accessorKey: 'status',
-      header: 'Status',
-      cell: ({ row }) => {
-        const status = row.getValue('status') as string;
-        const variantMap = {
-          in_stock: 'success' as const,
-          low_stock: 'warning' as const,
-          out_of_stock: 'critical' as const,
-        };
-        return (
-          <Badge variant={variantMap[status as keyof typeof variantMap]}>
-            {status.replace('_', ' ')}
-          </Badge>
-        );
-      },
-    },
+  // ── Hero columns ──
+  const heroColumns: DataTableColumnDef<Deal>[] = [
+    col.text<Deal>('title', { title: 'Opportunité' }),
+    col.text<Deal>('companyName', { title: 'Entreprise' }),
+    col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+    col.numeric<Deal>('probability', { title: 'Prob.', formatter: (v) => `${v}%`, align: 'right' }),
+    col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+    col.date<Deal>('expectedCloseDate', { title: 'Clôture', locale: 'fr-FR' }),
   ];
 
-  // User management preset
-  const userPreset = createUserManagementPreset({
-    onView: (user) => console.log('View user:', user),
-    onEdit: (user) => console.log('Edit user:', user),
-    onSuspend: (user) => console.log('Suspend user:', user),
-    onDelete: (user) => console.log('Delete user:', user),
-    onBulkSuspend: (users) => console.log('Bulk suspend:', users),
-    onBulkDelete: (users) => console.log('Bulk delete:', users),
-  });
+  // ── Column pinning columns (wider set) ──
+  const pinningColumns: DataTableColumnDef<Deal>[] = [
+    col.text<Deal>('title', { title: 'Opportunité' }),
+    col.text<Deal>('companyName', { title: 'Entreprise' }),
+    col.text<Deal>('contactName', { title: 'Contact' }),
+    col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+    col.numeric<Deal>('probability', { title: 'Prob.', formatter: (v) => `${v}%`, align: 'right' }),
+    col.select<Deal>('source', {
+      title: 'Source',
+      options: [
+        { label: 'Website', value: 'Website' },
+        { label: 'Referral', value: 'Referral' },
+        { label: 'LinkedIn', value: 'LinkedIn' },
+      ],
+    }),
+    col.text<Deal>('assignedTo', { title: 'Responsable' }),
+    col.date<Deal>('expectedCloseDate', { title: 'Clôture', locale: 'fr-FR' }),
+    col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+  ];
 
-  // CRM presets
+  // ── CRM Presets ──
   const companiesPreset = createCompaniesPreset({
     onView: (c) => console.log('View company:', c.id),
     onEdit: (c) => console.log('Edit company:', c.id),
@@ -201,6 +230,13 @@ export default function DataTablePage() {
     onDuplicate: (p) => console.log('Duplicate product:', p.id),
   });
 
+  // ── Linear Issues ──
+  const linearPreset = createLinearIssuesPreset({
+    onView: (i) => console.log('View issue:', i.id),
+    onEdit: (i) => console.log('Edit issue:', i.id),
+  });
+
+  // ── Editable deals ──
   const [editableDeals, setEditableDeals] = React.useState(deals.slice(0, 8));
 
   const handleCellEdit = React.useCallback((rowId: string, columnId: string, value: unknown) => {
@@ -212,216 +248,452 @@ export default function DataTablePage() {
   }, []);
 
   const editablePreset = React.useMemo(
-    () => createSpreadsheetPreset<Deal>({
-      columns: [
-        { accessorKey: 'title', title: 'Titre', type: 'text' },
-        { accessorKey: 'companyName', title: 'Entreprise', type: 'text', editable: false },
-        { accessorKey: 'contactName', title: 'Contact', type: 'text', editable: false },
-        { accessorKey: 'amount', title: 'Montant', type: 'currency', currency: 'EUR', locale: 'fr-FR' },
-        { accessorKey: 'probability', title: 'Probabilité (%)', type: 'number', min: 0, max: 100 },
-        {
-          accessorKey: 'stage', title: 'Étape', type: 'select', options: [
-            { label: 'Lead', value: 'lead' },
-            { label: 'Qualifié', value: 'qualified' },
-            { label: 'Proposition', value: 'proposal' },
-            { label: 'Négociation', value: 'negotiation' },
-            { label: 'Gagné', value: 'closed_won' },
-            { label: 'Perdu', value: 'closed_lost' },
-          ],
-        },
-      ],
-      onCellEdit: handleCellEdit,
-    }),
+    () => createEditableDealsPreset({ onCellEdit: handleCellEdit }),
     [handleCellEdit]
   );
 
   return (
     <DocPage
       title="Data Table"
-      subtitle="Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions. Built with TanStack React Table v8."
+      subtitle="Enterprise-grade data table with col.* column builders, typed presets, column pinning, row expand, grouping with aggregations, and inline cell editing. Built on TanStack Table v8."
       toc={toc}
     >
-      {/* Hero */}
+      {/* ── Hero ── */}
       <DocHero className="p-0 overflow-hidden">
         <DataTable
-          data={mockProducts}
-          columns={productColumns}
+          data={deals.slice(0, 8)}
+          columns={heroColumns}
+          getRowId={(row) => row.id}
           enableSorting
           enablePagination
-          pagination={{ pageSize: 5 }}
+          locale="fr"
+          pagination={{ pageSize: 8 }}
         />
       </DocHero>
 
-      {/* Examples */}
-      <DocSection id="examples" title="Examples">
+      {/* ── col.* Namespace ── */}
+      <DocSection id="col-namespace" title="col.* Namespace">
+        <p className="text-sm text-fg-muted">
+          The <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col</code> namespace
+          replaces verbose <code className="text-xs bg-raised px-1.5 py-0.5 rounded">createXxxColumn()</code> calls
+          with a concise, discoverable API. Titles are auto-derived from accessor keys
+          (<code className="text-xs bg-raised px-1.5 py-0.5 rounded">companyName</code> {'->'} "Company Name").
+        </p>
+
         <DocExample
-          title="Basic Table"
-          description="Simple data table with sorting and pagination."
-          code={`const columns: DataTableColumnDef<Product>[] = [
-  { accessorKey: "name", header: "Product", enableSorting: true },
-  { accessorKey: "category", header: "Category", enableSorting: true },
-  { accessorKey: "price", header: "Price", cell: ({ row }) => \`$\${row.getValue("price")}\` },
+          title="Before / After"
+          description="Verbose factory vs concise col.* shorthand."
+          code={`// Before — verbose
+createTextColumn<Deal>({ accessorKey: "title", title: "Title", showInlineFilter: true })
+createCurrencyColumn<Deal>({ accessorKey: "amount", title: "Amount", currency: "EUR" })
+createStatusColumn<Deal>({ accessorKey: "stage", title: "Stage", statusMap: { ... } })
+
+// After — col.*
+col.text<Deal>("title", { showInlineFilter: true })
+col.currency<Deal>("amount", { currency: "EUR" })
+col.status<Deal>("stage", { statusMap: { ... } })`}
+        >
+          <DataTable
+            data={deals.slice(0, 4)}
+            columns={[
+              col.text<Deal>('title', { title: 'Opportunité' }),
+              col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+              col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+            ]}
+            enablePagination={false}
+            enableSorting={false}
+            locale="fr"
+          />
+        </DocExample>
+
+        <DocExample
+          title="Complete Example"
+          description="A full column array mixing text, currency, numeric, status, date, and select types."
+          code={`import { col } from "@/components/features/data-table/factories/col"
+
+const columns: DataTableColumnDef<Deal>[] = [
+  col.text<Deal>("title", { title: "Opportunité", showInlineFilter: true }),
+  col.text<Deal>("companyName", { title: "Entreprise" }),
+  col.currency<Deal>("amount", { title: "Montant", currency: "EUR", locale: "fr-FR" }),
+  col.numeric<Deal>("probability", { title: "Prob.", formatter: (v) => \`\${v}%\`, align: "right" }),
+  col.status<Deal>("stage", { title: "Étape", statusMap: stageStatusMap }),
+  col.date<Deal>("expectedCloseDate", { title: "Clôture", locale: "fr-FR" }),
 ]
 
-<DataTable data={products} columns={columns} enableSorting enablePagination pagination={{ pageSize: 10 }} />`}
+<DataTable data={deals} columns={columns} enableSorting enablePagination locale="fr" />`}
         >
           <DataTable
-            data={mockProducts}
-            columns={productColumns}
+            data={deals.slice(0, 6)}
+            columns={heroColumns}
+            getRowId={(row) => row.id}
             enableSorting
-            enablePagination
-            pagination={{ pageSize: 5 }}
+            enablePagination={false}
+            locale="fr"
           />
         </DocExample>
 
-        <DocExample
-          title="With Row Selection"
-          description="Enable row selection with checkboxes for bulk operations."
-          code={`<DataTable data={products} columns={columns} enableRowSelection enablePagination pagination={{ pageSize: 10 }} />`}
-        >
-          <DataTable
-            data={mockProducts}
-            columns={productColumns}
-            enableRowSelection
-            enablePagination
-            pagination={{ pageSize: 5 }}
-          />
-        </DocExample>
-
-        <DocExample
-          title="Visual Variants"
-          description="Different visual styles: lined (default), striped, and default."
-          code={`<DataTable variant="lined" data={products} columns={columns} />
-<DataTable variant="striped" data={products} columns={columns} />
-<DataTable variant="default" data={products} columns={columns} />`}
-        >
-          <div className="space-y-8">
-            <div>
-              <h4 className="text-sm font-semibold mb-2">Lined (Default)</h4>
-              <DataTable
-                data={mockProducts.slice(0, 3)}
-                columns={productColumns.slice(0, 3)}
-                variant="lined"
-                enablePagination={false}
-              />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold mb-2">Striped</h4>
-              <DataTable
-                data={mockProducts.slice(0, 3)}
-                columns={productColumns.slice(0, 3)}
-                variant="striped"
-                enablePagination={false}
-              />
-            </div>
+        {/* Method reference grid */}
+        <div className="mt-6">
+          <h3 className="text-sm font-semibold text-fg mb-3">28 Available Methods</h3>
+          <div className="grid gap-px bg-edge rounded-lg overflow-hidden md:grid-cols-2">
+            {[
+              { name: 'col.text()', desc: 'Plain text with optional filter' },
+              { name: 'col.status()', desc: 'Status badge with statusMap' },
+              { name: 'col.numeric()', desc: 'Number with optional formatter' },
+              { name: 'col.currency()', desc: 'Locale-aware currency formatting' },
+              { name: 'col.date()', desc: 'Locale-aware date formatting' },
+              { name: 'col.relativeDate()', desc: '"3h ago" with tooltip' },
+              { name: 'col.select()', desc: 'Dropdown filter with options' },
+              { name: 'col.imageText()', desc: 'Image + text combo' },
+              { name: 'col.tags()', desc: 'Array of inline badges' },
+              { name: 'col.validation()', desc: 'Computed icon + tooltip' },
+              { name: 'col.progress()', desc: 'Progress bar (0-100)' },
+              { name: 'col.rating()', desc: 'Stars or dots' },
+              { name: 'col.link()', desc: 'Clickable URL / email / phone' },
+              { name: 'col.boolean()', desc: 'Checkbox, badge, or icon' },
+              { name: 'col.avatarGroup()', desc: 'Overlapping circular avatars' },
+              { name: 'col.user()', desc: 'Avatar + name + subtitle' },
+              { name: 'col.duration()', desc: 'Human-readable durations' },
+              { name: 'col.colorDot()', desc: 'Colored dot + label' },
+              { name: 'col.image()', desc: 'Image thumbnail' },
+              { name: 'col.sparkline()', desc: 'Inline SVG chart' },
+              { name: 'col.twoLines()', desc: 'Primary + muted subtitle' },
+              { name: 'col.keyValue()', desc: '"label: value" inline' },
+              { name: 'col.editableText()', desc: 'Editable text cell' },
+              { name: 'col.editableNumber()', desc: 'Editable number cell' },
+              { name: 'col.editableCurrency()', desc: 'Editable currency cell' },
+              { name: 'col.editableSelect()', desc: 'Editable select cell' },
+              { name: 'col.editableDate()', desc: 'Editable date cell' },
+              { name: 'col.selection()', desc: 'Row selection checkbox' },
+            ].map((m) => (
+              <div key={m.name} className="flex items-baseline gap-2 bg-surface px-3 py-2">
+                <code className="text-xs font-semibold text-fg whitespace-nowrap">{m.name}</code>
+                <span className="text-xs text-fg-muted">{m.desc}</span>
+              </div>
+            ))}
           </div>
-        </DocExample>
+        </div>
+      </DocSection>
 
+      {/* ── definePreset() ── */}
+      <DocSection id="define-preset" title="definePreset()">
+        <p className="text-sm text-fg-muted">
+          Build a typed preset object that you spread into <code className="text-xs bg-raised px-1.5 py-0.5 rounded">{'<DataTable />'}</code>.
+          The preset contains everything except <code className="text-xs bg-raised px-1.5 py-0.5 rounded">data</code>.
+        </p>
         <DocExample
-          title="Density Options"
-          description="Control row spacing with compact, default, or comfortable density."
-          code={`<DataTable density="compact" data={products} columns={columns} />
-<DataTable density="default" data={products} columns={columns} />
-<DataTable density="comfortable" data={products} columns={columns} />`}
-        >
-          <div className="space-y-8">
-            <div>
-              <h4 className="text-sm font-semibold mb-2">Compact</h4>
-              <DataTable
-                data={mockProducts.slice(0, 3)}
-                columns={productColumns.slice(0, 3)}
-                density="compact"
-                enablePagination={false}
-              />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold mb-2">Comfortable</h4>
-              <DataTable
-                data={mockProducts.slice(0, 3)}
-                columns={productColumns.slice(0, 3)}
-                density="comfortable"
-                enablePagination={false}
-              />
-            </div>
-          </div>
-        </DocExample>
+          title="Typed Preset Builder"
+          description="definePreset returns a fully typed config object you spread into DataTable."
+          code={`import { definePreset } from "@/components/features/data-table/factories/preset-builder"
+import { col } from "@/components/features/data-table/factories/col"
 
-        <DocExample
-          title="Full-Featured with Preset"
-          description="Complete example using the User Management preset with views, filters, row actions, and bulk actions."
-          code={`import { createUserManagementPreset } from "@/components/features/data-table"
-
-const preset = createUserManagementPreset({
-  onView: (user) => router.push(\`/users/\${user.id}\`),
-  onEdit: (user) => router.push(\`/users/\${user.id}/edit\`),
-  onSuspend: async (user) => await suspendUser(user.id),
-  onDelete: async (user) => await deleteUser(user.id),
+const dealsPreset = definePreset<Deal>({
+  columns: [
+    col.text("title", { title: "Opportunité" }),
+    col.currency("amount", { currency: "EUR", locale: "fr-FR" }),
+    col.status("stage", { statusMap: stageStatusMap }),
+  ],
+  enableSorting: true,
+  enablePagination: true,
+  enableRowSelection: true,
+  locale: "fr",
+  pagination: { pageSize: 10 },
 })
 
+// Spread into DataTable — only \`data\` is needed
+<DataTable {...dealsPreset} data={deals} />`}
+        >
+          <DataTable
+            data={deals.slice(0, 5)}
+            columns={[
+              col.text<Deal>('title', { title: 'Opportunité' }),
+              col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+              col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+            ]}
+            enableSorting
+            enablePagination={false}
+            enableRowSelection
+            locale="fr"
+          />
+        </DocExample>
+      </DocSection>
+
+      {/* ── Column Pinning ── */}
+      <DocSection id="column-pinning" title="Column Pinning">
+        <p className="text-sm text-fg-muted">
+          Pin columns to the left or right edge so they stay visible during horizontal scroll.
+          Useful when tables have many columns.
+        </p>
+        <DocExample
+          title="Sticky Left & Right Columns"
+          description="Title pinned left, Stage pinned right. Scroll horizontally to see them stick."
+          code={`<DataTable
+  data={deals}
+  columns={columns} // 9 columns — forces horizontal scroll
+  enableColumnPinning
+  defaultColumnPinning={{ left: ["title"], right: ["stage"] }}
+  enablePagination={false}
+/>`}
+        >
+          <div className="max-w-full overflow-hidden">
+            <DataTable
+              data={deals.slice(0, 6)}
+              columns={pinningColumns}
+              getRowId={(row) => row.id}
+              enableColumnPinning
+              defaultColumnPinning={{ left: ['title'], right: ['stage'] }}
+              enableSorting
+              enablePagination={false}
+              locale="fr"
+            />
+          </div>
+        </DocExample>
+      </DocSection>
+
+      {/* ── Row Expand ── */}
+      <DocSection id="row-expand" title="Row Expand">
+        <p className="text-sm text-fg-muted">
+          Expand rows to reveal detail panels. Use <code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowGrid</code> for
+          a quick key-value layout or <code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowTabs</code> for tabbed content.
+        </p>
+
+        <DocExample
+          title="Single Expand with Grid"
+          description="Accordion mode — only one row open at a time. ExpandedRowGrid shows deal details in a 3-column grid."
+          code={`import { ExpandedRowGrid } from "@/components/features/data-table/cells/expanded-row-grid"
+
 <DataTable
-  data={users}
-  columns={preset.columns}
-  views={preset.views}
-  rowActions={preset.rowActions}
-  bulkActions={preset.bulkActions}
-  enableSorting enablePagination enableRowSelection enableGlobalSearch enableCustomViews
-  pagination={{ pageSize: 25 }}
+  data={deals}
+  columns={[col.expand(), ...columns]}
+  enableRowExpand
+  expandMode="single"
+  renderExpandedRow={(row) => (
+    <ExpandedRowGrid
+      columns={3}
+      items={[
+        { label: "Entreprise", value: row.original.companyName },
+        { label: "Contact", value: row.original.contactName },
+        { label: "Source", value: row.original.source },
+        { label: "Responsable", value: row.original.assignedTo },
+        { label: "Clôture prévue", value: row.original.expectedCloseDate },
+        { label: "Créé le", value: row.original.createdAt },
+      ]}
+    />
+  )}
 />`}
         >
           <DataTable
-            data={mockUsers}
-            columns={userPreset.columns}
-            views={userPreset.views}
-            rowActions={userPreset.rowActions}
-            bulkActions={userPreset.bulkActions}
-            enableSorting
-            enablePagination
-            enableRowSelection
-            enableGlobalSearch
-            enableCustomViews
-            pagination={{ pageSize: 5 }}
+            data={deals.slice(0, 5)}
+            columns={[
+              col.expand<Deal>(),
+              col.text<Deal>('title', { title: 'Opportunité' }),
+              col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+              col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+            ]}
+            getRowId={(row) => row.id}
+            enableRowExpand
+            expandMode="single"
+            renderExpandedRow={(row) => (
+              <ExpandedRowGrid
+                columns={3}
+                items={[
+                  { label: 'Entreprise', value: row.original.companyName },
+                  { label: 'Contact', value: row.original.contactName },
+                  { label: 'Source', value: row.original.source },
+                  { label: 'Responsable', value: row.original.assignedTo },
+                  { label: 'Clôture prévue', value: row.original.expectedCloseDate },
+                  { label: 'Créé le', value: row.original.createdAt },
+                ]}
+              />
+            )}
+            enableSorting={false}
+            enablePagination={false}
+            locale="fr"
           />
         </DocExample>
 
         <DocExample
-          title="Editable Mode"
-          description="Inline-editable cells for spreadsheet-like data entry. Uses createSpreadsheetPreset with variant='spreadsheet' for the full editing experience."
-          code={`import { createSpreadsheetPreset } from "@/components/features/data-table"
+          title="Multiple Expand with Tabs"
+          description="Multiple rows can be expanded simultaneously. ExpandedRowTabs renders tabbed content."
+          code={`import { ExpandedRowTabs } from "@/components/features/data-table/cells/expanded-row-tabs"
 
-const [deals, setDeals] = useState(initialDeals);
+<DataTable
+  data={deals}
+  columns={[col.expand(), ...columns]}
+  enableRowExpand
+  expandMode="multiple"
+  renderExpandedRow={(row) => (
+    <ExpandedRowTabs
+      tabs={[
+        { label: "Détails", value: "details", content: <ExpandedRowGrid ... /> },
+        { label: "Historique", value: "history", content: <p>Timeline...</p> },
+      ]}
+    />
+  )}
+/>`}
+        >
+          <DataTable
+            data={deals.slice(0, 4)}
+            columns={[
+              col.expand<Deal>(),
+              col.text<Deal>('title', { title: 'Opportunité' }),
+              col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+              col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+            ]}
+            getRowId={(row) => row.id}
+            enableRowExpand
+            expandMode="multiple"
+            renderExpandedRow={(row) => (
+              <ExpandedRowTabs
+                tabs={[
+                  {
+                    label: 'Détails',
+                    value: 'details',
+                    content: (
+                      <ExpandedRowGrid
+                        columns={3}
+                        items={[
+                          { label: 'Entreprise', value: row.original.companyName },
+                          { label: 'Contact', value: row.original.contactName },
+                          { label: 'Source', value: row.original.source },
+                        ]}
+                      />
+                    ),
+                  },
+                  {
+                    label: 'Historique',
+                    value: 'history',
+                    content: <p className="text-sm text-fg-muted py-2">Timeline des activités...</p>,
+                  },
+                ]}
+              />
+            )}
+            enableSorting={false}
+            enablePagination={false}
+            locale="fr"
+          />
+        </DocExample>
+      </DocSection>
+
+      {/* ── Grouping & Aggregations ── */}
+      <DocSection id="grouping" title="Grouping & Aggregations">
+        <p className="text-sm text-fg-muted">
+          Group rows by column values and compute aggregations (sum, avg, min, max, count)
+          on grouped header rows.
+        </p>
+        <DocExample
+          title="Group by Stage"
+          description="Deals grouped by stage with sum on amount and average on probability."
+          code={`<DataTable
+  data={deals}
+  columns={columns}
+  enableGrouping
+  defaultGrouping={["stage"]}
+  groupAggregations={{ amount: "sum", probability: "avg" }}
+  enablePagination={false}
+/>`}
+        >
+          <DataTable
+            data={deals.slice(0, 15)}
+            columns={[
+              col.text<Deal>('title', { title: 'Opportunité' }),
+              col.text<Deal>('companyName', { title: 'Entreprise' }),
+              col.currency<Deal>('amount', { title: 'Montant', currency: 'EUR', locale: 'fr-FR' }),
+              col.numeric<Deal>('probability', { title: 'Prob.', formatter: (v) => `${v}%`, align: 'right' }),
+              col.status<Deal>('stage', { title: 'Étape', statusMap: stageStatusMap }),
+            ]}
+            getRowId={(row) => row.id}
+            enableGrouping
+            defaultGrouping={['stage']}
+            groupAggregations={{ amount: 'sum', probability: 'avg' }}
+            enableSorting
+            enablePagination={false}
+            locale="fr"
+          />
+        </DocExample>
+      </DocSection>
+
+      {/* ── Inline Editing ── */}
+      <DocSection id="inline-editing" title="Inline Editing">
+        <p className="text-sm text-fg-muted">
+          Turn any table into a spreadsheet-like editor with <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.editable*()</code> columns,
+          keyboard navigation, and undo/redo history.
+        </p>
+        <DocExample
+          title="Editable Deals"
+          description="Click a cell to focus, press Enter or F2 to edit, Tab/Arrow keys to navigate. Undo with Ctrl+Z."
+          code={`import { createEditableDealsPreset } from "@/components/features/data-table/presets/crm-deals-editable"
+
+const [editableDeals, setEditableDeals] = useState(deals)
 
 const handleCellEdit = useCallback((rowId, columnId, value) => {
-  setDeals((prev) => prev.map((d) => d.id === rowId ? { ...d, [columnId]: value } : d));
-}, []);
+  setEditableDeals((prev) => prev.map((d) => d.id === rowId ? { ...d, [columnId]: value } : d))
+}, [])
 
-const preset = useMemo(() => createSpreadsheetPreset({
-  columns: [
-    { accessorKey: "title", title: "Titre", type: "text" },
-    { accessorKey: "companyName", title: "Entreprise", type: "text", editable: false },
-    { accessorKey: "amount", title: "Montant", type: "currency", currency: "EUR" },
-    { accessorKey: "stage", title: "Étape", type: "select", options: stageOptions },
-  ],
-  onCellEdit: handleCellEdit,
-}), [handleCellEdit]);
+const preset = useMemo(
+  () => createEditableDealsPreset({ onCellEdit: handleCellEdit }),
+  [handleCellEdit]
+)
 
-<DataTable data={deals} columns={preset.columns} variant="spreadsheet" />`}
+<DataTable
+  data={editableDeals}
+  columns={preset.columns}
+  getRowId={(row) => row.id}
+  enableCellEditing
+  variant="spreadsheet"
+  locale="fr"
+/>`}
         >
           <DataTable
             data={editableDeals}
             columns={editablePreset.columns}
             getRowId={(row) => row.id}
+            enableCellEditing
             enableSorting
             enablePagination={false}
             locale="fr"
             variant="spreadsheet"
           />
         </DocExample>
+
+        {/* Keyboard shortcuts reference */}
+        <div className="mt-4">
+          <h3 className="text-sm font-semibold text-fg mb-2">Keyboard Shortcuts</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-edge">
+                  <th className="py-2 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Key</th>
+                  <th className="py-2 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Action</th>
+                </tr>
+              </thead>
+              <tbody className="text-fg-muted">
+                {[
+                  ['Arrow keys', 'Navigate between cells'],
+                  ['Tab / Shift+Tab', 'Move to next / previous cell'],
+                  ['Enter / F2', 'Enter edit mode on focused cell'],
+                  ['Escape', 'Cancel edit, return to navigation'],
+                  ['Ctrl+Z', 'Undo last edit'],
+                  ['Ctrl+Shift+Z', 'Redo'],
+                ].map(([key, action]) => (
+                  <tr key={key} className="border-b border-edge last:border-0">
+                    <td className="py-2 pr-4">
+                      <kbd className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono text-fg">{key}</kbd>
+                    </td>
+                    <td className="py-2 text-xs">{action}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </DocSection>
 
-      {/* CRM Presets */}
+      {/* ── CRM Presets ── */}
       <DocSection id="crm-presets" title="CRM Presets">
         <p className="text-sm text-fg-muted">
-          Domain-specific presets for the Forge CRM. Each preset provides columns, views, row actions, and bulk actions tailored to the domain.
+          Domain-specific presets for Forge CRM. Each preset provides columns, views, row actions, and bulk actions
+          tailored to the domain — all built with <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.*</code>.
         </p>
         <Tabs defaultValue="companies" className="w-full">
           <TabsList>
@@ -534,155 +806,128 @@ const preset = useMemo(() => createSpreadsheetPreset({
         </Tabs>
       </DocSection>
 
-      {/* Props */}
-      <DocSection id="props" title="Props">
-        <DocPropsTable props={dataTableProps} />
+      {/* ── Linear Issues ── */}
+      <DocSection id="linear-preset" title="Linear Issues">
+        <p className="text-sm text-fg-muted">
+          A Linear-style issue tracker preset with compact rows, colored priority bars, status dots,
+          label dot-badges, and grouping by status. Designed for a minimal, dense list view.
+        </p>
+        <DocExample
+          title="Linear Issue Tracker"
+          description="Grouped by status with collapsible headers. Compact density, hidden column headers, no pagination."
+          code={`import { createLinearIssuesPreset } from "@/components/features/data-table/presets/linear-issues"
+import { linearIssues } from "@/lib/linear-data"
+
+const preset = createLinearIssuesPreset({
+  onView: (issue) => console.log("View:", issue.identifier),
+  onEdit: (issue) => console.log("Edit:", issue.identifier),
+})
+
+<DataTable
+  data={linearIssues}
+  columns={preset.columns}
+  views={preset.views}
+  rowActions={preset.rowActions}
+  getRowId={(row) => row.id}
+  variant="lined"
+  density="compact"
+  hideHeaders
+  enableGrouping
+  defaultGrouping={["status"]}
+  enablePagination={false}
+  enableSorting
+  enableRowSelection
+  enableGlobalSearch
+  combineSearchAndFilters
+  searchPlaceholder="Rechercher..."
+  locale="fr"
+/>`}
+        >
+          <DataTable
+            data={linearIssues}
+            columns={linearPreset.columns}
+            views={linearPreset.views}
+            rowActions={linearPreset.rowActions}
+            getRowId={(row) => row.id}
+            variant="lined"
+            density="compact"
+            hideHeaders
+            enableGrouping
+            defaultGrouping={['status']}
+            enablePagination={false}
+            enableSorting
+            enableRowSelection
+            enableGlobalSearch
+            combineSearchAndFilters
+            searchPlaceholder="Rechercher..."
+            locale="fr"
+          />
+        </DocExample>
       </DocSection>
 
-      {/* Available Presets */}
+      {/* ── Props ── */}
+      <DocSection id="props" title="Props">
+        <DocPropsTable groups={propGroups} />
+      </DocSection>
+
+      {/* ── Available Presets ── */}
       <DocSection id="available-presets" title="Available Presets">
-        <p className="text-sm text-fg-muted">
-          Presets provide pre-configured columns, views, and actions for common use cases:
+        <p className="text-sm text-fg-muted mb-4">
+          15 presets provide pre-configured columns, views, and actions for common use cases:
         </p>
         <div className="grid gap-3 md:grid-cols-2">
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">User Management</h3>
-            <code className="text-xs text-fg-muted">createUserManagementPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">User listing with status filtering and bulk operations.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">Invitations</h3>
-            <code className="text-xs text-fg-muted">createInvitationPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Invitation management with status tracking and resend.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">Order Management</h3>
-            <code className="text-xs text-fg-muted">createOrderManagementPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Order tracking with fulfillment and payment status.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">CRM Companies</h3>
-            <code className="text-xs text-fg-muted">createCompaniesPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Company management with industry, revenue, and status views.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">CRM Contacts</h3>
-            <code className="text-xs text-fg-muted">createContactsPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Contact management with company links and primary badge.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">CRM Deals</h3>
-            <code className="text-xs text-fg-muted">createDealsPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Deal pipeline with stage badges, probability, and amount.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">CRM Quotes</h3>
-            <code className="text-xs text-fg-muted">createQuotesPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Quote management with duplicate, print, and delete actions.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">CRM Products</h3>
-            <code className="text-xs text-fg-muted">createProductsPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Product catalog with category filters and deactivation.</p>
-          </div>
-          <div className="border rounded-lg p-4">
-            <h3 className="font-semibold text-sm mb-1">Editable Deals</h3>
-            <code className="text-xs text-fg-muted">createEditableDealsPreset()</code>
-            <p className="text-sm text-fg-muted mt-2">Inline-editable deal table with text, number, and select cells.</p>
-          </div>
+          {[
+            { name: 'CRM Companies', fn: 'createCompaniesPreset()', desc: 'Company management with industry, revenue, and status views.' },
+            { name: 'CRM Contacts', fn: 'createContactsPreset()', desc: 'Contact management with company links and primary badge.' },
+            { name: 'CRM Deals', fn: 'createDealsPreset()', desc: 'Deal pipeline with stage badges, probability, and amount.' },
+            { name: 'CRM Quotes', fn: 'createQuotesPreset()', desc: 'Quote management with duplicate, print, and delete actions.' },
+            { name: 'CRM Products', fn: 'createProductsPreset()', desc: 'Product catalog with category filters and deactivation.' },
+            { name: 'Editable Deals', fn: 'createEditableDealsPreset()', desc: 'Inline-editable deal table with text, number, and select cells.' },
+            { name: 'TalentFlow Candidates', fn: 'createCandidatesPreset()', desc: 'ATS candidate tracking with skills tags and pipeline stages.' },
+            { name: 'TalentFlow Jobs', fn: 'createJobsPreset()', desc: 'Job posting management with status and applicant counts.' },
+            { name: 'StockBase Inventory', fn: 'createInventoryPreset()', desc: 'Inventory management with stock levels and reorder alerts.' },
+            { name: 'StockBase Movements', fn: 'createMovementsPreset()', desc: 'Stock movement history with in/out tracking.' },
+            { name: 'User Management', fn: 'createUserManagementPreset()', desc: 'User listing with status filtering and bulk operations.' },
+            { name: 'Invitations', fn: 'createInvitationPreset()', desc: 'Invitation management with status tracking and resend.' },
+            { name: 'Order Management', fn: 'createOrderManagementPreset()', desc: 'Order tracking with fulfillment and payment status.' },
+            { name: 'Linear Issues', fn: 'createLinearIssuesPreset()', desc: 'Linear-style issue tracker with priority bars, status dots, and grouping.' },
+            { name: 'Spreadsheet', fn: 'createSpreadsheetPreset()', desc: 'Generic Airtable-style editable table with typed columns.' },
+          ].map((preset) => (
+            <div key={preset.fn} className="border border-edge rounded-lg p-4">
+              <h3 className="font-semibold text-sm mb-1">{preset.name}</h3>
+              <code className="text-xs text-fg-muted">{preset.fn}</code>
+              <p className="text-sm text-fg-muted mt-2">{preset.desc}</p>
+            </div>
+          ))}
         </div>
       </DocSection>
 
-      {/* Key Features */}
-      <DocSection id="key-features" title="Key Features">
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <h3 className="font-semibold text-sm">Filtering & Search</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
-              <li>Global search with debouncing</li>
-              <li>Advanced filter builder with AND/OR logic</li>
-              <li>Inline column filters</li>
-              <li>Predefined filter views</li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold text-sm">Sorting & Views</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
-              <li>Single and multi-column sorting</li>
-              <li>Predefined views with saved state</li>
-              <li>Custom user-created views</li>
-              <li>View duplication and renaming</li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold text-sm">Selection & Actions</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
-              <li>Row selection with checkboxes</li>
-              <li>Select all functionality</li>
-              <li>Row-level actions menu</li>
-              <li>Bulk actions for selected rows</li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold text-sm">Inline Editing</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-fg-muted">
-              <li>Editable text, number, currency cells</li>
-              <li>Editable select and date cells</li>
-              <li>Save on blur or Enter key</li>
-              <li>onCellEdit callback for persistence</li>
-            </ul>
-          </div>
-        </div>
-      </DocSection>
-
-      {/* Column Definition */}
-      <DocSection id="column-definition" title="Column Definition">
-        <p className="text-sm text-fg-muted">
-          Columns extend TanStack Table's ColumnDef with additional filter configuration:
-        </p>
-        <pre className="bg-raised p-4 rounded-lg overflow-x-auto">
-          <code className="text-xs">{`const columns: DataTableColumnDef<Product>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
-    cell: ({ row }) => <span>{row.getValue("name")}</span>,
-    enableSorting: true,
-    filterConfig: {
-      type: "text",
-      placeholder: "Search products...",
-      showInlineFilter: true,
-      defaultInlineFilter: true,
-    }
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <Badge>{row.getValue("status")}</Badge>,
-    filterConfig: {
-      type: "select",
-      options: [
-        { label: "Active", value: "active" },
-        { label: "Inactive", value: "inactive" }
-      ],
-      showInlineFilter: true,
-    }
-  }
-]`}</code>
-        </pre>
-      </DocSection>
-
-      {/* Best Practices */}
+      {/* ── Best Practices ── */}
       <DocSection id="best-practices" title="Best Practices">
-        <ul className="list-disc list-inside space-y-2 text-fg-muted">
-          <li>Use presets when available to save development time</li>
-          <li>Enable pagination for datasets with more than 25 rows</li>
-          <li>Use advanced filters for complex data filtering needs</li>
-          <li>Provide row actions for common operations (view, edit, delete)</li>
-          <li>Enable bulk actions when users need to operate on multiple rows</li>
-          <li>Use custom views to save frequently used filter combinations</li>
-          <li>Use appropriate density for your use case (compact for dashboards, comfortable for detailed views)</li>
-          <li>Use the editable variant with density="compact" for spreadsheet-like editing</li>
+        <ul className="list-disc list-inside space-y-2 text-fg-muted text-sm">
+          <li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">col.*</code> for all column definitions — titles auto-derive, types are enforced.</li>
+          <li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">definePreset()</code> to build typed, reusable table configs.</li>
+          <li>Always provide <code className="text-xs bg-raised px-1 py-0.5 rounded">getRowId</code> when using selection, editing, or expand — prevents re-render bugs.</li>
+          <li>Pin identifier columns (name, title) left and status/action columns right for wide tables.</li>
+          <li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">expandMode="single"</code> for detail panels to keep the page scannable.</li>
+          <li>Combine grouping with aggregations to build mini-reports (sum totals, avg metrics).</li>
+          <li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">variant="spreadsheet"</code> with <code className="text-xs bg-raised px-1 py-0.5 rounded">enableCellEditing</code> for the full editing experience.</li>
+          <li>Enable pagination for datasets with more than 25 rows.</li>
+          <li>Use views to save frequently used filter + sort combinations.</li>
+          <li>Use appropriate density for your context: compact for dashboards, comfortable for detailed views.</li>
         </ul>
+      </DocSection>
+
+      {/* ── Related ── */}
+      <DocSection id="related" title="Related">
+        <DocRelated
+          items={[
+            { title: 'Cell Types', href: '/docs/components/ui/cells', description: '21 specialized cell renderers for DataTable columns.' },
+            { title: 'Badge', href: '/docs/components/ui/badge', description: 'Status badges used by col.status() columns.' },
+            { title: 'Avatar', href: '/docs/components/ui/avatar', description: 'User avatars used by col.user() and col.avatarGroup().' },
+            { title: 'Table', href: '/docs/components/ui/table', description: 'Simple semantic HTML table for lighter use cases.' },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

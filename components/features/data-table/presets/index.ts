@@ -32,5 +32,8 @@ export * from './talentflow-jobs';
 export * from './stockbase-inventory';
 export * from './stockbase-movements';
 
+// Linear Issues preset - Linear-style issue tracker
+export * from './linear-issues';
+
 // Spreadsheet preset - Generic Airtable-style editable table
 export * from './spreadsheet';

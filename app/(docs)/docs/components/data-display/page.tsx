@@ -1,6 +1,6 @@
 import { Page } from "@/components/ui/page"
 import { ComponentSection } from "@/components/features/docs/component-card"
-import { User, Table, Table2, Grid3X3 } from "lucide-react"
+import { User, Table, Table2, Grid3X3, List } from "lucide-react"
 
 const dataDisplayComponents = [
 	{
@@ -20,6 +20,12 @@ const dataDisplayComponents = [
 		href: "/docs/components/ui/data-table",
 		description: "Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions.",
 		icon: Table2,
+	},
+	{
+		title: "Property",
+		href: "/docs/components/ui/property",
+		description: "Label-value pair component for displaying structured data in detail views and sidebars.",
+		icon: List,
 	},
 	{
 		title: "Table",
