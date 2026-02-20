@@ -19,6 +19,7 @@ import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-prop
 
 const toc = [
 	{ id: "examples", title: "Examples" },
+	{ id: "sizes", title: "Sizes" },
 	{ id: "props", title: "Props" },
 	{ id: "tokens", title: "Design Tokens" },
 	{ id: "best-practices", title: "Best Practices" },
@@ -43,6 +44,13 @@ const dialogProps: DocProp[] = [
 ]
 
 const dialogContentProps: DocProp[] = [
+	{
+		name: "size",
+		type: '"sm" | "md" | "lg" | "xl" | "full"',
+		default: '"sm"',
+		description:
+			"Controls the max-width of the dialog. sm=384px, md=448px, lg=512px, xl=576px, full=768px.",
+	},
 	{
 		name: "showCloseButton",
 		type: "boolean",
@@ -235,6 +243,36 @@ export default function DialogPage() {
 							</DialogFooter>
 						</DialogContent>
 					</Dialog>
+				</DocExample>
+				<DocExample
+					title="Sizes"
+					description="Use the size prop to control the dialog width."
+					code={`<DialogContent size="sm">…</DialogContent>
+<DialogContent size="md">…</DialogContent>
+<DialogContent size="lg">…</DialogContent>
+<DialogContent size="xl">…</DialogContent>
+<DialogContent size="full">…</DialogContent>`}
+				>
+					<div className="flex flex-wrap gap-2">
+						{(["sm", "md", "lg", "xl", "full"] as const).map((size) => (
+							<Dialog key={size}>
+								<DialogTrigger render={<Button variant="outline" />}>
+									{size}
+								</DialogTrigger>
+								<DialogContent size={size}>
+									<DialogHeader>
+										<DialogTitle>Size: {size}</DialogTitle>
+										<DialogDescription>
+											This dialog uses the <code>{size}</code> size variant.
+										</DialogDescription>
+									</DialogHeader>
+									<DialogFooter>
+										<DialogClose render={<Button />}>Close</DialogClose>
+									</DialogFooter>
+								</DialogContent>
+							</Dialog>
+						))}
+					</div>
 				</DocExample>
 			</DocSection>
 
