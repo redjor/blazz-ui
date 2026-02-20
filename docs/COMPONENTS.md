@@ -348,7 +348,7 @@ import {
 </Dialog>
 ```
 
-**Sizes** : `sm` (default, 384px), `md` (448px), `lg` (512px), `xl` (576px), `full` (768px)
+**Sizes** : `sm` (default, 384px), `md` (512px), `lg` (672px), `xl` (896px), `full` (1152px)
 
 ```tsx
 <DialogContent size="lg">...</DialogContent>

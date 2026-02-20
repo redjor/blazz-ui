@@ -37,10 +37,10 @@ function DialogOverlay({ className, ...props }: DialogPrimitive.Backdrop.Props) 
 
 const dialogSizeClasses = {
 	sm: "sm:max-w-sm",
-	md: "sm:max-w-md",
-	lg: "sm:max-w-lg",
-	xl: "sm:max-w-xl",
-	full: "sm:max-w-3xl",
+	md: "sm:max-w-lg",
+	lg: "sm:max-w-2xl",
+	xl: "sm:max-w-4xl",
+	full: "sm:max-w-6xl",
 } as const
 
 function DialogContent({

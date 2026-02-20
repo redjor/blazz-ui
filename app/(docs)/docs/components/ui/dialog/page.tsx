@@ -49,7 +49,7 @@ const dialogContentProps: DocProp[] = [
 		type: '"sm" | "md" | "lg" | "xl" | "full"',
 		default: '"sm"',
 		description:
-			"Controls the max-width of the dialog. sm=384px, md=448px, lg=512px, xl=576px, full=768px.",
+			"Controls the max-width of the dialog. sm=384px, md=512px, lg=672px, xl=896px, full=1152px.",
 	},
 	{
 		name: "showCloseButton",
