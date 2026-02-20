@@ -11,7 +11,7 @@ Basées sur shadcn/ui, étendues pour le contexte pro.
 - **Badge** — Status indicator. Variants: default, success, warning, error, info.
 - **Avatar** — User avatar avec fallback initiales.
 - **Tooltip** — Info au hover.
-- **Dialog** — Modal. Utiliser `ConfirmDialog` pour les actions destructives.
+- **Dialog** — Modal. Sizes: sm (default), md, lg, xl, full. Utiliser `ConfirmDialog` pour les actions destructives.
 - **ConfirmDialog** — Modal de confirmation avec message + actions confirm/cancel.
 - **Sheet** — Side panel coulissant (détail rapide, filtres avancés).
 - **Popover** — Contenu flottant ancré à un élément.

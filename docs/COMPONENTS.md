@@ -348,6 +348,12 @@ import {
 </Dialog>
 ```
 
+**Sizes** : `sm` (default, 384px), `md` (448px), `lg` (512px), `xl` (576px), `full` (768px)
+
+```tsx
+<DialogContent size="lg">...</DialogContent>
+```
+
 **Features**: Trap focus, ESC to close, backdrop click
 
 ---
