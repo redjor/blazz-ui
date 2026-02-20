@@ -1,42 +1,48 @@
 "use client"
 
-import { Bell, Check, MessageSquare, UserPlus, DollarSign, AlertCircle } from "lucide-react"
+import { Bell } from "lucide-react"
+import { DollarSign, UserPlus, MessageSquare, AlertCircle } from "lucide-react"
 import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
-
-type NotificationType = "deal" | "contact" | "message" | "alert"
-
-interface Notification {
-	id: string
-	type: NotificationType
-	title: string
-	description: string
-	time: string
-	read: boolean
-}
+import {
+	Sheet,
+	SheetContent,
+	SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+	NotificationCenter,
+	NotificationList,
+	NotificationItem,
+} from "@/components/blocks/notification-center"
+import type { Notification } from "@/components/blocks/notification-center"
 
 const mockNotifications: Notification[] = [
 	{
 		id: "1",
-		type: "deal",
+		icon: DollarSign,
+		iconVariant: "success",
 		title: "Deal won",
 		description: 'Acme Corp — "Enterprise Plan" closed at $48,000',
 		time: "2 min ago",
 		read: false,
+		actions: [
+			{ label: "View deal", onClick: () => {}, variant: "primary" },
+			{ label: "Archive", onClick: () => {} },
+		],
 	},
 	{
 		id: "2",
-		type: "contact",
+		icon: UserPlus,
+		iconVariant: "info",
 		title: "New contact added",
 		description: "Sarah Chen was added to Acme Corp",
 		time: "15 min ago",
 		read: false,
+		actions: [{ label: "View contact", onClick: () => {}, variant: "primary" }],
 	},
 	{
 		id: "3",
-		type: "message",
+		icon: MessageSquare,
+		iconVariant: "info",
 		title: "Comment on deal",
 		description: 'Marc left a note on "Globex Renewal"',
 		time: "1h ago",
@@ -44,15 +50,21 @@ const mockNotifications: Notification[] = [
 	},
 	{
 		id: "4",
-		type: "alert",
+		icon: AlertCircle,
+		iconVariant: "warning",
 		title: "Quote expiring",
 		description: "Quote #Q-2024-089 expires tomorrow",
 		time: "3h ago",
 		read: true,
+		actions: [
+			{ label: "Renew", onClick: () => {}, variant: "primary" },
+			{ label: "Dismiss", onClick: () => {} },
+		],
 	},
 	{
 		id: "5",
-		type: "deal",
+		icon: DollarSign,
+		iconVariant: "success",
 		title: "Deal moved to Negotiation",
 		description: 'Wayne Enterprises — "Security Suite" updated',
 		time: "5h ago",
@@ -60,27 +72,14 @@ const mockNotifications: Notification[] = [
 	},
 	{
 		id: "6",
-		type: "contact",
+		icon: UserPlus,
+		iconVariant: "info",
 		title: "Contact updated",
 		description: "John Doe email changed",
 		time: "1d ago",
 		read: true,
 	},
 ]
-
-const typeIcon: Record<NotificationType, React.ReactNode> = {
-	deal: <DollarSign className="size-4" />,
-	contact: <UserPlus className="size-4" />,
-	message: <MessageSquare className="size-4" />,
-	alert: <AlertCircle className="size-4" />,
-}
-
-const typeBg: Record<NotificationType, string> = {
-	deal: "bg-emerald-500/15 text-emerald-400",
-	contact: "bg-blue-500/15 text-blue-400",
-	message: "bg-violet-500/15 text-violet-400",
-	alert: "bg-amber-500/15 text-amber-400",
-}
 
 export function NotificationSheet() {
 	const [notifications, setNotifications] = useState(mockNotifications)
@@ -90,84 +89,39 @@ export function NotificationSheet() {
 		setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
 	}
 
-	function markRead(id: string) {
-		setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)))
+	function markRead(notif: Notification) {
+		setNotifications((prev) =>
+			prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n))
+		)
 	}
 
 	return (
 		<Sheet>
 			<SheetTrigger
-				className="relative rounded-lg p-2 transition-colors hover:bg-gray-800"
+				className="relative rounded-lg p-2 transition-colors hover:bg-raised"
 				aria-label="Notifications"
 			>
-				<Bell className="size-4 text-gray-300" />
+				<Bell className="size-4 text-fg-muted" />
 				{unreadCount > 0 && (
 					<span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-red-500" />
 				)}
 			</SheetTrigger>
 
-			<SheetContent side="right" className="w-[380px] flex flex-col bg-surface border-edge">
-				{/* Header */}
-				<div className="flex items-center justify-between border-b border-edge px-4 py-3">
-					<div className="flex items-center gap-2">
-						<h2 className="text-sm font-semibold text-fg">Notifications</h2>
-						{unreadCount > 0 && (
-							<Badge variant="info" size="xs">
-								{unreadCount}
-							</Badge>
-						)}
-					</div>
-					{unreadCount > 0 && (
-						<button
-							type="button"
-							onClick={markAllRead}
-							className="flex items-center gap-1 text-xs text-fg-muted hover:text-fg transition-colors"
-						>
-							<Check className="size-3" />
-							Mark all read
-						</button>
-					)}
-				</div>
-
-				{/* List */}
-				<div className="flex-1 overflow-y-auto">
-					{notifications.map((notification) => (
-						<button
-							key={notification.id}
-							type="button"
-							onClick={() => markRead(notification.id)}
-							className={cn(
-								"flex w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-raised border-b border-edge/50",
-								!notification.read && "bg-white/[0.02]"
-							)}
-						>
-							<div
-								className={cn(
-									"mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg",
-									typeBg[notification.type]
-								)}
-							>
-								{typeIcon[notification.type]}
-							</div>
-							<div className="min-w-0 flex-1">
-								<div className="flex items-center gap-2">
-									<span className="text-sm font-medium text-fg truncate">
-										{notification.title}
-									</span>
-									{!notification.read && (
-										<span className="size-1.5 shrink-0 rounded-full bg-blue-500" />
-									)}
-								</div>
-								<p className="mt-0.5 text-xs text-fg-muted truncate">
-									{notification.description}
-								</p>
-								<span className="mt-1 text-[11px] text-fg-subtle">
-									{notification.time}
-								</span>
-							</div>
-						</button>
-					))}
-				</div>
+			<SheetContent side="right">
+				<NotificationCenter
+					onMarkAllRead={markAllRead}
+					unreadCount={unreadCount}
+				>
+					<NotificationList>
+						{notifications.map((n) => (
+							<NotificationItem
+								key={n.id}
+								notification={n}
+								onClick={markRead}
+							/>
+						))}
+					</NotificationList>
+				</NotificationCenter>
 			</SheetContent>
 		</Sheet>
 	)
