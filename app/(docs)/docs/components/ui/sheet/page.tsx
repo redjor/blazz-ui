@@ -10,10 +10,14 @@ import {
 	SheetTrigger,
 	SheetContent,
 	SheetClose,
+	SheetHeader,
+	SheetFooter,
+	SheetTitle,
+	SheetDescription,
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Menu, Settings, X } from "lucide-react"
+import { Menu, Settings } from "lucide-react"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
@@ -48,6 +52,12 @@ const sheetContentProps: DocProp[] = [
 		type: "'left' | 'right' | 'top' | 'bottom'",
 		default: "'left'",
 		description: "Side from which the sheet slides in.",
+	},
+	{
+		name: "size",
+		type: "'sm' | 'md' | 'lg' | 'xl' | 'full'",
+		default: "'md'",
+		description: "Sheet size. Controls width for left/right sides, height for top/bottom.",
 	},
 	{
 		name: "topOffset",
@@ -226,8 +236,136 @@ export default function SheetPage() {
 				</DocExample>
 
 				<DocExample
+					title="Sizes"
+					description="Control the sheet width (left/right) or height (top/bottom) with the size prop."
+					code={`<div className="flex gap-4">
+  <Sheet>
+    <SheetTrigger render={<Button variant="outline">Small</Button>} />
+    <SheetContent side="right" size="sm">
+      <SheetHeader>
+        <SheetTitle>Small (320px)</SheetTitle>
+      </SheetHeader>
+      <div className="flex-1 p-4">
+        <p className="text-sm text-fg-muted">Compact panel for quick actions.</p>
+      </div>
+    </SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger render={<Button variant="outline">Medium</Button>} />
+    <SheetContent side="right" size="md">
+      <SheetHeader>
+        <SheetTitle>Medium (400px)</SheetTitle>
+      </SheetHeader>
+      <div className="flex-1 p-4">
+        <p className="text-sm text-fg-muted">Default size, good for forms and settings.</p>
+      </div>
+    </SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger render={<Button variant="outline">Large</Button>} />
+    <SheetContent side="right" size="lg">
+      <SheetHeader>
+        <SheetTitle>Large (520px)</SheetTitle>
+      </SheetHeader>
+      <div className="flex-1 p-4">
+        <p className="text-sm text-fg-muted">More room for complex content.</p>
+      </div>
+    </SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger render={<Button variant="outline">XL</Button>} />
+    <SheetContent side="right" size="xl">
+      <SheetHeader>
+        <SheetTitle>Extra Large (680px)</SheetTitle>
+      </SheetHeader>
+      <div className="flex-1 p-4">
+        <p className="text-sm text-fg-muted">Ideal for detail views and previews.</p>
+      </div>
+    </SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger render={<Button variant="outline">Full</Button>} />
+    <SheetContent side="right" size="full">
+      <SheetHeader>
+        <SheetTitle>Full</SheetTitle>
+      </SheetHeader>
+      <div className="flex-1 p-4">
+        <p className="text-sm text-fg-muted">Takes up the entire viewport.</p>
+      </div>
+    </SheetContent>
+  </Sheet>
+</div>`}
+				>
+					<div className="flex gap-4 flex-wrap">
+						<Sheet>
+							<SheetTrigger render={<Button variant="outline">Small</Button>} />
+							<SheetContent side="right" size="sm">
+								<SheetHeader>
+									<SheetTitle>Small (320px)</SheetTitle>
+								</SheetHeader>
+								<div className="flex-1 p-4">
+									<p className="text-sm text-fg-muted">Compact panel for quick actions.</p>
+								</div>
+							</SheetContent>
+						</Sheet>
+
+						<Sheet>
+							<SheetTrigger render={<Button variant="outline">Medium</Button>} />
+							<SheetContent side="right" size="md">
+								<SheetHeader>
+									<SheetTitle>Medium (400px)</SheetTitle>
+								</SheetHeader>
+								<div className="flex-1 p-4">
+									<p className="text-sm text-fg-muted">Default size, good for forms and settings.</p>
+								</div>
+							</SheetContent>
+						</Sheet>
+
+						<Sheet>
+							<SheetTrigger render={<Button variant="outline">Large</Button>} />
+							<SheetContent side="right" size="lg">
+								<SheetHeader>
+									<SheetTitle>Large (520px)</SheetTitle>
+								</SheetHeader>
+								<div className="flex-1 p-4">
+									<p className="text-sm text-fg-muted">More room for complex content.</p>
+								</div>
+							</SheetContent>
+						</Sheet>
+
+						<Sheet>
+							<SheetTrigger render={<Button variant="outline">XL</Button>} />
+							<SheetContent side="right" size="xl">
+								<SheetHeader>
+									<SheetTitle>Extra Large (680px)</SheetTitle>
+								</SheetHeader>
+								<div className="flex-1 p-4">
+									<p className="text-sm text-fg-muted">Ideal for detail views and previews.</p>
+								</div>
+							</SheetContent>
+						</Sheet>
+
+						<Sheet>
+							<SheetTrigger render={<Button variant="outline">Full</Button>} />
+							<SheetContent side="right" size="full">
+								<SheetHeader>
+									<SheetTitle>Full</SheetTitle>
+								</SheetHeader>
+								<div className="flex-1 p-4">
+									<p className="text-sm text-fg-muted">Takes up the entire viewport.</p>
+								</div>
+							</SheetContent>
+						</Sheet>
+					</div>
+				</DocExample>
+
+				<DocExample
 					title="Settings Sheet"
-					description="A sheet with form inputs for settings."
+					description="A sheet with form inputs using SheetHeader and SheetFooter."
 					code={`<Sheet>
   <SheetTrigger
     render={
@@ -237,37 +375,29 @@ export default function SheetPage() {
       </Button>
     }
   />
-  <SheetContent side="right">
-    <div className="p-6 flex flex-col h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold">Settings</h2>
-        <SheetClose render={
-          <Button variant="ghost" size="icon">
-            <X className="h-4 w-4" />
-          </Button>
-        } />
+  <SheetContent side="right" size="lg">
+    <SheetHeader>
+      <SheetTitle>Settings</SheetTitle>
+      <SheetDescription>Manage your account preferences.</SheetDescription>
+    </SheetHeader>
+    <div className="flex-1 p-4 space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="name">Display Name</Label>
+        <Input id="name" placeholder="Enter your name" />
       </div>
-
-      <div className="space-y-4 flex-1">
-        <div className="space-y-2">
-          <Label htmlFor="name">Display Name</Label>
-          <Input id="name" placeholder="Enter your name" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="Enter your email" />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="bio">Bio</Label>
-          <Input id="bio" placeholder="Tell us about yourself" />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" type="email" placeholder="Enter your email" />
       </div>
-
-      <div className="flex gap-2 pt-6 border-t">
-        <SheetClose render={<Button variant="outline" className="flex-1">Cancel</Button>} />
-        <Button className="flex-1">Save Changes</Button>
+      <div className="space-y-2">
+        <Label htmlFor="bio">Bio</Label>
+        <Input id="bio" placeholder="Tell us about yourself" />
       </div>
     </div>
+    <SheetFooter>
+      <SheetClose render={<Button variant="outline">Cancel</Button>} />
+      <Button>Save Changes</Button>
+    </SheetFooter>
   </SheetContent>
 </Sheet>`}
 				>
@@ -280,37 +410,29 @@ export default function SheetPage() {
 								</Button>
 							}
 						/>
-						<SheetContent side="right">
-							<div className="p-6 flex flex-col h-full">
-								<div className="flex items-center justify-between mb-6">
-									<h2 className="text-lg font-semibold">Settings</h2>
-									<SheetClose render={
-										<Button variant="ghost" size="icon">
-											<X className="h-4 w-4" />
-										</Button>
-									} />
+						<SheetContent side="right" size="lg">
+							<SheetHeader>
+								<SheetTitle>Settings</SheetTitle>
+								<SheetDescription>Manage your account preferences.</SheetDescription>
+							</SheetHeader>
+							<div className="flex-1 p-4 space-y-4">
+								<div className="space-y-2">
+									<Label htmlFor="name">Display Name</Label>
+									<Input id="name" placeholder="Enter your name" />
 								</div>
-
-								<div className="space-y-4 flex-1">
-									<div className="space-y-2">
-										<Label htmlFor="name">Display Name</Label>
-										<Input id="name" placeholder="Enter your name" />
-									</div>
-									<div className="space-y-2">
-										<Label htmlFor="email">Email</Label>
-										<Input id="email" type="email" placeholder="Enter your email" />
-									</div>
-									<div className="space-y-2">
-										<Label htmlFor="bio">Bio</Label>
-										<Input id="bio" placeholder="Tell us about yourself" />
-									</div>
+								<div className="space-y-2">
+									<Label htmlFor="email">Email</Label>
+									<Input id="email" type="email" placeholder="Enter your email" />
 								</div>
-
-								<div className="flex gap-2 pt-6 border-t">
-									<SheetClose render={<Button variant="outline" className="flex-1">Cancel</Button>} />
-									<Button className="flex-1">Save Changes</Button>
+								<div className="space-y-2">
+									<Label htmlFor="bio">Bio</Label>
+									<Input id="bio" placeholder="Tell us about yourself" />
 								</div>
 							</div>
+							<SheetFooter>
+								<SheetClose render={<Button variant="outline">Cancel</Button>} />
+								<Button>Save Changes</Button>
+							</SheetFooter>
 						</SheetContent>
 					</Sheet>
 				</DocExample>
@@ -360,6 +482,110 @@ export default function SheetPage() {
 						</SheetContent>
 					</Sheet>
 				</DocExample>
+
+				<DocExample
+					title="With Footer"
+					description="A sheet with structured header and footer using SheetHeader and SheetFooter."
+					code={`<Sheet>
+  <SheetTrigger render={<Button variant="outline">Edit Profile</Button>} />
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>Edit Profile</SheetTitle>
+      <SheetDescription>Update your personal information.</SheetDescription>
+    </SheetHeader>
+    <div className="flex-1 p-4 space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="footer-name">Name</Label>
+        <Input id="footer-name" defaultValue="Jonathan Ruas" />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="footer-email">Email</Label>
+        <Input id="footer-email" type="email" defaultValue="jonathan@example.com" />
+      </div>
+    </div>
+    <SheetFooter>
+      <SheetClose render={<Button variant="outline">Cancel</Button>} />
+      <Button>Save</Button>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>`}
+				>
+					<Sheet>
+						<SheetTrigger render={<Button variant="outline">Edit Profile</Button>} />
+						<SheetContent side="right">
+							<SheetHeader>
+								<SheetTitle>Edit Profile</SheetTitle>
+								<SheetDescription>Update your personal information.</SheetDescription>
+							</SheetHeader>
+							<div className="flex-1 p-4 space-y-4">
+								<div className="space-y-2">
+									<Label htmlFor="footer-name">Name</Label>
+									<Input id="footer-name" defaultValue="Jonathan Ruas" />
+								</div>
+								<div className="space-y-2">
+									<Label htmlFor="footer-email">Email</Label>
+									<Input id="footer-email" type="email" defaultValue="jonathan@example.com" />
+								</div>
+							</div>
+							<SheetFooter>
+								<SheetClose render={<Button variant="outline">Cancel</Button>} />
+								<Button>Save</Button>
+							</SheetFooter>
+						</SheetContent>
+					</Sheet>
+				</DocExample>
+
+				<DocExample
+					title="Scrollable Content with Footer"
+					description="When content overflows, the body scrolls while header and footer stay fixed."
+					code={`<Sheet>
+  <SheetTrigger render={<Button variant="outline">Notifications</Button>} />
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>Notifications</SheetTitle>
+      <SheetDescription>You have 12 unread notifications.</SheetDescription>
+    </SheetHeader>
+    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      {Array.from({ length: 12 }, (_, i) => (
+        <div key={i} className="rounded-lg border border-edge p-3">
+          <p className="text-sm font-medium">Notification {i + 1}</p>
+          <p className="text-xs text-fg-muted mt-1">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+        </div>
+      ))}
+    </div>
+    <SheetFooter>
+      <Button variant="outline">Mark all as read</Button>
+      <SheetClose render={<Button>Done</Button>} />
+    </SheetFooter>
+  </SheetContent>
+</Sheet>`}
+				>
+					<Sheet>
+						<SheetTrigger render={<Button variant="outline">Notifications</Button>} />
+						<SheetContent side="right">
+							<SheetHeader>
+								<SheetTitle>Notifications</SheetTitle>
+								<SheetDescription>You have 12 unread notifications.</SheetDescription>
+							</SheetHeader>
+							<div className="flex-1 overflow-y-auto p-4 space-y-3">
+								{Array.from({ length: 12 }, (_, i) => (
+									<div key={i} className="rounded-lg border border-edge p-3">
+										<p className="text-sm font-medium">Notification {i + 1}</p>
+										<p className="text-xs text-fg-muted mt-1">
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
+										</p>
+									</div>
+								))}
+							</div>
+							<SheetFooter>
+								<Button variant="outline">Mark all as read</Button>
+								<SheetClose render={<Button>Done</Button>} />
+							</SheetFooter>
+						</SheetContent>
+					</Sheet>
+				</DocExample>
 			</DocSection>
 
 			{/* Sheet Props */}
@@ -379,22 +605,22 @@ export default function SheetPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface</code> - Sheet background color
+						<code className="text-xs">bg-panel</code> - Sheet background color
 					</li>
 					<li>
-						<code className="text-xs">shadow-lg</code> - Large shadow for elevation
+						<code className="text-xs">border-edge</code> - Border color
 					</li>
 					<li>
-						<code className="text-xs">bg-overlay</code> - Backdrop overlay
+						<code className="text-xs">--radius-xl</code> - Rounded corners
 					</li>
 					<li>
-						<code className="text-xs">duration-300</code> - Animation duration (300ms)
+						<code className="text-xs">shadow-lg</code> - Floating elevation
 					</li>
 					<li>
-						<code className="text-xs">w-[300px]</code> - Default width for side sheets
+						<code className="text-xs">bg-raised</code> - Footer background
 					</li>
 					<li>
-						<code className="text-xs">h-[300px]</code> - Default height for top/bottom sheets
+						400ms spring enter / 500ms ease-out exit
 					</li>
 				</ul>
 			</DocSection>

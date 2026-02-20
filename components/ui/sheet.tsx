@@ -1,7 +1,9 @@
 "use client"
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
+import { XIcon } from "lucide-react"
 import type * as React from "react"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 // Réutiliser Dialog de Base UI comme base pour Sheet
@@ -32,43 +34,64 @@ function SheetOverlay({
 	)
 }
 
+const sheetSizeClasses = {
+	sm: { width: "w-[320px]", height: "h-[240px]" },
+	md: { width: "w-[400px]", height: "h-[300px]" },
+	lg: { width: "w-[520px]", height: "h-[400px]" },
+	xl: { width: "w-[680px]", height: "h-[520px]" },
+	full: { width: "max-w-[90vw] w-[90vw]", height: "max-h-[90vh] h-[90vh]" },
+} as const
+
 // Content qui slide depuis la gauche (ou droite)
 function SheetContent({
 	side = "left",
+	size = "md",
 	className,
 	children,
 	topOffset,
 	...props
 }: DialogPrimitive.Popup.Props & {
 	side?: "left" | "right" | "top" | "bottom"
+	size?: keyof typeof sheetSizeClasses
 	topOffset?: string
 }) {
+	const isHorizontal = side === "left" || side === "right"
+	const sizeClass = isHorizontal ? sheetSizeClasses[size].width : sheetSizeClasses[size].height
+
 	const sideClasses = topOffset
 		? {
-				left: "left-0 bottom-0 w-[300px] data-closed:slide-out-to-left data-open:slide-in-from-left border-r",
-				right: "right-0 bottom-0 w-[300px] data-closed:slide-out-to-right data-open:slide-in-from-right border-l",
-				top: "inset-x-0 top-0 w-full h-[300px] data-closed:slide-out-to-top data-open:slide-in-from-top border-b",
-				bottom: "inset-x-0 bottom-0 w-full h-[300px] data-closed:slide-out-to-bottom data-open:slide-in-from-bottom border-t",
+				left: `left-2 bottom-2 ${sizeClass} data-closed:slide-out-to-left data-open:slide-in-from-left`,
+				right: `right-2 bottom-2 ${sizeClass} data-closed:slide-out-to-right data-open:slide-in-from-right`,
+				top: `left-2 right-2 ${sizeClass} data-closed:slide-out-to-top data-open:slide-in-from-top`,
+				bottom: `left-2 right-2 bottom-2 ${sizeClass} data-closed:slide-out-to-bottom data-open:slide-in-from-bottom`,
 		  }
 		: {
-				left: "inset-y-0 left-0 h-full w-[300px] data-closed:slide-out-to-left data-open:slide-in-from-left border-r",
-				right: "inset-y-0 right-0 h-full w-[300px] data-closed:slide-out-to-right data-open:slide-in-from-right border-l",
-				top: "inset-x-0 top-0 w-full h-[300px] data-closed:slide-out-to-top data-open:slide-in-from-top border-b",
-				bottom: "inset-x-0 bottom-0 w-full h-[300px] data-closed:slide-out-to-bottom data-open:slide-in-from-bottom border-t",
+				left: `top-2 bottom-2 left-2 ${sizeClass} data-closed:slide-out-to-left data-open:slide-in-from-left`,
+				right: `top-2 bottom-2 right-2 ${sizeClass} data-closed:slide-out-to-right data-open:slide-in-from-right`,
+				top: `top-2 left-2 right-2 ${sizeClass} data-closed:slide-out-to-top data-open:slide-in-from-top`,
+				bottom: `bottom-2 left-2 right-2 ${sizeClass} data-closed:slide-out-to-bottom data-open:slide-in-from-bottom`,
 		  }
+
+	const isVerticalSide = side === "left" || side === "right"
+	const computedStyle: React.CSSProperties | undefined =
+		topOffset && isVerticalSide
+			? { top: `calc(${topOffset} + 0.5rem)` }
+			: topOffset && side === "top"
+				? { top: `calc(${topOffset} + 0.5rem)` }
+				: undefined
 
 	return (
 		<SheetPortal>
 			<SheetOverlay topOffset={topOffset} />
 			<DialogPrimitive.Popup
+				data-slot="sheet-content"
 				className={cn(
-					"fixed z-50 bg-panel shadow-lg",
-					"data-open:animate-in data-closed:animate-out",
-					"duration-300 ease-in-out",
+					"fixed z-50 flex flex-col bg-panel shadow-lg border border-edge",
+					"rounded-[var(--radius-xl)] overflow-hidden",
 					sideClasses[side],
 					className
 				)}
-				style={topOffset && (side === "left" || side === "right") ? { top: topOffset } : undefined}
+				style={computedStyle}
 				{...props}
 			>
 				{children}
@@ -77,4 +100,77 @@ function SheetContent({
 	)
 }
 
-export { Sheet, SheetTrigger, SheetClose, SheetPortal, SheetOverlay, SheetContent }
+function SheetHeader({
+	className,
+	children,
+	showCloseButton = true,
+	...props
+}: React.ComponentProps<"div"> & { showCloseButton?: boolean }) {
+	return (
+		<div
+			data-slot="sheet-header"
+			className={cn(
+				"flex flex-col gap-1.5 px-4 pt-4 pb-3 border-b border-edge",
+				className
+			)}
+			{...props}
+		>
+			{children}
+			{showCloseButton && (
+				<DialogPrimitive.Close
+					data-slot="sheet-close"
+					render={<Button variant="ghost" className="absolute top-2 right-2" size="icon-sm" />}
+				>
+					<XIcon />
+					<span className="sr-only">Close</span>
+				</DialogPrimitive.Close>
+			)}
+		</div>
+	)
+}
+
+function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
+	return (
+		<div
+			data-slot="sheet-footer"
+			className={cn(
+				"bg-raised border-t border-edge px-4 py-3 flex gap-2 justify-end",
+				className
+			)}
+			{...props}
+		/>
+	)
+}
+
+function SheetTitle({ className, ...props }: DialogPrimitive.Title.Props) {
+	return (
+		<DialogPrimitive.Title
+			data-slot="sheet-title"
+			className={cn("text-sm font-medium text-fg leading-none", className)}
+			{...props}
+		/>
+	)
+}
+
+function SheetDescription({ className, ...props }: DialogPrimitive.Description.Props) {
+	return (
+		<DialogPrimitive.Description
+			data-slot="sheet-description"
+			className={cn("text-sm text-fg-muted", className)}
+			{...props}
+		/>
+	)
+}
+
+export {
+	Sheet,
+	SheetTrigger,
+	SheetClose,
+	SheetPortal,
+	SheetOverlay,
+	SheetContent,
+	SheetHeader,
+	SheetFooter,
+	SheetTitle,
+	SheetDescription,
+}

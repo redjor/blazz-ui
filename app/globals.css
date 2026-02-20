@@ -265,72 +265,88 @@ html.dark .shiki span {
 	@keyframes slide-in-from-left {
 		from {
 			transform: translateX(-100%);
+			opacity: 0;
 		}
 		to {
 			transform: translateX(0);
+			opacity: 1;
 		}
 	}
 
 	@keyframes slide-out-to-left {
 		from {
 			transform: translateX(0);
+			opacity: 1;
 		}
 		to {
 			transform: translateX(-100%);
+			opacity: 0;
 		}
 	}
 
 	@keyframes slide-in-from-right {
 		from {
 			transform: translateX(100%);
+			opacity: 0;
 		}
 		to {
 			transform: translateX(0);
+			opacity: 1;
 		}
 	}
 
 	@keyframes slide-out-to-right {
 		from {
 			transform: translateX(0);
+			opacity: 1;
 		}
 		to {
 			transform: translateX(100%);
+			opacity: 0;
 		}
 	}
 
 	@keyframes slide-in-from-top {
 		from {
 			transform: translateY(-100%);
+			opacity: 0;
 		}
 		to {
 			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 
 	@keyframes slide-out-to-top {
 		from {
 			transform: translateY(0);
+			opacity: 1;
 		}
 		to {
 			transform: translateY(-100%);
+			opacity: 0;
 		}
 	}
 
 	@keyframes slide-in-from-bottom {
 		from {
 			transform: translateY(100%);
+			opacity: 0;
 		}
 		to {
 			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 
 	@keyframes slide-out-to-bottom {
 		from {
 			transform: translateY(0);
+			opacity: 1;
 		}
 		to {
 			transform: translateY(100%);
+			opacity: 0;
 		}
 	}
 
@@ -400,6 +416,17 @@ html.dark .shiki span {
 	.data-closed\:fade-out-0[data-closed] {
 		animation: fade-out var(--tw-animation-duration, 200ms) var(--tw-animation-delay, 0s)
 			var(--tw-animation-fill-mode, forwards);
+	}
+
+	/* Sheet animation — spring enter, gentle exit */
+	[data-slot="sheet-content"][data-open] {
+		animation-duration: 400ms;
+		animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+	}
+
+	[data-slot="sheet-content"][data-closed] {
+		animation-duration: 500ms;
+		animation-timing-function: ease-out;
 	}
 
 	/* Sidebar connector for sub-navigation items */
