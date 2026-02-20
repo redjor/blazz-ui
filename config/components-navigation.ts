@@ -102,6 +102,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 			{ title: "Breadcrumb", href: "/docs/components/ui/breadcrumb" },
 			{ title: "Command", href: "/docs/components/ui/command" },
 			{ title: "Menu", href: "/docs/components/ui/menu" },
+			{ title: "Nav Menu", href: "/docs/components/ui/nav-menu" },
 			{ title: "Tabs", href: "/docs/components/ui/tabs" },
 		],
 	},
