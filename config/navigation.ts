@@ -88,6 +88,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Alert", url: "/docs/components/ui/alert" },
             { title: "Badge", url: "/docs/components/ui/badge" },
             { title: "Banner", url: "/docs/components/ui/banner" },
+            { title: "Notification Center", url: "/docs/components/ui/notification-center" },
             { title: "Skeleton", url: "/docs/components/ui/skeleton" },
           ],
         },
