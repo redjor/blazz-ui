@@ -1,6 +1,5 @@
 "use client"
 
-import { Bell } from "lucide-react"
 import { DollarSign, UserPlus, MessageSquare, AlertCircle } from "lucide-react"
 import { useState } from "react"
 import {
@@ -12,6 +11,7 @@ import {
 	NotificationCenter,
 	NotificationList,
 	NotificationItem,
+	NotificationTrigger,
 } from "@/components/blocks/notification-center"
 import type { Notification } from "@/components/blocks/notification-center"
 
@@ -97,15 +97,7 @@ export function NotificationSheet() {
 
 	return (
 		<Sheet>
-			<SheetTrigger
-				className="relative rounded-lg p-2 transition-colors hover:bg-raised"
-				aria-label="Notifications"
-			>
-				<Bell className="size-4 text-fg-muted" />
-				{unreadCount > 0 && (
-					<span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-red-500" />
-				)}
-			</SheetTrigger>
+			<SheetTrigger render={<NotificationTrigger unreadCount={unreadCount} />} />
 
 			<SheetContent side="right">
 				<NotificationCenter

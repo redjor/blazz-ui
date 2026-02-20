@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Bell, Check, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -48,6 +49,53 @@ const iconVariantClasses: Record<string, string> = {
 }
 
 const defaultIconClasses = "bg-fg/5 text-fg-muted"
+
+// ---------------------------------------------------------------------------
+// NotificationTrigger
+// ---------------------------------------------------------------------------
+
+export interface NotificationTriggerProps {
+	unreadCount?: number
+	className?: string
+}
+
+export function NotificationTrigger({
+	unreadCount = 0,
+	className,
+}: NotificationTriggerProps) {
+	const prevCountRef = useRef(unreadCount)
+	const [animate, setAnimate] = useState(false)
+
+	useEffect(() => {
+		if (unreadCount > prevCountRef.current) {
+			setAnimate(true)
+		}
+		prevCountRef.current = unreadCount
+	}, [unreadCount])
+
+	return (
+		<button
+			type="button"
+			className={cn(
+				"relative rounded-lg p-2 transition-colors hover:bg-raised",
+				className,
+			)}
+			aria-label="Notifications"
+		>
+			<Bell
+				className="size-4 text-fg-muted origin-top"
+				style={animate ? { animation: "bell-ring 0.8s ease-in-out" } : undefined}
+				onAnimationEnd={() => setAnimate(false)}
+			/>
+			{unreadCount > 0 && (
+				<span
+					className="absolute top-1.5 right-1.5 size-2 rounded-full bg-red-500"
+					style={animate ? { animation: "dot-pulse 0.6s ease-in-out" } : undefined}
+				/>
+			)}
+		</button>
+	)
+}
 
 // ---------------------------------------------------------------------------
 // NotificationSkeleton (internal)

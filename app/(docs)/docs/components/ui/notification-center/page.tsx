@@ -9,6 +9,7 @@ import {
 	type DocProp,
 } from "@/components/features/docs/doc-props-table"
 import { DocRelated } from "@/components/features/docs/doc-related"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
@@ -16,6 +17,7 @@ import {
 	NotificationList,
 	NotificationGroup,
 	NotificationItem,
+	NotificationTrigger,
 } from "@/components/blocks/notification-center"
 import type { Notification } from "@/components/blocks/notification-center"
 import {
@@ -34,6 +36,7 @@ import {
 const toc = [
 	{ id: "examples", title: "Examples" },
 	{ id: "notification-center-props", title: "NotificationCenter Props" },
+	{ id: "notification-trigger-props", title: "NotificationTrigger Props" },
 	{ id: "notification-item-props", title: "NotificationItem Props" },
 	{ id: "notification-type", title: "Notification Type" },
 	{ id: "best-practices", title: "Best Practices" },
@@ -283,6 +286,20 @@ const notificationCenterProps: DocProp[] = [
 	},
 ]
 
+const notificationTriggerProps: DocProp[] = [
+	{
+		name: "unreadCount",
+		type: "number",
+		default: "0",
+		description: "Number of unread notifications. Shows a red dot when > 0.",
+	},
+	{
+		name: "className",
+		type: "string",
+		description: "Additional classes.",
+	},
+]
+
 const notificationItemProps: DocProp[] = [
 	{
 		name: "notification",
@@ -344,6 +361,37 @@ const notificationTypeProps: DocProp[] = [
 		description: "Available actions.",
 	},
 ]
+
+// ---------------------------------------------------------------------------
+// Interactive demos
+// ---------------------------------------------------------------------------
+
+function TriggerDemo() {
+	const [count, setCount] = useState(0)
+
+	return (
+		<div className="flex items-center gap-4">
+			<NotificationTrigger unreadCount={count} />
+			<Button
+				variant="outline"
+				size="sm"
+				onClick={() => setCount((c) => c + 1)}
+			>
+				Simulate notification
+			</Button>
+			{count > 0 && (
+				<Button
+					variant="ghost"
+					size="sm"
+					onClick={() => setCount(0)}
+					className="text-fg-muted"
+				>
+					Reset
+				</Button>
+			)}
+		</div>
+	)
+}
 
 // ---------------------------------------------------------------------------
 // Page
@@ -533,18 +581,25 @@ export default function NotificationCenterPage() {
 					</div>
 				</DocExample>
 
+				{/* Trigger */}
+				<DocExample
+					title="Trigger"
+					description="NotificationTrigger renders a Bell icon with an unread dot. When the unread count increases, the bell rings and the dot pulses."
+					code={`<NotificationTrigger unreadCount={count} />
+
+// The bell-ring and dot-pulse animations trigger
+// automatically when unreadCount increases.`}
+				>
+					<TriggerDemo />
+				</DocExample>
+
 				{/* In a Sheet */}
 				<DocExample
 					title="In a Sheet"
-					description="Combine NotificationCenter with Sheet for a slide-in panel experience. This is the recommended pattern for app-level notifications."
+					description="Combine NotificationCenter with Sheet and NotificationTrigger for a slide-in panel experience. NotificationTrigger renders a Bell icon button with an unread indicator dot."
 					code={`<Sheet>
   <SheetTrigger
-    render={
-      <Button variant="outline">
-        <Bell className="h-4 w-4 mr-2" />
-        Notifications
-      </Button>
-    }
+    render={<NotificationTrigger unreadCount={2} />}
   />
   <SheetContent side="right" size="sm">
     <NotificationCenter
@@ -552,39 +607,8 @@ export default function NotificationCenterPage() {
       onMarkAllRead={() => {}}
     >
       <NotificationList>
-        <NotificationItem
-          notification={{
-            id: "1",
-            icon: DollarSign,
-            iconVariant: "success",
-            title: "Deal closed: Acme Corp",
-            description: "The $48,000 deal has been marked as won.",
-            time: "2m ago",
-            read: false,
-          }}
-        />
-        <NotificationItem
-          notification={{
-            id: "2",
-            icon: UserPlus,
-            iconVariant: "info",
-            title: "New contact added",
-            description: "Sarah Chen was added to your contacts.",
-            time: "15m ago",
-            read: false,
-          }}
-        />
-        <NotificationItem
-          notification={{
-            id: "3",
-            icon: AlertCircle,
-            iconVariant: "critical",
-            title: "Overdue task",
-            description: "Follow-up with Globex Corp is 2 days overdue.",
-            time: "3h ago",
-            read: true,
-          }}
-        />
+        <NotificationItem notification={...} />
+        <NotificationItem notification={...} />
       </NotificationList>
     </NotificationCenter>
   </SheetContent>
@@ -592,12 +616,7 @@ export default function NotificationCenterPage() {
 				>
 					<Sheet>
 						<SheetTrigger
-							render={
-								<Button variant="outline">
-									<Bell className="h-4 w-4 mr-2" />
-									Notifications
-								</Button>
-							}
+							render={<NotificationTrigger unreadCount={2} />}
 						/>
 						<SheetContent side="right" size="sm">
 							<NotificationCenter
@@ -624,6 +643,14 @@ export default function NotificationCenterPage() {
 				title="NotificationCenter Props"
 			>
 				<DocPropsTable props={notificationCenterProps} />
+			</DocSection>
+
+			{/* NotificationTrigger Props */}
+			<DocSection
+				id="notification-trigger-props"
+				title="NotificationTrigger Props"
+			>
+				<DocPropsTable props={notificationTriggerProps} />
 			</DocSection>
 
 			{/* NotificationItem Props */}

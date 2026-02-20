@@ -54,12 +54,13 @@ export type { MultiStepFormProps, FormStep, StepComponentProps } from "./multi-s
 export { SplitView } from "./split-view"
 export type { SplitViewProps } from "./split-view"
 
-export { NotificationCenter, NotificationList, NotificationGroup, NotificationItem } from "./notification-center"
+export { NotificationCenter, NotificationList, NotificationGroup, NotificationItem, NotificationTrigger } from "./notification-center"
 export type {
 	NotificationCenterProps,
 	NotificationListProps,
 	NotificationGroupProps,
 	NotificationItemProps,
+	NotificationTriggerProps,
 	Notification,
 	NotificationAction,
 } from "./notification-center"
