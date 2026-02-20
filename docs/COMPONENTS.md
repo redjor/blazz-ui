@@ -354,6 +354,8 @@ import {
 <DialogContent size="lg">...</DialogContent>
 ```
 
+**DialogHeader** : `separator` prop (default `true`) — border-bottom entre header et content. Passer `false` pour les dialogs compacts (confirmations).
+
 **Features**: Trap focus, ESC to close, backdrop click
 
 ---

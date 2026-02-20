@@ -43,6 +43,16 @@ const dialogProps: DocProp[] = [
 	},
 ]
 
+const dialogHeaderProps: DocProp[] = [
+	{
+		name: "separator",
+		type: "boolean",
+		default: "true",
+		description:
+			"Shows a border-bottom to separate the header from the content. Set to false for compact dialogs like confirmations.",
+	},
+]
+
 const dialogContentProps: DocProp[] = [
 	{
 		name: "size",
@@ -282,6 +292,7 @@ export default function DialogPage() {
 					groups={[
 						{ title: "Dialog", props: dialogProps },
 						{ title: "DialogContent", props: dialogContentProps },
+						{ title: "DialogHeader", props: dialogHeaderProps },
 					]}
 				/>
 			</DocSection>

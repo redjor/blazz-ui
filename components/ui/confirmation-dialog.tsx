@@ -58,7 +58,7 @@ export function ConfirmationDialog({
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent showCloseButton={false}>
-				<DialogHeader>
+				<DialogHeader separator={false}>
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>{description}</DialogDescription>
 				</DialogHeader>
