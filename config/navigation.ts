@@ -113,6 +113,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Breadcrumb", url: "/docs/components/ui/breadcrumb" },
             { title: "Command", url: "/docs/components/ui/command" },
             { title: "Menu", url: "/docs/components/ui/menu" },
+            { title: "Nav Menu", url: "/docs/components/ui/nav-menu" },
             { title: "Tabs", url: "/docs/components/ui/tabs" },
           ],
         },
