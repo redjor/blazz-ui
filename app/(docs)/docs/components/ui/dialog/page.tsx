@@ -191,6 +191,9 @@ export default function DialogPage() {
 					title="Without Close Button"
 					description="Hide the default close button for custom layouts."
 					code={`<DialogContent showCloseButton={false}>
+  <DialogHeader separator={false}>
+    ...
+  </DialogHeader>
   ...
 </DialogContent>`}
 				>
@@ -199,7 +202,7 @@ export default function DialogPage() {
 							No Close Button
 						</DialogTrigger>
 						<DialogContent showCloseButton={false}>
-							<DialogHeader>
+							<DialogHeader separator={false}>
 								<DialogTitle>Custom Dialog</DialogTitle>
 								<DialogDescription>
 									This dialog has no close button. Use the footer buttons.
@@ -214,13 +217,13 @@ export default function DialogPage() {
 
 				<DocExample
 					title="Confirmation"
-					description="Use for confirming important actions."
+					description="Use separator={false} for compact dialogs with no content between header and footer."
 					code={`<Dialog>
   <DialogTrigger render={<Button variant="destructive" />}>
     Delete Account
   </DialogTrigger>
   <DialogContent>
-    <DialogHeader>
+    <DialogHeader separator={false}>
       <DialogTitle>Are you sure?</DialogTitle>
       <DialogDescription>
         This action cannot be undone.
@@ -240,7 +243,7 @@ export default function DialogPage() {
 							Delete Account
 						</DialogTrigger>
 						<DialogContent>
-							<DialogHeader>
+							<DialogHeader separator={false}>
 								<DialogTitle>Are you absolutely sure?</DialogTitle>
 								<DialogDescription>
 									This action cannot be undone. This will permanently delete your
