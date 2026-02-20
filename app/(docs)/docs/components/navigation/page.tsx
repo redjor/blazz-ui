@@ -1,6 +1,6 @@
 import { Page } from "@/components/ui/page"
 import { ComponentSection } from "@/components/features/docs/component-card"
-import { ChevronRight, Command, Menu, FolderTree } from "lucide-react"
+import { ChevronRight, Command, Menu, List, FolderTree } from "lucide-react"
 
 const navigationComponents = [
 	{
@@ -20,6 +20,12 @@ const navigationComponents = [
 		href: "/docs/components/ui/menu",
 		description: "An unstyled, accessible menu component for building custom navigation and action menus.",
 		icon: Menu,
+	},
+	{
+		title: "Nav Menu",
+		href: "/docs/components/ui/nav-menu",
+		description: "Lightweight vertical navigation menu for page sidebars, dialogs, sheets, or any panel.",
+		icon: List,
 	},
 	{
 		title: "Tabs",
