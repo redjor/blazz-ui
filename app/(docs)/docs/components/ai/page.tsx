@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import { ArrowRight, BookOpen, Brain, MessageSquare, MousePointerClick } from "lucide-react"
+import { ArrowRight, Brain, ChartLine, MessageCircle, Wrench } from "lucide-react"
 import Link from "next/link"
 import { Page } from "@/components/ui/page"
 
@@ -18,48 +18,55 @@ interface AIComponentCategory {
 
 const aiCategories: AIComponentCategory[] = [
 	{
-		id: "core-chat",
-		title: "Core Chat",
-		description: "Message bubbles, conversation threads and prompt input.",
-		icon: MessageSquare,
+		id: "chat",
+		title: "Chat",
+		description: "Conversation, messages and prompt input components.",
+		icon: MessageCircle,
 		items: [
-			{ title: "Message", href: "/docs/components/ai/message" },
 			{ title: "Conversation", href: "/docs/components/ai/conversation" },
+			{ title: "Message", href: "/docs/components/ai/message" },
 			{ title: "Prompt Input", href: "/docs/components/ai/prompt-input" },
-		],
-	},
-	{
-		id: "interactions",
-		title: "Interactions",
-		description: "Suggestions, confirmations, attachments and model selection.",
-		icon: MousePointerClick,
-		items: [
 			{ title: "Suggestion", href: "/docs/components/ai/suggestion" },
-			{ title: "Confirmation", href: "/docs/components/ai/confirmation" },
 			{ title: "Attachments", href: "/docs/components/ai/attachments" },
-			{ title: "Model Selector", href: "/docs/components/ai/model-selector" },
+			{ title: "Shimmer", href: "/docs/components/ai/shimmer" },
 		],
 	},
 	{
 		id: "reasoning",
 		title: "Reasoning",
-		description: "Thinking indicators and step-by-step reasoning chains.",
+		description: "Chain of thought, sources and citation components.",
 		icon: Brain,
 		items: [
 			{ title: "Reasoning", href: "/docs/components/ai/reasoning" },
 			{ title: "Chain of Thought", href: "/docs/components/ai/chain-of-thought" },
+			{ title: "Sources", href: "/docs/components/ai/sources" },
+			{ title: "Inline Citation", href: "/docs/components/ai/inline-citation" },
 		],
 	},
 	{
-		id: "citations-context",
-		title: "Citations & Context",
-		description: "Source references, inline citations and contextual information.",
-		icon: BookOpen,
+		id: "tools",
+		title: "Tools",
+		description: "Confirmation, model selection and context components.",
+		icon: Wrench,
 		items: [
-			{ title: "Sources", href: "/docs/components/ai/sources" },
-			{ title: "Inline Citation", href: "/docs/components/ai/inline-citation" },
+			{ title: "Confirmation", href: "/docs/components/ai/confirmation" },
+			{ title: "Model Selector", href: "/docs/components/ai/model-selector" },
 			{ title: "Context", href: "/docs/components/ai/context" },
-			{ title: "Shimmer", href: "/docs/components/ai/shimmer" },
+		],
+	},
+	{
+		id: "generative-ui",
+		title: "Generative UI",
+		description: "Rich data blocks and entity cards rendered inline in conversations.",
+		icon: ChartLine,
+		items: [
+			{ title: "Metric Card", href: "/docs/components/ai/metric-card" },
+			{ title: "Stats Row", href: "/docs/components/ai/stats-row" },
+			{ title: "Mini Chart", href: "/docs/components/ai/mini-chart" },
+			{ title: "Comparison Table", href: "/docs/components/ai/comparison-table" },
+			{ title: "Progress Card", href: "/docs/components/ai/progress-card" },
+			{ title: "Data List", href: "/docs/components/ai/data-list" },
+			{ title: "Candidate Card", href: "/docs/components/ai/candidate-card" },
 		],
 	},
 ]
@@ -70,7 +77,7 @@ export default function AIElementsPage() {
 	return (
 		<Page
 			title="AI Elements"
-			subtitle={`${totalComponents} components for building AI chat interfaces. Browse by category or search for a specific component.`}
+			subtitle={`${totalComponents} components for building AI chat interfaces. Browse by category.`}
 		>
 			<div className="space-y-10">
 				{aiCategories.map((category) => (
