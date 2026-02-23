@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BotMessageSquare,
   FormInput,
   Layers,
   LayoutGrid,
@@ -146,6 +147,27 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Colors", url: "/docs/components/colors" },
             { title: "Typography", url: "/docs/components/typography" },
             { title: "Text", url: "/docs/components/ui/text" },
+          ],
+        },
+        {
+          id: "comp-ai",
+          title: "AI Elements",
+          url: "/docs/components/ai",
+          icon: BotMessageSquare,
+          items: [
+            { title: "Conversation", url: "/docs/components/ai/conversation" },
+            { title: "Message", url: "/docs/components/ai/message" },
+            { title: "Prompt Input", url: "/docs/components/ai/prompt-input" },
+            { title: "Suggestion", url: "/docs/components/ai/suggestion" },
+            { title: "Reasoning", url: "/docs/components/ai/reasoning" },
+            { title: "Chain of Thought", url: "/docs/components/ai/chain-of-thought" },
+            { title: "Sources", url: "/docs/components/ai/sources" },
+            { title: "Inline Citation", url: "/docs/components/ai/inline-citation" },
+            { title: "Confirmation", url: "/docs/components/ai/confirmation" },
+            { title: "Attachments", url: "/docs/components/ai/attachments" },
+            { title: "Model Selector", url: "/docs/components/ai/model-selector" },
+            { title: "Context", url: "/docs/components/ai/context" },
+            { title: "Shimmer", url: "/docs/components/ai/shimmer" },
           ],
         },
       ],
