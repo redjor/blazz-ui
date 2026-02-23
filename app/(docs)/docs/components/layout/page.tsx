@@ -93,27 +93,16 @@ export default function LayoutComponentsPage() {
 			subtitle="Layout is the arrangement of elements on a page. A good layout helps users understand and find information more easily."
 		>
 			<div className="space-y-10">
-				<section className="space-y-4">
-					<div>
-						<h2 className="text-sm font-semibold text-fg">Layout Primitives</h2>
-						<p className="text-xs text-fg-muted">
-							All layouts and spacing should be handled using layout primitives. This keeps our
-							components simple and consistent.
-						</p>
-					</div>
-					<ComponentSection components={layoutPrimitives} />
-				</section>
-
-				<section className="space-y-4">
-					<div>
-						<h2 className="text-sm font-semibold text-fg">Layout Compositions</h2>
-						<p className="text-xs text-fg-muted">
-							Layout compositions are built with layout primitives. Use these components to build
-							common layouts in your app.
-						</p>
-					</div>
-					<ComponentSection components={layoutCompositions} />
-				</section>
+				<ComponentSection
+					title="Layout Primitives"
+					description="All layouts and spacing should be handled using layout primitives. This keeps our components simple and consistent."
+					components={layoutPrimitives}
+				/>
+				<ComponentSection
+					title="Layout Compositions"
+					description="Layout compositions are built with layout primitives. Use these components to build common layouts in your app."
+					components={layoutCompositions}
+				/>
 			</div>
 		</Page>
 	)
