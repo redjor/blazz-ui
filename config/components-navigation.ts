@@ -163,7 +163,12 @@ export const componentsNavigation: ComponentNavCategory[] = [
 		description: "Rich data blocks rendered inline in conversations.",
 		icon: ChartLine,
 		items: [
-			{ title: "Generative UI", href: "/docs/components/ai/generative-ui" },
+			{ title: "Metric Card", href: "/docs/components/ai/metric-card" },
+			{ title: "Stats Row", href: "/docs/components/ai/stats-row" },
+			{ title: "Mini Chart", href: "/docs/components/ai/mini-chart" },
+			{ title: "Comparison Table", href: "/docs/components/ai/comparison-table" },
+			{ title: "Progress Card", href: "/docs/components/ai/progress-card" },
+			{ title: "Data List", href: "/docs/components/ai/data-list" },
 		],
 	},
 ]

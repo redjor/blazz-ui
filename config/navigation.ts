@@ -202,7 +202,12 @@ export const sidebarConfig: SidebarConfig = {
           url: "/docs/components/ai/generative-ui",
           icon: ChartLine,
           items: [
-            { title: "Generative UI", url: "/docs/components/ai/generative-ui" },
+            { title: "Metric Card", url: "/docs/components/ai/metric-card" },
+            { title: "Stats Row", url: "/docs/components/ai/stats-row" },
+            { title: "Mini Chart", url: "/docs/components/ai/mini-chart" },
+            { title: "Comparison Table", url: "/docs/components/ai/comparison-table" },
+            { title: "Progress Card", url: "/docs/components/ai/progress-card" },
+            { title: "Data List", url: "/docs/components/ai/data-list" },
           ],
         },
       ],
