@@ -21,6 +21,7 @@ const categories: GenUICategory[] = [
 			{ title: "Comparison Table", href: "/docs/components/ai/comparison-table" },
 			{ title: "Progress Card", href: "/docs/components/ai/progress-card" },
 			{ title: "Data List", href: "/docs/components/ai/data-list" },
+			{ title: "Data Grid", href: "/docs/components/ai/data-grid" },
 		],
 	},
 	{

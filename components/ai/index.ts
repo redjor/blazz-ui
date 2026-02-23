@@ -25,5 +25,8 @@ export * from "./generative/comparison-table"
 export * from "./generative/progress-card"
 export * from "./generative/data-list"
 
+// Generative UI — Tables
+export * from "./generative/data-grid"
+
 // Generative UI — Entities
 export * from "./generative/candidate-card"

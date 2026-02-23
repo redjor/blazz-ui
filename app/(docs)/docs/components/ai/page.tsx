@@ -66,6 +66,7 @@ const aiCategories: AIComponentCategory[] = [
 			{ title: "Comparison Table", href: "/docs/components/ai/comparison-table" },
 			{ title: "Progress Card", href: "/docs/components/ai/progress-card" },
 			{ title: "Data List", href: "/docs/components/ai/data-list" },
+			{ title: "Data Grid", href: "/docs/components/ai/data-grid" },
 			{ title: "Candidate Card", href: "/docs/components/ai/candidate-card" },
 		],
 	},

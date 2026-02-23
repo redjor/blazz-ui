@@ -208,6 +208,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Comparison Table", url: "/docs/components/ai/comparison-table" },
             { title: "Progress Card", url: "/docs/components/ai/progress-card" },
             { title: "Data List", url: "/docs/components/ai/data-list" },
+            { title: "Data Grid", url: "/docs/components/ai/data-grid" },
             { title: "Candidate Card", url: "/docs/components/ai/candidate-card" },
           ],
         },
