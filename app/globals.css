@@ -55,6 +55,29 @@
 
 	/* Component config */
 	--badge-radius: var(--radius-md); /* 9999px = pill | var(--radius-lg) | 0px */
+
+	/* =============================================
+	   shadcn compatibility (consumed by AI Elements
+	   and shadcn primitives like HoverCard, Progress,
+	   InputGroup). Maps standard --color-* variables
+	   to the Blazz design-token equivalents.
+	   ============================================= */
+	--color-background: var(--bg-surface);
+	--color-foreground: var(--text-primary);
+	--color-muted: var(--bg-raised);
+	--color-muted-foreground: var(--text-secondary);
+	--color-secondary: var(--bg-raised);
+	--color-secondary-foreground: var(--text-primary);
+	--color-accent: var(--bg-raised);
+	--color-accent-foreground: var(--text-primary);
+	--color-primary: var(--accent);
+	--color-primary-foreground: var(--accent-foreground);
+	--color-border: var(--border-default);
+	--color-destructive: var(--destructive);
+	--color-popover: var(--bg-overlay);
+	--color-popover-foreground: var(--text-primary);
+	--color-input: var(--border-default);
+	--color-ring: var(--accent);
 }
 
 /* =============================================
