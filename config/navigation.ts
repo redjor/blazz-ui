@@ -162,7 +162,7 @@ export const sidebarConfig: SidebarConfig = {
         {
           id: "ai-chat",
           title: "Chat",
-          url: "/docs/components/ai/chat",
+          url: "/docs/components/ai/chat/conversation",
           icon: MessageCircle,
           items: [
             { title: "Conversation", url: "/docs/components/ai/chat/conversation" },
