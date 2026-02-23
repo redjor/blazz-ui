@@ -162,15 +162,15 @@ export const sidebarConfig: SidebarConfig = {
         {
           id: "ai-chat",
           title: "Chat",
-          url: "/docs/components/ai",
+          url: "/docs/components/ai/chat",
           icon: MessageCircle,
           items: [
-            { title: "Conversation", url: "/docs/components/ai/conversation" },
-            { title: "Message", url: "/docs/components/ai/message" },
-            { title: "Prompt Input", url: "/docs/components/ai/prompt-input" },
-            { title: "Suggestion", url: "/docs/components/ai/suggestion" },
-            { title: "Attachments", url: "/docs/components/ai/attachments" },
-            { title: "Shimmer", url: "/docs/components/ai/shimmer" },
+            { title: "Conversation", url: "/docs/components/ai/chat/conversation" },
+            { title: "Message", url: "/docs/components/ai/chat/message" },
+            { title: "Prompt Input", url: "/docs/components/ai/chat/prompt-input" },
+            { title: "Suggestion", url: "/docs/components/ai/chat/suggestion" },
+            { title: "Attachments", url: "/docs/components/ai/chat/attachments" },
+            { title: "Shimmer", url: "/docs/components/ai/chat/shimmer" },
           ],
         },
         {

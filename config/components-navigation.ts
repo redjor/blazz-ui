@@ -126,12 +126,12 @@ export const componentsNavigation: ComponentNavCategory[] = [
 		description: "Conversation, messages and prompt input components.",
 		icon: MessageCircle,
 		items: [
-			{ title: "Conversation", href: "/docs/components/ai/conversation" },
-			{ title: "Message", href: "/docs/components/ai/message" },
-			{ title: "Prompt Input", href: "/docs/components/ai/prompt-input" },
-			{ title: "Suggestion", href: "/docs/components/ai/suggestion" },
-			{ title: "Attachments", href: "/docs/components/ai/attachments" },
-			{ title: "Shimmer", href: "/docs/components/ai/shimmer" },
+			{ title: "Conversation", href: "/docs/components/ai/chat/conversation" },
+			{ title: "Message", href: "/docs/components/ai/chat/message" },
+			{ title: "Prompt Input", href: "/docs/components/ai/chat/prompt-input" },
+			{ title: "Suggestion", href: "/docs/components/ai/chat/suggestion" },
+			{ title: "Attachments", href: "/docs/components/ai/chat/attachments" },
+			{ title: "Shimmer", href: "/docs/components/ai/chat/shimmer" },
 		],
 	},
 	{
