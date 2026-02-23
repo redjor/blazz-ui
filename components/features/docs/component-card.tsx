@@ -3,12 +3,14 @@ import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import type { LucideIcon } from "lucide-react"
+import { ComponentCardThumbnail } from "./component-card-thumbnail"
 
 export interface ComponentCardProps {
 	title: string
 	description: string
 	href: string
 	icon: LucideIcon
+	thumbnail?: string
 	className?: string
 }
 
@@ -17,6 +19,7 @@ export function ComponentCard({
 	description,
 	href,
 	icon: Icon,
+	thumbnail,
 	className,
 }: ComponentCardProps) {
 	const id = useId()
@@ -28,9 +31,13 @@ export function ComponentCard({
 				className={cn(
 					"h-full transition-colors hover:bg-raised/50",
 					"group-focus-visible:ring-2 group-focus-visible:ring-brand group-focus-visible:ring-offset-2",
+					thumbnail && "overflow-hidden",
 					className
 				)}
 			>
+				{thumbnail && (
+					<ComponentCardThumbnail slug={thumbnail} alt={title} />
+				)}
 				<div className="flex flex-col gap-3 p-4">
 					<Icon className="size-5 text-fg-muted" />
 					<div className="space-y-1">

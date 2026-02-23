@@ -22,6 +22,7 @@ const formComponents = [
     description:
       "An inline date calendar built on react-day-picker for standalone date selection.",
     icon: CalendarIcon,
+    thumbnail: "calendar",
   },
   {
     title: "Checkbox",
@@ -29,6 +30,7 @@ const formComponents = [
     description:
       "A control that allows the user to toggle between checked and unchecked states with indeterminate support.",
     icon: CheckSquare,
+    thumbnail: "checkbox",
   },
   {
     title: "Date Selector",
@@ -36,6 +38,7 @@ const formComponents = [
     description:
       "A popover-based date picker for forms with single date and grouped start/end date variants.",
     icon: CalendarDays,
+    thumbnail: "date-selector",
   },
   {
     title: "Combobox",
@@ -50,6 +53,7 @@ const formComponents = [
     description:
       "A wrapper component for form inputs with label, description, and error handling.",
     icon: FileText,
+    thumbnail: "form-field",
   },
   {
     title: "Input",
@@ -57,6 +61,7 @@ const formComponents = [
     description:
       "A text input field for single-line data entry with validation and accessibility support.",
     icon: Type,
+    thumbnail: "input",
   },
   {
     title: "Label",
@@ -71,6 +76,7 @@ const formComponents = [
     description:
       "An international phone number input with country selector, flag display, and E.164 formatting.",
     icon: Phone,
+    thumbnail: "phone-input",
   },
   {
     title: "Select",
@@ -78,12 +84,14 @@ const formComponents = [
     description:
       "A dropdown control for selecting from a list of options with keyboard navigation.",
     icon: ChevronDown,
+    thumbnail: "select",
   },
   {
     title: "Switch",
     href: "/docs/components/ui/switch",
     description: "A toggle switch for binary choices with clear on/off states.",
     icon: ToggleLeft,
+    thumbnail: "switch",
   },
   {
     title: "Tags Input",
@@ -98,6 +106,7 @@ const formComponents = [
     description:
       "A multi-line text input field with auto-resize and character count support.",
     icon: AlignLeft,
+    thumbnail: "textarea",
   },
 ];
 

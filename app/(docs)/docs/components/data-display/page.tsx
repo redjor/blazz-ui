@@ -8,30 +8,35 @@ const dataDisplayComponents = [
 		href: "/docs/components/ui/avatar",
 		description: "Display user profile images with fallback support for initials or icons in various sizes.",
 		icon: User,
+		thumbnail: "avatar",
 	},
 	{
 		title: "Cell Types",
 		href: "/docs/components/ui/cells",
 		description: "15 specialized cell renderers for DataTable: tags, progress, rating, sparkline, avatar group, and more.",
 		icon: Grid3X3,
+		thumbnail: "cells",
 	},
 	{
 		title: "Data Table",
 		href: "/docs/components/ui/data-table",
 		description: "Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions.",
 		icon: Table2,
+		thumbnail: "data-table",
 	},
 	{
 		title: "Property",
 		href: "/docs/components/ui/property",
 		description: "Label-value pair component for displaying structured data in detail views and sidebars.",
 		icon: List,
+		thumbnail: "property",
 	},
 	{
 		title: "Table",
 		href: "/docs/components/ui/table",
 		description: "Display data in rows and columns with semantic HTML table elements for simple tabular layouts.",
 		icon: Table,
+		thumbnail: "table",
 	},
 ]
 

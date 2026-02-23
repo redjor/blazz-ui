@@ -77,6 +77,7 @@ const layoutCompositions = [
 		description: "Groups related panels with consistent spacing, borders, and visual hierarchy.",
 		href: "/docs/components/ui/frame-panel",
 		icon: PanelsTopLeft,
+		thumbnail: "frame-panel",
 	},
 	{
 		title: "Page",
