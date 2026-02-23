@@ -63,7 +63,7 @@ const pageProps: DocProp[] = [
 		name: "narrowWidth",
 		type: "boolean",
 		default: "false",
-		description: "When true, uses a narrower max-width (max-w-5xl instead of max-w-7xl).",
+		description: "When true, uses a narrower max-width (max-w-3xl instead of max-w-5xl).",
 	},
 	{
 		name: "divider",

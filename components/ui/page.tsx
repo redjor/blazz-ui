@@ -70,7 +70,7 @@ export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "t
 	fullWidth?: boolean
 
 	/**
-	 * When true, uses a narrower max-width (max-w-4xl instead of max-w-7xl)
+	 * When true, uses a narrower max-width (max-w-3xl instead of max-w-5xl)
 	 * @default false
 	 */
 	narrowWidth?: boolean
@@ -185,11 +185,52 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 		const hasHeader =
 			title || primaryAction || secondaryActions || resolvedBreadcrumbs || titleMetadata || additionalMetadata
 
+		// Actions block — shared between all header layouts
+		const actionsBlock = (primaryAction || secondaryActions) && (
+			<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+				{secondaryActions && (
+					<div className="flex items-center gap-2">{secondaryActions}</div>
+				)}
+				{primaryAction && <div className="flex items-center">{primaryAction}</div>}
+			</div>
+		)
+
+		// Title row — either title-based or breadcrumb-based or actions-only
+		const titleDisplay = title ? (
+			<>
+				{resolvedBreadcrumbs && (
+					<div className="flex items-center gap-3">{resolvedBreadcrumbs}</div>
+				)}
+				<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+					<div className="flex-1 space-y-1">
+						<div className="flex items-center gap-3">
+							<h1 className="text-xl font-semibold leading-none text-fg">{title}</h1>
+							{titleMetadata}
+						</div>
+						{subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}
+					</div>
+					{actionsBlock}
+				</div>
+			</>
+		) : resolvedBreadcrumbs ? (
+			<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+				<div className="flex items-center gap-3">
+					{resolvedBreadcrumbs}
+					{titleMetadata}
+				</div>
+				{actionsBlock}
+			</div>
+		) : actionsBlock ? (
+			<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+				{actionsBlock}
+			</div>
+		) : null
+
 		return (
 			<div
 				ref={ref}
 				className={cn(
-					"w-full px-4",
+					"w-full px-6",
 					!fullWidth && "mx-auto",
 					!fullWidth && !narrowWidth && "max-w-5xl",
 					!fullWidth && narrowWidth && "max-w-3xl",
@@ -199,72 +240,14 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 			>
 				{/* Page Header */}
 				{hasHeader && (
-					<div className={cn("space-y-6 pt-4 pb-3", headerClassName)}>
-						{/* Breadcrumbs and Actions on same row (when no title) */}
-						{resolvedBreadcrumbs && !title && (
-							<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-								{/* Breadcrumbs + Title Metadata */}
-								<div className="flex items-center gap-3">
-									{resolvedBreadcrumbs}
-									{titleMetadata}
-								</div>
-
-								{/* Actions Section */}
-								{(primaryAction || secondaryActions) && (
-									<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-										{secondaryActions && (
-											<div className="flex items-center gap-2">{secondaryActions}</div>
-										)}
-										{primaryAction && <div className="flex items-center">{primaryAction}</div>}
-									</div>
-								)}
-							</div>
-						)}
-
-						{/* Breadcrumbs (when title exists) */}
-						{resolvedBreadcrumbs && title && <div className="flex items-center gap-3">{resolvedBreadcrumbs}{titleMetadata}</div>}
-
-						{/* Title and Actions Row (when title exists) */}
-						{title && (
-							<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-								{/* Title Section */}
-								<div className="flex-1 space-y-1">
-									<div className="flex items-center gap-3">
-									<h1 className="text-xl font-bold leading-none text-fg">{title}</h1>
-									{titleMetadata}
-								</div>
-									{subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}
-								</div>
-
-								{/* Actions Section */}
-								{(primaryAction || secondaryActions) && (
-									<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-										{secondaryActions && (
-											<div className="flex items-center gap-2">{secondaryActions}</div>
-										)}
-										{primaryAction && <div className="flex items-center">{primaryAction}</div>}
-									</div>
-								)}
-							</div>
-						)}
-
-						{/* Actions only (when no breadcrumbs and no title) */}
-						{!resolvedBreadcrumbs && !title && (primaryAction || secondaryActions) && (
-							<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
-								{secondaryActions && (
-									<div className="flex items-center gap-2">{secondaryActions}</div>
-								)}
-								{primaryAction && <div className="flex items-center">{primaryAction}</div>}
-							</div>
-						)}
-
-						{/* Additional Metadata */}
+					<div className={cn("space-y-4 py-4", divider && "border-b border-edge", headerClassName)}>
+						{titleDisplay}
 						{additionalMetadata && <div className="flex items-center">{additionalMetadata}</div>}
 					</div>
 				)}
 
 				{/* Page Content */}
-				<div className={cn("pb-8", !hasHeader && "pt-6", contentClassName)}>{children}</div>
+				<div className={cn("pb-8", hasHeader ? "pt-6" : "pt-6", contentClassName)}>{children}</div>
 			</div>
 		)
 	}
