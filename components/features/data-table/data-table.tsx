@@ -735,7 +735,10 @@ export function DataTable<TData, TValue = unknown>({
                   if (row.getIsGrouped()) {
                     return (
                       <React.Fragment key={row.id}>
-                        <TableRow className="bg-raised/30 hover:bg-raised/50">
+                        <TableRow
+                          className="bg-raised/30 hover:bg-raised/50"
+                          style={row.depth > 0 ? { position: 'relative', left: `${row.depth * 1.5}rem` } : undefined}
+                        >
                           <TableCell colSpan={row.getVisibleCells().length} className="py-2">
                             <button
                               type="button"
@@ -781,11 +784,15 @@ export function DataTable<TData, TValue = unknown>({
                   }
 
                   // Normal row rendering
+                  // Compute left indent for leaf rows inside groups
+                  const depthIndent = enableGrouping && grouping.length > 0 ? grouping.length * 1.5 : 0;
+
                   return (
                     <React.Fragment key={row.id}>
                       <TableRow
                         data-state={row.getIsSelected() && 'selected'}
                         className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
+                        style={depthIndent > 0 ? { position: 'relative', left: `${depthIndent}rem` } : undefined}
                         onClick={(e) => {
                           const target = e.target as HTMLElement;
                           const isCheckbox = target.closest('[role="checkbox"]');
