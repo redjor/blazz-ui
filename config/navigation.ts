@@ -168,6 +168,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Model Selector", url: "/docs/components/ai/model-selector" },
             { title: "Context", url: "/docs/components/ai/context" },
             { title: "Shimmer", url: "/docs/components/ai/shimmer" },
+            { title: "Generative UI", url: "/docs/components/ai/generative-ui" },
           ],
         },
       ],

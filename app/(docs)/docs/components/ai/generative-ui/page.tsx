@@ -1,0 +1,288 @@
+"use client"
+
+import { DollarSign, Users, TrendingUp, BarChart3 } from "lucide-react"
+import { DocPage } from "@/components/features/docs/doc-page"
+import { DocSection } from "@/components/features/docs/doc-section"
+import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
+import { GenMetricCard } from "@/components/ai-elements/gen-metric-card"
+import { GenStatsRow } from "@/components/ai-elements/gen-stats-row"
+import { GenMiniChart } from "@/components/ai-elements/gen-mini-chart"
+import { GenComparisonTable } from "@/components/ai-elements/gen-comparison-table"
+import { GenProgressCard } from "@/components/ai-elements/gen-progress-card"
+import { GenDataList } from "@/components/ai-elements/gen-data-list"
+
+const toc = [
+	{ id: "metric-card", title: "Metric Card" },
+	{ id: "stats-row", title: "Stats Row" },
+	{ id: "mini-chart", title: "Mini Chart" },
+	{ id: "comparison-table", title: "Comparison Table" },
+	{ id: "progress-card", title: "Progress Card" },
+	{ id: "data-list", title: "Data List" },
+]
+
+const sparklineData = [3, 7, 4, 9, 6, 11, 8, 14, 12, 16]
+
+export default function GenerativeUiPage() {
+	return (
+		<DocPage
+			title="Generative UI"
+			subtitle="Structured data blocks that render inline in AI chat messages — KPIs, charts, tables, and more."
+			toc={toc}
+		>
+			{/* Hero: simulated AI message with multiple blocks */}
+			<DocHero className="flex-col items-start gap-4 px-6 py-8">
+				<p className="text-sm text-fg-muted">
+					Here is a summary of Q4 performance:
+				</p>
+				<div className="grid w-full gap-3 sm:grid-cols-2">
+					<GenMetricCard
+						label="Revenue"
+						value="$1.24M"
+						trend={12.3}
+						trendLabel="vs Q3"
+						icon={<DollarSign className="size-4" />}
+					/>
+					<GenMetricCard
+						label="Active Users"
+						value="8,429"
+						trend={-2.1}
+						trendLabel="vs Q3"
+						icon={<Users className="size-4" />}
+					/>
+				</div>
+				<GenStatsRow
+					className="w-full"
+					items={[
+						{ label: "Deals Won", value: "47", trend: 8.5 },
+						{ label: "Avg Deal Size", value: "$26.4K", trend: -3.2 },
+						{ label: "Win Rate", value: "34%", trend: 5.1 },
+					]}
+				/>
+				<GenProgressCard
+					label="Q4 Target"
+					value={78}
+					description="$1.24M of $1.6M target reached"
+				/>
+			</DocHero>
+
+			{/* Section: Metric Card */}
+			<DocSection id="metric-card" title="Metric Card">
+				<DocExample
+					title="Single KPI"
+					description="A standalone metric with trend indicator."
+					code={`<GenMetricCard
+  label="Revenue"
+  value="$1.24M"
+  trend={12.3}
+  trendLabel="vs last quarter"
+  icon={<DollarSign className="size-4" />}
+/>`}
+				>
+					<div className="max-w-xs">
+						<GenMetricCard
+							label="Revenue"
+							value="$1.24M"
+							trend={12.3}
+							trendLabel="vs last quarter"
+							icon={<DollarSign className="size-4" />}
+						/>
+					</div>
+				</DocExample>
+
+				<DocExample
+					title="Negative Trend"
+					description="Trend arrow and color flip when the value is negative."
+					code={`<GenMetricCard
+  label="Churn Rate"
+  value="4.8%"
+  trend={-1.2}
+  trendLabel="vs last month"
+/>`}
+				>
+					<div className="max-w-xs">
+						<GenMetricCard
+							label="Churn Rate"
+							value="4.8%"
+							trend={-1.2}
+							trendLabel="vs last month"
+						/>
+					</div>
+				</DocExample>
+			</DocSection>
+
+			{/* Section: Stats Row */}
+			<DocSection id="stats-row" title="Stats Row">
+				<DocExample
+					title="Horizontal KPIs"
+					description="2-4 metrics in a compact row with dividers."
+					code={`<GenStatsRow
+  items={[
+    { label: "Contacts", value: "1,204", trend: 4.3 },
+    { label: "Deals Open", value: "39" },
+    { label: "Revenue", value: "$284K", trend: 12.1 },
+    { label: "Win Rate", value: "34%", trend: -2.5 },
+  ]}
+/>`}
+				>
+					<GenStatsRow
+						items={[
+							{ label: "Contacts", value: "1,204", trend: 4.3 },
+							{ label: "Deals Open", value: "39" },
+							{ label: "Revenue", value: "$284K", trend: 12.1 },
+							{ label: "Win Rate", value: "34%", trend: -2.5 },
+						]}
+					/>
+				</DocExample>
+			</DocSection>
+
+			{/* Section: Mini Chart */}
+			<DocSection id="mini-chart" title="Mini Chart">
+				<DocExample
+					title="Sparkline"
+					description="A compact area chart with label and current value."
+					code={`<GenMiniChart
+  label="Weekly Signups"
+  data={[3, 7, 4, 9, 6, 11, 8, 14, 12, 16]}
+  value="16"
+/>`}
+				>
+					<div className="max-w-sm">
+						<GenMiniChart
+							label="Weekly Signups"
+							data={sparklineData}
+							value="16"
+						/>
+					</div>
+				</DocExample>
+
+				<DocExample
+					title="Side by Side"
+					description="Multiple sparklines for quick comparison."
+					code={`<div className="grid grid-cols-2 gap-3">
+  <GenMiniChart label="MRR" data={[10,12,11,15,18,20]} value="$20K" />
+  <GenMiniChart label="Churn" data={[5,4,6,3,4,2]} value="2%" />
+</div>`}
+				>
+					<div className="grid grid-cols-2 gap-3">
+						<GenMiniChart
+							label="MRR"
+							data={[10, 12, 11, 15, 18, 20]}
+							value="$20K"
+						/>
+						<GenMiniChart
+							label="Churn"
+							data={[5, 4, 6, 3, 4, 2]}
+							value="2%"
+						/>
+					</div>
+				</DocExample>
+			</DocSection>
+
+			{/* Section: Comparison Table */}
+			<DocSection id="comparison-table" title="Comparison Table">
+				<DocExample
+					title="Plan Comparison"
+					description="A lightweight table for side-by-side comparison data."
+					code={`<GenComparisonTable
+  title="Plan Comparison"
+  columns={["Feature", "Starter", "Pro", "Enterprise"]}
+  rows={[
+    ["Users", "5", "25", "Unlimited"],
+    ["Storage", "10 GB", "100 GB", "1 TB"],
+    ["Support", "Email", "Priority", "Dedicated"],
+  ]}
+/>`}
+				>
+					<GenComparisonTable
+						title="Plan Comparison"
+						columns={["Feature", "Starter", "Pro", "Enterprise"]}
+						rows={[
+							["Users", "5", "25", "Unlimited"],
+							["Storage", "10 GB", "100 GB", "1 TB"],
+							["Support", "Email", "Priority", "Dedicated"],
+						]}
+					/>
+				</DocExample>
+			</DocSection>
+
+			{/* Section: Progress Card */}
+			<DocSection id="progress-card" title="Progress Card">
+				<DocExample
+					title="Target Progress"
+					description="A labeled progress bar with description."
+					code={`<GenProgressCard
+  label="Q4 Revenue Target"
+  value={78}
+  description="$1.24M of $1.6M target reached"
+/>`}
+				>
+					<div className="max-w-sm">
+						<GenProgressCard
+							label="Q4 Revenue Target"
+							value={78}
+							description="$1.24M of $1.6M target reached"
+						/>
+					</div>
+				</DocExample>
+
+				<DocExample
+					title="Multiple Progress Bars"
+					description="Stack several progress cards for pipeline or milestone views."
+					code={`<div className="space-y-3">
+  <GenProgressCard label="Prospecting" value={100} />
+  <GenProgressCard label="Qualification" value={65} />
+  <GenProgressCard label="Proposal" value={30} />
+  <GenProgressCard label="Negotiation" value={10} />
+</div>`}
+				>
+					<div className="max-w-sm space-y-3">
+						<GenProgressCard label="Prospecting" value={100} />
+						<GenProgressCard label="Qualification" value={65} />
+						<GenProgressCard label="Proposal" value={30} />
+						<GenProgressCard label="Negotiation" value={10} />
+					</div>
+				</DocExample>
+			</DocSection>
+
+			{/* Section: Data List */}
+			<DocSection id="data-list" title="Data List">
+				<DocExample
+					title="Key-Value List"
+					description="Vertical list of labeled values with optional badges."
+					code={`<GenDataList
+  title="Deal Summary"
+  items={[
+    { label: "Company", value: "Acme Corp" },
+    { label: "Amount", value: "$48,000" },
+    { label: "Stage", value: "Negotiation", badge: { text: "Active", variant: "success" } },
+    { label: "Close Date", value: "Mar 15, 2026" },
+    { label: "Probability", value: "75%", badge: { text: "High", variant: "warning" } },
+  ]}
+/>`}
+				>
+					<div className="max-w-sm">
+						<GenDataList
+							title="Deal Summary"
+							items={[
+								{ label: "Company", value: "Acme Corp" },
+								{ label: "Amount", value: "$48,000" },
+								{
+									label: "Stage",
+									value: "Negotiation",
+									badge: { text: "Active", variant: "success" },
+								},
+								{ label: "Close Date", value: "Mar 15, 2026" },
+								{
+									label: "Probability",
+									value: "75%",
+									badge: { text: "High", variant: "warning" },
+								},
+							]}
+						/>
+					</div>
+				</DocExample>
+			</DocSection>
+		</DocPage>
+	)
+}

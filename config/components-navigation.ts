@@ -136,6 +136,7 @@ export const componentsNavigation: ComponentNavCategory[] = [
 			{ title: "Model Selector", href: "/docs/components/ai/model-selector" },
 			{ title: "Context", href: "/docs/components/ai/context" },
 			{ title: "Shimmer", href: "/docs/components/ai/shimmer" },
+			{ title: "Generative UI", href: "/docs/components/ai/generative-ui" },
 		],
 	},
 ]
