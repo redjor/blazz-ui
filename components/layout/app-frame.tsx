@@ -11,6 +11,7 @@ import type { NavigationSection } from "@/types/navigation"
 export interface AppFrameProps {
 	navigation?: NavigationSection[]
 	children: React.ReactNode
+	/** Content rendered at the top of the sidebar (e.g. OrgSwitcher) */
 	sidebarHeader?: React.ReactNode
 	sidebarFooter?: React.ReactNode
 	tabBar?: React.ReactNode
@@ -26,6 +27,7 @@ export interface AppFrameProps {
 export function AppFrame({
 	navigation,
 	children,
+	sidebarHeader,
 	tabBar,
 	onOpenCommandPalette,
 	activeSection,
@@ -63,7 +65,7 @@ export function AppFrame({
 						minimal={minimalTopBar}
 					/>
 				}
-				navigation={<AppSidebar config={config} />}
+				navigation={<AppSidebar config={config} header={sidebarHeader} />}
 				tabBar={tabBar}
 			>
 				{children}
