@@ -11,7 +11,8 @@
 		"format": "biome format --write .",
 		"check": "biome check --write .",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"thumbnails": "npx tsx scripts/generate-thumbnails.ts"
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.0.0",
