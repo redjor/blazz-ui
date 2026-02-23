@@ -25,7 +25,7 @@ const demoOrganizations: Organization[] = [
 ]
 
 function CrmLayoutInner({ children }: { children: React.ReactNode }) {
-	const { setCommandPaletteOpen } = useFrame()
+	const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
 	const { showTabBar } = useNavigationTabs()
 	const [activeOrg, setActiveOrg] = React.useState(demoOrganizations[0])
 	useFrameLayout()
@@ -53,7 +53,7 @@ function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 				excludePaths={["/docs"]}
 				titleResolver={titleFromPathname}
 			/>
-			<CommandPalette navigation={crmNavigationConfig} />
+			<CommandPalette navigation={crmNavigationConfig} open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
 			<Toaster />
 		</SidebarProvider>
 	)

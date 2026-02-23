@@ -279,10 +279,10 @@ export default function ThemingPage() {
 									style={{ backgroundColor: palette.accent }}
 								/>
 								<h3 className="text-sm font-semibold text-fg">{palette.name}</h3>
-								<span className="ml-auto text-[11px] text-fg-subtle">{palette.mode}</span>
+								<span className="ml-auto text-2xs text-fg-subtle">{palette.mode}</span>
 							</div>
 							<p className="text-xs text-fg-muted">{palette.description}</p>
-							<code className="block text-[11px] font-mono text-fg-subtle">{palette.selector}</code>
+							<code className="block text-2xs font-mono text-fg-subtle">{palette.selector}</code>
 						</div>
 					))}
 				</div>

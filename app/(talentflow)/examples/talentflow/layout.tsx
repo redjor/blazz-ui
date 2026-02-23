@@ -18,7 +18,7 @@ import { titleFromPathname } from "@/lib/tab-utils"
 import { useFrameLayout } from "@/lib/use-frame-layout"
 
 function TalentFlowLayoutInner({ children }: { children: React.ReactNode }) {
-	const { setCommandPaletteOpen } = useFrame()
+	const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
 	const { showTabBar } = useNavigationTabs()
 	useFrameLayout()
 	useNavigationTabUrlSync(titleFromPathname)
@@ -37,7 +37,7 @@ function TalentFlowLayoutInner({ children }: { children: React.ReactNode }) {
 				excludePaths={["/docs"]}
 				titleResolver={titleFromPathname}
 			/>
-			<CommandPalette navigation={talentflowNavigationConfig} />
+			<CommandPalette navigation={talentflowNavigationConfig} open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
 			<Toaster />
 		</SidebarProvider>
 	)

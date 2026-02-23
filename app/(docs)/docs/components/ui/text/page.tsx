@@ -21,8 +21,8 @@ const textProps: DocProp[] = [
 	{
 		name: "as",
 		type: '"h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "strong" | "em" | "dt" | "dd" | "label" | "legend"',
-		default: '"span"',
-		description: "The HTML element to render.",
+		default: "varies by variant",
+		description: "The HTML element to render. Defaults to the semantic element for the variant (e.g. heading-xl renders as h3, body-md as p).",
 	},
 	{
 		name: "tone",
@@ -40,7 +40,7 @@ const textProps: DocProp[] = [
 		name: "numeric",
 		type: "boolean",
 		default: "false",
-		description: "Use tabular figures (monospace numbers).",
+		description: "Use tabular figures for aligned numbers in tables and data.",
 	},
 ]
 
@@ -54,8 +54,8 @@ export default function TextPage() {
 			{/* Hero */}
 			<DocHero>
 				<div className="space-y-1 text-center">
-					<Text variant="heading-lg" as="h2">Invoice #1042</Text>
-					<Text tone="muted" as="p">Due in 14 days</Text>
+					<Text variant="heading-lg">Invoice #1042</Text>
+					<Text tone="muted">Due in 14 days</Text>
 				</div>
 			</DocHero>
 
@@ -63,22 +63,22 @@ export default function TextPage() {
 			<DocSection id="examples" title="Examples">
 				<DocExample
 					title="Heading Scale"
-					description="Seven heading sizes for content hierarchy."
-					code={`<Text variant="heading-3xl" as="h1">Heading 3XL</Text>
-<Text variant="heading-2xl" as="h2">Heading 2XL</Text>
-<Text variant="heading-xl" as="h3">Heading XL</Text>
-<Text variant="heading-lg" as="h4">Heading LG</Text>
-<Text variant="heading-md" as="h5">Heading MD</Text>
-<Text variant="heading-sm" as="h6">Heading SM</Text>
-<Text variant="heading-xs">Heading XS</Text>`}
+					description="Seven heading sizes for content hierarchy. Each variant renders the appropriate HTML element by default."
+					code={`<Text variant="heading-3xl">Heading 3XL</Text>  {/* → h1 */}
+<Text variant="heading-2xl">Heading 2XL</Text>  {/* → h2 */}
+<Text variant="heading-xl">Heading XL</Text>    {/* → h3 */}
+<Text variant="heading-lg">Heading LG</Text>    {/* → h4 */}
+<Text variant="heading-md">Heading MD</Text>    {/* → h5 */}
+<Text variant="heading-sm">Heading SM</Text>    {/* → h6 */}
+<Text variant="heading-xs">Heading XS</Text>    {/* → h6 */}`}
 				>
 					<div className="space-y-4">
-						<Text variant="heading-3xl" as="h1">Heading 3XL</Text>
-						<Text variant="heading-2xl" as="h2">Heading 2XL</Text>
-						<Text variant="heading-xl" as="h3">Heading XL</Text>
-						<Text variant="heading-lg" as="h4">Heading LG</Text>
-						<Text variant="heading-md" as="h5">Heading MD</Text>
-						<Text variant="heading-sm" as="h6">Heading SM</Text>
+						<Text variant="heading-3xl">Heading 3XL</Text>
+						<Text variant="heading-2xl">Heading 2XL</Text>
+						<Text variant="heading-xl">Heading XL</Text>
+						<Text variant="heading-lg">Heading LG</Text>
+						<Text variant="heading-md">Heading MD</Text>
+						<Text variant="heading-sm">Heading SM</Text>
 						<Text variant="heading-xs">Heading XS</Text>
 					</div>
 				</DocExample>
@@ -86,16 +86,39 @@ export default function TextPage() {
 				<DocExample
 					title="Body Scale"
 					description="Four body sizes for content, descriptions, and captions."
-					code={`<Text variant="body-lg" as="p">Large body text</Text>
-<Text variant="body-md" as="p">Medium body text (default)</Text>
-<Text variant="body-sm" as="p">Small body text</Text>
-<Text variant="body-xs" as="p">Extra small body text</Text>`}
+					code={`<Text variant="body-lg">Large body text</Text>    {/* → p */}
+<Text variant="body-md">Medium body text</Text>  {/* → p */}
+<Text variant="body-sm">Small body text</Text>    {/* → span */}
+<Text variant="body-xs">Extra small text</Text>   {/* → span */}`}
 				>
 					<div className="space-y-3">
-						<Text variant="body-lg" as="p">Large body text for introductory paragraphs.</Text>
-						<Text variant="body-md" as="p">Medium body text (default) for most content.</Text>
-						<Text variant="body-sm" as="p">Small body text for secondary information.</Text>
-						<Text variant="body-xs" as="p">Extra small for captions, labels, metadata.</Text>
+						<Text variant="body-lg">Large body text for introductory paragraphs.</Text>
+						<Text variant="body-md">Medium body text (default) for most content.</Text>
+						<Text variant="body-sm">Small body text for secondary information.</Text>
+						<Text variant="body-xs">Extra small for captions, labels, metadata.</Text>
+					</div>
+				</DocExample>
+
+				<DocExample
+					title="Semantic Defaults"
+					description="Each variant maps to a sensible HTML element. Use as to override when needed."
+					code={`{/* Uses default h3 from heading-xl */}
+<Text variant="heading-xl">Section Title</Text>
+
+{/* Override: render heading-xl as h1 */}
+<Text variant="heading-xl" as="h1">Page Title</Text>
+
+{/* Uses default p from body-md */}
+<Text>Paragraph content</Text>
+
+{/* Override: render body-md as label */}
+<Text as="label">Field label</Text>`}
+				>
+					<div className="space-y-3">
+						<Text variant="heading-xl">Section Title (h3)</Text>
+						<Text variant="heading-xl" as="h1">Page Title (h1 override)</Text>
+						<Text>Paragraph content (p)</Text>
+						<Text as="label">Field label (label override)</Text>
 					</div>
 				</DocExample>
 
@@ -153,14 +176,14 @@ export default function TextPage() {
 				<DocExample
 					title="Composition"
 					description="Combine variant, tone, and className for full control."
-					code={`<Text variant="heading-lg" as="h2">Invoice #1042</Text>
-<Text tone="muted" as="p">Due in 14 days</Text>
+					code={`<Text variant="heading-lg">Invoice #1042</Text>
+<Text tone="muted">Due in 14 days</Text>
 <Text tone="muted" className="line-through">$99.99</Text>
 <Text tone="danger" className="font-semibold">$79.99</Text>`}
 				>
 					<div className="space-y-2">
-						<Text variant="heading-lg" as="h2">Invoice #1042</Text>
-						<Text tone="muted" as="p">Due in 14 days</Text>
+						<Text variant="heading-lg">Invoice #1042</Text>
+						<Text tone="muted">Due in 14 days</Text>
 						<div>
 							<Text tone="muted" className="line-through">$99.99</Text>
 							{" "}
@@ -180,7 +203,8 @@ export default function TextPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use <code>variant</code> for size -- never set <code>text-lg</code> directly on Text</li>
 					<li>Use <code>tone</code> for semantic color -- not <code>className="text-red-500"</code></li>
-					<li>Use <code>as</code> for semantic HTML -- headings get h1-h6, paragraphs get p</li>
+					<li>Omit <code>as</code> to get the right semantic element automatically (heading-xl = h3, body-md = p)</li>
+					<li>Use <code>as</code> only when the visual variant and semantic element differ (e.g. heading-xl styled as h1)</li>
 					<li>For anything else (alignment, decoration, weight override), use <code>className</code></li>
 					<li>Keep the API surface small -- <code>className</code> handles edge cases</li>
 				</ul>

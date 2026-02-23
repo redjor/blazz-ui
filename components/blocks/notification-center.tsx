@@ -226,7 +226,7 @@ export function NotificationGroup({
 	return (
 		<div className={cn("", className)}>
 			<div className="flex items-center gap-2 px-4 py-2">
-				<span className="text-[11px] font-medium uppercase text-fg-muted">
+				<span className="text-2xs font-medium uppercase text-fg-muted">
 					{label}
 				</span>
 				<div className="h-px flex-1 bg-edge" />

@@ -17,6 +17,8 @@ import { useCommandPalette } from "@/hooks/use-command-palette"
 
 export interface CommandPaletteProps {
 	navigation: NavigationSection[]
+	open?: boolean
+	onOpenChange?: (open: boolean) => void
 }
 
 /**
@@ -29,10 +31,10 @@ export interface CommandPaletteProps {
  * - Keyboard navigation
  *
  * @example
- * <CommandPalette navigation={navConfig} />
+ * <CommandPalette navigation={navConfig} open={open} onOpenChange={setOpen} />
  */
-export function CommandPalette({ navigation }: CommandPaletteProps) {
-	const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({ navigation })
+export function CommandPalette({ navigation, open, onOpenChange }: CommandPaletteProps) {
+	const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({ navigation, open, onOpenChange })
 
 	// Group items by section
 	const groupedItems = React.useMemo(() => {

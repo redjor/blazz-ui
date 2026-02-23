@@ -9,11 +9,8 @@ import { navigationConfig } from "@/config/navigation"
 import { useFrameLayout } from "@/lib/use-frame-layout"
 import { Toaster } from "sonner"
 
-// Filter navigation to only include component docs (no page examples)
-const docsNavigation = navigationConfig.filter((section) => section.id === "components")
-
 function FrameLayoutInner({ children }: { children: React.ReactNode }) {
-	const { setCommandPaletteOpen } = useFrame()
+	const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
 	useFrameLayout()
 
 	return (
@@ -25,7 +22,11 @@ function FrameLayoutInner({ children }: { children: React.ReactNode }) {
 			>
 				{children}
 			</AppFrame>
-			<CommandPalette navigation={docsNavigation} />
+			<CommandPalette
+				navigation={navigationConfig}
+				open={commandPaletteOpen}
+				onOpenChange={setCommandPaletteOpen}
+			/>
 			<Toaster />
 		</SidebarProvider>
 	)

@@ -18,7 +18,7 @@ import { titleFromPathname } from "@/lib/tab-utils"
 import { useFrameLayout } from "@/lib/use-frame-layout"
 
 function StockBaseLayoutInner({ children }: { children: React.ReactNode }) {
-	const { setCommandPaletteOpen } = useFrame()
+	const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
 	const { showTabBar } = useNavigationTabs()
 	useFrameLayout()
 	useNavigationTabUrlSync(titleFromPathname)
@@ -37,7 +37,7 @@ function StockBaseLayoutInner({ children }: { children: React.ReactNode }) {
 				excludePaths={["/docs"]}
 				titleResolver={titleFromPathname}
 			/>
-			<CommandPalette navigation={stockbaseNavigationConfig} />
+			<CommandPalette navigation={stockbaseNavigationConfig} open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
 			<Toaster />
 		</SidebarProvider>
 	)

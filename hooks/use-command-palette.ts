@@ -15,6 +15,12 @@ export interface CommandItem {
 const RECENT_ITEMS_KEY = "command-palette-recent"
 const MAX_RECENT_ITEMS = 5
 
+interface UseCommandPaletteOptions {
+	navigation: NavigationSection[]
+	open?: boolean
+	onOpenChange?: (open: boolean) => void
+}
+
 /**
  * Hook for managing command palette state and functionality
  *
@@ -26,13 +32,19 @@ const MAX_RECENT_ITEMS = 5
  *
  * @example
  * const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({
- *   navigation: navConfig
+ *   navigation: navConfig,
+ *   open: commandPaletteOpen,
+ *   onOpenChange: setCommandPaletteOpen,
  * })
  */
-export function useCommandPalette({ navigation }: { navigation: NavigationSection[] }) {
+export function useCommandPalette({ navigation, open, onOpenChange }: UseCommandPaletteOptions) {
 	const router = useRouter()
-	const [isOpen, setIsOpen] = React.useState(false)
+	const [internalOpen, setInternalOpen] = React.useState(false)
 	const [recentItems, setRecentItems] = React.useState<CommandItem[]>([])
+
+	// Use controlled state if provided, otherwise use internal state
+	const isOpen = open !== undefined ? open : internalOpen
+	const setIsOpen = onOpenChange ?? setInternalOpen
 
 	// Build searchable items from navigation
 	const items = React.useMemo(() => {

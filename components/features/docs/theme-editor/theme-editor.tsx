@@ -89,7 +89,7 @@ function TokenSliderRow({
 					style={{ backgroundColor: oklchToString(color) }}
 				/>
 				<span className="truncate text-xs font-mono text-fg">--{tokenKey}</span>
-				<span className="ml-auto text-[11px] font-mono text-fg-subtle whitespace-nowrap">
+				<span className="ml-auto text-2xs font-mono text-fg-subtle whitespace-nowrap">
 					{oklchToString(color)}
 				</span>
 			</div>
