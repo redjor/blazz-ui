@@ -13,6 +13,9 @@ export type { ErrorStateProps } from "./error-state"
 export { StatsGrid } from "./stats-grid"
 export type { StatsGridProps, StatItem } from "./stats-grid"
 
+export { StatsStrip } from "./stats-strip"
+export type { StatsStripProps, StatsStripItem } from "./stats-strip"
+
 export { FieldGrid, Field } from "./field-grid"
 export type { FieldGridProps, FieldProps } from "./field-grid"
 
@@ -67,3 +70,6 @@ export type {
 
 export { OrgMenu } from "./org-menu"
 export type { OrgMenuProps, Organization } from "./org-menu"
+
+export { PropertyCard } from "./property-card"
+export type { PropertyCardProps, PropertyCardItemProps } from "./property-card"

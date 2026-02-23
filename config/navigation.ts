@@ -129,6 +129,8 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Cell Types", url: "/docs/components/ui/cells" },
             { title: "Data Table", url: "/docs/components/ui/data-table" },
             { title: "Property", url: "/docs/components/ui/property" },
+            { title: "Property Card", url: "/docs/components/ui/property-card" },
+            { title: "Stats Strip", url: "/docs/components/ui/stats-strip" },
             { title: "Table", url: "/docs/components/ui/table" },
           ],
         },
