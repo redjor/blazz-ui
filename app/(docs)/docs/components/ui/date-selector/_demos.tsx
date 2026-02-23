@@ -33,8 +33,10 @@ export function DateRangeSelectorDemo() {
 			<DateRangeSelector
 				from={from}
 				to={to}
-				onFromChange={setFrom}
-				onToChange={setTo}
+				onRangeChange={({ from: f, to: t }) => {
+					setFrom(f)
+					setTo(t)
+				}}
 			/>
 			{from && to && (
 				<p className="text-xs text-fg-muted">
@@ -53,8 +55,10 @@ export function DateRangeSelectorCustomDemo() {
 		<DateRangeSelector
 			from={from}
 			to={to}
-			onFromChange={setFrom}
-			onToChange={setTo}
+			onRangeChange={({ from: f, to: t }) => {
+				setFrom(f)
+				setTo(t)
+			}}
 			fromPlaceholder="Date de début"
 			toPlaceholder="Date de fin"
 			formatStr="dd MMM yyyy"

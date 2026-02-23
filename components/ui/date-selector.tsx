@@ -79,12 +79,13 @@ function DateSelector({
 interface DateRangeSelectorProps {
 	from?: Date
 	to?: Date
-	onFromChange?: (date: Date | undefined) => void
-	onToChange?: (date: Date | undefined) => void
+	onRangeChange?: (range: { from?: Date; to?: Date }) => void
 	fromPlaceholder?: string
 	toPlaceholder?: string
 	disabled?: boolean
 	className?: string
+	/** Number of months to display. @default 2 */
+	numberOfMonths?: number
 	/** Format string for date-fns. @default "PP" */
 	formatStr?: string
 }
@@ -92,76 +93,47 @@ interface DateRangeSelectorProps {
 function DateRangeSelector({
 	from,
 	to,
-	onFromChange,
-	onToChange,
+	onRangeChange,
 	fromPlaceholder = "Start date",
 	toPlaceholder = "End date",
 	disabled = false,
 	className,
+	numberOfMonths = 2,
 	formatStr = "PP",
 }: DateRangeSelectorProps) {
-	const [openFrom, setOpenFrom] = React.useState(false)
-	const [openTo, setOpenTo] = React.useState(false)
+	const [open, setOpen] = React.useState(false)
 
 	return (
-		<div className={cn("inline-flex items-center", className)}>
-			{/* From trigger */}
-			<Popover open={openFrom} onOpenChange={setOpenFrom}>
-				<PopoverTrigger
-					disabled={disabled}
-					className={cn(
-						triggerBase,
-						"rounded-r-none border-r-0",
-						!from && "text-fg-muted",
-					)}
-				>
-					<CalendarIcon className="size-4 text-fg-muted" />
+		<Popover open={open} onOpenChange={setOpen}>
+			<PopoverTrigger
+				disabled={disabled}
+				className={cn(
+					triggerBase,
+					"gap-0",
+					className,
+				)}
+			>
+				<CalendarIcon className="mr-1.5 size-4 text-fg-muted" />
+				<span className={cn(!from && "text-fg-muted")}>
 					{from ? format(from, formatStr) : fromPlaceholder}
-				</PopoverTrigger>
-				<PopoverContent className="w-auto p-0" align="start">
-					<Calendar
-						mode="single"
-						selected={from}
-						onSelect={(date) => {
-							onFromChange?.(date)
-							setOpenFrom(false)
-						}}
-						disabled={to ? { after: to } : undefined}
-						autoFocus
-					/>
-				</PopoverContent>
-			</Popover>
-
-			{/* Divider */}
-			<div className="h-8 w-px bg-edge" />
-
-			{/* To trigger */}
-			<Popover open={openTo} onOpenChange={setOpenTo}>
-				<PopoverTrigger
-					disabled={disabled}
-					className={cn(
-						triggerBase,
-						"rounded-l-none border-l-0",
-						!to && "text-fg-muted",
-					)}
-				>
-					<CalendarIcon className="size-4 text-fg-muted" />
+				</span>
+				<span className="mx-1.5 text-fg-muted">&ndash;</span>
+				<span className={cn(!to && "text-fg-muted")}>
 					{to ? format(to, formatStr) : toPlaceholder}
-				</PopoverTrigger>
-				<PopoverContent className="w-auto p-0" align="start">
-					<Calendar
-						mode="single"
-						selected={to}
-						onSelect={(date) => {
-							onToChange?.(date)
-							setOpenTo(false)
-						}}
-						disabled={from ? { before: from } : undefined}
-						autoFocus
-					/>
-				</PopoverContent>
-			</Popover>
-		</div>
+				</span>
+			</PopoverTrigger>
+			<PopoverContent className="w-auto p-0" align="start">
+				<Calendar
+					mode="range"
+					selected={from || to ? { from, to } : undefined}
+					onSelect={(range) => {
+						onRangeChange?.({ from: range?.from, to: range?.to })
+					}}
+					numberOfMonths={numberOfMonths}
+					autoFocus
+				/>
+			</PopoverContent>
+		</Popover>
 	)
 }
 
