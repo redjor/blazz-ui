@@ -1,4 +1,5 @@
 import {
+	BotMessageSquare,
 	LayoutGrid,
 	MessageSquare,
 	MousePointerClick,
@@ -114,6 +115,27 @@ export const componentsNavigation: ComponentNavCategory[] = [
 		items: [
 			{ title: "Avatar", href: "/docs/components/ui/avatar" },
 			{ title: "Table", href: "/docs/components/ui/table" },
+		],
+	},
+	{
+		id: "ai",
+		title: "AI Elements",
+		description: "Chat, reasoning and AI-native interface components.",
+		icon: BotMessageSquare,
+		items: [
+			{ title: "Conversation", href: "/docs/components/ai/conversation" },
+			{ title: "Message", href: "/docs/components/ai/message" },
+			{ title: "Prompt Input", href: "/docs/components/ai/prompt-input" },
+			{ title: "Suggestion", href: "/docs/components/ai/suggestion" },
+			{ title: "Reasoning", href: "/docs/components/ai/reasoning" },
+			{ title: "Chain of Thought", href: "/docs/components/ai/chain-of-thought" },
+			{ title: "Sources", href: "/docs/components/ai/sources" },
+			{ title: "Inline Citation", href: "/docs/components/ai/inline-citation" },
+			{ title: "Confirmation", href: "/docs/components/ai/confirmation" },
+			{ title: "Attachments", href: "/docs/components/ai/attachments" },
+			{ title: "Model Selector", href: "/docs/components/ai/model-selector" },
+			{ title: "Context", href: "/docs/components/ai/context" },
+			{ title: "Shimmer", href: "/docs/components/ai/shimmer" },
 		],
 	},
 ]
