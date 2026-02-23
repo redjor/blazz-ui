@@ -12,7 +12,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { EmptyState } from "@/components/blocks/empty-state"
+import { Empty } from "@/components/ui/empty"
 import { ErrorState } from "@/components/blocks/error-state"
 import { cn } from "@/lib/utils"
 
@@ -179,11 +179,12 @@ export function NotificationCenter({
 			) : hasChildren ? (
 				children
 			) : (
-				<EmptyState
+				<Empty
 					icon={Bell}
 					title="No notifications"
 					description="You're all caught up. New notifications will appear here."
 					className="flex-1"
+					size="sm"
 				/>
 			)}
 		</div>

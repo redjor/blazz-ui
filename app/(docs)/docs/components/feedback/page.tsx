@@ -1,6 +1,6 @@
 import { Page } from "@/components/ui/page"
 import { ComponentSection } from "@/components/features/docs/component-card"
-import { AlertCircle, Tag, MessageSquare, Loader2 } from "lucide-react"
+import { AlertCircle, Tag, MessageSquare, Loader2, InboxIcon } from "lucide-react"
 
 const feedbackComponents = [
 	{
@@ -20,6 +20,12 @@ const feedbackComponents = [
 		href: "/docs/components/ui/banner",
 		description: "Informs users about important page-level changes or persistent conditions that need attention.",
 		icon: MessageSquare,
+	},
+	{
+		title: "Empty",
+		href: "/docs/components/ui/empty",
+		description: "Contextual empty states with actionable guidance for when data doesn't exist yet or search returns no results.",
+		icon: InboxIcon,
 	},
 	{
 		title: "Skeleton",

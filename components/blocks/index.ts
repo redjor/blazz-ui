@@ -4,8 +4,8 @@
 export { PageHeader } from "./page-header"
 export type { PageHeaderProps, PageHeaderAction, PageHeaderBreadcrumb } from "./page-header"
 
-export { EmptyState } from "./empty-state"
-export type { EmptyStateProps, EmptyStateAction } from "./empty-state"
+export { Empty } from "@/components/ui/empty"
+export type { EmptyAction } from "@/components/ui/empty"
 
 export { ErrorState } from "./error-state"
 export type { ErrorStateProps } from "./error-state"
