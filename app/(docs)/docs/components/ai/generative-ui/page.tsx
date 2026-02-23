@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, Users } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Page } from "@/components/ui/page"
 
@@ -30,6 +30,40 @@ const categories: GenUICategory[] = [
 		description: "Profile cards and entity representations.",
 		items: [
 			{ title: "Candidate Card", href: "/docs/components/ai/candidate-card" },
+			{ title: "Contact Card", href: "/docs/components/ai/contact-card" },
+			{ title: "Company Card", href: "/docs/components/ai/company-card" },
+			{ title: "Deal Card", href: "/docs/components/ai/deal-card" },
+			{ title: "User Card", href: "/docs/components/ai/user-card" },
+		],
+	},
+	{
+		id: "timeline",
+		title: "Timeline & Activity",
+		description: "Activity feeds, events and status changes.",
+		items: [
+			{ title: "Timeline", href: "/docs/components/ai/timeline" },
+			{ title: "Event Card", href: "/docs/components/ai/event-card" },
+			{ title: "Status Update", href: "/docs/components/ai/status-update" },
+		],
+	},
+	{
+		id: "actions",
+		title: "Actions & Decisions",
+		description: "Approvals, polls and suggested actions.",
+		items: [
+			{ title: "Approval Card", href: "/docs/components/ai/approval-card" },
+			{ title: "Action List", href: "/docs/components/ai/action-list" },
+			{ title: "Poll Card", href: "/docs/components/ai/poll-card" },
+		],
+	},
+	{
+		id: "media",
+		title: "Media & Files",
+		description: "File attachments, link previews and image galleries.",
+		items: [
+			{ title: "File Card", href: "/docs/components/ai/file-card" },
+			{ title: "Link Preview", href: "/docs/components/ai/link-preview" },
+			{ title: "Image Gallery", href: "/docs/components/ai/image-gallery" },
 		],
 	},
 ]

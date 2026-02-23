@@ -31,6 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { useDataTableConfig } from './config/data-table-config';
 import { dataTableVariants } from './data-table.styles';
@@ -736,15 +737,29 @@ export function DataTable<TData, TValue = unknown>({
                     return (
                       <React.Fragment key={row.id}>
                         <TableRow
-                          className="bg-raised/30 hover:bg-raised/50"
+                          className="bg-surface hover:bg-raised/50"
                           style={row.depth > 0 ? { position: 'relative', left: `${row.depth * 1.5}rem` } : undefined}
                         >
                           <TableCell colSpan={row.getVisibleCells().length} className="py-2">
-                            <button
-                              type="button"
-                              onClick={row.getToggleExpandedHandler()}
-                              className="flex w-full items-center gap-2 text-left font-medium"
-                            >
+                            <div className="flex w-full items-center gap-2">
+                              {enableRowSelection && (
+                                <div
+                                  onClick={(e) => e.stopPropagation()}
+                                  onKeyDown={(e) => e.stopPropagation()}
+                                >
+                                  <Checkbox
+                                    checked={row.getIsAllSubRowsSelected()}
+                                    indeterminate={row.getIsSomeSelected() && !row.getIsAllSubRowsSelected()}
+                                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                                    aria-label={`Select group ${row.id}`}
+                                  />
+                                </div>
+                              )}
+                              <button
+                                type="button"
+                                onClick={row.getToggleExpandedHandler()}
+                                className="flex flex-1 items-center gap-2 text-left font-medium"
+                              >
                               <ChevronRight
                                 className={cn(
                                   'h-4 w-4 shrink-0 transition-transform duration-200',
@@ -776,7 +791,8 @@ export function DataTable<TData, TValue = unknown>({
                                   })}
                                 </span>
                               )}
-                            </button>
+                              </button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       </React.Fragment>
@@ -784,15 +800,11 @@ export function DataTable<TData, TValue = unknown>({
                   }
 
                   // Normal row rendering
-                  // Compute left indent for leaf rows inside groups
-                  const depthIndent = enableGrouping && grouping.length > 0 ? grouping.length * 1.5 : 0;
-
                   return (
                     <React.Fragment key={row.id}>
                       <TableRow
                         data-state={row.getIsSelected() && 'selected'}
                         className={onRowClick ? 'cursor-pointer hover:bg-raised/50' : ''}
-                        style={depthIndent > 0 ? { position: 'relative', left: `${depthIndent}rem` } : undefined}
                         onClick={(e) => {
                           const target = e.target as HTMLElement;
                           const isCheckbox = target.closest('[role="checkbox"]');

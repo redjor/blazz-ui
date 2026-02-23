@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { Pencil, Trash2, PlusCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { PageHeader } from '@/components/blocks/page-header';
 import { DataTable } from '@/components/features/data-table';
 import type { DataTableColumnDef, RowAction } from '@/components/features/data-table/data-table.types';
 import { DataTableColumnHeader } from '@/components/features/data-table/data-table-column-header';
@@ -120,28 +121,7 @@ function formatValidity(from: string | null, to: string | null): string {
 
 function createSupplierColumns(): DataTableColumnDef<SupplierPricing>[] {
   return [
-    // Entity type (used for grouping)
-    {
-      accessorKey: 'entityType',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Type" />
-      ),
-      cell: ({ row }) => (
-        <span className="font-medium">{row.original.entityType}</span>
-      ),
-      enableGrouping: true,
-      enableSorting: true,
-      filterConfig: {
-        type: 'select',
-        options: [
-          { label: 'Centrale', value: 'Centrale' },
-          { label: 'Magasin', value: 'Magasin' },
-        ],
-        filterLabel: 'Type',
-      },
-    } as DataTableColumnDef<SupplierPricing>,
-
-    // Entity name
+    // Entity name (grouped column — must be first for correct column order)
     {
       accessorKey: 'entity',
       header: ({ column }) => (
@@ -152,10 +132,25 @@ function createSupplierColumns(): DataTableColumnDef<SupplierPricing>[] {
       ),
       enableGrouping: true,
       enableSorting: true,
+    } as DataTableColumnDef<SupplierPricing>,
+
+    // Entity type
+    {
+      accessorKey: 'entityType',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Type" />
+      ),
+      cell: ({ row }) => (
+        <span className="font-medium">{row.original.entityType}</span>
+      ),
+      enableSorting: true,
       filterConfig: {
-        type: 'text',
-        placeholder: 'Rechercher entité...',
-        filterLabel: 'Entité',
+        type: 'select',
+        options: [
+          { label: 'Centrale', value: 'Centrale' },
+          { label: 'Magasin', value: 'Magasin' },
+        ],
+        filterLabel: 'Type',
       },
     } as DataTableColumnDef<SupplierPricing>,
 
@@ -276,33 +271,41 @@ export default function PlaygroundPage() {
   const rowActions = useMemo(() => createSupplierRowActions(), []);
 
   return (
-    <div className="mx-auto max-w-7xl p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-fg">Playground</h1>
-        <p className="text-fg-muted text-sm mt-1">
-          Table fournisseurs avec grouping par type (Centrales / Magasins)
-        </p>
-      </div>
+    <div className="mx-auto max-w-7xl p-6 space-y-8">
+      <PageHeader
+        title="Playground"
+        description="Espace de test pour prototyper des composants et patterns UI."
+      />
 
-      <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
-        <DataTable
-          data={supplierData}
-          columns={columns}
-          rowActions={rowActions}
-          getRowId={(row) => row.id}
-          enableSorting
-          enableRowSelection
-          enableGrouping
-          defaultGrouping={['entityType', 'entity']}
-          enableGlobalSearch
-          searchPlaceholder="Rechercher fournisseur, entité..."
-          enableAdvancedFilters
-          combineSearchAndFilters
-          locale="fr"
-          variant="lined"
-          density="compact"
-        />
-      </Box>
+      {/* ─── Section : Grouped DataTable ─── */}
+      <section className="space-y-3">
+        <div>
+          <h2 className="text-lg font-semibold text-fg">Table avec grouping</h2>
+          <p className="text-sm text-fg-muted">
+            DataTable groupée par type (Centrales / Magasins) puis par entité — indentation automatique des lignes.
+          </p>
+        </div>
+
+        <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+          <DataTable
+            data={supplierData}
+            columns={columns}
+            rowActions={rowActions}
+            getRowId={(row) => row.id}
+            enableSorting
+            enableRowSelection
+            enableGrouping
+            defaultGrouping={['entity']}
+            enableGlobalSearch
+            searchPlaceholder="Rechercher fournisseur, entité..."
+            enableAdvancedFilters
+            combineSearchAndFilters
+            locale="fr"
+            variant="lined"
+            density="compact"
+          />
+        </Box>
+      </section>
     </div>
   );
 }

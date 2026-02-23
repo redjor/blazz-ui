@@ -17,16 +17,33 @@ export * from "./tools/confirmation"
 export * from "./tools/model-selector"
 export * from "./tools/context"
 
-// Generative UI — Data
+// Generative UI — Data & Metrics
 export * from "./generative/metric-card"
 export * from "./generative/stats-row"
 export * from "./generative/mini-chart"
 export * from "./generative/comparison-table"
 export * from "./generative/progress-card"
 export * from "./generative/data-list"
-
-// Generative UI — Tables
 export * from "./generative/data-grid"
 
-// Generative UI — Entities
+// Generative UI — People & Entities
 export * from "./generative/candidate-card"
+export * from "./generative/contact-card"
+export * from "./generative/company-card"
+export * from "./generative/deal-card"
+export * from "./generative/user-card"
+
+// Generative UI — Timeline & Activity
+export * from "./generative/timeline"
+export * from "./generative/event-card"
+export * from "./generative/status-update"
+
+// Generative UI — Actions & Decisions
+export * from "./generative/approval-card"
+export * from "./generative/action-list"
+export * from "./generative/poll-card"
+
+// Generative UI — Media & Files
+export * from "./generative/file-card"
+export * from "./generative/link-preview"
+export * from "./generative/image-gallery"
