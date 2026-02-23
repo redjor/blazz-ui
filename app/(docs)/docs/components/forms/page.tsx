@@ -1,6 +1,8 @@
 import { Page } from "@/components/ui/page";
 import { ComponentSection } from "@/components/features/docs/component-card";
 import {
+  CalendarDays,
+  CalendarIcon,
   CheckSquare,
   Search,
   FileText,
@@ -15,11 +17,25 @@ import {
 
 const formComponents = [
   {
+    title: "Calendar",
+    href: "/docs/components/ui/calendar",
+    description:
+      "An inline date calendar built on react-day-picker for standalone date selection.",
+    icon: CalendarIcon,
+  },
+  {
     title: "Checkbox",
     href: "/docs/components/ui/checkbox",
     description:
       "A control that allows the user to toggle between checked and unchecked states with indeterminate support.",
     icon: CheckSquare,
+  },
+  {
+    title: "Date Selector",
+    href: "/docs/components/ui/date-selector",
+    description:
+      "A popover-based date picker for forms with single date and grouped start/end date variants.",
+    icon: CalendarDays,
   },
   {
     title: "Combobox",

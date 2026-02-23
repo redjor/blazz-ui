@@ -71,7 +71,9 @@ export const sidebarConfig: SidebarConfig = {
           url: "/docs/components/forms",
           icon: FormInput,
           items: [
+            { title: "Calendar", url: "/docs/components/ui/calendar" },
             { title: "Checkbox", url: "/docs/components/ui/checkbox" },
+            { title: "Date Selector", url: "/docs/components/ui/date-selector" },
             { title: "Input", url: "/docs/components/ui/input" },
             { title: "Phone Input", url: "/docs/components/ui/phone-input" },
             { title: "Select", url: "/docs/components/ui/select" },
