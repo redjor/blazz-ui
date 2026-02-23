@@ -1,311 +1,76 @@
-'use client';
+"use client"
 
-import { useMemo } from 'react';
-import { Pencil, Trash2, PlusCircle } from 'lucide-react';
-import { toast } from 'sonner';
-import { PageHeader } from '@/components/blocks/page-header';
-import { DataTable } from '@/components/features/data-table';
-import type { DataTableColumnDef, RowAction } from '@/components/features/data-table/data-table.types';
-import { DataTableColumnHeader } from '@/components/features/data-table/data-table-column-header';
-import { col } from '@/components/features/data-table/factories/col';
-import { Badge } from '@/components/ui/badge';
-import { Box } from '@/components/ui/box';
-
-/* ─── Types ─── */
-
-interface SupplierPricing {
-  id: string;
-  entityType: 'Centrale' | 'Magasin';
-  entity: string;
-  supplier: string;
-  priceHT: number | null;
-  costPrice: number | null;
-  status: 'actif' | 'inactif' | null;
-  validFrom: string | null;
-  validTo: string | null;
-}
-
-/* ─── Mock Data (from screenshot) ─── */
-
-const supplierData: SupplierPricing[] = [
-  // Centrales — Global Product Geispolsheim
-  {
-    id: 'c1-s1',
-    entityType: 'Centrale',
-    entity: 'Global Product Geispolsheim',
-    supplier: 'Davigel SAS',
-    priceHT: null,
-    costPrice: null,
-    status: null,
-    validFrom: null,
-    validTo: null,
-  },
-  {
-    id: 'c1-s2',
-    entityType: 'Centrale',
-    entity: 'Global Product Geispolsheim',
-    supplier: 'METRO France',
-    priceHT: 0.33,
-    costPrice: null,
-    status: 'actif',
-    validFrom: '01/01/26',
-    validTo: null,
-  },
-  {
-    id: 'c1-s3',
-    entityType: 'Centrale',
-    entity: 'Global Product Geispolsheim',
-    supplier: 'SOCOPA SA',
-    priceHT: null,
-    costPrice: null,
-    status: null,
-    validFrom: null,
-    validTo: null,
-  },
-  // Centrales — Pro Centrale Strasbourg (empty, no suppliers yet)
-
-  // Magasins — Pro Inter Belfort
-  {
-    id: 'm1-s1',
-    entityType: 'Magasin',
-    entity: 'Pro Inter Belfort',
-    supplier: 'Centrale Global Product Geispolsheim',
-    priceHT: 5.89,
-    costPrice: 5.89,
-    status: 'actif',
-    validFrom: '23/02/26',
-    validTo: null,
-  },
-  // Magasins — Pro Inter Meinau
-  {
-    id: 'm2-s1',
-    entityType: 'Magasin',
-    entity: 'Pro Inter Meinau',
-    supplier: 'Centrale Global Product Geispolsheim',
-    priceHT: 5.89,
-    costPrice: 5.89,
-    status: 'actif',
-    validFrom: '23/02/26',
-    validTo: null,
-  },
-  // Magasins — Pro Inter Mutzig
-  {
-    id: 'm3-s1',
-    entityType: 'Magasin',
-    entity: 'Pro Inter Mutzig',
-    supplier: 'Centrale Global Product Geispolsheim',
-    priceHT: 5.89,
-    costPrice: 5.89,
-    status: 'actif',
-    validFrom: '23/02/26',
-    validTo: null,
-  },
-];
-
-/* ─── Format helpers ─── */
-
-function formatEUR(value: number | null): string {
-  if (value === null) return '- -';
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(value);
-}
-
-function formatValidity(from: string | null, to: string | null): string {
-  if (!from) return '- -';
-  return to ? `${from} → ${to}` : `${from} →`;
-}
-
-/* ─── Columns ─── */
-
-function createSupplierColumns(): DataTableColumnDef<SupplierPricing>[] {
-  return [
-    // Entity name (grouped column — must be first for correct column order)
-    {
-      accessorKey: 'entity',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Entité" />
-      ),
-      cell: ({ row }) => (
-        <span className="font-medium text-fg">{row.original.entity}</span>
-      ),
-      enableGrouping: true,
-      enableSorting: true,
-    } as DataTableColumnDef<SupplierPricing>,
-
-    // Entity type
-    {
-      accessorKey: 'entityType',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Type" />
-      ),
-      cell: ({ row }) => (
-        <span className="font-medium">{row.original.entityType}</span>
-      ),
-      enableSorting: true,
-      filterConfig: {
-        type: 'select',
-        options: [
-          { label: 'Centrale', value: 'Centrale' },
-          { label: 'Magasin', value: 'Magasin' },
-        ],
-        filterLabel: 'Type',
-      },
-    } as DataTableColumnDef<SupplierPricing>,
-
-    // Supplier name
-    col.text<SupplierPricing>('supplier', {
-      title: 'Fournisseur',
-      showInlineFilter: true,
-      defaultInlineFilter: false,
-    }),
-
-    // Prix HT
-    {
-      accessorKey: 'priceHT',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Prix HT" />
-      ),
-      cell: ({ row }) => (
-        <span className="tabular-nums">{formatEUR(row.original.priceHT)}</span>
-      ),
-      enableSorting: true,
-    } as DataTableColumnDef<SupplierPricing>,
-
-    // Prix revient
-    {
-      accessorKey: 'costPrice',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Prix revient" />
-      ),
-      cell: ({ row }) => (
-        <span className="tabular-nums">
-          {formatEUR(row.original.costPrice)}
-        </span>
-      ),
-      enableSorting: true,
-    } as DataTableColumnDef<SupplierPricing>,
-
-    // Statut
-    {
-      accessorKey: 'status',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Statut" />
-      ),
-      cell: ({ row }) => {
-        const status = row.original.status;
-        if (!status) return <span className="text-fg-muted">- -</span>;
-        return (
-          <Badge variant={status === 'actif' ? 'success' : 'secondary'}>
-            {status === 'actif' ? 'Actif' : 'Inactif'}
-          </Badge>
-        );
-      },
-      enableSorting: true,
-      filterConfig: {
-        type: 'select',
-        options: [
-          { label: 'Actif', value: 'actif' },
-          { label: 'Inactif', value: 'inactif' },
-        ],
-        filterLabel: 'Statut',
-        showInlineFilter: true,
-        defaultInlineFilter: true,
-      },
-    } as DataTableColumnDef<SupplierPricing>,
-
-    // Validité
-    {
-      accessorKey: 'validFrom',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Validité" />
-      ),
-      cell: ({ row }) => (
-        <span className="text-fg-muted">
-          {formatValidity(row.original.validFrom, row.original.validTo)}
-        </span>
-      ),
-      enableSorting: true,
-    } as DataTableColumnDef<SupplierPricing>,
-  ];
-}
-
-/* ─── Row actions ─── */
-
-function createSupplierRowActions(): RowAction<SupplierPricing>[] {
-  return [
-    {
-      id: 'define',
-      label: '+ Définir',
-      icon: PlusCircle,
-      handler: (row) =>
-        toast.info(`Définir prix pour ${row.supplier} / ${row.entity}`),
-      hidden: (row) => row.priceHT !== null,
-    },
-    {
-      id: 'edit',
-      label: 'Modifier',
-      icon: Pencil,
-      handler: (row) => toast.info(`Modifier ${row.supplier}`),
-      hidden: (row) => row.priceHT === null,
-    },
-    {
-      id: 'delete',
-      label: 'Supprimer',
-      icon: Trash2,
-      variant: 'destructive',
-      handler: (row) => toast.error(`Supprimer ${row.supplier}`),
-      separator: true,
-      requireConfirmation: true,
-      confirmationMessage: (row) =>
-        `Supprimer le fournisseur "${row.supplier}" de "${row.entity}" ?`,
-    },
-  ];
-}
-
-/* ─── Page ─── */
+import * as React from "react"
+import {
+  PRESETS,
+  tokensToInlineStyles,
+  densityToInlineStyles,
+  getDefaultDensity,
+  type TokenKey,
+  type TokenValues,
+  type PresetName,
+  type OklchColor,
+  type DensityValues,
+} from "@/components/features/docs/theme-editor/theme-presets"
+import { PlaygroundSidebar } from "@/components/features/playground/playground-sidebar"
+import { PlaygroundPreview } from "@/components/features/playground/playground-preview"
 
 export default function PlaygroundPage() {
-  const columns = useMemo(() => createSupplierColumns(), []);
-  const rowActions = useMemo(() => createSupplierRowActions(), []);
+  const [presetName, setPresetName] = React.useState<PresetName>("slate")
+  const [lightTokens, setLightTokens] = React.useState<TokenValues>(() =>
+    structuredClone(PRESETS[0].light),
+  )
+  const [darkTokens, setDarkTokens] = React.useState<TokenValues>(() =>
+    structuredClone(PRESETS[0].dark),
+  )
+  const [densityValues, setDensityValues] = React.useState<DensityValues>(getDefaultDensity)
+  const [mode, setMode] = React.useState<"light" | "dark">("dark")
+
+  const tokens = mode === "light" ? lightTokens : darkTokens
+  const setTokens = mode === "light" ? setLightTokens : setDarkTokens
+
+  const handlePresetChange = (name: PresetName) => {
+    const p = PRESETS.find((x) => x.name === name)!
+    setPresetName(name)
+    setLightTokens(structuredClone(p.light))
+    setDarkTokens(structuredClone(p.dark))
+  }
+
+  const handleTokenChange = (key: TokenKey, color: OklchColor) => {
+    setTokens((prev) => ({ ...prev, [key]: color }))
+  }
+
+  const handleDensityChange = (key: string, value: number) => {
+    setDensityValues((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const inlineStyles: React.CSSProperties = {
+    ...tokensToInlineStyles(tokens),
+    ...densityToInlineStyles(densityValues),
+    colorScheme: mode,
+    fontSize: `${densityValues["base-font-size"]}px`,
+  }
 
   return (
-    <div className="mx-auto max-w-7xl p-6 space-y-8">
-      <PageHeader
-        title="Playground"
-        description="Espace de test pour prototyper des composants et patterns UI."
+    <div className="flex h-screen">
+      {/* Sidebar — token editor */}
+      <PlaygroundSidebar
+        presetName={presetName}
+        mode={mode}
+        tokens={tokens}
+        densityValues={densityValues}
+        lightTokens={lightTokens}
+        darkTokens={darkTokens}
+        onPresetChange={handlePresetChange}
+        onModeChange={setMode}
+        onTokenChange={handleTokenChange}
+        onDensityChange={handleDensityChange}
       />
 
-      {/* ─── Section : Grouped DataTable ─── */}
-      <section className="space-y-3">
-        <div>
-          <h2 className="text-lg font-semibold text-fg">Table avec grouping</h2>
-          <p className="text-sm text-fg-muted">
-            DataTable groupée par type (Centrales / Magasins) puis par entité — indentation automatique des lignes.
-          </p>
-        </div>
-
-        <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
-          <DataTable
-            data={supplierData}
-            columns={columns}
-            rowActions={rowActions}
-            getRowId={(row) => row.id}
-            enableSorting
-            enableRowSelection
-            enableGrouping
-            defaultGrouping={['entity']}
-            enableGlobalSearch
-            searchPlaceholder="Rechercher fournisseur, entité..."
-            enableAdvancedFilters
-            combineSearchAndFilters
-            locale="fr"
-            variant="lined"
-            density="compact"
-          />
-        </Box>
-      </section>
+      {/* Preview area — CSS variable overrides applied here */}
+      <div className="flex-1 overflow-hidden" style={inlineStyles}>
+        <PlaygroundPreview />
+      </div>
     </div>
-  );
+  )
 }
