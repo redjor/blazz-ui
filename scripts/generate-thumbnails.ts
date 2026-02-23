@@ -48,6 +48,10 @@ async function main() {
       try {
         await page.goto(url, { waitUntil: "networkidle" })
         await page.waitForTimeout(500)
+        // Hide Next.js dev indicator
+        await page.evaluate(() => {
+          document.querySelectorAll("[data-next-badge-root], nextjs-portal").forEach((el) => el.remove())
+        })
         await page.screenshot({ path: outPath, type: "png" })
         console.log(`  ✓ ${theme}/${entry.slug}.png`)
         success++
