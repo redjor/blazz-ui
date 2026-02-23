@@ -2,14 +2,18 @@
 
 import {
   BotMessageSquare,
+  Brain,
+  ChartLine,
   FormInput,
   Layers,
   LayoutGrid,
+  MessageCircle,
   MousePointerClick,
   Navigation,
   Palette,
   Table2,
   MessageSquare,
+  Wrench,
 } from "lucide-react";
 import type { SidebarConfig } from "@/types/navigation";
 
@@ -149,25 +153,55 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Text", url: "/docs/components/ui/text" },
           ],
         },
+      ],
+    },
+    {
+      id: "ai",
+      title: "AI",
+      items: [
         {
-          id: "comp-ai",
-          title: "AI Elements",
+          id: "ai-chat",
+          title: "Chat",
           url: "/docs/components/ai",
-          icon: BotMessageSquare,
+          icon: MessageCircle,
           items: [
             { title: "Conversation", url: "/docs/components/ai/conversation" },
             { title: "Message", url: "/docs/components/ai/message" },
             { title: "Prompt Input", url: "/docs/components/ai/prompt-input" },
             { title: "Suggestion", url: "/docs/components/ai/suggestion" },
+            { title: "Attachments", url: "/docs/components/ai/attachments" },
+            { title: "Shimmer", url: "/docs/components/ai/shimmer" },
+          ],
+        },
+        {
+          id: "ai-reasoning",
+          title: "Reasoning",
+          url: "/docs/components/ai/reasoning",
+          icon: Brain,
+          items: [
             { title: "Reasoning", url: "/docs/components/ai/reasoning" },
             { title: "Chain of Thought", url: "/docs/components/ai/chain-of-thought" },
             { title: "Sources", url: "/docs/components/ai/sources" },
             { title: "Inline Citation", url: "/docs/components/ai/inline-citation" },
+          ],
+        },
+        {
+          id: "ai-tools",
+          title: "Tools",
+          url: "/docs/components/ai/confirmation",
+          icon: Wrench,
+          items: [
             { title: "Confirmation", url: "/docs/components/ai/confirmation" },
-            { title: "Attachments", url: "/docs/components/ai/attachments" },
             { title: "Model Selector", url: "/docs/components/ai/model-selector" },
             { title: "Context", url: "/docs/components/ai/context" },
-            { title: "Shimmer", url: "/docs/components/ai/shimmer" },
+          ],
+        },
+        {
+          id: "ai-generative",
+          title: "Generative UI",
+          url: "/docs/components/ai/generative-ui",
+          icon: ChartLine,
+          items: [
             { title: "Generative UI", url: "/docs/components/ai/generative-ui" },
           ],
         },
