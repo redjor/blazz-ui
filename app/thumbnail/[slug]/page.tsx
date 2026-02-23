@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { thumbnailRegistry } from "@/config/thumbnail-registry"
 import { previewMap } from "@/components/thumbnails"
@@ -14,9 +15,11 @@ export default async function ThumbnailPage({ params }: { params: Params }) {
   if (!Preview) notFound()
 
   return (
-    <ThumbnailShell>
-      <Preview />
-    </ThumbnailShell>
+    <Suspense>
+      <ThumbnailShell>
+        <Preview />
+      </ThumbnailShell>
+    </Suspense>
   )
 }
 
