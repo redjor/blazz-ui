@@ -5,7 +5,7 @@ import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
 import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
-import { StatusUpdate } from "@/components/ai/generative/status-update"
+import { StatusUpdate } from "@/components/ai/generative/planning/status-update"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

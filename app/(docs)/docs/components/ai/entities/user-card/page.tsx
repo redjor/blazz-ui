@@ -4,7 +4,7 @@ import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
 import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
-import { UserCard } from "@/components/ai/generative/user-card"
+import { UserCard } from "@/components/ai/generative/entities/user-card"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

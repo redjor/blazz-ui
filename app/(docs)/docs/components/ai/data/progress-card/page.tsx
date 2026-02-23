@@ -4,7 +4,7 @@ import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
 import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
-import { ProgressCard } from "@/components/ai/generative/progress-card"
+import { ProgressCard } from "@/components/ai/generative/data/progress-card"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

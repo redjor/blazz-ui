@@ -4,7 +4,7 @@ import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
 import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
-import { ChecklistCard } from "@/components/ai/generative/checklist-card"
+import { ChecklistCard } from "@/components/ai/generative/workflow/checklist-card"
 
 const toc = [{ id: "examples", title: "Examples" }]
 
