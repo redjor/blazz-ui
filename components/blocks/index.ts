@@ -64,3 +64,6 @@ export type {
 	Notification,
 	NotificationAction,
 } from "./notification-center"
+
+export { OrgMenu } from "./org-menu"
+export type { OrgMenuProps, Organization } from "./org-menu"

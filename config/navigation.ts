@@ -115,6 +115,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Command", url: "/docs/components/ui/command" },
             { title: "Menu", url: "/docs/components/ui/menu" },
             { title: "Nav Menu", url: "/docs/components/ui/nav-menu" },
+            { title: "Org Menu", url: "/docs/components/ui/org-menu" },
             { title: "Tabs", url: "/docs/components/ui/tabs" },
           ],
         },
