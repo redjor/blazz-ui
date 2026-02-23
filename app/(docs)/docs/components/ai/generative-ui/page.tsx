@@ -1,6 +1,6 @@
 "use client"
 
-import { DollarSign, Users, TrendingUp, BarChart3 } from "lucide-react"
+import { DollarSign, Users, TrendingUp, BarChart3, CalendarPlus, MessageCircle } from "lucide-react"
 import { DocPage } from "@/components/features/docs/doc-page"
 import { DocSection } from "@/components/features/docs/doc-section"
 import { DocHero } from "@/components/features/docs/doc-hero"
@@ -11,6 +11,8 @@ import { MiniChart } from "@/components/ai/generative/mini-chart"
 import { ComparisonTable } from "@/components/ai/generative/comparison-table"
 import { ProgressCard } from "@/components/ai/generative/progress-card"
 import { DataList } from "@/components/ai/generative/data-list"
+import { CandidateCard } from "@/components/ai/generative/candidate-card"
+import { Button } from "@/components/ui/button"
 
 const toc = [
 	{ id: "metric-card", title: "Metric Card" },
@@ -19,6 +21,7 @@ const toc = [
 	{ id: "comparison-table", title: "Comparison Table" },
 	{ id: "progress-card", title: "Progress Card" },
 	{ id: "data-list", title: "Data List" },
+	{ id: "candidate-card", title: "Candidate Card" },
 ]
 
 const sparklineData = [3, 7, 4, 9, 6, 11, 8, 14, 12, 16]
@@ -279,6 +282,82 @@ export default function GenerativeUiPage() {
 									badge: { text: "High", variant: "warning" },
 								},
 							]}
+						/>
+					</div>
+				</DocExample>
+			</DocSection>
+
+			{/* Section: Candidate Card */}
+			<DocSection id="candidate-card" title="Candidate Card">
+				<DocExample
+					title="Full Profile"
+					description="Entity card with avatar, status, skills and match score."
+					code={`<CandidateCard
+  name="Sarah Connor"
+  avatar="https://i.pravatar.cc/150?u=sarah"
+  role="Senior Frontend Engineer"
+  company="Cyberdyne Systems"
+  location="Los Angeles, CA"
+  status="available"
+  matchScore={92}
+  skills={["React", "TypeScript", "Node.js"]}
+/>`}
+				>
+					<div className="max-w-sm">
+						<CandidateCard
+							name="Sarah Connor"
+							avatar="https://i.pravatar.cc/150?u=sarah"
+							role="Senior Frontend Engineer"
+							company="Cyberdyne Systems"
+							location="Los Angeles, CA"
+							status="available"
+							matchScore={92}
+							skills={["React", "TypeScript", "Node.js"]}
+						/>
+					</div>
+				</DocExample>
+
+				<DocExample
+					title="With Actions"
+					description="Pass action buttons via the actions slot."
+					code={`<CandidateCard
+  name="Marie Curie"
+  role="Data Scientist"
+  company="CNRS"
+  status="available"
+  matchScore={87}
+  skills={["Python", "ML", "PyTorch"]}
+  actions={
+    <>
+      <Button size="xs">
+        <CalendarPlus className="size-3.5" /> Schedule
+      </Button>
+      <Button size="xs" variant="outline">
+        <MessageCircle className="size-3.5" /> Message
+      </Button>
+    </>
+  }
+/>`}
+				>
+					<div className="max-w-sm">
+						<CandidateCard
+							name="Marie Curie"
+							avatar="https://i.pravatar.cc/150?u=marie"
+							role="Data Scientist"
+							company="CNRS"
+							status="available"
+							matchScore={87}
+							skills={["Python", "ML", "PyTorch"]}
+							actions={
+								<>
+									<Button size="xs">
+										<CalendarPlus className="size-3.5" /> Schedule
+									</Button>
+									<Button size="xs" variant="outline">
+										<MessageCircle className="size-3.5" /> Message
+									</Button>
+								</>
+							}
 						/>
 					</div>
 				</DocExample>
