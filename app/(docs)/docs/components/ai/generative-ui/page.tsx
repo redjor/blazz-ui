@@ -57,13 +57,64 @@ const categories: GenUICategory[] = [
 		],
 	},
 	{
+		id: "communication",
+		title: "Communication",
+		description: "Email drafts and message previews.",
+		items: [
+			{ title: "Email Preview", href: "/docs/components/ai/email-preview" },
+			{ title: "Message Preview", href: "/docs/components/ai/message-preview" },
+		],
+	},
+	{
+		id: "tasks",
+		title: "Tasks & Workflow",
+		description: "Task tracking, checklists and progress.",
+		items: [
+			{ title: "Task Card", href: "/docs/components/ai/task-card" },
+			{ title: "Checklist Card", href: "/docs/components/ai/checklist-card" },
+		],
+	},
+	{
+		id: "financial",
+		title: "Financial",
+		description: "Invoices, quotes, pricing and transactions.",
+		items: [
+			{ title: "Invoice Card", href: "/docs/components/ai/invoice-card" },
+			{ title: "Quote Summary", href: "/docs/components/ai/quote-summary" },
+			{ title: "Pricing Table", href: "/docs/components/ai/pricing-table" },
+			{ title: "Transaction Card", href: "/docs/components/ai/transaction-card" },
+		],
+	},
+	{
+		id: "scheduling",
+		title: "Scheduling",
+		description: "Calendars and availability grids.",
+		items: [
+			{ title: "Calendar Card", href: "/docs/components/ai/calendar-card" },
+			{ title: "Availability Card", href: "/docs/components/ai/availability-card" },
+		],
+	},
+	{
+		id: "insights",
+		title: "Insights & Analytics",
+		description: "AI recommendations, summaries, ratings and scores.",
+		items: [
+			{ title: "Insight Card", href: "/docs/components/ai/insight-card" },
+			{ title: "Summary Card", href: "/docs/components/ai/summary-card" },
+			{ title: "Rating Card", href: "/docs/components/ai/rating-card" },
+			{ title: "Score Card", href: "/docs/components/ai/score-card" },
+		],
+	},
+	{
 		id: "media",
 		title: "Media & Files",
-		description: "File attachments, link previews and image galleries.",
+		description: "File attachments, link previews, images and video.",
 		items: [
 			{ title: "File Card", href: "/docs/components/ai/file-card" },
 			{ title: "Link Preview", href: "/docs/components/ai/link-preview" },
 			{ title: "Image Gallery", href: "/docs/components/ai/image-gallery" },
+			{ title: "Location Card", href: "/docs/components/ai/location-card" },
+			{ title: "Video Card", href: "/docs/components/ai/video-card" },
 		],
 	},
 ]

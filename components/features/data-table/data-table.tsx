@@ -398,6 +398,7 @@ export function DataTable<TData, TValue = unknown>({
       pagination: enablePagination ? paginationState : undefined,
     },
     enableGrouping,
+    groupedColumnMode: false,
     enableColumnPinning,
     enableRowSelection,
     onGroupingChange: enableGrouping
