@@ -18,7 +18,7 @@ import {
 	InlineCitationCarouselPrev,
 	InlineCitationCarouselNext,
 	InlineCitationSource,
-} from "@/components/ai-elements/inline-citation"
+} from "@/components/ai/reasoning/inline-citation"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

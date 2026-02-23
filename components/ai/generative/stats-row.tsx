@@ -9,12 +9,12 @@ export interface StatItem {
 	trend?: number
 }
 
-export interface GenStatsRowProps {
+export interface StatsRowProps {
 	items: StatItem[]
 	className?: string
 }
 
-export function GenStatsRow({ items, className }: GenStatsRowProps) {
+export function StatsRow({ items, className }: StatsRowProps) {
 	return (
 		<div
 			className={cn(

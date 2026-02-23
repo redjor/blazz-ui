@@ -14,7 +14,7 @@ import {
 	ContextContentFooter,
 	ContextInputUsage,
 	ContextOutputUsage,
-} from "@/components/ai-elements/context"
+} from "@/components/ai/tools/context"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

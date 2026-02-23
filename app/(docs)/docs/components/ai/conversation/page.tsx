@@ -5,26 +5,26 @@ import { DocHero } from "@/components/features/docs/doc-hero"
 import {
 	Conversation,
 	ConversationContent,
-} from "@/components/ai-elements/conversation"
-import { Message, MessageContent } from "@/components/ai-elements/message"
+} from "@/components/ai/chat/conversation"
+import { Message, MessageContent } from "@/components/ai/chat/message"
 import {
 	Reasoning,
 	ReasoningTrigger,
 	ReasoningContent,
-} from "@/components/ai-elements/reasoning"
+} from "@/components/ai/reasoning/reasoning"
 import {
 	Sources,
 	SourcesTrigger,
 	SourcesContent,
 	Source,
-} from "@/components/ai-elements/sources"
-import { Suggestions, Suggestion } from "@/components/ai-elements/suggestion"
+} from "@/components/ai/reasoning/sources"
+import { Suggestions, Suggestion } from "@/components/ai/chat/suggestion"
 import {
 	PromptInput,
 	PromptInputTextarea,
 	PromptInputFooter,
 	PromptInputSubmit,
-} from "@/components/ai-elements/prompt-input"
+} from "@/components/ai/chat/prompt-input"
 
 const toc = [{ id: "full-demo", title: "Full Demo" }]
 

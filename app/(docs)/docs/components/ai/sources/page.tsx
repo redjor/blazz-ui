@@ -9,7 +9,7 @@ import {
 	SourcesTrigger,
 	SourcesContent,
 	Source,
-} from "@/components/ai-elements/sources"
+} from "@/components/ai/reasoning/sources"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

@@ -7,7 +7,7 @@ import {
 } from "recharts"
 import { cn } from "@/lib/utils"
 
-export interface GenMiniChartProps {
+export interface MiniChartProps {
 	label: string
 	data: number[]
 	value?: string
@@ -15,13 +15,13 @@ export interface GenMiniChartProps {
 	className?: string
 }
 
-export function GenMiniChart({
+export function MiniChart({
 	label,
 	data,
 	value,
 	color = "var(--color-brand)",
 	className,
-}: GenMiniChartProps) {
+}: MiniChartProps) {
 	const chartData = data.map((v, i) => ({ i, v }))
 
 	return (

@@ -11,8 +11,8 @@ import {
 	PromptInputSubmit,
 	PromptInputTools,
 	PromptInputButton,
-} from "@/components/ai-elements/prompt-input"
-import { Suggestions, Suggestion } from "@/components/ai-elements/suggestion"
+} from "@/components/ai/chat/prompt-input"
+import { Suggestions, Suggestion } from "@/components/ai/chat/suggestion"
 import { PaperclipIcon } from "lucide-react"
 
 const toc = [{ id: "examples", title: "Examples" }]

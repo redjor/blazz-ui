@@ -11,7 +11,7 @@ import {
 	ChainOfThoughtStep,
 	ChainOfThoughtSearchResults,
 	ChainOfThoughtSearchResult,
-} from "@/components/ai-elements/chain-of-thought"
+} from "@/components/ai/reasoning/chain-of-thought"
 import { SearchIcon, DatabaseIcon, CodeIcon, CheckCircleIcon } from "lucide-react"
 
 const toc = [{ id: "examples", title: "Examples" }]

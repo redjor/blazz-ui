@@ -10,8 +10,8 @@ import {
 	AttachmentPreview,
 	AttachmentInfo,
 	AttachmentRemove,
-} from "@/components/ai-elements/attachments"
-import type { AttachmentData } from "@/components/ai-elements/attachments"
+} from "@/components/ai/chat/attachments"
+import type { AttachmentData } from "@/components/ai/chat/attachments"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

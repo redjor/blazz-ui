@@ -18,7 +18,7 @@ import {
 	ModelSelectorLogo,
 	ModelSelectorLogoGroup,
 	ModelSelectorName,
-} from "@/components/ai-elements/model-selector"
+} from "@/components/ai/tools/model-selector"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

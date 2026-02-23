@@ -12,7 +12,7 @@ import {
 	ConfirmationRejected,
 	ConfirmationActions,
 	ConfirmationAction,
-} from "@/components/ai-elements/confirmation"
+} from "@/components/ai/tools/confirmation"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

@@ -4,7 +4,7 @@ import type { ReactNode } from "react"
 import { TrendingUp, TrendingDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export interface GenMetricCardProps {
+export interface MetricCardProps {
 	label: string
 	value: string
 	trend?: number
@@ -13,14 +13,14 @@ export interface GenMetricCardProps {
 	className?: string
 }
 
-export function GenMetricCard({
+export function MetricCard({
 	label,
 	value,
 	trend,
 	trendLabel,
 	icon,
 	className,
-}: GenMetricCardProps) {
+}: MetricCardProps) {
 	return (
 		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
 			<div className="flex items-center justify-between">

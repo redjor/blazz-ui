@@ -12,7 +12,7 @@ export interface DataListItem {
 	}
 }
 
-export interface GenDataListProps {
+export interface DataListProps {
 	title?: string
 	items: DataListItem[]
 	className?: string
@@ -25,7 +25,7 @@ const badgeVariantMap = {
 	critical: "critical",
 } as const
 
-export function GenDataList({ title, items, className }: GenDataListProps) {
+export function DataList({ title, items, className }: DataListProps) {
 	return (
 		<div
 			className={cn(

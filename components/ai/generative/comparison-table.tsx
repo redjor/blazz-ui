@@ -2,19 +2,19 @@
 
 import { cn } from "@/lib/utils"
 
-export interface GenComparisonTableProps {
+export interface ComparisonTableProps {
 	title?: string
 	columns: string[]
 	rows: (string | number)[][]
 	className?: string
 }
 
-export function GenComparisonTable({
+export function ComparisonTable({
 	title,
 	columns,
 	rows,
 	className,
-}: GenComparisonTableProps) {
+}: ComparisonTableProps) {
 	return (
 		<div
 			className={cn(

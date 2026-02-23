@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 
-export interface GenProgressCardProps {
+export interface ProgressCardProps {
 	label: string
 	value: number
 	description?: string
@@ -10,13 +10,13 @@ export interface GenProgressCardProps {
 	className?: string
 }
 
-export function GenProgressCard({
+export function ProgressCard({
 	label,
 	value,
 	description,
 	color,
 	className,
-}: GenProgressCardProps) {
+}: ProgressCardProps) {
 	const clamped = Math.min(100, Math.max(0, value))
 
 	return (

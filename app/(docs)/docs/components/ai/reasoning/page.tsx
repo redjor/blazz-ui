@@ -8,7 +8,7 @@ import {
 	Reasoning,
 	ReasoningTrigger,
 	ReasoningContent,
-} from "@/components/ai-elements/reasoning"
+} from "@/components/ai/reasoning/reasoning"
 
 const toc = [{ id: "examples", title: "Examples" }]
 

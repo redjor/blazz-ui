@@ -9,7 +9,7 @@ import {
 	MessageContent,
 	MessageActions,
 	MessageAction,
-} from "@/components/ai-elements/message"
+} from "@/components/ai/chat/message"
 import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, RefreshCwIcon } from "lucide-react"
 
 const toc = [{ id: "examples", title: "Examples" }]
