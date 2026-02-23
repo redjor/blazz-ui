@@ -68,7 +68,7 @@ export default function PlaygroundPage() {
       />
 
       {/* Preview area — CSS variable overrides applied here */}
-      <div className="flex-1 overflow-hidden" style={inlineStyles}>
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden" style={inlineStyles}>
         <PlaygroundPreview />
       </div>
     </div>
