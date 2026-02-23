@@ -1,6 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
+import { useRouter } from "next/navigation"
 import { ArrowDown, ArrowUp } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -50,7 +51,10 @@ export type DataGridCell =
 	| DataGridAvatarCell
 	| DataGridTrendCell
 
-export type DataGridRow = Record<string, DataGridCell | string | number>
+export type DataGridRow = Record<string, DataGridCell | string | number> & {
+	/** Makes the row a clickable link */
+	href?: string
+}
 
 // ---------- Props ----------
 
@@ -150,6 +154,8 @@ export function DataGrid({
 	caption,
 	className,
 }: DataGridProps) {
+	const router = useRouter()
+
 	return (
 		<div
 			className={cn(
@@ -188,38 +194,54 @@ export function DataGrid({
 						</tr>
 					</thead>
 					<tbody>
-						{rows.map((row, i) => (
-							<tr
-								key={i}
-								className="border-b border-edge-subtle last:border-0"
-							>
-								{columns.map((col) => {
-									const raw = row[col.key]
-									if (raw === undefined) {
+						{rows.map((row, i) => {
+							const { href, ...cells } = row
+							const isLink = typeof href === "string"
+
+							return (
+								<tr
+									key={i}
+									className={cn(
+										"border-b border-edge-subtle last:border-0",
+										isLink && "transition-colors hover:bg-raised/60 cursor-pointer",
+									)}
+									{...(isLink && {
+										role: "link",
+										tabIndex: 0,
+										onClick: () => router.push(href as string),
+										onKeyDown: (e: React.KeyboardEvent) => {
+											if (e.key === "Enter") router.push(href as string)
+										},
+									})}
+								>
+									{columns.map((col) => {
+										const raw = cells[col.key]
+										if (raw === undefined) {
+											return (
+												<td
+													key={col.key}
+													className="px-3 py-2 text-sm text-fg-muted"
+												>
+													—
+												</td>
+											)
+										}
+										const cell = normalizeCell(raw as DataGridCell | string | number)
 										return (
 											<td
 												key={col.key}
-												className="px-3 py-2 text-sm text-fg-muted"
+												className={cn(
+													"px-3 py-2",
+													alignClass[col.align ?? "left"],
+												)}
 											>
-												—
+												<CellRenderer cell={cell} />
 											</td>
 										)
-									}
-									const cell = normalizeCell(raw)
-									return (
-										<td
-											key={col.key}
-											className={cn(
-												"px-3 py-2",
-												alignClass[col.align ?? "left"],
-											)}
-										>
-											<CellRenderer cell={cell} />
-										</td>
-									)
-								})}
-							</tr>
-						))}
+									})}
+								</tr>
+							)
+						})}
 					</tbody>
 				</table>
 			</div>

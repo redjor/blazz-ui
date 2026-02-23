@@ -1,6 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
+import Link from "next/link"
 import { MapPin, Briefcase, Mail } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -27,6 +28,7 @@ export interface CandidateCardProps {
 	skills?: string[]
 	experience?: string
 	matchScore?: number
+	href?: string
 	actions?: ReactNode
 	className?: string
 }
@@ -51,15 +53,21 @@ export function CandidateCard({
 	skills,
 	experience,
 	matchScore,
+	href,
 	actions,
 	className,
 }: CandidateCardProps) {
 	const statusConfig = status ? statusVariantMap[status] : null
 
+	const Wrapper = href ? Link : "div"
+	const wrapperProps = href ? { href } : {}
+
 	return (
-		<div
+		<Wrapper
+			{...(wrapperProps as Record<string, string>)}
 			className={cn(
-				"rounded-lg border border-edge bg-surface p-4",
+				"block rounded-lg border border-edge bg-surface p-4",
+				href && "transition-colors hover:bg-raised cursor-pointer",
 				className,
 			)}
 		>
@@ -149,6 +157,6 @@ export function CandidateCard({
 					{actions}
 				</div>
 			)}
-		</div>
+		</Wrapper>
 	)
 }
