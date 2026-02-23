@@ -185,6 +185,67 @@ export default function DataGridPage() {
 						]}
 					/>
 				</DocExample>
+				<DocExample
+					title="Clickable Rows"
+					description="Add href to each row to make it a navigable link. Rows get a hover state and are keyboard accessible."
+					code={`<DataGrid
+  title="Team Members"
+  columns={[
+    { key: "person", label: "Person" },
+    { key: "role", label: "Role" },
+    { key: "status", label: "Status" },
+  ]}
+  rows={[
+    {
+      href: "/contacts/1",
+      person: { type: "avatar", name: "Alice Martin", subtitle: "Engineering" },
+      role: "Tech Lead",
+      status: { type: "badge", value: "Active", variant: "success" },
+    },
+    {
+      href: "/contacts/2",
+      person: { type: "avatar", name: "Bob Chen", subtitle: "Design" },
+      role: "Senior Designer",
+      status: { type: "badge", value: "On Leave", variant: "warning" },
+    },
+    {
+      href: "/contacts/3",
+      person: { type: "avatar", name: "Clara Diaz", subtitle: "Product" },
+      role: "PM",
+      status: { type: "badge", value: "Active", variant: "success" },
+    },
+  ]}
+/>`}
+				>
+					<DataGrid
+						title="Team Members"
+						columns={[
+							{ key: "person", label: "Person" },
+							{ key: "role", label: "Role" },
+							{ key: "status", label: "Status" },
+						]}
+						rows={[
+							{
+								href: "#",
+								person: { type: "avatar", name: "Alice Martin", src: "https://i.pravatar.cc/150?u=alice", subtitle: "Engineering" },
+								role: "Tech Lead",
+								status: { type: "badge", value: "Active", variant: "success" },
+							},
+							{
+								href: "#",
+								person: { type: "avatar", name: "Bob Chen", src: "https://i.pravatar.cc/150?u=bob", subtitle: "Design" },
+								role: "Senior Designer",
+								status: { type: "badge", value: "On Leave", variant: "warning" },
+							},
+							{
+								href: "#",
+								person: { type: "avatar", name: "Clara Diaz", src: "https://i.pravatar.cc/150?u=clara", subtitle: "Product" },
+								role: "PM",
+								status: { type: "badge", value: "Active", variant: "success" },
+							},
+						]}
+					/>
+				</DocExample>
 			</DocSection>
 		</DocPage>
 	)

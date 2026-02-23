@@ -139,6 +139,34 @@ export default function CandidateCardPage() {
 				</DocExample>
 
 				<DocExample
+					title="Clickable Link"
+					description="Pass href to make the entire card a navigable link."
+					code={`<CandidateCard
+  href="/candidates/42"
+  name="Sarah Connor"
+  avatar="https://i.pravatar.cc/150?u=sarah"
+  role="Senior Frontend Engineer"
+  company="Cyberdyne Systems"
+  status="available"
+  matchScore={92}
+  skills={["React", "TypeScript"]}
+/>`}
+				>
+					<div className="max-w-sm">
+						<CandidateCard
+							href="#"
+							name="Sarah Connor"
+							avatar="https://i.pravatar.cc/150?u=sarah"
+							role="Senior Frontend Engineer"
+							company="Cyberdyne Systems"
+							status="available"
+							matchScore={92}
+							skills={["React", "TypeScript"]}
+						/>
+					</div>
+				</DocExample>
+
+				<DocExample
 					title="Multiple Candidates"
 					description="Stack cards vertically to show a list of results."
 					code={`<div className="space-y-3">
