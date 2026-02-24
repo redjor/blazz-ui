@@ -27,7 +27,7 @@ export function MiniChart({
 	return (
 		<div
 			className={cn(
-				"rounded-lg border border-edge bg-surface p-4",
+				"rounded-lg border border-container bg-surface p-4",
 				className,
 			)}
 		>

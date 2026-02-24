@@ -240,7 +240,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 			>
 				{/* Page Header */}
 				{hasHeader && (
-					<div className={cn("space-y-4 py-4", divider && "border-b border-edge", headerClassName)}>
+					<div className={cn("space-y-4 py-4", divider && "border-b border-separator", headerClassName)}>
 						{titleDisplay}
 						{additionalMetadata && <div className="flex items-center">{additionalMetadata}</div>}
 					</div>

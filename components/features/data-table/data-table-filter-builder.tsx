@@ -170,7 +170,7 @@ export function DataTableFilterBuilder<TData>({
               const operators = getOperatorsForType(condition.type);
 
               return (
-                <div key={condition.id} className="flex items-start gap-2 border border-edge p-3">
+                <div key={condition.id} className="flex items-start gap-2 border border-container p-3">
                   <div className="flex-1 space-y-2">
                     {/* Column Selection */}
                     <Select

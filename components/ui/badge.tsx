@@ -16,7 +16,7 @@ const badgeVariants = cva(
 				success: "",
 				warning: "",
 				critical: "",
-				outline: "border border-edge text-fg",
+				outline: "border border-container text-fg",
 			},
 			size: {
 				xs: "h-4 px-1 gap-0.5 text-[10px] [&>svg]:size-2.5!",

@@ -30,7 +30,7 @@ export function CellImage({ src, alt, size = 40, rounded = 'sm' }: CellImageProp
     return (
       <div
         className={cn(
-          'flex items-center justify-center bg-raised border border-edge text-fg-muted',
+          'flex items-center justify-center bg-raised border border-container text-fg-muted',
           rClass,
         )}
         style={{ width: size, height: size }}

@@ -22,7 +22,7 @@ export function MetricCard({
 	className,
 }: MetricCardProps) {
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-center justify-between">
 				<span className="text-xs uppercase tracking-wide text-fg-muted">
 					{label}

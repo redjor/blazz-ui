@@ -15,7 +15,7 @@ import {
 /* ----- Trigger styles (matches Select trigger) ----- */
 
 const triggerBase = [
-	"border-edge",
+	"border-field",
 	"focus-visible:border-brand focus-visible:ring-brand/20 focus-visible:ring-3",
 	"aria-invalid:ring-negative/20 aria-invalid:border-negative aria-invalid:ring-3",
 	"inline-flex h-8 items-center gap-1.5 rounded-lg border bg-transparent px-2.5 text-sm transition-colors select-none",

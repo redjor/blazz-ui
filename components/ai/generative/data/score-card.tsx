@@ -33,7 +33,7 @@ export function ScoreCard({
 	const strokeColor = percentage >= 75 ? "stroke-emerald-500" : percentage >= 50 ? "stroke-amber-500" : "stroke-red-500"
 
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<span className="text-sm font-semibold text-fg">{title}</span>
 
 			<div className="mt-3 flex items-center gap-4">

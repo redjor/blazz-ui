@@ -60,7 +60,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 			ref={ref}
 			data-slot="table-row"
 			className={cn(
-				"border-b border-edge transition-colors hover:bg-raised/50 data-[state=selected]:bg-brand/5",
+				"border-b border-separator transition-colors hover:bg-raised/50 data-[state=selected]:bg-brand/5",
 				className
 			)}
 			{...props}

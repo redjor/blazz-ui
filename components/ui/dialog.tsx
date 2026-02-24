@@ -90,7 +90,7 @@ function DialogHeader({
 			data-slot="dialog-header"
 			className={cn(
 				"gap-2 flex flex-col -mx-4 -mt-4 px-4 pt-4 pb-3",
-				separator && "border-b border-edge",
+				separator && "border-b border-separator",
 				className
 			)}
 			{...props}
@@ -110,7 +110,7 @@ function DialogFooter({
 		<div
 			data-slot="dialog-footer"
 			className={cn(
-				"bg-raised -mx-4 -mb-4 rounded-b-xl border-t border-edge p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+				"bg-raised -mx-4 -mb-4 rounded-b-xl border-t border-separator p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
 				className
 			)}
 			{...props}

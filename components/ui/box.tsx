@@ -19,7 +19,7 @@ const boxVariants = cva("", {
 		},
 		border: {
 			none: "border-0",
-			default: "border border-edge",
+			default: "border border-container",
 		},
 		borderRadius: {
 			none: "rounded-none",

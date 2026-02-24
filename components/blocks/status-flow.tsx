@@ -90,7 +90,7 @@ export function StatusFlow({
 										? activeColorMap[status.color]
 										: isPast
 											? colorMap[status.color]
-											: "border-edge bg-raised/50 text-fg-muted"
+											: "border-container bg-raised/50 text-fg-muted"
 								)}
 							>
 								{status.label}

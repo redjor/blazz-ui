@@ -85,7 +85,7 @@ function TokenSliderRow({
 		<div className="space-y-1">
 			<div className="flex items-center gap-2">
 				<div
-					className="size-5 shrink-0 rounded border border-edge"
+					className="size-5 shrink-0 rounded border border-container"
 					style={{ backgroundColor: oklchToString(color) }}
 				/>
 				<span className="truncate text-xs font-mono text-fg">--{tokenKey}</span>
@@ -163,7 +163,7 @@ function PreviewPanel() {
 						<div
 							key={s.label}
 							className={cn(
-								"flex-1 rounded-md border border-edge p-2 text-center text-[10px] font-mono text-fg-muted",
+								"flex-1 rounded-md border border-container p-2 text-center text-[10px] font-mono text-fg-muted",
 								"className" in s && s.className,
 							)}
 							style={"style" in s ? s.style : undefined}
@@ -262,9 +262,9 @@ function PreviewPanel() {
 				<p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-fg-muted">
 					Density
 				</p>
-				<div className="overflow-hidden rounded-lg border border-edge">
+				<div className="overflow-hidden rounded-lg border border-container">
 					<div
-						className="flex items-center border-b border-edge bg-raised text-[10px] font-medium text-fg-muted"
+						className="flex items-center border-b border-separator bg-raised text-[10px] font-medium text-fg-muted"
 						style={{ height: "var(--row-height)", paddingInline: "var(--cell-padding-x)" }}
 					>
 						<span className="flex-1">Name</span>
@@ -343,7 +343,7 @@ export function ThemeEditor() {
 			{/* Toolbar */}
 			<div className="flex flex-wrap items-center gap-2">
 				{/* Preset picker */}
-				<div className="flex items-center gap-0.5 rounded-lg border border-edge bg-raised p-1">
+				<div className="flex items-center gap-0.5 rounded-lg border border-container bg-raised p-1">
 					{PRESETS.map((p) => (
 						<button
 							key={p.name}
@@ -362,7 +362,7 @@ export function ThemeEditor() {
 				</div>
 
 				{/* Light / Dark toggle */}
-				<div className="flex items-center gap-0.5 rounded-lg border border-edge bg-raised p-1">
+				<div className="flex items-center gap-0.5 rounded-lg border border-container bg-raised p-1">
 					<button
 						type="button"
 						onClick={() => setMode("light")}
@@ -446,7 +446,7 @@ export function ThemeEditor() {
 				{/* Right: Live preview */}
 				<div className="lg:sticky lg:top-6 lg:self-start">
 					<div
-						className="overflow-hidden rounded-lg border border-edge"
+						className="overflow-hidden rounded-lg border border-container"
 						style={{
 							...inlineStyles,
 							colorScheme: mode,

@@ -66,11 +66,11 @@ export function PlaygroundSidebar({
 	}
 
 	return (
-		<aside className="flex w-[280px] shrink-0 flex-col border-r border-edge bg-surface">
+		<aside className="flex w-[280px] shrink-0 flex-col border-r border-container bg-surface">
 			{/* ----------------------------------------------------------------- */}
 			{/* Header — Preset picker + Light/Dark toggle                        */}
 			{/* ----------------------------------------------------------------- */}
-			<div className="space-y-2 border-b border-edge p-3">
+			<div className="space-y-2 border-b border-separator p-3">
 				{/* Preset picker */}
 				<div className="flex items-center gap-0.5 rounded-lg border border-edge-subtle bg-raised p-0.5">
 					{PRESETS.map((preset) => (
@@ -208,7 +208,7 @@ export function PlaygroundSidebar({
 			{/* ----------------------------------------------------------------- */}
 			{/* Footer — Export CSS button                                        */}
 			{/* ----------------------------------------------------------------- */}
-			<div className="border-t border-edge p-3">
+			<div className="border-t border-separator p-3">
 				<Button
 					variant="outline"
 					size="sm"

@@ -19,7 +19,7 @@ export interface ActionListProps {
 
 export function ActionList({ title, items, className }: ActionListProps) {
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface", className)}>
 			{title && (
 				<div className="px-4 pt-3 pb-1">
 					<span className="text-sm font-medium text-fg">{title}</span>
@@ -34,7 +34,7 @@ export function ActionList({ title, items, className }: ActionListProps) {
 						className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-raised cursor-pointer"
 					>
 						{item.icon && (
-							<span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-raised border border-edge text-fg-muted">
+							<span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-raised border border-container text-fg-muted">
 								{item.icon}
 							</span>
 						)}

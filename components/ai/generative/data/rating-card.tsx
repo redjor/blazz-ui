@@ -23,7 +23,7 @@ export function RatingCard({
 	className,
 }: RatingCardProps) {
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<span className="text-sm font-semibold text-fg">{title}</span>
 
 			<div className="mt-2">

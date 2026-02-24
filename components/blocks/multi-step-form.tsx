@@ -133,7 +133,7 @@ export function MultiStepForm({
 											"border-fg text-fg",
 										!isCompleted &&
 											!isCurrent &&
-											"border-edge text-fg-muted"
+											"border-container text-fg-muted"
 									)}
 								>
 									{isCompleted ? (

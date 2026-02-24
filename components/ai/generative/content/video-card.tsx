@@ -28,7 +28,7 @@ export function VideoCard({
 		<Wrapper
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
-				"block rounded-lg border border-edge bg-surface overflow-hidden",
+				"block rounded-lg border border-container bg-surface overflow-hidden",
 				url && "transition-colors hover:bg-raised cursor-pointer",
 				className,
 			)}

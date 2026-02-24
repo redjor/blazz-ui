@@ -28,7 +28,7 @@ export function LinkPreview({
 			target="_blank"
 			rel="noopener noreferrer"
 			className={cn(
-				"group flex overflow-hidden rounded-lg border border-edge bg-surface transition-colors hover:bg-raised",
+				"group flex overflow-hidden rounded-lg border border-container bg-surface transition-colors hover:bg-raised",
 				className,
 			)}
 		>

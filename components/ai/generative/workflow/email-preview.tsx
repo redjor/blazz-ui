@@ -42,7 +42,7 @@ export function EmailPreview({
 	const config = statusConfig[status]
 
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-start gap-3">
 				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-raised">
 					<Mail className="size-4 text-fg-muted" />

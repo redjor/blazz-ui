@@ -41,7 +41,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "border-edge data-placeholder:text-fg-subtle",
+        "border-field data-placeholder:text-fg-subtle",
         "focus-visible:border-brand focus-visible:ring-brand/20",
         "aria-invalid:ring-negative/20 aria-invalid:border-negative",
         "gap-1.5 rounded-lg border bg-transparent py-2 pr-2 pl-2.5 text-sm transition-colors select-none",

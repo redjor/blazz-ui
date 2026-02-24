@@ -100,7 +100,7 @@ export function TagsInput({
 				/>
 
 				{showSuggestions && filteredSuggestions.length > 0 && (
-					<div className="absolute top-full left-0 right-0 mt-1 bg-panel border border-edge rounded-lg shadow-md z-50 max-h-60 overflow-auto">
+					<div className="absolute top-full left-0 right-0 mt-1 bg-panel border border-container rounded-lg shadow-md z-50 max-h-60 overflow-auto">
 						{filteredSuggestions.map((suggestion) => (
 							<button
 								key={suggestion}

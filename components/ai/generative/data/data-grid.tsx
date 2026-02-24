@@ -159,7 +159,7 @@ export function DataGrid({
 	return (
 		<div
 			className={cn(
-				"overflow-hidden rounded-lg border border-edge bg-surface",
+				"overflow-hidden rounded-lg border border-container bg-surface",
 				className,
 			)}
 		>
@@ -171,7 +171,7 @@ export function DataGrid({
 			<div className="overflow-x-auto">
 				<table className="w-full text-left">
 					<thead>
-						<tr className="border-b border-edge bg-raised/40">
+						<tr className="border-b border-separator bg-raised/40">
 							{columns.map((col) => (
 								<th
 									key={col.key}

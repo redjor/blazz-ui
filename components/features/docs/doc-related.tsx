@@ -19,7 +19,7 @@ export function DocRelated({ items, className }: DocRelatedProps) {
 				<Link
 					key={item.href}
 					href={item.href}
-					className="group rounded-lg border border-edge px-4 py-3 transition-colors hover:bg-raised/50"
+					className="group rounded-lg border border-container px-4 py-3 transition-colors hover:bg-raised/50"
 				>
 					<p className="text-sm font-medium text-fg group-hover:text-brand transition-colors">
 						{item.title}

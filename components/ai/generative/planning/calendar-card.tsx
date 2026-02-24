@@ -29,7 +29,7 @@ export function CalendarCard({
 	className,
 }: CalendarCardProps) {
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-center gap-2">
 				<Calendar className="size-4 text-fg-muted" />
 				<span className="text-sm font-semibold text-fg">{month}</span>

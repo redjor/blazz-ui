@@ -13,7 +13,7 @@ function Card({
       data-size={size}
       className={cn(
         "bg-surface text-fg",
-        "border border-edge",
+        "border border-container",
         "rounded-lg",
         "overflow-hidden",
         "has-data-[slot=card-footer]:pb-0",
@@ -98,7 +98,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "bg-raised rounded-b-lg border-t border-edge",
+        "bg-raised rounded-b-lg border-t border-separator",
         "p-4 group-data-[size=sm]/card:p-3",
         "flex items-center",
         className,

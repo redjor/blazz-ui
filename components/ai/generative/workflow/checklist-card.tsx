@@ -34,7 +34,7 @@ export function ChecklistCard({
 	}
 
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			{title && (
 				<div className="flex items-center justify-between">
 					<span className="text-sm font-semibold text-fg">{title}</span>

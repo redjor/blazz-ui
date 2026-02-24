@@ -312,7 +312,7 @@ export function DataTableActionsBar({
   const overflowViews = !showAllViews && views ? views.slice(visibleCount ?? views.length) : [];
 
   return (
-    <div data-slot="data-table-actions-bar" className="border-b border-edge">
+    <div data-slot="data-table-actions-bar" className="border-b border-separator">
       {/* Main Actions Bar */}
       <div ref={barRef} className="flex items-center justify-between p-2">
         {/* Left: Views or Search Bar */}
@@ -587,7 +587,7 @@ export function DataTableActionsBar({
           {/* Sort Icon */}
           <Menu>
             <MenuTrigger
-              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-edge bg-surface text-sm font-medium transition-colors hover:bg-raised hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-50"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-separator bg-surface text-sm font-medium transition-colors hover:bg-raised hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-50"
               aria-label="Sort options"
             >
               <ArrowUpDown className="h-4 w-4" />

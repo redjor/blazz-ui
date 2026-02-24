@@ -68,7 +68,7 @@ export function DocExampleClient({
 			)}
 
 			{/* Preview */}
-			<div className={cn("rounded-lg border border-edge bg-raised p-6", previewClassName)}>{children}</div>
+			<div className={cn("rounded-lg border border-container bg-raised p-6", previewClassName)}>{children}</div>
 
 			{/* Code toggle bar */}
 			<div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export function DocExampleClient({
 			{/* Code block (collapsible) */}
 			{showCode && (
 				<div
-					className="overflow-hidden rounded-lg border border-edge [&_.shiki]:overflow-x-auto [&_.shiki]:p-4 [&_.shiki]:text-[13px] [&_.shiki]:leading-relaxed [&_code]:font-mono"
+					className="overflow-hidden rounded-lg border border-container [&_.shiki]:overflow-x-auto [&_.shiki]:p-4 [&_.shiki]:text-[13px] [&_.shiki]:leading-relaxed [&_code]:font-mono"
 					dangerouslySetInnerHTML={{ __html: highlightedCode }}
 				/>
 			)}

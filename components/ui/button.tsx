@@ -25,7 +25,7 @@ const buttonVariants = cva(
           "focus-visible:ring-2 focus-visible:ring-brand/40",
         ],
         outline: [
-          "bg-transparent border border-edge text-fg",
+          "bg-transparent border border-container text-fg",
           "hover:bg-raised",
           "active:bg-panel",
           "aria-expanded:bg-raised",

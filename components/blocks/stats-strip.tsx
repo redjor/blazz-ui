@@ -107,7 +107,7 @@ export function StatsStrip({ stats, loading = false, className }: StatsStripProp
 
 	if (loading) {
 		return (
-			<Card className={cn("flex items-center divide-x divide-edge overflow-hidden", className)}>
+			<Card className={cn("flex items-center divide-x divide-container overflow-hidden", className)}>
 				{Array.from({ length: 4 }).map((_, i) => (
 					<div key={i} className="flex min-w-48 flex-1 flex-col gap-2 px-4 py-3">
 						<Skeleton className="h-3.5 w-24" />
@@ -126,7 +126,7 @@ export function StatsStrip({ stats, loading = false, className }: StatsStripProp
 			{/* Scrollable content */}
 			<div
 				ref={scrollRef}
-				className="flex w-full divide-x divide-edge overflow-x-auto"
+				className="flex w-full divide-x divide-container overflow-x-auto"
 				style={{ scrollbarWidth: "none" }}
 			>
 				{stats.map((stat, i) => (
@@ -156,7 +156,7 @@ export function StatsStrip({ stats, loading = false, className }: StatsStripProp
 						type="button"
 						onClick={() => scroll("left")}
 						disabled={!canScrollLeft}
-						className="flex size-6 items-center justify-center rounded border border-edge bg-surface transition-colors duration-150 ease-out hover:bg-raised disabled:opacity-30 disabled:pointer-events-none"
+						className="flex size-6 items-center justify-center rounded border border-container bg-surface transition-colors duration-150 ease-out hover:bg-raised disabled:opacity-30 disabled:pointer-events-none"
 						aria-label="Défiler à gauche"
 					>
 						<ChevronLeft className="size-3.5" />
@@ -165,7 +165,7 @@ export function StatsStrip({ stats, loading = false, className }: StatsStripProp
 						type="button"
 						onClick={() => scroll("right")}
 						disabled={!canScrollRight}
-						className="flex size-6 items-center justify-center rounded border border-edge bg-surface transition-colors duration-150 ease-out hover:bg-raised disabled:opacity-30 disabled:pointer-events-none"
+						className="flex size-6 items-center justify-center rounded border border-container bg-surface transition-colors duration-150 ease-out hover:bg-raised disabled:opacity-30 disabled:pointer-events-none"
 						aria-label="Défiler à droite"
 					>
 						<ChevronRight className="size-3.5" />

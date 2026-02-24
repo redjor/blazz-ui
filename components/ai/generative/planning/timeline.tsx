@@ -27,7 +27,7 @@ const dotColor = {
 
 export function Timeline({ title, items, className }: TimelineProps) {
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			{title && (
 				<span className="mb-3 block text-sm font-medium text-fg">{title}</span>
 			)}

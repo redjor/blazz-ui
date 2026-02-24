@@ -18,11 +18,11 @@ export function DocTokens({ tokens, className }: DocTokensProps) {
 			{tokens.map((token) => (
 				<div
 					key={token.name}
-					className="flex items-center gap-3 rounded-lg border border-edge px-3 py-2"
+					className="flex items-center gap-3 rounded-lg border border-container px-3 py-2"
 				>
 					{token.color && token.value && (
 						<div
-							className="size-5 shrink-0 rounded border border-edge"
+							className="size-5 shrink-0 rounded border border-container"
 							style={{ backgroundColor: token.value }}
 						/>
 					)}

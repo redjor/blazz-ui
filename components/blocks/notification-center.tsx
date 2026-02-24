@@ -145,7 +145,7 @@ export function NotificationCenter({
 	return (
 		<div className={cn("flex h-full flex-col", className)}>
 			{/* Header */}
-			<div className="flex items-center justify-between border-b border-edge px-4 py-3">
+			<div className="flex items-center justify-between border-b border-separator px-4 py-3">
 				<div className="flex items-center gap-2">
 					<h2 className="text-sm font-semibold text-fg">Notifications</h2>
 					{unreadCount > 0 && (

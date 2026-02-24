@@ -7,7 +7,7 @@ const frameVariants = cva(
   {
     variants: {
       variant: {
-        default: "border border-edge/50 bg-clip-padding",
+        default: "border border-container/50 bg-clip-padding",
         ghost: "",
       },
       spacing: {
@@ -33,7 +33,7 @@ const frameVariants = cva(
         ],
       },
       dense: {
-        true: "p-0 border-edge [&_[data-slot=frame-panel]]:-mx-px [&_[data-slot=frame-panel]]:before:hidden [&_[data-slot=frame-panel]:last-child]:-mb-px",
+        true: "p-0 border-container [&_[data-slot=frame-panel]]:-mx-px [&_[data-slot=frame-panel]]:before:hidden [&_[data-slot=frame-panel]:last-child]:-mb-px",
         false: "",
       },
     },

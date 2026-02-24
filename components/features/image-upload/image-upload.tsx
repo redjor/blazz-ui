@@ -72,7 +72,7 @@ export function ImageUpload({
 					<div
 						{...getRootProps()}
 						className={cn(
-							"aspect-square rounded-lg border-2 border-dashed border-edge cursor-pointer",
+							"aspect-square rounded-lg border-2 border-dashed border-field cursor-pointer",
 							"flex flex-col items-center justify-center gap-2",
 							"hover:border-brand hover:bg-brand/5 transition-colors",
 							isDragActive && "border-brand bg-brand/10"

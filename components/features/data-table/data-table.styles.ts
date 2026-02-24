@@ -5,14 +5,14 @@ import { cva } from 'class-variance-authority';
  *
  * Can be used standalone with raw `<Table>` (outside of DataTable) by applying
  * this to the `<Table className>`. Wrap the table in a
- * `<div className="overflow-hidden rounded-lg border border-edge">` for the
+ * `<div className="overflow-hidden rounded-lg border border-separator">` for the
  * outer frame.
  *
  * @example
  * ```tsx
  * import { editableTableStyles } from '@/components/features/data-table';
  *
- * <div className="overflow-hidden rounded-lg border border-edge">
+ * <div className="overflow-hidden rounded-lg border border-separator">
  *   <Table className={editableTableStyles}>
  *     ...
  *   </Table>
@@ -39,12 +39,12 @@ export const dataTableVariants = cva('w-full', {
   variants: {
     variant: {
       default: 'border-collapse',
-      lined: '[&_tr]:border-b [&_tr]:border-edge',
+      lined: '[&_tr]:border-b [&_tr]:border-separator',
       striped: '[&_tbody_tr:nth-child(even)]:bg-raised/50',
-      editable: `[&_tr]:border-b [&_tr]:border-edge ${editableTableStyles}`,
+      editable: `[&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
       spreadsheet: [
         'table-fixed',
-        '[&_tr]:border-b [&_tr]:border-edge',
+        '[&_tr]:border-b [&_tr]:border-separator',
         '[&_th]:border-r [&_th:last-child]:border-r-0',
         '[&_td]:border-r [&_td:last-child]:border-r-0',
         // tbody_td = higher specificity than density's [&_td] — forces zero padding

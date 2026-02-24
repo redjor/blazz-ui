@@ -42,7 +42,7 @@ export function PlaygroundPreview({ className }: PlaygroundPreviewProps) {
   return (
     <div className={cn("flex min-h-0 flex-1 flex-col overflow-hidden", className)}>
       {/* Topbar: search + chips */}
-      <div className="flex items-center gap-2 border-b border-edge px-4 py-2">
+      <div className="flex items-center gap-2 border-b border-separator px-4 py-2">
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-fg-subtle" />
           <input
@@ -101,7 +101,7 @@ export function PlaygroundPreview({ className }: PlaygroundPreviewProps) {
                       <X className="size-3.5" />
                     </button>
                   </div>
-                  <div className="rounded-lg border border-edge bg-surface p-4">
+                  <div className="rounded-lg border border-separator bg-surface p-4">
                     <Comp />
                   </div>
                 </section>

@@ -56,7 +56,7 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 						<select
 							id={name}
 							className={cn(
-								"flex h-8 w-full rounded-md border border-edge bg-surface px-3 py-1 text-sm shadow-sm transition-colors",
+								"flex h-8 w-full rounded-md border border-field bg-surface px-3 py-1 text-sm shadow-sm transition-colors",
 								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
 								"disabled:cursor-not-allowed disabled:opacity-50",
 								fieldState.error && "border-negative"
@@ -76,7 +76,7 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 						<textarea
 							id={name}
 							className={cn(
-								"flex w-full rounded-md border border-edge bg-surface px-3 py-2 text-sm shadow-sm transition-colors",
+								"flex w-full rounded-md border border-field bg-surface px-3 py-2 text-sm shadow-sm transition-colors",
 								"placeholder:text-fg-muted",
 								"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
 								"disabled:cursor-not-allowed disabled:opacity-50",

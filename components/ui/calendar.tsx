@@ -30,9 +30,9 @@ function Calendar({
 				caption_label: "text-sm font-medium text-fg",
 				nav: "flex items-center gap-1",
 				button_previous:
-					"absolute left-1 top-0 inline-flex size-7 items-center justify-center rounded-md border border-edge bg-transparent text-fg-muted hover:bg-raised transition-colors",
+					"absolute left-1 top-0 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-raised transition-colors",
 				button_next:
-					"absolute right-1 top-0 inline-flex size-7 items-center justify-center rounded-md border border-edge bg-transparent text-fg-muted hover:bg-raised transition-colors",
+					"absolute right-1 top-0 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-raised transition-colors",
 				month_grid: "w-full border-collapse",
 				weekdays: "flex",
 				weekday:

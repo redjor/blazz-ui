@@ -47,7 +47,7 @@ export function CompanyCard({
 		<Wrapper
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
-				"block rounded-lg border border-edge bg-surface p-4",
+				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
 				className,
 			)}

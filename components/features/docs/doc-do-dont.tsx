@@ -13,7 +13,7 @@ export function DocDoDont({ doExample, doText, dontExample, dontText, className 
 	return (
 		<div className={cn("grid gap-4 sm:grid-cols-2", className)}>
 			<div className="space-y-3">
-				<div className="rounded-lg border border-edge bg-raised p-6">
+				<div className="rounded-lg border border-container bg-raised p-6">
 					{doExample}
 				</div>
 				<div className="flex items-start gap-2">
@@ -24,7 +24,7 @@ export function DocDoDont({ doExample, doText, dontExample, dontText, className 
 				</div>
 			</div>
 			<div className="space-y-3">
-				<div className="rounded-lg border border-edge bg-raised p-6">
+				<div className="rounded-lg border border-container bg-raised p-6">
 					{dontExample}
 				</div>
 				<div className="flex items-start gap-2">

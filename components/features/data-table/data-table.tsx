@@ -689,7 +689,7 @@ export function DataTable<TData, TValue = unknown>({
         <div
           className={cn(
             'relative grid w-full',
-            finalVariant === 'editable' && 'overflow-hidden rounded-lg border border-edge',
+            finalVariant === 'editable' && 'overflow-hidden rounded-lg border border-container',
             enableCellEditing && 'outline-none'
           )}
           tabIndex={enableCellEditing ? 0 : undefined}

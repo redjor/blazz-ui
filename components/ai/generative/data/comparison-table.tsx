@@ -18,7 +18,7 @@ export function ComparisonTable({
 	return (
 		<div
 			className={cn(
-				"overflow-hidden rounded-lg border border-edge bg-surface",
+				"overflow-hidden rounded-lg border border-container bg-surface",
 				className,
 			)}
 		>
@@ -29,7 +29,7 @@ export function ComparisonTable({
 			)}
 			<table className="w-full text-left">
 				<thead>
-					<tr className="border-b border-edge">
+					<tr className="border-b border-separator">
 						{columns.map((col) => (
 							<th
 								key={col}

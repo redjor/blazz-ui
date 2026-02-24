@@ -38,7 +38,7 @@ export function PollCard({
 	}
 
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<span className="block text-sm font-medium text-fg">{question}</span>
 			<div className="mt-3 space-y-2">
 				{options.map((option, i) => {
@@ -56,7 +56,7 @@ export function PollCard({
 								"relative flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-colors",
 								isSelected
 									? "border-brand bg-brand/5 text-fg"
-									: "border-edge text-fg hover:bg-raised cursor-pointer",
+									: "border-container text-fg hover:bg-raised cursor-pointer",
 								selected !== null && !isSelected && "opacity-70",
 							)}
 						>

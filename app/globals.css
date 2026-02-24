@@ -36,6 +36,9 @@
 	/* Borders */
 	--color-edge: var(--border-default);
 	--color-edge-subtle: var(--border-subtle);
+	--color-container: var(--border-container);
+	--color-field: var(--border-field);
+	--color-separator: var(--border-separator);
 
 	/* Accent / Brand */
 	--color-brand: var(--accent);
@@ -76,7 +79,7 @@
 	--color-destructive: var(--destructive);
 	--color-popover: var(--bg-overlay);
 	--color-popover-foreground: var(--text-primary);
-	--color-input: var(--border-default);
+	--color-input: var(--border-field);
 	--color-ring: var(--accent);
 }
 
@@ -97,6 +100,9 @@
 	/* Borders */
 	--border-default: oklch(0.87 0 0);
 	--border-subtle: oklch(0.92 0 0);
+	--border-container: var(--border-default);
+	--border-field: var(--border-default);
+	--border-separator: var(--border-default);
 
 	/* Text */
 	--text-primary: oklch(0.14 0 0);
@@ -164,6 +170,9 @@ html.dark {
 	/* Borders */
 	--border-default: oklch(0.35 0.005 285 / 0.6);
 	--border-subtle: oklch(0.35 0.005 285 / 0.3);
+	--border-container: var(--border-default);
+	--border-field: var(--border-default);
+	--border-separator: var(--border-default);
 
 	/* Text */
 	--text-primary: oklch(0.985 0 0);
@@ -222,6 +231,9 @@ html[data-theme="corporate"] {
 	--bg-overlay: oklch(1 0 0);
 	--border-default: oklch(0.88 0 0);
 	--border-subtle: oklch(0.93 0 0);
+	--border-container: var(--border-default);
+	--border-field: var(--border-default);
+	--border-separator: var(--border-default);
 	--text-primary: oklch(0.15 0 0);
 	--text-secondary: oklch(0.40 0 0);
 	--text-muted: oklch(0.55 0 0);
@@ -237,6 +249,9 @@ html[data-theme="corporate"].dark {
 	--bg-overlay: oklch(0.25 0 0);
 	--border-default: oklch(0.35 0 0 / 0.6);
 	--border-subtle: oklch(0.35 0 0 / 0.3);
+	--border-container: var(--border-default);
+	--border-field: var(--border-default);
+	--border-separator: var(--border-default);
 	--text-primary: oklch(0.985 0 0);
 	--text-secondary: oklch(0.65 0 0);
 	--text-muted: oklch(0.50 0 0);
@@ -256,6 +271,9 @@ html[data-theme="warm"] {
 	--bg-overlay: oklch(0.995 0.005 75);
 	--border-default: oklch(0.86 0.01 75);
 	--border-subtle: oklch(0.91 0.008 75);
+	--border-container: var(--border-default);
+	--border-field: var(--border-default);
+	--border-separator: var(--border-default);
 	--text-primary: oklch(0.18 0.01 60);
 	--text-secondary: oklch(0.42 0.02 60);
 	--text-muted: oklch(0.55 0.015 60);
@@ -271,6 +289,9 @@ html[data-theme="warm"].dark {
 	--bg-overlay: oklch(0.26 0.01 60);
 	--border-default: oklch(0.35 0.01 60 / 0.6);
 	--border-subtle: oklch(0.35 0.01 60 / 0.3);
+	--border-container: var(--border-default);
+	--border-field: var(--border-default);
+	--border-separator: var(--border-default);
 	--text-primary: oklch(0.97 0.01 75);
 	--text-secondary: oklch(0.65 0.015 60);
 	--text-muted: oklch(0.50 0.01 60);

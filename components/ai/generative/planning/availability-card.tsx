@@ -45,7 +45,7 @@ export function AvailabilityCard({
 	}
 
 	return (
-		<div className={cn("rounded-lg border border-edge bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-center gap-2">
 				<Clock className="size-4 text-fg-muted" />
 				<span className="text-sm font-semibold text-fg">{title}</span>
@@ -89,7 +89,7 @@ export function AvailabilityCard({
 					<span className="size-2 rounded-full bg-amber-500" /> Tentative
 				</span>
 				<span className="flex items-center gap-1">
-					<span className="size-2 rounded-full bg-raised border border-edge" /> Busy
+					<span className="size-2 rounded-full bg-raised border border-container" /> Busy
 				</span>
 			</div>
 		</div>

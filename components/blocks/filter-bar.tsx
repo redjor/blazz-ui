@@ -101,7 +101,7 @@ export function FilterBar({
 							<select
 								key={filter.id}
 								className={cn(
-									"flex h-8 rounded-md border border-edge bg-surface px-3 text-sm",
+									"flex h-8 rounded-md border border-field bg-surface px-3 text-sm",
 									"focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
 									!values[filter.id] && "text-fg-muted"
 								)}

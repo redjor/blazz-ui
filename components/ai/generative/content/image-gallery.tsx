@@ -25,7 +25,7 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 	const image = images[current]
 
 	return (
-		<div className={cn("overflow-hidden rounded-lg border border-edge bg-surface", className)}>
+		<div className={cn("overflow-hidden rounded-lg border border-container bg-surface", className)}>
 			<div className="relative">
 				<img
 					src={image.src}
@@ -39,7 +39,7 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 							<button
 								type="button"
 								onClick={() => setCurrent((c) => c - 1)}
-								className="absolute left-2 top-1/2 -translate-y-1/2 flex size-7 items-center justify-center rounded-full bg-surface/80 border border-edge backdrop-blur-sm transition-colors hover:bg-surface cursor-pointer"
+								className="absolute left-2 top-1/2 -translate-y-1/2 flex size-7 items-center justify-center rounded-full bg-surface/80 border border-container backdrop-blur-sm transition-colors hover:bg-surface cursor-pointer"
 							>
 								<ChevronLeft className="size-4 text-fg" />
 							</button>
@@ -48,7 +48,7 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 							<button
 								type="button"
 								onClick={() => setCurrent((c) => c + 1)}
-								className="absolute right-2 top-1/2 -translate-y-1/2 flex size-7 items-center justify-center rounded-full bg-surface/80 border border-edge backdrop-blur-sm transition-colors hover:bg-surface cursor-pointer"
+								className="absolute right-2 top-1/2 -translate-y-1/2 flex size-7 items-center justify-center rounded-full bg-surface/80 border border-container backdrop-blur-sm transition-colors hover:bg-surface cursor-pointer"
 							>
 								<ChevronRight className="size-4 text-fg" />
 							</button>

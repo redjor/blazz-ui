@@ -25,7 +25,7 @@ function PropsRows({ props }: { props: DocProp[] }) {
 	return (
 		<>
 			{props.map((prop) => (
-				<tr key={prop.name} className="border-b border-edge last:border-0">
+				<tr key={prop.name} className="border-b border-separator last:border-0">
 					<td className="py-2.5 pr-4 align-top">
 						<div className="flex items-center gap-2">
 							<code className="text-[13px] font-semibold text-fg">
@@ -64,7 +64,7 @@ export function DocPropsTable({ props, groups, className }: DocPropsTableProps) 
 		<div className={cn("overflow-x-auto", className)}>
 			<table className="w-full text-sm">
 				<thead>
-					<tr className="border-b border-edge">
+					<tr className="border-b border-separator">
 						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
 							Prop
 						</th>

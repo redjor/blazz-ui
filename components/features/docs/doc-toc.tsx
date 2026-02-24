@@ -42,7 +42,7 @@ export function DocToc({ items }: DocTocProps) {
 			<p className="mb-3 text-xs font-semibold uppercase tracking-wider text-fg-muted">
 				On this page
 			</p>
-			<ul className="space-y-1.5 border-l border-edge pl-3">
+			<ul className="space-y-1.5 border-l border-separator pl-3">
 				{items.map((item) => (
 					<li key={item.id}>
 						<a
