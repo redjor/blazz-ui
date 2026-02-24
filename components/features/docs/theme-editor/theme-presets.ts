@@ -19,6 +19,9 @@ export const TOKEN_KEYS = [
 	"text-muted",
 	"border-default",
 	"border-subtle",
+	"border-container",
+	"border-field",
+	"border-separator",
 	"accent",
 	"accent-hover",
 	"accent-foreground",
@@ -48,7 +51,7 @@ export type TokenValues = Record<TokenKey, OklchColor>
 export const TOKEN_GROUPS: { title: string; tokens: TokenKey[] }[] = [
 	{ title: "Surfaces", tokens: ["bg-app", "bg-surface", "bg-raised", "bg-overlay"] },
 	{ title: "Text", tokens: ["text-primary", "text-secondary", "text-muted"] },
-	{ title: "Borders", tokens: ["border-default", "border-subtle"] },
+	{ title: "Borders", tokens: ["border-default", "border-subtle", "border-container", "border-field", "border-separator"] },
 	{ title: "Accent", tokens: ["accent", "accent-hover", "accent-foreground"] },
 	{ title: "Semantic", tokens: ["success", "warning", "destructive", "info"] },
 	{ title: "Layout", tokens: ["top-background", "main-background"] },
@@ -107,6 +110,9 @@ const TAILWIND_ALIASES: Partial<Record<TokenKey, string>> = {
 	"text-muted": "--color-fg-subtle",
 	"border-default": "--color-edge",
 	"border-subtle": "--color-edge-subtle",
+	"border-container": "--color-container",
+	"border-field": "--color-field",
+	"border-separator": "--color-separator",
 	accent: "--color-brand",
 	"accent-hover": "--color-brand-hover",
 	"accent-foreground": "--color-brand-fg",
@@ -139,6 +145,8 @@ export function tokensToInlineStyles(tokens: TokenValues): Record<string, string
 		const alias = TAILWIND_ALIASES[key]
 		if (alias) styles[alias] = value
 	}
+	// shadcn compat: --color-input follows border-field
+	styles["--color-input"] = oklchToString(tokens["border-field"])
 	return styles
 }
 
@@ -272,6 +280,9 @@ export const PRESETS: ThemePreset[] = [
 			"text-muted": { l: 0.55, c: 0, h: 0 },
 			"border-default": { l: 0.87, c: 0, h: 0 },
 			"border-subtle": { l: 0.92, c: 0, h: 0 },
+			"border-container": { l: 0.87, c: 0, h: 0 },
+			"border-field": { l: 0.87, c: 0, h: 0 },
+			"border-separator": { l: 0.87, c: 0, h: 0 },
 			accent: { l: 0.5, c: 0.22, h: 275 },
 			"accent-hover": { l: 0.44, c: 0.22, h: 275 },
 			"accent-foreground": { l: 0.985, c: 0, h: 0 },
@@ -290,6 +301,9 @@ export const PRESETS: ThemePreset[] = [
 			"text-muted": { l: 0.5, c: 0.01, h: 285 },
 			"border-default": { l: 0.35, c: 0.005, h: 285, a: 0.6 },
 			"border-subtle": { l: 0.35, c: 0.005, h: 285, a: 0.3 },
+			"border-container": { l: 0.35, c: 0.005, h: 285, a: 0.6 },
+			"border-field": { l: 0.35, c: 0.005, h: 285, a: 0.6 },
+			"border-separator": { l: 0.35, c: 0.005, h: 285, a: 0.6 },
 			accent: { l: 0.585, c: 0.22, h: 275 },
 			"accent-hover": { l: 0.52, c: 0.22, h: 275 },
 			"accent-foreground": { l: 0.985, c: 0, h: 0 },
@@ -312,6 +326,9 @@ export const PRESETS: ThemePreset[] = [
 			"text-muted": { l: 0.55, c: 0, h: 0 },
 			"border-default": { l: 0.88, c: 0, h: 0 },
 			"border-subtle": { l: 0.93, c: 0, h: 0 },
+			"border-container": { l: 0.88, c: 0, h: 0 },
+			"border-field": { l: 0.88, c: 0, h: 0 },
+			"border-separator": { l: 0.88, c: 0, h: 0 },
 			accent: { l: 0.4, c: 0.18, h: 250 },
 			"accent-hover": { l: 0.35, c: 0.18, h: 250 },
 			"accent-foreground": { l: 0.985, c: 0, h: 0 },
@@ -330,6 +347,9 @@ export const PRESETS: ThemePreset[] = [
 			"text-muted": { l: 0.5, c: 0, h: 0 },
 			"border-default": { l: 0.35, c: 0, h: 0, a: 0.6 },
 			"border-subtle": { l: 0.35, c: 0, h: 0, a: 0.3 },
+			"border-container": { l: 0.35, c: 0, h: 0, a: 0.6 },
+			"border-field": { l: 0.35, c: 0, h: 0, a: 0.6 },
+			"border-separator": { l: 0.35, c: 0, h: 0, a: 0.6 },
 			accent: { l: 0.55, c: 0.18, h: 250 },
 			"accent-hover": { l: 0.48, c: 0.18, h: 250 },
 			"accent-foreground": { l: 0.985, c: 0, h: 0 },
@@ -352,6 +372,9 @@ export const PRESETS: ThemePreset[] = [
 			"text-muted": { l: 0.55, c: 0.015, h: 60 },
 			"border-default": { l: 0.86, c: 0.01, h: 75 },
 			"border-subtle": { l: 0.91, c: 0.008, h: 75 },
+			"border-container": { l: 0.86, c: 0.01, h: 75 },
+			"border-field": { l: 0.86, c: 0.01, h: 75 },
+			"border-separator": { l: 0.86, c: 0.01, h: 75 },
 			accent: { l: 0.55, c: 0.17, h: 70 },
 			"accent-hover": { l: 0.48, c: 0.17, h: 70 },
 			"accent-foreground": { l: 0.985, c: 0, h: 0 },
@@ -370,6 +393,9 @@ export const PRESETS: ThemePreset[] = [
 			"text-muted": { l: 0.5, c: 0.01, h: 60 },
 			"border-default": { l: 0.35, c: 0.01, h: 60, a: 0.6 },
 			"border-subtle": { l: 0.35, c: 0.01, h: 60, a: 0.3 },
+			"border-container": { l: 0.35, c: 0.01, h: 60, a: 0.6 },
+			"border-field": { l: 0.35, c: 0.01, h: 60, a: 0.6 },
+			"border-separator": { l: 0.35, c: 0.01, h: 60, a: 0.6 },
 			accent: { l: 0.7, c: 0.15, h: 70 },
 			"accent-hover": { l: 0.63, c: 0.15, h: 70 },
 			"accent-foreground": { l: 0.15, c: 0, h: 0 },
