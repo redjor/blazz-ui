@@ -15,7 +15,7 @@ const boxVariants = cva("", {
 			transparent: "bg-transparent",
 			white: "bg-surface",
 			muted: "bg-raised",
-			accent: "bg-raised",
+			accent: "bg-brand/10",
 		},
 		border: {
 			none: "border-0",
