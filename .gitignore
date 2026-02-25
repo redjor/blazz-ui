@@ -44,4 +44,7 @@ next-env.d.ts
 # storybook
 storybook-static
 
+# claude
+.claude/worktrees/
+
 apps/examples/lib/generated/prisma
