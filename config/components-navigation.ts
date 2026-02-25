@@ -224,13 +224,14 @@ export const componentsNavigation: ComponentNavCategory[] = [
 	{
 		id: "ai-commerce",
 		title: "Commerce",
-		description: "Invoices, quotes, pricing and transactions.",
+		description: "Invoices, quotes, pricing, products and transactions.",
 		icon: CreditCard,
 		items: [
 			{ title: "Invoice Card", href: "/docs/components/ai/commerce/invoice-card" },
 			{ title: "Quote Summary", href: "/docs/components/ai/commerce/quote-summary" },
 			{ title: "Pricing Table", href: "/docs/components/ai/commerce/pricing-table" },
 			{ title: "Transaction Card", href: "/docs/components/ai/commerce/transaction-card" },
+			{ title: "Product Card", href: "/docs/components/ai/commerce/product-card" },
 		],
 	},
 	{

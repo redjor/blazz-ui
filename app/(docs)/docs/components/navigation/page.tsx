@@ -1,6 +1,6 @@
 import { Page } from "@/components/ui/page"
 import { ComponentSection } from "@/components/features/docs/component-card"
-import { ChevronRight, Command, Menu, List, FolderTree } from "lucide-react"
+import { ChevronRight, Command, Menu, List, FolderTree, PanelTop, Building2 } from "lucide-react"
 
 const navigationComponents = [
 	{
@@ -25,11 +25,25 @@ const navigationComponents = [
 		thumbnail: "menu",
 	},
 	{
+		title: "Menubar",
+		href: "/docs/components/ui/menubar",
+		description: "A horizontal menu bar with dropdown menus, keyboard navigation, and support for checkboxes and radio items.",
+		icon: PanelTop,
+		thumbnail: "menubar",
+	},
+	{
 		title: "Nav Menu",
 		href: "/docs/components/ui/nav-menu",
 		description: "Lightweight vertical navigation menu for page sidebars, dialogs, sheets, or any panel.",
 		icon: List,
 		thumbnail: "nav-menu",
+	},
+	{
+		title: "Org Menu",
+		href: "/docs/components/ui/org-menu",
+		description: "Organization switcher menu for selecting between workspaces, teams, or accounts.",
+		icon: Building2,
+		thumbnail: "org-menu",
 	},
 	{
 		title: "Tabs",

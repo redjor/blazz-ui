@@ -1,6 +1,6 @@
 import { Page } from "@/components/ui/page"
 import { ComponentSection } from "@/components/features/docs/component-card"
-import { User, Table, Table2, Grid3X3, List } from "lucide-react"
+import { User, Table, Table2, Grid3X3, List, CreditCard, BarChart3 } from "lucide-react"
 
 const dataDisplayComponents = [
 	{
@@ -30,6 +30,20 @@ const dataDisplayComponents = [
 		description: "Label-value pair component for displaying structured data in detail views and sidebars.",
 		icon: List,
 		thumbnail: "property",
+	},
+	{
+		title: "Property Card",
+		href: "/docs/components/ui/property-card",
+		description: "Card component for grouping related properties with header, actions, and structured layout.",
+		icon: CreditCard,
+		thumbnail: "property-card",
+	},
+	{
+		title: "Stats Strip",
+		href: "/docs/components/ui/stats-strip",
+		description: "Horizontal strip of key metrics with labels, values, trends, and optional sparklines.",
+		icon: BarChart3,
+		thumbnail: "stats-strip",
 	},
 	{
 		title: "Table",

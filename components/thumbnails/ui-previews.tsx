@@ -917,6 +917,44 @@ export function TooltipPreview() {
   )
 }
 
+export function MenubarPreview() {
+  return (
+    <div className="p-8 w-[520px]">
+      <div className="flex items-center gap-0.5 rounded-lg border border-edge bg-panel p-[3px]">
+        <div className="rounded-sm bg-raised px-1.5 py-[2px] text-sm font-medium">File</div>
+        <div className="rounded-sm px-1.5 py-[2px] text-sm font-medium">Edit</div>
+        <div className="rounded-sm px-1.5 py-[2px] text-sm font-medium">View</div>
+        <div className="rounded-sm px-1.5 py-[2px] text-sm font-medium">Help</div>
+      </div>
+      {/* Open dropdown representation */}
+      <div className="ml-0.5 mt-1 w-52 rounded-lg border bg-panel p-1 shadow-md ring-1 ring-fg/10">
+        <div className="flex items-center gap-1.5 rounded-md bg-raised px-1.5 py-1 text-sm">
+          New File
+          <span className="ml-auto text-xs text-fg-muted">Ctrl+N</span>
+        </div>
+        <div className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-sm">
+          Open...
+          <span className="ml-auto text-xs text-fg-muted">Ctrl+O</span>
+        </div>
+        <div className="-mx-1 my-1 h-px bg-edge" />
+        <div className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-sm">
+          Save
+          <span className="ml-auto text-xs text-fg-muted">Ctrl+S</span>
+        </div>
+        <div className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-sm">
+          Save As...
+          <span className="ml-auto text-xs text-fg-muted">Ctrl+Shift+S</span>
+        </div>
+        <div className="-mx-1 my-1 h-px bg-edge" />
+        <div className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-sm">
+          Export
+          <ChevronRight className="ml-auto size-3.5 text-fg-muted" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function MenuPreview() {
   return (
     <div className="p-8 w-[240px]">

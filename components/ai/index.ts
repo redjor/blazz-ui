@@ -56,6 +56,7 @@ export * from "./generative/commerce/invoice-card"
 export * from "./generative/commerce/quote-summary"
 export * from "./generative/commerce/pricing-table"
 export * from "./generative/commerce/transaction-card"
+export * from "./generative/commerce/product-card"
 
 // Generative UI — Content
 export * from "./generative/content/insight-card"

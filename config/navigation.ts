@@ -269,6 +269,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Quote Summary", url: "/docs/components/ai/commerce/quote-summary" },
             { title: "Pricing Table", url: "/docs/components/ai/commerce/pricing-table" },
             { title: "Transaction Card", url: "/docs/components/ai/commerce/transaction-card" },
+            { title: "Product Card", url: "/docs/components/ai/commerce/product-card" },
           ],
         },
         {
