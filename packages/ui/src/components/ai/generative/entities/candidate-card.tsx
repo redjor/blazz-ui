@@ -3,9 +3,9 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { MapPin, Briefcase, Mail } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
+import { cn } from "../../../../lib/utils"
 
 const statusVariantMap = {
 	available: { variant: "success" as const, label: "Available" },

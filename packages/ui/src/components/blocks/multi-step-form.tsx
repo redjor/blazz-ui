@@ -3,8 +3,8 @@
 import { useState, type ComponentType } from "react"
 import type { ZodSchema } from "zod"
 import { Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { Button } from "../ui/button"
+import { cn } from "../../lib/utils"
 
 /* ─── Types ─── */
 

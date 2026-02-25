@@ -1,8 +1,8 @@
 'use client';
 
 import type { Table } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from '../../ui/button';
+import { cn } from '../../../lib/utils';
 import { useDataTableTranslations } from './data-table.i18n';
 import type { BulkAction } from './data-table.types';
 import { DataTableRowSelection } from './data-table-row-selection';

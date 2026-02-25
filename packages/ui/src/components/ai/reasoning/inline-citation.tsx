@@ -1,20 +1,20 @@
 "use client";
 
-import type { CarouselApi } from "@/components/ui/carousel";
+import type { CarouselApi } from "../../ui/carousel";
 import type { ComponentProps } from "react";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "../../ui/badge";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/ui/carousel";
+} from "../../ui/carousel";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { cn } from "@/lib/utils";
+} from "../../ui/hover-card";
+import { cn } from "../../../lib/utils";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import {
   createContext,

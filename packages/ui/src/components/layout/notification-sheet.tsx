@@ -6,14 +6,14 @@ import {
 	Sheet,
 	SheetContent,
 	SheetTrigger,
-} from "@/components/ui/sheet"
+} from "../ui/sheet"
 import {
 	NotificationCenter,
 	NotificationList,
 	NotificationItem,
 	NotificationTrigger,
-} from "@/components/blocks/notification-center"
-import type { Notification } from "@/components/blocks/notification-center"
+} from "../blocks/notification-center"
+import type { Notification } from "../blocks/notification-center"
 
 const mockNotifications: Notification[] = [
 	{

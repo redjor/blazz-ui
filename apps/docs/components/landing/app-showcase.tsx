@@ -6,26 +6,28 @@ import { ArrowRight } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
 import { Badge } from "@blazz/ui/components/ui/badge"
 
+const examplesUrl = process.env.NEXT_PUBLIC_EXAMPLES_URL ?? ""
+
 const apps = [
 	{
 		id: "forge-crm",
 		label: "Forge CRM",
 		description: "15 screens, full CRUD, deals pipeline, quotes, reports",
-		href: "/examples/crm/dashboard",
+		href: `${examplesUrl}/examples/crm/dashboard`,
 		status: "live" as const,
 	},
 	{
 		id: "talentflow",
 		label: "TalentFlow ATS",
 		description: "Recruitment pipeline, candidate tracking, hiring dashboard",
-		href: "/examples/talentflow/dashboard",
+		href: `${examplesUrl}/examples/talentflow/dashboard`,
 		status: "live" as const,
 	},
 	{
 		id: "stockbase",
 		label: "StockBase",
 		description: "Inventory management, stock levels, product catalog",
-		href: "/examples/stockbase/dashboard",
+		href: `${examplesUrl}/examples/stockbase/dashboard`,
 		status: "live" as const,
 	},
 	{
@@ -96,13 +98,13 @@ export function AppShowcase() {
 								<div className="rounded-xl border border-edge/50 bg-gradient-to-br from-raised via-surface to-raised aspect-video flex flex-col items-center justify-center gap-4">
 									<p className="text-fg-subtle text-sm">{app.description}</p>
 									{app.status === "live" && (
-										<Link
+										<a
 											href={app.href}
 											className="inline-flex items-center gap-1 text-brand text-sm font-medium hover:underline"
 										>
 											Try it live
 											<ArrowRight className="size-3" />
-										</Link>
+										</a>
 									)}
 								</div>
 							</TabsContent>

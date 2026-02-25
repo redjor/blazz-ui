@@ -2,9 +2,9 @@
 
 import type { Control, FieldPath, FieldValues } from "react-hook-form"
 import { Controller } from "react-hook-form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { cn } from "../../lib/utils"
 
 export interface FormFieldOption {
 	value: string

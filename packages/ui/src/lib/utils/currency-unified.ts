@@ -9,7 +9,7 @@
  *
  * @example
  * ```typescript
- * import { formatCurrency, getCurrencySymbol } from '@/lib/utils/currency-unified'
+ * import { formatCurrency, getCurrencySymbol } from './currency-unified'
  *
  * const formatted = formatCurrency(1234.56, 'EUR') // "1 234,56 €"
  * const symbol = getCurrencySymbol('USD') // "$"

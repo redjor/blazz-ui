@@ -9,8 +9,8 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { cn } from "@/lib/utils"
+} from "../ui/breadcrumb"
+import { cn } from "../../lib/utils"
 import { type Breadcrumb as BreadcrumbItemType, useFrame } from "./frame-context"
 
 export interface TopBarProps {

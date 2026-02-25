@@ -3,8 +3,8 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { FileText, Clock, Hash } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Badge } from "../../../ui/badge"
+import { cn } from "../../../../lib/utils"
 
 export type QuoteStatus = "draft" | "sent" | "accepted" | "declined" | "expired"
 

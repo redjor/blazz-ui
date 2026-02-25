@@ -10,7 +10,7 @@ import { cva } from 'class-variance-authority';
  *
  * @example
  * ```tsx
- * import { editableTableStyles } from '@/components/features/data-table';
+ * import { editableTableStyles } from './';
  *
  * <div className="overflow-hidden rounded-lg border border-separator">
  *   <Table className={editableTableStyles}>

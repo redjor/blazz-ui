@@ -9,7 +9,7 @@
  *
  * @example
  * ```typescript
- * import { ensureArray, compact, unique } from '@/lib/utils/arrays'
+ * import { ensureArray, compact, unique } from './arrays'
  *
  * const arr = ensureArray('value') // ['value']
  * const clean = compact([1, null, 2, undefined, 3]) // [1, 2, 3]

@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render"
 import { X } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 const badgeVariants = cva(
 	"inline-flex items-center justify-center whitespace-nowrap shrink-0 transition-colors [&>svg]:pointer-events-none group/badge rounded-[var(--badge-radius)] font-medium",

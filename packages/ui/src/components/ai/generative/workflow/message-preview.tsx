@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react"
 import { MessageSquare, Phone, Mail, Hash } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { cn } from "@/lib/utils"
+import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
+import { cn } from "../../../../lib/utils"
 
 export type MessagePlatform = "sms" | "whatsapp" | "slack" | "email"
 

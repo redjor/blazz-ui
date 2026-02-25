@@ -9,7 +9,7 @@ import {
   MenuRadioGroup,
   MenuRadioItem,
   MenuSeparator,
-} from '@/components/ui/menu';
+} from '../../ui/menu';
 import { useDataTableTranslations } from './data-table.i18n';
 
 interface DataTableSortMenuProps {

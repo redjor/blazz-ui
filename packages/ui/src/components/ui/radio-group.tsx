@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitiveRoot } from "@base-ui/react/radio-group"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 function Radio({ className, ...props }: RadioPrimitive.Root.Props) {
 	return (

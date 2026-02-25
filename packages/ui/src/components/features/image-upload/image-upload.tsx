@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useDropzone } from "react-dropzone"
 import { Plus, Upload } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../../lib/utils"
 import { ImagePreview } from "./image-preview"
 import type { UploadedImage } from "./types"
 

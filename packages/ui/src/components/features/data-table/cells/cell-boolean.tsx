@@ -1,8 +1,8 @@
 'use client';
 
 import { Check, X } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '../../../ui/badge';
+import { Checkbox } from '../../../ui/checkbox';
 
 export interface CellBooleanProps {
   /** The boolean value to render */

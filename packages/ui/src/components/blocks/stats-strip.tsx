@@ -2,9 +2,9 @@
 
 import { useRef, useState, useEffect, useCallback } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Card } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { cn } from "@/lib/utils"
+import { Card } from "../ui/card"
+import { Skeleton } from "../ui/skeleton"
+import { cn } from "../../lib/utils"
 
 // ---------------------------------------------------------------------------
 // Types

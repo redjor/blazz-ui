@@ -1,11 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { AppSidebar } from "@/components/layout/app-sidebar"
-import { AppTopBar, type AppTopBarProps } from "@/components/layout/app-top-bar"
-import { Frame } from "@/components/layout/frame"
-import { MobileSidebarSheet } from "@/components/layout/mobile-sidebar-sheet"
-import type { NavigationSection, SidebarConfig } from "@/types/navigation"
+import { AppSidebar } from "./app-sidebar"
+import { AppTopBar, type AppTopBarProps, type TopBarSection } from "./app-top-bar"
+import { Frame } from "./frame"
+import { MobileSidebarSheet } from "./mobile-sidebar-sheet"
+import type { NavigationSection, SidebarConfig } from "../../types/navigation"
 
 export interface AppFrameProps {
 	navigation?: NavigationSection[]
@@ -17,7 +17,9 @@ export interface AppFrameProps {
 	sidebarFooter?: React.ReactNode
 	tabBar?: React.ReactNode
 	onOpenCommandPalette?: () => void
-	activeSection?: AppTopBarProps["activeSection"]
+	activeSection?: string
+	/** Top bar section navigation links */
+	sections?: TopBarSection[]
 	/** Hide notifications and user menu in the top bar */
 	minimalTopBar?: boolean
 }
@@ -38,6 +40,7 @@ export function AppFrame({
 	tabBar,
 	onOpenCommandPalette,
 	activeSection,
+	sections,
 	minimalTopBar,
 }: AppFrameProps) {
 	// État pour le Sheet mobile
@@ -67,6 +70,7 @@ export function AppFrame({
 						onOpenCommandPalette={onOpenCommandPalette}
 						onOpenMobileMenu={() => setMobileSheetOpen((prev) => !prev)}
 						activeSection={activeSection}
+						sections={sections}
 						minimal={minimalTopBar}
 					/>
 				}

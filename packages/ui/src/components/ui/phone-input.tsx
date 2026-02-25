@@ -4,8 +4,8 @@ import { createContext, useContext, useState } from "react"
 import * as BasePhoneInput from "react-phone-number-input"
 import flags from "react-phone-number-input/flags"
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "../../lib/utils"
+import { Button } from "./button"
 import {
 	Command,
 	CommandEmpty,
@@ -13,10 +13,10 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@/components/ui/command"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "./command"
+import { Popover, PopoverContent, PopoverTrigger } from "./popover"
+import { Input } from "./input"
+import { ScrollArea } from "./scroll-area"
 import { Check, ChevronsUpDown, GlobeIcon } from "lucide-react"
 
 type PhoneInputSize = "sm" | "default" | "lg"

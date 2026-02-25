@@ -2,7 +2,7 @@
 
 import { ChevronRight } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '../../../../lib/utils';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
 import { DataTableRowSelection } from '../data-table-row-selection';

@@ -5,7 +5,7 @@
  * to work with the existing FilterGroup-based filtering logic.
  */
 
-import type { Filter } from '@/components/ui/filters';
+import type { Filter } from '../../../ui/filters';
 import type {
   FilterCondition,
   FilterGroup,

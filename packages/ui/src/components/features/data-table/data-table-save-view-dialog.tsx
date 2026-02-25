@@ -2,10 +2,10 @@
 
 import type { ColumnPinningState, SortingState, VisibilityState } from '@tanstack/react-table';
 import * as React from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '../../ui/button';
+import { Dialog, DialogClose, DialogContent, DialogTitle } from '../../ui/dialog';
+import { Input } from '../../ui/input';
+import { Label } from '../../ui/label';
 import type { DataTableView, FilterGroup } from './data-table.types';
 
 interface SaveViewDialogProps {

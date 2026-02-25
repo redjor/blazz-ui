@@ -5,7 +5,7 @@ import {
 	Area,
 	ResponsiveContainer,
 } from "recharts"
-import { cn } from "@/lib/utils"
+import { cn } from "../../../../lib/utils"
 
 export interface MiniChartProps {
 	label: string

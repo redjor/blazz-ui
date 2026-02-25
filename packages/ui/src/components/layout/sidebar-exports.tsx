@@ -10,7 +10,7 @@ export type {
 	NavigationSection,
 	SidebarConfig,
 	SidebarUser,
-} from "@/types/navigation"
+} from "../../types/navigation"
 export { AppSidebar } from "./app-sidebar"
 export { SidebarSearch } from "./sidebar-search"
 export { SidebarUserMenu } from "./sidebar-user"

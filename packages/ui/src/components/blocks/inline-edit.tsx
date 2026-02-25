@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import { Check, X, Pencil } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+import { Input } from "../ui/input"
+import { cn } from "../../lib/utils"
 
 export interface InlineEditProps {
 	value: string

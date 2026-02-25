@@ -11,9 +11,9 @@ import {
   type PresetName,
   type OklchColor,
   type DensityValues,
-} from "@/components/features/docs/theme-editor/theme-presets"
-import { PlaygroundSidebar } from "@/components/features/playground/playground-sidebar"
-import { PlaygroundPreview } from "@/components/features/playground/playground-preview"
+} from "@/components/docs/theme-editor/theme-presets"
+import { PlaygroundSidebar } from "@/components/playground/playground-sidebar"
+import { PlaygroundPreview } from "@/components/playground/playground-preview"
 
 export default function PlaygroundPage() {
   const [presetName, setPresetName] = React.useState<PresetName>("slate")

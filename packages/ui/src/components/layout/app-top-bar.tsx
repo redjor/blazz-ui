@@ -1,18 +1,26 @@
 import { Menu, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 import { ThemeToggle } from "./theme-toggle"
 import { ThemePaletteSwitcher } from "./theme-palette-switcher"
 import { NotificationSheet } from "./notification-sheet"
 import { UserMenu } from "./user-menu"
+
+export interface TopBarSection {
+	id: string
+	label: string
+	href: string
+}
 
 export interface AppTopBarProps {
 	onOpenCommandPalette?: () => void
 	onOpenMobileMenu?: () => void
 	className?: string
 	/** Highlight the active section in the top bar nav */
-	activeSection?: "docs" | "crm" | "talentflow" | "stockbase"
+	activeSection?: string
+	/** Navigation sections displayed in the top bar */
+	sections?: TopBarSection[]
 	/** Hide notifications and user menu (used in docs mode) */
 	minimal?: boolean
 	user?: {
@@ -23,13 +31,6 @@ export interface AppTopBarProps {
 	}
 }
 
-const sections = [
-	{ id: "docs" as const, label: "Docs", href: "/docs/components" },
-	{ id: "crm" as const, label: "CRM", href: "/examples/crm/dashboard" },
-	{ id: "talentflow" as const, label: "TalentFlow", href: "/examples/talentflow/dashboard" },
-	{ id: "stockbase" as const, label: "StockBase", href: "/examples/stockbase/dashboard" },
-]
-
 /**
  * AppTopBar - Global header for the application
  *
@@ -38,7 +39,7 @@ const sections = [
  * - Center: Search Bar (opens Command Palette)
  * - Right: Notifications + User Menu
  */
-export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, activeSection, minimal, user }: AppTopBarProps) {
+export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, activeSection, sections = [], minimal, user }: AppTopBarProps) {
 	return (
 		<header
 			className={cn(
@@ -63,22 +64,28 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 					<div className="flex h-24 w-24 items-center justify-center">
 						<Image src="/logo_blazz_white.svg" alt="Blazz Logo" width={87} height={24} />
 					</div>
-					<div className="ml-2 flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
-						{sections.map((section) => (
-							<Link
-								key={section.id}
-								href={section.href}
-								className={cn(
-									"rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-									activeSection === section.id
-										? "bg-white/20 text-white"
-										: "text-gray-400 hover:text-white hover:bg-white/10"
-								)}
-							>
-								{section.label}
-							</Link>
-						))}
-					</div>
+					{sections.length > 0 && (
+						<div className="ml-2 flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
+							{sections.map((section) => {
+								const isExternal = section.href.startsWith("http")
+								const Tag = isExternal ? "a" : Link
+								return (
+									<Tag
+										key={section.id}
+										href={section.href}
+										className={cn(
+											"rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
+											activeSection === section.id
+												? "bg-white/20 text-white"
+												: "text-gray-400 hover:text-white hover:bg-white/10"
+										)}
+									>
+										{section.label}
+									</Tag>
+								)
+							})}
+						</div>
+					)}
 				</div>
 			</div>
 

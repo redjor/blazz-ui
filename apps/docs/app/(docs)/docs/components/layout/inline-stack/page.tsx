@@ -2,11 +2,11 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { DocExample } from "@/components/features/docs/doc-example"
-import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
-import { DocRelated } from "@/components/features/docs/doc-related"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocSection } from "@/components/docs/doc-section"
+import { DocExample } from "@/components/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/docs/doc-props-table"
+import { DocRelated } from "@/components/docs/doc-related"
 const toc = [
 	{ id: "examples", title: "Examples" },
 	{ id: "props", title: "Props" },

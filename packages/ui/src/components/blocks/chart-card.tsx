@@ -15,8 +15,8 @@ import {
 	ResponsiveContainer,
 	Legend,
 } from "recharts"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card"
+import { cn } from "../../lib/utils"
 
 const CHART_COLORS = [
 	"#2563eb",

@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown, LogOut, Settings, User } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,9 +10,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { SidebarMenuButton } from "@/components/ui/sidebar"
-import type { SidebarUser } from "@/types/navigation"
+} from "../ui/dropdown-menu"
+import { SidebarMenuButton } from "../ui/sidebar"
+import type { SidebarUser } from "../../types/navigation"
 
 interface SidebarUserProps {
 	user: SidebarUser

@@ -8,7 +8,7 @@
 import type {
   FilterFieldConfig,
   FilterOperator as ReuiFilterOperator,
-} from '@/components/ui/filters';
+} from '../../../ui/filters';
 import type { DataTableColumnDef } from '../data-table.types';
 import type { FilterOperator, FilterType } from '../data-table-filter.types';
 import { mapOperatorToReui } from './reui-filters-adapter';

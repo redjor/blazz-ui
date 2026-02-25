@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { formatPrice, calculateDiscount, calculateTax } from '@/lib/utils/pricing'
+ * import { formatPrice, calculateDiscount, calculateTax } from './pricing'
  *
  * const price = formatPrice(1234.567) // "1234.57"
  * const discounted = calculateDiscount(100, 20, 'percentage') // 80

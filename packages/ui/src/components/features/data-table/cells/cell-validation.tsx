@@ -1,8 +1,8 @@
 'use client';
 
 import { AlertTriangle, CheckCircle2, Info, XCircle } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
+import { cn } from '../../../../lib/utils';
 
 export interface CellValidationProps {
   /** Validation severity level */

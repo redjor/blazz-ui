@@ -8,7 +8,7 @@
  *
  * @example
  * ```typescript
- * import { isEmpty, pick, omit } from '@/lib/utils/objects'
+ * import { isEmpty, pick, omit } from './objects'
  *
  * const empty = isEmpty({}) // true
  * const subset = pick({ a: 1, b: 2, c: 3 }, ['a', 'c']) // { a: 1, c: 3 }

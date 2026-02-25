@@ -9,7 +9,7 @@
  *
  * @example
  * ```typescript
- * import { clampMin, round, percentage } from '@/lib/utils/numbers'
+ * import { clampMin, round, percentage } from './numbers'
  *
  * const clamped = clampMin(-5) // 0 (Math.max(0, -5))
  * const rounded = round(1.2349, 2) // 1.23

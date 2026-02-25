@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 export interface PasswordInputProps extends Omit<React.ComponentProps<"input">, "type"> {
 	/** Show password visibility toggle. @default true */

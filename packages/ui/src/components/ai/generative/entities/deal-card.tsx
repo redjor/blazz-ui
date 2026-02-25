@@ -3,8 +3,8 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { Calendar, Building2, TrendingUp } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Badge } from "../../../ui/badge"
+import { cn } from "../../../../lib/utils"
 
 const stageVariantMap = {
 	prospecting: { variant: "secondary" as const, label: "Prospecting" },

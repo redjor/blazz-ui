@@ -2,14 +2,14 @@
 
 import type { Table } from '@tanstack/react-table';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '../../ui/select';
 import { type DataTableLocale, useDataTableTranslations } from './data-table.i18n';
 
 interface DataTablePaginationProps<TData> {

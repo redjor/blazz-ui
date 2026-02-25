@@ -1,5 +1,5 @@
 import type * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 import {
 	Card,
 	CardHeader,
@@ -7,7 +7,7 @@ import {
 	CardDescription,
 	CardAction,
 	CardContent,
-} from "@/components/ui/card"
+} from "../ui/card"
 
 // ---------------------------------------------------------------------------
 // PropertyCard

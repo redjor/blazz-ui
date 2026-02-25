@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
+import { cn } from "../../../../lib/utils"
 
 export interface UserCardProps {
 	name: string

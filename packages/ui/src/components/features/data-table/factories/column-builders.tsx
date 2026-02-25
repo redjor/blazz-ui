@@ -1,8 +1,8 @@
 'use client';
 
 import type * as React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { Badge } from '../../../ui/badge';
+import { cn } from '../../../../lib/utils';
 import type { ColumnFilterConfig } from '../data-table-filter.types';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';

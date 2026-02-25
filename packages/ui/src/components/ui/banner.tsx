@@ -11,8 +11,8 @@ import {
 	X,
 	type LucideIcon,
 } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { cn } from "../../lib/utils"
+import { Button, buttonVariants } from "./button"
 
 const bannerVariants = cva(
 	"relative flex gap-2 rounded-md border border-container p-3",

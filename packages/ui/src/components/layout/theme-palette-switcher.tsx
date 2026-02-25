@@ -1,13 +1,13 @@
 "use client"
 
 import { Paintbrush, Check } from "lucide-react"
-import { useThemePalette, type ThemePalette } from "@/lib/theme-context"
+import { useThemePalette, type ThemePalette } from "../../lib/theme-context"
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
+} from "../ui/dropdown-menu"
 
 const palettes: { id: ThemePalette; label: string; color: string }[] = [
 	{ id: "slate", label: "Slate", color: "oklch(0.585 0.22 275)" },

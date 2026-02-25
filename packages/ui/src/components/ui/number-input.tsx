@@ -3,7 +3,7 @@
 import * as React from "react"
 import { NumberField } from "@base-ui/react/number-field"
 import { MinusIcon, PlusIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 export interface NumberInputProps {
 	value?: number | null

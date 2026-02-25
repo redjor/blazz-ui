@@ -4,9 +4,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/components/ui/avatar';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+} from '../../../ui/avatar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
+import { cn } from '../../../../lib/utils';
 
 export interface AvatarItem {
   name: string;

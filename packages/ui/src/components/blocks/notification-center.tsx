@@ -3,18 +3,18 @@
 import { useEffect, useRef, useState } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Bell, Check, MoreHorizontal } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Button } from "../ui/button"
+import { Badge } from "../ui/badge"
+import { Skeleton } from "../ui/skeleton"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Empty } from "@/components/ui/empty"
-import { ErrorState } from "@/components/blocks/error-state"
-import { cn } from "@/lib/utils"
+} from "../ui/dropdown-menu"
+import { Empty } from "../ui/empty"
+import { ErrorState } from "./error-state"
+import { cn } from "../../lib/utils"
 
 // ---------------------------------------------------------------------------
 // Types

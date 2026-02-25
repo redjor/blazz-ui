@@ -7,8 +7,8 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { cn } from "@/lib/utils";
+} from "../../ui/collapsible";
+import { cn } from "../../../lib/utils";
 import { cjk } from "@streamdown/cjk";
 import { code } from "@streamdown/code";
 import { math } from "@streamdown/math";
@@ -26,7 +26,7 @@ import {
 } from "react";
 import { Streamdown } from "streamdown";
 
-import { Shimmer } from "@/components/ai/chat/shimmer";
+import { Shimmer } from "../chat/shimmer";
 
 interface ReasoningContextValue {
   isStreaming: boolean;

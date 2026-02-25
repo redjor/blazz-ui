@@ -11,8 +11,8 @@ import {
 	Legend,
 	ReferenceLine,
 } from "recharts"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card"
+import { cn } from "../../lib/utils"
 
 export interface ForecastDataPoint {
 	period: string

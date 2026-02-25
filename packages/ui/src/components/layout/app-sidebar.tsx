@@ -21,9 +21,9 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 	SidebarRail,
-} from "@/components/ui/sidebar"
-import { SidebarUserMenu } from "@/components/layout/sidebar-user"
-import type { NavigationItem, NavigationSection, SidebarConfig } from "@/types/navigation"
+} from "../ui/sidebar"
+import { SidebarUserMenu } from "./sidebar-user"
+import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
 
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	config: SidebarConfig

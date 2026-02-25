@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '../../../../lib/utils';
 
 export interface CellProgressProps {
   /** Progress value between 0 and 100 */

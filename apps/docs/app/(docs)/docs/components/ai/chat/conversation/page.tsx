@@ -1,7 +1,7 @@
 "use client"
 
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocHero } from "@/components/features/docs/doc-hero"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocHero } from "@/components/docs/doc-hero"
 import {
 	Conversation,
 	ConversationContent,

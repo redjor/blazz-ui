@@ -2,8 +2,8 @@
 
 import { X } from 'lucide-react';
 import * as React from 'react';
-import { Button } from '@/components/ui/button';
-import { DEFAULT_I18N, type Filter, type FilterI18nConfig, Filters } from '@/components/ui/filters';
+import { Button } from '../../ui/button';
+import { DEFAULT_I18N, type Filter, type FilterI18nConfig, Filters } from '../../ui/filters';
 import { columnsToFilterFields } from './adapters/reui-config-adapter';
 import {
   filterGroupToReuiFilters,

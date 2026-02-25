@@ -1,5 +1,5 @@
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "@/components/features/docs/component-card"
+import { ComponentSection } from "@/components/docs/component-card"
 import { User, Table, Table2, Grid3X3, List, CreditCard, BarChart3 } from "lucide-react"
 
 const dataDisplayComponents = [

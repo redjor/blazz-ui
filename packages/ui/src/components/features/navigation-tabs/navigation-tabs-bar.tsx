@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { Plus } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../../lib/utils"
 
 interface NavigationTabsBarProps {
 	children: React.ReactNode

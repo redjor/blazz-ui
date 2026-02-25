@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import { PhoneInput } from "@blazz/ui/components/ui/phone-input"
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { DocHero } from "@/components/features/docs/doc-hero"
-import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocSection } from "@/components/docs/doc-section"
+import { DocHero } from "@/components/docs/doc-hero"
+import { DocExampleSync as DocExample } from "@/components/docs/doc-example-client"
+import { DocPropsTable, type DocProp } from "@/components/docs/doc-props-table"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

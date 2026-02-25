@@ -9,7 +9,7 @@
  *
  * @example
  * ```typescript
- * import { maskCardNumber, validateCardNumber, detectCardType } from '@/lib/utils/cards-unified'
+ * import { maskCardNumber, validateCardNumber, detectCardType } from './cards-unified'
  *
  * const masked = maskCardNumber('4111111111111111') // "************1111"
  * const isValid = validateCardNumber('4111111111111111') // true

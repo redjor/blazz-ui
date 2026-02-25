@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "../../ui/button"
 import type { UploadedImage } from "./types"
 
 export interface ImagePreviewProps {

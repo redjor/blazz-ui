@@ -14,7 +14,7 @@ import {
 	type PresetName,
 	type OklchColor,
 	type DensityValues,
-} from "@/components/features/docs/theme-editor/theme-presets"
+} from "@/components/docs/theme-editor/theme-presets"
 import { TokenColorInput } from "./token-color-input"
 
 // ---------------------------------------------------------------------------

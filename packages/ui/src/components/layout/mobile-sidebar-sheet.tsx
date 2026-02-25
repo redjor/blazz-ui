@@ -3,8 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { ScrollArea } from "../ui/scroll-area"
+import { Sheet, SheetContent } from "../ui/sheet"
 import {
 	SidebarCollapsible,
 	SidebarCollapsibleContent,
@@ -19,8 +19,8 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
-import type { NavigationItem, NavigationSection, SidebarConfig } from "@/types/navigation"
+} from "../ui/sidebar"
+import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
 
 interface MobileSidebarSheetProps {
 	open: boolean

@@ -7,6 +7,8 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { cn } from "@blazz/ui/lib/utils"
 import { useTheme } from "next-themes"
 
+const examplesUrl = process.env.NEXT_PUBLIC_EXAMPLES_URL ?? ""
+
 const navLinks = [
 	{ label: "Features", href: "#features" },
 	{ label: "Apps", href: "#apps" },
@@ -58,9 +60,9 @@ export function Navbar() {
 					))}
 				</div>
 
-				<Link href="/examples/crm/dashboard">
+				<a href={`${examplesUrl}/examples/crm/dashboard`}>
 					<Button size="sm">Try the demo</Button>
-				</Link>
+				</a>
 			</div>
 		</nav>
 	)

@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp, TrendingDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../../../lib/utils"
 
 export interface StatItem {
 	label: string

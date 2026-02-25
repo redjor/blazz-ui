@@ -1,7 +1,7 @@
 'use client';
 
 import type { Row, Table } from '@tanstack/react-table';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from '../../ui/checkbox';
 
 interface DataTableRowSelectionProps<TData> {
   row?: Row<TData>;

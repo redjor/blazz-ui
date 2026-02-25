@@ -1,5 +1,5 @@
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "@/components/features/docs/component-card"
+import { ComponentSection } from "@/components/docs/component-card"
 import { MessageSquare, Square, Box, PanelRight, Info } from "lucide-react"
 
 const overlayComponents = [

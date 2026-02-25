@@ -14,9 +14,18 @@ import { AppFrame } from "@blazz/ui/components/layout/app-frame"
 import { FrameProvider, useFrame } from "@blazz/ui/components/layout/frame-context"
 import { TabBar } from "@blazz/ui/components/layout/tab-bar"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
-import { crmNavigationConfig } from "@/config/crm-navigation"
+import { crmSidebarConfig, crmNavigationConfig } from "@/config/crm-navigation"
 import { titleFromPathname } from "@blazz/ui/lib/tab-utils"
 import { useFrameLayout } from "@blazz/ui/lib/use-frame-layout"
+
+const docsUrl = process.env.NEXT_PUBLIC_DOCS_URL ?? ""
+
+const sections = [
+	{ id: "docs", label: "Docs", href: `${docsUrl}/docs/components` },
+	{ id: "crm", label: "CRM", href: "/examples/crm/dashboard" },
+	{ id: "talentflow", label: "TalentFlow", href: "/examples/talentflow/dashboard" },
+	{ id: "stockbase", label: "StockBase", href: "/examples/stockbase/dashboard" },
+]
 
 const demoOrganizations: Organization[] = [
 	{ id: "forge", name: "Forge CRM", slug: "forge-crm", plan: "Pro" },
@@ -34,6 +43,7 @@ function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 	return (
 		<SidebarProvider>
 			<AppFrame
+				sidebarConfig={crmSidebarConfig}
 				navigation={crmNavigationConfig}
 				sidebarHeader={
 					<OrgMenu
@@ -45,6 +55,7 @@ function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 				}
 				tabBar={showTabBar ? <TabBar /> : undefined}
 				onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+				sections={sections}
 				activeSection="crm"
 			>
 				{children}

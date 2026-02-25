@@ -5,7 +5,7 @@
  *
  * @example
  * ```typescript
- * import { capitalize, truncate, slugify } from '@/lib/utils/strings'
+ * import { capitalize, truncate, slugify } from './strings'
  *
  * const name = capitalize('john doe') // 'John doe'
  * const short = truncate('Long text...', 10) // 'Long text...'

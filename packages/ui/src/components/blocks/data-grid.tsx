@@ -17,11 +17,11 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Skeleton } from "@/components/ui/skeleton"
-import { cn } from "@/lib/utils"
+} from "../ui/table"
+import { Button } from "../ui/button"
+import { Checkbox } from "../ui/checkbox"
+import { Skeleton } from "../ui/skeleton"
+import { cn } from "../../lib/utils"
 
 /* ─── Public Column Definition ─── */
 

@@ -2,10 +2,10 @@
 
 import { Calendar, Mail, Phone, Send, StickyNote } from "lucide-react"
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
+import { Button } from "../ui/button"
+import { Label } from "../ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { cn } from "../../lib/utils"
 
 export type ActivityType = "call" | "email" | "note" | "meeting"
 

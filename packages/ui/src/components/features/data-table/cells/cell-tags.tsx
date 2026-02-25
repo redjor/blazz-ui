@@ -1,8 +1,8 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+import { Badge } from '../../../ui/badge';
+import { Popover, PopoverContent, PopoverTrigger } from '../../../ui/popover';
+import { cn } from '../../../../lib/utils';
 
 export interface CellTagsProps {
   /** List of tag strings to display */

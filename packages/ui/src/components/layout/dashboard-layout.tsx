@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils/cn"
+import { cn } from "../../lib/utils/cn"
 
 export interface DashboardLayoutProps {
 	navbar?: React.ReactNode

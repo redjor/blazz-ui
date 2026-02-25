@@ -3,7 +3,7 @@
 // Bridge between native <input type="color"> (hex) and oklch design tokens.
 // ---------------------------------------------------------------------------
 
-import type { OklchColor } from "@/components/features/docs/theme-editor/theme-presets"
+import type { OklchColor } from "@/components/docs/theme-editor/theme-presets"
 
 // ---------------------------------------------------------------------------
 // oklchToHex — Convert an OklchColor to a hex string (e.g. "#5b3aff")

@@ -7,11 +7,11 @@
  * @example
  * ```typescript
  * // Direct imports (specific)
- * import { formatCurrency } from '@/lib/utils/currency-unified'
- * import { round } from '@/lib/utils/numbers'
+ * import { formatCurrency } from './currency-unified'
+ * import { round } from './numbers'
  *
  * // Or import from index (grouped)
- * import { formatCurrency, round } from '@/lib/utils'
+ * import { formatCurrency, round } from './'
  * ```
  */
 

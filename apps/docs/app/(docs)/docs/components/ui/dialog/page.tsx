@@ -11,11 +11,11 @@ import {
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { DocHero } from "@/components/features/docs/doc-hero"
-import { DocExample } from "@/components/features/docs/doc-example"
-import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocSection } from "@/components/docs/doc-section"
+import { DocHero } from "@/components/docs/doc-hero"
+import { DocExample } from "@/components/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/docs/doc-props-table"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

@@ -2,7 +2,7 @@
 
 import { Clock, Search } from "lucide-react"
 import * as React from "react"
-import type { NavigationSection } from "@/types/navigation"
+import type { NavigationSection } from "../../../types/navigation"
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -12,8 +12,8 @@ import {
 	CommandList,
 	CommandSeparator,
 	CommandShortcut,
-} from "@/components/ui/command"
-import { useCommandPalette } from "@/hooks/use-command-palette"
+} from "../../ui/command"
+import { useCommandPalette } from "../../../hooks/use-command-palette"
 
 export interface CommandPaletteProps {
 	navigation: NavigationSection[]

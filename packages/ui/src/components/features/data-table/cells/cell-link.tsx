@@ -1,7 +1,7 @@
 'use client';
 
 import { ExternalLink, Mail, Phone } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../../../lib/utils';
 
 export interface CellLinkProps {
   /** The link value (URL, email, or phone number) */

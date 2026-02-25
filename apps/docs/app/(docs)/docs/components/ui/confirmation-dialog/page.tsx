@@ -4,11 +4,11 @@ import * as React from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Trash2, LogOut, Archive } from "lucide-react"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocHero } from "@/components/features/docs/doc-hero"
-import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
+import { DocSection } from "@/components/docs/doc-section"
+import { DocPropsTable, type DocProp } from "@/components/docs/doc-props-table"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocHero } from "@/components/docs/doc-hero"
+import { DocExampleSync as DocExample } from "@/components/docs/doc-example-client"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

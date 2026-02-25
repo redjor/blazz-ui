@@ -7,7 +7,7 @@
  *
  * @example
  * ```typescript
- * import { safeJsonParse, safeParseInt, safeParseFloat } from '@/lib/utils/safe'
+ * import { safeJsonParse, safeParseInt, safeParseFloat } from './safe'
  *
  * const obj = safeJsonParse<User>('{"name":"Alice"}') // { name: "Alice" }
  * const num = safeParseInt('123', 0) // 123

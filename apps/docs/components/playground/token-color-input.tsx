@@ -1,8 +1,8 @@
 "use client"
 
 import { useCallback, useRef, useState } from "react"
-import type { OklchColor } from "@/components/features/docs/theme-editor/theme-presets"
-import { oklchToString } from "@/components/features/docs/theme-editor/theme-presets"
+import type { OklchColor } from "@/components/docs/theme-editor/theme-presets"
+import { oklchToString } from "@/components/docs/theme-editor/theme-presets"
 import { hexToOklch, oklchToHex, parseOklchString } from "./color-utils"
 
 // ---------------------------------------------------------------------------

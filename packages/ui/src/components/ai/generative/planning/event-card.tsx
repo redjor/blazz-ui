@@ -3,10 +3,10 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { Calendar, Clock, MapPin, Users } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { AvatarGroup, AvatarGroupCount } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
+import { AvatarGroup, AvatarGroupCount } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
+import { cn } from "../../../../lib/utils"
 
 export interface EventParticipant {
 	name: string

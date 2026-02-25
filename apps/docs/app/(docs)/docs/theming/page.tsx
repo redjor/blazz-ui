@@ -1,8 +1,8 @@
 "use client"
 
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { ThemeEditor } from "@/components/features/docs/theme-editor/theme-editor"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocSection } from "@/components/docs/doc-section"
+import { ThemeEditor } from "@/components/docs/theme-editor/theme-editor"
 
 const toc = [
 	{ id: "how-it-works", title: "How It Works" },

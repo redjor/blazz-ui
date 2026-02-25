@@ -2,7 +2,7 @@
 
 import type { LucideIcon } from "lucide-react"
 import { X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../../lib/utils"
 
 interface NavigationTabsItemProps {
 	title: string

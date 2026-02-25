@@ -30,9 +30,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { cn } from '@/lib/utils';
+} from '../../ui/table';
+import { Checkbox } from '../../ui/checkbox';
+import { cn } from '../../../lib/utils';
 import { useDataTableConfig } from './config/data-table-config';
 import { dataTableVariants } from './data-table.styles';
 import type { DataTableColumnDef, DataTableProps } from './data-table.types';

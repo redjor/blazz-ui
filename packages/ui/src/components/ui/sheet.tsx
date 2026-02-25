@@ -3,8 +3,8 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { XIcon } from "lucide-react"
 import type * as React from "react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { Button } from "./button"
+import { cn } from "../../lib/utils"
 
 // Réutiliser Dialog de Base UI comme base pour Sheet
 const Sheet = DialogPrimitive.Root

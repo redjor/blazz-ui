@@ -3,7 +3,7 @@
 import { DayPicker } from "react-day-picker"
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 const chevronIcons = {
 	left: ChevronLeft,

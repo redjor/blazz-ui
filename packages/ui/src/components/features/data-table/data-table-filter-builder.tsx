@@ -2,22 +2,22 @@
 
 import { Plus, X } from 'lucide-react';
 import * as React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../ui/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from '../../ui/dialog';
+import { Input } from '../../ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '../../ui/select';
 import { type DataTableLocale, useDataTableTranslations } from './data-table.i18n';
 import type {
   DataTableColumnDef,

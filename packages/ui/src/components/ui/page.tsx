@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 import {
 	Breadcrumb,
 	BreadcrumbList,
@@ -7,7 +7,7 @@ import {
 	BreadcrumbLink,
 	BreadcrumbSeparator,
 	BreadcrumbPage,
-} from "@/components/ui/breadcrumb"
+} from "./breadcrumb"
 
 export interface BreadcrumbParent {
 	label: string

@@ -6,6 +6,8 @@ import { ArrowRight } from "lucide-react"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 
+const examplesUrl = process.env.NEXT_PUBLIC_EXAMPLES_URL ?? ""
+
 export function Hero() {
 	return (
 		<section className="relative pt-32 pb-20 px-6 overflow-hidden">
@@ -34,12 +36,12 @@ export function Hero() {
 					</p>
 
 					<div className="mt-10 flex flex-col sm:flex-row gap-4">
-						<Link href="/examples/crm/dashboard">
+						<a href={`${examplesUrl}/examples/crm/dashboard`}>
 							<Button size="lg" className="gap-2">
 								Try the demo
 								<ArrowRight className="size-4" />
 							</Button>
-						</Link>
+						</a>
 						<Link href="/docs/components">
 							<Button variant="outline" size="lg">
 								Browse components

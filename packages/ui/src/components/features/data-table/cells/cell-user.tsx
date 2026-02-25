@@ -4,8 +4,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@/components/ui/avatar';
-import { cn } from '@/lib/utils';
+} from '../../../ui/avatar';
+import { cn } from '../../../../lib/utils';
 
 export interface CellUserProps {
   /** User display name */

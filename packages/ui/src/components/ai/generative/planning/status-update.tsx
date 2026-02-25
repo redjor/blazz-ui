@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react"
 import { ArrowRight } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Badge } from "../../../ui/badge"
+import { cn } from "../../../../lib/utils"
 
 export interface StatusUpdateProps {
 	title: string

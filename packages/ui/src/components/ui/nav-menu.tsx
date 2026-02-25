@@ -1,7 +1,7 @@
 import { Slot } from "@radix-ui/react-slot"
 import type * as React from "react"
-import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
+import { Separator } from "./separator"
+import { cn } from "../../lib/utils"
 
 function NavMenu({ className, ...props }: React.ComponentProps<"nav">) {
 	return (

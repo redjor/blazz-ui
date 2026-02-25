@@ -1,10 +1,10 @@
 import { Divider } from "@blazz/ui/components/ui/divider"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { DocExample } from "@/components/features/docs/doc-example"
-import { DocPropsTable, type DocProp } from "@/components/features/docs/doc-props-table"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocSection } from "@/components/docs/doc-section"
+import { DocExample } from "@/components/docs/doc-example"
+import { DocPropsTable, type DocProp } from "@/components/docs/doc-props-table"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

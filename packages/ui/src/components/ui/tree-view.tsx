@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ChevronRightIcon, FolderIcon, FileIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 /* ---------------------------------------------------------------------------
  * TreeView

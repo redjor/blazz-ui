@@ -1,10 +1,10 @@
 "use client"
 
 import { Mail, Phone, Calendar, FileText } from "lucide-react"
-import { DocPage } from "@/components/features/docs/doc-page"
-import { DocSection } from "@/components/features/docs/doc-section"
-import { DocHero } from "@/components/features/docs/doc-hero"
-import { DocExampleSync as DocExample } from "@/components/features/docs/doc-example-client"
+import { DocPage } from "@/components/docs/doc-page"
+import { DocSection } from "@/components/docs/doc-section"
+import { DocHero } from "@/components/docs/doc-hero"
+import { DocExampleSync as DocExample } from "@/components/docs/doc-example-client"
 import { ActionList } from "@blazz/ui/components/ai/generative/workflow/action-list"
 
 const toc = [{ id: "examples", title: "Examples" }]

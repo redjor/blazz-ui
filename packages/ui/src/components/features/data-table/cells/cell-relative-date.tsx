@@ -1,6 +1,6 @@
 'use client';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
 
 export interface CellRelativeDateProps {
   /** Date value as string or Date object */

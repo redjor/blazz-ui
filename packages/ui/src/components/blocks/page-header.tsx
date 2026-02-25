@@ -3,7 +3,7 @@
 import { Fragment } from "react"
 import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "../ui/button"
 import {
 	Breadcrumb,
 	BreadcrumbList,
@@ -11,8 +11,8 @@ import {
 	BreadcrumbLink,
 	BreadcrumbSeparator,
 	BreadcrumbPage,
-} from "@/components/ui/breadcrumb"
-import { cn } from "@/lib/utils"
+} from "../ui/breadcrumb"
+import { cn } from "../../lib/utils"
 
 export interface PageHeaderBreadcrumb {
 	label: string

@@ -3,8 +3,8 @@
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { cn } from "@/lib/utils/cn"
-// import { useNavigationContextSafe } from "@/providers/navigation-provider"
+import { cn } from "../../lib/utils/cn"
+// import { useNavigationContextSafe } from "../../providers/navigation-provider"
 
 export interface NavTab {
 	label: string

@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn } from '../../../../lib/utils';
 
 interface ExpandedRowGridProps {
   items: Array<{ label: string; value: React.ReactNode }>;
