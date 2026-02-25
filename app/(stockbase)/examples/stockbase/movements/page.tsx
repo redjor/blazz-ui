@@ -27,7 +27,7 @@ export default function MovementsPage() {
 				]}
 			/>
 
-			<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+			<Box background="surface" border="default" borderRadius="lg" className="overflow-hidden">
 				<DataTable
 					data={stockMovements}
 					columns={columns}

@@ -42,7 +42,7 @@ export default function QuotesPage() {
         ]}
       />
 
-      <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+      <Box background="surface" border="default" borderRadius="lg" className="overflow-hidden">
         <DataTable
           data={quotes}
           columns={columns}

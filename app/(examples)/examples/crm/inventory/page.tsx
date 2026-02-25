@@ -63,7 +63,7 @@ export default function InventoryPage() {
         ]}
       />
 
-      <Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+      <Box background="surface" border="default" borderRadius="lg" className="overflow-hidden">
         <DataTable
           data={data}
           columns={columns}

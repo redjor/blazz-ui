@@ -30,7 +30,7 @@ export default function JobsPage() {
 				]}
 			/>
 
-			<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+			<Box background="surface" border="default" borderRadius="lg" className="overflow-hidden">
 				<DataTable
 					data={jobs}
 					columns={columns}

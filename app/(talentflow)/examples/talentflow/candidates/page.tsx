@@ -29,7 +29,7 @@ export default function CandidatesPage() {
 				]}
 			/>
 
-			<Box background="white" border="default" borderRadius="lg" className="overflow-hidden">
+			<Box background="surface" border="default" borderRadius="lg" className="overflow-hidden">
 				<DataTable
 					data={candidates}
 					columns={columns}

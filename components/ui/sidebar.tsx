@@ -176,7 +176,7 @@ const Sidebar = React.forwardRef<
 			return (
 				<div
 					className={cn(
-						"flex h-full w-[--sidebar-width] flex-col bg-surface text-fg",
+						"flex h-full w-[--sidebar-width] flex-col bg-(--sidebar-background) text-fg",
 						className
 					)}
 					ref={ref}
@@ -204,7 +204,7 @@ const Sidebar = React.forwardRef<
 						data-mobile="true"
 						data-state={openMobile ? "open" : "closed"}
 						className={cn(
-							"fixed inset-y-0 z-50 hidden h-svh w-[--sidebar-width-mobile] flex-col border-r bg-surface text-fg transition-[left,right] duration-200 ease-linear data-[mobile=true]:data-[state=open]:flex md:hidden",
+							"fixed inset-y-0 z-50 hidden h-svh w-[--sidebar-width-mobile] flex-col border-r bg-(--sidebar-background) text-fg transition-[left,right] duration-200 ease-linear data-[mobile=true]:data-[state=open]:flex md:hidden",
 							side === "left"
 								? "left-0 data-[state=closed]:-left-[--sidebar-width-mobile]"
 								: "right-0 data-[state=closed]:-right-[--sidebar-width-mobile]",
@@ -255,7 +255,7 @@ const Sidebar = React.forwardRef<
 				>
 					<div
 						data-sidebar="sidebar"
-						className="flex h-full w-full flex-col bg-surface group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-container group-data-[variant=floating]:shadow"
+						className="flex h-full w-full flex-col bg-(--sidebar-background) group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-container group-data-[variant=floating]:shadow"
 					>
 						{children}
 					</div>
