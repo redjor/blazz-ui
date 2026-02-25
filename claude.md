@@ -47,7 +47,7 @@ tsup (ESM build), Changesets (versioning)
 ## Key Commands
 - `pnpm dev` → Start all apps
 - `pnpm dev:docs` → Docs app only (port 3100)
-- `pnpm dev:examples` → Examples app only (port 3200)
+- `pnpm dev:examples` → Examples app only (port 3110)
 - `pnpm build` → Build all
 - `pnpm lint` → Lint all
 
