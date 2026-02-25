@@ -1,23 +1,26 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
 
 # testing
-/coverage
+coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
-# fumadocs
-.source/
+# turborepo
+.turbo/
+
+# tsup build output
+dist/
 
 # production
-/build
+build
 
 # misc
 .DS_Store
@@ -41,4 +44,4 @@ next-env.d.ts
 # storybook
 storybook-static
 
-/lib/generated/prisma
+apps/examples/lib/generated/prisma

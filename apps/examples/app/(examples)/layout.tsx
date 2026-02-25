@@ -1,0 +1,70 @@
+"use client"
+
+import * as React from "react"
+import { Toaster } from "sonner"
+import { CommandPalette } from "@blazz/ui/components/features/command-palette/command-palette"
+import {
+	NavigationTabsProvider,
+	NavigationTabsInterceptor,
+	useNavigationTabs,
+	useNavigationTabUrlSync,
+} from "@blazz/ui/components/features/navigation-tabs"
+import { OrgMenu, type Organization } from "@blazz/ui/components/blocks/org-menu"
+import { AppFrame } from "@blazz/ui/components/layout/app-frame"
+import { FrameProvider, useFrame } from "@blazz/ui/components/layout/frame-context"
+import { TabBar } from "@blazz/ui/components/layout/tab-bar"
+import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
+import { crmNavigationConfig } from "@/config/crm-navigation"
+import { titleFromPathname } from "@blazz/ui/lib/tab-utils"
+import { useFrameLayout } from "@blazz/ui/lib/use-frame-layout"
+
+const demoOrganizations: Organization[] = [
+	{ id: "forge", name: "Forge CRM", slug: "forge-crm", plan: "Pro" },
+	{ id: "acme", name: "Acme Corp", slug: "acme-corp", plan: "Free" },
+	{ id: "startup", name: "StartupXYZ", slug: "startup-xyz", plan: "Team" },
+]
+
+function CrmLayoutInner({ children }: { children: React.ReactNode }) {
+	const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
+	const { showTabBar } = useNavigationTabs()
+	const [activeOrg, setActiveOrg] = React.useState(demoOrganizations[0])
+	useFrameLayout()
+	useNavigationTabUrlSync(titleFromPathname)
+
+	return (
+		<SidebarProvider>
+			<AppFrame
+				navigation={crmNavigationConfig}
+				sidebarHeader={
+					<OrgMenu
+						organizations={demoOrganizations}
+						activeOrganization={activeOrg}
+						onSelect={setActiveOrg}
+						onCreate={() => {}}
+					/>
+				}
+				tabBar={showTabBar ? <TabBar /> : undefined}
+				onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+				activeSection="crm"
+			>
+				{children}
+			</AppFrame>
+			<NavigationTabsInterceptor
+				excludePaths={["/docs"]}
+				titleResolver={titleFromPathname}
+			/>
+			<CommandPalette navigation={crmNavigationConfig} open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
+			<Toaster />
+		</SidebarProvider>
+	)
+}
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<FrameProvider>
+			<NavigationTabsProvider storageKey="blazz-crm-tabs">
+				<CrmLayoutInner>{children}</CrmLayoutInner>
+			</NavigationTabsProvider>
+		</FrameProvider>
+	)
+}
