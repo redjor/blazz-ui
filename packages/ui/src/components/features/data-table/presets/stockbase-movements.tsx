@@ -18,9 +18,9 @@ export interface MovementsPreset {
   rowActions: RowAction<StockMovement>[];
 }
 
-const movementTypeMap: Record<string, { variant: 'success' | 'destructive' | 'info' | 'warning'; label: string }> = {
+const movementTypeMap: Record<string, { variant: 'success' | 'critical' | 'info' | 'warning'; label: string }> = {
   entry: { variant: 'success', label: 'Entree' },
-  exit: { variant: 'destructive', label: 'Sortie' },
+  exit: { variant: 'critical', label: 'Sortie' },
   transfer: { variant: 'info', label: 'Transfert' },
   adjustment: { variant: 'warning', label: 'Ajustement' },
 };

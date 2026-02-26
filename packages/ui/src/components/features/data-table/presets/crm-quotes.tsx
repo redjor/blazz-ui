@@ -90,7 +90,7 @@ export function createQuotesPreset(config: QuotesPresetConfig = {}): QuotesPrese
         draft: { variant: 'secondary', label: 'Brouillon' },
         sent: { variant: 'info', label: 'Envoyé' },
         accepted: { variant: 'success', label: 'Accepté' },
-        rejected: { variant: 'destructive', label: 'Refusé' },
+        rejected: { variant: 'critical', label: 'Refusé' },
         expired: { variant: 'outline', label: 'Expiré' },
       },
       filterOptions: [

@@ -55,36 +55,41 @@ export interface BoxProps<T extends React.ElementType = "div">
 
 type PolymorphicRef<T extends React.ElementType> = React.ComponentPropsWithRef<T>["ref"]
 
-export const Box = React.forwardRef(
-	<T extends React.ElementType = "div">(
-		{
-			as,
-			padding,
-			background,
-			border,
-			borderRadius,
-			shadow,
-			className,
-			children,
-			...props
-		}: BoxProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof BoxProps<T>>,
-		ref: PolymorphicRef<T>
-	) => {
-		const Component = as || "div"
+function BoxInner<T extends React.ElementType = "div">(
+	{
+		as,
+		padding,
+		background,
+		border,
+		borderRadius,
+		shadow,
+		className,
+		children,
+		...props
+	}: BoxProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof BoxProps<T>>,
+	ref: PolymorphicRef<T>
+) {
+	const Component = as || "div"
 
-		return (
-			<Component
-				ref={ref}
-				className={cn(
-					boxVariants({ padding, background, border, borderRadius, shadow }),
-					className
-				)}
-				{...props}
-			>
-				{children}
-			</Component>
-		)
-	}
-)
+	return (
+		<Component
+			ref={ref}
+			className={cn(
+				boxVariants({ padding, background, border, borderRadius, shadow }),
+				className
+			)}
+			{...props}
+		>
+			{children}
+		</Component>
+	)
+}
 
-Box.displayName = "Box"
+export const Box = React.forwardRef(BoxInner as any) as unknown as <T extends React.ElementType = "div">(
+	props: BoxProps<T> &
+		Omit<React.ComponentPropsWithoutRef<T>, keyof BoxProps<T>> & {
+			ref?: PolymorphicRef<T>
+		}
+) => React.ReactElement | null
+
+;(Box as React.FC).displayName = "Box"

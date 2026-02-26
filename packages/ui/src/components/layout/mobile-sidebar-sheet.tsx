@@ -50,14 +50,14 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 			for (const item of section.items) {
 				// Si le pathname correspond à ce parent
 				if (item.url && pathname.startsWith(item.url) && item.items) {
-					setOpenItemId(item.id || item.url)
+					setOpenItemId(item.id || item.url || null)
 					return
 				}
 				// Si le pathname correspond à un sous-item
 				if (item.items) {
 					for (const subItem of item.items) {
 						if (subItem.url && pathname.startsWith(subItem.url)) {
-							setOpenItemId(item.id || item.url)
+							setOpenItemId(item.id || item.url || null)
 							return
 						}
 					}

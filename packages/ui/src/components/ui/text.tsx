@@ -61,36 +61,41 @@ export interface TextProps<T extends React.ElementType = "span">
 	numeric?: boolean
 }
 
-export const Text = React.forwardRef(
-	<T extends React.ElementType = "span">(
-		{
-			as,
-			variant,
-			tone,
-			truncate,
-			numeric,
-			className,
-			...props
-		}: TextProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>>,
-		ref: PolymorphicRef<T>,
-	) => {
-		const Component = as || variantElementMap[variant ?? "body-md"]
+function TextInner<T extends React.ElementType = "span">(
+	{
+		as,
+		variant,
+		tone,
+		truncate,
+		numeric,
+		className,
+		...props
+	}: TextProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>>,
+	ref: PolymorphicRef<T>,
+) {
+	const Component = as || variantElementMap[variant ?? "body-md"]
 
-		return (
-			<Component
-				ref={ref}
-				className={cn(
-					textVariants({ variant, tone }),
-					truncate && "truncate",
-					numeric && "tabular-nums",
-					className,
-				)}
-				{...props}
-			/>
-		)
-	},
-)
+	return (
+		<Component
+			ref={ref}
+			className={cn(
+				textVariants({ variant, tone }),
+				truncate && "truncate",
+				numeric && "tabular-nums",
+				className,
+			)}
+			{...props}
+		/>
+	)
+}
 
-Text.displayName = "Text"
+export const Text = React.forwardRef(TextInner as any) as unknown as <T extends React.ElementType = "span">(
+	props: TextProps<T> &
+		Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>> & {
+			ref?: PolymorphicRef<T>
+		}
+) => React.ReactElement | null
+
+;(Text as React.FC).displayName = "Text"
 
 export { textVariants }

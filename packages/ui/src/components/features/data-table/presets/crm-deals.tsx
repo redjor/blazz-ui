@@ -110,9 +110,9 @@ export function createDealsPreset(config: DealsPresetConfig = {}): DealsPreset {
         lead: { variant: 'secondary', label: 'Lead' },
         qualified: { variant: 'info', label: 'Qualifié' },
         proposal: { variant: 'warning', label: 'Proposition' },
-        negotiation: { variant: 'primary', label: 'Négociation' },
+        negotiation: { variant: 'default', label: 'Négociation' },
         closed_won: { variant: 'success', label: 'Gagné' },
-        closed_lost: { variant: 'destructive', label: 'Perdu' },
+        closed_lost: { variant: 'critical', label: 'Perdu' },
       },
       filterOptions: [
         { label: 'Lead', value: 'lead' },

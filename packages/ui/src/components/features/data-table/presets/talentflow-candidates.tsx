@@ -61,7 +61,7 @@ export function createCandidatesPreset(config: CandidatesPresetConfig = {}): Can
         technical: { variant: 'warning', label: 'Technique' },
         offer: { variant: 'success', label: 'Offre' },
         hired: { variant: 'success', label: 'Embauché' },
-        rejected: { variant: 'destructive', label: 'Refusé' },
+        rejected: { variant: 'critical', label: 'Refusé' },
       },
       filterOptions: [
         { label: 'Nouveau', value: 'new' },
@@ -85,7 +85,7 @@ export function createCandidatesPreset(config: CandidatesPresetConfig = {}): Can
       header: ({ column }) => <DataTableColumnHeader column={column} title="Score" />,
       cell: ({ row }) => {
         const score = row.getValue('score') as number;
-        const variant = score >= 80 ? 'success' : score >= 60 ? 'warning' : 'destructive';
+        const variant = score >= 80 ? 'success' : score >= 60 ? 'warning' : 'critical';
         return <Badge variant={variant}>{score}%</Badge>;
       },
       enableSorting: true,

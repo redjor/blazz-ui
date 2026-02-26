@@ -188,7 +188,7 @@ function ValidationFeedback({ result }: { result: CellValidationResult | null })
   if (!result) return null;
 
   return (
-    <TooltipProvider delayDuration={200}>
+    <TooltipProvider delay={200}>
       <Tooltip>
         <TooltipTrigger asChild>
           <span className="absolute right-1 top-1/2 -translate-y-1/2">

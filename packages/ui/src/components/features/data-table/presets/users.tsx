@@ -38,7 +38,7 @@ export function createUserManagementPreset(
   const statusMap: Record<
     string,
     {
-      variant: 'default' | 'secondary' | 'outline' | 'destructive';
+      variant: 'default' | 'secondary' | 'outline' | 'critical';
       className?: string;
       label?: string;
     }
@@ -54,7 +54,7 @@ export function createUserManagementPreset(
       label: 'Inactive',
     },
     suspended: {
-      variant: 'destructive',
+      variant: 'critical',
       className: 'bg-red-100 text-red-800 hover:bg-red-100 border-red-200',
       label: 'Suspended',
     },

@@ -35,7 +35,7 @@ export interface OrderManagementPresetConfig {
     [key: string]: {
       value: string;
       label: string;
-      variant?: 'default' | 'secondary' | 'outline' | 'destructive';
+      variant?: 'default' | 'secondary' | 'outline' | 'critical';
       className?: string;
     };
   };
@@ -43,7 +43,7 @@ export interface OrderManagementPresetConfig {
     [key: string]: {
       value: string;
       label: string;
-      variant?: 'default' | 'secondary' | 'outline' | 'destructive';
+      variant?: 'default' | 'secondary' | 'outline' | 'critical';
       className?: string;
     };
   };
@@ -125,7 +125,7 @@ export function createOrderManagementPreset(
           annulée: {
             value: 'annulée',
             label: 'Annulée',
-            variant: 'destructive' as const,
+            variant: 'critical' as const,
             className: 'bg-red-100 text-red-800 hover:bg-red-100 border-red-200',
           },
         }
@@ -157,7 +157,7 @@ export function createOrderManagementPreset(
           cancelled: {
             value: 'cancelled',
             label: 'Cancelled',
-            variant: 'destructive' as const,
+            variant: 'critical' as const,
             className: 'bg-red-100 text-red-800 hover:bg-red-100 border-red-200',
           },
         });
@@ -187,7 +187,7 @@ export function createOrderManagementPreset(
           échouée: {
             value: 'échouée',
             label: 'Échouée',
-            variant: 'destructive' as const,
+            variant: 'critical' as const,
             className: 'bg-red-100 text-red-800 hover:bg-red-100 border-red-200',
           },
         }
@@ -213,14 +213,14 @@ export function createOrderManagementPreset(
           failed: {
             value: 'failed',
             label: 'Failed',
-            variant: 'destructive' as const,
+            variant: 'critical' as const,
             className: 'bg-red-100 text-red-800 hover:bg-red-100 border-red-200',
           },
         });
 
   const statusColumnMap: Record<
     string,
-    { variant: 'default' | 'secondary' | 'outline' | 'destructive'; className?: string; label?: string }
+    { variant: 'default' | 'secondary' | 'outline' | 'critical'; className?: string; label?: string }
   > = {};
   const statusFilterOptions: Array<{ label: string; value: string }> = [];
 
@@ -235,7 +235,7 @@ export function createOrderManagementPreset(
 
   const paymentStatusColumnMap: Record<
     string,
-    { variant: 'default' | 'secondary' | 'outline' | 'destructive'; className?: string; label?: string }
+    { variant: 'default' | 'secondary' | 'outline' | 'critical'; className?: string; label?: string }
   > = {};
   const paymentStatusFilterOptions: Array<{ label: string; value: string }> = [];
 

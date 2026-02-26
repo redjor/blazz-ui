@@ -90,7 +90,7 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault()
-				setIsOpen((open) => !open)
+				setIsOpen(!isOpen)
 			}
 		}
 

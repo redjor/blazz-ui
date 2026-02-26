@@ -11,7 +11,7 @@ export type ActivityType = "call" | "email" | "note" | "meeting"
 
 export interface QuickLogActivityProps {
 	onLog: (activity: { type: ActivityType; note: string }) => void | Promise<void>
-	trigger?: React.ReactNode
+	trigger?: React.ReactElement
 	className?: string
 }
 

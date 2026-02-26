@@ -106,7 +106,7 @@ export function createProductsPreset(config: ProductsPresetConfig = {}): Product
       statusMap: {
         active: { variant: 'success', label: 'Actif' },
         inactive: { variant: 'secondary', label: 'Inactif' },
-        discontinued: { variant: 'destructive', label: 'Arrêté' },
+        discontinued: { variant: 'critical', label: 'Arrêté' },
       },
       filterOptions: [
         { label: 'Actif', value: 'active' },

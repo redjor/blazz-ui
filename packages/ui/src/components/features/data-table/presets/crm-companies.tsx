@@ -106,7 +106,7 @@ export function createCompaniesPreset(config: CompaniesPresetConfig = {}): Compa
         prospect: { variant: 'warning', label: 'Prospect' },
         active: { variant: 'success', label: 'Actif' },
         inactive: { variant: 'secondary', label: 'Inactif' },
-        churned: { variant: 'destructive', label: 'Perdu' },
+        churned: { variant: 'critical', label: 'Perdu' },
       },
       filterOptions: [
         { label: 'Prospect', value: 'prospect' },

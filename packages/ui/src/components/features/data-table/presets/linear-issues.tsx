@@ -122,7 +122,7 @@ export function createLinearIssuesPreset(config: LinearIssuesPresetConfig = {}):
     }),
 
     // Project
-    col.text<LinearIssue>('project', { title: 'Projet', size: 200 }),
+    col.text<LinearIssue>('project', { title: 'Projet' }),
 
     // Assignee — avatar only (small)
     col.user<LinearIssue>('assigneeName', {

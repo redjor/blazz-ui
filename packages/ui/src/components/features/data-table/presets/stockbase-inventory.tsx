@@ -88,7 +88,7 @@ export function createInventoryPreset(config: InventoryPresetConfig = {}): Inven
       statusMap: {
         in_stock: { variant: 'success', label: 'En stock' },
         low_stock: { variant: 'warning', label: 'Stock faible' },
-        out_of_stock: { variant: 'destructive', label: 'Rupture' },
+        out_of_stock: { variant: 'critical', label: 'Rupture' },
         discontinued: { variant: 'secondary', label: 'Arrete' },
       },
       filterOptions: [
