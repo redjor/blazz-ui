@@ -17,7 +17,7 @@ const spacingMap = {
 export function DocSection({ id, title, children, className, spacing = "md" }: DocSectionProps) {
 	return (
 		<section id={id} className={cn(spacingMap[spacing], className)} aria-labelledby={`${id}-heading`}>
-			<h2 id={`${id}-heading`} className="text-lg font-semibold text-fg scroll-mt-6">
+			<h2 id={`${id}-heading`} className="text-xl font-semibold tracking-tight text-fg scroll-mt-6">
 				<a href={`#${id}`} className="hover:underline underline-offset-4 decoration-edge">
 					{title}
 				</a>

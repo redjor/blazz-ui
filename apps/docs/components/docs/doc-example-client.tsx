@@ -3,7 +3,6 @@
 import * as React from "react"
 import { Check, ChevronDown, Copy } from "lucide-react"
 import { cn } from "@blazz/ui/lib/utils"
-import { Button } from "@blazz/ui/components/ui/button"
 
 interface DocExampleClientProps {
 	title?: string
@@ -70,48 +69,44 @@ export function DocExampleClient({
 			{/* Preview */}
 			<div className={cn("rounded-lg border border-container bg-raised p-6", previewClassName)}>{children}</div>
 
-			{/* Code toggle bar */}
-			<div className="flex items-center gap-2">
-				<button
-					type="button"
-					onClick={() => setShowCode(!showCode)}
-					className="flex items-center gap-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
-				>
-					<ChevronDown
-						className={cn(
-							"size-3.5 transition-transform duration-200",
-							showCode && "rotate-180"
+			{/* Code block with header bar */}
+			<div className="overflow-hidden rounded-lg border border-container">
+				{/* Header bar */}
+				<div className="flex items-center justify-between border-b border-container bg-raised/50 px-4 py-2">
+					<button
+						type="button"
+						onClick={() => setShowCode(!showCode)}
+						className="flex items-center gap-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
+					>
+						<ChevronDown
+							className={cn(
+								"size-3.5 transition-transform duration-200",
+								showCode && "rotate-180"
+							)}
+						/>
+						{showCode ? "Hide code" : "Show code"}
+					</button>
+					<button
+						type="button"
+						onClick={copyToClipboard}
+						className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:text-fg hover:bg-raised"
+					>
+						{copied ? (
+							<Check className="size-3.5 text-positive" />
+						) : (
+							<Copy className="size-3.5" />
 						)}
-					/>
-					{showCode ? "Hide code" : "Show code"}
-				</button>
-				<Button
-					variant="ghost"
-					size="sm"
-					onClick={copyToClipboard}
-					className="ml-auto h-6 gap-1 px-2 text-xs text-fg-muted"
-				>
-					{copied ? (
-						<>
-							<Check className="size-3 text-positive" />
-							Copied
-						</>
-					) : (
-						<>
-							<Copy className="size-3" />
-							Copy
-						</>
-					)}
-				</Button>
-			</div>
+					</button>
+				</div>
 
-			{/* Code block (collapsible) */}
-			{showCode && (
-				<div
-					className="overflow-hidden rounded-lg border border-container [&_.shiki]:overflow-x-auto [&_.shiki]:p-4 [&_.shiki]:text-[13px] [&_.shiki]:leading-relaxed [&_code]:font-mono"
-					dangerouslySetInnerHTML={{ __html: highlightedCode }}
-				/>
-			)}
+				{/* Collapsible code */}
+				{showCode && (
+					<div
+						className="[&_.shiki]:overflow-x-auto [&_.shiki]:p-4 [&_.shiki]:text-[13px] [&_.shiki]:leading-relaxed [&_code]:font-mono"
+						dangerouslySetInnerHTML={{ __html: highlightedCode }}
+					/>
+				)}
+			</div>
 		</div>
 	)
 }

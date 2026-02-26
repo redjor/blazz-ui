@@ -9,7 +9,7 @@ export function SingleSelectionDemo() {
 	const [date, setDate] = React.useState<Date | undefined>(new Date())
 
 	return (
-		<div className="space-y-2">
+		<div className="flex flex-col items-center gap-2">
 			<Calendar
 				mode="single"
 				selected={date}
@@ -17,7 +17,7 @@ export function SingleSelectionDemo() {
 				className="rounded-lg border border-edge"
 			/>
 			{date && (
-				<p className="text-center text-xs text-fg-muted">
+				<p className="text-xs text-fg-muted">
 					Selected: {date.toLocaleDateString()}
 				</p>
 			)}
@@ -32,7 +32,7 @@ export function RangeSelectionDemo() {
 	})
 
 	return (
-		<div className="space-y-2">
+		<div className="flex flex-col items-center gap-2">
 			<Calendar
 				mode="range"
 				selected={range}
@@ -41,7 +41,7 @@ export function RangeSelectionDemo() {
 				className="rounded-lg border border-edge"
 			/>
 			{range?.from && range?.to && (
-				<p className="text-center text-xs text-fg-muted">
+				<p className="text-xs text-fg-muted">
 					{range.from.toLocaleDateString()} &ndash; {range.to.toLocaleDateString()}
 				</p>
 			)}
@@ -53,14 +53,14 @@ export function ControlledDemo() {
 	const [date, setDate] = React.useState<Date | undefined>()
 
 	return (
-		<div className="space-y-2">
+		<div className="flex flex-col items-center gap-2">
 			<Calendar
 				mode="single"
 				selected={date}
 				onSelect={setDate}
 				className="rounded-lg border border-edge"
 			/>
-			<p className="text-center text-xs text-fg-muted">
+			<p className="text-xs text-fg-muted">
 				{date ? `Selected: ${date.toLocaleDateString()}` : "Click a day to select it"}
 			</p>
 		</div>
