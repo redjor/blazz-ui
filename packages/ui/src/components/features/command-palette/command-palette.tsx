@@ -37,7 +37,7 @@ export function CommandPalette({ navigation, open, onOpenChange }: CommandPalett
 	}, [items])
 
 	return (
-		<CommandDialog open={isOpen} onOpenChange={setIsOpen}>
+		<CommandDialog open={isOpen} onOpenChange={setIsOpen} size="xl">
 			<CommandInput placeholder="Search components, blocks, AI..." />
 			<CommandList>
 				<CommandEmpty>
