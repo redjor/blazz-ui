@@ -130,6 +130,19 @@ export const componentsNavigation: ComponentNavCategory[] = [
 		],
 	},
 	{
+		id: "charts",
+		title: "Charts",
+		description: "Bar, line, area, pie and radar charts built on Recharts.",
+		icon: ChartLine,
+		items: [
+			{ title: "Area Chart", href: "/docs/components/charts/area-chart" },
+			{ title: "Bar Chart", href: "/docs/components/charts/bar-chart" },
+			{ title: "Line Chart", href: "/docs/components/charts/line-chart" },
+			{ title: "Pie Chart", href: "/docs/components/charts/pie-chart" },
+			{ title: "Radar Chart", href: "/docs/components/charts/radar-chart" },
+		],
+	},
+	{
 		id: "data-display",
 		title: "Data Display",
 		description: "Tables, avatars and content presentation.",

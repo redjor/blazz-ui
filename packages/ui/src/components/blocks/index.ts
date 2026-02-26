@@ -42,8 +42,23 @@ export type { FormFieldProps, FormFieldOption } from "./form-field"
 export { BulkActionBar } from "./bulk-action-bar"
 export type { BulkActionBarProps, BulkAction } from "./bulk-action-bar"
 
+export { AreaChartBlock } from "./area-chart-block"
+export type { AreaChartBlockProps } from "./area-chart-block"
+
+export { BarChartBlock } from "./bar-chart-block"
+export type { BarChartBlockProps } from "./bar-chart-block"
+
 export { ChartCard } from "./chart-card"
 export type { ChartCardProps } from "./chart-card"
+
+export { LineChartBlock } from "./line-chart-block"
+export type { LineChartBlockProps } from "./line-chart-block"
+
+export { PieChartBlock } from "./pie-chart-block"
+export type { PieChartBlockProps } from "./pie-chart-block"
+
+export { RadarChartBlock } from "./radar-chart-block"
+export type { RadarChartBlockProps } from "./radar-chart-block"
 
 export { DataGrid } from "./data-grid"
 export type { DataGridProps, ColumnDef, RowAction, DataGridBulkAction } from "./data-grid"

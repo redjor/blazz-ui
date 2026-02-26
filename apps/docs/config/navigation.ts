@@ -146,6 +146,19 @@ export const sidebarConfig: SidebarConfig = {
           ],
         },
         {
+          id: "comp-charts",
+          title: "Charts",
+          url: "/docs/components/charts",
+          icon: ChartLine,
+          items: [
+            { title: "Area Chart", url: "/docs/components/charts/area-chart" },
+            { title: "Bar Chart", url: "/docs/components/charts/bar-chart" },
+            { title: "Line Chart", url: "/docs/components/charts/line-chart" },
+            { title: "Pie Chart", url: "/docs/components/charts/pie-chart" },
+            { title: "Radar Chart", url: "/docs/components/charts/radar-chart" },
+          ],
+        },
+        {
           id: "comp-data-display",
           title: "Data Display",
           url: "/docs/components/data-display",
