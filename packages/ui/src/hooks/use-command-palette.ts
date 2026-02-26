@@ -1,15 +1,19 @@
 "use client"
 
+import type { LucideIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import * as React from "react"
 import type { NavigationSection } from "../types/navigation"
 
-export interface CommandItem {
+export interface CommandPaletteItem {
 	id: string
 	title: string
 	url: string
 	section?: string
 	keywords?: string[]
+	description?: string
+	icon?: LucideIcon
+	breadcrumb?: string
 }
 
 const RECENT_ITEMS_KEY = "command-palette-recent"
@@ -21,26 +25,10 @@ interface UseCommandPaletteOptions {
 	onOpenChange?: (open: boolean) => void
 }
 
-/**
- * Hook for managing command palette state and functionality
- *
- * Features:
- * - Keyboard shortcut (Cmd/Ctrl + K)
- * - Build searchable items from navigation
- * - Recent items tracking
- * - Navigation handling
- *
- * @example
- * const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({
- *   navigation: navConfig,
- *   open: commandPaletteOpen,
- *   onOpenChange: setCommandPaletteOpen,
- * })
- */
 export function useCommandPalette({ navigation, open, onOpenChange }: UseCommandPaletteOptions) {
 	const router = useRouter()
 	const [internalOpen, setInternalOpen] = React.useState(false)
-	const [recentItems, setRecentItems] = React.useState<CommandItem[]>([])
+	const [recentItems, setRecentItems] = React.useState<CommandPaletteItem[]>([])
 
 	// Use controlled state if provided, otherwise use internal state
 	const isOpen = open !== undefined ? open : internalOpen
@@ -48,26 +36,34 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 
 	// Build searchable items from navigation
 	const items = React.useMemo(() => {
-		const commandItems: CommandItem[] = []
+		const commandItems: CommandPaletteItem[] = []
 
 		navigation.forEach((section) => {
 			section.items.forEach((item) => {
 				// Add main item
 				commandItems.push({
-					id: item.url,
+					id: item.url ?? item.title,
 					title: item.title,
-					url: item.url,
+					url: item.url ?? "",
 					section: section.title,
+					keywords: item.keywords,
+					description: item.description,
+					icon: item.icon,
+					breadcrumb: section.title ?? "",
 				})
 
-				// Add nested items
+				// Add nested items with parent context
 				if (item.items) {
 					item.items.forEach((subItem) => {
 						commandItems.push({
-							id: subItem.url,
-							title: `${item.title} > ${subItem.title}`,
-							url: subItem.url,
+							id: subItem.url ?? subItem.title,
+							title: subItem.title,
+							url: subItem.url ?? "",
 							section: section.title,
+							keywords: subItem.keywords,
+							description: subItem.description,
+							icon: subItem.icon ?? item.icon,
+							breadcrumb: [section.title, item.title].filter(Boolean).join(" › "),
 						})
 					})
 				}
@@ -104,9 +100,10 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 
 	// Navigate to a command item
 	const navigate = React.useCallback(
-		(item: CommandItem) => {
-			// Add to recent items
-			const newRecent = [item, ...recentItems.filter((i) => i.id !== item.id)].slice(
+		(item: CommandPaletteItem) => {
+			// Add to recent items (strip icon since it can't be serialized to JSON)
+			const serializable = { ...item, icon: undefined }
+			const newRecent = [serializable, ...recentItems.filter((i) => i.id !== item.id)].slice(
 				0,
 				MAX_RECENT_ITEMS
 			)

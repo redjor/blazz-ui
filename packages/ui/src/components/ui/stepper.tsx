@@ -15,17 +15,113 @@ export interface StepperProps {
 	steps: StepperStep[]
 	/** Current active step (0-indexed) */
 	activeStep: number
-	/** Orientation. @default "horizontal" */
+	/** Visual variant. @default "default" */
+	variant?: "default" | "progress-bar" | "segmented"
+	/** Orientation (only applies to "default" variant). @default "horizontal" */
 	orientation?: "horizontal" | "vertical"
 	className?: string
 }
 
-function Stepper({
+/* ---------------------------------------------------------------------------
+ * Variant: progress-bar — Thick bar segments with step labels below
+ * --------------------------------------------------------------------------- */
+
+function StepperProgressBar({
+	steps,
+	activeStep,
+	className,
+}: Pick<StepperProps, "steps" | "activeStep" | "className">) {
+	return (
+		<div
+			data-slot="stepper"
+			role="list"
+			aria-label="Progress"
+			className={cn("flex gap-3", className)}
+		>
+			{steps.map((step, index) => {
+				const status =
+					index < activeStep ? "completed" : index === activeStep ? "active" : "pending"
+
+				return (
+					<div
+						key={step.label}
+						role="listitem"
+						data-status={status}
+						className="flex-1 space-y-2"
+					>
+						<div
+							className={cn(
+								"h-1 rounded-full transition-colors",
+								status === "pending" ? "bg-edge" : "bg-fg"
+							)}
+						/>
+						<p
+							className={cn(
+								"text-sm font-medium",
+								status === "pending" ? "text-fg-muted" : "text-fg"
+							)}
+						>
+							{step.label}
+						</p>
+					</div>
+				)
+			})}
+		</div>
+	)
+}
+
+/* ---------------------------------------------------------------------------
+ * Variant: segmented — Single progress bar with step counter
+ * --------------------------------------------------------------------------- */
+
+function StepperSegmented({
+	steps,
+	activeStep,
+	className,
+}: Pick<StepperProps, "steps" | "activeStep" | "className">) {
+	return (
+		<div
+			data-slot="stepper"
+			role="list"
+			aria-label="Progress"
+			className={cn("space-y-2", className)}
+		>
+			<div className="flex gap-1.5">
+				{steps.map((step, index) => {
+					const status =
+						index < activeStep ? "completed" : index === activeStep ? "active" : "pending"
+
+					return (
+						<div
+							key={step.label}
+							role="listitem"
+							data-status={status}
+							className={cn(
+								"h-2 flex-1 rounded-full transition-colors",
+								status === "pending" ? "bg-edge" : "bg-fg"
+							)}
+						/>
+					)
+				})}
+			</div>
+			<p className="text-right text-sm text-fg-muted tabular-nums">
+				{Math.min(activeStep + 1, steps.length)}{" "}
+				<span className="text-fg-muted/60">/ {steps.length}</span>
+			</p>
+		</div>
+	)
+}
+
+/* ---------------------------------------------------------------------------
+ * Variant: default — Circles with connectors (horizontal / vertical)
+ * --------------------------------------------------------------------------- */
+
+function StepperDefault({
 	steps,
 	activeStep,
 	orientation = "horizontal",
 	className,
-}: StepperProps) {
+}: Pick<StepperProps, "steps" | "activeStep" | "orientation" | "className">) {
 	return (
 		<div
 			data-slot="stepper"
@@ -69,14 +165,18 @@ function Stepper({
 										: "flex flex-col items-center"
 								)}
 							>
-								{/* Connector before (not for first) */}
-								{index > 0 && (
+								{/* Connector before */}
+								{(orientation === "horizontal" || index > 0) && (
 									<div
 										className={cn(
 											orientation === "horizontal"
 												? "h-0.5 flex-1"
 												: "w-0.5 h-6",
-											index <= activeStep ? "bg-brand" : "bg-edge"
+											index === 0
+												? "bg-transparent"
+												: index <= activeStep
+													? "bg-brand"
+													: "bg-edge"
 										)}
 									/>
 								)}
@@ -98,14 +198,18 @@ function Stepper({
 									)}
 								</div>
 
-								{/* Connector after (not for last) */}
-								{index < steps.length - 1 && (
+								{/* Connector after */}
+								{(orientation === "horizontal" || index < steps.length - 1) && (
 									<div
 										className={cn(
 											orientation === "horizontal"
 												? "h-0.5 flex-1"
 												: "w-0.5 h-6",
-											index < activeStep ? "bg-brand" : "bg-edge"
+											index === steps.length - 1
+												? "bg-transparent"
+												: index < activeStep
+													? "bg-brand"
+													: "bg-edge"
 										)}
 									/>
 								)}
@@ -150,6 +254,19 @@ function Stepper({
 			})}
 		</div>
 	)
+}
+
+/* ---------------------------------------------------------------------------
+ * Stepper — Root entry point
+ * --------------------------------------------------------------------------- */
+
+function Stepper({
+	variant = "default",
+	...props
+}: StepperProps) {
+	if (variant === "progress-bar") return <StepperProgressBar {...props} />
+	if (variant === "segmented") return <StepperSegmented {...props} />
+	return <StepperDefault {...props} />
 }
 
 export { Stepper }

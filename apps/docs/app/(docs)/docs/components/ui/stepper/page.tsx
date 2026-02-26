@@ -5,7 +5,12 @@ import { DocHero } from "@/components/docs/doc-hero"
 import { DocExample } from "@/components/docs/doc-example"
 import { DocPropsTable, type DocProp } from "@/components/docs/doc-props-table"
 import { DocRelated } from "@/components/docs/doc-related"
-import { InteractiveStepperDemo } from "./_demos"
+import {
+	InteractiveStepperDemo,
+	ProgressBarStepperDemo,
+	SegmentedStepperDemo,
+	VerticalStepperDemo,
+} from "./_demos"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
@@ -27,10 +32,16 @@ const stepperProps: DocProp[] = [
 		description: "The current active step index (0-based). Steps before this index are marked as completed.",
 	},
 	{
+		name: "variant",
+		type: '"default" | "progress-bar" | "segmented"',
+		default: '"default"',
+		description: "The visual variant of the stepper.",
+	},
+	{
 		name: "orientation",
 		type: '"horizontal" | "vertical"',
 		default: '"horizontal"',
-		description: "The layout orientation of the stepper.",
+		description: 'The layout orientation (only applies to the "default" variant).',
 	},
 ]
 
@@ -70,8 +81,58 @@ export default function StepperPage() {
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
 				<DocExample
-					title="Horizontal"
-					description="The default horizontal stepper layout."
+					title="Stepper with progress bar and titles"
+					description="Thick bar segments above step labels. Completed and active steps are highlighted."
+					code={`<Stepper
+  variant="progress-bar"
+  steps={[
+    { label: "User Details" },
+    { label: "Payment Info" },
+    { label: "Auth OTP" },
+    { label: "Preview Form" },
+  ]}
+  activeStep={1}
+/>`}
+				>
+					<ProgressBarStepperDemo />
+				</DocExample>
+
+				<DocExample
+					title="Stepper with segmented progress bar"
+					description="A segmented bar with a step counter. Ideal for minimal wizard-style flows."
+					code={`<Stepper
+  variant="segmented"
+  steps={[
+    { label: "Step 1" },
+    { label: "Step 2" },
+    { label: "Step 3" },
+    { label: "Step 4" },
+  ]}
+  activeStep={0}
+/>`}
+				>
+					<SegmentedStepperDemo />
+				</DocExample>
+
+				<DocExample
+					title="Vertical stepper"
+					description="A vertical stepper with labels and descriptions. Ideal for sidebar or narrow layouts."
+					code={`<Stepper
+  orientation="vertical"
+  steps={[
+    { label: "Account", description: "Create your account" },
+    { label: "Profile", description: "Set up your profile" },
+    { label: "Review", description: "Confirm your details" },
+  ]}
+  activeStep={1}
+/>`}
+				>
+					<VerticalStepperDemo />
+				</DocExample>
+
+				<DocExample
+					title="Horizontal (default)"
+					description="The default horizontal stepper with circles and connectors."
 					code={`<Stepper
   steps={[
     { label: "Account" },
@@ -90,32 +151,6 @@ export default function StepperPage() {
 							{ label: "Complete" },
 						]}
 						activeStep={1}
-					/>
-				</DocExample>
-
-				<DocExample
-					title="Vertical"
-					description="A vertical stepper for sidebar or narrow layouts."
-					code={`<Stepper
-  orientation="vertical"
-  steps={[
-    { label: "Account" },
-    { label: "Profile" },
-    { label: "Settings" },
-    { label: "Complete" },
-  ]}
-  activeStep={2}
-/>`}
-				>
-					<Stepper
-						orientation="vertical"
-						steps={[
-							{ label: "Account" },
-							{ label: "Profile" },
-							{ label: "Settings" },
-							{ label: "Complete" },
-						]}
-						activeStep={2}
 					/>
 				</DocExample>
 
@@ -231,9 +266,10 @@ const steps = [
 			{/* Guidelines */}
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Use horizontal steppers for wide layouts and vertical for narrow ones</li>
+					<li>Use <code className="text-fg text-xs">progress-bar</code> variant for form wizards where step names matter</li>
+					<li>Use <code className="text-fg text-xs">segmented</code> variant for minimal flows where only progress matters</li>
+					<li>Use <code className="text-fg text-xs">default</code> vertical for sidebar or narrow layouts with descriptions</li>
 					<li>Keep step labels short and descriptive</li>
-					<li>Add descriptions when the label alone is not clear enough</li>
 					<li>Manage activeStep externally to control navigation</li>
 					<li>Use 3-7 steps for the best user experience</li>
 				</ul>

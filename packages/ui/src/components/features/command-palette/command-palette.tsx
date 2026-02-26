@@ -1,6 +1,6 @@
 "use client"
 
-import { Clock, Search } from "lucide-react"
+import { Clock, FileText, Search } from "lucide-react"
 import * as React from "react"
 import type { NavigationSection } from "../../../types/navigation"
 import {
@@ -11,7 +11,6 @@ import {
 	CommandItem,
 	CommandList,
 	CommandSeparator,
-	CommandShortcut,
 } from "../../ui/command"
 import { useCommandPalette } from "../../../hooks/use-command-palette"
 
@@ -21,18 +20,6 @@ export interface CommandPaletteProps {
 	onOpenChange?: (open: boolean) => void
 }
 
-/**
- * CommandPalette - Global command palette for quick navigation
- *
- * Features:
- * - Cmd/Ctrl + K to open
- * - Fuzzy search through navigation
- * - Recent items section
- * - Keyboard navigation
- *
- * @example
- * <CommandPalette navigation={navConfig} open={open} onOpenChange={setOpen} />
- */
 export function CommandPalette({ navigation, open, onOpenChange }: CommandPaletteProps) {
 	const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({ navigation, open, onOpenChange })
 
@@ -51,18 +38,34 @@ export function CommandPalette({ navigation, open, onOpenChange }: CommandPalett
 
 	return (
 		<CommandDialog open={isOpen} onOpenChange={setIsOpen}>
-			<CommandInput placeholder="Search for pages..." />
+			<CommandInput placeholder="Search components, blocks, AI..." />
 			<CommandList>
-				<CommandEmpty>No results found.</CommandEmpty>
+				<CommandEmpty>
+					<div className="flex flex-col items-center gap-2 py-4">
+						<Search className="h-10 w-10 text-fg-muted/40" />
+						<p className="text-sm text-fg-muted">No results found.</p>
+						<p className="text-xs text-fg-subtle">Try a different keyword or alias.</p>
+					</div>
+				</CommandEmpty>
 
 				{/* Recent Items */}
 				{recentItems.length > 0 && (
 					<>
 						<CommandGroup heading="Recent">
 							{recentItems.map((item) => (
-								<CommandItem key={item.id} value={item.title} onSelect={() => navigate(item)}>
-									<Clock className="mr-2 h-4 w-4" />
-									<span>{item.title}</span>
+								<CommandItem
+									key={`recent-${item.id}`}
+									value={`recent:${item.title}`}
+									keywords={item.keywords}
+									onSelect={() => navigate(item)}
+								>
+									<Clock className="mr-2 h-4 w-4 shrink-0 text-fg-subtle" />
+									<div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+										<span className="truncate">{item.title}</span>
+										{item.breadcrumb && (
+											<span className="shrink-0 text-xs text-fg-subtle">{item.breadcrumb}</span>
+										)}
+									</div>
 								</CommandItem>
 							))}
 						</CommandGroup>
@@ -73,13 +76,25 @@ export function CommandPalette({ navigation, open, onOpenChange }: CommandPalett
 				{/* Navigation Items by Section */}
 				{Object.entries(groupedItems).map(([section, sectionItems]) => (
 					<CommandGroup key={section} heading={section}>
-						{sectionItems.map((item) => (
-							<CommandItem key={item.id} value={item.title} onSelect={() => navigate(item)}>
-								<Search className="mr-2 h-4 w-4" />
-								<span>{item.title}</span>
-								<CommandShortcut>⏎</CommandShortcut>
-							</CommandItem>
-						))}
+						{sectionItems.map((item) => {
+							const Icon = item.icon || FileText
+							return (
+								<CommandItem
+									key={item.id}
+									value={item.title}
+									keywords={item.keywords}
+									onSelect={() => navigate(item)}
+								>
+									<Icon className="mr-2 h-4 w-4 shrink-0 text-fg-subtle" />
+									<div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+										<span className="truncate">{item.title}</span>
+										{item.breadcrumb && (
+											<span className="shrink-0 text-xs text-fg-subtle">{item.breadcrumb}</span>
+										)}
+									</div>
+								</CommandItem>
+							)
+						})}
 					</CommandGroup>
 				))}
 			</CommandList>

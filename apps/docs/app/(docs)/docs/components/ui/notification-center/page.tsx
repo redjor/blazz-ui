@@ -3,7 +3,7 @@
 import { DocPage } from "@/components/docs/doc-page"
 import { DocSection } from "@/components/docs/doc-section"
 import { DocHero } from "@/components/docs/doc-hero"
-import { DocExample } from "@/components/docs/doc-example"
+import { DocExampleSync as DocExample } from "@/components/docs/doc-example-client"
 import {
 	DocPropsTable,
 	type DocProp,

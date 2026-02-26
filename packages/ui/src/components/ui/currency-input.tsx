@@ -90,7 +90,7 @@ function CurrencyInput({
 	}
 
 	return (
-		<div className="relative">
+		<div className={cn("relative", className)}>
 			{symbolPosition === "left" && (
 				<span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-sm text-fg-muted pointer-events-none select-none">
 					{symbol}
@@ -119,8 +119,7 @@ function CurrencyInput({
 					"placeholder:text-fg-subtle",
 					"transition-colors duration-150 ease-out",
 					"disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
-					"aria-invalid:border-negative aria-invalid:ring-[3px] aria-invalid:ring-negative/20",
-					className
+					"aria-invalid:border-negative aria-invalid:ring-[3px] aria-invalid:ring-negative/20"
 				)}
 				{...props}
 			/>

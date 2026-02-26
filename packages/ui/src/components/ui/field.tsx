@@ -1,153 +1,190 @@
 "use client"
 
 import * as React from "react"
-import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from "react-hook-form"
 import { cn } from "../../lib/utils"
 import { Label } from "./label"
 
-type FieldContextValue<
-	TFieldValues extends FieldValues = FieldValues,
-	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
-	name: TName
+/* ─── Context ──────────────────────────────────────────── */
+
+type FieldContextValue = {
+	id: string
+	descriptionId: string
+	errorId: string
+	hasError: boolean
+	setHasError: (v: boolean) => void
 }
 
-const FieldContext = React.createContext<FieldContextValue>({} as FieldContextValue)
+const FieldContext = React.createContext<FieldContextValue | null>(null)
 
-const FormItemContext = React.createContext<{ id: string }>({ id: "" })
+function useFieldContext() {
+	const ctx = React.useContext(FieldContext)
+	if (!ctx) throw new Error("Field.* components must be used within <Field>")
+	return ctx
+}
 
-const Field = <
-	TFieldValues extends FieldValues = FieldValues,
-	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-	...props
-}: ControllerProps<TFieldValues, TName>) => {
+/* ─── Field (root) ─────────────────────────────────────── */
+
+type FieldProps = React.ComponentProps<"div"> & {
+	orientation?: "vertical" | "horizontal"
+}
+
+function Field({ orientation = "vertical", className, ...props }: FieldProps) {
+	const id = React.useId()
+	const [hasError, setHasError] = React.useState(false)
+
+	const ctx = React.useMemo<FieldContextValue>(
+		() => ({
+			id,
+			descriptionId: `${id}-description`,
+			errorId: `${id}-error`,
+			hasError,
+			setHasError,
+		}),
+		[id, hasError]
+	)
+
 	return (
-		<FieldContext.Provider value={{ name: props.name }}>
-			<Controller {...props} />
+		<FieldContext.Provider value={ctx}>
+			<div
+				data-slot="field"
+				data-invalid={hasError || undefined}
+				className={cn(
+					orientation === "horizontal"
+						? "grid grid-cols-[minmax(120px,auto)_1fr] items-start gap-x-4 gap-y-1"
+						: "flex flex-col gap-1.5",
+					className
+				)}
+				{...props}
+			/>
 		</FieldContext.Provider>
 	)
 }
 
-const useFieldContext = () => {
-	const fieldContext = React.useContext(FieldContext)
-	const itemContext = React.useContext(FormItemContext)
-	const { getFieldState, formState } = useFormContext()
+/* ─── FieldLabel ───────────────────────────────────────── */
 
-	const fieldState = getFieldState(fieldContext.name, formState)
+type FieldLabelProps = React.ComponentProps<typeof Label>
 
-	if (!fieldContext) {
-		throw new Error("useFieldContext must be used within Field")
-	}
-
-	const { id } = itemContext
-
-	return {
-		id,
-		name: fieldContext.name,
-		formItemId: `${id}-form-item`,
-		formDescriptionId: `${id}-form-item-description`,
-		formMessageId: `${id}-form-item-message`,
-		...fieldState,
-	}
-}
-
-const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-	({ className, ...props }, ref) => {
-		const id = React.useId()
-
-		return (
-			<FormItemContext.Provider value={{ id }}>
-				<div ref={ref} className={cn("space-y-2", className)} {...props} />
-			</FormItemContext.Provider>
-		)
-	}
-)
-FormItem.displayName = "FormItem"
-
-const FormLabel = React.forwardRef<
-	React.ElementRef<typeof Label>,
-	React.ComponentPropsWithoutRef<typeof Label>
->(({ className, ...props }, ref) => {
-	const { error, formItemId } = useFieldContext()
+function FieldLabel({ className, ...props }: FieldLabelProps) {
+	const { id, hasError } = useFieldContext()
 
 	return (
 		<Label
-			ref={ref}
-			className={cn(error && "text-negative", className)}
-			htmlFor={formItemId}
+			htmlFor={id}
+			className={cn(hasError && "text-negative", className)}
 			{...props}
 		/>
 	)
-})
-FormLabel.displayName = "FormLabel"
+}
 
-const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-	({ ...props }, ref) => {
-		const { error, formItemId, formDescriptionId, formMessageId } = useFieldContext()
+/* ─── FieldContent ─────────────────────────────────────── */
 
-		return (
-			<div
-				ref={ref}
-				id={formItemId}
-				aria-describedby={
-					!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`
-				}
-				aria-invalid={!!error}
-				{...props}
-			/>
-		)
+type FieldContentProps = React.ComponentProps<"div">
+
+function FieldContent({ className, ...props }: FieldContentProps) {
+	return (
+		<div
+			data-slot="field-content"
+			className={cn("flex flex-col gap-1.5", className)}
+			{...props}
+		/>
+	)
+}
+
+/* ─── FieldControl ─────────────────────────────────────── */
+
+type FieldControlProps = {
+	children: React.ReactElement<Record<string, unknown>>
+	/** Render function alternative — receives { id, descriptionId, errorId, hasError } */
+	render?: (ctx: { id: string; descriptionId: string; errorId: string; hasError: boolean }) => React.ReactNode
+}
+
+function FieldControl({ children, render }: FieldControlProps) {
+	const { id, descriptionId, errorId, hasError } = useFieldContext()
+
+	if (render) {
+		return <>{render({ id, descriptionId, errorId, hasError })}</>
 	}
-)
-FormControl.displayName = "FormControl"
 
-const FormDescription = React.forwardRef<
-	HTMLParagraphElement,
-	React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
-	const { formDescriptionId } = useFieldContext()
+	return React.cloneElement(children, {
+		id,
+		"aria-describedby": hasError ? `${descriptionId} ${errorId}` : descriptionId,
+		"aria-invalid": hasError || undefined,
+	} as Record<string, unknown>)
+}
+
+/* ─── FieldDescription ─────────────────────────────────── */
+
+type FieldDescriptionProps = React.ComponentProps<"p">
+
+function FieldDescription({ className, ...props }: FieldDescriptionProps) {
+	const { descriptionId } = useFieldContext()
 
 	return (
 		<p
-			ref={ref}
-			id={formDescriptionId}
+			id={descriptionId}
+			data-slot="field-description"
 			className={cn("text-sm text-fg-muted", className)}
 			{...props}
 		/>
 	)
-})
-FormDescription.displayName = "FormDescription"
+}
 
-const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-	({ className, children, ...props }, ref) => {
-		const { error, formMessageId } = useFieldContext()
-		const body = error ? String(error?.message) : children
+/* ─── FieldError ───────────────────────────────────────── */
 
-		if (!body) {
-			return null
-		}
+type FieldErrorProps = React.ComponentProps<"p"> & {
+	errors?: string[]
+}
 
-		return (
-			<p
-				ref={ref}
-				id={formMessageId}
-				className={cn("text-sm font-medium text-negative", className)}
-				{...props}
-			>
-				{body}
-			</p>
-		)
-	}
-)
-FormMessage.displayName = "FormMessage"
+function FieldError({ errors, children, className, ...props }: FieldErrorProps) {
+	const { errorId, setHasError } = useFieldContext()
+
+	const messages = errors?.length ? errors : children ? [children] : []
+	const hasMessages = messages.length > 0
+
+	React.useEffect(() => {
+		setHasError(hasMessages)
+		return () => setHasError(false)
+	}, [hasMessages, setHasError])
+
+	if (!hasMessages) return null
+
+	return (
+		<div id={errorId} data-slot="field-error" aria-live="polite">
+			{(errors ?? []).map((msg) => (
+				<p
+					key={msg}
+					className={cn("text-sm text-negative", className)}
+					{...props}
+				>
+					{msg}
+				</p>
+			))}
+			{!errors && children && (
+				<p className={cn("text-sm text-negative", className)} {...props}>
+					{children}
+				</p>
+			)}
+		</div>
+	)
+}
+
+/* ─── Exports ──────────────────────────────────────────── */
 
 export {
-	useFieldContext,
 	Field,
-	FormItem,
-	FormLabel,
-	FormControl,
-	FormDescription,
-	FormMessage,
-	FormProvider as Form,
+	FieldLabel,
+	FieldContent,
+	FieldControl,
+	FieldDescription,
+	FieldError,
+	useFieldContext,
+}
+
+export type {
+	FieldProps,
+	FieldLabelProps,
+	FieldContentProps,
+	FieldControlProps,
+	FieldDescriptionProps,
+	FieldErrorProps,
 }

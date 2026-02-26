@@ -22,6 +22,8 @@ export interface NavigationItem {
 	badgeVariant?: "default" | "destructive" | "outline" | "secondary"
 	items?: NavigationItem[]
 	actions?: NavigationItemAction[]
+	keywords?: string[]
+	description?: string
 	disabled?: boolean
 	onClick?: () => void
 	metadata?: Record<string, any>
