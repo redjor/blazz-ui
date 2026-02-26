@@ -1,19 +1,19 @@
 "use client"
 
-import { useTheme } from "next-themes"
 import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 
 export function ThumbnailShell({ children }: { children: React.ReactNode }) {
-  const { setTheme } = useTheme()
   const searchParams = useSearchParams()
   const requestedTheme = searchParams.get("theme")
 
   useEffect(() => {
-    if (requestedTheme === "light" || requestedTheme === "dark") {
-      setTheme(requestedTheme)
+    if (requestedTheme === "light") {
+      document.documentElement.classList.remove("dark")
+    } else {
+      document.documentElement.classList.add("dark")
     }
-  }, [requestedTheme, setTheme])
+  }, [requestedTheme])
 
   return (
     <div

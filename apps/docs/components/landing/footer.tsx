@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useTheme } from "next-themes"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 
@@ -12,7 +11,6 @@ const linkGroups = [
 		title: "Product",
 		links: [
 			{ label: "Components", href: "/docs/components" },
-			{ label: "Themes", href: "/docs/theming" },
 			{ label: "Pricing", href: "#pricing" },
 		],
 	},
@@ -36,12 +34,6 @@ const linkGroups = [
 
 export function Footer() {
 	const [email, setEmail] = useState("")
-	const { resolvedTheme } = useTheme()
-	const [mounted, setMounted] = useState(false)
-
-	useEffect(() => {
-		setMounted(true)
-	}, [])
 
 	return (
 		<footer className="py-16 px-6 border-t border-edge">
@@ -97,7 +89,7 @@ export function Footer() {
 				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-edge">
 					<Link href="/" className="flex items-center gap-2">
 						<Image
-							src={mounted && resolvedTheme === "light" ? "/logo_blazz_gold.svg" : "/logo_blazz_white.svg"}
+							src="/logo_blazz_white.svg"
 							alt="Blazz"
 							width={20}
 							height={20}

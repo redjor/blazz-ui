@@ -13,11 +13,11 @@ import {
   MessageCircle,
   MousePointerClick,
   Navigation,
-  Palette,
   Table2,
   MessageSquare,
   Users,
   Wrench,
+  Palette,
 } from "lucide-react";
 import type { SidebarConfig } from "@blazz/ui/types/navigation";
 
@@ -28,18 +28,6 @@ export const sidebarConfig: SidebarConfig = {
     role: "Administrateur",
   },
   navigation: [
-    {
-      id: "foundations",
-      title: "Foundations",
-      items: [
-        {
-          id: "theming",
-          title: "Theming",
-          url: "/docs/theming",
-          icon: Palette,
-        },
-      ],
-    },
     {
       id: "components",
       title: "Components",

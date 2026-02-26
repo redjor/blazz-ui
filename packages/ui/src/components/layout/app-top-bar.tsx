@@ -106,10 +106,10 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 
 			{/* Right: Theme + optional Notifications + User Menu */}
 			<div className="flex items-center gap-2 shrink-0 justify-end">
-				<ThemePaletteSwitcher />
 				<ThemeToggle />
 				{!minimal && (
 					<>
+						<ThemePaletteSwitcher />
 						<NotificationSheet />
 						<UserMenu user={user} />
 					</>

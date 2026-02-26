@@ -5,7 +5,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@blazz/ui/components/ui/button"
 import { cn } from "@blazz/ui/lib/utils"
-import { useTheme } from "next-themes"
 
 const examplesUrl = process.env.NEXT_PUBLIC_EXAMPLES_URL ?? ""
 
@@ -18,11 +17,8 @@ const navLinks = [
 
 export function Navbar() {
 	const [scrolled, setScrolled] = useState(false)
-	const { resolvedTheme } = useTheme()
-	const [mounted, setMounted] = useState(false)
 
 	useEffect(() => {
-		setMounted(true)
 		const onScroll = () => setScrolled(window.scrollY > 20)
 		window.addEventListener("scroll", onScroll, { passive: true })
 		return () => window.removeEventListener("scroll", onScroll)
@@ -40,7 +36,7 @@ export function Navbar() {
 			<div className="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
 				<Link href="/" className="flex items-center gap-2">
 					<Image
-						src={mounted && resolvedTheme === "light" ? "/logo_blazz_gold.svg" : "/logo_blazz_white.svg"}
+						src="/logo_blazz_white.svg"
 						alt="Blazz"
 						width={28}
 						height={28}

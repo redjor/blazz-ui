@@ -83,31 +83,6 @@ export const navigation = {
 } as const
 
 /**
- * Configuration du thème
- */
-export const theme = {
-	/** Mode par défaut: 'light', 'dark', ou 'system' */
-	defaultMode: "light" as "light" | "dark" | "system",
-
-	/** Fichier CSS contenant les variables de thème */
-	cssVarsFile: "./app/globals.css",
-
-	/** Autoriser le changement de thème par l'utilisateur */
-	allowThemeToggle: true,
-
-	/** Stratégie de stockage du thème ('localStorage', 'cookie', 'none') */
-	storage: "localStorage" as "localStorage" | "cookie" | "none",
-
-	/** Palettes de couleurs personnalisées (pour futures versions) */
-	customPalettes: {
-		// purple: {
-		// 	primary: "oklch(0.55 0.25 280)",
-		// 	primaryForeground: "oklch(0.985 0 0)",
-		// },
-	},
-} as const
-
-/**
  * Configuration des fonctionnalités (feature flags)
  */
 export const features = {
@@ -133,13 +108,6 @@ export const features = {
 		enabled: process.env.NEXT_PUBLIC_ENABLE_I18N === "true",
 		defaultLocale: "fr",
 		locales: ["fr", "en"],
-	},
-
-	/** Dark Mode */
-	darkMode: {
-		enabled:
-			process.env.NEXT_PUBLIC_ENABLE_DARK_MODE === "true" ||
-			process.env.NEXT_PUBLIC_ENABLE_DARK_MODE === undefined,
 	},
 
 	/** Mode maintenance */
@@ -348,7 +316,6 @@ export const limits = {
 export const appConfig = {
 	metadata: appMetadata,
 	navigation,
-	theme,
 	features,
 	auth,
 	api,
