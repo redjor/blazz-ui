@@ -9,6 +9,7 @@ import {
 	ComboboxWithIconDemo,
 	ComboboxWithLabelDemo,
 	ComboboxCustomEmptyDemo,
+	ComboboxTeamMemberDemo,
 } from "./_demos"
 
 const toc = [
@@ -33,7 +34,7 @@ const comboboxProps: DocProp[] = [
 		name: "options",
 		type: "ComboboxOption[]",
 		description:
-			"Array of options. Each option has value (string), label (string), and optional suggested (boolean).",
+			"Array of options. Each option has value, label, and optional description, avatar (image URL), icon (ReactNode).",
 	},
 	{
 		name: "placeholder",
@@ -70,10 +71,11 @@ export default function ComboboxPage() {
 		<DocPage
 			title="Combobox"
 			subtitle="A searchable dropdown that combines a text input with a list of options. Ideal for large option sets where filtering is needed."
+			category="Components"
 			toc={toc}
 		>
 			<DocHero>
-				<ComboboxDefaultDemo />
+				<ComboboxTeamMemberDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
@@ -139,6 +141,30 @@ export default function ComboboxPage() {
 />`}
 				>
 					<ComboboxCustomEmptyDemo />
+				</DocExample>
+
+				<DocExample
+					title="Team Member Selector"
+					description="Rich options with avatar and description. Perfect for user/member pickers."
+					code={`const members = [
+  {
+    value: "alex",
+    label: "Alex Johnson",
+    description: "Software Engineer",
+    avatar: "https://example.com/alex.jpg",
+  },
+  // ...
+]
+
+<Combobox
+  value={value}
+  onValueChange={setValue}
+  options={members}
+  placeholder="Select a member..."
+  searchPlaceholder="Search members..."
+/>`}
+				>
+					<ComboboxTeamMemberDemo />
 				</DocExample>
 			</DocSection>
 
