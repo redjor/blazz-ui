@@ -61,9 +61,9 @@ export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, a
 
 				{/* Desktop: Logo + Section Nav */}
 				<div className="hidden md:flex items-center gap-2">
-					<div className="flex h-24 w-24 items-center justify-center">
+					<Link href="/" className="flex h-24 w-24 items-center justify-center">
 						<Image src="/logo_blazz_white.svg" alt="Blazz Logo" width={87} height={24} />
-					</div>
+					</Link>
 					{sections.length > 0 && (
 						<div className="ml-2 flex items-center gap-1 rounded-lg bg-white/10 p-0.5">
 							{sections.map((section) => {

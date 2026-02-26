@@ -12,10 +12,7 @@ import { Toaster } from "sonner"
 const examplesUrl = process.env.NEXT_PUBLIC_EXAMPLES_URL ?? ""
 
 const sections = [
-	{ id: "docs", label: "Docs", href: "/docs/components" },
-	{ id: "crm", label: "CRM", href: `${examplesUrl}/examples/crm/dashboard` },
-	{ id: "talentflow", label: "TalentFlow", href: `${examplesUrl}/examples/talentflow/dashboard` },
-	{ id: "stockbase", label: "StockBase", href: `${examplesUrl}/examples/stockbase/dashboard` },
+	{ id: "examples", label: "Examples", href: examplesUrl || "/examples" },
 ]
 
 function FrameLayoutInner({ children }: { children: React.ReactNode }) {
@@ -28,7 +25,7 @@ function FrameLayoutInner({ children }: { children: React.ReactNode }) {
 				sidebarConfig={sidebarConfig}
 				sections={sections}
 				onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-				activeSection="docs"
+				activeSection=""
 				minimalTopBar
 			>
 				{children}
