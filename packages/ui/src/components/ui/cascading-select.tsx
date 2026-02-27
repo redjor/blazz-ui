@@ -66,7 +66,7 @@ export function CascadingSelect({
   }
 
   function handleBreadcrumbJump(index: number) {
-    setPath(path.slice(0, index + 1))
+    setPath((prev) => prev.slice(0, index + 1))
   }
 
   React.useEffect(() => {
@@ -81,6 +81,7 @@ export function CascadingSelect({
           !selectedPath && "text-fg-muted",
           className
         )}
+        role="combobox"
         aria-expanded={open}
       >
         <span className="truncate">{triggerLabel}</span>
