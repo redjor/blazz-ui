@@ -48,3 +48,5 @@ storybook-static
 .claude/worktrees/
 
 apps/examples/lib/generated/prisma
+
+.output
