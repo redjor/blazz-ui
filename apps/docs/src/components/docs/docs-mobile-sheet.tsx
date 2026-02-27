@@ -2,8 +2,9 @@
 
 import { Link, useLocation } from "@tanstack/react-router"
 import * as React from "react"
+import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
+import { Sheet, SheetContent } from "@blazz/ui/components/ui/sheet"
 import {
-	Sidebar,
 	SidebarCollapsible,
 	SidebarCollapsibleContent,
 	SidebarContent,
@@ -21,25 +22,12 @@ import {
 import { sidebarConfig } from "~/config/navigation"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
 
-function findActiveParentItemId(navigation: NavigationSection[], pathname: string): string | null {
-	for (const section of navigation) {
-		for (const item of section.items) {
-			const itemKey = item.id ?? item.url ?? null
-			if (item.url && pathname.startsWith(item.url) && item.items) {
-				return itemKey
-			}
-			if (item.items) {
-				const hasActiveSubItem = item.items.some(
-					(subItem) => subItem.url && pathname.startsWith(subItem.url)
-				)
-				if (hasActiveSubItem) return itemKey
-			}
-		}
-	}
-	return null
+interface DocsMobileSheetProps {
+	open: boolean
+	onOpenChange: (open: boolean) => void
 }
 
-export function DocsSidebar() {
+export function DocsMobileSheet({ open, onOpenChange }: DocsMobileSheetProps) {
 	const { pathname } = useLocation()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 
@@ -49,39 +37,63 @@ export function DocsSidebar() {
 		return pathname.startsWith(url)
 	}
 
+	const handleLinkClick = () => onOpenChange(false)
+
 	React.useEffect(() => {
-		const activeParentId = findActiveParentItemId(sidebarConfig.navigation, pathname)
-		if (activeParentId) setOpenItemId(activeParentId)
+		for (const section of sidebarConfig.navigation) {
+			for (const item of section.items) {
+				if (item.url && pathname.startsWith(item.url) && item.items) {
+					setOpenItemId(item.id ?? item.url ?? null)
+					return
+				}
+				if (item.items) {
+					for (const sub of item.items) {
+						if (sub.url && pathname.startsWith(sub.url)) {
+							setOpenItemId(item.id ?? item.url ?? null)
+							return
+						}
+					}
+				}
+			}
+		}
 	}, [pathname])
 
 	return (
-		<Sidebar
-			collapsible="none"
-			className="hidden lg:flex rounded overflow-hidden border border-container"
-		>
-			<SidebarContent>
-				{sidebarConfig.navigation.map((section) => (
-					<NavSection
-						key={section.id ?? section.title}
-						section={section}
-						isActive={isActive}
-						openItemId={openItemId}
-						setOpenItemId={setOpenItemId}
-					/>
-				))}
-			</SidebarContent>
-		</Sidebar>
+		<Sheet open={open} onOpenChange={onOpenChange}>
+			<SheetContent
+				side="left"
+				className="w-(--sidebar-width) p-0 bg-surface"
+				topOffset="var(--topbar-height)"
+			>
+				<ScrollArea className="h-full">
+					<SidebarContent>
+						{sidebarConfig.navigation.map((section) => (
+							<NavSection
+								key={section.id ?? section.title}
+								section={section}
+								isActive={isActive}
+								onLinkClick={handleLinkClick}
+								openItemId={openItemId}
+								setOpenItemId={setOpenItemId}
+							/>
+						))}
+					</SidebarContent>
+				</ScrollArea>
+			</SheetContent>
+		</Sheet>
 	)
 }
 
 function NavSection({
 	section,
 	isActive,
+	onLinkClick,
 	openItemId,
 	setOpenItemId,
 }: {
 	section: NavigationSection
 	isActive: (url?: string) => boolean
+	onLinkClick: () => void
 	openItemId: string | null
 	setOpenItemId: (id: string | null) => void
 }) {
@@ -95,6 +107,7 @@ function NavSection({
 							key={item.id ?? item.url ?? item.title}
 							item={item}
 							isActive={isActive}
+							onLinkClick={onLinkClick}
 							openItemId={openItemId}
 							setOpenItemId={setOpenItemId}
 						/>
@@ -108,11 +121,13 @@ function NavSection({
 function NavItem({
 	item,
 	isActive,
+	onLinkClick,
 	openItemId,
 	setOpenItemId,
 }: {
 	item: NavigationItem
 	isActive: (url?: string) => boolean
+	onLinkClick: () => void
 	openItemId: string | null
 	setOpenItemId: (id: string | null) => void
 }) {
@@ -132,7 +147,7 @@ function NavItem({
 			>
 				<SidebarMenuItem>
 					<SidebarMenuCollapsibleTrigger spacing="compact" asChild isActive={isParentActive}>
-						<Link to={item.url ?? "/"}>
+						<Link to={item.url ?? "/"} onClick={onLinkClick}>
 							{item.icon && <item.icon />}
 							<span>{item.title}</span>
 						</Link>
@@ -145,7 +160,7 @@ function NavItem({
 									isActive={isActive(sub.url)}
 								>
 									<SidebarMenuSubButton asChild isActive={isActive(sub.url)}>
-										<Link to={sub.url ?? "/"}>
+										<Link to={sub.url ?? "/"} onClick={onLinkClick}>
 											{sub.icon && <sub.icon />}
 											<span>{sub.title}</span>
 										</Link>
@@ -162,7 +177,7 @@ function NavItem({
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild isActive={isActive(item.url)}>
-				<Link to={item.url ?? "/"}>
+				<Link to={item.url ?? "/"} onClick={onLinkClick}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
 				</Link>
