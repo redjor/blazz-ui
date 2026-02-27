@@ -1,6 +1,7 @@
 "use client"
 
-import { createFileRoute, Outlet } from "@tanstack/react-router"
+import { useEffect } from "react"
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router"
 import { CommandPalette } from "@blazz/ui/components/features/command-palette/command-palette"
 import { AppFrame } from "@blazz/ui/components/layout/app-frame"
 import { FrameProvider, useFrame } from "@blazz/ui/components/layout/frame-context"
@@ -19,9 +20,23 @@ const sections = [
   { id: "examples", label: "Examples", href: examplesUrl || "/examples" },
 ]
 
+function useSyncDocTitle() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const h1 = document.querySelector("h1")
+      document.title = h1?.textContent
+        ? `${h1.textContent} — Blazz UI`
+        : "Blazz UI"
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [pathname])
+}
+
 function DocsLayoutInner() {
   const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
   useFrameLayout()
+  useSyncDocTitle()
 
   return (
     <SidebarProvider>
