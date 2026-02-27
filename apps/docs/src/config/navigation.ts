@@ -72,6 +72,7 @@ export const sidebarConfig: SidebarConfig = {
             { title: "Checkbox", url: "/docs/components/ui/checkbox", keywords: ["check", "tick", "toggle", "boolean", "form"] },
             { title: "Color Picker", url: "/docs/components/ui/color-picker", keywords: ["color chooser", "palette", "hex", "rgb", "color input"] },
             { title: "Combobox", url: "/docs/components/ui/combobox", keywords: ["autocomplete", "typeahead", "searchable select", "search select", "filterable"] },
+            { title: "Cascading Select", url: "/docs/components/ui/cascading-select", keywords: ["hierarchy", "drill-down", "nested select", "cascading", "tree select", "category picker"] },
             { title: "Currency Input", url: "/docs/components/ui/currency-input", keywords: ["money", "price", "dollar", "euro", "amount", "financial"] },
             { title: "Date Selector", url: "/docs/components/ui/date-selector", keywords: ["date picker", "datepicker", "date range", "date input"] },
             { title: "Field", url: "/docs/components/ui/field", keywords: ["form field", "input wrapper", "label input", "form group", "field wrapper"] },
