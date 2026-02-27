@@ -108,7 +108,39 @@ import { type ... } from "@/types/..."              // 7. Types
 - **Server Actions** : camelCase préfixé par le verbe (`createClient`, `updateClient`, `deleteClient`)
 - **Schemas zod** : camelCase suffixé `Schema` (`clientSchema`, `createClientSchema`)
 
-## 12. Pages — Structure standard
+## 12. Radius concentrique
+
+Quand un parent arrondi contient un enfant arrondi avec un gap (padding) entre les deux : `inner_radius = outer_radius - gap`. Si le gap est 0, les radius sont identiques. Toujours définir une CSS variable `--inner-radius` calculée sur le parent pour que les enfants la référencent.
+
+## 13. Spacing dans les composants composés
+
+Les composants composés (Card, Frame, Dialog...) ont des sous-composants imbriqués (Header, Content, Footer). Le padding doit suivre ces règles :
+
+### Source unique de padding
+
+Un seul niveau contrôle le padding horizontal à un instant donné. Si le parent a `p-4`, un enfant à l'intérieur ne doit **pas** recevoir `px-4` en plus — sinon le contenu est doublement indenté.
+
+### Pattern Footer "bleed"
+
+Quand un Footer (ou Header) est **à l'intérieur** d'un conteneur paddé, il doit utiliser des marges négatives pour annuler le padding parent et réappliquer son propre padding :
+
+```css
+/* Le conteneur a p-4 */
+.footer {
+  -mx-4 -mb-4    /* annule le padding parent */
+  mt-4            /* espace au-dessus */
+  px-4 py-3       /* propre padding → contenu aligné avec le reste */
+  border-t        /* séparation visuelle */
+}
+```
+
+Résultat : le contenu du footer est à 16px du bord (= aligné avec le contenu au-dessus), pas 32px.
+
+### Sélecteurs descendants et profondeur
+
+Les sélecteurs `[&_[data-slot=...]]` matchent à **n'importe quel niveau de profondeur**. Quand un slot est imbriqué dans un autre slot qui reçoit déjà du padding, il faut compenser avec des marges négatives. Toujours vérifier la chaîne de padding complète : parent padding + enfant padding ≠ double padding.
+
+## 14. Pages — Structure standard
 
 ```tsx
 // app/(dashboard)/clients/page.tsx — PAGE LISTE

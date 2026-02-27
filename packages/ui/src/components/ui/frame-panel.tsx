@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const frameVariants = cva(
-  "relative flex flex-col bg-raised/50 gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)]",
+  "relative flex flex-col bg-raised/50 gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]",
   {
     variants: {
       variant: {
@@ -11,11 +11,11 @@ const frameVariants = cva(
         ghost: "",
       },
       spacing: {
-        xs: "[&_[data-slot=frame-panel]]:p-2 [&_[data-slot=frame-panel-header]]:px-2 [&_[data-slot=frame-panel-header]]:py-1 [&_[data-slot=frame-panel-footer]]:px-2 [&_[data-slot=frame-panel-footer]]:py-1",
-        sm: "[&_[data-slot=frame-panel]]:p-3 [&_[data-slot=frame-panel-header]]:px-3 [&_[data-slot=frame-panel-header]]:py-2 [&_[data-slot=frame-panel-footer]]:px-3 [&_[data-slot=frame-panel-footer]]:py-2",
+        xs: "[&_[data-slot=frame-panel]]:p-2 [&_[data-slot=frame-panel-header]]:px-2 [&_[data-slot=frame-panel-header]]:py-1 [&_[data-slot=frame-panel-footer]]:-mx-2 [&_[data-slot=frame-panel-footer]]:-mb-2 [&_[data-slot=frame-panel-footer]]:mt-2 [&_[data-slot=frame-panel-footer]]:px-2 [&_[data-slot=frame-panel-footer]]:py-1",
+        sm: "[&_[data-slot=frame-panel]]:p-3 [&_[data-slot=frame-panel-header]]:px-3 [&_[data-slot=frame-panel-header]]:py-2 [&_[data-slot=frame-panel-footer]]:-mx-3 [&_[data-slot=frame-panel-footer]]:-mb-3 [&_[data-slot=frame-panel-footer]]:mt-3 [&_[data-slot=frame-panel-footer]]:px-3 [&_[data-slot=frame-panel-footer]]:py-2",
         default:
-          "[&_[data-slot=frame-panel]]:p-4 [&_[data-slot=frame-panel-header]]:px-4 [&_[data-slot=frame-panel-header]]:py-3 [&_[data-slot=frame-panel-footer]]:px-4 [&_[data-slot=frame-panel-footer]]:py-3",
-        lg: "[&_[data-slot=frame-panel]]:p-5 [&_[data-slot=frame-panel-header]]:px-5 [&_[data-slot=frame-panel-header]]:py-4 [&_[data-slot=frame-panel-footer]]:px-5 [&_[data-slot=frame-panel-footer]]:py-4",
+          "[&_[data-slot=frame-panel]]:p-4 [&_[data-slot=frame-panel-header]]:px-4 [&_[data-slot=frame-panel-header]]:py-3 [&_[data-slot=frame-panel-footer]]:-mx-4 [&_[data-slot=frame-panel-footer]]:-mb-4 [&_[data-slot=frame-panel-footer]]:mt-4 [&_[data-slot=frame-panel-footer]]:px-4 [&_[data-slot=frame-panel-footer]]:py-3",
+        lg: "[&_[data-slot=frame-panel]]:p-5 [&_[data-slot=frame-panel-header]]:px-5 [&_[data-slot=frame-panel-header]]:py-4 [&_[data-slot=frame-panel-footer]]:-mx-5 [&_[data-slot=frame-panel-footer]]:-mb-5 [&_[data-slot=frame-panel-footer]]:mt-5 [&_[data-slot=frame-panel-footer]]:px-5 [&_[data-slot=frame-panel-footer]]:py-4",
       },
       stacked: {
         true: [
@@ -33,7 +33,7 @@ const frameVariants = cva(
         ],
       },
       dense: {
-        true: "p-0 border-container [&_[data-slot=frame-panel]]:-mx-px [&_[data-slot=frame-panel]]:before:hidden [&_[data-slot=frame-panel]:last-child]:-mb-px",
+        true: "p-0 border-container [--frame-inner-radius:var(--frame-radius)] [&_[data-slot=frame-panel]]:-mx-px [&_[data-slot=frame-panel]]:before:hidden [&_[data-slot=frame-panel]:last-child]:-mb-px",
         false: "",
       },
     },
@@ -71,7 +71,7 @@ function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "bg-surface relative rounded-(--frame-radius) border bg-clip-padding shadow-xs before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--frame-radius)-1px)] before:shadow-black/5 dark:bg-clip-border dark:before:shadow-white/5",
+        "bg-surface relative rounded-(--frame-inner-radius) border bg-clip-padding shadow-xs before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--frame-inner-radius)-1px)] before:shadow-black/5 dark:bg-clip-border dark:before:shadow-white/5",
         className
       )}
       data-slot="frame-panel"
@@ -116,7 +116,7 @@ function FrameDescription({
 function FrameFooter({ className, ...props }: React.ComponentProps<"footer">) {
   return (
     <footer
-      className={cn("flex flex-col gap-1", className)}
+      className={cn("flex flex-col gap-1 border-t rounded-b-[calc(var(--frame-inner-radius)-1px)]", className)}
       data-slot="frame-panel-footer"
       {...props}
     />

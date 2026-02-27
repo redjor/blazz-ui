@@ -502,6 +502,58 @@ CSS ciblage:
 }
 ```
 
+### Radius concentrique (nested border-radius)
+
+Quand un élément arrondi contient un enfant arrondi, l'enfant doit avoir un radius **plus petit** pour que les courbes restent parallèles :
+
+```
+inner_radius = outer_radius - gap
+```
+
+`gap` = le padding (ou margin) entre le bord du parent et le bord de l'enfant.
+
+**Exemple concret — Frame** :
+
+```
+Frame:      --frame-radius (ex. 8px)     padding: 3px
+FramePanel: --frame-radius - 3px = 5px   ← courbes parallèles
+  FrameFooter (bleed): panel_radius - 1px (border) = 4px
+```
+
+Si le gap est 0 (dense), inner = outer.
+
+**Implémentation** : définir une CSS variable `--inner-radius` calculée sur le parent, que les enfants référencent. Si le gap change (dense, spacing), overrider la variable.
+
+```css
+.parent {
+  --radius: var(--radius-lg);               /* 8px */
+  --inner-radius: calc(var(--radius) - 3px); /* 5px */
+  border-radius: var(--radius);
+  padding: 3px;
+}
+.child {
+  border-radius: var(--inner-radius);        /* courbes parallèles */
+}
+```
+
+### Spacing & Padding dans les composants composés
+
+Quand un composant parent contrôle le padding de ses enfants via `[&_[data-slot=...]]`, les sélecteurs descendants matchent à **tous les niveaux**. Si un slot est imbriqué dans un autre slot qui reçoit déjà du padding, le contenu se retrouve doublement paddé.
+
+**Exemple de bug** : `Frame` donne `p-4` à `FramePanel` et `px-4` à `FrameFooter`. Mais `FrameFooter` est **à l'intérieur** de `FramePanel`. Résultat : le contenu du footer est à `16 + 16 = 32px` du bord au lieu de `16px`.
+
+**Solution — Pattern bleed** : le sous-composant imbriqué utilise des marges négatives pour annuler le padding parent :
+
+```
+Footer (-mx-4 -mb-4 mt-4 px-4 py-3 border-t)
+  → -mx-4 annule le p-4 du Panel sur les côtés
+  → -mb-4 annule le p-4 du Panel en bas
+  → px-4 réapplique son propre padding → contenu aligné
+  → mt-4 espace au-dessus du border-t
+```
+
+**Règle** : toujours vérifier la chaîne de padding quand un slot est imbriqué dans un autre. Un seul niveau doit contrôler le padding horizontal à la fois.
+
 ---
 
 ## Conventions de Nommage

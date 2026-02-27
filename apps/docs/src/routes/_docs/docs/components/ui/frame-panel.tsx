@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
+import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
+import { Switch } from "@blazz/ui/components/ui/switch"
 import {
 	Frame,
 	FramePanel,
@@ -77,13 +79,22 @@ const examples = [
 		key: "with-footer",
 		code: `<Frame>
   <FrameHeader>
-    <FrameTitle>Display Name</FrameTitle>
-    <FrameDescription>This is your public display name.</FrameDescription>
+    <FrameTitle>Current Plan</FrameTitle>
+    <FrameDescription>Manage your subscription and billing.</FrameDescription>
   </FrameHeader>
   <FramePanel>
-    <Input defaultValue="Jean Dupont" />
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <div className="text-sm font-medium">Pro Plan</div>
+        <Badge variant="success" fill="subtle" size="xs">Active</Badge>
+      </div>
+      <div className="text-sm font-medium">$29/mo</div>
+    </div>
     <FrameFooter>
-      <Button className="self-end">Save</Button>
+      <div className="flex items-center justify-between">
+        <div className="text-xs text-fg-muted">Renews on March 15, 2026</div>
+        <Button size="sm" variant="outline">Manage</Button>
+      </div>
     </FrameFooter>
   </FramePanel>
 </Frame>`,
@@ -111,22 +122,31 @@ const examples = [
 		key: "dense",
 		code: `<Frame dense stacked>
   <FramePanel>
-    <div className="space-y-1.5">
-      <label className="text-sm font-medium">Display Name</label>
-      <Input defaultValue="Jean Dupont" />
+    <div className="flex items-center justify-between">
+      <div>
+        <div className="text-sm font-medium">Push Notifications</div>
+        <div className="text-sm text-fg-muted">Receive alerts on your device.</div>
+      </div>
+      <Switch defaultChecked />
     </div>
-    <FrameFooter>
-      <Button className="self-end">Save</Button>
-    </FrameFooter>
   </FramePanel>
   <FramePanel>
-    <div className="space-y-1.5">
-      <label className="text-sm font-medium">Email Address</label>
-      <Input defaultValue="jean@example.com" />
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <div className="text-sm font-medium">Email Digest</div>
+        <Badge variant="info" fill="subtle" size="xs">Weekly</Badge>
+      </div>
+      <Switch defaultChecked />
     </div>
-    <FrameFooter>
-      <Button className="self-end">Save</Button>
-    </FrameFooter>
+  </FramePanel>
+  <FramePanel>
+    <div className="flex items-center justify-between">
+      <div>
+        <div className="text-sm font-medium">Marketing</div>
+        <div className="text-sm text-fg-muted">Product updates and offers.</div>
+      </div>
+      <Switch />
+    </div>
   </FramePanel>
 </Frame>`,
 	},
@@ -316,13 +336,22 @@ function FramePanelPage() {
 				>
 					<Frame>
 						<FrameHeader>
-							<FrameTitle>Display Name</FrameTitle>
-							<FrameDescription>This is your public display name.</FrameDescription>
+							<FrameTitle>Current Plan</FrameTitle>
+							<FrameDescription>Manage your subscription and billing.</FrameDescription>
 						</FrameHeader>
 						<FramePanel>
-							<Input defaultValue="Jean Dupont" />
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-2">
+									<div className="text-sm font-medium">Pro Plan</div>
+									<Badge variant="success" fill="subtle" size="xs">Active</Badge>
+								</div>
+								<div className="text-sm font-medium">$29/mo</div>
+							</div>
 							<FrameFooter>
-								<Button className="self-end">Save</Button>
+								<div className="flex items-center justify-between">
+									<div className="text-xs text-fg-muted">Renews on March 15, 2026</div>
+									<Button size="sm" variant="outline">Manage</Button>
+								</div>
 							</FrameFooter>
 						</FramePanel>
 					</Frame>
@@ -377,22 +406,31 @@ function FramePanelPage() {
 				>
 					<Frame dense stacked>
 						<FramePanel>
-							<div className="space-y-1.5">
-								<label className="text-sm font-medium">Display Name</label>
-								<Input defaultValue="Jean Dupont" />
+							<div className="flex items-center justify-between">
+								<div>
+									<div className="text-sm font-medium">Push Notifications</div>
+									<div className="text-sm text-fg-muted">Receive alerts on your device.</div>
+								</div>
+								<Switch defaultChecked />
 							</div>
-							<FrameFooter>
-								<Button className="self-end">Save</Button>
-							</FrameFooter>
 						</FramePanel>
 						<FramePanel>
-							<div className="space-y-1.5">
-								<label className="text-sm font-medium">Email Address</label>
-								<Input defaultValue="jean@example.com" />
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-2">
+									<div className="text-sm font-medium">Email Digest</div>
+									<Badge variant="info" fill="subtle" size="xs">Weekly</Badge>
+								</div>
+								<Switch defaultChecked />
 							</div>
-							<FrameFooter>
-								<Button className="self-end">Save</Button>
-							</FrameFooter>
+						</FramePanel>
+						<FramePanel>
+							<div className="flex items-center justify-between">
+								<div>
+									<div className="text-sm font-medium">Marketing</div>
+									<div className="text-sm text-fg-muted">Product updates and offers.</div>
+								</div>
+								<Switch />
+							</div>
 						</FramePanel>
 					</Frame>
 				</DocExampleClient>
