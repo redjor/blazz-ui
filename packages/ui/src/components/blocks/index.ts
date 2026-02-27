@@ -7,17 +7,11 @@ export type { PageHeaderProps, PageHeaderAction, PageHeaderBreadcrumb } from "./
 export { Empty } from "../ui/empty"
 export type { EmptyAction } from "../ui/empty"
 
-export { ErrorState } from "./error-state"
-export type { ErrorStateProps } from "./error-state"
-
 export { StatsGrid } from "./stats-grid"
 export type { StatsGridProps, StatItem } from "./stats-grid"
 
 export { StatsStrip } from "./stats-strip"
 export type { StatsStripProps, StatsStripItem } from "./stats-strip"
-
-export { FieldGrid, Field } from "./field-grid"
-export type { FieldGridProps, FieldProps } from "./field-grid"
 
 export { DetailPanel } from "./detail-panel"
 export type {
@@ -32,12 +26,6 @@ export type { ActivityTimelineProps, TimelineEvent } from "./activity-timeline"
 
 export { StatusFlow } from "./status-flow"
 export type { StatusFlowProps, StatusDefinition, StatusTransition } from "./status-flow"
-
-export { FormSection } from "./form-section"
-export type { FormSectionProps } from "./form-section"
-
-export { FormField } from "./form-field"
-export type { FormFieldProps, FormFieldOption } from "./form-field"
 
 export { BulkActionBar } from "./bulk-action-bar"
 export type { BulkActionBarProps, BulkAction } from "./bulk-action-bar"
@@ -88,3 +76,7 @@ export type { OrgMenuProps, Organization } from "./org-menu"
 
 export { PropertyCard } from "./property-card"
 export type { PropertyCardProps, PropertyCardItemProps } from "./property-card"
+
+// ── Data Table ─────────────────────────────────
+// DataTable barrel has naming conflicts (BulkAction, RowAction, FilterGroup, FilterOperator)
+// Import DataTable from "@blazz/ui/components/blocks/data-table"
