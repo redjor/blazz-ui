@@ -13,7 +13,7 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { Empty } from "../ui/empty"
-import { ErrorState } from "./error-state"
+import { ErrorState } from "../patterns/error-state"
 import { cn } from "../../lib/utils"
 
 // ---------------------------------------------------------------------------

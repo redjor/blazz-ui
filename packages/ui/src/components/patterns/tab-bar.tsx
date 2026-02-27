@@ -16,7 +16,7 @@ import {
 	NavigationTabsBar,
 	NavigationTabsItem,
 	useNavigationTabs,
-} from "../features/navigation-tabs"
+} from "./navigation-tabs"
 
 /**
  * Maps a CRM URL to its entity icon and section label.
