@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { toast } from "sonner"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DataTable, createJobsPreset } from "@blazz/ui/components/features/data-table"
+import { DataTable, createJobsPreset } from "@blazz/ui/components/blocks/data-table"
 import { Box } from "@blazz/ui/components/ui/box"
 import { jobs } from "@/lib/talentflow-data"
 

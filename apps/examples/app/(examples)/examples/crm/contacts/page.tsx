@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Plus, Upload } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageHeader } from '@blazz/ui/components/blocks/page-header';
-import { DataTable, createContactsPreset } from '@blazz/ui/components/features/data-table';
+import { DataTable, createContactsPreset } from '@blazz/ui/components/blocks/data-table';
 import { Box } from '@blazz/ui/components/ui/box';
 import { contacts } from '@/lib/sample-data';
 

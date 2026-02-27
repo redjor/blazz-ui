@@ -9,7 +9,7 @@ import { KanbanBoard, type KanbanColumn } from '@blazz/ui/components/blocks/kanb
 import { Badge } from '@blazz/ui/components/ui/badge';
 import { Box } from '@blazz/ui/components/ui/box';
 import { Skeleton } from '@blazz/ui/components/ui/skeleton';
-import { DataTable, createDealsPreset } from '@blazz/ui/components/features/data-table';
+import { DataTable, createDealsPreset } from '@blazz/ui/components/blocks/data-table';
 import { deals as initialDeals, formatCurrency, type Deal } from '@/lib/sample-data';
 
 const stageConfig: Record<

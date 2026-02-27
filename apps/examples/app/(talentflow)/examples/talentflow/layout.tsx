@@ -2,16 +2,16 @@
 
 import type * as React from "react"
 import { Toaster } from "sonner"
-import { CommandPalette } from "@blazz/ui/components/features/command-palette/command-palette"
+import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
 import {
 	NavigationTabsProvider,
 	NavigationTabsInterceptor,
 	useNavigationTabs,
 	useNavigationTabUrlSync,
-} from "@blazz/ui/components/features/navigation-tabs"
-import { AppFrame } from "@blazz/ui/components/layout/app-frame"
-import { FrameProvider, useFrame } from "@blazz/ui/components/layout/frame-context"
-import { TabBar } from "@blazz/ui/components/layout/tab-bar"
+} from "@blazz/ui/components/patterns/navigation-tabs"
+import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
+import { FrameProvider, useFrame } from "@blazz/ui/components/patterns/frame-context"
+import { TabBar } from "@blazz/ui/components/patterns/tab-bar"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import { talentflowSidebarConfig, talentflowNavigationConfig } from "@/config/talentflow-navigation"
 import { titleFromPathname } from "@blazz/ui/lib/tab-utils"

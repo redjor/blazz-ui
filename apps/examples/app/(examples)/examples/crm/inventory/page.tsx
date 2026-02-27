@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { toast } from 'sonner';
 import { PageHeader } from '@blazz/ui/components/blocks/page-header';
-import { DataTable, createSpreadsheetPreset } from '@blazz/ui/components/features/data-table';
+import { DataTable, createSpreadsheetPreset } from '@blazz/ui/components/blocks/data-table';
 import { Box } from '@blazz/ui/components/ui/box';
 import { products as initialProducts, type Product } from '@/lib/sample-data';
 

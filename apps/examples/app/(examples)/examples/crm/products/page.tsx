@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageHeader } from '@blazz/ui/components/blocks/page-header';
-import { DataTable, createProductsPreset } from '@blazz/ui/components/features/data-table';
+import { DataTable, createProductsPreset } from '@blazz/ui/components/blocks/data-table';
 import { Box } from '@blazz/ui/components/ui/box';
 import { products } from '@/lib/sample-data';
 
