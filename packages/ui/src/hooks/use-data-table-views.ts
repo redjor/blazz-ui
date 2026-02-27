@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import type { DataTableView } from "../components/features/data-table"
+import type { DataTableView } from "../components/blocks/data-table"
 
 interface UseDataTableViewsOptions {
 	storageKey: string

@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-import type { DataTableView } from "../components/features/data-table"
+import type { DataTableView } from "../components/blocks/data-table"
 
 interface UseDataTableUrlStateOptions {
 	views: DataTableView[]
