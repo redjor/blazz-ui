@@ -2,7 +2,7 @@
 
 import { toast } from "sonner"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { FormSection } from "@blazz/ui/components/blocks/form-section"
+import { FormSection } from "@blazz/ui/components/patterns/form-section"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Button } from "@blazz/ui/components/ui/button"
