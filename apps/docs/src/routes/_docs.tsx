@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { createFileRoute, Outlet, useLocation, Link } from "@tanstack/react-router"
 import { Search } from "lucide-react"
 import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
+import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import { DocsSidebar } from "~/components/docs/docs-sidebar"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { navigationConfig } from "~/config/navigation"
@@ -70,16 +71,13 @@ function DocsLayout() {
         </div>
       </header>
 
-      {/* Body */}
-      <div className="flex pt-14 h-screen">
-        {/* Sidebar */}
+      {/* Body: SidebarProvider fournit le contexte pour DocsSidebar */}
+      <SidebarProvider>
         <DocsSidebar />
-
-        {/* Main */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 mt-14 overflow-y-auto">
           <Outlet />
         </main>
-      </div>
+      </SidebarProvider>
 
       <CommandPalette
         navigation={navigationConfig}
