@@ -41,6 +41,19 @@ const examples = [
 </Page>`,
 	},
 	{
+		key: "breadcrumbs-array",
+		code: `<Page
+  breadcrumbs={[
+    { label: "Products", href: "/products" },
+    { label: "Wireless Headphones" },
+  ]}
+  subtitle="SKU: WH-1000"
+  primaryAction={<Button>Save</Button>}
+>
+  <p>Page content here</p>
+</Page>`,
+	},
+	{
 		key: "breadcrumbs-object",
 		code: `<Page
   narrowWidth
@@ -330,9 +343,29 @@ function PageComponentPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
+					title="With Breadcrumbs (array)"
+					description="Pass an array of breadcrumb items. The last item without an href automatically becomes the page title — no need to pass title separately."
+					code={examples[3].code}
+					highlightedCode={html("breadcrumbs-array")}
+				>
+					<div className="rounded-lg border border-edge bg-raised">
+						<Page
+							breadcrumbs={[
+								{ label: "Products", href: "/products" },
+								{ label: "Wireless Headphones" },
+							]}
+							subtitle="SKU: WH-1000"
+							primaryAction={<Button size="sm">Save</Button>}
+						>
+							<p className="text-sm text-fg-muted">Page content here</p>
+						</Page>
+					</div>
+				</DocExampleClient>
+
+				<DocExampleClient
 					title="With Breadcrumbs (object)"
 					description="Pass a BreadcrumbConfig object to automatically render breadcrumb navigation in place of the title."
-					code={examples[3].code}
+					code={examples[4].code}
 					highlightedCode={html("breadcrumbs-object")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
@@ -353,7 +386,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="With Breadcrumbs (parent step)"
 					description="Add a parent step that truncates to save space. Hover to reveal the full text."
-					code={examples[4].code}
+					code={examples[5].code}
 					highlightedCode={html("breadcrumbs-parent")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
@@ -378,7 +411,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="With Breadcrumbs and Title Metadata"
 					description="Combine breadcrumbs with titleMetadata to display a badge inline next to the title."
-					code={examples[5].code}
+					code={examples[6].code}
 					highlightedCode={html("title-metadata")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
@@ -402,7 +435,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="With Additional Metadata"
 					description="Use additionalMetadata to display contextual information below the title row."
-					code={examples[6].code}
+					code={examples[7].code}
 					highlightedCode={html("additional-metadata")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
@@ -424,7 +457,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="With Additional Metadata (Tabs)"
 					description="additionalMetadata can also be used for tabs or filters below the header."
-					code={examples[7].code}
+					code={examples[8].code}
 					highlightedCode={html("metadata-tabs")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
@@ -451,7 +484,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="Full Width"
 					description="A page that spans the full viewport width without max-width constraint."
-					code={examples[8].code}
+					code={examples[9].code}
 					highlightedCode={html("full-width")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">

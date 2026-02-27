@@ -21,8 +21,18 @@ export interface BreadcrumbConfig {
 	title: React.ReactNode
 }
 
+export interface PageBreadcrumbItem {
+	label: string
+	href?: string
+	icon?: React.ComponentType<{ className?: string }>
+}
+
 function isBreadcrumbConfig(value: unknown): value is BreadcrumbConfig {
 	return typeof value === "object" && value !== null && "backHref" in value && "title" in value
+}
+
+function isPageBreadcrumbArray(value: unknown): value is PageBreadcrumbItem[] {
+	return Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "label" in value[0]
 }
 
 export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -48,10 +58,12 @@ export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "t
 
 	/**
 	 * Breadcrumb navigation displayed above the title.
-	 * Accepts a ReactNode for custom breadcrumbs, or a BreadcrumbConfig object
-	 * for the common pattern: icon link > title
+	 * - ReactNode: fully custom breadcrumbs
+	 * - BreadcrumbConfig: icon link > optional parent > title
+	 * - PageBreadcrumbItem[]: array of items; the last item without href
+	 *   automatically becomes the page title (no need to pass `title` separately)
 	 */
-	breadcrumbs?: React.ReactNode | BreadcrumbConfig
+	breadcrumbs?: React.ReactNode | BreadcrumbConfig | PageBreadcrumbItem[]
 
 	/**
 	 * Inline metadata displayed next to the title or breadcrumb title (e.g., status badge)
@@ -153,37 +165,78 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 		},
 		ref
 	) => {
-		const resolvedBreadcrumbs = isBreadcrumbConfig(breadcrumbs) ? (
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink href={breadcrumbs.backHref}>
-							<breadcrumbs.backIcon className="h-4 w-4" />
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					{breadcrumbs.parent && (
-						<>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbLink
-									href={breadcrumbs.parent.href}
-									className="inline-block max-w-[8ch] truncate align-bottom transition-all duration-200 ease-out hover:max-w-[200px]"
-								>
-									{breadcrumbs.parent.label}
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-						</>
-					)}
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>{breadcrumbs.title}</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-		) : breadcrumbs
+		// Resolve breadcrumb array → extract title from last item + build trail
+		let resolvedTitle = title
+		let resolvedBreadcrumbs: React.ReactNode = null
+
+		if (isPageBreadcrumbArray(breadcrumbs)) {
+			const items = breadcrumbs
+			const lastItem = items[items.length - 1]
+			const trailItems = lastItem && !lastItem.href ? items.slice(0, -1) : items
+
+			// Extract title from last item if it has no href and no explicit title was passed
+			if (!title && lastItem && !lastItem.href) {
+				resolvedTitle = lastItem.label
+			}
+
+			if (trailItems.length > 0) {
+				resolvedBreadcrumbs = (
+					<Breadcrumb>
+						<BreadcrumbList>
+							{trailItems.map((item, i) => (
+								<React.Fragment key={i}>
+									{i > 0 && <BreadcrumbSeparator />}
+									<BreadcrumbItem>
+										{item.href ? (
+											<BreadcrumbLink href={item.href}>
+												{item.icon && <item.icon className="size-4" />}
+												{item.label}
+											</BreadcrumbLink>
+										) : (
+											<BreadcrumbPage>{item.label}</BreadcrumbPage>
+										)}
+									</BreadcrumbItem>
+								</React.Fragment>
+							))}
+						</BreadcrumbList>
+					</Breadcrumb>
+				)
+			}
+		} else if (isBreadcrumbConfig(breadcrumbs)) {
+			resolvedBreadcrumbs = (
+				<Breadcrumb>
+					<BreadcrumbList>
+						<BreadcrumbItem>
+							<BreadcrumbLink href={breadcrumbs.backHref}>
+								<breadcrumbs.backIcon className="h-4 w-4" />
+							</BreadcrumbLink>
+						</BreadcrumbItem>
+						{breadcrumbs.parent && (
+							<>
+								<BreadcrumbSeparator />
+								<BreadcrumbItem>
+									<BreadcrumbLink
+										href={breadcrumbs.parent.href}
+										className="inline-block max-w-[8ch] truncate align-bottom transition-all duration-200 ease-out hover:max-w-[200px]"
+									>
+										{breadcrumbs.parent.label}
+									</BreadcrumbLink>
+								</BreadcrumbItem>
+							</>
+						)}
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbPage>{breadcrumbs.title}</BreadcrumbPage>
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
+			)
+		} else {
+			resolvedBreadcrumbs = breadcrumbs
+		}
 
 		const hasHeader =
-			title || primaryAction || secondaryActions || resolvedBreadcrumbs || titleMetadata || additionalMetadata
+			resolvedTitle || primaryAction || secondaryActions || resolvedBreadcrumbs || titleMetadata || additionalMetadata
 
 		// Actions block — shared between all header layouts
 		const actionsBlock = (primaryAction || secondaryActions) && (
@@ -196,7 +249,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 		)
 
 		// Title row — either title-based or breadcrumb-based or actions-only
-		const titleDisplay = title ? (
+		const titleDisplay = resolvedTitle ? (
 			<>
 				{resolvedBreadcrumbs && (
 					<div className="flex items-center gap-3">{resolvedBreadcrumbs}</div>
@@ -204,7 +257,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 					<div className="flex-1 space-y-1">
 						<div className="flex items-center gap-3">
-							<h1 className="text-xl font-semibold leading-none text-fg">{title}</h1>
+							<h1 className="text-xl font-semibold leading-none text-fg">{resolvedTitle}</h1>
 							{titleMetadata}
 						</div>
 						{subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}
