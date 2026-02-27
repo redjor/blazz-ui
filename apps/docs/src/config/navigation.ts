@@ -9,6 +9,7 @@ import {
 	FileText,
 	FormInput,
 	Layers,
+	Layers2,
 	LayoutGrid,
 	ListChecks,
 	MessageCircle,
@@ -16,6 +17,8 @@ import {
 	MousePointerClick,
 	Navigation,
 	Palette,
+	PanelLeft,
+	Puzzle,
 	Table2,
 	Users,
 	Wrench,
@@ -29,8 +32,8 @@ export const sidebarConfig: SidebarConfig = {
 	},
 	navigation: [
 		{
-			id: "components",
-			title: "Components",
+			id: "ui",
+			title: "UI",
 			items: [
 				{
 					id: "comp-layout",
@@ -69,7 +72,7 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["separator", "line", "hr", "horizontal rule"],
 						},
 						{
-							title: "Frame",
+							title: "Frame Panel",
 							url: "/docs/components/ui/frame-panel",
 							keywords: ["shell", "wrapper", "app frame", "layout shell"],
 						},
@@ -292,11 +295,6 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["no data", "placeholder", "zero state", "blank", "empty state"],
 						},
 						{
-							title: "Notification Center",
-							url: "/docs/components/ui/notification-center",
-							keywords: ["toast", "notifications", "snackbar", "alerts", "messages"],
-						},
-						{
 							title: "Skeleton",
 							url: "/docs/components/ui/skeleton",
 							keywords: ["loading", "placeholder", "shimmer", "ghost", "pulse"],
@@ -368,11 +366,6 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["navigation", "nav bar", "site nav", "header nav"],
 						},
 						{
-							title: "Org Menu",
-							url: "/docs/components/ui/org-menu",
-							keywords: ["organization", "workspace", "team switcher", "org switcher"],
-						},
-						{
 							title: "Pagination",
 							url: "/docs/components/ui/pagination",
 							keywords: ["pager", "page numbers", "next previous", "page navigation"],
@@ -386,39 +379,6 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Tabs",
 							url: "/docs/components/ui/tabs",
 							keywords: ["tab bar", "tab navigation", "panel tabs", "tabbed"],
-						},
-					],
-				},
-				{
-					id: "comp-charts",
-					title: "Charts",
-					url: "/docs/components/charts",
-					icon: ChartLine,
-					items: [
-						{
-							title: "Area Chart",
-							url: "/docs/components/charts/area-chart",
-							keywords: ["graph", "area", "visualization", "stacked area"],
-						},
-						{
-							title: "Bar Chart",
-							url: "/docs/components/charts/bar-chart",
-							keywords: ["graph", "bar", "histogram", "column chart"],
-						},
-						{
-							title: "Line Chart",
-							url: "/docs/components/charts/line-chart",
-							keywords: ["graph", "line", "trend", "time series"],
-						},
-						{
-							title: "Pie Chart",
-							url: "/docs/components/charts/pie-chart",
-							keywords: ["graph", "pie", "donut", "circle chart"],
-						},
-						{
-							title: "Radar Chart",
-							url: "/docs/components/charts/radar-chart",
-							keywords: ["graph", "spider", "web chart", "polar"],
 						},
 					],
 				},
@@ -439,24 +399,9 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["table cell", "grid cell", "data cell", "column type"],
 						},
 						{
-							title: "Data Table",
-							url: "/docs/components/ui/data-table",
-							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
-						},
-						{
 							title: "Property",
 							url: "/docs/components/ui/property",
 							keywords: ["key value", "detail", "metadata", "attribute", "property list"],
-						},
-						{
-							title: "Property Card",
-							url: "/docs/components/ui/property-card",
-							keywords: ["detail card", "info card", "attribute card"],
-						},
-						{
-							title: "Stats Strip",
-							url: "/docs/components/ui/stats-strip",
-							keywords: ["metrics", "kpi", "numbers", "statistics", "summary bar"],
 						},
 						{
 							title: "Table",
@@ -495,6 +440,307 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Text",
 							url: "/docs/components/ui/text",
 							keywords: ["paragraph", "prose", "body text", "text component"],
+						},
+					],
+				},
+			],
+		},
+		{
+			id: "patterns",
+			title: "Patterns",
+			items: [
+				{
+					id: "pat-app-shell",
+					title: "App Shell",
+					url: "/docs/components/patterns/app-frame",
+					icon: PanelLeft,
+					items: [
+						{
+							title: "App Frame",
+							url: "/docs/components/patterns/app-frame",
+							keywords: ["app shell", "layout wrapper", "frame", "application frame"],
+						},
+						{
+							title: "Dashboard Layout",
+							url: "/docs/components/patterns/dashboard-layout",
+							keywords: ["dashboard", "layout", "admin layout", "dashboard shell"],
+						},
+						{
+							title: "App Sidebar",
+							url: "/docs/components/patterns/app-sidebar",
+							keywords: ["sidebar", "nav sidebar", "app nav", "side navigation"],
+						},
+						{
+							title: "App Top Bar",
+							url: "/docs/components/patterns/app-top-bar",
+							keywords: ["top bar", "header", "app header", "navbar"],
+						},
+						{
+							title: "Top Bar",
+							url: "/docs/components/patterns/top-bar",
+							keywords: ["top bar", "header bar", "site header"],
+						},
+						{
+							title: "Layout Frame",
+							url: "/docs/components/patterns/layout-frame",
+							keywords: ["layout", "frame", "shell", "wrapper"],
+						},
+					],
+				},
+				{
+					id: "pat-navigation",
+					title: "Navigation",
+					url: "/docs/components/patterns/navbar",
+					icon: Navigation,
+					items: [
+						{
+							title: "Navbar",
+							url: "/docs/components/patterns/navbar",
+							keywords: ["navigation bar", "site nav", "top nav", "header nav"],
+						},
+						{
+							title: "Nav Tabs",
+							url: "/docs/components/patterns/nav-tabs",
+							keywords: ["navigation tabs", "tab nav", "section tabs"],
+						},
+						{
+							title: "Tab Bar",
+							url: "/docs/components/patterns/tab-bar",
+							keywords: ["bottom bar", "tab navigation", "mobile tabs"],
+						},
+						{
+							title: "Navigation Tabs",
+							url: "/docs/components/patterns/navigation-tabs",
+							keywords: ["tabs", "page tabs", "nav tabs", "tabbed navigation"],
+						},
+					],
+				},
+				{
+					id: "pat-forms",
+					title: "Forms",
+					url: "/docs/components/patterns/form-field",
+					icon: FormInput,
+					items: [
+						{
+							title: "Form Field",
+							url: "/docs/components/patterns/form-field",
+							keywords: ["field", "form input", "form group", "label input"],
+						},
+						{
+							title: "Form Section",
+							url: "/docs/components/patterns/form-section",
+							keywords: ["form group", "form section", "fieldset", "form block"],
+						},
+						{
+							title: "Field Grid",
+							url: "/docs/components/patterns/field-grid",
+							keywords: ["form grid", "field layout", "form columns", "input grid"],
+						},
+					],
+				},
+				{
+					id: "pat-media",
+					title: "Media",
+					url: "/docs/components/patterns/image-upload",
+					icon: FileText,
+					items: [
+						{
+							title: "Image Upload",
+							url: "/docs/components/patterns/image-upload",
+							keywords: ["upload", "image", "photo", "file upload", "dropzone"],
+						},
+					],
+				},
+				{
+					id: "pat-utilities",
+					title: "Utilities",
+					url: "/docs/components/patterns/command-palette",
+					icon: Wrench,
+					items: [
+						{
+							title: "Command Palette",
+							url: "/docs/components/patterns/command-palette",
+							keywords: ["search", "cmd", "cmdk", "spotlight", "quick launch"],
+						},
+						{
+							title: "Error State",
+							url: "/docs/components/patterns/error-state",
+							keywords: ["error", "404", "500", "not found", "error page"],
+						},
+						{
+							title: "Theme Toggle",
+							url: "/docs/components/patterns/theme-toggle",
+							keywords: ["dark mode", "light mode", "color scheme", "theme switcher"],
+						},
+						{
+							title: "Page Header Shell",
+							url: "/docs/components/patterns/page-header-shell",
+							keywords: ["page header", "hero", "page title", "header shell"],
+						},
+					],
+				},
+			],
+		},
+		{
+			id: "blocks",
+			title: "Blocks",
+			items: [
+				{
+					id: "block-charts",
+					title: "Charts",
+					url: "/docs/components/blocks/charts",
+					icon: ChartLine,
+					items: [
+						{
+							title: "Chart Card",
+							url: "/docs/components/blocks/chart-card",
+							keywords: ["chart wrapper", "chart container", "chart block"],
+						},
+						{
+							title: "Area Chart",
+							url: "/docs/components/blocks/charts/area-chart",
+							keywords: ["graph", "area", "visualization", "stacked area"],
+						},
+						{
+							title: "Bar Chart",
+							url: "/docs/components/blocks/charts/bar-chart",
+							keywords: ["graph", "bar", "histogram", "column chart"],
+						},
+						{
+							title: "Line Chart",
+							url: "/docs/components/blocks/charts/line-chart",
+							keywords: ["graph", "line", "trend", "time series"],
+						},
+						{
+							title: "Pie Chart",
+							url: "/docs/components/blocks/charts/pie-chart",
+							keywords: ["graph", "pie", "donut", "circle chart"],
+						},
+						{
+							title: "Radar Chart",
+							url: "/docs/components/blocks/charts/radar-chart",
+							keywords: ["graph", "spider", "web chart", "polar"],
+						},
+						{
+							title: "Funnel Chart",
+							url: "/docs/components/blocks/chart-card",
+							keywords: ["funnel", "conversion", "pipeline chart", "stages"],
+						},
+						{
+							title: "Forecast Chart",
+							url: "/docs/components/blocks/chart-card",
+							keywords: ["forecast", "prediction", "trend", "projection"],
+						},
+					],
+				},
+				{
+					id: "block-data",
+					title: "Data",
+					url: "/docs/components/blocks/data-table",
+					icon: Table2,
+					items: [
+						{
+							title: "Data Table",
+							url: "/docs/components/blocks/data-table",
+							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
+						},
+						{
+							title: "Data Grid",
+							url: "/docs/components/blocks/data-grid",
+							keywords: ["grid", "cards", "tile view", "gallery", "data grid"],
+						},
+						{
+							title: "Filter Bar",
+							url: "/docs/components/blocks/filter-bar",
+							keywords: ["filter", "search filters", "facets", "query bar"],
+						},
+						{
+							title: "Bulk Action Bar",
+							url: "/docs/components/blocks/bulk-action-bar",
+							keywords: ["bulk", "multi-select", "batch actions", "selection bar"],
+						},
+					],
+				},
+				{
+					id: "block-business",
+					title: "Business",
+					url: "/docs/components/blocks/activity-timeline",
+					icon: Puzzle,
+					items: [
+						{
+							title: "Activity Timeline",
+							url: "/docs/components/blocks/activity-timeline",
+							keywords: ["timeline", "activity feed", "history", "events log"],
+						},
+						{
+							title: "Detail Panel",
+							url: "/docs/components/blocks/detail-panel",
+							keywords: ["detail", "sidebar panel", "record detail", "side panel"],
+						},
+						{
+							title: "Deal Lines Editor",
+							url: "/docs/components/blocks/deal-lines-editor",
+							keywords: ["line items", "quote lines", "deal items", "product lines"],
+						},
+						{
+							title: "Inline Edit",
+							url: "/docs/components/blocks/inline-edit",
+							keywords: ["inline editing", "in-place edit", "click to edit"],
+						},
+						{
+							title: "Kanban Board",
+							url: "/docs/components/blocks/kanban-board",
+							keywords: ["kanban", "board", "drag drop", "pipeline", "swimlanes"],
+						},
+						{
+							title: "Multi Step Form",
+							url: "/docs/components/blocks/multi-step-form",
+							keywords: ["wizard", "stepper", "multi step", "form wizard"],
+						},
+						{
+							title: "Notification Center",
+							url: "/docs/components/blocks/notification-center",
+							keywords: ["notifications", "alerts", "inbox", "messages"],
+						},
+						{
+							title: "Org Menu",
+							url: "/docs/components/blocks/org-menu",
+							keywords: ["organization", "workspace", "team switcher", "org switcher"],
+						},
+						{
+							title: "Property Card",
+							url: "/docs/components/blocks/property-card",
+							keywords: ["detail card", "info card", "attribute card"],
+						},
+						{
+							title: "Quick Log Activity",
+							url: "/docs/components/blocks/quick-log-activity",
+							keywords: ["log", "activity", "crm", "note", "call log"],
+						},
+						{
+							title: "Quote Preview",
+							url: "/docs/components/blocks/quote-preview",
+							keywords: ["quote", "proposal", "estimate", "pricing preview"],
+						},
+						{
+							title: "Split View",
+							url: "/docs/components/blocks/split-view",
+							keywords: ["split", "master detail", "two panel", "side by side"],
+						},
+						{
+							title: "Stats Grid",
+							url: "/docs/components/blocks/stats-grid",
+							keywords: ["kpi grid", "metrics grid", "stats cards", "dashboard grid"],
+						},
+						{
+							title: "Stats Strip",
+							url: "/docs/components/blocks/stats-strip",
+							keywords: ["metrics", "kpi", "numbers", "statistics", "summary bar"],
+						},
+						{
+							title: "Status Flow",
+							url: "/docs/components/blocks/status-flow",
+							keywords: ["workflow", "status pipeline", "state machine", "flow"],
 						},
 					],
 				},
