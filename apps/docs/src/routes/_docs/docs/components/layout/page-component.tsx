@@ -44,7 +44,7 @@ const examples = [
 		key: "breadcrumbs-array",
 		code: `<Page
   breadcrumbs={[
-    { label: "Products", href: "/products" },
+    { label: "Products", href: "/products", icon: Package },
     { label: "Wireless Headphones" },
   ]}
   subtitle="SKU: WH-1000"
@@ -344,14 +344,14 @@ function PageComponentPage() {
 
 				<DocExampleClient
 					title="With Breadcrumbs (array)"
-					description="Pass an array of breadcrumb items. The last item without an href automatically becomes the page title — no need to pass title separately."
+					description="Pass an array of breadcrumb items. The last item without href becomes the page title automatically. The first item's icon morphs into a back arrow on hover."
 					code={examples[3].code}
 					highlightedCode={html("breadcrumbs-array")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
 						<Page
 							breadcrumbs={[
-								{ label: "Products", href: "/products" },
+								{ label: "Products", href: "/products", icon: Package },
 								{ label: "Wireless Headphones" },
 							]}
 							subtitle="SKU: WH-1000"

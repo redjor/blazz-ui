@@ -5,6 +5,7 @@ import {
 	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbLink,
+	BreadcrumbBackLink,
 	BreadcrumbSeparator,
 	BreadcrumbPage,
 } from "./breadcrumb"
@@ -188,10 +189,15 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 									{i > 0 && <BreadcrumbSeparator />}
 									<BreadcrumbItem>
 										{item.href ? (
-											<BreadcrumbLink href={item.href}>
-												{item.icon && <item.icon className="size-4" />}
-												{item.label}
-											</BreadcrumbLink>
+											i === 0 && item.icon ? (
+												<BreadcrumbBackLink href={item.href} icon={item.icon}>
+													{item.label}
+												</BreadcrumbBackLink>
+											) : (
+												<BreadcrumbLink href={item.href}>
+													{item.label}
+												</BreadcrumbLink>
+											)
 										) : (
 											<BreadcrumbPage>{item.label}</BreadcrumbPage>
 										)}

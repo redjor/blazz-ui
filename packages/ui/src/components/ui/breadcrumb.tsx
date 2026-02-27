@@ -1,4 +1,4 @@
-import { ChevronRight, MoreHorizontal } from "lucide-react"
+import { ArrowLeftIcon, ChevronRight, MoreHorizontal } from "lucide-react"
 import * as React from "react"
 
 import { cn } from "../../lib/utils"
@@ -71,6 +71,28 @@ function BreadcrumbSeparator({ children, className, ...props }: React.ComponentP
 }
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
 
+const BreadcrumbBackLink = React.forwardRef<
+	HTMLAnchorElement,
+	React.ComponentPropsWithoutRef<"a"> & {
+		icon: React.ComponentType<{ className?: string }>
+	}
+>(({ icon: Icon, className, children, ...props }, ref) => {
+	return (
+		<a
+			ref={ref}
+			className={cn("group/back inline-flex items-center gap-1.5 transition-colors hover:text-fg", className)}
+			{...props}
+		>
+			<span className="relative inline-flex size-3.5 items-center justify-center overflow-hidden">
+				<Icon className="size-3.5 shrink-0 transition-all duration-200 group-hover/back:-translate-y-full group-hover/back:opacity-0" />
+				<ArrowLeftIcon className="absolute size-3.5 shrink-0 translate-y-full opacity-0 transition-all duration-200 group-hover/back:translate-y-0 group-hover/back:opacity-100" />
+			</span>
+			{children}
+		</a>
+	)
+})
+BreadcrumbBackLink.displayName = "BreadcrumbBackLink"
+
 function BreadcrumbEllipsis({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
@@ -91,6 +113,7 @@ export {
 	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbLink,
+	BreadcrumbBackLink,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 	BreadcrumbEllipsis,

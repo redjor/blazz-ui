@@ -10,6 +10,7 @@ import {
 	BreadcrumbList,
 	BreadcrumbItem,
 	BreadcrumbLink,
+	BreadcrumbBackLink,
 	BreadcrumbPage as BreadcrumbCurrent,
 	BreadcrumbSeparator,
 	BreadcrumbEllipsis,
@@ -103,10 +104,9 @@ const examples = [
 		code: `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="/" className="flex items-center gap-2">
-        <Home className="h-4 w-4" />
+      <BreadcrumbBackLink href="/" icon={Home}>
         Home
-      </BreadcrumbLink>
+      </BreadcrumbBackLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
@@ -270,17 +270,16 @@ function BreadcrumbPage() {
 
 				<DocExampleClient
 					title="With Icon"
-					description="Include icons in breadcrumb items."
+					description="Use BreadcrumbBackLink with an icon. On hover, the icon morphs into a back arrow."
 					code={examples[3].code}
 					highlightedCode={html("with-icon")}
 				>
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
-								<BreadcrumbLink href="/" className="flex items-center gap-2">
-									<Home className="h-4 w-4" />
+								<BreadcrumbBackLink href="/" icon={Home}>
 									Home
-								</BreadcrumbLink>
+								</BreadcrumbBackLink>
 							</BreadcrumbItem>
 							<BreadcrumbSeparator />
 							<BreadcrumbItem>
