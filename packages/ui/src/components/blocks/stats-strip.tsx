@@ -17,11 +17,33 @@ export interface StatsStripItem {
 	value: string | number
 	/** Sparkline data points (optional) — array of numbers */
 	chart?: number[]
+	/** Trend direction — overrides auto-detection from chart data */
+	trend?: "up" | "down" | "neutral"
+}
+
+function resolveTrend(
+	item: StatsStripItem,
+): "up" | "down" | "neutral" | undefined {
+	if (item.trend) return item.trend
+	if (!item.chart || item.chart.length < 2) return undefined
+	const first = item.chart[0]
+	const last = item.chart[item.chart.length - 1]
+	if (last > first) return "up"
+	if (last < first) return "down"
+	return "neutral"
+}
+
+const trendColor: Record<"up" | "down" | "neutral", string> = {
+	up: "text-positive",
+	down: "text-negative",
+	neutral: "text-fg-muted",
 }
 
 export interface StatsStripProps {
 	stats: StatsStripItem[]
 	loading?: boolean
+	/** Number of skeleton items to show while loading (default: 4) */
+	loadingCount?: number
 	className?: string
 }
 
@@ -68,7 +90,7 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
 // StatsStrip
 // ---------------------------------------------------------------------------
 
-export function StatsStrip({ stats, loading = false, className }: StatsStripProps) {
+export function StatsStrip({ stats, loading = false, loadingCount = 4, className }: StatsStripProps) {
 	const scrollRef = useRef<HTMLDivElement>(null)
 	const [canScrollLeft, setCanScrollLeft] = useState(false)
 	const [canScrollRight, setCanScrollRight] = useState(false)
@@ -107,16 +129,18 @@ export function StatsStrip({ stats, loading = false, className }: StatsStripProp
 
 	if (loading) {
 		return (
-			<Card className={cn("flex items-center divide-x divide-container overflow-hidden", className)}>
-				{Array.from({ length: 4 }).map((_, i) => (
-					<div key={i} className="flex min-w-48 flex-1 flex-col gap-2 px-4 py-3">
-						<Skeleton className="h-3.5 w-24" />
-						<div className="flex items-end justify-between">
-							<Skeleton className="h-5 w-12" />
-							<Skeleton className="h-5 w-12" />
+			<Card className={cn("relative flex items-center overflow-hidden", className)}>
+				<div className="flex w-full divide-x divide-container">
+					{Array.from({ length: loadingCount }).map((_, i) => (
+						<div key={i} className="flex min-w-48 flex-1 flex-col gap-2 px-4 py-3">
+							<Skeleton className="h-3.5 w-24" />
+							<div className="flex items-end justify-between">
+								<Skeleton className="h-5 w-12" />
+								<Skeleton className="h-5 w-12" />
+							</div>
 						</div>
-					</div>
-				))}
+					))}
+				</div>
 			</Card>
 		)
 	}
@@ -142,7 +166,10 @@ export function StatsStrip({ stats, loading = false, className }: StatsStripProp
 								{stat.value}
 							</span>
 							{stat.chart && stat.chart.length >= 2 && (
-								<Sparkline data={stat.chart} className="text-fg-muted" />
+								<Sparkline
+									data={stat.chart}
+									className={trendColor[resolveTrend(stat) ?? "neutral"]}
+								/>
 							)}
 						</div>
 					</div>
