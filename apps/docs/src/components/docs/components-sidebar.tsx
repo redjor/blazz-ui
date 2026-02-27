@@ -17,8 +17,10 @@ export function ComponentsSidebar() {
 		const activeCategory = componentsNavigation.find((category) =>
 			category.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"))
 		)
-		if (activeCategory && !openCategories.includes(activeCategory.id)) {
-			setOpenCategories((prev) => [...prev, activeCategory.id])
+		if (activeCategory) {
+			setOpenCategories((prev) =>
+				prev.includes(activeCategory.id) ? prev : [...prev, activeCategory.id]
+			)
 		}
 	}, [pathname])
 
@@ -35,7 +37,7 @@ export function ComponentsSidebar() {
 	}
 
 	return (
-		<aside className="hidden h-full w-64 shrink-0 overflow-y-auto border-r bg-surface lg:block">
+		<aside className="hidden h-full w-64 shrink-0 border-r bg-surface lg:block">
 			<ScrollArea className="h-full py-6">
 				<div className="px-4 pb-4">
 					<Link
@@ -130,8 +132,10 @@ export function ComponentsSidebarMobile() {
 		const activeCategory = componentsNavigation.find((category) =>
 			category.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"))
 		)
-		if (activeCategory && !openCategories.includes(activeCategory.id)) {
-			setOpenCategories((prev) => [...prev, activeCategory.id])
+		if (activeCategory) {
+			setOpenCategories((prev) =>
+				prev.includes(activeCategory.id) ? prev : [...prev, activeCategory.id]
+			)
 		}
 	}, [pathname])
 
