@@ -22,9 +22,16 @@ const categoryDescriptions: Record<string, string> = {
 	"comp-feedback": "Alerts, badges and loading states.",
 	"comp-overlays": "Dialogs, popovers and floating surfaces.",
 	"comp-navigation": "Breadcrumbs, tabs and wayfinding patterns.",
-	"comp-charts": "Bar, line, area, pie and radar chart components.",
 	"comp-data-display": "Tables, avatars and content presentation.",
 	"comp-foundations": "Design tokens, color and typography fundamentals.",
+	"pat-app-shell": "Application frame, sidebar and top bar compositions.",
+	"pat-navigation": "Navbar, nav tabs and tabbed navigation patterns.",
+	"pat-forms": "Form field, form section and field grid compositions.",
+	"pat-media": "Image upload and media handling patterns.",
+	"pat-utilities": "Command palette, error state and utility patterns.",
+	"block-charts": "Chart card, area, bar, line, pie and radar chart blocks.",
+	"block-data": "Data table, data grid, filter bar and bulk action bar.",
+	"block-business": "CRM and domain-specific business blocks.",
 	"ai-chat": "Conversation, messages and prompt input components.",
 	"ai-reasoning": "Reasoning, chain-of-thought and source components.",
 	"ai-tools": "Confirmation, model selection and context components.",
@@ -68,7 +75,7 @@ function mapCategory(item: NavigationItem): ComponentNavCategory | null {
 }
 
 export const componentsNavigation: ComponentNavCategory[] = sidebarConfig.navigation
-	.filter((section) => section.id === "components" || section.id === "ai")
+	.filter((section) => section.id === "ui" || section.id === "patterns" || section.id === "blocks" || section.id === "ai")
 	.flatMap((section) => section.items)
 	.map(mapCategory)
 	.filter((category): category is ComponentNavCategory => Boolean(category))
