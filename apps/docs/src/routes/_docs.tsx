@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { createFileRoute, Outlet, useLocation, Link } from "@tanstack/react-router"
 import { Search } from "lucide-react"
 import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
-import { ComponentsSidebar } from "~/components/docs/components-sidebar"
+import { DocsSidebar } from "~/components/docs/docs-sidebar"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { navigationConfig } from "~/config/navigation"
 import { Toaster } from "sonner"
@@ -36,8 +36,9 @@ function DocsLayout() {
       <header className="fixed top-0 z-50 h-14 w-full border-b bg-surface">
         <div className="flex h-full items-center justify-between px-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 font-semibold text-fg">
-            <span className="text-sm font-bold tracking-tight">Blazz UI</span>
+          <Link to="/" className="flex items-center">
+            <img src="/logo_blazz_white.svg" alt="Blazz UI" className="hidden h-6 dark:block" />
+            <img src="/logo_blazz_gold.svg" alt="Blazz UI" className="block h-6 dark:hidden" />
           </Link>
 
           {/* Actions droite */}
@@ -72,7 +73,7 @@ function DocsLayout() {
       {/* Body */}
       <div className="flex pt-14 h-screen">
         {/* Sidebar */}
-        <ComponentsSidebar />
+        <DocsSidebar />
 
         {/* Main */}
         <main className="flex-1 overflow-y-auto">
