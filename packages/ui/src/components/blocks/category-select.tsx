@@ -44,6 +44,7 @@ export function CategorySelect<TFieldValues extends FieldValues = FieldValues>({
           </Label>
           <CascadingSelect
             nodes={nodes}
+            id={name}
             value={field.value ?? ""}
             onValueChange={field.onChange}
             placeholder={placeholder}

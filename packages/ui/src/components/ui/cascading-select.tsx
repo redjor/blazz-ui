@@ -17,6 +17,7 @@ export interface CascadingSelectProps {
   onValueChange?: (id: string) => void
   placeholder?: string
   className?: string
+  id?: string
 }
 
 function findPath(
@@ -39,6 +40,7 @@ export function CascadingSelect({
   onValueChange,
   placeholder = "Select...",
   className,
+  id,
 }: CascadingSelectProps) {
   const [open, setOpen] = React.useState(false)
   const [path, setPath] = React.useState<CascadingSelectNode[]>([])
@@ -76,6 +78,7 @@ export function CascadingSelect({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
+        id={id}
         className={cn(
           "focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-raised hover:text-fg aria-expanded:bg-raised aria-expanded:text-fg rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none gap-1.5 px-2.5 h-8 w-full",
           !selectedPath && "text-fg-muted",
