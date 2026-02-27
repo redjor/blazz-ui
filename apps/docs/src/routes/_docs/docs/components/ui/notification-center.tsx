@@ -27,7 +27,7 @@ import {
 	Bell,
 	ShieldAlert,
 } from "lucide-react"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

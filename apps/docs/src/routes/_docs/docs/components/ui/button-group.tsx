@@ -8,7 +8,7 @@ import { DocRelated } from "~/components/docs/doc-related"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ButtonGroup } from "@blazz/ui/components/ui/button-group"
 import { ChevronLeft, ChevronRight, Bold, Italic, Underline } from "lucide-react"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{

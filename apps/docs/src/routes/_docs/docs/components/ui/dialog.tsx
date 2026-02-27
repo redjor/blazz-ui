@@ -17,7 +17,7 @@ import { DocSection } from "~/components/docs/doc-section"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{

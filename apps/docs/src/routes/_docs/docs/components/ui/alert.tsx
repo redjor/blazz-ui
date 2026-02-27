@@ -8,7 +8,7 @@ import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { AlertCircle, CheckCircle, Info, X } from "lucide-react"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{

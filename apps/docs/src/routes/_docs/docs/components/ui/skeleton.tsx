@@ -5,7 +5,7 @@ import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

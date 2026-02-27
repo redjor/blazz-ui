@@ -26,7 +26,7 @@ import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{

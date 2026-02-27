@@ -20,7 +20,7 @@ import { CellImage } from "@blazz/ui/components/features/data-table/cells/cell-i
 import { CellSparkline } from "@blazz/ui/components/features/data-table/cells/cell-sparkline"
 import { CellTwoLines } from "@blazz/ui/components/features/data-table/cells/cell-two-lines"
 import { CellKeyValue } from "@blazz/ui/components/features/data-table/cells/cell-key-value"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const mockTeam = [
 	{ name: "Alice Martin", avatar: "https://i.pravatar.cc/80?u=alice" },

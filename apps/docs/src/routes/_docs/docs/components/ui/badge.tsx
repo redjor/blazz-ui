@@ -9,7 +9,7 @@ import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 import { Check, X, XIcon, Star, Zap, Crown, Shield, CircleAlert, Mail, Tag } from "lucide-react"
 
 const examples = [

@@ -22,7 +22,7 @@ import {
 	DropdownMenuGroup,
 } from "@blazz/ui/components/ui/dropdown-menu"
 import { Home, Slash } from "lucide-react"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{

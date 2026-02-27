@@ -11,7 +11,7 @@ import {
 import { DocRelated } from "~/components/docs/doc-related"
 import { OrgMenu } from "@blazz/ui/components/blocks/org-menu"
 import type { Organization } from "@blazz/ui/components/blocks/org-menu"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
 	{ id: "examples", title: "Examples" },

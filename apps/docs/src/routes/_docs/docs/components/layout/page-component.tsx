@@ -9,7 +9,7 @@ import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{
@@ -211,9 +211,9 @@ const pageProps: DocProp[] = [
 	},
 	{
 		name: "breadcrumbs",
-		type: "React.ReactNode | BreadcrumbConfig",
+		type: "React.ReactNode | BreadcrumbConfig | PageBreadcrumbItem[]",
 		description:
-			"Breadcrumb navigation. Accepts a ReactNode for custom breadcrumbs, or a BreadcrumbConfig object { backHref, backIcon, title } for the common pattern.",
+			"Breadcrumb navigation. Accepts a ReactNode, a BreadcrumbConfig object, or a PageBreadcrumbItem[] array where the last item without href automatically becomes the page title.",
 	},
 	{
 		name: "titleMetadata",
@@ -497,7 +497,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="Narrow Width"
 					description="A page with a narrower max-width, ideal for forms and settings."
-					code={examples[9].code}
+					code={examples[10].code}
 					highlightedCode={html("narrow-width")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">
@@ -512,7 +512,7 @@ function PageComponentPage() {
 				<DocExampleClient
 					title="PageSection"
 					description="Use PageSection to organize content into sub-sections within a page."
-					code={examples[10].code}
+					code={examples[11].code}
 					highlightedCode={html("page-section")}
 				>
 					<div className="rounded-lg border border-edge bg-raised">

@@ -34,7 +34,7 @@ import {
 	PlusCircle,
 	UserPlus,
 } from "lucide-react"
-import { highlightCode } from "~/lib/highlight.server"
+import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
 	{
