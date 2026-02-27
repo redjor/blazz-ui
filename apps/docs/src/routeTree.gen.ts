@@ -75,6 +75,7 @@ import { Route as DocsDocsComponentsUiComboboxRouteImport } from './routes/_docs
 import { Route as DocsDocsComponentsUiColorPickerRouteImport } from './routes/_docs/docs/components/ui/color-picker'
 import { Route as DocsDocsComponentsUiCheckboxRouteImport } from './routes/_docs/docs/components/ui/checkbox'
 import { Route as DocsDocsComponentsUiCellsRouteImport } from './routes/_docs/docs/components/ui/cells'
+import { Route as DocsDocsComponentsUiCascadingSelectRouteImport } from './routes/_docs/docs/components/ui/cascading-select'
 import { Route as DocsDocsComponentsUiCalendarRouteImport } from './routes/_docs/docs/components/ui/calendar'
 import { Route as DocsDocsComponentsUiButtonGroupRouteImport } from './routes/_docs/docs/components/ui/button-group'
 import { Route as DocsDocsComponentsUiButtonRouteImport } from './routes/_docs/docs/components/ui/button'
@@ -538,6 +539,12 @@ const DocsDocsComponentsUiCellsRoute =
   DocsDocsComponentsUiCellsRouteImport.update({
     id: '/docs/components/ui/cells',
     path: '/docs/components/ui/cells',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsUiCascadingSelectRoute =
+  DocsDocsComponentsUiCascadingSelectRouteImport.update({
+    id: '/docs/components/ui/cascading-select',
+    path: '/docs/components/ui/cascading-select',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiCalendarRoute =
@@ -1035,6 +1042,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/button': typeof DocsDocsComponentsUiButtonRoute
   '/docs/components/ui/button-group': typeof DocsDocsComponentsUiButtonGroupRoute
   '/docs/components/ui/calendar': typeof DocsDocsComponentsUiCalendarRoute
+  '/docs/components/ui/cascading-select': typeof DocsDocsComponentsUiCascadingSelectRoute
   '/docs/components/ui/cells': typeof DocsDocsComponentsUiCellsRoute
   '/docs/components/ui/checkbox': typeof DocsDocsComponentsUiCheckboxRoute
   '/docs/components/ui/color-picker': typeof DocsDocsComponentsUiColorPickerRoute
@@ -1177,6 +1185,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/button': typeof DocsDocsComponentsUiButtonRoute
   '/docs/components/ui/button-group': typeof DocsDocsComponentsUiButtonGroupRoute
   '/docs/components/ui/calendar': typeof DocsDocsComponentsUiCalendarRoute
+  '/docs/components/ui/cascading-select': typeof DocsDocsComponentsUiCascadingSelectRoute
   '/docs/components/ui/cells': typeof DocsDocsComponentsUiCellsRoute
   '/docs/components/ui/checkbox': typeof DocsDocsComponentsUiCheckboxRoute
   '/docs/components/ui/color-picker': typeof DocsDocsComponentsUiColorPickerRoute
@@ -1321,6 +1330,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/button': typeof DocsDocsComponentsUiButtonRoute
   '/_docs/docs/components/ui/button-group': typeof DocsDocsComponentsUiButtonGroupRoute
   '/_docs/docs/components/ui/calendar': typeof DocsDocsComponentsUiCalendarRoute
+  '/_docs/docs/components/ui/cascading-select': typeof DocsDocsComponentsUiCascadingSelectRoute
   '/_docs/docs/components/ui/cells': typeof DocsDocsComponentsUiCellsRoute
   '/_docs/docs/components/ui/checkbox': typeof DocsDocsComponentsUiCheckboxRoute
   '/_docs/docs/components/ui/color-picker': typeof DocsDocsComponentsUiColorPickerRoute
@@ -1465,6 +1475,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/button'
     | '/docs/components/ui/button-group'
     | '/docs/components/ui/calendar'
+    | '/docs/components/ui/cascading-select'
     | '/docs/components/ui/cells'
     | '/docs/components/ui/checkbox'
     | '/docs/components/ui/color-picker'
@@ -1607,6 +1618,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/button'
     | '/docs/components/ui/button-group'
     | '/docs/components/ui/calendar'
+    | '/docs/components/ui/cascading-select'
     | '/docs/components/ui/cells'
     | '/docs/components/ui/checkbox'
     | '/docs/components/ui/color-picker'
@@ -1750,6 +1762,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/button'
     | '/_docs/docs/components/ui/button-group'
     | '/_docs/docs/components/ui/calendar'
+    | '/_docs/docs/components/ui/cascading-select'
     | '/_docs/docs/components/ui/cells'
     | '/_docs/docs/components/ui/checkbox'
     | '/_docs/docs/components/ui/color-picker'
@@ -2317,6 +2330,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/cells'
       fullPath: '/docs/components/ui/cells'
       preLoaderRoute: typeof DocsDocsComponentsUiCellsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/ui/cascading-select': {
+      id: '/_docs/docs/components/ui/cascading-select'
+      path: '/docs/components/ui/cascading-select'
+      fullPath: '/docs/components/ui/cascading-select'
+      preLoaderRoute: typeof DocsDocsComponentsUiCascadingSelectRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/calendar': {
@@ -2888,6 +2908,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiButtonRoute: typeof DocsDocsComponentsUiButtonRoute
   DocsDocsComponentsUiButtonGroupRoute: typeof DocsDocsComponentsUiButtonGroupRoute
   DocsDocsComponentsUiCalendarRoute: typeof DocsDocsComponentsUiCalendarRoute
+  DocsDocsComponentsUiCascadingSelectRoute: typeof DocsDocsComponentsUiCascadingSelectRoute
   DocsDocsComponentsUiCellsRoute: typeof DocsDocsComponentsUiCellsRoute
   DocsDocsComponentsUiCheckboxRoute: typeof DocsDocsComponentsUiCheckboxRoute
   DocsDocsComponentsUiColorPickerRoute: typeof DocsDocsComponentsUiColorPickerRoute
@@ -3039,6 +3060,8 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiButtonRoute: DocsDocsComponentsUiButtonRoute,
   DocsDocsComponentsUiButtonGroupRoute: DocsDocsComponentsUiButtonGroupRoute,
   DocsDocsComponentsUiCalendarRoute: DocsDocsComponentsUiCalendarRoute,
+  DocsDocsComponentsUiCascadingSelectRoute:
+    DocsDocsComponentsUiCascadingSelectRoute,
   DocsDocsComponentsUiCellsRoute: DocsDocsComponentsUiCellsRoute,
   DocsDocsComponentsUiCheckboxRoute: DocsDocsComponentsUiCheckboxRoute,
   DocsDocsComponentsUiColorPickerRoute: DocsDocsComponentsUiColorPickerRoute,
