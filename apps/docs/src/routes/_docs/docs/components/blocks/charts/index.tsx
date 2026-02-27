@@ -41,7 +41,7 @@ const chartComponents = [
 	},
 ]
 
-export const Route = createFileRoute("/_docs/docs/components/charts/")({
+export const Route = createFileRoute("/_docs/docs/components/blocks/charts/")({
 	component: ChartsPage,
 })
 

@@ -24,7 +24,6 @@ import { Route as DocsDocsComponentsColorsRouteImport } from './routes/_docs/doc
 import { Route as DocsDocsComponentsActionsRouteImport } from './routes/_docs/docs/components/actions'
 import { Route as DocsDocsComponentsUiIndexRouteImport } from './routes/_docs/docs/components/ui/index'
 import { Route as DocsDocsComponentsLayoutIndexRouteImport } from './routes/_docs/docs/components/layout/index'
-import { Route as DocsDocsComponentsChartsIndexRouteImport } from './routes/_docs/docs/components/charts/index'
 import { Route as DocsDocsComponentsAiIndexRouteImport } from './routes/_docs/docs/components/ai/index'
 import { Route as DocsDocsComponentsUiTreeViewRouteImport } from './routes/_docs/docs/components/ui/tree-view'
 import { Route as DocsDocsComponentsUiTooltipRouteImport } from './routes/_docs/docs/components/ui/tooltip'
@@ -37,7 +36,6 @@ import { Route as DocsDocsComponentsUiTabsRouteImport } from './routes/_docs/doc
 import { Route as DocsDocsComponentsUiTableRouteImport } from './routes/_docs/docs/components/ui/table'
 import { Route as DocsDocsComponentsUiSwitchRouteImport } from './routes/_docs/docs/components/ui/switch'
 import { Route as DocsDocsComponentsUiStepperRouteImport } from './routes/_docs/docs/components/ui/stepper'
-import { Route as DocsDocsComponentsUiStatsStripRouteImport } from './routes/_docs/docs/components/ui/stats-strip'
 import { Route as DocsDocsComponentsUiSliderRouteImport } from './routes/_docs/docs/components/ui/slider'
 import { Route as DocsDocsComponentsUiSkeletonRouteImport } from './routes/_docs/docs/components/ui/skeleton'
 import { Route as DocsDocsComponentsUiSheetRouteImport } from './routes/_docs/docs/components/ui/sheet'
@@ -45,16 +43,13 @@ import { Route as DocsDocsComponentsUiSelectRouteImport } from './routes/_docs/d
 import { Route as DocsDocsComponentsUiSearchInputRouteImport } from './routes/_docs/docs/components/ui/search-input'
 import { Route as DocsDocsComponentsUiRatingRouteImport } from './routes/_docs/docs/components/ui/rating'
 import { Route as DocsDocsComponentsUiRadioGroupRouteImport } from './routes/_docs/docs/components/ui/radio-group'
-import { Route as DocsDocsComponentsUiPropertyCardRouteImport } from './routes/_docs/docs/components/ui/property-card'
 import { Route as DocsDocsComponentsUiPropertyRouteImport } from './routes/_docs/docs/components/ui/property'
 import { Route as DocsDocsComponentsUiPopoverRouteImport } from './routes/_docs/docs/components/ui/popover'
 import { Route as DocsDocsComponentsUiPhoneInputRouteImport } from './routes/_docs/docs/components/ui/phone-input'
 import { Route as DocsDocsComponentsUiPasswordInputRouteImport } from './routes/_docs/docs/components/ui/password-input'
 import { Route as DocsDocsComponentsUiPaginationRouteImport } from './routes/_docs/docs/components/ui/pagination'
 import { Route as DocsDocsComponentsUiOtpInputRouteImport } from './routes/_docs/docs/components/ui/otp-input'
-import { Route as DocsDocsComponentsUiOrgMenuRouteImport } from './routes/_docs/docs/components/ui/org-menu'
 import { Route as DocsDocsComponentsUiNumberInputRouteImport } from './routes/_docs/docs/components/ui/number-input'
-import { Route as DocsDocsComponentsUiNotificationCenterRouteImport } from './routes/_docs/docs/components/ui/notification-center'
 import { Route as DocsDocsComponentsUiNavMenuRouteImport } from './routes/_docs/docs/components/ui/nav-menu'
 import { Route as DocsDocsComponentsUiMenubarRouteImport } from './routes/_docs/docs/components/ui/menubar'
 import { Route as DocsDocsComponentsUiMenuRouteImport } from './routes/_docs/docs/components/ui/menu'
@@ -67,7 +62,6 @@ import { Route as DocsDocsComponentsUiEmptyRouteImport } from './routes/_docs/do
 import { Route as DocsDocsComponentsUiDropdownMenuRouteImport } from './routes/_docs/docs/components/ui/dropdown-menu'
 import { Route as DocsDocsComponentsUiDialogRouteImport } from './routes/_docs/docs/components/ui/dialog'
 import { Route as DocsDocsComponentsUiDateSelectorRouteImport } from './routes/_docs/docs/components/ui/date-selector'
-import { Route as DocsDocsComponentsUiDataTableRouteImport } from './routes/_docs/docs/components/ui/data-table'
 import { Route as DocsDocsComponentsUiCurrencyInputRouteImport } from './routes/_docs/docs/components/ui/currency-input'
 import { Route as DocsDocsComponentsUiConfirmationDialogRouteImport } from './routes/_docs/docs/components/ui/confirmation-dialog'
 import { Route as DocsDocsComponentsUiCommandRouteImport } from './routes/_docs/docs/components/ui/command'
@@ -84,6 +78,24 @@ import { Route as DocsDocsComponentsUiBannerRouteImport } from './routes/_docs/d
 import { Route as DocsDocsComponentsUiBadgeRouteImport } from './routes/_docs/docs/components/ui/badge'
 import { Route as DocsDocsComponentsUiAvatarRouteImport } from './routes/_docs/docs/components/ui/avatar'
 import { Route as DocsDocsComponentsUiAlertRouteImport } from './routes/_docs/docs/components/ui/alert'
+import { Route as DocsDocsComponentsPatternsTopBarRouteImport } from './routes/_docs/docs/components/patterns/top-bar'
+import { Route as DocsDocsComponentsPatternsThemeToggleRouteImport } from './routes/_docs/docs/components/patterns/theme-toggle'
+import { Route as DocsDocsComponentsPatternsTabBarRouteImport } from './routes/_docs/docs/components/patterns/tab-bar'
+import { Route as DocsDocsComponentsPatternsPageHeaderShellRouteImport } from './routes/_docs/docs/components/patterns/page-header-shell'
+import { Route as DocsDocsComponentsPatternsNavigationTabsRouteImport } from './routes/_docs/docs/components/patterns/navigation-tabs'
+import { Route as DocsDocsComponentsPatternsNavbarRouteImport } from './routes/_docs/docs/components/patterns/navbar'
+import { Route as DocsDocsComponentsPatternsNavTabsRouteImport } from './routes/_docs/docs/components/patterns/nav-tabs'
+import { Route as DocsDocsComponentsPatternsLayoutFrameRouteImport } from './routes/_docs/docs/components/patterns/layout-frame'
+import { Route as DocsDocsComponentsPatternsImageUploadRouteImport } from './routes/_docs/docs/components/patterns/image-upload'
+import { Route as DocsDocsComponentsPatternsFormSectionRouteImport } from './routes/_docs/docs/components/patterns/form-section'
+import { Route as DocsDocsComponentsPatternsFormFieldRouteImport } from './routes/_docs/docs/components/patterns/form-field'
+import { Route as DocsDocsComponentsPatternsFieldGridRouteImport } from './routes/_docs/docs/components/patterns/field-grid'
+import { Route as DocsDocsComponentsPatternsErrorStateRouteImport } from './routes/_docs/docs/components/patterns/error-state'
+import { Route as DocsDocsComponentsPatternsDashboardLayoutRouteImport } from './routes/_docs/docs/components/patterns/dashboard-layout'
+import { Route as DocsDocsComponentsPatternsCommandPaletteRouteImport } from './routes/_docs/docs/components/patterns/command-palette'
+import { Route as DocsDocsComponentsPatternsAppTopBarRouteImport } from './routes/_docs/docs/components/patterns/app-top-bar'
+import { Route as DocsDocsComponentsPatternsAppSidebarRouteImport } from './routes/_docs/docs/components/patterns/app-sidebar'
+import { Route as DocsDocsComponentsPatternsAppFrameRouteImport } from './routes/_docs/docs/components/patterns/app-frame'
 import { Route as DocsDocsComponentsLayoutPageComponentRouteImport } from './routes/_docs/docs/components/layout/page-component'
 import { Route as DocsDocsComponentsLayoutInlineStackRouteImport } from './routes/_docs/docs/components/layout/inline-stack'
 import { Route as DocsDocsComponentsLayoutInlineGridRouteImport } from './routes/_docs/docs/components/layout/inline-grid'
@@ -94,11 +106,25 @@ import { Route as DocsDocsComponentsLayoutCalloutCardRouteImport } from './route
 import { Route as DocsDocsComponentsLayoutBoxRouteImport } from './routes/_docs/docs/components/layout/box'
 import { Route as DocsDocsComponentsLayoutBlockStackRouteImport } from './routes/_docs/docs/components/layout/block-stack'
 import { Route as DocsDocsComponentsLayoutBleedRouteImport } from './routes/_docs/docs/components/layout/bleed'
-import { Route as DocsDocsComponentsChartsRadarChartRouteImport } from './routes/_docs/docs/components/charts/radar-chart'
-import { Route as DocsDocsComponentsChartsPieChartRouteImport } from './routes/_docs/docs/components/charts/pie-chart'
-import { Route as DocsDocsComponentsChartsLineChartRouteImport } from './routes/_docs/docs/components/charts/line-chart'
-import { Route as DocsDocsComponentsChartsBarChartRouteImport } from './routes/_docs/docs/components/charts/bar-chart'
-import { Route as DocsDocsComponentsChartsAreaChartRouteImport } from './routes/_docs/docs/components/charts/area-chart'
+import { Route as DocsDocsComponentsBlocksStatusFlowRouteImport } from './routes/_docs/docs/components/blocks/status-flow'
+import { Route as DocsDocsComponentsBlocksStatsStripRouteImport } from './routes/_docs/docs/components/blocks/stats-strip'
+import { Route as DocsDocsComponentsBlocksStatsGridRouteImport } from './routes/_docs/docs/components/blocks/stats-grid'
+import { Route as DocsDocsComponentsBlocksSplitViewRouteImport } from './routes/_docs/docs/components/blocks/split-view'
+import { Route as DocsDocsComponentsBlocksQuotePreviewRouteImport } from './routes/_docs/docs/components/blocks/quote-preview'
+import { Route as DocsDocsComponentsBlocksQuickLogActivityRouteImport } from './routes/_docs/docs/components/blocks/quick-log-activity'
+import { Route as DocsDocsComponentsBlocksPropertyCardRouteImport } from './routes/_docs/docs/components/blocks/property-card'
+import { Route as DocsDocsComponentsBlocksOrgMenuRouteImport } from './routes/_docs/docs/components/blocks/org-menu'
+import { Route as DocsDocsComponentsBlocksNotificationCenterRouteImport } from './routes/_docs/docs/components/blocks/notification-center'
+import { Route as DocsDocsComponentsBlocksMultiStepFormRouteImport } from './routes/_docs/docs/components/blocks/multi-step-form'
+import { Route as DocsDocsComponentsBlocksKanbanBoardRouteImport } from './routes/_docs/docs/components/blocks/kanban-board'
+import { Route as DocsDocsComponentsBlocksInlineEditRouteImport } from './routes/_docs/docs/components/blocks/inline-edit'
+import { Route as DocsDocsComponentsBlocksFilterBarRouteImport } from './routes/_docs/docs/components/blocks/filter-bar'
+import { Route as DocsDocsComponentsBlocksDetailPanelRouteImport } from './routes/_docs/docs/components/blocks/detail-panel'
+import { Route as DocsDocsComponentsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/components/blocks/deal-lines-editor'
+import { Route as DocsDocsComponentsBlocksDataTableRouteImport } from './routes/_docs/docs/components/blocks/data-table'
+import { Route as DocsDocsComponentsBlocksChartCardRouteImport } from './routes/_docs/docs/components/blocks/chart-card'
+import { Route as DocsDocsComponentsBlocksBulkActionBarRouteImport } from './routes/_docs/docs/components/blocks/bulk-action-bar'
+import { Route as DocsDocsComponentsBlocksActivityTimelineRouteImport } from './routes/_docs/docs/components/blocks/activity-timeline'
 import { Route as DocsDocsComponentsAiSourcesRouteImport } from './routes/_docs/docs/components/ai/sources'
 import { Route as DocsDocsComponentsAiReasoningRouteImport } from './routes/_docs/docs/components/ai/reasoning'
 import { Route as DocsDocsComponentsAiModelSelectorRouteImport } from './routes/_docs/docs/components/ai/model-selector'
@@ -107,6 +133,12 @@ import { Route as DocsDocsComponentsAiGenerativeUiRouteImport } from './routes/_
 import { Route as DocsDocsComponentsAiContextRouteImport } from './routes/_docs/docs/components/ai/context'
 import { Route as DocsDocsComponentsAiConfirmationRouteImport } from './routes/_docs/docs/components/ai/confirmation'
 import { Route as DocsDocsComponentsAiChainOfThoughtRouteImport } from './routes/_docs/docs/components/ai/chain-of-thought'
+import { Route as DocsDocsComponentsBlocksChartsIndexRouteImport } from './routes/_docs/docs/components/blocks/charts/index'
+import { Route as DocsDocsComponentsBlocksChartsRadarChartRouteImport } from './routes/_docs/docs/components/blocks/charts/radar-chart'
+import { Route as DocsDocsComponentsBlocksChartsPieChartRouteImport } from './routes/_docs/docs/components/blocks/charts/pie-chart'
+import { Route as DocsDocsComponentsBlocksChartsLineChartRouteImport } from './routes/_docs/docs/components/blocks/charts/line-chart'
+import { Route as DocsDocsComponentsBlocksChartsBarChartRouteImport } from './routes/_docs/docs/components/blocks/charts/bar-chart'
+import { Route as DocsDocsComponentsBlocksChartsAreaChartRouteImport } from './routes/_docs/docs/components/blocks/charts/area-chart'
 import { Route as DocsDocsComponentsAiWorkflowTaskCardRouteImport } from './routes/_docs/docs/components/ai/workflow/task-card'
 import { Route as DocsDocsComponentsAiWorkflowPollCardRouteImport } from './routes/_docs/docs/components/ai/workflow/poll-card'
 import { Route as DocsDocsComponentsAiWorkflowMessagePreviewRouteImport } from './routes/_docs/docs/components/ai/workflow/message-preview'
@@ -235,12 +267,6 @@ const DocsDocsComponentsLayoutIndexRoute =
     path: '/docs/components/layout/',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsChartsIndexRoute =
-  DocsDocsComponentsChartsIndexRouteImport.update({
-    id: '/docs/components/charts/',
-    path: '/docs/components/charts/',
-    getParentRoute: () => DocsRoute,
-  } as any)
 const DocsDocsComponentsAiIndexRoute =
   DocsDocsComponentsAiIndexRouteImport.update({
     id: '/docs/components/ai/',
@@ -313,12 +339,6 @@ const DocsDocsComponentsUiStepperRoute =
     path: '/docs/components/ui/stepper',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsUiStatsStripRoute =
-  DocsDocsComponentsUiStatsStripRouteImport.update({
-    id: '/docs/components/ui/stats-strip',
-    path: '/docs/components/ui/stats-strip',
-    getParentRoute: () => DocsRoute,
-  } as any)
 const DocsDocsComponentsUiSliderRoute =
   DocsDocsComponentsUiSliderRouteImport.update({
     id: '/docs/components/ui/slider',
@@ -361,12 +381,6 @@ const DocsDocsComponentsUiRadioGroupRoute =
     path: '/docs/components/ui/radio-group',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsUiPropertyCardRoute =
-  DocsDocsComponentsUiPropertyCardRouteImport.update({
-    id: '/docs/components/ui/property-card',
-    path: '/docs/components/ui/property-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
 const DocsDocsComponentsUiPropertyRoute =
   DocsDocsComponentsUiPropertyRouteImport.update({
     id: '/docs/components/ui/property',
@@ -403,22 +417,10 @@ const DocsDocsComponentsUiOtpInputRoute =
     path: '/docs/components/ui/otp-input',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsUiOrgMenuRoute =
-  DocsDocsComponentsUiOrgMenuRouteImport.update({
-    id: '/docs/components/ui/org-menu',
-    path: '/docs/components/ui/org-menu',
-    getParentRoute: () => DocsRoute,
-  } as any)
 const DocsDocsComponentsUiNumberInputRoute =
   DocsDocsComponentsUiNumberInputRouteImport.update({
     id: '/docs/components/ui/number-input',
     path: '/docs/components/ui/number-input',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsUiNotificationCenterRoute =
-  DocsDocsComponentsUiNotificationCenterRouteImport.update({
-    id: '/docs/components/ui/notification-center',
-    path: '/docs/components/ui/notification-center',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiNavMenuRoute =
@@ -491,12 +493,6 @@ const DocsDocsComponentsUiDateSelectorRoute =
   DocsDocsComponentsUiDateSelectorRouteImport.update({
     id: '/docs/components/ui/date-selector',
     path: '/docs/components/ui/date-selector',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsUiDataTableRoute =
-  DocsDocsComponentsUiDataTableRouteImport.update({
-    id: '/docs/components/ui/data-table',
-    path: '/docs/components/ui/data-table',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiCurrencyInputRoute =
@@ -595,6 +591,114 @@ const DocsDocsComponentsUiAlertRoute =
     path: '/docs/components/ui/alert',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsComponentsPatternsTopBarRoute =
+  DocsDocsComponentsPatternsTopBarRouteImport.update({
+    id: '/docs/components/patterns/top-bar',
+    path: '/docs/components/patterns/top-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsThemeToggleRoute =
+  DocsDocsComponentsPatternsThemeToggleRouteImport.update({
+    id: '/docs/components/patterns/theme-toggle',
+    path: '/docs/components/patterns/theme-toggle',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsTabBarRoute =
+  DocsDocsComponentsPatternsTabBarRouteImport.update({
+    id: '/docs/components/patterns/tab-bar',
+    path: '/docs/components/patterns/tab-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsPageHeaderShellRoute =
+  DocsDocsComponentsPatternsPageHeaderShellRouteImport.update({
+    id: '/docs/components/patterns/page-header-shell',
+    path: '/docs/components/patterns/page-header-shell',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsNavigationTabsRoute =
+  DocsDocsComponentsPatternsNavigationTabsRouteImport.update({
+    id: '/docs/components/patterns/navigation-tabs',
+    path: '/docs/components/patterns/navigation-tabs',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsNavbarRoute =
+  DocsDocsComponentsPatternsNavbarRouteImport.update({
+    id: '/docs/components/patterns/navbar',
+    path: '/docs/components/patterns/navbar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsNavTabsRoute =
+  DocsDocsComponentsPatternsNavTabsRouteImport.update({
+    id: '/docs/components/patterns/nav-tabs',
+    path: '/docs/components/patterns/nav-tabs',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsLayoutFrameRoute =
+  DocsDocsComponentsPatternsLayoutFrameRouteImport.update({
+    id: '/docs/components/patterns/layout-frame',
+    path: '/docs/components/patterns/layout-frame',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsImageUploadRoute =
+  DocsDocsComponentsPatternsImageUploadRouteImport.update({
+    id: '/docs/components/patterns/image-upload',
+    path: '/docs/components/patterns/image-upload',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsFormSectionRoute =
+  DocsDocsComponentsPatternsFormSectionRouteImport.update({
+    id: '/docs/components/patterns/form-section',
+    path: '/docs/components/patterns/form-section',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsFormFieldRoute =
+  DocsDocsComponentsPatternsFormFieldRouteImport.update({
+    id: '/docs/components/patterns/form-field',
+    path: '/docs/components/patterns/form-field',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsFieldGridRoute =
+  DocsDocsComponentsPatternsFieldGridRouteImport.update({
+    id: '/docs/components/patterns/field-grid',
+    path: '/docs/components/patterns/field-grid',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsErrorStateRoute =
+  DocsDocsComponentsPatternsErrorStateRouteImport.update({
+    id: '/docs/components/patterns/error-state',
+    path: '/docs/components/patterns/error-state',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsDashboardLayoutRoute =
+  DocsDocsComponentsPatternsDashboardLayoutRouteImport.update({
+    id: '/docs/components/patterns/dashboard-layout',
+    path: '/docs/components/patterns/dashboard-layout',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsCommandPaletteRoute =
+  DocsDocsComponentsPatternsCommandPaletteRouteImport.update({
+    id: '/docs/components/patterns/command-palette',
+    path: '/docs/components/patterns/command-palette',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsAppTopBarRoute =
+  DocsDocsComponentsPatternsAppTopBarRouteImport.update({
+    id: '/docs/components/patterns/app-top-bar',
+    path: '/docs/components/patterns/app-top-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsAppSidebarRoute =
+  DocsDocsComponentsPatternsAppSidebarRouteImport.update({
+    id: '/docs/components/patterns/app-sidebar',
+    path: '/docs/components/patterns/app-sidebar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsAppFrameRoute =
+  DocsDocsComponentsPatternsAppFrameRouteImport.update({
+    id: '/docs/components/patterns/app-frame',
+    path: '/docs/components/patterns/app-frame',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsComponentsLayoutPageComponentRoute =
   DocsDocsComponentsLayoutPageComponentRouteImport.update({
     id: '/docs/components/layout/page-component',
@@ -655,34 +759,118 @@ const DocsDocsComponentsLayoutBleedRoute =
     path: '/docs/components/layout/bleed',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsChartsRadarChartRoute =
-  DocsDocsComponentsChartsRadarChartRouteImport.update({
-    id: '/docs/components/charts/radar-chart',
-    path: '/docs/components/charts/radar-chart',
+const DocsDocsComponentsBlocksStatusFlowRoute =
+  DocsDocsComponentsBlocksStatusFlowRouteImport.update({
+    id: '/docs/components/blocks/status-flow',
+    path: '/docs/components/blocks/status-flow',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsChartsPieChartRoute =
-  DocsDocsComponentsChartsPieChartRouteImport.update({
-    id: '/docs/components/charts/pie-chart',
-    path: '/docs/components/charts/pie-chart',
+const DocsDocsComponentsBlocksStatsStripRoute =
+  DocsDocsComponentsBlocksStatsStripRouteImport.update({
+    id: '/docs/components/blocks/stats-strip',
+    path: '/docs/components/blocks/stats-strip',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsChartsLineChartRoute =
-  DocsDocsComponentsChartsLineChartRouteImport.update({
-    id: '/docs/components/charts/line-chart',
-    path: '/docs/components/charts/line-chart',
+const DocsDocsComponentsBlocksStatsGridRoute =
+  DocsDocsComponentsBlocksStatsGridRouteImport.update({
+    id: '/docs/components/blocks/stats-grid',
+    path: '/docs/components/blocks/stats-grid',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsChartsBarChartRoute =
-  DocsDocsComponentsChartsBarChartRouteImport.update({
-    id: '/docs/components/charts/bar-chart',
-    path: '/docs/components/charts/bar-chart',
+const DocsDocsComponentsBlocksSplitViewRoute =
+  DocsDocsComponentsBlocksSplitViewRouteImport.update({
+    id: '/docs/components/blocks/split-view',
+    path: '/docs/components/blocks/split-view',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsChartsAreaChartRoute =
-  DocsDocsComponentsChartsAreaChartRouteImport.update({
-    id: '/docs/components/charts/area-chart',
-    path: '/docs/components/charts/area-chart',
+const DocsDocsComponentsBlocksQuotePreviewRoute =
+  DocsDocsComponentsBlocksQuotePreviewRouteImport.update({
+    id: '/docs/components/blocks/quote-preview',
+    path: '/docs/components/blocks/quote-preview',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksQuickLogActivityRoute =
+  DocsDocsComponentsBlocksQuickLogActivityRouteImport.update({
+    id: '/docs/components/blocks/quick-log-activity',
+    path: '/docs/components/blocks/quick-log-activity',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksPropertyCardRoute =
+  DocsDocsComponentsBlocksPropertyCardRouteImport.update({
+    id: '/docs/components/blocks/property-card',
+    path: '/docs/components/blocks/property-card',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksOrgMenuRoute =
+  DocsDocsComponentsBlocksOrgMenuRouteImport.update({
+    id: '/docs/components/blocks/org-menu',
+    path: '/docs/components/blocks/org-menu',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksNotificationCenterRoute =
+  DocsDocsComponentsBlocksNotificationCenterRouteImport.update({
+    id: '/docs/components/blocks/notification-center',
+    path: '/docs/components/blocks/notification-center',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksMultiStepFormRoute =
+  DocsDocsComponentsBlocksMultiStepFormRouteImport.update({
+    id: '/docs/components/blocks/multi-step-form',
+    path: '/docs/components/blocks/multi-step-form',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksKanbanBoardRoute =
+  DocsDocsComponentsBlocksKanbanBoardRouteImport.update({
+    id: '/docs/components/blocks/kanban-board',
+    path: '/docs/components/blocks/kanban-board',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksInlineEditRoute =
+  DocsDocsComponentsBlocksInlineEditRouteImport.update({
+    id: '/docs/components/blocks/inline-edit',
+    path: '/docs/components/blocks/inline-edit',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksFilterBarRoute =
+  DocsDocsComponentsBlocksFilterBarRouteImport.update({
+    id: '/docs/components/blocks/filter-bar',
+    path: '/docs/components/blocks/filter-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksDetailPanelRoute =
+  DocsDocsComponentsBlocksDetailPanelRouteImport.update({
+    id: '/docs/components/blocks/detail-panel',
+    path: '/docs/components/blocks/detail-panel',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksDealLinesEditorRoute =
+  DocsDocsComponentsBlocksDealLinesEditorRouteImport.update({
+    id: '/docs/components/blocks/deal-lines-editor',
+    path: '/docs/components/blocks/deal-lines-editor',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksDataTableRoute =
+  DocsDocsComponentsBlocksDataTableRouteImport.update({
+    id: '/docs/components/blocks/data-table',
+    path: '/docs/components/blocks/data-table',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartCardRoute =
+  DocsDocsComponentsBlocksChartCardRouteImport.update({
+    id: '/docs/components/blocks/chart-card',
+    path: '/docs/components/blocks/chart-card',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksBulkActionBarRoute =
+  DocsDocsComponentsBlocksBulkActionBarRouteImport.update({
+    id: '/docs/components/blocks/bulk-action-bar',
+    path: '/docs/components/blocks/bulk-action-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksActivityTimelineRoute =
+  DocsDocsComponentsBlocksActivityTimelineRouteImport.update({
+    id: '/docs/components/blocks/activity-timeline',
+    path: '/docs/components/blocks/activity-timeline',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsAiSourcesRoute =
@@ -731,6 +919,42 @@ const DocsDocsComponentsAiChainOfThoughtRoute =
   DocsDocsComponentsAiChainOfThoughtRouteImport.update({
     id: '/docs/components/ai/chain-of-thought',
     path: '/docs/components/ai/chain-of-thought',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartsIndexRoute =
+  DocsDocsComponentsBlocksChartsIndexRouteImport.update({
+    id: '/docs/components/blocks/charts/',
+    path: '/docs/components/blocks/charts/',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartsRadarChartRoute =
+  DocsDocsComponentsBlocksChartsRadarChartRouteImport.update({
+    id: '/docs/components/blocks/charts/radar-chart',
+    path: '/docs/components/blocks/charts/radar-chart',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartsPieChartRoute =
+  DocsDocsComponentsBlocksChartsPieChartRouteImport.update({
+    id: '/docs/components/blocks/charts/pie-chart',
+    path: '/docs/components/blocks/charts/pie-chart',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartsLineChartRoute =
+  DocsDocsComponentsBlocksChartsLineChartRouteImport.update({
+    id: '/docs/components/blocks/charts/line-chart',
+    path: '/docs/components/blocks/charts/line-chart',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartsBarChartRoute =
+  DocsDocsComponentsBlocksChartsBarChartRouteImport.update({
+    id: '/docs/components/blocks/charts/bar-chart',
+    path: '/docs/components/blocks/charts/bar-chart',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksChartsAreaChartRoute =
+  DocsDocsComponentsBlocksChartsAreaChartRouteImport.update({
+    id: '/docs/components/blocks/charts/area-chart',
+    path: '/docs/components/blocks/charts/area-chart',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsAiWorkflowTaskCardRoute =
@@ -1019,11 +1243,25 @@ export interface FileRoutesByFullPath {
   '/docs/components/ai/model-selector': typeof DocsDocsComponentsAiModelSelectorRoute
   '/docs/components/ai/reasoning': typeof DocsDocsComponentsAiReasoningRoute
   '/docs/components/ai/sources': typeof DocsDocsComponentsAiSourcesRoute
-  '/docs/components/charts/area-chart': typeof DocsDocsComponentsChartsAreaChartRoute
-  '/docs/components/charts/bar-chart': typeof DocsDocsComponentsChartsBarChartRoute
-  '/docs/components/charts/line-chart': typeof DocsDocsComponentsChartsLineChartRoute
-  '/docs/components/charts/pie-chart': typeof DocsDocsComponentsChartsPieChartRoute
-  '/docs/components/charts/radar-chart': typeof DocsDocsComponentsChartsRadarChartRoute
+  '/docs/components/blocks/activity-timeline': typeof DocsDocsComponentsBlocksActivityTimelineRoute
+  '/docs/components/blocks/bulk-action-bar': typeof DocsDocsComponentsBlocksBulkActionBarRoute
+  '/docs/components/blocks/chart-card': typeof DocsDocsComponentsBlocksChartCardRoute
+  '/docs/components/blocks/data-table': typeof DocsDocsComponentsBlocksDataTableRoute
+  '/docs/components/blocks/deal-lines-editor': typeof DocsDocsComponentsBlocksDealLinesEditorRoute
+  '/docs/components/blocks/detail-panel': typeof DocsDocsComponentsBlocksDetailPanelRoute
+  '/docs/components/blocks/filter-bar': typeof DocsDocsComponentsBlocksFilterBarRoute
+  '/docs/components/blocks/inline-edit': typeof DocsDocsComponentsBlocksInlineEditRoute
+  '/docs/components/blocks/kanban-board': typeof DocsDocsComponentsBlocksKanbanBoardRoute
+  '/docs/components/blocks/multi-step-form': typeof DocsDocsComponentsBlocksMultiStepFormRoute
+  '/docs/components/blocks/notification-center': typeof DocsDocsComponentsBlocksNotificationCenterRoute
+  '/docs/components/blocks/org-menu': typeof DocsDocsComponentsBlocksOrgMenuRoute
+  '/docs/components/blocks/property-card': typeof DocsDocsComponentsBlocksPropertyCardRoute
+  '/docs/components/blocks/quick-log-activity': typeof DocsDocsComponentsBlocksQuickLogActivityRoute
+  '/docs/components/blocks/quote-preview': typeof DocsDocsComponentsBlocksQuotePreviewRoute
+  '/docs/components/blocks/split-view': typeof DocsDocsComponentsBlocksSplitViewRoute
+  '/docs/components/blocks/stats-grid': typeof DocsDocsComponentsBlocksStatsGridRoute
+  '/docs/components/blocks/stats-strip': typeof DocsDocsComponentsBlocksStatsStripRoute
+  '/docs/components/blocks/status-flow': typeof DocsDocsComponentsBlocksStatusFlowRoute
   '/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1034,6 +1272,24 @@ export interface FileRoutesByFullPath {
   '/docs/components/layout/inline-grid': typeof DocsDocsComponentsLayoutInlineGridRoute
   '/docs/components/layout/inline-stack': typeof DocsDocsComponentsLayoutInlineStackRoute
   '/docs/components/layout/page-component': typeof DocsDocsComponentsLayoutPageComponentRoute
+  '/docs/components/patterns/app-frame': typeof DocsDocsComponentsPatternsAppFrameRoute
+  '/docs/components/patterns/app-sidebar': typeof DocsDocsComponentsPatternsAppSidebarRoute
+  '/docs/components/patterns/app-top-bar': typeof DocsDocsComponentsPatternsAppTopBarRoute
+  '/docs/components/patterns/command-palette': typeof DocsDocsComponentsPatternsCommandPaletteRoute
+  '/docs/components/patterns/dashboard-layout': typeof DocsDocsComponentsPatternsDashboardLayoutRoute
+  '/docs/components/patterns/error-state': typeof DocsDocsComponentsPatternsErrorStateRoute
+  '/docs/components/patterns/field-grid': typeof DocsDocsComponentsPatternsFieldGridRoute
+  '/docs/components/patterns/form-field': typeof DocsDocsComponentsPatternsFormFieldRoute
+  '/docs/components/patterns/form-section': typeof DocsDocsComponentsPatternsFormSectionRoute
+  '/docs/components/patterns/image-upload': typeof DocsDocsComponentsPatternsImageUploadRoute
+  '/docs/components/patterns/layout-frame': typeof DocsDocsComponentsPatternsLayoutFrameRoute
+  '/docs/components/patterns/nav-tabs': typeof DocsDocsComponentsPatternsNavTabsRoute
+  '/docs/components/patterns/navbar': typeof DocsDocsComponentsPatternsNavbarRoute
+  '/docs/components/patterns/navigation-tabs': typeof DocsDocsComponentsPatternsNavigationTabsRoute
+  '/docs/components/patterns/page-header-shell': typeof DocsDocsComponentsPatternsPageHeaderShellRoute
+  '/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
+  '/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
+  '/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
   '/docs/components/ui/alert': typeof DocsDocsComponentsUiAlertRoute
   '/docs/components/ui/avatar': typeof DocsDocsComponentsUiAvatarRoute
   '/docs/components/ui/badge': typeof DocsDocsComponentsUiBadgeRoute
@@ -1050,7 +1306,6 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
   '/docs/components/ui/confirmation-dialog': typeof DocsDocsComponentsUiConfirmationDialogRoute
   '/docs/components/ui/currency-input': typeof DocsDocsComponentsUiCurrencyInputRoute
-  '/docs/components/ui/data-table': typeof DocsDocsComponentsUiDataTableRoute
   '/docs/components/ui/date-selector': typeof DocsDocsComponentsUiDateSelectorRoute
   '/docs/components/ui/dialog': typeof DocsDocsComponentsUiDialogRoute
   '/docs/components/ui/dropdown-menu': typeof DocsDocsComponentsUiDropdownMenuRoute
@@ -1063,16 +1318,13 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/menu': typeof DocsDocsComponentsUiMenuRoute
   '/docs/components/ui/menubar': typeof DocsDocsComponentsUiMenubarRoute
   '/docs/components/ui/nav-menu': typeof DocsDocsComponentsUiNavMenuRoute
-  '/docs/components/ui/notification-center': typeof DocsDocsComponentsUiNotificationCenterRoute
   '/docs/components/ui/number-input': typeof DocsDocsComponentsUiNumberInputRoute
-  '/docs/components/ui/org-menu': typeof DocsDocsComponentsUiOrgMenuRoute
   '/docs/components/ui/otp-input': typeof DocsDocsComponentsUiOtpInputRoute
   '/docs/components/ui/pagination': typeof DocsDocsComponentsUiPaginationRoute
   '/docs/components/ui/password-input': typeof DocsDocsComponentsUiPasswordInputRoute
   '/docs/components/ui/phone-input': typeof DocsDocsComponentsUiPhoneInputRoute
   '/docs/components/ui/popover': typeof DocsDocsComponentsUiPopoverRoute
   '/docs/components/ui/property': typeof DocsDocsComponentsUiPropertyRoute
-  '/docs/components/ui/property-card': typeof DocsDocsComponentsUiPropertyCardRoute
   '/docs/components/ui/radio-group': typeof DocsDocsComponentsUiRadioGroupRoute
   '/docs/components/ui/rating': typeof DocsDocsComponentsUiRatingRoute
   '/docs/components/ui/search-input': typeof DocsDocsComponentsUiSearchInputRoute
@@ -1080,7 +1332,6 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/sheet': typeof DocsDocsComponentsUiSheetRoute
   '/docs/components/ui/skeleton': typeof DocsDocsComponentsUiSkeletonRoute
   '/docs/components/ui/slider': typeof DocsDocsComponentsUiSliderRoute
-  '/docs/components/ui/stats-strip': typeof DocsDocsComponentsUiStatsStripRoute
   '/docs/components/ui/stepper': typeof DocsDocsComponentsUiStepperRoute
   '/docs/components/ui/switch': typeof DocsDocsComponentsUiSwitchRoute
   '/docs/components/ui/table': typeof DocsDocsComponentsUiTableRoute
@@ -1093,7 +1344,6 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
-  '/docs/components/charts/': typeof DocsDocsComponentsChartsIndexRoute
   '/docs/components/layout/': typeof DocsDocsComponentsLayoutIndexRoute
   '/docs/components/ui/': typeof DocsDocsComponentsUiIndexRoute
   '/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -1140,6 +1390,12 @@ export interface FileRoutesByFullPath {
   '/docs/components/ai/workflow/message-preview': typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
   '/docs/components/ai/workflow/poll-card': typeof DocsDocsComponentsAiWorkflowPollCardRoute
   '/docs/components/ai/workflow/task-card': typeof DocsDocsComponentsAiWorkflowTaskCardRoute
+  '/docs/components/blocks/charts/area-chart': typeof DocsDocsComponentsBlocksChartsAreaChartRoute
+  '/docs/components/blocks/charts/bar-chart': typeof DocsDocsComponentsBlocksChartsBarChartRoute
+  '/docs/components/blocks/charts/line-chart': typeof DocsDocsComponentsBlocksChartsLineChartRoute
+  '/docs/components/blocks/charts/pie-chart': typeof DocsDocsComponentsBlocksChartsPieChartRoute
+  '/docs/components/blocks/charts/radar-chart': typeof DocsDocsComponentsBlocksChartsRadarChartRoute
+  '/docs/components/blocks/charts/': typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1162,11 +1418,25 @@ export interface FileRoutesByTo {
   '/docs/components/ai/model-selector': typeof DocsDocsComponentsAiModelSelectorRoute
   '/docs/components/ai/reasoning': typeof DocsDocsComponentsAiReasoningRoute
   '/docs/components/ai/sources': typeof DocsDocsComponentsAiSourcesRoute
-  '/docs/components/charts/area-chart': typeof DocsDocsComponentsChartsAreaChartRoute
-  '/docs/components/charts/bar-chart': typeof DocsDocsComponentsChartsBarChartRoute
-  '/docs/components/charts/line-chart': typeof DocsDocsComponentsChartsLineChartRoute
-  '/docs/components/charts/pie-chart': typeof DocsDocsComponentsChartsPieChartRoute
-  '/docs/components/charts/radar-chart': typeof DocsDocsComponentsChartsRadarChartRoute
+  '/docs/components/blocks/activity-timeline': typeof DocsDocsComponentsBlocksActivityTimelineRoute
+  '/docs/components/blocks/bulk-action-bar': typeof DocsDocsComponentsBlocksBulkActionBarRoute
+  '/docs/components/blocks/chart-card': typeof DocsDocsComponentsBlocksChartCardRoute
+  '/docs/components/blocks/data-table': typeof DocsDocsComponentsBlocksDataTableRoute
+  '/docs/components/blocks/deal-lines-editor': typeof DocsDocsComponentsBlocksDealLinesEditorRoute
+  '/docs/components/blocks/detail-panel': typeof DocsDocsComponentsBlocksDetailPanelRoute
+  '/docs/components/blocks/filter-bar': typeof DocsDocsComponentsBlocksFilterBarRoute
+  '/docs/components/blocks/inline-edit': typeof DocsDocsComponentsBlocksInlineEditRoute
+  '/docs/components/blocks/kanban-board': typeof DocsDocsComponentsBlocksKanbanBoardRoute
+  '/docs/components/blocks/multi-step-form': typeof DocsDocsComponentsBlocksMultiStepFormRoute
+  '/docs/components/blocks/notification-center': typeof DocsDocsComponentsBlocksNotificationCenterRoute
+  '/docs/components/blocks/org-menu': typeof DocsDocsComponentsBlocksOrgMenuRoute
+  '/docs/components/blocks/property-card': typeof DocsDocsComponentsBlocksPropertyCardRoute
+  '/docs/components/blocks/quick-log-activity': typeof DocsDocsComponentsBlocksQuickLogActivityRoute
+  '/docs/components/blocks/quote-preview': typeof DocsDocsComponentsBlocksQuotePreviewRoute
+  '/docs/components/blocks/split-view': typeof DocsDocsComponentsBlocksSplitViewRoute
+  '/docs/components/blocks/stats-grid': typeof DocsDocsComponentsBlocksStatsGridRoute
+  '/docs/components/blocks/stats-strip': typeof DocsDocsComponentsBlocksStatsStripRoute
+  '/docs/components/blocks/status-flow': typeof DocsDocsComponentsBlocksStatusFlowRoute
   '/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1177,6 +1447,24 @@ export interface FileRoutesByTo {
   '/docs/components/layout/inline-grid': typeof DocsDocsComponentsLayoutInlineGridRoute
   '/docs/components/layout/inline-stack': typeof DocsDocsComponentsLayoutInlineStackRoute
   '/docs/components/layout/page-component': typeof DocsDocsComponentsLayoutPageComponentRoute
+  '/docs/components/patterns/app-frame': typeof DocsDocsComponentsPatternsAppFrameRoute
+  '/docs/components/patterns/app-sidebar': typeof DocsDocsComponentsPatternsAppSidebarRoute
+  '/docs/components/patterns/app-top-bar': typeof DocsDocsComponentsPatternsAppTopBarRoute
+  '/docs/components/patterns/command-palette': typeof DocsDocsComponentsPatternsCommandPaletteRoute
+  '/docs/components/patterns/dashboard-layout': typeof DocsDocsComponentsPatternsDashboardLayoutRoute
+  '/docs/components/patterns/error-state': typeof DocsDocsComponentsPatternsErrorStateRoute
+  '/docs/components/patterns/field-grid': typeof DocsDocsComponentsPatternsFieldGridRoute
+  '/docs/components/patterns/form-field': typeof DocsDocsComponentsPatternsFormFieldRoute
+  '/docs/components/patterns/form-section': typeof DocsDocsComponentsPatternsFormSectionRoute
+  '/docs/components/patterns/image-upload': typeof DocsDocsComponentsPatternsImageUploadRoute
+  '/docs/components/patterns/layout-frame': typeof DocsDocsComponentsPatternsLayoutFrameRoute
+  '/docs/components/patterns/nav-tabs': typeof DocsDocsComponentsPatternsNavTabsRoute
+  '/docs/components/patterns/navbar': typeof DocsDocsComponentsPatternsNavbarRoute
+  '/docs/components/patterns/navigation-tabs': typeof DocsDocsComponentsPatternsNavigationTabsRoute
+  '/docs/components/patterns/page-header-shell': typeof DocsDocsComponentsPatternsPageHeaderShellRoute
+  '/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
+  '/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
+  '/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
   '/docs/components/ui/alert': typeof DocsDocsComponentsUiAlertRoute
   '/docs/components/ui/avatar': typeof DocsDocsComponentsUiAvatarRoute
   '/docs/components/ui/badge': typeof DocsDocsComponentsUiBadgeRoute
@@ -1193,7 +1481,6 @@ export interface FileRoutesByTo {
   '/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
   '/docs/components/ui/confirmation-dialog': typeof DocsDocsComponentsUiConfirmationDialogRoute
   '/docs/components/ui/currency-input': typeof DocsDocsComponentsUiCurrencyInputRoute
-  '/docs/components/ui/data-table': typeof DocsDocsComponentsUiDataTableRoute
   '/docs/components/ui/date-selector': typeof DocsDocsComponentsUiDateSelectorRoute
   '/docs/components/ui/dialog': typeof DocsDocsComponentsUiDialogRoute
   '/docs/components/ui/dropdown-menu': typeof DocsDocsComponentsUiDropdownMenuRoute
@@ -1206,16 +1493,13 @@ export interface FileRoutesByTo {
   '/docs/components/ui/menu': typeof DocsDocsComponentsUiMenuRoute
   '/docs/components/ui/menubar': typeof DocsDocsComponentsUiMenubarRoute
   '/docs/components/ui/nav-menu': typeof DocsDocsComponentsUiNavMenuRoute
-  '/docs/components/ui/notification-center': typeof DocsDocsComponentsUiNotificationCenterRoute
   '/docs/components/ui/number-input': typeof DocsDocsComponentsUiNumberInputRoute
-  '/docs/components/ui/org-menu': typeof DocsDocsComponentsUiOrgMenuRoute
   '/docs/components/ui/otp-input': typeof DocsDocsComponentsUiOtpInputRoute
   '/docs/components/ui/pagination': typeof DocsDocsComponentsUiPaginationRoute
   '/docs/components/ui/password-input': typeof DocsDocsComponentsUiPasswordInputRoute
   '/docs/components/ui/phone-input': typeof DocsDocsComponentsUiPhoneInputRoute
   '/docs/components/ui/popover': typeof DocsDocsComponentsUiPopoverRoute
   '/docs/components/ui/property': typeof DocsDocsComponentsUiPropertyRoute
-  '/docs/components/ui/property-card': typeof DocsDocsComponentsUiPropertyCardRoute
   '/docs/components/ui/radio-group': typeof DocsDocsComponentsUiRadioGroupRoute
   '/docs/components/ui/rating': typeof DocsDocsComponentsUiRatingRoute
   '/docs/components/ui/search-input': typeof DocsDocsComponentsUiSearchInputRoute
@@ -1223,7 +1507,6 @@ export interface FileRoutesByTo {
   '/docs/components/ui/sheet': typeof DocsDocsComponentsUiSheetRoute
   '/docs/components/ui/skeleton': typeof DocsDocsComponentsUiSkeletonRoute
   '/docs/components/ui/slider': typeof DocsDocsComponentsUiSliderRoute
-  '/docs/components/ui/stats-strip': typeof DocsDocsComponentsUiStatsStripRoute
   '/docs/components/ui/stepper': typeof DocsDocsComponentsUiStepperRoute
   '/docs/components/ui/switch': typeof DocsDocsComponentsUiSwitchRoute
   '/docs/components/ui/table': typeof DocsDocsComponentsUiTableRoute
@@ -1236,7 +1519,6 @@ export interface FileRoutesByTo {
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/docs/components/ai': typeof DocsDocsComponentsAiIndexRoute
-  '/docs/components/charts': typeof DocsDocsComponentsChartsIndexRoute
   '/docs/components/layout': typeof DocsDocsComponentsLayoutIndexRoute
   '/docs/components/ui': typeof DocsDocsComponentsUiIndexRoute
   '/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -1283,6 +1565,12 @@ export interface FileRoutesByTo {
   '/docs/components/ai/workflow/message-preview': typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
   '/docs/components/ai/workflow/poll-card': typeof DocsDocsComponentsAiWorkflowPollCardRoute
   '/docs/components/ai/workflow/task-card': typeof DocsDocsComponentsAiWorkflowTaskCardRoute
+  '/docs/components/blocks/charts/area-chart': typeof DocsDocsComponentsBlocksChartsAreaChartRoute
+  '/docs/components/blocks/charts/bar-chart': typeof DocsDocsComponentsBlocksChartsBarChartRoute
+  '/docs/components/blocks/charts/line-chart': typeof DocsDocsComponentsBlocksChartsLineChartRoute
+  '/docs/components/blocks/charts/pie-chart': typeof DocsDocsComponentsBlocksChartsPieChartRoute
+  '/docs/components/blocks/charts/radar-chart': typeof DocsDocsComponentsBlocksChartsRadarChartRoute
+  '/docs/components/blocks/charts': typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1307,11 +1595,25 @@ export interface FileRoutesById {
   '/_docs/docs/components/ai/model-selector': typeof DocsDocsComponentsAiModelSelectorRoute
   '/_docs/docs/components/ai/reasoning': typeof DocsDocsComponentsAiReasoningRoute
   '/_docs/docs/components/ai/sources': typeof DocsDocsComponentsAiSourcesRoute
-  '/_docs/docs/components/charts/area-chart': typeof DocsDocsComponentsChartsAreaChartRoute
-  '/_docs/docs/components/charts/bar-chart': typeof DocsDocsComponentsChartsBarChartRoute
-  '/_docs/docs/components/charts/line-chart': typeof DocsDocsComponentsChartsLineChartRoute
-  '/_docs/docs/components/charts/pie-chart': typeof DocsDocsComponentsChartsPieChartRoute
-  '/_docs/docs/components/charts/radar-chart': typeof DocsDocsComponentsChartsRadarChartRoute
+  '/_docs/docs/components/blocks/activity-timeline': typeof DocsDocsComponentsBlocksActivityTimelineRoute
+  '/_docs/docs/components/blocks/bulk-action-bar': typeof DocsDocsComponentsBlocksBulkActionBarRoute
+  '/_docs/docs/components/blocks/chart-card': typeof DocsDocsComponentsBlocksChartCardRoute
+  '/_docs/docs/components/blocks/data-table': typeof DocsDocsComponentsBlocksDataTableRoute
+  '/_docs/docs/components/blocks/deal-lines-editor': typeof DocsDocsComponentsBlocksDealLinesEditorRoute
+  '/_docs/docs/components/blocks/detail-panel': typeof DocsDocsComponentsBlocksDetailPanelRoute
+  '/_docs/docs/components/blocks/filter-bar': typeof DocsDocsComponentsBlocksFilterBarRoute
+  '/_docs/docs/components/blocks/inline-edit': typeof DocsDocsComponentsBlocksInlineEditRoute
+  '/_docs/docs/components/blocks/kanban-board': typeof DocsDocsComponentsBlocksKanbanBoardRoute
+  '/_docs/docs/components/blocks/multi-step-form': typeof DocsDocsComponentsBlocksMultiStepFormRoute
+  '/_docs/docs/components/blocks/notification-center': typeof DocsDocsComponentsBlocksNotificationCenterRoute
+  '/_docs/docs/components/blocks/org-menu': typeof DocsDocsComponentsBlocksOrgMenuRoute
+  '/_docs/docs/components/blocks/property-card': typeof DocsDocsComponentsBlocksPropertyCardRoute
+  '/_docs/docs/components/blocks/quick-log-activity': typeof DocsDocsComponentsBlocksQuickLogActivityRoute
+  '/_docs/docs/components/blocks/quote-preview': typeof DocsDocsComponentsBlocksQuotePreviewRoute
+  '/_docs/docs/components/blocks/split-view': typeof DocsDocsComponentsBlocksSplitViewRoute
+  '/_docs/docs/components/blocks/stats-grid': typeof DocsDocsComponentsBlocksStatsGridRoute
+  '/_docs/docs/components/blocks/stats-strip': typeof DocsDocsComponentsBlocksStatsStripRoute
+  '/_docs/docs/components/blocks/status-flow': typeof DocsDocsComponentsBlocksStatusFlowRoute
   '/_docs/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/_docs/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/_docs/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1322,6 +1624,24 @@ export interface FileRoutesById {
   '/_docs/docs/components/layout/inline-grid': typeof DocsDocsComponentsLayoutInlineGridRoute
   '/_docs/docs/components/layout/inline-stack': typeof DocsDocsComponentsLayoutInlineStackRoute
   '/_docs/docs/components/layout/page-component': typeof DocsDocsComponentsLayoutPageComponentRoute
+  '/_docs/docs/components/patterns/app-frame': typeof DocsDocsComponentsPatternsAppFrameRoute
+  '/_docs/docs/components/patterns/app-sidebar': typeof DocsDocsComponentsPatternsAppSidebarRoute
+  '/_docs/docs/components/patterns/app-top-bar': typeof DocsDocsComponentsPatternsAppTopBarRoute
+  '/_docs/docs/components/patterns/command-palette': typeof DocsDocsComponentsPatternsCommandPaletteRoute
+  '/_docs/docs/components/patterns/dashboard-layout': typeof DocsDocsComponentsPatternsDashboardLayoutRoute
+  '/_docs/docs/components/patterns/error-state': typeof DocsDocsComponentsPatternsErrorStateRoute
+  '/_docs/docs/components/patterns/field-grid': typeof DocsDocsComponentsPatternsFieldGridRoute
+  '/_docs/docs/components/patterns/form-field': typeof DocsDocsComponentsPatternsFormFieldRoute
+  '/_docs/docs/components/patterns/form-section': typeof DocsDocsComponentsPatternsFormSectionRoute
+  '/_docs/docs/components/patterns/image-upload': typeof DocsDocsComponentsPatternsImageUploadRoute
+  '/_docs/docs/components/patterns/layout-frame': typeof DocsDocsComponentsPatternsLayoutFrameRoute
+  '/_docs/docs/components/patterns/nav-tabs': typeof DocsDocsComponentsPatternsNavTabsRoute
+  '/_docs/docs/components/patterns/navbar': typeof DocsDocsComponentsPatternsNavbarRoute
+  '/_docs/docs/components/patterns/navigation-tabs': typeof DocsDocsComponentsPatternsNavigationTabsRoute
+  '/_docs/docs/components/patterns/page-header-shell': typeof DocsDocsComponentsPatternsPageHeaderShellRoute
+  '/_docs/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
+  '/_docs/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
+  '/_docs/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
   '/_docs/docs/components/ui/alert': typeof DocsDocsComponentsUiAlertRoute
   '/_docs/docs/components/ui/avatar': typeof DocsDocsComponentsUiAvatarRoute
   '/_docs/docs/components/ui/badge': typeof DocsDocsComponentsUiBadgeRoute
@@ -1338,7 +1658,6 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
   '/_docs/docs/components/ui/confirmation-dialog': typeof DocsDocsComponentsUiConfirmationDialogRoute
   '/_docs/docs/components/ui/currency-input': typeof DocsDocsComponentsUiCurrencyInputRoute
-  '/_docs/docs/components/ui/data-table': typeof DocsDocsComponentsUiDataTableRoute
   '/_docs/docs/components/ui/date-selector': typeof DocsDocsComponentsUiDateSelectorRoute
   '/_docs/docs/components/ui/dialog': typeof DocsDocsComponentsUiDialogRoute
   '/_docs/docs/components/ui/dropdown-menu': typeof DocsDocsComponentsUiDropdownMenuRoute
@@ -1351,16 +1670,13 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/menu': typeof DocsDocsComponentsUiMenuRoute
   '/_docs/docs/components/ui/menubar': typeof DocsDocsComponentsUiMenubarRoute
   '/_docs/docs/components/ui/nav-menu': typeof DocsDocsComponentsUiNavMenuRoute
-  '/_docs/docs/components/ui/notification-center': typeof DocsDocsComponentsUiNotificationCenterRoute
   '/_docs/docs/components/ui/number-input': typeof DocsDocsComponentsUiNumberInputRoute
-  '/_docs/docs/components/ui/org-menu': typeof DocsDocsComponentsUiOrgMenuRoute
   '/_docs/docs/components/ui/otp-input': typeof DocsDocsComponentsUiOtpInputRoute
   '/_docs/docs/components/ui/pagination': typeof DocsDocsComponentsUiPaginationRoute
   '/_docs/docs/components/ui/password-input': typeof DocsDocsComponentsUiPasswordInputRoute
   '/_docs/docs/components/ui/phone-input': typeof DocsDocsComponentsUiPhoneInputRoute
   '/_docs/docs/components/ui/popover': typeof DocsDocsComponentsUiPopoverRoute
   '/_docs/docs/components/ui/property': typeof DocsDocsComponentsUiPropertyRoute
-  '/_docs/docs/components/ui/property-card': typeof DocsDocsComponentsUiPropertyCardRoute
   '/_docs/docs/components/ui/radio-group': typeof DocsDocsComponentsUiRadioGroupRoute
   '/_docs/docs/components/ui/rating': typeof DocsDocsComponentsUiRatingRoute
   '/_docs/docs/components/ui/search-input': typeof DocsDocsComponentsUiSearchInputRoute
@@ -1368,7 +1684,6 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/sheet': typeof DocsDocsComponentsUiSheetRoute
   '/_docs/docs/components/ui/skeleton': typeof DocsDocsComponentsUiSkeletonRoute
   '/_docs/docs/components/ui/slider': typeof DocsDocsComponentsUiSliderRoute
-  '/_docs/docs/components/ui/stats-strip': typeof DocsDocsComponentsUiStatsStripRoute
   '/_docs/docs/components/ui/stepper': typeof DocsDocsComponentsUiStepperRoute
   '/_docs/docs/components/ui/switch': typeof DocsDocsComponentsUiSwitchRoute
   '/_docs/docs/components/ui/table': typeof DocsDocsComponentsUiTableRoute
@@ -1381,7 +1696,6 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/_docs/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/_docs/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
-  '/_docs/docs/components/charts/': typeof DocsDocsComponentsChartsIndexRoute
   '/_docs/docs/components/layout/': typeof DocsDocsComponentsLayoutIndexRoute
   '/_docs/docs/components/ui/': typeof DocsDocsComponentsUiIndexRoute
   '/_docs/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -1428,6 +1742,12 @@ export interface FileRoutesById {
   '/_docs/docs/components/ai/workflow/message-preview': typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
   '/_docs/docs/components/ai/workflow/poll-card': typeof DocsDocsComponentsAiWorkflowPollCardRoute
   '/_docs/docs/components/ai/workflow/task-card': typeof DocsDocsComponentsAiWorkflowTaskCardRoute
+  '/_docs/docs/components/blocks/charts/area-chart': typeof DocsDocsComponentsBlocksChartsAreaChartRoute
+  '/_docs/docs/components/blocks/charts/bar-chart': typeof DocsDocsComponentsBlocksChartsBarChartRoute
+  '/_docs/docs/components/blocks/charts/line-chart': typeof DocsDocsComponentsBlocksChartsLineChartRoute
+  '/_docs/docs/components/blocks/charts/pie-chart': typeof DocsDocsComponentsBlocksChartsPieChartRoute
+  '/_docs/docs/components/blocks/charts/radar-chart': typeof DocsDocsComponentsBlocksChartsRadarChartRoute
+  '/_docs/docs/components/blocks/charts/': typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1452,11 +1772,25 @@ export interface FileRouteTypes {
     | '/docs/components/ai/model-selector'
     | '/docs/components/ai/reasoning'
     | '/docs/components/ai/sources'
-    | '/docs/components/charts/area-chart'
-    | '/docs/components/charts/bar-chart'
-    | '/docs/components/charts/line-chart'
-    | '/docs/components/charts/pie-chart'
-    | '/docs/components/charts/radar-chart'
+    | '/docs/components/blocks/activity-timeline'
+    | '/docs/components/blocks/bulk-action-bar'
+    | '/docs/components/blocks/chart-card'
+    | '/docs/components/blocks/data-table'
+    | '/docs/components/blocks/deal-lines-editor'
+    | '/docs/components/blocks/detail-panel'
+    | '/docs/components/blocks/filter-bar'
+    | '/docs/components/blocks/inline-edit'
+    | '/docs/components/blocks/kanban-board'
+    | '/docs/components/blocks/multi-step-form'
+    | '/docs/components/blocks/notification-center'
+    | '/docs/components/blocks/org-menu'
+    | '/docs/components/blocks/property-card'
+    | '/docs/components/blocks/quick-log-activity'
+    | '/docs/components/blocks/quote-preview'
+    | '/docs/components/blocks/split-view'
+    | '/docs/components/blocks/stats-grid'
+    | '/docs/components/blocks/stats-strip'
+    | '/docs/components/blocks/status-flow'
     | '/docs/components/layout/bleed'
     | '/docs/components/layout/block-stack'
     | '/docs/components/layout/box'
@@ -1467,6 +1801,24 @@ export interface FileRouteTypes {
     | '/docs/components/layout/inline-grid'
     | '/docs/components/layout/inline-stack'
     | '/docs/components/layout/page-component'
+    | '/docs/components/patterns/app-frame'
+    | '/docs/components/patterns/app-sidebar'
+    | '/docs/components/patterns/app-top-bar'
+    | '/docs/components/patterns/command-palette'
+    | '/docs/components/patterns/dashboard-layout'
+    | '/docs/components/patterns/error-state'
+    | '/docs/components/patterns/field-grid'
+    | '/docs/components/patterns/form-field'
+    | '/docs/components/patterns/form-section'
+    | '/docs/components/patterns/image-upload'
+    | '/docs/components/patterns/layout-frame'
+    | '/docs/components/patterns/nav-tabs'
+    | '/docs/components/patterns/navbar'
+    | '/docs/components/patterns/navigation-tabs'
+    | '/docs/components/patterns/page-header-shell'
+    | '/docs/components/patterns/tab-bar'
+    | '/docs/components/patterns/theme-toggle'
+    | '/docs/components/patterns/top-bar'
     | '/docs/components/ui/alert'
     | '/docs/components/ui/avatar'
     | '/docs/components/ui/badge'
@@ -1483,7 +1835,6 @@ export interface FileRouteTypes {
     | '/docs/components/ui/command'
     | '/docs/components/ui/confirmation-dialog'
     | '/docs/components/ui/currency-input'
-    | '/docs/components/ui/data-table'
     | '/docs/components/ui/date-selector'
     | '/docs/components/ui/dialog'
     | '/docs/components/ui/dropdown-menu'
@@ -1496,16 +1847,13 @@ export interface FileRouteTypes {
     | '/docs/components/ui/menu'
     | '/docs/components/ui/menubar'
     | '/docs/components/ui/nav-menu'
-    | '/docs/components/ui/notification-center'
     | '/docs/components/ui/number-input'
-    | '/docs/components/ui/org-menu'
     | '/docs/components/ui/otp-input'
     | '/docs/components/ui/pagination'
     | '/docs/components/ui/password-input'
     | '/docs/components/ui/phone-input'
     | '/docs/components/ui/popover'
     | '/docs/components/ui/property'
-    | '/docs/components/ui/property-card'
     | '/docs/components/ui/radio-group'
     | '/docs/components/ui/rating'
     | '/docs/components/ui/search-input'
@@ -1513,7 +1861,6 @@ export interface FileRouteTypes {
     | '/docs/components/ui/sheet'
     | '/docs/components/ui/skeleton'
     | '/docs/components/ui/slider'
-    | '/docs/components/ui/stats-strip'
     | '/docs/components/ui/stepper'
     | '/docs/components/ui/switch'
     | '/docs/components/ui/table'
@@ -1526,7 +1873,6 @@ export interface FileRouteTypes {
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
     | '/docs/components/ai/'
-    | '/docs/components/charts/'
     | '/docs/components/layout/'
     | '/docs/components/ui/'
     | '/docs/components/ai/chat/attachments'
@@ -1573,6 +1919,12 @@ export interface FileRouteTypes {
     | '/docs/components/ai/workflow/message-preview'
     | '/docs/components/ai/workflow/poll-card'
     | '/docs/components/ai/workflow/task-card'
+    | '/docs/components/blocks/charts/area-chart'
+    | '/docs/components/blocks/charts/bar-chart'
+    | '/docs/components/blocks/charts/line-chart'
+    | '/docs/components/blocks/charts/pie-chart'
+    | '/docs/components/blocks/charts/radar-chart'
+    | '/docs/components/blocks/charts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1595,11 +1947,25 @@ export interface FileRouteTypes {
     | '/docs/components/ai/model-selector'
     | '/docs/components/ai/reasoning'
     | '/docs/components/ai/sources'
-    | '/docs/components/charts/area-chart'
-    | '/docs/components/charts/bar-chart'
-    | '/docs/components/charts/line-chart'
-    | '/docs/components/charts/pie-chart'
-    | '/docs/components/charts/radar-chart'
+    | '/docs/components/blocks/activity-timeline'
+    | '/docs/components/blocks/bulk-action-bar'
+    | '/docs/components/blocks/chart-card'
+    | '/docs/components/blocks/data-table'
+    | '/docs/components/blocks/deal-lines-editor'
+    | '/docs/components/blocks/detail-panel'
+    | '/docs/components/blocks/filter-bar'
+    | '/docs/components/blocks/inline-edit'
+    | '/docs/components/blocks/kanban-board'
+    | '/docs/components/blocks/multi-step-form'
+    | '/docs/components/blocks/notification-center'
+    | '/docs/components/blocks/org-menu'
+    | '/docs/components/blocks/property-card'
+    | '/docs/components/blocks/quick-log-activity'
+    | '/docs/components/blocks/quote-preview'
+    | '/docs/components/blocks/split-view'
+    | '/docs/components/blocks/stats-grid'
+    | '/docs/components/blocks/stats-strip'
+    | '/docs/components/blocks/status-flow'
     | '/docs/components/layout/bleed'
     | '/docs/components/layout/block-stack'
     | '/docs/components/layout/box'
@@ -1610,6 +1976,24 @@ export interface FileRouteTypes {
     | '/docs/components/layout/inline-grid'
     | '/docs/components/layout/inline-stack'
     | '/docs/components/layout/page-component'
+    | '/docs/components/patterns/app-frame'
+    | '/docs/components/patterns/app-sidebar'
+    | '/docs/components/patterns/app-top-bar'
+    | '/docs/components/patterns/command-palette'
+    | '/docs/components/patterns/dashboard-layout'
+    | '/docs/components/patterns/error-state'
+    | '/docs/components/patterns/field-grid'
+    | '/docs/components/patterns/form-field'
+    | '/docs/components/patterns/form-section'
+    | '/docs/components/patterns/image-upload'
+    | '/docs/components/patterns/layout-frame'
+    | '/docs/components/patterns/nav-tabs'
+    | '/docs/components/patterns/navbar'
+    | '/docs/components/patterns/navigation-tabs'
+    | '/docs/components/patterns/page-header-shell'
+    | '/docs/components/patterns/tab-bar'
+    | '/docs/components/patterns/theme-toggle'
+    | '/docs/components/patterns/top-bar'
     | '/docs/components/ui/alert'
     | '/docs/components/ui/avatar'
     | '/docs/components/ui/badge'
@@ -1626,7 +2010,6 @@ export interface FileRouteTypes {
     | '/docs/components/ui/command'
     | '/docs/components/ui/confirmation-dialog'
     | '/docs/components/ui/currency-input'
-    | '/docs/components/ui/data-table'
     | '/docs/components/ui/date-selector'
     | '/docs/components/ui/dialog'
     | '/docs/components/ui/dropdown-menu'
@@ -1639,16 +2022,13 @@ export interface FileRouteTypes {
     | '/docs/components/ui/menu'
     | '/docs/components/ui/menubar'
     | '/docs/components/ui/nav-menu'
-    | '/docs/components/ui/notification-center'
     | '/docs/components/ui/number-input'
-    | '/docs/components/ui/org-menu'
     | '/docs/components/ui/otp-input'
     | '/docs/components/ui/pagination'
     | '/docs/components/ui/password-input'
     | '/docs/components/ui/phone-input'
     | '/docs/components/ui/popover'
     | '/docs/components/ui/property'
-    | '/docs/components/ui/property-card'
     | '/docs/components/ui/radio-group'
     | '/docs/components/ui/rating'
     | '/docs/components/ui/search-input'
@@ -1656,7 +2036,6 @@ export interface FileRouteTypes {
     | '/docs/components/ui/sheet'
     | '/docs/components/ui/skeleton'
     | '/docs/components/ui/slider'
-    | '/docs/components/ui/stats-strip'
     | '/docs/components/ui/stepper'
     | '/docs/components/ui/switch'
     | '/docs/components/ui/table'
@@ -1669,7 +2048,6 @@ export interface FileRouteTypes {
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
     | '/docs/components/ai'
-    | '/docs/components/charts'
     | '/docs/components/layout'
     | '/docs/components/ui'
     | '/docs/components/ai/chat/attachments'
@@ -1716,6 +2094,12 @@ export interface FileRouteTypes {
     | '/docs/components/ai/workflow/message-preview'
     | '/docs/components/ai/workflow/poll-card'
     | '/docs/components/ai/workflow/task-card'
+    | '/docs/components/blocks/charts/area-chart'
+    | '/docs/components/blocks/charts/bar-chart'
+    | '/docs/components/blocks/charts/line-chart'
+    | '/docs/components/blocks/charts/pie-chart'
+    | '/docs/components/blocks/charts/radar-chart'
+    | '/docs/components/blocks/charts'
   id:
     | '__root__'
     | '/'
@@ -1739,11 +2123,25 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ai/model-selector'
     | '/_docs/docs/components/ai/reasoning'
     | '/_docs/docs/components/ai/sources'
-    | '/_docs/docs/components/charts/area-chart'
-    | '/_docs/docs/components/charts/bar-chart'
-    | '/_docs/docs/components/charts/line-chart'
-    | '/_docs/docs/components/charts/pie-chart'
-    | '/_docs/docs/components/charts/radar-chart'
+    | '/_docs/docs/components/blocks/activity-timeline'
+    | '/_docs/docs/components/blocks/bulk-action-bar'
+    | '/_docs/docs/components/blocks/chart-card'
+    | '/_docs/docs/components/blocks/data-table'
+    | '/_docs/docs/components/blocks/deal-lines-editor'
+    | '/_docs/docs/components/blocks/detail-panel'
+    | '/_docs/docs/components/blocks/filter-bar'
+    | '/_docs/docs/components/blocks/inline-edit'
+    | '/_docs/docs/components/blocks/kanban-board'
+    | '/_docs/docs/components/blocks/multi-step-form'
+    | '/_docs/docs/components/blocks/notification-center'
+    | '/_docs/docs/components/blocks/org-menu'
+    | '/_docs/docs/components/blocks/property-card'
+    | '/_docs/docs/components/blocks/quick-log-activity'
+    | '/_docs/docs/components/blocks/quote-preview'
+    | '/_docs/docs/components/blocks/split-view'
+    | '/_docs/docs/components/blocks/stats-grid'
+    | '/_docs/docs/components/blocks/stats-strip'
+    | '/_docs/docs/components/blocks/status-flow'
     | '/_docs/docs/components/layout/bleed'
     | '/_docs/docs/components/layout/block-stack'
     | '/_docs/docs/components/layout/box'
@@ -1754,6 +2152,24 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/layout/inline-grid'
     | '/_docs/docs/components/layout/inline-stack'
     | '/_docs/docs/components/layout/page-component'
+    | '/_docs/docs/components/patterns/app-frame'
+    | '/_docs/docs/components/patterns/app-sidebar'
+    | '/_docs/docs/components/patterns/app-top-bar'
+    | '/_docs/docs/components/patterns/command-palette'
+    | '/_docs/docs/components/patterns/dashboard-layout'
+    | '/_docs/docs/components/patterns/error-state'
+    | '/_docs/docs/components/patterns/field-grid'
+    | '/_docs/docs/components/patterns/form-field'
+    | '/_docs/docs/components/patterns/form-section'
+    | '/_docs/docs/components/patterns/image-upload'
+    | '/_docs/docs/components/patterns/layout-frame'
+    | '/_docs/docs/components/patterns/nav-tabs'
+    | '/_docs/docs/components/patterns/navbar'
+    | '/_docs/docs/components/patterns/navigation-tabs'
+    | '/_docs/docs/components/patterns/page-header-shell'
+    | '/_docs/docs/components/patterns/tab-bar'
+    | '/_docs/docs/components/patterns/theme-toggle'
+    | '/_docs/docs/components/patterns/top-bar'
     | '/_docs/docs/components/ui/alert'
     | '/_docs/docs/components/ui/avatar'
     | '/_docs/docs/components/ui/badge'
@@ -1770,7 +2186,6 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/command'
     | '/_docs/docs/components/ui/confirmation-dialog'
     | '/_docs/docs/components/ui/currency-input'
-    | '/_docs/docs/components/ui/data-table'
     | '/_docs/docs/components/ui/date-selector'
     | '/_docs/docs/components/ui/dialog'
     | '/_docs/docs/components/ui/dropdown-menu'
@@ -1783,16 +2198,13 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/menu'
     | '/_docs/docs/components/ui/menubar'
     | '/_docs/docs/components/ui/nav-menu'
-    | '/_docs/docs/components/ui/notification-center'
     | '/_docs/docs/components/ui/number-input'
-    | '/_docs/docs/components/ui/org-menu'
     | '/_docs/docs/components/ui/otp-input'
     | '/_docs/docs/components/ui/pagination'
     | '/_docs/docs/components/ui/password-input'
     | '/_docs/docs/components/ui/phone-input'
     | '/_docs/docs/components/ui/popover'
     | '/_docs/docs/components/ui/property'
-    | '/_docs/docs/components/ui/property-card'
     | '/_docs/docs/components/ui/radio-group'
     | '/_docs/docs/components/ui/rating'
     | '/_docs/docs/components/ui/search-input'
@@ -1800,7 +2212,6 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/sheet'
     | '/_docs/docs/components/ui/skeleton'
     | '/_docs/docs/components/ui/slider'
-    | '/_docs/docs/components/ui/stats-strip'
     | '/_docs/docs/components/ui/stepper'
     | '/_docs/docs/components/ui/switch'
     | '/_docs/docs/components/ui/table'
@@ -1813,7 +2224,6 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/tooltip'
     | '/_docs/docs/components/ui/tree-view'
     | '/_docs/docs/components/ai/'
-    | '/_docs/docs/components/charts/'
     | '/_docs/docs/components/layout/'
     | '/_docs/docs/components/ui/'
     | '/_docs/docs/components/ai/chat/attachments'
@@ -1860,6 +2270,12 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ai/workflow/message-preview'
     | '/_docs/docs/components/ai/workflow/poll-card'
     | '/_docs/docs/components/ai/workflow/task-card'
+    | '/_docs/docs/components/blocks/charts/area-chart'
+    | '/_docs/docs/components/blocks/charts/bar-chart'
+    | '/_docs/docs/components/blocks/charts/line-chart'
+    | '/_docs/docs/components/blocks/charts/pie-chart'
+    | '/_docs/docs/components/blocks/charts/radar-chart'
+    | '/_docs/docs/components/blocks/charts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1975,13 +2391,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsLayoutIndexRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/charts/': {
-      id: '/_docs/docs/components/charts/'
-      path: '/docs/components/charts'
-      fullPath: '/docs/components/charts/'
-      preLoaderRoute: typeof DocsDocsComponentsChartsIndexRouteImport
-      parentRoute: typeof DocsRoute
-    }
     '/_docs/docs/components/ai/': {
       id: '/_docs/docs/components/ai/'
       path: '/docs/components/ai'
@@ -2066,13 +2475,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsUiStepperRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ui/stats-strip': {
-      id: '/_docs/docs/components/ui/stats-strip'
-      path: '/docs/components/ui/stats-strip'
-      fullPath: '/docs/components/ui/stats-strip'
-      preLoaderRoute: typeof DocsDocsComponentsUiStatsStripRouteImport
-      parentRoute: typeof DocsRoute
-    }
     '/_docs/docs/components/ui/slider': {
       id: '/_docs/docs/components/ui/slider'
       path: '/docs/components/ui/slider'
@@ -2122,13 +2524,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsUiRadioGroupRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ui/property-card': {
-      id: '/_docs/docs/components/ui/property-card'
-      path: '/docs/components/ui/property-card'
-      fullPath: '/docs/components/ui/property-card'
-      preLoaderRoute: typeof DocsDocsComponentsUiPropertyCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
     '/_docs/docs/components/ui/property': {
       id: '/_docs/docs/components/ui/property'
       path: '/docs/components/ui/property'
@@ -2171,25 +2566,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsUiOtpInputRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ui/org-menu': {
-      id: '/_docs/docs/components/ui/org-menu'
-      path: '/docs/components/ui/org-menu'
-      fullPath: '/docs/components/ui/org-menu'
-      preLoaderRoute: typeof DocsDocsComponentsUiOrgMenuRouteImport
-      parentRoute: typeof DocsRoute
-    }
     '/_docs/docs/components/ui/number-input': {
       id: '/_docs/docs/components/ui/number-input'
       path: '/docs/components/ui/number-input'
       fullPath: '/docs/components/ui/number-input'
       preLoaderRoute: typeof DocsDocsComponentsUiNumberInputRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ui/notification-center': {
-      id: '/_docs/docs/components/ui/notification-center'
-      path: '/docs/components/ui/notification-center'
-      fullPath: '/docs/components/ui/notification-center'
-      preLoaderRoute: typeof DocsDocsComponentsUiNotificationCenterRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/nav-menu': {
@@ -2274,13 +2655,6 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/date-selector'
       fullPath: '/docs/components/ui/date-selector'
       preLoaderRoute: typeof DocsDocsComponentsUiDateSelectorRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ui/data-table': {
-      id: '/_docs/docs/components/ui/data-table'
-      path: '/docs/components/ui/data-table'
-      fullPath: '/docs/components/ui/data-table'
-      preLoaderRoute: typeof DocsDocsComponentsUiDataTableRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/currency-input': {
@@ -2395,6 +2769,132 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsUiAlertRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/components/patterns/top-bar': {
+      id: '/_docs/docs/components/patterns/top-bar'
+      path: '/docs/components/patterns/top-bar'
+      fullPath: '/docs/components/patterns/top-bar'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsTopBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/theme-toggle': {
+      id: '/_docs/docs/components/patterns/theme-toggle'
+      path: '/docs/components/patterns/theme-toggle'
+      fullPath: '/docs/components/patterns/theme-toggle'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsThemeToggleRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/tab-bar': {
+      id: '/_docs/docs/components/patterns/tab-bar'
+      path: '/docs/components/patterns/tab-bar'
+      fullPath: '/docs/components/patterns/tab-bar'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsTabBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/page-header-shell': {
+      id: '/_docs/docs/components/patterns/page-header-shell'
+      path: '/docs/components/patterns/page-header-shell'
+      fullPath: '/docs/components/patterns/page-header-shell'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsPageHeaderShellRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/navigation-tabs': {
+      id: '/_docs/docs/components/patterns/navigation-tabs'
+      path: '/docs/components/patterns/navigation-tabs'
+      fullPath: '/docs/components/patterns/navigation-tabs'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsNavigationTabsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/navbar': {
+      id: '/_docs/docs/components/patterns/navbar'
+      path: '/docs/components/patterns/navbar'
+      fullPath: '/docs/components/patterns/navbar'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsNavbarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/nav-tabs': {
+      id: '/_docs/docs/components/patterns/nav-tabs'
+      path: '/docs/components/patterns/nav-tabs'
+      fullPath: '/docs/components/patterns/nav-tabs'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsNavTabsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/layout-frame': {
+      id: '/_docs/docs/components/patterns/layout-frame'
+      path: '/docs/components/patterns/layout-frame'
+      fullPath: '/docs/components/patterns/layout-frame'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsLayoutFrameRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/image-upload': {
+      id: '/_docs/docs/components/patterns/image-upload'
+      path: '/docs/components/patterns/image-upload'
+      fullPath: '/docs/components/patterns/image-upload'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsImageUploadRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/form-section': {
+      id: '/_docs/docs/components/patterns/form-section'
+      path: '/docs/components/patterns/form-section'
+      fullPath: '/docs/components/patterns/form-section'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsFormSectionRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/form-field': {
+      id: '/_docs/docs/components/patterns/form-field'
+      path: '/docs/components/patterns/form-field'
+      fullPath: '/docs/components/patterns/form-field'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsFormFieldRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/field-grid': {
+      id: '/_docs/docs/components/patterns/field-grid'
+      path: '/docs/components/patterns/field-grid'
+      fullPath: '/docs/components/patterns/field-grid'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsFieldGridRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/error-state': {
+      id: '/_docs/docs/components/patterns/error-state'
+      path: '/docs/components/patterns/error-state'
+      fullPath: '/docs/components/patterns/error-state'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsErrorStateRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/dashboard-layout': {
+      id: '/_docs/docs/components/patterns/dashboard-layout'
+      path: '/docs/components/patterns/dashboard-layout'
+      fullPath: '/docs/components/patterns/dashboard-layout'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsDashboardLayoutRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/command-palette': {
+      id: '/_docs/docs/components/patterns/command-palette'
+      path: '/docs/components/patterns/command-palette'
+      fullPath: '/docs/components/patterns/command-palette'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsCommandPaletteRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/app-top-bar': {
+      id: '/_docs/docs/components/patterns/app-top-bar'
+      path: '/docs/components/patterns/app-top-bar'
+      fullPath: '/docs/components/patterns/app-top-bar'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsAppTopBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/app-sidebar': {
+      id: '/_docs/docs/components/patterns/app-sidebar'
+      path: '/docs/components/patterns/app-sidebar'
+      fullPath: '/docs/components/patterns/app-sidebar'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsAppSidebarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/app-frame': {
+      id: '/_docs/docs/components/patterns/app-frame'
+      path: '/docs/components/patterns/app-frame'
+      fullPath: '/docs/components/patterns/app-frame'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsAppFrameRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/components/layout/page-component': {
       id: '/_docs/docs/components/layout/page-component'
       path: '/docs/components/layout/page-component'
@@ -2465,39 +2965,137 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsLayoutBleedRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/charts/radar-chart': {
-      id: '/_docs/docs/components/charts/radar-chart'
-      path: '/docs/components/charts/radar-chart'
-      fullPath: '/docs/components/charts/radar-chart'
-      preLoaderRoute: typeof DocsDocsComponentsChartsRadarChartRouteImport
+    '/_docs/docs/components/blocks/status-flow': {
+      id: '/_docs/docs/components/blocks/status-flow'
+      path: '/docs/components/blocks/status-flow'
+      fullPath: '/docs/components/blocks/status-flow'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksStatusFlowRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/charts/pie-chart': {
-      id: '/_docs/docs/components/charts/pie-chart'
-      path: '/docs/components/charts/pie-chart'
-      fullPath: '/docs/components/charts/pie-chart'
-      preLoaderRoute: typeof DocsDocsComponentsChartsPieChartRouteImport
+    '/_docs/docs/components/blocks/stats-strip': {
+      id: '/_docs/docs/components/blocks/stats-strip'
+      path: '/docs/components/blocks/stats-strip'
+      fullPath: '/docs/components/blocks/stats-strip'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksStatsStripRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/charts/line-chart': {
-      id: '/_docs/docs/components/charts/line-chart'
-      path: '/docs/components/charts/line-chart'
-      fullPath: '/docs/components/charts/line-chart'
-      preLoaderRoute: typeof DocsDocsComponentsChartsLineChartRouteImport
+    '/_docs/docs/components/blocks/stats-grid': {
+      id: '/_docs/docs/components/blocks/stats-grid'
+      path: '/docs/components/blocks/stats-grid'
+      fullPath: '/docs/components/blocks/stats-grid'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksStatsGridRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/charts/bar-chart': {
-      id: '/_docs/docs/components/charts/bar-chart'
-      path: '/docs/components/charts/bar-chart'
-      fullPath: '/docs/components/charts/bar-chart'
-      preLoaderRoute: typeof DocsDocsComponentsChartsBarChartRouteImport
+    '/_docs/docs/components/blocks/split-view': {
+      id: '/_docs/docs/components/blocks/split-view'
+      path: '/docs/components/blocks/split-view'
+      fullPath: '/docs/components/blocks/split-view'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksSplitViewRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/charts/area-chart': {
-      id: '/_docs/docs/components/charts/area-chart'
-      path: '/docs/components/charts/area-chart'
-      fullPath: '/docs/components/charts/area-chart'
-      preLoaderRoute: typeof DocsDocsComponentsChartsAreaChartRouteImport
+    '/_docs/docs/components/blocks/quote-preview': {
+      id: '/_docs/docs/components/blocks/quote-preview'
+      path: '/docs/components/blocks/quote-preview'
+      fullPath: '/docs/components/blocks/quote-preview'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksQuotePreviewRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/quick-log-activity': {
+      id: '/_docs/docs/components/blocks/quick-log-activity'
+      path: '/docs/components/blocks/quick-log-activity'
+      fullPath: '/docs/components/blocks/quick-log-activity'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksQuickLogActivityRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/property-card': {
+      id: '/_docs/docs/components/blocks/property-card'
+      path: '/docs/components/blocks/property-card'
+      fullPath: '/docs/components/blocks/property-card'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksPropertyCardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/org-menu': {
+      id: '/_docs/docs/components/blocks/org-menu'
+      path: '/docs/components/blocks/org-menu'
+      fullPath: '/docs/components/blocks/org-menu'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksOrgMenuRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/notification-center': {
+      id: '/_docs/docs/components/blocks/notification-center'
+      path: '/docs/components/blocks/notification-center'
+      fullPath: '/docs/components/blocks/notification-center'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksNotificationCenterRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/multi-step-form': {
+      id: '/_docs/docs/components/blocks/multi-step-form'
+      path: '/docs/components/blocks/multi-step-form'
+      fullPath: '/docs/components/blocks/multi-step-form'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksMultiStepFormRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/kanban-board': {
+      id: '/_docs/docs/components/blocks/kanban-board'
+      path: '/docs/components/blocks/kanban-board'
+      fullPath: '/docs/components/blocks/kanban-board'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksKanbanBoardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/inline-edit': {
+      id: '/_docs/docs/components/blocks/inline-edit'
+      path: '/docs/components/blocks/inline-edit'
+      fullPath: '/docs/components/blocks/inline-edit'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksInlineEditRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/filter-bar': {
+      id: '/_docs/docs/components/blocks/filter-bar'
+      path: '/docs/components/blocks/filter-bar'
+      fullPath: '/docs/components/blocks/filter-bar'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksFilterBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/detail-panel': {
+      id: '/_docs/docs/components/blocks/detail-panel'
+      path: '/docs/components/blocks/detail-panel'
+      fullPath: '/docs/components/blocks/detail-panel'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksDetailPanelRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/deal-lines-editor': {
+      id: '/_docs/docs/components/blocks/deal-lines-editor'
+      path: '/docs/components/blocks/deal-lines-editor'
+      fullPath: '/docs/components/blocks/deal-lines-editor'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksDealLinesEditorRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/data-table': {
+      id: '/_docs/docs/components/blocks/data-table'
+      path: '/docs/components/blocks/data-table'
+      fullPath: '/docs/components/blocks/data-table'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksDataTableRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/chart-card': {
+      id: '/_docs/docs/components/blocks/chart-card'
+      path: '/docs/components/blocks/chart-card'
+      fullPath: '/docs/components/blocks/chart-card'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartCardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/bulk-action-bar': {
+      id: '/_docs/docs/components/blocks/bulk-action-bar'
+      path: '/docs/components/blocks/bulk-action-bar'
+      fullPath: '/docs/components/blocks/bulk-action-bar'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksBulkActionBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/activity-timeline': {
+      id: '/_docs/docs/components/blocks/activity-timeline'
+      path: '/docs/components/blocks/activity-timeline'
+      fullPath: '/docs/components/blocks/activity-timeline'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksActivityTimelineRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ai/sources': {
@@ -2554,6 +3152,48 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ai/chain-of-thought'
       fullPath: '/docs/components/ai/chain-of-thought'
       preLoaderRoute: typeof DocsDocsComponentsAiChainOfThoughtRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/charts/': {
+      id: '/_docs/docs/components/blocks/charts/'
+      path: '/docs/components/blocks/charts'
+      fullPath: '/docs/components/blocks/charts/'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/charts/radar-chart': {
+      id: '/_docs/docs/components/blocks/charts/radar-chart'
+      path: '/docs/components/blocks/charts/radar-chart'
+      fullPath: '/docs/components/blocks/charts/radar-chart'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsRadarChartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/charts/pie-chart': {
+      id: '/_docs/docs/components/blocks/charts/pie-chart'
+      path: '/docs/components/blocks/charts/pie-chart'
+      fullPath: '/docs/components/blocks/charts/pie-chart'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsPieChartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/charts/line-chart': {
+      id: '/_docs/docs/components/blocks/charts/line-chart'
+      path: '/docs/components/blocks/charts/line-chart'
+      fullPath: '/docs/components/blocks/charts/line-chart'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsLineChartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/charts/bar-chart': {
+      id: '/_docs/docs/components/blocks/charts/bar-chart'
+      path: '/docs/components/blocks/charts/bar-chart'
+      fullPath: '/docs/components/blocks/charts/bar-chart'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsBarChartRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/charts/area-chart': {
+      id: '/_docs/docs/components/blocks/charts/area-chart'
+      path: '/docs/components/blocks/charts/area-chart'
+      fullPath: '/docs/components/blocks/charts/area-chart'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsAreaChartRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ai/workflow/task-card': {
@@ -2885,11 +3525,25 @@ interface DocsRouteChildren {
   DocsDocsComponentsAiModelSelectorRoute: typeof DocsDocsComponentsAiModelSelectorRoute
   DocsDocsComponentsAiReasoningRoute: typeof DocsDocsComponentsAiReasoningRoute
   DocsDocsComponentsAiSourcesRoute: typeof DocsDocsComponentsAiSourcesRoute
-  DocsDocsComponentsChartsAreaChartRoute: typeof DocsDocsComponentsChartsAreaChartRoute
-  DocsDocsComponentsChartsBarChartRoute: typeof DocsDocsComponentsChartsBarChartRoute
-  DocsDocsComponentsChartsLineChartRoute: typeof DocsDocsComponentsChartsLineChartRoute
-  DocsDocsComponentsChartsPieChartRoute: typeof DocsDocsComponentsChartsPieChartRoute
-  DocsDocsComponentsChartsRadarChartRoute: typeof DocsDocsComponentsChartsRadarChartRoute
+  DocsDocsComponentsBlocksActivityTimelineRoute: typeof DocsDocsComponentsBlocksActivityTimelineRoute
+  DocsDocsComponentsBlocksBulkActionBarRoute: typeof DocsDocsComponentsBlocksBulkActionBarRoute
+  DocsDocsComponentsBlocksChartCardRoute: typeof DocsDocsComponentsBlocksChartCardRoute
+  DocsDocsComponentsBlocksDataTableRoute: typeof DocsDocsComponentsBlocksDataTableRoute
+  DocsDocsComponentsBlocksDealLinesEditorRoute: typeof DocsDocsComponentsBlocksDealLinesEditorRoute
+  DocsDocsComponentsBlocksDetailPanelRoute: typeof DocsDocsComponentsBlocksDetailPanelRoute
+  DocsDocsComponentsBlocksFilterBarRoute: typeof DocsDocsComponentsBlocksFilterBarRoute
+  DocsDocsComponentsBlocksInlineEditRoute: typeof DocsDocsComponentsBlocksInlineEditRoute
+  DocsDocsComponentsBlocksKanbanBoardRoute: typeof DocsDocsComponentsBlocksKanbanBoardRoute
+  DocsDocsComponentsBlocksMultiStepFormRoute: typeof DocsDocsComponentsBlocksMultiStepFormRoute
+  DocsDocsComponentsBlocksNotificationCenterRoute: typeof DocsDocsComponentsBlocksNotificationCenterRoute
+  DocsDocsComponentsBlocksOrgMenuRoute: typeof DocsDocsComponentsBlocksOrgMenuRoute
+  DocsDocsComponentsBlocksPropertyCardRoute: typeof DocsDocsComponentsBlocksPropertyCardRoute
+  DocsDocsComponentsBlocksQuickLogActivityRoute: typeof DocsDocsComponentsBlocksQuickLogActivityRoute
+  DocsDocsComponentsBlocksQuotePreviewRoute: typeof DocsDocsComponentsBlocksQuotePreviewRoute
+  DocsDocsComponentsBlocksSplitViewRoute: typeof DocsDocsComponentsBlocksSplitViewRoute
+  DocsDocsComponentsBlocksStatsGridRoute: typeof DocsDocsComponentsBlocksStatsGridRoute
+  DocsDocsComponentsBlocksStatsStripRoute: typeof DocsDocsComponentsBlocksStatsStripRoute
+  DocsDocsComponentsBlocksStatusFlowRoute: typeof DocsDocsComponentsBlocksStatusFlowRoute
   DocsDocsComponentsLayoutBleedRoute: typeof DocsDocsComponentsLayoutBleedRoute
   DocsDocsComponentsLayoutBlockStackRoute: typeof DocsDocsComponentsLayoutBlockStackRoute
   DocsDocsComponentsLayoutBoxRoute: typeof DocsDocsComponentsLayoutBoxRoute
@@ -2900,6 +3554,24 @@ interface DocsRouteChildren {
   DocsDocsComponentsLayoutInlineGridRoute: typeof DocsDocsComponentsLayoutInlineGridRoute
   DocsDocsComponentsLayoutInlineStackRoute: typeof DocsDocsComponentsLayoutInlineStackRoute
   DocsDocsComponentsLayoutPageComponentRoute: typeof DocsDocsComponentsLayoutPageComponentRoute
+  DocsDocsComponentsPatternsAppFrameRoute: typeof DocsDocsComponentsPatternsAppFrameRoute
+  DocsDocsComponentsPatternsAppSidebarRoute: typeof DocsDocsComponentsPatternsAppSidebarRoute
+  DocsDocsComponentsPatternsAppTopBarRoute: typeof DocsDocsComponentsPatternsAppTopBarRoute
+  DocsDocsComponentsPatternsCommandPaletteRoute: typeof DocsDocsComponentsPatternsCommandPaletteRoute
+  DocsDocsComponentsPatternsDashboardLayoutRoute: typeof DocsDocsComponentsPatternsDashboardLayoutRoute
+  DocsDocsComponentsPatternsErrorStateRoute: typeof DocsDocsComponentsPatternsErrorStateRoute
+  DocsDocsComponentsPatternsFieldGridRoute: typeof DocsDocsComponentsPatternsFieldGridRoute
+  DocsDocsComponentsPatternsFormFieldRoute: typeof DocsDocsComponentsPatternsFormFieldRoute
+  DocsDocsComponentsPatternsFormSectionRoute: typeof DocsDocsComponentsPatternsFormSectionRoute
+  DocsDocsComponentsPatternsImageUploadRoute: typeof DocsDocsComponentsPatternsImageUploadRoute
+  DocsDocsComponentsPatternsLayoutFrameRoute: typeof DocsDocsComponentsPatternsLayoutFrameRoute
+  DocsDocsComponentsPatternsNavTabsRoute: typeof DocsDocsComponentsPatternsNavTabsRoute
+  DocsDocsComponentsPatternsNavbarRoute: typeof DocsDocsComponentsPatternsNavbarRoute
+  DocsDocsComponentsPatternsNavigationTabsRoute: typeof DocsDocsComponentsPatternsNavigationTabsRoute
+  DocsDocsComponentsPatternsPageHeaderShellRoute: typeof DocsDocsComponentsPatternsPageHeaderShellRoute
+  DocsDocsComponentsPatternsTabBarRoute: typeof DocsDocsComponentsPatternsTabBarRoute
+  DocsDocsComponentsPatternsThemeToggleRoute: typeof DocsDocsComponentsPatternsThemeToggleRoute
+  DocsDocsComponentsPatternsTopBarRoute: typeof DocsDocsComponentsPatternsTopBarRoute
   DocsDocsComponentsUiAlertRoute: typeof DocsDocsComponentsUiAlertRoute
   DocsDocsComponentsUiAvatarRoute: typeof DocsDocsComponentsUiAvatarRoute
   DocsDocsComponentsUiBadgeRoute: typeof DocsDocsComponentsUiBadgeRoute
@@ -2916,7 +3588,6 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiCommandRoute: typeof DocsDocsComponentsUiCommandRoute
   DocsDocsComponentsUiConfirmationDialogRoute: typeof DocsDocsComponentsUiConfirmationDialogRoute
   DocsDocsComponentsUiCurrencyInputRoute: typeof DocsDocsComponentsUiCurrencyInputRoute
-  DocsDocsComponentsUiDataTableRoute: typeof DocsDocsComponentsUiDataTableRoute
   DocsDocsComponentsUiDateSelectorRoute: typeof DocsDocsComponentsUiDateSelectorRoute
   DocsDocsComponentsUiDialogRoute: typeof DocsDocsComponentsUiDialogRoute
   DocsDocsComponentsUiDropdownMenuRoute: typeof DocsDocsComponentsUiDropdownMenuRoute
@@ -2929,16 +3600,13 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiMenuRoute: typeof DocsDocsComponentsUiMenuRoute
   DocsDocsComponentsUiMenubarRoute: typeof DocsDocsComponentsUiMenubarRoute
   DocsDocsComponentsUiNavMenuRoute: typeof DocsDocsComponentsUiNavMenuRoute
-  DocsDocsComponentsUiNotificationCenterRoute: typeof DocsDocsComponentsUiNotificationCenterRoute
   DocsDocsComponentsUiNumberInputRoute: typeof DocsDocsComponentsUiNumberInputRoute
-  DocsDocsComponentsUiOrgMenuRoute: typeof DocsDocsComponentsUiOrgMenuRoute
   DocsDocsComponentsUiOtpInputRoute: typeof DocsDocsComponentsUiOtpInputRoute
   DocsDocsComponentsUiPaginationRoute: typeof DocsDocsComponentsUiPaginationRoute
   DocsDocsComponentsUiPasswordInputRoute: typeof DocsDocsComponentsUiPasswordInputRoute
   DocsDocsComponentsUiPhoneInputRoute: typeof DocsDocsComponentsUiPhoneInputRoute
   DocsDocsComponentsUiPopoverRoute: typeof DocsDocsComponentsUiPopoverRoute
   DocsDocsComponentsUiPropertyRoute: typeof DocsDocsComponentsUiPropertyRoute
-  DocsDocsComponentsUiPropertyCardRoute: typeof DocsDocsComponentsUiPropertyCardRoute
   DocsDocsComponentsUiRadioGroupRoute: typeof DocsDocsComponentsUiRadioGroupRoute
   DocsDocsComponentsUiRatingRoute: typeof DocsDocsComponentsUiRatingRoute
   DocsDocsComponentsUiSearchInputRoute: typeof DocsDocsComponentsUiSearchInputRoute
@@ -2946,7 +3614,6 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiSheetRoute: typeof DocsDocsComponentsUiSheetRoute
   DocsDocsComponentsUiSkeletonRoute: typeof DocsDocsComponentsUiSkeletonRoute
   DocsDocsComponentsUiSliderRoute: typeof DocsDocsComponentsUiSliderRoute
-  DocsDocsComponentsUiStatsStripRoute: typeof DocsDocsComponentsUiStatsStripRoute
   DocsDocsComponentsUiStepperRoute: typeof DocsDocsComponentsUiStepperRoute
   DocsDocsComponentsUiSwitchRoute: typeof DocsDocsComponentsUiSwitchRoute
   DocsDocsComponentsUiTableRoute: typeof DocsDocsComponentsUiTableRoute
@@ -2959,7 +3626,6 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiTooltipRoute: typeof DocsDocsComponentsUiTooltipRoute
   DocsDocsComponentsUiTreeViewRoute: typeof DocsDocsComponentsUiTreeViewRoute
   DocsDocsComponentsAiIndexRoute: typeof DocsDocsComponentsAiIndexRoute
-  DocsDocsComponentsChartsIndexRoute: typeof DocsDocsComponentsChartsIndexRoute
   DocsDocsComponentsLayoutIndexRoute: typeof DocsDocsComponentsLayoutIndexRoute
   DocsDocsComponentsUiIndexRoute: typeof DocsDocsComponentsUiIndexRoute
   DocsDocsComponentsAiChatAttachmentsRoute: typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -3006,6 +3672,12 @@ interface DocsRouteChildren {
   DocsDocsComponentsAiWorkflowMessagePreviewRoute: typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
   DocsDocsComponentsAiWorkflowPollCardRoute: typeof DocsDocsComponentsAiWorkflowPollCardRoute
   DocsDocsComponentsAiWorkflowTaskCardRoute: typeof DocsDocsComponentsAiWorkflowTaskCardRoute
+  DocsDocsComponentsBlocksChartsAreaChartRoute: typeof DocsDocsComponentsBlocksChartsAreaChartRoute
+  DocsDocsComponentsBlocksChartsBarChartRoute: typeof DocsDocsComponentsBlocksChartsBarChartRoute
+  DocsDocsComponentsBlocksChartsLineChartRoute: typeof DocsDocsComponentsBlocksChartsLineChartRoute
+  DocsDocsComponentsBlocksChartsPieChartRoute: typeof DocsDocsComponentsBlocksChartsPieChartRoute
+  DocsDocsComponentsBlocksChartsRadarChartRoute: typeof DocsDocsComponentsBlocksChartsRadarChartRoute
+  DocsDocsComponentsBlocksChartsIndexRoute: typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
@@ -3029,14 +3701,43 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsAiModelSelectorRoute,
   DocsDocsComponentsAiReasoningRoute: DocsDocsComponentsAiReasoningRoute,
   DocsDocsComponentsAiSourcesRoute: DocsDocsComponentsAiSourcesRoute,
-  DocsDocsComponentsChartsAreaChartRoute:
-    DocsDocsComponentsChartsAreaChartRoute,
-  DocsDocsComponentsChartsBarChartRoute: DocsDocsComponentsChartsBarChartRoute,
-  DocsDocsComponentsChartsLineChartRoute:
-    DocsDocsComponentsChartsLineChartRoute,
-  DocsDocsComponentsChartsPieChartRoute: DocsDocsComponentsChartsPieChartRoute,
-  DocsDocsComponentsChartsRadarChartRoute:
-    DocsDocsComponentsChartsRadarChartRoute,
+  DocsDocsComponentsBlocksActivityTimelineRoute:
+    DocsDocsComponentsBlocksActivityTimelineRoute,
+  DocsDocsComponentsBlocksBulkActionBarRoute:
+    DocsDocsComponentsBlocksBulkActionBarRoute,
+  DocsDocsComponentsBlocksChartCardRoute:
+    DocsDocsComponentsBlocksChartCardRoute,
+  DocsDocsComponentsBlocksDataTableRoute:
+    DocsDocsComponentsBlocksDataTableRoute,
+  DocsDocsComponentsBlocksDealLinesEditorRoute:
+    DocsDocsComponentsBlocksDealLinesEditorRoute,
+  DocsDocsComponentsBlocksDetailPanelRoute:
+    DocsDocsComponentsBlocksDetailPanelRoute,
+  DocsDocsComponentsBlocksFilterBarRoute:
+    DocsDocsComponentsBlocksFilterBarRoute,
+  DocsDocsComponentsBlocksInlineEditRoute:
+    DocsDocsComponentsBlocksInlineEditRoute,
+  DocsDocsComponentsBlocksKanbanBoardRoute:
+    DocsDocsComponentsBlocksKanbanBoardRoute,
+  DocsDocsComponentsBlocksMultiStepFormRoute:
+    DocsDocsComponentsBlocksMultiStepFormRoute,
+  DocsDocsComponentsBlocksNotificationCenterRoute:
+    DocsDocsComponentsBlocksNotificationCenterRoute,
+  DocsDocsComponentsBlocksOrgMenuRoute: DocsDocsComponentsBlocksOrgMenuRoute,
+  DocsDocsComponentsBlocksPropertyCardRoute:
+    DocsDocsComponentsBlocksPropertyCardRoute,
+  DocsDocsComponentsBlocksQuickLogActivityRoute:
+    DocsDocsComponentsBlocksQuickLogActivityRoute,
+  DocsDocsComponentsBlocksQuotePreviewRoute:
+    DocsDocsComponentsBlocksQuotePreviewRoute,
+  DocsDocsComponentsBlocksSplitViewRoute:
+    DocsDocsComponentsBlocksSplitViewRoute,
+  DocsDocsComponentsBlocksStatsGridRoute:
+    DocsDocsComponentsBlocksStatsGridRoute,
+  DocsDocsComponentsBlocksStatsStripRoute:
+    DocsDocsComponentsBlocksStatsStripRoute,
+  DocsDocsComponentsBlocksStatusFlowRoute:
+    DocsDocsComponentsBlocksStatusFlowRoute,
   DocsDocsComponentsLayoutBleedRoute: DocsDocsComponentsLayoutBleedRoute,
   DocsDocsComponentsLayoutBlockStackRoute:
     DocsDocsComponentsLayoutBlockStackRoute,
@@ -3052,6 +3753,39 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsLayoutInlineStackRoute,
   DocsDocsComponentsLayoutPageComponentRoute:
     DocsDocsComponentsLayoutPageComponentRoute,
+  DocsDocsComponentsPatternsAppFrameRoute:
+    DocsDocsComponentsPatternsAppFrameRoute,
+  DocsDocsComponentsPatternsAppSidebarRoute:
+    DocsDocsComponentsPatternsAppSidebarRoute,
+  DocsDocsComponentsPatternsAppTopBarRoute:
+    DocsDocsComponentsPatternsAppTopBarRoute,
+  DocsDocsComponentsPatternsCommandPaletteRoute:
+    DocsDocsComponentsPatternsCommandPaletteRoute,
+  DocsDocsComponentsPatternsDashboardLayoutRoute:
+    DocsDocsComponentsPatternsDashboardLayoutRoute,
+  DocsDocsComponentsPatternsErrorStateRoute:
+    DocsDocsComponentsPatternsErrorStateRoute,
+  DocsDocsComponentsPatternsFieldGridRoute:
+    DocsDocsComponentsPatternsFieldGridRoute,
+  DocsDocsComponentsPatternsFormFieldRoute:
+    DocsDocsComponentsPatternsFormFieldRoute,
+  DocsDocsComponentsPatternsFormSectionRoute:
+    DocsDocsComponentsPatternsFormSectionRoute,
+  DocsDocsComponentsPatternsImageUploadRoute:
+    DocsDocsComponentsPatternsImageUploadRoute,
+  DocsDocsComponentsPatternsLayoutFrameRoute:
+    DocsDocsComponentsPatternsLayoutFrameRoute,
+  DocsDocsComponentsPatternsNavTabsRoute:
+    DocsDocsComponentsPatternsNavTabsRoute,
+  DocsDocsComponentsPatternsNavbarRoute: DocsDocsComponentsPatternsNavbarRoute,
+  DocsDocsComponentsPatternsNavigationTabsRoute:
+    DocsDocsComponentsPatternsNavigationTabsRoute,
+  DocsDocsComponentsPatternsPageHeaderShellRoute:
+    DocsDocsComponentsPatternsPageHeaderShellRoute,
+  DocsDocsComponentsPatternsTabBarRoute: DocsDocsComponentsPatternsTabBarRoute,
+  DocsDocsComponentsPatternsThemeToggleRoute:
+    DocsDocsComponentsPatternsThemeToggleRoute,
+  DocsDocsComponentsPatternsTopBarRoute: DocsDocsComponentsPatternsTopBarRoute,
   DocsDocsComponentsUiAlertRoute: DocsDocsComponentsUiAlertRoute,
   DocsDocsComponentsUiAvatarRoute: DocsDocsComponentsUiAvatarRoute,
   DocsDocsComponentsUiBadgeRoute: DocsDocsComponentsUiBadgeRoute,
@@ -3071,7 +3805,6 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsUiConfirmationDialogRoute,
   DocsDocsComponentsUiCurrencyInputRoute:
     DocsDocsComponentsUiCurrencyInputRoute,
-  DocsDocsComponentsUiDataTableRoute: DocsDocsComponentsUiDataTableRoute,
   DocsDocsComponentsUiDateSelectorRoute: DocsDocsComponentsUiDateSelectorRoute,
   DocsDocsComponentsUiDialogRoute: DocsDocsComponentsUiDialogRoute,
   DocsDocsComponentsUiDropdownMenuRoute: DocsDocsComponentsUiDropdownMenuRoute,
@@ -3084,10 +3817,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiMenuRoute: DocsDocsComponentsUiMenuRoute,
   DocsDocsComponentsUiMenubarRoute: DocsDocsComponentsUiMenubarRoute,
   DocsDocsComponentsUiNavMenuRoute: DocsDocsComponentsUiNavMenuRoute,
-  DocsDocsComponentsUiNotificationCenterRoute:
-    DocsDocsComponentsUiNotificationCenterRoute,
   DocsDocsComponentsUiNumberInputRoute: DocsDocsComponentsUiNumberInputRoute,
-  DocsDocsComponentsUiOrgMenuRoute: DocsDocsComponentsUiOrgMenuRoute,
   DocsDocsComponentsUiOtpInputRoute: DocsDocsComponentsUiOtpInputRoute,
   DocsDocsComponentsUiPaginationRoute: DocsDocsComponentsUiPaginationRoute,
   DocsDocsComponentsUiPasswordInputRoute:
@@ -3095,7 +3825,6 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiPhoneInputRoute: DocsDocsComponentsUiPhoneInputRoute,
   DocsDocsComponentsUiPopoverRoute: DocsDocsComponentsUiPopoverRoute,
   DocsDocsComponentsUiPropertyRoute: DocsDocsComponentsUiPropertyRoute,
-  DocsDocsComponentsUiPropertyCardRoute: DocsDocsComponentsUiPropertyCardRoute,
   DocsDocsComponentsUiRadioGroupRoute: DocsDocsComponentsUiRadioGroupRoute,
   DocsDocsComponentsUiRatingRoute: DocsDocsComponentsUiRatingRoute,
   DocsDocsComponentsUiSearchInputRoute: DocsDocsComponentsUiSearchInputRoute,
@@ -3103,7 +3832,6 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiSheetRoute: DocsDocsComponentsUiSheetRoute,
   DocsDocsComponentsUiSkeletonRoute: DocsDocsComponentsUiSkeletonRoute,
   DocsDocsComponentsUiSliderRoute: DocsDocsComponentsUiSliderRoute,
-  DocsDocsComponentsUiStatsStripRoute: DocsDocsComponentsUiStatsStripRoute,
   DocsDocsComponentsUiStepperRoute: DocsDocsComponentsUiStepperRoute,
   DocsDocsComponentsUiSwitchRoute: DocsDocsComponentsUiSwitchRoute,
   DocsDocsComponentsUiTableRoute: DocsDocsComponentsUiTableRoute,
@@ -3116,7 +3844,6 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiTooltipRoute: DocsDocsComponentsUiTooltipRoute,
   DocsDocsComponentsUiTreeViewRoute: DocsDocsComponentsUiTreeViewRoute,
   DocsDocsComponentsAiIndexRoute: DocsDocsComponentsAiIndexRoute,
-  DocsDocsComponentsChartsIndexRoute: DocsDocsComponentsChartsIndexRoute,
   DocsDocsComponentsLayoutIndexRoute: DocsDocsComponentsLayoutIndexRoute,
   DocsDocsComponentsUiIndexRoute: DocsDocsComponentsUiIndexRoute,
   DocsDocsComponentsAiChatAttachmentsRoute:
@@ -3202,6 +3929,18 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsAiWorkflowPollCardRoute,
   DocsDocsComponentsAiWorkflowTaskCardRoute:
     DocsDocsComponentsAiWorkflowTaskCardRoute,
+  DocsDocsComponentsBlocksChartsAreaChartRoute:
+    DocsDocsComponentsBlocksChartsAreaChartRoute,
+  DocsDocsComponentsBlocksChartsBarChartRoute:
+    DocsDocsComponentsBlocksChartsBarChartRoute,
+  DocsDocsComponentsBlocksChartsLineChartRoute:
+    DocsDocsComponentsBlocksChartsLineChartRoute,
+  DocsDocsComponentsBlocksChartsPieChartRoute:
+    DocsDocsComponentsBlocksChartsPieChartRoute,
+  DocsDocsComponentsBlocksChartsRadarChartRoute:
+    DocsDocsComponentsBlocksChartsRadarChartRoute,
+  DocsDocsComponentsBlocksChartsIndexRoute:
+    DocsDocsComponentsBlocksChartsIndexRoute,
 }
 
 const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)

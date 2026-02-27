@@ -173,7 +173,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute("/_docs/docs/components/ui/org-menu")({
+export const Route = createFileRoute("/_docs/docs/components/blocks/org-menu")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({

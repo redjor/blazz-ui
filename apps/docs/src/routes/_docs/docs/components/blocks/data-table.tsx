@@ -199,7 +199,7 @@ const preset = createLinearIssuesPreset({
 	},
 ] as const
 
-export const Route = createFileRoute("/_docs/docs/components/ui/data-table")({
+export const Route = createFileRoute("/_docs/docs/components/blocks/data-table")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({

@@ -141,7 +141,7 @@ const examples = [
 ] as const
 
 export const Route = createFileRoute(
-	"/_docs/docs/components/ui/property-card",
+	"/_docs/docs/components/blocks/property-card",
 )({
 	loader: async () => {
 		const highlighted = await Promise.all(

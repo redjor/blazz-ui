@@ -10,7 +10,7 @@ import { DocRelated } from "~/components/docs/doc-related"
 import { PieChartBlock } from "@blazz/ui/components/blocks/pie-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
 
-export const Route = createFileRoute("/_docs/docs/components/charts/pie-chart")({
+export const Route = createFileRoute("/_docs/docs/components/blocks/charts/pie-chart")({
 	component: PieChartPage,
 })
 

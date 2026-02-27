@@ -442,7 +442,7 @@ const examples = [
 ] as const
 
 export const Route = createFileRoute(
-	"/_docs/docs/components/ui/notification-center",
+	"/_docs/docs/components/blocks/notification-center",
 )({
 	loader: async () => {
 		const highlighted = await Promise.all(

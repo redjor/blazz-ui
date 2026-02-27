@@ -10,7 +10,7 @@ import { DocRelated } from "~/components/docs/doc-related"
 import { BarChartBlock } from "@blazz/ui/components/blocks/bar-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
 
-export const Route = createFileRoute("/_docs/docs/components/charts/bar-chart")({
+export const Route = createFileRoute("/_docs/docs/components/blocks/charts/bar-chart")({
 	component: BarChartPage,
 })
 

@@ -153,7 +153,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute("/_docs/docs/components/ui/stats-strip")({
+export const Route = createFileRoute("/_docs/docs/components/blocks/stats-strip")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			[...examples].map(async (ex) => ({
