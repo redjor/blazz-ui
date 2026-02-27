@@ -39,10 +39,12 @@ export function ComponentsSidebar() {
 			<ScrollArea className="h-full py-6">
 				<div className="px-4 pb-4">
 					<Link
-						to="/components"
+						to="/docs/components"
 						className={cn(
 							"text-sm font-semibold hover:text-fg",
-							pathname === "/components" ? "text-fg" : "text-fg-muted"
+							pathname === "/docs/components" || pathname === "/docs/components/"
+								? "text-fg"
+								: "text-fg-muted"
 						)}
 					>
 						Components

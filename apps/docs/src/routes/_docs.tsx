@@ -2,9 +2,9 @@
 
 import { useEffect } from "react"
 import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router"
-import { CommandPalette } from "@blazz/ui/components/features/command-palette/command-palette"
-import { AppFrame } from "@blazz/ui/components/layout/app-frame"
-import { FrameProvider, useFrame } from "@blazz/ui/components/layout/frame-context"
+import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
+import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
+import { FrameProvider, useFrame } from "@blazz/ui/components/patterns/frame-context"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import { sidebarConfig, navigationConfig } from "~/config/navigation"
 import { useFrameLayout } from "@blazz/ui/lib/use-frame-layout"

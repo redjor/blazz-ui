@@ -16,6 +16,13 @@ const toc = [
 	{ id: "related", title: "Related" },
 ]
 
+const trendStats = [
+	{ label: "Revenus", value: "€45 200", chart: [30, 32, 35, 38, 42, 44, 50] },
+	{ label: "Taux de rebond", value: "61 %", chart: [48, 52, 55, 58, 60, 62, 61] },
+	{ label: "Commandes", value: "128", chart: [140, 135, 128, 122, 118, 115, 112], trend: "down" as const },
+	{ label: "Satisfaction", value: "4.8 / 5", chart: [4.5, 4.5, 4.6, 4.6, 4.7, 4.8, 4.8] },
+]
+
 const heroStats = [
 	{ label: "Visites", value: "39", chart: [12, 18, 14, 22, 30, 28, 39] },
 	{ label: "Ventes attribuées au marketing", value: "0 €", chart: [0, 0, 0, 0, 0, 0, 0] },
@@ -61,6 +68,12 @@ const statsStripProps: DocProp[] = [
 		description: "Show skeleton loading state.",
 	},
 	{
+		name: "loadingCount",
+		type: "number",
+		default: "4",
+		description: "Number of skeleton items to render while loading. Set this to match the expected number of stats.",
+	},
+	{
 		name: "className",
 		type: "string",
 		description: "Additional classes for the card container.",
@@ -82,6 +95,12 @@ const statsStripItemProps: DocProp[] = [
 		name: "chart",
 		type: "number[]",
 		description: "Sparkline data points (minimum 2). Rendered as a mini line chart.",
+	},
+	{
+		name: "trend",
+		type: '"up" | "down" | "neutral"',
+		description:
+			'Override the sparkline color. Without this prop, trend is auto-detected by comparing chart[0] vs chart[last]. "up" → green, "down" → red, "neutral" → muted.',
 	},
 ]
 
@@ -114,14 +133,30 @@ const examples = [
 	},
 	{
 		key: "loading",
-		code: `<StatsStrip stats={[]} loading />`,
+		code: `// Default: 4 skeleton items
+<StatsStrip stats={[]} loading />
+
+// Match your expected number of stats
+<StatsStrip stats={[]} loading loadingCount={6} />`,
+	},
+	{
+		key: "trend",
+		code: `// trend is auto-detected from chart data (first vs last value)
+// Override with explicit trend prop when needed
+<StatsStrip stats={[
+  { label: "Revenus",      value: "€45 200", chart: [30, 32, 35, 38, 42, 44, 50] },      // ↑ green
+  { label: "Taux rebond",  value: "61 %",    chart: [48, 52, 55, 58, 60, 62, 61] },      // ↑ green (last > first)
+  { label: "Commandes",    value: "128",     chart: [140, 135, 128, 122, 118, 115, 112],
+    trend: "down" },                                                                       // ↓ red (override)
+  { label: "Satisfaction", value: "4.8 / 5", chart: [4.5, 4.5, 4.6, 4.6, 4.7, 4.8, 4.8] }, // ↑ green
+]} />`,
 	},
 ] as const
 
 export const Route = createFileRoute("/_docs/docs/components/ui/stats-strip")({
 	loader: async () => {
 		const highlighted = await Promise.all(
-			examples.map(async (ex) => ({
+			[...examples].map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
 			})),
@@ -178,11 +213,20 @@ function StatsStripPage() {
 
 				<DocExampleClient
 					title="Loading"
-					description="Skeleton state while data is being fetched."
+					description="Skeleton state while data is being fetched. Use loadingCount to match the expected number of stats and avoid layout shift."
 					code={examples[3].code}
 					highlightedCode={html("loading")}
 				>
-					<StatsStrip stats={[]} loading />
+					<StatsStrip stats={[]} loading loadingCount={4} />
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Trend Colors"
+					description="Sparkline color is auto-detected from chart data (green if trending up, red if trending down). Use the trend prop to override."
+					code={examples[4].code}
+					highlightedCode={html("trend")}
+				>
+					<StatsStrip stats={trendStats} />
 				</DocExampleClient>
 			</DocSection>
 

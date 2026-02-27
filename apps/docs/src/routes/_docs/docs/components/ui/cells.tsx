@@ -5,21 +5,21 @@ import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
-import { CellTags } from "@blazz/ui/components/features/data-table/cells/cell-tags"
-import { CellValidation } from "@blazz/ui/components/features/data-table/cells/cell-validation"
-import { CellProgress } from "@blazz/ui/components/features/data-table/cells/cell-progress"
-import { CellRating } from "@blazz/ui/components/features/data-table/cells/cell-rating"
-import { CellLink } from "@blazz/ui/components/features/data-table/cells/cell-link"
-import { CellBoolean } from "@blazz/ui/components/features/data-table/cells/cell-boolean"
-import { CellAvatarGroup } from "@blazz/ui/components/features/data-table/cells/cell-avatar-group"
-import { CellRelativeDate } from "@blazz/ui/components/features/data-table/cells/cell-relative-date"
-import { CellUser } from "@blazz/ui/components/features/data-table/cells/cell-user"
-import { CellDuration } from "@blazz/ui/components/features/data-table/cells/cell-duration"
-import { CellColorDot } from "@blazz/ui/components/features/data-table/cells/cell-color-dot"
-import { CellImage } from "@blazz/ui/components/features/data-table/cells/cell-image"
-import { CellSparkline } from "@blazz/ui/components/features/data-table/cells/cell-sparkline"
-import { CellTwoLines } from "@blazz/ui/components/features/data-table/cells/cell-two-lines"
-import { CellKeyValue } from "@blazz/ui/components/features/data-table/cells/cell-key-value"
+import { CellTags } from "@blazz/ui/components/blocks/data-table/cells/cell-tags"
+import { CellValidation } from "@blazz/ui/components/blocks/data-table/cells/cell-validation"
+import { CellProgress } from "@blazz/ui/components/blocks/data-table/cells/cell-progress"
+import { CellRating } from "@blazz/ui/components/blocks/data-table/cells/cell-rating"
+import { CellLink } from "@blazz/ui/components/blocks/data-table/cells/cell-link"
+import { CellBoolean } from "@blazz/ui/components/blocks/data-table/cells/cell-boolean"
+import { CellAvatarGroup } from "@blazz/ui/components/blocks/data-table/cells/cell-avatar-group"
+import { CellRelativeDate } from "@blazz/ui/components/blocks/data-table/cells/cell-relative-date"
+import { CellUser } from "@blazz/ui/components/blocks/data-table/cells/cell-user"
+import { CellDuration } from "@blazz/ui/components/blocks/data-table/cells/cell-duration"
+import { CellColorDot } from "@blazz/ui/components/blocks/data-table/cells/cell-color-dot"
+import { CellImage } from "@blazz/ui/components/blocks/data-table/cells/cell-image"
+import { CellSparkline } from "@blazz/ui/components/blocks/data-table/cells/cell-sparkline"
+import { CellTwoLines } from "@blazz/ui/components/blocks/data-table/cells/cell-two-lines"
+import { CellKeyValue } from "@blazz/ui/components/blocks/data-table/cells/cell-key-value"
 import { highlightCode } from "~/lib/highlight-code"
 
 const mockTeam = [
@@ -119,7 +119,7 @@ col.sparkline("revenue", { type: "bar", width: 100 })`,
 	},
 	{
 		key: "full-example",
-		code: `import { col } from "@blazz/ui/components/features/data-table"
+		code: `import { col } from "@blazz/ui/components/blocks/data-table"
 
 const columns = [
   col.selection(),

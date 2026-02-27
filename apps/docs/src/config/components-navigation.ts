@@ -1,22 +1,6 @@
-import {
-	Brain,
-	Calendar,
-	ChartLine,
-	CreditCard,
-	FileText,
-	FormInput,
-	Layers,
-	LayoutGrid,
-	ListChecks,
-	MessageCircle,
-	MessageSquare,
-	MousePointerClick,
-	Navigation,
-	Table2,
-	Users,
-	Wrench,
-	type LucideIcon,
-} from "lucide-react"
+import { Circle, type LucideIcon } from "lucide-react"
+import type { NavigationItem } from "@blazz/ui/types/navigation"
+import { sidebarConfig } from "./navigation"
 
 export interface ComponentNavItem {
 	title: string
@@ -31,263 +15,60 @@ export interface ComponentNavCategory {
 	items: ComponentNavItem[]
 }
 
-export const componentsNavigation: ComponentNavCategory[] = [
-	{
-		id: "layout",
-		title: "Layout and Structure",
-		description: "Primitives for spacing, alignment and page composition.",
-		icon: LayoutGrid,
-		items: [
-			{ title: "Bleed", href: "/docs/components/layout/bleed" },
-			{ title: "Block Stack", href: "/docs/components/layout/block-stack" },
-			{ title: "Box", href: "/docs/components/layout/box" },
-			{ title: "Callout Card", href: "/docs/components/layout/callout-card" },
-			{ title: "Card", href: "/docs/components/layout/card" },
-			{ title: "Divider", href: "/docs/components/layout/divider" },
-			{ title: "Frame Panel", href: "/docs/components/ui/frame-panel" },
-			{ title: "Grid", href: "/docs/components/layout/grid" },
-			{ title: "Inline Grid", href: "/docs/components/layout/inline-grid" },
-			{ title: "Inline Stack", href: "/docs/components/layout/inline-stack" },
-			{ title: "Text", href: "/docs/components/ui/text" },
-		],
-	},
-	{
-		id: "actions",
-		title: "Actions",
-		description: "Buttons, menus and interactive triggers.",
-		icon: MousePointerClick,
-		items: [
-			{ title: "Button", href: "/docs/components/ui/button" },
-			{ title: "Button Group", href: "/docs/components/ui/button-group" },
-			{ title: "Dropdown Menu", href: "/docs/components/ui/dropdown-menu" },
-		],
-	},
-	{
-		id: "forms",
-		title: "Selection and Input",
-		description: "Form controls for collecting and editing data.",
-		icon: FormInput,
-		items: [
-			{ title: "Calendar", href: "/docs/components/ui/calendar" },
-			{ title: "Checkbox", href: "/docs/components/ui/checkbox" },
-			{ title: "Color Picker", href: "/docs/components/ui/color-picker" },
-			{ title: "Combobox", href: "/docs/components/ui/combobox" },
-			{ title: "Currency Input", href: "/docs/components/ui/currency-input" },
-			{ title: "Date Selector", href: "/docs/components/ui/date-selector" },
-			{ title: "Field", href: "/docs/components/ui/field" },
-			{ title: "File Upload", href: "/docs/components/ui/file-upload" },
-			{ title: "Input", href: "/docs/components/ui/input" },
-			{ title: "Label", href: "/docs/components/ui/label" },
-			{ title: "Number Input", href: "/docs/components/ui/number-input" },
-			{ title: "OTP Input", href: "/docs/components/ui/otp-input" },
-			{ title: "Password Input", href: "/docs/components/ui/password-input" },
-			{ title: "Phone Input", href: "/docs/components/ui/phone-input" },
-			{ title: "Radio Group", href: "/docs/components/ui/radio-group" },
-			{ title: "Rating", href: "/docs/components/ui/rating" },
-			{ title: "Search Input", href: "/docs/components/ui/search-input" },
-			{ title: "Select", href: "/docs/components/ui/select" },
-			{ title: "Slider", href: "/docs/components/ui/slider" },
-			{ title: "Switch", href: "/docs/components/ui/switch" },
-			{ title: "Tags Input", href: "/docs/components/ui/tags-input" },
-			{ title: "Textarea", href: "/docs/components/ui/textarea" },
-			{ title: "Time Picker", href: "/docs/components/ui/time-picker" },
-		],
-	},
-	{
-		id: "feedback",
-		title: "Feedback Indicators",
-		description: "Alerts, badges and loading states.",
-		icon: MessageSquare,
-		items: [
-			{ title: "Alert", href: "/docs/components/ui/alert" },
-			{ title: "Badge", href: "/docs/components/ui/badge" },
-			{ title: "Banner", href: "/docs/components/ui/banner" },
-			{ title: "Empty", href: "/docs/components/ui/empty" },
-			{ title: "Skeleton", href: "/docs/components/ui/skeleton" },
-		],
-	},
-	{
-		id: "overlays",
-		title: "Overlays",
-		description: "Dialogs, popovers and floating surfaces.",
-		icon: Layers,
-		items: [
-			{ title: "Confirmation Dialog", href: "/docs/components/ui/confirmation-dialog" },
-			{ title: "Dialog", href: "/docs/components/ui/dialog" },
-			{ title: "Notification Center", href: "/docs/components/ui/notification-center" },
-			{ title: "Popover", href: "/docs/components/ui/popover" },
-			{ title: "Sheet", href: "/docs/components/ui/sheet" },
-			{ title: "Tooltip", href: "/docs/components/ui/tooltip" },
-		],
-	},
-	{
-		id: "navigation",
-		title: "Navigation",
-		description: "Breadcrumbs, tabs and wayfinding patterns.",
-		icon: Navigation,
-		items: [
-			{ title: "Breadcrumb", href: "/docs/components/ui/breadcrumb" },
-			{ title: "Command", href: "/docs/components/ui/command" },
-			{ title: "Menu", href: "/docs/components/ui/menu" },
-			{ title: "Menubar", href: "/docs/components/ui/menubar" },
-			{ title: "Nav Menu", href: "/docs/components/ui/nav-menu" },
-			{ title: "Org Menu", href: "/docs/components/ui/org-menu" },
-			{ title: "Pagination", href: "/docs/components/ui/pagination" },
-			{ title: "Stepper", href: "/docs/components/ui/stepper" },
-			{ title: "Tabs", href: "/docs/components/ui/tabs" },
-		],
-	},
-	{
-		id: "charts",
-		title: "Charts",
-		description: "Bar, line, area, pie and radar charts built on Recharts.",
-		icon: ChartLine,
-		items: [
-			{ title: "Area Chart", href: "/docs/components/charts/area-chart" },
-			{ title: "Bar Chart", href: "/docs/components/charts/bar-chart" },
-			{ title: "Line Chart", href: "/docs/components/charts/line-chart" },
-			{ title: "Pie Chart", href: "/docs/components/charts/pie-chart" },
-			{ title: "Radar Chart", href: "/docs/components/charts/radar-chart" },
-		],
-	},
-	{
-		id: "data-display",
-		title: "Data Display",
-		description: "Tables, avatars and content presentation.",
-		icon: Table2,
-		items: [
-			{ title: "Avatar", href: "/docs/components/ui/avatar" },
-			{ title: "Cells", href: "/docs/components/ui/cells" },
-			{ title: "Data Table", href: "/docs/components/ui/data-table" },
-			{ title: "Property", href: "/docs/components/ui/property" },
-			{ title: "Property Card", href: "/docs/components/ui/property-card" },
-			{ title: "Stats Strip", href: "/docs/components/ui/stats-strip" },
-			{ title: "Table", href: "/docs/components/ui/table" },
-			{ title: "Timeline", href: "/docs/components/ui/timeline" },
-			{ title: "Tree View", href: "/docs/components/ui/tree-view" },
-		],
-	},
-	{
-		id: "ai-chat",
-		title: "Chat",
-		description: "Conversation, messages and prompt input components.",
-		icon: MessageCircle,
-		items: [
-			{ title: "Conversation", href: "/docs/components/ai/chat/conversation" },
-			{ title: "Message", href: "/docs/components/ai/chat/message" },
-			{ title: "Prompt Input", href: "/docs/components/ai/chat/prompt-input" },
-			{ title: "Suggestion", href: "/docs/components/ai/chat/suggestion" },
-			{ title: "Attachments", href: "/docs/components/ai/chat/attachments" },
-			{ title: "Shimmer", href: "/docs/components/ai/chat/shimmer" },
-		],
-	},
-	{
-		id: "ai-reasoning",
-		title: "Reasoning",
-		description: "Chain of thought, sources and citation components.",
-		icon: Brain,
-		items: [
-			{ title: "Reasoning", href: "/docs/components/ai/reasoning" },
-			{ title: "Chain of Thought", href: "/docs/components/ai/chain-of-thought" },
-			{ title: "Sources", href: "/docs/components/ai/sources" },
-			{ title: "Inline Citation", href: "/docs/components/ai/inline-citation" },
-		],
-	},
-	{
-		id: "ai-tools",
-		title: "Tools",
-		description: "Confirmation, model selection and context components.",
-		icon: Wrench,
-		items: [
-			{ title: "Confirmation", href: "/docs/components/ai/confirmation" },
-			{ title: "Model Selector", href: "/docs/components/ai/model-selector" },
-			{ title: "Context", href: "/docs/components/ai/context" },
-		],
-	},
-	{
-		id: "ai-data",
-		title: "Data",
-		description: "KPIs, charts, tables and progress indicators.",
-		icon: ChartLine,
-		items: [
-			{ title: "Metric Card", href: "/docs/components/ai/data/metric-card" },
-			{ title: "Stats Row", href: "/docs/components/ai/data/stats-row" },
-			{ title: "Mini Chart", href: "/docs/components/ai/data/mini-chart" },
-			{ title: "Comparison Table", href: "/docs/components/ai/data/comparison-table" },
-			{ title: "Progress Card", href: "/docs/components/ai/data/progress-card" },
-			{ title: "Data List", href: "/docs/components/ai/data/data-list" },
-			{ title: "Data Grid", href: "/docs/components/ai/data/data-grid" },
-			{ title: "Rating Card", href: "/docs/components/ai/data/rating-card" },
-			{ title: "Score Card", href: "/docs/components/ai/data/score-card" },
-		],
-	},
-	{
-		id: "ai-entities",
-		title: "Entities",
-		description: "Profile cards and entity representations.",
-		icon: Users,
-		items: [
-			{ title: "Candidate Card", href: "/docs/components/ai/entities/candidate-card" },
-			{ title: "Contact Card", href: "/docs/components/ai/entities/contact-card" },
-			{ title: "Company Card", href: "/docs/components/ai/entities/company-card" },
-			{ title: "Deal Card", href: "/docs/components/ai/entities/deal-card" },
-			{ title: "User Card", href: "/docs/components/ai/entities/user-card" },
-		],
-	},
-	{
-		id: "ai-workflow",
-		title: "Workflow",
-		description: "Tasks, approvals, polls and communication previews.",
-		icon: ListChecks,
-		items: [
-			{ title: "Task Card", href: "/docs/components/ai/workflow/task-card" },
-			{ title: "Checklist Card", href: "/docs/components/ai/workflow/checklist-card" },
-			{ title: "Approval Card", href: "/docs/components/ai/workflow/approval-card" },
-			{ title: "Action List", href: "/docs/components/ai/workflow/action-list" },
-			{ title: "Poll Card", href: "/docs/components/ai/workflow/poll-card" },
-			{ title: "Email Preview", href: "/docs/components/ai/workflow/email-preview" },
-			{ title: "Message Preview", href: "/docs/components/ai/workflow/message-preview" },
-		],
-	},
-	{
-		id: "ai-planning",
-		title: "Planning",
-		description: "Timelines, events, calendars and availability.",
-		icon: Calendar,
-		items: [
-			{ title: "Timeline", href: "/docs/components/ai/planning/timeline" },
-			{ title: "Event Card", href: "/docs/components/ai/planning/event-card" },
-			{ title: "Status Update", href: "/docs/components/ai/planning/status-update" },
-			{ title: "Calendar Card", href: "/docs/components/ai/planning/calendar-card" },
-			{ title: "Availability Card", href: "/docs/components/ai/planning/availability-card" },
-		],
-	},
-	{
-		id: "ai-commerce",
-		title: "Commerce",
-		description: "Invoices, quotes, pricing, products and transactions.",
-		icon: CreditCard,
-		items: [
-			{ title: "Invoice Card", href: "/docs/components/ai/commerce/invoice-card" },
-			{ title: "Quote Summary", href: "/docs/components/ai/commerce/quote-summary" },
-			{ title: "Pricing Table", href: "/docs/components/ai/commerce/pricing-table" },
-			{ title: "Transaction Card", href: "/docs/components/ai/commerce/transaction-card" },
-			{ title: "Product Card", href: "/docs/components/ai/commerce/product-card" },
-		],
-	},
-	{
-		id: "ai-content",
-		title: "Content",
-		description: "Insights, summaries, files, media and links.",
-		icon: FileText,
-		items: [
-			{ title: "Insight Card", href: "/docs/components/ai/content/insight-card" },
-			{ title: "Summary Card", href: "/docs/components/ai/content/summary-card" },
-			{ title: "File Card", href: "/docs/components/ai/content/file-card" },
-			{ title: "Link Preview", href: "/docs/components/ai/content/link-preview" },
-			{ title: "Image Gallery", href: "/docs/components/ai/content/image-gallery" },
-			{ title: "Location Card", href: "/docs/components/ai/content/location-card" },
-			{ title: "Video Card", href: "/docs/components/ai/content/video-card" },
-		],
-	},
-]
+const categoryDescriptions: Record<string, string> = {
+	"comp-layout": "Primitives for spacing, alignment and page composition.",
+	"comp-actions": "Buttons, menus and interactive triggers.",
+	"comp-forms": "Form controls for collecting and editing data.",
+	"comp-feedback": "Alerts, badges and loading states.",
+	"comp-overlays": "Dialogs, popovers and floating surfaces.",
+	"comp-navigation": "Breadcrumbs, tabs and wayfinding patterns.",
+	"comp-charts": "Bar, line, area, pie and radar chart components.",
+	"comp-data-display": "Tables, avatars and content presentation.",
+	"comp-foundations": "Design tokens, color and typography fundamentals.",
+	"ai-chat": "Conversation, messages and prompt input components.",
+	"ai-reasoning": "Reasoning, chain-of-thought and source components.",
+	"ai-tools": "Confirmation, model selection and context components.",
+	"ai-data": "KPIs, charts, tables and progress indicators.",
+	"ai-entities": "Profile cards and entity representations.",
+	"ai-workflow": "Tasks, approvals, polls and communication previews.",
+	"ai-planning": "Timelines, events, calendars and availability.",
+	"ai-commerce": "Invoices, pricing and transaction components.",
+	"ai-content": "Media previews and content summary components.",
+}
+
+function normalizeId(value: string) {
+	return value
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-|-$/g, "")
+}
+
+function mapCategoryItem(item: NavigationItem): ComponentNavItem | null {
+	if (!item.url) return null
+	return { title: item.title, href: item.url }
+}
+
+function mapCategory(item: NavigationItem): ComponentNavCategory | null {
+	if (!item.items?.length) return null
+
+	const id = item.id ?? normalizeId(item.title)
+	const mappedItems = item.items
+		.map(mapCategoryItem)
+		.filter((entry): entry is ComponentNavItem => Boolean(entry))
+
+	if (mappedItems.length === 0) return null
+
+	return {
+		id,
+		title: item.title,
+		description: categoryDescriptions[id] ?? item.description ?? "Component category.",
+		icon: item.icon ?? Circle,
+		items: mappedItems,
+	}
+}
+
+export const componentsNavigation: ComponentNavCategory[] = sidebarConfig.navigation
+	.filter((section) => section.id === "components" || section.id === "ai")
+	.flatMap((section) => section.items)
+	.map(mapCategory)
+	.filter((category): category is ComponentNavCategory => Boolean(category))
