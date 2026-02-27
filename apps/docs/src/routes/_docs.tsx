@@ -1,13 +1,10 @@
-"use client"
-
-import { useEffect } from "react"
-import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router"
+import { useState, useEffect } from "react"
+import { createFileRoute, Outlet, useLocation, Link } from "@tanstack/react-router"
+import { Search } from "lucide-react"
 import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
-import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
-import { FrameProvider, useFrame } from "@blazz/ui/components/patterns/frame-context"
-import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
-import { sidebarConfig, navigationConfig } from "~/config/navigation"
-import { useFrameLayout } from "@blazz/ui/lib/use-frame-layout"
+import { ComponentsSidebar } from "~/components/docs/components-sidebar"
+import { ThemeToggle } from "~/components/theme-toggle"
+import { navigationConfig } from "~/config/navigation"
 import { Toaster } from "sonner"
 
 export const Route = createFileRoute("/_docs")({
@@ -15,10 +12,6 @@ export const Route = createFileRoute("/_docs")({
 })
 
 const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
-
-const sections = [
-  { id: "examples", label: "Examples", href: examplesUrl || "/examples" },
-]
 
 function useSyncDocTitle() {
   const { pathname } = useLocation()
@@ -33,36 +26,66 @@ function useSyncDocTitle() {
   }, [pathname])
 }
 
-function DocsLayoutInner() {
-  const { commandPaletteOpen, setCommandPaletteOpen } = useFrame()
-  useFrameLayout()
+function DocsLayout() {
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   useSyncDocTitle()
 
   return (
-    <SidebarProvider>
-      <AppFrame
-        sidebarConfig={sidebarConfig}
-        sections={sections}
-        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-        activeSection=""
-        minimalTopBar
-      >
-        <Outlet />
-      </AppFrame>
+    <div className="min-h-screen bg-background">
+      {/* Topbar */}
+      <header className="fixed top-0 z-50 h-14 w-full border-b bg-surface">
+        <div className="flex h-full items-center justify-between px-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 font-semibold text-fg">
+            <span className="text-sm font-bold tracking-tight">Blazz UI</span>
+          </Link>
+
+          {/* Actions droite */}
+          <div className="flex items-center gap-1">
+            {/* Search */}
+            <button
+              type="button"
+              onClick={() => setCommandPaletteOpen(true)}
+              className="inline-flex items-center gap-2 rounded-md border bg-raised px-3 py-1.5 text-sm text-fg-muted hover:text-fg transition-colors"
+            >
+              <Search className="size-3.5" />
+              <span className="hidden sm:inline">Search</span>
+              <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded border bg-surface px-1.5 py-0.5 text-xs font-mono text-fg-muted">
+                ⌘K
+              </kbd>
+            </button>
+
+            {/* Theme toggle */}
+            <ThemeToggle />
+
+            {/* Examples link */}
+            <a
+              href={examplesUrl || "/examples"}
+              className="inline-flex items-center rounded-md px-3 py-1.5 text-sm text-fg-muted hover:text-fg hover:bg-raised transition-colors"
+            >
+              Examples
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Body */}
+      <div className="flex pt-14 h-screen">
+        {/* Sidebar */}
+        <ComponentsSidebar />
+
+        {/* Main */}
+        <main className="flex-1 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+
       <CommandPalette
         navigation={navigationConfig}
         open={commandPaletteOpen}
         onOpenChange={setCommandPaletteOpen}
       />
       <Toaster />
-    </SidebarProvider>
-  )
-}
-
-function DocsLayout() {
-  return (
-    <FrameProvider>
-      <DocsLayoutInner />
-    </FrameProvider>
+    </div>
   )
 }
