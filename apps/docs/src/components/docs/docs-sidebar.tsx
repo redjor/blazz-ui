@@ -57,7 +57,7 @@ export function DocsSidebar() {
 	return (
 		<Sidebar
 			collapsible="none"
-			className="mt-14 h-[calc(100vh-3.5rem)] border-r"
+			className="border-r"
 		>
 			<SidebarContent>
 				{sidebarConfig.navigation.map((section) => (

@@ -32,9 +32,9 @@ function DocsLayout() {
   useSyncDocTitle()
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Topbar */}
-      <header className="fixed top-0 z-50 h-14 w-full border-b bg-surface">
+    <div className="flex h-screen flex-col overflow-hidden bg-background">
+      {/* Topbar — h-14 fixes the reference for the sidebar height */}
+      <header className="h-14 shrink-0 border-b bg-surface z-50">
         <div className="flex h-full items-center justify-between px-4">
           {/* Logo */}
           <Link to="/" className="flex items-center">
@@ -44,7 +44,6 @@ function DocsLayout() {
 
           {/* Actions droite */}
           <div className="flex items-center gap-1">
-            {/* Search */}
             <button
               type="button"
               onClick={() => setCommandPaletteOpen(true)}
@@ -56,11 +55,7 @@ function DocsLayout() {
                 ⌘K
               </kbd>
             </button>
-
-            {/* Theme toggle */}
             <ThemeToggle />
-
-            {/* Examples link */}
             <a
               href={examplesUrl || "/examples"}
               className="inline-flex items-center rounded-md px-3 py-1.5 text-sm text-fg-muted hover:text-fg hover:bg-raised transition-colors"
@@ -71,10 +66,10 @@ function DocsLayout() {
         </div>
       </header>
 
-      {/* Body: SidebarProvider fournit le contexte pour DocsSidebar */}
-      <SidebarProvider>
+      {/* Body: SidebarProvider override minHeight pour ne pas déborder du flex-col */}
+      <SidebarProvider style={{ minHeight: 0 }} className="flex-1">
         <DocsSidebar />
-        <main className="flex-1 mt-14 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto min-w-0">
           <Outlet />
         </main>
       </SidebarProvider>
