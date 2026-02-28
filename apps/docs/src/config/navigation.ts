@@ -1079,6 +1079,18 @@ export const sidebarConfig: SidebarConfig = {
 				},
 			],
 		},
+		{
+			id: "outils",
+			title: "Outils",
+			items: [
+				{
+					id: "sandbox",
+					title: "Sandbox",
+					url: "/docs/sandbox",
+					icon: Wrench,
+				},
+			],
+		},
 	],
 }
 
