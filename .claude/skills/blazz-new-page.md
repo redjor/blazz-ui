@@ -1,25 +1,24 @@
 ---
 name: blazz-new-page
-description: Créer une nouvelle page Next.js avec composants Blazz UI
+description: Créer une nouvelle page avec composants Blazz UI (Turborepo monorepo — apps/docs ou apps/examples)
 user-invocable: true
-agent: blazz-ui-assistant
 ---
 
 # Blazz New Page Skill
 
-Crée une nouvelle page Next.js dans le projet Blazz UI App en utilisant les composants et layouts appropriés.
-
 ## Ce que fait ce skill
 
-1. Crée un fichier `page.tsx` dans `app/(frame)/[path]/`
-2. Utilise `DashboardLayout` ou autre layout approprié
-3. Ajoute le composant `Page` avec `PageHeader`
-4. Inclut les composants UI pertinents selon le besoin
-5. Met à jour `config/navigation.ts` si nécessaire
+1. Explore l'app cible pour comprendre sa structure réelle avant de générer quoi que ce soit
+2. Crée un fichier de page dans le bon dossier selon l'app cible (apps/docs ou apps/examples)
+3. Utilise le layout approprié découvert à l'étape d'exploration
+4. Ajoute le contenu UI avec les composants Blazz UI et les design tokens oklch
+5. Met à jour la navigation si demandé
+6. Vérifie automatiquement la conformité aux conventions du projet
 
 ## Input Attendu
 
 Le user doit spécifier:
+- **App cible** (apps/docs ou apps/examples — demander si non précisé)
 - **Path de la page** (ex: `/analytics`, `/products/categories`)
 - **Titre de la page**
 - **Description** (optionnel)
@@ -29,109 +28,158 @@ Le user doit spécifier:
 
 ## Étapes d'Exécution
 
-### Étape 1: Analyser la Demande
+### Phase 0 — Explore (OBLIGATOIRE, bloquante)
 
-Identifier:
+Cette phase doit être complétée avant toute génération de code. Ne pas sauter cette étape.
+
+1. **Lire `ai/rules.md`** — conventions du projet, règles de code, patterns à suivre
+
+2. **Identifier l'app cible** — si le user n'a pas précisé, demander:
+   - `apps/docs/` — app de documentation (TanStack Start / TanStack Router)
+   - `apps/examples/` — app de démos CRM/StockBase/TalentFlow (Next.js)
+
+3. **Explorer la structure de l'app cible** — lire le dossier de routes pour comprendre les conventions:
+   - Pour apps/docs: `apps/docs/src/routes/`
+   - Pour apps/examples: `apps/examples/app/`
+
+4. **Trouver et lire une page existante similaire** dans l'app cible pour comprendre:
+   - Le système de layout utilisé (layout parent, wrapper local, aucun wrapper ?)
+   - Les imports réels qui fonctionnent dans cette app
+   - La convention de nommage des fichiers (page.tsx, _layout.tsx, route.tsx, etc.)
+
+5. **Lire `apps/docs/src/styles/globals.css`** — identifier les design tokens disponibles (bg-surface, text-fg, border-container, etc.)
+
+6. **Lire les composants de layout réels de l'app cible** — ne jamais importer un chemin sans avoir vérifié son existence. Explorer par exemple:
+   - `apps/examples/components/layout/` ou `apps/examples/components/`
+   - `apps/docs/src/components/` pour les composants docs-spécifiques
+
+### Phase 1 — Identifier le type de page
+
+À partir de la demande du user, identifier:
 - Le path exact de la page
-- Le type de contenu (dashboard, liste, formulaire, détail, etc.)
-- Les composants nécessaires
-- Le layout approprié
+- Le type de contenu (dashboard, liste, formulaire, détail)
+- Les composants UI nécessaires (DataTable, Card, Form, etc.)
+- Le layout approprié (découvert en Phase 0, pas supposé)
 
-### Étape 2: Créer le Fichier Page
+### Phase 2 — Créer le fichier
+
+**IMPORTANT** : Avant d'écrire les imports, vérifier que les chemins existent réellement dans l'app cible (découvert en Phase 0). Ne jamais importer en aveugle.
 
 ```tsx
-// app/(frame)/[path]/page.tsx
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
-import { Page, PageHeader } from '@/components/layout/page'
-import { Button } from '@/components/ui/button'
-// Autres imports selon besoin
+// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
+// le bon composant de layout. Le chemin varie selon l'app :
+//
+// Pour apps/examples/ : vérifier l'existence de quelque chose comme
+//   import { DashboardLayout } from "@/components/layout/dashboard-layout"
+//
+// Pour apps/docs/ : le layout est souvent géré par le fichier de route parent
+//   (_layout.tsx ou _docs.tsx) — dans ce cas pas de wrapper local nécessaire
+//
+// Toujours confirmer le bon chemin en lisant une page existante similaire.
+
+// Primitives UI — imports depuis @blazz/ui
+import { Button } from "@blazz/ui/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+// Composants app-spécifiques — imports depuis @/ (chemin vérifié en Phase 0)
+// import { ... } from "@/components/..."
 
 export default function [Name]Page() {
   return (
-    <DashboardLayout>
-      <Page>
-        <PageHeader
-          title="[Title]"
-          description="[Description]"
-          actions={
-            // Boutons d'actions si spécifiés
-          }
-        />
-
-        {/* Contenu principal */}
-      </Page>
-    </DashboardLayout>
+    // Layout découvert en Phase 0
+    <div className="flex flex-col gap-6 p-6">
+      {/* Contenu principal */}
+    </div>
   )
 }
 ```
 
-### Étape 3: Ajouter le Contenu
+Convention selon l'app cible:
+- **apps/examples/** (Next.js): fichier `page.tsx` dans `app/(groupe)/[path]/`
+- **apps/docs/** (TanStack Router): fichier `route.tsx` ou `index.tsx` dans `src/routes/`
+
+### Phase 3 — Ajouter le contenu
 
 Selon le type de page, ajouter:
-- **Dashboard**: Cards avec métriques, graphiques, listes
-- **Liste**: DataTable ou Cards avec items
-- **Formulaire**: Form avec react-hook-form + Zod
-- **Détail**: Cards avec informations détaillées
+- **Dashboard**: Cards avec métriques, graphiques (Recharts), activité récente
+- **Liste**: DataTable depuis `@blazz/ui/components/blocks/data-table` ou Cards avec items
+- **Formulaire**: Form avec react-hook-form + Zod, toujours (`use client` justifié ici)
+- **Détail**: Cards avec informations détaillées, badges de statut, actions
 
-### Étape 4: Mettre à Jour Navigation (si demandé)
+Toujours implémenter les 4 états si la page fetch des données:
+- **Skeleton** (loading)
+- **Empty** (pas de données)
+- **Error** (erreur réseau/serveur)
+- **Success** (données chargées)
 
-Éditer `config/navigation.ts`:
+### Phase 4 — Mettre à jour la navigation (si demandé)
+
+Le fichier de navigation diffère selon l'app cible (découvert en Phase 0):
+- **apps/docs/**: la config de navigation est dans `apps/docs/src/` — explorer pour trouver le bon fichier
+- **apps/examples/**: la config peut être dans `apps/examples/config/` ou `apps/examples/lib/` — explorer avant d'éditer
+
+Structure générale d'une entrée de navigation:
 
 ```tsx
-export const sidebarConfig: SidebarConfig = {
-  navigation: [
-    {
-      id: 'section-id',
-      title: 'Section Title',
-      items: [
-        // Ajouter nouvelle entrée
-        {
-          id: 'page-id',
-          title: 'Page Title',
-          url: '/path',
-          icon: IconName,
-        },
-      ],
-    },
-  ],
+{
+  id: 'page-id',
+  title: 'Page Title',
+  url: '/path',
+  icon: IconName,
 }
 ```
 
-### Étape 5: Vérifier
+### Phase finale — Auto-verify
 
-- Le fichier compile sans erreurs TypeScript
-- Tous les imports sont corrects (path aliases @/)
-- Les composants utilisés existent
-- Le styling est cohérent
-- L'accessibilité est respectée
+Avant de reporter comme terminé, vérifier chaque point:
+
+```
+✅/❌ App cible identifiée (apps/docs ou apps/examples)
+✅/❌ Layout exploré avant import (pas d'import aveugle d'un chemin inexistant)
+✅/❌ Server Component par défaut ('use client' justifié si présent)
+✅/❌ Imports depuis @blazz/ui/components/... pour les primitives UI
+✅/❌ Imports locaux depuis @/ pour les composants app-spécifiques
+✅/❌ Aucune couleur Tailwind hardcodée (bg-white, bg-blue-500...)
+✅/❌ Design tokens oklch utilisés (bg-surface, text-fg, border-container...)
+✅/❌ 4 états si fetch de données : Skeleton / Empty / Error / Success
+```
 
 ## Templates par Type
+
+Ces templates montrent la structure attendue. **Les imports de layout sont indicatifs** — toujours vérifier les chemins réels dans l'app cible avant de les utiliser (Phase 0).
 
 ### Dashboard Page
 
 ```tsx
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
-import { Page, PageHeader } from '@/components/layout/page'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
+// le bon composant de layout. Exemple pour apps/examples/ :
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
+// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 
 export default function DashboardPage() {
   return (
+    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
     <DashboardLayout>
-      <Page>
-        <PageHeader title="Dashboard" description="Vue d'ensemble" />
+      <div className="flex flex-col gap-6 p-6">
+        <div>
+          <h1 className="text-2xl font-bold text-fg">Dashboard</h1>
+          <p className="text-fg-muted">Vue d'ensemble</p>
+        </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+          <Card className="bg-raised border-container">
             <CardHeader>
-              <CardTitle>Metric 1</CardTitle>
+              <CardTitle className="text-fg">Metric 1</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">1,234</p>
+              <p className="text-2xl font-bold text-fg">1,234</p>
+              <p className="text-sm text-fg-muted">+12% ce mois</p>
             </CardContent>
           </Card>
           {/* Plus de cards... */}
         </div>
-      </Page>
+      </div>
     </DashboardLayout>
   )
 }
@@ -140,28 +188,32 @@ export default function DashboardPage() {
 ### List Page
 
 ```tsx
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
-import { Page, PageHeader } from '@/components/layout/page'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
+// le bon composant de layout. Exemple pour apps/examples/ :
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
+// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+
+import { Button } from "@blazz/ui/components/ui/button"
+import { Plus } from "lucide-react"
 
 export default function ListPage() {
   return (
+    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
     <DashboardLayout>
-      <Page>
-        <PageHeader
-          title="Liste"
-          description="Gérez vos items"
-          actions={
-            <Button>
-              <Plus className="mr-2" />
-              Nouveau
-            </Button>
-          }
-        />
+      <div className="flex flex-col gap-6 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-fg">Liste</h1>
+            <p className="text-fg-muted">Gérez vos items</p>
+          </div>
+          <Button className="bg-brand text-white">
+            <Plus className="mr-2 h-4 w-4" />
+            Nouveau
+          </Button>
+        </div>
 
-        {/* DataTable ou Grid de cards */}
-      </Page>
+        {/* DataTable depuis @blazz/ui/components/blocks/data-table ou Cards */}
+      </div>
     </DashboardLayout>
   )
 }
@@ -171,25 +223,43 @@ export default function ListPage() {
 
 ```tsx
 'use client'
+// 'use client' justifié : formulaire interactif avec react-hook-form
 
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
-import { Page, PageHeader } from '@/components/layout/page'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-// Import form components
+// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
+// le bon composant de layout. Exemple pour apps/examples/ :
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
+// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+
+import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { Button } from "@blazz/ui/components/ui/button"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+
+const formSchema = z.object({
+  // Définir le schema Zod
+})
 
 export default function FormPage() {
-  return (
-    <DashboardLayout>
-      <Page>
-        <PageHeader title="Formulaire" description="Créer ou éditer" />
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  })
 
-        <Card>
+  return (
+    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
+    <DashboardLayout>
+      <div className="flex flex-col gap-6 p-6">
+        <div>
+          <h1 className="text-2xl font-bold text-fg">Formulaire</h1>
+          <p className="text-fg-muted">Créer ou éditer</p>
+        </div>
+
+        <Card className="bg-raised border-container">
           <CardContent className="pt-6">
             {/* Form avec react-hook-form */}
           </CardContent>
         </Card>
-      </Page>
+      </div>
     </DashboardLayout>
   )
 }
@@ -198,128 +268,128 @@ export default function FormPage() {
 ### Detail Page
 
 ```tsx
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
-import { Page, PageHeader } from '@/components/layout/page'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Edit, Trash2 } from 'lucide-react'
+// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
+// le bon composant de layout. Exemple pour apps/examples/ :
+import { DashboardLayout } from "@/components/layout/dashboard-layout"
+// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+
+import { Button } from "@blazz/ui/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Edit, Trash2 } from "lucide-react"
 
 export default function DetailPage() {
   return (
+    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
     <DashboardLayout>
-      <Page>
-        <PageHeader
-          title="Détail Item"
-          actions={
-            <div className="flex gap-2">
-              <Button variant="outline">
-                <Edit className="mr-2" />
-                Éditer
-              </Button>
-              <Button variant="destructive">
-                <Trash2 className="mr-2" />
-                Supprimer
-              </Button>
-            </div>
-          }
-        />
+      <div className="flex flex-col gap-6 p-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-fg">Détail Item</h1>
+          <div className="flex gap-2">
+            <Button variant="outline" className="border-container">
+              <Edit className="mr-2 h-4 w-4" />
+              Éditer
+            </Button>
+            <Button variant="destructive">
+              <Trash2 className="mr-2 h-4 w-4" />
+              Supprimer
+            </Button>
+          </div>
+        </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Card>
+          <Card className="bg-raised border-container">
             <CardHeader>
-              <CardTitle>Informations</CardTitle>
+              <CardTitle className="text-fg">Informations</CardTitle>
             </CardHeader>
             <CardContent>
               {/* Détails */}
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-raised border-container">
             <CardHeader>
-              <CardTitle>Statut</CardTitle>
+              <CardTitle className="text-fg">Statut</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* Status badges, etc. */}
+              {/* Status badges */}
+              <Badge>Actif</Badge>
             </CardContent>
           </Card>
         </div>
-      </Page>
+      </div>
     </DashboardLayout>
   )
 }
 ```
 
-## Exemple d'Utilisation
-
-### User Input:
-
-```
-/blazz-new-page
-
-Créer une page "/analytics" avec:
-- Titre: "Tableaux de Bord"
-- Description: "Analysez vos données"
-- 3 cards de métriques: Revenus (€45,230, +12%), Utilisateurs (1,234, +5%), Commandes (856, -3%)
-- Un graphique placeholder
-- Une table des dernières transactions (5 lignes)
-- Ajouter à la navigation dans section "Analytics & Reports"
-```
-
-### Output:
-
-1. Créé: `app/(frame)/analytics/page.tsx`
-2. Mis à jour: `config/navigation.ts`
-3. Résultat: Page complète fonctionnelle avec tous les éléments
-
 ## Best Practices
 
-1. **Toujours utiliser DashboardLayout** pour pages dans (frame)
-2. **Composant Page obligatoire** avec PageHeader
-3. **Path aliases** pour tous les imports (@/)
-4. **'use client'** seulement si interactivité (hooks, events)
-5. **TypeScript strict** - tout typer
-6. **Accessibilité** - aria-label, roles, etc.
-7. **Responsive** - utiliser grid et classes responsive
-8. **Dark mode** - utiliser CSS variables
+1. **Explorer avant d'importer** — ne jamais supposer un chemin de layout, toujours vérifier qu'il existe dans l'app cible
+2. **Monorepo awareness** — apps/docs (TanStack Router) et apps/examples (Next.js) ont des conventions différentes
+3. **Primitives UI depuis @blazz/ui** — `@blazz/ui/components/ui/button`, `@blazz/ui/components/blocks/data-table`, etc.
+4. **Composants app-spécifiques depuis @/** — layout wrappers, composants locaux
+5. **Server Components par défaut** — `'use client'` seulement si hooks React ou event handlers
+6. **Formulaires = react-hook-form + Zod** — toujours, sans exception
+7. **Design tokens oklch** — utiliser `bg-surface`, `bg-raised`, `text-fg`, `text-fg-muted`, `border-container`, `bg-brand`
+8. **Jamais de couleurs hardcodées** — pas de `bg-white`, `text-black`, `bg-blue-500`
+9. **TypeScript strict** — tout typer explicitement
+10. **Responsive** — utiliser grid et classes responsive Tailwind
+11. **Accessibilité** — aria-label, roles, navigation au clavier
 
 ## Common Errors à Éviter
+
+❌ **Erreur**: Importer un chemin de layout sans vérifier son existence
+```tsx
+import { DashboardLayout } from '@/components/layout/dashboard-layout'
+// Ce chemin peut ne pas exister dans l'app cible !
+```
+
+✅ **Correct**: Explorer l'app cible en Phase 0 pour trouver le vrai chemin
+```tsx
+// Après avoir lu une page existante dans apps/examples/ et confirmé le chemin :
+import { DashboardLayout } from '@/components/layout/dashboard-layout'
+```
+
+---
 
 ❌ **Erreur**: Imports relatifs
 ```tsx
 import { Button } from '../../../components/ui/button'
 ```
 
-✅ **Correct**: Path aliases
+✅ **Correct**: Path aliases et imports @blazz/ui
 ```tsx
-import { Button } from '@/components/ui/button'
+import { Button } from '@blazz/ui/components/ui/button'
 ```
+
+---
 
 ❌ **Erreur**: Couleurs hardcodées
 ```tsx
-<div className="bg-white text-black">
+<div className="bg-white text-black border border-gray-200">
 ```
 
-✅ **Correct**: CSS variables
+✅ **Correct**: Design tokens oklch
 ```tsx
-<div className="bg-background text-foreground">
+<div className="bg-surface text-fg border border-container">
 ```
 
-❌ **Erreur**: Pas de layout
+---
+
+❌ **Erreur**: `'use client'` sans justification
 ```tsx
-export default function Page() {
-  return <div>Content</div>
+'use client'
+export default function StaticPage() {
+  return <div>Contenu statique</div>
 }
 ```
 
-✅ **Correct**: Avec layout
+✅ **Correct**: Server Component par défaut
 ```tsx
-export default function Page() {
-  return (
-    <DashboardLayout>
-      <Page>Content</Page>
-    </DashboardLayout>
-  )
+// Pas de 'use client' — Server Component par défaut
+export default function StaticPage() {
+  return <div className="text-fg">Contenu statique</div>
 }
 ```
 
@@ -327,20 +397,22 @@ export default function Page() {
 
 Avant de considérer la page complète:
 
-- [ ] Fichier créé dans bon dossier (`app/(frame)/[path]/page.tsx`)
-- [ ] Layout utilisé (DashboardLayout ou autre)
-- [ ] Composant Page avec PageHeader
-- [ ] Tous imports avec path aliases (@/)
+- [ ] App cible identifiée (apps/docs ou apps/examples)
+- [ ] `ai/rules.md` lu en Phase 0
+- [ ] Page existante similaire lue pour comprendre les conventions réelles
+- [ ] Layout exploré et chemin vérifié avant import (pas d'import aveugle)
+- [ ] Fichier créé dans le bon dossier selon l'app cible
+- [ ] Tous les imports de primitives UI depuis `@blazz/ui/components/...`
+- [ ] Tous les imports app-spécifiques avec path alias `@/`
 - [ ] TypeScript compile sans erreurs
-- [ ] Composants utilisés existent dans le projet
-- [ ] Styling cohérent (CSS variables)
+- [ ] Design tokens oklch utilisés (bg-surface, text-fg, etc.) — aucune couleur hardcodée
+- [ ] `'use client'` seulement si justifié (hooks, event handlers)
+- [ ] 4 états implémentés si fetch de données (Skeleton, Empty, Error, Success)
 - [ ] Responsive design
 - [ ] Accessibilité (ARIA si nécessaire)
-- [ ] Navigation mise à jour (si demandé)
-- [ ] Code testé mentalement (pas d'erreurs évidentes)
+- [ ] Navigation mise à jour (si demandé) dans le bon fichier config de l'app cible
 
 ---
 
-**Agent**: blazz-ui-assistant
-**Version**: 1.0
-**Last Updated**: 2026-01-19
+**Version**: 2.0
+**Last Updated**: 2026-02-28
