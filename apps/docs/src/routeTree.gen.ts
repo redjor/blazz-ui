@@ -13,6 +13,7 @@ import { Route as ThumbnailRouteImport } from './routes/thumbnail'
 import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
+import { Route as DocsDocsSandboxRouteImport } from './routes/_docs/docs/sandbox'
 import { Route as DocsDocsComponentsIndexRouteImport } from './routes/_docs/docs/components/index'
 import { Route as DocsDocsComponentsTypographyRouteImport } from './routes/_docs/docs/components/typography'
 import { Route as DocsDocsComponentsOverlaysRouteImport } from './routes/_docs/docs/components/overlays'
@@ -202,6 +203,11 @@ const ThumbnailSlugRoute = ThumbnailSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => ThumbnailRoute,
+} as any)
+const DocsDocsSandboxRoute = DocsDocsSandboxRouteImport.update({
+  id: '/docs/sandbox',
+  path: '/docs/sandbox',
+  getParentRoute: () => DocsRoute,
 } as any)
 const DocsDocsComponentsIndexRoute = DocsDocsComponentsIndexRouteImport.update({
   id: '/docs/components/',
@@ -1226,6 +1232,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
+  '/docs/sandbox': typeof DocsDocsSandboxRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1401,6 +1408,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
+  '/docs/sandbox': typeof DocsDocsSandboxRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1578,6 +1586,7 @@ export interface FileRoutesById {
   '/_docs': typeof DocsRouteWithChildren
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
+  '/_docs/docs/sandbox': typeof DocsDocsSandboxRoute
   '/_docs/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/_docs/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/_docs/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1755,6 +1764,7 @@ export interface FileRouteTypes {
     | '/'
     | '/thumbnail'
     | '/thumbnail/$slug'
+    | '/docs/sandbox'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -1930,6 +1940,7 @@ export interface FileRouteTypes {
     | '/'
     | '/thumbnail'
     | '/thumbnail/$slug'
+    | '/docs/sandbox'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -2106,6 +2117,7 @@ export interface FileRouteTypes {
     | '/_docs'
     | '/thumbnail'
     | '/thumbnail/$slug'
+    | '/_docs/docs/sandbox'
     | '/_docs/docs/components/actions'
     | '/_docs/docs/components/colors'
     | '/_docs/docs/components/data-display'
@@ -2313,6 +2325,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/thumbnail/$slug'
       preLoaderRoute: typeof ThumbnailSlugRouteImport
       parentRoute: typeof ThumbnailRoute
+    }
+    '/_docs/docs/sandbox': {
+      id: '/_docs/docs/sandbox'
+      path: '/docs/sandbox'
+      fullPath: '/docs/sandbox'
+      preLoaderRoute: typeof DocsDocsSandboxRouteImport
+      parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/': {
       id: '/_docs/docs/components/'
@@ -3508,6 +3527,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface DocsRouteChildren {
+  DocsDocsSandboxRoute: typeof DocsDocsSandboxRoute
   DocsDocsComponentsActionsRoute: typeof DocsDocsComponentsActionsRoute
   DocsDocsComponentsColorsRoute: typeof DocsDocsComponentsColorsRoute
   DocsDocsComponentsDataDisplayRoute: typeof DocsDocsComponentsDataDisplayRoute
@@ -3681,6 +3701,7 @@ interface DocsRouteChildren {
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
+  DocsDocsSandboxRoute: DocsDocsSandboxRoute,
   DocsDocsComponentsActionsRoute: DocsDocsComponentsActionsRoute,
   DocsDocsComponentsColorsRoute: DocsDocsComponentsColorsRoute,
   DocsDocsComponentsDataDisplayRoute: DocsDocsComponentsDataDisplayRoute,
