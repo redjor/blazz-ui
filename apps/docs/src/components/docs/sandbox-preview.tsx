@@ -6,10 +6,10 @@ export function SandboxPreview() {
       <p className="text-sm text-fg-muted">Composant cobaye — Claude réécrit ce fichier pour les tests</p>
       <div className="flex flex-wrap gap-2">
         <Badge>Default</Badge>
-        <Badge variant="positive">Positive</Badge>
-        <Badge variant="negative">Negative</Badge>
-        <Badge variant="caution">Caution</Badge>
-        <Badge variant="inform">Inform</Badge>
+        <Badge variant="success">Success</Badge>
+        <Badge variant="critical">Critical</Badge>
+        <Badge variant="warning">Warning</Badge>
+        <Badge variant="info">Info</Badge>
       </div>
     </div>
   )
