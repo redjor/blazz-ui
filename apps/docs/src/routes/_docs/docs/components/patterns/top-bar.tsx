@@ -66,7 +66,7 @@ const topBarProps: DocProp[] = [
   {
     name: "breadcrumbs",
     type: "{ label: string; href?: string }[]",
-    description: "Fil d'Ariane contextuel. Le dernier item est rendu sans lien.",
+    description: "Fil d'Ariane contextuel. Le dernier item est rendu sans lien. Si omis, utilise les breadcrumbs injectés via FrameContext (fournis par AppFrame).",
   },
   {
     name: "title",
