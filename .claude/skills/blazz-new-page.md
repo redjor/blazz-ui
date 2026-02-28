@@ -150,17 +150,18 @@ Ces templates montrent la structure attendue. **Les imports de layout sont indic
 ### Dashboard Page
 
 ```tsx
-// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
+// IMPORTANT: Avant d'importer le layout, explorer l'app cible (Phase 0) pour trouver
 // le bon composant de layout. Exemple pour apps/examples/ :
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
+// import { DashboardLayout } from "@/components/layout/dashboard-layout"
 // Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+// → Remplacer MyLayout ci-dessous par le layout réel découvert.
 
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 
 export default function DashboardPage() {
   return (
-    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
-    <DashboardLayout>
+    // Remplacer MyLayout par le layout réel découvert en Phase 0
+    <MyLayout>
       <div className="flex flex-col gap-6 p-6">
         <div>
           <h1 className="text-2xl font-bold text-fg">Dashboard</h1>
@@ -180,7 +181,7 @@ export default function DashboardPage() {
           {/* Plus de cards... */}
         </div>
       </div>
-    </DashboardLayout>
+    </MyLayout>
   )
 }
 ```
@@ -188,25 +189,22 @@ export default function DashboardPage() {
 ### List Page
 
 ```tsx
-// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
-// le bon composant de layout. Exemple pour apps/examples/ :
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
-// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+// IMPORTANT: Explorer l'app cible (Phase 0) pour trouver le bon layout.
+// Remplacer <MyLayout> par le layout réel découvert.
 
 import { Button } from "@blazz/ui/components/ui/button"
 import { Plus } from "lucide-react"
 
 export default function ListPage() {
   return (
-    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
-    <DashboardLayout>
+    <MyLayout>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-fg">Liste</h1>
             <p className="text-fg-muted">Gérez vos items</p>
           </div>
-          <Button className="bg-brand text-white">
+          <Button variant="default">
             <Plus className="mr-2 h-4 w-4" />
             Nouveau
           </Button>
@@ -214,7 +212,7 @@ export default function ListPage() {
 
         {/* DataTable depuis @blazz/ui/components/blocks/data-table ou Cards */}
       </div>
-    </DashboardLayout>
+    </MyLayout>
   )
 }
 ```
@@ -225,10 +223,8 @@ export default function ListPage() {
 'use client'
 // 'use client' justifié : formulaire interactif avec react-hook-form
 
-// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
-// le bon composant de layout. Exemple pour apps/examples/ :
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
-// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+// IMPORTANT: Explorer l'app cible (Phase 0) pour trouver le bon layout.
+// Remplacer <MyLayout> par le layout réel découvert.
 
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -246,8 +242,7 @@ export default function FormPage() {
   })
 
   return (
-    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
-    <DashboardLayout>
+    <MyLayout>
       <div className="flex flex-col gap-6 p-6">
         <div>
           <h1 className="text-2xl font-bold text-fg">Formulaire</h1>
@@ -260,7 +255,7 @@ export default function FormPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
+    </MyLayout>
   )
 }
 ```
@@ -268,10 +263,8 @@ export default function FormPage() {
 ### Detail Page
 
 ```tsx
-// IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
-// le bon composant de layout. Exemple pour apps/examples/ :
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
-// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+// IMPORTANT: Explorer l'app cible (Phase 0) pour trouver le bon layout.
+// Remplacer <MyLayout> par le layout réel découvert.
 
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
@@ -280,8 +273,7 @@ import { Edit, Trash2 } from "lucide-react"
 
 export default function DetailPage() {
   return (
-    // Remplacer DashboardLayout par le layout réel découvert en Phase 0
-    <DashboardLayout>
+    <MyLayout>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-fg">Détail Item</h1>
@@ -318,7 +310,7 @@ export default function DetailPage() {
           </Card>
         </div>
       </div>
-    </DashboardLayout>
+    </MyLayout>
   )
 }
 ```
@@ -345,10 +337,11 @@ import { DashboardLayout } from '@/components/layout/dashboard-layout'
 // Ce chemin peut ne pas exister dans l'app cible !
 ```
 
-✅ **Correct**: Explorer l'app cible en Phase 0 pour trouver le vrai chemin
+✅ **Correct**: Explorer l'app cible en Phase 0, lire une page existante, puis importer le chemin confirmé
 ```tsx
-// Après avoir lu une page existante dans apps/examples/ et confirmé le chemin :
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
+// Exemple après avoir lu apps/examples/app/(crm)/contacts/page.tsx
+// et confirmé que ce chemin existe :
+import { AppLayout } from '@/components/layout/app-layout'
 ```
 
 ---
