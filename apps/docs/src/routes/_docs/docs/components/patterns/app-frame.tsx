@@ -92,11 +92,6 @@ const appFrameProps: DocProp[] = [
     description: "Slot rendu en haut de la sidebar, avant la navigation. Typiquement un OrgSwitcher.",
   },
   {
-    name: "sidebarFooter",
-    type: "React.ReactNode",
-    description: "Slot rendu en bas de la sidebar.",
-  },
-  {
     name: "tabBar",
     type: "React.ReactNode",
     description: "Barre de navigation bas de page (mobile).",
