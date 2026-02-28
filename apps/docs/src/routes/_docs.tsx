@@ -53,7 +53,7 @@ function DocsLayout() {
             {/* Logo — caché en mobile */}
             <Link to="/" className="hidden lg:flex items-center">
               <img src="/logo_blazz_white.svg" alt="Blazz UI" className="hidden h-6 dark:block" />
-              <img src="/logo_blazz_gold.svg" alt="Blazz UI" className="block h-6 dark:hidden" />
+              <img src="/logo_blazz_black.svg" alt="Blazz UI" className="block h-6 dark:hidden" />
             </Link>
           </div>
 
@@ -84,7 +84,7 @@ function DocsLayout() {
       {/* Body */}
       <SidebarProvider style={{ minHeight: 0 }} className="flex-1 gap-2 px-2 pb-2">
         <DocsSidebar />
-        <main className="flex-1 overflow-y-auto min-w-0 bg-surface rounded border border-container">
+        <main className="flex-1 overflow-y-auto min-w-0 bg-surface rounded-lg border border-container">
           <Outlet />
         </main>
       </SidebarProvider>

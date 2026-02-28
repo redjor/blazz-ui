@@ -12,11 +12,12 @@ const totalComponents = componentsNavigation.reduce((sum, cat) => sum + cat.item
 
 function ComponentsPage() {
 	return (
-		<Page
-			title="Components"
-			subtitle={`${totalComponents} components across ${componentsNavigation.length} categories. Browse by category or search for a specific component.`}
-		>
-			<div className="space-y-10">
+		<Page>
+			<div className="py-4 text-center border-b border-edge">
+				<div className="text-3xl font-semibold text-fg">Components</div>
+				<div className="text-lg text-fg-muted max-w-xl mx-auto">{totalComponents} components across ${componentsNavigation.length} categories. Browse by category or search for a specific component.</div>
+			</div>
+			<div className="space-y-10 py-8">
 				{componentsNavigation.map((category) => (
 					<section key={category.id} className="space-y-3">
 						<div className="flex items-center gap-3">

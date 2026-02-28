@@ -57,7 +57,7 @@ export function DocsSidebar() {
 	return (
 		<Sidebar
 			collapsible="none"
-			className="hidden lg:flex rounded overflow-hidden border border-container"
+			className="hidden lg:flex rounded-lg overflow-hidden border border-container"
 		>
 			<SidebarContent>
 				{sidebarConfig.navigation.map((section) => (
