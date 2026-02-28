@@ -35,6 +35,8 @@ export function MySidebar() {
     key: "with-header",
     code: `import { AppSidebar } from "@blazz/ui/components/patterns/app-sidebar"
 
+// config est le même objet SidebarConfig que dans l'exemple précédent
+// OrgSwitcher est votre propre composant de sélection d'organisation
 export function MySidebarWithOrg() {
   return (
     <AppSidebar
