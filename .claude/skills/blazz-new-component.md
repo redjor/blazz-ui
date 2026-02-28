@@ -1,26 +1,20 @@
 ---
 name: blazz-new-component
-description: Générer un nouveau composant UI suivant les conventions Blazz UI
+description: Générer un nouveau composant UI suivant les conventions Blazz UI (patterns Base UI, design tokens oklch)
 user-invocable: true
-agent: blazz-ui-assistant
 ---
 
 # Blazz New Component Skill
 
-Crée un nouveau composant UI dans Blazz UI App en suivant toutes les conventions et patterns du projet.
+Crée un nouveau composant UI dans le package `@blazz/ui` en suivant les conventions réelles du projet : pas de `forwardRef`, design tokens oklch, patterns Base UI.
 
 ## Ce que fait ce skill
 
-1. Crée dossier `components/ui/[name]/` (si composant ne sera pas dans un fichier unique)
-2. Crée fichier `[name].tsx` avec:
-   - React.forwardRef pour ref forwarding
-   - CVA (Class Variance Authority) pour variants
-   - data-slot attribute
-   - TypeScript strict typing
-   - Proper ARIA attributes
-3. Crée `[name].stories.tsx` pour Storybook
-4. Crée `[NAME].README.md` avec documentation
-5. Exporte depuis `components/ui/index.ts`
+1. Explore les composants existants similaires avant de générer quoi que ce soit
+2. Crée `packages/ui/src/components/ui/[name].tsx` (ou dossier si composable)
+3. Applique le bon pattern selon le type de composant (4 patterns disponibles)
+4. Exporte depuis `packages/ui/src/index.ts`
+5. Vérifie automatiquement la conformité en fin d'exécution
 
 ## Input Attendu
 
@@ -34,281 +28,332 @@ Le user doit spécifier:
 
 ## Étapes d'Exécution
 
-### Étape 1: Analyser le Besoin
+### Phase 0 — Explore (OBLIGATOIRE avant toute génération)
 
-Déterminer:
-- Si composant simple (1 fichier) ou complexe (dossier)
-- Quels variants sont nécessaires
-- Quelles props accepter
-- Quel élément HTML de base (`div`, `button`, `input`, etc.)
-- Si Base UI primitive existe pour ce type
+**Cette phase est bloquante. Ne pas générer de code avant de l'avoir complétée.**
 
-### Étape 2: Créer la Structure
+1. Lire `ai/rules.md` pour les conventions courantes du projet
+2. Chercher un composant similaire existant dans `packages/ui/src/components/ui/` pour observer le pattern réellement utilisé
+3. Lire `apps/docs/src/styles/globals.css` pour confirmer les tokens disponibles
+4. Identifier si Base UI expose une primitive pour ce type de composant (`@base-ui-components/react`)
 
-**Option A**: Composant Simple
+```bash
+# Exemple d'exploration
+ls packages/ui/src/components/ui/
+# Lire un composant proche du besoin, ex: card.tsx, button.tsx, badge.tsx
 ```
-components/ui/[name].tsx
+
+### Phase 1 — Analyser le besoin
+
+Après l'exploration, décider:
+
+| Question | Réponse → Pattern |
+|---|---|
+| Élément HTML simple, pas d'interaction ? | Pattern A — `ComponentProps` |
+| Variants visuels multiples, toujours un élément natif ? | Pattern B — `CVA + ComponentProps` |
+| Gestion d'état, accessibilité complexe (popover, dialog, select) ? | Pattern C — Base UI primitive |
+| Besoin de render prop pour polymorphisme ? | Pattern D — `useRender` |
+
+Déterminer aussi:
+- Composant single-file ou dossier composable (plusieurs sous-composants)
+- Props nécessaires
+- Élément HTML de base (`div`, `button`, `input`, `span`, etc.)
+
+### Phase 2 — Choisir la structure
+
+**Option A — Fichier unique** (composant simple ou avec sous-composants dans le même fichier):
+```
+packages/ui/src/components/ui/[name].tsx
 ```
 
-**Option B**: Composant Composable
+**Option B — Dossier** (composant avec fichiers séparés, ex: data-table):
 ```
-components/ui/[name]/
+packages/ui/src/components/ui/[name]/
+  index.tsx
   [name].tsx
-  [name].stories.tsx
-  [NAME].README.md
+  [name]-context.tsx   ← si context nécessaire
 ```
 
-### Étape 3: Implémenter le Composant
+### Phase 3 — Implémenter
 
-Template de base:
+#### Pattern A — ComponentProps (composant simple, pas d'interaction)
+
+Exemple réel: `Card`, `CardHeader`, `CardContent`
 
 ```tsx
-import * as React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import { cn } from "@blazz/ui/lib/utils"
+
+function ComponentName({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="component-name"
+      className={cn(
+        "bg-surface text-fg border border-container rounded-lg",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { ComponentName }
+```
+
+#### Pattern B — CVA + ComponentProps (variants visuels)
+
+Exemple réel: `Button` sans Base UI, `Badge` simple
+
+```tsx
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@blazz/ui/lib/utils"
 
 const componentVariants = cva(
-  // Classes de base communes à tous les variants
-  'base classes here transition-colors outline-none',
+  "inline-flex items-center justify-center gap-2 transition-colors outline-none",
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        outline: 'border border-input bg-background hover:bg-muted',
-        // Autres variants...
+        default: "bg-brand text-brand-fg hover:bg-brand-hover",
+        outline: "border border-container bg-surface text-fg hover:bg-raised",
+        ghost: "text-fg hover:bg-raised",
+        destructive: "bg-negative text-fg",
       },
       size: {
-        default: 'h-8 px-3 text-sm',
-        sm: 'h-7 px-2 text-xs',
-        lg: 'h-9 px-4',
-        // Autres sizes...
+        sm: "h-7 px-2.5 text-xs",
+        default: "h-8 px-3 text-sm",
+        lg: "h-9 px-4 text-base",
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'default',
+      variant: "default",
+      size: "default",
     },
   }
 )
 
-export interface ComponentNameProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof componentVariants> {
-  // Props custom ici
-  disabled?: boolean
+function ComponentName({
+  className,
+  variant,
+  size,
+  ...props
+}: React.ComponentProps<"div"> & VariantProps<typeof componentVariants>) {
+  return (
+    <div
+      data-slot="component-name"
+      className={cn(componentVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
 }
 
-export const ComponentName = React.forwardRef<HTMLDivElement, ComponentNameProps>(
-  ({ className, variant, size, disabled, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(componentVariants({ variant, size, className }))}
-        data-slot="component-name"
-        aria-disabled={disabled}
-        {...props}
-      />
-    )
+export { ComponentName, componentVariants }
+```
+
+#### Pattern C — Base UI primitive (interaction/accessibilité complexe)
+
+Exemple réel: `Button` (interactive), `Dialog`, `Popover`
+
+```tsx
+import { ComponentPrimitive } from "@base-ui-components/react/component-primitive"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@blazz/ui/lib/utils"
+
+const componentVariants = cva(
+  "inline-flex items-center justify-center gap-2 transition-colors outline-none",
+  {
+    variants: {
+      variant: {
+        default: "bg-brand text-brand-fg hover:bg-brand-hover",
+        outline: "border border-container bg-surface text-fg hover:bg-raised",
+        ghost: "text-fg hover:bg-raised",
+      },
+      size: {
+        sm: "h-7 px-2.5 text-xs",
+        default: "h-8 px-3 text-sm",
+        lg: "h-9 px-4 text-base",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
   }
 )
 
-ComponentName.displayName = 'ComponentName'
-```
-
-### Étape 4: Créer Storybook Story
-
-```tsx
-import type { Meta, StoryObj } from '@storybook/react'
-import { ComponentName } from './component-name'
-
-const meta: Meta<typeof ComponentName> = {
-  title: 'UI/ComponentName',
-  component: ComponentName,
-  tags: ['autodocs'],
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['default', 'outline']
-    },
-    size: {
-      control: 'select',
-      options: ['default', 'sm', 'lg']
-    },
-  }
-}
-
-export default meta
-type Story = StoryObj<typeof ComponentName>
-
-export const Default: Story = {
-  args: {
-    children: 'Default Component',
-  }
-}
-
-export const AllVariants: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4">
-      <ComponentName variant="default">Default</ComponentName>
-      <ComponentName variant="outline">Outline</ComponentName>
-    </div>
+function ComponentName({
+  className,
+  variant,
+  size,
+  ...props
+}: ComponentPrimitive.Props & VariantProps<typeof componentVariants>) {
+  return (
+    <ComponentPrimitive
+      data-slot="component-name"
+      className={cn(componentVariants({ variant, size, className }))}
+      {...props}
+    />
   )
 }
 
-export const AllSizes: Story = {
-  render: () => (
-    <div className="flex items-center gap-4">
-      <ComponentName size="sm">Small</ComponentName>
-      <ComponentName size="default">Default</ComponentName>
-      <ComponentName size="lg">Large</ComponentName>
-    </div>
-  )
-}
+export { ComponentName, componentVariants }
 ```
 
-### Étape 5: Créer Documentation
+#### Pattern D — useRender (render prop / polymorphisme)
 
-```markdown
-# ComponentName
-
-Description du composant et son usage.
-
-## Import
-
-\`\`\`tsx
-import { ComponentName } from '@/components/ui/component-name'
-\`\`\`
-
-## Usage Basique
-
-\`\`\`tsx
-<ComponentName>Content</ComponentName>
-\`\`\`
-
-## API Reference
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| variant | 'default' \| 'outline' | 'default' | Visual variant |
-| size | 'sm' \| 'default' \| 'lg' | 'default' | Size variant |
-
-## Exemples
-
-### Exemple 1: Minimal
-... [3-5 exemples pratiques]
-
-## Accessibilité
-
-- ARIA attributes utilisés
-- Support clavier
-- Focus management
-
-## Styling
-
-- Data slot: `data-slot="component-name"`
-- Dark mode: Automatique
-- Customization: Via className
-
----
-
-**Fichier source**: `/components/ui/component-name.tsx`
-```
-
-### Étape 6: Exporter
-
-Ajouter dans `components/ui/index.ts`:
+Exemple réel: `Badge` avec render prop
 
 ```tsx
-export * from './component-name/component-name'
-// ou
-export { ComponentName } from './component-name'
+import { useRender } from "@base-ui-components/react/use-render"
+import { mergeProps } from "@base-ui-components/react/merge-props"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@blazz/ui/lib/utils"
+
+const componentVariants = cva(
+  "inline-flex items-center gap-1.5 rounded-full font-medium",
+  {
+    variants: {
+      variant: {
+        default: "bg-raised text-fg border border-container",
+        positive: "bg-positive text-fg",
+        negative: "bg-negative text-fg",
+        caution: "bg-caution text-fg",
+        inform: "bg-inform text-fg",
+      },
+      size: {
+        sm: "px-2 py-0.5 text-xs",
+        default: "px-2.5 py-1 text-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+function ComponentName({
+  render,
+  className,
+  variant,
+  size,
+  ...props
+}: useRender.ComponentProps<"span"> & VariantProps<typeof componentVariants>) {
+  return useRender({
+    defaultTagName: "span",
+    props: mergeProps(
+      {
+        "data-slot": "component-name",
+        className: cn(componentVariants({ variant, size, className })),
+      },
+      props
+    ),
+    render,
+    state: { slot: "component-name", variant },
+  })
+}
+
+export { ComponentName, componentVariants }
 ```
+
+### Phase 4 — Exporter
+
+Ajouter l'export dans `packages/ui/src/index.ts`:
+
+```tsx
+// Ajouter dans la section appropriée (ui primitives)
+export { ComponentName, componentVariants } from "./components/ui/component-name"
+```
+
+### Phase 5 — Auto-verify
+
+Après avoir écrit et exporté le composant, vérifier chaque point:
+
+```
+✅ / ❌  forwardRef absent du fichier
+✅ / ❌  Aucun token shadcn (bg-primary, text-primary-foreground, bg-muted, etc.)
+✅ / ❌  Uniquement des tokens Blazz (bg-surface, bg-raised, bg-brand, text-fg, border-container, etc.)
+✅ / ❌  data-slot présent
+✅ / ❌  Pattern choisi correspond au type de composant (A/B/C/D)
+✅ / ❌  TypeScript strict — aucun `any` implicite
+✅ / ❌  Export ajouté dans packages/ui/src/index.ts
+✅ / ❌  Import cn depuis "@blazz/ui/lib/utils" (pas "@/lib/utils")
+✅ / ❌  Aucun fichier Storybook ou README créé
+```
+
+Si un point est ❌, corriger avant de reporter.
 
 ## Patterns Spécifiques
 
-### Composant avec Icône
+### Composant avec icône
 
 ```tsx
-import { type LucideIcon } from 'lucide-react'
+import type { LucideIcon } from "lucide-react"
 
-interface Props {
+interface Props extends React.ComponentProps<"div"> {
   icon?: LucideIcon
-  children?: React.ReactNode
 }
 
-export const Component = ({ icon: Icon, children }: Props) => {
+function ComponentName({ icon: Icon, children, className, ...props }: Props) {
   return (
-    <div>
-      {Icon && <Icon className="mr-2" />}
+    <div
+      data-slot="component-name"
+      className={cn("flex items-center gap-2", className)}
+      {...props}
+    >
+      {Icon && <Icon className="size-4 shrink-0" aria-hidden="true" />}
       {children}
     </div>
   )
 }
 ```
 
-### Composant Composable
+### Composant composable
 
 ```tsx
-// Parent component
-export const Card = () => {}
-export const CardHeader = () => {}
-export const CardTitle = () => {}
-export const CardContent = () => {}
-export const CardFooter = () => {}
-
-// Usage
-<Card>
-  <CardHeader>
-    <CardTitle>Title</CardTitle>
-  </CardHeader>
-  <CardContent>Content</CardContent>
-  <CardFooter>Footer</CardFooter>
-</Card>
-```
-
-### Composant Polymorphique
-
-```tsx
-type AsProp<C extends React.ElementType> = {
-  as?: C
+// Chaque sous-composant est une fonction indépendante, pas de forwardRef
+function Card({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div data-slot="card" className={cn("bg-surface border border-container rounded-lg", className)} {...props} />
+  )
 }
 
-type PolymorphicProps<C extends React.ElementType, Props = {}> =
-  React.PropsWithChildren<Props & AsProp<C>> &
-  Omit<React.ComponentPropsWithoutRef<C>, keyof (AsProp<C> & Props)>
-
-export const Box = <C extends React.ElementType = 'div'>({
-  as,
-  ...props
-}: PolymorphicProps<C>) => {
-  const Component = as || 'div'
-  return <Component {...props} />
+function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div data-slot="card-header" className={cn("flex flex-col gap-1.5 p-6", className)} {...props} />
+  )
 }
 
-// Usage
-<Box>div par défaut</Box>
-<Box as="section">section</Box>
-<Box as="article">article</Box>
+function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
+  return (
+    <h3 data-slot="card-title" className={cn("text-base font-semibold text-fg", className)} {...props} />
+  )
+}
+
+function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div data-slot="card-content" className={cn("p-6 pt-0", className)} {...props} />
+  )
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div data-slot="card-footer" className={cn("flex items-center p-6 pt-0", className)} {...props} />
+  )
+}
+
+export { Card, CardHeader, CardTitle, CardContent, CardFooter }
 ```
 
 ### Composant Controlled/Uncontrolled
 
 ```tsx
 interface Props {
-  value?: string  // Controlled
-  defaultValue?: string  // Uncontrolled
+  value?: string        // Controlled
+  defaultValue?: string // Uncontrolled
   onChange?: (value: string) => void
 }
 
-export const Component = ({
-  value: controlledValue,
-  defaultValue,
-  onChange,
-}: Props) => {
-  const [internalValue, setInternalValue] = useState(defaultValue ?? '')
-
+function ComponentName({ value: controlledValue, defaultValue, onChange }: Props) {
+  const [internalValue, setInternalValue] = useState(defaultValue ?? "")
   const value = controlledValue ?? internalValue
 
   const handleChange = (newValue: string) => {
@@ -327,160 +372,34 @@ export const Component = ({
 Avant de finaliser le composant:
 
 ### Code
-- [ ] forwardRef utilisé
-- [ ] CVA pour variants (si applicable)
-- [ ] data-slot ajouté
-- [ ] TypeScript strict (pas de any)
-- [ ] Props interface documentée
-- [ ] displayName défini
-- [ ] Compile sans erreurs
+- [ ] Aucun `forwardRef` (pattern moderne React 19 + Base UI)
+- [ ] CVA pour variants (si variants multiples)
+- [ ] `data-slot` ajouté sur l'élément racine
+- [ ] TypeScript strict — aucun `any`
+- [ ] `"use client"` ajouté uniquement si interactivité réelle (useState, useEffect, event handlers)
+- [ ] Compile sans erreurs TypeScript
+
+### Design Tokens
+- [ ] Uniquement tokens Blazz: `bg-surface`, `bg-raised`, `bg-panel`, `bg-brand`, `bg-brand-hover`
+- [ ] Couleurs sémantiques: `text-fg`, `text-fg-muted`, `text-brand-fg`
+- [ ] Bordures: `border-container`, `border-separator`
+- [ ] États: `bg-positive`, `bg-negative`, `bg-caution`, `bg-inform`
+- [ ] Zéro couleur Tailwind hardcodée (pas de `bg-blue-500`, `text-gray-700`, etc.)
+- [ ] Zéro token shadcn (pas de `bg-primary`, `bg-muted`, `text-foreground`, etc.)
 
 ### Accessibilité
 - [ ] ARIA attributes appropriés
-- [ ] Support clavier
+- [ ] Support clavier si interactif
 - [ ] Focus visible
-- [ ] aria-label pour éléments sans texte
-- [ ] Disabled state géré
-
-### Styling
-- [ ] CSS variables (pas de couleurs hardcodées)
-- [ ] Dark mode support
-- [ ] Responsive si nécessaire
-- [ ] Transitions/animations smooth
-
-### Documentation
-- [ ] README.md créé
-- [ ] 3-5 exemples pratiques
-- [ ] API reference complète
-- [ ] Section accessibilité
-- [ ] Section styling
-
-### Storybook
-- [ ] Story créée
-- [ ] Tous les variants montrés
-- [ ] Tous les sizes montrés
-- [ ] Interactive controls
-- [ ] Dark mode preview
+- [ ] `aria-label` pour éléments sans texte visible
+- [ ] Disabled state géré si applicable
 
 ### Export
-- [ ] Exporté depuis index.ts
-- [ ] Import path alias testé
-
-## Exemple Complet: StatusBadge
-
-### User Input:
-```
-/blazz-new-component
-
-Créer composant "StatusBadge" avec:
-- Variants: success (vert), warning (jaune), error (rouge), info (bleu)
-- Sizes: sm, default, lg
-- Optional icon à gauche
-- Optional dot indicator
-- Rounded corners
-```
-
-### Implémentation:
-
-```tsx
-// components/ui/status-badge.tsx
-import * as React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { type LucideIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
-
-const statusBadgeVariants = cva(
-  'inline-flex items-center gap-1.5 rounded-full font-medium transition-colors',
-  {
-    variants: {
-      variant: {
-        success: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-        warning: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-        error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-        info: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-      },
-      size: {
-        sm: 'px-2 py-0.5 text-xs',
-        default: 'px-2.5 py-1 text-sm',
-        lg: 'px-3 py-1.5 text-base',
-      },
-    },
-    defaultVariants: {
-      variant: 'info',
-      size: 'default',
-    },
-  }
-)
-
-export interface StatusBadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof statusBadgeVariants> {
-  icon?: LucideIcon
-  showDot?: boolean
-}
-
-export const StatusBadge = React.forwardRef<HTMLSpanElement, StatusBadgeProps>(
-  ({ className, variant, size, icon: Icon, showDot, children, ...props }, ref) => {
-    return (
-      <span
-        ref={ref}
-        className={cn(statusBadgeVariants({ variant, size }), className)}
-        data-slot="status-badge"
-        {...props}
-      >
-        {showDot && (
-          <span
-            className="size-1.5 rounded-full bg-current"
-            aria-hidden="true"
-          />
-        )}
-        {Icon && <Icon className="size-3.5" />}
-        {children}
-      </span>
-    )
-  }
-)
-
-StatusBadge.displayName = 'StatusBadge'
-```
-
-## Best Practices
-
-1. **Toujours forwardRef** pour composants UI
-2. **CVA pour variants** - pattern propre et maintenable
-3. **data-slot** - facilite styling custom
-4. **CSS variables** - support dark mode automatique
-5. **TypeScript strict** - pas de any
-6. **ARIA** - accessibilité dès le début
-7. **Documentation** - 3-5 exemples minimum
-8. **Storybook** - tous les variants visibles
-
-## Common Errors
-
-❌ **Pas de forwardRef**
-```tsx
-export const Component = (props) => <div {...props} />
-```
-
-✅ **Avec forwardRef**
-```tsx
-export const Component = React.forwardRef((props, ref) =>
-  <div ref={ref} {...props} />
-)
-```
-
-❌ **Couleurs hardcodées**
-```tsx
-className="bg-blue-500 text-white"
-```
-
-✅ **CSS variables**
-```tsx
-className="bg-primary text-primary-foreground"
-```
+- [ ] Exporté depuis `packages/ui/src/index.ts`
+- [ ] Aucun fichier Storybook créé
+- [ ] Aucun fichier README créé
 
 ---
 
-**Agent**: blazz-ui-assistant
-**Version**: 1.0
-**Last Updated**: 2026-01-19
+**Version**: 2.0
+**Last Updated**: 2026-02-28
