@@ -35,7 +35,7 @@ Le user doit spécifier:
 1. Lire `ai/rules.md` pour les conventions courantes du projet
 2. Chercher un composant similaire existant dans `packages/ui/src/components/ui/` pour observer le pattern réellement utilisé
 3. Lire `apps/docs/src/styles/globals.css` pour confirmer les tokens disponibles
-4. Identifier si Base UI expose une primitive pour ce type de composant (`@base-ui-components/react`)
+4. Identifier si Base UI expose une primitive pour ce type de composant (`@base-ui/react`)
 
 ```bash
 # Exemple d'exploration
@@ -81,7 +81,8 @@ packages/ui/src/components/ui/[name]/
 Exemple réel: `Card`, `CardHeader`, `CardContent`
 
 ```tsx
-import { cn } from "@blazz/ui/lib/utils"
+import type * as React from "react"
+import { cn } from "../../lib/utils"
 
 function ComponentName({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -104,8 +105,9 @@ export { ComponentName }
 Exemple réel: `Button` sans Base UI, `Badge` simple
 
 ```tsx
+import type * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@blazz/ui/lib/utils"
+import { cn } from "../../lib/utils"
 
 const componentVariants = cva(
   "inline-flex items-center justify-center gap-2 transition-colors outline-none",
@@ -153,9 +155,9 @@ export { ComponentName, componentVariants }
 Exemple réel: `Button` (interactive), `Dialog`, `Popover`
 
 ```tsx
-import { ComponentPrimitive } from "@base-ui-components/react/component-primitive"
+import { ComponentPrimitive } from "@base-ui/react/component-primitive"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@blazz/ui/lib/utils"
+import { cn } from "../../lib/utils"
 
 const componentVariants = cva(
   "inline-flex items-center justify-center gap-2 transition-colors outline-none",
@@ -197,15 +199,17 @@ function ComponentName({
 export { ComponentName, componentVariants }
 ```
 
+> **Note :** Les primitives Base UI interactives nécessitent `"use client"` en première ligne du fichier.
+
 #### Pattern D — useRender (render prop / polymorphisme)
 
 Exemple réel: `Badge` avec render prop
 
 ```tsx
-import { useRender } from "@base-ui-components/react/use-render"
-import { mergeProps } from "@base-ui-components/react/merge-props"
+import { useRender } from "@base-ui/react/use-render"
+import { mergeProps } from "@base-ui/react/merge-props"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@blazz/ui/lib/utils"
+import { cn } from "../../lib/utils"
 
 const componentVariants = cva(
   "inline-flex items-center gap-1.5 rounded-full font-medium",
@@ -239,7 +243,7 @@ function ComponentName({
 }: useRender.ComponentProps<"span"> & VariantProps<typeof componentVariants>) {
   return useRender({
     defaultTagName: "span",
-    props: mergeProps(
+    props: mergeProps<"span">(
       {
         "data-slot": "component-name",
         className: cn(componentVariants({ variant, size, className })),
@@ -275,7 +279,7 @@ Après avoir écrit et exporté le composant, vérifier chaque point:
 ✅ / ❌  Pattern choisi correspond au type de composant (A/B/C/D)
 ✅ / ❌  TypeScript strict — aucun `any` implicite
 ✅ / ❌  Export ajouté dans packages/ui/src/index.ts
-✅ / ❌  Import cn depuis "@blazz/ui/lib/utils" (pas "@/lib/utils")
+✅ / ❌  Import cn depuis "../../lib/utils" (chemin relatif — pas "@/lib/utils" ni "@blazz/ui/lib/utils")
 ✅ / ❌  Aucun fichier Storybook ou README créé
 ```
 
