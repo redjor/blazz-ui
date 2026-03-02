@@ -17,6 +17,11 @@ export const listByClient = query({
   },
 })
 
+export const listAll = query({
+  args: {},
+  handler: async (ctx) => ctx.db.query("projects").collect(),
+})
+
 export const listActive = query({
   args: {},
   handler: async (ctx) => {

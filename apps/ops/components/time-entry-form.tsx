@@ -41,6 +41,8 @@ interface Props {
 export function TimeEntryForm({ defaultValues, onSuccess }: Props) {
   const isEdit = !!defaultValues
   const activeProjects = useQuery(api.projects.listActive)
+  const allProjects = useQuery(isEdit ? api.projects.listAll : api.projects.listActive)
+  const projects = isEdit ? allProjects : activeProjects
   const create = useMutation(api.timeEntries.create)
   const update = useMutation(api.timeEntries.update)
 
@@ -63,19 +65,22 @@ export function TimeEntryForm({ defaultValues, onSuccess }: Props) {
 
   const onSubmit = async (values: FormValues): Promise<void> => {
     try {
+      const project = projects?.find((p: { _id: string }) => p._id === values.projectId)
+      if (!project) { toast.error("Projet introuvable"); return }
+      const hourlyRate = (project as { tjm: number; hoursPerDay: number }).tjm / (project as { tjm: number; hoursPerDay: number }).hoursPerDay
+
       if (isEdit) {
         await update({
           id: defaultValues.id,
+          projectId: values.projectId as Id<"projects">,
           date: values.date,
           minutes: Math.round(values.hours * 60),
+          hourlyRate,
           description: values.description,
           billable: values.billable,
         })
         toast.success("Entrée mise à jour")
       } else {
-        const project = activeProjects?.find((p: { _id: string }) => p._id === values.projectId)
-        if (!project) return toast.error("Projet introuvable")
-        const hourlyRate = (project as { tjm: number; hoursPerDay: number }).tjm / (project as { tjm: number; hoursPerDay: number }).hoursPerDay
         await create({
           projectId: values.projectId as Id<"projects">,
           date: values.date,
@@ -100,13 +105,12 @@ export function TimeEntryForm({ defaultValues, onSuccess }: Props) {
         <Select
           value={watch("projectId") ?? ""}
           onValueChange={(v) => setValue("projectId", v ?? "")}
-          disabled={isEdit}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Choisir un projet…" />
           </SelectTrigger>
           <SelectContent>
-            {activeProjects?.map((p: { _id: string; name: string }) => (
+            {projects?.map((p: { _id: string; name: string }) => (
               <SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
             ))}
           </SelectContent>

@@ -3,14 +3,14 @@
 import { useState, use } from "react"
 import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
-import type { Id } from "@/convex/_generated/dataModel"
+import type { Id, Doc } from "@/convex/_generated/dataModel"
 import { OpsFrame } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { ClientForm } from "@/components/client-form"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
-import { Plus, ArrowLeft } from "lucide-react"
+import { Plus, ArrowLeft, Pencil } from "lucide-react"
 import Link from "next/link"
 
 interface Props {
@@ -30,6 +30,7 @@ export default function ClientDetailPage({ params }: Props) {
   const projects = useQuery(api.projects.listByClient, { clientId: id as Id<"clients"> })
   const [editOpen, setEditOpen] = useState(false)
   const [projectOpen, setProjectOpen] = useState(false)
+  const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
 
   if (client === undefined) {
     return <OpsFrame><div className="p-6 text-fg-muted text-sm">Chargement…</div></OpsFrame>
@@ -93,12 +94,36 @@ export default function ClientDetailPage({ params }: Props) {
                     {project.startDate && ` · depuis ${project.startDate}`}
                   </p>
                 </div>
-                <Badge variant={statusVariant[project.status]}>{statusLabel[project.status]}</Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant={statusVariant[project.status]}>{statusLabel[project.status]}</Badge>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-8 text-fg-muted"
+                    onClick={() => setEditingProject(project)}
+                  >
+                    <Pencil className="size-3.5" />
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Edit project dialog */}
+      <Dialog open={!!editingProject} onOpenChange={(open) => !open && setEditingProject(null)}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Modifier le projet</DialogTitle></DialogHeader>
+          {editingProject && (
+            <ProjectForm
+              clientId={id as Id<"clients">}
+              defaultValues={{ ...editingProject, id: editingProject._id }}
+              onSuccess={() => setEditingProject(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </OpsFrame>
   )
 }

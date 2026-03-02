@@ -6,6 +6,7 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { OpsFrame } from "@/components/ops-frame"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -37,6 +38,7 @@ export default function RecapPage() {
   const [clientId, setClientId] = useState<string>("")
   const [projectId, setProjectId] = useState<string>("")
   const [period, setPeriod] = useState("current")
+  const [showConfirm, setShowConfirm] = useState(false)
   const [from, setFrom] = useState(format(startOfMonth(new Date()), "yyyy-MM-dd"))
   const [to, setTo] = useState(format(endOfMonth(new Date()), "yyyy-MM-dd"))
 
@@ -72,6 +74,7 @@ export default function RecapPage() {
     try {
       await markInvoiced({ ids })
       toast.success(`${ids.length} entrée(s) marquées comme facturées`)
+      setShowConfirm(false)
     } catch {
       toast.error("Erreur")
     }
@@ -250,7 +253,7 @@ export default function RecapPage() {
                 <Download className="size-4 mr-1.5" />
                 Export CSV
               </Button>
-              <Button onClick={handleMarkInvoiced}>
+              <Button onClick={() => setShowConfirm(true)}>
                 <CheckCheck className="size-4 mr-1.5" />
                 Marquer comme facturé ({filteredEntries.length})
               </Button>
@@ -258,6 +261,22 @@ export default function RecapPage() {
           </>
         )}
       </div>
+
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Marquer comme facturé ?</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-fg-muted">
+            {filteredEntries?.length ?? 0} entrée(s) seront marquées comme facturées et disparaîtront de cette vue.
+            Cette action peut être annulée depuis la page Temps.
+          </p>
+          <div className="flex gap-3 justify-end mt-2">
+            <Button variant="outline" onClick={() => setShowConfirm(false)}>Annuler</Button>
+            <Button onClick={handleMarkInvoiced}>Confirmer</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </OpsFrame>
   )
 }

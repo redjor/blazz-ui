@@ -70,8 +70,10 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("timeEntries"),
+    projectId: v.id("projects"),
     date: v.string(),
     minutes: v.number(),
+    hourlyRate: v.number(),
     description: v.optional(v.string()),
     billable: v.boolean(),
   },
@@ -81,6 +83,20 @@ export const update = mutation({
 export const remove = mutation({
   args: { id: v.id("timeEntries") },
   handler: async (ctx, { id }) => ctx.db.delete(id),
+})
+
+export const unmarkInvoiced = mutation({
+  args: { ids: v.array(v.id("timeEntries")) },
+  handler: async (ctx, { ids }) => {
+    await Promise.all(
+      ids.map(async (id) => {
+        const entry = await ctx.db.get(id)
+        if (entry?.invoicedAt) {
+          await ctx.db.patch(id, { invoicedAt: undefined })
+        }
+      })
+    )
+  },
 })
 
 export const markInvoiced = mutation({

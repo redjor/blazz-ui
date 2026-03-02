@@ -9,7 +9,7 @@ import { TimeEntryForm } from "@/components/time-entry-form"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { Trash2, Pencil } from "lucide-react"
+import { Trash2, Pencil, RotateCcw } from "lucide-react"
 import { toast } from "sonner"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -18,14 +18,28 @@ import { formatMinutes } from "@/lib/format"
 export default function TimePage() {
   const entries = useQuery(api.timeEntries.list, {})
   const remove = useMutation(api.timeEntries.remove)
+  const unmarkInvoiced = useMutation(api.timeEntries.unmarkInvoiced)
   const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<Id<"timeEntries"> | null>(null)
 
-  const handleDelete = async (id: Id<"timeEntries">) => {
+  const handleDelete = async () => {
+    if (!confirmDeleteId) return
     try {
-      await remove({ id })
+      await remove({ id: confirmDeleteId })
       toast.success("Entrée supprimée")
     } catch {
       toast.error("Erreur lors de la suppression")
+    } finally {
+      setConfirmDeleteId(null)
+    }
+  }
+
+  const handleUnmark = async (id: Id<"timeEntries">) => {
+    try {
+      await unmarkInvoiced({ ids: [id] })
+      toast.success("Facturation annulée")
+    } catch {
+      toast.error("Erreur")
     }
   }
 
@@ -63,7 +77,20 @@ export default function TimePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {!entry.billable && <Badge variant="secondary">Non facturable</Badge>}
-                  {entry.invoicedAt && <Badge variant="default">Facturé</Badge>}
+                  {entry.invoicedAt && (
+                    <>
+                      <Badge variant="default">Facturé</Badge>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8 text-fg-muted"
+                        title="Annuler la facturation"
+                        onClick={() => handleUnmark(entry._id)}
+                      >
+                        <RotateCcw className="size-3.5" />
+                      </Button>
+                    </>
+                  )}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -76,7 +103,7 @@ export default function TimePage() {
                     variant="ghost"
                     size="icon"
                     className="size-8 text-fg-muted hover:text-destructive"
-                    onClick={() => handleDelete(entry._id)}
+                    onClick={() => setConfirmDeleteId(entry._id)}
                   >
                     <Trash2 className="size-3.5" />
                   </Button>
@@ -87,6 +114,7 @@ export default function TimePage() {
         </div>
       </div>
 
+      {/* Edit dialog */}
       <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
         <DialogContent>
           <DialogHeader>
@@ -105,6 +133,20 @@ export default function TimePage() {
               onSuccess={() => setEditing(null)}
             />
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={!!confirmDeleteId} onOpenChange={(open) => !open && setConfirmDeleteId(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Supprimer cette entrée ?</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-fg-muted">Cette action est irréversible.</p>
+          <div className="flex gap-3 justify-end mt-2">
+            <Button variant="outline" onClick={() => setConfirmDeleteId(null)}>Annuler</Button>
+            <Button variant="destructive" onClick={handleDelete}>Supprimer</Button>
+          </div>
         </DialogContent>
       </Dialog>
     </OpsFrame>
