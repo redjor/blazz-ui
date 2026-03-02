@@ -6,16 +6,16 @@ import { Providers } from "./providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Blazz Ops",
-  description: "Freelance time tracking & billing",
+	title: "Blazz Ops",
+	description: "Freelance time tracking & billing",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  )
+	return (
+		<html lang="fr" suppressHydrationWarning>
+			<body className={`${inter.className} antialiased`}>
+				<Providers>{children}</Providers>
+			</body>
+		</html>
+	)
 }

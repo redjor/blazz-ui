@@ -1,23 +1,23 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { useQuery, useMutation } from "convex/react"
-import { api } from "@/convex/_generated/api"
-import type { Id, Doc } from "@/convex/_generated/dataModel"
-import { OpsFrame } from "@/components/ops-frame"
-import { TimeEntryForm } from "@/components/time-entry-form"
-import { WeekGrid } from "@/components/week-grid"
-import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/data-table"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/data-table"
-import { ChevronLeft, ChevronRight, Pencil, RotateCcw, Trash2 } from "lucide-react"
-import { toast } from "sonner"
-import { format, startOfWeek, addWeeks, subWeeks, addDays } from "date-fns"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { useMutation, useQuery } from "convex/react"
+import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
-import { formatMinutes, formatCurrency } from "@/lib/format"
+import { ChevronLeft, ChevronRight, Pencil, RotateCcw, Trash2 } from "lucide-react"
+import { useMemo, useState } from "react"
+import { toast } from "sonner"
+import { OpsFrame } from "@/components/ops-frame"
+import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
+import { TimeEntryForm } from "@/components/time-entry-form"
+import { WeekGrid } from "@/components/week-grid"
+import { api } from "@/convex/_generated/api"
+import type { Doc, Id } from "@/convex/_generated/dataModel"
+import { formatCurrency, formatMinutes } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
 
 type TimeEntry = Doc<"timeEntries">
@@ -25,294 +25,299 @@ type TimeEntry = Doc<"timeEntries">
 type View = "list" | "week"
 
 function getWeekStart(date: Date): Date {
-  return startOfWeek(date, { weekStartsOn: 1 })
+	return startOfWeek(date, { weekStartsOn: 1 })
 }
 
 export default function TimePage() {
-  const [view, setView] = useState<View>("week")
-  const [weekStart, setWeekStart] = useState<Date>(() => getWeekStart(new Date()))
+	const [view, setView] = useState<View>("week")
+	const [weekStart, setWeekStart] = useState<Date>(() => getWeekStart(new Date()))
 
-  const weekFrom = format(weekStart, "yyyy-MM-dd")
-  const weekTo = format(addDays(weekStart, 6), "yyyy-MM-dd")
-  const weekEntries = useQuery(
-    api.timeEntries.list,
-    view === "week" ? { from: weekFrom, to: weekTo } : "skip"
-  )
-  const activeProjects = useQuery(api.projects.listActive)
+	const weekFrom = format(weekStart, "yyyy-MM-dd")
+	const weekTo = format(addDays(weekStart, 6), "yyyy-MM-dd")
+	const weekEntries = useQuery(
+		api.timeEntries.list,
+		view === "week" ? { from: weekFrom, to: weekTo } : "skip"
+	)
+	const activeProjects = useQuery(api.projects.listActive)
 
-  const allEntries = useQuery(
-    api.timeEntries.list,
-    view === "list" ? {} : "skip"
-  )
+	const allEntries = useQuery(api.timeEntries.list, view === "list" ? {} : "skip")
 
-  const remove = useMutation(api.timeEntries.remove)
-  const unmarkInvoiced = useMutation(api.timeEntries.unmarkInvoiced)
+	const remove = useMutation(api.timeEntries.remove)
+	const unmarkInvoiced = useMutation(api.timeEntries.unmarkInvoiced)
 
-  const [editing, setEditing] = useState<TimeEntry | null>(null)
-  const [addOpen, setAddOpen] = useState(false)
+	const [editing, setEditing] = useState<TimeEntry | null>(null)
+	const [addOpen, setAddOpen] = useState(false)
 
-  const [quickModal, setQuickModal] = useState<{
-    open: boolean
-    projectId: Id<"projects"> | null
-    projectName: string | null
-    hourlyRate: number | null
-    date: string | null
-  }>({ open: false, projectId: null, projectName: null, hourlyRate: null, date: null })
+	const [quickModal, setQuickModal] = useState<{
+		open: boolean
+		projectId: Id<"projects"> | null
+		projectName: string | null
+		hourlyRate: number | null
+		date: string | null
+	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, date: null })
 
-  const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(() => [
-    {
-      accessorKey: "date",
-      header: "Date",
-      cell: ({ row }) =>
-        format(new Date(row.original.date + "T00:00:00"), "dd MMM yyyy", { locale: fr }),
-      enableSorting: true,
-    },
-    {
-      accessorKey: "description",
-      header: "Description",
-      cell: ({ row }) => row.original.description ?? "—",
-    },
-    {
-      accessorKey: "minutes",
-      header: "Durée",
-      cell: ({ row }) => (
-        <span className="font-mono">{formatMinutes(row.original.minutes)}</span>
-      ),
-      enableSorting: true,
-    },
-    {
-      accessorKey: "hourlyRate",
-      header: "Taux",
-      cell: ({ row }) => <span className="tabular-nums">{row.original.hourlyRate}€/h</span>,
-      enableSorting: true,
-    },
-    {
-      id: "amount",
-      header: "Montant",
-      cell: ({ row }) => {
-        const amount = (row.original.minutes / 60) * row.original.hourlyRate
-        return <span className="tabular-nums">{formatCurrency(amount)}</span>
-      },
-    },
-    {
-      accessorKey: "billable",
-      header: "Facturable",
-      cell: ({ row }) =>
-        row.original.billable ? null : (
-          <span className="flex items-center gap-1.5 text-xs text-fg-muted">
-            <span className="inline-block size-1.5 rounded-full bg-fg-muted" />
-            Non facturable
-          </span>
-        ),
-    },
-    {
-      accessorKey: "invoicedAt",
-      header: "Statut",
-      cell: ({ row }) =>
-        row.original.invoicedAt ? (
-          <span className="flex items-center gap-1.5 text-xs text-fg-muted">
-            <span className="inline-block size-1.5 rounded-full bg-green-500" />
-            Facturé
-          </span>
-        ) : null,
-    },
-  ], [])
+	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
+		() => [
+			{
+				accessorKey: "date",
+				header: "Date",
+				cell: ({ row }) =>
+					format(new Date(row.original.date + "T00:00:00"), "dd MMM yyyy", { locale: fr }),
+				enableSorting: true,
+			},
+			{
+				accessorKey: "description",
+				header: "Description",
+				cell: ({ row }) => row.original.description ?? "—",
+			},
+			{
+				accessorKey: "minutes",
+				header: "Durée",
+				cell: ({ row }) => <span className="font-mono">{formatMinutes(row.original.minutes)}</span>,
+				enableSorting: true,
+			},
+			{
+				accessorKey: "hourlyRate",
+				header: "Taux",
+				cell: ({ row }) => <span className="tabular-nums">{row.original.hourlyRate}€/h</span>,
+				enableSorting: true,
+			},
+			{
+				id: "amount",
+				header: "Montant",
+				cell: ({ row }) => {
+					const amount = (row.original.minutes / 60) * row.original.hourlyRate
+					return <span className="tabular-nums">{formatCurrency(amount)}</span>
+				},
+			},
+			{
+				accessorKey: "billable",
+				header: "Facturable",
+				cell: ({ row }) =>
+					row.original.billable ? null : (
+						<span className="flex items-center gap-1.5 text-xs text-fg-muted">
+							<span className="inline-block size-1.5 rounded-full bg-fg-muted" />
+							Non facturable
+						</span>
+					),
+			},
+			{
+				accessorKey: "invoicedAt",
+				header: "Statut",
+				cell: ({ row }) =>
+					row.original.invoicedAt ? (
+						<span className="flex items-center gap-1.5 text-xs text-fg-muted">
+							<span className="inline-block size-1.5 rounded-full bg-green-500" />
+							Facturé
+						</span>
+					) : null,
+			},
+		],
+		[]
+	)
 
-  const rowActions = useMemo<RowAction<TimeEntry>[]>(() => [
-    {
-      id: "edit",
-      label: "Modifier",
-      icon: Pencil,
-      handler: (row) => setEditing(row.original),
-    },
-    {
-      id: "unmark-invoiced",
-      label: "Annuler facturation",
-      icon: RotateCcw,
-      hidden: (row) => !row.original.invoicedAt,
-      handler: async (row) => {
-        try {
-          await unmarkInvoiced({ ids: [row.original._id] })
-          toast.success("Facturation annulée")
-        } catch {
-          toast.error("Erreur")
-        }
-      },
-    },
-    {
-      id: "delete",
-      label: "Supprimer",
-      icon: Trash2,
-      variant: "destructive",
-      separator: true,
-      requireConfirmation: true,
-      confirmationMessage: () => "Supprimer cette entrée ? Cette action est irréversible.",
-      handler: async (row) => {
-        try {
-          await remove({ id: row.original._id })
-          toast.success("Entrée supprimée")
-        } catch {
-          toast.error("Erreur lors de la suppression")
-        }
-      },
-    },
-  ], [remove, unmarkInvoiced])
+	const rowActions = useMemo<RowAction<TimeEntry>[]>(
+		() => [
+			{
+				id: "edit",
+				label: "Modifier",
+				icon: Pencil,
+				handler: (row) => setEditing(row.original),
+			},
+			{
+				id: "unmark-invoiced",
+				label: "Annuler facturation",
+				icon: RotateCcw,
+				hidden: (row) => !row.original.invoicedAt,
+				handler: async (row) => {
+					try {
+						await unmarkInvoiced({ ids: [row.original._id] })
+						toast.success("Facturation annulée")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				separator: true,
+				requireConfirmation: true,
+				confirmationMessage: () => "Supprimer cette entrée ? Cette action est irréversible.",
+				handler: async (row) => {
+					try {
+						await remove({ id: row.original._id })
+						toast.success("Entrée supprimée")
+					} catch {
+						toast.error("Erreur lors de la suppression")
+					}
+				},
+			},
+		],
+		[remove, unmarkInvoiced]
+	)
 
-  const weekLabel = useMemo(() => {
-    const end = addDays(weekStart, 6)
-    const sameMonth = weekStart.getMonth() === end.getMonth()
-    const startStr = format(weekStart, sameMonth ? "d" : "d MMM", { locale: fr })
-    const endStr = format(end, "d MMM yyyy", { locale: fr })
-    return `${startStr} – ${endStr}`
-  }, [weekStart])
+	const weekLabel = useMemo(() => {
+		const end = addDays(weekStart, 6)
+		const sameMonth = weekStart.getMonth() === end.getMonth()
+		const startStr = format(weekStart, sameMonth ? "d" : "d MMM", { locale: fr })
+		const endStr = format(end, "d MMM yyyy", { locale: fr })
+		return `${startStr} – ${endStr}`
+	}, [weekStart])
 
-  return (
-    <OpsFrame>
-      <div className="p-6 space-y-6">
-        <PageHeader
-          title="Saisie des heures"
-          actions={[
-            { label: "Nouvelle entrée", onClick: () => setAddOpen(true) },
-          ]}
-        />
+	return (
+		<OpsFrame>
+			<div className="p-6 space-y-6">
+				<PageHeader
+					title="Saisie des heures"
+					actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
+				/>
 
-        <div className="flex items-center gap-3">
-          {/* Toggle Semaine/Liste */}
-          <div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised">
-            <Button
-              type="button"
-              size="sm"
-              variant={view === "week" ? "default" : "ghost"}
-              onClick={() => setView("week")}
-              className="h-7 px-3 text-xs"
-            >
-              Semaine
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={view === "list" ? "default" : "ghost"}
-              onClick={() => setView("list")}
-              className="h-7 px-3 text-xs"
-            >
-              Liste
-            </Button>
-          </div>
+				<div className="flex items-center gap-3">
+					{/* Toggle Semaine/Liste */}
+					<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised">
+						<Button
+							type="button"
+							size="sm"
+							variant={view === "week" ? "default" : "ghost"}
+							onClick={() => setView("week")}
+							className="h-7 px-3 text-xs"
+						>
+							Semaine
+						</Button>
+						<Button
+							type="button"
+							size="sm"
+							variant={view === "list" ? "default" : "ghost"}
+							onClick={() => setView("list")}
+							className="h-7 px-3 text-xs"
+						>
+							Liste
+						</Button>
+					</div>
 
-          {/* Navigation semaine (seulement en vue semaine) */}
-          {view === "week" && (
-            <>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="size-8"
-                onClick={() => setWeekStart((w) => subWeeks(w, 1))}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">
-                {weekLabel}
-              </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="size-8"
-                onClick={() => setWeekStart((w) => addWeeks(w, 1))}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="text-xs h-7 px-2"
-                onClick={() => setWeekStart(getWeekStart(new Date()))}
-              >
-                Aujourd'hui
-              </Button>
-            </>
-          )}
-        </div>
+					{/* Navigation semaine (seulement en vue semaine) */}
+					{view === "week" && (
+						<>
+							<Button
+								type="button"
+								variant="ghost"
+								size="icon"
+								className="size-8"
+								onClick={() => setWeekStart((w) => subWeeks(w, 1))}
+							>
+								<ChevronLeft className="h-4 w-4" />
+							</Button>
+							<span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">
+								{weekLabel}
+							</span>
+							<Button
+								type="button"
+								variant="ghost"
+								size="icon"
+								className="size-8"
+								onClick={() => setWeekStart((w) => addWeeks(w, 1))}
+							>
+								<ChevronRight className="h-4 w-4" />
+							</Button>
+							<Button
+								type="button"
+								variant="ghost"
+								size="sm"
+								className="text-xs h-7 px-2"
+								onClick={() => setWeekStart(getWeekStart(new Date()))}
+							>
+								Aujourd'hui
+							</Button>
+						</>
+					)}
+				</div>
 
-        {view === "week" && (
-          <div className={(weekEntries === undefined || activeProjects === undefined) ? "opacity-50 pointer-events-none" : ""}>
-            <WeekGrid
-              weekStart={weekStart}
-              entries={weekEntries ?? []}
-              projects={activeProjects ?? []}
-              onCellClick={(projectId, date) => {
-                const project = activeProjects?.find((p) => p._id === projectId)
-                if (!project) return
-                setQuickModal({
-                  open: true,
-                  projectId,
-                  projectName: project.name,
-                  hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
-                  date,
-                })
-              }}
-            />
-          </div>
-        )}
+				{view === "week" && (
+					<div
+						className={
+							weekEntries === undefined || activeProjects === undefined
+								? "opacity-50 pointer-events-none"
+								: ""
+						}
+					>
+						<WeekGrid
+							weekStart={weekStart}
+							entries={weekEntries ?? []}
+							projects={activeProjects ?? []}
+							onCellClick={(projectId, date) => {
+								const project = activeProjects?.find((p) => p._id === projectId)
+								if (!project) return
+								setQuickModal({
+									open: true,
+									projectId,
+									projectName: project.name,
+									hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+									date,
+								})
+							}}
+						/>
+					</div>
+				)}
 
-        {view === "list" && (
-          <DataTable
-            data={allEntries ?? []}
-            columns={columns}
-            rowActions={rowActions}
-            isLoading={allEntries === undefined}
-            enableSorting
-            enableGlobalSearch
-            enablePagination
-            pagination={{ pageSize: 25 }}
-            searchPlaceholder="Rechercher…"
-            locale="fr"
-            defaultSorting={[{ id: "date", desc: true }]}
-          />
-        )}
-      </div>
+				{view === "list" && (
+					<DataTable
+						data={allEntries ?? []}
+						columns={columns}
+						rowActions={rowActions}
+						isLoading={allEntries === undefined}
+						enableSorting
+						enableGlobalSearch
+						enablePagination
+						pagination={{ pageSize: 25 }}
+						searchPlaceholder="Rechercher…"
+						locale="fr"
+						defaultSorting={[{ id: "date", desc: true }]}
+					/>
+				)}
+			</div>
 
-      <Dialog open={addOpen} onOpenChange={setAddOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Nouvelle entrée</DialogTitle>
-          </DialogHeader>
-          <TimeEntryForm onSuccess={() => setAddOpen(false)} onCancel={() => setAddOpen(false)} />
-        </DialogContent>
-      </Dialog>
+			<Dialog open={addOpen} onOpenChange={setAddOpen}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Nouvelle entrée</DialogTitle>
+					</DialogHeader>
+					<TimeEntryForm onSuccess={() => setAddOpen(false)} onCancel={() => setAddOpen(false)} />
+				</DialogContent>
+			</Dialog>
 
-      <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Modifier l'entrée</DialogTitle>
-          </DialogHeader>
-          {editing && (
-            <TimeEntryForm
-              defaultValues={{
-                id: editing._id,
-                projectId: editing.projectId,
-                date: editing.date,
-                minutes: editing.minutes,
-                description: editing.description,
-                billable: editing.billable,
-              }}
-              onSuccess={() => setEditing(null)}
-              onCancel={() => setEditing(null)}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
+			<Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Modifier l'entrée</DialogTitle>
+					</DialogHeader>
+					{editing && (
+						<TimeEntryForm
+							defaultValues={{
+								id: editing._id,
+								projectId: editing.projectId,
+								date: editing.date,
+								minutes: editing.minutes,
+								description: editing.description,
+								billable: editing.billable,
+							}}
+							onSuccess={() => setEditing(null)}
+							onCancel={() => setEditing(null)}
+						/>
+					)}
+				</DialogContent>
+			</Dialog>
 
-      <QuickTimeEntryModal
-        open={quickModal.open}
-        onOpenChange={(open) => setQuickModal((s) => ({ ...s, open }))}
-        projectId={quickModal.projectId}
-        projectName={quickModal.projectName}
-        hourlyRate={quickModal.hourlyRate}
-        date={quickModal.date}
-      />
-    </OpsFrame>
-  )
+			<QuickTimeEntryModal
+				open={quickModal.open}
+				onOpenChange={(open) => setQuickModal((s) => ({ ...s, open }))}
+				projectId={quickModal.projectId}
+				projectName={quickModal.projectName}
+				hourlyRate={quickModal.hourlyRate}
+				date={quickModal.date}
+			/>
+		</OpsFrame>
+	)
 }
