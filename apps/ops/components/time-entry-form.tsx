@@ -117,7 +117,7 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					status: values.billable ? (values.status ?? "draft") : undefined,
 				})
 				toast.success("Entrée ajoutée")
-				reset({ date: values.date, hours: 1, projectId: values.projectId, billable: true })
+				reset({ date: values.date, hours: 1, projectId: values.projectId, billable: true, status: "draft" })
 			}
 			onSuccess?.()
 		} catch {
