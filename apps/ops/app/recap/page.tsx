@@ -131,7 +131,7 @@ export default function RecapPage() {
 		const url = URL.createObjectURL(blob)
 		const a = document.createElement("a")
 		a.href = url
-		a.download = `recap-${periodDates?.from ?? "custom"}-${periodDates?.to ?? "custom"}.csv`
+		a.download = `recap-${statusFilter}-${periodDates?.from ?? "custom"}-${periodDates?.to ?? "custom"}.csv`
 		a.click()
 		URL.revokeObjectURL(url)
 		toast.success("Export CSV téléchargé")
@@ -244,7 +244,9 @@ export default function RecapPage() {
 							onClick={() => setStatusFilter(s)}
 							className={cn(
 								"h-7 px-3 rounded-md transition-colors",
-								statusFilter === s ? "bg-surface shadow-sm" : "hover:bg-surface/50"
+								statusFilter === s
+							? "bg-surface shadow-sm font-medium text-fg"
+							: "text-fg-muted hover:text-fg"
 							)}
 						>
 							<EntryStatusBadge status={s} />
@@ -340,7 +342,7 @@ export default function RecapPage() {
 					</DialogHeader>
 					<p className="text-sm text-fg-muted">
 						{filteredEntries?.length ?? 0} entrée(s) seront marquées comme facturées et
-						disparaîtront de cette vue. Cette action peut être annulée depuis la page Temps.
+						déplacées dans l'onglet Facturé. Cette action peut être annulée depuis la page Temps.
 					</p>
 					<DialogFooter>
 						<Button type="button" variant="outline" onClick={() => setShowConfirm(false)}>
