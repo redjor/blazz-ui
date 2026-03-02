@@ -19,16 +19,19 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { cn } from "@blazz/ui/lib/utils"
 import { useMutation, useQuery } from "convex/react"
 import { endOfMonth, format, startOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
 import { CheckCheck, Download, FileText } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
+import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
+import { type EntryStatus, getEffectiveStatus } from "@/lib/time-entry-status"
 
 function getPeriodDates(preset: string): { from: string; to: string } | null {
 	const now = new Date()
@@ -55,13 +58,15 @@ export default function RecapPage() {
 	const [showConfirm, setShowConfirm] = useState(false)
 	const [from, setFrom] = useState(format(startOfMonth(new Date()), "yyyy-MM-dd"))
 	const [to, setTo] = useState(format(endOfMonth(new Date()), "yyyy-MM-dd"))
+	const [statusFilter, setStatusFilter] = useState<EntryStatus>("ready_to_invoice")
+	const [showMarkPaid, setShowMarkPaid] = useState(false)
+	const setStatus = useMutation(api.timeEntries.setStatus)
 
 	const clients = useQuery(api.clients.list)
 	const clientProjects = useQuery(
 		api.projects.listByClient,
 		clientId ? { clientId: clientId as Id<"clients"> } : "skip"
 	)
-	const markInvoiced = useMutation(api.timeEntries.markInvoiced)
 
 	const periodDates = period !== "custom" ? getPeriodDates(period) : { from, to }
 
@@ -69,13 +74,16 @@ export default function RecapPage() {
 		projectId: projectId ? (projectId as Id<"projects">) : undefined,
 		from: periodDates?.from,
 		to: periodDates?.to,
+		includeInvoiced: true,
 	})
 
 	// Filter by client client-side if client selected but no project selected
-	const filteredEntries =
+	const filteredByClient =
 		!projectId && clientId && clientProjects
 			? entries?.filter((e) => clientProjects.some((p) => p._id === e.projectId))
 			: entries
+
+	const filteredEntries = filteredByClient?.filter((e) => getEffectiveStatus(e) === statusFilter)
 
 	const totalMinutes = filteredEntries?.reduce((s, e) => s + e.minutes, 0) ?? 0
 	const totalAmount = filteredEntries?.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0) ?? 0
@@ -85,9 +93,21 @@ export default function RecapPage() {
 		if (!filteredEntries?.length) return
 		const ids = filteredEntries.map((e) => e._id)
 		try {
-			await markInvoiced({ ids })
+			await setStatus({ ids, status: "invoiced" })
 			toast.success(`${ids.length} entrée(s) marquées comme facturées`)
 			setShowConfirm(false)
+		} catch {
+			toast.error("Erreur")
+		}
+	}
+
+	const handleMarkPaid = async () => {
+		if (!filteredEntries?.length) return
+		const ids = filteredEntries.map((e) => e._id)
+		try {
+			await setStatus({ ids, status: "paid" })
+			toast.success(`${ids.length} entrée(s) marquées comme payées`)
+			setShowMarkPaid(false)
 		} catch {
 			toast.error("Erreur")
 		}
@@ -215,6 +235,23 @@ export default function RecapPage() {
 					)}
 				</div>
 
+				{/* Status tabs */}
+				<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised w-fit">
+					{(["ready_to_invoice", "invoiced", "paid"] as const).map((s) => (
+						<button
+							key={s}
+							type="button"
+							onClick={() => setStatusFilter(s)}
+							className={cn(
+								"h-7 px-3 rounded-md transition-colors",
+								statusFilter === s ? "bg-surface shadow-sm" : "hover:bg-surface/50"
+							)}
+						>
+							<EntryStatusBadge status={s} />
+						</button>
+					))}
+				</div>
+
 				{/* Table */}
 				{filteredEntries === undefined ? (
 					<Empty size="sm" title="Chargement…" />
@@ -222,8 +259,8 @@ export default function RecapPage() {
 					<Empty
 						icon={FileText}
 						size="sm"
-						title="Aucune entrée non facturée"
-						description="Aucune entrée non facturée sur cette période."
+						title="Aucune entrée"
+						description="Aucune entrée sur cette période pour ce statut."
 					/>
 				) : (
 					<>
@@ -279,10 +316,18 @@ export default function RecapPage() {
 								<Download className="size-4 mr-1.5" />
 								Export CSV
 							</Button>
-							<Button onClick={() => setShowConfirm(true)}>
-								<CheckCheck className="size-4 mr-1.5" />
-								Marquer comme facturé ({filteredEntries.length})
-							</Button>
+							{statusFilter === "ready_to_invoice" && (
+								<Button onClick={() => setShowConfirm(true)}>
+									<CheckCheck className="size-4 mr-1.5" />
+									Marquer comme facturé ({filteredEntries.length})
+								</Button>
+							)}
+							{statusFilter === "invoiced" && (
+								<Button onClick={() => setShowMarkPaid(true)}>
+									<CheckCheck className="size-4 mr-1.5" />
+									Marquer comme payé ({filteredEntries.length})
+								</Button>
+							)}
 						</div>
 					</>
 				)}
@@ -302,6 +347,24 @@ export default function RecapPage() {
 							Annuler
 						</Button>
 						<Button onClick={handleMarkInvoiced}>Confirmer</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+
+			<Dialog open={showMarkPaid} onOpenChange={setShowMarkPaid}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Marquer comme payé ?</DialogTitle>
+					</DialogHeader>
+					<p className="text-sm text-fg-muted">
+						{filteredEntries?.length ?? 0} entrée(s) seront marquées comme payées. Cette action peut
+						être annulée depuis la page Temps.
+					</p>
+					<DialogFooter>
+						<Button type="button" variant="outline" onClick={() => setShowMarkPaid(false)}>
+							Annuler
+						</Button>
+						<Button onClick={handleMarkPaid}>Confirmer</Button>
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
