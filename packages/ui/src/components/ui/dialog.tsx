@@ -89,7 +89,7 @@ function DialogHeader({
 		<div
 			data-slot="dialog-header"
 			className={cn(
-				"gap-2 flex flex-col -mx-4 -mt-4 px-4 pt-4 pb-3",
+				"gap-2 flex flex-col -mx-4 -mt-4 p-4",
 				separator && "border-b border-separator",
 				className
 			)}

@@ -10,7 +10,7 @@ import {
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
-import { Input } from "@blazz/ui/components/ui/input"
+import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
@@ -21,7 +21,7 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { cn } from "@blazz/ui/lib/utils"
 import { useMutation, useQuery } from "convex/react"
-import { endOfMonth, format, startOfMonth, subMonths } from "date-fns"
+import { endOfMonth, format, parseISO, startOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
 import { CheckCheck, Download, FileText } from "lucide-react"
 import { useState } from "react"
@@ -161,9 +161,9 @@ export default function RecapPage() {
 								<SelectValue placeholder="Tous" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="_all">Tous les clients</SelectItem>
+								<SelectItem value="_all" label="Tous les clients">Tous les clients</SelectItem>
 								{clients?.map((c) => (
-									<SelectItem key={c._id} value={c._id}>
+									<SelectItem key={c._id} value={c._id} label={c.name}>
 										{c.name}
 									</SelectItem>
 								))}
@@ -186,9 +186,9 @@ export default function RecapPage() {
 									<SelectValue placeholder="Tous" />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="_all">Tous les projets</SelectItem>
+									<SelectItem value="_all" label="Tous les projets">Tous les projets</SelectItem>
 									{clientProjects?.map((p) => (
-										<SelectItem key={p._id} value={p._id}>
+										<SelectItem key={p._id} value={p._id} label={p.name}>
 											{p.name}
 										</SelectItem>
 									))}
@@ -204,34 +204,26 @@ export default function RecapPage() {
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="current">Mois en cours</SelectItem>
-								<SelectItem value="last">Mois précédent</SelectItem>
-								<SelectItem value="custom">Personnalisée</SelectItem>
+								<SelectItem value="current" label="Mois en cours">Mois en cours</SelectItem>
+								<SelectItem value="last" label="Mois précédent">Mois précédent</SelectItem>
+								<SelectItem value="custom" label="Personnalisée">Personnalisée</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>
 
 					{period === "custom" && (
-						<>
-							<div className="space-y-1.5">
-								<Label>Du</Label>
-								<Input
-									type="date"
-									value={from}
-									onChange={(e) => setFrom(e.target.value)}
-									className="w-40"
-								/>
-							</div>
-							<div className="space-y-1.5">
-								<Label>Au</Label>
-								<Input
-									type="date"
-									value={to}
-									onChange={(e) => setTo(e.target.value)}
-									className="w-40"
-								/>
-							</div>
-						</>
+						<div className="space-y-1.5">
+							<Label>Période</Label>
+							<DateRangeSelector
+								from={from ? parseISO(from) : undefined}
+								to={to ? parseISO(to) : undefined}
+								onRangeChange={(r) => {
+									setFrom(r.from ? format(r.from, "yyyy-MM-dd") : "")
+									setTo(r.to ? format(r.to, "yyyy-MM-dd") : "")
+								}}
+								formatStr="dd/MM/yyyy"
+							/>
+						</div>
 					)}
 				</div>
 

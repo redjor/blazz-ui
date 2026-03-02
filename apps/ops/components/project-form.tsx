@@ -8,10 +8,12 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { toast } from "sonner"
 import { Button } from "@blazz/ui/components/ui/button"
+import { DateSelector } from "@blazz/ui/components/ui/date-selector"
+import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
-import { DialogFooter } from "@blazz/ui/components/ui/dialog"
+import { format, parseISO } from "date-fns"
 
 const schema = z.object({
   name: z.string().min(1, "Nom requis"),
@@ -86,25 +88,41 @@ export function ProjectForm({ clientId, defaultValues, onSuccess, onCancel }: Pr
       </div>
       <div className="space-y-1.5">
         <Label>Statut</Label>
-        <Select defaultValue={watch("status")} onValueChange={(v) => setValue("status", v as "active" | "paused" | "closed")}>
+        <Select
+          value={watch("status")}
+          onValueChange={(v) => setValue("status", v as "active" | "paused" | "closed")}
+          items={{ active: "Actif", paused: "En pause", closed: "Clôturé" }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="active">Actif</SelectItem>
-            <SelectItem value="paused">En pause</SelectItem>
-            <SelectItem value="closed">Clôturé</SelectItem>
+            <SelectItem value="active" label="Actif">Actif</SelectItem>
+            <SelectItem value="paused" label="En pause">En pause</SelectItem>
+            <SelectItem value="closed" label="Clôturé">Clôturé</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label>Date début</Label>
-          <Input type="date" {...register("startDate")} />
+          <DateSelector
+            value={watch("startDate") ? parseISO(watch("startDate")!) : undefined}
+            onValueChange={(d) => setValue("startDate", d ? format(d, "yyyy-MM-dd") : "")}
+            placeholder="Choisir…"
+            formatStr="dd/MM/yyyy"
+            className="w-full"
+          />
         </div>
         <div className="space-y-1.5">
           <Label>Date fin</Label>
-          <Input type="date" {...register("endDate")} />
+          <DateSelector
+            value={watch("endDate") ? parseISO(watch("endDate")!) : undefined}
+            onValueChange={(d) => setValue("endDate", d ? format(d, "yyyy-MM-dd") : "")}
+            placeholder="Choisir…"
+            formatStr="dd/MM/yyyy"
+            className="w-full"
+          />
         </div>
       </div>
       <DialogFooter>

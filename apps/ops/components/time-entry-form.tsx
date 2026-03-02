@@ -2,6 +2,7 @@
 
 import { Button } from "@blazz/ui/components/ui/button"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
+import { DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -14,7 +15,7 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { type Resolver, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -132,13 +133,14 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 				<Select
 					value={watch("projectId") ?? ""}
 					onValueChange={(v) => setValue("projectId", v ?? "")}
+					items={projects?.reduce((acc: Record<string, string>, p: { _id: string; name: string }) => ({ ...acc, [p._id]: p.name }), {}) ?? {}}
 				>
 					<SelectTrigger className="w-full">
 						<SelectValue placeholder="Choisir un projet…" />
 					</SelectTrigger>
 					<SelectContent>
 						{projects?.map((p: { _id: string; name: string }) => (
-							<SelectItem key={p._id} value={p._id}>
+							<SelectItem key={p._id} value={p._id} label={p.name}>
 								{p.name}
 							</SelectItem>
 						))}
@@ -150,7 +152,13 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 			<div className="grid grid-cols-2 gap-4">
 				<div className="space-y-1.5">
 					<Label>Date *</Label>
-					<Input type="date" {...register("date")} />
+					<DateSelector
+						value={watch("date") ? parseISO(watch("date")) : undefined}
+						onValueChange={(d) => setValue("date", d ? format(d, "yyyy-MM-dd") : "")}
+						placeholder="Choisir une date…"
+						formatStr="dd/MM/yyyy"
+						className="w-full"
+					/>
 				</div>
 				<div className="space-y-1.5">
 					<Label>Durée (heures) *</Label>
@@ -181,13 +189,14 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					<Select
 						value={watch("status") ?? "draft"}
 						onValueChange={(v) => setValue("status", v as "draft" | "ready_to_invoice")}
+						items={{ draft: "Brouillon", ready_to_invoice: "Prêt à facturer" }}
 					>
 						<SelectTrigger className="w-full">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="draft">Brouillon</SelectItem>
-							<SelectItem value="ready_to_invoice">Prêt à facturer</SelectItem>
+							<SelectItem value="draft" label="Brouillon">Brouillon</SelectItem>
+							<SelectItem value="ready_to_invoice" label="Prêt à facturer">Prêt à facturer</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
