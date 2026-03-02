@@ -13,8 +13,13 @@ export const list = query({
 		),
 	},
 	handler: async (ctx, { status }) => {
-		const all = await ctx.db.query("todos").order("desc").collect()
-		return status ? all.filter((t) => t.status === status) : all
+		if (status) {
+			return ctx.db
+				.query("todos")
+				.withIndex("by_status", (q) => q.eq("status", status))
+				.collect()
+		}
+		return ctx.db.query("todos").order("desc").collect()
 	},
 })
 
