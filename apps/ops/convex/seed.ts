@@ -9,6 +9,9 @@ export const run = mutation({
 	args: {},
 	handler: async (ctx) => {
 		// Wipe existing data
+		const existingTodos = await ctx.db.query("todos").collect()
+		for (const t of existingTodos) await ctx.db.delete(t._id)
+
 		const existingClients = await ctx.db.query("clients").collect()
 		for (const c of existingClients) {
 			const projects = await ctx.db
@@ -1111,10 +1114,98 @@ export const run = mutation({
 			await insert(entry)
 		}
 
+		// ── Todos ─────────────────────────────────────────────────────────────────
+		const todos = [
+			// Triage — captures récentes, pas encore traitées
+			{
+				text: "Répondre à Thomas (Nexus) sur le planning mars",
+				status: "triage" as const,
+				source: "telegram" as const,
+				projectId: nexusPlatformId,
+			},
+			{
+				text: "Regarder la PR de Léa sur le repo Veridian API",
+				status: "triage" as const,
+				source: "telegram" as const,
+				projectId: veridianApiId,
+			},
+			{
+				text: "Préparer facture Veridian Q1",
+				status: "triage" as const,
+				source: "telegram" as const,
+			},
+			{
+				text: "Acheter adaptateur USB-C pour réunion client vendredi",
+				status: "triage" as const,
+				source: "app" as const,
+			},
+
+			// Todo — triés, à faire
+			{
+				text: "Setup CI/CD pipeline pour Orbital Mobile (GitHub Actions)",
+				status: "todo" as const,
+				source: "app" as const,
+				projectId: orbitalMobileId,
+			},
+			{
+				text: "Lire doc tRPC v11 — nouvelles features",
+				status: "todo" as const,
+				source: "app" as const,
+			},
+			{
+				text: "Mettre à jour portfolio avec les projets Nexus + Orbital",
+				status: "todo" as const,
+				source: "app" as const,
+			},
+			{
+				text: "Renouveler abonnement Figma (expire fin mars)",
+				status: "todo" as const,
+				source: "app" as const,
+			},
+
+			// In Progress — en cours
+			{
+				text: "Implémenter dark mode — Orbital Trader app",
+				status: "in_progress" as const,
+				source: "app" as const,
+				projectId: orbitalMobileId,
+			},
+			{
+				text: "Rédiger compte-rendu réunion Nexus Labs du 28 fév",
+				status: "in_progress" as const,
+				source: "app" as const,
+				projectId: nexusPlatformId,
+			},
+
+			// Done — terminés
+			{
+				text: "Livrer prototype phase 1 Atlas E-commerce",
+				status: "done" as const,
+				source: "app" as const,
+				projectId: atlasId2,
+			},
+			{
+				text: "Envoyer facture Acme janvier",
+				status: "done" as const,
+				source: "app" as const,
+			},
+			{
+				text: "Call onboarding Sophie Mercier (Orbital Finance)",
+				status: "done" as const,
+				source: "telegram" as const,
+				projectId: orbitalMobileId,
+			},
+		]
+
+		for (const todo of todos) {
+			await ctx.db.insert("todos", { ...todo, createdAt: now })
+		}
+
 		return {
 			clients: 5,
 			projects: 9,
 			timeEntries: allEntries.length,
+			todos: todos.length,
 		}
 	},
 })
