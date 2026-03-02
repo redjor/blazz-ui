@@ -47,4 +47,18 @@ export default defineSchema({
 	})
 		.index("by_project", ["projectId"])
 		.index("by_date", ["date"]),
+
+	todos: defineTable({
+		text: v.string(),
+		status: v.union(
+			v.literal("triage"),
+			v.literal("todo"),
+			v.literal("in_progress"),
+			v.literal("done")
+		),
+		source: v.union(v.literal("app"), v.literal("telegram")),
+		projectId: v.optional(v.id("projects")),
+		createdAt: v.number(),
+	})
+		.index("by_status", ["status"]),
 })
