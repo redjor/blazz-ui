@@ -153,6 +153,13 @@ export default function TodosPage() {
 							</div>
 						))}
 					</div>
+				) : todos.length === 0 ? (
+					<Empty
+						icon={CheckSquare}
+						title="Aucun todo"
+						description="Créez un todo depuis l'app ou envoyez un message à votre bot Telegram"
+						action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
+					/>
 				) : (
 					<div className="grid grid-cols-4 gap-4 items-start">
 						{COLUMNS.map((col) => {
@@ -193,15 +200,6 @@ export default function TodosPage() {
 							)
 						})}
 					</div>
-				)}
-
-				{todos?.length === 0 && (
-					<Empty
-						icon={CheckSquare}
-						title="Aucun todo"
-						description="Créez un todo depuis l'app ou envoyez un message à votre bot Telegram"
-						action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
-					/>
 				)}
 			</div>
 
