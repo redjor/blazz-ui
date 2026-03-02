@@ -1,0 +1,12 @@
+# Next.js
+.next
+out
+node_modules
+
+# Convex
+.env.local
+convex/_generated
+
+# General
+.DS_Store
+*.tsbuildinfo
