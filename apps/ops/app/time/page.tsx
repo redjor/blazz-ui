@@ -1,13 +1,15 @@
 "use client"
 
+import { useState } from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
-import type { Id } from "@/convex/_generated/dataModel"
+import type { Id, Doc } from "@/convex/_generated/dataModel"
 import { OpsFrame } from "@/components/ops-frame"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import { Trash2 } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { Trash2, Pencil } from "lucide-react"
 import { toast } from "sonner"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -16,6 +18,7 @@ import { formatMinutes } from "@/lib/format"
 export default function TimePage() {
   const entries = useQuery(api.timeEntries.list, {})
   const remove = useMutation(api.timeEntries.remove)
+  const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
 
   const handleDelete = async (id: Id<"timeEntries">) => {
     try {
@@ -64,6 +67,14 @@ export default function TimePage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    className="size-8 text-fg-muted"
+                    onClick={() => setEditing(entry)}
+                  >
+                    <Pencil className="size-3.5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     className="size-8 text-fg-muted hover:text-destructive"
                     onClick={() => handleDelete(entry._id)}
                   >
@@ -75,6 +86,27 @@ export default function TimePage() {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Modifier l'entrée</DialogTitle>
+          </DialogHeader>
+          {editing && (
+            <TimeEntryForm
+              defaultValues={{
+                id: editing._id,
+                projectId: editing.projectId,
+                date: editing.date,
+                minutes: editing.minutes,
+                description: editing.description,
+                billable: editing.billable,
+              }}
+              onSuccess={() => setEditing(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </OpsFrame>
   )
 }

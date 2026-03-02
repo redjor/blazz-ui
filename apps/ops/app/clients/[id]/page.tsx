@@ -46,7 +46,6 @@ export default function ClientDetailPage({ params }: Props) {
           <ArrowLeft className="size-3.5" />Clients
         </Link>
 
-        {/* Client header */}
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-xl font-semibold text-fg">{client.name}</h1>
@@ -68,7 +67,6 @@ export default function ClientDetailPage({ params }: Props) {
           </Dialog>
         </div>
 
-        {/* Projects */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-medium text-fg">Projets</h2>
