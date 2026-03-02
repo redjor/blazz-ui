@@ -37,7 +37,6 @@ interface Props {
   projectName: string | null
   hourlyRate: number | null
   date: string | null
-  onSuccess?: () => void
 }
 
 export function QuickTimeEntryModal({
@@ -47,7 +46,6 @@ export function QuickTimeEntryModal({
   projectName,
   hourlyRate,
   date,
-  onSuccess,
 }: Props) {
   const create = useMutation(api.timeEntries.create)
 
@@ -68,7 +66,7 @@ export function QuickTimeEntryModal({
   }, [open, reset])
 
   const onSubmit = async (values: FormValues): Promise<void> => {
-    if (!projectId || !date || !hourlyRate) {
+    if (!projectId || !date || hourlyRate === null) {
       toast.error("Projet ou date manquant")
       return
     }
@@ -83,7 +81,6 @@ export function QuickTimeEntryModal({
       })
       toast.success("Entrée ajoutée")
       reset({ hours: 1, billable: true, description: "" })
-      onSuccess?.()
       onOpenChange(false)
     } catch {
       toast.error("Une erreur est survenue")

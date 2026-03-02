@@ -8,7 +8,7 @@ import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { cn } from "@blazz/ui/lib/utils"
 
 type TimeEntry = Doc<"timeEntries">
-type Project = Doc<"projects"> & { clientName?: string }
+type Project = Doc<"projects">
 
 interface WeekGridProps {
   weekStart: Date // doit être un lundi
@@ -69,6 +69,11 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGrid
     return map
   }, [dayStrings, projects, entryMap])
 
+  const grandTotal = useMemo(
+    () => dayTotals.reduce((s, m) => s + m, 0),
+    [dayTotals]
+  )
+
   if (projects.length === 0) {
     return (
       <div className="text-sm text-fg-muted text-center py-12">
@@ -114,9 +119,6 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGrid
               <tr key={project._id} className="border-t border-edge">
                 <td className="py-2 pr-4">
                   <p className="font-medium text-fg truncate max-w-[160px]">{project.name}</p>
-                  {project.clientName && (
-                    <p className="text-xs text-fg-muted">{project.clientName}</p>
-                  )}
                 </td>
                 {days.map((day, dayIdx) => {
                   const dateStr = dayStrings[dayIdx]
@@ -129,7 +131,7 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGrid
                     <td key={day.toISOString()} className="py-1.5 px-1">
                       <button
                         type="button"
-                        aria-label={`${hasEntries ? "Ajouter une entrée" : "Ajouter"} — ${project.name}, ${dateStr}`}
+                        aria-label={`${hasEntries ? "Voir ou ajouter" : "Ajouter une entrée"} — ${project.name}, ${dateStr}`}
                         onClick={() => onCellClick(project._id, dateStr)}
                         className={cn(
                           "w-full h-10 rounded-md text-xs font-mono transition-colors",
@@ -169,10 +171,7 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGrid
               </td>
             ))}
             <td className="py-2 pl-4 text-right font-mono text-xs font-semibold text-fg">
-              {(() => {
-                const total = dayTotals.reduce((s, m) => s + m, 0)
-                return total > 0 ? formatMinutes(total) : "—"
-              })()}
+              {grandTotal > 0 ? formatMinutes(grandTotal) : "—"}
             </td>
           </tr>
         </tfoot>

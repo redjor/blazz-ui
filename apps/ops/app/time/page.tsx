@@ -18,6 +18,7 @@ import { toast } from "sonner"
 import { format, startOfWeek, addWeeks, subWeeks, addDays } from "date-fns"
 import { fr } from "date-fns/locale"
 import { formatMinutes } from "@/lib/format"
+import { computeHourlyRate } from "@/lib/rate"
 
 type TimeEntry = Doc<"timeEntries">
 
@@ -218,7 +219,7 @@ export default function TimePage() {
               </button>
             </div>
 
-            <div className={weekEntries === undefined ? "opacity-50 pointer-events-none" : ""}>
+            <div className={(weekEntries === undefined || activeProjects === undefined) ? "opacity-50 pointer-events-none" : ""}>
               <WeekGrid
                 weekStart={weekStart}
                 entries={weekEntries ?? []}
@@ -230,7 +231,7 @@ export default function TimePage() {
                     open: true,
                     projectId,
                     projectName: project.name,
-                    hourlyRate: project.hoursPerDay > 0 ? project.tjm / project.hoursPerDay : project.tjm / 8,
+                    hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
                     date,
                   })
                 }}
