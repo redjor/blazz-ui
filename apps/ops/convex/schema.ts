@@ -50,6 +50,7 @@ export default defineSchema({
 
 	todos: defineTable({
 		text: v.string(),
+		description: v.optional(v.string()),
 		status: v.union(
 			v.literal("triage"),
 			v.literal("todo"),

@@ -26,6 +26,7 @@ export const list = query({
 export const create = mutation({
 	args: {
 		text: v.string(),
+		description: v.optional(v.string()),
 		status: v.optional(
 			v.union(
 				v.literal("triage"),
@@ -37,9 +38,10 @@ export const create = mutation({
 		source: v.optional(v.union(v.literal("app"), v.literal("telegram"))),
 		projectId: v.optional(v.id("projects")),
 	},
-	handler: async (ctx, { text, status = "triage", source = "app", projectId }) => {
+	handler: async (ctx, { text, description, status = "triage", source = "app", projectId }) => {
 		return ctx.db.insert("todos", {
 			text,
+			description,
 			status,
 			source,
 			projectId,
@@ -62,8 +64,8 @@ export const updateStatus = mutation({
 })
 
 export const updateText = mutation({
-	args: { id: v.id("todos"), text: v.string() },
-	handler: async (ctx, { id, text }) => ctx.db.patch(id, { text }),
+	args: { id: v.id("todos"), text: v.string(), description: v.optional(v.string()) },
+	handler: async (ctx, { id, text, description }) => ctx.db.patch(id, { text, description }),
 })
 
 export const linkProject = mutation({

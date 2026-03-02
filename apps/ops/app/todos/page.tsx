@@ -6,6 +6,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { Input } from "@blazz/ui/components/ui/input"
+import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { CheckSquare, ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react"
@@ -46,16 +47,23 @@ function EditTodoDialog({
 }) {
 	const updateText = useMutation(api.todos.updateText)
 	const [text, setText] = useState(todo.text)
+	const [description, setDescription] = useState(todo.description ?? "")
+
+	const unchanged = text.trim() === todo.text && description.trim() === (todo.description ?? "")
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault()
 		if (!text.trim()) return
-		await updateText({ id: todo._id, text: text.trim() })
+		await updateText({
+			id: todo._id,
+			text: text.trim(),
+			description: description.trim() || undefined,
+		})
 		onOpenChange(false)
 	}
 
 	return (
-		<Dialog open={open} onOpenChange={(v) => { if (!v) setText(todo.text); onOpenChange(v) }}>
+		<Dialog open={open} onOpenChange={(v) => { if (!v) { setText(todo.text); setDescription(todo.description ?? "") } onOpenChange(v) }}>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Modifier le todo</DialogTitle>
@@ -63,14 +71,21 @@ function EditTodoDialog({
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
 						autoFocus
+						placeholder="Titre"
 						value={text}
 						onChange={(e) => setText(e.target.value)}
+					/>
+					<Textarea
+						placeholder="Description (optionnelle)"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+						rows={3}
 					/>
 					<div className="flex justify-end gap-2">
 						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
 							Annuler
 						</Button>
-						<Button type="submit" disabled={!text.trim() || text.trim() === todo.text}>
+						<Button type="submit" disabled={!text.trim() || unchanged}>
 							Sauvegarder
 						</Button>
 					</div>
@@ -91,6 +106,9 @@ function TodoCard({ todo }: { todo: Doc<"todos"> }) {
 		<>
 			<div className={`p-3 rounded-md border border-edge bg-raised space-y-2 ${todo.status === "done" ? "opacity-60" : ""}`}>
 				<p className="text-sm text-fg leading-snug">{todo.text}</p>
+				{todo.description && (
+					<p className="text-xs text-fg-muted leading-relaxed whitespace-pre-wrap">{todo.description}</p>
+				)}
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-1.5">
 						{todo.source === "telegram" && (
@@ -154,17 +172,19 @@ function AddTodoDialog({
 }) {
 	const create = useMutation(api.todos.create)
 	const [text, setText] = useState("")
+	const [description, setDescription] = useState("")
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault()
 		if (!text.trim()) return
-		await create({ text: text.trim(), status: defaultStatus, source: "app" })
+		await create({ text: text.trim(), description: description.trim() || undefined, status: defaultStatus, source: "app" })
 		setText("")
+		setDescription("")
 		onOpenChange(false)
 	}
 
 	return (
-		<Dialog open={open} onOpenChange={(v) => { if (!v) setText(""); onOpenChange(v) }}>
+		<Dialog open={open} onOpenChange={(v) => { if (!v) { setText(""); setDescription("") } onOpenChange(v) }}>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Nouveau todo</DialogTitle>
@@ -172,9 +192,15 @@ function AddTodoDialog({
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<Input
 						autoFocus
-						placeholder="Ce que tu dois faire..."
+						placeholder="Titre"
 						value={text}
 						onChange={(e) => setText(e.target.value)}
+					/>
+					<Textarea
+						placeholder="Description (optionnelle)"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+						rows={3}
 					/>
 					<div className="flex justify-end gap-2">
 						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
