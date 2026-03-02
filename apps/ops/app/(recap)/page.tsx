@@ -13,12 +13,7 @@ import { toast } from "sonner"
 import { format, startOfMonth, endOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Download, CheckCheck } from "lucide-react"
-
-function formatMinutes(minutes: number): string {
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  return m > 0 ? `${h}h${m.toString().padStart(2, "0")}` : `${h}h`
-}
+import { formatMinutes } from "@/lib/format"
 
 function getPeriodDates(preset: string): { from: string; to: string } | null {
   const now = new Date()

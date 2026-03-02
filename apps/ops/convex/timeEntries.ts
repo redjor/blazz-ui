@@ -87,6 +87,13 @@ export const markInvoiced = mutation({
   args: { ids: v.array(v.id("timeEntries")) },
   handler: async (ctx, { ids }) => {
     const now = Date.now()
-    await Promise.all(ids.map((id) => ctx.db.patch(id, { invoicedAt: now })))
+    await Promise.all(
+      ids.map(async (id) => {
+        const entry = await ctx.db.get(id)
+        if (entry && !entry.invoicedAt) {
+          await ctx.db.patch(id, { invoicedAt: now })
+        }
+      })
+    )
   },
 })

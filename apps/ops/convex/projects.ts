@@ -22,7 +22,7 @@ export const listActive = query({
   handler: async (ctx) => {
     return ctx.db
       .query("projects")
-      .filter((q) => q.eq(q.field("status"), "active"))
+      .withIndex("by_status", (q) => q.eq("status", "active"))
       .collect()
   },
 })

@@ -5,12 +5,7 @@ import { api } from "@/convex/_generated/api"
 import { OpsFrame } from "@/components/ops-frame"
 import { format, startOfMonth, endOfMonth } from "date-fns"
 import { fr } from "date-fns/locale"
-
-function formatMinutes(minutes: number): string {
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  return m > 0 ? `${h}h${m.toString().padStart(2, "0")}` : `${h}h`
-}
+import { formatMinutes } from "@/lib/format"
 
 export default function DashboardPage() {
   const now = new Date()

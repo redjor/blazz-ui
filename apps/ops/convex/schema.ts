@@ -22,7 +22,9 @@ export default defineSchema({
     startDate: v.optional(v.string()),
     endDate: v.optional(v.string()),
     createdAt: v.number(),
-  }).index("by_client", ["clientId"]),
+  })
+    .index("by_client", ["clientId"])
+    .index("by_status", ["status"]),
 
   timeEntries: defineTable({
     projectId: v.id("projects"),

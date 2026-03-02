@@ -24,7 +24,7 @@ export function OpsNav() {
           className={cn(
             "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
             "text-fg-muted hover:text-fg hover:bg-raised",
-            pathname === href && "text-fg bg-raised"
+            (href === "/" ? pathname === "/" : pathname.startsWith(href)) && "text-fg bg-raised"
           )}
         >
           <Icon className="size-4" />
