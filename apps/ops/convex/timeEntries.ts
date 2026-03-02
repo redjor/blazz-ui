@@ -101,6 +101,7 @@ export const remove = mutation({
 	handler: async (ctx, { id }) => ctx.db.delete(id),
 })
 
+/** @deprecated Use setStatus({ ids, status: "draft" }) instead — does not update the status field. */
 export const unmarkInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
 	handler: async (ctx, { ids }) => {
@@ -115,6 +116,7 @@ export const unmarkInvoiced = mutation({
 	},
 })
 
+/** @deprecated Use setStatus({ ids, status: "invoiced" }) instead — does not update the status field. */
 export const markInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
 	handler: async (ctx, { ids }) => {
