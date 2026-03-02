@@ -1,6 +1,6 @@
 "use client"
 
-import { useForm } from "react-hook-form"
+import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useMutation, useQuery } from "convex/react"
@@ -31,15 +31,15 @@ export function TimeEntryForm({ onSuccess }: Props) {
   const create = useMutation(api.timeEntries.create)
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors, isSubmitting } } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as Resolver<FormValues>,
     defaultValues: {
       date: format(new Date(), "yyyy-MM-dd"),
       hours: 1,
     },
   })
 
-  const onSubmit = async (values: FormValues) => {
-    const project = activeProjects?.find((p) => p._id === values.projectId)
+  const onSubmit = async (values: FormValues): Promise<void> => {
+    const project = activeProjects?.find((p: { _id: string; tjm: number; hoursPerDay: number }) => p._id === values.projectId)
     if (!project) return toast.error("Projet introuvable")
 
     const hourlyRate = project.tjm / project.hoursPerDay
@@ -65,12 +65,12 @@ export function TimeEntryForm({ onSuccess }: Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-1.5">
         <Label>Projet *</Label>
-        <Select value={watch("projectId")} onValueChange={(v) => setValue("projectId", v)}>
+        <Select value={watch("projectId") ?? ""} onValueChange={(v) => setValue("projectId", v ?? "")}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Choisir un projet…" />
           </SelectTrigger>
           <SelectContent>
-            {activeProjects?.map((p) => (
+            {activeProjects?.map((p: { _id: string; name: string }) => (
               <SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
             ))}
           </SelectContent>
