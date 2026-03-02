@@ -8,9 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/comp
 import { useMutation, useQuery } from "convex/react"
 import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Pencil, RotateCcw, Trash2 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
+import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { OpsFrame } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
@@ -19,6 +20,7 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
+import { getEffectiveStatus } from "@/lib/time-entry-status"
 
 type TimeEntry = Doc<"timeEntries">
 
@@ -43,7 +45,7 @@ export default function TimePage() {
 	const allEntries = useQuery(api.timeEntries.list, view === "list" ? {} : "skip")
 
 	const remove = useMutation(api.timeEntries.remove)
-	const unmarkInvoiced = useMutation(api.timeEntries.unmarkInvoiced)
+	const setStatus = useMutation(api.timeEntries.setStatus)
 
 	const [editing, setEditing] = useState<TimeEntry | null>(null)
 	const [addOpen, setAddOpen] = useState(false)
@@ -91,26 +93,9 @@ export default function TimePage() {
 				},
 			},
 			{
-				accessorKey: "billable",
-				header: "Facturable",
-				cell: ({ row }) =>
-					row.original.billable ? null : (
-						<span className="flex items-center gap-1.5 text-xs text-fg-muted">
-							<span className="inline-block size-1.5 rounded-full bg-fg-muted" />
-							Non facturable
-						</span>
-					),
-			},
-			{
-				accessorKey: "invoicedAt",
+				id: "status",
 				header: "Statut",
-				cell: ({ row }) =>
-					row.original.invoicedAt ? (
-						<span className="flex items-center gap-1.5 text-xs text-fg-muted">
-							<span className="inline-block size-1.5 rounded-full bg-green-500" />
-							Facturé
-						</span>
-					) : null,
+				cell: ({ row }) => <EntryStatusBadge status={getEffectiveStatus(row.original)} />,
 			},
 		],
 		[]
@@ -125,14 +110,65 @@ export default function TimePage() {
 				handler: (row) => setEditing(row.original),
 			},
 			{
-				id: "unmark-invoiced",
-				label: "Annuler facturation",
-				icon: RotateCcw,
-				hidden: (row) => !row.original.invoicedAt,
+				id: "mark-ready",
+				label: "Prêt à facturer",
+				hidden: (row) => getEffectiveStatus(row.original) !== "draft",
 				handler: async (row) => {
 					try {
-						await unmarkInvoiced({ ids: [row.original._id] })
-						toast.success("Facturation annulée")
+						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
+						toast.success("Marqué prêt à facturer")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "revert-to-draft",
+				label: "Revenir en brouillon",
+				hidden: (row) => getEffectiveStatus(row.original) !== "ready_to_invoice",
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "draft" })
+						toast.success("Remis en brouillon")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-invoiced",
+				label: "Marquer facturé",
+				hidden: (row) => getEffectiveStatus(row.original) !== "ready_to_invoice",
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "invoiced" })
+						toast.success("Marqué facturé")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "revert-to-ready",
+				label: "Revenir à prêt à facturer",
+				hidden: (row) => getEffectiveStatus(row.original) !== "invoiced",
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
+						toast.success("Revenu à prêt à facturer")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-paid",
+				label: "Marquer payé",
+				hidden: (row) => getEffectiveStatus(row.original) !== "invoiced",
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "paid" })
+						toast.success("Marqué payé")
 					} catch {
 						toast.error("Erreur")
 					}
@@ -156,7 +192,7 @@ export default function TimePage() {
 				},
 			},
 		],
-		[remove, unmarkInvoiced]
+		[remove, setStatus]
 	)
 
 	const weekLabel = useMemo(() => {
@@ -302,6 +338,7 @@ export default function TimePage() {
 								minutes: editing.minutes,
 								description: editing.description,
 								billable: editing.billable,
+								status: editing.status,
 							}}
 							onSuccess={() => setEditing(null)}
 							onCancel={() => setEditing(null)}
