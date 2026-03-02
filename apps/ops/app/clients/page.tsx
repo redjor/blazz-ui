@@ -6,8 +6,10 @@ import { api } from "@/convex/_generated/api"
 import { OpsFrame } from "@/components/ops-frame"
 import { ClientForm } from "@/components/client-form"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { Empty } from "@blazz/ui/components/ui/empty"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Plus, ChevronRight, Users } from "lucide-react"
 import Link from "next/link"
 
@@ -48,39 +50,34 @@ export default function ClientsPage() {
     <OpsFrame>
       <div className="p-6 space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-base font-semibold text-fg">
-            Clients
-            {clients !== undefined && (
-              <span className="ml-2 text-sm font-normal text-fg-muted">({clients.length})</span>
-            )}
-          </h1>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger render={<Button size="sm" />}>
-              <Plus className="size-4 mr-1.5" />Nouveau client
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader><DialogTitle>Nouveau client</DialogTitle></DialogHeader>
-              <ClientForm onSuccess={() => setOpen(false)} onCancel={() => setOpen(false)} />
-            </DialogContent>
-          </Dialog>
-        </div>
+        <PageHeader
+          title={`Clients${clients !== undefined ? ` (${clients.length})` : ""}`}
+          actions={[
+            {
+              label: "Nouveau client",
+              icon: Plus,
+              onClick: () => setOpen(true),
+            },
+          ]}
+        />
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent>
+            <DialogHeader><DialogTitle>Nouveau client</DialogTitle></DialogHeader>
+            <ClientForm onSuccess={() => setOpen(false)} onCancel={() => setOpen(false)} />
+          </DialogContent>
+        </Dialog>
 
         {/* Loading */}
         {clients === undefined && <ClientListSkeleton />}
 
         {/* Empty state */}
         {clients?.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 text-center gap-3">
-            <Users className="size-10 text-fg-muted" />
-            <div>
-              <p className="text-sm font-medium text-fg">Aucun client</p>
-              <p className="text-xs text-fg-muted mt-0.5">Créez votre premier client pour commencer à tracker du temps</p>
-            </div>
-            <Button size="sm" onClick={() => setOpen(true)}>
-              <Plus className="size-4 mr-1.5" />Nouveau client
-            </Button>
-          </div>
+          <Empty
+            icon={Users}
+            title="Aucun client"
+            description="Créez votre premier client pour commencer à tracker du temps"
+            action={{ label: "Nouveau client", onClick: () => setOpen(true), icon: Plus }}
+          />
         )}
 
         {/* List */}
