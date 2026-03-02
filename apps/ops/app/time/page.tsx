@@ -11,12 +11,13 @@ import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/data-table"
 import { ChevronLeft, ChevronRight, Pencil, RotateCcw, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { format, startOfWeek, addWeeks, subWeeks, addDays } from "date-fns"
 import { fr } from "date-fns/locale"
-import { formatMinutes } from "@/lib/format"
+import { formatMinutes, formatCurrency } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
 
 type TimeEntry = Doc<"timeEntries">
@@ -82,7 +83,7 @@ export default function TimePage() {
     {
       accessorKey: "hourlyRate",
       header: "Taux",
-      cell: ({ row }) => `${row.original.hourlyRate}€/h`,
+      cell: ({ row }) => <span className="tabular-nums">{row.original.hourlyRate}€/h</span>,
       enableSorting: true,
     },
     {
@@ -90,7 +91,7 @@ export default function TimePage() {
       header: "Montant",
       cell: ({ row }) => {
         const amount = (row.original.minutes / 60) * row.original.hourlyRate
-        return <span className="font-mono">{amount.toFixed(2)}€</span>
+        return <span className="tabular-nums">{formatCurrency(amount)}</span>
       },
     },
     {
@@ -168,36 +169,39 @@ export default function TimePage() {
   return (
     <OpsFrame>
       <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-fg">Saisie des heures</h1>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised">
-              <Button
-                type="button"
-                size="sm"
-                variant={view === "week" ? "default" : "ghost"}
-                onClick={() => setView("week")}
-                className="h-7 px-3 text-xs"
-              >
-                Semaine
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant={view === "list" ? "default" : "ghost"}
-                onClick={() => setView("list")}
-                className="h-7 px-3 text-xs"
-              >
-                Liste
-              </Button>
-            </div>
-            <Button onClick={() => setAddOpen(true)}>Nouvelle entrée</Button>
-          </div>
-        </div>
+        <PageHeader
+          title="Saisie des heures"
+          actions={[
+            { label: "Nouvelle entrée", onClick: () => setAddOpen(true) },
+          ]}
+        />
 
-        {view === "week" && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
+          {/* Toggle Semaine/Liste */}
+          <div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised">
+            <Button
+              type="button"
+              size="sm"
+              variant={view === "week" ? "default" : "ghost"}
+              onClick={() => setView("week")}
+              className="h-7 px-3 text-xs"
+            >
+              Semaine
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant={view === "list" ? "default" : "ghost"}
+              onClick={() => setView("list")}
+              className="h-7 px-3 text-xs"
+            >
+              Liste
+            </Button>
+          </div>
+
+          {/* Navigation semaine (seulement en vue semaine) */}
+          {view === "week" && (
+            <>
               <Button
                 type="button"
                 variant="ghost"
@@ -228,26 +232,28 @@ export default function TimePage() {
               >
                 Aujourd'hui
               </Button>
-            </div>
+            </>
+          )}
+        </div>
 
-            <div className={(weekEntries === undefined || activeProjects === undefined) ? "opacity-50 pointer-events-none" : ""}>
-              <WeekGrid
-                weekStart={weekStart}
-                entries={weekEntries ?? []}
-                projects={activeProjects ?? []}
-                onCellClick={(projectId, date) => {
-                  const project = activeProjects?.find((p) => p._id === projectId)
-                  if (!project) return
-                  setQuickModal({
-                    open: true,
-                    projectId,
-                    projectName: project.name,
-                    hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
-                    date,
-                  })
-                }}
-              />
-            </div>
+        {view === "week" && (
+          <div className={(weekEntries === undefined || activeProjects === undefined) ? "opacity-50 pointer-events-none" : ""}>
+            <WeekGrid
+              weekStart={weekStart}
+              entries={weekEntries ?? []}
+              projects={activeProjects ?? []}
+              onCellClick={(projectId, date) => {
+                const project = activeProjects?.find((p) => p._id === projectId)
+                if (!project) return
+                setQuickModal({
+                  open: true,
+                  projectId,
+                  projectName: project.name,
+                  hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+                  date,
+                })
+              }}
+            />
           </div>
         )}
 
