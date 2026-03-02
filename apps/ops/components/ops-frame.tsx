@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { LayoutDashboard, Users, Clock, FileText, CheckSquare } from "lucide-react"
+import { LayoutDashboard, Users, Clock, CheckSquare } from "lucide-react"
 import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import type { SidebarConfig } from "@blazz/ui/types/navigation"
@@ -13,8 +13,12 @@ const opsSidebarConfig: SidebarConfig = {
 			items: [
 				{ title: "Dashboard", url: "/", icon: LayoutDashboard },
 				{ title: "Clients", url: "/clients", icon: Users },
-				{ title: "Temps", url: "/time", icon: Clock },
-				{ title: "Récap", url: "/recap", icon: FileText },
+				{
+					title: "Suivi de temps",
+					url: "/time",
+					icon: Clock,
+					items: [{ title: "Récapitulatif", url: "/recap" }],
+				},
 				{ title: "Todos", url: "/todos", icon: CheckSquare },
 			],
 		},
