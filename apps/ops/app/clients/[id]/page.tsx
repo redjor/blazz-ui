@@ -8,7 +8,7 @@ import { OpsFrame } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { ClientForm } from "@/components/client-form"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
@@ -109,9 +109,9 @@ export default function ClientDetailPage({ params }: Props) {
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-medium text-fg">Projets</h2>
             <Dialog open={projectOpen} onOpenChange={setProjectOpen}>
-              <Button size="sm" variant="outline" onClick={() => setProjectOpen(true)}>
+              <DialogTrigger render={<Button size="sm" variant="outline" />}>
                 <Plus className="size-4 mr-1.5" />Nouveau projet
-              </Button>
+              </DialogTrigger>
               <DialogContent>
                 <DialogHeader><DialogTitle>Nouveau projet</DialogTitle></DialogHeader>
                 <ProjectForm clientId={id as Id<"clients">} onSuccess={() => setProjectOpen(false)} onCancel={() => setProjectOpen(false)} />
