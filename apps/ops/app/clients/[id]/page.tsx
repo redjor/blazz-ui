@@ -55,8 +55,8 @@ export default function ClientDetailPage({ params }: Props) {
             {client.address && <p className="text-sm text-fg-muted mt-1">{client.address}</p>}
           </div>
           <Dialog open={editOpen} onOpenChange={setEditOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="sm">Modifier</Button>
+            <DialogTrigger render={<Button variant="outline" size="sm" />}>
+              Modifier
             </DialogTrigger>
             <DialogContent>
               <DialogHeader><DialogTitle>Modifier le client</DialogTitle></DialogHeader>
@@ -73,10 +73,8 @@ export default function ClientDetailPage({ params }: Props) {
           <div className="flex items-center justify-between">
             <h2 className="font-medium text-fg">Projets</h2>
             <Dialog open={projectOpen} onOpenChange={setProjectOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" variant="outline">
-                  <Plus className="size-4 mr-1.5" />Nouveau projet
-                </Button>
+              <DialogTrigger render={<Button size="sm" variant="outline" />}>
+                <Plus className="size-4 mr-1.5" />Nouveau projet
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader><DialogTitle>Nouveau projet</DialogTitle></DialogHeader>

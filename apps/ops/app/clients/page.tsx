@@ -20,8 +20,8 @@ export default function ClientsPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-fg">Clients</h1>
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button size="sm"><Plus className="size-4 mr-1.5" />Nouveau client</Button>
+            <DialogTrigger render={<Button size="sm" />}>
+              <Plus className="size-4 mr-1.5" />Nouveau client
             </DialogTrigger>
             <DialogContent>
               <DialogHeader><DialogTitle>Nouveau client</DialogTitle></DialogHeader>
