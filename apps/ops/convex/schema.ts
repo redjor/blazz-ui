@@ -8,6 +8,7 @@ export default defineSchema({
     phone: v.optional(v.string()),
     address: v.optional(v.string()),
     notes: v.optional(v.string()),
+    logoStorageId: v.optional(v.id("_storage")),
     createdAt: v.number(),
   }),
 

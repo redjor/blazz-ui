@@ -10,6 +10,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Plus, ChevronRight } from "lucide-react"
 import Link from "next/link"
 
+function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
+  const initials = name.slice(0, 2).toUpperCase()
+  return (
+    <div className="size-9 rounded-md border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
+      {logoUrl ? (
+        <img src={logoUrl} alt={name} className="size-full object-contain" />
+      ) : (
+        <span className="text-xs font-semibold text-fg-muted">{initials}</span>
+      )}
+    </div>
+  )
+}
+
 export default function ClientsPage() {
   const clients = useQuery(api.clients.list)
   const [open, setOpen] = useState(false)
@@ -40,9 +53,12 @@ export default function ClientsPage() {
               href={`/clients/${client._id}`}
               className="flex items-center justify-between p-4 rounded-lg border border-edge bg-raised hover:bg-panel transition-colors"
             >
-              <div>
-                <p className="font-medium text-fg">{client.name}</p>
-                {client.email && <p className="text-sm text-fg-muted">{client.email}</p>}
+              <div className="flex items-center gap-3">
+                <ClientAvatar name={client.name} logoUrl={client.logoUrl} />
+                <div>
+                  <p className="font-medium text-fg">{client.name}</p>
+                  {client.email && <p className="text-sm text-fg-muted">{client.email}</p>}
+                </div>
               </div>
               <ChevronRight className="size-4 text-fg-muted" />
             </Link>

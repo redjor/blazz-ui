@@ -48,11 +48,22 @@ export default function ClientDetailPage({ params }: Props) {
         </Link>
 
         <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-xl font-semibold text-fg">{client.name}</h1>
-            {client.email && <p className="text-sm text-fg-muted">{client.email}</p>}
-            {client.phone && <p className="text-sm text-fg-muted">{client.phone}</p>}
-            {client.address && <p className="text-sm text-fg-muted mt-1">{client.address}</p>}
+          <div className="flex items-start gap-4">
+            <div className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0 mt-0.5">
+              {client.logoUrl ? (
+                <img src={client.logoUrl} alt={client.name} className="size-full object-contain" />
+              ) : (
+                <span className="text-lg font-semibold text-fg-muted">
+                  {client.name.slice(0, 2).toUpperCase()}
+                </span>
+              )}
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold text-fg">{client.name}</h1>
+              {client.email && <p className="text-sm text-fg-muted">{client.email}</p>}
+              {client.phone && <p className="text-sm text-fg-muted">{client.phone}</p>}
+              {client.address && <p className="text-sm text-fg-muted mt-1">{client.address}</p>}
+            </div>
           </div>
           <Dialog open={editOpen} onOpenChange={setEditOpen}>
             <DialogTrigger render={<Button variant="outline" size="sm" />}>
