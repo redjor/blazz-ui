@@ -11,6 +11,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
+import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 
 const schema = z.object({
   name: z.string().min(1, "Nom requis"),
@@ -29,9 +30,10 @@ interface Props {
   clientId: Id<"clients">
   defaultValues?: Partial<FormValues> & { id?: Id<"projects"> }
   onSuccess?: () => void
+  onCancel?: () => void
 }
 
-export function ProjectForm({ clientId, defaultValues, onSuccess }: Props) {
+export function ProjectForm({ clientId, defaultValues, onSuccess, onCancel }: Props) {
   const create = useMutation(api.projects.create)
   const update = useMutation(api.projects.update)
 
@@ -105,9 +107,16 @@ export function ProjectForm({ clientId, defaultValues, onSuccess }: Props) {
           <Input type="date" {...register("endDate")} />
         </div>
       </div>
-      <Button type="submit" disabled={isSubmitting}>
-        {defaultValues?.id ? "Mettre à jour" : "Créer le projet"}
-      </Button>
+      <DialogFooter>
+        {onCancel && (
+          <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
+            Annuler
+          </Button>
+        )}
+        <Button type="submit" disabled={isSubmitting}>
+          {defaultValues?.id ? "Mettre à jour" : "Créer le projet"}
+        </Button>
+      </DialogFooter>
     </form>
   )
 }

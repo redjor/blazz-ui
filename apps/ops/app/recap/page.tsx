@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { OpsFrame } from "@/components/ops-frame"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -279,10 +279,10 @@ export default function RecapPage() {
             {filteredEntries?.length ?? 0} entrée(s) seront marquées comme facturées et disparaîtront de cette vue.
             Cette action peut être annulée depuis la page Temps.
           </p>
-          <div className="flex gap-3 justify-end mt-2">
-            <Button variant="outline" onClick={() => setShowConfirm(false)}>Annuler</Button>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setShowConfirm(false)}>Annuler</Button>
             <Button onClick={handleMarkInvoiced}>Confirmer</Button>
-          </div>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </OpsFrame>

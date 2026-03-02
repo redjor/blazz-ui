@@ -74,6 +74,7 @@ export default function ClientDetailPage({ params }: Props) {
               <ClientForm
                 defaultValues={{ ...client, id: client._id }}
                 onSuccess={() => setEditOpen(false)}
+                onCancel={() => setEditOpen(false)}
               />
             </DialogContent>
           </Dialog>
@@ -88,7 +89,7 @@ export default function ClientDetailPage({ params }: Props) {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader><DialogTitle>Nouveau projet</DialogTitle></DialogHeader>
-                <ProjectForm clientId={id as Id<"clients">} onSuccess={() => setProjectOpen(false)} />
+                <ProjectForm clientId={id as Id<"clients">} onSuccess={() => setProjectOpen(false)} onCancel={() => setProjectOpen(false)} />
               </DialogContent>
             </Dialog>
           </div>
@@ -131,6 +132,7 @@ export default function ClientDetailPage({ params }: Props) {
               clientId={id as Id<"clients">}
               defaultValues={{ ...editingProject, id: editingProject._id }}
               onSuccess={() => setEditingProject(null)}
+              onCancel={() => setEditingProject(null)}
             />
           )}
         </DialogContent>

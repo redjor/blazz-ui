@@ -12,6 +12,7 @@ import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
+import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { format } from "date-fns"
 
 const schema = z.object({
@@ -36,9 +37,10 @@ interface EditDefaults {
 interface Props {
   defaultValues?: EditDefaults
   onSuccess?: () => void
+  onCancel?: () => void
 }
 
-export function TimeEntryForm({ defaultValues, onSuccess }: Props) {
+export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
   const isEdit = !!defaultValues
   const activeProjects = useQuery(api.projects.listActive)
   const allProjects = useQuery(isEdit ? api.projects.listAll : api.projects.listActive)
@@ -144,9 +146,16 @@ export function TimeEntryForm({ defaultValues, onSuccess }: Props) {
         <Label htmlFor="billable" className="font-normal cursor-pointer">Facturable</Label>
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isEdit ? "Enregistrer" : "Ajouter"}
-      </Button>
+      <DialogFooter>
+        {onCancel && (
+          <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
+            Annuler
+          </Button>
+        )}
+        <Button type="submit" disabled={isSubmitting}>
+          {isEdit ? "Enregistrer" : "Ajouter"}
+        </Button>
+      </DialogFooter>
     </form>
   )
 }

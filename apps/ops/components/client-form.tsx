@@ -12,6 +12,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
+import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Loader2, Upload } from "lucide-react"
 
 const schema = z.object({
@@ -27,9 +28,10 @@ type FormValues = z.infer<typeof schema>
 interface Props {
   defaultValues?: Partial<FormValues> & { id?: Id<"clients">; logoUrl?: string | null; logoStorageId?: Id<"_storage"> }
   onSuccess?: () => void
+  onCancel?: () => void
 }
 
-export function ClientForm({ defaultValues, onSuccess }: Props) {
+export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
   const create = useMutation(api.clients.create)
   const update = useMutation(api.clients.update)
   const generateUploadUrl = useMutation(api.clients.generateUploadUrl)
@@ -138,9 +140,16 @@ export function ClientForm({ defaultValues, onSuccess }: Props) {
         <Label htmlFor="notes">Notes</Label>
         <Textarea id="notes" rows={3} {...register("notes")} />
       </div>
-      <Button type="submit" disabled={isSubmitting || uploading}>
-        {defaultValues?.id ? "Mettre à jour" : "Créer le client"}
-      </Button>
+      <DialogFooter>
+        {onCancel && (
+          <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting || uploading}>
+            Annuler
+          </Button>
+        )}
+        <Button type="submit" disabled={isSubmitting || uploading}>
+          {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : defaultValues?.id ? "Mettre à jour" : "Créer le client"}
+        </Button>
+      </DialogFooter>
     </form>
   )
 }

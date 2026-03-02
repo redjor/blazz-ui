@@ -257,7 +257,7 @@ export default function TimePage() {
           <DialogHeader>
             <DialogTitle>Nouvelle entrée</DialogTitle>
           </DialogHeader>
-          <TimeEntryForm onSuccess={() => setAddOpen(false)} />
+          <TimeEntryForm onSuccess={() => setAddOpen(false)} onCancel={() => setAddOpen(false)} />
         </DialogContent>
       </Dialog>
 
@@ -277,6 +277,7 @@ export default function TimePage() {
                 billable: editing.billable,
               }}
               onSuccess={() => setEditing(null)}
+              onCancel={() => setEditing(null)}
             />
           )}
         </DialogContent>

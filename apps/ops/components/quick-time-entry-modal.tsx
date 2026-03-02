@@ -17,6 +17,7 @@ import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
@@ -148,7 +149,7 @@ export function QuickTimeEntryModal({
             </Label>
           </div>
 
-          <div className="flex gap-2 justify-end">
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
@@ -156,13 +157,14 @@ export function QuickTimeEntryModal({
                 reset({ hours: 1, billable: true, description: "" })
                 onOpenChange(false)
               }}
+              disabled={isSubmitting}
             >
               Annuler
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               Ajouter
             </Button>
-          </div>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
