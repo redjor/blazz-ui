@@ -33,7 +33,10 @@ export default function TimePage() {
 
   const weekFrom = format(weekStart, "yyyy-MM-dd")
   const weekTo = format(addDays(weekStart, 6), "yyyy-MM-dd")
-  const weekEntries = useQuery(api.timeEntries.list, { from: weekFrom, to: weekTo })
+  const weekEntries = useQuery(
+    api.timeEntries.list,
+    view === "week" ? { from: weekFrom, to: weekTo } : "skip"
+  )
   const activeProjects = useQuery(api.projects.listActive)
 
   const allEntries = useQuery(
@@ -54,8 +57,6 @@ export default function TimePage() {
     hourlyRate: number | null
     date: string | null
   }>({ open: false, projectId: null, projectName: null, hourlyRate: null, date: null })
-
-  const enrichedProjects = useMemo(() => activeProjects ?? [], [activeProjects])
 
   const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(() => [
     {
@@ -148,7 +149,8 @@ export default function TimePage() {
 
   const weekLabel = useMemo(() => {
     const end = addDays(weekStart, 6)
-    const startStr = format(weekStart, "d", { locale: fr })
+    const sameMonth = weekStart.getMonth() === end.getMonth()
+    const startStr = format(weekStart, sameMonth ? "d" : "d MMM", { locale: fr })
     const endStr = format(end, "d MMM yyyy", { locale: fr })
     return `${startStr} – ${endStr}`
   }, [weekStart])
@@ -216,22 +218,24 @@ export default function TimePage() {
               </button>
             </div>
 
-            <WeekGrid
-              weekStart={weekStart}
-              entries={weekEntries ?? []}
-              projects={enrichedProjects}
-              onCellClick={(projectId, date) => {
-                const project = activeProjects?.find((p) => p._id === projectId)
-                if (!project) return
-                setQuickModal({
-                  open: true,
-                  projectId,
-                  projectName: project.name,
-                  hourlyRate: project.tjm / project.hoursPerDay,
-                  date,
-                })
-              }}
-            />
+            <div className={weekEntries === undefined ? "opacity-50 pointer-events-none" : ""}>
+              <WeekGrid
+                weekStart={weekStart}
+                entries={weekEntries ?? []}
+                projects={activeProjects ?? []}
+                onCellClick={(projectId, date) => {
+                  const project = activeProjects?.find((p) => p._id === projectId)
+                  if (!project) return
+                  setQuickModal({
+                    open: true,
+                    projectId,
+                    projectName: project.name,
+                    hourlyRate: project.hoursPerDay > 0 ? project.tjm / project.hoursPerDay : project.tjm / 8,
+                    date,
+                  })
+                }}
+              />
+            </div>
           </div>
         )}
 
