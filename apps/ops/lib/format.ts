@@ -4,6 +4,10 @@ export function formatMinutes(minutes: number): string {
 	return m > 0 ? `${h}h${m.toString().padStart(2, "0")}` : `${h}h`
 }
 
-export function formatCurrency(amount: number): string {
-	return `€${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(Math.round(amount))}`
+export enum Currency {
+	EUR = "€",
+}
+
+export function formatCurrency(amount: number, currency: Currency = Currency.EUR): string {
+	return `${currency}${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(Math.round(amount))}`
 }
