@@ -7,26 +7,26 @@ import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import type { SidebarConfig } from "@blazz/ui/types/navigation"
 
 const opsSidebarConfig: SidebarConfig = {
-  navigation: [
-    {
-      id: "main",
-      items: [
-        { title: "Dashboard", url: "/", icon: LayoutDashboard },
-        { title: "Clients", url: "/clients", icon: Users },
-        { title: "Temps", url: "/time", icon: Clock },
-        { title: "Récap", url: "/recap", icon: FileText },
-        { title: "Todos", url: "/todos", icon: CheckSquare },
-      ],
-    },
-  ],
+	navigation: [
+		{
+			id: "main",
+			items: [
+				{ title: "Dashboard", url: "/", icon: LayoutDashboard },
+				{ title: "Clients", url: "/clients", icon: Users },
+				{ title: "Temps", url: "/time", icon: Clock },
+				{ title: "Récap", url: "/recap", icon: FileText },
+				{ title: "Todos", url: "/todos", icon: CheckSquare },
+			],
+		},
+	],
 }
 
 export function OpsFrame({ children }: { children: ReactNode }) {
-  return (
-    <SidebarProvider>
-      <AppFrame sidebarConfig={opsSidebarConfig} minimalTopBar>
-        {children}
-      </AppFrame>
-    </SidebarProvider>
-  )
+	return (
+		<SidebarProvider>
+			<AppFrame sidebarConfig={opsSidebarConfig} minimalTopBar>
+				{children}
+			</AppFrame>
+		</SidebarProvider>
+	)
 }

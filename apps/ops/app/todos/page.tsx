@@ -107,7 +107,7 @@ function AddTodoDialog({
 	}
 
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
+		<Dialog open={open} onOpenChange={(v) => { if (!v) setText(""); onOpenChange(v) }}>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Nouveau todo</DialogTitle>
