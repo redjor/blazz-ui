@@ -8,7 +8,7 @@ interface EntryStatusBadgeProps {
 	status: EntryStatus | null
 }
 
-const statusConfig: Record<string, { dot: string; text: string }> = {
+const statusConfig: Record<EntryStatus, { dot: string; text: string }> = {
 	draft: {
 		dot: "bg-fg-muted",
 		text: "text-fg-muted",
