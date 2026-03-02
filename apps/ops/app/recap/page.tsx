@@ -13,8 +13,10 @@ import { Label } from "@blazz/ui/components/ui/label"
 import { toast } from "sonner"
 import { format, startOfMonth, endOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Download, CheckCheck } from "lucide-react"
-import { formatMinutes } from "@/lib/format"
+import { Download, CheckCheck, FileText } from "lucide-react"
+import { formatMinutes, formatCurrency } from "@/lib/format"
+import { Empty } from "@blazz/ui/components/ui/empty"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 
 function getPeriodDates(preset: string): { from: string; to: string } | null {
   const now = new Date()
@@ -107,7 +109,7 @@ export default function RecapPage() {
   return (
     <OpsFrame>
       <div className="p-6 space-y-6">
-        <h1 className="text-xl font-semibold text-fg">Récapitulatif</h1>
+        <PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
         {/* Filters */}
         <div className="flex flex-wrap gap-4 p-4 rounded-xl border border-edge bg-raised">
@@ -204,11 +206,14 @@ export default function RecapPage() {
 
         {/* Table */}
         {filteredEntries === undefined ? (
-          <p className="text-fg-muted text-sm">Chargement…</p>
+          <Empty size="sm" title="Chargement…" />
         ) : filteredEntries.length === 0 ? (
-          <p className="text-fg-muted text-sm">
-            Aucune entrée non facturée sur cette période.
-          </p>
+          <Empty
+            icon={FileText}
+            size="sm"
+            title="Aucune entrée non facturée"
+            description="Aucune entrée non facturée sur cette période."
+          />
         ) : (
           <>
             <div className="rounded-xl border border-edge overflow-hidden">
@@ -232,9 +237,9 @@ export default function RecapPage() {
                       <td className="p-3 text-right font-mono text-fg">
                         {formatMinutes(entry.minutes)}
                       </td>
-                      <td className="p-3 text-right text-fg-muted">{entry.hourlyRate}€/h</td>
-                      <td className="p-3 text-right font-medium text-fg">
-                        {((entry.minutes / 60) * entry.hourlyRate).toFixed(2)}€
+                      <td className="p-3 text-right text-fg-muted tabular-nums">{entry.hourlyRate}€/h</td>
+                      <td className="p-3 text-right font-medium text-fg tabular-nums">
+                        {formatCurrency((entry.minutes / 60) * entry.hourlyRate)}
                       </td>
                     </tr>
                   ))}
@@ -248,8 +253,8 @@ export default function RecapPage() {
                       {formatMinutes(totalMinutes)}
                     </td>
                     <td className="p-3 text-right text-fg-muted">{totalDays.toFixed(1)}j</td>
-                    <td className="p-3 text-right font-semibold text-fg">
-                      {totalAmount.toFixed(2)}€
+                    <td className="p-3 text-right font-semibold text-fg tabular-nums">
+                      {formatCurrency(totalAmount)}
                     </td>
                   </tr>
                 </tfoot>
