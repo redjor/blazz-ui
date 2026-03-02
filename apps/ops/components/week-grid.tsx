@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { format, addDays, isWeekend } from "date-fns"
 import { fr } from "date-fns/locale"
+import { X } from "lucide-react"
 import { formatMinutes } from "@/lib/format"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { cn } from "@blazz/ui/lib/utils"
@@ -14,10 +15,11 @@ interface WeekGridProps {
   weekStart: Date // doit être un lundi
   entries: TimeEntry[]
   projects: Project[]
-  onCellClick: (projectId: Id<"projects">, date: string) => void
+  onCellClick: (projectId: Id<"projects">, date: string, existingEntry?: TimeEntry) => void
+  onCellDelete?: (entryId: Id<"timeEntries">) => void
 }
 
-export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGridProps) {
+export function WeekGrid({ weekStart, entries, projects, onCellClick, onCellDelete }: WeekGridProps) {
   // 7 jours à partir du lundi
   const days = useMemo(
     () => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
@@ -134,29 +136,44 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGrid
                   return (
                     <td key={day.toISOString()} className="py-1.5 px-1">
                       {hasEntries || inRange ? (
-                        <button
-                          type="button"
-                          aria-label={`${hasEntries ? "Voir ou ajouter" : "Ajouter une entrée"} — ${project.name}, ${dateStr}`}
-                          onClick={() => onCellClick(project._id, dateStr)}
-                          className={cn(
-                            "w-full h-10 rounded-md text-xs font-mono transition-colors",
-                            isWeekend(day) && "opacity-50",
-                            hasEntries
-                              ? "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30"
-                              : "bg-raised border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
+                        <div className="relative group/cell">
+                          <button
+                            type="button"
+                            aria-label={`${hasEntries ? "Modifier" : "Ajouter une entrée"} — ${project.name}, ${dateStr}`}
+                            onClick={() => onCellClick(project._id, dateStr, dayEntries[0])}
+                            className={cn(
+                              "w-full h-10 rounded-md text-xs font-mono transition-colors",
+                              isWeekend(day) && "opacity-50",
+                              hasEntries
+                                ? "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30"
+                                : "bg-raised border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
+                            )}
+                          >
+                            {hasEntries ? (
+                              <span className="flex flex-col items-center leading-tight">
+                                <span>{formatMinutes(totalMins)}</span>
+                                {dayEntries.length > 1 && (
+                                  <span className="text-[10px] opacity-70">{dayEntries.length}×</span>
+                                )}
+                              </span>
+                            ) : (
+                              <span className="text-[10px]">+</span>
+                            )}
+                          </button>
+                          {hasEntries && onCellDelete && (
+                            <button
+                              type="button"
+                              aria-label={`Supprimer — ${project.name}, ${dateStr}`}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onCellDelete(dayEntries[0]._id)
+                              }}
+                              className="absolute top-0.5 right-0.5 size-4 flex items-center justify-center rounded opacity-0 group-hover/cell:opacity-100 transition-opacity text-fg-muted hover:text-destructive hover:bg-destructive/10"
+                            >
+                              <X size={10} />
+                            </button>
                           )}
-                        >
-                          {hasEntries ? (
-                            <span className="flex flex-col items-center leading-tight">
-                              <span>{formatMinutes(totalMins)}</span>
-                              {dayEntries.length > 1 && (
-                                <span className="text-[10px] opacity-70">{dayEntries.length}×</span>
-                              )}
-                            </span>
-                          ) : (
-                            <span className="text-[10px]">+</span>
-                          )}
-                        </button>
+                        </div>
                       ) : (
                         <div className={cn("w-full h-10 rounded-md", isWeekend(day) && "opacity-30")} />
                       )}

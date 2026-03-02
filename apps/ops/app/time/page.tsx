@@ -4,6 +4,7 @@ import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
+import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { useMutation, useQuery } from "convex/react"
 import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
@@ -57,6 +58,11 @@ export default function TimePage() {
 		hourlyRate: number | null
 		date: string | null
 	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, date: null })
+
+	const [deleteConfirm, setDeleteConfirm] = useState<{
+		open: boolean
+		entryId: Id<"timeEntries"> | null
+	}>({ open: false, entryId: null })
 
 	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
 		() => [
@@ -283,7 +289,11 @@ export default function TimePage() {
 							weekStart={weekStart}
 							entries={weekEntries ?? []}
 							projects={activeProjects ?? []}
-							onCellClick={(projectId, date) => {
+							onCellClick={(projectId, date, existingEntry) => {
+								if (existingEntry) {
+									setEditing(existingEntry)
+									return
+								}
 								const project = activeProjects?.find((p) => p._id === projectId)
 								if (!project) return
 								setQuickModal({
@@ -293,6 +303,9 @@ export default function TimePage() {
 									hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
 									date,
 								})
+							}}
+							onCellDelete={(entryId) => {
+								setDeleteConfirm({ open: true, entryId })
 							}}
 						/>
 					</div>
@@ -354,6 +367,25 @@ export default function TimePage() {
 				projectName={quickModal.projectName}
 				hourlyRate={quickModal.hourlyRate}
 				date={quickModal.date}
+			/>
+
+			<ConfirmationDialog
+				open={deleteConfirm.open}
+				onOpenChange={(open) => setDeleteConfirm((s) => ({ ...s, open }))}
+				title="Supprimer l'entrée ?"
+				description="Cette action est irréversible."
+				confirmLabel="Supprimer"
+				cancelLabel="Annuler"
+				variant="destructive"
+				onConfirm={async () => {
+					if (!deleteConfirm.entryId) return
+					try {
+						await remove({ id: deleteConfirm.entryId })
+						toast.success("Entrée supprimée")
+					} catch {
+						toast.error("Erreur lors de la suppression")
+					}
+				}}
 			/>
 		</OpsFrame>
 	)
