@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import type { Id, Doc } from "@/convex/_generated/dataModel"
@@ -9,110 +9,145 @@ import { TimeEntryForm } from "@/components/time-entry-form"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { Trash2, Pencil, RotateCcw } from "lucide-react"
+import { DataTable } from "@blazz/ui/components/blocks/data-table"
+import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/data-table"
+import { Pencil, RotateCcw, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { formatMinutes } from "@/lib/format"
 
+type TimeEntry = Doc<"timeEntries">
+
 export default function TimePage() {
   const entries = useQuery(api.timeEntries.list, {})
   const remove = useMutation(api.timeEntries.remove)
   const unmarkInvoiced = useMutation(api.timeEntries.unmarkInvoiced)
-  const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
-  const [confirmDeleteId, setConfirmDeleteId] = useState<Id<"timeEntries"> | null>(null)
+  const [editing, setEditing] = useState<TimeEntry | null>(null)
+  const [addOpen, setAddOpen] = useState(false)
 
-  const handleDelete = async () => {
-    if (!confirmDeleteId) return
-    try {
-      await remove({ id: confirmDeleteId })
-      toast.success("Entrée supprimée")
-    } catch {
-      toast.error("Erreur lors de la suppression")
-    } finally {
-      setConfirmDeleteId(null)
-    }
-  }
+  const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(() => [
+    {
+      accessorKey: "date",
+      header: "Date",
+      cell: ({ row }) =>
+        format(new Date(row.original.date + "T00:00:00"), "dd MMM yyyy", { locale: fr }),
+      enableSorting: true,
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => row.original.description ?? "—",
+    },
+    {
+      accessorKey: "minutes",
+      header: "Durée",
+      cell: ({ row }) => (
+        <span className="font-mono">{formatMinutes(row.original.minutes)}</span>
+      ),
+      enableSorting: true,
+    },
+    {
+      accessorKey: "hourlyRate",
+      header: "Taux",
+      cell: ({ row }) => `${row.original.hourlyRate}€/h`,
+      enableSorting: true,
+    },
+    {
+      id: "amount",
+      header: "Montant",
+      cell: ({ row }) => {
+        const amount = (row.original.minutes / 60) * row.original.hourlyRate
+        return <span className="font-mono">{amount.toFixed(2)}€</span>
+      },
+    },
+    {
+      accessorKey: "billable",
+      header: "Facturable",
+      cell: ({ row }) =>
+        row.original.billable ? null : <Badge variant="secondary">Non facturable</Badge>,
+    },
+    {
+      accessorKey: "invoicedAt",
+      header: "Statut",
+      cell: ({ row }) =>
+        row.original.invoicedAt ? <Badge variant="default">Facturé</Badge> : null,
+    },
+  ], [])
 
-  const handleUnmark = async (id: Id<"timeEntries">) => {
-    try {
-      await unmarkInvoiced({ ids: [id] })
-      toast.success("Facturation annulée")
-    } catch {
-      toast.error("Erreur")
-    }
-  }
+  const rowActions = useMemo<RowAction<TimeEntry>[]>(() => [
+    {
+      id: "edit",
+      label: "Modifier",
+      icon: Pencil,
+      handler: (row) => setEditing(row.original),
+    },
+    {
+      id: "unmark-invoiced",
+      label: "Annuler facturation",
+      icon: RotateCcw,
+      hidden: (row) => !row.original.invoicedAt,
+      handler: async (row) => {
+        try {
+          await unmarkInvoiced({ ids: [row.original._id] })
+          toast.success("Facturation annulée")
+        } catch {
+          toast.error("Erreur")
+        }
+      },
+    },
+    {
+      id: "delete",
+      label: "Supprimer",
+      icon: Trash2,
+      variant: "destructive",
+      separator: true,
+      requireConfirmation: true,
+      confirmationMessage: () => "Supprimer cette entrée ? Cette action est irréversible.",
+      handler: async (row) => {
+        try {
+          await remove({ id: row.original._id })
+          toast.success("Entrée supprimée")
+        } catch {
+          toast.error("Erreur lors de la suppression")
+        }
+      },
+    },
+  ], [remove, unmarkInvoiced])
 
   return (
     <OpsFrame>
       <div className="p-6 space-y-8">
-        <h1 className="text-xl font-semibold text-fg">Saisie des heures</h1>
-
-        {/* Form */}
-        <div className="rounded-xl border border-edge bg-raised p-6 max-w-lg">
-          <h2 className="font-medium text-fg mb-4">Nouvelle entrée</h2>
-          <TimeEntryForm />
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold text-fg">Saisie des heures</h1>
+          <Button onClick={() => setAddOpen(true)}>Nouvelle entrée</Button>
         </div>
 
-        {/* History */}
-        <div className="space-y-3">
-          <h2 className="font-medium text-fg">Historique</h2>
-
-          {entries === undefined && <p className="text-fg-muted text-sm">Chargement…</p>}
-          {entries?.length === 0 && <p className="text-fg-muted text-sm">Aucune entrée pour l'instant.</p>}
-
-          <div className="space-y-2">
-            {entries?.map((entry) => (
-              <div key={entry._id} className="flex items-center justify-between p-4 rounded-lg border border-edge bg-raised">
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-mono text-fg-muted w-20 shrink-0">
-                    {format(new Date(entry.date + "T00:00:00"), "dd MMM", { locale: fr })}
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium text-fg">{entry.description ?? "—"}</p>
-                    <p className="text-xs text-fg-muted mt-0.5">
-                      {formatMinutes(entry.minutes)} · {entry.hourlyRate}€/h · {((entry.minutes / 60) * entry.hourlyRate).toFixed(2)}€
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {!entry.billable && <Badge variant="secondary">Non facturable</Badge>}
-                  {entry.invoicedAt && (
-                    <>
-                      <Badge variant="default">Facturé</Badge>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="size-8 text-fg-muted"
-                        title="Annuler la facturation"
-                        onClick={() => handleUnmark(entry._id)}
-                      >
-                        <RotateCcw className="size-3.5" />
-                      </Button>
-                    </>
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-8 text-fg-muted"
-                    onClick={() => setEditing(entry)}
-                  >
-                    <Pencil className="size-3.5" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-8 text-fg-muted hover:text-destructive"
-                    onClick={() => setConfirmDeleteId(entry._id)}
-                  >
-                    <Trash2 className="size-3.5" />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Table */}
+        <DataTable
+          data={entries ?? []}
+          columns={columns}
+          rowActions={rowActions}
+          isLoading={entries === undefined}
+          enableSorting
+          enableGlobalSearch
+          enablePagination
+          pagination={{ pageSize: 25 }}
+          searchPlaceholder="Rechercher…"
+          locale="fr"
+          defaultSorting={[{ id: "date", desc: true }]}
+        />
       </div>
+
+      {/* Add dialog */}
+      <Dialog open={addOpen} onOpenChange={setAddOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Nouvelle entrée</DialogTitle>
+          </DialogHeader>
+          <TimeEntryForm onSuccess={() => setAddOpen(false)} />
+        </DialogContent>
+      </Dialog>
 
       {/* Edit dialog */}
       <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
@@ -133,20 +168,6 @@ export default function TimePage() {
               onSuccess={() => setEditing(null)}
             />
           )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete confirmation dialog */}
-      <Dialog open={!!confirmDeleteId} onOpenChange={(open) => !open && setConfirmDeleteId(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Supprimer cette entrée ?</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-fg-muted">Cette action est irréversible.</p>
-          <div className="flex gap-3 justify-end mt-2">
-            <Button variant="outline" onClick={() => setConfirmDeleteId(null)}>Annuler</Button>
-            <Button variant="destructive" onClick={handleDelete}>Supprimer</Button>
-          </div>
         </DialogContent>
       </Dialog>
     </OpsFrame>

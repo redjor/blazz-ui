@@ -119,6 +119,10 @@ export default function RecapPage() {
                 setClientId(v === "_all" ? "" : v)
                 setProjectId("")
               }}
+              items={[
+                { value: "_all", label: "Tous les clients" },
+                ...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
+              ]}
             >
               <SelectTrigger className="w-44">
                 <SelectValue placeholder="Tous" />
@@ -140,6 +144,10 @@ export default function RecapPage() {
               <Select
                 value={projectId || "_all"}
                 onValueChange={(v) => setProjectId(v === "_all" ? "" : v)}
+                items={[
+                  { value: "_all", label: "Tous les projets" },
+                  ...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? []),
+                ]}
               >
                 <SelectTrigger className="w-44">
                   <SelectValue placeholder="Tous" />
