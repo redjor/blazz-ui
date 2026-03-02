@@ -8,20 +8,25 @@ import { OpsFrame } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { ClientForm } from "@/components/client-form"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
-import { Plus, ArrowLeft, Pencil } from "lucide-react"
-import Link from "next/link"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Plus, Pencil } from "lucide-react"
 
 interface Props {
   params: Promise<{ id: string }>
 }
 
-const statusLabel: Record<string, string> = { active: "Actif", paused: "En pause", closed: "Clôturé" }
-const statusVariant: Record<string, "default" | "secondary" | "outline"> = {
-  active: "default",
-  paused: "secondary",
-  closed: "outline",
+const statusDot: Record<string, string> = {
+  active: "bg-green-500",
+  paused: "bg-amber-500",
+  closed: "bg-fg-muted",
+}
+const statusLabel: Record<string, string> = {
+  active: "Actif",
+  paused: "En pause",
+  closed: "Clôturé",
 }
 
 export default function ClientDetailPage({ params }: Props) {
@@ -33,7 +38,27 @@ export default function ClientDetailPage({ params }: Props) {
   const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
 
   if (client === undefined) {
-    return <OpsFrame><div className="p-6 text-fg-muted text-sm">Chargement…</div></OpsFrame>
+    return (
+      <OpsFrame>
+        <div className="p-6 space-y-6">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-6 w-48" />
+          </div>
+          <div className="flex items-start gap-4">
+            <Skeleton className="size-14 rounded-lg shrink-0" />
+            <div className="grid grid-cols-3 gap-x-6 gap-y-4 flex-1">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="space-y-1.5">
+                  <Skeleton className="h-3.5 w-20" />
+                  <Skeleton className="h-4 w-32" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </OpsFrame>
+    )
   }
 
   if (client === null) {
@@ -43,50 +68,50 @@ export default function ClientDetailPage({ params }: Props) {
   return (
     <OpsFrame>
       <div className="p-6 space-y-8">
-        <Link href="/clients" className="inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-fg">
-          <ArrowLeft className="size-3.5" />Clients
-        </Link>
+        <PageHeader
+          breadcrumbs={[
+            { label: "Clients", href: "/clients" },
+            { label: client.name },
+          ]}
+          title={client.name}
+          actions={[
+            {
+              label: "Modifier",
+              variant: "outline",
+              onClick: () => setEditOpen(true),
+            },
+          ]}
+        />
 
-        <div className="flex items-start justify-between">
-          <div className="flex items-start gap-4">
-            <div className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0 mt-0.5">
-              {client.logoUrl ? (
-                <img src={client.logoUrl} alt={client.name} className="size-full object-contain" />
-              ) : (
-                <span className="text-lg font-semibold text-fg-muted">
-                  {client.name.slice(0, 2).toUpperCase()}
-                </span>
-              )}
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-fg">{client.name}</h1>
-              {client.email && <p className="text-sm text-fg-muted">{client.email}</p>}
-              {client.phone && <p className="text-sm text-fg-muted">{client.phone}</p>}
-              {client.address && <p className="text-sm text-fg-muted mt-1">{client.address}</p>}
-            </div>
+        {/* Avatar + coordonnées */}
+        <div className="flex items-start gap-4">
+          <div className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
+            {client.logoUrl ? (
+              <img src={client.logoUrl} alt={client.name} className="size-full object-contain" />
+            ) : (
+              <span className="text-lg font-semibold text-fg-muted">
+                {client.name.slice(0, 2).toUpperCase()}
+              </span>
+            )}
           </div>
-          <Dialog open={editOpen} onOpenChange={setEditOpen}>
-            <DialogTrigger render={<Button variant="outline" size="sm" />}>
-              Modifier
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader><DialogTitle>Modifier le client</DialogTitle></DialogHeader>
-              <ClientForm
-                defaultValues={{ ...client, id: client._id }}
-                onSuccess={() => setEditOpen(false)}
-                onCancel={() => setEditOpen(false)}
-              />
-            </DialogContent>
-          </Dialog>
+          <FieldGrid columns={3} className="flex-1">
+            {client.email && <Field label="Email" value={client.email} />}
+            {client.phone && <Field label="Téléphone" value={client.phone} />}
+            {client.address && <Field label="Adresse" value={client.address} span={2} />}
+            {!client.email && !client.phone && !client.address && (
+              <Field label="Informations" value="—" />
+            )}
+          </FieldGrid>
         </div>
 
+        {/* Projets */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-medium text-fg">Projets</h2>
+            <h2 className="text-sm font-medium text-fg">Projets</h2>
             <Dialog open={projectOpen} onOpenChange={setProjectOpen}>
-              <DialogTrigger render={<Button size="sm" variant="outline" />}>
+              <Button size="sm" variant="outline" onClick={() => setProjectOpen(true)}>
                 <Plus className="size-4 mr-1.5" />Nouveau projet
-              </DialogTrigger>
+              </Button>
               <DialogContent>
                 <DialogHeader><DialogTitle>Nouveau projet</DialogTitle></DialogHeader>
                 <ProjectForm clientId={id as Id<"clients">} onSuccess={() => setProjectOpen(false)} onCancel={() => setProjectOpen(false)} />
@@ -98,16 +123,19 @@ export default function ClientDetailPage({ params }: Props) {
 
           <div className="space-y-2">
             {projects?.map((project) => (
-              <div key={project._id} className="flex items-center justify-between p-4 rounded-lg border border-edge bg-raised">
+              <div key={project._id} className="flex items-center justify-between py-2.5 border-b border-edge last:border-0">
                 <div>
-                  <p className="font-medium text-fg">{project.name}</p>
-                  <p className="text-xs text-fg-muted mt-0.5">
+                  <p className="text-sm font-medium text-fg">{project.name}</p>
+                  <p className="text-xs text-fg-muted mt-0.5 tabular-nums">
                     {project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
                     {project.startDate && ` · depuis ${project.startDate}`}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant={statusVariant[project.status]}>{statusLabel[project.status]}</Badge>
+                <div className="flex items-center gap-3">
+                  <span className="flex items-center gap-1.5 text-xs text-fg-muted">
+                    <span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
+                    {statusLabel[project.status]}
+                  </span>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -122,6 +150,18 @@ export default function ClientDetailPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Edit client dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Modifier le client</DialogTitle></DialogHeader>
+          <ClientForm
+            defaultValues={{ ...client, id: client._id }}
+            onSuccess={() => setEditOpen(false)}
+            onCancel={() => setEditOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
 
       {/* Edit project dialog */}
       <Dialog open={!!editingProject} onOpenChange={(open) => !open && setEditingProject(null)}>
