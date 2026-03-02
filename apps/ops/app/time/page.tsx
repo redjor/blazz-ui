@@ -112,7 +112,7 @@ export default function TimePage() {
 			{
 				id: "mark-ready",
 				label: "Prêt à facturer",
-				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("ready_to_invoice"),
+				hidden: (row) => getEffectiveStatus(row.original) !== "draft",
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
@@ -151,7 +151,7 @@ export default function TimePage() {
 			{
 				id: "revert-to-ready",
 				label: "Revenir à prêt à facturer",
-				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("ready_to_invoice"),
+				hidden: (row) => getEffectiveStatus(row.original) !== "invoiced",
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
