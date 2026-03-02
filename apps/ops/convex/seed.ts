@@ -117,6 +117,89 @@ export const run = mutation({
 			createdAt: now - 20 * 86400_000,
 		})
 
+		const atlasRedesignId = await ctx.db.insert("projects", {
+			clientId: atlasId,
+			name: "Refonte Brand Identity",
+			description: "Audit + refonte charte graphique web.",
+			tjm: 550,
+			hoursPerDay: 4,
+			currency: "EUR",
+			status: "closed",
+			startDate: "2025-09-01",
+			endDate: "2025-10-31",
+			createdAt: now - 180 * 86400_000,
+		})
+
+		// ── Client 4 : Nexus Labs ─────────────────────────────────────────────────
+		const nexusId = await ctx.db.insert("clients", {
+			name: "Nexus Labs",
+			email: "eng@nexuslabs.dev",
+			phone: "+33 7 55 44 33 22",
+			address: "10 rue du Faubourg Saint-Antoine, 75011 Paris",
+			notes: "Scale-up ML/AI. CTO = Thomas Reyes. Paiement à 15j.",
+			createdAt: now - 45 * 86400_000,
+		})
+
+		const nexusPlatformId = await ctx.db.insert("projects", {
+			clientId: nexusId,
+			name: "ML Platform",
+			description: "Dashboard monitoring modèles ML + alerting pipeline.",
+			tjm: 800,
+			hoursPerDay: 7,
+			currency: "EUR",
+			status: "active",
+			startDate: "2026-01-13",
+			createdAt: now - 45 * 86400_000,
+		})
+
+		const nexusOnboardingId = await ctx.db.insert("projects", {
+			clientId: nexusId,
+			name: "Onboarding Flow",
+			description: "Refonte parcours utilisateur signup → activation.",
+			tjm: 750,
+			hoursPerDay: 7,
+			currency: "EUR",
+			status: "paused",
+			startDate: "2025-12-01",
+			endDate: "2026-01-10",
+			createdAt: now - 80 * 86400_000,
+		})
+
+		// ── Client 5 : Orbital Finance ────────────────────────────────────────────
+		const orbitalId = await ctx.db.insert("clients", {
+			name: "Orbital Finance",
+			email: "tech@orbital.finance",
+			phone: "+33 1 88 77 66 55",
+			address: "25 boulevard Haussmann, 75009 Paris",
+			notes: "Fintech. NDA signé. Contact: Sophie Mercier.",
+			createdAt: now - 200 * 86400_000,
+		})
+
+		const orbitalRiskId = await ctx.db.insert("projects", {
+			clientId: orbitalId,
+			name: "Risk Dashboard",
+			description: "Tableau de bord risque temps réel. Projet terminé.",
+			tjm: 850,
+			hoursPerDay: 7,
+			currency: "EUR",
+			status: "closed",
+			startDate: "2025-08-01",
+			endDate: "2025-11-30",
+			createdAt: now - 200 * 86400_000,
+		})
+
+		const orbitalMobileId = await ctx.db.insert("projects", {
+			clientId: orbitalId,
+			name: "App Mobile Trader",
+			description: "React Native — suivi portefeuille + alertes.",
+			tjm: 800,
+			hoursPerDay: 7,
+			currency: "EUR",
+			status: "active",
+			startDate: "2026-02-03",
+			createdAt: now - 27 * 86400_000,
+		})
+
 		// ── Time Entries ──────────────────────────────────────────────────────────
 		// Helper : crée une entrée
 		type EntryStatus = "draft" | "ready_to_invoice" | "invoiced" | "paid"
@@ -333,6 +416,7 @@ export const run = mutation({
 		// janv : prêts à facturer
 		// fév 03-11 : prêts à facturer
 		// fév 17-24 : brouillons
+		// mars 01-02 : draft (mois en cours)
 		const veridianEntries: EntryArgs[] = [
 			{
 				projectId: veridianApiId,
@@ -422,7 +506,7 @@ export const run = mutation({
 				hourlyRate: 107,
 				description: "Déploiement staging + smoke tests",
 				billable: true,
-				status: "draft",
+				status: "ready_to_invoice",
 			},
 			{
 				projectId: veridianApiId,
@@ -431,12 +515,30 @@ export const run = mutation({
 				hourlyRate: 107,
 				description: "Hotfixes + monitoring Sentry",
 				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: veridianApiId,
+				date: "2026-02-25",
+				minutes: 120,
+				hourlyRate: 107,
+				description: "Réunion démo + retours équipe",
+				billable: false,
+			},
+			{
+				projectId: veridianApiId,
+				date: "2026-03-02",
+				minutes: 420,
+				hourlyRate: 107,
+				description: "Performance tuning requêtes DB",
+				billable: true,
 				status: "draft",
 			},
 		]
 
-		// Atlas — Site vitrine (projet en cours, tout en brouillon)
+		// Atlas — Site vitrine + refonte brand
 		const atlasEntries: EntryArgs[] = [
+			// Site vitrine — fév
 			{
 				projectId: atlasId2,
 				date: "2026-02-10",
@@ -444,7 +546,7 @@ export const run = mutation({
 				hourlyRate: 86,
 				description: "Kickoff + setup projet Stripe",
 				billable: true,
-				status: "draft",
+				status: "ready_to_invoice",
 			},
 			{
 				projectId: atlasId2,
@@ -453,7 +555,7 @@ export const run = mutation({
 				hourlyRate: 86,
 				description: "Maquettes → composants Next.js",
 				billable: true,
-				status: "draft",
+				status: "ready_to_invoice",
 			},
 			{
 				projectId: atlasId2,
@@ -462,7 +564,7 @@ export const run = mutation({
 				hourlyRate: 86,
 				description: "Catalogue produits + filtres",
 				billable: true,
-				status: "draft",
+				status: "ready_to_invoice",
 			},
 			{
 				projectId: atlasId2,
@@ -471,7 +573,7 @@ export const run = mutation({
 				hourlyRate: 86,
 				description: "Panier + tunnel Stripe",
 				billable: true,
-				status: "draft",
+				status: "ready_to_invoice",
 			},
 			{
 				projectId: atlasId2,
@@ -480,7 +582,7 @@ export const run = mutation({
 				hourlyRate: 86,
 				description: "Emails transactionnels Resend",
 				billable: true,
-				status: "draft",
+				status: "ready_to_invoice",
 			},
 			{
 				projectId: atlasId2,
@@ -499,6 +601,76 @@ export const run = mutation({
 				description: "Corrections maquettes mobiles",
 				billable: true,
 				status: "draft",
+			},
+			// Site vitrine — mars
+			{
+				projectId: atlasId2,
+				date: "2026-03-01",
+				minutes: 300,
+				hourlyRate: 86,
+				description: "Page produit détail + galerie",
+				billable: true,
+				status: "draft",
+			},
+			{
+				projectId: atlasId2,
+				date: "2026-03-02",
+				minutes: 420,
+				hourlyRate: 86,
+				description: "Animations scroll + micro-interactions",
+				billable: true,
+				status: "draft",
+			},
+			// Refonte brand (projet fermé, payé)
+			{
+				projectId: atlasRedesignId,
+				date: "2025-09-08",
+				minutes: 420,
+				hourlyRate: 138,
+				description: "Audit identité visuelle actuelle",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: atlasRedesignId,
+				date: "2025-09-09",
+				minutes: 420,
+				hourlyRate: 138,
+				description: "Moodboard + directions créatives",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: atlasRedesignId,
+				date: "2025-09-15",
+				minutes: 420,
+				hourlyRate: 138,
+				description: "Palette couleurs + typographie",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: atlasRedesignId,
+				date: "2025-10-06",
+				minutes: 420,
+				hourlyRate: 138,
+				description: "Composants Figma tokens",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: atlasRedesignId,
+				date: "2025-10-20",
+				minutes: 300,
+				hourlyRate: 138,
+				description: "Livraison brand book + exports",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 		]
 
@@ -566,11 +738,373 @@ export const run = mutation({
 			},
 		]
 
+		// Acme — Dashboard : mars 2026
+		const acmeMarsEntries: EntryArgs[] = [
+			{
+				projectId: acmeDashboardId,
+				date: "2026-03-02",
+				minutes: 420,
+				hourlyRate: 100,
+				description: "Feature export PDF rapports",
+				billable: true,
+				status: "draft",
+			},
+		]
+
+		// Nexus Labs — ML Platform
+		// janv-fév : ready_to_invoice
+		// mars : draft
+		const nexusEntries: EntryArgs[] = [
+			{
+				projectId: nexusPlatformId,
+				date: "2026-01-13",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Architecture monitoring + choix stack",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-01-14",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Ingestion métriques modèles",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-01-20",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Dashboard temps réel WebSockets",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-01-21",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Alerting seuils + notifications",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-01-27",
+				minutes: 300,
+				hourlyRate: 114,
+				description: "Auth RBAC + gestion équipes",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-02-03",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Graphes drift / accuracy historique",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-02-04",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Comparaison versions de modèles",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-02-10",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Exports rapports PDF/CSV",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-02-17",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Intégration MLflow + logging",
+				billable: true,
+				status: "draft",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-02-18",
+				minutes: 120,
+				hourlyRate: 114,
+				description: "Démo intermédiaire Thomas",
+				billable: false,
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-02-24",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Pipeline batch retraining hooks",
+				billable: true,
+				status: "draft",
+			},
+			{
+				projectId: nexusPlatformId,
+				date: "2026-03-02",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "UI annotations + feedback labellers",
+				billable: true,
+				status: "draft",
+			},
+			// Onboarding Flow (projet pausé, payé)
+			{
+				projectId: nexusOnboardingId,
+				date: "2025-12-01",
+				minutes: 420,
+				hourlyRate: 107,
+				description: "Audit funnel onboarding existant",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: nexusOnboardingId,
+				date: "2025-12-08",
+				minutes: 420,
+				hourlyRate: 107,
+				description: "Wireframes nouveau parcours",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: nexusOnboardingId,
+				date: "2025-12-15",
+				minutes: 420,
+				hourlyRate: 107,
+				description: "Implémentation étapes 1-3",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: nexusOnboardingId,
+				date: "2026-01-05",
+				minutes: 420,
+				hourlyRate: 107,
+				description: "Tests A/B + analytics",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: nexusOnboardingId,
+				date: "2026-01-06",
+				minutes: 300,
+				hourlyRate: 107,
+				description: "Mise en prod + monitoring",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+		]
+
+		// Orbital Finance — Risk Dashboard (fermé, payé)
+		const orbitalRiskEntries: EntryArgs[] = [
+			{
+				projectId: orbitalRiskId,
+				date: "2025-08-04",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Analyse besoins + architecture",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-08-11",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Setup infra + WebSockets",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-08-18",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Dashboard positions temps réel",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-09-01",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Module VaR + stress tests",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-09-08",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Alertes seuils réglementaires",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-09-15",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Rapports PDF + export régulateur",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-10-06",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Auth SSO + audit logs",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-10-20",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Tests de charge + UAT",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-11-03",
+				minutes: 420,
+				hourlyRate: 121,
+				description: "Corrections retours UAT",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+			{
+				projectId: orbitalRiskId,
+				date: "2025-11-24",
+				minutes: 300,
+				hourlyRate: 121,
+				description: "Livraison prod + documentation",
+				billable: true,
+				invoicedAt: paidTs,
+				status: "paid",
+			},
+		]
+
+		// Orbital Finance — App Mobile Trader
+		// fév : ready_to_invoice
+		// mars : draft
+		const orbitalMobileEntries: EntryArgs[] = [
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-03",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Setup React Native + navigation",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-04",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Écran portefeuille + sparklines",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-10",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Flux données temps réel",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-11",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Push alerts cours + volumes",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-17",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Historique ordres + filtres",
+				billable: true,
+				status: "ready_to_invoice",
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-24",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Biometric auth + sécurité",
+				billable: true,
+				status: "draft",
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-02-25",
+				minutes: 120,
+				hourlyRate: 114,
+				description: "Revue code Sophie + ajustements",
+				billable: false,
+			},
+			{
+				projectId: orbitalMobileId,
+				date: "2026-03-02",
+				minutes: 420,
+				hourlyRate: 114,
+				description: "Dark mode + thème trading",
+				billable: true,
+				status: "draft",
+			},
+		]
+
 		const allEntries = [
 			...acmeDashEntries,
+			...acmeMarsEntries,
+			...acmeMobileEntries,
 			...veridianEntries,
 			...atlasEntries,
-			...acmeMobileEntries,
+			...nexusEntries,
+			...orbitalRiskEntries,
+			...orbitalMobileEntries,
 		]
 
 		for (const entry of allEntries) {
@@ -578,8 +1112,8 @@ export const run = mutation({
 		}
 
 		return {
-			clients: 3,
-			projects: 5,
+			clients: 5,
+			projects: 9,
 			timeEntries: allEntries.length,
 		}
 	},

@@ -127,31 +127,39 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick }: WeekGrid
                   const totalMins = dayEntries.reduce((s, e) => s + e.minutes, 0)
                   const hasEntries = totalMins > 0
 
+                  const inRange =
+                    (!project.startDate || dateStr >= project.startDate) &&
+                    (!project.endDate || dateStr <= project.endDate)
+
                   return (
                     <td key={day.toISOString()} className="py-1.5 px-1">
-                      <button
-                        type="button"
-                        aria-label={`${hasEntries ? "Voir ou ajouter" : "Ajouter une entrée"} — ${project.name}, ${dateStr}`}
-                        onClick={() => onCellClick(project._id, dateStr)}
-                        className={cn(
-                          "w-full h-10 rounded-md text-xs font-mono transition-colors",
-                          isWeekend(day) && "opacity-50",
-                          hasEntries
-                            ? "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30"
-                            : "bg-raised border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
-                        )}
-                      >
-                        {hasEntries ? (
-                          <span className="flex flex-col items-center leading-tight">
-                            <span>{formatMinutes(totalMins)}</span>
-                            {dayEntries.length > 1 && (
-                              <span className="text-[10px] opacity-70">{dayEntries.length}×</span>
-                            )}
-                          </span>
-                        ) : (
-                          <span className="text-[10px]">+</span>
-                        )}
-                      </button>
+                      {hasEntries || inRange ? (
+                        <button
+                          type="button"
+                          aria-label={`${hasEntries ? "Voir ou ajouter" : "Ajouter une entrée"} — ${project.name}, ${dateStr}`}
+                          onClick={() => onCellClick(project._id, dateStr)}
+                          className={cn(
+                            "w-full h-10 rounded-md text-xs font-mono transition-colors",
+                            isWeekend(day) && "opacity-50",
+                            hasEntries
+                              ? "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30"
+                              : "bg-raised border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
+                          )}
+                        >
+                          {hasEntries ? (
+                            <span className="flex flex-col items-center leading-tight">
+                              <span>{formatMinutes(totalMins)}</span>
+                              {dayEntries.length > 1 && (
+                                <span className="text-[10px] opacity-70">{dayEntries.length}×</span>
+                              )}
+                            </span>
+                          ) : (
+                            <span className="text-[10px]">+</span>
+                          )}
+                        </button>
+                      ) : (
+                        <div className={cn("w-full h-10 rounded-md", isWeekend(day) && "opacity-30")} />
+                      )}
                     </td>
                   )
                 })}
