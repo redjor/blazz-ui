@@ -8,7 +8,7 @@ import { Empty } from "@blazz/ui/components/ui/empty"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react"
+import { CheckSquare, ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
@@ -35,54 +35,111 @@ function getNext(status: TodoStatus): TodoStatus | null {
 	return idx < STATUS_ORDER.length - 1 ? STATUS_ORDER[idx + 1] : null
 }
 
+function EditTodoDialog({
+	todo,
+	open,
+	onOpenChange,
+}: {
+	todo: Doc<"todos">
+	open: boolean
+	onOpenChange: (v: boolean) => void
+}) {
+	const updateText = useMutation(api.todos.updateText)
+	const [text, setText] = useState(todo.text)
+
+	async function handleSubmit(e: React.FormEvent) {
+		e.preventDefault()
+		if (!text.trim()) return
+		await updateText({ id: todo._id, text: text.trim() })
+		onOpenChange(false)
+	}
+
+	return (
+		<Dialog open={open} onOpenChange={(v) => { if (!v) setText(todo.text); onOpenChange(v) }}>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Modifier le todo</DialogTitle>
+				</DialogHeader>
+				<form onSubmit={handleSubmit} className="space-y-4">
+					<Input
+						autoFocus
+						value={text}
+						onChange={(e) => setText(e.target.value)}
+					/>
+					<div className="flex justify-end gap-2">
+						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+							Annuler
+						</Button>
+						<Button type="submit" disabled={!text.trim() || text.trim() === todo.text}>
+							Sauvegarder
+						</Button>
+					</div>
+				</form>
+			</DialogContent>
+		</Dialog>
+	)
+}
+
 function TodoCard({ todo }: { todo: Doc<"todos"> }) {
 	const updateStatus = useMutation(api.todos.updateStatus)
 	const remove = useMutation(api.todos.remove)
+	const [editing, setEditing] = useState(false)
 	const prev = getPrev(todo.status)
 	const next = getNext(todo.status)
 
 	return (
-		<div className={`p-3 rounded-md border border-edge bg-raised space-y-2 ${todo.status === "done" ? "opacity-60" : ""}`}>
-			<p className="text-sm text-fg leading-snug">{todo.text}</p>
-			<div className="flex items-center justify-between gap-2">
-				<div className="flex items-center gap-1.5">
-					{todo.source === "telegram" && (
-						<Badge variant="secondary" className="text-xs px-1.5 py-0">Telegram</Badge>
-					)}
-				</div>
-				<div className="flex items-center gap-1">
-					{prev && (
+		<>
+			<div className={`p-3 rounded-md border border-edge bg-raised space-y-2 ${todo.status === "done" ? "opacity-60" : ""}`}>
+				<p className="text-sm text-fg leading-snug">{todo.text}</p>
+				<div className="flex items-center justify-between gap-2">
+					<div className="flex items-center gap-1.5">
+						{todo.source === "telegram" && (
+							<Badge variant="secondary" className="text-xs px-1.5 py-0">Telegram</Badge>
+						)}
+					</div>
+					<div className="flex items-center gap-1">
+						{prev && (
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								onClick={() => updateStatus({ id: todo._id, status: prev })}
+								aria-label="Reculer"
+							>
+								<ChevronLeft className="size-3.5" />
+							</Button>
+						)}
+						{next && (
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								onClick={() => updateStatus({ id: todo._id, status: next })}
+								aria-label="Avancer"
+							>
+								<ChevronRight className="size-3.5" />
+							</Button>
+						)}
 						<Button
 							variant="ghost"
 							size="icon-sm"
-							onClick={() => updateStatus({ id: todo._id, status: prev })}
-							aria-label="Reculer"
+							onClick={() => setEditing(true)}
+							aria-label="Modifier"
 						>
-							<ChevronLeft className="size-3.5" />
+							<Pencil className="size-3.5" />
 						</Button>
-					)}
-					{next && (
 						<Button
 							variant="ghost"
 							size="icon-sm"
-							onClick={() => updateStatus({ id: todo._id, status: next })}
-							aria-label="Avancer"
+							onClick={() => remove({ id: todo._id })}
+							aria-label="Supprimer"
+							className="text-fg-muted hover:text-destructive"
 						>
-							<ChevronRight className="size-3.5" />
+							<Trash2 className="size-3.5" />
 						</Button>
-					)}
-					<Button
-						variant="ghost"
-						size="icon-sm"
-						onClick={() => remove({ id: todo._id })}
-						aria-label="Supprimer"
-						className="text-fg-muted hover:text-destructive"
-					>
-						<Trash2 className="size-3.5" />
-					</Button>
+					</div>
 				</div>
 			</div>
-		</div>
+			<EditTodoDialog todo={todo} open={editing} onOpenChange={setEditing} />
+		</>
 	)
 }
 

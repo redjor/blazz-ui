@@ -61,6 +61,11 @@ export const updateStatus = mutation({
 	handler: async (ctx, { id, status }) => ctx.db.patch(id, { status }),
 })
 
+export const updateText = mutation({
+	args: { id: v.id("todos"), text: v.string() },
+	handler: async (ctx, { id, text }) => ctx.db.patch(id, { text }),
+})
+
 export const linkProject = mutation({
 	args: {
 		id: v.id("todos"),
