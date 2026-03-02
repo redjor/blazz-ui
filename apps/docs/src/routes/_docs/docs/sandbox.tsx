@@ -1,17 +1,22 @@
-import { fileURLToPath } from "node:url"
-import path from "node:path"
-import fs from "node:fs/promises"
 import { createFileRoute, useLoaderData } from "@tanstack/react-router"
+import { createServerFn } from "@tanstack/react-start"
 import { SandboxPreview } from "~/components/docs/sandbox-preview"
+
+const getSandboxReport = createServerFn({ method: "GET" }).handler(async () => {
+  const { fileURLToPath } = await import("node:url")
+  const { default: path } = await import("node:path")
+  const { default: fs } = await import("node:fs/promises")
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+  const reportPath = path.resolve(__dirname, "../../../../sandbox-report.md")
+  return fs.readFile(reportPath, "utf-8").catch(
+    () => "Aucun rapport — lance `/blazz-audit` sur `sandbox-preview.tsx` d'abord."
+  )
+})
 
 export const Route = createFileRoute("/_docs/docs/sandbox")({
   loader: async () => {
-    const __filename = fileURLToPath(import.meta.url)
-    const __dirname = path.dirname(__filename)
-    const reportPath = path.resolve(__dirname, "../../../../sandbox-report.md")
-    const report = await fs.readFile(reportPath, "utf-8").catch(
-      () => "Aucun rapport — lance `/blazz-audit` sur `sandbox-preview.tsx` d'abord."
-    )
+    const report = await getSandboxReport()
     return { report }
   },
   component: SandboxPage,
