@@ -9,7 +9,6 @@ import { TimeEntryForm } from "@/components/time-entry-form"
 import { WeekGrid } from "@/components/week-grid"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Badge } from "@blazz/ui/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/data-table"
@@ -98,13 +97,23 @@ export default function TimePage() {
       accessorKey: "billable",
       header: "Facturable",
       cell: ({ row }) =>
-        row.original.billable ? null : <Badge variant="secondary">Non facturable</Badge>,
+        row.original.billable ? null : (
+          <span className="flex items-center gap-1.5 text-xs text-fg-muted">
+            <span className="inline-block size-1.5 rounded-full bg-fg-muted" />
+            Non facturable
+          </span>
+        ),
     },
     {
       accessorKey: "invoicedAt",
       header: "Statut",
       cell: ({ row }) =>
-        row.original.invoicedAt ? <Badge variant="default">Facturé</Badge> : null,
+        row.original.invoicedAt ? (
+          <span className="flex items-center gap-1.5 text-xs text-fg-muted">
+            <span className="inline-block size-1.5 rounded-full bg-green-500" />
+            Facturé
+          </span>
+        ) : null,
     },
   ], [])
 
@@ -162,29 +171,25 @@ export default function TimePage() {
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-fg">Saisie des heures</h1>
           <div className="flex items-center gap-3">
-            <div className="flex rounded-lg border border-edge overflow-hidden">
-              <button
+            <div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised">
+              <Button
                 type="button"
+                size="sm"
+                variant={view === "week" ? "default" : "ghost"}
                 onClick={() => setView("week")}
-                className={`px-3 py-1.5 text-sm transition-colors ${
-                  view === "week"
-                    ? "bg-brand text-white"
-                    : "bg-raised text-fg-muted hover:text-fg"
-                }`}
+                className="h-7 px-3 text-xs"
               >
                 Semaine
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                size="sm"
+                variant={view === "list" ? "default" : "ghost"}
                 onClick={() => setView("list")}
-                className={`px-3 py-1.5 text-sm transition-colors ${
-                  view === "list"
-                    ? "bg-brand text-white"
-                    : "bg-raised text-fg-muted hover:text-fg"
-                }`}
+                className="h-7 px-3 text-xs"
               >
                 Liste
-              </button>
+              </Button>
             </div>
             <Button onClick={() => setAddOpen(true)}>Nouvelle entrée</Button>
           </div>
@@ -193,30 +198,36 @@ export default function TimePage() {
         {view === "week" && (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8"
                 onClick={() => setWeekStart((w) => subWeeks(w, 1))}
-                className="p-1.5 rounded-md border border-edge bg-raised hover:bg-surface transition-colors"
               >
-                <ChevronLeft className="h-4 w-4 text-fg-muted" />
-              </button>
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
               <span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">
                 {weekLabel}
               </span>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8"
                 onClick={() => setWeekStart((w) => addWeeks(w, 1))}
-                className="p-1.5 rounded-md border border-edge bg-raised hover:bg-surface transition-colors"
               >
-                <ChevronRight className="h-4 w-4 text-fg-muted" />
-              </button>
-              <button
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
+                className="text-xs h-7 px-2"
                 onClick={() => setWeekStart(getWeekStart(new Date()))}
-                className="text-xs text-fg-muted hover:text-fg transition-colors ml-1"
               >
                 Aujourd'hui
-              </button>
+              </Button>
             </div>
 
             <div className={(weekEntries === undefined || activeProjects === undefined) ? "opacity-50 pointer-events-none" : ""}>
