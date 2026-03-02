@@ -20,7 +20,7 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
-import { getEffectiveStatus } from "@/lib/time-entry-status"
+import { getAllowedTransitions, getEffectiveStatus } from "@/lib/time-entry-status"
 
 type TimeEntry = Doc<"timeEntries">
 
@@ -64,7 +64,7 @@ export default function TimePage() {
 				accessorKey: "date",
 				header: "Date",
 				cell: ({ row }) =>
-					format(new Date(row.original.date + "T00:00:00"), "dd MMM yyyy", { locale: fr }),
+					format(new Date(`${row.original.date}T00:00:00`), "dd MMM yyyy", { locale: fr }),
 				enableSorting: true,
 			},
 			{
@@ -112,7 +112,7 @@ export default function TimePage() {
 			{
 				id: "mark-ready",
 				label: "Prêt à facturer",
-				hidden: (row) => getEffectiveStatus(row.original) !== "draft",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("ready_to_invoice"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
@@ -125,7 +125,7 @@ export default function TimePage() {
 			{
 				id: "revert-to-draft",
 				label: "Revenir en brouillon",
-				hidden: (row) => getEffectiveStatus(row.original) !== "ready_to_invoice",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("draft"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "draft" })
@@ -138,7 +138,7 @@ export default function TimePage() {
 			{
 				id: "mark-invoiced",
 				label: "Marquer facturé",
-				hidden: (row) => getEffectiveStatus(row.original) !== "ready_to_invoice",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("invoiced"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "invoiced" })
@@ -151,7 +151,7 @@ export default function TimePage() {
 			{
 				id: "revert-to-ready",
 				label: "Revenir à prêt à facturer",
-				hidden: (row) => getEffectiveStatus(row.original) !== "invoiced",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("ready_to_invoice"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
@@ -164,7 +164,7 @@ export default function TimePage() {
 			{
 				id: "mark-paid",
 				label: "Marquer payé",
-				hidden: (row) => getEffectiveStatus(row.original) !== "invoiced",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("paid"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "paid" })
