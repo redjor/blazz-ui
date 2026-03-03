@@ -59,7 +59,14 @@ export default defineSchema({
 		),
 		source: v.union(v.literal("app"), v.literal("telegram")),
 		projectId: v.optional(v.id("projects")),
-		priority: v.optional(v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))),
+		priority: v.optional(
+			v.union(
+				v.literal("urgent"),
+				v.literal("high"),
+				v.literal("normal"),
+				v.literal("low")
+			)
+		),
 		createdAt: v.number(),
 	})
 		.index("by_status", ["status"]),
