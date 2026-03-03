@@ -13,6 +13,7 @@ import {
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Pencil, Plus } from "lucide-react"
+import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
 import { OpsFrame } from "@/components/ops-frame"
@@ -143,14 +144,17 @@ export default function ClientDetailPage({ params }: Props) {
 								key={project._id}
 								className="flex items-center justify-between py-2.5 border-b border-edge last:border-0"
 							>
-								<div>
+								<Link
+									href={`/clients/${id}/projects/${project._id}`}
+									className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
+								>
 									<p className="text-sm font-medium text-fg">{project.name}</p>
 									<p className="text-xs text-fg-muted mt-0.5 tabular-nums">
 										{project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
 										{project.startDate && ` · depuis ${project.startDate}`}
 									</p>
-								</div>
-								<div className="flex items-center gap-3">
+								</Link>
+								<div className="flex items-center gap-3 shrink-0 ml-4">
 									<span className="flex items-center gap-1.5 text-xs text-fg-muted">
 										<span
 											className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`}
@@ -161,7 +165,10 @@ export default function ClientDetailPage({ params }: Props) {
 										variant="ghost"
 										size="icon"
 										className="size-8 text-fg-muted"
-										onClick={() => setEditingProject(project)}
+										onClick={(e) => {
+											e.preventDefault()
+											setEditingProject(project)
+										}}
 									>
 										<Pencil className="size-3.5" />
 									</Button>
