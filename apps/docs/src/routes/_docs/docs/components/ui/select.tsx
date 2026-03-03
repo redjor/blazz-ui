@@ -42,6 +42,12 @@ const selectProps: DocProp[] = [
 		description: "Callback when the value changes.",
 	},
 	{
+		name: "items",
+		type: "Array<{ value: string; label: string }>",
+		description:
+			"Required to display labels in the trigger. Without this, SelectValue renders the raw value string. Pass items matching your SelectItem values.",
+	},
+	{
 		name: "disabled",
 		type: "boolean",
 		default: "false",
@@ -63,10 +69,42 @@ const triggerProps: DocProp[] = [
 	},
 ]
 
+const FRUIT_ITEMS = [
+	{ value: "apple", label: "Apple" },
+	{ value: "banana", label: "Banana" },
+	{ value: "orange", label: "Orange" },
+]
+
+const COUNTRY_ITEMS = [
+	{ value: "us", label: "United States" },
+	{ value: "uk", label: "United Kingdom" },
+	{ value: "fr", label: "France" },
+	{ value: "de", label: "Germany" },
+]
+
+const OPTION_ITEMS = [
+	{ value: "1", label: "Option 1" },
+	{ value: "2", label: "Option 2" },
+]
+
+const TIMEZONE_ITEMS = [
+	{ value: "est", label: "Eastern Time (ET)" },
+	{ value: "cst", label: "Central Time (CT)" },
+	{ value: "pst", label: "Pacific Time (PT)" },
+	{ value: "gmt", label: "GMT" },
+	{ value: "cet", label: "Central European (CET)" },
+]
+
 const examples = [
 	{
 		key: "default",
-		code: `<Select>
+		code: `<Select
+  items={[
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "orange", label: "Orange" },
+  ]}
+>
   <SelectTrigger>
     <SelectValue placeholder="Select a fruit" />
   </SelectTrigger>
@@ -81,7 +119,13 @@ const examples = [
 		key: "with-label",
 		code: `<div className="space-y-2">
   <Label htmlFor="country">Country</Label>
-  <Select>
+  <Select
+    items={[
+      { value: "us", label: "United States" },
+      { value: "uk", label: "United Kingdom" },
+      { value: "fr", label: "France" },
+    ]}
+  >
     <SelectTrigger id="country">
       <SelectValue placeholder="Select country" />
     </SelectTrigger>
@@ -95,13 +139,13 @@ const examples = [
 	},
 	{
 		key: "sizes",
-		code: `<Select>
+		code: `<Select items={[{ value: "1", label: "Option 1" }, { value: "2", label: "Option 2" }]}>
   <SelectTrigger size="sm">
     <SelectValue placeholder="Small" />
   </SelectTrigger>
   ...
 </Select>
-<Select>
+<Select items={[{ value: "1", label: "Option 1" }, { value: "2", label: "Option 2" }]}>
   <SelectTrigger size="default">
     <SelectValue placeholder="Default" />
   </SelectTrigger>
@@ -110,28 +154,36 @@ const examples = [
 	},
 	{
 		key: "groups",
-		code: `<Select>
+		code: `<Select
+  items={[
+    { value: "est", label: "Eastern Time (ET)" },
+    { value: "cst", label: "Central Time (CT)" },
+    { value: "pst", label: "Pacific Time (PT)" },
+    { value: "gmt", label: "GMT" },
+    { value: "cet", label: "Central European (CET)" },
+  ]}
+>
   <SelectTrigger>
     <SelectValue placeholder="Select timezone" />
   </SelectTrigger>
   <SelectContent>
     <SelectGroup>
       <SelectLabel>North America</SelectLabel>
-      <SelectItem value="est">Eastern Time</SelectItem>
-      <SelectItem value="pst">Pacific Time</SelectItem>
+      <SelectItem value="est">Eastern Time (ET)</SelectItem>
+      <SelectItem value="pst">Pacific Time (PT)</SelectItem>
     </SelectGroup>
     <SelectSeparator />
     <SelectGroup>
       <SelectLabel>Europe</SelectLabel>
       <SelectItem value="gmt">GMT</SelectItem>
-      <SelectItem value="cet">Central European</SelectItem>
+      <SelectItem value="cet">Central European (CET)</SelectItem>
     </SelectGroup>
   </SelectContent>
 </Select>`,
 	},
 	{
 		key: "disabled",
-		code: `<Select disabled>
+		code: `<Select items={[{ value: "1", label: "Option 1" }]} disabled>
   <SelectTrigger>
     <SelectValue placeholder="Disabled" />
   </SelectTrigger>
@@ -165,7 +217,7 @@ function SelectPage() {
 			toc={toc}
 		>
 			<DocHero>
-				<Select>
+				<Select items={FRUIT_ITEMS}>
 					<SelectTrigger className="w-[180px]">
 						<SelectValue placeholder="Select a fruit" />
 					</SelectTrigger>
@@ -184,7 +236,7 @@ function SelectPage() {
 					code={examples[0].code}
 					highlightedCode={html("default")}
 				>
-					<Select>
+					<Select items={FRUIT_ITEMS}>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue placeholder="Select a fruit" />
 						</SelectTrigger>
@@ -204,7 +256,7 @@ function SelectPage() {
 				>
 					<div className="w-[200px] space-y-2">
 						<Label htmlFor="country">Country</Label>
-						<Select>
+						<Select items={COUNTRY_ITEMS}>
 							<SelectTrigger id="country">
 								<SelectValue placeholder="Select country" />
 							</SelectTrigger>
@@ -225,7 +277,7 @@ function SelectPage() {
 					highlightedCode={html("sizes")}
 				>
 					<div className="flex items-center gap-4">
-						<Select>
+						<Select items={OPTION_ITEMS}>
 							<SelectTrigger size="sm" className="w-[140px]">
 								<SelectValue placeholder="Small" />
 							</SelectTrigger>
@@ -234,7 +286,7 @@ function SelectPage() {
 								<SelectItem value="2">Option 2</SelectItem>
 							</SelectContent>
 						</Select>
-						<Select>
+						<Select items={OPTION_ITEMS}>
 							<SelectTrigger size="default" className="w-[140px]">
 								<SelectValue placeholder="Default" />
 							</SelectTrigger>
@@ -252,7 +304,7 @@ function SelectPage() {
 					code={examples[3].code}
 					highlightedCode={html("groups")}
 				>
-					<Select>
+					<Select items={TIMEZONE_ITEMS}>
 						<SelectTrigger className="w-[200px]">
 							<SelectValue placeholder="Select timezone" />
 						</SelectTrigger>
@@ -279,7 +331,7 @@ function SelectPage() {
 					code={examples[4].code}
 					highlightedCode={html("disabled")}
 				>
-					<Select disabled>
+					<Select items={OPTION_ITEMS} disabled>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue placeholder="Disabled" />
 						</SelectTrigger>

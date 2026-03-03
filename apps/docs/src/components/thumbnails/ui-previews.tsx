@@ -221,7 +221,7 @@ export function SelectPreview() {
     <div className="flex flex-col gap-4 p-8 w-[360px]">
       <div className="space-y-1.5">
         <Label>Status</Label>
-        <Select defaultValue="active">
+        <Select defaultValue="active" items={[{ value: "active", label: "Active" }, { value: "inactive", label: "Inactive" }, { value: "pending", label: "Pending" }, { value: "archived", label: "Archived" }]}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
@@ -235,7 +235,7 @@ export function SelectPreview() {
       </div>
       <div className="space-y-1.5">
         <Label>Priority</Label>
-        <Select defaultValue="medium">
+        <Select defaultValue="medium" items={[{ value: "urgent", label: "Urgent" }, { value: "high", label: "High" }, { value: "medium", label: "Medium" }, { value: "low", label: "Low" }]}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select priority" />
           </SelectTrigger>

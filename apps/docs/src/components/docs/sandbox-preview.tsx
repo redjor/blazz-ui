@@ -76,7 +76,7 @@ export function SandboxPreview() {
 								</span>
 								<Input type="number" defaultValue="0.00" step="0.01" min="0" className="pl-7" />
 							</div>
-							<Select defaultValue="eur">
+							<Select defaultValue="eur" items={[{ value: "eur", label: "🇪🇺 EUR" }, { value: "usd", label: "🇺🇸 USD" }, { value: "gbp", label: "🇬🇧 GBP" }]}>
 								<SelectTrigger className="w-28">
 									<SelectValue />
 								</SelectTrigger>
@@ -97,7 +97,7 @@ export function SandboxPreview() {
 							</span>
 						</div>
 						<div className="px-6 py-4 flex flex-col gap-3">
-							<Select>
+							<Select items={[{ value: "none", label: "None" }, { value: "existing", label: "Existing Account" }, { value: "verified", label: "Verified User" }]}>
 								<SelectTrigger className="w-full">
 									<SelectValue placeholder="Prerequisites" />
 								</SelectTrigger>

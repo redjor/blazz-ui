@@ -168,7 +168,7 @@ function AddTodoDialog({
 						rows={3}
 					/>
 					<div className="flex gap-2">
-						<Select value={priority} onValueChange={setPriority}>
+						<Select value={priority} onValueChange={setPriority} items={[{ value: "urgent", label: "Urgent" }, { value: "high", label: "High" }, { value: "normal", label: "Normal" }, { value: "low", label: "Low" }]}>
 							<SelectTrigger className="w-full">
 								<SelectValue placeholder="Priorité" />
 							</SelectTrigger>

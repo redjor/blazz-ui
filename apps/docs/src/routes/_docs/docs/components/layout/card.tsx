@@ -1,6 +1,11 @@
+import { useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@blazz/ui/components/ui/card"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Progress } from "@blazz/ui/components/ui/progress"
+import { cn } from "@blazz/ui/lib/utils"
+import { ArrowRightIcon, BellIcon, ChevronDownIcon, SparklesIcon } from "lucide-react"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -77,6 +82,147 @@ const examples = [
   </CardFooter>
 </Card>`,
 	},
+	{
+		key: "with-image",
+		code: `import Image from "next/image"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { ArrowRightIcon, BellIcon, SparklesIcon } from "lucide-react"
+
+<Card className="w-full max-w-xs">
+  <CardContent className="flex flex-col gap-4">
+    <div className="relative h-48 w-full overflow-hidden rounded-md">
+      <Image
+        src="https://picsum.photos/1000/800?grayscale&random=18"
+        alt="16:9"
+        fill
+        className="object-cover"
+      />
+    </div>
+
+    <div className="flex items-center justify-between gap-5">
+      <Badge variant="outline">
+        <BellIcon aria-hidden="true" />
+        Trending
+      </Badge>
+      <div className="flex items-center gap-1">
+        <SparklesIcon aria-hidden="true" />
+        <span className="text-secondary-foreground text-xs font-medium">
+          Featured
+        </span>
+      </div>
+    </div>
+
+    <p className="text-foreground text-sm">
+      Simplifying your workflow from day one. Manage your tasks, projects,
+      and team in one place.
+    </p>
+
+    <Button>
+      Get Started
+      <ArrowRightIcon aria-hidden="true" />
+    </Button>
+  </CardContent>
+</Card>`,
+	},
+	{
+		key: "collapsible-billing",
+		code: `"use client"
+
+import { useState } from "react"
+import { cn } from "@blazz/ui/lib/utils"
+import { Button } from "@blazz/ui/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@blazz/ui/components/ui/card"
+import { Progress } from "@blazz/ui/components/ui/progress"
+import { ChevronDownIcon } from "lucide-react"
+
+export function Pattern() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <Card className="relative w-full max-w-md gap-6 overflow-visible pb-1">
+      <CardHeader>
+        <CardTitle>3 days remaining in cycle</CardTitle>
+        <CardAction>
+          <Button variant="outline" size="sm">
+            Billing
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent
+        className={cn(
+          "relative space-y-5 overflow-hidden transition-all duration-500 ease-in-out",
+          isOpen ? "max-h-[500px]" : "max-h-48"
+        )}
+      >
+        <div className="bg-muted/60 rounded-md space-y-3 p-4">
+          <div className="text-muted-foreground flex justify-between text-xs font-medium">
+            <span>Included Credit</span>
+            <span>On-Demand Charges</span>
+          </div>
+          <div className="flex justify-between text-lg font-bold">
+            <span>$18.08 / $20</span>
+            <span>$0</span>
+          </div>
+          <Progress value={90} className="h-2" />
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between text-sm">
+            <span className="text-foreground font-medium">Requests</span>
+            <span className="text-muted-foreground">$210.84</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-foreground font-medium">Active CPU</span>
+            <span className="text-muted-foreground">$21.95</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-foreground font-medium">Events</span>
+            <span className="text-muted-foreground">$21.20</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-foreground font-medium">Storage Usage</span>
+            <span className="text-muted-foreground">$20.45</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-foreground font-medium">Bandwidth</span>
+            <span className="text-muted-foreground">$0.00</span>
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            "from-background pointer-events-none absolute inset-x-0 bottom-0 h-20 rounded-b-lg bg-linear-to-t to-transparent transition-opacity duration-300",
+            isOpen ? "opacity-0" : "opacity-100"
+          )}
+        />
+      </CardContent>
+
+      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="bg-background hover:bg-background rounded-full shadow-sm"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <ChevronDownIcon
+            aria-hidden="true"
+            className={cn("transition-transform duration-300", isOpen && "rotate-180")}
+          />
+          <span className="sr-only">Toggle card</span>
+        </Button>
+      </div>
+    </Card>
+  )
+}`,
+	},
 ] as const
 
 export const Route = createFileRoute("/_docs/docs/components/layout/card")({
@@ -116,6 +262,86 @@ const cardProps: DocProp[] = [
 		description: "The content to display inside the card.",
 	},
 ]
+
+function CardBillingExample() {
+	const [isOpen, setIsOpen] = useState(false)
+
+	return (
+		<Card className="relative w-full max-w-md gap-6 overflow-visible pb-1">
+			<CardHeader>
+				<CardTitle>3 days remaining in cycle</CardTitle>
+				<CardAction>
+					<Button variant="outline" size="sm">
+						Billing
+					</Button>
+				</CardAction>
+			</CardHeader>
+			<CardContent
+				className={cn(
+					"relative space-y-5 overflow-hidden transition-all duration-500 ease-in-out",
+					isOpen ? "max-h-[500px]" : "max-h-48"
+				)}
+			>
+				<div className="bg-muted/60 space-y-3 rounded-md p-4">
+					<div className="text-muted-foreground flex justify-between text-xs font-medium">
+						<span>Included Credit</span>
+						<span>On-Demand Charges</span>
+					</div>
+					<div className="flex justify-between text-lg font-bold">
+						<span>$18.08 / $20</span>
+						<span>$0</span>
+					</div>
+					<Progress value={90} className="h-2" />
+				</div>
+
+				<div className="flex flex-col gap-4">
+					<div className="flex justify-between text-sm">
+						<span className="text-foreground font-medium">Requests</span>
+						<span className="text-muted-foreground">$210.84</span>
+					</div>
+					<div className="flex justify-between text-sm">
+						<span className="text-foreground font-medium">Active CPU</span>
+						<span className="text-muted-foreground">$21.95</span>
+					</div>
+					<div className="flex justify-between text-sm">
+						<span className="text-foreground font-medium">Events</span>
+						<span className="text-muted-foreground">$21.20</span>
+					</div>
+					<div className="flex justify-between text-sm">
+						<span className="text-foreground font-medium">Storage Usage</span>
+						<span className="text-muted-foreground">$20.45</span>
+					</div>
+					<div className="flex justify-between text-sm">
+						<span className="text-foreground font-medium">Bandwidth</span>
+						<span className="text-muted-foreground">$0.00</span>
+					</div>
+				</div>
+
+				<div
+					className={cn(
+						"from-background pointer-events-none absolute inset-x-0 bottom-0 h-20 rounded-b-lg bg-linear-to-t to-transparent transition-opacity duration-300",
+						isOpen ? "opacity-0" : "opacity-100"
+					)}
+				/>
+			</CardContent>
+
+			<div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
+				<Button
+					variant="outline"
+					size="icon-sm"
+					className="bg-background hover:bg-background rounded-full shadow-sm"
+					onClick={() => setIsOpen(!isOpen)}
+				>
+					<ChevronDownIcon
+						aria-hidden="true"
+						className={cn("transition-transform duration-300", isOpen && "rotate-180")}
+					/>
+					<span className="sr-only">Toggle card</span>
+				</Button>
+			</div>
+		</Card>
+	)
+}
 
 function CardPage() {
 	const { highlighted } = Route.useLoaderData()
@@ -214,6 +440,55 @@ function CardPage() {
 							<Button>Save changes</Button>
 						</CardFooter>
 					</Card>
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="With Image"
+					description="A card combining an image, badges, and a call-to-action button."
+					code={examples[5].code}
+					highlightedCode={html("with-image")}
+				>
+					<Card className="w-full max-w-xs">
+						<CardContent className="flex flex-col gap-4">
+							<div className="relative h-48 w-full overflow-hidden rounded-md">
+								<img
+									src="https://picsum.photos/1000/800?grayscale&random=18"
+									alt="16:9"
+									className="h-full w-full object-cover"
+								/>
+							</div>
+
+							<div className="flex items-center justify-between gap-5">
+								<Badge variant="outline">
+									<BellIcon aria-hidden="true" />
+									Trending
+								</Badge>
+								<div className="flex items-center gap-1">
+									<SparklesIcon className="size-3.5" aria-hidden="true" />
+									<span className="text-secondary-foreground text-xs font-medium">Featured</span>
+								</div>
+							</div>
+
+							<p className="text-foreground text-sm">
+								Simplifying your workflow from day one. Manage your tasks, projects, and team in
+								one place.
+							</p>
+
+							<Button>
+								Get Started
+								<ArrowRightIcon aria-hidden="true" />
+							</Button>
+						</CardContent>
+					</Card>
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Collapsible Billing"
+					description="A card with a collapsible section and a toggle button."
+					code={examples[6].code}
+					highlightedCode={html("collapsible-billing")}
+				>
+					<CardBillingExample />
 				</DocExampleClient>
 			</DocSection>
 

@@ -178,7 +178,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 
 					<div className="space-y-2">
 						<Label htmlFor="role">Role *</Label>
-						<Select value={role} onValueChange={(value) => setValue("role", value)}>
+						<Select value={role} onValueChange={(value) => setValue("role", value)} items={[{ value: "admin", label: "Admin" }, { value: "moderator", label: "Moderator" }, { value: "user", label: "User" }]}>
 							<SelectTrigger id="role">
 								<SelectValue placeholder="Select a role" />
 							</SelectTrigger>

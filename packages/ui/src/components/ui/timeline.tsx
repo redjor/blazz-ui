@@ -2,36 +2,104 @@ import * as React from "react"
 import { cn } from "../../lib/utils"
 
 /* ---------------------------------------------------------------------------
+ * Context
+ * --------------------------------------------------------------------------- */
+
+type TimelineOrientation = "horizontal" | "vertical"
+
+interface TimelineContextValue {
+	orientation: TimelineOrientation
+}
+
+const TimelineContext = React.createContext<TimelineContextValue>({
+	orientation: "vertical",
+})
+
+function useTimeline() {
+	return React.useContext(TimelineContext)
+}
+
+/* ---------------------------------------------------------------------------
  * Timeline
  * --------------------------------------------------------------------------- */
 
-function Timeline({ className, ...props }: React.ComponentProps<"div">) {
+interface TimelineProps extends React.ComponentProps<"div"> {
+	/** Layout direction. @default "vertical" */
+	orientation?: TimelineOrientation
+}
+
+function Timeline({ className, orientation = "vertical", ...props }: TimelineProps) {
 	return (
-		<div
-			data-slot="timeline"
-			className={cn("relative space-y-0", className)}
-			{...props}
-		/>
+		<TimelineContext.Provider value={{ orientation }}>
+			<div
+				data-slot="timeline"
+				data-orientation={orientation}
+				className={cn(
+					"relative",
+					orientation === "horizontal" ? "flex flex-row items-start" : "space-y-0",
+					className,
+				)}
+				{...props}
+			/>
+		</TimelineContext.Provider>
 	)
 }
 
+/* ---------------------------------------------------------------------------
+ * TimelineItem
+ * --------------------------------------------------------------------------- */
+
 export interface TimelineItemProps extends React.ComponentProps<"div"> {
-	/** Show the connecting line. @default true */
+	/** Show the connecting line after this item. @default true */
 	showLine?: boolean
 }
 
 function TimelineItem({ className, showLine = true, ...props }: TimelineItemProps) {
+	const { orientation } = useTimeline()
 	return (
 		<div
 			data-slot="timeline-item"
 			data-line={showLine}
-			className={cn("relative flex gap-3 pb-6 last:pb-0", className)}
+			className={cn(
+				"relative",
+				orientation === "horizontal" ? "flex flex-1 flex-col" : "flex gap-3",
+				className,
+			)}
 			{...props}
 		/>
 	)
 }
 
+/* ---------------------------------------------------------------------------
+ * TimelineIndicator
+ * --------------------------------------------------------------------------- */
+
 function TimelineIndicator({ className, children, ...props }: React.ComponentProps<"div">) {
+	const { orientation } = useTimeline()
+
+	if (orientation === "horizontal") {
+		return (
+			<div className="relative flex w-full flex-row items-center">
+				{/* Left connecting line — invisible on first item to preserve layout */}
+				<div className="h-px flex-1 bg-edge [[data-slot='timeline-item']:first-child_&]:invisible" />
+				<div
+					data-slot="timeline-indicator"
+					className={cn(
+						"z-10 flex size-7 shrink-0 items-center justify-center rounded-full",
+						"border border-edge bg-surface text-fg-muted",
+						"[&>svg]:size-3.5",
+						className,
+					)}
+					{...props}
+				>
+					{children}
+				</div>
+				{/* Right connecting line — invisible on last item or when showLine=false */}
+				<div className="h-px flex-1 bg-edge [[data-slot='timeline-item']:last-child_&]:invisible [[data-line='false']_&]:invisible" />
+			</div>
+		)
+	}
+
 	return (
 		<div className="relative flex flex-col items-center">
 			<div
@@ -40,27 +108,55 @@ function TimelineIndicator({ className, children, ...props }: React.ComponentPro
 					"flex size-7 shrink-0 items-center justify-center rounded-full",
 					"border border-edge bg-surface text-fg-muted",
 					"[&>svg]:size-3.5",
-					className
+					className,
 				)}
 				{...props}
 			>
 				{children}
 			</div>
-			{/* Connecting line */}
-			<div className="w-px flex-1 bg-edge mt-1.5 [[data-line='false']_&]:hidden" />
+			{/* Vertical connecting line */}
+			<div className="mt-1.5 w-px flex-1 bg-edge [[data-line='false']_&]:hidden" />
 		</div>
 	)
 }
 
-function TimelineContent({ className, ...props }: React.ComponentProps<"div">) {
+/* ---------------------------------------------------------------------------
+ * TimelineHeader
+ * --------------------------------------------------------------------------- */
+
+function TimelineHeader({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
-			data-slot="timeline-content"
-			className={cn("flex-1 pt-0.5 pb-1", className)}
+			data-slot="timeline-header"
+			className={cn("flex flex-col", className)}
 			{...props}
 		/>
 	)
 }
+
+/* ---------------------------------------------------------------------------
+ * TimelineContent
+ * --------------------------------------------------------------------------- */
+
+function TimelineContent({ className, ...props }: React.ComponentProps<"div">) {
+	const { orientation } = useTimeline()
+	return (
+		<div
+			data-slot="timeline-content"
+			className={cn(
+				orientation === "horizontal"
+					? "mt-2 flex flex-col items-center text-center"
+					: "flex-1 pt-0.5 pb-6 [[data-slot='timeline-item']:last-child_&]:pb-1",
+				className,
+			)}
+			{...props}
+		/>
+	)
+}
+
+/* ---------------------------------------------------------------------------
+ * TimelineTitle
+ * --------------------------------------------------------------------------- */
 
 function TimelineTitle({ className, ...props }: React.ComponentProps<"p">) {
 	return (
@@ -72,6 +168,10 @@ function TimelineTitle({ className, ...props }: React.ComponentProps<"p">) {
 	)
 }
 
+/* ---------------------------------------------------------------------------
+ * TimelineDescription
+ * --------------------------------------------------------------------------- */
+
 function TimelineDescription({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
@@ -81,6 +181,24 @@ function TimelineDescription({ className, ...props }: React.ComponentProps<"p">)
 		/>
 	)
 }
+
+/* ---------------------------------------------------------------------------
+ * TimelineDate
+ * --------------------------------------------------------------------------- */
+
+function TimelineDate({ className, ...props }: React.ComponentProps<"time">) {
+	return (
+		<time
+			data-slot="timeline-date"
+			className={cn("text-xs text-fg-muted tabular-nums", className)}
+			{...props}
+		/>
+	)
+}
+
+/* ---------------------------------------------------------------------------
+ * TimelineTime (preserved for backward compatibility)
+ * --------------------------------------------------------------------------- */
 
 function TimelineTime({ className, ...props }: React.ComponentProps<"time">) {
 	return (
@@ -96,8 +214,10 @@ export {
 	Timeline,
 	TimelineItem,
 	TimelineIndicator,
+	TimelineHeader,
 	TimelineContent,
 	TimelineTitle,
 	TimelineDescription,
+	TimelineDate,
 	TimelineTime,
 }
