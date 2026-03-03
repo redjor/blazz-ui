@@ -128,14 +128,18 @@ function EditTodoDialog({
 								<SelectItem value="low">Low</SelectItem>
 							</SelectContent>
 						</Select>
-						<Select value={projectId} onValueChange={setProjectId}>
+						<Select
+							value={projectId}
+							onValueChange={setProjectId}
+							items={[{ value: "", label: "Aucun" }, ...projects.map((p) => ({ value: p._id, label: p.name }))]}
+						>
 							<SelectTrigger className="w-full">
 								<SelectValue placeholder="Projet (optionnel)" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="" label="Aucun">Aucun</SelectItem>
+								<SelectItem value="">Aucun</SelectItem>
 								{projects.map((p) => (
-									<SelectItem key={p._id} value={p._id} label={p.name}>{p.name}</SelectItem>
+									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
@@ -308,14 +312,18 @@ function AddTodoDialog({
 								<SelectItem value="low">Low</SelectItem>
 							</SelectContent>
 						</Select>
-						<Select value={projectId ?? ""} onValueChange={(v) => setProjectId(v || undefined)}>
+						<Select
+							value={projectId ?? ""}
+							onValueChange={(v) => setProjectId(v || undefined)}
+							items={[{ value: "", label: "Aucun" }, ...projects.map((p) => ({ value: p._id, label: p.name }))]}
+						>
 							<SelectTrigger className="w-full">
 								<SelectValue placeholder="Projet (optionnel)" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="" label="Aucun">Aucun</SelectItem>
+								<SelectItem value="">Aucun</SelectItem>
 								{projects.map((p) => (
-									<SelectItem key={p._id} value={p._id} label={p.name}>{p.name}</SelectItem>
+									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
