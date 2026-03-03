@@ -11,7 +11,9 @@ import { OpsFrame } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { formatMinutes } from "@/lib/format"
 import { getEffectiveStatus, type EntryStatus, ENTRY_STATUS_LABELS } from "@/lib/time-entry-status"
+import { format, parseISO } from "date-fns"
 import {
   Dialog,
   DialogContent,
@@ -35,12 +37,6 @@ const STATUS_FILTERS: Array<{ key: EntryStatus | "all"; label: string }> = [
   { key: "invoiced", label: ENTRY_STATUS_LABELS.invoiced },
   { key: "paid", label: ENTRY_STATUS_LABELS.paid },
 ]
-
-function formatMinutes(minutes: number): string {
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  return m > 0 ? `${h}h${String(m).padStart(2, "0")}` : `${h}h`
-}
 
 export default function ProjectDetailPage({ params }: Props) {
   const { id, pid } = use(params)
@@ -179,7 +175,7 @@ export default function ProjectDetailPage({ params }: Props) {
           {filteredEntries.length === 0 ? (
             <p className="text-sm text-fg-muted py-4">Aucune entrée pour ce filtre.</p>
           ) : (
-            <div className="space-y-0">
+            <div>
               {filteredEntries.map((entry) => {
                 const revenue = Math.round((entry.minutes / 60) * entry.hourlyRate)
                 const effectiveStatus = getEffectiveStatus(entry)
@@ -189,7 +185,7 @@ export default function ProjectDetailPage({ params }: Props) {
                     className="flex items-center gap-4 py-2.5 border-b border-edge last:border-0"
                   >
                     <span className="text-xs tabular-nums text-fg-muted w-20 shrink-0">
-                      {entry.date}
+                      {format(parseISO(entry.date), "dd/MM/yyyy")}
                     </span>
                     <span className="text-xs tabular-nums text-fg w-12 shrink-0">
                       {formatMinutes(entry.minutes)}
