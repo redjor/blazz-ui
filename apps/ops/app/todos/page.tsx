@@ -19,7 +19,7 @@ import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
 import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { CheckSquare, Columns3, Flag, LayoutList, Plus, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
@@ -53,6 +53,7 @@ function EditTodoDialog({
 	const updateText = useMutation(api.todos.updateText)
 	const updatePriority = useMutation(api.todos.updatePriority)
 	const linkProject = useMutation(api.todos.linkProject)
+	const remove = useMutation(api.todos.remove)
 	const [text, setText] = useState(todo.text)
 	const [description, setDescription] = useState(todo.description ?? "")
 	const [priority, setPriority] = useState(todo.priority ?? "normal")
@@ -89,9 +90,14 @@ function EditTodoDialog({
 		onOpenChange(false)
 	}
 
+	async function handleDelete() {
+		await remove({ id: todo._id })
+		onOpenChange(false)
+	}
+
 	return (
 		<Dialog open={open} onOpenChange={(v) => { if (!v) resetToTodo(); onOpenChange(v) }}>
-			<DialogContent>
+			<DialogContent size="lg">
 				<DialogHeader>
 					<DialogTitle>Modifier le todo</DialogTitle>
 				</DialogHeader>
@@ -136,13 +142,18 @@ function EditTodoDialog({
 							</SelectContent>
 						</Select>
 					</div>
-					<div className="flex justify-end gap-2">
-						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-							Annuler
+					<div className="flex justify-between gap-2">
+						<Button type="button" variant="ghost" size="icon-sm" onClick={handleDelete} aria-label="Supprimer" className="text-fg-muted hover:text-destructive">
+							<Trash2 className="size-4" />
 						</Button>
-						<Button type="submit" disabled={!text.trim() || unchanged}>
-							Sauvegarder
-						</Button>
+						<div className="flex gap-2">
+							<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+								Annuler
+							</Button>
+							<Button type="submit" disabled={!text.trim() || unchanged}>
+								Sauvegarder
+							</Button>
+						</div>
 					</div>
 				</form>
 			</DialogContent>
@@ -171,40 +182,24 @@ function ProjectBadge({ projectId, projects }: { projectId?: Id<"projects">; pro
 }
 
 function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"projects">[] }) {
-	const remove = useMutation(api.todos.remove)
 	const [editing, setEditing] = useState(false)
 
 	return (
 		<>
-			<div className={`p-3 rounded-md border border-edge bg-raised space-y-2 ${todo.status === "done" ? "opacity-60" : ""}`}>
+			<div
+				className={`p-3 rounded-md border border-edge bg-raised space-y-2 cursor-pointer hover:border-accent/50 transition-colors ${todo.status === "done" ? "opacity-60" : ""}`}
+				onClick={() => setEditing(true)}
+				role="button"
+				tabIndex={0}
+				onKeyDown={(e) => e.key === "Enter" && setEditing(true)}
+			>
 				<p className="text-sm text-fg leading-snug">{todo.text}</p>
 				{todo.description && (
 					<p className="text-xs text-fg-muted leading-relaxed whitespace-pre-wrap">{todo.description}</p>
 				)}
-				<div className="flex items-center justify-between gap-2">
-					<div className="flex items-center gap-1.5">
-						<PriorityIcon priority={todo.priority} />
-						<ProjectBadge projectId={todo.projectId} projects={projects} />
-					</div>
-					<div className="flex items-center gap-1">
-						<Button
-							variant="ghost"
-							size="icon-sm"
-							onClick={() => setEditing(true)}
-							aria-label="Modifier"
-						>
-							<Pencil className="size-3.5" />
-						</Button>
-						<Button
-							variant="ghost"
-							size="icon-sm"
-							onClick={() => remove({ id: todo._id })}
-							aria-label="Supprimer"
-							className="text-fg-muted hover:text-destructive"
-						>
-							<Trash2 className="size-3.5" />
-						</Button>
-					</div>
+				<div className="flex items-center gap-1.5">
+					<PriorityIcon priority={todo.priority} />
+					<ProjectBadge projectId={todo.projectId} projects={projects} />
 				</div>
 			</div>
 			<EditTodoDialog todo={todo} open={editing} onOpenChange={setEditing} projects={projects} />
