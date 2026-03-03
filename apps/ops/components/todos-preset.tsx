@@ -6,10 +6,11 @@ import { createStatusViews } from '@blazz/ui/components/blocks/data-table/factor
 import { createCRUDActions, createBulkActions } from '@blazz/ui/components/blocks/data-table/factories/action-builders'
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '@blazz/ui/components/blocks/data-table'
 import { getCategoryColorClasses } from './manage-categories-sheet'
+import type { Id } from '@/convex/_generated/dataModel'
 
 // Local type — mirrors Doc<"todos"> fields we need, plus resolved projectName
 export interface Todo {
-	_id: string
+	_id: Id<"todos">
 	text: string
 	description?: string
 	status: "triage" | "todo" | "in_progress" | "done"
