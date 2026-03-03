@@ -5,6 +5,7 @@ import { col } from '@blazz/ui/components/blocks/data-table/factories/col'
 import { createStatusViews } from '@blazz/ui/components/blocks/data-table/factories/view-builders'
 import { createCRUDActions, createBulkActions } from '@blazz/ui/components/blocks/data-table/factories/action-builders'
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '@blazz/ui/components/blocks/data-table'
+import { getCategoryColorClasses } from './manage-categories-sheet'
 
 // Local type — mirrors Doc<"todos"> fields we need, plus resolved projectName
 export interface Todo {
@@ -15,6 +16,10 @@ export interface Todo {
 	priority?: "urgent" | "high" | "normal" | "low"
 	projectId?: string
 	projectName?: string
+	categoryId?: string
+	categoryName?: string
+	categoryColor?: string
+	tags?: string[]
 	createdAt: number
 }
 
@@ -112,6 +117,46 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 			},
 			enableSorting: true,
 			size: 120,
+		} as DataTableColumnDef<Todo>,
+
+		// Category — colored badge
+		{
+			accessorKey: 'categoryName',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Catégorie" />,
+			cell: ({ row }) => {
+				const name = row.getValue('categoryName') as string | undefined
+				const color = row.original.categoryColor
+				if (!name) return <span className="text-fg-muted/40 text-sm">—</span>
+				const cls = getCategoryColorClasses(color)
+				return (
+					<span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls.bg} ${cls.text}`}>
+						{name}
+					</span>
+				)
+			},
+			enableSorting: true,
+			size: 120,
+		} as DataTableColumnDef<Todo>,
+
+		// Tags — chips
+		{
+			accessorKey: 'tags',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Tags" />,
+			cell: ({ row }) => {
+				const tags = row.getValue('tags') as string[] | undefined
+				if (!tags || tags.length === 0) return <span className="text-fg-muted/40 text-sm">—</span>
+				return (
+					<div className="flex flex-wrap gap-1">
+						{tags.map((tag) => (
+							<span key={tag} className="inline-flex items-center rounded-full bg-surface px-1.5 py-0.5 text-xs text-fg-muted border border-edge">
+								{tag}
+							</span>
+						))}
+					</div>
+				)
+			},
+			enableSorting: false,
+			size: 200,
 		} as DataTableColumnDef<Todo>,
 
 		// Project — resolved name, em-dash if absent
