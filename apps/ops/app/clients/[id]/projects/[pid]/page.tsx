@@ -108,11 +108,6 @@ export default function ProjectDetailPage({ params }: Props) {
       <div className="p-6 space-y-8">
         <div className="space-y-1.5">
           <PageHeader
-            breadcrumbs={[
-              { label: "Clients", href: "/clients" },
-              { label: client?.name ?? "Client", href: `/clients/${id}` },
-              { label: project.name },
-            ]}
             title={project.name}
             actions={[
               {
