@@ -1,6 +1,7 @@
 "use client"
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { StatsStrip } from "@blazz/ui/components/blocks/stats-strip"
 import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
@@ -10,7 +11,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@blazz/ui/components/ui/dialog"
-import { StatsStrip } from "@blazz/ui/components/blocks/stats-strip"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Pencil, Plus } from "lucide-react"
@@ -85,10 +85,7 @@ export default function ClientDetailPage({ params }: Props) {
 		<OpsFrame
 			topBar={
 				<OpsBreadcrumb
-					items={[
-						{ label: "Clients", href: "/clients" },
-						{ label: client?.name ?? "..." },
-					]}
+					items={[{ label: "Clients", href: "/clients" }, { label: client?.name ?? "..." }]}
 				/>
 			}
 		>
