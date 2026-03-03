@@ -1,12 +1,14 @@
 "use client"
 
-import type { ReactNode } from "react"
+import type { Dispatch, ReactNode, SetStateAction } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { LayoutDashboard, Users, Clock, CheckSquare } from "lucide-react"
+import { LayoutDashboard, Sun, Users, Clock, CheckSquare } from "lucide-react"
 import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import type { SidebarConfig } from "@blazz/ui/types/navigation"
+import { OpsBreadcrumb, type BreadcrumbItem } from "./ops-breadcrumb"
 
 const opsSidebarConfig: SidebarConfig = {
 	navigation: [
@@ -14,6 +16,7 @@ const opsSidebarConfig: SidebarConfig = {
 			id: "main",
 			items: [
 				{ title: "Dashboard", url: "/", icon: LayoutDashboard },
+				{ title: "Aujourd'hui", url: "/today", icon: Sun },
 				{ title: "Clients", url: "/clients", icon: Users },
 				{
 					title: "Suivi de temps",
@@ -33,17 +36,32 @@ const sidebarLogo = (
 	</Link>
 )
 
-interface OpsFrameProps {
-	children: ReactNode
-	topBar?: ReactNode
+const OpsTopBarCtx = createContext<Dispatch<SetStateAction<BreadcrumbItem[] | null>>>(() => {})
+
+export function useOpsTopBar(items: BreadcrumbItem[] | null) {
+	const set = useContext(OpsTopBarCtx)
+	const key = items?.map((i) => `${i.label}|${i.href ?? ""}`).join(",") ?? ""
+	useEffect(() => {
+		set(items)
+		return () => set(null)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [set, key])
 }
 
-export function OpsFrame({ children, topBar }: OpsFrameProps) {
+export function OpsFrame({ children }: { children: ReactNode }) {
+	const [items, setItems] = useState<BreadcrumbItem[] | null>(null)
 	return (
-		<SidebarProvider>
-			<AppFrame sidebarConfig={opsSidebarConfig} noTopBar sidebarHeader={sidebarLogo} tabBar={topBar}>
-				{children}
-			</AppFrame>
-		</SidebarProvider>
+		<OpsTopBarCtx.Provider value={setItems}>
+			<SidebarProvider>
+				<AppFrame
+					sidebarConfig={opsSidebarConfig}
+					noTopBar
+					sidebarHeader={sidebarLogo}
+					tabBar={items ? <OpsBreadcrumb items={items} /> : undefined}
+				>
+					{children}
+				</AppFrame>
+			</SidebarProvider>
+		</OpsTopBarCtx.Provider>
 	)
 }
