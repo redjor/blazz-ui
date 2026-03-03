@@ -15,12 +15,16 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { DataTable } from "@blazz/ui/components/blocks/data-table"
+import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, ChevronLeft, ChevronRight, Flag, Pencil, Plus, Trash2 } from "lucide-react"
-import { useState } from "react"
+import { CheckSquare, ChevronLeft, ChevronRight, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { useMemo, useState } from "react"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
+import { createTodosPreset } from "@/components/todos-preset"
+import type { Todo } from "@/components/todos-preset"
 
 type TodoStatus = "triage" | "todo" | "in_progress" | "done"
 
@@ -337,69 +341,135 @@ export default function TodosPage() {
 
 	const projectList = projects ?? []
 
+	const remove = useMutation(api.todos.remove)
+	const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
+	const [activeView, setActiveView] = useState<DataTableView | null>(null)
+	const [editingTodo, setEditingTodo] = useState<Doc<"todos"> | null>(null)
+
+	// Build rows with resolved project names for the list view
+	const todoRows = useMemo<Todo[]>(() => {
+		if (!todos) return []
+		return todos.map((t) => ({
+			...t,
+			projectName: projectList.find((p) => p._id === t.projectId)?.name,
+		}))
+	}, [todos, projectList])
+
+	// Build preset once (stable reference via useMemo)
+	const preset = useMemo(() => createTodosPreset({
+		onEdit: (todo) => {
+			const doc = todos?.find((t) => t._id === todo._id)
+			if (doc) setEditingTodo(doc)
+		},
+		onDelete: async (todo) => {
+			await remove({ id: todo._id as any })
+		},
+		onBulkDelete: async (items) => {
+			await Promise.all(items.map((t) => remove({ id: t._id as any })))
+		},
+	}), [todos, remove])
+
 	return (
 		<OpsFrame>
 			<div className="p-6 space-y-6">
-				<PageHeader title="Todos" description="Capturez et organisez vos tâches" />
+				<PageHeader
+					title="Todos"
+					description="Capturez et organisez vos tâches"
+					actions={
+						<div className="flex items-center gap-1 rounded-md border border-edge p-0.5">
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								onClick={() => setViewMode("kanban")}
+								className={viewMode === "kanban" ? "bg-raised" : ""}
+								aria-label="Vue kanban"
+							>
+								<Columns3 className="size-3.5" />
+							</Button>
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								onClick={() => setViewMode("list")}
+								className={viewMode === "list" ? "bg-raised" : ""}
+								aria-label="Vue liste"
+							>
+								<LayoutList className="size-3.5" />
+							</Button>
+						</div>
+					}
+				/>
 
-				{/* Kanban columns */}
-				{todos === undefined ? (
-					<div className="grid grid-cols-4 gap-4">
-						{COLUMNS.map((col) => (
-							<div key={col.status} className="space-y-3">
-								<Skeleton className="h-5 w-24" />
-								<Skeleton className="h-20 w-full rounded-md" />
-								<Skeleton className="h-20 w-full rounded-md" />
-							</div>
-						))}
-					</div>
-				) : todos.length === 0 ? (
-					<Empty
-						icon={CheckSquare}
-						title="Aucun todo"
-						description="Créez un todo depuis l'app ou envoyez un message à votre bot Telegram"
-						action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
+				{viewMode === "list" ? (
+					<DataTable
+						data={todoRows}
+						columns={preset.columns}
+						views={preset.views}
+						activeView={activeView}
+						onViewChange={setActiveView}
+						rowActions={preset.rowActions}
+						bulkActions={preset.bulkActions}
+						enableRowSelection
+						enableSorting
+						getRowId={(row) => row._id}
 					/>
 				) : (
-					<div className="grid grid-cols-4 gap-4 items-start">
-						{COLUMNS.map((col) => {
-							const colTodos = todos.filter((t) => t.status === col.status)
-							return (
-								<div key={col.status} className="space-y-2">
-									{/* Column header */}
-									<div className="flex items-center justify-between px-1">
-										<div className="flex items-center gap-2">
-											<span className="text-sm font-medium text-fg">{col.label}</span>
-											{colTodos.length > 0 && (
-												<Badge variant="secondary" className="text-xs px-1.5 py-0 tabular-nums">
-													{colTodos.length}
-												</Badge>
-											)}
-										</div>
-										<Button
-											variant="ghost"
-											size="icon-sm"
-											onClick={() => setAddFor(col.status)}
-											aria-label={`Ajouter dans ${col.label}`}
-										>
-											<Plus className="size-3.5" />
-										</Button>
+					<>
+						{todos === undefined ? (
+							<div className="grid grid-cols-4 gap-4">
+								{COLUMNS.map((col) => (
+									<div key={col.status} className="space-y-3">
+										<Skeleton className="h-5 w-24" />
+										<Skeleton className="h-20 w-full rounded-md" />
+										<Skeleton className="h-20 w-full rounded-md" />
 									</div>
-
-									{/* Cards */}
-									<div className="space-y-2">
-										{colTodos.length === 0 ? (
-											<div className="border border-dashed border-edge rounded-md p-4 text-xs text-fg-muted text-center">
-												Vide
+								))}
+							</div>
+						) : todos.length === 0 ? (
+							<Empty
+								icon={CheckSquare}
+								title="Aucun todo"
+								description="Créez un todo depuis l'app ou envoyez un message à votre bot Telegram"
+								action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
+							/>
+						) : (
+							<div className="grid grid-cols-4 gap-4 items-start">
+								{COLUMNS.map((col) => {
+									const colTodos = todos.filter((t) => t.status === col.status)
+									return (
+										<div key={col.status} className="space-y-2">
+											<div className="flex items-center justify-between px-1">
+												<div className="flex items-center gap-2">
+													<span className="text-sm font-medium text-fg">{col.label}</span>
+													{colTodos.length > 0 && (
+														<Badge variant="secondary" className="text-xs px-1.5 py-0 tabular-nums">
+															{colTodos.length}
+														</Badge>
+													)}
+												</div>
+												<Button
+													variant="ghost"
+													size="icon-sm"
+													onClick={() => setAddFor(col.status)}
+													aria-label={`Ajouter dans ${col.label}`}
+												>
+													<Plus className="size-3.5" />
+												</Button>
 											</div>
-										) : (
-											colTodos.map((todo) => <TodoCard key={todo._id} todo={todo} projects={projectList} />)
-										)}
-									</div>
-								</div>
-							)
-						})}
-					</div>
+											<div className="space-y-2">
+												{colTodos.length === 0 ? (
+													<div className="border border-dashed border-edge rounded-md p-4 text-xs text-fg-muted text-center">
+														Vide
+													</div>
+												) : (
+													colTodos.map((todo) => <TodoCard key={todo._id} todo={todo} projects={projectList} />)
+												)}
+											</div>
+										</div>
+									)
+								})}
+							</div>
+						)}
+					</>
 				)}
 			</div>
 
@@ -408,6 +478,14 @@ export default function TodosPage() {
 					defaultStatus={addFor}
 					open={true}
 					onOpenChange={(v) => !v && setAddFor(null)}
+					projects={projectList}
+				/>
+			)}
+			{editingTodo && (
+				<EditTodoDialog
+					todo={editingTodo}
+					open={true}
+					onOpenChange={(v) => !v && setEditingTodo(null)}
 					projects={projectList}
 				/>
 			)}
