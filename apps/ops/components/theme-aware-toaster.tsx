@@ -6,5 +6,5 @@ import { useTheme } from "next-themes"
 export function ThemeAwareToaster() {
 	const { resolvedTheme } = useTheme()
 
-	return <Toaster theme={resolvedTheme as "light" | "dark" | "system"} />
+	return <Toaster theme={(resolvedTheme as "light" | "dark") ?? "system"} />
 }
