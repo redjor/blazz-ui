@@ -407,6 +407,7 @@ export default function TodosPage() {
 						bulkActions={preset.bulkActions}
 						enableRowSelection
 						enableSorting
+						enableAdvancedFilters
 						getRowId={(row) => row._id}
 					/>
 				) : (
