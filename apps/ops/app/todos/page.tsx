@@ -372,7 +372,7 @@ export default function TodosPage() {
 				<PageHeader
 					title="Todos"
 					description="Capturez et organisez vos tâches"
-					actions={
+					actionsSlot={
 						<div className="flex items-center gap-1 rounded-md border border-edge p-0.5">
 							<Button
 								variant="ghost"

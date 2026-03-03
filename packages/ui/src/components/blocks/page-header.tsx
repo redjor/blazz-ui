@@ -32,6 +32,7 @@ export interface PageHeaderProps {
 	description?: string
 	breadcrumbs?: PageHeaderBreadcrumb[]
 	actions?: PageHeaderAction[]
+	actionsSlot?: React.ReactNode
 	className?: string
 }
 
@@ -40,6 +41,7 @@ export function PageHeader({
 	description,
 	breadcrumbs,
 	actions,
+	actionsSlot,
 	className,
 }: PageHeaderProps) {
 	return (
@@ -75,9 +77,10 @@ export function PageHeader({
 					)}
 				</div>
 
-				{actions && actions.length > 0 && (
+				{((actions && actions.length > 0) || actionsSlot) && (
 					<div className="flex items-center gap-2">
-						{actions.map((action, i) => {
+						{actionsSlot}
+						{actions?.map((action, i) => {
 							const icon = action.icon ? (
 								<action.icon className="size-4" data-icon="inline-start" />
 							) : null
