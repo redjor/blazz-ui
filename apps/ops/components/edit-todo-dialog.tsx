@@ -1,10 +1,9 @@
 "use client"
 
+import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
-import { Textarea } from "@blazz/ui/components/ui/textarea"
-import { Badge } from "@blazz/ui/components/ui/badge"
 import {
 	Select,
 	SelectContent,
@@ -12,6 +11,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation } from "convex/react"
 import { Flag, Trash2 } from "lucide-react"
 import { useState } from "react"
