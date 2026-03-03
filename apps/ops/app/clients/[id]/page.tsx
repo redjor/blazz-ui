@@ -16,6 +16,7 @@ import { Pencil, Plus } from "lucide-react"
 import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
+import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
@@ -77,7 +78,16 @@ export default function ClientDetailPage({ params }: Props) {
 	}
 
 	return (
-		<OpsFrame>
+		<OpsFrame
+			topBar={
+				<OpsBreadcrumb
+					items={[
+						{ label: "Clients", href: "/clients" },
+						{ label: client?.name ?? "..." },
+					]}
+				/>
+			}
+		>
 			<div className="p-6 space-y-8">
 				<PageHeader
 					breadcrumbs={[{ label: "Clients", href: "/clients" }, { label: client.name }]}
