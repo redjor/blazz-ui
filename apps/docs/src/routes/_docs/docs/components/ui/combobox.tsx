@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
 import { Combobox } from "@blazz/ui/components/ui/combobox"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Globe } from "lucide-react"
+import { Flag, Globe } from "lucide-react"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -58,6 +58,23 @@ const examples = [
   options={fruits}
   placeholder="Select a fruit..."
   emptyMessage="No fruit matches your search."
+/>`,
+	},
+	{
+		key: "icon-trigger",
+		code: `const priorities = [
+  { value: "urgent", label: "Urgent", icon: <Flag fill="currentColor" className="size-3.5 text-destructive" /> },
+  { value: "high",   label: "High",   icon: <Flag fill="currentColor" className="size-3.5 text-orange-500" /> },
+  { value: "normal", label: "Normal", icon: <Flag className="size-3.5 text-fg-muted" /> },
+  { value: "low",    label: "Low",    icon: <Flag className="size-3.5 text-fg-muted opacity-40" /> },
+]
+
+<Combobox
+  value={value}
+  onValueChange={(v) => setValue(v || "normal")}
+  options={priorities}
+  iconTrigger
+  icon={<Flag className="size-3.5 text-fg-muted" />}
 />`,
 	},
 	{
@@ -140,7 +157,13 @@ const comboboxProps: DocProp[] = [
 	{
 		name: "icon",
 		type: "React.ReactNode",
-		description: "Optional icon rendered before the selected label.",
+		description: "Optional icon rendered before the selected label. Used as fallback in iconTrigger mode when no option is selected.",
+	},
+	{
+		name: "iconTrigger",
+		type: "boolean",
+		default: "false",
+		description: "When true, the trigger renders as a compact icon-only button (32×32px). Shows the selected option's icon, or the icon prop as fallback.",
 	},
 	{
 		name: "className",
@@ -275,6 +298,42 @@ function ComboboxCustomEmptyDemo() {
 	)
 }
 
+const priorityOptions = [
+	{
+		value: "urgent",
+		label: "Urgent",
+		icon: <Flag fill="currentColor" className="size-3.5 shrink-0 text-destructive" />,
+	},
+	{
+		value: "high",
+		label: "High",
+		icon: <Flag fill="currentColor" className="size-3.5 shrink-0 text-orange-500" />,
+	},
+	{
+		value: "normal",
+		label: "Normal",
+		icon: <Flag className="size-3.5 shrink-0 text-fg-muted" />,
+	},
+	{
+		value: "low",
+		label: "Low",
+		icon: <Flag className="size-3.5 shrink-0 text-fg-muted opacity-40" />,
+	},
+]
+
+function ComboboxIconTriggerDemo() {
+	const [value, setValue] = React.useState("normal")
+	return (
+		<Combobox
+			value={value}
+			onValueChange={(v) => setValue(v || "normal")}
+			options={priorityOptions}
+			iconTrigger
+			icon={<Flag className="size-3.5 text-fg-muted" />}
+		/>
+	)
+}
+
 function ComboboxTeamMemberDemo() {
 	const [value, setValue] = React.useState("alex")
 	return (
@@ -341,9 +400,18 @@ function ComboboxPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
+					title="Icon Trigger"
+					description="Trigger compact icon-only — idéal pour les contrôles inline comme un sélecteur de priorité."
+					code={examples[4].code}
+					highlightedCode={html("icon-trigger")}
+				>
+					<ComboboxIconTriggerDemo />
+				</DocExampleClient>
+
+				<DocExampleClient
 					title="Team Member Selector"
 					description="Rich options with avatar and description. Perfect for user/member pickers."
-					code={examples[4].code}
+					code={examples[5].code}
 					highlightedCode={html("team-member")}
 				>
 					<ComboboxTeamMemberDemo />
