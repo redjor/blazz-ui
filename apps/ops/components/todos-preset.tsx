@@ -17,7 +17,7 @@ export interface Todo {
 	priority?: "urgent" | "high" | "normal" | "low"
 	projectId?: string
 	projectName?: string
-	categoryId?: string
+	categoryId?: Id<"categories">
 	categoryName?: string
 	categoryColor?: string
 	tags?: string[]
