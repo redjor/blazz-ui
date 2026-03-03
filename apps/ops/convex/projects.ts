@@ -68,3 +68,53 @@ export const update = mutation({
   },
   handler: async (ctx, { id, ...fields }) => ctx.db.patch(id, fields),
 })
+
+export const getWithStats = query({
+  args: { id: v.id("projects") },
+  handler: async (ctx, { id }) => {
+    const project = await ctx.db.get(id)
+    if (!project) return null
+
+    const entries = await ctx.db
+      .query("timeEntries")
+      .withIndex("by_project", (q) => q.eq("projectId", id))
+      .collect()
+
+    const totalMinutes = entries.reduce((s, e) => s + e.minutes, 0)
+    const totalRevenue = entries.reduce(
+      (s, e) => s + (e.minutes / 60) * e.hourlyRate,
+      0
+    )
+    const invoicedRevenue = entries
+      .filter((e) => e.status === "invoiced" || e.status === "paid")
+      .reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+    const pendingRevenue = totalRevenue - invoicedRevenue
+
+    const byMonthMap: Record<string, { minutes: number; revenue: number }> = {}
+    for (const e of entries) {
+      const month = e.date.slice(0, 7) // "2026-03"
+      if (!byMonthMap[month]) byMonthMap[month] = { minutes: 0, revenue: 0 }
+      byMonthMap[month].minutes += e.minutes
+      byMonthMap[month].revenue += (e.minutes / 60) * e.hourlyRate
+    }
+    const monthlyData = Object.entries(byMonthMap)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([month, data]) => ({
+        month,
+        heures: Math.round((data.minutes / 60) * 10) / 10,
+        ca: Math.round(data.revenue),
+      }))
+
+    return {
+      project,
+      entries: entries.sort((a, b) => b.date.localeCompare(a.date)),
+      stats: {
+        totalMinutes,
+        totalRevenue: Math.round(totalRevenue),
+        invoicedRevenue: Math.round(invoicedRevenue),
+        pendingRevenue: Math.round(pendingRevenue),
+      },
+      monthlyData,
+    }
+  },
+})
