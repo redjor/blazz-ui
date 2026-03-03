@@ -6,6 +6,7 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { use, useState } from "react"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
+import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
@@ -93,7 +94,17 @@ export default function ProjectDetailPage({ params }: Props) {
   }
 
   return (
-    <OpsFrame>
+    <OpsFrame
+      topBar={
+        <OpsBreadcrumb
+          items={[
+            { label: "Clients", href: "/clients" },
+            { label: client?.name ?? "...", href: `/clients/${id}` },
+            { label: project?.name ?? "..." },
+          ]}
+        />
+      }
+    >
       <div className="p-6 space-y-8">
         <div className="space-y-1.5">
           <PageHeader
