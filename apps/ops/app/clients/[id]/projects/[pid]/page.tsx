@@ -41,6 +41,7 @@ const STATUS_FILTERS: Array<{ key: EntryStatus | "all"; label: string }> = [
 export default function ProjectDetailPage({ params }: Props) {
   const { id, pid } = use(params)
   const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
+  const client = useQuery(api.clients.get, { id: id as Id<"clients"> })
   const [editOpen, setEditOpen] = useState(false)
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
 
@@ -91,7 +92,7 @@ export default function ProjectDetailPage({ params }: Props) {
         <PageHeader
           breadcrumbs={[
             { label: "Clients", href: "/clients" },
-            { label: "Client", href: `/clients/${id}` },
+            { label: client?.name ?? "Client", href: `/clients/${id}` },
             { label: project.name },
           ]}
           title={project.name}
