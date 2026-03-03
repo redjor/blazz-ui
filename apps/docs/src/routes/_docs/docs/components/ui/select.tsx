@@ -16,6 +16,7 @@ import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { highlightCode } from "~/lib/highlight-code"
+import { selectData } from "~/data/components/select"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
@@ -23,36 +24,6 @@ const toc = [
 	{ id: "trigger-props", title: "Trigger Props" },
 	{ id: "tokens", title: "Design Tokens" },
 	{ id: "guidelines", title: "Guidelines" },
-]
-
-const selectProps: DocProp[] = [
-	{
-		name: "value",
-		type: "string",
-		description: "The controlled value of the select.",
-	},
-	{
-		name: "defaultValue",
-		type: "string",
-		description: "The default value for uncontrolled usage.",
-	},
-	{
-		name: "onValueChange",
-		type: "(value: string) => void",
-		description: "Callback when the value changes.",
-	},
-	{
-		name: "items",
-		type: "Array<{ value: string; label: string }>",
-		description:
-			"Required to display labels in the trigger. Without this, SelectValue renders the raw value string. Pass items matching your SelectItem values.",
-	},
-	{
-		name: "disabled",
-		type: "boolean",
-		default: "false",
-		description: "Whether the select is disabled.",
-	},
 ]
 
 const triggerProps: DocProp[] = [
@@ -343,7 +314,7 @@ function SelectPage() {
 			</DocSection>
 
 			<DocSection id="select-props" title="Select Props">
-				<DocPropsTable props={selectProps} />
+				<DocPropsTable props={selectData.props} />
 			</DocSection>
 
 			<DocSection id="trigger-props" title="SelectTrigger Props">
