@@ -17,6 +17,7 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
+import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { useMutation, useQuery } from "convex/react"
 import { CheckSquare, ChevronLeft, ChevronRight, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
@@ -350,6 +351,14 @@ export default function TodosPage() {
 
 	const projectList = projects ?? []
 
+	const updateStatus = useMutation(api.todos.updateStatus)
+
+	type TodoWithId = Doc<"todos"> & { id: string }
+	const todoItems = useMemo<TodoWithId[]>(
+		() => (todos ?? []).map((t) => ({ ...t, id: t._id })),
+		[todos]
+	)
+
 	const remove = useMutation(api.todos.remove)
 	const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
 	const [activeView, setActiveView] = useState<DataTableView | null>(null)
@@ -439,42 +448,35 @@ export default function TodosPage() {
 								action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
 							/>
 						) : (
-							<div className="grid grid-cols-4 gap-4 items-start">
-								{COLUMNS.map((col) => {
-									const colTodos = todos.filter((t) => t.status === col.status)
-									return (
-										<div key={col.status} className="space-y-2">
-											<div className="flex items-center justify-between px-1">
-												<div className="flex items-center gap-2">
-													<span className="text-sm font-medium text-fg">{col.label}</span>
-													{colTodos.length > 0 && (
-														<Badge variant="secondary" className="text-xs px-1.5 py-0 tabular-nums">
-															{colTodos.length}
-														</Badge>
-													)}
-												</div>
-												<Button
-													variant="ghost"
-													size="icon-sm"
-													onClick={() => setAddFor(col.status)}
-													aria-label={`Ajouter dans ${col.label}`}
-												>
-													<Plus className="size-3.5" />
-												</Button>
-											</div>
-											<div className="space-y-2">
-												{colTodos.length === 0 ? (
-													<div className="border border-dashed border-edge rounded-md p-4 text-xs text-fg-muted text-center">
-														Vide
-													</div>
-												) : (
-													colTodos.map((todo) => <TodoCard key={todo._id} todo={todo} projects={projectList} />)
-												)}
-											</div>
+							<KanbanBoard
+								columns={COLUMNS.map((col) => ({ id: col.status, label: col.label }))}
+								items={todoItems}
+								getColumnId={(t) => t.status}
+								onMove={async (id, _from, to) => {
+									await updateStatus({ id: id as Id<"todos">, status: to as TodoStatus })
+								}}
+								renderColumnHeader={(col, colItems) => (
+									<div className="flex items-center justify-between px-3 py-2 border-b border-edge">
+										<div className="flex items-center gap-2">
+											<span className="text-sm font-medium text-fg">{col.label}</span>
+											{colItems.length > 0 && (
+												<Badge variant="secondary" className="text-xs px-1.5 py-0 tabular-nums">
+													{colItems.length}
+												</Badge>
+											)}
 										</div>
-									)
-								})}
-							</div>
+										<Button
+											variant="ghost"
+											size="icon-sm"
+											onClick={() => setAddFor(col.id as TodoStatus)}
+											aria-label={`Ajouter dans ${col.label}`}
+										>
+											<Plus className="size-3.5" />
+										</Button>
+									</div>
+								)}
+								renderCard={(todo) => <TodoCard todo={todo} projects={projectList} />}
+							/>
 						)}
 					</>
 				)}
