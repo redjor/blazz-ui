@@ -22,6 +22,8 @@ export interface AppFrameProps {
 	sections?: TopBarSection[]
 	/** Hide notifications and user menu in the top bar */
 	minimalTopBar?: boolean
+	/** Remove the top bar entirely — sidebar starts at top-0 */
+	noTopBar?: boolean
 }
 
 /**
@@ -42,6 +44,7 @@ export function AppFrame({
 	activeSection,
 	sections,
 	minimalTopBar,
+	noTopBar,
 }: AppFrameProps) {
 	// État pour le Sheet mobile
 	const [mobileSheetOpen, setMobileSheetOpen] = React.useState(false)
@@ -66,15 +69,17 @@ export function AppFrame({
 
 			<Frame
 				topBar={
-					<AppTopBar
-						onOpenCommandPalette={onOpenCommandPalette}
-						onOpenMobileMenu={() => setMobileSheetOpen((prev) => !prev)}
-						activeSection={activeSection}
-						sections={sections}
-						minimal={minimalTopBar}
-					/>
+					noTopBar ? undefined : (
+						<AppTopBar
+							onOpenCommandPalette={onOpenCommandPalette}
+							onOpenMobileMenu={() => setMobileSheetOpen((prev) => !prev)}
+							activeSection={activeSection}
+							sections={sections}
+							minimal={minimalTopBar}
+						/>
+					)
 				}
-				navigation={<AppSidebar config={config} header={sidebarHeader} />}
+				navigation={<AppSidebar config={config} header={sidebarHeader} className={noTopBar ? "top-0" : undefined} />}
 				tabBar={tabBar}
 			>
 				{children}

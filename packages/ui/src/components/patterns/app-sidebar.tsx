@@ -24,6 +24,7 @@ import {
 } from "../ui/sidebar"
 import { SidebarUserMenu } from "./sidebar-user"
 import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
+import { cn } from "../../lib/utils"
 
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	config: SidebarConfig
@@ -61,7 +62,7 @@ function findActiveParentItemId(navigation: NavigationSection[], pathname: strin
  * AppSidebar - Sidebar simple avec navigation hiérarchique
  */
 
-export function AppSidebar({ config, header, ...props }: AppSidebarProps) {
+export function AppSidebar({ config, header, className, ...props }: AppSidebarProps) {
 	const pathname = usePathname()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 
@@ -81,7 +82,7 @@ export function AppSidebar({ config, header, ...props }: AppSidebarProps) {
 	}, [pathname, config.navigation])
 
 	return (
-		<Sidebar collapsible="none" {...props} className="w-[240px] top-[56px]">
+		<Sidebar collapsible="none" {...props} className={cn("w-[240px] top-[56px]", className)}>
 			{header && (
 				<SidebarHeader className="border-b border-edge-subtle pb-2">
 					{header}
