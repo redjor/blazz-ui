@@ -107,7 +107,7 @@ export const getWithStats = query({
 
     return {
       project,
-      entries: entries.sort((a, b) => b.date.localeCompare(a.date)),
+      entries: [...entries].sort((a, b) => b.date.localeCompare(a.date)),
       stats: {
         totalMinutes,
         totalRevenue: Math.round(totalRevenue),
