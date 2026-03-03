@@ -4,7 +4,7 @@ import { Toaster as SonnerToaster, toast } from "sonner";
 
 type ToasterProps = React.ComponentProps<typeof SonnerToaster>;
 
-function Toaster({ ...props }: ToasterProps) {
+function Toaster(props: ToasterProps) {
   return (
     <SonnerToaster
       position="bottom-right"
@@ -19,7 +19,6 @@ function Toaster({ ...props }: ToasterProps) {
           "--normal-text": "var(--text-primary)",
           "--normal-description": "var(--text-secondary)",
         } as React.CSSProperties,
-        className: "text-xs! shadow-lg",
       }}
       {...props}
     />
