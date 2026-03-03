@@ -1,16 +1,23 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 
+const statusValidator = v.union(
+	v.literal("triage"),
+	v.literal("todo"),
+	v.literal("in_progress"),
+	v.literal("done")
+)
+
+const priorityValidator = v.union(
+	v.literal("urgent"),
+	v.literal("high"),
+	v.literal("normal"),
+	v.literal("low")
+)
+
 export const list = query({
 	args: {
-		status: v.optional(
-			v.union(
-				v.literal("triage"),
-				v.literal("todo"),
-				v.literal("in_progress"),
-				v.literal("done")
-			)
-		),
+		status: v.optional(statusValidator),
 	},
 	handler: async (ctx, { status }) => {
 		if (status) {
@@ -23,81 +30,74 @@ export const list = query({
 	},
 })
 
+export const listAllTags = query({
+	args: {},
+	handler: async (ctx) => {
+		const todos = await ctx.db.query("todos").collect()
+		const tagSet = new Set<string>()
+		for (const todo of todos) {
+			for (const tag of todo.tags ?? []) {
+				tagSet.add(tag)
+			}
+		}
+		return Array.from(tagSet).sort()
+	},
+})
+
 export const create = mutation({
 	args: {
 		text: v.string(),
 		description: v.optional(v.string()),
-		status: v.optional(
-			v.union(
-				v.literal("triage"),
-				v.literal("todo"),
-				v.literal("in_progress"),
-				v.literal("done")
-			)
-		),
+		status: v.optional(statusValidator),
 		source: v.optional(v.union(v.literal("app"), v.literal("telegram"))),
 		projectId: v.optional(v.id("projects")),
-		priority: v.optional(
-			v.union(
-				v.literal("urgent"),
-				v.literal("high"),
-				v.literal("normal"),
-				v.literal("low")
-			)
-		),
+		categoryId: v.optional(v.id("categories")),
+		tags: v.optional(v.array(v.string())),
+		priority: v.optional(priorityValidator),
 	},
-	handler: async (ctx, { text, description, status = "triage", source = "app", projectId, priority }) => {
+	handler: async (ctx, { text, description, status = "triage", source = "app", projectId, categoryId, tags, priority }) => {
 		return ctx.db.insert("todos", {
 			text,
 			description,
 			status,
 			source,
 			projectId,
+			categoryId,
+			tags,
 			priority,
 			createdAt: Date.now(),
 		})
 	},
 })
 
+export const update = mutation({
+	args: {
+		id: v.id("todos"),
+		text: v.optional(v.string()),
+		description: v.optional(v.string()),
+		priority: v.optional(priorityValidator),
+		projectId: v.optional(v.id("projects")),
+		categoryId: v.optional(v.id("categories")),
+		tags: v.optional(v.array(v.string())),
+	},
+	handler: async (ctx, { id, text, description, priority, projectId, categoryId, tags }) => {
+		const patch: Record<string, unknown> = {}
+		if (text !== undefined) patch.text = text
+		if (description !== undefined) patch.description = description
+		if (priority !== undefined) patch.priority = priority
+		patch.projectId = projectId
+		patch.categoryId = categoryId
+		patch.tags = tags
+		return ctx.db.patch(id, patch)
+	},
+})
+
 export const updateStatus = mutation({
 	args: {
 		id: v.id("todos"),
-		status: v.union(
-			v.literal("triage"),
-			v.literal("todo"),
-			v.literal("in_progress"),
-			v.literal("done")
-		),
+		status: statusValidator,
 	},
 	handler: async (ctx, { id, status }) => ctx.db.patch(id, { status }),
-})
-
-export const updateText = mutation({
-	args: { id: v.id("todos"), text: v.string(), description: v.optional(v.string()) },
-	handler: async (ctx, { id, text, description }) => ctx.db.patch(id, { text, description }),
-})
-
-export const linkProject = mutation({
-	args: {
-		id: v.id("todos"),
-		projectId: v.optional(v.id("projects")),
-	},
-	handler: async (ctx, { id, projectId }) => ctx.db.patch(id, { projectId }),
-})
-
-export const updatePriority = mutation({
-	args: {
-		id: v.id("todos"),
-		priority: v.optional(
-			v.union(
-				v.literal("urgent"),
-				v.literal("high"),
-				v.literal("normal"),
-				v.literal("low")
-			)
-		),
-	},
-	handler: async (ctx, { id, priority }) => ctx.db.patch(id, { priority }),
 })
 
 export const remove = mutation({
