@@ -148,11 +148,11 @@ export default function ClientDetailPage({ params }: Props) {
 									href={`/clients/${id}/projects/${project._id}`}
 									className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
 								>
-									<p className="text-sm font-medium text-fg">{project.name}</p>
-									<p className="text-xs text-fg-muted mt-0.5 tabular-nums">
+									<span className="block text-sm font-medium text-fg">{project.name}</span>
+									<span className="block text-xs text-fg-muted mt-0.5 tabular-nums">
 										{project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
 										{project.startDate && ` · depuis ${project.startDate}`}
-									</p>
+									</span>
 								</Link>
 								<div className="flex items-center gap-3 shrink-0 ml-4">
 									<span className="flex items-center gap-1.5 text-xs text-fg-muted">
@@ -165,10 +165,7 @@ export default function ClientDetailPage({ params }: Props) {
 										variant="ghost"
 										size="icon"
 										className="size-8 text-fg-muted"
-										onClick={(e) => {
-											e.preventDefault()
-											setEditingProject(project)
-										}}
+										onClick={() => setEditingProject(project)}
 									>
 										<Pencil className="size-3.5" />
 									</Button>
