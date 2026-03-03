@@ -178,7 +178,7 @@ function ProjectBadge({ projectId, projects }: { projectId?: Id<"projects">; pro
 	if (!projectId) return null
 	const proj = projects.find((p) => p._id === projectId)
 	if (!proj) return null
-	return <Badge variant="secondary" className="text-xs px-1.5 py-0 max-w-[80px] truncate">{proj.name}</Badge>
+	return <Badge variant="secondary" fill="subtle" size="sm" className="max-w-[100px] truncate">{proj.name}</Badge>
 }
 
 function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"projects">[] }) {
@@ -422,7 +422,7 @@ export default function TodosPage() {
 										<div className="flex items-center gap-2">
 											<span className="text-sm font-medium text-fg">{col.label}</span>
 											{colItems.length > 0 && (
-												<Badge variant="secondary" className="text-xs px-1.5 py-0 tabular-nums">
+												<Badge variant="secondary" fill="subtle" size="xs" className="tabular-nums">
 													{colItems.length}
 												</Badge>
 											)}
