@@ -129,9 +129,9 @@ function EditTodoDialog({
 								<SelectValue placeholder="Projet (optionnel)" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="">Aucun</SelectItem>
+								<SelectItem value="" label="Aucun">Aucun</SelectItem>
 								{projects.map((p) => (
-									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
+									<SelectItem key={p._id} value={p._id} label={p.name}>{p.name}</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
@@ -311,9 +311,9 @@ function AddTodoDialog({
 								<SelectValue placeholder="Projet (optionnel)" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="">Aucun</SelectItem>
+								<SelectItem value="" label="Aucun">Aucun</SelectItem>
 								{projects.map((p) => (
-									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
+									<SelectItem key={p._id} value={p._id} label={p.name}>{p.name}</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
