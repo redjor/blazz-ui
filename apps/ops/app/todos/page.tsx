@@ -180,9 +180,7 @@ function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"proje
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-1.5">
 						<PriorityIcon priority={todo.priority} />
-						{todo.source === "telegram" && (
-							<Badge variant="secondary" className="text-xs px-1.5 py-0">Telegram</Badge>
-						)}
+
 						{todo.projectId && (() => {
 							const proj = projects.find((p) => p._id === todo.projectId)
 							return proj ? (
