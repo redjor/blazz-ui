@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && tsc --noEmit",
+		"build": "tsx scripts/generate-llms.ts && vite build && tsc --noEmit",
 		"preview": "vite preview",
 		"start": "node .output/server/index.mjs",
 		"lint": "biome check .",
