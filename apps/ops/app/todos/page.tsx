@@ -29,6 +29,7 @@ import { createTodosPreset } from "@/components/todos-preset"
 import type { Todo } from "@/components/todos-preset"
 
 type TodoStatus = "triage" | "todo" | "in_progress" | "done"
+type TodoWithId = Doc<"todos"> & { id: string }
 
 const COLUMNS: { status: TodoStatus; label: string }[] = [
 	{ status: "triage", label: "Triage" },
@@ -353,7 +354,6 @@ export default function TodosPage() {
 
 	const updateStatus = useMutation(api.todos.updateStatus)
 
-	type TodoWithId = Doc<"todos"> & { id: string }
 	const todoItems = useMemo<TodoWithId[]>(
 		() => (todos ?? []).map((t) => ({ ...t, id: t._id })),
 		[todos]
