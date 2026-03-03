@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import { MessageSquare, Square, Box, PanelRight, Info } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/overlays")({
@@ -47,10 +47,11 @@ const overlayComponents = [
 
 function OverlaysPage() {
 	return (
-		<Page
-			title="Overlays"
-			subtitle="Overlay components present temporary content and actions above the main interface. They help users focus on specific tasks while maintaining context of the underlying page."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Overlays"
+				description="Overlay components present temporary content and actions above the main interface. They help users focus on specific tasks while maintaining context of the underlying page."
+			/>
 			<ComponentSection components={overlayComponents} />
 		</Page>
 	)

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import { AlertCircle, Tag, MessageSquare, Loader2, InboxIcon, Bell } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/feedback")({
@@ -53,10 +53,11 @@ const feedbackComponents = [
 
 function FeedbackComponentsPage() {
 	return (
-		<Page
-			title="Feedback Indicators"
-			subtitle="Feedback components communicate important information, status changes, and system responses to users. Choose the right component based on the severity, persistence, and context of your message."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Feedback Indicators"
+				description="Feedback components communicate important information, status changes, and system responses to users. Choose the right component based on the severity, persistence, and context of your message."
+			/>
 			<ComponentSection components={feedbackComponents} />
 		</Page>
 	)

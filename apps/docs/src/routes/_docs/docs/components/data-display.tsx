@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import { User, Table, Table2, Grid3X3, List, CreditCard, BarChart3 } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/data-display")({
@@ -61,10 +61,11 @@ const dataDisplayComponents = [
 
 function DataDisplayPage() {
 	return (
-		<Page
-			title="Data Display"
-			subtitle="Data display components help users understand and interact with information. They present data in structured, scannable formats that make patterns and relationships clear."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Data Display"
+				description="Data display components help users understand and interact with information. They present data in structured, scannable formats that make patterns and relationships clear."
+			/>
 			<ComponentSection components={dataDisplayComponents} />
 		</Page>
 	)

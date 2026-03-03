@@ -5,6 +5,23 @@ import { cn } from "@blazz/ui/lib/utils"
 import type { LucideIcon } from "lucide-react"
 import { ComponentCardThumbnail } from "./component-card-thumbnail"
 
+export interface CategoryPageHeroProps {
+	title: string
+	description: string
+	className?: string
+}
+
+export function CategoryPageHero({ title, description, className }: CategoryPageHeroProps) {
+	return (
+		<div className={cn("mb-8 py-8", className)}>
+			<div className="space-y-2">
+				<h1 className="text-3xl font-semibold tracking-tight text-fg">{title}</h1>
+				<p className="max-w-2xl text-base leading-relaxed text-fg-muted">{description}</p>
+			</div>
+		</div>
+	)
+}
+
 export interface ComponentCardProps {
 	title: string
 	description: string
@@ -64,8 +81,11 @@ export function ComponentSection({ title, description, components }: ComponentSe
 	return (
 		<section className={cn(title && "space-y-4")}>
 			{title && (
-				<div>
-					<h2 className="text-xs font-medium uppercase tracking-wider text-fg-muted">{title}</h2>
+				<div className="space-y-1.5">
+					<div className="flex items-center gap-3">
+						<h2 className="shrink-0 text-sm font-semibold text-fg">{title}</h2>
+						<div className="h-px flex-1 bg-edge" />
+					</div>
 					{description && <p className="text-xs text-fg-muted">{description}</p>}
 				</div>
 			)}

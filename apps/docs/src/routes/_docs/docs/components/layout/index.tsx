@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import {
 	Expand,
 	Rows3,
@@ -104,10 +104,11 @@ const layoutCompositions = [
 
 function LayoutComponentsPage() {
 	return (
-		<Page
-			title="Layout and Structure"
-			subtitle="Layout is the arrangement of elements on a page. A good layout helps users understand and find information more easily."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Layout and Structure"
+				description="Layout is the arrangement of elements on a page. A good layout helps users understand and find information more easily."
+			/>
 			<div className="space-y-10">
 				<ComponentSection
 					title="Layout Primitives"

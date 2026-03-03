@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import { ChevronRight, Command, Menu, List, FolderTree, PanelTop, Building2 } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/navigation")({
@@ -61,10 +61,11 @@ const navigationComponents = [
 
 function NavigationPage() {
 	return (
-		<Page
-			title="Navigation"
-			subtitle="Navigation components help users understand where they are in your application and move efficiently between different sections and pages."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Navigation"
+				description="Navigation components help users understand where they are in your application and move efficiently between different sections and pages."
+			/>
 			<ComponentSection components={navigationComponents} />
 		</Page>
 	)

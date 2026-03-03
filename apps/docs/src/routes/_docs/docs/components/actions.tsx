@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import { MousePointerClick, Menu, MoreHorizontal } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/actions")({
@@ -33,10 +33,11 @@ const actionComponents = [
 
 function ActionsPage() {
 	return (
-		<Page
-			title="Actions"
-			subtitle="Action components enable users to perform tasks and navigate through your application. They provide clear affordances for interaction and follow consistent visual patterns."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Actions"
+				description="Action components enable users to perform tasks and navigate through your application. They provide clear affordances for interaction and follow consistent visual patterns."
+			/>
 			<ComponentSection components={actionComponents} />
 		</Page>
 	)

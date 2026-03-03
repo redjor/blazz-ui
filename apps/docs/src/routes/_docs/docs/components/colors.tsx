@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
+import { CategoryPageHero } from "~/components/docs/component-card"
 
 export const Route = createFileRoute("/_docs/docs/components/colors")({
 	component: ColorsPage,
@@ -183,10 +184,11 @@ function AccentPreview() {
 
 function ColorsPage() {
 	return (
-		<Page
-			title="Colors"
-			subtitle="Design tokens for surfaces, text, borders, and semantic meaning. All colors use oklch for perceptual uniformity."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Colors"
+				description="Design tokens for surfaces, text, borders, and semantic meaning. All colors use oklch for perceptual uniformity."
+			/>
 			<div className="space-y-12">
 				<ColorGroup
 					title="Surfaces"

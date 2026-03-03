@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import { Type } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/typography")({
@@ -18,10 +18,11 @@ const typographyComponents = [
 
 function TypographyPage() {
 	return (
-		<Page
-			title="Typography"
-			subtitle="Typography components provide consistent text styling throughout your application using the design system type scale."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Typography"
+				description="Typography components provide consistent text styling throughout your application using the design system type scale."
+			/>
 			<ComponentSection components={typographyComponents} />
 		</Page>
 	)

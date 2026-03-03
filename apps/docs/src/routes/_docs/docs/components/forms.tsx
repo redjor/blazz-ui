@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { ComponentSection } from "~/components/docs/component-card"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 import {
 	CalendarDays,
 	CalendarIcon,
@@ -218,10 +218,11 @@ const formComponents = [
 
 function FormsPage() {
 	return (
-		<Page
-			title="Selection and Input"
-			subtitle="Form components enable users to enter data and make selections. They provide clear feedback, validation, and accessibility features to create intuitive data entry experiences."
-		>
+		<Page>
+			<CategoryPageHero
+				title="Selection and Input"
+				description="Form components enable users to enter data and make selections. They provide clear feedback, validation, and accessibility features to create intuitive data entry experiences."
+			/>
 			<ComponentSection components={formComponents} />
 		</Page>
 	)
