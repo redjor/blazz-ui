@@ -47,30 +47,54 @@ function EditTodoDialog({
 	todo,
 	open,
 	onOpenChange,
+	projects,
 }: {
 	todo: Doc<"todos">
 	open: boolean
 	onOpenChange: (v: boolean) => void
+	projects: Doc<"projects">[]
 }) {
 	const updateText = useMutation(api.todos.updateText)
+	const updatePriority = useMutation(api.todos.updatePriority)
+	const linkProject = useMutation(api.todos.linkProject)
 	const [text, setText] = useState(todo.text)
 	const [description, setDescription] = useState(todo.description ?? "")
+	const [priority, setPriority] = useState(todo.priority ?? "normal")
+	const [projectId, setProjectId] = useState(todo.projectId ?? "")
 
-	const unchanged = text.trim() === todo.text && description.trim() === (todo.description ?? "")
+	function resetToTodo() {
+		setText(todo.text)
+		setDescription(todo.description ?? "")
+		setPriority(todo.priority ?? "normal")
+		setProjectId(todo.projectId ?? "")
+	}
+
+	const unchanged =
+		text.trim() === todo.text &&
+		description.trim() === (todo.description ?? "") &&
+		priority === (todo.priority ?? "normal") &&
+		(projectId || undefined) === todo.projectId
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault()
 		if (!text.trim()) return
-		await updateText({
-			id: todo._id,
-			text: text.trim(),
-			description: description.trim() || undefined,
-		})
+		const promises: Promise<unknown>[] = []
+		if (text.trim() !== todo.text || description.trim() !== (todo.description ?? "")) {
+			promises.push(updateText({ id: todo._id, text: text.trim(), description: description.trim() || undefined }))
+		}
+		if (priority !== (todo.priority ?? "normal")) {
+			promises.push(updatePriority({ id: todo._id, priority: priority as "urgent" | "high" | "normal" | "low" }))
+		}
+		const newProjectId = projectId || undefined
+		if (newProjectId !== todo.projectId) {
+			promises.push(linkProject({ id: todo._id, projectId: newProjectId as Id<"projects"> | undefined }))
+		}
+		await Promise.all(promises)
 		onOpenChange(false)
 	}
 
 	return (
-		<Dialog open={open} onOpenChange={(v) => { if (!v) { setText(todo.text); setDescription(todo.description ?? "") } onOpenChange(v) }}>
+		<Dialog open={open} onOpenChange={(v) => { if (!v) resetToTodo(); onOpenChange(v) }}>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Modifier le todo</DialogTitle>
@@ -88,6 +112,30 @@ function EditTodoDialog({
 						onChange={(e) => setDescription(e.target.value)}
 						rows={3}
 					/>
+					<div className="flex gap-2">
+						<Select value={priority} onValueChange={setPriority}>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Priorité" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="urgent">Urgent</SelectItem>
+								<SelectItem value="high">High</SelectItem>
+								<SelectItem value="normal">Normal</SelectItem>
+								<SelectItem value="low">Low</SelectItem>
+							</SelectContent>
+						</Select>
+						<Select value={projectId} onValueChange={setProjectId}>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Projet (optionnel)" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="">Aucun</SelectItem>
+								{projects.map((p) => (
+									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
 					<div className="flex justify-end gap-2">
 						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
 							Annuler
@@ -183,7 +231,7 @@ function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"proje
 					</div>
 				</div>
 			</div>
-			<EditTodoDialog todo={todo} open={editing} onOpenChange={setEditing} />
+			<EditTodoDialog todo={todo} open={editing} onOpenChange={setEditing} projects={projects} />
 		</>
 	)
 }
@@ -286,7 +334,10 @@ function AddTodoDialog({
 
 export default function TodosPage() {
 	const todos = useQuery(api.todos.list, {})
+	const projects = useQuery(api.projects.listActive, {})
 	const [addFor, setAddFor] = useState<TodoStatus | null>(null)
+
+	const projectList = projects ?? []
 
 	return (
 		<OpsFrame>
@@ -344,7 +395,7 @@ export default function TodosPage() {
 												Vide
 											</div>
 										) : (
-											colTodos.map((todo) => <TodoCard key={todo._id} todo={todo} />)
+											colTodos.map((todo) => <TodoCard key={todo._id} todo={todo} projects={projectList} />)
 										)}
 									</div>
 								</div>
@@ -359,6 +410,7 @@ export default function TodosPage() {
 					defaultStatus={addFor}
 					open={true}
 					onOpenChange={(v) => !v && setAddFor(null)}
+					projects={projectList}
 				/>
 			)}
 		</OpsFrame>
