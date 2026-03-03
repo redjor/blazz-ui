@@ -9,11 +9,11 @@ import { Input } from "@blazz/ui/components/ui/input"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, ChevronLeft, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react"
+import { CheckSquare, ChevronLeft, ChevronRight, Flag, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
-import type { Doc } from "@/convex/_generated/dataModel"
+import type { Doc, Id } from "@/convex/_generated/dataModel"
 
 type TodoStatus = "triage" | "todo" | "in_progress" | "done"
 
@@ -95,7 +95,20 @@ function EditTodoDialog({
 	)
 }
 
-function TodoCard({ todo }: { todo: Doc<"todos"> }) {
+const PRIORITY_ICON: Record<string, { color: string }> = {
+	urgent: { color: "text-destructive" },
+	high: { color: "text-orange-500" },
+	low: { color: "text-fg-muted" },
+}
+
+function PriorityIcon({ priority }: { priority?: string }) {
+	if (!priority || priority === "normal") return null
+	const config = PRIORITY_ICON[priority]
+	if (!config) return null
+	return <Flag className={`size-3 shrink-0 ${config.color}`} />
+}
+
+function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"projects">[] }) {
 	const updateStatus = useMutation(api.todos.updateStatus)
 	const remove = useMutation(api.todos.remove)
 	const [editing, setEditing] = useState(false)
@@ -111,9 +124,16 @@ function TodoCard({ todo }: { todo: Doc<"todos"> }) {
 				)}
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-1.5">
+						<PriorityIcon priority={todo.priority} />
 						{todo.source === "telegram" && (
 							<Badge variant="secondary" className="text-xs px-1.5 py-0">Telegram</Badge>
 						)}
+						{todo.projectId && (() => {
+							const proj = projects.find((p) => p._id === todo.projectId)
+							return proj ? (
+								<Badge variant="secondary" className="text-xs px-1.5 py-0 max-w-[80px] truncate">{proj.name}</Badge>
+							) : null
+						})()}
 					</div>
 					<div className="flex items-center gap-1">
 						{prev && (
