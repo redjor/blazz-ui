@@ -48,6 +48,12 @@ export default defineSchema({
 		.index("by_project", ["projectId"])
 		.index("by_date", ["date"]),
 
+	categories: defineTable({
+		name: v.string(),
+		color: v.optional(v.string()),
+		createdAt: v.number(),
+	}),
+
 	todos: defineTable({
 		text: v.string(),
 		description: v.optional(v.string()),
@@ -59,6 +65,8 @@ export default defineSchema({
 		),
 		source: v.union(v.literal("app"), v.literal("telegram")),
 		projectId: v.optional(v.id("projects")),
+		categoryId: v.optional(v.id("categories")),
+		tags: v.optional(v.array(v.string())),
 		priority: v.optional(
 			v.union(
 				v.literal("urgent"),
@@ -69,5 +77,6 @@ export default defineSchema({
 		),
 		createdAt: v.number(),
 	})
-		.index("by_status", ["status"]),
+		.index("by_status", ["status"])
+		.index("by_category", ["categoryId"]),
 })
