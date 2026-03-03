@@ -79,3 +79,38 @@ export const remove = mutation({
     return ctx.db.delete(id)
   },
 })
+
+export const getStats = query({
+  args: { clientId: v.id("clients") },
+  handler: async (ctx, { clientId }) => {
+    const projects = await ctx.db
+      .query("projects")
+      .withIndex("by_client", (q) => q.eq("clientId", clientId))
+      .collect()
+
+    const allEntries = (
+      await Promise.all(
+        projects.map((p) =>
+          ctx.db
+            .query("timeEntries")
+            .withIndex("by_project", (q) => q.eq("projectId", p._id))
+            .collect()
+        )
+      )
+    )
+      .flat()
+      .filter((e) => e.billable)
+
+    const calc = (filter: (e: (typeof allEntries)[number]) => boolean) =>
+      Math.round(
+        allEntries.filter(filter).reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+      )
+
+    return {
+      toInvoice: calc((e) => e.status === "ready_to_invoice"),
+      invoiced: calc((e) => e.status === "invoiced"),
+      paid: calc((e) => e.status === "paid"),
+      total: calc(() => true),
+    }
+  },
+})
