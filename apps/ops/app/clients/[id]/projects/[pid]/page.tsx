@@ -82,24 +82,41 @@ export default function ProjectDetailPage({ params }: Props) {
       ? entries
       : entries.filter((e) => getEffectiveStatus(e) === statusFilter)
 
+  const statusDot: Record<string, string> = {
+    active: "bg-green-500",
+    paused: "bg-amber-500",
+    closed: "bg-fg-muted",
+  }
+  const statusLabel: Record<string, string> = {
+    active: "Actif",
+    paused: "En pause",
+    closed: "Clôturé",
+  }
+
   return (
     <OpsFrame>
       <div className="p-6 space-y-8">
-        <PageHeader
-          breadcrumbs={[
-            { label: "Clients", href: "/clients" },
-            { label: client?.name ?? "Client", href: `/clients/${id}` },
-            { label: project.name },
-          ]}
-          title={project.name}
-          actions={[
-            {
-              label: "Modifier",
-              variant: "outline",
-              onClick: () => setEditOpen(true),
-            },
-          ]}
-        />
+        <div className="space-y-1.5">
+          <PageHeader
+            breadcrumbs={[
+              { label: "Clients", href: "/clients" },
+              { label: client?.name ?? "Client", href: `/clients/${id}` },
+              { label: project.name },
+            ]}
+            title={project.name}
+            actions={[
+              {
+                label: "Modifier",
+                variant: "outline",
+                onClick: () => setEditOpen(true),
+              },
+            ]}
+          />
+          <span className="flex items-center gap-1.5 text-xs text-fg-muted">
+            <span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
+            {statusLabel[project.status]}
+          </span>
+        </div>
 
         {/* KPI cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
