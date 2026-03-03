@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
 import { ComponentSection } from "~/components/docs/component-card"
-import { AlertCircle, Tag, MessageSquare, Loader2, InboxIcon } from "lucide-react"
+import { AlertCircle, Tag, MessageSquare, Loader2, InboxIcon, Bell } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/feedback")({
 	component: FeedbackComponentsPage,
@@ -42,6 +42,12 @@ const feedbackComponents = [
 		description: "Display placeholder content while data is loading to improve perceived performance.",
 		icon: Loader2,
 		thumbnail: "skeleton",
+	},
+	{
+		title: "Toast",
+		href: "/docs/components/ui/toast",
+		description: "Temporary notifications triggered imperatively after user actions. Supports success, error, warning, and promise states.",
+		icon: Bell,
 	},
 ]
 
