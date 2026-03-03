@@ -355,19 +355,16 @@ export default function TodosPage() {
 		}))
 	}, [todos, projectList])
 
-	// Build preset once (stable reference via useMemo)
+	// Build preset — stable reference, does not depend on todos data
 	const preset = useMemo(() => createTodosPreset({
-		onEdit: (todo) => {
-			const doc = todos?.find((t) => t._id === todo._id)
-			if (doc) setEditingTodo(doc)
-		},
+		onEdit: (todo) => setEditingTodo(todo as unknown as Doc<"todos">),
 		onDelete: async (todo) => {
-			await remove({ id: todo._id as any })
+			await remove({ id: todo._id as Id<"todos"> })
 		},
 		onBulkDelete: async (items) => {
-			await Promise.all(items.map((t) => remove({ id: t._id as any })))
+			await Promise.all(items.map((t) => remove({ id: t._id as Id<"todos"> })))
 		},
-	}), [todos, remove])
+	}), [remove])
 
 	return (
 		<OpsFrame>
@@ -405,7 +402,7 @@ export default function TodosPage() {
 						columns={preset.columns}
 						views={preset.views}
 						activeView={activeView}
-						onViewChange={setActiveView}
+						onViewChange={(view) => setActiveView(view)}
 						rowActions={preset.rowActions}
 						bulkActions={preset.bulkActions}
 						enableRowSelection
@@ -483,6 +480,7 @@ export default function TodosPage() {
 			)}
 			{editingTodo && (
 				<EditTodoDialog
+					key={editingTodo._id}
 					todo={editingTodo}
 					open={true}
 					onOpenChange={(v) => !v && setEditingTodo(null)}
