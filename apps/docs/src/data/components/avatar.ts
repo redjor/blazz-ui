@@ -11,12 +11,6 @@ export const avatarData: ComponentData = {
 		named: ["Avatar", "AvatarImage", "AvatarFallback", "AvatarGroup"],
 	},
 	props: [
-		{ name: "src", type: "string", description: "URL de l'image (passé à AvatarImage)." },
-		{
-			name: "fallback",
-			type: "string",
-			description: "Texte de fallback si l'image ne charge pas (ex: 'JD').",
-		},
 		{
 			name: "size",
 			type: '"xs" | "sm" | "default" | "lg" | "xl"',
@@ -27,6 +21,7 @@ export const avatarData: ComponentData = {
 	gotchas: [
 		"Always provide AvatarFallback with 2-letter initials — image loading can fail",
 		"For stacked avatars use AvatarGroup with max prop",
+		"src and alt go on AvatarImage, fallback text goes as children of AvatarFallback — no props on Avatar root",
 	],
 	canonicalExample: `<Avatar>
   <AvatarImage src={user.avatarUrl} alt={user.name} />
