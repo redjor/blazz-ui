@@ -24,6 +24,7 @@ export const detailPanelData: ComponentData = {
 	gotchas: [
 		"Use DetailPanelSection to group properties — not raw divs",
 		"Missing values display '—' (em dash), never empty string",
+		"For tabbed detail views, wrap DetailPanel children in Tabs from @blazz/ui/components/ui/tabs — DetailPanel does not include tabs itself",
 	],
 	canonicalExample: `<DetailPanel
   title={contact.name}

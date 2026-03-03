@@ -25,7 +25,9 @@ export const statsGridData: ComponentData = {
 		"trend is a number (positive = green ▲, negative = red ▼)",
 		"value should be pre-formatted string ('€1.2M', '2 847') — not a raw number",
 	],
-	canonicalExample: `<StatsGrid
+	canonicalExample: `import { DollarSign, Users, Briefcase, TrendingUp } from "lucide-react"
+
+<StatsGrid
   stats={[
     { label: "Revenue", value: "€1.2M", trend: 8.2, trendLabel: "vs last month", icon: <DollarSign /> },
     { label: "Contacts", value: "2 847", trend: 12, trendLabel: "new this month", icon: <Users /> },
