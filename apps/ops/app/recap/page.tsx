@@ -27,8 +27,7 @@ import { CheckCheck, Download, FileText } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
-import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
-import { OpsFrame } from "@/components/ops-frame"
+import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -138,9 +137,11 @@ export default function RecapPage() {
 		toast.success("Export CSV téléchargé")
 	}
 
+	useOpsTopBar([{ label: "Récapitulatif" }])
+
 	return (
-		<OpsFrame topBar={<OpsBreadcrumb items={[{ label: "Récapitulatif" }]} />}>
-			<div className="p-6 space-y-6">
+		<>
+		<div className="p-6 space-y-6">
 				<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
 				{/* Filters */}
@@ -200,7 +201,15 @@ export default function RecapPage() {
 
 					<div className="space-y-1.5">
 						<Label>Période</Label>
-						<Select value={period} onValueChange={setPeriod}>
+						<Select
+							value={period}
+							onValueChange={setPeriod}
+							items={[
+								{ value: "current", label: "Mois en cours" },
+								{ value: "last", label: "Mois précédent" },
+								{ value: "custom", label: "Personnalisée" },
+							]}
+						>
 							<SelectTrigger className="w-44">
 								<SelectValue />
 							</SelectTrigger>
@@ -363,6 +372,6 @@ export default function RecapPage() {
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
-		</OpsFrame>
+		</>
 	)
 }

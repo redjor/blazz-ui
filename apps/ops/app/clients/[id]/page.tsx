@@ -17,8 +17,7 @@ import { Pencil, Plus } from "lucide-react"
 import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
-import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
-import { OpsFrame } from "@/components/ops-frame"
+import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
@@ -47,10 +46,15 @@ export default function ClientDetailPage({ params }: Props) {
 	const [projectOpen, setProjectOpen] = useState(false)
 	const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
 
+	useOpsTopBar(
+		client != null
+			? [{ label: "Clients", href: "/clients" }, { label: client.name }]
+			: null
+	)
+
 	if (client === undefined) {
 		return (
-			<OpsFrame>
-				<div className="p-6 space-y-6">
+			<div className="p-6 space-y-6">
 					<div className="space-y-2">
 						<Skeleton className="h-4 w-24" />
 						<Skeleton className="h-6 w-48" />
@@ -67,29 +71,18 @@ export default function ClientDetailPage({ params }: Props) {
 						</div>
 					</div>
 				</div>
-			</OpsFrame>
 		)
 	}
 
 	if (client === null) {
-		return (
-			<OpsFrame>
-				<div className="p-6 text-fg-muted text-sm">Client introuvable.</div>
-			</OpsFrame>
-		)
+		return <div className="p-6 text-fg-muted text-sm">Client introuvable.</div>
 	}
 
 	const fmt = (n: number) => `${n.toLocaleString("fr-FR")} €`
 
 	return (
-		<OpsFrame
-			topBar={
-				<OpsBreadcrumb
-					items={[{ label: "Clients", href: "/clients" }, { label: client?.name ?? "..." }]}
-				/>
-			}
-		>
-			<div className="p-6 space-y-8">
+		<>
+		<div className="p-6 space-y-8">
 				<PageHeader
 					title={client.name}
 					actions={[
@@ -231,6 +224,6 @@ export default function ClientDetailPage({ params }: Props) {
 					)}
 				</DialogContent>
 			</Dialog>
-		</OpsFrame>
+		</>
 	)
 }

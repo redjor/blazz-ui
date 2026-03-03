@@ -10,8 +10,7 @@ import { ChevronRight, Plus, Users } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { ClientForm } from "@/components/client-form"
-import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
-import { OpsFrame } from "@/components/ops-frame"
+import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 
 function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
@@ -46,10 +45,10 @@ function ClientListSkeleton() {
 export default function ClientsPage() {
 	const clients = useQuery(api.clients.list)
 	const [open, setOpen] = useState(false)
+	useOpsTopBar([{ label: "Clients" }])
 
 	return (
-		<OpsFrame topBar={<OpsBreadcrumb items={[{ label: "Clients" }]} />}>
-			<div className="p-6 space-y-4">
+		<div className="p-6 space-y-4">
 				{/* Header */}
 				<PageHeader
 					title={`Clients${clients !== undefined ? ` (${clients.length})` : ""}`}
@@ -103,6 +102,5 @@ export default function ClientsPage() {
 					</div>
 				)}
 			</div>
-		</OpsFrame>
 	)
 }

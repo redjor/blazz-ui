@@ -59,5 +59,11 @@ tsup (ESM build), Changesets (versioning)
 - Formulaires = react-hook-form + zod TOUJOURS
 - 4 états obligatoires : loading (Skeleton), empty, error, success
 
+## Règle critique — Ne pas toucher à `packages/ui/`
+**Si la tâche concerne une app spécifique** (`apps/ops`, `apps/examples`, `apps/docs`, etc.),
+**ne jamais modifier `packages/ui/`** sauf si explicitement demandé.
+Travailler uniquement dans le répertoire de l'app concernée.
+Les modifications de `packages/ui/` impactent toutes les apps et le package npm publié.
+
 ## Priorité actuelle
 Phase 3 : Stabiliser le monorepo, publier @blazz/ui sur npm

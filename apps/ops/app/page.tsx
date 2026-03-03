@@ -6,7 +6,6 @@ import { useQuery } from "convex/react"
 import { endOfMonth, format, startOfMonth } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Banknote, Clock, FolderOpen } from "lucide-react"
-import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency, formatMinutes } from "@/lib/format"
 
@@ -30,8 +29,7 @@ export default function DashboardPage() {
 	const activeCount = activeProjects?.length ?? 0
 
 	return (
-		<OpsFrame>
-			<div className="p-6 space-y-6">
+		<div className="p-6 space-y-6">
 				<PageHeader
 					title={format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase())}
 					description="Vue d'ensemble du mois en cours"
@@ -110,6 +108,5 @@ export default function DashboardPage() {
 					</p>
 				)}
 			</div>
-		</OpsFrame>
 	)
 }

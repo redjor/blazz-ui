@@ -13,8 +13,7 @@ import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
-import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
-import { OpsFrame } from "@/components/ops-frame"
+import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { WeekGrid } from "@/components/week-grid"
@@ -210,9 +209,11 @@ export default function TimePage() {
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
 
+	useOpsTopBar([{ label: "Suivi de temps" }])
+
 	return (
-		<OpsFrame topBar={<OpsBreadcrumb items={[{ label: "Suivi de temps" }]} />}>
-			<div className="p-6 space-y-6">
+		<>
+		<div className="p-6 space-y-6">
 				<PageHeader
 					title="Saisie des heures"
 					actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
@@ -388,6 +389,6 @@ export default function TimePage() {
 					}
 				}}
 			/>
-		</OpsFrame>
+		</>
 	)
 }

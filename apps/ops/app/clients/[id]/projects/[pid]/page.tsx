@@ -6,8 +6,7 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { use, useState } from "react"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
-import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
-import { OpsFrame } from "@/components/ops-frame"
+import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -41,11 +40,20 @@ export default function ProjectDetailPage({ params }: Props) {
   const [editOpen, setEditOpen] = useState(false)
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
 
+  useOpsTopBar(
+    data != null
+      ? [
+          { label: "Clients", href: "/clients" },
+          { label: client?.name ?? "...", href: `/clients/${id}` },
+          { label: data.project.name },
+        ]
+      : null
+  )
+
   // Loading state
   if (data === undefined) {
     return (
-      <OpsFrame>
-        <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6">
           <div className="space-y-2">
             <Skeleton className="h-4 w-32" />
             <Skeleton className="h-6 w-56" />
@@ -62,17 +70,12 @@ export default function ProjectDetailPage({ params }: Props) {
             ))}
           </div>
         </div>
-      </OpsFrame>
     )
   }
 
   // Error / not found
   if (data === null) {
-    return (
-      <OpsFrame>
-        <div className="p-6 text-fg-muted text-sm">Projet introuvable.</div>
-      </OpsFrame>
-    )
+    return <div className="p-6 text-fg-muted text-sm">Projet introuvable.</div>
   }
 
   const { project, entries, stats } = data
@@ -94,17 +97,7 @@ export default function ProjectDetailPage({ params }: Props) {
   }
 
   return (
-    <OpsFrame
-      topBar={
-        <OpsBreadcrumb
-          items={[
-            { label: "Clients", href: "/clients" },
-            { label: client?.name ?? "...", href: `/clients/${id}` },
-            { label: project?.name ?? "..." },
-          ]}
-        />
-      }
-    >
+    <>
       <div className="p-6 space-y-8">
         <div className="space-y-1.5">
           <PageHeader
@@ -230,6 +223,6 @@ export default function ProjectDetailPage({ params }: Props) {
           />
         </DialogContent>
       </Dialog>
-    </OpsFrame>
+    </>
   )
 }
