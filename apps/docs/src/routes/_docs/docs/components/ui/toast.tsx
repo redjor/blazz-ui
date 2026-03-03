@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { toast } from "@blazz/ui/components/ui/toast"
+import { toast, toastProgress } from "@blazz/ui/components/ui/toast"
 import { Button } from "@blazz/ui/components/ui/button"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
@@ -75,6 +75,44 @@ toast.dismiss(id)
 // Ou remplacer par un succès
 toast.success("Import terminé", { id })`,
 	},
+	{
+		key: "progress-types",
+		code: `import { toastProgress } from "@blazz/ui"
+
+toastProgress.success("Données sauvegardées", {
+  description: "Toutes les modifications ont été appliquées.",
+})
+toastProgress.error("Échec de l'opération", {
+  description: "Impossible de joindre le serveur.",
+})
+toastProgress.warning("Quota presque atteint", {
+  description: "Il vous reste 5% d'espace disponible.",
+})
+toastProgress.info("Nouvelle version disponible", {
+  description: "Rechargez la page pour profiter des dernières fonctionnalités.",
+})`,
+	},
+	{
+		key: "progress-options",
+		code: `import { toastProgress } from "@blazz/ui"
+
+// Barre seule (sans texte de countdown)
+toastProgress.success("Sauvegarde terminée", {
+  showCountdown: false,
+})
+
+// Countdown seul (sans barre)
+toastProgress.info("Redirection dans quelques secondes…", {
+  showProgress: false,
+  duration: 8000,
+})
+
+// Durée personnalisée
+toastProgress.warning("Session expire bientôt", {
+  description: "Vous serez déconnecté automatiquement.",
+  duration: 10000,
+})`,
+	},
 ] as const
 
 export const Route = createFileRoute("/_docs/docs/components/ui/toast")({
@@ -93,8 +131,10 @@ export const Route = createFileRoute("/_docs/docs/components/ui/toast")({
 const toc = [
 	{ id: "setup", title: "Setup" },
 	{ id: "examples", title: "Examples" },
+	{ id: "progress", title: "toastProgress" },
 	{ id: "props", title: "Toaster Props" },
 	{ id: "api", title: "toast() API" },
+	{ id: "progress-api", title: "toastProgress Options" },
 	{ id: "guidelines", title: "Guidelines" },
 	{ id: "related", title: "Related" },
 ]
@@ -154,6 +194,32 @@ const toasterProps: DocProp[] = [
 		type: "number",
 		default: "8",
 		description: "Espacement entre les toasts empilés.",
+	},
+]
+
+const toastProgressProps: DocProp[] = [
+	{
+		name: "description",
+		type: "string",
+		description: "Texte secondaire sous le titre.",
+	},
+	{
+		name: "duration",
+		type: "number",
+		default: "5000",
+		description: "Durée d'affichage en millisecondes. Contrôle aussi la vitesse de la barre.",
+	},
+	{
+		name: "showProgress",
+		type: "boolean",
+		default: "true",
+		description: "Affiche la barre de progression qui se réduit jusqu'à la disparition.",
+	},
+	{
+		name: "showCountdown",
+		type: "boolean",
+		default: "true",
+		description: 'Affiche le texte "Dismissing in X seconds" sous le message.',
 	},
 ]
 
@@ -265,6 +331,108 @@ function ToastPage() {
 						Le composant <code className="text-xs bg-raised px-1 py-0.5 rounded">Toaster</code>{" "}
 						est déjà présent dans ce layout — essaie les boutons ci-dessous.
 					</p>
+				</DocExampleClient>
+			</DocSection>
+
+			<DocSection id="progress" title="toastProgress">
+				<DocExampleClient
+					title="Types sémantiques"
+					description="Même API que toast — remplace toast.success() par toastProgress.success() pour obtenir la barre et le countdown automatiquement."
+					code={examples[6].code}
+					highlightedCode={html("progress-types")}
+				>
+					<div className="flex flex-wrap gap-2">
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.success("Données sauvegardées", {
+									description: "Toutes les modifications ont été appliquées.",
+								})
+							}
+						>
+							Success
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.error("Échec de l'opération", {
+									description: "Impossible de joindre le serveur.",
+								})
+							}
+						>
+							Error
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.warning("Quota presque atteint", {
+									description: "Il vous reste 5% d'espace disponible.",
+								})
+							}
+						>
+							Warning
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.info("Nouvelle version disponible", {
+									description:
+										"Rechargez la page pour profiter des dernières fonctionnalités.",
+								})
+							}
+						>
+							Info
+						</Button>
+					</div>
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Options"
+					description="showProgress et showCountdown sont indépendants. duration contrôle à la fois la durée d'affichage et la vitesse de la barre."
+					code={examples[7].code}
+					highlightedCode={html("progress-options")}
+				>
+					<div className="flex flex-wrap gap-2">
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.success("Sauvegarde terminée", {
+									showCountdown: false,
+								})
+							}
+						>
+							Barre seule
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.info("Redirection dans quelques secondes…", {
+									showProgress: false,
+									duration: 8000,
+								})
+							}
+						>
+							Countdown seul
+						</Button>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								toastProgress.warning("Session expire bientôt", {
+									description: "Vous serez déconnecté automatiquement.",
+									duration: 10000,
+								})
+							}
+						>
+							10 secondes
+						</Button>
+					</div>
 				</DocExampleClient>
 			</DocSection>
 
@@ -383,6 +551,20 @@ function ToastPage() {
 
 			<DocSection id="api" title="toast() API">
 				<DocPropsTable props={toastApiProps} />
+			</DocSection>
+
+			<DocSection id="progress-api" title="toastProgress Options">
+				<p className="text-sm text-fg-muted mb-4">
+					Options passées en second argument de{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">toastProgress.success()</code>{" "}
+					et ses variantes. Les méthodes disponibles sont{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">.success()</code>,{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">.error()</code>,{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">.warning()</code>,{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">.info()</code> et{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">.default()</code>.
+				</p>
+				<DocPropsTable props={toastProgressProps} />
 			</DocSection>
 
 			<DocSection id="guidelines" title="Guidelines">
