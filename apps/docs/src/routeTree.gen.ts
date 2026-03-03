@@ -28,6 +28,7 @@ import { Route as DocsDocsComponentsLayoutIndexRouteImport } from './routes/_doc
 import { Route as DocsDocsComponentsAiIndexRouteImport } from './routes/_docs/docs/components/ai/index'
 import { Route as DocsDocsComponentsUiTreeViewRouteImport } from './routes/_docs/docs/components/ui/tree-view'
 import { Route as DocsDocsComponentsUiTooltipRouteImport } from './routes/_docs/docs/components/ui/tooltip'
+import { Route as DocsDocsComponentsUiToastRouteImport } from './routes/_docs/docs/components/ui/toast'
 import { Route as DocsDocsComponentsUiTimelineRouteImport } from './routes/_docs/docs/components/ui/timeline'
 import { Route as DocsDocsComponentsUiTimePickerRouteImport } from './routes/_docs/docs/components/ui/time-picker'
 import { Route as DocsDocsComponentsUiTextareaRouteImport } from './routes/_docs/docs/components/ui/textarea'
@@ -289,6 +290,12 @@ const DocsDocsComponentsUiTooltipRoute =
   DocsDocsComponentsUiTooltipRouteImport.update({
     id: '/docs/components/ui/tooltip',
     path: '/docs/components/ui/tooltip',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsUiToastRoute =
+  DocsDocsComponentsUiToastRouteImport.update({
+    id: '/docs/components/ui/toast',
+    path: '/docs/components/ui/toast',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiTimelineRoute =
@@ -1348,6 +1355,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/textarea': typeof DocsDocsComponentsUiTextareaRoute
   '/docs/components/ui/time-picker': typeof DocsDocsComponentsUiTimePickerRoute
   '/docs/components/ui/timeline': typeof DocsDocsComponentsUiTimelineRoute
+  '/docs/components/ui/toast': typeof DocsDocsComponentsUiToastRoute
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
@@ -1524,6 +1532,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/textarea': typeof DocsDocsComponentsUiTextareaRoute
   '/docs/components/ui/time-picker': typeof DocsDocsComponentsUiTimePickerRoute
   '/docs/components/ui/timeline': typeof DocsDocsComponentsUiTimelineRoute
+  '/docs/components/ui/toast': typeof DocsDocsComponentsUiToastRoute
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/docs/components/ai': typeof DocsDocsComponentsAiIndexRoute
@@ -1702,6 +1711,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/textarea': typeof DocsDocsComponentsUiTextareaRoute
   '/_docs/docs/components/ui/time-picker': typeof DocsDocsComponentsUiTimePickerRoute
   '/_docs/docs/components/ui/timeline': typeof DocsDocsComponentsUiTimelineRoute
+  '/_docs/docs/components/ui/toast': typeof DocsDocsComponentsUiToastRoute
   '/_docs/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/_docs/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/_docs/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
@@ -1880,6 +1890,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/textarea'
     | '/docs/components/ui/time-picker'
     | '/docs/components/ui/timeline'
+    | '/docs/components/ui/toast'
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
     | '/docs/components/ai/'
@@ -2056,6 +2067,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/textarea'
     | '/docs/components/ui/time-picker'
     | '/docs/components/ui/timeline'
+    | '/docs/components/ui/toast'
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
     | '/docs/components/ai'
@@ -2233,6 +2245,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/textarea'
     | '/_docs/docs/components/ui/time-picker'
     | '/_docs/docs/components/ui/timeline'
+    | '/_docs/docs/components/ui/toast'
     | '/_docs/docs/components/ui/tooltip'
     | '/_docs/docs/components/ui/tree-view'
     | '/_docs/docs/components/ai/'
@@ -2429,6 +2442,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/tooltip'
       fullPath: '/docs/components/ui/tooltip'
       preLoaderRoute: typeof DocsDocsComponentsUiTooltipRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/ui/toast': {
+      id: '/_docs/docs/components/ui/toast'
+      path: '/docs/components/ui/toast'
+      fullPath: '/docs/components/ui/toast'
+      preLoaderRoute: typeof DocsDocsComponentsUiToastRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/timeline': {
@@ -3643,6 +3663,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiTextareaRoute: typeof DocsDocsComponentsUiTextareaRoute
   DocsDocsComponentsUiTimePickerRoute: typeof DocsDocsComponentsUiTimePickerRoute
   DocsDocsComponentsUiTimelineRoute: typeof DocsDocsComponentsUiTimelineRoute
+  DocsDocsComponentsUiToastRoute: typeof DocsDocsComponentsUiToastRoute
   DocsDocsComponentsUiTooltipRoute: typeof DocsDocsComponentsUiTooltipRoute
   DocsDocsComponentsUiTreeViewRoute: typeof DocsDocsComponentsUiTreeViewRoute
   DocsDocsComponentsAiIndexRoute: typeof DocsDocsComponentsAiIndexRoute
@@ -3862,6 +3883,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiTextareaRoute: DocsDocsComponentsUiTextareaRoute,
   DocsDocsComponentsUiTimePickerRoute: DocsDocsComponentsUiTimePickerRoute,
   DocsDocsComponentsUiTimelineRoute: DocsDocsComponentsUiTimelineRoute,
+  DocsDocsComponentsUiToastRoute: DocsDocsComponentsUiToastRoute,
   DocsDocsComponentsUiTooltipRoute: DocsDocsComponentsUiTooltipRoute,
   DocsDocsComponentsUiTreeViewRoute: DocsDocsComponentsUiTreeViewRoute,
   DocsDocsComponentsAiIndexRoute: DocsDocsComponentsAiIndexRoute,

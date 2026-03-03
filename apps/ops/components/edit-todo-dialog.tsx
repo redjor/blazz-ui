@@ -2,6 +2,7 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Combobox, type ComboboxOption } from "@blazz/ui/components/ui/combobox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import {
@@ -34,6 +35,29 @@ export function PriorityIcon({ priority }: { priority?: string }) {
 	if (!config) return null
 	return <Flag className={`size-3 shrink-0 ${config.color}`} />
 }
+
+const PRIORITY_OPTIONS: ComboboxOption[] = [
+	{
+		value: "urgent",
+		label: "Urgent",
+		icon: <Flag fill="currentColor" className="size-3 shrink-0 text-destructive" />,
+	},
+	{
+		value: "high",
+		label: "High",
+		icon: <Flag fill="currentColor" className="size-3 shrink-0 text-orange-500" />,
+	},
+	{
+		value: "normal",
+		label: "Normal",
+		icon: <Flag className="size-3 shrink-0 text-fg-muted" />,
+	},
+	{
+		value: "low",
+		label: "Low",
+		icon: <Flag className="size-3 shrink-0 text-fg-muted opacity-40" />,
+	},
+]
 
 export function ProjectBadge({
 	projectId,
@@ -138,39 +162,34 @@ export function EditTodoDialog({
 						onChange={(e) => setDescription(e.target.value)}
 						rows={3}
 					/>
-					<div className="flex gap-2">
-						<Select value={priority} onValueChange={setPriority}>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Priorité" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="urgent">Urgent</SelectItem>
-								<SelectItem value="high">High</SelectItem>
-								<SelectItem value="normal">Normal</SelectItem>
-								<SelectItem value="low">Low</SelectItem>
-							</SelectContent>
-						</Select>
-						<Select
-							value={projectId}
-							onValueChange={setProjectId}
-							items={[
-								{ value: "", label: "Aucun" },
-								...projects.map((p) => ({ value: p._id, label: p.name })),
-							]}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Projet (optionnel)" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="">Aucun</SelectItem>
-								{projects.map((p) => (
-									<SelectItem key={p._id} value={p._id}>
-										{p.name}
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</div>
+					<Combobox
+						value={priority}
+						onValueChange={(v) => setPriority(v || "normal")}
+						options={PRIORITY_OPTIONS}
+						placeholder="Priorité"
+						searchPlaceholder="Rechercher…"
+						emptyMessage="Aucun résultat"
+					/>
+					<Select
+						value={projectId}
+						onValueChange={setProjectId}
+						items={[
+							{ value: "", label: "Aucun" },
+							...projects.map((p) => ({ value: p._id, label: p.name })),
+						]}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Projet (optionnel)" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="">Aucun</SelectItem>
+							{projects.map((p) => (
+								<SelectItem key={p._id} value={p._id}>
+									{p.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 					<Select
 						value={categoryId}
 						onValueChange={setCategoryId}
