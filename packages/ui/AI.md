@@ -75,7 +75,7 @@ Named: `Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGro
 
 - ⚠️ ALWAYS pass `items` prop — without it SelectValue renders raw value ('apple') not label ('Apple')
 - ⚠️ Use `render={<Button />}` not `asChild` on trigger components — Base UI, not Radix
-- ⚠️ items format: Array<{ value: string, label: string }> — NOT a Record object
+- ⚠️ items: prefer Array<{value,label}> format in this codebase (Base UI also accepts Record<string,string> but array is the @blazz/ui convention)
 
 ```tsx
 <Select

@@ -22,7 +22,7 @@ export const selectData: ComponentData = {
 	props: [
 		{
 			name: "items",
-			type: "Array<{ value: string; label: string }>",
+			type: "Record<string, string> | Array<{ value: string; label: string }>",
 			description:
 				"Requis fonctionnellement — sans ce prop, SelectValue affiche la value brute au lieu du label.",
 		},
@@ -51,7 +51,7 @@ export const selectData: ComponentData = {
 	gotchas: [
 		"ALWAYS pass `items` prop — without it SelectValue renders raw value ('apple') not label ('Apple')",
 		"Use `render={<Button />}` not `asChild` on trigger components — Base UI, not Radix",
-		"items format: Array<{ value: string, label: string }> — NOT a Record object",
+		"items: prefer Array<{value,label}> format in this codebase (Base UI also accepts Record<string,string> but array is the @blazz/ui convention)",
 	],
 	canonicalExample: `<Select
   items={[{ value: "active", label: "Active" }, { value: "inactive", label: "Inactive" }]}

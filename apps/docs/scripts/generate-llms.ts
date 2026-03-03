@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 // apps/docs/scripts/generate-llms.ts
 
-import { writeFileSync } from "node:fs"
+import { writeFileSync, mkdirSync } from "node:fs"
 import { join } from "node:path"
 import { registry } from "../src/data/registry"
 import type { ComponentData } from "../src/data/types"
@@ -30,7 +30,7 @@ function renderComponent(c: ComponentData): string {
 	const propSummary = c.props
 		.map(
 			(p) =>
-				`${p.name} (${p.type}${p.required ? ", required" : ""}${p.default ? `, default: ${p.default}` : ""})`,
+				`${p.name} (${p.type}${p.required ? ", required" : ""}${p.default ? `, default: ${p.default}` : ""})`
 		)
 		.join(", ")
 	lines.push(`Props: ${propSummary}`)
@@ -53,20 +53,20 @@ function generateLlmsTxt(): string {
 	sections.push("## Critical Rules")
 	sections.push("")
 	sections.push(
-		"- ALL trigger components use `render={<Component />}` NOT `asChild` (Base UI, not Radix)",
+		"- ALL trigger components use `render={<Component />}` NOT `asChild` (Base UI, not Radix)"
 	)
 	sections.push(
-		'- DateSelector NOT `<input type="date">` — import from @blazz/ui/components/ui/date-selector',
+		'- DateSelector NOT `<input type="date">` — import from @blazz/ui/components/ui/date-selector'
 	)
 	sections.push(
-		"- Select/Combobox: `items`/`options` prop ALWAYS required to show labels instead of raw values",
+		"- Select/Combobox: `items`/`options` prop ALWAYS required to show labels instead of raw values"
 	)
 	sections.push(
-		"- Import paths: `@blazz/ui/components/{category}/{name}` — not from barrel `@blazz/ui`",
+		"- Import paths: `@blazz/ui/components/{category}/{name}` — not from barrel `@blazz/ui`"
 	)
 	sections.push("- Forms: ALWAYS use react-hook-form + zod. Never local useState for form state.")
 	sections.push(
-		"- All 4 states required: loading (Skeleton), empty (Empty component), error, success",
+		"- All 4 states required: loading (Skeleton), empty (Empty component), error, success"
 	)
 	sections.push("")
 	sections.push("---")
@@ -117,13 +117,15 @@ function generateAiMd(): string {
 	lines.push("### 1. Select — ALWAYS pass items")
 	lines.push("Without `items`, SelectValue shows raw value ('active'), not label ('Active').")
 	lines.push("```tsx")
-	lines.push('<Select items={[{ value: "active", label: "Active" }]} value={v} onValueChange={setV}>')
+	lines.push(
+		'<Select items={[{ value: "active", label: "Active" }]} value={v} onValueChange={setV}>'
+	)
 	lines.push("```")
 	lines.push("")
 	lines.push("### 2. Triggers — render={} not asChild (Base UI)")
 	lines.push("```tsx")
-	lines.push('<DialogTrigger render={<Button />}>Open</DialogTrigger>  // ✅')
-	lines.push('<DialogTrigger asChild><Button /></DialogTrigger>         // ❌')
+	lines.push("<DialogTrigger render={<Button />}>Open</DialogTrigger>  // ✅")
+	lines.push("<DialogTrigger asChild><Button /></DialogTrigger>         // ❌")
 	lines.push("```")
 	lines.push("")
 	lines.push("### 3. Dates — DateSelector not input type='date'")
@@ -137,7 +139,7 @@ function generateAiMd(): string {
 	lines.push("")
 	lines.push("### 5. 4 required states")
 	lines.push(
-		"Every data-loading component needs: loading (Skeleton), empty (Empty), error, success.",
+		"Every data-loading component needs: loading (Skeleton), empty (Empty), error, success."
 	)
 	lines.push("")
 	lines.push("---")
@@ -185,7 +187,9 @@ const aiMd = generateAiMd()
 const docsPublicDir = join(import.meta.dirname, "..", "public")
 const uiPackageDir = join(import.meta.dirname, "..", "..", "..", "packages", "ui")
 
+mkdirSync(docsPublicDir, { recursive: true })
 writeFileSync(join(docsPublicDir, "llms.txt"), llmsTxt, "utf-8")
+mkdirSync(uiPackageDir, { recursive: true })
 writeFileSync(join(uiPackageDir, "AI.md"), aiMd, "utf-8")
 
 console.log(`✓ public/llms.txt — ${registry.length} components`)
