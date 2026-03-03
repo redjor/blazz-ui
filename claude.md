@@ -58,6 +58,7 @@ tsup (ESM build), Changesets (versioning)
 - Server Components par défaut, Client uniquement pour interactivité
 - Formulaires = react-hook-form + zod TOUJOURS
 - 4 états obligatoires : loading (Skeleton), empty, error, success
+- `packages/ui/AI.md` — composants @blazz/ui avec gotchas et exemples canoniques. À lire avant de générer du code UI.
 
 ## Règle critique — Ne pas toucher à `packages/ui/`
 **Si la tâche concerne une app spécifique** (`apps/ops`, `apps/examples`, `apps/docs`, etc.),
