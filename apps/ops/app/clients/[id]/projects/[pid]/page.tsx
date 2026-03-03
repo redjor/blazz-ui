@@ -1,7 +1,6 @@
 "use client"
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { ActivityHeatmap } from "@/components/activity-heatmap"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
@@ -153,14 +152,6 @@ export default function ProjectDetailPage({ params }: Props) {
             </CardContent>
           </Card>
         </div>
-
-        {/* Activity heatmap */}
-        {entries.length > 0 && (
-          <div className="space-y-2">
-            <h2 className="text-sm font-medium text-fg">Activité</h2>
-            <ActivityHeatmap entries={entries} />
-          </div>
-        )}
 
         {/* Timeline of entries */}
         <div className="space-y-4">
