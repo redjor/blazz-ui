@@ -7,7 +7,7 @@ import { DocsSidebar } from "~/components/docs/docs-sidebar"
 import { DocsMobileSheet } from "~/components/docs/docs-mobile-sheet"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { navigationConfig } from "~/config/navigation"
-import { Toaster } from "sonner"
+import { Toaster } from "@blazz/ui/components/ui/toast"
 
 export const Route = createFileRoute("/_docs")({
   component: DocsLayout,

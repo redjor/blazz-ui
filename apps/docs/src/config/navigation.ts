@@ -299,6 +299,11 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/components/ui/skeleton",
 							keywords: ["loading", "placeholder", "shimmer", "ghost", "pulse"],
 						},
+						{
+							title: "Toast",
+							url: "/docs/components/ui/toast",
+							keywords: ["notification", "snackbar", "sonner", "feedback", "message", "toaster"],
+						},
 					],
 				},
 				{
