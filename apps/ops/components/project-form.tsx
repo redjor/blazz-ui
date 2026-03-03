@@ -8,7 +8,7 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { toast } from "sonner"
 import { Button } from "@blazz/ui/components/ui/button"
-import { DateSelector } from "@blazz/ui/components/ui/date-selector"
+import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -103,27 +103,19 @@ export function ProjectForm({ clientId, defaultValues, onSuccess, onCancel }: Pr
           </SelectContent>
         </Select>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label>Date début</Label>
-          <DateSelector
-            value={watch("startDate") ? parseISO(watch("startDate")!) : undefined}
-            onValueChange={(d) => setValue("startDate", d ? format(d, "yyyy-MM-dd") : "")}
-            placeholder="Choisir…"
-            formatStr="dd/MM/yyyy"
-            className="w-full"
-          />
-        </div>
-        <div className="space-y-1.5">
-          <Label>Date fin</Label>
-          <DateSelector
-            value={watch("endDate") ? parseISO(watch("endDate")!) : undefined}
-            onValueChange={(d) => setValue("endDate", d ? format(d, "yyyy-MM-dd") : "")}
-            placeholder="Choisir…"
-            formatStr="dd/MM/yyyy"
-            className="w-full"
-          />
-        </div>
+      <div className="space-y-1.5">
+        <Label>Période</Label>
+        <DateRangeSelector
+          from={watch("startDate") ? parseISO(watch("startDate")!) : undefined}
+          to={watch("endDate") ? parseISO(watch("endDate")!) : undefined}
+          onRangeChange={({ from, to }) => {
+            setValue("startDate", from ? format(from, "yyyy-MM-dd") : "")
+            setValue("endDate", to ? format(to, "yyyy-MM-dd") : "")
+          }}
+          fromPlaceholder="Début…"
+          toPlaceholder="Fin…"
+          className="w-full"
+        />
       </div>
       <DialogFooter>
         {onCancel && (

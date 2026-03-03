@@ -44,7 +44,7 @@ function SelectTrigger({
         "border-field data-placeholder:text-fg-subtle",
         "focus-visible:border-brand focus-visible:ring-brand/20",
         "aria-invalid:ring-negative/20 aria-invalid:border-negative",
-        "gap-1.5 rounded-lg border bg-transparent py-2 pr-2 pl-2.5 text-sm transition-colors select-none",
+        "gap-1.5 rounded-lg border bg-surface hover:bg-raised py-2 pr-2 pl-2.5 text-sm transition-colors select-none",
         "focus-visible:ring-3 aria-invalid:ring-3",
         "data-[size=default]:h-8 data-[size=sm]:h-7 data-[size=sm]:rounded-md",
         "*:data-[slot=select-value]:gap-1.5",

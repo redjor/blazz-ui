@@ -22,7 +22,7 @@ function Calendar({
 		<DayPicker
 			data-slot="calendar"
 			showOutsideDays={showOutsideDays}
-			className={cn("w-fit p-3", className)}
+			className={cn("w-fit rounded-lg bg-surface p-3", className)}
 			classNames={{
 				months: "relative flex flex-col sm:flex-row gap-2",
 				month: "flex flex-col gap-4",

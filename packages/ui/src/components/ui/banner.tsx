@@ -15,7 +15,7 @@ import { cn } from "../../lib/utils"
 import { Button, buttonVariants } from "./button"
 
 const bannerVariants = cva(
-	"relative flex gap-2 rounded-md border border-container p-3",
+	"relative flex gap-2 rounded-md border border-container bg-raised p-3",
 	{
 		variants: {
 			variant: {

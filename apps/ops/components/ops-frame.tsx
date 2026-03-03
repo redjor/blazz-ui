@@ -31,7 +31,7 @@ const opsSidebarConfig: SidebarConfig = {
 }
 
 const sidebarLogo = (
-	<Link href="/" className="flex items-center px-2 py-3">
+	<Link href="/" className="flex items-center p-2">
 		<Image src="/logo_blazz_white.svg" alt="Blazz" width={87} height={24} />
 	</Link>
 )
