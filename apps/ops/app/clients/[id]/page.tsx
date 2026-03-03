@@ -10,6 +10,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@blazz/ui/components/ui/dialog"
+import { StatsStrip } from "@blazz/ui/components/blocks/stats-strip"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Pencil, Plus } from "lucide-react"
@@ -41,6 +42,7 @@ export default function ClientDetailPage({ params }: Props) {
 	const { id } = use(params)
 	const client = useQuery(api.clients.get, { id: id as Id<"clients"> })
 	const projects = useQuery(api.projects.listByClient, { clientId: id as Id<"clients"> })
+	const clientStats = useQuery(api.clients.getStats, { clientId: id as Id<"clients"> })
 	const [editOpen, setEditOpen] = useState(false)
 	const [projectOpen, setProjectOpen] = useState(false)
 	const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
@@ -76,6 +78,8 @@ export default function ClientDetailPage({ params }: Props) {
 			</OpsFrame>
 		)
 	}
+
+	const fmt = (n: number) => `${n.toLocaleString("fr-FR")} €`
 
 	return (
 		<OpsFrame
@@ -120,6 +124,21 @@ export default function ClientDetailPage({ params }: Props) {
 						)}
 					</FieldGrid>
 				</div>
+
+				{/* Stats pipeline */}
+				<StatsStrip
+					loading={clientStats === undefined}
+					stats={
+						clientStats
+							? [
+									{ label: "À facturer", value: fmt(clientStats.toInvoice) },
+									{ label: "Facturé (non payé)", value: fmt(clientStats.invoiced) },
+									{ label: "Payé", value: fmt(clientStats.paid) },
+									{ label: "CA total", value: fmt(clientStats.total) },
+								]
+							: []
+					}
+				/>
 
 				{/* Projets */}
 				<div className="space-y-4">
