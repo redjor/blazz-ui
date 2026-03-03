@@ -27,7 +27,7 @@ export default function TodayPage() {
 	const categories = useQuery(api.categories.list, {})
 	const allTags = useQuery(api.todos.listAllTags, {})
 
-	const isLoading = todayEntries === undefined || activeProjects === undefined
+	const isLoading = todayEntries === undefined || activeProjects === undefined || todos === undefined
 
 	const billableEntries = todayEntries?.filter((e) => e.billable) ?? []
 	const totalMinutesToday = billableEntries.reduce((s, e) => s + e.minutes, 0)
@@ -127,7 +127,9 @@ export default function TodayPage() {
 			{/* Entrées d'aujourd'hui */}
 			<div className="space-y-3">
 				<h2 className="text-sm font-medium text-fg">Entrées d'aujourd'hui</h2>
-				{todayEntries === undefined ? null : todayEntries.length === 0 ? (
+				{todayEntries === undefined ? (
+				<p className="text-sm text-fg-muted">Chargement…</p>
+			) : todayEntries.length === 0 ? (
 					<p className="text-sm text-fg-muted">Aucune entrée pour aujourd'hui.</p>
 				) : (
 					<div className="space-y-0">
@@ -159,7 +161,9 @@ export default function TodayPage() {
 			{/* Todos actifs */}
 			<div className="space-y-3">
 				<h2 className="text-sm font-medium text-fg">Todos actifs</h2>
-				{todos === undefined ? null : activeTodos.length === 0 ? (
+				{todos === undefined ? (
+				<p className="text-sm text-fg-muted">Chargement…</p>
+			) : activeTodos.length === 0 ? (
 					<p className="text-sm text-fg-muted">Aucun todo actif.</p>
 				) : (
 					<div className="space-y-0">
