@@ -23,6 +23,7 @@ export const checkboxData: ComponentData = {
 		"With react-hook-form: use Controller or watch+setValue — `onCheckedChange={(checked) => setValue('field', !!checked)}`",
 		"For multiple checkboxes with labels, use CheckboxGroup with options prop",
 		"onCheckedChange receives boolean | 'indeterminate' — cast with !!checked for booleans",
+		"Label is a separate import — `import { Label } from '@blazz/ui/components/ui/label'`",
 	],
 	canonicalExample: `<Checkbox
   id="agree"

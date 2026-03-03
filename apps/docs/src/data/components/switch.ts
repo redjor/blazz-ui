@@ -21,6 +21,7 @@ export const switchData: ComponentData = {
 	],
 	gotchas: [
 		"With react-hook-form: use watch+setValue — `onCheckedChange={(checked) => setValue('active', checked)}`",
+		"Label is a separate import — `import { Label } from '@blazz/ui/components/ui/label'`",
 	],
 	canonicalExample: `<div className="flex items-center gap-2">
   <Switch
