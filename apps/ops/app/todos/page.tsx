@@ -17,8 +17,9 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
+import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, ChevronLeft, ChevronRight, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { CheckSquare, Columns3, Flag, LayoutList, Plus, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
@@ -30,6 +31,7 @@ import { ManageCategoriesSheet, CategoryBadge, getCategoryColorClasses } from "@
 import { TagInput } from "@/components/tag-input"
 
 type TodoStatus = "triage" | "todo" | "in_progress" | "done"
+type TodoWithId = Doc<"todos"> & { id: string }
 type Category = { _id: string; name: string; color?: string }
 
 const COLUMNS: { status: TodoStatus; label: string }[] = [
@@ -38,18 +40,6 @@ const COLUMNS: { status: TodoStatus; label: string }[] = [
 	{ status: "in_progress", label: "En cours" },
 	{ status: "done", label: "Fait" },
 ]
-
-const STATUS_ORDER: TodoStatus[] = ["triage", "todo", "in_progress", "done"]
-
-function getPrev(status: TodoStatus): TodoStatus | null {
-	const idx = STATUS_ORDER.indexOf(status)
-	return idx > 0 ? STATUS_ORDER[idx - 1] : null
-}
-
-function getNext(status: TodoStatus): TodoStatus | null {
-	const idx = STATUS_ORDER.indexOf(status)
-	return idx < STATUS_ORDER.length - 1 ? STATUS_ORDER[idx + 1] : null
-}
 
 function EditTodoDialog({
 	todo,
@@ -67,6 +57,7 @@ function EditTodoDialog({
 	allTags: string[]
 }) {
 	const updateTodo = useMutation(api.todos.update)
+	const remove = useMutation(api.todos.remove)
 	const [text, setText] = useState(todo.text)
 	const [description, setDescription] = useState(todo.description ?? "")
 	const [priority, setPriority] = useState(todo.priority ?? "normal")
@@ -106,9 +97,14 @@ function EditTodoDialog({
 		onOpenChange(false)
 	}
 
+	async function handleDelete() {
+		await remove({ id: todo._id })
+		onOpenChange(false)
+	}
+
 	return (
 		<Dialog open={open} onOpenChange={(v) => { if (!v) resetToTodo(); onOpenChange(v) }}>
-			<DialogContent>
+			<DialogContent size="lg">
 				<DialogHeader>
 					<DialogTitle>Modifier le todo</DialogTitle>
 				</DialogHeader>
@@ -171,13 +167,18 @@ function EditTodoDialog({
 						</SelectContent>
 					</Select>
 					<TagInput value={tags} onChange={setTags} suggestions={allTags} />
-					<div className="flex justify-end gap-2">
-						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-							Annuler
+					<div className="flex justify-between gap-2">
+						<Button type="button" variant="ghost" size="icon-sm" onClick={handleDelete} aria-label="Supprimer" className="text-fg-muted hover:text-destructive">
+							<Trash2 className="size-4" />
 						</Button>
-						<Button type="submit" disabled={!text.trim() || unchanged}>
-							Sauvegarder
-						</Button>
+						<div className="flex gap-2">
+							<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
+								Annuler
+							</Button>
+							<Button type="submit" disabled={!text.trim() || unchanged}>
+								Sauvegarder
+							</Button>
+						</div>
 					</div>
 				</form>
 			</DialogContent>
@@ -198,6 +199,13 @@ function PriorityIcon({ priority }: { priority?: string }) {
 	return <Flag className={`size-3 shrink-0 ${config.color}`} />
 }
 
+function ProjectBadge({ projectId, projects }: { projectId?: Id<"projects">; projects: Doc<"projects">[] }) {
+	if (!projectId) return null
+	const proj = projects.find((p) => p._id === projectId)
+	if (!proj) return null
+	return <Badge variant="secondary" fill="subtle" size="sm" className="max-w-[100px] truncate">{proj.name}</Badge>
+}
+
 function TodoCard({
 	todo,
 	projects,
@@ -209,86 +217,40 @@ function TodoCard({
 	categories: Category[]
 	allTags: string[]
 }) {
-	const updateStatus = useMutation(api.todos.updateStatus)
-	const remove = useMutation(api.todos.remove)
 	const [editing, setEditing] = useState(false)
-	const prev = getPrev(todo.status)
-	const next = getNext(todo.status)
-
 	const cat = categories.find((c) => c._id === todo.categoryId)
+	const tags = todo.tags ?? []
 
 	return (
 		<>
-			<div className={`p-3 rounded-md border border-edge bg-raised space-y-2 ${todo.status === "done" ? "opacity-60" : ""}`}>
+			<div
+				className={`p-3 rounded-md border border-edge bg-raised space-y-2 cursor-pointer hover:border-accent/50 transition-colors ${todo.status === "done" ? "opacity-60" : ""}`}
+				onClick={() => setEditing(true)}
+				role="button"
+				tabIndex={0}
+				onKeyDown={(e) => e.key === "Enter" && setEditing(true)}
+			>
 				<p className="text-sm text-fg leading-snug">{todo.text}</p>
 				{todo.description && (
 					<p className="text-xs text-fg-muted leading-relaxed whitespace-pre-wrap">{todo.description}</p>
 				)}
-				<div className="flex flex-col gap-1.5">
-					<div className="flex items-center justify-between gap-2">
-						<div className="flex items-center gap-1.5 flex-wrap">
-							<PriorityIcon priority={todo.priority} />
-							{todo.projectId && (() => {
-								const proj = projects.find((p) => p._id === todo.projectId)
-								return proj ? (
-									<Badge variant="secondary" className="text-xs px-1.5 py-0 max-w-[80px] truncate">{proj.name}</Badge>
-								) : null
-							})()}
-							{cat && <CategoryBadge name={cat.name} color={cat.color} />}
-						</div>
-						<div className="flex items-center gap-1">
-							{prev && (
-								<Button
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => updateStatus({ id: todo._id, status: prev })}
-									aria-label="Reculer"
-								>
-									<ChevronLeft className="size-3.5" />
-								</Button>
-							)}
-							{next && (
-								<Button
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => updateStatus({ id: todo._id, status: next })}
-									aria-label="Avancer"
-								>
-									<ChevronRight className="size-3.5" />
-								</Button>
-							)}
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => setEditing(true)}
-								aria-label="Modifier"
-							>
-								<Pencil className="size-3.5" />
-							</Button>
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => remove({ id: todo._id })}
-								aria-label="Supprimer"
-								className="text-fg-muted hover:text-destructive"
-							>
-								<Trash2 className="size-3.5" />
-							</Button>
-						</div>
-					</div>
-					{(todo.tags ?? []).length > 0 && (
-						<div className="flex flex-wrap gap-1">
-							{(todo.tags ?? []).slice(0, 3).map((tag) => (
-								<span key={tag} className="text-xs text-fg-muted bg-surface border border-edge rounded-full px-1.5 py-0">
-									{tag}
-								</span>
-							))}
-							{(todo.tags ?? []).length > 3 && (
-								<span className="text-xs text-fg-muted">+{(todo.tags ?? []).length - 3}</span>
-							)}
-						</div>
-					)}
+				<div className="flex items-center gap-1.5 flex-wrap">
+					<PriorityIcon priority={todo.priority} />
+					<ProjectBadge projectId={todo.projectId} projects={projects} />
+					{cat && <CategoryBadge name={cat.name} color={cat.color} />}
 				</div>
+				{tags.length > 0 && (
+					<div className="flex flex-wrap gap-1">
+						{tags.slice(0, 3).map((tag) => (
+							<span key={tag} className="text-xs text-fg-muted bg-surface border border-edge rounded-full px-1.5 py-0">
+								{tag}
+							</span>
+						))}
+						{tags.length > 3 && (
+							<span className="text-xs text-fg-muted">+{tags.length - 3}</span>
+						)}
+					</div>
+				)}
 			</div>
 			<EditTodoDialog
 				todo={todo}
@@ -321,7 +283,7 @@ function AddTodoDialog({
 	const [text, setText] = useState("")
 	const [description, setDescription] = useState("")
 	const [priority, setPriority] = useState<string>("normal")
-	const [projectId, setProjectId] = useState<string>("")
+	const [projectId, setProjectId] = useState<string | undefined>(undefined)
 	const [categoryId, setCategoryId] = useState<string>("")
 	const [tags, setTags] = useState<string[]>([])
 
@@ -329,7 +291,7 @@ function AddTodoDialog({
 		setText("")
 		setDescription("")
 		setPriority("normal")
-		setProjectId("")
+		setProjectId(undefined)
 		setCategoryId("")
 		setTags([])
 	}
@@ -343,7 +305,7 @@ function AddTodoDialog({
 			status: defaultStatus,
 			source: "app",
 			priority: priority as "urgent" | "high" | "normal" | "low",
-			projectId: (projectId || undefined) as Id<"projects"> | undefined,
+			projectId: projectId as Id<"projects"> | undefined,
 			categoryId: (categoryId || undefined) as Id<"categories"> | undefined,
 			tags: tags.length > 0 ? tags : undefined,
 		})
@@ -383,8 +345,8 @@ function AddTodoDialog({
 							</SelectContent>
 						</Select>
 						<Select
-							value={projectId}
-							onValueChange={setProjectId}
+							value={projectId ?? ""}
+							onValueChange={(v) => setProjectId(v || undefined)}
 							items={[{ value: "", label: "Aucun" }, ...projects.map((p) => ({ value: p._id, label: p.name }))]}
 						>
 							<SelectTrigger className="w-full">
@@ -435,17 +397,30 @@ export default function TodosPage() {
 	const projects = useQuery(api.projects.listActive, {})
 	const categories = useQuery(api.categories.list, {})
 	const allTags = useQuery(api.todos.listAllTags, {})
+	const [addFor, setAddFor] = useState<TodoStatus | null>(null)
 
 	const projectList = projects ?? []
 	const categoryList = categories ?? []
 	const allTagsList = allTags ?? []
+
+	const updateStatus = useMutation(api.todos.updateStatus)
+
+	const todoItems = useMemo<TodoWithId[]>(
+		() => (todos ?? []).map((t) => ({ ...t, id: t._id })),
+		[todos]
+	)
 
 	const remove = useMutation(api.todos.remove)
 	const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
 	const [activeView, setActiveView] = useState<DataTableView | null>(null)
 	const [editingTodo, setEditingTodo] = useState<Doc<"todos"> | null>(null)
 	const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null)
-	const [addFor, setAddFor] = useState<TodoStatus | null>(null)
+
+	// Filtered items for kanban view
+	const filteredItems = useMemo<TodoWithId[]>(() => {
+		if (!activeCategoryId) return todoItems
+		return todoItems.filter((t) => t.categoryId === activeCategoryId)
+	}, [todoItems, activeCategoryId])
 
 	// Build rows with resolved names for the list view
 	const todoRows = useMemo<Todo[]>(() => {
@@ -461,14 +436,7 @@ export default function TodosPage() {
 		})
 	}, [todos, projectList, categoryList])
 
-	// Filtered todos for kanban view
-	const filteredTodos = useMemo(() => {
-		if (!todos) return []
-		if (!activeCategoryId) return todos
-		return todos.filter((t) => t.categoryId === activeCategoryId)
-	}, [todos, activeCategoryId])
-
-	// Build preset — stable reference
+	// Build preset — stable reference, does not depend on todos data
 	const preset = useMemo(() => createTodosPreset({
 		onEdit: (todo) => setEditingTodo(todo as unknown as Doc<"todos">),
 		onDelete: async (todo) => {
@@ -581,50 +549,42 @@ export default function TodosPage() {
 								action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
 							/>
 						) : (
-							<div className="grid grid-cols-4 gap-4 items-start">
-								{COLUMNS.map((col) => {
-									const colTodos = filteredTodos.filter((t) => t.status === col.status)
-									return (
-										<div key={col.status} className="space-y-2">
-											<div className="flex items-center justify-between px-1">
-												<div className="flex items-center gap-2">
-													<span className="text-sm font-medium text-fg">{col.label}</span>
-													{colTodos.length > 0 && (
-														<Badge variant="secondary" className="text-xs px-1.5 py-0 tabular-nums">
-															{colTodos.length}
-														</Badge>
-													)}
-												</div>
-												<Button
-													variant="ghost"
-													size="icon-sm"
-													onClick={() => setAddFor(col.status)}
-													aria-label={`Ajouter dans ${col.label}`}
-												>
-													<Plus className="size-3.5" />
-												</Button>
-											</div>
-											<div className="space-y-2">
-												{colTodos.length === 0 ? (
-													<div className="border border-dashed border-edge rounded-md p-4 text-xs text-fg-muted text-center">
-														Vide
-													</div>
-												) : (
-													colTodos.map((todo) => (
-														<TodoCard
-															key={todo._id}
-															todo={todo}
-															projects={projectList}
-															categories={categoryList}
-															allTags={allTagsList}
-														/>
-													))
-												)}
-											</div>
+							<KanbanBoard
+								columns={COLUMNS.map((col) => ({ id: col.status, label: col.label }))}
+								items={filteredItems}
+								getColumnId={(t) => t.status}
+								onMove={async (id, _from, to) => {
+									await updateStatus({ id: id as Id<"todos">, status: to as TodoStatus })
+								}}
+								renderColumnHeader={(col, colItems) => (
+									<div className="flex items-center justify-between px-3 py-2 border-b border-edge">
+										<div className="flex items-center gap-2">
+											<span className="text-sm font-medium text-fg">{col.label}</span>
+											{colItems.length > 0 && (
+												<Badge variant="secondary" fill="subtle" size="xs" className="tabular-nums">
+													{colItems.length}
+												</Badge>
+											)}
 										</div>
-									)
-								})}
-							</div>
+										<Button
+											variant="ghost"
+											size="icon-sm"
+											onClick={() => setAddFor(col.id as TodoStatus)}
+											aria-label={`Ajouter dans ${col.label}`}
+										>
+											<Plus className="size-3.5" />
+										</Button>
+									</div>
+								)}
+								renderCard={(todo) => (
+									<TodoCard
+										todo={todo}
+										projects={projectList}
+										categories={categoryList}
+										allTags={allTagsList}
+									/>
+								)}
+							/>
 						)}
 					</>
 				)}
