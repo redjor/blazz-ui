@@ -19,7 +19,7 @@ import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
 import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, ChevronLeft, ChevronRight, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { CheckSquare, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
@@ -38,17 +38,6 @@ const COLUMNS: { status: TodoStatus; label: string }[] = [
 	{ status: "done", label: "Fait" },
 ]
 
-const STATUS_ORDER: TodoStatus[] = ["triage", "todo", "in_progress", "done"]
-
-function getPrev(status: TodoStatus): TodoStatus | null {
-	const idx = STATUS_ORDER.indexOf(status)
-	return idx > 0 ? STATUS_ORDER[idx - 1] : null
-}
-
-function getNext(status: TodoStatus): TodoStatus | null {
-	const idx = STATUS_ORDER.indexOf(status)
-	return idx < STATUS_ORDER.length - 1 ? STATUS_ORDER[idx + 1] : null
-}
 
 function EditTodoDialog({
 	todo,
@@ -175,11 +164,8 @@ function PriorityIcon({ priority }: { priority?: string }) {
 }
 
 function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"projects">[] }) {
-	const updateStatus = useMutation(api.todos.updateStatus)
 	const remove = useMutation(api.todos.remove)
 	const [editing, setEditing] = useState(false)
-	const prev = getPrev(todo.status)
-	const next = getNext(todo.status)
 
 	return (
 		<>
@@ -191,7 +177,6 @@ function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"proje
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-1.5">
 						<PriorityIcon priority={todo.priority} />
-
 						{todo.projectId && (() => {
 							const proj = projects.find((p) => p._id === todo.projectId)
 							return proj ? (
@@ -200,26 +185,6 @@ function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"proje
 						})()}
 					</div>
 					<div className="flex items-center gap-1">
-						{prev && (
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => updateStatus({ id: todo._id, status: prev })}
-								aria-label="Reculer"
-							>
-								<ChevronLeft className="size-3.5" />
-							</Button>
-						)}
-						{next && (
-							<Button
-								variant="ghost"
-								size="icon-sm"
-								onClick={() => updateStatus({ id: todo._id, status: next })}
-								aria-label="Avancer"
-							>
-								<ChevronRight className="size-3.5" />
-							</Button>
-						)}
 						<Button
 							variant="ghost"
 							size="icon-sm"
