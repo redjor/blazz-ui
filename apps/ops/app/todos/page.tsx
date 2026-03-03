@@ -163,6 +163,13 @@ function PriorityIcon({ priority }: { priority?: string }) {
 	return <Flag className={`size-3 shrink-0 ${config.color}`} />
 }
 
+function ProjectBadge({ projectId, projects }: { projectId?: Id<"projects">; projects: Doc<"projects">[] }) {
+	if (!projectId) return null
+	const proj = projects.find((p) => p._id === projectId)
+	if (!proj) return null
+	return <Badge variant="secondary" className="text-xs px-1.5 py-0 max-w-[80px] truncate">{proj.name}</Badge>
+}
+
 function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"projects">[] }) {
 	const remove = useMutation(api.todos.remove)
 	const [editing, setEditing] = useState(false)
@@ -177,12 +184,7 @@ function TodoCard({ todo, projects }: { todo: Doc<"todos">; projects: Doc<"proje
 				<div className="flex items-center justify-between gap-2">
 					<div className="flex items-center gap-1.5">
 						<PriorityIcon priority={todo.priority} />
-						{todo.projectId && (() => {
-							const proj = projects.find((p) => p._id === todo.projectId)
-							return proj ? (
-								<Badge variant="secondary" className="text-xs px-1.5 py-0 max-w-[80px] truncate">{proj.name}</Badge>
-							) : null
-						})()}
+						<ProjectBadge projectId={todo.projectId} projects={projects} />
 					</div>
 					<div className="flex items-center gap-1">
 						<Button
