@@ -8,6 +8,13 @@ import { Empty } from "@blazz/ui/components/ui/empty"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { useMutation, useQuery } from "convex/react"
 import { CheckSquare, ChevronLeft, ChevronRight, Flag, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
@@ -185,26 +192,43 @@ function AddTodoDialog({
 	defaultStatus,
 	open,
 	onOpenChange,
+	projects,
 }: {
 	defaultStatus: TodoStatus
 	open: boolean
 	onOpenChange: (v: boolean) => void
+	projects: Doc<"projects">[]
 }) {
 	const create = useMutation(api.todos.create)
 	const [text, setText] = useState("")
 	const [description, setDescription] = useState("")
+	const [priority, setPriority] = useState<string>("normal")
+	const [projectId, setProjectId] = useState<string | undefined>(undefined)
+
+	function reset() {
+		setText("")
+		setDescription("")
+		setPriority("normal")
+		setProjectId(undefined)
+	}
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault()
 		if (!text.trim()) return
-		await create({ text: text.trim(), description: description.trim() || undefined, status: defaultStatus, source: "app" })
-		setText("")
-		setDescription("")
+		await create({
+			text: text.trim(),
+			description: description.trim() || undefined,
+			status: defaultStatus,
+			source: "app",
+			priority: priority as "urgent" | "high" | "normal" | "low",
+			projectId: projectId as Id<"projects"> | undefined,
+		})
+		reset()
 		onOpenChange(false)
 	}
 
 	return (
-		<Dialog open={open} onOpenChange={(v) => { if (!v) { setText(""); setDescription("") } onOpenChange(v) }}>
+		<Dialog open={open} onOpenChange={(v) => { if (!v) reset(); onOpenChange(v) }}>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Nouveau todo</DialogTitle>
@@ -222,6 +246,30 @@ function AddTodoDialog({
 						onChange={(e) => setDescription(e.target.value)}
 						rows={3}
 					/>
+					<div className="flex gap-2">
+						<Select value={priority} onValueChange={setPriority}>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Priorité" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="urgent">Urgent</SelectItem>
+								<SelectItem value="high">High</SelectItem>
+								<SelectItem value="normal">Normal</SelectItem>
+								<SelectItem value="low">Low</SelectItem>
+							</SelectContent>
+						</Select>
+						<Select value={projectId ?? ""} onValueChange={(v) => setProjectId(v || undefined)}>
+							<SelectTrigger className="w-full">
+								<SelectValue placeholder="Projet (optionnel)" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="">Aucun</SelectItem>
+								{projects.map((p) => (
+									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
 					<div className="flex justify-end gap-2">
 						<Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
 							Annuler
