@@ -80,12 +80,14 @@ export const getWithStats = query({
       .withIndex("by_project", (q) => q.eq("projectId", id))
       .collect()
 
+    const billableEntries = entries.filter((e) => e.billable)
+
     const totalMinutes = entries.reduce((s, e) => s + e.minutes, 0)
-    const totalRevenue = entries.reduce(
+    const totalRevenue = billableEntries.reduce(
       (s, e) => s + (e.minutes / 60) * e.hourlyRate,
       0
     )
-    const invoicedRevenue = entries
+    const invoicedRevenue = billableEntries
       .filter((e) => e.status === "invoiced" || e.status === "paid")
       .reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
     const pendingRevenue = totalRevenue - invoicedRevenue
@@ -95,7 +97,7 @@ export const getWithStats = query({
       const month = e.date.slice(0, 7) // "2026-03"
       if (!byMonthMap[month]) byMonthMap[month] = { minutes: 0, revenue: 0 }
       byMonthMap[month].minutes += e.minutes
-      byMonthMap[month].revenue += (e.minutes / 60) * e.hourlyRate
+      if (e.billable) byMonthMap[month].revenue += (e.minutes / 60) * e.hourlyRate
     }
     const monthlyData = Object.entries(byMonthMap)
       .sort(([a], [b]) => a.localeCompare(b))

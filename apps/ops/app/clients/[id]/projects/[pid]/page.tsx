@@ -195,7 +195,7 @@ export default function ProjectDetailPage({ params }: Props) {
                       {entry.description || "—"}
                     </span>
                     <span className="text-xs tabular-nums text-fg shrink-0">
-                      {entry.billable ? `${revenue} €` : "—"}
+                      {entry.billable ? `${revenue.toLocaleString("fr-FR")} €` : "—"}
                     </span>
                     <div className="shrink-0 w-28">
                       <EntryStatusBadge status={effectiveStatus} />
