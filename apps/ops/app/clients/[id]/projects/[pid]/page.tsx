@@ -1,7 +1,7 @@
 "use client"
 
-import { BarChartBlock } from "@blazz/ui/components/blocks/bar-chart-block"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { ActivityHeatmap } from "@/components/activity-heatmap"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
@@ -25,10 +25,6 @@ interface Props {
   params: Promise<{ id: string; pid: string }>
 }
 
-const chartConfig = {
-  heures: { label: "Heures", color: "var(--chart-1)" },
-  ca: { label: "CA (€)", color: "var(--chart-2)" },
-}
 
 const STATUS_FILTERS: Array<{ key: EntryStatus | "all"; label: string }> = [
   { key: "all", label: "Tout" },
@@ -79,7 +75,7 @@ export default function ProjectDetailPage({ params }: Props) {
     )
   }
 
-  const { project, entries, stats, monthlyData } = data
+  const { project, entries, stats } = data
 
   const filteredEntries =
     statusFilter === "all"
@@ -141,14 +137,12 @@ export default function ProjectDetailPage({ params }: Props) {
           </Card>
         </div>
 
-        {/* Monthly bar chart */}
-        {monthlyData.length > 0 && (
-          <BarChartBlock
-            title="Activité mensuelle"
-            data={monthlyData}
-            config={chartConfig}
-            xKey="month"
-          />
+        {/* Activity heatmap */}
+        {entries.length > 0 && (
+          <div className="space-y-2">
+            <h2 className="text-sm font-medium text-fg">Activité</h2>
+            <ActivityHeatmap entries={entries} />
+          </div>
         )}
 
         {/* Timeline of entries */}
