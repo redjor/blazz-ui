@@ -27,6 +27,7 @@ import { CheckCheck, Download, FileText } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
+import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -138,7 +139,7 @@ export default function RecapPage() {
 	}
 
 	return (
-		<OpsFrame>
+		<OpsFrame topBar={<OpsBreadcrumb items={[{ label: "Récapitulatif" }]} />}>
 			<div className="p-6 space-y-6">
 				<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 

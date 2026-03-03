@@ -20,6 +20,7 @@ import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
 import { useMutation, useQuery } from "convex/react"
 import { CheckSquare, ChevronLeft, ChevronRight, Columns3, Flag, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
+import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
@@ -375,7 +376,7 @@ export default function TodosPage() {
 	}), [remove])
 
 	return (
-		<OpsFrame>
+		<OpsFrame topBar={<OpsBreadcrumb items={[{ label: "Todos" }]} />}>
 			<div className="p-6 space-y-6">
 				<PageHeader
 					title="Todos"
