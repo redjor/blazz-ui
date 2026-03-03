@@ -10,6 +10,7 @@ import { ChevronRight, Plus, Users } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { ClientForm } from "@/components/client-form"
+import { OpsBreadcrumb } from "@/components/ops-breadcrumb"
 import { OpsFrame } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 
@@ -47,7 +48,7 @@ export default function ClientsPage() {
 	const [open, setOpen] = useState(false)
 
 	return (
-		<OpsFrame>
+		<OpsFrame topBar={<OpsBreadcrumb items={[{ label: "Clients" }]} />}>
 			<div className="p-6 space-y-4">
 				{/* Header */}
 				<PageHeader
