@@ -98,6 +98,11 @@ export default function TimePage() {
 		entryId: Id<"timeEntries"> | null
 	}>({ open: false, entryId: null })
 
+	const projectMap = useMemo(
+		() => new Map((allProjects ?? []).map((p) => [p._id, p.name])),
+		[allProjects]
+	)
+
 	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
 		() => [
 			{
@@ -106,6 +111,11 @@ export default function TimePage() {
 				cell: ({ row }) =>
 					format(new Date(`${row.original.date}T00:00:00`), "dd MMM yyyy", { locale: fr }),
 				enableSorting: true,
+			},
+			{
+				id: "project",
+				header: "Projet",
+				cell: ({ row }) => projectMap.get(row.original.projectId) ?? "—",
 			},
 			{
 				accessorKey: "description",
