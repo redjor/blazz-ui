@@ -12,8 +12,12 @@ export default function LoginPage() {
 	const { isAuthenticated, isLoading } = useConvexAuth()
 	const router = useRouter()
 
+	console.log("[LoginPage]", { isLoading, isAuthenticated, convexUrl: process.env.NEXT_PUBLIC_CONVEX_URL })
+
 	useEffect(() => {
+		console.log("[LoginPage] effect", { isLoading, isAuthenticated })
 		if (!isLoading && isAuthenticated) {
+			console.log("[LoginPage] → redirect /")
 			router.replace("/")
 		}
 	}, [isAuthenticated, isLoading, router])
@@ -33,7 +37,7 @@ export default function LoginPage() {
 					variant="outline"
 					size="lg"
 					className="gap-3 px-6"
-					onClick={() => void signIn("google", { redirectTo: "/" })}
+					onClick={() => void signIn("google")}
 				>
 					<svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
 						<path
