@@ -21,6 +21,7 @@ import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
+import Image from "next/image"
 
 interface Props {
 	params: Promise<{ id: string }>
@@ -98,7 +99,7 @@ export default function ClientDetailPage({ params }: Props) {
 				<div className="flex items-start gap-4">
 					<div className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
 						{client.logoUrl ? (
-							<img src={client.logoUrl} alt={client.name} className="size-full object-contain" />
+							<Image src={client.logoUrl} alt={client.name} className="size-full object-contain" width={40} height={40} />
 						) : (
 							<span className="text-lg font-semibold text-fg-muted">
 								{client.name.slice(0, 2).toUpperCase()}

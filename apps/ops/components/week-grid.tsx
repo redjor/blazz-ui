@@ -7,6 +7,26 @@ import { X } from "lucide-react"
 import { formatMinutes } from "@/lib/format"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { cn } from "@blazz/ui/lib/utils"
+import { getEffectiveStatus, type EntryStatus } from "@/lib/time-entry-status"
+
+const STATUS_PRIORITY: EntryStatus[] = ["paid", "invoiced", "ready_to_invoice", "draft"]
+
+const CELL_STYLES: Record<EntryStatus, string> = {
+  draft: "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30",
+  ready_to_invoice: "bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 border border-amber-500/30",
+  invoiced: "bg-blue-500/15 text-blue-600 dark:text-blue-400 hover:bg-blue-500/25 border border-blue-500/30",
+  paid: "bg-green-500/15 text-green-600 dark:text-green-400 hover:bg-green-500/25 border border-green-500/30",
+}
+
+function getDominantCellStatus(entries: TimeEntry[]): EntryStatus {
+  const statuses = new Set(
+    entries.map(e => getEffectiveStatus(e)).filter((s): s is EntryStatus => s !== null)
+  )
+  for (const status of STATUS_PRIORITY) {
+    if (statuses.has(status)) return status
+  }
+  return "draft"
+}
 
 type TimeEntry = Doc<"timeEntries">
 type Project = Doc<"projects">
@@ -145,7 +165,7 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick, onCellDele
                               "w-full h-10 rounded-md text-xs font-mono transition-colors",
                               isWeekend(day) && "opacity-50",
                               hasEntries
-                                ? "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30"
+                                ? CELL_STYLES[getDominantCellStatus(dayEntries)]
                                 : "bg-raised border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
                             )}
                           >

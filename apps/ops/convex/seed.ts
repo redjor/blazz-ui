@@ -223,7 +223,7 @@ export const run = mutation({
 		const paidTs = now - 60 * 86400_000
 
 		// Acme — Dashboard Analytics
-		// janv 06-15 : facturés (status invoiced + invoicedAt)
+		// janv 06-15 : payés (status paid + invoicedAt) — facture janvier encaissée
 		// janv 20-22 : prêts à facturer (status ready_to_invoice)
 		// fév 03-17 : prêts à facturer (status ready_to_invoice)
 		// fév 24-25 : brouillons récents (status draft)
@@ -235,8 +235,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Setup projet, architecture Next.js",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
@@ -245,8 +245,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Composants DataGrid + filtres",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
@@ -255,8 +255,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Intégration Recharts",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
@@ -265,8 +265,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Auth + middleware",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
@@ -275,8 +275,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Dark mode + tokens CSS",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
@@ -285,8 +285,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Page KPIs + exports CSV",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
@@ -295,8 +295,8 @@ export const run = mutation({
 				hourlyRate: 100,
 				description: "Tests unitaires composants",
 				billable: true,
-				invoicedAt: invoicedTs,
-				status: "invoiced",
+				invoicedAt: paidTs,
+				status: "paid",
 			},
 			{
 				projectId: acmeDashboardId,
