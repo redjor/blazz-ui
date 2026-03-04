@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "incremental": false,
     "jsx": "react-jsx",
     "paths": {
       "@blazz/ui": ["../ui/src"],
