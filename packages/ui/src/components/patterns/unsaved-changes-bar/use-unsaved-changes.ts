@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { useUnsavedChangesContext } from "./context"
 
 export interface UseUnsavedChangesOptions {
@@ -56,6 +56,14 @@ export function useUnsavedChanges({
 }: UseUnsavedChangesOptions): UseUnsavedChangesReturn {
 	const { dispatch } = useUnsavedChangesContext()
 
+	// Store callbacks in refs so changes don't re-trigger the registration effect
+	const onSaveRef = useRef(onSave)
+	const onDiscardRef = useRef(onDiscard)
+	useEffect(() => {
+		onSaveRef.current = onSave
+		onDiscardRef.current = onDiscard
+	})
+
 	const allowNextNavigation = useCallback(() => {
 		dispatch({ type: "ALLOW_NAVIGATION" })
 	}, [dispatch])
@@ -63,7 +71,7 @@ export function useUnsavedChanges({
 	useEffect(() => {
 		const wrappedDiscard = () => {
 			dispatch({ type: "ALLOW_NAVIGATION" })
-			onDiscard()
+			onDiscardRef.current()
 		}
 
 		dispatch({
@@ -72,7 +80,7 @@ export function useUnsavedChanges({
 				formId,
 				isDirty,
 				message,
-				onSave,
+				onSave: () => onSaveRef.current(),
 				onDiscard: wrappedDiscard,
 				saveLabel,
 				discardLabel,
@@ -90,8 +98,7 @@ export function useUnsavedChanges({
 		message,
 		saveLabel,
 		discardLabel,
-		onSave,
-		onDiscard,
+		// onSave et onDiscard intentionnellement absents — gérés via refs
 		dispatch,
 	])
 

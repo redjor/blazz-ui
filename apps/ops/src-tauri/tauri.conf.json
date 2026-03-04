@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "identifier": "dev.blazz.ops",
   "build": {
-    "frontendDist": "../out"
+    "frontendDist": "../out",
+    "devUrl": "http://localhost:3120"
   },
   "app": {
     "windows": [
