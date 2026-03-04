@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Sheet, SheetContent } from '@blazz/ui/components/ui/sheet';
 import type { QuickAccountSelectorProps } from '../types';
 import { QuickAccountSheet } from './quick-account-sheet';
 
@@ -10,6 +11,7 @@ export function QuickAccountSelector({
   forceShow = false,
   position = 'top-right',
   sheetSide = 'right',
+  triggerClassName,
 }: QuickAccountSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
@@ -20,7 +22,6 @@ export function QuickAccountSelector({
     setIsMac(/Mac|iPhone/.test(navigator.userAgent));
   }, []);
 
-  // Keyboard shortcut: Ctrl+Shift+L (or Cmd+Shift+L on Mac)
   useEffect(() => {
     if (!shouldShow) return;
 
@@ -35,9 +36,7 @@ export function QuickAccountSelector({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [shouldShow]);
 
-  if (!shouldShow) {
-    return null;
-  }
+  if (!shouldShow) return null;
 
   const positionClasses = {
     'top-right': 'right-4 top-4',
@@ -50,25 +49,29 @@ export function QuickAccountSelector({
 
   return (
     <>
-      <div className={`fixed z-50 ${positionClasses[position]}`}>
+      <div className={triggerClassName ?? `fixed z-50 ${positionClasses[position]}`}>
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="rounded-full bg-black px-3 py-1.5 text-xs font-medium text-white shadow-lg transition-colors hover:bg-black/80 flex items-center gap-2"
-          aria-label="Ouvrir la selection de comptes de test"
+          className="flex items-center gap-2 rounded-full bg-black px-3 py-1.5 text-xs font-medium text-white shadow-lg transition-colors hover:bg-black/80"
+          aria-label="Ouvrir la sélection de comptes de test"
         >
-          <span>Comptes de test</span>
-          <kbd className="text-[10px] text-white/50 font-mono">{shortcutHint}</kbd>
+          Comptes de test
+          <kbd className="font-mono text-[10px] text-white/50">{shortcutHint}</kbd>
         </button>
       </div>
 
-      <QuickAccountSheet
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        accounts={accounts}
-        onAccountSelect={onAccountSelect}
-        side={sheetSide}
-      />
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent side={sheetSide} size="sm">
+          <QuickAccountSheet
+            accounts={accounts}
+            onAccountSelect={(username, password) => {
+              onAccountSelect(username, password);
+              setIsOpen(false);
+            }}
+          />
+        </SheetContent>
+      </Sheet>
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 @source "../**/*.{ts,tsx}";
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
+@source "../../../../packages/quick-login/src/**/*.{ts,tsx}";
 @source "../../node_modules/streamdown/dist/*.js";
 @custom-variant dark (&:is(.dark *));
 

@@ -8,7 +8,9 @@
     "paths": {
       "~/*": ["./src/*"],
       "@blazz/ui": ["../../packages/ui/src"],
-      "@blazz/ui/*": ["../../packages/ui/src/*"]
+      "@blazz/ui/*": ["../../packages/ui/src/*"],
+      "@blazz/quick-login": ["../../packages/quick-login/src"],
+      "@blazz/quick-login/*": ["../../packages/quick-login/src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "scripts/**/*.ts"],

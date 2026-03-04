@@ -1,35 +1,22 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { Input } from '@blazz/ui/components/ui/input';
+import { SheetHeader, SheetTitle } from '@blazz/ui/components/ui/sheet';
 import type { TestAccount } from '../types';
-import { Sheet } from './primitives/sheet';
 import { QuickAccountListItem } from './quick-account-list-item';
 
 interface QuickAccountSheetProps {
-  open: boolean;
-  onClose: () => void;
   accounts: TestAccount[];
   onAccountSelect: (username: string, password: string) => void;
-  side?: 'left' | 'right';
 }
 
-const GROUP_STYLES: Record<string, { header: string; avatar: string }> = {
-  Admin: {
-    header: 'bg-red-50 text-red-700 border-red-200',
-    avatar: 'bg-red-500',
-  },
-  Global: {
-    header: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-    avatar: 'bg-indigo-500',
-  },
-  Magasins: {
-    header: 'bg-green-50 text-green-700 border-green-200',
-    avatar: 'bg-emerald-500',
-  },
+/** Color scheme per group — header only, avatars use @blazz/ui defaults */
+const GROUP_STYLES: Record<string, string> = {
+  Admin: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
+  Global: 'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20',
+  Magasins: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
 };
 
-const DEFAULT_GROUP_STYLE = {
-  header: 'bg-gray-50 text-gray-700 border-gray-200',
-  avatar: 'bg-gray-500',
-};
+const DEFAULT_GROUP_HEADER = 'bg-surface text-fg-muted border-separator';
 
 interface GroupData {
   name: string;
@@ -45,13 +32,9 @@ function buildGroups(accounts: TestAccount[]): GroupData[] {
     const group = account.group || 'Autres';
     const subgroup = account.subgroup || '';
 
-    if (!groupMap.has(group)) {
-      groupMap.set(group, new Map());
-    }
+    if (!groupMap.has(group)) groupMap.set(group, new Map());
     const subs = groupMap.get(group) as Map<string, TestAccount[]>;
-    if (!subs.has(subgroup)) {
-      subs.set(subgroup, []);
-    }
+    if (!subs.has(subgroup)) subs.set(subgroup, []);
     (subs.get(subgroup) as TestAccount[]).push(account);
   }
 
@@ -77,113 +60,67 @@ function filterAccounts(accounts: TestAccount[], query: string): TestAccount[] {
   );
 }
 
-export function QuickAccountSheet({
-  open,
-  onClose,
-  accounts,
-  onAccountSelect,
-  side = 'right',
-}: QuickAccountSheetProps) {
+export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountSheetProps) {
   const [search, setSearch] = useState('');
   const searchRef = useRef<HTMLInputElement>(null);
 
-  // Focus search input when sheet opens
+  // Focus search on open (sheet remounts on each open)
   useEffect(() => {
-    if (open) {
-      const timer = setTimeout(() => searchRef.current?.focus(), 100);
-      return () => clearTimeout(timer);
-    }
-    setSearch('');
-  }, [open]);
+    const timer = setTimeout(() => searchRef.current?.focus(), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filtered = filterAccounts(accounts, search);
   const groups = buildGroups(filtered);
   const totalCount = accounts.filter((a) => a.username !== '').length;
 
-  const handleSelect = (account: TestAccount) => {
-    onAccountSelect(account.username, account.password);
-    onClose();
-  };
-
   return (
-    <Sheet open={open} onClose={onClose} side={side}>
-      {/* Header */}
-      <div className="sticky top-0 bg-white border-b border-gray-200 z-10 flex-shrink-0">
-        <div className="px-4 py-3 flex items-center justify-between">
-          <h2 id="sheet-title" className="text-lg font-semibold text-gray-900">
-            Comptes de test
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-100"
-            aria-label="Fermer"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              role="img"
-            >
-              <title>Fermer</title>
-              <path d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+    <>
+      {/* Header — SheetHeader includes built-in close button */}
+      <SheetHeader className="gap-2.5">
+        <SheetTitle>Comptes de test</SheetTitle>
+        <Input
+          ref={searchRef}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Rechercher..."
+          className="h-7 text-xs"
+        />
+      </SheetHeader>
 
-        {/* Search */}
-        <div className="px-4 pb-3">
-          <input
-            ref={searchRef}
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher un compte..."
-            className="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400"
-          />
-        </div>
-      </div>
-
-      {/* Liste scrollable groupee */}
-      <div className="overflow-y-auto flex-1">
+      {/* Scrollable list */}
+      <div className="flex-1 overflow-y-auto min-h-0">
         {groups.length === 0 && (
-          <div className="px-4 py-8 text-center text-sm text-gray-400">
-            Aucun compte ne correspond a &quot;{search}&quot;
-          </div>
+          <p className="px-4 py-8 text-center text-xs text-fg-muted">
+            Aucun résultat pour «&nbsp;{search}&nbsp;»
+          </p>
         )}
 
         {groups.map((group) => {
-          const style = GROUP_STYLES[group.name] || DEFAULT_GROUP_STYLE;
+          const headerClass = GROUP_STYLES[group.name] ?? DEFAULT_GROUP_HEADER;
 
           return (
             <div key={group.name}>
               {/* Group header */}
               <div
-                className={`sticky top-0 z-[5] px-4 py-2 border-b text-xs font-semibold uppercase tracking-wider ${style.header}`}
+                className={`sticky top-0 z-[5] px-3 py-1.5 border-b text-[11px] font-semibold uppercase tracking-wider ${headerClass}`}
               >
                 {group.name}
-                <span className="ml-1.5 font-normal opacity-70">({group.totalCount})</span>
+                <span className="ml-1 font-normal opacity-60">({group.totalCount})</span>
               </div>
 
               {group.subgroups.map((subgroup) => (
                 <Fragment key={subgroup.name || '__default'}>
-                  {/* Subgroup header */}
                   {subgroup.name && (
-                    <div className="px-4 py-1.5 text-[11px] font-medium text-gray-400 uppercase tracking-wider border-b border-gray-50 bg-white">
+                    <div className="bg-surface border-b border-separator/50 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-fg-muted">
                       {subgroup.name}
                     </div>
                   )}
-
                   {subgroup.accounts.map((account) => (
                     <QuickAccountListItem
                       key={account.username}
                       account={account}
-                      onSelect={() => handleSelect(account)}
-                      avatarColor={style.avatar}
+                      onSelect={() => onAccountSelect(account.username, account.password)}
                     />
                   ))}
                 </Fragment>
@@ -194,13 +131,13 @@ export function QuickAccountSheet({
       </div>
 
       {/* Footer */}
-      <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-4 py-2.5 flex-shrink-0">
-        <p className="text-xs text-gray-500 text-center">
+      <div className="flex-shrink-0 border-t border-separator bg-raised px-4 py-2">
+        <p className="text-center text-[11px] text-fg-muted tabular-nums">
           {search ? `${filtered.length} / ${totalCount} comptes` : `${totalCount} comptes`}
           {' · '}
-          <span className="text-gray-400">Clic = connexion directe</span>
+          <span className="text-fg-muted/70">clic = connexion</span>
         </p>
       </div>
-    </Sheet>
+    </>
   );
 }

@@ -2,11 +2,15 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
+    "paths": {
+      "@blazz/ui": ["../ui/src"],
+      "@blazz/ui/*": ["../ui/src/*"]
+    },
     "declaration": true,
     "outDir": "./dist",
-    "rootDir": "./src",
     "declarationMap": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

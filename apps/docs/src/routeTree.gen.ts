@@ -16,6 +16,7 @@ import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
 import { Route as DocsDocsSandboxRouteImport } from './routes/_docs/docs/sandbox'
 import { Route as DocsDocsComponentsIndexRouteImport } from './routes/_docs/docs/components/index'
 import { Route as DocsDocsUtilsUnsavedChangesBarRouteImport } from './routes/_docs/docs/utils/unsaved-changes-bar'
+import { Route as DocsDocsUtilsQuickLoginRouteImport } from './routes/_docs/docs/utils/quick-login'
 import { Route as DocsDocsComponentsTypographyRouteImport } from './routes/_docs/docs/components/typography'
 import { Route as DocsDocsComponentsOverlaysRouteImport } from './routes/_docs/docs/components/overlays'
 import { Route as DocsDocsComponentsNavigationRouteImport } from './routes/_docs/docs/components/navigation'
@@ -223,6 +224,11 @@ const DocsDocsUtilsUnsavedChangesBarRoute =
     path: '/docs/utils/unsaved-changes-bar',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsUtilsQuickLoginRoute = DocsDocsUtilsQuickLoginRouteImport.update({
+  id: '/docs/utils/quick-login',
+  path: '/docs/utils/quick-login',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsComponentsTypographyRoute =
   DocsDocsComponentsTypographyRouteImport.update({
     id: '/docs/components/typography',
@@ -1262,6 +1268,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/navigation': typeof DocsDocsComponentsNavigationRoute
   '/docs/components/overlays': typeof DocsDocsComponentsOverlaysRoute
   '/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
+  '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/docs/components/': typeof DocsDocsComponentsIndexRoute
   '/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
@@ -1441,6 +1448,7 @@ export interface FileRoutesByTo {
   '/docs/components/navigation': typeof DocsDocsComponentsNavigationRoute
   '/docs/components/overlays': typeof DocsDocsComponentsOverlaysRoute
   '/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
+  '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/docs/components': typeof DocsDocsComponentsIndexRoute
   '/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
@@ -1622,6 +1630,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/navigation': typeof DocsDocsComponentsNavigationRoute
   '/_docs/docs/components/overlays': typeof DocsDocsComponentsOverlaysRoute
   '/_docs/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
+  '/_docs/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/_docs/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/_docs/docs/components/': typeof DocsDocsComponentsIndexRoute
   '/_docs/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
@@ -1803,6 +1812,7 @@ export interface FileRouteTypes {
     | '/docs/components/navigation'
     | '/docs/components/overlays'
     | '/docs/components/typography'
+    | '/docs/utils/quick-login'
     | '/docs/utils/unsaved-changes-bar'
     | '/docs/components/'
     | '/docs/components/ai/chain-of-thought'
@@ -1982,6 +1992,7 @@ export interface FileRouteTypes {
     | '/docs/components/navigation'
     | '/docs/components/overlays'
     | '/docs/components/typography'
+    | '/docs/utils/quick-login'
     | '/docs/utils/unsaved-changes-bar'
     | '/docs/components'
     | '/docs/components/ai/chain-of-thought'
@@ -2162,6 +2173,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/navigation'
     | '/_docs/docs/components/overlays'
     | '/_docs/docs/components/typography'
+    | '/_docs/docs/utils/quick-login'
     | '/_docs/docs/utils/unsaved-changes-bar'
     | '/_docs/docs/components/'
     | '/_docs/docs/components/ai/chain-of-thought'
@@ -2384,6 +2396,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/utils/unsaved-changes-bar'
       fullPath: '/docs/utils/unsaved-changes-bar'
       preLoaderRoute: typeof DocsDocsUtilsUnsavedChangesBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/utils/quick-login': {
+      id: '/_docs/docs/utils/quick-login'
+      path: '/docs/utils/quick-login'
+      fullPath: '/docs/utils/quick-login'
+      preLoaderRoute: typeof DocsDocsUtilsQuickLoginRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/typography': {
@@ -3596,6 +3615,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsNavigationRoute: typeof DocsDocsComponentsNavigationRoute
   DocsDocsComponentsOverlaysRoute: typeof DocsDocsComponentsOverlaysRoute
   DocsDocsComponentsTypographyRoute: typeof DocsDocsComponentsTypographyRoute
+  DocsDocsUtilsQuickLoginRoute: typeof DocsDocsUtilsQuickLoginRoute
   DocsDocsUtilsUnsavedChangesBarRoute: typeof DocsDocsUtilsUnsavedChangesBarRoute
   DocsDocsComponentsIndexRoute: typeof DocsDocsComponentsIndexRoute
   DocsDocsComponentsAiChainOfThoughtRoute: typeof DocsDocsComponentsAiChainOfThoughtRoute
@@ -3773,6 +3793,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsNavigationRoute: DocsDocsComponentsNavigationRoute,
   DocsDocsComponentsOverlaysRoute: DocsDocsComponentsOverlaysRoute,
   DocsDocsComponentsTypographyRoute: DocsDocsComponentsTypographyRoute,
+  DocsDocsUtilsQuickLoginRoute: DocsDocsUtilsQuickLoginRoute,
   DocsDocsUtilsUnsavedChangesBarRoute: DocsDocsUtilsUnsavedChangesBarRoute,
   DocsDocsComponentsIndexRoute: DocsDocsComponentsIndexRoute,
   DocsDocsComponentsAiChainOfThoughtRoute:
