@@ -290,7 +290,7 @@ export default function RecapPage() {
 												{formatMinutes(entry.minutes)}
 											</td>
 											<td className="p-3 text-right text-fg-muted tabular-nums">
-												{entry.hourlyRate}€/h
+												{Math.round(entry.hourlyRate)}€/h
 											</td>
 											<td className="p-3 text-right font-medium text-fg tabular-nums">
 												{formatCurrency((entry.minutes / 60) * entry.hourlyRate)}

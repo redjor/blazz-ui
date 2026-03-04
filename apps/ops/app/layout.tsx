@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Providers } from "./providers"
-import { OpsFrame } from "@/components/ops-frame"
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -17,9 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<ConvexAuthNextjsServerProvider>
 			<html lang="fr" suppressHydrationWarning>
 				<body className={`${inter.className} antialiased`}>
-					<Providers>
-						<OpsFrame>{children}</OpsFrame>
-					</Providers>
+					<Providers>{children}</Providers>
 				</body>
 			</html>
 		</ConvexAuthNextjsServerProvider>

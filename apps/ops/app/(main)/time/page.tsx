@@ -87,7 +87,7 @@ export default function TimePage() {
 			{
 				accessorKey: "hourlyRate",
 				header: "Taux",
-				cell: ({ row }) => <span className="tabular-nums">{row.original.hourlyRate}€/h</span>,
+				cell: ({ row }) => <span className="tabular-nums">{Math.round(row.original.hourlyRate)}€/h</span>,
 				enableSorting: true,
 			},
 			{
