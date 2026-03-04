@@ -1,11 +1,10 @@
 import { OpsFrame } from "@/components/ops-frame"
-import { isAuthenticatedNextjs } from "@convex-dev/auth/nextjs/server"
-import { redirect } from "next/navigation"
+import { AuthGuard } from "./auth-guard"
 
-export default async function MainLayout({ children }: { children: React.ReactNode }) {
-	const authenticated = await isAuthenticatedNextjs()
-	if (!authenticated) {
-		redirect("/login")
-	}
-	return <OpsFrame>{children}</OpsFrame>
+export default function MainLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<AuthGuard>
+			<OpsFrame>{children}</OpsFrame>
+		</AuthGuard>
+	)
 }
