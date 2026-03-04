@@ -111,6 +111,9 @@ export * from "./components/blocks/status-flow"
 // ── Patterns ───────────────────────────────────
 export * from "./components/patterns"
 
+// ── Utils ───────────────────────────────────────
+export * from "./components/patterns/unsaved-changes-bar"
+
 // ── Hooks ──────────────────────────────────────
 export * from "./hooks/use-block-navigation"
 export * from "./hooks/use-command-palette"

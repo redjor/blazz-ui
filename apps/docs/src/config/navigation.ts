@@ -10,6 +10,7 @@ import {
 	FormInput,
 	Layers,
 	Layers2,
+	Save,
 	LayoutGrid,
 	ListChecks,
 	MessageCircle,
@@ -1084,6 +1085,32 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Video Card",
 							url: "/docs/components/ai/content/video-card",
 							keywords: ["player", "youtube", "video preview", "media"],
+						},
+					],
+				},
+			],
+		},
+		{
+			id: "utils",
+			title: "Utils",
+			items: [
+				{
+					id: "utils-forms",
+					title: "Forms",
+					url: "/docs/utils/unsaved-changes-bar",
+					icon: Save,
+					items: [
+						{
+							title: "Unsaved Changes Bar",
+							url: "/docs/utils/unsaved-changes-bar",
+							keywords: [
+								"unsaved",
+								"dirty",
+								"form guard",
+								"navigation guard",
+								"save prompt",
+								"discard",
+							],
 						},
 					],
 				},
