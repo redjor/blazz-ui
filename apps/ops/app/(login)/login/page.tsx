@@ -2,17 +2,21 @@
 
 import { useAuthActions } from "@convex-dev/auth/react"
 import { Button } from "@blazz/ui/components/ui/button"
+import Image from "next/image"
 
 export default function LoginPage() {
 	const { signIn } = useAuthActions()
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-surface">
-			<div className="flex flex-col items-center gap-8">
-				<div className="text-center space-y-1">
-					<h1 className="text-2xl font-semibold text-fg">Blazz Ops</h1>
-					<p className="text-sm text-fg-muted">Freelance time tracking & billing</p>
-				</div>
+			<div className="flex flex-col items-center gap-10">
+				<Image
+					src="/logo_blazz_white.svg"
+					alt="Blazz Ops"
+					width={120}
+					height={34}
+					priority
+				/>
 				<Button
 					type="button"
 					variant="outline"
