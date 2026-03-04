@@ -21,6 +21,7 @@ export interface UserMenuUser {
 
 export interface UserMenuProps {
 	user?: UserMenuUser
+	badge?: string
 	onProfile?: () => void
 	onSettings?: () => void
 	onLogout?: () => void
@@ -36,9 +37,9 @@ function getUserInitials(name: string): string {
 		.slice(0, 2)
 }
 
-export function UserMenu({ user, onProfile, onSettings, onLogout, className }: UserMenuProps) {
+export function UserMenu({ user, badge, onProfile, onSettings, onLogout, className }: UserMenuProps) {
 	const displayName = user?.name ?? "Jean Dupont"
-	const displayRole = user?.role ?? "Administrateur"
+	const displayRole = user?.role
 	const initials = getUserInitials(displayName)
 
 	const hasActions = onProfile || onSettings
@@ -47,7 +48,12 @@ export function UserMenu({ user, onProfile, onSettings, onLogout, className }: U
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger
-				className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-raised focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+				render={
+					<button
+						type="button"
+						className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-raised focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+					/>
+				}
 			>
 				<Avatar>
 					<AvatarImage src={user?.avatar} alt={displayName} />
@@ -56,9 +62,9 @@ export function UserMenu({ user, onProfile, onSettings, onLogout, className }: U
 				<div className="flex flex-col text-left">
 					<div className="flex items-center gap-1.5">
 						<span className="text-sm font-semibold text-fg">{displayName}</span>
-						<Badge variant="default" size="xs">Pro</Badge>
+						{badge && <Badge variant="default" size="xs">{badge}</Badge>}
 					</div>
-					<span className="text-xs text-fg-muted">{displayRole}</span>
+					{displayRole && <span className="text-xs text-fg-muted">{displayRole}</span>}
 				</div>
 				<ChevronDown className="size-3.5 shrink-0 text-fg-muted" />
 			</DropdownMenuTrigger>
@@ -105,7 +111,7 @@ export function UserMenu({ user, onProfile, onSettings, onLogout, className }: U
 						<DropdownMenuGroup>
 							<DropdownMenuItem
 								onClick={onLogout}
-								className="text-negative focus:text-negative"
+								variant="destructive"
 							>
 								<LogOut className="mr-2 size-4" />
 								Se déconnecter
