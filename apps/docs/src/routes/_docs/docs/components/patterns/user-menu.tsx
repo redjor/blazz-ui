@@ -32,15 +32,13 @@ const mockUserWithAvatar = {
 const examples = [
 	{
 		key: "basic",
-		code: `<UserMenu
+		code: `// wire callbacks to your router and auth provider
+<UserMenu
   user={{ name: "Sophie Martin", email: "sophie@acme.com", role: "Administratrice" }}
   badge="Pro"
-  onProfile={() => router.push("/settings/profile")}
-  onSettings={() => router.push("/settings")}
-  onLogout={async () => {
-    await signOut()
-    router.push("/login")
-  }}
+  onProfile={() => navigate("/settings/profile")}
+  onSettings={() => navigate("/settings")}
+  onLogout={signOut}
 />`,
 	},
 	{
@@ -48,7 +46,7 @@ const examples = [
 		code: `// Only show Profile — no Settings, no Logout
 <UserMenu
   user={{ name: "Sophie Martin", role: "Viewer" }}
-  onProfile={() => router.push("/profile")}
+  onProfile={() => navigate("/profile")}
 />`,
 	},
 	{
@@ -60,8 +58,8 @@ const examples = [
     avatar: "https://cdn.acme.com/avatars/alex.jpg",
   }}
   badge="Pro"
-  onProfile={() => router.push("/profile")}
-  onSettings={() => router.push("/settings")}
+  onProfile={() => navigate("/profile")}
+  onSettings={() => navigate("/settings")}
   onLogout={signOut}
 />`,
 	},
@@ -108,7 +106,7 @@ const userMenuProps: DocProp[] = [
 	},
 	{
 		name: "onLogout",
-		type: "() => void",
+		type: "() => void | Promise<void>",
 		description: 'Shows "Se déconnecter" action when provided. Rendered in destructive style.',
 	},
 	{
@@ -128,7 +126,7 @@ const userMenuUserProps: DocProp[] = [
 	{
 		name: "email",
 		type: "string",
-		description: "User email. Available for consumer use.",
+		description: "Email shown in the dropdown header below the role when provided.",
 	},
 	{
 		name: "avatar",

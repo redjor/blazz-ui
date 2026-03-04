@@ -24,7 +24,7 @@ export interface UserMenuProps {
 	badge?: string
 	onProfile?: () => void
 	onSettings?: () => void
-	onLogout?: () => void
+	onLogout?: () => void | Promise<void>
 	className?: string
 }
 
@@ -81,6 +81,9 @@ export function UserMenu({ user, badge, onProfile, onSettings, onLogout, classNa
 						<span className="truncate text-sm font-semibold text-fg">{displayName}</span>
 						{displayRole && (
 							<span className="truncate text-xs text-fg-muted font-medium">{displayRole}</span>
+						)}
+						{user?.email && (
+							<span className="truncate text-xs text-fg-muted">{user.email}</span>
 						)}
 					</div>
 				</div>
