@@ -7,7 +7,13 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
 import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -115,7 +121,9 @@ export default function TimePage() {
 			{
 				accessorKey: "hourlyRate",
 				header: "Taux",
-				cell: ({ row }) => <span className="tabular-nums">{Math.round(row.original.hourlyRate)}€/h</span>,
+				cell: ({ row }) => (
+					<span className="tabular-nums">{Math.round(row.original.hourlyRate)}€/h</span>
+				),
 				enableSorting: true,
 			},
 			{
@@ -172,7 +180,8 @@ export default function TimePage() {
 			{
 				id: "mark-invoiced",
 				label: "Marquer facturé",
-				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("invoiced"),
+				hidden: (row) =>
+					!getAllowedTransitions(getEffectiveStatus(row.original)).includes("invoiced"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "invoiced" })
@@ -255,7 +264,7 @@ export default function TimePage() {
 
 	return (
 		<>
-		<div className="p-6 space-y-6">
+			<div className="p-6 space-y-6">
 				<PageHeader
 					title="Saisie des heures"
 					actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
@@ -416,9 +425,7 @@ export default function TimePage() {
 							{/* Billable filter */}
 							<Select
 								value={filterBillable === undefined ? "" : filterBillable ? "true" : "false"}
-								onValueChange={(val) =>
-									setFilterBillable(val === "" ? undefined : val === "true")
-								}
+								onValueChange={(val) => setFilterBillable(val === "" ? undefined : val === "true")}
 								items={[
 									{ value: "", label: "Facturable / Non" },
 									{ value: "true", label: "Facturable" },
@@ -481,7 +488,8 @@ export default function TimePage() {
 						{paginationStatus !== "LoadingFirstPage" && (
 							<div className="flex items-center justify-between pt-1 text-sm text-muted-fg">
 								<span>
-									{(allEntries ?? []).length} entrée{(allEntries ?? []).length !== 1 ? "s" : ""} affichée{(allEntries ?? []).length !== 1 ? "s" : ""}
+									{(allEntries ?? []).length} entrée{(allEntries ?? []).length !== 1 ? "s" : ""}{" "}
+									affichée{(allEntries ?? []).length !== 1 ? "s" : ""}
 								</span>
 								{paginationStatus === "CanLoadMore" && (
 									<Button
