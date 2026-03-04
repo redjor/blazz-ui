@@ -174,20 +174,27 @@ export const listPaginated = query({
 		paginationOpts: paginationOptsValidator,
 	},
 	handler: async (ctx, { projectId, status, billable, from, to, paginationOpts }) => {
-		const q = ctx.db.query("timeEntries").withIndex("by_date").order("desc")
+		const baseQuery = ctx.db.query("timeEntries").withIndex("by_date").order("desc")
 
-		return q
-			.filter((q) => {
-				const conditions: ReturnType<typeof q.eq>[] = []
-				if (projectId !== undefined) conditions.push(q.eq(q.field("projectId"), projectId))
-				if (status !== undefined) conditions.push(q.eq(q.field("status"), status))
-				if (billable !== undefined) conditions.push(q.eq(q.field("billable"), billable))
-				if (from !== undefined) conditions.push(q.gte(q.field("date"), from))
-				if (to !== undefined) conditions.push(q.lte(q.field("date"), to))
-				return conditions.length > 0
-					? conditions.reduce((acc, cond) => q.and(acc, cond))
-					: q.gt(q.field("_creationTime"), -1)
-			})
-			.paginate(paginationOpts)
+		const hasFilters =
+			projectId !== undefined ||
+			status !== undefined ||
+			billable !== undefined ||
+			from !== undefined ||
+			to !== undefined
+
+		const filtered = hasFilters
+			? baseQuery.filter((q) => {
+					const conditions = []
+					if (projectId !== undefined) conditions.push(q.eq(q.field("projectId"), projectId))
+					if (status !== undefined) conditions.push(q.eq(q.field("status"), status))
+					if (billable !== undefined) conditions.push(q.eq(q.field("billable"), billable))
+					if (from !== undefined) conditions.push(q.gte(q.field("date"), from))
+					if (to !== undefined) conditions.push(q.lte(q.field("date"), to))
+					return conditions.reduce((acc, cond) => q.and(acc, cond))
+				})
+			: baseQuery
+
+		return filtered.paginate(paginationOpts)
 	},
 })
