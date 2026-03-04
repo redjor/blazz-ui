@@ -6,7 +6,7 @@ import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { useMutation, useQuery } from "convex/react"
+import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
 import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
 import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react"
@@ -42,8 +42,34 @@ export default function TimePage() {
 		view === "week" ? { from: weekFrom, to: weekTo } : "skip"
 	)
 	const activeProjects = useQuery(api.projects.listActive)
+	const allProjects = useQuery(api.projects.listAll)
 
-	const allEntries = useQuery(api.timeEntries.list, view === "list" ? {} : "skip")
+	// Filter state for list view
+	const [filterProjectId, setFilterProjectId] = useState<Id<"projects"> | undefined>(undefined)
+	const [filterStatus, setFilterStatus] = useState<
+		"draft" | "ready_to_invoice" | "invoiced" | "paid" | undefined
+	>(undefined)
+	const [filterBillable, setFilterBillable] = useState<boolean | undefined>(undefined)
+	const [filterFrom, setFilterFrom] = useState<string | undefined>(undefined)
+	const [filterTo, setFilterTo] = useState<string | undefined>(undefined)
+
+	const {
+		results: allEntries,
+		status: paginationStatus,
+		loadMore,
+	} = usePaginatedQuery(
+		api.timeEntries.listPaginated,
+		view === "list"
+			? {
+					projectId: filterProjectId,
+					status: filterStatus,
+					billable: filterBillable,
+					from: filterFrom,
+					to: filterTo,
+				}
+			: "skip",
+		{ initialNumItems: 25 }
+	)
 
 	const remove = useMutation(api.timeEntries.remove)
 	const setStatus = useMutation(api.timeEntries.setStatus)
