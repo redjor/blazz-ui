@@ -2,10 +2,21 @@
 
 import { useAuthActions } from "@convex-dev/auth/react"
 import { Button } from "@blazz/ui/components/ui/button"
+import { useConvexAuth } from "convex/react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 export default function LoginPage() {
 	const { signIn } = useAuthActions()
+	const { isAuthenticated, isLoading } = useConvexAuth()
+	const router = useRouter()
+
+	useEffect(() => {
+		if (!isLoading && isAuthenticated) {
+			router.replace("/")
+		}
+	}, [isAuthenticated, isLoading, router])
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-surface">
