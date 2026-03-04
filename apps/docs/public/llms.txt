@@ -529,6 +529,8 @@ Docs: https://blazz.io/docs/components/patterns/app-sidebar
 Sidebar navigable — généralement configuré via AppFrame, rarement utilisé directement.
 
 ⚠️ Prefer AppFrame over AppSidebar directly — AppFrame handles sidebar + top bar + layout
+⚠️ SidebarConfig.navigation is an array of NavigationSection, each with items: NavigationItem[]. Each item needs `title` + `url` or `onClick`.
+⚠️ NavigationItem.icon expects a LucideIcon component reference (not JSX) — `icon: HomeIcon`, NOT `icon: <HomeIcon />`
 
 Props: config (SidebarConfig, required)
 
@@ -548,6 +550,8 @@ Docs: https://blazz.io/docs/components/patterns/app-top-bar
 Barre de navigation supérieure — généralement incluse via AppFrame.
 
 ⚠️ Prefer AppFrame over AppTopBar directly — AppFrame includes the top bar
+⚠️ `sections` prop controls top-bar navigation pills: `[{ id: 'app', label: 'App', href: '/app' }]` — each section needs id, label, href
+⚠️ `minimal` prop hides notifications + UserMenu (use for docs/public pages without auth context)
 
 Props: children (React.ReactNode)
 

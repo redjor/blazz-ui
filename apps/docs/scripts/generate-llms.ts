@@ -181,6 +181,25 @@ function generateAiMd(): string {
 
 // ── Main ───────────────────────────────────────────────────────────────────
 
+// ── Validation ─────────────────────────────────────────────────────────────
+
+const warnings: string[] = []
+for (const c of registry) {
+	if (c.gotchas.length === 0) {
+		warnings.push(`  ⚠ ${c.name}: no gotchas (at least one required)`)
+	}
+	if (!c.canonicalExample.trim()) {
+		warnings.push(`  ⚠ ${c.name}: empty canonicalExample`)
+	}
+}
+
+if (warnings.length > 0) {
+	console.warn("Validation warnings:")
+	for (const w of warnings) console.warn(w)
+}
+
+// ── Output ─────────────────────────────────────────────────────────────────
+
 const llmsTxt = generateLlmsTxt()
 const aiMd = generateAiMd()
 

@@ -21,6 +21,8 @@ export const appSidebarData: ComponentData = {
 	],
 	gotchas: [
 		"Prefer AppFrame over AppSidebar directly — AppFrame handles sidebar + top bar + layout",
+		"SidebarConfig.navigation is an array of NavigationSection, each with items: NavigationItem[]. Each item needs `title` + `url` or `onClick`.",
+		"NavigationItem.icon expects a LucideIcon component reference (not JSX) — `icon: HomeIcon`, NOT `icon: <HomeIcon />`",
 	],
 	canonicalExample: `// Use AppFrame instead:
 <AppFrame navigation={navigationSections}>{children}</AppFrame>`,

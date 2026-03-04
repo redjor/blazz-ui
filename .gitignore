@@ -47,6 +47,9 @@ storybook-static
 # claude
 .claude/worktrees/
 
+# generated files (regenerated at build time — do not edit manually)
+packages/ui/AI.md
+
 apps/examples/lib/generated/prisma
 
 .output

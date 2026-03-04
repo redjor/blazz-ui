@@ -17,7 +17,11 @@ export const appTopBarData: ComponentData = {
 			description: "Contenu additionnel dans la top bar.",
 		},
 	],
-	gotchas: ["Prefer AppFrame over AppTopBar directly — AppFrame includes the top bar"],
+	gotchas: [
+		"Prefer AppFrame over AppTopBar directly — AppFrame includes the top bar",
+		"`sections` prop controls top-bar navigation pills: `[{ id: 'app', label: 'App', href: '/app' }]` — each section needs id, label, href",
+		"`minimal` prop hides notifications + UserMenu (use for docs/public pages without auth context)",
+	],
 	canonicalExample: `// Use AppFrame instead:
 <AppFrame topBarContent={<ThemeToggle />}>{children}</AppFrame>`,
 }
