@@ -6,6 +6,8 @@ import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { Input } from "@blazz/ui/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
 import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -235,6 +237,20 @@ export default function TimePage() {
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
 
+	function resetFilters() {
+		setFilterProjectId(undefined)
+		setFilterStatus(undefined)
+		setFilterBillable(undefined)
+		setFilterFrom(undefined)
+		setFilterTo(undefined)
+	}
+	const hasActiveFilters =
+		filterProjectId !== undefined ||
+		filterStatus !== undefined ||
+		filterBillable !== undefined ||
+		filterFrom !== undefined ||
+		filterTo !== undefined
+
 	useOpsTopBar([{ label: "Suivi de temps" }])
 
 	return (
@@ -340,19 +356,153 @@ export default function TimePage() {
 				)}
 
 				{view === "list" && (
-					<DataTable
-						data={allEntries ?? []}
-						columns={columns}
-						rowActions={rowActions}
-						isLoading={allEntries === undefined}
-						enableSorting
-						enableGlobalSearch
-						enablePagination
-						pagination={{ pageSize: 25 }}
-						searchPlaceholder="Rechercher…"
-						locale="fr"
-						defaultSorting={[{ id: "date", desc: true }]}
-					/>
+					<div className="space-y-3">
+						{/* Filter bar */}
+						<div className="flex flex-wrap items-center gap-2">
+							{/* Project filter */}
+							<Select
+								value={filterProjectId ?? ""}
+								onValueChange={(val) =>
+									setFilterProjectId(val === "" ? undefined : (val as Id<"projects">))
+								}
+								items={[
+									{ value: "", label: "Tous les projets" },
+									...(allProjects ?? []).map((p) => ({ value: p._id, label: p.name })),
+								]}
+							>
+								<SelectTrigger className="h-8 w-[180px] text-xs">
+									<SelectValue placeholder="Tous les projets" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="">Tous les projets</SelectItem>
+									{(allProjects ?? []).map((p) => (
+										<SelectItem key={p._id} value={p._id}>
+											{p.name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+
+							{/* Status filter */}
+							<Select
+								value={filterStatus ?? ""}
+								onValueChange={(val) =>
+									setFilterStatus(
+										val === ""
+											? undefined
+											: (val as "draft" | "ready_to_invoice" | "invoiced" | "paid")
+									)
+								}
+								items={[
+									{ value: "", label: "Tous les statuts" },
+									{ value: "draft", label: "Brouillon" },
+									{ value: "ready_to_invoice", label: "Prêt à facturer" },
+									{ value: "invoiced", label: "Facturé" },
+									{ value: "paid", label: "Payé" },
+								]}
+							>
+								<SelectTrigger className="h-8 w-[180px] text-xs">
+									<SelectValue placeholder="Tous les statuts" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="">Tous les statuts</SelectItem>
+									<SelectItem value="draft">Brouillon</SelectItem>
+									<SelectItem value="ready_to_invoice">Prêt à facturer</SelectItem>
+									<SelectItem value="invoiced">Facturé</SelectItem>
+									<SelectItem value="paid">Payé</SelectItem>
+								</SelectContent>
+							</Select>
+
+							{/* Billable filter */}
+							<Select
+								value={filterBillable === undefined ? "" : filterBillable ? "true" : "false"}
+								onValueChange={(val) =>
+									setFilterBillable(val === "" ? undefined : val === "true")
+								}
+								items={[
+									{ value: "", label: "Facturable / Non" },
+									{ value: "true", label: "Facturable" },
+									{ value: "false", label: "Non facturable" },
+								]}
+							>
+								<SelectTrigger className="h-8 w-[160px] text-xs">
+									<SelectValue placeholder="Facturable / Non" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="">Facturable / Non</SelectItem>
+									<SelectItem value="true">Facturable</SelectItem>
+									<SelectItem value="false">Non facturable</SelectItem>
+								</SelectContent>
+							</Select>
+
+							{/* Date range */}
+							<Input
+								type="date"
+								className="h-8 w-[140px] text-xs"
+								value={filterFrom ?? ""}
+								onChange={(e) => setFilterFrom(e.target.value === "" ? undefined : e.target.value)}
+							/>
+							<Input
+								type="date"
+								className="h-8 w-[140px] text-xs"
+								value={filterTo ?? ""}
+								onChange={(e) => setFilterTo(e.target.value === "" ? undefined : e.target.value)}
+							/>
+
+							{/* Reset */}
+							{hasActiveFilters && (
+								<Button
+									type="button"
+									variant="ghost"
+									size="sm"
+									className="h-8 px-2 text-xs text-muted-fg"
+									onClick={resetFilters}
+								>
+									Réinitialiser
+								</Button>
+							)}
+						</div>
+
+						{/* DataTable */}
+						<DataTable
+							data={allEntries ?? []}
+							columns={columns}
+							rowActions={rowActions}
+							isLoading={paginationStatus === "LoadingFirstPage"}
+							enableSorting
+							enableGlobalSearch
+							enablePagination={false}
+							searchPlaceholder="Rechercher…"
+							locale="fr"
+							defaultSorting={[{ id: "date", desc: true }]}
+						/>
+
+						{/* Load more footer */}
+						{paginationStatus !== "LoadingFirstPage" && (
+							<div className="flex items-center justify-between pt-1 text-sm text-muted-fg">
+								<span>
+									{(allEntries ?? []).length} entrée{(allEntries ?? []).length !== 1 ? "s" : ""} affichée{(allEntries ?? []).length !== 1 ? "s" : ""}
+								</span>
+								{paginationStatus === "CanLoadMore" && (
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										className="h-7 px-3 text-xs"
+										onClick={() => loadMore(25)}
+									>
+										Charger 25 de plus
+									</Button>
+								)}
+								{paginationStatus === "Exhausted" && (
+									<span className="text-xs">Toutes les entrées affichées</span>
+								)}
+								{paginationStatus === "LoadingMore" && (
+									<span className="text-xs text-muted-fg">Chargement…</span>
+								)}
+							</div>
+						)}
+					</div>
 				)}
 			</div>
 
