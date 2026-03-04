@@ -1,4 +1,5 @@
 import { v } from "convex/values"
+import { paginationOptsValidator } from "convex/server"
 import { mutation, query } from "./_generated/server"
 
 export const list = query({
@@ -153,5 +154,40 @@ export const setStatus = mutation({
 				await ctx.db.patch(id, patch)
 			})
 		)
+	},
+})
+
+export const listPaginated = query({
+	args: {
+		projectId: v.optional(v.id("projects")),
+		status: v.optional(
+			v.union(
+				v.literal("draft"),
+				v.literal("ready_to_invoice"),
+				v.literal("invoiced"),
+				v.literal("paid")
+			)
+		),
+		billable: v.optional(v.boolean()),
+		from: v.optional(v.string()),
+		to: v.optional(v.string()),
+		paginationOpts: paginationOptsValidator,
+	},
+	handler: async (ctx, { projectId, status, billable, from, to, paginationOpts }) => {
+		const q = ctx.db.query("timeEntries").withIndex("by_date").order("desc")
+
+		return q
+			.filter((q) => {
+				const conditions: ReturnType<typeof q.eq>[] = []
+				if (projectId !== undefined) conditions.push(q.eq(q.field("projectId"), projectId))
+				if (status !== undefined) conditions.push(q.eq(q.field("status"), status))
+				if (billable !== undefined) conditions.push(q.eq(q.field("billable"), billable))
+				if (from !== undefined) conditions.push(q.gte(q.field("date"), from))
+				if (to !== undefined) conditions.push(q.lte(q.field("date"), to))
+				return conditions.length > 0
+					? conditions.reduce((acc, cond) => q.and(acc, cond))
+					: q.gt(q.field("_creationTime"), -1)
+			})
+			.paginate(paginationOpts)
 	},
 })
