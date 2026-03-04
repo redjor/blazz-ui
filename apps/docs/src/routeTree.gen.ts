@@ -80,6 +80,7 @@ import { Route as DocsDocsComponentsUiBannerRouteImport } from './routes/_docs/d
 import { Route as DocsDocsComponentsUiBadgeRouteImport } from './routes/_docs/docs/components/ui/badge'
 import { Route as DocsDocsComponentsUiAvatarRouteImport } from './routes/_docs/docs/components/ui/avatar'
 import { Route as DocsDocsComponentsUiAlertRouteImport } from './routes/_docs/docs/components/ui/alert'
+import { Route as DocsDocsComponentsPatternsUserMenuRouteImport } from './routes/_docs/docs/components/patterns/user-menu'
 import { Route as DocsDocsComponentsPatternsTopBarRouteImport } from './routes/_docs/docs/components/patterns/top-bar'
 import { Route as DocsDocsComponentsPatternsThemeToggleRouteImport } from './routes/_docs/docs/components/patterns/theme-toggle'
 import { Route as DocsDocsComponentsPatternsTabBarRouteImport } from './routes/_docs/docs/components/patterns/tab-bar'
@@ -602,6 +603,12 @@ const DocsDocsComponentsUiAlertRoute =
   DocsDocsComponentsUiAlertRouteImport.update({
     id: '/docs/components/ui/alert',
     path: '/docs/components/ui/alert',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsPatternsUserMenuRoute =
+  DocsDocsComponentsPatternsUserMenuRouteImport.update({
+    id: '/docs/components/patterns/user-menu',
+    path: '/docs/components/patterns/user-menu',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsPatternsTopBarRoute =
@@ -1304,6 +1311,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
   '/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
   '/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
+  '/docs/components/patterns/user-menu': typeof DocsDocsComponentsPatternsUserMenuRoute
   '/docs/components/ui/alert': typeof DocsDocsComponentsUiAlertRoute
   '/docs/components/ui/avatar': typeof DocsDocsComponentsUiAvatarRoute
   '/docs/components/ui/badge': typeof DocsDocsComponentsUiBadgeRoute
@@ -1481,6 +1489,7 @@ export interface FileRoutesByTo {
   '/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
   '/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
   '/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
+  '/docs/components/patterns/user-menu': typeof DocsDocsComponentsPatternsUserMenuRoute
   '/docs/components/ui/alert': typeof DocsDocsComponentsUiAlertRoute
   '/docs/components/ui/avatar': typeof DocsDocsComponentsUiAvatarRoute
   '/docs/components/ui/badge': typeof DocsDocsComponentsUiBadgeRoute
@@ -1660,6 +1669,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
   '/_docs/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
   '/_docs/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
+  '/_docs/docs/components/patterns/user-menu': typeof DocsDocsComponentsPatternsUserMenuRoute
   '/_docs/docs/components/ui/alert': typeof DocsDocsComponentsUiAlertRoute
   '/_docs/docs/components/ui/avatar': typeof DocsDocsComponentsUiAvatarRoute
   '/_docs/docs/components/ui/badge': typeof DocsDocsComponentsUiBadgeRoute
@@ -1839,6 +1849,7 @@ export interface FileRouteTypes {
     | '/docs/components/patterns/tab-bar'
     | '/docs/components/patterns/theme-toggle'
     | '/docs/components/patterns/top-bar'
+    | '/docs/components/patterns/user-menu'
     | '/docs/components/ui/alert'
     | '/docs/components/ui/avatar'
     | '/docs/components/ui/badge'
@@ -2016,6 +2027,7 @@ export interface FileRouteTypes {
     | '/docs/components/patterns/tab-bar'
     | '/docs/components/patterns/theme-toggle'
     | '/docs/components/patterns/top-bar'
+    | '/docs/components/patterns/user-menu'
     | '/docs/components/ui/alert'
     | '/docs/components/ui/avatar'
     | '/docs/components/ui/badge'
@@ -2194,6 +2206,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/patterns/tab-bar'
     | '/_docs/docs/components/patterns/theme-toggle'
     | '/_docs/docs/components/patterns/top-bar'
+    | '/_docs/docs/components/patterns/user-menu'
     | '/_docs/docs/components/ui/alert'
     | '/_docs/docs/components/ui/avatar'
     | '/_docs/docs/components/ui/badge'
@@ -2806,6 +2819,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/alert'
       fullPath: '/docs/components/ui/alert'
       preLoaderRoute: typeof DocsDocsComponentsUiAlertRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/patterns/user-menu': {
+      id: '/_docs/docs/components/patterns/user-menu'
+      path: '/docs/components/patterns/user-menu'
+      fullPath: '/docs/components/patterns/user-menu'
+      preLoaderRoute: typeof DocsDocsComponentsPatternsUserMenuRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/patterns/top-bar': {
@@ -3612,6 +3632,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsPatternsTabBarRoute: typeof DocsDocsComponentsPatternsTabBarRoute
   DocsDocsComponentsPatternsThemeToggleRoute: typeof DocsDocsComponentsPatternsThemeToggleRoute
   DocsDocsComponentsPatternsTopBarRoute: typeof DocsDocsComponentsPatternsTopBarRoute
+  DocsDocsComponentsPatternsUserMenuRoute: typeof DocsDocsComponentsPatternsUserMenuRoute
   DocsDocsComponentsUiAlertRoute: typeof DocsDocsComponentsUiAlertRoute
   DocsDocsComponentsUiAvatarRoute: typeof DocsDocsComponentsUiAvatarRoute
   DocsDocsComponentsUiBadgeRoute: typeof DocsDocsComponentsUiBadgeRoute
@@ -3828,6 +3849,8 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsPatternsThemeToggleRoute:
     DocsDocsComponentsPatternsThemeToggleRoute,
   DocsDocsComponentsPatternsTopBarRoute: DocsDocsComponentsPatternsTopBarRoute,
+  DocsDocsComponentsPatternsUserMenuRoute:
+    DocsDocsComponentsPatternsUserMenuRoute,
   DocsDocsComponentsUiAlertRoute: DocsDocsComponentsUiAlertRoute,
   DocsDocsComponentsUiAvatarRoute: DocsDocsComponentsUiAvatarRoute,
   DocsDocsComponentsUiBadgeRoute: DocsDocsComponentsUiBadgeRoute,
