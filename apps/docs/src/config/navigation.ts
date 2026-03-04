@@ -582,6 +582,11 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/components/patterns/page-header-shell",
 							keywords: ["page header", "hero", "page title", "header shell"],
 						},
+						{
+							title: "User Menu",
+							url: "/docs/components/patterns/user-menu",
+							keywords: ["user", "account", "profile", "logout", "avatar menu", "user dropdown"],
+						},
 					],
 				},
 			],
