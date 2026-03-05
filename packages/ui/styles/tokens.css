@@ -49,7 +49,6 @@
 	--spacing-section: var(--section-gap);
 	--spacing-cell-x: var(--cell-padding-x);
 	--spacing-cell-y: var(--cell-padding-y);
-	--spacing-inset: var(--inset);
 
 	/* Component config */
 	--badge-radius: var(--radius-md); /* 9999px = pill | var(--radius-lg) | 0px */
