@@ -49,6 +49,7 @@
 	--spacing-section: var(--section-gap);
 	--spacing-cell-x: var(--cell-padding-x);
 	--spacing-cell-y: var(--cell-padding-y);
+	--spacing-inset: var(--inset);
 
 	/* Component config */
 	--badge-radius: var(--radius-md); /* 9999px = pill | var(--radius-lg) | 0px */
@@ -120,6 +121,7 @@
 	--cell-padding-y: 8px;
 	--input-height: 32px;
 	--section-gap: 24px;
+	--inset: 1rem;
 	--sidebar-width: 240px;
 	--sidebar-collapsed: 64px;
 
@@ -190,6 +192,7 @@ html.dark {
 	--cell-padding-y: 8px;
 	--input-height: 32px;
 	--section-gap: 24px;
+	--inset: 1rem;
 	--sidebar-width: 240px;
 	--sidebar-collapsed: 64px;
 
@@ -565,6 +568,15 @@ html[data-theme="warm"].dark {
 		background-repeat: no-repeat;
 		z-index: 10;
 	}
+
+	/* Container padding utilities */
+	.p-inset  { padding: var(--inset); }
+	.px-inset { padding-inline: var(--inset); }
+	.py-inset { padding-block: var(--inset); }
+	.pt-inset { padding-top: var(--inset); }
+	.-mx-inset { margin-inline: calc(-1 * var(--inset)); }
+	.-mt-inset { margin-top: calc(-1 * var(--inset)); }
+	.-mb-inset { margin-bottom: calc(-1 * var(--inset)); }
 
 	* {
 		border-color: var(--border-default);
