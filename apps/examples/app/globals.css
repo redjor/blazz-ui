@@ -125,6 +125,7 @@
 	--cell-padding-y: 8px;
 	--input-height: 32px;
 	--section-gap: 24px;
+	--inset: 1rem;
 	--sidebar-width: 240px;
 	--sidebar-collapsed: 64px;
 
@@ -195,6 +196,7 @@ html.dark {
 	--cell-padding-y: 8px;
 	--input-height: 32px;
 	--section-gap: 24px;
+	--inset: 1rem;
 	--sidebar-width: 240px;
 	--sidebar-collapsed: 64px;
 
@@ -643,4 +645,34 @@ html[data-theme="warm"].dark {
 	*::-webkit-scrollbar-thumb:hover {
 		background-color: rgb(0 0 0 / 0.3);
 	}
+}
+
+/* Container inset utilities */
+
+@utility p-inset {
+	padding: var(--inset);
+}
+
+@utility px-inset {
+	padding-inline: var(--inset);
+}
+
+@utility py-inset {
+	padding-block: var(--inset);
+}
+
+@utility pt-inset {
+	padding-top: var(--inset);
+}
+
+@utility -mx-inset {
+	margin-inline: calc(-1 * var(--inset));
+}
+
+@utility -mt-inset {
+	margin-top: calc(-1 * var(--inset));
+}
+
+@utility -mb-inset {
+	margin-bottom: calc(-1 * var(--inset));
 }
