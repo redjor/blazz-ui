@@ -59,7 +59,7 @@ function DialogContent({
 			<DialogPrimitive.Popup
 				data-slot="dialog-content"
 				className={cn(
-					"bg-panel data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-edge/40 grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-4 text-sm ring-1 duration-100 fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none",
+					"bg-panel data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-edge/40 grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-inset text-sm ring-1 duration-100 fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none",
 					dialogSizeClasses[size],
 					className
 				)}
@@ -89,7 +89,7 @@ function DialogHeader({
 		<div
 			data-slot="dialog-header"
 			className={cn(
-				"gap-2 flex flex-col -mx-4 -mt-4 p-4",
+				"gap-2 flex flex-col -mx-inset -mt-inset p-inset",
 				separator && "border-b border-separator",
 				className
 			)}
@@ -110,7 +110,7 @@ function DialogFooter({
 		<div
 			data-slot="dialog-footer"
 			className={cn(
-				"bg-raised -mx-4 -mb-4 rounded-b-xl border-t border-separator p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+				"bg-raised -mx-inset -mb-inset rounded-b-xl border-t border-separator p-inset flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
 				className
 			)}
 			{...props}

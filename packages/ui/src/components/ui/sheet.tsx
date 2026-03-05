@@ -110,9 +110,10 @@ function SheetHeader({
 		<div
 			data-slot="sheet-header"
 			className={cn(
-				"flex flex-col gap-1.5 px-4 pt-4 pb-3 border-b border-separator",
+				"flex flex-col gap-1.5 px-inset pt-inset border-b border-separator",
 				className
 			)}
+			style={{ paddingBottom: 'calc(var(--inset) * 0.75)' }}
 			{...props}
 		>
 			{children}
@@ -134,9 +135,10 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="sheet-footer"
 			className={cn(
-				"bg-raised border-t border-separator px-4 py-3 flex gap-2 justify-end",
+				"bg-raised border-t border-separator px-inset flex gap-2 justify-end",
 				className
 			)}
+			style={{ paddingBlock: 'calc(var(--inset) * 0.75)' }}
 			{...props}
 		/>
 	)
