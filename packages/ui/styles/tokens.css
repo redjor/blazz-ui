@@ -568,15 +568,6 @@ html[data-theme="warm"].dark {
 		z-index: 10;
 	}
 
-	/* Container padding utilities */
-	.p-inset  { padding: var(--inset); }
-	.px-inset { padding-inline: var(--inset); }
-	.py-inset { padding-block: var(--inset); }
-	.pt-inset { padding-top: var(--inset); }
-	.-mx-inset { margin-inline: calc(-1 * var(--inset)); }
-	.-mt-inset { margin-top: calc(-1 * var(--inset)); }
-	.-mb-inset { margin-bottom: calc(-1 * var(--inset)); }
-
 	* {
 		border-color: var(--border-default);
 		outline-color: color-mix(in oklch, var(--accent) 50%, transparent);
@@ -649,4 +640,36 @@ html[data-theme="warm"].dark {
 	*::-webkit-scrollbar-thumb:hover {
 		background-color: rgb(0 0 0 / 0.3);
 	}
+}
+
+/* =============================================
+   Container inset utilities (@utility → utilities layer)
+   ============================================= */
+
+@utility p-inset {
+	padding: var(--inset);
+}
+
+@utility px-inset {
+	padding-inline: var(--inset);
+}
+
+@utility py-inset {
+	padding-block: var(--inset);
+}
+
+@utility pt-inset {
+	padding-top: var(--inset);
+}
+
+@utility -mx-inset {
+	margin-inline: calc(-1 * var(--inset));
+}
+
+@utility -mt-inset {
+	margin-top: calc(-1 * var(--inset));
+}
+
+@utility -mb-inset {
+	margin-bottom: calc(-1 * var(--inset));
 }
