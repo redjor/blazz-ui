@@ -6,14 +6,14 @@ All container padding in `packages/ui/` is hardcoded (`p-4`, `p-2.5`, etc.). The
 
 ## Solution
 
-A single CSS custom property `--container-padding` in `tokens.css` with Tailwind utility classes, applied to "flat container" components (Card, Dialog, Sheet, Popover, HoverCard, Alert).
+A single CSS custom property `--inset` in `tokens.css` with Tailwind utility classes, applied to "flat container" components (Card, Dialog, Sheet, Popover, HoverCard, Alert).
 
 ## Token
 
 ```css
 /* tokens.css — Density section */
 :root {
-  --container-padding: 1rem; /* 16px — matches current p-4 default */
+  --inset: 1rem; /* 16px — matches current p-4 default */
 }
 ```
 
@@ -22,26 +22,26 @@ Same value for light and dark themes.
 ## Utility Classes
 
 ```css
-.p-container  { padding: var(--container-padding); }
-.px-container { padding-inline: var(--container-padding); }
-.py-container { padding-block: var(--container-padding); }
+.p-inset  { padding: var(--inset); }
+.px-inset { padding-inline: var(--inset); }
+.py-inset { padding-block: var(--inset); }
 ```
 
 ## Components Affected
 
 | Component | Before | After |
 |-----------|--------|-------|
-| CardContent | `p-4` | `p-container` |
-| CardHeader | `px-4 pt-4` | `px-container pt-[var(--container-padding)]` |
-| CardFooter | `p-4` | `p-container` |
-| DialogContent | `p-4` | `p-container` |
-| DialogHeader | `-mx-4 -mt-4 p-4` | `margin: calc(-1 * var(--container-padding))` + `p-container` |
+| CardContent | `p-4` | `p-inset` |
+| CardHeader | `px-4 pt-4` | `px-inset pt-[var(--inset)]` |
+| CardFooter | `p-4` | `p-inset` |
+| DialogContent | `p-4` | `p-inset` |
+| DialogHeader | `-mx-4 -mt-4 p-4` | `margin: calc(-1 * var(--inset))` + `p-inset` |
 | DialogFooter | `-mx-4 -mb-4 p-4` | same bleed pattern with calc |
-| SheetHeader | `px-4 pt-4 pb-3` | `px-container` + relative calc for vertical |
-| SheetFooter | `px-4 py-3` | `px-container` + `py-[calc(var(--container-padding)*0.75)]` |
-| PopoverContent | `p-2.5` | `p-container` (unified to 16px) |
-| HoverCardContent | `p-2.5` | `p-container` (unified to 16px) |
-| Alert | `px-2.5 py-2` | `px-container` + `py-[calc(var(--container-padding)*0.5)]` |
+| SheetHeader | `px-4 pt-4 pb-3` | `px-inset` + relative calc for vertical |
+| SheetFooter | `px-4 py-3` | `px-inset` + `py-[calc(var(--inset)*0.75)]` |
+| PopoverContent | `p-2.5` | `p-inset` (unified to 16px) |
+| HoverCardContent | `p-2.5` | `p-inset` (unified to 16px) |
+| Alert | `px-2.5 py-2` | `px-inset` + `py-[calc(var(--inset)*0.5)]` |
 
 ## Components NOT Affected
 
@@ -54,12 +54,12 @@ Same value for light and dark themes.
 ```css
 /* Dense section */
 .section-dense {
-  --container-padding: 0.5rem; /* 8px */
+  --inset: 0.5rem; /* 8px */
 }
 
 /* Spacious section */
 .section-spacious {
-  --container-padding: 1.5rem; /* 24px */
+  --inset: 1.5rem; /* 24px */
 }
 ```
 
@@ -69,10 +69,10 @@ Headers and footers that use negative margins to bleed content to container edge
 
 ```css
 /* Dialog header */
-margin: calc(-1 * var(--container-padding))
-        calc(-1 * var(--container-padding))
+margin: calc(-1 * var(--inset))
+        calc(-1 * var(--inset))
         0;
-padding: var(--container-padding);
+padding: var(--inset);
 ```
 
 ## Asymmetric Patterns
@@ -81,13 +81,13 @@ Some components have slightly less vertical padding than horizontal. These use r
 
 ```css
 /* Sheet footer — 75% of container-padding vertically */
-padding: calc(var(--container-padding) * 0.75) var(--container-padding);
+padding: calc(var(--inset) * 0.75) var(--inset);
 ```
 
 ## Decision Log
 
 - **Scope:** Flat containers only (Card, Dialog, Sheet, Popover, HoverCard, Alert)
-- **Naming:** `--container-padding` (explicit, matches existing token naming)
-- **Approach:** CSS variable + Tailwind utility classes (.p-container, .px-container, .py-container)
+- **Naming:** `--inset` (explicit, matches existing token naming)
+- **Approach:** CSS variable + Tailwind utility classes (.p-inset, .px-inset, .py-inset). Short, elegant naming inspired by Apple HIG
 - **Asymmetry:** Token defines the base; relative adjustments via `calc()` so everything scales together
 - **Popover/HoverCard:** Unified with the same token (from p-2.5 to p-4 by default — more consistent)
