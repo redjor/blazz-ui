@@ -102,6 +102,7 @@ import { Route as DocsDocsComponentsPatternsAppTopBarRouteImport } from './route
 import { Route as DocsDocsComponentsPatternsAppSidebarRouteImport } from './routes/_docs/docs/components/patterns/app-sidebar'
 import { Route as DocsDocsComponentsPatternsAppFrameRouteImport } from './routes/_docs/docs/components/patterns/app-frame'
 import { Route as DocsDocsComponentsLayoutPageComponentRouteImport } from './routes/_docs/docs/components/layout/page-component'
+import { Route as DocsDocsComponentsLayoutInsetRouteImport } from './routes/_docs/docs/components/layout/inset'
 import { Route as DocsDocsComponentsLayoutInlineStackRouteImport } from './routes/_docs/docs/components/layout/inline-stack'
 import { Route as DocsDocsComponentsLayoutInlineGridRouteImport } from './routes/_docs/docs/components/layout/inline-grid'
 import { Route as DocsDocsComponentsLayoutGridRouteImport } from './routes/_docs/docs/components/layout/grid'
@@ -738,6 +739,12 @@ const DocsDocsComponentsLayoutPageComponentRoute =
     path: '/docs/components/layout/page-component',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsComponentsLayoutInsetRoute =
+  DocsDocsComponentsLayoutInsetRouteImport.update({
+    id: '/docs/components/layout/inset',
+    path: '/docs/components/layout/inset',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsComponentsLayoutInlineStackRoute =
   DocsDocsComponentsLayoutInlineStackRouteImport.update({
     id: '/docs/components/layout/inline-stack',
@@ -1307,6 +1314,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/layout/grid': typeof DocsDocsComponentsLayoutGridRoute
   '/docs/components/layout/inline-grid': typeof DocsDocsComponentsLayoutInlineGridRoute
   '/docs/components/layout/inline-stack': typeof DocsDocsComponentsLayoutInlineStackRoute
+  '/docs/components/layout/inset': typeof DocsDocsComponentsLayoutInsetRoute
   '/docs/components/layout/page-component': typeof DocsDocsComponentsLayoutPageComponentRoute
   '/docs/components/patterns/app-frame': typeof DocsDocsComponentsPatternsAppFrameRoute
   '/docs/components/patterns/app-sidebar': typeof DocsDocsComponentsPatternsAppSidebarRoute
@@ -1487,6 +1495,7 @@ export interface FileRoutesByTo {
   '/docs/components/layout/grid': typeof DocsDocsComponentsLayoutGridRoute
   '/docs/components/layout/inline-grid': typeof DocsDocsComponentsLayoutInlineGridRoute
   '/docs/components/layout/inline-stack': typeof DocsDocsComponentsLayoutInlineStackRoute
+  '/docs/components/layout/inset': typeof DocsDocsComponentsLayoutInsetRoute
   '/docs/components/layout/page-component': typeof DocsDocsComponentsLayoutPageComponentRoute
   '/docs/components/patterns/app-frame': typeof DocsDocsComponentsPatternsAppFrameRoute
   '/docs/components/patterns/app-sidebar': typeof DocsDocsComponentsPatternsAppSidebarRoute
@@ -1669,6 +1678,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/layout/grid': typeof DocsDocsComponentsLayoutGridRoute
   '/_docs/docs/components/layout/inline-grid': typeof DocsDocsComponentsLayoutInlineGridRoute
   '/_docs/docs/components/layout/inline-stack': typeof DocsDocsComponentsLayoutInlineStackRoute
+  '/_docs/docs/components/layout/inset': typeof DocsDocsComponentsLayoutInsetRoute
   '/_docs/docs/components/layout/page-component': typeof DocsDocsComponentsLayoutPageComponentRoute
   '/_docs/docs/components/patterns/app-frame': typeof DocsDocsComponentsPatternsAppFrameRoute
   '/_docs/docs/components/patterns/app-sidebar': typeof DocsDocsComponentsPatternsAppSidebarRoute
@@ -1851,6 +1861,7 @@ export interface FileRouteTypes {
     | '/docs/components/layout/grid'
     | '/docs/components/layout/inline-grid'
     | '/docs/components/layout/inline-stack'
+    | '/docs/components/layout/inset'
     | '/docs/components/layout/page-component'
     | '/docs/components/patterns/app-frame'
     | '/docs/components/patterns/app-sidebar'
@@ -2031,6 +2042,7 @@ export interface FileRouteTypes {
     | '/docs/components/layout/grid'
     | '/docs/components/layout/inline-grid'
     | '/docs/components/layout/inline-stack'
+    | '/docs/components/layout/inset'
     | '/docs/components/layout/page-component'
     | '/docs/components/patterns/app-frame'
     | '/docs/components/patterns/app-sidebar'
@@ -2212,6 +2224,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/layout/grid'
     | '/_docs/docs/components/layout/inline-grid'
     | '/_docs/docs/components/layout/inline-stack'
+    | '/_docs/docs/components/layout/inset'
     | '/_docs/docs/components/layout/page-component'
     | '/_docs/docs/components/patterns/app-frame'
     | '/_docs/docs/components/patterns/app-sidebar'
@@ -3000,6 +3013,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsLayoutPageComponentRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/components/layout/inset': {
+      id: '/_docs/docs/components/layout/inset'
+      path: '/docs/components/layout/inset'
+      fullPath: '/docs/components/layout/inset'
+      preLoaderRoute: typeof DocsDocsComponentsLayoutInsetRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/components/layout/inline-stack': {
       id: '/_docs/docs/components/layout/inline-stack'
       path: '/docs/components/layout/inline-stack'
@@ -3654,6 +3674,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsLayoutGridRoute: typeof DocsDocsComponentsLayoutGridRoute
   DocsDocsComponentsLayoutInlineGridRoute: typeof DocsDocsComponentsLayoutInlineGridRoute
   DocsDocsComponentsLayoutInlineStackRoute: typeof DocsDocsComponentsLayoutInlineStackRoute
+  DocsDocsComponentsLayoutInsetRoute: typeof DocsDocsComponentsLayoutInsetRoute
   DocsDocsComponentsLayoutPageComponentRoute: typeof DocsDocsComponentsLayoutPageComponentRoute
   DocsDocsComponentsPatternsAppFrameRoute: typeof DocsDocsComponentsPatternsAppFrameRoute
   DocsDocsComponentsPatternsAppSidebarRoute: typeof DocsDocsComponentsPatternsAppSidebarRoute
@@ -3857,6 +3878,7 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsLayoutInlineGridRoute,
   DocsDocsComponentsLayoutInlineStackRoute:
     DocsDocsComponentsLayoutInlineStackRoute,
+  DocsDocsComponentsLayoutInsetRoute: DocsDocsComponentsLayoutInsetRoute,
   DocsDocsComponentsLayoutPageComponentRoute:
     DocsDocsComponentsLayoutPageComponentRoute,
   DocsDocsComponentsPatternsAppFrameRoute:

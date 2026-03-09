@@ -84,6 +84,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["columns", "responsive", "layout grid", "css grid"],
 						},
 						{
+							title: "Inset",
+							url: "/docs/components/layout/inset",
+							keywords: ["padding", "container", "wrapper", "density", "spacing", "token", "inset"],
+						},
+						{
 							title: "Inline Grid",
 							url: "/docs/components/layout/inline-grid",
 							keywords: ["horizontal grid", "row grid"],
