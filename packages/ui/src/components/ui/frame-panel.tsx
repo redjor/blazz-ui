@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const frameVariants = cva(
-  "relative flex flex-col bg-raised/50 gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]",
+  "relative flex flex-col bg-raised gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]",
   {
     variants: {
       variant: {
