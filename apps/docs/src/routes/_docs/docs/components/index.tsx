@@ -13,9 +13,26 @@ const totalComponents = componentsNavigation.reduce((sum, cat) => sum + cat.item
 function ComponentsPage() {
 	return (
 		<Page>
-			<div className="py-4 text-center border-b border-edge">
-				<div className="text-3xl font-semibold text-fg">Components</div>
-				<div className="text-lg text-fg-muted max-w-xl mx-auto">{totalComponents} components across ${componentsNavigation.length} categories. Browse by category or search for a specific component.</div>
+			{/* Hero — ready for bg-image via bg-[url(...)] or inline style */}
+			<div className="relative -mx-6 -mt-6 overflow-hidden rounded-b-2xl border-b border-edge bg-raised/40 bg-cover bg-center px-6 py-16 text-center">
+				{/* Dot grid overlay — will sit behind a future bg image if needed */}
+				<div
+					className="pointer-events-none absolute inset-0 opacity-40"
+					style={{
+						backgroundImage:
+							"radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
+						backgroundSize: "24px 24px",
+					}}
+				/>
+				<div className="relative z-10 mx-auto max-w-2xl space-y-3">
+					<h1 className="text-4xl font-bold tracking-tight text-fg">
+						Components
+					</h1>
+					<p className="text-base text-fg-muted">
+						{totalComponents} components across {componentsNavigation.length}{" "}
+						categories. Browse by category or search for a specific component.
+					</p>
+				</div>
 			</div>
 			<div className="space-y-10 py-8">
 				{componentsNavigation.map((category) => (
