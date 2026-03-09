@@ -103,6 +103,60 @@ import { NavigationTabsInterceptor } from "@blazz/ui/components/patterns/navigat
   }}
 />`,
 	},
+	{
+		key: "custom-tab-bar",
+		code: `// Construire un TabBar personnalisé avec les primitives
+"use client"
+import { useRouter } from "next/navigation"
+import {
+  NavigationTabsBar,
+  NavigationTabsItem,
+  useNavigationTabs,
+} from "@blazz/ui/components/patterns/navigation-tabs"
+import { FileText, LayoutDashboard } from "lucide-react"
+
+const routeMap = [
+  { prefix: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { prefix: "/docs",      icon: FileText,        label: "Docs" },
+]
+
+function getIcon(url: string) {
+  return routeMap.find((r) => url.startsWith(r.prefix))?.icon ?? LayoutDashboard
+}
+
+export function CustomTabBar() {
+  const { tabs, activeTabId, activateTab, closeTab, addTab } = useNavigationTabs()
+  const router = useRouter()
+
+  function handleActivate(id: string, url: string) {
+    activateTab(id)
+    router.push(url)
+  }
+
+  function handleClose(id: string) {
+    closeTab(id)
+    const remaining = tabs.filter((t) => t.id !== id)
+    if (id === activeTabId && remaining.length > 0) {
+      router.push(remaining.at(-1)!.url)
+    }
+  }
+
+  return (
+    <NavigationTabsBar onAddTab={() => addTab({ url: "/dashboard", title: "Dashboard" })}>
+      {tabs.map((tab) => (
+        <NavigationTabsItem
+          key={tab.id}
+          title={tab.title}
+          icon={getIcon(tab.url)}
+          isActive={tab.id === activeTabId}
+          onClick={() => handleActivate(tab.id, tab.url)}
+          onClose={() => handleClose(tab.id)}
+        />
+      ))}
+    </NavigationTabsBar>
+  )
+}`,
+	},
 ] as const
 
 export const Route = createFileRoute("/_docs/docs/components/patterns/navigation-tabs")({
@@ -123,6 +177,7 @@ const toc = [
 	{ id: "provider", title: "Provider" },
 	{ id: "hooks", title: "Hooks" },
 	{ id: "interceptor", title: "Interceptor" },
+	{ id: "custom-tab-bar", title: "TabBar personnalisé" },
 	{ id: "props", title: "Props" },
 	{ id: "related", title: "Related" },
 ]
@@ -210,6 +265,65 @@ const urlSyncProps: DocProp[] = [
 		type: "(pathname: string) => string",
 		description:
 			"Fonction appelée à chaque changement de pathname pour déterminer le titre du tab actif. Si omis, le titre n'est pas mis à jour automatiquement.",
+	},
+]
+
+const barProps: DocProp[] = [
+	{
+		name: "children",
+		type: "React.ReactNode",
+		required: true,
+		description: "Les NavigationTabsItem à afficher dans la barre.",
+	},
+	{
+		name: "onAddTab",
+		type: "() => void",
+		description:
+			'Si fourni, affiche le bouton "+" à droite de la barre pour ouvrir un nouvel onglet.',
+	},
+	{
+		name: "addButtonLabel",
+		type: "string",
+		default: '"Open new tab"',
+		description: "aria-label du bouton + (pour l'accessibilité).",
+	},
+	{
+		name: "className",
+		type: "string",
+		description: "Classes CSS supplémentaires.",
+	},
+]
+
+const itemProps: DocProp[] = [
+	{
+		name: "title",
+		type: "string",
+		required: true,
+		description: "Texte du tab. Tronqué avec ellipsis si trop long.",
+	},
+	{
+		name: "icon",
+		type: "LucideIcon",
+		description: "Icône Lucide affichée à gauche du titre (3.5×3.5, opacity 60%).",
+	},
+	{
+		name: "isActive",
+		type: "boolean",
+		required: true,
+		description: "Applique le style actif (background accent, font-semibold).",
+	},
+	{
+		name: "onClick",
+		type: "() => void",
+		required: true,
+		description: "Handler d'activation du tab.",
+	},
+	{
+		name: "onClose",
+		type: "() => void",
+		required: true,
+		description:
+			"Handler de fermeture. Le bouton × est masqué par défaut et apparaît au hover (toujours visible sur le tab actif).",
 	},
 ]
 
@@ -379,6 +493,16 @@ function NavigationTabsPage() {
 					</div>
 				</DocExampleClient>
 			</DocSection>
+			<DocSection id="custom-tab-bar" title="TabBar personnalisé">
+				<DocExampleClient
+					title="Construire avec NavigationTabsBar + NavigationTabsItem"
+					description="Pour un contexte non-CRM, composer manuellement avec les primitives Bar et Item et le hook useNavigationTabs. Le preset TabBar utilise cette même approche en interne."
+					code={examples[5].code}
+					highlightedCode={html("custom-tab-bar")}
+				>
+					<TabBarPreview />
+				</DocExampleClient>
+			</DocSection>
 			<DocSection id="props" title="Props — NavigationTabsProvider">
 				<DocPropsTable props={providerProps} />
 			</DocSection>
@@ -390,6 +514,12 @@ function NavigationTabsPage() {
 			</DocSection>
 			<DocSection id="url-sync-props" title="Props — useNavigationTabUrlSync()">
 				<DocPropsTable props={urlSyncProps} />
+			</DocSection>
+			<DocSection id="bar-props" title="Props — NavigationTabsBar">
+				<DocPropsTable props={barProps} />
+			</DocSection>
+			<DocSection id="item-props" title="Props — NavigationTabsItem">
+				<DocPropsTable props={itemProps} />
 			</DocSection>
 			<DocSection id="related" title="Related">
 				<DocRelated

@@ -9,7 +9,7 @@ import { highlightCode } from "~/lib/highlight-code"
 const examples = [
 	{
 		key: "setup",
-		code: `// 1. Wrapper le layout avec NavigationTabsProvider
+		code: `// Wrapper le layout avec NavigationTabsProvider + TabBar
 // apps/my-app/app/layout.tsx
 
 import { NavigationTabsProvider } from "@blazz/ui/components/patterns/navigation-tabs"
@@ -29,8 +29,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	},
 	{
 		key: "route-map",
-		code: `// TabBar (pré-configuré pour le CRM) résout automatiquement
-// l'icône et le label de section depuis l'URL du tab.
+		code: `// TabBar résout automatiquement l'icône et le label
+// de section depuis l'URL du tab.
 //
 // Route map interne :
 // /examples/crm/dashboard → LayoutDashboard, "CRM"
@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 // /examples/crm/products  → Package, "Produits"
 // /examples/crm/reports   → BarChart3, "Rapports"
 //
-// Le titre affiché : "Section > Title" (ex: "Contacts > Jane Dupont")
+// Titre affiché : "Section › Titre" (ex: "Contacts › Jane Dupont")
 // Si tab.title === label de la section → affiche juste "Contacts"
 
 import { TabBar } from "@blazz/ui/components/patterns/tab-bar"
@@ -52,62 +52,6 @@ export function CrmLayout({ children }) {
       <TabBar />
       {children}
     </NavigationTabsProvider>
-  )
-}`,
-	},
-	{
-		key: "custom",
-		code: `// Pour un contexte non-CRM, construire TabBar manuellement
-// avec NavigationTabsBar + NavigationTabsItem + useNavigationTabs
-
-"use client"
-import { useRouter } from "next/navigation"
-import {
-  NavigationTabsBar,
-  NavigationTabsItem,
-  useNavigationTabs,
-} from "@blazz/ui/components/patterns/navigation-tabs"
-import { FileText, LayoutDashboard } from "lucide-react"
-
-const routeMap = [
-  { prefix: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { prefix: "/docs",      icon: FileText,        label: "Docs" },
-]
-
-function getIcon(url: string) {
-  return routeMap.find((r) => url.startsWith(r.prefix))?.icon ?? LayoutDashboard
-}
-
-export function CustomTabBar() {
-  const { tabs, activeTabId, activateTab, closeTab, addTab } = useNavigationTabs()
-  const router = useRouter()
-
-  function handleActivate(id: string, url: string) {
-    activateTab(id)
-    router.push(url)
-  }
-
-  function handleClose(id: string) {
-    closeTab(id)
-    const remaining = tabs.filter((t) => t.id !== id)
-    if (id === activeTabId && remaining.length > 0) {
-      router.push(remaining.at(-1)!.url)
-    }
-  }
-
-  return (
-    <NavigationTabsBar onAddTab={() => addTab({ url: "/dashboard", title: "Dashboard" })}>
-      {tabs.map((tab) => (
-        <NavigationTabsItem
-          key={tab.id}
-          title={tab.title}
-          icon={getIcon(tab.url)}
-          isActive={tab.id === activeTabId}
-          onClick={() => handleActivate(tab.id, tab.url)}
-          onClose={() => handleClose(tab.id)}
-        />
-      ))}
-    </NavigationTabsBar>
   )
 }`,
 	},
@@ -128,7 +72,7 @@ export const Route = createFileRoute("/_docs/docs/components/patterns/tab-bar")(
 
 const toc = [
 	{ id: "usage", title: "Usage" },
-	{ id: "custom", title: "Version personnalisée" },
+	{ id: "route-map", title: "Route map" },
 	{ id: "props", title: "Props" },
 	{ id: "related", title: "Related" },
 ]
@@ -139,65 +83,6 @@ const tabBarProps: DocProp[] = [
 		type: "—",
 		description:
 			"TabBar ne prend pas de props. Il se connecte automatiquement au NavigationTabsContext via useNavigationTabs(). Il doit être rendu à l'intérieur d'un NavigationTabsProvider.",
-	},
-]
-
-const navigationTabsBarProps: DocProp[] = [
-	{
-		name: "children",
-		type: "React.ReactNode",
-		required: true,
-		description: "Les NavigationTabsItem à afficher dans la barre.",
-	},
-	{
-		name: "onAddTab",
-		type: "() => void",
-		description:
-			'Si fourni, affiche le bouton "+" à droite de la barre pour ouvrir un nouvel onglet.',
-	},
-	{
-		name: "addButtonLabel",
-		type: "string",
-		default: '"Open new tab"',
-		description: "aria-label du bouton + (pour l'accessibilité).",
-	},
-	{
-		name: "className",
-		type: "string",
-		description: "Classes CSS supplémentaires.",
-	},
-]
-
-const navigationTabsItemProps: DocProp[] = [
-	{
-		name: "title",
-		type: "string",
-		required: true,
-		description: "Texte du tab. Tronqué avec ellipsis si trop long.",
-	},
-	{
-		name: "icon",
-		type: "LucideIcon",
-		description: "Icône Lucide affichée à gauche du titre (3.5×3.5, opacity 60%).",
-	},
-	{
-		name: "isActive",
-		type: "boolean",
-		required: true,
-		description: "Applique le style actif (background accent, font-semibold).",
-	},
-	{
-		name: "onClick",
-		type: "() => void",
-		required: true,
-		description: "Handler d'activation du tab.",
-	},
-	{
-		name: "onClose",
-		type: "() => void",
-		required: true,
-		description:
-			"Handler de fermeture. Le bouton × est masqué par défaut et apparaît au hover (toujours visible sur le tab actif).",
 	},
 ]
 
@@ -271,7 +156,7 @@ function TabBarPage() {
 	return (
 		<DocPage
 			title="Tab Bar"
-			subtitle="Barre de tabs navigateur (browser-like) positionnée sous la Navbar. Affiche les pages ouvertes avec icône de section, titre, et bouton de fermeture. Construite sur le système NavigationTabs."
+			subtitle="Preset CRM pré-câblé pour le système Navigation Tabs. Zéro props — il résout automatiquement les icônes et labels de section depuis les routes CRM. Pour un contexte non-CRM, voir Navigation Tabs."
 			toc={toc}
 		>
 			<DocSection id="usage" title="Usage">
@@ -283,33 +168,19 @@ function TabBarPage() {
 				>
 					<TabBarPreview />
 				</DocExampleClient>
+			</DocSection>
+			<DocSection id="route-map" title="Route map">
 				<DocExampleClient
-					title="Route map CRM"
-					description={'TabBar inclut une résolution automatique des icônes et labels de section pour les routes CRM. Le titre du tab est formaté "Section › Titre de la page".'}
+					title="Résolution automatique des routes CRM"
+					description={'TabBar inclut une route map interne qui résout l\'icône et le label de section pour chaque route CRM. Le titre affiché : "Section › Titre" (ex: "Contacts › Jane Dupont"). Si le titre du tab correspond au label de la section, seul le label est affiché.'}
 					code={examples[1].code}
 					highlightedCode={html("route-map")}
 				>
 					<TabBarPreview />
 				</DocExampleClient>
 			</DocSection>
-			<DocSection id="custom" title="Version personnalisée">
-				<DocExampleClient
-					title="TabBar personnalisé avec NavigationTabsBar + NavigationTabsItem"
-					description="Pour un contexte non-CRM, composer manuellement avec les primitives NavigationTabsBar et NavigationTabsItem et le hook useNavigationTabs."
-					code={examples[2].code}
-					highlightedCode={html("custom")}
-				>
-					<TabBarPreview />
-				</DocExampleClient>
-			</DocSection>
-			<DocSection id="props" title="Props — TabBar">
+			<DocSection id="props" title="Props">
 				<DocPropsTable props={tabBarProps} />
-			</DocSection>
-			<DocSection id="props-bar" title="Props — NavigationTabsBar">
-				<DocPropsTable props={navigationTabsBarProps} />
-			</DocSection>
-			<DocSection id="props-item" title="Props — NavigationTabsItem">
-				<DocPropsTable props={navigationTabsItemProps} />
 			</DocSection>
 			<DocSection id="related" title="Related">
 				<DocRelated
@@ -318,12 +189,12 @@ function TabBarPage() {
 							title: "Navigation Tabs",
 							href: "/docs/components/patterns/navigation-tabs",
 							description:
-								"Système complet : Provider, hooks, Interceptor, URL sync.",
+								"Système complet : Provider, Bar, Item, hooks, Interceptor. Utiliser pour construire un TabBar personnalisé.",
 						},
 						{
 							title: "Navbar",
 							href: "/docs/components/patterns/navbar",
-							description: "Navbar globale au-dessus du TabBar.",
+							description: "Navbar globale positionnée au-dessus du TabBar.",
 						},
 					]}
 				/>
