@@ -8,6 +8,7 @@ import { DocsMobileSheet } from "~/components/docs/docs-mobile-sheet"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { navigationConfig } from "~/config/navigation"
 import { Toaster } from "@blazz/ui/components/ui/toast"
+import { Kbd, KbdGroup } from "@blazz/ui/components/ui/kbd"
 
 export const Route = createFileRoute("/_docs")({
   component: DocsLayout,
@@ -62,13 +63,13 @@ function DocsLayout() {
             <button
               type="button"
               onClick={() => setCommandPaletteOpen(true)}
-              className="inline-flex items-center gap-2 rounded-md border bg-raised px-3 py-1.5 text-sm text-fg-muted hover:text-fg transition-colors"
+              className="inline-flex items-center gap-2 rounded-md p-2 text-fg-muted hover:text-fg hover:bg-raised transition-colors"
             >
-              <Search className="size-3.5" />
-              <span className="hidden sm:inline">Search</span>
-              <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded border bg-surface px-1.5 py-0.5 text-xs font-mono text-fg-muted">
-                ⌘K
-              </kbd>
+              <Search className="size-4" />
+              <KbdGroup className="hidden sm:inline-flex">
+                <Kbd>⌘</Kbd>
+                <Kbd>K</Kbd>
+              </KbdGroup>
             </button>
             <ThemeToggle />
             <a
