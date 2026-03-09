@@ -87,10 +87,9 @@ function DocsLayout() {
         <main className="flex-1 overflow-y-auto min-w-0 bg-surface rounded-lg border border-container">
           <Outlet />
         </main>
+        {/* Mobile sheet — à l'intérieur du SidebarProvider car il utilise des composants Sidebar */}
+        <DocsMobileSheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} />
       </SidebarProvider>
-
-      {/* Mobile sheet — portal, hors du flux */}
-      <DocsMobileSheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} />
 
       <CommandPalette
         navigation={navigationConfig}
