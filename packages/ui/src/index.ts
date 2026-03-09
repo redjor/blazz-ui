@@ -83,7 +83,6 @@ export * from "./components/blocks/chart-card"
 export * from "./components/blocks/line-chart-block"
 export * from "./components/blocks/pie-chart-block"
 export * from "./components/blocks/radar-chart-block"
-export * from "./components/blocks/data-grid"
 export * from "./components/blocks/deal-lines-editor"
 export * from "./components/blocks/detail-panel"
 export * from "./components/blocks/filter-bar"
@@ -105,7 +104,7 @@ export * from "./components/blocks/stats-strip"
 export * from "./components/blocks/status-flow"
 
 // ── AI Components ──────────────────────────────
-// Barrel has naming conflicts (DataGrid, Timeline, StatItem…)
+// Barrel has naming conflicts (Timeline, StatItem…)
 // Import AI components from "@blazz/ui/components/ai"
 
 // ── Patterns ───────────────────────────────────

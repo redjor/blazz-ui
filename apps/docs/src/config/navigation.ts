@@ -406,9 +406,24 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["table cell", "grid cell", "data cell", "column type"],
 						},
 						{
+							title: "Data Table",
+							url: "/docs/components/blocks/data-table",
+							keywords: ["grid", "datagrid", "sorting", "filtering", "pagination", "bulk actions"],
+						},
+						{
 							title: "Property",
 							url: "/docs/components/ui/property",
 							keywords: ["key value", "detail", "metadata", "attribute", "property list"],
+						},
+						{
+							title: "Property Card",
+							url: "/docs/components/blocks/property-card",
+							keywords: ["detail card", "info card", "property group", "metadata card"],
+						},
+						{
+							title: "Stats Strip",
+							url: "/docs/components/blocks/stats-strip",
+							keywords: ["metrics", "kpi", "statistics", "dashboard stats", "sparkline"],
 						},
 						{
 							title: "Table",
@@ -656,12 +671,7 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/components/blocks/data-table",
 							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
 						},
-						{
-							title: "Data Grid",
-							url: "/docs/components/blocks/data-grid",
-							keywords: ["grid", "cards", "tile view", "gallery", "data grid"],
-						},
-						{
+{
 							title: "Filter Bar",
 							url: "/docs/components/blocks/filter-bar",
 							keywords: ["filter", "search filters", "facets", "query bar"],

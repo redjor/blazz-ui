@@ -13,9 +13,9 @@ Tabs                      — onglets par thématique de rapport
        Grid 2 colonnes
          ChartCard         — graphique principal
          ChartCard         — graphique secondaire
-       DataGrid            — tableau de détail
+       DataTable            — tableau de détail
   └─ Tab "Performance"
-       DataGrid            — classement / ranking
+       DataTable            — classement / ranking
        ChartCard           — comparaison
   └─ Tab "Prévisions"
        ForecastChart       — projection pondérée
@@ -188,7 +188,7 @@ export async function OverviewTab({ period }: { period: string }) {
 ### Performance (`_components/performance-tab.tsx`)
 
 ```tsx
-import { DataGrid } from "@/components/blocks/data-grid"
+import { DataTable } from "@/components/blocks/data-table"
 import { ChartCard } from "@/components/blocks/chart-card"
 import { Avatar } from "@/components/ui/avatar"
 import { getPerformanceReport } from "@/lib/actions/reports"
@@ -247,7 +247,7 @@ export async function PerformanceTab({ period }: { period: string }) {
 
   return (
     <div className="mt-6 space-y-6">
-      <DataGrid
+      <DataTable
         columns={columns}
         data={data.rankings}
         totalCount={data.rankings.length}
@@ -294,7 +294,7 @@ export async function PerformanceTab({ period }: { period: string }) {
 - [ ] StatsGrid avec trends ✓
 - [ ] Funnel de conversion ✓
 - [ ] Comparaison vs période précédente sur le line chart ✓
-- [ ] DataGrid triable pour les classements ✓
+- [ ] DataTable triable pour les classements ✓
 - [ ] Barres de progression inline dans les tableaux ✓
 - [ ] Export PDF du rapport ✓
 - [ ] Responsive : graphiques en 1 colonne sur mobile ✓

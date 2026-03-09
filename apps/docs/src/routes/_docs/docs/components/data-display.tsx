@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
-import { User, Table, Table2, Grid3X3, List, CreditCard, BarChart3 } from "lucide-react"
+import { User, Table, Table2, Grid3X3, List, CreditCard, BarChart3, Clock, FolderTree } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/data-display")({
 	component: DataDisplayPage,
@@ -24,7 +24,7 @@ const dataDisplayComponents = [
 	},
 	{
 		title: "Data Table",
-		href: "/docs/components/ui/data-table",
+		href: "/docs/components/blocks/data-table",
 		description: "Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions.",
 		icon: Table2,
 		thumbnail: "data-table",
@@ -38,14 +38,14 @@ const dataDisplayComponents = [
 	},
 	{
 		title: "Property Card",
-		href: "/docs/components/ui/property-card",
+		href: "/docs/components/blocks/property-card",
 		description: "Card component for grouping related properties with header, actions, and structured layout.",
 		icon: CreditCard,
 		thumbnail: "property-card",
 	},
 	{
 		title: "Stats Strip",
-		href: "/docs/components/ui/stats-strip",
+		href: "/docs/components/blocks/stats-strip",
 		description: "Horizontal strip of key metrics with labels, values, trends, and optional sparklines.",
 		icon: BarChart3,
 		thumbnail: "stats-strip",
@@ -56,6 +56,20 @@ const dataDisplayComponents = [
 		description: "Display data in rows and columns with semantic HTML table elements for simple tabular layouts.",
 		icon: Table,
 		thumbnail: "table",
+	},
+	{
+		title: "Timeline",
+		href: "/docs/components/ui/timeline",
+		description: "Vertical activity feed for displaying chronological events, history logs, and status updates.",
+		icon: Clock,
+		thumbnail: "timeline",
+	},
+	{
+		title: "Tree View",
+		href: "/docs/components/ui/tree-view",
+		description: "Hierarchical tree component for displaying nested structures like file systems and directories.",
+		icon: FolderTree,
+		thumbnail: "tree-view",
 	},
 ]
 

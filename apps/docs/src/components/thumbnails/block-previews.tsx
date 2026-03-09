@@ -17,7 +17,6 @@ import {
 import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
 import { BulkActionBar } from "@blazz/ui/components/blocks/bulk-action-bar"
 import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
-import { DataGrid, type ColumnDef } from "@blazz/ui/components/blocks/data-grid"
 import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
 import { ErrorState } from "@blazz/ui/components/patterns/error-state"
 import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
@@ -158,97 +157,6 @@ export function ChartCardPreview() {
 	)
 }
 
-// ════════════════════════════════════════════════════════════════════════════
-// data-grid
-// ════════════════════════════════════════════════════════════════════════════
-
-interface CompanyRow {
-	id: string
-	name: string
-	industry: string
-	revenue: string
-	status: string
-}
-
-const dataGridColumns: ColumnDef<CompanyRow>[] = [
-	{
-		id: "name",
-		header: "Company",
-		sortable: true,
-		cell: (row) => <span className="font-medium">{row.name}</span>,
-	},
-	{
-		id: "industry",
-		header: "Industry",
-		cell: (row) => row.industry,
-	},
-	{
-		id: "revenue",
-		header: "Revenue",
-		sortable: true,
-		cell: (row) => (
-			<span className="tabular-nums">{row.revenue}</span>
-		),
-	},
-	{
-		id: "status",
-		header: "Status",
-		cell: (row) => (
-			<Badge
-				variant={row.status === "Active" ? "success" : "warning"}
-				size="xs"
-				fill="subtle"
-			>
-				{row.status}
-			</Badge>
-		),
-	},
-]
-
-const dataGridData: CompanyRow[] = [
-	{
-		id: "1",
-		name: "Acme Corp",
-		industry: "Technology",
-		revenue: "$2.4M",
-		status: "Active",
-	},
-	{
-		id: "2",
-		name: "Globex Inc",
-		industry: "Manufacturing",
-		revenue: "$1.8M",
-		status: "Active",
-	},
-	{
-		id: "3",
-		name: "Initech",
-		industry: "Finance",
-		revenue: "$890K",
-		status: "Pending",
-	},
-	{
-		id: "4",
-		name: "Umbrella Co",
-		industry: "Healthcare",
-		revenue: "$3.1M",
-		status: "Active",
-	},
-]
-
-export function DataGridPreview() {
-	return (
-		<div className="w-[640px] p-4">
-			<DataGrid
-				columns={dataGridColumns}
-				data={dataGridData}
-				totalCount={4}
-				pageSize={10}
-				selectable
-			/>
-		</div>
-	)
-}
 
 // ════════════════════════════════════════════════════════════════════════════
 // detail-panel

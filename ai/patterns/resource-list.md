@@ -8,7 +8,7 @@
 ```
 PageHeader           — titre, breadcrumbs, bouton "Nouveau"
 FilterBar            — filtres combinés, searchbar, reset, vues sauvegardées
-DataGrid             — tableau paginé, triable, sélectionnable
+DataTable             — tableau paginé, triable, sélectionnable
   └─ BulkActionBar   — actions sur sélection (apparaît quand lignes sélectionnées)
 ```
 
@@ -18,7 +18,7 @@ DataGrid             — tableau paginé, triable, sélectionnable
 app/(dashboard)/[resources]/
   page.tsx                    ← Server Component — la page elle-même
   _components/
-    columns.tsx               ← Définition des colonnes du DataGrid
+    columns.tsx               ← Définition des colonnes du DataTable
     filters.tsx               ← Configuration des filtres
     row-actions.tsx            ← Actions par ligne (menu déroulant)
     bulk-actions.tsx           ← Actions sur sélection multiple
@@ -112,7 +112,7 @@ export async function exportClients(params: Record<string, string>) {
 ```tsx
 "use client"
 
-import { type ColumnDef } from "@/components/blocks/data-grid"
+import { type ColumnDef } from "@/components/blocks/data-table"
 import { Badge } from "@/components/ui/badge"
 import { type Client } from "@/lib/schemas/client"
 import { formatDate } from "@/lib/utils"
@@ -194,7 +194,7 @@ export const clientFilters: FilterConfig[] = [
 import { Plus, Download } from "lucide-react"
 import { PageHeader } from "@/components/blocks/page-header"
 import { FilterBar } from "@/components/blocks/filter-bar"
-import { DataGrid } from "@/components/blocks/data-grid"
+import { DataTable } from "@/components/blocks/data-table"
 import { getClients, exportClients, deleteClients } from "@/lib/actions/clients"
 import { clientColumns } from "./_components/columns"
 import { clientFilters } from "./_components/filters"
@@ -227,7 +227,7 @@ export default async function ClientsPage({
         values={params}
       />
 
-      <DataGrid
+      <DataTable
         columns={clientColumns}
         data={data}
         totalCount={totalCount}

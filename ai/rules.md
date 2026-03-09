@@ -102,8 +102,8 @@ import { type ... } from "@/types/..."              // 7. Types
 
 ## 11. Nommage
 
-- **Fichiers composants** : kebab-case (`data-grid.tsx`, `filter-bar.tsx`)
-- **Composants** : PascalCase (`DataGrid`, `FilterBar`)
+- **Fichiers composants** : kebab-case (`data-table.tsx`, `filter-bar.tsx`)
+- **Composants** : PascalCase (`DataTable`, `FilterBar`)
 - **Hooks** : camelCase préfixé `use` (`useClients`, `usePermissions`)
 - **Server Actions** : camelCase préfixé par le verbe (`createClient`, `updateClient`, `deleteClient`)
 - **Schemas zod** : camelCase suffixé `Schema` (`clientSchema`, `createClientSchema`)
@@ -146,7 +146,7 @@ Les sélecteurs `[&_[data-slot=...]]` matchent à **n'importe quel niveau de pro
 // app/(dashboard)/clients/page.tsx — PAGE LISTE
 import { PageHeader } from "@/components/blocks/page-header"
 import { FilterBar } from "@/components/blocks/filter-bar"
-import { DataGrid } from "@/components/blocks/data-grid"
+import { DataTable } from "@/components/blocks/data-table"
 import { getClients } from "@/lib/actions/clients"
 
 export default async function ClientsPage({
@@ -165,7 +165,7 @@ export default async function ClientsPage({
         actions={[{ label: "Nouveau client", href: "/clients/new", icon: Plus }]}
       />
       <FilterBar filters={clientFilters} values={params} />
-      <DataGrid columns={clientColumns} data={data} totalCount={totalCount} /* ... */ />
+      <DataTable columns={clientColumns} data={data} totalCount={totalCount} /* ... */ />
     </>
   )
 }

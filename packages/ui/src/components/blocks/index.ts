@@ -48,9 +48,6 @@ export type { PieChartBlockProps } from "./pie-chart-block"
 export { RadarChartBlock } from "./radar-chart-block"
 export type { RadarChartBlockProps } from "./radar-chart-block"
 
-export { DataGrid } from "./data-grid"
-export type { DataGridProps, ColumnDef, RowAction, DataGridBulkAction } from "./data-grid"
-
 export { FilterBar } from "./filter-bar"
 export type { FilterBarProps, FilterConfig, SearchFilterConfig, SelectFilterConfig, DateFilterConfig } from "./filter-bar"
 
