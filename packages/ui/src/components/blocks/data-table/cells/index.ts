@@ -14,6 +14,7 @@ export { CellRating, type CellRatingProps } from './cell-rating';
 export { CellLink, type CellLinkProps } from './cell-link';
 export { CellBoolean, type CellBooleanProps } from './cell-boolean';
 export { CellAvatarGroup, type CellAvatarGroupProps, type AvatarItem } from './cell-avatar-group';
+export { CellDate, type CellDateProps } from './cell-date';
 export { CellRelativeDate, type CellRelativeDateProps } from './cell-relative-date';
 export { CellUser, type CellUserProps } from './cell-user';
 export { CellDuration, type CellDurationProps } from './cell-duration';

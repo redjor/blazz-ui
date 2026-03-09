@@ -18,6 +18,8 @@ import {
 import { cn } from '../../../../lib/utils';
 import type { DataTableColumnDef } from '../data-table.types';
 import { DataTableColumnHeader } from '../data-table-column-header';
+import { CellDate } from '../cells/cell-date';
+import { DateSelector } from '../../../ui/date-selector';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -570,57 +572,32 @@ function EditableDateCell({
   className,
   validate,
 }: EditableDateCellProps) {
-  const [editing, setEditing] = useState(false);
   const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null);
-  const dateStr = value ? new Date(value).toISOString().split('T')[0] : '';
 
-  const formatted = value
-    ? new Intl.DateTimeFormat('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }).format(new Date(value))
-    : '';
+  const dateValue = value ? new Date(value) : undefined;
 
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
+    (date: Date | undefined) => {
+      const newValue = date ? date.toISOString().split('T')[0] : '';
       if (validate) {
         const result = validate(newValue);
         setValidationResult(result);
         if (result?.level === 'error') return;
       }
       onCellEdit(rowId, columnId, newValue);
-      setEditing(false);
     },
     [rowId, columnId, onCellEdit, validate]
   );
 
-  if (!editing) {
-    return (
-      <div className="relative">
-        <button
-          type="button"
-          className={cn(idleCell, className)}
-          onClick={() => setEditing(true)}
-        >
-          {formatted}
-        </button>
-        <ValidationFeedback result={validationResult} />
-      </div>
-    );
-  }
-
   return (
     <div className="relative">
-      <input
-        type="date"
-        defaultValue={dateStr}
-        onChange={handleChange}
-        onBlur={() => setEditing(false)}
-        autoFocus
+      <DateSelector
+        value={dateValue}
+        onValueChange={handleChange}
+        placeholder="—"
+        formatStr="dd/MM/yyyy"
         className={cn(
-          editInput,
+          'w-full rounded-none border-0 shadow-none text-body-md',
           validationResult && validationRingColor[validationResult.level],
           className,
         )}

@@ -13,6 +13,7 @@ import { CellRating } from '../cells/cell-rating';
 import { CellLink } from '../cells/cell-link';
 import { CellBoolean } from '../cells/cell-boolean';
 import { CellAvatarGroup, type AvatarItem } from '../cells/cell-avatar-group';
+import { CellDate } from '../cells/cell-date';
 import { CellRelativeDate } from '../cells/cell-relative-date';
 import { CellUser } from '../cells/cell-user';
 import { CellDuration } from '../cells/cell-duration';
@@ -453,12 +454,8 @@ export function createDateColumn<TData>(
     title,
     enableSorting,
     cell: ({ row }) => {
-      const value = row.getValue(accessorKey) as string;
-      const date = new Date(value);
-      const formatted = date.toLocaleDateString(locale, format);
-      return (
-        <span className={cn('text-body-md text-fg-muted', className)}>{formatted}</span>
-      );
+      const value = row.getValue(accessorKey) as string | Date;
+      return <CellDate value={value} locale={locale} format={format} className={className} />;
     },
     filterConfig: {
       type: 'date',
