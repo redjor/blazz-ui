@@ -19,8 +19,9 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@blazz/ui/components/ui/sidebar"
-import { sidebarConfig } from "~/config/navigation"
+import { sectionTabs, getSectionNavigation } from "~/config/navigation"
 import type { SectionId } from "~/config/navigation"
+import { cn } from "@blazz/ui/lib/utils"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
 
 interface DocsMobileSheetProps {
@@ -32,6 +33,7 @@ interface DocsMobileSheetProps {
 export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileSheetProps) {
 	const { pathname } = useLocation()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
+	const section = getSectionNavigation(sectionId)
 
 	const isActive = (url?: string) => {
 		if (!url) return false
@@ -42,23 +44,22 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 	const handleLinkClick = () => onOpenChange(false)
 
 	React.useEffect(() => {
-		for (const section of sidebarConfig.navigation) {
-			for (const item of section.items) {
-				if (item.url && pathname.startsWith(item.url) && item.items) {
-					setOpenItemId(item.id ?? item.url ?? null)
-					return
-				}
-				if (item.items) {
-					for (const sub of item.items) {
-						if (sub.url && pathname.startsWith(sub.url)) {
-							setOpenItemId(item.id ?? item.url ?? null)
-							return
-						}
+		if (!section) return
+		for (const item of section.items) {
+			if (item.url && pathname.startsWith(item.url) && item.items) {
+				setOpenItemId(item.id ?? item.url ?? null)
+				return
+			}
+			if (item.items) {
+				for (const sub of item.items) {
+					if (sub.url && pathname.startsWith(sub.url)) {
+						setOpenItemId(item.id ?? item.url ?? null)
+						return
 					}
 				}
 			}
 		}
-	}, [pathname])
+	}, [pathname, section])
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
@@ -68,18 +69,36 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 				topOffset="var(--topbar-height)"
 			>
 				<ScrollArea className="h-full">
-					<SidebarContent>
-						{sidebarConfig.navigation.map((section) => (
+					{/* Section tabs for mobile */}
+					<div className="flex gap-1 p-3 border-b border-container">
+						{sectionTabs.map((tab) => (
+							<Link
+								key={tab.id}
+								to={tab.defaultUrl}
+								onClick={handleLinkClick}
+								className={cn(
+									"px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
+									sectionId === tab.id
+										? "text-fg font-medium bg-raised"
+										: "text-fg-muted hover:text-fg",
+								)}
+							>
+								{tab.label}
+							</Link>
+						))}
+					</div>
+					{/* Filtered sidebar content */}
+					{section && (
+						<SidebarContent>
 							<NavSection
-								key={section.id ?? section.title}
-								section={section}
+								section={{ ...section, title: undefined }}
 								isActive={isActive}
 								onLinkClick={handleLinkClick}
 								openItemId={openItemId}
 								setOpenItemId={setOpenItemId}
 							/>
-						))}
-					</SidebarContent>
+						</SidebarContent>
+					)}
 				</ScrollArea>
 			</SheetContent>
 		</Sheet>
