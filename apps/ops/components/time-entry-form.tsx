@@ -133,7 +133,7 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 				<Select
 					value={watch("projectId") ?? ""}
 					onValueChange={(v) => setValue("projectId", v ?? "")}
-					items={projects?.reduce((acc: Record<string, string>, p: { _id: string; name: string }) => ({ ...acc, [p._id]: p.name }), {}) ?? {}}
+					items={projects?.map((p: { _id: string; name: string }) => ({ value: p._id, label: p.name })) ?? []}
 				>
 					<SelectTrigger className="w-full">
 						<SelectValue placeholder="Choisir un projet…" />
@@ -189,7 +189,7 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					<Select
 						value={watch("status") ?? "draft"}
 						onValueChange={(v) => setValue("status", v as "draft" | "ready_to_invoice")}
-						items={{ draft: "Brouillon", ready_to_invoice: "Prêt à facturer" }}
+						items={[{ value: "draft", label: "Brouillon" }, { value: "ready_to_invoice", label: "Prêt à facturer" }]}
 					>
 						<SelectTrigger className="w-full">
 							<SelectValue />
