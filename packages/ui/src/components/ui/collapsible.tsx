@@ -1,22 +1,21 @@
 "use client"
 
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
-import * as React from "react"
 
-const Collapsible = CollapsiblePrimitive.Root
+function Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {
+  return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />
+}
 
-const CollapsibleTrigger = CollapsiblePrimitive.Trigger
+function CollapsibleTrigger({ ...props }: CollapsiblePrimitive.Trigger.Props) {
+  return (
+    <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" {...props} />
+  )
+}
 
-const CollapsibleContent = React.forwardRef<
-	React.ElementRef<typeof CollapsiblePrimitive.Panel>,
-	React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Panel>
->((props, ref) => (
-	<CollapsiblePrimitive.Panel
-		ref={ref}
-		className="overflow-hidden data-[ending-style]:animate-collapsible-up data-[starting-style]:animate-collapsible-down"
-		{...props}
-	/>
-))
-CollapsibleContent.displayName = "CollapsibleContent"
+function CollapsibleContent({ ...props }: CollapsiblePrimitive.Panel.Props) {
+  return (
+    <CollapsiblePrimitive.Panel data-slot="collapsible-content" {...props} />
+  )
+}
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent }

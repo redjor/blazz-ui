@@ -300,6 +300,18 @@ html[data-theme="warm"].dark {
 
 
 @layer base {
+	/* Collapsible panel — CSS transition on height (Base UI pattern) */
+	[data-slot="collapsible-content"] {
+		overflow: hidden;
+		height: var(--collapsible-panel-height);
+		transition: height 200ms ease-out;
+	}
+
+	[data-slot="collapsible-content"][data-starting-style],
+	[data-slot="collapsible-content"][data-ending-style] {
+		height: 0;
+	}
+
 	@keyframes slide-in-from-left {
 		from {
 			transform: translateX(-100%);
