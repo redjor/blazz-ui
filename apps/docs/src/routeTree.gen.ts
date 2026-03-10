@@ -17,6 +17,8 @@ import { Route as DocsDocsSandboxRouteImport } from './routes/_docs/docs/sandbox
 import { Route as DocsDocsMcpRouteImport } from './routes/_docs/docs/mcp'
 import { Route as DocsDocsGuideIndexRouteImport } from './routes/_docs/docs/guide/index'
 import { Route as DocsDocsComponentsIndexRouteImport } from './routes/_docs/docs/components/index'
+import { Route as DocsDocsBlocksIndexRouteImport } from './routes/_docs/docs/blocks/index'
+import { Route as DocsDocsAiIndexRouteImport } from './routes/_docs/docs/ai/index'
 import { Route as DocsDocsUtilsUnsavedChangesBarRouteImport } from './routes/_docs/docs/utils/unsaved-changes-bar'
 import { Route as DocsDocsUtilsQuickLoginRouteImport } from './routes/_docs/docs/utils/quick-login'
 import { Route as DocsDocsComponentsTypographyRouteImport } from './routes/_docs/docs/components/typography'
@@ -27,10 +29,36 @@ import { Route as DocsDocsComponentsFeedbackRouteImport } from './routes/_docs/d
 import { Route as DocsDocsComponentsDataDisplayRouteImport } from './routes/_docs/docs/components/data-display'
 import { Route as DocsDocsComponentsColorsRouteImport } from './routes/_docs/docs/components/colors'
 import { Route as DocsDocsComponentsActionsRouteImport } from './routes/_docs/docs/components/actions'
+import { Route as DocsDocsBlocksStatusFlowRouteImport } from './routes/_docs/docs/blocks/status-flow'
+import { Route as DocsDocsBlocksStatsStripRouteImport } from './routes/_docs/docs/blocks/stats-strip'
+import { Route as DocsDocsBlocksStatsGridRouteImport } from './routes/_docs/docs/blocks/stats-grid'
+import { Route as DocsDocsBlocksSplitViewRouteImport } from './routes/_docs/docs/blocks/split-view'
+import { Route as DocsDocsBlocksQuotePreviewRouteImport } from './routes/_docs/docs/blocks/quote-preview'
+import { Route as DocsDocsBlocksQuickLogActivityRouteImport } from './routes/_docs/docs/blocks/quick-log-activity'
+import { Route as DocsDocsBlocksPropertyCardRouteImport } from './routes/_docs/docs/blocks/property-card'
+import { Route as DocsDocsBlocksOrgMenuRouteImport } from './routes/_docs/docs/blocks/org-menu'
+import { Route as DocsDocsBlocksNotificationCenterRouteImport } from './routes/_docs/docs/blocks/notification-center'
+import { Route as DocsDocsBlocksMultiStepFormRouteImport } from './routes/_docs/docs/blocks/multi-step-form'
+import { Route as DocsDocsBlocksKanbanBoardRouteImport } from './routes/_docs/docs/blocks/kanban-board'
+import { Route as DocsDocsBlocksInlineEditRouteImport } from './routes/_docs/docs/blocks/inline-edit'
+import { Route as DocsDocsBlocksFilterBarRouteImport } from './routes/_docs/docs/blocks/filter-bar'
+import { Route as DocsDocsBlocksDetailPanelRouteImport } from './routes/_docs/docs/blocks/detail-panel'
+import { Route as DocsDocsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/blocks/deal-lines-editor'
+import { Route as DocsDocsBlocksDataTableRouteImport } from './routes/_docs/docs/blocks/data-table'
+import { Route as DocsDocsBlocksChartCardRouteImport } from './routes/_docs/docs/blocks/chart-card'
+import { Route as DocsDocsBlocksBulkActionBarRouteImport } from './routes/_docs/docs/blocks/bulk-action-bar'
+import { Route as DocsDocsBlocksActivityTimelineRouteImport } from './routes/_docs/docs/blocks/activity-timeline'
+import { Route as DocsDocsAiSourcesRouteImport } from './routes/_docs/docs/ai/sources'
+import { Route as DocsDocsAiReasoningRouteImport } from './routes/_docs/docs/ai/reasoning'
+import { Route as DocsDocsAiModelSelectorRouteImport } from './routes/_docs/docs/ai/model-selector'
+import { Route as DocsDocsAiInlineCitationRouteImport } from './routes/_docs/docs/ai/inline-citation'
+import { Route as DocsDocsAiGenerativeUiRouteImport } from './routes/_docs/docs/ai/generative-ui'
+import { Route as DocsDocsAiContextRouteImport } from './routes/_docs/docs/ai/context'
+import { Route as DocsDocsAiConfirmationRouteImport } from './routes/_docs/docs/ai/confirmation'
+import { Route as DocsDocsAiChainOfThoughtRouteImport } from './routes/_docs/docs/ai/chain-of-thought'
 import { Route as DocsDocsComponentsUiIndexRouteImport } from './routes/_docs/docs/components/ui/index'
 import { Route as DocsDocsComponentsLayoutIndexRouteImport } from './routes/_docs/docs/components/layout/index'
-import { Route as DocsDocsComponentsBlocksIndexRouteImport } from './routes/_docs/docs/components/blocks/index'
-import { Route as DocsDocsComponentsAiIndexRouteImport } from './routes/_docs/docs/components/ai/index'
+import { Route as DocsDocsBlocksChartsIndexRouteImport } from './routes/_docs/docs/blocks/charts/index'
 import { Route as DocsDocsComponentsUiTreeViewRouteImport } from './routes/_docs/docs/components/ui/tree-view'
 import { Route as DocsDocsComponentsUiTooltipRouteImport } from './routes/_docs/docs/components/ui/tooltip'
 import { Route as DocsDocsComponentsUiToastRouteImport } from './routes/_docs/docs/components/ui/toast'
@@ -116,83 +144,55 @@ import { Route as DocsDocsComponentsLayoutCalloutCardRouteImport } from './route
 import { Route as DocsDocsComponentsLayoutBoxRouteImport } from './routes/_docs/docs/components/layout/box'
 import { Route as DocsDocsComponentsLayoutBlockStackRouteImport } from './routes/_docs/docs/components/layout/block-stack'
 import { Route as DocsDocsComponentsLayoutBleedRouteImport } from './routes/_docs/docs/components/layout/bleed'
-import { Route as DocsDocsComponentsBlocksStatusFlowRouteImport } from './routes/_docs/docs/components/blocks/status-flow'
-import { Route as DocsDocsComponentsBlocksStatsStripRouteImport } from './routes/_docs/docs/components/blocks/stats-strip'
-import { Route as DocsDocsComponentsBlocksStatsGridRouteImport } from './routes/_docs/docs/components/blocks/stats-grid'
-import { Route as DocsDocsComponentsBlocksSplitViewRouteImport } from './routes/_docs/docs/components/blocks/split-view'
-import { Route as DocsDocsComponentsBlocksQuotePreviewRouteImport } from './routes/_docs/docs/components/blocks/quote-preview'
-import { Route as DocsDocsComponentsBlocksQuickLogActivityRouteImport } from './routes/_docs/docs/components/blocks/quick-log-activity'
-import { Route as DocsDocsComponentsBlocksPropertyCardRouteImport } from './routes/_docs/docs/components/blocks/property-card'
-import { Route as DocsDocsComponentsBlocksOrgMenuRouteImport } from './routes/_docs/docs/components/blocks/org-menu'
-import { Route as DocsDocsComponentsBlocksNotificationCenterRouteImport } from './routes/_docs/docs/components/blocks/notification-center'
-import { Route as DocsDocsComponentsBlocksMultiStepFormRouteImport } from './routes/_docs/docs/components/blocks/multi-step-form'
-import { Route as DocsDocsComponentsBlocksKanbanBoardRouteImport } from './routes/_docs/docs/components/blocks/kanban-board'
-import { Route as DocsDocsComponentsBlocksInlineEditRouteImport } from './routes/_docs/docs/components/blocks/inline-edit'
-import { Route as DocsDocsComponentsBlocksFilterBarRouteImport } from './routes/_docs/docs/components/blocks/filter-bar'
-import { Route as DocsDocsComponentsBlocksDetailPanelRouteImport } from './routes/_docs/docs/components/blocks/detail-panel'
-import { Route as DocsDocsComponentsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/components/blocks/deal-lines-editor'
-import { Route as DocsDocsComponentsBlocksDataTableRouteImport } from './routes/_docs/docs/components/blocks/data-table'
-import { Route as DocsDocsComponentsBlocksChartCardRouteImport } from './routes/_docs/docs/components/blocks/chart-card'
-import { Route as DocsDocsComponentsBlocksBulkActionBarRouteImport } from './routes/_docs/docs/components/blocks/bulk-action-bar'
-import { Route as DocsDocsComponentsBlocksActivityTimelineRouteImport } from './routes/_docs/docs/components/blocks/activity-timeline'
-import { Route as DocsDocsComponentsAiSourcesRouteImport } from './routes/_docs/docs/components/ai/sources'
-import { Route as DocsDocsComponentsAiReasoningRouteImport } from './routes/_docs/docs/components/ai/reasoning'
-import { Route as DocsDocsComponentsAiModelSelectorRouteImport } from './routes/_docs/docs/components/ai/model-selector'
-import { Route as DocsDocsComponentsAiInlineCitationRouteImport } from './routes/_docs/docs/components/ai/inline-citation'
-import { Route as DocsDocsComponentsAiGenerativeUiRouteImport } from './routes/_docs/docs/components/ai/generative-ui'
-import { Route as DocsDocsComponentsAiContextRouteImport } from './routes/_docs/docs/components/ai/context'
-import { Route as DocsDocsComponentsAiConfirmationRouteImport } from './routes/_docs/docs/components/ai/confirmation'
-import { Route as DocsDocsComponentsAiChainOfThoughtRouteImport } from './routes/_docs/docs/components/ai/chain-of-thought'
-import { Route as DocsDocsComponentsBlocksChartsIndexRouteImport } from './routes/_docs/docs/components/blocks/charts/index'
-import { Route as DocsDocsComponentsBlocksChartsRadarChartRouteImport } from './routes/_docs/docs/components/blocks/charts/radar-chart'
-import { Route as DocsDocsComponentsBlocksChartsPieChartRouteImport } from './routes/_docs/docs/components/blocks/charts/pie-chart'
-import { Route as DocsDocsComponentsBlocksChartsLineChartRouteImport } from './routes/_docs/docs/components/blocks/charts/line-chart'
-import { Route as DocsDocsComponentsBlocksChartsBarChartRouteImport } from './routes/_docs/docs/components/blocks/charts/bar-chart'
-import { Route as DocsDocsComponentsBlocksChartsAreaChartRouteImport } from './routes/_docs/docs/components/blocks/charts/area-chart'
-import { Route as DocsDocsComponentsAiWorkflowTaskCardRouteImport } from './routes/_docs/docs/components/ai/workflow/task-card'
-import { Route as DocsDocsComponentsAiWorkflowPollCardRouteImport } from './routes/_docs/docs/components/ai/workflow/poll-card'
-import { Route as DocsDocsComponentsAiWorkflowMessagePreviewRouteImport } from './routes/_docs/docs/components/ai/workflow/message-preview'
-import { Route as DocsDocsComponentsAiWorkflowEmailPreviewRouteImport } from './routes/_docs/docs/components/ai/workflow/email-preview'
-import { Route as DocsDocsComponentsAiWorkflowChecklistCardRouteImport } from './routes/_docs/docs/components/ai/workflow/checklist-card'
-import { Route as DocsDocsComponentsAiWorkflowApprovalCardRouteImport } from './routes/_docs/docs/components/ai/workflow/approval-card'
-import { Route as DocsDocsComponentsAiWorkflowActionListRouteImport } from './routes/_docs/docs/components/ai/workflow/action-list'
-import { Route as DocsDocsComponentsAiPlanningTimelineRouteImport } from './routes/_docs/docs/components/ai/planning/timeline'
-import { Route as DocsDocsComponentsAiPlanningStatusUpdateRouteImport } from './routes/_docs/docs/components/ai/planning/status-update'
-import { Route as DocsDocsComponentsAiPlanningEventCardRouteImport } from './routes/_docs/docs/components/ai/planning/event-card'
-import { Route as DocsDocsComponentsAiPlanningCalendarCardRouteImport } from './routes/_docs/docs/components/ai/planning/calendar-card'
-import { Route as DocsDocsComponentsAiPlanningAvailabilityCardRouteImport } from './routes/_docs/docs/components/ai/planning/availability-card'
-import { Route as DocsDocsComponentsAiEntitiesUserCardRouteImport } from './routes/_docs/docs/components/ai/entities/user-card'
-import { Route as DocsDocsComponentsAiEntitiesDealCardRouteImport } from './routes/_docs/docs/components/ai/entities/deal-card'
-import { Route as DocsDocsComponentsAiEntitiesContactCardRouteImport } from './routes/_docs/docs/components/ai/entities/contact-card'
-import { Route as DocsDocsComponentsAiEntitiesCompanyCardRouteImport } from './routes/_docs/docs/components/ai/entities/company-card'
-import { Route as DocsDocsComponentsAiEntitiesCandidateCardRouteImport } from './routes/_docs/docs/components/ai/entities/candidate-card'
-import { Route as DocsDocsComponentsAiDataStatsRowRouteImport } from './routes/_docs/docs/components/ai/data/stats-row'
-import { Route as DocsDocsComponentsAiDataScoreCardRouteImport } from './routes/_docs/docs/components/ai/data/score-card'
-import { Route as DocsDocsComponentsAiDataRatingCardRouteImport } from './routes/_docs/docs/components/ai/data/rating-card'
-import { Route as DocsDocsComponentsAiDataProgressCardRouteImport } from './routes/_docs/docs/components/ai/data/progress-card'
-import { Route as DocsDocsComponentsAiDataMiniChartRouteImport } from './routes/_docs/docs/components/ai/data/mini-chart'
-import { Route as DocsDocsComponentsAiDataMetricCardRouteImport } from './routes/_docs/docs/components/ai/data/metric-card'
-import { Route as DocsDocsComponentsAiDataDataListRouteImport } from './routes/_docs/docs/components/ai/data/data-list'
-import { Route as DocsDocsComponentsAiDataDataGridRouteImport } from './routes/_docs/docs/components/ai/data/data-grid'
-import { Route as DocsDocsComponentsAiDataComparisonTableRouteImport } from './routes/_docs/docs/components/ai/data/comparison-table'
-import { Route as DocsDocsComponentsAiContentVideoCardRouteImport } from './routes/_docs/docs/components/ai/content/video-card'
-import { Route as DocsDocsComponentsAiContentSummaryCardRouteImport } from './routes/_docs/docs/components/ai/content/summary-card'
-import { Route as DocsDocsComponentsAiContentLocationCardRouteImport } from './routes/_docs/docs/components/ai/content/location-card'
-import { Route as DocsDocsComponentsAiContentLinkPreviewRouteImport } from './routes/_docs/docs/components/ai/content/link-preview'
-import { Route as DocsDocsComponentsAiContentInsightCardRouteImport } from './routes/_docs/docs/components/ai/content/insight-card'
-import { Route as DocsDocsComponentsAiContentImageGalleryRouteImport } from './routes/_docs/docs/components/ai/content/image-gallery'
-import { Route as DocsDocsComponentsAiContentFileCardRouteImport } from './routes/_docs/docs/components/ai/content/file-card'
-import { Route as DocsDocsComponentsAiCommerceTransactionCardRouteImport } from './routes/_docs/docs/components/ai/commerce/transaction-card'
-import { Route as DocsDocsComponentsAiCommerceQuoteSummaryRouteImport } from './routes/_docs/docs/components/ai/commerce/quote-summary'
-import { Route as DocsDocsComponentsAiCommerceProductCardRouteImport } from './routes/_docs/docs/components/ai/commerce/product-card'
-import { Route as DocsDocsComponentsAiCommercePricingTableRouteImport } from './routes/_docs/docs/components/ai/commerce/pricing-table'
-import { Route as DocsDocsComponentsAiCommerceInvoiceCardRouteImport } from './routes/_docs/docs/components/ai/commerce/invoice-card'
-import { Route as DocsDocsComponentsAiChatSuggestionRouteImport } from './routes/_docs/docs/components/ai/chat/suggestion'
-import { Route as DocsDocsComponentsAiChatShimmerRouteImport } from './routes/_docs/docs/components/ai/chat/shimmer'
-import { Route as DocsDocsComponentsAiChatPromptInputRouteImport } from './routes/_docs/docs/components/ai/chat/prompt-input'
-import { Route as DocsDocsComponentsAiChatMessageRouteImport } from './routes/_docs/docs/components/ai/chat/message'
-import { Route as DocsDocsComponentsAiChatConversationRouteImport } from './routes/_docs/docs/components/ai/chat/conversation'
-import { Route as DocsDocsComponentsAiChatAttachmentsRouteImport } from './routes/_docs/docs/components/ai/chat/attachments'
+import { Route as DocsDocsBlocksChartsRadarChartRouteImport } from './routes/_docs/docs/blocks/charts/radar-chart'
+import { Route as DocsDocsBlocksChartsPieChartRouteImport } from './routes/_docs/docs/blocks/charts/pie-chart'
+import { Route as DocsDocsBlocksChartsLineChartRouteImport } from './routes/_docs/docs/blocks/charts/line-chart'
+import { Route as DocsDocsBlocksChartsBarChartRouteImport } from './routes/_docs/docs/blocks/charts/bar-chart'
+import { Route as DocsDocsBlocksChartsAreaChartRouteImport } from './routes/_docs/docs/blocks/charts/area-chart'
+import { Route as DocsDocsAiWorkflowTaskCardRouteImport } from './routes/_docs/docs/ai/workflow/task-card'
+import { Route as DocsDocsAiWorkflowPollCardRouteImport } from './routes/_docs/docs/ai/workflow/poll-card'
+import { Route as DocsDocsAiWorkflowMessagePreviewRouteImport } from './routes/_docs/docs/ai/workflow/message-preview'
+import { Route as DocsDocsAiWorkflowEmailPreviewRouteImport } from './routes/_docs/docs/ai/workflow/email-preview'
+import { Route as DocsDocsAiWorkflowChecklistCardRouteImport } from './routes/_docs/docs/ai/workflow/checklist-card'
+import { Route as DocsDocsAiWorkflowApprovalCardRouteImport } from './routes/_docs/docs/ai/workflow/approval-card'
+import { Route as DocsDocsAiWorkflowActionListRouteImport } from './routes/_docs/docs/ai/workflow/action-list'
+import { Route as DocsDocsAiPlanningTimelineRouteImport } from './routes/_docs/docs/ai/planning/timeline'
+import { Route as DocsDocsAiPlanningStatusUpdateRouteImport } from './routes/_docs/docs/ai/planning/status-update'
+import { Route as DocsDocsAiPlanningEventCardRouteImport } from './routes/_docs/docs/ai/planning/event-card'
+import { Route as DocsDocsAiPlanningCalendarCardRouteImport } from './routes/_docs/docs/ai/planning/calendar-card'
+import { Route as DocsDocsAiPlanningAvailabilityCardRouteImport } from './routes/_docs/docs/ai/planning/availability-card'
+import { Route as DocsDocsAiEntitiesUserCardRouteImport } from './routes/_docs/docs/ai/entities/user-card'
+import { Route as DocsDocsAiEntitiesDealCardRouteImport } from './routes/_docs/docs/ai/entities/deal-card'
+import { Route as DocsDocsAiEntitiesContactCardRouteImport } from './routes/_docs/docs/ai/entities/contact-card'
+import { Route as DocsDocsAiEntitiesCompanyCardRouteImport } from './routes/_docs/docs/ai/entities/company-card'
+import { Route as DocsDocsAiEntitiesCandidateCardRouteImport } from './routes/_docs/docs/ai/entities/candidate-card'
+import { Route as DocsDocsAiDataStatsRowRouteImport } from './routes/_docs/docs/ai/data/stats-row'
+import { Route as DocsDocsAiDataScoreCardRouteImport } from './routes/_docs/docs/ai/data/score-card'
+import { Route as DocsDocsAiDataRatingCardRouteImport } from './routes/_docs/docs/ai/data/rating-card'
+import { Route as DocsDocsAiDataProgressCardRouteImport } from './routes/_docs/docs/ai/data/progress-card'
+import { Route as DocsDocsAiDataMiniChartRouteImport } from './routes/_docs/docs/ai/data/mini-chart'
+import { Route as DocsDocsAiDataMetricCardRouteImport } from './routes/_docs/docs/ai/data/metric-card'
+import { Route as DocsDocsAiDataDataListRouteImport } from './routes/_docs/docs/ai/data/data-list'
+import { Route as DocsDocsAiDataDataGridRouteImport } from './routes/_docs/docs/ai/data/data-grid'
+import { Route as DocsDocsAiDataComparisonTableRouteImport } from './routes/_docs/docs/ai/data/comparison-table'
+import { Route as DocsDocsAiContentVideoCardRouteImport } from './routes/_docs/docs/ai/content/video-card'
+import { Route as DocsDocsAiContentSummaryCardRouteImport } from './routes/_docs/docs/ai/content/summary-card'
+import { Route as DocsDocsAiContentLocationCardRouteImport } from './routes/_docs/docs/ai/content/location-card'
+import { Route as DocsDocsAiContentLinkPreviewRouteImport } from './routes/_docs/docs/ai/content/link-preview'
+import { Route as DocsDocsAiContentInsightCardRouteImport } from './routes/_docs/docs/ai/content/insight-card'
+import { Route as DocsDocsAiContentImageGalleryRouteImport } from './routes/_docs/docs/ai/content/image-gallery'
+import { Route as DocsDocsAiContentFileCardRouteImport } from './routes/_docs/docs/ai/content/file-card'
+import { Route as DocsDocsAiCommerceTransactionCardRouteImport } from './routes/_docs/docs/ai/commerce/transaction-card'
+import { Route as DocsDocsAiCommerceQuoteSummaryRouteImport } from './routes/_docs/docs/ai/commerce/quote-summary'
+import { Route as DocsDocsAiCommerceProductCardRouteImport } from './routes/_docs/docs/ai/commerce/product-card'
+import { Route as DocsDocsAiCommercePricingTableRouteImport } from './routes/_docs/docs/ai/commerce/pricing-table'
+import { Route as DocsDocsAiCommerceInvoiceCardRouteImport } from './routes/_docs/docs/ai/commerce/invoice-card'
+import { Route as DocsDocsAiChatSuggestionRouteImport } from './routes/_docs/docs/ai/chat/suggestion'
+import { Route as DocsDocsAiChatShimmerRouteImport } from './routes/_docs/docs/ai/chat/shimmer'
+import { Route as DocsDocsAiChatPromptInputRouteImport } from './routes/_docs/docs/ai/chat/prompt-input'
+import { Route as DocsDocsAiChatMessageRouteImport } from './routes/_docs/docs/ai/chat/message'
+import { Route as DocsDocsAiChatConversationRouteImport } from './routes/_docs/docs/ai/chat/conversation'
+import { Route as DocsDocsAiChatAttachmentsRouteImport } from './routes/_docs/docs/ai/chat/attachments'
 
 const ThumbnailRoute = ThumbnailRouteImport.update({
   id: '/thumbnail',
@@ -231,6 +231,16 @@ const DocsDocsGuideIndexRoute = DocsDocsGuideIndexRouteImport.update({
 const DocsDocsComponentsIndexRoute = DocsDocsComponentsIndexRouteImport.update({
   id: '/docs/components/',
   path: '/docs/components/',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksIndexRoute = DocsDocsBlocksIndexRouteImport.update({
+  id: '/docs/blocks/',
+  path: '/docs/blocks/',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiIndexRoute = DocsDocsAiIndexRouteImport.update({
+  id: '/docs/ai/',
+  path: '/docs/ai/',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsDocsUtilsUnsavedChangesBarRoute =
@@ -291,6 +301,156 @@ const DocsDocsComponentsActionsRoute =
     path: '/docs/components/actions',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksStatusFlowRoute =
+  DocsDocsBlocksStatusFlowRouteImport.update({
+    id: '/docs/blocks/status-flow',
+    path: '/docs/blocks/status-flow',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksStatsStripRoute =
+  DocsDocsBlocksStatsStripRouteImport.update({
+    id: '/docs/blocks/stats-strip',
+    path: '/docs/blocks/stats-strip',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksStatsGridRoute = DocsDocsBlocksStatsGridRouteImport.update({
+  id: '/docs/blocks/stats-grid',
+  path: '/docs/blocks/stats-grid',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksSplitViewRoute = DocsDocsBlocksSplitViewRouteImport.update({
+  id: '/docs/blocks/split-view',
+  path: '/docs/blocks/split-view',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksQuotePreviewRoute =
+  DocsDocsBlocksQuotePreviewRouteImport.update({
+    id: '/docs/blocks/quote-preview',
+    path: '/docs/blocks/quote-preview',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksQuickLogActivityRoute =
+  DocsDocsBlocksQuickLogActivityRouteImport.update({
+    id: '/docs/blocks/quick-log-activity',
+    path: '/docs/blocks/quick-log-activity',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksPropertyCardRoute =
+  DocsDocsBlocksPropertyCardRouteImport.update({
+    id: '/docs/blocks/property-card',
+    path: '/docs/blocks/property-card',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksOrgMenuRoute = DocsDocsBlocksOrgMenuRouteImport.update({
+  id: '/docs/blocks/org-menu',
+  path: '/docs/blocks/org-menu',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksNotificationCenterRoute =
+  DocsDocsBlocksNotificationCenterRouteImport.update({
+    id: '/docs/blocks/notification-center',
+    path: '/docs/blocks/notification-center',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksMultiStepFormRoute =
+  DocsDocsBlocksMultiStepFormRouteImport.update({
+    id: '/docs/blocks/multi-step-form',
+    path: '/docs/blocks/multi-step-form',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksKanbanBoardRoute =
+  DocsDocsBlocksKanbanBoardRouteImport.update({
+    id: '/docs/blocks/kanban-board',
+    path: '/docs/blocks/kanban-board',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksInlineEditRoute =
+  DocsDocsBlocksInlineEditRouteImport.update({
+    id: '/docs/blocks/inline-edit',
+    path: '/docs/blocks/inline-edit',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksFilterBarRoute = DocsDocsBlocksFilterBarRouteImport.update({
+  id: '/docs/blocks/filter-bar',
+  path: '/docs/blocks/filter-bar',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksDetailPanelRoute =
+  DocsDocsBlocksDetailPanelRouteImport.update({
+    id: '/docs/blocks/detail-panel',
+    path: '/docs/blocks/detail-panel',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksDealLinesEditorRoute =
+  DocsDocsBlocksDealLinesEditorRouteImport.update({
+    id: '/docs/blocks/deal-lines-editor',
+    path: '/docs/blocks/deal-lines-editor',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksDataTableRoute = DocsDocsBlocksDataTableRouteImport.update({
+  id: '/docs/blocks/data-table',
+  path: '/docs/blocks/data-table',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksChartCardRoute = DocsDocsBlocksChartCardRouteImport.update({
+  id: '/docs/blocks/chart-card',
+  path: '/docs/blocks/chart-card',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksBulkActionBarRoute =
+  DocsDocsBlocksBulkActionBarRouteImport.update({
+    id: '/docs/blocks/bulk-action-bar',
+    path: '/docs/blocks/bulk-action-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksActivityTimelineRoute =
+  DocsDocsBlocksActivityTimelineRouteImport.update({
+    id: '/docs/blocks/activity-timeline',
+    path: '/docs/blocks/activity-timeline',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsAiSourcesRoute = DocsDocsAiSourcesRouteImport.update({
+  id: '/docs/ai/sources',
+  path: '/docs/ai/sources',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiReasoningRoute = DocsDocsAiReasoningRouteImport.update({
+  id: '/docs/ai/reasoning',
+  path: '/docs/ai/reasoning',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiModelSelectorRoute = DocsDocsAiModelSelectorRouteImport.update({
+  id: '/docs/ai/model-selector',
+  path: '/docs/ai/model-selector',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiInlineCitationRoute =
+  DocsDocsAiInlineCitationRouteImport.update({
+    id: '/docs/ai/inline-citation',
+    path: '/docs/ai/inline-citation',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsAiGenerativeUiRoute = DocsDocsAiGenerativeUiRouteImport.update({
+  id: '/docs/ai/generative-ui',
+  path: '/docs/ai/generative-ui',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiContextRoute = DocsDocsAiContextRouteImport.update({
+  id: '/docs/ai/context',
+  path: '/docs/ai/context',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiConfirmationRoute = DocsDocsAiConfirmationRouteImport.update({
+  id: '/docs/ai/confirmation',
+  path: '/docs/ai/confirmation',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiChainOfThoughtRoute =
+  DocsDocsAiChainOfThoughtRouteImport.update({
+    id: '/docs/ai/chain-of-thought',
+    path: '/docs/ai/chain-of-thought',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsComponentsUiIndexRoute =
   DocsDocsComponentsUiIndexRouteImport.update({
     id: '/docs/components/ui/',
@@ -303,16 +463,10 @@ const DocsDocsComponentsLayoutIndexRoute =
     path: '/docs/components/layout/',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksIndexRoute =
-  DocsDocsComponentsBlocksIndexRouteImport.update({
-    id: '/docs/components/blocks/',
-    path: '/docs/components/blocks/',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiIndexRoute =
-  DocsDocsComponentsAiIndexRouteImport.update({
-    id: '/docs/components/ai/',
-    path: '/docs/components/ai/',
+const DocsDocsBlocksChartsIndexRoute =
+  DocsDocsBlocksChartsIndexRouteImport.update({
+    id: '/docs/blocks/charts/',
+    path: '/docs/blocks/charts/',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiTreeViewRoute =
@@ -825,466 +979,291 @@ const DocsDocsComponentsLayoutBleedRoute =
     path: '/docs/components/layout/bleed',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksStatusFlowRoute =
-  DocsDocsComponentsBlocksStatusFlowRouteImport.update({
-    id: '/docs/components/blocks/status-flow',
-    path: '/docs/components/blocks/status-flow',
+const DocsDocsBlocksChartsRadarChartRoute =
+  DocsDocsBlocksChartsRadarChartRouteImport.update({
+    id: '/docs/blocks/charts/radar-chart',
+    path: '/docs/blocks/charts/radar-chart',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksStatsStripRoute =
-  DocsDocsComponentsBlocksStatsStripRouteImport.update({
-    id: '/docs/components/blocks/stats-strip',
-    path: '/docs/components/blocks/stats-strip',
+const DocsDocsBlocksChartsPieChartRoute =
+  DocsDocsBlocksChartsPieChartRouteImport.update({
+    id: '/docs/blocks/charts/pie-chart',
+    path: '/docs/blocks/charts/pie-chart',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksStatsGridRoute =
-  DocsDocsComponentsBlocksStatsGridRouteImport.update({
-    id: '/docs/components/blocks/stats-grid',
-    path: '/docs/components/blocks/stats-grid',
+const DocsDocsBlocksChartsLineChartRoute =
+  DocsDocsBlocksChartsLineChartRouteImport.update({
+    id: '/docs/blocks/charts/line-chart',
+    path: '/docs/blocks/charts/line-chart',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksSplitViewRoute =
-  DocsDocsComponentsBlocksSplitViewRouteImport.update({
-    id: '/docs/components/blocks/split-view',
-    path: '/docs/components/blocks/split-view',
+const DocsDocsBlocksChartsBarChartRoute =
+  DocsDocsBlocksChartsBarChartRouteImport.update({
+    id: '/docs/blocks/charts/bar-chart',
+    path: '/docs/blocks/charts/bar-chart',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksQuotePreviewRoute =
-  DocsDocsComponentsBlocksQuotePreviewRouteImport.update({
-    id: '/docs/components/blocks/quote-preview',
-    path: '/docs/components/blocks/quote-preview',
+const DocsDocsBlocksChartsAreaChartRoute =
+  DocsDocsBlocksChartsAreaChartRouteImport.update({
+    id: '/docs/blocks/charts/area-chart',
+    path: '/docs/blocks/charts/area-chart',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksQuickLogActivityRoute =
-  DocsDocsComponentsBlocksQuickLogActivityRouteImport.update({
-    id: '/docs/components/blocks/quick-log-activity',
-    path: '/docs/components/blocks/quick-log-activity',
+const DocsDocsAiWorkflowTaskCardRoute =
+  DocsDocsAiWorkflowTaskCardRouteImport.update({
+    id: '/docs/ai/workflow/task-card',
+    path: '/docs/ai/workflow/task-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksPropertyCardRoute =
-  DocsDocsComponentsBlocksPropertyCardRouteImport.update({
-    id: '/docs/components/blocks/property-card',
-    path: '/docs/components/blocks/property-card',
+const DocsDocsAiWorkflowPollCardRoute =
+  DocsDocsAiWorkflowPollCardRouteImport.update({
+    id: '/docs/ai/workflow/poll-card',
+    path: '/docs/ai/workflow/poll-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksOrgMenuRoute =
-  DocsDocsComponentsBlocksOrgMenuRouteImport.update({
-    id: '/docs/components/blocks/org-menu',
-    path: '/docs/components/blocks/org-menu',
+const DocsDocsAiWorkflowMessagePreviewRoute =
+  DocsDocsAiWorkflowMessagePreviewRouteImport.update({
+    id: '/docs/ai/workflow/message-preview',
+    path: '/docs/ai/workflow/message-preview',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksNotificationCenterRoute =
-  DocsDocsComponentsBlocksNotificationCenterRouteImport.update({
-    id: '/docs/components/blocks/notification-center',
-    path: '/docs/components/blocks/notification-center',
+const DocsDocsAiWorkflowEmailPreviewRoute =
+  DocsDocsAiWorkflowEmailPreviewRouteImport.update({
+    id: '/docs/ai/workflow/email-preview',
+    path: '/docs/ai/workflow/email-preview',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksMultiStepFormRoute =
-  DocsDocsComponentsBlocksMultiStepFormRouteImport.update({
-    id: '/docs/components/blocks/multi-step-form',
-    path: '/docs/components/blocks/multi-step-form',
+const DocsDocsAiWorkflowChecklistCardRoute =
+  DocsDocsAiWorkflowChecklistCardRouteImport.update({
+    id: '/docs/ai/workflow/checklist-card',
+    path: '/docs/ai/workflow/checklist-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksKanbanBoardRoute =
-  DocsDocsComponentsBlocksKanbanBoardRouteImport.update({
-    id: '/docs/components/blocks/kanban-board',
-    path: '/docs/components/blocks/kanban-board',
+const DocsDocsAiWorkflowApprovalCardRoute =
+  DocsDocsAiWorkflowApprovalCardRouteImport.update({
+    id: '/docs/ai/workflow/approval-card',
+    path: '/docs/ai/workflow/approval-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksInlineEditRoute =
-  DocsDocsComponentsBlocksInlineEditRouteImport.update({
-    id: '/docs/components/blocks/inline-edit',
-    path: '/docs/components/blocks/inline-edit',
+const DocsDocsAiWorkflowActionListRoute =
+  DocsDocsAiWorkflowActionListRouteImport.update({
+    id: '/docs/ai/workflow/action-list',
+    path: '/docs/ai/workflow/action-list',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksFilterBarRoute =
-  DocsDocsComponentsBlocksFilterBarRouteImport.update({
-    id: '/docs/components/blocks/filter-bar',
-    path: '/docs/components/blocks/filter-bar',
+const DocsDocsAiPlanningTimelineRoute =
+  DocsDocsAiPlanningTimelineRouteImport.update({
+    id: '/docs/ai/planning/timeline',
+    path: '/docs/ai/planning/timeline',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksDetailPanelRoute =
-  DocsDocsComponentsBlocksDetailPanelRouteImport.update({
-    id: '/docs/components/blocks/detail-panel',
-    path: '/docs/components/blocks/detail-panel',
+const DocsDocsAiPlanningStatusUpdateRoute =
+  DocsDocsAiPlanningStatusUpdateRouteImport.update({
+    id: '/docs/ai/planning/status-update',
+    path: '/docs/ai/planning/status-update',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksDealLinesEditorRoute =
-  DocsDocsComponentsBlocksDealLinesEditorRouteImport.update({
-    id: '/docs/components/blocks/deal-lines-editor',
-    path: '/docs/components/blocks/deal-lines-editor',
+const DocsDocsAiPlanningEventCardRoute =
+  DocsDocsAiPlanningEventCardRouteImport.update({
+    id: '/docs/ai/planning/event-card',
+    path: '/docs/ai/planning/event-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksDataTableRoute =
-  DocsDocsComponentsBlocksDataTableRouteImport.update({
-    id: '/docs/components/blocks/data-table',
-    path: '/docs/components/blocks/data-table',
+const DocsDocsAiPlanningCalendarCardRoute =
+  DocsDocsAiPlanningCalendarCardRouteImport.update({
+    id: '/docs/ai/planning/calendar-card',
+    path: '/docs/ai/planning/calendar-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartCardRoute =
-  DocsDocsComponentsBlocksChartCardRouteImport.update({
-    id: '/docs/components/blocks/chart-card',
-    path: '/docs/components/blocks/chart-card',
+const DocsDocsAiPlanningAvailabilityCardRoute =
+  DocsDocsAiPlanningAvailabilityCardRouteImport.update({
+    id: '/docs/ai/planning/availability-card',
+    path: '/docs/ai/planning/availability-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksBulkActionBarRoute =
-  DocsDocsComponentsBlocksBulkActionBarRouteImport.update({
-    id: '/docs/components/blocks/bulk-action-bar',
-    path: '/docs/components/blocks/bulk-action-bar',
+const DocsDocsAiEntitiesUserCardRoute =
+  DocsDocsAiEntitiesUserCardRouteImport.update({
+    id: '/docs/ai/entities/user-card',
+    path: '/docs/ai/entities/user-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksActivityTimelineRoute =
-  DocsDocsComponentsBlocksActivityTimelineRouteImport.update({
-    id: '/docs/components/blocks/activity-timeline',
-    path: '/docs/components/blocks/activity-timeline',
+const DocsDocsAiEntitiesDealCardRoute =
+  DocsDocsAiEntitiesDealCardRouteImport.update({
+    id: '/docs/ai/entities/deal-card',
+    path: '/docs/ai/entities/deal-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiSourcesRoute =
-  DocsDocsComponentsAiSourcesRouteImport.update({
-    id: '/docs/components/ai/sources',
-    path: '/docs/components/ai/sources',
+const DocsDocsAiEntitiesContactCardRoute =
+  DocsDocsAiEntitiesContactCardRouteImport.update({
+    id: '/docs/ai/entities/contact-card',
+    path: '/docs/ai/entities/contact-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiReasoningRoute =
-  DocsDocsComponentsAiReasoningRouteImport.update({
-    id: '/docs/components/ai/reasoning',
-    path: '/docs/components/ai/reasoning',
+const DocsDocsAiEntitiesCompanyCardRoute =
+  DocsDocsAiEntitiesCompanyCardRouteImport.update({
+    id: '/docs/ai/entities/company-card',
+    path: '/docs/ai/entities/company-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiModelSelectorRoute =
-  DocsDocsComponentsAiModelSelectorRouteImport.update({
-    id: '/docs/components/ai/model-selector',
-    path: '/docs/components/ai/model-selector',
+const DocsDocsAiEntitiesCandidateCardRoute =
+  DocsDocsAiEntitiesCandidateCardRouteImport.update({
+    id: '/docs/ai/entities/candidate-card',
+    path: '/docs/ai/entities/candidate-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiInlineCitationRoute =
-  DocsDocsComponentsAiInlineCitationRouteImport.update({
-    id: '/docs/components/ai/inline-citation',
-    path: '/docs/components/ai/inline-citation',
+const DocsDocsAiDataStatsRowRoute = DocsDocsAiDataStatsRowRouteImport.update({
+  id: '/docs/ai/data/stats-row',
+  path: '/docs/ai/data/stats-row',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiDataScoreCardRoute = DocsDocsAiDataScoreCardRouteImport.update({
+  id: '/docs/ai/data/score-card',
+  path: '/docs/ai/data/score-card',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiDataRatingCardRoute =
+  DocsDocsAiDataRatingCardRouteImport.update({
+    id: '/docs/ai/data/rating-card',
+    path: '/docs/ai/data/rating-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiGenerativeUiRoute =
-  DocsDocsComponentsAiGenerativeUiRouteImport.update({
-    id: '/docs/components/ai/generative-ui',
-    path: '/docs/components/ai/generative-ui',
+const DocsDocsAiDataProgressCardRoute =
+  DocsDocsAiDataProgressCardRouteImport.update({
+    id: '/docs/ai/data/progress-card',
+    path: '/docs/ai/data/progress-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiContextRoute =
-  DocsDocsComponentsAiContextRouteImport.update({
-    id: '/docs/components/ai/context',
-    path: '/docs/components/ai/context',
+const DocsDocsAiDataMiniChartRoute = DocsDocsAiDataMiniChartRouteImport.update({
+  id: '/docs/ai/data/mini-chart',
+  path: '/docs/ai/data/mini-chart',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiDataMetricCardRoute =
+  DocsDocsAiDataMetricCardRouteImport.update({
+    id: '/docs/ai/data/metric-card',
+    path: '/docs/ai/data/metric-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiConfirmationRoute =
-  DocsDocsComponentsAiConfirmationRouteImport.update({
-    id: '/docs/components/ai/confirmation',
-    path: '/docs/components/ai/confirmation',
+const DocsDocsAiDataDataListRoute = DocsDocsAiDataDataListRouteImport.update({
+  id: '/docs/ai/data/data-list',
+  path: '/docs/ai/data/data-list',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiDataDataGridRoute = DocsDocsAiDataDataGridRouteImport.update({
+  id: '/docs/ai/data/data-grid',
+  path: '/docs/ai/data/data-grid',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiDataComparisonTableRoute =
+  DocsDocsAiDataComparisonTableRouteImport.update({
+    id: '/docs/ai/data/comparison-table',
+    path: '/docs/ai/data/comparison-table',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiChainOfThoughtRoute =
-  DocsDocsComponentsAiChainOfThoughtRouteImport.update({
-    id: '/docs/components/ai/chain-of-thought',
-    path: '/docs/components/ai/chain-of-thought',
+const DocsDocsAiContentVideoCardRoute =
+  DocsDocsAiContentVideoCardRouteImport.update({
+    id: '/docs/ai/content/video-card',
+    path: '/docs/ai/content/video-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartsIndexRoute =
-  DocsDocsComponentsBlocksChartsIndexRouteImport.update({
-    id: '/docs/components/blocks/charts/',
-    path: '/docs/components/blocks/charts/',
+const DocsDocsAiContentSummaryCardRoute =
+  DocsDocsAiContentSummaryCardRouteImport.update({
+    id: '/docs/ai/content/summary-card',
+    path: '/docs/ai/content/summary-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartsRadarChartRoute =
-  DocsDocsComponentsBlocksChartsRadarChartRouteImport.update({
-    id: '/docs/components/blocks/charts/radar-chart',
-    path: '/docs/components/blocks/charts/radar-chart',
+const DocsDocsAiContentLocationCardRoute =
+  DocsDocsAiContentLocationCardRouteImport.update({
+    id: '/docs/ai/content/location-card',
+    path: '/docs/ai/content/location-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartsPieChartRoute =
-  DocsDocsComponentsBlocksChartsPieChartRouteImport.update({
-    id: '/docs/components/blocks/charts/pie-chart',
-    path: '/docs/components/blocks/charts/pie-chart',
+const DocsDocsAiContentLinkPreviewRoute =
+  DocsDocsAiContentLinkPreviewRouteImport.update({
+    id: '/docs/ai/content/link-preview',
+    path: '/docs/ai/content/link-preview',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartsLineChartRoute =
-  DocsDocsComponentsBlocksChartsLineChartRouteImport.update({
-    id: '/docs/components/blocks/charts/line-chart',
-    path: '/docs/components/blocks/charts/line-chart',
+const DocsDocsAiContentInsightCardRoute =
+  DocsDocsAiContentInsightCardRouteImport.update({
+    id: '/docs/ai/content/insight-card',
+    path: '/docs/ai/content/insight-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartsBarChartRoute =
-  DocsDocsComponentsBlocksChartsBarChartRouteImport.update({
-    id: '/docs/components/blocks/charts/bar-chart',
-    path: '/docs/components/blocks/charts/bar-chart',
+const DocsDocsAiContentImageGalleryRoute =
+  DocsDocsAiContentImageGalleryRouteImport.update({
+    id: '/docs/ai/content/image-gallery',
+    path: '/docs/ai/content/image-gallery',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsBlocksChartsAreaChartRoute =
-  DocsDocsComponentsBlocksChartsAreaChartRouteImport.update({
-    id: '/docs/components/blocks/charts/area-chart',
-    path: '/docs/components/blocks/charts/area-chart',
+const DocsDocsAiContentFileCardRoute =
+  DocsDocsAiContentFileCardRouteImport.update({
+    id: '/docs/ai/content/file-card',
+    path: '/docs/ai/content/file-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowTaskCardRoute =
-  DocsDocsComponentsAiWorkflowTaskCardRouteImport.update({
-    id: '/docs/components/ai/workflow/task-card',
-    path: '/docs/components/ai/workflow/task-card',
+const DocsDocsAiCommerceTransactionCardRoute =
+  DocsDocsAiCommerceTransactionCardRouteImport.update({
+    id: '/docs/ai/commerce/transaction-card',
+    path: '/docs/ai/commerce/transaction-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowPollCardRoute =
-  DocsDocsComponentsAiWorkflowPollCardRouteImport.update({
-    id: '/docs/components/ai/workflow/poll-card',
-    path: '/docs/components/ai/workflow/poll-card',
+const DocsDocsAiCommerceQuoteSummaryRoute =
+  DocsDocsAiCommerceQuoteSummaryRouteImport.update({
+    id: '/docs/ai/commerce/quote-summary',
+    path: '/docs/ai/commerce/quote-summary',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowMessagePreviewRoute =
-  DocsDocsComponentsAiWorkflowMessagePreviewRouteImport.update({
-    id: '/docs/components/ai/workflow/message-preview',
-    path: '/docs/components/ai/workflow/message-preview',
+const DocsDocsAiCommerceProductCardRoute =
+  DocsDocsAiCommerceProductCardRouteImport.update({
+    id: '/docs/ai/commerce/product-card',
+    path: '/docs/ai/commerce/product-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowEmailPreviewRoute =
-  DocsDocsComponentsAiWorkflowEmailPreviewRouteImport.update({
-    id: '/docs/components/ai/workflow/email-preview',
-    path: '/docs/components/ai/workflow/email-preview',
+const DocsDocsAiCommercePricingTableRoute =
+  DocsDocsAiCommercePricingTableRouteImport.update({
+    id: '/docs/ai/commerce/pricing-table',
+    path: '/docs/ai/commerce/pricing-table',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowChecklistCardRoute =
-  DocsDocsComponentsAiWorkflowChecklistCardRouteImport.update({
-    id: '/docs/components/ai/workflow/checklist-card',
-    path: '/docs/components/ai/workflow/checklist-card',
+const DocsDocsAiCommerceInvoiceCardRoute =
+  DocsDocsAiCommerceInvoiceCardRouteImport.update({
+    id: '/docs/ai/commerce/invoice-card',
+    path: '/docs/ai/commerce/invoice-card',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowApprovalCardRoute =
-  DocsDocsComponentsAiWorkflowApprovalCardRouteImport.update({
-    id: '/docs/components/ai/workflow/approval-card',
-    path: '/docs/components/ai/workflow/approval-card',
+const DocsDocsAiChatSuggestionRoute =
+  DocsDocsAiChatSuggestionRouteImport.update({
+    id: '/docs/ai/chat/suggestion',
+    path: '/docs/ai/chat/suggestion',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiWorkflowActionListRoute =
-  DocsDocsComponentsAiWorkflowActionListRouteImport.update({
-    id: '/docs/components/ai/workflow/action-list',
-    path: '/docs/components/ai/workflow/action-list',
+const DocsDocsAiChatShimmerRoute = DocsDocsAiChatShimmerRouteImport.update({
+  id: '/docs/ai/chat/shimmer',
+  path: '/docs/ai/chat/shimmer',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiChatPromptInputRoute =
+  DocsDocsAiChatPromptInputRouteImport.update({
+    id: '/docs/ai/chat/prompt-input',
+    path: '/docs/ai/chat/prompt-input',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiPlanningTimelineRoute =
-  DocsDocsComponentsAiPlanningTimelineRouteImport.update({
-    id: '/docs/components/ai/planning/timeline',
-    path: '/docs/components/ai/planning/timeline',
+const DocsDocsAiChatMessageRoute = DocsDocsAiChatMessageRouteImport.update({
+  id: '/docs/ai/chat/message',
+  path: '/docs/ai/chat/message',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsAiChatConversationRoute =
+  DocsDocsAiChatConversationRouteImport.update({
+    id: '/docs/ai/chat/conversation',
+    path: '/docs/ai/chat/conversation',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsAiPlanningStatusUpdateRoute =
-  DocsDocsComponentsAiPlanningStatusUpdateRouteImport.update({
-    id: '/docs/components/ai/planning/status-update',
-    path: '/docs/components/ai/planning/status-update',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiPlanningEventCardRoute =
-  DocsDocsComponentsAiPlanningEventCardRouteImport.update({
-    id: '/docs/components/ai/planning/event-card',
-    path: '/docs/components/ai/planning/event-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiPlanningCalendarCardRoute =
-  DocsDocsComponentsAiPlanningCalendarCardRouteImport.update({
-    id: '/docs/components/ai/planning/calendar-card',
-    path: '/docs/components/ai/planning/calendar-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiPlanningAvailabilityCardRoute =
-  DocsDocsComponentsAiPlanningAvailabilityCardRouteImport.update({
-    id: '/docs/components/ai/planning/availability-card',
-    path: '/docs/components/ai/planning/availability-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiEntitiesUserCardRoute =
-  DocsDocsComponentsAiEntitiesUserCardRouteImport.update({
-    id: '/docs/components/ai/entities/user-card',
-    path: '/docs/components/ai/entities/user-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiEntitiesDealCardRoute =
-  DocsDocsComponentsAiEntitiesDealCardRouteImport.update({
-    id: '/docs/components/ai/entities/deal-card',
-    path: '/docs/components/ai/entities/deal-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiEntitiesContactCardRoute =
-  DocsDocsComponentsAiEntitiesContactCardRouteImport.update({
-    id: '/docs/components/ai/entities/contact-card',
-    path: '/docs/components/ai/entities/contact-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiEntitiesCompanyCardRoute =
-  DocsDocsComponentsAiEntitiesCompanyCardRouteImport.update({
-    id: '/docs/components/ai/entities/company-card',
-    path: '/docs/components/ai/entities/company-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiEntitiesCandidateCardRoute =
-  DocsDocsComponentsAiEntitiesCandidateCardRouteImport.update({
-    id: '/docs/components/ai/entities/candidate-card',
-    path: '/docs/components/ai/entities/candidate-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataStatsRowRoute =
-  DocsDocsComponentsAiDataStatsRowRouteImport.update({
-    id: '/docs/components/ai/data/stats-row',
-    path: '/docs/components/ai/data/stats-row',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataScoreCardRoute =
-  DocsDocsComponentsAiDataScoreCardRouteImport.update({
-    id: '/docs/components/ai/data/score-card',
-    path: '/docs/components/ai/data/score-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataRatingCardRoute =
-  DocsDocsComponentsAiDataRatingCardRouteImport.update({
-    id: '/docs/components/ai/data/rating-card',
-    path: '/docs/components/ai/data/rating-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataProgressCardRoute =
-  DocsDocsComponentsAiDataProgressCardRouteImport.update({
-    id: '/docs/components/ai/data/progress-card',
-    path: '/docs/components/ai/data/progress-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataMiniChartRoute =
-  DocsDocsComponentsAiDataMiniChartRouteImport.update({
-    id: '/docs/components/ai/data/mini-chart',
-    path: '/docs/components/ai/data/mini-chart',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataMetricCardRoute =
-  DocsDocsComponentsAiDataMetricCardRouteImport.update({
-    id: '/docs/components/ai/data/metric-card',
-    path: '/docs/components/ai/data/metric-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataDataListRoute =
-  DocsDocsComponentsAiDataDataListRouteImport.update({
-    id: '/docs/components/ai/data/data-list',
-    path: '/docs/components/ai/data/data-list',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataDataGridRoute =
-  DocsDocsComponentsAiDataDataGridRouteImport.update({
-    id: '/docs/components/ai/data/data-grid',
-    path: '/docs/components/ai/data/data-grid',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiDataComparisonTableRoute =
-  DocsDocsComponentsAiDataComparisonTableRouteImport.update({
-    id: '/docs/components/ai/data/comparison-table',
-    path: '/docs/components/ai/data/comparison-table',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentVideoCardRoute =
-  DocsDocsComponentsAiContentVideoCardRouteImport.update({
-    id: '/docs/components/ai/content/video-card',
-    path: '/docs/components/ai/content/video-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentSummaryCardRoute =
-  DocsDocsComponentsAiContentSummaryCardRouteImport.update({
-    id: '/docs/components/ai/content/summary-card',
-    path: '/docs/components/ai/content/summary-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentLocationCardRoute =
-  DocsDocsComponentsAiContentLocationCardRouteImport.update({
-    id: '/docs/components/ai/content/location-card',
-    path: '/docs/components/ai/content/location-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentLinkPreviewRoute =
-  DocsDocsComponentsAiContentLinkPreviewRouteImport.update({
-    id: '/docs/components/ai/content/link-preview',
-    path: '/docs/components/ai/content/link-preview',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentInsightCardRoute =
-  DocsDocsComponentsAiContentInsightCardRouteImport.update({
-    id: '/docs/components/ai/content/insight-card',
-    path: '/docs/components/ai/content/insight-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentImageGalleryRoute =
-  DocsDocsComponentsAiContentImageGalleryRouteImport.update({
-    id: '/docs/components/ai/content/image-gallery',
-    path: '/docs/components/ai/content/image-gallery',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiContentFileCardRoute =
-  DocsDocsComponentsAiContentFileCardRouteImport.update({
-    id: '/docs/components/ai/content/file-card',
-    path: '/docs/components/ai/content/file-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiCommerceTransactionCardRoute =
-  DocsDocsComponentsAiCommerceTransactionCardRouteImport.update({
-    id: '/docs/components/ai/commerce/transaction-card',
-    path: '/docs/components/ai/commerce/transaction-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiCommerceQuoteSummaryRoute =
-  DocsDocsComponentsAiCommerceQuoteSummaryRouteImport.update({
-    id: '/docs/components/ai/commerce/quote-summary',
-    path: '/docs/components/ai/commerce/quote-summary',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiCommerceProductCardRoute =
-  DocsDocsComponentsAiCommerceProductCardRouteImport.update({
-    id: '/docs/components/ai/commerce/product-card',
-    path: '/docs/components/ai/commerce/product-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiCommercePricingTableRoute =
-  DocsDocsComponentsAiCommercePricingTableRouteImport.update({
-    id: '/docs/components/ai/commerce/pricing-table',
-    path: '/docs/components/ai/commerce/pricing-table',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiCommerceInvoiceCardRoute =
-  DocsDocsComponentsAiCommerceInvoiceCardRouteImport.update({
-    id: '/docs/components/ai/commerce/invoice-card',
-    path: '/docs/components/ai/commerce/invoice-card',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiChatSuggestionRoute =
-  DocsDocsComponentsAiChatSuggestionRouteImport.update({
-    id: '/docs/components/ai/chat/suggestion',
-    path: '/docs/components/ai/chat/suggestion',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiChatShimmerRoute =
-  DocsDocsComponentsAiChatShimmerRouteImport.update({
-    id: '/docs/components/ai/chat/shimmer',
-    path: '/docs/components/ai/chat/shimmer',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiChatPromptInputRoute =
-  DocsDocsComponentsAiChatPromptInputRouteImport.update({
-    id: '/docs/components/ai/chat/prompt-input',
-    path: '/docs/components/ai/chat/prompt-input',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiChatMessageRoute =
-  DocsDocsComponentsAiChatMessageRouteImport.update({
-    id: '/docs/components/ai/chat/message',
-    path: '/docs/components/ai/chat/message',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiChatConversationRoute =
-  DocsDocsComponentsAiChatConversationRouteImport.update({
-    id: '/docs/components/ai/chat/conversation',
-    path: '/docs/components/ai/chat/conversation',
-    getParentRoute: () => DocsRoute,
-  } as any)
-const DocsDocsComponentsAiChatAttachmentsRoute =
-  DocsDocsComponentsAiChatAttachmentsRouteImport.update({
-    id: '/docs/components/ai/chat/attachments',
-    path: '/docs/components/ai/chat/attachments',
+const DocsDocsAiChatAttachmentsRoute =
+  DocsDocsAiChatAttachmentsRouteImport.update({
+    id: '/docs/ai/chat/attachments',
+    path: '/docs/ai/chat/attachments',
     getParentRoute: () => DocsRoute,
   } as any)
 
@@ -1294,6 +1273,33 @@ export interface FileRoutesByFullPath {
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/docs/mcp': typeof DocsDocsMcpRoute
   '/docs/sandbox': typeof DocsDocsSandboxRoute
+  '/docs/ai/chain-of-thought': typeof DocsDocsAiChainOfThoughtRoute
+  '/docs/ai/confirmation': typeof DocsDocsAiConfirmationRoute
+  '/docs/ai/context': typeof DocsDocsAiContextRoute
+  '/docs/ai/generative-ui': typeof DocsDocsAiGenerativeUiRoute
+  '/docs/ai/inline-citation': typeof DocsDocsAiInlineCitationRoute
+  '/docs/ai/model-selector': typeof DocsDocsAiModelSelectorRoute
+  '/docs/ai/reasoning': typeof DocsDocsAiReasoningRoute
+  '/docs/ai/sources': typeof DocsDocsAiSourcesRoute
+  '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
+  '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
+  '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
+  '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
+  '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
+  '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
+  '/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
+  '/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
+  '/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
+  '/docs/blocks/notification-center': typeof DocsDocsBlocksNotificationCenterRoute
+  '/docs/blocks/org-menu': typeof DocsDocsBlocksOrgMenuRoute
+  '/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
+  '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
+  '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
+  '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
+  '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
+  '/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1304,35 +1310,59 @@ export interface FileRoutesByFullPath {
   '/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
   '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
+  '/docs/ai/': typeof DocsDocsAiIndexRoute
+  '/docs/blocks/': typeof DocsDocsBlocksIndexRoute
   '/docs/components/': typeof DocsDocsComponentsIndexRoute
   '/docs/guide/': typeof DocsDocsGuideIndexRoute
-  '/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
-  '/docs/components/ai/confirmation': typeof DocsDocsComponentsAiConfirmationRoute
-  '/docs/components/ai/context': typeof DocsDocsComponentsAiContextRoute
-  '/docs/components/ai/generative-ui': typeof DocsDocsComponentsAiGenerativeUiRoute
-  '/docs/components/ai/inline-citation': typeof DocsDocsComponentsAiInlineCitationRoute
-  '/docs/components/ai/model-selector': typeof DocsDocsComponentsAiModelSelectorRoute
-  '/docs/components/ai/reasoning': typeof DocsDocsComponentsAiReasoningRoute
-  '/docs/components/ai/sources': typeof DocsDocsComponentsAiSourcesRoute
-  '/docs/components/blocks/activity-timeline': typeof DocsDocsComponentsBlocksActivityTimelineRoute
-  '/docs/components/blocks/bulk-action-bar': typeof DocsDocsComponentsBlocksBulkActionBarRoute
-  '/docs/components/blocks/chart-card': typeof DocsDocsComponentsBlocksChartCardRoute
-  '/docs/components/blocks/data-table': typeof DocsDocsComponentsBlocksDataTableRoute
-  '/docs/components/blocks/deal-lines-editor': typeof DocsDocsComponentsBlocksDealLinesEditorRoute
-  '/docs/components/blocks/detail-panel': typeof DocsDocsComponentsBlocksDetailPanelRoute
-  '/docs/components/blocks/filter-bar': typeof DocsDocsComponentsBlocksFilterBarRoute
-  '/docs/components/blocks/inline-edit': typeof DocsDocsComponentsBlocksInlineEditRoute
-  '/docs/components/blocks/kanban-board': typeof DocsDocsComponentsBlocksKanbanBoardRoute
-  '/docs/components/blocks/multi-step-form': typeof DocsDocsComponentsBlocksMultiStepFormRoute
-  '/docs/components/blocks/notification-center': typeof DocsDocsComponentsBlocksNotificationCenterRoute
-  '/docs/components/blocks/org-menu': typeof DocsDocsComponentsBlocksOrgMenuRoute
-  '/docs/components/blocks/property-card': typeof DocsDocsComponentsBlocksPropertyCardRoute
-  '/docs/components/blocks/quick-log-activity': typeof DocsDocsComponentsBlocksQuickLogActivityRoute
-  '/docs/components/blocks/quote-preview': typeof DocsDocsComponentsBlocksQuotePreviewRoute
-  '/docs/components/blocks/split-view': typeof DocsDocsComponentsBlocksSplitViewRoute
-  '/docs/components/blocks/stats-grid': typeof DocsDocsComponentsBlocksStatsGridRoute
-  '/docs/components/blocks/stats-strip': typeof DocsDocsComponentsBlocksStatsStripRoute
-  '/docs/components/blocks/status-flow': typeof DocsDocsComponentsBlocksStatusFlowRoute
+  '/docs/ai/chat/attachments': typeof DocsDocsAiChatAttachmentsRoute
+  '/docs/ai/chat/conversation': typeof DocsDocsAiChatConversationRoute
+  '/docs/ai/chat/message': typeof DocsDocsAiChatMessageRoute
+  '/docs/ai/chat/prompt-input': typeof DocsDocsAiChatPromptInputRoute
+  '/docs/ai/chat/shimmer': typeof DocsDocsAiChatShimmerRoute
+  '/docs/ai/chat/suggestion': typeof DocsDocsAiChatSuggestionRoute
+  '/docs/ai/commerce/invoice-card': typeof DocsDocsAiCommerceInvoiceCardRoute
+  '/docs/ai/commerce/pricing-table': typeof DocsDocsAiCommercePricingTableRoute
+  '/docs/ai/commerce/product-card': typeof DocsDocsAiCommerceProductCardRoute
+  '/docs/ai/commerce/quote-summary': typeof DocsDocsAiCommerceQuoteSummaryRoute
+  '/docs/ai/commerce/transaction-card': typeof DocsDocsAiCommerceTransactionCardRoute
+  '/docs/ai/content/file-card': typeof DocsDocsAiContentFileCardRoute
+  '/docs/ai/content/image-gallery': typeof DocsDocsAiContentImageGalleryRoute
+  '/docs/ai/content/insight-card': typeof DocsDocsAiContentInsightCardRoute
+  '/docs/ai/content/link-preview': typeof DocsDocsAiContentLinkPreviewRoute
+  '/docs/ai/content/location-card': typeof DocsDocsAiContentLocationCardRoute
+  '/docs/ai/content/summary-card': typeof DocsDocsAiContentSummaryCardRoute
+  '/docs/ai/content/video-card': typeof DocsDocsAiContentVideoCardRoute
+  '/docs/ai/data/comparison-table': typeof DocsDocsAiDataComparisonTableRoute
+  '/docs/ai/data/data-grid': typeof DocsDocsAiDataDataGridRoute
+  '/docs/ai/data/data-list': typeof DocsDocsAiDataDataListRoute
+  '/docs/ai/data/metric-card': typeof DocsDocsAiDataMetricCardRoute
+  '/docs/ai/data/mini-chart': typeof DocsDocsAiDataMiniChartRoute
+  '/docs/ai/data/progress-card': typeof DocsDocsAiDataProgressCardRoute
+  '/docs/ai/data/rating-card': typeof DocsDocsAiDataRatingCardRoute
+  '/docs/ai/data/score-card': typeof DocsDocsAiDataScoreCardRoute
+  '/docs/ai/data/stats-row': typeof DocsDocsAiDataStatsRowRoute
+  '/docs/ai/entities/candidate-card': typeof DocsDocsAiEntitiesCandidateCardRoute
+  '/docs/ai/entities/company-card': typeof DocsDocsAiEntitiesCompanyCardRoute
+  '/docs/ai/entities/contact-card': typeof DocsDocsAiEntitiesContactCardRoute
+  '/docs/ai/entities/deal-card': typeof DocsDocsAiEntitiesDealCardRoute
+  '/docs/ai/entities/user-card': typeof DocsDocsAiEntitiesUserCardRoute
+  '/docs/ai/planning/availability-card': typeof DocsDocsAiPlanningAvailabilityCardRoute
+  '/docs/ai/planning/calendar-card': typeof DocsDocsAiPlanningCalendarCardRoute
+  '/docs/ai/planning/event-card': typeof DocsDocsAiPlanningEventCardRoute
+  '/docs/ai/planning/status-update': typeof DocsDocsAiPlanningStatusUpdateRoute
+  '/docs/ai/planning/timeline': typeof DocsDocsAiPlanningTimelineRoute
+  '/docs/ai/workflow/action-list': typeof DocsDocsAiWorkflowActionListRoute
+  '/docs/ai/workflow/approval-card': typeof DocsDocsAiWorkflowApprovalCardRoute
+  '/docs/ai/workflow/checklist-card': typeof DocsDocsAiWorkflowChecklistCardRoute
+  '/docs/ai/workflow/email-preview': typeof DocsDocsAiWorkflowEmailPreviewRoute
+  '/docs/ai/workflow/message-preview': typeof DocsDocsAiWorkflowMessagePreviewRoute
+  '/docs/ai/workflow/poll-card': typeof DocsDocsAiWorkflowPollCardRoute
+  '/docs/ai/workflow/task-card': typeof DocsDocsAiWorkflowTaskCardRoute
+  '/docs/blocks/charts/area-chart': typeof DocsDocsBlocksChartsAreaChartRoute
+  '/docs/blocks/charts/bar-chart': typeof DocsDocsBlocksChartsBarChartRoute
+  '/docs/blocks/charts/line-chart': typeof DocsDocsBlocksChartsLineChartRoute
+  '/docs/blocks/charts/pie-chart': typeof DocsDocsBlocksChartsPieChartRoute
+  '/docs/blocks/charts/radar-chart': typeof DocsDocsBlocksChartsRadarChartRoute
   '/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1418,60 +1448,9 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/toast': typeof DocsDocsComponentsUiToastRoute
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
-  '/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
-  '/docs/components/blocks/': typeof DocsDocsComponentsBlocksIndexRoute
+  '/docs/blocks/charts/': typeof DocsDocsBlocksChartsIndexRoute
   '/docs/components/layout/': typeof DocsDocsComponentsLayoutIndexRoute
   '/docs/components/ui/': typeof DocsDocsComponentsUiIndexRoute
-  '/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
-  '/docs/components/ai/chat/conversation': typeof DocsDocsComponentsAiChatConversationRoute
-  '/docs/components/ai/chat/message': typeof DocsDocsComponentsAiChatMessageRoute
-  '/docs/components/ai/chat/prompt-input': typeof DocsDocsComponentsAiChatPromptInputRoute
-  '/docs/components/ai/chat/shimmer': typeof DocsDocsComponentsAiChatShimmerRoute
-  '/docs/components/ai/chat/suggestion': typeof DocsDocsComponentsAiChatSuggestionRoute
-  '/docs/components/ai/commerce/invoice-card': typeof DocsDocsComponentsAiCommerceInvoiceCardRoute
-  '/docs/components/ai/commerce/pricing-table': typeof DocsDocsComponentsAiCommercePricingTableRoute
-  '/docs/components/ai/commerce/product-card': typeof DocsDocsComponentsAiCommerceProductCardRoute
-  '/docs/components/ai/commerce/quote-summary': typeof DocsDocsComponentsAiCommerceQuoteSummaryRoute
-  '/docs/components/ai/commerce/transaction-card': typeof DocsDocsComponentsAiCommerceTransactionCardRoute
-  '/docs/components/ai/content/file-card': typeof DocsDocsComponentsAiContentFileCardRoute
-  '/docs/components/ai/content/image-gallery': typeof DocsDocsComponentsAiContentImageGalleryRoute
-  '/docs/components/ai/content/insight-card': typeof DocsDocsComponentsAiContentInsightCardRoute
-  '/docs/components/ai/content/link-preview': typeof DocsDocsComponentsAiContentLinkPreviewRoute
-  '/docs/components/ai/content/location-card': typeof DocsDocsComponentsAiContentLocationCardRoute
-  '/docs/components/ai/content/summary-card': typeof DocsDocsComponentsAiContentSummaryCardRoute
-  '/docs/components/ai/content/video-card': typeof DocsDocsComponentsAiContentVideoCardRoute
-  '/docs/components/ai/data/comparison-table': typeof DocsDocsComponentsAiDataComparisonTableRoute
-  '/docs/components/ai/data/data-grid': typeof DocsDocsComponentsAiDataDataGridRoute
-  '/docs/components/ai/data/data-list': typeof DocsDocsComponentsAiDataDataListRoute
-  '/docs/components/ai/data/metric-card': typeof DocsDocsComponentsAiDataMetricCardRoute
-  '/docs/components/ai/data/mini-chart': typeof DocsDocsComponentsAiDataMiniChartRoute
-  '/docs/components/ai/data/progress-card': typeof DocsDocsComponentsAiDataProgressCardRoute
-  '/docs/components/ai/data/rating-card': typeof DocsDocsComponentsAiDataRatingCardRoute
-  '/docs/components/ai/data/score-card': typeof DocsDocsComponentsAiDataScoreCardRoute
-  '/docs/components/ai/data/stats-row': typeof DocsDocsComponentsAiDataStatsRowRoute
-  '/docs/components/ai/entities/candidate-card': typeof DocsDocsComponentsAiEntitiesCandidateCardRoute
-  '/docs/components/ai/entities/company-card': typeof DocsDocsComponentsAiEntitiesCompanyCardRoute
-  '/docs/components/ai/entities/contact-card': typeof DocsDocsComponentsAiEntitiesContactCardRoute
-  '/docs/components/ai/entities/deal-card': typeof DocsDocsComponentsAiEntitiesDealCardRoute
-  '/docs/components/ai/entities/user-card': typeof DocsDocsComponentsAiEntitiesUserCardRoute
-  '/docs/components/ai/planning/availability-card': typeof DocsDocsComponentsAiPlanningAvailabilityCardRoute
-  '/docs/components/ai/planning/calendar-card': typeof DocsDocsComponentsAiPlanningCalendarCardRoute
-  '/docs/components/ai/planning/event-card': typeof DocsDocsComponentsAiPlanningEventCardRoute
-  '/docs/components/ai/planning/status-update': typeof DocsDocsComponentsAiPlanningStatusUpdateRoute
-  '/docs/components/ai/planning/timeline': typeof DocsDocsComponentsAiPlanningTimelineRoute
-  '/docs/components/ai/workflow/action-list': typeof DocsDocsComponentsAiWorkflowActionListRoute
-  '/docs/components/ai/workflow/approval-card': typeof DocsDocsComponentsAiWorkflowApprovalCardRoute
-  '/docs/components/ai/workflow/checklist-card': typeof DocsDocsComponentsAiWorkflowChecklistCardRoute
-  '/docs/components/ai/workflow/email-preview': typeof DocsDocsComponentsAiWorkflowEmailPreviewRoute
-  '/docs/components/ai/workflow/message-preview': typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
-  '/docs/components/ai/workflow/poll-card': typeof DocsDocsComponentsAiWorkflowPollCardRoute
-  '/docs/components/ai/workflow/task-card': typeof DocsDocsComponentsAiWorkflowTaskCardRoute
-  '/docs/components/blocks/charts/area-chart': typeof DocsDocsComponentsBlocksChartsAreaChartRoute
-  '/docs/components/blocks/charts/bar-chart': typeof DocsDocsComponentsBlocksChartsBarChartRoute
-  '/docs/components/blocks/charts/line-chart': typeof DocsDocsComponentsBlocksChartsLineChartRoute
-  '/docs/components/blocks/charts/pie-chart': typeof DocsDocsComponentsBlocksChartsPieChartRoute
-  '/docs/components/blocks/charts/radar-chart': typeof DocsDocsComponentsBlocksChartsRadarChartRoute
-  '/docs/components/blocks/charts/': typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1479,6 +1458,33 @@ export interface FileRoutesByTo {
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/docs/mcp': typeof DocsDocsMcpRoute
   '/docs/sandbox': typeof DocsDocsSandboxRoute
+  '/docs/ai/chain-of-thought': typeof DocsDocsAiChainOfThoughtRoute
+  '/docs/ai/confirmation': typeof DocsDocsAiConfirmationRoute
+  '/docs/ai/context': typeof DocsDocsAiContextRoute
+  '/docs/ai/generative-ui': typeof DocsDocsAiGenerativeUiRoute
+  '/docs/ai/inline-citation': typeof DocsDocsAiInlineCitationRoute
+  '/docs/ai/model-selector': typeof DocsDocsAiModelSelectorRoute
+  '/docs/ai/reasoning': typeof DocsDocsAiReasoningRoute
+  '/docs/ai/sources': typeof DocsDocsAiSourcesRoute
+  '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
+  '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
+  '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
+  '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
+  '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
+  '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
+  '/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
+  '/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
+  '/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
+  '/docs/blocks/notification-center': typeof DocsDocsBlocksNotificationCenterRoute
+  '/docs/blocks/org-menu': typeof DocsDocsBlocksOrgMenuRoute
+  '/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
+  '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
+  '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
+  '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
+  '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
+  '/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1489,35 +1495,59 @@ export interface FileRoutesByTo {
   '/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
   '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
+  '/docs/ai': typeof DocsDocsAiIndexRoute
+  '/docs/blocks': typeof DocsDocsBlocksIndexRoute
   '/docs/components': typeof DocsDocsComponentsIndexRoute
   '/docs/guide': typeof DocsDocsGuideIndexRoute
-  '/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
-  '/docs/components/ai/confirmation': typeof DocsDocsComponentsAiConfirmationRoute
-  '/docs/components/ai/context': typeof DocsDocsComponentsAiContextRoute
-  '/docs/components/ai/generative-ui': typeof DocsDocsComponentsAiGenerativeUiRoute
-  '/docs/components/ai/inline-citation': typeof DocsDocsComponentsAiInlineCitationRoute
-  '/docs/components/ai/model-selector': typeof DocsDocsComponentsAiModelSelectorRoute
-  '/docs/components/ai/reasoning': typeof DocsDocsComponentsAiReasoningRoute
-  '/docs/components/ai/sources': typeof DocsDocsComponentsAiSourcesRoute
-  '/docs/components/blocks/activity-timeline': typeof DocsDocsComponentsBlocksActivityTimelineRoute
-  '/docs/components/blocks/bulk-action-bar': typeof DocsDocsComponentsBlocksBulkActionBarRoute
-  '/docs/components/blocks/chart-card': typeof DocsDocsComponentsBlocksChartCardRoute
-  '/docs/components/blocks/data-table': typeof DocsDocsComponentsBlocksDataTableRoute
-  '/docs/components/blocks/deal-lines-editor': typeof DocsDocsComponentsBlocksDealLinesEditorRoute
-  '/docs/components/blocks/detail-panel': typeof DocsDocsComponentsBlocksDetailPanelRoute
-  '/docs/components/blocks/filter-bar': typeof DocsDocsComponentsBlocksFilterBarRoute
-  '/docs/components/blocks/inline-edit': typeof DocsDocsComponentsBlocksInlineEditRoute
-  '/docs/components/blocks/kanban-board': typeof DocsDocsComponentsBlocksKanbanBoardRoute
-  '/docs/components/blocks/multi-step-form': typeof DocsDocsComponentsBlocksMultiStepFormRoute
-  '/docs/components/blocks/notification-center': typeof DocsDocsComponentsBlocksNotificationCenterRoute
-  '/docs/components/blocks/org-menu': typeof DocsDocsComponentsBlocksOrgMenuRoute
-  '/docs/components/blocks/property-card': typeof DocsDocsComponentsBlocksPropertyCardRoute
-  '/docs/components/blocks/quick-log-activity': typeof DocsDocsComponentsBlocksQuickLogActivityRoute
-  '/docs/components/blocks/quote-preview': typeof DocsDocsComponentsBlocksQuotePreviewRoute
-  '/docs/components/blocks/split-view': typeof DocsDocsComponentsBlocksSplitViewRoute
-  '/docs/components/blocks/stats-grid': typeof DocsDocsComponentsBlocksStatsGridRoute
-  '/docs/components/blocks/stats-strip': typeof DocsDocsComponentsBlocksStatsStripRoute
-  '/docs/components/blocks/status-flow': typeof DocsDocsComponentsBlocksStatusFlowRoute
+  '/docs/ai/chat/attachments': typeof DocsDocsAiChatAttachmentsRoute
+  '/docs/ai/chat/conversation': typeof DocsDocsAiChatConversationRoute
+  '/docs/ai/chat/message': typeof DocsDocsAiChatMessageRoute
+  '/docs/ai/chat/prompt-input': typeof DocsDocsAiChatPromptInputRoute
+  '/docs/ai/chat/shimmer': typeof DocsDocsAiChatShimmerRoute
+  '/docs/ai/chat/suggestion': typeof DocsDocsAiChatSuggestionRoute
+  '/docs/ai/commerce/invoice-card': typeof DocsDocsAiCommerceInvoiceCardRoute
+  '/docs/ai/commerce/pricing-table': typeof DocsDocsAiCommercePricingTableRoute
+  '/docs/ai/commerce/product-card': typeof DocsDocsAiCommerceProductCardRoute
+  '/docs/ai/commerce/quote-summary': typeof DocsDocsAiCommerceQuoteSummaryRoute
+  '/docs/ai/commerce/transaction-card': typeof DocsDocsAiCommerceTransactionCardRoute
+  '/docs/ai/content/file-card': typeof DocsDocsAiContentFileCardRoute
+  '/docs/ai/content/image-gallery': typeof DocsDocsAiContentImageGalleryRoute
+  '/docs/ai/content/insight-card': typeof DocsDocsAiContentInsightCardRoute
+  '/docs/ai/content/link-preview': typeof DocsDocsAiContentLinkPreviewRoute
+  '/docs/ai/content/location-card': typeof DocsDocsAiContentLocationCardRoute
+  '/docs/ai/content/summary-card': typeof DocsDocsAiContentSummaryCardRoute
+  '/docs/ai/content/video-card': typeof DocsDocsAiContentVideoCardRoute
+  '/docs/ai/data/comparison-table': typeof DocsDocsAiDataComparisonTableRoute
+  '/docs/ai/data/data-grid': typeof DocsDocsAiDataDataGridRoute
+  '/docs/ai/data/data-list': typeof DocsDocsAiDataDataListRoute
+  '/docs/ai/data/metric-card': typeof DocsDocsAiDataMetricCardRoute
+  '/docs/ai/data/mini-chart': typeof DocsDocsAiDataMiniChartRoute
+  '/docs/ai/data/progress-card': typeof DocsDocsAiDataProgressCardRoute
+  '/docs/ai/data/rating-card': typeof DocsDocsAiDataRatingCardRoute
+  '/docs/ai/data/score-card': typeof DocsDocsAiDataScoreCardRoute
+  '/docs/ai/data/stats-row': typeof DocsDocsAiDataStatsRowRoute
+  '/docs/ai/entities/candidate-card': typeof DocsDocsAiEntitiesCandidateCardRoute
+  '/docs/ai/entities/company-card': typeof DocsDocsAiEntitiesCompanyCardRoute
+  '/docs/ai/entities/contact-card': typeof DocsDocsAiEntitiesContactCardRoute
+  '/docs/ai/entities/deal-card': typeof DocsDocsAiEntitiesDealCardRoute
+  '/docs/ai/entities/user-card': typeof DocsDocsAiEntitiesUserCardRoute
+  '/docs/ai/planning/availability-card': typeof DocsDocsAiPlanningAvailabilityCardRoute
+  '/docs/ai/planning/calendar-card': typeof DocsDocsAiPlanningCalendarCardRoute
+  '/docs/ai/planning/event-card': typeof DocsDocsAiPlanningEventCardRoute
+  '/docs/ai/planning/status-update': typeof DocsDocsAiPlanningStatusUpdateRoute
+  '/docs/ai/planning/timeline': typeof DocsDocsAiPlanningTimelineRoute
+  '/docs/ai/workflow/action-list': typeof DocsDocsAiWorkflowActionListRoute
+  '/docs/ai/workflow/approval-card': typeof DocsDocsAiWorkflowApprovalCardRoute
+  '/docs/ai/workflow/checklist-card': typeof DocsDocsAiWorkflowChecklistCardRoute
+  '/docs/ai/workflow/email-preview': typeof DocsDocsAiWorkflowEmailPreviewRoute
+  '/docs/ai/workflow/message-preview': typeof DocsDocsAiWorkflowMessagePreviewRoute
+  '/docs/ai/workflow/poll-card': typeof DocsDocsAiWorkflowPollCardRoute
+  '/docs/ai/workflow/task-card': typeof DocsDocsAiWorkflowTaskCardRoute
+  '/docs/blocks/charts/area-chart': typeof DocsDocsBlocksChartsAreaChartRoute
+  '/docs/blocks/charts/bar-chart': typeof DocsDocsBlocksChartsBarChartRoute
+  '/docs/blocks/charts/line-chart': typeof DocsDocsBlocksChartsLineChartRoute
+  '/docs/blocks/charts/pie-chart': typeof DocsDocsBlocksChartsPieChartRoute
+  '/docs/blocks/charts/radar-chart': typeof DocsDocsBlocksChartsRadarChartRoute
   '/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1603,60 +1633,9 @@ export interface FileRoutesByTo {
   '/docs/components/ui/toast': typeof DocsDocsComponentsUiToastRoute
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
-  '/docs/components/ai': typeof DocsDocsComponentsAiIndexRoute
-  '/docs/components/blocks': typeof DocsDocsComponentsBlocksIndexRoute
+  '/docs/blocks/charts': typeof DocsDocsBlocksChartsIndexRoute
   '/docs/components/layout': typeof DocsDocsComponentsLayoutIndexRoute
   '/docs/components/ui': typeof DocsDocsComponentsUiIndexRoute
-  '/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
-  '/docs/components/ai/chat/conversation': typeof DocsDocsComponentsAiChatConversationRoute
-  '/docs/components/ai/chat/message': typeof DocsDocsComponentsAiChatMessageRoute
-  '/docs/components/ai/chat/prompt-input': typeof DocsDocsComponentsAiChatPromptInputRoute
-  '/docs/components/ai/chat/shimmer': typeof DocsDocsComponentsAiChatShimmerRoute
-  '/docs/components/ai/chat/suggestion': typeof DocsDocsComponentsAiChatSuggestionRoute
-  '/docs/components/ai/commerce/invoice-card': typeof DocsDocsComponentsAiCommerceInvoiceCardRoute
-  '/docs/components/ai/commerce/pricing-table': typeof DocsDocsComponentsAiCommercePricingTableRoute
-  '/docs/components/ai/commerce/product-card': typeof DocsDocsComponentsAiCommerceProductCardRoute
-  '/docs/components/ai/commerce/quote-summary': typeof DocsDocsComponentsAiCommerceQuoteSummaryRoute
-  '/docs/components/ai/commerce/transaction-card': typeof DocsDocsComponentsAiCommerceTransactionCardRoute
-  '/docs/components/ai/content/file-card': typeof DocsDocsComponentsAiContentFileCardRoute
-  '/docs/components/ai/content/image-gallery': typeof DocsDocsComponentsAiContentImageGalleryRoute
-  '/docs/components/ai/content/insight-card': typeof DocsDocsComponentsAiContentInsightCardRoute
-  '/docs/components/ai/content/link-preview': typeof DocsDocsComponentsAiContentLinkPreviewRoute
-  '/docs/components/ai/content/location-card': typeof DocsDocsComponentsAiContentLocationCardRoute
-  '/docs/components/ai/content/summary-card': typeof DocsDocsComponentsAiContentSummaryCardRoute
-  '/docs/components/ai/content/video-card': typeof DocsDocsComponentsAiContentVideoCardRoute
-  '/docs/components/ai/data/comparison-table': typeof DocsDocsComponentsAiDataComparisonTableRoute
-  '/docs/components/ai/data/data-grid': typeof DocsDocsComponentsAiDataDataGridRoute
-  '/docs/components/ai/data/data-list': typeof DocsDocsComponentsAiDataDataListRoute
-  '/docs/components/ai/data/metric-card': typeof DocsDocsComponentsAiDataMetricCardRoute
-  '/docs/components/ai/data/mini-chart': typeof DocsDocsComponentsAiDataMiniChartRoute
-  '/docs/components/ai/data/progress-card': typeof DocsDocsComponentsAiDataProgressCardRoute
-  '/docs/components/ai/data/rating-card': typeof DocsDocsComponentsAiDataRatingCardRoute
-  '/docs/components/ai/data/score-card': typeof DocsDocsComponentsAiDataScoreCardRoute
-  '/docs/components/ai/data/stats-row': typeof DocsDocsComponentsAiDataStatsRowRoute
-  '/docs/components/ai/entities/candidate-card': typeof DocsDocsComponentsAiEntitiesCandidateCardRoute
-  '/docs/components/ai/entities/company-card': typeof DocsDocsComponentsAiEntitiesCompanyCardRoute
-  '/docs/components/ai/entities/contact-card': typeof DocsDocsComponentsAiEntitiesContactCardRoute
-  '/docs/components/ai/entities/deal-card': typeof DocsDocsComponentsAiEntitiesDealCardRoute
-  '/docs/components/ai/entities/user-card': typeof DocsDocsComponentsAiEntitiesUserCardRoute
-  '/docs/components/ai/planning/availability-card': typeof DocsDocsComponentsAiPlanningAvailabilityCardRoute
-  '/docs/components/ai/planning/calendar-card': typeof DocsDocsComponentsAiPlanningCalendarCardRoute
-  '/docs/components/ai/planning/event-card': typeof DocsDocsComponentsAiPlanningEventCardRoute
-  '/docs/components/ai/planning/status-update': typeof DocsDocsComponentsAiPlanningStatusUpdateRoute
-  '/docs/components/ai/planning/timeline': typeof DocsDocsComponentsAiPlanningTimelineRoute
-  '/docs/components/ai/workflow/action-list': typeof DocsDocsComponentsAiWorkflowActionListRoute
-  '/docs/components/ai/workflow/approval-card': typeof DocsDocsComponentsAiWorkflowApprovalCardRoute
-  '/docs/components/ai/workflow/checklist-card': typeof DocsDocsComponentsAiWorkflowChecklistCardRoute
-  '/docs/components/ai/workflow/email-preview': typeof DocsDocsComponentsAiWorkflowEmailPreviewRoute
-  '/docs/components/ai/workflow/message-preview': typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
-  '/docs/components/ai/workflow/poll-card': typeof DocsDocsComponentsAiWorkflowPollCardRoute
-  '/docs/components/ai/workflow/task-card': typeof DocsDocsComponentsAiWorkflowTaskCardRoute
-  '/docs/components/blocks/charts/area-chart': typeof DocsDocsComponentsBlocksChartsAreaChartRoute
-  '/docs/components/blocks/charts/bar-chart': typeof DocsDocsComponentsBlocksChartsBarChartRoute
-  '/docs/components/blocks/charts/line-chart': typeof DocsDocsComponentsBlocksChartsLineChartRoute
-  '/docs/components/blocks/charts/pie-chart': typeof DocsDocsComponentsBlocksChartsPieChartRoute
-  '/docs/components/blocks/charts/radar-chart': typeof DocsDocsComponentsBlocksChartsRadarChartRoute
-  '/docs/components/blocks/charts': typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1666,6 +1645,33 @@ export interface FileRoutesById {
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/_docs/docs/mcp': typeof DocsDocsMcpRoute
   '/_docs/docs/sandbox': typeof DocsDocsSandboxRoute
+  '/_docs/docs/ai/chain-of-thought': typeof DocsDocsAiChainOfThoughtRoute
+  '/_docs/docs/ai/confirmation': typeof DocsDocsAiConfirmationRoute
+  '/_docs/docs/ai/context': typeof DocsDocsAiContextRoute
+  '/_docs/docs/ai/generative-ui': typeof DocsDocsAiGenerativeUiRoute
+  '/_docs/docs/ai/inline-citation': typeof DocsDocsAiInlineCitationRoute
+  '/_docs/docs/ai/model-selector': typeof DocsDocsAiModelSelectorRoute
+  '/_docs/docs/ai/reasoning': typeof DocsDocsAiReasoningRoute
+  '/_docs/docs/ai/sources': typeof DocsDocsAiSourcesRoute
+  '/_docs/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
+  '/_docs/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
+  '/_docs/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/_docs/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
+  '/_docs/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
+  '/_docs/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
+  '/_docs/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
+  '/_docs/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
+  '/_docs/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
+  '/_docs/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
+  '/_docs/docs/blocks/notification-center': typeof DocsDocsBlocksNotificationCenterRoute
+  '/_docs/docs/blocks/org-menu': typeof DocsDocsBlocksOrgMenuRoute
+  '/_docs/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
+  '/_docs/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
+  '/_docs/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/_docs/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
+  '/_docs/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
+  '/_docs/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
+  '/_docs/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
   '/_docs/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/_docs/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/_docs/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1676,35 +1682,59 @@ export interface FileRoutesById {
   '/_docs/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
   '/_docs/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/_docs/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
+  '/_docs/docs/ai/': typeof DocsDocsAiIndexRoute
+  '/_docs/docs/blocks/': typeof DocsDocsBlocksIndexRoute
   '/_docs/docs/components/': typeof DocsDocsComponentsIndexRoute
   '/_docs/docs/guide/': typeof DocsDocsGuideIndexRoute
-  '/_docs/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
-  '/_docs/docs/components/ai/confirmation': typeof DocsDocsComponentsAiConfirmationRoute
-  '/_docs/docs/components/ai/context': typeof DocsDocsComponentsAiContextRoute
-  '/_docs/docs/components/ai/generative-ui': typeof DocsDocsComponentsAiGenerativeUiRoute
-  '/_docs/docs/components/ai/inline-citation': typeof DocsDocsComponentsAiInlineCitationRoute
-  '/_docs/docs/components/ai/model-selector': typeof DocsDocsComponentsAiModelSelectorRoute
-  '/_docs/docs/components/ai/reasoning': typeof DocsDocsComponentsAiReasoningRoute
-  '/_docs/docs/components/ai/sources': typeof DocsDocsComponentsAiSourcesRoute
-  '/_docs/docs/components/blocks/activity-timeline': typeof DocsDocsComponentsBlocksActivityTimelineRoute
-  '/_docs/docs/components/blocks/bulk-action-bar': typeof DocsDocsComponentsBlocksBulkActionBarRoute
-  '/_docs/docs/components/blocks/chart-card': typeof DocsDocsComponentsBlocksChartCardRoute
-  '/_docs/docs/components/blocks/data-table': typeof DocsDocsComponentsBlocksDataTableRoute
-  '/_docs/docs/components/blocks/deal-lines-editor': typeof DocsDocsComponentsBlocksDealLinesEditorRoute
-  '/_docs/docs/components/blocks/detail-panel': typeof DocsDocsComponentsBlocksDetailPanelRoute
-  '/_docs/docs/components/blocks/filter-bar': typeof DocsDocsComponentsBlocksFilterBarRoute
-  '/_docs/docs/components/blocks/inline-edit': typeof DocsDocsComponentsBlocksInlineEditRoute
-  '/_docs/docs/components/blocks/kanban-board': typeof DocsDocsComponentsBlocksKanbanBoardRoute
-  '/_docs/docs/components/blocks/multi-step-form': typeof DocsDocsComponentsBlocksMultiStepFormRoute
-  '/_docs/docs/components/blocks/notification-center': typeof DocsDocsComponentsBlocksNotificationCenterRoute
-  '/_docs/docs/components/blocks/org-menu': typeof DocsDocsComponentsBlocksOrgMenuRoute
-  '/_docs/docs/components/blocks/property-card': typeof DocsDocsComponentsBlocksPropertyCardRoute
-  '/_docs/docs/components/blocks/quick-log-activity': typeof DocsDocsComponentsBlocksQuickLogActivityRoute
-  '/_docs/docs/components/blocks/quote-preview': typeof DocsDocsComponentsBlocksQuotePreviewRoute
-  '/_docs/docs/components/blocks/split-view': typeof DocsDocsComponentsBlocksSplitViewRoute
-  '/_docs/docs/components/blocks/stats-grid': typeof DocsDocsComponentsBlocksStatsGridRoute
-  '/_docs/docs/components/blocks/stats-strip': typeof DocsDocsComponentsBlocksStatsStripRoute
-  '/_docs/docs/components/blocks/status-flow': typeof DocsDocsComponentsBlocksStatusFlowRoute
+  '/_docs/docs/ai/chat/attachments': typeof DocsDocsAiChatAttachmentsRoute
+  '/_docs/docs/ai/chat/conversation': typeof DocsDocsAiChatConversationRoute
+  '/_docs/docs/ai/chat/message': typeof DocsDocsAiChatMessageRoute
+  '/_docs/docs/ai/chat/prompt-input': typeof DocsDocsAiChatPromptInputRoute
+  '/_docs/docs/ai/chat/shimmer': typeof DocsDocsAiChatShimmerRoute
+  '/_docs/docs/ai/chat/suggestion': typeof DocsDocsAiChatSuggestionRoute
+  '/_docs/docs/ai/commerce/invoice-card': typeof DocsDocsAiCommerceInvoiceCardRoute
+  '/_docs/docs/ai/commerce/pricing-table': typeof DocsDocsAiCommercePricingTableRoute
+  '/_docs/docs/ai/commerce/product-card': typeof DocsDocsAiCommerceProductCardRoute
+  '/_docs/docs/ai/commerce/quote-summary': typeof DocsDocsAiCommerceQuoteSummaryRoute
+  '/_docs/docs/ai/commerce/transaction-card': typeof DocsDocsAiCommerceTransactionCardRoute
+  '/_docs/docs/ai/content/file-card': typeof DocsDocsAiContentFileCardRoute
+  '/_docs/docs/ai/content/image-gallery': typeof DocsDocsAiContentImageGalleryRoute
+  '/_docs/docs/ai/content/insight-card': typeof DocsDocsAiContentInsightCardRoute
+  '/_docs/docs/ai/content/link-preview': typeof DocsDocsAiContentLinkPreviewRoute
+  '/_docs/docs/ai/content/location-card': typeof DocsDocsAiContentLocationCardRoute
+  '/_docs/docs/ai/content/summary-card': typeof DocsDocsAiContentSummaryCardRoute
+  '/_docs/docs/ai/content/video-card': typeof DocsDocsAiContentVideoCardRoute
+  '/_docs/docs/ai/data/comparison-table': typeof DocsDocsAiDataComparisonTableRoute
+  '/_docs/docs/ai/data/data-grid': typeof DocsDocsAiDataDataGridRoute
+  '/_docs/docs/ai/data/data-list': typeof DocsDocsAiDataDataListRoute
+  '/_docs/docs/ai/data/metric-card': typeof DocsDocsAiDataMetricCardRoute
+  '/_docs/docs/ai/data/mini-chart': typeof DocsDocsAiDataMiniChartRoute
+  '/_docs/docs/ai/data/progress-card': typeof DocsDocsAiDataProgressCardRoute
+  '/_docs/docs/ai/data/rating-card': typeof DocsDocsAiDataRatingCardRoute
+  '/_docs/docs/ai/data/score-card': typeof DocsDocsAiDataScoreCardRoute
+  '/_docs/docs/ai/data/stats-row': typeof DocsDocsAiDataStatsRowRoute
+  '/_docs/docs/ai/entities/candidate-card': typeof DocsDocsAiEntitiesCandidateCardRoute
+  '/_docs/docs/ai/entities/company-card': typeof DocsDocsAiEntitiesCompanyCardRoute
+  '/_docs/docs/ai/entities/contact-card': typeof DocsDocsAiEntitiesContactCardRoute
+  '/_docs/docs/ai/entities/deal-card': typeof DocsDocsAiEntitiesDealCardRoute
+  '/_docs/docs/ai/entities/user-card': typeof DocsDocsAiEntitiesUserCardRoute
+  '/_docs/docs/ai/planning/availability-card': typeof DocsDocsAiPlanningAvailabilityCardRoute
+  '/_docs/docs/ai/planning/calendar-card': typeof DocsDocsAiPlanningCalendarCardRoute
+  '/_docs/docs/ai/planning/event-card': typeof DocsDocsAiPlanningEventCardRoute
+  '/_docs/docs/ai/planning/status-update': typeof DocsDocsAiPlanningStatusUpdateRoute
+  '/_docs/docs/ai/planning/timeline': typeof DocsDocsAiPlanningTimelineRoute
+  '/_docs/docs/ai/workflow/action-list': typeof DocsDocsAiWorkflowActionListRoute
+  '/_docs/docs/ai/workflow/approval-card': typeof DocsDocsAiWorkflowApprovalCardRoute
+  '/_docs/docs/ai/workflow/checklist-card': typeof DocsDocsAiWorkflowChecklistCardRoute
+  '/_docs/docs/ai/workflow/email-preview': typeof DocsDocsAiWorkflowEmailPreviewRoute
+  '/_docs/docs/ai/workflow/message-preview': typeof DocsDocsAiWorkflowMessagePreviewRoute
+  '/_docs/docs/ai/workflow/poll-card': typeof DocsDocsAiWorkflowPollCardRoute
+  '/_docs/docs/ai/workflow/task-card': typeof DocsDocsAiWorkflowTaskCardRoute
+  '/_docs/docs/blocks/charts/area-chart': typeof DocsDocsBlocksChartsAreaChartRoute
+  '/_docs/docs/blocks/charts/bar-chart': typeof DocsDocsBlocksChartsBarChartRoute
+  '/_docs/docs/blocks/charts/line-chart': typeof DocsDocsBlocksChartsLineChartRoute
+  '/_docs/docs/blocks/charts/pie-chart': typeof DocsDocsBlocksChartsPieChartRoute
+  '/_docs/docs/blocks/charts/radar-chart': typeof DocsDocsBlocksChartsRadarChartRoute
   '/_docs/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/_docs/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/_docs/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1790,60 +1820,9 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/toast': typeof DocsDocsComponentsUiToastRoute
   '/_docs/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/_docs/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
-  '/_docs/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
-  '/_docs/docs/components/blocks/': typeof DocsDocsComponentsBlocksIndexRoute
+  '/_docs/docs/blocks/charts/': typeof DocsDocsBlocksChartsIndexRoute
   '/_docs/docs/components/layout/': typeof DocsDocsComponentsLayoutIndexRoute
   '/_docs/docs/components/ui/': typeof DocsDocsComponentsUiIndexRoute
-  '/_docs/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
-  '/_docs/docs/components/ai/chat/conversation': typeof DocsDocsComponentsAiChatConversationRoute
-  '/_docs/docs/components/ai/chat/message': typeof DocsDocsComponentsAiChatMessageRoute
-  '/_docs/docs/components/ai/chat/prompt-input': typeof DocsDocsComponentsAiChatPromptInputRoute
-  '/_docs/docs/components/ai/chat/shimmer': typeof DocsDocsComponentsAiChatShimmerRoute
-  '/_docs/docs/components/ai/chat/suggestion': typeof DocsDocsComponentsAiChatSuggestionRoute
-  '/_docs/docs/components/ai/commerce/invoice-card': typeof DocsDocsComponentsAiCommerceInvoiceCardRoute
-  '/_docs/docs/components/ai/commerce/pricing-table': typeof DocsDocsComponentsAiCommercePricingTableRoute
-  '/_docs/docs/components/ai/commerce/product-card': typeof DocsDocsComponentsAiCommerceProductCardRoute
-  '/_docs/docs/components/ai/commerce/quote-summary': typeof DocsDocsComponentsAiCommerceQuoteSummaryRoute
-  '/_docs/docs/components/ai/commerce/transaction-card': typeof DocsDocsComponentsAiCommerceTransactionCardRoute
-  '/_docs/docs/components/ai/content/file-card': typeof DocsDocsComponentsAiContentFileCardRoute
-  '/_docs/docs/components/ai/content/image-gallery': typeof DocsDocsComponentsAiContentImageGalleryRoute
-  '/_docs/docs/components/ai/content/insight-card': typeof DocsDocsComponentsAiContentInsightCardRoute
-  '/_docs/docs/components/ai/content/link-preview': typeof DocsDocsComponentsAiContentLinkPreviewRoute
-  '/_docs/docs/components/ai/content/location-card': typeof DocsDocsComponentsAiContentLocationCardRoute
-  '/_docs/docs/components/ai/content/summary-card': typeof DocsDocsComponentsAiContentSummaryCardRoute
-  '/_docs/docs/components/ai/content/video-card': typeof DocsDocsComponentsAiContentVideoCardRoute
-  '/_docs/docs/components/ai/data/comparison-table': typeof DocsDocsComponentsAiDataComparisonTableRoute
-  '/_docs/docs/components/ai/data/data-grid': typeof DocsDocsComponentsAiDataDataGridRoute
-  '/_docs/docs/components/ai/data/data-list': typeof DocsDocsComponentsAiDataDataListRoute
-  '/_docs/docs/components/ai/data/metric-card': typeof DocsDocsComponentsAiDataMetricCardRoute
-  '/_docs/docs/components/ai/data/mini-chart': typeof DocsDocsComponentsAiDataMiniChartRoute
-  '/_docs/docs/components/ai/data/progress-card': typeof DocsDocsComponentsAiDataProgressCardRoute
-  '/_docs/docs/components/ai/data/rating-card': typeof DocsDocsComponentsAiDataRatingCardRoute
-  '/_docs/docs/components/ai/data/score-card': typeof DocsDocsComponentsAiDataScoreCardRoute
-  '/_docs/docs/components/ai/data/stats-row': typeof DocsDocsComponentsAiDataStatsRowRoute
-  '/_docs/docs/components/ai/entities/candidate-card': typeof DocsDocsComponentsAiEntitiesCandidateCardRoute
-  '/_docs/docs/components/ai/entities/company-card': typeof DocsDocsComponentsAiEntitiesCompanyCardRoute
-  '/_docs/docs/components/ai/entities/contact-card': typeof DocsDocsComponentsAiEntitiesContactCardRoute
-  '/_docs/docs/components/ai/entities/deal-card': typeof DocsDocsComponentsAiEntitiesDealCardRoute
-  '/_docs/docs/components/ai/entities/user-card': typeof DocsDocsComponentsAiEntitiesUserCardRoute
-  '/_docs/docs/components/ai/planning/availability-card': typeof DocsDocsComponentsAiPlanningAvailabilityCardRoute
-  '/_docs/docs/components/ai/planning/calendar-card': typeof DocsDocsComponentsAiPlanningCalendarCardRoute
-  '/_docs/docs/components/ai/planning/event-card': typeof DocsDocsComponentsAiPlanningEventCardRoute
-  '/_docs/docs/components/ai/planning/status-update': typeof DocsDocsComponentsAiPlanningStatusUpdateRoute
-  '/_docs/docs/components/ai/planning/timeline': typeof DocsDocsComponentsAiPlanningTimelineRoute
-  '/_docs/docs/components/ai/workflow/action-list': typeof DocsDocsComponentsAiWorkflowActionListRoute
-  '/_docs/docs/components/ai/workflow/approval-card': typeof DocsDocsComponentsAiWorkflowApprovalCardRoute
-  '/_docs/docs/components/ai/workflow/checklist-card': typeof DocsDocsComponentsAiWorkflowChecklistCardRoute
-  '/_docs/docs/components/ai/workflow/email-preview': typeof DocsDocsComponentsAiWorkflowEmailPreviewRoute
-  '/_docs/docs/components/ai/workflow/message-preview': typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
-  '/_docs/docs/components/ai/workflow/poll-card': typeof DocsDocsComponentsAiWorkflowPollCardRoute
-  '/_docs/docs/components/ai/workflow/task-card': typeof DocsDocsComponentsAiWorkflowTaskCardRoute
-  '/_docs/docs/components/blocks/charts/area-chart': typeof DocsDocsComponentsBlocksChartsAreaChartRoute
-  '/_docs/docs/components/blocks/charts/bar-chart': typeof DocsDocsComponentsBlocksChartsBarChartRoute
-  '/_docs/docs/components/blocks/charts/line-chart': typeof DocsDocsComponentsBlocksChartsLineChartRoute
-  '/_docs/docs/components/blocks/charts/pie-chart': typeof DocsDocsComponentsBlocksChartsPieChartRoute
-  '/_docs/docs/components/blocks/charts/radar-chart': typeof DocsDocsComponentsBlocksChartsRadarChartRoute
-  '/_docs/docs/components/blocks/charts/': typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1853,6 +1832,33 @@ export interface FileRouteTypes {
     | '/thumbnail/$slug'
     | '/docs/mcp'
     | '/docs/sandbox'
+    | '/docs/ai/chain-of-thought'
+    | '/docs/ai/confirmation'
+    | '/docs/ai/context'
+    | '/docs/ai/generative-ui'
+    | '/docs/ai/inline-citation'
+    | '/docs/ai/model-selector'
+    | '/docs/ai/reasoning'
+    | '/docs/ai/sources'
+    | '/docs/blocks/activity-timeline'
+    | '/docs/blocks/bulk-action-bar'
+    | '/docs/blocks/chart-card'
+    | '/docs/blocks/data-table'
+    | '/docs/blocks/deal-lines-editor'
+    | '/docs/blocks/detail-panel'
+    | '/docs/blocks/filter-bar'
+    | '/docs/blocks/inline-edit'
+    | '/docs/blocks/kanban-board'
+    | '/docs/blocks/multi-step-form'
+    | '/docs/blocks/notification-center'
+    | '/docs/blocks/org-menu'
+    | '/docs/blocks/property-card'
+    | '/docs/blocks/quick-log-activity'
+    | '/docs/blocks/quote-preview'
+    | '/docs/blocks/split-view'
+    | '/docs/blocks/stats-grid'
+    | '/docs/blocks/stats-strip'
+    | '/docs/blocks/status-flow'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -1863,35 +1869,59 @@ export interface FileRouteTypes {
     | '/docs/components/typography'
     | '/docs/utils/quick-login'
     | '/docs/utils/unsaved-changes-bar'
+    | '/docs/ai/'
+    | '/docs/blocks/'
     | '/docs/components/'
     | '/docs/guide/'
-    | '/docs/components/ai/chain-of-thought'
-    | '/docs/components/ai/confirmation'
-    | '/docs/components/ai/context'
-    | '/docs/components/ai/generative-ui'
-    | '/docs/components/ai/inline-citation'
-    | '/docs/components/ai/model-selector'
-    | '/docs/components/ai/reasoning'
-    | '/docs/components/ai/sources'
-    | '/docs/components/blocks/activity-timeline'
-    | '/docs/components/blocks/bulk-action-bar'
-    | '/docs/components/blocks/chart-card'
-    | '/docs/components/blocks/data-table'
-    | '/docs/components/blocks/deal-lines-editor'
-    | '/docs/components/blocks/detail-panel'
-    | '/docs/components/blocks/filter-bar'
-    | '/docs/components/blocks/inline-edit'
-    | '/docs/components/blocks/kanban-board'
-    | '/docs/components/blocks/multi-step-form'
-    | '/docs/components/blocks/notification-center'
-    | '/docs/components/blocks/org-menu'
-    | '/docs/components/blocks/property-card'
-    | '/docs/components/blocks/quick-log-activity'
-    | '/docs/components/blocks/quote-preview'
-    | '/docs/components/blocks/split-view'
-    | '/docs/components/blocks/stats-grid'
-    | '/docs/components/blocks/stats-strip'
-    | '/docs/components/blocks/status-flow'
+    | '/docs/ai/chat/attachments'
+    | '/docs/ai/chat/conversation'
+    | '/docs/ai/chat/message'
+    | '/docs/ai/chat/prompt-input'
+    | '/docs/ai/chat/shimmer'
+    | '/docs/ai/chat/suggestion'
+    | '/docs/ai/commerce/invoice-card'
+    | '/docs/ai/commerce/pricing-table'
+    | '/docs/ai/commerce/product-card'
+    | '/docs/ai/commerce/quote-summary'
+    | '/docs/ai/commerce/transaction-card'
+    | '/docs/ai/content/file-card'
+    | '/docs/ai/content/image-gallery'
+    | '/docs/ai/content/insight-card'
+    | '/docs/ai/content/link-preview'
+    | '/docs/ai/content/location-card'
+    | '/docs/ai/content/summary-card'
+    | '/docs/ai/content/video-card'
+    | '/docs/ai/data/comparison-table'
+    | '/docs/ai/data/data-grid'
+    | '/docs/ai/data/data-list'
+    | '/docs/ai/data/metric-card'
+    | '/docs/ai/data/mini-chart'
+    | '/docs/ai/data/progress-card'
+    | '/docs/ai/data/rating-card'
+    | '/docs/ai/data/score-card'
+    | '/docs/ai/data/stats-row'
+    | '/docs/ai/entities/candidate-card'
+    | '/docs/ai/entities/company-card'
+    | '/docs/ai/entities/contact-card'
+    | '/docs/ai/entities/deal-card'
+    | '/docs/ai/entities/user-card'
+    | '/docs/ai/planning/availability-card'
+    | '/docs/ai/planning/calendar-card'
+    | '/docs/ai/planning/event-card'
+    | '/docs/ai/planning/status-update'
+    | '/docs/ai/planning/timeline'
+    | '/docs/ai/workflow/action-list'
+    | '/docs/ai/workflow/approval-card'
+    | '/docs/ai/workflow/checklist-card'
+    | '/docs/ai/workflow/email-preview'
+    | '/docs/ai/workflow/message-preview'
+    | '/docs/ai/workflow/poll-card'
+    | '/docs/ai/workflow/task-card'
+    | '/docs/blocks/charts/area-chart'
+    | '/docs/blocks/charts/bar-chart'
+    | '/docs/blocks/charts/line-chart'
+    | '/docs/blocks/charts/pie-chart'
+    | '/docs/blocks/charts/radar-chart'
     | '/docs/components/layout/bleed'
     | '/docs/components/layout/block-stack'
     | '/docs/components/layout/box'
@@ -1977,60 +2007,9 @@ export interface FileRouteTypes {
     | '/docs/components/ui/toast'
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
-    | '/docs/components/ai/'
-    | '/docs/components/blocks/'
+    | '/docs/blocks/charts/'
     | '/docs/components/layout/'
     | '/docs/components/ui/'
-    | '/docs/components/ai/chat/attachments'
-    | '/docs/components/ai/chat/conversation'
-    | '/docs/components/ai/chat/message'
-    | '/docs/components/ai/chat/prompt-input'
-    | '/docs/components/ai/chat/shimmer'
-    | '/docs/components/ai/chat/suggestion'
-    | '/docs/components/ai/commerce/invoice-card'
-    | '/docs/components/ai/commerce/pricing-table'
-    | '/docs/components/ai/commerce/product-card'
-    | '/docs/components/ai/commerce/quote-summary'
-    | '/docs/components/ai/commerce/transaction-card'
-    | '/docs/components/ai/content/file-card'
-    | '/docs/components/ai/content/image-gallery'
-    | '/docs/components/ai/content/insight-card'
-    | '/docs/components/ai/content/link-preview'
-    | '/docs/components/ai/content/location-card'
-    | '/docs/components/ai/content/summary-card'
-    | '/docs/components/ai/content/video-card'
-    | '/docs/components/ai/data/comparison-table'
-    | '/docs/components/ai/data/data-grid'
-    | '/docs/components/ai/data/data-list'
-    | '/docs/components/ai/data/metric-card'
-    | '/docs/components/ai/data/mini-chart'
-    | '/docs/components/ai/data/progress-card'
-    | '/docs/components/ai/data/rating-card'
-    | '/docs/components/ai/data/score-card'
-    | '/docs/components/ai/data/stats-row'
-    | '/docs/components/ai/entities/candidate-card'
-    | '/docs/components/ai/entities/company-card'
-    | '/docs/components/ai/entities/contact-card'
-    | '/docs/components/ai/entities/deal-card'
-    | '/docs/components/ai/entities/user-card'
-    | '/docs/components/ai/planning/availability-card'
-    | '/docs/components/ai/planning/calendar-card'
-    | '/docs/components/ai/planning/event-card'
-    | '/docs/components/ai/planning/status-update'
-    | '/docs/components/ai/planning/timeline'
-    | '/docs/components/ai/workflow/action-list'
-    | '/docs/components/ai/workflow/approval-card'
-    | '/docs/components/ai/workflow/checklist-card'
-    | '/docs/components/ai/workflow/email-preview'
-    | '/docs/components/ai/workflow/message-preview'
-    | '/docs/components/ai/workflow/poll-card'
-    | '/docs/components/ai/workflow/task-card'
-    | '/docs/components/blocks/charts/area-chart'
-    | '/docs/components/blocks/charts/bar-chart'
-    | '/docs/components/blocks/charts/line-chart'
-    | '/docs/components/blocks/charts/pie-chart'
-    | '/docs/components/blocks/charts/radar-chart'
-    | '/docs/components/blocks/charts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -2038,6 +2017,33 @@ export interface FileRouteTypes {
     | '/thumbnail/$slug'
     | '/docs/mcp'
     | '/docs/sandbox'
+    | '/docs/ai/chain-of-thought'
+    | '/docs/ai/confirmation'
+    | '/docs/ai/context'
+    | '/docs/ai/generative-ui'
+    | '/docs/ai/inline-citation'
+    | '/docs/ai/model-selector'
+    | '/docs/ai/reasoning'
+    | '/docs/ai/sources'
+    | '/docs/blocks/activity-timeline'
+    | '/docs/blocks/bulk-action-bar'
+    | '/docs/blocks/chart-card'
+    | '/docs/blocks/data-table'
+    | '/docs/blocks/deal-lines-editor'
+    | '/docs/blocks/detail-panel'
+    | '/docs/blocks/filter-bar'
+    | '/docs/blocks/inline-edit'
+    | '/docs/blocks/kanban-board'
+    | '/docs/blocks/multi-step-form'
+    | '/docs/blocks/notification-center'
+    | '/docs/blocks/org-menu'
+    | '/docs/blocks/property-card'
+    | '/docs/blocks/quick-log-activity'
+    | '/docs/blocks/quote-preview'
+    | '/docs/blocks/split-view'
+    | '/docs/blocks/stats-grid'
+    | '/docs/blocks/stats-strip'
+    | '/docs/blocks/status-flow'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -2048,35 +2054,59 @@ export interface FileRouteTypes {
     | '/docs/components/typography'
     | '/docs/utils/quick-login'
     | '/docs/utils/unsaved-changes-bar'
+    | '/docs/ai'
+    | '/docs/blocks'
     | '/docs/components'
     | '/docs/guide'
-    | '/docs/components/ai/chain-of-thought'
-    | '/docs/components/ai/confirmation'
-    | '/docs/components/ai/context'
-    | '/docs/components/ai/generative-ui'
-    | '/docs/components/ai/inline-citation'
-    | '/docs/components/ai/model-selector'
-    | '/docs/components/ai/reasoning'
-    | '/docs/components/ai/sources'
-    | '/docs/components/blocks/activity-timeline'
-    | '/docs/components/blocks/bulk-action-bar'
-    | '/docs/components/blocks/chart-card'
-    | '/docs/components/blocks/data-table'
-    | '/docs/components/blocks/deal-lines-editor'
-    | '/docs/components/blocks/detail-panel'
-    | '/docs/components/blocks/filter-bar'
-    | '/docs/components/blocks/inline-edit'
-    | '/docs/components/blocks/kanban-board'
-    | '/docs/components/blocks/multi-step-form'
-    | '/docs/components/blocks/notification-center'
-    | '/docs/components/blocks/org-menu'
-    | '/docs/components/blocks/property-card'
-    | '/docs/components/blocks/quick-log-activity'
-    | '/docs/components/blocks/quote-preview'
-    | '/docs/components/blocks/split-view'
-    | '/docs/components/blocks/stats-grid'
-    | '/docs/components/blocks/stats-strip'
-    | '/docs/components/blocks/status-flow'
+    | '/docs/ai/chat/attachments'
+    | '/docs/ai/chat/conversation'
+    | '/docs/ai/chat/message'
+    | '/docs/ai/chat/prompt-input'
+    | '/docs/ai/chat/shimmer'
+    | '/docs/ai/chat/suggestion'
+    | '/docs/ai/commerce/invoice-card'
+    | '/docs/ai/commerce/pricing-table'
+    | '/docs/ai/commerce/product-card'
+    | '/docs/ai/commerce/quote-summary'
+    | '/docs/ai/commerce/transaction-card'
+    | '/docs/ai/content/file-card'
+    | '/docs/ai/content/image-gallery'
+    | '/docs/ai/content/insight-card'
+    | '/docs/ai/content/link-preview'
+    | '/docs/ai/content/location-card'
+    | '/docs/ai/content/summary-card'
+    | '/docs/ai/content/video-card'
+    | '/docs/ai/data/comparison-table'
+    | '/docs/ai/data/data-grid'
+    | '/docs/ai/data/data-list'
+    | '/docs/ai/data/metric-card'
+    | '/docs/ai/data/mini-chart'
+    | '/docs/ai/data/progress-card'
+    | '/docs/ai/data/rating-card'
+    | '/docs/ai/data/score-card'
+    | '/docs/ai/data/stats-row'
+    | '/docs/ai/entities/candidate-card'
+    | '/docs/ai/entities/company-card'
+    | '/docs/ai/entities/contact-card'
+    | '/docs/ai/entities/deal-card'
+    | '/docs/ai/entities/user-card'
+    | '/docs/ai/planning/availability-card'
+    | '/docs/ai/planning/calendar-card'
+    | '/docs/ai/planning/event-card'
+    | '/docs/ai/planning/status-update'
+    | '/docs/ai/planning/timeline'
+    | '/docs/ai/workflow/action-list'
+    | '/docs/ai/workflow/approval-card'
+    | '/docs/ai/workflow/checklist-card'
+    | '/docs/ai/workflow/email-preview'
+    | '/docs/ai/workflow/message-preview'
+    | '/docs/ai/workflow/poll-card'
+    | '/docs/ai/workflow/task-card'
+    | '/docs/blocks/charts/area-chart'
+    | '/docs/blocks/charts/bar-chart'
+    | '/docs/blocks/charts/line-chart'
+    | '/docs/blocks/charts/pie-chart'
+    | '/docs/blocks/charts/radar-chart'
     | '/docs/components/layout/bleed'
     | '/docs/components/layout/block-stack'
     | '/docs/components/layout/box'
@@ -2162,60 +2192,9 @@ export interface FileRouteTypes {
     | '/docs/components/ui/toast'
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
-    | '/docs/components/ai'
-    | '/docs/components/blocks'
+    | '/docs/blocks/charts'
     | '/docs/components/layout'
     | '/docs/components/ui'
-    | '/docs/components/ai/chat/attachments'
-    | '/docs/components/ai/chat/conversation'
-    | '/docs/components/ai/chat/message'
-    | '/docs/components/ai/chat/prompt-input'
-    | '/docs/components/ai/chat/shimmer'
-    | '/docs/components/ai/chat/suggestion'
-    | '/docs/components/ai/commerce/invoice-card'
-    | '/docs/components/ai/commerce/pricing-table'
-    | '/docs/components/ai/commerce/product-card'
-    | '/docs/components/ai/commerce/quote-summary'
-    | '/docs/components/ai/commerce/transaction-card'
-    | '/docs/components/ai/content/file-card'
-    | '/docs/components/ai/content/image-gallery'
-    | '/docs/components/ai/content/insight-card'
-    | '/docs/components/ai/content/link-preview'
-    | '/docs/components/ai/content/location-card'
-    | '/docs/components/ai/content/summary-card'
-    | '/docs/components/ai/content/video-card'
-    | '/docs/components/ai/data/comparison-table'
-    | '/docs/components/ai/data/data-grid'
-    | '/docs/components/ai/data/data-list'
-    | '/docs/components/ai/data/metric-card'
-    | '/docs/components/ai/data/mini-chart'
-    | '/docs/components/ai/data/progress-card'
-    | '/docs/components/ai/data/rating-card'
-    | '/docs/components/ai/data/score-card'
-    | '/docs/components/ai/data/stats-row'
-    | '/docs/components/ai/entities/candidate-card'
-    | '/docs/components/ai/entities/company-card'
-    | '/docs/components/ai/entities/contact-card'
-    | '/docs/components/ai/entities/deal-card'
-    | '/docs/components/ai/entities/user-card'
-    | '/docs/components/ai/planning/availability-card'
-    | '/docs/components/ai/planning/calendar-card'
-    | '/docs/components/ai/planning/event-card'
-    | '/docs/components/ai/planning/status-update'
-    | '/docs/components/ai/planning/timeline'
-    | '/docs/components/ai/workflow/action-list'
-    | '/docs/components/ai/workflow/approval-card'
-    | '/docs/components/ai/workflow/checklist-card'
-    | '/docs/components/ai/workflow/email-preview'
-    | '/docs/components/ai/workflow/message-preview'
-    | '/docs/components/ai/workflow/poll-card'
-    | '/docs/components/ai/workflow/task-card'
-    | '/docs/components/blocks/charts/area-chart'
-    | '/docs/components/blocks/charts/bar-chart'
-    | '/docs/components/blocks/charts/line-chart'
-    | '/docs/components/blocks/charts/pie-chart'
-    | '/docs/components/blocks/charts/radar-chart'
-    | '/docs/components/blocks/charts'
   id:
     | '__root__'
     | '/'
@@ -2224,6 +2203,33 @@ export interface FileRouteTypes {
     | '/thumbnail/$slug'
     | '/_docs/docs/mcp'
     | '/_docs/docs/sandbox'
+    | '/_docs/docs/ai/chain-of-thought'
+    | '/_docs/docs/ai/confirmation'
+    | '/_docs/docs/ai/context'
+    | '/_docs/docs/ai/generative-ui'
+    | '/_docs/docs/ai/inline-citation'
+    | '/_docs/docs/ai/model-selector'
+    | '/_docs/docs/ai/reasoning'
+    | '/_docs/docs/ai/sources'
+    | '/_docs/docs/blocks/activity-timeline'
+    | '/_docs/docs/blocks/bulk-action-bar'
+    | '/_docs/docs/blocks/chart-card'
+    | '/_docs/docs/blocks/data-table'
+    | '/_docs/docs/blocks/deal-lines-editor'
+    | '/_docs/docs/blocks/detail-panel'
+    | '/_docs/docs/blocks/filter-bar'
+    | '/_docs/docs/blocks/inline-edit'
+    | '/_docs/docs/blocks/kanban-board'
+    | '/_docs/docs/blocks/multi-step-form'
+    | '/_docs/docs/blocks/notification-center'
+    | '/_docs/docs/blocks/org-menu'
+    | '/_docs/docs/blocks/property-card'
+    | '/_docs/docs/blocks/quick-log-activity'
+    | '/_docs/docs/blocks/quote-preview'
+    | '/_docs/docs/blocks/split-view'
+    | '/_docs/docs/blocks/stats-grid'
+    | '/_docs/docs/blocks/stats-strip'
+    | '/_docs/docs/blocks/status-flow'
     | '/_docs/docs/components/actions'
     | '/_docs/docs/components/colors'
     | '/_docs/docs/components/data-display'
@@ -2234,35 +2240,59 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/typography'
     | '/_docs/docs/utils/quick-login'
     | '/_docs/docs/utils/unsaved-changes-bar'
+    | '/_docs/docs/ai/'
+    | '/_docs/docs/blocks/'
     | '/_docs/docs/components/'
     | '/_docs/docs/guide/'
-    | '/_docs/docs/components/ai/chain-of-thought'
-    | '/_docs/docs/components/ai/confirmation'
-    | '/_docs/docs/components/ai/context'
-    | '/_docs/docs/components/ai/generative-ui'
-    | '/_docs/docs/components/ai/inline-citation'
-    | '/_docs/docs/components/ai/model-selector'
-    | '/_docs/docs/components/ai/reasoning'
-    | '/_docs/docs/components/ai/sources'
-    | '/_docs/docs/components/blocks/activity-timeline'
-    | '/_docs/docs/components/blocks/bulk-action-bar'
-    | '/_docs/docs/components/blocks/chart-card'
-    | '/_docs/docs/components/blocks/data-table'
-    | '/_docs/docs/components/blocks/deal-lines-editor'
-    | '/_docs/docs/components/blocks/detail-panel'
-    | '/_docs/docs/components/blocks/filter-bar'
-    | '/_docs/docs/components/blocks/inline-edit'
-    | '/_docs/docs/components/blocks/kanban-board'
-    | '/_docs/docs/components/blocks/multi-step-form'
-    | '/_docs/docs/components/blocks/notification-center'
-    | '/_docs/docs/components/blocks/org-menu'
-    | '/_docs/docs/components/blocks/property-card'
-    | '/_docs/docs/components/blocks/quick-log-activity'
-    | '/_docs/docs/components/blocks/quote-preview'
-    | '/_docs/docs/components/blocks/split-view'
-    | '/_docs/docs/components/blocks/stats-grid'
-    | '/_docs/docs/components/blocks/stats-strip'
-    | '/_docs/docs/components/blocks/status-flow'
+    | '/_docs/docs/ai/chat/attachments'
+    | '/_docs/docs/ai/chat/conversation'
+    | '/_docs/docs/ai/chat/message'
+    | '/_docs/docs/ai/chat/prompt-input'
+    | '/_docs/docs/ai/chat/shimmer'
+    | '/_docs/docs/ai/chat/suggestion'
+    | '/_docs/docs/ai/commerce/invoice-card'
+    | '/_docs/docs/ai/commerce/pricing-table'
+    | '/_docs/docs/ai/commerce/product-card'
+    | '/_docs/docs/ai/commerce/quote-summary'
+    | '/_docs/docs/ai/commerce/transaction-card'
+    | '/_docs/docs/ai/content/file-card'
+    | '/_docs/docs/ai/content/image-gallery'
+    | '/_docs/docs/ai/content/insight-card'
+    | '/_docs/docs/ai/content/link-preview'
+    | '/_docs/docs/ai/content/location-card'
+    | '/_docs/docs/ai/content/summary-card'
+    | '/_docs/docs/ai/content/video-card'
+    | '/_docs/docs/ai/data/comparison-table'
+    | '/_docs/docs/ai/data/data-grid'
+    | '/_docs/docs/ai/data/data-list'
+    | '/_docs/docs/ai/data/metric-card'
+    | '/_docs/docs/ai/data/mini-chart'
+    | '/_docs/docs/ai/data/progress-card'
+    | '/_docs/docs/ai/data/rating-card'
+    | '/_docs/docs/ai/data/score-card'
+    | '/_docs/docs/ai/data/stats-row'
+    | '/_docs/docs/ai/entities/candidate-card'
+    | '/_docs/docs/ai/entities/company-card'
+    | '/_docs/docs/ai/entities/contact-card'
+    | '/_docs/docs/ai/entities/deal-card'
+    | '/_docs/docs/ai/entities/user-card'
+    | '/_docs/docs/ai/planning/availability-card'
+    | '/_docs/docs/ai/planning/calendar-card'
+    | '/_docs/docs/ai/planning/event-card'
+    | '/_docs/docs/ai/planning/status-update'
+    | '/_docs/docs/ai/planning/timeline'
+    | '/_docs/docs/ai/workflow/action-list'
+    | '/_docs/docs/ai/workflow/approval-card'
+    | '/_docs/docs/ai/workflow/checklist-card'
+    | '/_docs/docs/ai/workflow/email-preview'
+    | '/_docs/docs/ai/workflow/message-preview'
+    | '/_docs/docs/ai/workflow/poll-card'
+    | '/_docs/docs/ai/workflow/task-card'
+    | '/_docs/docs/blocks/charts/area-chart'
+    | '/_docs/docs/blocks/charts/bar-chart'
+    | '/_docs/docs/blocks/charts/line-chart'
+    | '/_docs/docs/blocks/charts/pie-chart'
+    | '/_docs/docs/blocks/charts/radar-chart'
     | '/_docs/docs/components/layout/bleed'
     | '/_docs/docs/components/layout/block-stack'
     | '/_docs/docs/components/layout/box'
@@ -2348,60 +2378,9 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/toast'
     | '/_docs/docs/components/ui/tooltip'
     | '/_docs/docs/components/ui/tree-view'
-    | '/_docs/docs/components/ai/'
-    | '/_docs/docs/components/blocks/'
+    | '/_docs/docs/blocks/charts/'
     | '/_docs/docs/components/layout/'
     | '/_docs/docs/components/ui/'
-    | '/_docs/docs/components/ai/chat/attachments'
-    | '/_docs/docs/components/ai/chat/conversation'
-    | '/_docs/docs/components/ai/chat/message'
-    | '/_docs/docs/components/ai/chat/prompt-input'
-    | '/_docs/docs/components/ai/chat/shimmer'
-    | '/_docs/docs/components/ai/chat/suggestion'
-    | '/_docs/docs/components/ai/commerce/invoice-card'
-    | '/_docs/docs/components/ai/commerce/pricing-table'
-    | '/_docs/docs/components/ai/commerce/product-card'
-    | '/_docs/docs/components/ai/commerce/quote-summary'
-    | '/_docs/docs/components/ai/commerce/transaction-card'
-    | '/_docs/docs/components/ai/content/file-card'
-    | '/_docs/docs/components/ai/content/image-gallery'
-    | '/_docs/docs/components/ai/content/insight-card'
-    | '/_docs/docs/components/ai/content/link-preview'
-    | '/_docs/docs/components/ai/content/location-card'
-    | '/_docs/docs/components/ai/content/summary-card'
-    | '/_docs/docs/components/ai/content/video-card'
-    | '/_docs/docs/components/ai/data/comparison-table'
-    | '/_docs/docs/components/ai/data/data-grid'
-    | '/_docs/docs/components/ai/data/data-list'
-    | '/_docs/docs/components/ai/data/metric-card'
-    | '/_docs/docs/components/ai/data/mini-chart'
-    | '/_docs/docs/components/ai/data/progress-card'
-    | '/_docs/docs/components/ai/data/rating-card'
-    | '/_docs/docs/components/ai/data/score-card'
-    | '/_docs/docs/components/ai/data/stats-row'
-    | '/_docs/docs/components/ai/entities/candidate-card'
-    | '/_docs/docs/components/ai/entities/company-card'
-    | '/_docs/docs/components/ai/entities/contact-card'
-    | '/_docs/docs/components/ai/entities/deal-card'
-    | '/_docs/docs/components/ai/entities/user-card'
-    | '/_docs/docs/components/ai/planning/availability-card'
-    | '/_docs/docs/components/ai/planning/calendar-card'
-    | '/_docs/docs/components/ai/planning/event-card'
-    | '/_docs/docs/components/ai/planning/status-update'
-    | '/_docs/docs/components/ai/planning/timeline'
-    | '/_docs/docs/components/ai/workflow/action-list'
-    | '/_docs/docs/components/ai/workflow/approval-card'
-    | '/_docs/docs/components/ai/workflow/checklist-card'
-    | '/_docs/docs/components/ai/workflow/email-preview'
-    | '/_docs/docs/components/ai/workflow/message-preview'
-    | '/_docs/docs/components/ai/workflow/poll-card'
-    | '/_docs/docs/components/ai/workflow/task-card'
-    | '/_docs/docs/components/blocks/charts/area-chart'
-    | '/_docs/docs/components/blocks/charts/bar-chart'
-    | '/_docs/docs/components/blocks/charts/line-chart'
-    | '/_docs/docs/components/blocks/charts/pie-chart'
-    | '/_docs/docs/components/blocks/charts/radar-chart'
-    | '/_docs/docs/components/blocks/charts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2466,6 +2445,20 @@ declare module '@tanstack/react-router' {
       path: '/docs/components'
       fullPath: '/docs/components/'
       preLoaderRoute: typeof DocsDocsComponentsIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/': {
+      id: '/_docs/docs/blocks/'
+      path: '/docs/blocks'
+      fullPath: '/docs/blocks/'
+      preLoaderRoute: typeof DocsDocsBlocksIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/': {
+      id: '/_docs/docs/ai/'
+      path: '/docs/ai'
+      fullPath: '/docs/ai/'
+      preLoaderRoute: typeof DocsDocsAiIndexRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/utils/unsaved-changes-bar': {
@@ -2538,6 +2531,195 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsActionsRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/status-flow': {
+      id: '/_docs/docs/blocks/status-flow'
+      path: '/docs/blocks/status-flow'
+      fullPath: '/docs/blocks/status-flow'
+      preLoaderRoute: typeof DocsDocsBlocksStatusFlowRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/stats-strip': {
+      id: '/_docs/docs/blocks/stats-strip'
+      path: '/docs/blocks/stats-strip'
+      fullPath: '/docs/blocks/stats-strip'
+      preLoaderRoute: typeof DocsDocsBlocksStatsStripRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/stats-grid': {
+      id: '/_docs/docs/blocks/stats-grid'
+      path: '/docs/blocks/stats-grid'
+      fullPath: '/docs/blocks/stats-grid'
+      preLoaderRoute: typeof DocsDocsBlocksStatsGridRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/split-view': {
+      id: '/_docs/docs/blocks/split-view'
+      path: '/docs/blocks/split-view'
+      fullPath: '/docs/blocks/split-view'
+      preLoaderRoute: typeof DocsDocsBlocksSplitViewRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/quote-preview': {
+      id: '/_docs/docs/blocks/quote-preview'
+      path: '/docs/blocks/quote-preview'
+      fullPath: '/docs/blocks/quote-preview'
+      preLoaderRoute: typeof DocsDocsBlocksQuotePreviewRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/quick-log-activity': {
+      id: '/_docs/docs/blocks/quick-log-activity'
+      path: '/docs/blocks/quick-log-activity'
+      fullPath: '/docs/blocks/quick-log-activity'
+      preLoaderRoute: typeof DocsDocsBlocksQuickLogActivityRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/property-card': {
+      id: '/_docs/docs/blocks/property-card'
+      path: '/docs/blocks/property-card'
+      fullPath: '/docs/blocks/property-card'
+      preLoaderRoute: typeof DocsDocsBlocksPropertyCardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/org-menu': {
+      id: '/_docs/docs/blocks/org-menu'
+      path: '/docs/blocks/org-menu'
+      fullPath: '/docs/blocks/org-menu'
+      preLoaderRoute: typeof DocsDocsBlocksOrgMenuRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/notification-center': {
+      id: '/_docs/docs/blocks/notification-center'
+      path: '/docs/blocks/notification-center'
+      fullPath: '/docs/blocks/notification-center'
+      preLoaderRoute: typeof DocsDocsBlocksNotificationCenterRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/multi-step-form': {
+      id: '/_docs/docs/blocks/multi-step-form'
+      path: '/docs/blocks/multi-step-form'
+      fullPath: '/docs/blocks/multi-step-form'
+      preLoaderRoute: typeof DocsDocsBlocksMultiStepFormRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/kanban-board': {
+      id: '/_docs/docs/blocks/kanban-board'
+      path: '/docs/blocks/kanban-board'
+      fullPath: '/docs/blocks/kanban-board'
+      preLoaderRoute: typeof DocsDocsBlocksKanbanBoardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/inline-edit': {
+      id: '/_docs/docs/blocks/inline-edit'
+      path: '/docs/blocks/inline-edit'
+      fullPath: '/docs/blocks/inline-edit'
+      preLoaderRoute: typeof DocsDocsBlocksInlineEditRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/filter-bar': {
+      id: '/_docs/docs/blocks/filter-bar'
+      path: '/docs/blocks/filter-bar'
+      fullPath: '/docs/blocks/filter-bar'
+      preLoaderRoute: typeof DocsDocsBlocksFilterBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/detail-panel': {
+      id: '/_docs/docs/blocks/detail-panel'
+      path: '/docs/blocks/detail-panel'
+      fullPath: '/docs/blocks/detail-panel'
+      preLoaderRoute: typeof DocsDocsBlocksDetailPanelRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/deal-lines-editor': {
+      id: '/_docs/docs/blocks/deal-lines-editor'
+      path: '/docs/blocks/deal-lines-editor'
+      fullPath: '/docs/blocks/deal-lines-editor'
+      preLoaderRoute: typeof DocsDocsBlocksDealLinesEditorRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/data-table': {
+      id: '/_docs/docs/blocks/data-table'
+      path: '/docs/blocks/data-table'
+      fullPath: '/docs/blocks/data-table'
+      preLoaderRoute: typeof DocsDocsBlocksDataTableRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/chart-card': {
+      id: '/_docs/docs/blocks/chart-card'
+      path: '/docs/blocks/chart-card'
+      fullPath: '/docs/blocks/chart-card'
+      preLoaderRoute: typeof DocsDocsBlocksChartCardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/bulk-action-bar': {
+      id: '/_docs/docs/blocks/bulk-action-bar'
+      path: '/docs/blocks/bulk-action-bar'
+      fullPath: '/docs/blocks/bulk-action-bar'
+      preLoaderRoute: typeof DocsDocsBlocksBulkActionBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/activity-timeline': {
+      id: '/_docs/docs/blocks/activity-timeline'
+      path: '/docs/blocks/activity-timeline'
+      fullPath: '/docs/blocks/activity-timeline'
+      preLoaderRoute: typeof DocsDocsBlocksActivityTimelineRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/sources': {
+      id: '/_docs/docs/ai/sources'
+      path: '/docs/ai/sources'
+      fullPath: '/docs/ai/sources'
+      preLoaderRoute: typeof DocsDocsAiSourcesRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/reasoning': {
+      id: '/_docs/docs/ai/reasoning'
+      path: '/docs/ai/reasoning'
+      fullPath: '/docs/ai/reasoning'
+      preLoaderRoute: typeof DocsDocsAiReasoningRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/model-selector': {
+      id: '/_docs/docs/ai/model-selector'
+      path: '/docs/ai/model-selector'
+      fullPath: '/docs/ai/model-selector'
+      preLoaderRoute: typeof DocsDocsAiModelSelectorRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/inline-citation': {
+      id: '/_docs/docs/ai/inline-citation'
+      path: '/docs/ai/inline-citation'
+      fullPath: '/docs/ai/inline-citation'
+      preLoaderRoute: typeof DocsDocsAiInlineCitationRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/generative-ui': {
+      id: '/_docs/docs/ai/generative-ui'
+      path: '/docs/ai/generative-ui'
+      fullPath: '/docs/ai/generative-ui'
+      preLoaderRoute: typeof DocsDocsAiGenerativeUiRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/context': {
+      id: '/_docs/docs/ai/context'
+      path: '/docs/ai/context'
+      fullPath: '/docs/ai/context'
+      preLoaderRoute: typeof DocsDocsAiContextRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/confirmation': {
+      id: '/_docs/docs/ai/confirmation'
+      path: '/docs/ai/confirmation'
+      fullPath: '/docs/ai/confirmation'
+      preLoaderRoute: typeof DocsDocsAiConfirmationRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/ai/chain-of-thought': {
+      id: '/_docs/docs/ai/chain-of-thought'
+      path: '/docs/ai/chain-of-thought'
+      fullPath: '/docs/ai/chain-of-thought'
+      preLoaderRoute: typeof DocsDocsAiChainOfThoughtRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/components/ui/': {
       id: '/_docs/docs/components/ui/'
       path: '/docs/components/ui'
@@ -2552,18 +2734,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsLayoutIndexRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/': {
-      id: '/_docs/docs/components/blocks/'
-      path: '/docs/components/blocks'
-      fullPath: '/docs/components/blocks/'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksIndexRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/': {
-      id: '/_docs/docs/components/ai/'
-      path: '/docs/components/ai'
-      fullPath: '/docs/components/ai/'
-      preLoaderRoute: typeof DocsDocsComponentsAiIndexRouteImport
+    '/_docs/docs/blocks/charts/': {
+      id: '/_docs/docs/blocks/charts/'
+      path: '/docs/blocks/charts'
+      fullPath: '/docs/blocks/charts/'
+      preLoaderRoute: typeof DocsDocsBlocksChartsIndexRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/tree-view': {
@@ -3161,543 +3336,347 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsLayoutBleedRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/status-flow': {
-      id: '/_docs/docs/components/blocks/status-flow'
-      path: '/docs/components/blocks/status-flow'
-      fullPath: '/docs/components/blocks/status-flow'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksStatusFlowRouteImport
+    '/_docs/docs/blocks/charts/radar-chart': {
+      id: '/_docs/docs/blocks/charts/radar-chart'
+      path: '/docs/blocks/charts/radar-chart'
+      fullPath: '/docs/blocks/charts/radar-chart'
+      preLoaderRoute: typeof DocsDocsBlocksChartsRadarChartRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/stats-strip': {
-      id: '/_docs/docs/components/blocks/stats-strip'
-      path: '/docs/components/blocks/stats-strip'
-      fullPath: '/docs/components/blocks/stats-strip'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksStatsStripRouteImport
+    '/_docs/docs/blocks/charts/pie-chart': {
+      id: '/_docs/docs/blocks/charts/pie-chart'
+      path: '/docs/blocks/charts/pie-chart'
+      fullPath: '/docs/blocks/charts/pie-chart'
+      preLoaderRoute: typeof DocsDocsBlocksChartsPieChartRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/stats-grid': {
-      id: '/_docs/docs/components/blocks/stats-grid'
-      path: '/docs/components/blocks/stats-grid'
-      fullPath: '/docs/components/blocks/stats-grid'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksStatsGridRouteImport
+    '/_docs/docs/blocks/charts/line-chart': {
+      id: '/_docs/docs/blocks/charts/line-chart'
+      path: '/docs/blocks/charts/line-chart'
+      fullPath: '/docs/blocks/charts/line-chart'
+      preLoaderRoute: typeof DocsDocsBlocksChartsLineChartRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/split-view': {
-      id: '/_docs/docs/components/blocks/split-view'
-      path: '/docs/components/blocks/split-view'
-      fullPath: '/docs/components/blocks/split-view'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksSplitViewRouteImport
+    '/_docs/docs/blocks/charts/bar-chart': {
+      id: '/_docs/docs/blocks/charts/bar-chart'
+      path: '/docs/blocks/charts/bar-chart'
+      fullPath: '/docs/blocks/charts/bar-chart'
+      preLoaderRoute: typeof DocsDocsBlocksChartsBarChartRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/quote-preview': {
-      id: '/_docs/docs/components/blocks/quote-preview'
-      path: '/docs/components/blocks/quote-preview'
-      fullPath: '/docs/components/blocks/quote-preview'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksQuotePreviewRouteImport
+    '/_docs/docs/blocks/charts/area-chart': {
+      id: '/_docs/docs/blocks/charts/area-chart'
+      path: '/docs/blocks/charts/area-chart'
+      fullPath: '/docs/blocks/charts/area-chart'
+      preLoaderRoute: typeof DocsDocsBlocksChartsAreaChartRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/quick-log-activity': {
-      id: '/_docs/docs/components/blocks/quick-log-activity'
-      path: '/docs/components/blocks/quick-log-activity'
-      fullPath: '/docs/components/blocks/quick-log-activity'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksQuickLogActivityRouteImport
+    '/_docs/docs/ai/workflow/task-card': {
+      id: '/_docs/docs/ai/workflow/task-card'
+      path: '/docs/ai/workflow/task-card'
+      fullPath: '/docs/ai/workflow/task-card'
+      preLoaderRoute: typeof DocsDocsAiWorkflowTaskCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/property-card': {
-      id: '/_docs/docs/components/blocks/property-card'
-      path: '/docs/components/blocks/property-card'
-      fullPath: '/docs/components/blocks/property-card'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksPropertyCardRouteImport
+    '/_docs/docs/ai/workflow/poll-card': {
+      id: '/_docs/docs/ai/workflow/poll-card'
+      path: '/docs/ai/workflow/poll-card'
+      fullPath: '/docs/ai/workflow/poll-card'
+      preLoaderRoute: typeof DocsDocsAiWorkflowPollCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/org-menu': {
-      id: '/_docs/docs/components/blocks/org-menu'
-      path: '/docs/components/blocks/org-menu'
-      fullPath: '/docs/components/blocks/org-menu'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksOrgMenuRouteImport
+    '/_docs/docs/ai/workflow/message-preview': {
+      id: '/_docs/docs/ai/workflow/message-preview'
+      path: '/docs/ai/workflow/message-preview'
+      fullPath: '/docs/ai/workflow/message-preview'
+      preLoaderRoute: typeof DocsDocsAiWorkflowMessagePreviewRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/notification-center': {
-      id: '/_docs/docs/components/blocks/notification-center'
-      path: '/docs/components/blocks/notification-center'
-      fullPath: '/docs/components/blocks/notification-center'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksNotificationCenterRouteImport
+    '/_docs/docs/ai/workflow/email-preview': {
+      id: '/_docs/docs/ai/workflow/email-preview'
+      path: '/docs/ai/workflow/email-preview'
+      fullPath: '/docs/ai/workflow/email-preview'
+      preLoaderRoute: typeof DocsDocsAiWorkflowEmailPreviewRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/multi-step-form': {
-      id: '/_docs/docs/components/blocks/multi-step-form'
-      path: '/docs/components/blocks/multi-step-form'
-      fullPath: '/docs/components/blocks/multi-step-form'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksMultiStepFormRouteImport
+    '/_docs/docs/ai/workflow/checklist-card': {
+      id: '/_docs/docs/ai/workflow/checklist-card'
+      path: '/docs/ai/workflow/checklist-card'
+      fullPath: '/docs/ai/workflow/checklist-card'
+      preLoaderRoute: typeof DocsDocsAiWorkflowChecklistCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/kanban-board': {
-      id: '/_docs/docs/components/blocks/kanban-board'
-      path: '/docs/components/blocks/kanban-board'
-      fullPath: '/docs/components/blocks/kanban-board'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksKanbanBoardRouteImport
+    '/_docs/docs/ai/workflow/approval-card': {
+      id: '/_docs/docs/ai/workflow/approval-card'
+      path: '/docs/ai/workflow/approval-card'
+      fullPath: '/docs/ai/workflow/approval-card'
+      preLoaderRoute: typeof DocsDocsAiWorkflowApprovalCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/inline-edit': {
-      id: '/_docs/docs/components/blocks/inline-edit'
-      path: '/docs/components/blocks/inline-edit'
-      fullPath: '/docs/components/blocks/inline-edit'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksInlineEditRouteImport
+    '/_docs/docs/ai/workflow/action-list': {
+      id: '/_docs/docs/ai/workflow/action-list'
+      path: '/docs/ai/workflow/action-list'
+      fullPath: '/docs/ai/workflow/action-list'
+      preLoaderRoute: typeof DocsDocsAiWorkflowActionListRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/filter-bar': {
-      id: '/_docs/docs/components/blocks/filter-bar'
-      path: '/docs/components/blocks/filter-bar'
-      fullPath: '/docs/components/blocks/filter-bar'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksFilterBarRouteImport
+    '/_docs/docs/ai/planning/timeline': {
+      id: '/_docs/docs/ai/planning/timeline'
+      path: '/docs/ai/planning/timeline'
+      fullPath: '/docs/ai/planning/timeline'
+      preLoaderRoute: typeof DocsDocsAiPlanningTimelineRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/detail-panel': {
-      id: '/_docs/docs/components/blocks/detail-panel'
-      path: '/docs/components/blocks/detail-panel'
-      fullPath: '/docs/components/blocks/detail-panel'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksDetailPanelRouteImport
+    '/_docs/docs/ai/planning/status-update': {
+      id: '/_docs/docs/ai/planning/status-update'
+      path: '/docs/ai/planning/status-update'
+      fullPath: '/docs/ai/planning/status-update'
+      preLoaderRoute: typeof DocsDocsAiPlanningStatusUpdateRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/deal-lines-editor': {
-      id: '/_docs/docs/components/blocks/deal-lines-editor'
-      path: '/docs/components/blocks/deal-lines-editor'
-      fullPath: '/docs/components/blocks/deal-lines-editor'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksDealLinesEditorRouteImport
+    '/_docs/docs/ai/planning/event-card': {
+      id: '/_docs/docs/ai/planning/event-card'
+      path: '/docs/ai/planning/event-card'
+      fullPath: '/docs/ai/planning/event-card'
+      preLoaderRoute: typeof DocsDocsAiPlanningEventCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/data-table': {
-      id: '/_docs/docs/components/blocks/data-table'
-      path: '/docs/components/blocks/data-table'
-      fullPath: '/docs/components/blocks/data-table'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksDataTableRouteImport
+    '/_docs/docs/ai/planning/calendar-card': {
+      id: '/_docs/docs/ai/planning/calendar-card'
+      path: '/docs/ai/planning/calendar-card'
+      fullPath: '/docs/ai/planning/calendar-card'
+      preLoaderRoute: typeof DocsDocsAiPlanningCalendarCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/chart-card': {
-      id: '/_docs/docs/components/blocks/chart-card'
-      path: '/docs/components/blocks/chart-card'
-      fullPath: '/docs/components/blocks/chart-card'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartCardRouteImport
+    '/_docs/docs/ai/planning/availability-card': {
+      id: '/_docs/docs/ai/planning/availability-card'
+      path: '/docs/ai/planning/availability-card'
+      fullPath: '/docs/ai/planning/availability-card'
+      preLoaderRoute: typeof DocsDocsAiPlanningAvailabilityCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/bulk-action-bar': {
-      id: '/_docs/docs/components/blocks/bulk-action-bar'
-      path: '/docs/components/blocks/bulk-action-bar'
-      fullPath: '/docs/components/blocks/bulk-action-bar'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksBulkActionBarRouteImport
+    '/_docs/docs/ai/entities/user-card': {
+      id: '/_docs/docs/ai/entities/user-card'
+      path: '/docs/ai/entities/user-card'
+      fullPath: '/docs/ai/entities/user-card'
+      preLoaderRoute: typeof DocsDocsAiEntitiesUserCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/activity-timeline': {
-      id: '/_docs/docs/components/blocks/activity-timeline'
-      path: '/docs/components/blocks/activity-timeline'
-      fullPath: '/docs/components/blocks/activity-timeline'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksActivityTimelineRouteImport
+    '/_docs/docs/ai/entities/deal-card': {
+      id: '/_docs/docs/ai/entities/deal-card'
+      path: '/docs/ai/entities/deal-card'
+      fullPath: '/docs/ai/entities/deal-card'
+      preLoaderRoute: typeof DocsDocsAiEntitiesDealCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/sources': {
-      id: '/_docs/docs/components/ai/sources'
-      path: '/docs/components/ai/sources'
-      fullPath: '/docs/components/ai/sources'
-      preLoaderRoute: typeof DocsDocsComponentsAiSourcesRouteImport
+    '/_docs/docs/ai/entities/contact-card': {
+      id: '/_docs/docs/ai/entities/contact-card'
+      path: '/docs/ai/entities/contact-card'
+      fullPath: '/docs/ai/entities/contact-card'
+      preLoaderRoute: typeof DocsDocsAiEntitiesContactCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/reasoning': {
-      id: '/_docs/docs/components/ai/reasoning'
-      path: '/docs/components/ai/reasoning'
-      fullPath: '/docs/components/ai/reasoning'
-      preLoaderRoute: typeof DocsDocsComponentsAiReasoningRouteImport
+    '/_docs/docs/ai/entities/company-card': {
+      id: '/_docs/docs/ai/entities/company-card'
+      path: '/docs/ai/entities/company-card'
+      fullPath: '/docs/ai/entities/company-card'
+      preLoaderRoute: typeof DocsDocsAiEntitiesCompanyCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/model-selector': {
-      id: '/_docs/docs/components/ai/model-selector'
-      path: '/docs/components/ai/model-selector'
-      fullPath: '/docs/components/ai/model-selector'
-      preLoaderRoute: typeof DocsDocsComponentsAiModelSelectorRouteImport
+    '/_docs/docs/ai/entities/candidate-card': {
+      id: '/_docs/docs/ai/entities/candidate-card'
+      path: '/docs/ai/entities/candidate-card'
+      fullPath: '/docs/ai/entities/candidate-card'
+      preLoaderRoute: typeof DocsDocsAiEntitiesCandidateCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/inline-citation': {
-      id: '/_docs/docs/components/ai/inline-citation'
-      path: '/docs/components/ai/inline-citation'
-      fullPath: '/docs/components/ai/inline-citation'
-      preLoaderRoute: typeof DocsDocsComponentsAiInlineCitationRouteImport
+    '/_docs/docs/ai/data/stats-row': {
+      id: '/_docs/docs/ai/data/stats-row'
+      path: '/docs/ai/data/stats-row'
+      fullPath: '/docs/ai/data/stats-row'
+      preLoaderRoute: typeof DocsDocsAiDataStatsRowRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/generative-ui': {
-      id: '/_docs/docs/components/ai/generative-ui'
-      path: '/docs/components/ai/generative-ui'
-      fullPath: '/docs/components/ai/generative-ui'
-      preLoaderRoute: typeof DocsDocsComponentsAiGenerativeUiRouteImport
+    '/_docs/docs/ai/data/score-card': {
+      id: '/_docs/docs/ai/data/score-card'
+      path: '/docs/ai/data/score-card'
+      fullPath: '/docs/ai/data/score-card'
+      preLoaderRoute: typeof DocsDocsAiDataScoreCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/context': {
-      id: '/_docs/docs/components/ai/context'
-      path: '/docs/components/ai/context'
-      fullPath: '/docs/components/ai/context'
-      preLoaderRoute: typeof DocsDocsComponentsAiContextRouteImport
+    '/_docs/docs/ai/data/rating-card': {
+      id: '/_docs/docs/ai/data/rating-card'
+      path: '/docs/ai/data/rating-card'
+      fullPath: '/docs/ai/data/rating-card'
+      preLoaderRoute: typeof DocsDocsAiDataRatingCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/confirmation': {
-      id: '/_docs/docs/components/ai/confirmation'
-      path: '/docs/components/ai/confirmation'
-      fullPath: '/docs/components/ai/confirmation'
-      preLoaderRoute: typeof DocsDocsComponentsAiConfirmationRouteImport
+    '/_docs/docs/ai/data/progress-card': {
+      id: '/_docs/docs/ai/data/progress-card'
+      path: '/docs/ai/data/progress-card'
+      fullPath: '/docs/ai/data/progress-card'
+      preLoaderRoute: typeof DocsDocsAiDataProgressCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/chain-of-thought': {
-      id: '/_docs/docs/components/ai/chain-of-thought'
-      path: '/docs/components/ai/chain-of-thought'
-      fullPath: '/docs/components/ai/chain-of-thought'
-      preLoaderRoute: typeof DocsDocsComponentsAiChainOfThoughtRouteImport
+    '/_docs/docs/ai/data/mini-chart': {
+      id: '/_docs/docs/ai/data/mini-chart'
+      path: '/docs/ai/data/mini-chart'
+      fullPath: '/docs/ai/data/mini-chart'
+      preLoaderRoute: typeof DocsDocsAiDataMiniChartRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/charts/': {
-      id: '/_docs/docs/components/blocks/charts/'
-      path: '/docs/components/blocks/charts'
-      fullPath: '/docs/components/blocks/charts/'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsIndexRouteImport
+    '/_docs/docs/ai/data/metric-card': {
+      id: '/_docs/docs/ai/data/metric-card'
+      path: '/docs/ai/data/metric-card'
+      fullPath: '/docs/ai/data/metric-card'
+      preLoaderRoute: typeof DocsDocsAiDataMetricCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/charts/radar-chart': {
-      id: '/_docs/docs/components/blocks/charts/radar-chart'
-      path: '/docs/components/blocks/charts/radar-chart'
-      fullPath: '/docs/components/blocks/charts/radar-chart'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsRadarChartRouteImport
+    '/_docs/docs/ai/data/data-list': {
+      id: '/_docs/docs/ai/data/data-list'
+      path: '/docs/ai/data/data-list'
+      fullPath: '/docs/ai/data/data-list'
+      preLoaderRoute: typeof DocsDocsAiDataDataListRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/charts/pie-chart': {
-      id: '/_docs/docs/components/blocks/charts/pie-chart'
-      path: '/docs/components/blocks/charts/pie-chart'
-      fullPath: '/docs/components/blocks/charts/pie-chart'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsPieChartRouteImport
+    '/_docs/docs/ai/data/data-grid': {
+      id: '/_docs/docs/ai/data/data-grid'
+      path: '/docs/ai/data/data-grid'
+      fullPath: '/docs/ai/data/data-grid'
+      preLoaderRoute: typeof DocsDocsAiDataDataGridRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/charts/line-chart': {
-      id: '/_docs/docs/components/blocks/charts/line-chart'
-      path: '/docs/components/blocks/charts/line-chart'
-      fullPath: '/docs/components/blocks/charts/line-chart'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsLineChartRouteImport
+    '/_docs/docs/ai/data/comparison-table': {
+      id: '/_docs/docs/ai/data/comparison-table'
+      path: '/docs/ai/data/comparison-table'
+      fullPath: '/docs/ai/data/comparison-table'
+      preLoaderRoute: typeof DocsDocsAiDataComparisonTableRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/charts/bar-chart': {
-      id: '/_docs/docs/components/blocks/charts/bar-chart'
-      path: '/docs/components/blocks/charts/bar-chart'
-      fullPath: '/docs/components/blocks/charts/bar-chart'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsBarChartRouteImport
+    '/_docs/docs/ai/content/video-card': {
+      id: '/_docs/docs/ai/content/video-card'
+      path: '/docs/ai/content/video-card'
+      fullPath: '/docs/ai/content/video-card'
+      preLoaderRoute: typeof DocsDocsAiContentVideoCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/blocks/charts/area-chart': {
-      id: '/_docs/docs/components/blocks/charts/area-chart'
-      path: '/docs/components/blocks/charts/area-chart'
-      fullPath: '/docs/components/blocks/charts/area-chart'
-      preLoaderRoute: typeof DocsDocsComponentsBlocksChartsAreaChartRouteImport
+    '/_docs/docs/ai/content/summary-card': {
+      id: '/_docs/docs/ai/content/summary-card'
+      path: '/docs/ai/content/summary-card'
+      fullPath: '/docs/ai/content/summary-card'
+      preLoaderRoute: typeof DocsDocsAiContentSummaryCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/task-card': {
-      id: '/_docs/docs/components/ai/workflow/task-card'
-      path: '/docs/components/ai/workflow/task-card'
-      fullPath: '/docs/components/ai/workflow/task-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowTaskCardRouteImport
+    '/_docs/docs/ai/content/location-card': {
+      id: '/_docs/docs/ai/content/location-card'
+      path: '/docs/ai/content/location-card'
+      fullPath: '/docs/ai/content/location-card'
+      preLoaderRoute: typeof DocsDocsAiContentLocationCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/poll-card': {
-      id: '/_docs/docs/components/ai/workflow/poll-card'
-      path: '/docs/components/ai/workflow/poll-card'
-      fullPath: '/docs/components/ai/workflow/poll-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowPollCardRouteImport
+    '/_docs/docs/ai/content/link-preview': {
+      id: '/_docs/docs/ai/content/link-preview'
+      path: '/docs/ai/content/link-preview'
+      fullPath: '/docs/ai/content/link-preview'
+      preLoaderRoute: typeof DocsDocsAiContentLinkPreviewRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/message-preview': {
-      id: '/_docs/docs/components/ai/workflow/message-preview'
-      path: '/docs/components/ai/workflow/message-preview'
-      fullPath: '/docs/components/ai/workflow/message-preview'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowMessagePreviewRouteImport
+    '/_docs/docs/ai/content/insight-card': {
+      id: '/_docs/docs/ai/content/insight-card'
+      path: '/docs/ai/content/insight-card'
+      fullPath: '/docs/ai/content/insight-card'
+      preLoaderRoute: typeof DocsDocsAiContentInsightCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/email-preview': {
-      id: '/_docs/docs/components/ai/workflow/email-preview'
-      path: '/docs/components/ai/workflow/email-preview'
-      fullPath: '/docs/components/ai/workflow/email-preview'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowEmailPreviewRouteImport
+    '/_docs/docs/ai/content/image-gallery': {
+      id: '/_docs/docs/ai/content/image-gallery'
+      path: '/docs/ai/content/image-gallery'
+      fullPath: '/docs/ai/content/image-gallery'
+      preLoaderRoute: typeof DocsDocsAiContentImageGalleryRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/checklist-card': {
-      id: '/_docs/docs/components/ai/workflow/checklist-card'
-      path: '/docs/components/ai/workflow/checklist-card'
-      fullPath: '/docs/components/ai/workflow/checklist-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowChecklistCardRouteImport
+    '/_docs/docs/ai/content/file-card': {
+      id: '/_docs/docs/ai/content/file-card'
+      path: '/docs/ai/content/file-card'
+      fullPath: '/docs/ai/content/file-card'
+      preLoaderRoute: typeof DocsDocsAiContentFileCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/approval-card': {
-      id: '/_docs/docs/components/ai/workflow/approval-card'
-      path: '/docs/components/ai/workflow/approval-card'
-      fullPath: '/docs/components/ai/workflow/approval-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowApprovalCardRouteImport
+    '/_docs/docs/ai/commerce/transaction-card': {
+      id: '/_docs/docs/ai/commerce/transaction-card'
+      path: '/docs/ai/commerce/transaction-card'
+      fullPath: '/docs/ai/commerce/transaction-card'
+      preLoaderRoute: typeof DocsDocsAiCommerceTransactionCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/workflow/action-list': {
-      id: '/_docs/docs/components/ai/workflow/action-list'
-      path: '/docs/components/ai/workflow/action-list'
-      fullPath: '/docs/components/ai/workflow/action-list'
-      preLoaderRoute: typeof DocsDocsComponentsAiWorkflowActionListRouteImport
+    '/_docs/docs/ai/commerce/quote-summary': {
+      id: '/_docs/docs/ai/commerce/quote-summary'
+      path: '/docs/ai/commerce/quote-summary'
+      fullPath: '/docs/ai/commerce/quote-summary'
+      preLoaderRoute: typeof DocsDocsAiCommerceQuoteSummaryRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/planning/timeline': {
-      id: '/_docs/docs/components/ai/planning/timeline'
-      path: '/docs/components/ai/planning/timeline'
-      fullPath: '/docs/components/ai/planning/timeline'
-      preLoaderRoute: typeof DocsDocsComponentsAiPlanningTimelineRouteImport
+    '/_docs/docs/ai/commerce/product-card': {
+      id: '/_docs/docs/ai/commerce/product-card'
+      path: '/docs/ai/commerce/product-card'
+      fullPath: '/docs/ai/commerce/product-card'
+      preLoaderRoute: typeof DocsDocsAiCommerceProductCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/planning/status-update': {
-      id: '/_docs/docs/components/ai/planning/status-update'
-      path: '/docs/components/ai/planning/status-update'
-      fullPath: '/docs/components/ai/planning/status-update'
-      preLoaderRoute: typeof DocsDocsComponentsAiPlanningStatusUpdateRouteImport
+    '/_docs/docs/ai/commerce/pricing-table': {
+      id: '/_docs/docs/ai/commerce/pricing-table'
+      path: '/docs/ai/commerce/pricing-table'
+      fullPath: '/docs/ai/commerce/pricing-table'
+      preLoaderRoute: typeof DocsDocsAiCommercePricingTableRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/planning/event-card': {
-      id: '/_docs/docs/components/ai/planning/event-card'
-      path: '/docs/components/ai/planning/event-card'
-      fullPath: '/docs/components/ai/planning/event-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiPlanningEventCardRouteImport
+    '/_docs/docs/ai/commerce/invoice-card': {
+      id: '/_docs/docs/ai/commerce/invoice-card'
+      path: '/docs/ai/commerce/invoice-card'
+      fullPath: '/docs/ai/commerce/invoice-card'
+      preLoaderRoute: typeof DocsDocsAiCommerceInvoiceCardRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/planning/calendar-card': {
-      id: '/_docs/docs/components/ai/planning/calendar-card'
-      path: '/docs/components/ai/planning/calendar-card'
-      fullPath: '/docs/components/ai/planning/calendar-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiPlanningCalendarCardRouteImport
+    '/_docs/docs/ai/chat/suggestion': {
+      id: '/_docs/docs/ai/chat/suggestion'
+      path: '/docs/ai/chat/suggestion'
+      fullPath: '/docs/ai/chat/suggestion'
+      preLoaderRoute: typeof DocsDocsAiChatSuggestionRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/planning/availability-card': {
-      id: '/_docs/docs/components/ai/planning/availability-card'
-      path: '/docs/components/ai/planning/availability-card'
-      fullPath: '/docs/components/ai/planning/availability-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiPlanningAvailabilityCardRouteImport
+    '/_docs/docs/ai/chat/shimmer': {
+      id: '/_docs/docs/ai/chat/shimmer'
+      path: '/docs/ai/chat/shimmer'
+      fullPath: '/docs/ai/chat/shimmer'
+      preLoaderRoute: typeof DocsDocsAiChatShimmerRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/entities/user-card': {
-      id: '/_docs/docs/components/ai/entities/user-card'
-      path: '/docs/components/ai/entities/user-card'
-      fullPath: '/docs/components/ai/entities/user-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiEntitiesUserCardRouteImport
+    '/_docs/docs/ai/chat/prompt-input': {
+      id: '/_docs/docs/ai/chat/prompt-input'
+      path: '/docs/ai/chat/prompt-input'
+      fullPath: '/docs/ai/chat/prompt-input'
+      preLoaderRoute: typeof DocsDocsAiChatPromptInputRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/entities/deal-card': {
-      id: '/_docs/docs/components/ai/entities/deal-card'
-      path: '/docs/components/ai/entities/deal-card'
-      fullPath: '/docs/components/ai/entities/deal-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiEntitiesDealCardRouteImport
+    '/_docs/docs/ai/chat/message': {
+      id: '/_docs/docs/ai/chat/message'
+      path: '/docs/ai/chat/message'
+      fullPath: '/docs/ai/chat/message'
+      preLoaderRoute: typeof DocsDocsAiChatMessageRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/entities/contact-card': {
-      id: '/_docs/docs/components/ai/entities/contact-card'
-      path: '/docs/components/ai/entities/contact-card'
-      fullPath: '/docs/components/ai/entities/contact-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiEntitiesContactCardRouteImport
+    '/_docs/docs/ai/chat/conversation': {
+      id: '/_docs/docs/ai/chat/conversation'
+      path: '/docs/ai/chat/conversation'
+      fullPath: '/docs/ai/chat/conversation'
+      preLoaderRoute: typeof DocsDocsAiChatConversationRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/ai/entities/company-card': {
-      id: '/_docs/docs/components/ai/entities/company-card'
-      path: '/docs/components/ai/entities/company-card'
-      fullPath: '/docs/components/ai/entities/company-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiEntitiesCompanyCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/entities/candidate-card': {
-      id: '/_docs/docs/components/ai/entities/candidate-card'
-      path: '/docs/components/ai/entities/candidate-card'
-      fullPath: '/docs/components/ai/entities/candidate-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiEntitiesCandidateCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/stats-row': {
-      id: '/_docs/docs/components/ai/data/stats-row'
-      path: '/docs/components/ai/data/stats-row'
-      fullPath: '/docs/components/ai/data/stats-row'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataStatsRowRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/score-card': {
-      id: '/_docs/docs/components/ai/data/score-card'
-      path: '/docs/components/ai/data/score-card'
-      fullPath: '/docs/components/ai/data/score-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataScoreCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/rating-card': {
-      id: '/_docs/docs/components/ai/data/rating-card'
-      path: '/docs/components/ai/data/rating-card'
-      fullPath: '/docs/components/ai/data/rating-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataRatingCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/progress-card': {
-      id: '/_docs/docs/components/ai/data/progress-card'
-      path: '/docs/components/ai/data/progress-card'
-      fullPath: '/docs/components/ai/data/progress-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataProgressCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/mini-chart': {
-      id: '/_docs/docs/components/ai/data/mini-chart'
-      path: '/docs/components/ai/data/mini-chart'
-      fullPath: '/docs/components/ai/data/mini-chart'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataMiniChartRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/metric-card': {
-      id: '/_docs/docs/components/ai/data/metric-card'
-      path: '/docs/components/ai/data/metric-card'
-      fullPath: '/docs/components/ai/data/metric-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataMetricCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/data-list': {
-      id: '/_docs/docs/components/ai/data/data-list'
-      path: '/docs/components/ai/data/data-list'
-      fullPath: '/docs/components/ai/data/data-list'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataDataListRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/data-grid': {
-      id: '/_docs/docs/components/ai/data/data-grid'
-      path: '/docs/components/ai/data/data-grid'
-      fullPath: '/docs/components/ai/data/data-grid'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataDataGridRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/data/comparison-table': {
-      id: '/_docs/docs/components/ai/data/comparison-table'
-      path: '/docs/components/ai/data/comparison-table'
-      fullPath: '/docs/components/ai/data/comparison-table'
-      preLoaderRoute: typeof DocsDocsComponentsAiDataComparisonTableRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/video-card': {
-      id: '/_docs/docs/components/ai/content/video-card'
-      path: '/docs/components/ai/content/video-card'
-      fullPath: '/docs/components/ai/content/video-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentVideoCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/summary-card': {
-      id: '/_docs/docs/components/ai/content/summary-card'
-      path: '/docs/components/ai/content/summary-card'
-      fullPath: '/docs/components/ai/content/summary-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentSummaryCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/location-card': {
-      id: '/_docs/docs/components/ai/content/location-card'
-      path: '/docs/components/ai/content/location-card'
-      fullPath: '/docs/components/ai/content/location-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentLocationCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/link-preview': {
-      id: '/_docs/docs/components/ai/content/link-preview'
-      path: '/docs/components/ai/content/link-preview'
-      fullPath: '/docs/components/ai/content/link-preview'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentLinkPreviewRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/insight-card': {
-      id: '/_docs/docs/components/ai/content/insight-card'
-      path: '/docs/components/ai/content/insight-card'
-      fullPath: '/docs/components/ai/content/insight-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentInsightCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/image-gallery': {
-      id: '/_docs/docs/components/ai/content/image-gallery'
-      path: '/docs/components/ai/content/image-gallery'
-      fullPath: '/docs/components/ai/content/image-gallery'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentImageGalleryRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/content/file-card': {
-      id: '/_docs/docs/components/ai/content/file-card'
-      path: '/docs/components/ai/content/file-card'
-      fullPath: '/docs/components/ai/content/file-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiContentFileCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/commerce/transaction-card': {
-      id: '/_docs/docs/components/ai/commerce/transaction-card'
-      path: '/docs/components/ai/commerce/transaction-card'
-      fullPath: '/docs/components/ai/commerce/transaction-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiCommerceTransactionCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/commerce/quote-summary': {
-      id: '/_docs/docs/components/ai/commerce/quote-summary'
-      path: '/docs/components/ai/commerce/quote-summary'
-      fullPath: '/docs/components/ai/commerce/quote-summary'
-      preLoaderRoute: typeof DocsDocsComponentsAiCommerceQuoteSummaryRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/commerce/product-card': {
-      id: '/_docs/docs/components/ai/commerce/product-card'
-      path: '/docs/components/ai/commerce/product-card'
-      fullPath: '/docs/components/ai/commerce/product-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiCommerceProductCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/commerce/pricing-table': {
-      id: '/_docs/docs/components/ai/commerce/pricing-table'
-      path: '/docs/components/ai/commerce/pricing-table'
-      fullPath: '/docs/components/ai/commerce/pricing-table'
-      preLoaderRoute: typeof DocsDocsComponentsAiCommercePricingTableRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/commerce/invoice-card': {
-      id: '/_docs/docs/components/ai/commerce/invoice-card'
-      path: '/docs/components/ai/commerce/invoice-card'
-      fullPath: '/docs/components/ai/commerce/invoice-card'
-      preLoaderRoute: typeof DocsDocsComponentsAiCommerceInvoiceCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/chat/suggestion': {
-      id: '/_docs/docs/components/ai/chat/suggestion'
-      path: '/docs/components/ai/chat/suggestion'
-      fullPath: '/docs/components/ai/chat/suggestion'
-      preLoaderRoute: typeof DocsDocsComponentsAiChatSuggestionRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/chat/shimmer': {
-      id: '/_docs/docs/components/ai/chat/shimmer'
-      path: '/docs/components/ai/chat/shimmer'
-      fullPath: '/docs/components/ai/chat/shimmer'
-      preLoaderRoute: typeof DocsDocsComponentsAiChatShimmerRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/chat/prompt-input': {
-      id: '/_docs/docs/components/ai/chat/prompt-input'
-      path: '/docs/components/ai/chat/prompt-input'
-      fullPath: '/docs/components/ai/chat/prompt-input'
-      preLoaderRoute: typeof DocsDocsComponentsAiChatPromptInputRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/chat/message': {
-      id: '/_docs/docs/components/ai/chat/message'
-      path: '/docs/components/ai/chat/message'
-      fullPath: '/docs/components/ai/chat/message'
-      preLoaderRoute: typeof DocsDocsComponentsAiChatMessageRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/chat/conversation': {
-      id: '/_docs/docs/components/ai/chat/conversation'
-      path: '/docs/components/ai/chat/conversation'
-      fullPath: '/docs/components/ai/chat/conversation'
-      preLoaderRoute: typeof DocsDocsComponentsAiChatConversationRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/components/ai/chat/attachments': {
-      id: '/_docs/docs/components/ai/chat/attachments'
-      path: '/docs/components/ai/chat/attachments'
-      fullPath: '/docs/components/ai/chat/attachments'
-      preLoaderRoute: typeof DocsDocsComponentsAiChatAttachmentsRouteImport
+    '/_docs/docs/ai/chat/attachments': {
+      id: '/_docs/docs/ai/chat/attachments'
+      path: '/docs/ai/chat/attachments'
+      fullPath: '/docs/ai/chat/attachments'
+      preLoaderRoute: typeof DocsDocsAiChatAttachmentsRouteImport
       parentRoute: typeof DocsRoute
     }
   }
@@ -3706,6 +3685,33 @@ declare module '@tanstack/react-router' {
 interface DocsRouteChildren {
   DocsDocsMcpRoute: typeof DocsDocsMcpRoute
   DocsDocsSandboxRoute: typeof DocsDocsSandboxRoute
+  DocsDocsAiChainOfThoughtRoute: typeof DocsDocsAiChainOfThoughtRoute
+  DocsDocsAiConfirmationRoute: typeof DocsDocsAiConfirmationRoute
+  DocsDocsAiContextRoute: typeof DocsDocsAiContextRoute
+  DocsDocsAiGenerativeUiRoute: typeof DocsDocsAiGenerativeUiRoute
+  DocsDocsAiInlineCitationRoute: typeof DocsDocsAiInlineCitationRoute
+  DocsDocsAiModelSelectorRoute: typeof DocsDocsAiModelSelectorRoute
+  DocsDocsAiReasoningRoute: typeof DocsDocsAiReasoningRoute
+  DocsDocsAiSourcesRoute: typeof DocsDocsAiSourcesRoute
+  DocsDocsBlocksActivityTimelineRoute: typeof DocsDocsBlocksActivityTimelineRoute
+  DocsDocsBlocksBulkActionBarRoute: typeof DocsDocsBlocksBulkActionBarRoute
+  DocsDocsBlocksChartCardRoute: typeof DocsDocsBlocksChartCardRoute
+  DocsDocsBlocksDataTableRoute: typeof DocsDocsBlocksDataTableRoute
+  DocsDocsBlocksDealLinesEditorRoute: typeof DocsDocsBlocksDealLinesEditorRoute
+  DocsDocsBlocksDetailPanelRoute: typeof DocsDocsBlocksDetailPanelRoute
+  DocsDocsBlocksFilterBarRoute: typeof DocsDocsBlocksFilterBarRoute
+  DocsDocsBlocksInlineEditRoute: typeof DocsDocsBlocksInlineEditRoute
+  DocsDocsBlocksKanbanBoardRoute: typeof DocsDocsBlocksKanbanBoardRoute
+  DocsDocsBlocksMultiStepFormRoute: typeof DocsDocsBlocksMultiStepFormRoute
+  DocsDocsBlocksNotificationCenterRoute: typeof DocsDocsBlocksNotificationCenterRoute
+  DocsDocsBlocksOrgMenuRoute: typeof DocsDocsBlocksOrgMenuRoute
+  DocsDocsBlocksPropertyCardRoute: typeof DocsDocsBlocksPropertyCardRoute
+  DocsDocsBlocksQuickLogActivityRoute: typeof DocsDocsBlocksQuickLogActivityRoute
+  DocsDocsBlocksQuotePreviewRoute: typeof DocsDocsBlocksQuotePreviewRoute
+  DocsDocsBlocksSplitViewRoute: typeof DocsDocsBlocksSplitViewRoute
+  DocsDocsBlocksStatsGridRoute: typeof DocsDocsBlocksStatsGridRoute
+  DocsDocsBlocksStatsStripRoute: typeof DocsDocsBlocksStatsStripRoute
+  DocsDocsBlocksStatusFlowRoute: typeof DocsDocsBlocksStatusFlowRoute
   DocsDocsComponentsActionsRoute: typeof DocsDocsComponentsActionsRoute
   DocsDocsComponentsColorsRoute: typeof DocsDocsComponentsColorsRoute
   DocsDocsComponentsDataDisplayRoute: typeof DocsDocsComponentsDataDisplayRoute
@@ -3716,35 +3722,59 @@ interface DocsRouteChildren {
   DocsDocsComponentsTypographyRoute: typeof DocsDocsComponentsTypographyRoute
   DocsDocsUtilsQuickLoginRoute: typeof DocsDocsUtilsQuickLoginRoute
   DocsDocsUtilsUnsavedChangesBarRoute: typeof DocsDocsUtilsUnsavedChangesBarRoute
+  DocsDocsAiIndexRoute: typeof DocsDocsAiIndexRoute
+  DocsDocsBlocksIndexRoute: typeof DocsDocsBlocksIndexRoute
   DocsDocsComponentsIndexRoute: typeof DocsDocsComponentsIndexRoute
   DocsDocsGuideIndexRoute: typeof DocsDocsGuideIndexRoute
-  DocsDocsComponentsAiChainOfThoughtRoute: typeof DocsDocsComponentsAiChainOfThoughtRoute
-  DocsDocsComponentsAiConfirmationRoute: typeof DocsDocsComponentsAiConfirmationRoute
-  DocsDocsComponentsAiContextRoute: typeof DocsDocsComponentsAiContextRoute
-  DocsDocsComponentsAiGenerativeUiRoute: typeof DocsDocsComponentsAiGenerativeUiRoute
-  DocsDocsComponentsAiInlineCitationRoute: typeof DocsDocsComponentsAiInlineCitationRoute
-  DocsDocsComponentsAiModelSelectorRoute: typeof DocsDocsComponentsAiModelSelectorRoute
-  DocsDocsComponentsAiReasoningRoute: typeof DocsDocsComponentsAiReasoningRoute
-  DocsDocsComponentsAiSourcesRoute: typeof DocsDocsComponentsAiSourcesRoute
-  DocsDocsComponentsBlocksActivityTimelineRoute: typeof DocsDocsComponentsBlocksActivityTimelineRoute
-  DocsDocsComponentsBlocksBulkActionBarRoute: typeof DocsDocsComponentsBlocksBulkActionBarRoute
-  DocsDocsComponentsBlocksChartCardRoute: typeof DocsDocsComponentsBlocksChartCardRoute
-  DocsDocsComponentsBlocksDataTableRoute: typeof DocsDocsComponentsBlocksDataTableRoute
-  DocsDocsComponentsBlocksDealLinesEditorRoute: typeof DocsDocsComponentsBlocksDealLinesEditorRoute
-  DocsDocsComponentsBlocksDetailPanelRoute: typeof DocsDocsComponentsBlocksDetailPanelRoute
-  DocsDocsComponentsBlocksFilterBarRoute: typeof DocsDocsComponentsBlocksFilterBarRoute
-  DocsDocsComponentsBlocksInlineEditRoute: typeof DocsDocsComponentsBlocksInlineEditRoute
-  DocsDocsComponentsBlocksKanbanBoardRoute: typeof DocsDocsComponentsBlocksKanbanBoardRoute
-  DocsDocsComponentsBlocksMultiStepFormRoute: typeof DocsDocsComponentsBlocksMultiStepFormRoute
-  DocsDocsComponentsBlocksNotificationCenterRoute: typeof DocsDocsComponentsBlocksNotificationCenterRoute
-  DocsDocsComponentsBlocksOrgMenuRoute: typeof DocsDocsComponentsBlocksOrgMenuRoute
-  DocsDocsComponentsBlocksPropertyCardRoute: typeof DocsDocsComponentsBlocksPropertyCardRoute
-  DocsDocsComponentsBlocksQuickLogActivityRoute: typeof DocsDocsComponentsBlocksQuickLogActivityRoute
-  DocsDocsComponentsBlocksQuotePreviewRoute: typeof DocsDocsComponentsBlocksQuotePreviewRoute
-  DocsDocsComponentsBlocksSplitViewRoute: typeof DocsDocsComponentsBlocksSplitViewRoute
-  DocsDocsComponentsBlocksStatsGridRoute: typeof DocsDocsComponentsBlocksStatsGridRoute
-  DocsDocsComponentsBlocksStatsStripRoute: typeof DocsDocsComponentsBlocksStatsStripRoute
-  DocsDocsComponentsBlocksStatusFlowRoute: typeof DocsDocsComponentsBlocksStatusFlowRoute
+  DocsDocsAiChatAttachmentsRoute: typeof DocsDocsAiChatAttachmentsRoute
+  DocsDocsAiChatConversationRoute: typeof DocsDocsAiChatConversationRoute
+  DocsDocsAiChatMessageRoute: typeof DocsDocsAiChatMessageRoute
+  DocsDocsAiChatPromptInputRoute: typeof DocsDocsAiChatPromptInputRoute
+  DocsDocsAiChatShimmerRoute: typeof DocsDocsAiChatShimmerRoute
+  DocsDocsAiChatSuggestionRoute: typeof DocsDocsAiChatSuggestionRoute
+  DocsDocsAiCommerceInvoiceCardRoute: typeof DocsDocsAiCommerceInvoiceCardRoute
+  DocsDocsAiCommercePricingTableRoute: typeof DocsDocsAiCommercePricingTableRoute
+  DocsDocsAiCommerceProductCardRoute: typeof DocsDocsAiCommerceProductCardRoute
+  DocsDocsAiCommerceQuoteSummaryRoute: typeof DocsDocsAiCommerceQuoteSummaryRoute
+  DocsDocsAiCommerceTransactionCardRoute: typeof DocsDocsAiCommerceTransactionCardRoute
+  DocsDocsAiContentFileCardRoute: typeof DocsDocsAiContentFileCardRoute
+  DocsDocsAiContentImageGalleryRoute: typeof DocsDocsAiContentImageGalleryRoute
+  DocsDocsAiContentInsightCardRoute: typeof DocsDocsAiContentInsightCardRoute
+  DocsDocsAiContentLinkPreviewRoute: typeof DocsDocsAiContentLinkPreviewRoute
+  DocsDocsAiContentLocationCardRoute: typeof DocsDocsAiContentLocationCardRoute
+  DocsDocsAiContentSummaryCardRoute: typeof DocsDocsAiContentSummaryCardRoute
+  DocsDocsAiContentVideoCardRoute: typeof DocsDocsAiContentVideoCardRoute
+  DocsDocsAiDataComparisonTableRoute: typeof DocsDocsAiDataComparisonTableRoute
+  DocsDocsAiDataDataGridRoute: typeof DocsDocsAiDataDataGridRoute
+  DocsDocsAiDataDataListRoute: typeof DocsDocsAiDataDataListRoute
+  DocsDocsAiDataMetricCardRoute: typeof DocsDocsAiDataMetricCardRoute
+  DocsDocsAiDataMiniChartRoute: typeof DocsDocsAiDataMiniChartRoute
+  DocsDocsAiDataProgressCardRoute: typeof DocsDocsAiDataProgressCardRoute
+  DocsDocsAiDataRatingCardRoute: typeof DocsDocsAiDataRatingCardRoute
+  DocsDocsAiDataScoreCardRoute: typeof DocsDocsAiDataScoreCardRoute
+  DocsDocsAiDataStatsRowRoute: typeof DocsDocsAiDataStatsRowRoute
+  DocsDocsAiEntitiesCandidateCardRoute: typeof DocsDocsAiEntitiesCandidateCardRoute
+  DocsDocsAiEntitiesCompanyCardRoute: typeof DocsDocsAiEntitiesCompanyCardRoute
+  DocsDocsAiEntitiesContactCardRoute: typeof DocsDocsAiEntitiesContactCardRoute
+  DocsDocsAiEntitiesDealCardRoute: typeof DocsDocsAiEntitiesDealCardRoute
+  DocsDocsAiEntitiesUserCardRoute: typeof DocsDocsAiEntitiesUserCardRoute
+  DocsDocsAiPlanningAvailabilityCardRoute: typeof DocsDocsAiPlanningAvailabilityCardRoute
+  DocsDocsAiPlanningCalendarCardRoute: typeof DocsDocsAiPlanningCalendarCardRoute
+  DocsDocsAiPlanningEventCardRoute: typeof DocsDocsAiPlanningEventCardRoute
+  DocsDocsAiPlanningStatusUpdateRoute: typeof DocsDocsAiPlanningStatusUpdateRoute
+  DocsDocsAiPlanningTimelineRoute: typeof DocsDocsAiPlanningTimelineRoute
+  DocsDocsAiWorkflowActionListRoute: typeof DocsDocsAiWorkflowActionListRoute
+  DocsDocsAiWorkflowApprovalCardRoute: typeof DocsDocsAiWorkflowApprovalCardRoute
+  DocsDocsAiWorkflowChecklistCardRoute: typeof DocsDocsAiWorkflowChecklistCardRoute
+  DocsDocsAiWorkflowEmailPreviewRoute: typeof DocsDocsAiWorkflowEmailPreviewRoute
+  DocsDocsAiWorkflowMessagePreviewRoute: typeof DocsDocsAiWorkflowMessagePreviewRoute
+  DocsDocsAiWorkflowPollCardRoute: typeof DocsDocsAiWorkflowPollCardRoute
+  DocsDocsAiWorkflowTaskCardRoute: typeof DocsDocsAiWorkflowTaskCardRoute
+  DocsDocsBlocksChartsAreaChartRoute: typeof DocsDocsBlocksChartsAreaChartRoute
+  DocsDocsBlocksChartsBarChartRoute: typeof DocsDocsBlocksChartsBarChartRoute
+  DocsDocsBlocksChartsLineChartRoute: typeof DocsDocsBlocksChartsLineChartRoute
+  DocsDocsBlocksChartsPieChartRoute: typeof DocsDocsBlocksChartsPieChartRoute
+  DocsDocsBlocksChartsRadarChartRoute: typeof DocsDocsBlocksChartsRadarChartRoute
   DocsDocsComponentsLayoutBleedRoute: typeof DocsDocsComponentsLayoutBleedRoute
   DocsDocsComponentsLayoutBlockStackRoute: typeof DocsDocsComponentsLayoutBlockStackRoute
   DocsDocsComponentsLayoutBoxRoute: typeof DocsDocsComponentsLayoutBoxRoute
@@ -3830,65 +3860,41 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiToastRoute: typeof DocsDocsComponentsUiToastRoute
   DocsDocsComponentsUiTooltipRoute: typeof DocsDocsComponentsUiTooltipRoute
   DocsDocsComponentsUiTreeViewRoute: typeof DocsDocsComponentsUiTreeViewRoute
-  DocsDocsComponentsAiIndexRoute: typeof DocsDocsComponentsAiIndexRoute
-  DocsDocsComponentsBlocksIndexRoute: typeof DocsDocsComponentsBlocksIndexRoute
+  DocsDocsBlocksChartsIndexRoute: typeof DocsDocsBlocksChartsIndexRoute
   DocsDocsComponentsLayoutIndexRoute: typeof DocsDocsComponentsLayoutIndexRoute
   DocsDocsComponentsUiIndexRoute: typeof DocsDocsComponentsUiIndexRoute
-  DocsDocsComponentsAiChatAttachmentsRoute: typeof DocsDocsComponentsAiChatAttachmentsRoute
-  DocsDocsComponentsAiChatConversationRoute: typeof DocsDocsComponentsAiChatConversationRoute
-  DocsDocsComponentsAiChatMessageRoute: typeof DocsDocsComponentsAiChatMessageRoute
-  DocsDocsComponentsAiChatPromptInputRoute: typeof DocsDocsComponentsAiChatPromptInputRoute
-  DocsDocsComponentsAiChatShimmerRoute: typeof DocsDocsComponentsAiChatShimmerRoute
-  DocsDocsComponentsAiChatSuggestionRoute: typeof DocsDocsComponentsAiChatSuggestionRoute
-  DocsDocsComponentsAiCommerceInvoiceCardRoute: typeof DocsDocsComponentsAiCommerceInvoiceCardRoute
-  DocsDocsComponentsAiCommercePricingTableRoute: typeof DocsDocsComponentsAiCommercePricingTableRoute
-  DocsDocsComponentsAiCommerceProductCardRoute: typeof DocsDocsComponentsAiCommerceProductCardRoute
-  DocsDocsComponentsAiCommerceQuoteSummaryRoute: typeof DocsDocsComponentsAiCommerceQuoteSummaryRoute
-  DocsDocsComponentsAiCommerceTransactionCardRoute: typeof DocsDocsComponentsAiCommerceTransactionCardRoute
-  DocsDocsComponentsAiContentFileCardRoute: typeof DocsDocsComponentsAiContentFileCardRoute
-  DocsDocsComponentsAiContentImageGalleryRoute: typeof DocsDocsComponentsAiContentImageGalleryRoute
-  DocsDocsComponentsAiContentInsightCardRoute: typeof DocsDocsComponentsAiContentInsightCardRoute
-  DocsDocsComponentsAiContentLinkPreviewRoute: typeof DocsDocsComponentsAiContentLinkPreviewRoute
-  DocsDocsComponentsAiContentLocationCardRoute: typeof DocsDocsComponentsAiContentLocationCardRoute
-  DocsDocsComponentsAiContentSummaryCardRoute: typeof DocsDocsComponentsAiContentSummaryCardRoute
-  DocsDocsComponentsAiContentVideoCardRoute: typeof DocsDocsComponentsAiContentVideoCardRoute
-  DocsDocsComponentsAiDataComparisonTableRoute: typeof DocsDocsComponentsAiDataComparisonTableRoute
-  DocsDocsComponentsAiDataDataGridRoute: typeof DocsDocsComponentsAiDataDataGridRoute
-  DocsDocsComponentsAiDataDataListRoute: typeof DocsDocsComponentsAiDataDataListRoute
-  DocsDocsComponentsAiDataMetricCardRoute: typeof DocsDocsComponentsAiDataMetricCardRoute
-  DocsDocsComponentsAiDataMiniChartRoute: typeof DocsDocsComponentsAiDataMiniChartRoute
-  DocsDocsComponentsAiDataProgressCardRoute: typeof DocsDocsComponentsAiDataProgressCardRoute
-  DocsDocsComponentsAiDataRatingCardRoute: typeof DocsDocsComponentsAiDataRatingCardRoute
-  DocsDocsComponentsAiDataScoreCardRoute: typeof DocsDocsComponentsAiDataScoreCardRoute
-  DocsDocsComponentsAiDataStatsRowRoute: typeof DocsDocsComponentsAiDataStatsRowRoute
-  DocsDocsComponentsAiEntitiesCandidateCardRoute: typeof DocsDocsComponentsAiEntitiesCandidateCardRoute
-  DocsDocsComponentsAiEntitiesCompanyCardRoute: typeof DocsDocsComponentsAiEntitiesCompanyCardRoute
-  DocsDocsComponentsAiEntitiesContactCardRoute: typeof DocsDocsComponentsAiEntitiesContactCardRoute
-  DocsDocsComponentsAiEntitiesDealCardRoute: typeof DocsDocsComponentsAiEntitiesDealCardRoute
-  DocsDocsComponentsAiEntitiesUserCardRoute: typeof DocsDocsComponentsAiEntitiesUserCardRoute
-  DocsDocsComponentsAiPlanningAvailabilityCardRoute: typeof DocsDocsComponentsAiPlanningAvailabilityCardRoute
-  DocsDocsComponentsAiPlanningCalendarCardRoute: typeof DocsDocsComponentsAiPlanningCalendarCardRoute
-  DocsDocsComponentsAiPlanningEventCardRoute: typeof DocsDocsComponentsAiPlanningEventCardRoute
-  DocsDocsComponentsAiPlanningStatusUpdateRoute: typeof DocsDocsComponentsAiPlanningStatusUpdateRoute
-  DocsDocsComponentsAiPlanningTimelineRoute: typeof DocsDocsComponentsAiPlanningTimelineRoute
-  DocsDocsComponentsAiWorkflowActionListRoute: typeof DocsDocsComponentsAiWorkflowActionListRoute
-  DocsDocsComponentsAiWorkflowApprovalCardRoute: typeof DocsDocsComponentsAiWorkflowApprovalCardRoute
-  DocsDocsComponentsAiWorkflowChecklistCardRoute: typeof DocsDocsComponentsAiWorkflowChecklistCardRoute
-  DocsDocsComponentsAiWorkflowEmailPreviewRoute: typeof DocsDocsComponentsAiWorkflowEmailPreviewRoute
-  DocsDocsComponentsAiWorkflowMessagePreviewRoute: typeof DocsDocsComponentsAiWorkflowMessagePreviewRoute
-  DocsDocsComponentsAiWorkflowPollCardRoute: typeof DocsDocsComponentsAiWorkflowPollCardRoute
-  DocsDocsComponentsAiWorkflowTaskCardRoute: typeof DocsDocsComponentsAiWorkflowTaskCardRoute
-  DocsDocsComponentsBlocksChartsAreaChartRoute: typeof DocsDocsComponentsBlocksChartsAreaChartRoute
-  DocsDocsComponentsBlocksChartsBarChartRoute: typeof DocsDocsComponentsBlocksChartsBarChartRoute
-  DocsDocsComponentsBlocksChartsLineChartRoute: typeof DocsDocsComponentsBlocksChartsLineChartRoute
-  DocsDocsComponentsBlocksChartsPieChartRoute: typeof DocsDocsComponentsBlocksChartsPieChartRoute
-  DocsDocsComponentsBlocksChartsRadarChartRoute: typeof DocsDocsComponentsBlocksChartsRadarChartRoute
-  DocsDocsComponentsBlocksChartsIndexRoute: typeof DocsDocsComponentsBlocksChartsIndexRoute
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsMcpRoute: DocsDocsMcpRoute,
   DocsDocsSandboxRoute: DocsDocsSandboxRoute,
+  DocsDocsAiChainOfThoughtRoute: DocsDocsAiChainOfThoughtRoute,
+  DocsDocsAiConfirmationRoute: DocsDocsAiConfirmationRoute,
+  DocsDocsAiContextRoute: DocsDocsAiContextRoute,
+  DocsDocsAiGenerativeUiRoute: DocsDocsAiGenerativeUiRoute,
+  DocsDocsAiInlineCitationRoute: DocsDocsAiInlineCitationRoute,
+  DocsDocsAiModelSelectorRoute: DocsDocsAiModelSelectorRoute,
+  DocsDocsAiReasoningRoute: DocsDocsAiReasoningRoute,
+  DocsDocsAiSourcesRoute: DocsDocsAiSourcesRoute,
+  DocsDocsBlocksActivityTimelineRoute: DocsDocsBlocksActivityTimelineRoute,
+  DocsDocsBlocksBulkActionBarRoute: DocsDocsBlocksBulkActionBarRoute,
+  DocsDocsBlocksChartCardRoute: DocsDocsBlocksChartCardRoute,
+  DocsDocsBlocksDataTableRoute: DocsDocsBlocksDataTableRoute,
+  DocsDocsBlocksDealLinesEditorRoute: DocsDocsBlocksDealLinesEditorRoute,
+  DocsDocsBlocksDetailPanelRoute: DocsDocsBlocksDetailPanelRoute,
+  DocsDocsBlocksFilterBarRoute: DocsDocsBlocksFilterBarRoute,
+  DocsDocsBlocksInlineEditRoute: DocsDocsBlocksInlineEditRoute,
+  DocsDocsBlocksKanbanBoardRoute: DocsDocsBlocksKanbanBoardRoute,
+  DocsDocsBlocksMultiStepFormRoute: DocsDocsBlocksMultiStepFormRoute,
+  DocsDocsBlocksNotificationCenterRoute: DocsDocsBlocksNotificationCenterRoute,
+  DocsDocsBlocksOrgMenuRoute: DocsDocsBlocksOrgMenuRoute,
+  DocsDocsBlocksPropertyCardRoute: DocsDocsBlocksPropertyCardRoute,
+  DocsDocsBlocksQuickLogActivityRoute: DocsDocsBlocksQuickLogActivityRoute,
+  DocsDocsBlocksQuotePreviewRoute: DocsDocsBlocksQuotePreviewRoute,
+  DocsDocsBlocksSplitViewRoute: DocsDocsBlocksSplitViewRoute,
+  DocsDocsBlocksStatsGridRoute: DocsDocsBlocksStatsGridRoute,
+  DocsDocsBlocksStatsStripRoute: DocsDocsBlocksStatsStripRoute,
+  DocsDocsBlocksStatusFlowRoute: DocsDocsBlocksStatusFlowRoute,
   DocsDocsComponentsActionsRoute: DocsDocsComponentsActionsRoute,
   DocsDocsComponentsColorsRoute: DocsDocsComponentsColorsRoute,
   DocsDocsComponentsDataDisplayRoute: DocsDocsComponentsDataDisplayRoute,
@@ -3899,56 +3905,61 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsTypographyRoute: DocsDocsComponentsTypographyRoute,
   DocsDocsUtilsQuickLoginRoute: DocsDocsUtilsQuickLoginRoute,
   DocsDocsUtilsUnsavedChangesBarRoute: DocsDocsUtilsUnsavedChangesBarRoute,
+  DocsDocsAiIndexRoute: DocsDocsAiIndexRoute,
+  DocsDocsBlocksIndexRoute: DocsDocsBlocksIndexRoute,
   DocsDocsComponentsIndexRoute: DocsDocsComponentsIndexRoute,
   DocsDocsGuideIndexRoute: DocsDocsGuideIndexRoute,
-  DocsDocsComponentsAiChainOfThoughtRoute:
-    DocsDocsComponentsAiChainOfThoughtRoute,
-  DocsDocsComponentsAiConfirmationRoute: DocsDocsComponentsAiConfirmationRoute,
-  DocsDocsComponentsAiContextRoute: DocsDocsComponentsAiContextRoute,
-  DocsDocsComponentsAiGenerativeUiRoute: DocsDocsComponentsAiGenerativeUiRoute,
-  DocsDocsComponentsAiInlineCitationRoute:
-    DocsDocsComponentsAiInlineCitationRoute,
-  DocsDocsComponentsAiModelSelectorRoute:
-    DocsDocsComponentsAiModelSelectorRoute,
-  DocsDocsComponentsAiReasoningRoute: DocsDocsComponentsAiReasoningRoute,
-  DocsDocsComponentsAiSourcesRoute: DocsDocsComponentsAiSourcesRoute,
-  DocsDocsComponentsBlocksActivityTimelineRoute:
-    DocsDocsComponentsBlocksActivityTimelineRoute,
-  DocsDocsComponentsBlocksBulkActionBarRoute:
-    DocsDocsComponentsBlocksBulkActionBarRoute,
-  DocsDocsComponentsBlocksChartCardRoute:
-    DocsDocsComponentsBlocksChartCardRoute,
-  DocsDocsComponentsBlocksDataTableRoute:
-    DocsDocsComponentsBlocksDataTableRoute,
-  DocsDocsComponentsBlocksDealLinesEditorRoute:
-    DocsDocsComponentsBlocksDealLinesEditorRoute,
-  DocsDocsComponentsBlocksDetailPanelRoute:
-    DocsDocsComponentsBlocksDetailPanelRoute,
-  DocsDocsComponentsBlocksFilterBarRoute:
-    DocsDocsComponentsBlocksFilterBarRoute,
-  DocsDocsComponentsBlocksInlineEditRoute:
-    DocsDocsComponentsBlocksInlineEditRoute,
-  DocsDocsComponentsBlocksKanbanBoardRoute:
-    DocsDocsComponentsBlocksKanbanBoardRoute,
-  DocsDocsComponentsBlocksMultiStepFormRoute:
-    DocsDocsComponentsBlocksMultiStepFormRoute,
-  DocsDocsComponentsBlocksNotificationCenterRoute:
-    DocsDocsComponentsBlocksNotificationCenterRoute,
-  DocsDocsComponentsBlocksOrgMenuRoute: DocsDocsComponentsBlocksOrgMenuRoute,
-  DocsDocsComponentsBlocksPropertyCardRoute:
-    DocsDocsComponentsBlocksPropertyCardRoute,
-  DocsDocsComponentsBlocksQuickLogActivityRoute:
-    DocsDocsComponentsBlocksQuickLogActivityRoute,
-  DocsDocsComponentsBlocksQuotePreviewRoute:
-    DocsDocsComponentsBlocksQuotePreviewRoute,
-  DocsDocsComponentsBlocksSplitViewRoute:
-    DocsDocsComponentsBlocksSplitViewRoute,
-  DocsDocsComponentsBlocksStatsGridRoute:
-    DocsDocsComponentsBlocksStatsGridRoute,
-  DocsDocsComponentsBlocksStatsStripRoute:
-    DocsDocsComponentsBlocksStatsStripRoute,
-  DocsDocsComponentsBlocksStatusFlowRoute:
-    DocsDocsComponentsBlocksStatusFlowRoute,
+  DocsDocsAiChatAttachmentsRoute: DocsDocsAiChatAttachmentsRoute,
+  DocsDocsAiChatConversationRoute: DocsDocsAiChatConversationRoute,
+  DocsDocsAiChatMessageRoute: DocsDocsAiChatMessageRoute,
+  DocsDocsAiChatPromptInputRoute: DocsDocsAiChatPromptInputRoute,
+  DocsDocsAiChatShimmerRoute: DocsDocsAiChatShimmerRoute,
+  DocsDocsAiChatSuggestionRoute: DocsDocsAiChatSuggestionRoute,
+  DocsDocsAiCommerceInvoiceCardRoute: DocsDocsAiCommerceInvoiceCardRoute,
+  DocsDocsAiCommercePricingTableRoute: DocsDocsAiCommercePricingTableRoute,
+  DocsDocsAiCommerceProductCardRoute: DocsDocsAiCommerceProductCardRoute,
+  DocsDocsAiCommerceQuoteSummaryRoute: DocsDocsAiCommerceQuoteSummaryRoute,
+  DocsDocsAiCommerceTransactionCardRoute:
+    DocsDocsAiCommerceTransactionCardRoute,
+  DocsDocsAiContentFileCardRoute: DocsDocsAiContentFileCardRoute,
+  DocsDocsAiContentImageGalleryRoute: DocsDocsAiContentImageGalleryRoute,
+  DocsDocsAiContentInsightCardRoute: DocsDocsAiContentInsightCardRoute,
+  DocsDocsAiContentLinkPreviewRoute: DocsDocsAiContentLinkPreviewRoute,
+  DocsDocsAiContentLocationCardRoute: DocsDocsAiContentLocationCardRoute,
+  DocsDocsAiContentSummaryCardRoute: DocsDocsAiContentSummaryCardRoute,
+  DocsDocsAiContentVideoCardRoute: DocsDocsAiContentVideoCardRoute,
+  DocsDocsAiDataComparisonTableRoute: DocsDocsAiDataComparisonTableRoute,
+  DocsDocsAiDataDataGridRoute: DocsDocsAiDataDataGridRoute,
+  DocsDocsAiDataDataListRoute: DocsDocsAiDataDataListRoute,
+  DocsDocsAiDataMetricCardRoute: DocsDocsAiDataMetricCardRoute,
+  DocsDocsAiDataMiniChartRoute: DocsDocsAiDataMiniChartRoute,
+  DocsDocsAiDataProgressCardRoute: DocsDocsAiDataProgressCardRoute,
+  DocsDocsAiDataRatingCardRoute: DocsDocsAiDataRatingCardRoute,
+  DocsDocsAiDataScoreCardRoute: DocsDocsAiDataScoreCardRoute,
+  DocsDocsAiDataStatsRowRoute: DocsDocsAiDataStatsRowRoute,
+  DocsDocsAiEntitiesCandidateCardRoute: DocsDocsAiEntitiesCandidateCardRoute,
+  DocsDocsAiEntitiesCompanyCardRoute: DocsDocsAiEntitiesCompanyCardRoute,
+  DocsDocsAiEntitiesContactCardRoute: DocsDocsAiEntitiesContactCardRoute,
+  DocsDocsAiEntitiesDealCardRoute: DocsDocsAiEntitiesDealCardRoute,
+  DocsDocsAiEntitiesUserCardRoute: DocsDocsAiEntitiesUserCardRoute,
+  DocsDocsAiPlanningAvailabilityCardRoute:
+    DocsDocsAiPlanningAvailabilityCardRoute,
+  DocsDocsAiPlanningCalendarCardRoute: DocsDocsAiPlanningCalendarCardRoute,
+  DocsDocsAiPlanningEventCardRoute: DocsDocsAiPlanningEventCardRoute,
+  DocsDocsAiPlanningStatusUpdateRoute: DocsDocsAiPlanningStatusUpdateRoute,
+  DocsDocsAiPlanningTimelineRoute: DocsDocsAiPlanningTimelineRoute,
+  DocsDocsAiWorkflowActionListRoute: DocsDocsAiWorkflowActionListRoute,
+  DocsDocsAiWorkflowApprovalCardRoute: DocsDocsAiWorkflowApprovalCardRoute,
+  DocsDocsAiWorkflowChecklistCardRoute: DocsDocsAiWorkflowChecklistCardRoute,
+  DocsDocsAiWorkflowEmailPreviewRoute: DocsDocsAiWorkflowEmailPreviewRoute,
+  DocsDocsAiWorkflowMessagePreviewRoute: DocsDocsAiWorkflowMessagePreviewRoute,
+  DocsDocsAiWorkflowPollCardRoute: DocsDocsAiWorkflowPollCardRoute,
+  DocsDocsAiWorkflowTaskCardRoute: DocsDocsAiWorkflowTaskCardRoute,
+  DocsDocsBlocksChartsAreaChartRoute: DocsDocsBlocksChartsAreaChartRoute,
+  DocsDocsBlocksChartsBarChartRoute: DocsDocsBlocksChartsBarChartRoute,
+  DocsDocsBlocksChartsLineChartRoute: DocsDocsBlocksChartsLineChartRoute,
+  DocsDocsBlocksChartsPieChartRoute: DocsDocsBlocksChartsPieChartRoute,
+  DocsDocsBlocksChartsRadarChartRoute: DocsDocsBlocksChartsRadarChartRoute,
   DocsDocsComponentsLayoutBleedRoute: DocsDocsComponentsLayoutBleedRoute,
   DocsDocsComponentsLayoutBlockStackRoute:
     DocsDocsComponentsLayoutBlockStackRoute,
@@ -4059,105 +4070,9 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiToastRoute: DocsDocsComponentsUiToastRoute,
   DocsDocsComponentsUiTooltipRoute: DocsDocsComponentsUiTooltipRoute,
   DocsDocsComponentsUiTreeViewRoute: DocsDocsComponentsUiTreeViewRoute,
-  DocsDocsComponentsAiIndexRoute: DocsDocsComponentsAiIndexRoute,
-  DocsDocsComponentsBlocksIndexRoute: DocsDocsComponentsBlocksIndexRoute,
+  DocsDocsBlocksChartsIndexRoute: DocsDocsBlocksChartsIndexRoute,
   DocsDocsComponentsLayoutIndexRoute: DocsDocsComponentsLayoutIndexRoute,
   DocsDocsComponentsUiIndexRoute: DocsDocsComponentsUiIndexRoute,
-  DocsDocsComponentsAiChatAttachmentsRoute:
-    DocsDocsComponentsAiChatAttachmentsRoute,
-  DocsDocsComponentsAiChatConversationRoute:
-    DocsDocsComponentsAiChatConversationRoute,
-  DocsDocsComponentsAiChatMessageRoute: DocsDocsComponentsAiChatMessageRoute,
-  DocsDocsComponentsAiChatPromptInputRoute:
-    DocsDocsComponentsAiChatPromptInputRoute,
-  DocsDocsComponentsAiChatShimmerRoute: DocsDocsComponentsAiChatShimmerRoute,
-  DocsDocsComponentsAiChatSuggestionRoute:
-    DocsDocsComponentsAiChatSuggestionRoute,
-  DocsDocsComponentsAiCommerceInvoiceCardRoute:
-    DocsDocsComponentsAiCommerceInvoiceCardRoute,
-  DocsDocsComponentsAiCommercePricingTableRoute:
-    DocsDocsComponentsAiCommercePricingTableRoute,
-  DocsDocsComponentsAiCommerceProductCardRoute:
-    DocsDocsComponentsAiCommerceProductCardRoute,
-  DocsDocsComponentsAiCommerceQuoteSummaryRoute:
-    DocsDocsComponentsAiCommerceQuoteSummaryRoute,
-  DocsDocsComponentsAiCommerceTransactionCardRoute:
-    DocsDocsComponentsAiCommerceTransactionCardRoute,
-  DocsDocsComponentsAiContentFileCardRoute:
-    DocsDocsComponentsAiContentFileCardRoute,
-  DocsDocsComponentsAiContentImageGalleryRoute:
-    DocsDocsComponentsAiContentImageGalleryRoute,
-  DocsDocsComponentsAiContentInsightCardRoute:
-    DocsDocsComponentsAiContentInsightCardRoute,
-  DocsDocsComponentsAiContentLinkPreviewRoute:
-    DocsDocsComponentsAiContentLinkPreviewRoute,
-  DocsDocsComponentsAiContentLocationCardRoute:
-    DocsDocsComponentsAiContentLocationCardRoute,
-  DocsDocsComponentsAiContentSummaryCardRoute:
-    DocsDocsComponentsAiContentSummaryCardRoute,
-  DocsDocsComponentsAiContentVideoCardRoute:
-    DocsDocsComponentsAiContentVideoCardRoute,
-  DocsDocsComponentsAiDataComparisonTableRoute:
-    DocsDocsComponentsAiDataComparisonTableRoute,
-  DocsDocsComponentsAiDataDataGridRoute: DocsDocsComponentsAiDataDataGridRoute,
-  DocsDocsComponentsAiDataDataListRoute: DocsDocsComponentsAiDataDataListRoute,
-  DocsDocsComponentsAiDataMetricCardRoute:
-    DocsDocsComponentsAiDataMetricCardRoute,
-  DocsDocsComponentsAiDataMiniChartRoute:
-    DocsDocsComponentsAiDataMiniChartRoute,
-  DocsDocsComponentsAiDataProgressCardRoute:
-    DocsDocsComponentsAiDataProgressCardRoute,
-  DocsDocsComponentsAiDataRatingCardRoute:
-    DocsDocsComponentsAiDataRatingCardRoute,
-  DocsDocsComponentsAiDataScoreCardRoute:
-    DocsDocsComponentsAiDataScoreCardRoute,
-  DocsDocsComponentsAiDataStatsRowRoute: DocsDocsComponentsAiDataStatsRowRoute,
-  DocsDocsComponentsAiEntitiesCandidateCardRoute:
-    DocsDocsComponentsAiEntitiesCandidateCardRoute,
-  DocsDocsComponentsAiEntitiesCompanyCardRoute:
-    DocsDocsComponentsAiEntitiesCompanyCardRoute,
-  DocsDocsComponentsAiEntitiesContactCardRoute:
-    DocsDocsComponentsAiEntitiesContactCardRoute,
-  DocsDocsComponentsAiEntitiesDealCardRoute:
-    DocsDocsComponentsAiEntitiesDealCardRoute,
-  DocsDocsComponentsAiEntitiesUserCardRoute:
-    DocsDocsComponentsAiEntitiesUserCardRoute,
-  DocsDocsComponentsAiPlanningAvailabilityCardRoute:
-    DocsDocsComponentsAiPlanningAvailabilityCardRoute,
-  DocsDocsComponentsAiPlanningCalendarCardRoute:
-    DocsDocsComponentsAiPlanningCalendarCardRoute,
-  DocsDocsComponentsAiPlanningEventCardRoute:
-    DocsDocsComponentsAiPlanningEventCardRoute,
-  DocsDocsComponentsAiPlanningStatusUpdateRoute:
-    DocsDocsComponentsAiPlanningStatusUpdateRoute,
-  DocsDocsComponentsAiPlanningTimelineRoute:
-    DocsDocsComponentsAiPlanningTimelineRoute,
-  DocsDocsComponentsAiWorkflowActionListRoute:
-    DocsDocsComponentsAiWorkflowActionListRoute,
-  DocsDocsComponentsAiWorkflowApprovalCardRoute:
-    DocsDocsComponentsAiWorkflowApprovalCardRoute,
-  DocsDocsComponentsAiWorkflowChecklistCardRoute:
-    DocsDocsComponentsAiWorkflowChecklistCardRoute,
-  DocsDocsComponentsAiWorkflowEmailPreviewRoute:
-    DocsDocsComponentsAiWorkflowEmailPreviewRoute,
-  DocsDocsComponentsAiWorkflowMessagePreviewRoute:
-    DocsDocsComponentsAiWorkflowMessagePreviewRoute,
-  DocsDocsComponentsAiWorkflowPollCardRoute:
-    DocsDocsComponentsAiWorkflowPollCardRoute,
-  DocsDocsComponentsAiWorkflowTaskCardRoute:
-    DocsDocsComponentsAiWorkflowTaskCardRoute,
-  DocsDocsComponentsBlocksChartsAreaChartRoute:
-    DocsDocsComponentsBlocksChartsAreaChartRoute,
-  DocsDocsComponentsBlocksChartsBarChartRoute:
-    DocsDocsComponentsBlocksChartsBarChartRoute,
-  DocsDocsComponentsBlocksChartsLineChartRoute:
-    DocsDocsComponentsBlocksChartsLineChartRoute,
-  DocsDocsComponentsBlocksChartsPieChartRoute:
-    DocsDocsComponentsBlocksChartsPieChartRoute,
-  DocsDocsComponentsBlocksChartsRadarChartRoute:
-    DocsDocsComponentsBlocksChartsRadarChartRoute,
-  DocsDocsComponentsBlocksChartsIndexRoute:
-    DocsDocsComponentsBlocksChartsIndexRoute,
 }
 
 const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)

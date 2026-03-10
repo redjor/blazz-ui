@@ -2,63 +2,78 @@
 
 import { useState, useEffect } from "react"
 import { Link } from "@tanstack/react-router"
+import { Search, Github } from "lucide-react"
+import { ThemeToggle } from "~/components/theme-toggle"
+import { Kbd, KbdGroup } from "@blazz/ui/components/ui/kbd"
 import { Button } from "@blazz/ui/components/ui/button"
-import { cn } from "@blazz/ui/lib/utils"
 
 const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
 
 const navLinks = [
-	{ label: "Features", href: "#features" },
-	{ label: "Apps", href: "#apps" },
-	{ label: "Pricing", href: "#pricing" },
-	{ label: "FAQ", href: "#faq" },
+	{ label: "Components", href: "/docs/components" },
+	{ label: "Blocks", href: "/docs/blocks" },
+	{ label: "AI", href: "/docs/ai" },
 ]
 
 export function Navbar() {
 	const [scrolled, setScrolled] = useState(false)
 
 	useEffect(() => {
-		const onScroll = () => setScrolled(window.scrollY > 20)
+		const onScroll = () => setScrolled(window.scrollY > 8)
 		window.addEventListener("scroll", onScroll, { passive: true })
 		return () => window.removeEventListener("scroll", onScroll)
 	}, [])
 
 	return (
-		<nav
-			className={cn(
-				"fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+		<header
+			className={`sticky top-0 z-50 h-14 shrink-0 transition-[background-color,border-color] duration-200 ${
 				scrolled
-					? "bg-app/80 backdrop-blur-xl border-b border-edge/50"
-					: "bg-transparent"
-			)}
+					? "bg-app/95 backdrop-blur-md border-b border-edge/50"
+					: "bg-app border-b border-transparent"
+			}`}
 		>
-			<div className="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
-				<Link to="/" className="flex items-center gap-2">
-					<img
-						src="/logo_blazz_white.svg"
-						alt="Blazz"
-						width={28}
-						height={28}
-					/>
-					<span className="text-fg font-semibold text-lg">Pro UI Kit</span>
+			<div className="mx-auto flex h-full max-w-6xl items-center gap-6 px-6">
+				{/* Logo */}
+				<Link to="/" className="flex items-center gap-2.5 shrink-0">
+					<img src="/logo_blazz_white.svg" alt="Blazz UI" className="hidden h-5 dark:block" />
+					<img src="/logo_blazz_black.svg" alt="Blazz UI" className="block h-5 dark:hidden" />
+					<span className="text-sm font-semibold text-fg">Blazz UI</span>
 				</Link>
 
-				<div className="hidden md:flex items-center gap-8">
+				{/* Nav links */}
+				<nav className="hidden md:flex items-center gap-1">
 					{navLinks.map((link) => (
-						<a
+						<Link
 							key={link.href}
-							href={link.href}
-							className="text-fg-muted hover:text-fg text-sm transition-colors"
+							to={link.href}
+							className="px-3 py-1.5 text-[13px] text-fg-muted hover:text-fg rounded-md hover:bg-raised transition-colors"
 						>
 							{link.label}
-						</a>
+						</Link>
 					))}
-				</div>
+				</nav>
 
-				<a href={`${examplesUrl}/examples/crm/dashboard`}>
-					<Button size="sm">Try the demo</Button>
-				</a>
+				{/* Spacer */}
+				<div className="flex-1" />
+
+				{/* Right actions */}
+				<div className="flex items-center gap-1">
+					<ThemeToggle />
+					<Link
+						to="/docs/components"
+						className="inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[13px] text-fg-muted hover:text-fg hover:bg-raised transition-colors"
+					>
+						<Search className="size-3.5" />
+						<KbdGroup className="hidden sm:inline-flex">
+							<Kbd>⌘</Kbd>
+							<Kbd>K</Kbd>
+						</KbdGroup>
+					</Link>
+					<a href={`${examplesUrl}/examples/crm/dashboard`}>
+						<Button size="sm">Try demo</Button>
+					</a>
+				</div>
 			</div>
-		</nav>
+		</header>
 	)
 }

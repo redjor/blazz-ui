@@ -24,7 +24,7 @@ const dataDisplayComponents = [
 	},
 	{
 		title: "Data Table",
-		href: "/docs/components/blocks/data-table",
+		href: "/docs/blocks/data-table",
 		description: "Enterprise-grade data table with advanced filtering, sorting, pagination, and bulk actions.",
 		icon: Table2,
 		thumbnail: "data-table",
@@ -38,14 +38,14 @@ const dataDisplayComponents = [
 	},
 	{
 		title: "Property Card",
-		href: "/docs/components/blocks/property-card",
+		href: "/docs/blocks/property-card",
 		description: "Card component for grouping related properties with header, actions, and structured layout.",
 		icon: CreditCard,
 		thumbnail: "property-card",
 	},
 	{
 		title: "Stats Strip",
-		href: "/docs/components/blocks/stats-strip",
+		href: "/docs/blocks/stats-strip",
 		description: "Horizontal strip of key metrics with labels, values, trends, and optional sparklines.",
 		icon: BarChart3,
 		thumbnail: "stats-strip",

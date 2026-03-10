@@ -5,7 +5,7 @@ export const activityTimelineData: ComponentData = {
 	name: "ActivityTimeline",
 	category: "blocks",
 	description: "Timeline d'activités et d'événements chronologiques.",
-	docPath: "/docs/components/blocks/activity-timeline",
+	docPath: "/docs/blocks/activity-timeline",
 	imports: {
 		path: "@blazz/ui/components/blocks/activity-timeline",
 		named: ["ActivityTimeline"],

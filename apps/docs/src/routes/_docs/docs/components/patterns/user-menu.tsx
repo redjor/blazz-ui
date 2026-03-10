@@ -253,7 +253,7 @@ function UserMenuPage() {
 					items={[
 						{
 							title: "OrgMenu",
-							href: "/docs/components/blocks/org-menu",
+							href: "/docs/blocks/org-menu",
 							description: "Workspace/organization switcher — pair with UserMenu in the sidebar.",
 						},
 						{

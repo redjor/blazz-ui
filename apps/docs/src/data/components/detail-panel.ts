@@ -6,7 +6,7 @@ export const detailPanelData: ComponentData = {
 	category: "blocks",
 	description:
 		"Panneau de détail d'une entité composé via sous-composants Header et Section. Architecture compound component.",
-	docPath: "/docs/components/blocks/detail-panel",
+	docPath: "/docs/blocks/detail-panel",
 	imports: {
 		path: "@blazz/ui/components/blocks/detail-panel",
 		named: ["DetailPanel"],

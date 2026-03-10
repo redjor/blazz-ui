@@ -1,16 +1,15 @@
 "use client"
 
-import { useState } from "react"
 import { Link } from "@tanstack/react-router"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Input } from "@blazz/ui/components/ui/input"
 
 const linkGroups = [
 	{
 		title: "Product",
 		links: [
 			{ label: "Components", href: "/docs/components" },
-			{ label: "Pricing", href: "#pricing" },
+			{ label: "Patterns", href: "/docs/patterns" },
+			{ label: "Blocks", href: "/docs/blocks" },
+			{ label: "AI", href: "/docs/ai" },
 		],
 	},
 	{
@@ -32,71 +31,60 @@ const linkGroups = [
 ]
 
 export function Footer() {
-	const [email, setEmail] = useState("")
-
 	return (
-		<footer className="py-16 px-6 border-t border-edge">
-			<div className="mx-auto max-w-6xl">
-				{/* Waitlist */}
-				<div className="text-center mb-16">
-					<h3 className="text-lg font-semibold text-fg mb-2">
-						Join the waitlist
-					</h3>
-					<p className="text-sm text-fg-muted mb-6">
-						Be the first to know when Pro UI Kit launches.
-					</p>
-					<form
-						onSubmit={(e) => e.preventDefault()}
-						className="flex gap-2 max-w-sm mx-auto"
-					>
-						<Input
-							type="email"
-							placeholder="you@example.com"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-						<Button type="submit" size="default">
-							Join waitlist
-						</Button>
-					</form>
+		<footer className="px-6 pt-4 pb-8">
+			<div className="mx-auto max-w-6xl rounded-xl border border-container bg-surface px-8 py-10 sm:px-12">
+				<div className="flex flex-col md:flex-row gap-10">
+					{/* Brand */}
+					<div className="md:w-1/3">
+						<Link to="/" className="flex items-center gap-2 mb-3">
+							<img
+								src="/logo_blazz_white.svg"
+								alt="Blazz"
+								className="hidden h-4 dark:block"
+							/>
+							<img
+								src="/logo_blazz_black.svg"
+								alt="Blazz"
+								className="block h-4 dark:hidden"
+							/>
+							<span className="text-[13px] font-semibold text-fg">Blazz UI</span>
+						</Link>
+						<p className="text-xs text-fg-muted leading-relaxed max-w-xs">
+							The React component kit for data-heavy professional applications.
+							Built for teams who ship fast.
+						</p>
+					</div>
+
+					{/* Links */}
+					<div className="flex-1 grid grid-cols-3 gap-6">
+						{linkGroups.map((group) => (
+							<div key={group.title}>
+								<h4 className="text-2xs font-semibold text-fg-muted uppercase tracking-wider mb-3">
+									{group.title}
+								</h4>
+								<ul className="space-y-1.5">
+									{group.links.map((link) => (
+										<li key={link.label}>
+											<a
+												href={link.href}
+												className="text-xs text-fg-muted hover:text-fg transition-colors"
+											>
+												{link.label}
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						))}
+					</div>
 				</div>
 
-				{/* Links grid */}
-				<div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-16">
-					{linkGroups.map((group) => (
-						<div key={group.title}>
-							<h4 className="text-xs font-semibold text-fg uppercase tracking-wider mb-4">
-								{group.title}
-							</h4>
-							<ul className="space-y-2">
-								{group.links.map((link) => (
-									<li key={link.label}>
-										<a
-											href={link.href}
-											className="text-sm text-fg-muted hover:text-fg transition-colors"
-										>
-											{link.label}
-										</a>
-									</li>
-								))}
-							</ul>
-						</div>
-					))}
-				</div>
-
-				{/* Bottom bar */}
-				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-edge">
-					<Link to="/" className="flex items-center gap-2">
-						<img
-							src="/logo_blazz_white.svg"
-							alt="Blazz"
-							width={20}
-							height={20}
-						/>
-						<span className="text-xs text-fg-muted">
-							&copy; {new Date().getFullYear()} Blazz. All rights reserved.
-						</span>
-					</Link>
+				{/* Bottom */}
+				<div className="mt-8 pt-6 border-t border-edge/40">
+					<span className="text-2xs text-fg-subtle">
+						&copy; {new Date().getFullYear()} Blazz. All rights reserved.
+					</span>
 				</div>
 			</div>
 		</footer>

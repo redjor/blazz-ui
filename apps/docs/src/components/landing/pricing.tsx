@@ -2,17 +2,15 @@
 
 import { motion } from "motion/react"
 import { Check } from "lucide-react"
-import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import { cn } from "@blazz/ui/lib/utils"
 
 const tiers = [
 	{
 		name: "Starter",
 		price: "0€",
 		period: "forever",
-		description: "Open source components",
+		description: "Open source primitives",
 		features: [
 			"48 UI primitives",
 			"Light & dark themes",
@@ -29,10 +27,10 @@ const tiers = [
 		description: "Full kit + all demos",
 		features: [
 			"Everything in Starter",
-			"23 block components",
-			"8 DataTable presets",
+			"150+ blocks & patterns",
+			"52 AI components",
 			"3 complete demo apps",
-			"3 color themes",
+			"MCP server for AI coding",
 			"Priority support",
 		],
 		cta: "Buy now",
@@ -48,7 +46,7 @@ const tiers = [
 			"Custom theme creation",
 			"Team onboarding session",
 			"SLA & dedicated support",
-			"Custom component development",
+			"Custom components",
 		],
 		cta: "Contact us",
 		highlighted: false,
@@ -57,85 +55,86 @@ const tiers = [
 
 export function Pricing() {
 	return (
-		<section id="pricing" className="py-24 px-6 bg-surface">
+		<section id="pricing" className="py-4 px-6">
 			<div className="mx-auto max-w-6xl">
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.4 }}
-					className="text-center mb-16"
-				>
-					<h2 className="text-3xl font-bold text-fg">
-						Simple, transparent pricing
-					</h2>
-					<p className="mt-4 text-fg-muted max-w-2xl mx-auto">
-						Pay once, own it forever. No subscriptions, no per-seat fees.
-					</p>
-				</motion.div>
+				<div className="rounded-xl border border-container bg-surface px-8 py-12 sm:px-12">
+					<motion.div
+						initial={{ opacity: 0, y: 12 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.3 }}
+						className="mb-10"
+					>
+						<p className="text-sm font-medium text-brand mb-1.5">Pricing</p>
+						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
+							Pay once, own forever
+						</h2>
+						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
+							No subscriptions, no per-seat fees. One purchase, unlimited projects.
+						</p>
+					</motion.div>
 
-				<div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-					{tiers.map((tier, i) => (
-						<motion.div
-							key={tier.name}
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ duration: 0.4, delay: i * 0.08 }}
-						>
-							<Card
-								className={cn(
-									"h-full relative",
-									tier.highlighted && "border-brand"
-								)}
+					<div className="grid md:grid-cols-3 gap-4">
+						{tiers.map((tier, i) => (
+							<motion.div
+								key={tier.name}
+								initial={{ opacity: 0, y: 10 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.3, delay: i * 0.05 }}
+								className={`relative rounded-lg border p-6 flex flex-col ${
+									tier.highlighted
+										? "border-brand bg-brand/[0.03]"
+										: "border-edge/40 bg-raised/30"
+								}`}
 							>
 								{tier.highlighted && (
-									<div className="absolute -top-3 left-1/2 -translate-x-1/2">
-										<Badge variant="default" size="sm">
+									<div className="absolute -top-2.5 left-4">
+										<Badge variant="default" size="xs">
 											Most popular
 										</Badge>
 									</div>
 								)}
-								<CardContent className="pt-8 flex flex-col h-full">
-									<div className="mb-6">
-										<h3 className="text-sm font-semibold text-fg">
-											{tier.name}
-										</h3>
-										<div className="mt-2 flex items-baseline gap-1">
-											<span className="text-3xl font-bold text-fg">
-												{tier.price}
-											</span>
-											<span className="text-xs text-fg-muted">
-												{tier.period}
-											</span>
-										</div>
-										<p className="mt-2 text-xs text-fg-muted">
-											{tier.description}
-										</p>
+
+								<div className="mb-5">
+									<h3 className="text-[13px] font-semibold text-fg">
+										{tier.name}
+									</h3>
+									<div className="mt-2 flex items-baseline gap-1.5">
+										<span className="text-2xl font-bold text-fg">
+											{tier.price}
+										</span>
+										<span className="text-xs text-fg-muted">
+											{tier.period}
+										</span>
 									</div>
+									<p className="mt-1.5 text-xs text-fg-muted">
+										{tier.description}
+									</p>
+								</div>
 
-									<ul className="space-y-3 mb-8 flex-1">
-										{tier.features.map((feature) => (
-											<li
-												key={feature}
-												className="flex items-start gap-2 text-xs text-fg-muted"
-											>
-												<Check className="size-3.5 text-positive shrink-0 mt-0.5" />
-												{feature}
-											</li>
-										))}
-									</ul>
+								<ul className="space-y-2.5 mb-6 flex-1">
+									{tier.features.map((feature) => (
+										<li
+											key={feature}
+											className="flex items-start gap-2 text-xs text-fg-muted"
+										>
+											<Check className="size-3.5 text-positive shrink-0 mt-px" />
+											{feature}
+										</li>
+									))}
+								</ul>
 
-									<Button
-										variant={tier.highlighted ? "default" : "outline"}
-										className="w-full"
-									>
-										{tier.cta}
-									</Button>
-								</CardContent>
-							</Card>
-						</motion.div>
-					))}
+								<Button
+									variant={tier.highlighted ? "default" : "outline"}
+									size="sm"
+									className="w-full"
+								>
+									{tier.cta}
+								</Button>
+							</motion.div>
+						))}
+					</div>
 				</div>
 			</div>
 		</section>

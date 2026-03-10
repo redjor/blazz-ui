@@ -667,7 +667,7 @@ function McpPage() {
 						},
 						{
 							title: "Data Table",
-							href: "/docs/components/blocks/data-table",
+							href: "/docs/blocks/data-table",
 							description: "Le composant DataTable documenté via le MCP.",
 						},
 					]}

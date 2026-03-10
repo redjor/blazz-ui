@@ -5,7 +5,7 @@ export const statsGridData: ComponentData = {
 	name: "StatsGrid",
 	category: "blocks",
 	description: "Grille de KPIs avec valeur principale, tendance et icône.",
-	docPath: "/docs/components/blocks/stats-grid",
+	docPath: "/docs/blocks/stats-grid",
 	imports: {
 		path: "@blazz/ui/components/blocks/stats-grid",
 		named: ["StatsGrid"],

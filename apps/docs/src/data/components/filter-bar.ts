@@ -5,7 +5,7 @@ export const filterBarData: ComponentData = {
 	name: "FilterBar",
 	category: "blocks",
 	description: "Barre de filtres pour les pages de liste — recherche + filtres actifs + reset.",
-	docPath: "/docs/components/blocks/filter-bar",
+	docPath: "/docs/blocks/filter-bar",
 	imports: {
 		path: "@blazz/ui/components/blocks/filter-bar",
 		named: ["FilterBar"],

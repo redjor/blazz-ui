@@ -6,7 +6,7 @@ export const dataTableData: ComponentData = {
 	category: "blocks",
 	description:
 		"Table de données avancée avec tri, filtrage, pagination, sélection et actions bulk.",
-	docPath: "/docs/components/blocks/data-table",
+	docPath: "/docs/blocks/data-table",
 	imports: {
 		path: "@blazz/ui/components/blocks/data-table",
 		named: ["DataTable", "col"],

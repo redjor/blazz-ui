@@ -413,7 +413,7 @@ export const sidebarConfig: SidebarConfig = {
 						},
 						{
 							title: "Data Table",
-							url: "/docs/components/blocks/data-table",
+							url: "/docs/blocks/data-table",
 							keywords: ["grid", "datagrid", "sorting", "filtering", "pagination", "bulk actions"],
 						},
 						{
@@ -423,12 +423,12 @@ export const sidebarConfig: SidebarConfig = {
 						},
 						{
 							title: "Property Card",
-							url: "/docs/components/blocks/property-card",
+							url: "/docs/blocks/property-card",
 							keywords: ["detail card", "info card", "property group", "metadata card"],
 						},
 						{
 							title: "Stats Strip",
-							url: "/docs/components/blocks/stats-strip",
+							url: "/docs/blocks/stats-strip",
 							keywords: ["metrics", "kpi", "statistics", "dashboard stats", "sparkline"],
 						},
 						{
@@ -484,34 +484,6 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Layout Frame",
 							url: "/docs/components/patterns/layout-frame",
 							keywords: ["layout", "frame", "shell", "wrapper"],
-						},
-					],
-				},
-				{
-					id: "pat-navigation",
-					title: "Navigation",
-					url: "/docs/components/patterns/navbar",
-					icon: Navigation,
-					items: [
-						{
-							title: "Navbar",
-							url: "/docs/components/patterns/navbar",
-							keywords: ["navigation bar", "site nav", "top nav", "header nav"],
-						},
-						{
-							title: "Nav Tabs",
-							url: "/docs/components/patterns/nav-tabs",
-							keywords: ["navigation tabs", "tab nav", "section tabs"],
-						},
-						{
-							title: "Tab Bar",
-							url: "/docs/components/patterns/tab-bar",
-							keywords: ["bottom bar", "tab navigation", "mobile tabs"],
-						},
-						{
-							title: "Navigation Tabs",
-							url: "/docs/components/patterns/navigation-tabs",
-							keywords: ["tabs", "page tabs", "nav tabs", "tabbed navigation"],
 						},
 					],
 				},
@@ -593,47 +565,47 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "block-charts",
 					title: "Charts",
-					url: "/docs/components/blocks/charts",
+					url: "/docs/blocks/charts",
 					icon: ChartLine,
 					items: [
 						{
 							title: "Chart Card",
-							url: "/docs/components/blocks/chart-card",
+							url: "/docs/blocks/chart-card",
 							keywords: ["chart wrapper", "chart container", "chart block"],
 						},
 						{
 							title: "Area Chart",
-							url: "/docs/components/blocks/charts/area-chart",
+							url: "/docs/blocks/charts/area-chart",
 							keywords: ["graph", "area", "visualization", "stacked area"],
 						},
 						{
 							title: "Bar Chart",
-							url: "/docs/components/blocks/charts/bar-chart",
+							url: "/docs/blocks/charts/bar-chart",
 							keywords: ["graph", "bar", "histogram", "column chart"],
 						},
 						{
 							title: "Line Chart",
-							url: "/docs/components/blocks/charts/line-chart",
+							url: "/docs/blocks/charts/line-chart",
 							keywords: ["graph", "line", "trend", "time series"],
 						},
 						{
 							title: "Pie Chart",
-							url: "/docs/components/blocks/charts/pie-chart",
+							url: "/docs/blocks/charts/pie-chart",
 							keywords: ["graph", "pie", "donut", "circle chart"],
 						},
 						{
 							title: "Radar Chart",
-							url: "/docs/components/blocks/charts/radar-chart",
+							url: "/docs/blocks/charts/radar-chart",
 							keywords: ["graph", "spider", "web chart", "polar"],
 						},
 						{
 							title: "Funnel Chart",
-							url: "/docs/components/blocks/chart-card",
+							url: "/docs/blocks/chart-card",
 							keywords: ["funnel", "conversion", "pipeline chart", "stages"],
 						},
 						{
 							title: "Forecast Chart",
-							url: "/docs/components/blocks/chart-card",
+							url: "/docs/blocks/chart-card",
 							keywords: ["forecast", "prediction", "trend", "projection"],
 						},
 					],
@@ -641,22 +613,22 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "block-data",
 					title: "Data",
-					url: "/docs/components/blocks/data-table",
+					url: "/docs/blocks/data-table",
 					icon: Table2,
 					items: [
 						{
 							title: "Data Table",
-							url: "/docs/components/blocks/data-table",
+							url: "/docs/blocks/data-table",
 							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
 						},
 {
 							title: "Filter Bar",
-							url: "/docs/components/blocks/filter-bar",
+							url: "/docs/blocks/filter-bar",
 							keywords: ["filter", "search filters", "facets", "query bar"],
 						},
 						{
 							title: "Bulk Action Bar",
-							url: "/docs/components/blocks/bulk-action-bar",
+							url: "/docs/blocks/bulk-action-bar",
 							keywords: ["bulk", "multi-select", "batch actions", "selection bar"],
 						},
 					],
@@ -664,82 +636,82 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "block-business",
 					title: "Business",
-					url: "/docs/components/blocks/activity-timeline",
+					url: "/docs/blocks/activity-timeline",
 					icon: Puzzle,
 					items: [
 						{
 							title: "Activity Timeline",
-							url: "/docs/components/blocks/activity-timeline",
+							url: "/docs/blocks/activity-timeline",
 							keywords: ["timeline", "activity feed", "history", "events log"],
 						},
 						{
 							title: "Detail Panel",
-							url: "/docs/components/blocks/detail-panel",
+							url: "/docs/blocks/detail-panel",
 							keywords: ["detail", "sidebar panel", "record detail", "side panel"],
 						},
 						{
 							title: "Deal Lines Editor",
-							url: "/docs/components/blocks/deal-lines-editor",
+							url: "/docs/blocks/deal-lines-editor",
 							keywords: ["line items", "quote lines", "deal items", "product lines"],
 						},
 						{
 							title: "Inline Edit",
-							url: "/docs/components/blocks/inline-edit",
+							url: "/docs/blocks/inline-edit",
 							keywords: ["inline editing", "in-place edit", "click to edit"],
 						},
 						{
 							title: "Kanban Board",
-							url: "/docs/components/blocks/kanban-board",
+							url: "/docs/blocks/kanban-board",
 							keywords: ["kanban", "board", "drag drop", "pipeline", "swimlanes"],
 						},
 						{
 							title: "Multi Step Form",
-							url: "/docs/components/blocks/multi-step-form",
+							url: "/docs/blocks/multi-step-form",
 							keywords: ["wizard", "stepper", "multi step", "form wizard"],
 						},
 						{
 							title: "Notification Center",
-							url: "/docs/components/blocks/notification-center",
+							url: "/docs/blocks/notification-center",
 							keywords: ["notifications", "alerts", "inbox", "messages"],
 						},
 						{
 							title: "Org Menu",
-							url: "/docs/components/blocks/org-menu",
+							url: "/docs/blocks/org-menu",
 							keywords: ["organization", "workspace", "team switcher", "org switcher"],
 						},
 						{
 							title: "Property Card",
-							url: "/docs/components/blocks/property-card",
+							url: "/docs/blocks/property-card",
 							keywords: ["detail card", "info card", "attribute card"],
 						},
 						{
 							title: "Quick Log Activity",
-							url: "/docs/components/blocks/quick-log-activity",
+							url: "/docs/blocks/quick-log-activity",
 							keywords: ["log", "activity", "crm", "note", "call log"],
 						},
 						{
 							title: "Quote Preview",
-							url: "/docs/components/blocks/quote-preview",
+							url: "/docs/blocks/quote-preview",
 							keywords: ["quote", "proposal", "estimate", "pricing preview"],
 						},
 						{
 							title: "Split View",
-							url: "/docs/components/blocks/split-view",
+							url: "/docs/blocks/split-view",
 							keywords: ["split", "master detail", "two panel", "side by side"],
 						},
 						{
 							title: "Stats Grid",
-							url: "/docs/components/blocks/stats-grid",
+							url: "/docs/blocks/stats-grid",
 							keywords: ["kpi grid", "metrics grid", "stats cards", "dashboard grid"],
 						},
 						{
 							title: "Stats Strip",
-							url: "/docs/components/blocks/stats-strip",
+							url: "/docs/blocks/stats-strip",
 							keywords: ["metrics", "kpi", "numbers", "statistics", "summary bar"],
 						},
 						{
 							title: "Status Flow",
-							url: "/docs/components/blocks/status-flow",
+							url: "/docs/blocks/status-flow",
 							keywords: ["workflow", "status pipeline", "state machine", "flow"],
 						},
 					],
@@ -753,37 +725,37 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-chat",
 					title: "Chat",
-					url: "/docs/components/ai/chat/conversation",
+					url: "/docs/ai/chat/conversation",
 					icon: MessageCircle,
 					items: [
 						{
 							title: "Conversation",
-							url: "/docs/components/ai/chat/conversation",
+							url: "/docs/ai/chat/conversation",
 							keywords: ["chat", "messages", "thread", "dialogue"],
 						},
 						{
 							title: "Message",
-							url: "/docs/components/ai/chat/message",
+							url: "/docs/ai/chat/message",
 							keywords: ["chat bubble", "message bubble", "chat message"],
 						},
 						{
 							title: "Prompt Input",
-							url: "/docs/components/ai/chat/prompt-input",
+							url: "/docs/ai/chat/prompt-input",
 							keywords: ["chat input", "message input", "send message", "compose"],
 						},
 						{
 							title: "Suggestion",
-							url: "/docs/components/ai/chat/suggestion",
+							url: "/docs/ai/chat/suggestion",
 							keywords: ["quick reply", "suggested response", "prompt suggestion"],
 						},
 						{
 							title: "Attachments",
-							url: "/docs/components/ai/chat/attachments",
+							url: "/docs/ai/chat/attachments",
 							keywords: ["files", "upload", "media", "chat files"],
 						},
 						{
 							title: "Shimmer",
-							url: "/docs/components/ai/chat/shimmer",
+							url: "/docs/ai/chat/shimmer",
 							keywords: ["typing", "loading", "thinking", "streaming", "animation"],
 						},
 					],
@@ -791,27 +763,27 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-reasoning",
 					title: "Reasoning",
-					url: "/docs/components/ai/reasoning",
+					url: "/docs/ai/reasoning",
 					icon: Brain,
 					items: [
 						{
 							title: "Reasoning",
-							url: "/docs/components/ai/reasoning",
+							url: "/docs/ai/reasoning",
 							keywords: ["thinking", "logic", "analysis", "ai thinking"],
 						},
 						{
 							title: "Chain of Thought",
-							url: "/docs/components/ai/chain-of-thought",
+							url: "/docs/ai/chain-of-thought",
 							keywords: ["cot", "step by step", "reasoning chain", "thought process"],
 						},
 						{
 							title: "Sources",
-							url: "/docs/components/ai/sources",
+							url: "/docs/ai/sources",
 							keywords: ["references", "citations", "links", "bibliography"],
 						},
 						{
 							title: "Inline Citation",
-							url: "/docs/components/ai/inline-citation",
+							url: "/docs/ai/inline-citation",
 							keywords: ["reference", "footnote", "source link", "cite"],
 						},
 					],
@@ -819,22 +791,22 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-tools",
 					title: "Tools",
-					url: "/docs/components/ai/confirmation",
+					url: "/docs/ai/confirmation",
 					icon: Wrench,
 					items: [
 						{
 							title: "Confirmation",
-							url: "/docs/components/ai/confirmation",
+							url: "/docs/ai/confirmation",
 							keywords: ["approve", "confirm action", "tool approval", "permission"],
 						},
 						{
 							title: "Model Selector",
-							url: "/docs/components/ai/model-selector",
+							url: "/docs/ai/model-selector",
 							keywords: ["model picker", "llm", "gpt", "claude", "ai model"],
 						},
 						{
 							title: "Context",
-							url: "/docs/components/ai/context",
+							url: "/docs/ai/context",
 							keywords: ["context window", "system prompt", "instructions", "ai context"],
 						},
 					],
@@ -842,52 +814,52 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-data",
 					title: "Data",
-					url: "/docs/components/ai/data/metric-card",
+					url: "/docs/ai/data/metric-card",
 					icon: ChartLine,
 					items: [
 						{
 							title: "Metric Card",
-							url: "/docs/components/ai/data/metric-card",
+							url: "/docs/ai/data/metric-card",
 							keywords: ["kpi", "number card", "statistic", "value card"],
 						},
 						{
 							title: "Stats Row",
-							url: "/docs/components/ai/data/stats-row",
+							url: "/docs/ai/data/stats-row",
 							keywords: ["metrics row", "numbers", "statistics", "summary"],
 						},
 						{
 							title: "Mini Chart",
-							url: "/docs/components/ai/data/mini-chart",
+							url: "/docs/ai/data/mini-chart",
 							keywords: ["sparkline", "small chart", "inline chart", "trend"],
 						},
 						{
 							title: "Comparison Table",
-							url: "/docs/components/ai/data/comparison-table",
+							url: "/docs/ai/data/comparison-table",
 							keywords: ["compare", "versus", "side by side", "diff"],
 						},
 						{
 							title: "Progress Card",
-							url: "/docs/components/ai/data/progress-card",
+							url: "/docs/ai/data/progress-card",
 							keywords: ["progress bar", "completion", "percentage", "status"],
 						},
 						{
 							title: "Data List",
-							url: "/docs/components/ai/data/data-list",
+							url: "/docs/ai/data/data-list",
 							keywords: ["list", "items", "records", "entries"],
 						},
 						{
 							title: "Data Grid",
-							url: "/docs/components/ai/data/data-grid",
+							url: "/docs/ai/data/data-grid",
 							keywords: ["grid", "cards", "tile view", "gallery"],
 						},
 						{
 							title: "Rating Card",
-							url: "/docs/components/ai/data/rating-card",
+							url: "/docs/ai/data/rating-card",
 							keywords: ["stars", "score", "review", "rating"],
 						},
 						{
 							title: "Score Card",
-							url: "/docs/components/ai/data/score-card",
+							url: "/docs/ai/data/score-card",
 							keywords: ["score", "points", "grade", "evaluation"],
 						},
 					],
@@ -895,32 +867,32 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-entities",
 					title: "Entities",
-					url: "/docs/components/ai/entities/candidate-card",
+					url: "/docs/ai/entities/candidate-card",
 					icon: Users,
 					items: [
 						{
 							title: "Candidate Card",
-							url: "/docs/components/ai/entities/candidate-card",
+							url: "/docs/ai/entities/candidate-card",
 							keywords: ["applicant", "recruit", "talent", "person card"],
 						},
 						{
 							title: "Contact Card",
-							url: "/docs/components/ai/entities/contact-card",
+							url: "/docs/ai/entities/contact-card",
 							keywords: ["person", "profile", "contact info", "vcard"],
 						},
 						{
 							title: "Company Card",
-							url: "/docs/components/ai/entities/company-card",
+							url: "/docs/ai/entities/company-card",
 							keywords: ["organization", "business", "firm", "account"],
 						},
 						{
 							title: "Deal Card",
-							url: "/docs/components/ai/entities/deal-card",
+							url: "/docs/ai/entities/deal-card",
 							keywords: ["opportunity", "sale", "pipeline", "crm"],
 						},
 						{
 							title: "User Card",
-							url: "/docs/components/ai/entities/user-card",
+							url: "/docs/ai/entities/user-card",
 							keywords: ["profile", "member", "account", "person"],
 						},
 					],
@@ -928,42 +900,42 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-workflow",
 					title: "Workflow",
-					url: "/docs/components/ai/workflow/task-card",
+					url: "/docs/ai/workflow/task-card",
 					icon: ListChecks,
 					items: [
 						{
 							title: "Task Card",
-							url: "/docs/components/ai/workflow/task-card",
+							url: "/docs/ai/workflow/task-card",
 							keywords: ["todo", "task", "action item", "work item"],
 						},
 						{
 							title: "Checklist Card",
-							url: "/docs/components/ai/workflow/checklist-card",
+							url: "/docs/ai/workflow/checklist-card",
 							keywords: ["todo list", "check list", "steps", "tasks"],
 						},
 						{
 							title: "Approval Card",
-							url: "/docs/components/ai/workflow/approval-card",
+							url: "/docs/ai/workflow/approval-card",
 							keywords: ["approve", "reject", "review", "sign off"],
 						},
 						{
 							title: "Action List",
-							url: "/docs/components/ai/workflow/action-list",
+							url: "/docs/ai/workflow/action-list",
 							keywords: ["actions", "operations", "commands", "steps"],
 						},
 						{
 							title: "Poll Card",
-							url: "/docs/components/ai/workflow/poll-card",
+							url: "/docs/ai/workflow/poll-card",
 							keywords: ["vote", "survey", "poll", "question"],
 						},
 						{
 							title: "Email Preview",
-							url: "/docs/components/ai/workflow/email-preview",
+							url: "/docs/ai/workflow/email-preview",
 							keywords: ["email", "mail", "message preview", "newsletter"],
 						},
 						{
 							title: "Message Preview",
-							url: "/docs/components/ai/workflow/message-preview",
+							url: "/docs/ai/workflow/message-preview",
 							keywords: ["sms", "text", "chat preview", "notification"],
 						},
 					],
@@ -971,32 +943,32 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-planning",
 					title: "Planning",
-					url: "/docs/components/ai/planning/timeline",
+					url: "/docs/ai/planning/timeline",
 					icon: Calendar,
 					items: [
 						{
 							title: "Timeline",
-							url: "/docs/components/ai/planning/timeline",
+							url: "/docs/ai/planning/timeline",
 							keywords: ["schedule", "gantt", "roadmap", "milestones"],
 						},
 						{
 							title: "Event Card",
-							url: "/docs/components/ai/planning/event-card",
+							url: "/docs/ai/planning/event-card",
 							keywords: ["meeting", "appointment", "event", "calendar event"],
 						},
 						{
 							title: "Status Update",
-							url: "/docs/components/ai/planning/status-update",
+							url: "/docs/ai/planning/status-update",
 							keywords: ["progress", "update", "report", "standup"],
 						},
 						{
 							title: "Calendar Card",
-							url: "/docs/components/ai/planning/calendar-card",
+							url: "/docs/ai/planning/calendar-card",
 							keywords: ["date", "schedule", "planner", "agenda"],
 						},
 						{
 							title: "Availability Card",
-							url: "/docs/components/ai/planning/availability-card",
+							url: "/docs/ai/planning/availability-card",
 							keywords: ["schedule", "free busy", "time slots", "booking"],
 						},
 					],
@@ -1004,32 +976,32 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-commerce",
 					title: "Commerce",
-					url: "/docs/components/ai/commerce/invoice-card",
+					url: "/docs/ai/commerce/invoice-card",
 					icon: CreditCard,
 					items: [
 						{
 							title: "Invoice Card",
-							url: "/docs/components/ai/commerce/invoice-card",
+							url: "/docs/ai/commerce/invoice-card",
 							keywords: ["bill", "receipt", "payment", "invoice"],
 						},
 						{
 							title: "Quote Summary",
-							url: "/docs/components/ai/commerce/quote-summary",
+							url: "/docs/ai/commerce/quote-summary",
 							keywords: ["estimate", "proposal", "pricing", "offer"],
 						},
 						{
 							title: "Pricing Table",
-							url: "/docs/components/ai/commerce/pricing-table",
+							url: "/docs/ai/commerce/pricing-table",
 							keywords: ["plans", "tiers", "subscription", "price comparison"],
 						},
 						{
 							title: "Transaction Card",
-							url: "/docs/components/ai/commerce/transaction-card",
+							url: "/docs/ai/commerce/transaction-card",
 							keywords: ["payment", "transfer", "purchase", "order"],
 						},
 						{
 							title: "Product Card",
-							url: "/docs/components/ai/commerce/product-card",
+							url: "/docs/ai/commerce/product-card",
 							keywords: ["item", "merchandise", "product", "listing"],
 						},
 					],
@@ -1037,42 +1009,42 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "ai-content",
 					title: "Content",
-					url: "/docs/components/ai/content/insight-card",
+					url: "/docs/ai/content/insight-card",
 					icon: FileText,
 					items: [
 						{
 							title: "Insight Card",
-							url: "/docs/components/ai/content/insight-card",
+							url: "/docs/ai/content/insight-card",
 							keywords: ["analytics", "finding", "discovery", "highlight"],
 						},
 						{
 							title: "Summary Card",
-							url: "/docs/components/ai/content/summary-card",
+							url: "/docs/ai/content/summary-card",
 							keywords: ["overview", "tldr", "abstract", "recap"],
 						},
 						{
 							title: "File Card",
-							url: "/docs/components/ai/content/file-card",
+							url: "/docs/ai/content/file-card",
 							keywords: ["document", "attachment", "file preview", "download"],
 						},
 						{
 							title: "Link Preview",
-							url: "/docs/components/ai/content/link-preview",
+							url: "/docs/ai/content/link-preview",
 							keywords: ["url preview", "og card", "embed", "unfurl"],
 						},
 						{
 							title: "Image Gallery",
-							url: "/docs/components/ai/content/image-gallery",
+							url: "/docs/ai/content/image-gallery",
 							keywords: ["photos", "pictures", "carousel", "lightbox"],
 						},
 						{
 							title: "Location Card",
-							url: "/docs/components/ai/content/location-card",
+							url: "/docs/ai/content/location-card",
 							keywords: ["map", "address", "place", "geo", "coordinates"],
 						},
 						{
 							title: "Video Card",
-							url: "/docs/components/ai/content/video-card",
+							url: "/docs/ai/content/video-card",
 							keywords: ["player", "youtube", "video preview", "media"],
 						},
 					],
@@ -1190,14 +1162,14 @@ export type SectionId = "components" | "blocks" | "ai" | "guide"
 
 export const sectionTabs: { id: SectionId; label: string; defaultUrl: string }[] = [
 	{ id: "components", label: "Composants", defaultUrl: "/docs/components" },
-	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/components/blocks" },
-	{ id: "ai", label: "AI", defaultUrl: "/docs/components/ai" },
+	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/blocks" },
+	{ id: "ai", label: "AI", defaultUrl: "/docs/ai" },
 	{ id: "guide", label: "Guide", defaultUrl: "/docs/guide" },
 ]
 
 export function getSectionForPathname(pathname: string): SectionId {
-	if (pathname === "/docs/components/ai" || pathname.startsWith("/docs/components/ai/")) return "ai"
-	if (pathname === "/docs/components/blocks" || pathname.startsWith("/docs/components/blocks/")) return "blocks"
+	if (pathname === "/docs/ai" || pathname.startsWith("/docs/ai/")) return "ai"
+	if (pathname === "/docs/blocks" || pathname.startsWith("/docs/blocks/")) return "blocks"
 	if (pathname.startsWith("/docs/guide")) return "guide"
 	if (pathname.startsWith("/docs/mcp") || pathname.startsWith("/docs/sandbox") || pathname.startsWith("/docs/utils/")) return "guide"
 	if (pathname.startsWith("/docs/components/colors") || pathname.startsWith("/docs/components/typography")) return "guide"

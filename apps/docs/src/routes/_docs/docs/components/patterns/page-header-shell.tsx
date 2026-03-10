@@ -263,7 +263,7 @@ function PageHeaderShellPage() {
 					items={[
 						{
 							title: "Page Header (blocks)",
-							href: "/docs/components/blocks/page-header",
+							href: "/docs/blocks/page-header",
 							description:
 								"Version métier avec actions déclaratives (tableau PageHeaderAction) et slot actionsSlot.",
 						},
