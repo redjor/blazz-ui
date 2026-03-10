@@ -1,6 +1,6 @@
 "use client"
 
-import type { SidebarConfig } from "@blazz/ui/types/navigation"
+import type { NavigationSection, SidebarConfig } from "@blazz/ui/types/navigation"
 import {
 	Bot,
 	Brain,
@@ -35,8 +35,8 @@ export const sidebarConfig: SidebarConfig = {
 	},
 	navigation: [
 		{
-			id: "ui",
-			title: "UI",
+			id: "components",
+			title: "Composants",
 			items: [
 				{
 					id: "comp-layout",
@@ -83,11 +83,6 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Grid",
 							url: "/docs/components/layout/grid",
 							keywords: ["columns", "responsive", "layout grid", "css grid"],
-						},
-						{
-							title: "Inset",
-							url: "/docs/components/layout/inset",
-							keywords: ["padding", "container", "wrapper", "density", "spacing", "token", "inset"],
 						},
 						{
 							title: "Inline Grid",
@@ -448,35 +443,7 @@ export const sidebarConfig: SidebarConfig = {
 						},
 					],
 				},
-				{
-					id: "comp-foundations",
-					title: "Foundations",
-					url: "/docs/components/colors",
-					icon: Palette,
-					items: [
-						{
-							title: "Colors",
-							url: "/docs/components/colors",
-							keywords: ["palette", "theme", "tokens", "design tokens", "oklch"],
-						},
-						{
-							title: "Typography",
-							url: "/docs/components/typography",
-							keywords: ["fonts", "text styles", "headings", "font size", "typeface"],
-						},
-						{
-							title: "Text",
-							url: "/docs/components/ui/text",
-							keywords: ["paragraph", "prose", "body text", "text component"],
-						},
-					],
-				},
-			],
-		},
-		{
-			id: "patterns",
-			title: "Patterns",
-			items: [
+				// --- Patterns (merged from former "patterns" section) ---
 				{
 					id: "pat-app-shell",
 					title: "App Shell",
@@ -1108,12 +1075,75 @@ export const sidebarConfig: SidebarConfig = {
 			],
 		},
 		{
-			id: "utils",
-			title: "Utils",
+			id: "guide",
+			title: "Guide",
 			items: [
 				{
-					id: "utils-forms",
-					title: "Forms",
+					id: "guide-foundations",
+					title: "Foundations",
+					url: "/docs/components/colors",
+					icon: Palette,
+					items: [
+						{
+							title: "Colors",
+							url: "/docs/components/colors",
+							keywords: ["palette", "theme", "tokens", "design tokens", "oklch"],
+						},
+						{
+							title: "Typography",
+							url: "/docs/components/typography",
+							keywords: ["fonts", "text styles", "headings", "font size", "typeface"],
+						},
+						{
+							title: "Text",
+							url: "/docs/components/ui/text",
+							keywords: ["paragraph", "prose", "body text", "text component"],
+						},
+					],
+				},
+				{
+					id: "guide-concepts",
+					title: "Concepts",
+					url: "/docs/components/layout/inset",
+					icon: Layers2,
+					items: [
+						{
+							title: "Inset",
+							url: "/docs/components/layout/inset",
+							keywords: ["padding", "container", "wrapper", "density", "spacing", "token", "inset"],
+						},
+					],
+				},
+				{
+					id: "guide-tools",
+					title: "Outils",
+					url: "/docs/mcp",
+					icon: Wrench,
+					items: [
+						{
+							title: "MCP Server",
+							url: "/docs/mcp",
+							keywords: [
+								"mcp",
+								"model context protocol",
+								"ai",
+								"assistant",
+								"claude",
+								"cursor",
+								"tools",
+								"design system",
+							],
+						},
+						{
+							title: "Sandbox",
+							url: "/docs/sandbox",
+							keywords: ["sandbox", "playground", "test", "experiment"],
+						},
+					],
+				},
+				{
+					id: "guide-utils",
+					title: "Utils",
 					url: "/docs/utils/unsaved-changes-bar",
 					icon: Save,
 					items: [
@@ -1129,14 +1159,6 @@ export const sidebarConfig: SidebarConfig = {
 								"discard",
 							],
 						},
-					],
-				},
-				{
-					id: "utils-dev",
-					title: "Dev Tools",
-					url: "/docs/utils/quick-login",
-					icon: KeyRound,
-					items: [
 						{
 							title: "Quick Login",
 							url: "/docs/utils/quick-login",
@@ -1153,42 +1175,31 @@ export const sidebarConfig: SidebarConfig = {
 				},
 			],
 		},
-		{
-			id: "outils",
-			title: "Outils",
-			items: [
-				{
-					id: "outils-mcp",
-					title: "AI",
-					url: "/docs/mcp",
-					icon: Bot,
-					items: [
-						{
-							title: "MCP Server",
-							url: "/docs/mcp",
-							keywords: [
-								"mcp",
-								"model context protocol",
-								"ai",
-								"assistant",
-								"claude",
-								"cursor",
-								"tools",
-								"design system",
-							],
-						},
-					],
-				},
-				{
-					id: "sandbox",
-					title: "Sandbox",
-					url: "/docs/sandbox",
-					icon: Wrench,
-				},
-			],
-		},
 	],
 }
 
 // Backward compatibility - export navigationConfig as before
 export const navigationConfig = sidebarConfig.navigation
+
+export type SectionId = "components" | "blocks" | "ai" | "guide"
+
+export const sectionTabs: { id: SectionId; label: string; defaultUrl: string }[] = [
+	{ id: "components", label: "Composants", defaultUrl: "/docs/components/layout" },
+	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/components/blocks/charts" },
+	{ id: "ai", label: "AI", defaultUrl: "/docs/components/ai/chat/conversation" },
+	{ id: "guide", label: "Guide", defaultUrl: "/docs/components/colors" },
+]
+
+export function getSectionForPathname(pathname: string): SectionId {
+	if (pathname.startsWith("/docs/components/ai/")) return "ai"
+	if (pathname.startsWith("/docs/components/blocks/")) return "blocks"
+	if (pathname.startsWith("/docs/mcp") || pathname.startsWith("/docs/sandbox") || pathname.startsWith("/docs/utils/")) return "guide"
+	if (pathname.startsWith("/docs/components/colors") || pathname.startsWith("/docs/components/typography")) return "guide"
+	if (pathname.startsWith("/docs/components/layout/inset")) return "guide"
+	if (pathname.startsWith("/docs/components/ui/text")) return "guide"
+	return "components"
+}
+
+export function getSectionNavigation(sectionId: SectionId): NavigationSection | undefined {
+	return sidebarConfig.navigation.find((s) => s.id === sectionId)
+}
