@@ -2,6 +2,10 @@
 
 import { Link } from "@tanstack/react-router"
 
+const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
+const githubUrl = "https://github.com/redjor/blazz-ui"
+const examplesHref = examplesUrl ? `${examplesUrl}/examples/crm/dashboard` : "/docs/components"
+
 const linkGroups = [
 	{
 		title: "Product",
@@ -16,16 +20,16 @@ const linkGroups = [
 		title: "Resources",
 		links: [
 			{ label: "Documentation", href: "/docs/components" },
-			{ label: "GitHub", href: "#" },
-			{ label: "Changelog", href: "#" },
+			{ label: "GitHub", href: githubUrl },
+			{ label: "Changelog", href: `${githubUrl}/blob/main/CHANGELOG.md` },
 		],
 	},
 	{
 		title: "Company",
 		links: [
-			{ label: "About", href: "#" },
-			{ label: "Contact", href: "#" },
-			{ label: "Twitter", href: "#" },
+			{ label: "Examples", href: examplesHref },
+			{ label: "Contact", href: `${githubUrl}/issues/new` },
+			{ label: "Docs", href: "/docs/components" },
 		],
 	},
 ]
@@ -38,21 +42,12 @@ export function Footer() {
 					{/* Brand */}
 					<div className="md:w-1/3">
 						<Link to="/" className="flex items-center gap-2 mb-3">
-							<img
-								src="/logo_blazz_white.svg"
-								alt="Blazz"
-								className="hidden h-4 dark:block"
-							/>
-							<img
-								src="/logo_blazz_black.svg"
-								alt="Blazz"
-								className="block h-4 dark:hidden"
-							/>
-							<span className="text-[13px] font-semibold text-fg">Blazz UI</span>
+							<img src="/logo_blazz_white.svg" alt="Blazz" className="hidden h-4 dark:block" />
+							<img src="/logo_blazz_black.svg" alt="Blazz" className="block h-4 dark:hidden" />
 						</Link>
 						<p className="text-xs text-fg-muted leading-relaxed max-w-xs">
-							The React component kit for data-heavy professional applications.
-							Built for teams who ship fast.
+							The React component kit for data-heavy professional applications. Designed for teams
+							shipping CRM, ATS, inventory, and internal tools.
 						</p>
 					</div>
 

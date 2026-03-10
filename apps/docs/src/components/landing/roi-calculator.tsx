@@ -1,14 +1,29 @@
 "use client"
 
-import { useState } from "react"
+import { Blocks, DatabaseZap, LayoutPanelTop } from "lucide-react"
 import { motion } from "motion/react"
-import { TrendingUp, Clock } from "lucide-react"
 
 export function RoiCalculator() {
-	const [teamSize, setTeamSize] = useState(5)
-
-	const weeksSaved = teamSize * 2
-	const saasAvoided = teamSize * 150
+	const reasons = [
+		{
+			icon: LayoutPanelTop,
+			title: "One app shell instead of ad hoc pages",
+			description:
+				"Navigation, breadcrumbs, tabs, empty states, drawers, and page headers already match each other.",
+		},
+		{
+			icon: DatabaseZap,
+			title: "Data-heavy screens without custom glue",
+			description:
+				"Tables, filters, stats, charts, and forms are designed to work together in CRUD-heavy products.",
+		},
+		{
+			icon: Blocks,
+			title: "Copy code once, scale it across products",
+			description:
+				"Fork a demo, adapt the domain language, and keep the same design tokens and interaction patterns.",
+		},
+	]
 
 	return (
 		<section className="py-4 px-6">
@@ -21,12 +36,13 @@ export function RoiCalculator() {
 						transition={{ duration: 0.3 }}
 						className="mb-10"
 					>
-						<p className="text-sm font-medium text-brand mb-1.5">ROI</p>
+						<p className="text-sm font-medium text-brand mb-1.5">Why teams buy</p>
 						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
-							Calculate your savings
+							Spend time on product logic, not UI assembly
 						</h2>
 						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							How much time and money you save vs. paying for SaaS licenses.
+							Blazz UI is valuable when your bottleneck is shipping coherent business screens fast,
+							not drawing another button set.
 						</p>
 					</motion.div>
 
@@ -35,62 +51,52 @@ export function RoiCalculator() {
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.3, delay: 0.1 }}
-						className="max-w-md"
+						className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]"
 					>
-						{/* Slider */}
-						<div className="mb-8">
-							<div className="flex items-center justify-between mb-3">
-								<label
-									htmlFor="team-size"
-									className="text-[13px] font-medium text-fg"
+						<div className="grid gap-4">
+							{reasons.map((reason) => (
+								<div
+									key={reason.title}
+									className="rounded-lg border border-edge/40 bg-raised/40 p-5"
 								>
-									Team size
-								</label>
-								<span className="text-[13px] font-semibold text-brand tabular-nums">
-									{teamSize} dev{teamSize > 1 ? "s" : ""}
-								</span>
-							</div>
-							<input
-								id="team-size"
-								type="range"
-								min={1}
-								max={20}
-								value={teamSize}
-								onChange={(e) => setTeamSize(Number(e.target.value))}
-								className="w-full h-1.5 bg-raised rounded-full appearance-none cursor-pointer accent-brand [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand [&::-webkit-slider-thumb]:cursor-pointer"
-							/>
-							<div className="flex justify-between text-2xs text-fg-subtle mt-1.5">
-								<span>1</span>
-								<span>20</span>
-							</div>
+									<div className="mb-2 flex items-center gap-2">
+										<div className="flex size-8 items-center justify-center rounded-md bg-app">
+											<reason.icon className="size-4 text-brand" />
+										</div>
+										<h3 className="text-sm font-semibold text-fg">{reason.title}</h3>
+									</div>
+									<p className="text-[13px] leading-relaxed text-fg-muted">{reason.description}</p>
+								</div>
+							))}
 						</div>
 
-						{/* Results */}
-						<div className="grid grid-cols-2 gap-3">
-							<div className="rounded-lg border border-edge/40 bg-raised/50 p-4">
-								<div className="flex items-center gap-1.5 mb-2">
-									<Clock className="size-3.5 text-fg-muted" />
-									<span className="text-2xs text-fg-muted uppercase tracking-wide font-medium">Time saved</span>
+						<div className="rounded-lg border border-edge/40 bg-app p-5">
+							<p className="text-2xs font-medium uppercase tracking-[0.18em] text-fg-subtle">
+								Best fit
+							</p>
+							<div className="mt-4 space-y-4">
+								<div>
+									<p className="text-sm font-semibold text-fg">You are building</p>
+									<p className="mt-1 text-[13px] text-fg-muted">
+										CRM, ATS, inventory, admin, or other operator-facing products with dense
+										workflows.
+									</p>
 								</div>
-								<span className="text-xl font-semibold text-fg tabular-nums">
-									{weeksSaved} weeks
-								</span>
-							</div>
-							<div className="rounded-lg border border-edge/40 bg-raised/50 p-4">
-								<div className="flex items-center gap-1.5 mb-2">
-									<TrendingUp className="size-3.5 text-fg-muted" />
-									<span className="text-2xs text-fg-muted uppercase tracking-wide font-medium">SaaS avoided</span>
+								<div>
+									<p className="text-sm font-semibold text-fg">You want</p>
+									<p className="mt-1 text-[13px] text-fg-muted">
+										Reusable screens and patterns, not only primitives and a design board.
+									</p>
 								</div>
-								<span className="text-xl font-semibold text-fg tabular-nums">
-									{saasAvoided.toLocaleString("en")}€<span className="text-xs text-fg-muted font-normal">/mo</span>
-								</span>
+								<div>
+									<p className="text-sm font-semibold text-fg">You avoid</p>
+									<p className="mt-1 text-[13px] text-fg-muted">
+										Paying per seat, rebuilding tables and forms in every client project, or mixing
+										multiple UI kits.
+									</p>
+								</div>
 							</div>
 						</div>
-
-						<p className="mt-4 text-2xs text-fg-subtle">
-							Based on 2 weeks saved per developer and ~150€/user/month for
-							comparable SaaS solutions.
-						</p>
 					</motion.div>
 				</div>
 			</div>

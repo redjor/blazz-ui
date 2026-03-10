@@ -652,7 +652,7 @@ Props: title (string, required), description (string), actions (React.ReactNode)
 
 Import: `@blazz/ui/components/blocks/data-table`
 Named: `DataTable, col`
-Docs: https://blazz.io/docs/components/blocks/data-table
+Docs: https://blazz.io/docs/blocks/data-table
 
 Table de données avancée avec tri, filtrage, pagination, sélection et actions bulk.
 
@@ -689,7 +689,7 @@ const columns = [
 
 Import: `@blazz/ui/components/blocks/stats-grid`
 Named: `StatsGrid`
-Docs: https://blazz.io/docs/components/blocks/stats-grid
+Docs: https://blazz.io/docs/blocks/stats-grid
 
 Grille de KPIs avec valeur principale, tendance et icône.
 
@@ -720,7 +720,7 @@ import { DollarSign, Users, Briefcase, TrendingUp } from "lucide-react"
 
 Import: `@blazz/ui/components/blocks/filter-bar`
 Named: `FilterBar`
-Docs: https://blazz.io/docs/components/blocks/filter-bar
+Docs: https://blazz.io/docs/blocks/filter-bar
 
 Barre de filtres pour les pages de liste — recherche + filtres actifs + reset.
 
@@ -749,7 +749,7 @@ Props: search (string), onSearchChange ((value: string) => void), filters (Filte
 
 Import: `@blazz/ui/components/blocks/detail-panel`
 Named: `DetailPanel`
-Docs: https://blazz.io/docs/components/blocks/detail-panel
+Docs: https://blazz.io/docs/blocks/detail-panel
 
 Panneau de détail d'une entité composé via sous-composants Header et Section. Architecture compound component.
 
@@ -797,7 +797,7 @@ import { Pencil, Trash2 } from "lucide-react"
 
 Import: `@blazz/ui/components/blocks/activity-timeline`
 Named: `ActivityTimeline`
-Docs: https://blazz.io/docs/components/blocks/activity-timeline
+Docs: https://blazz.io/docs/blocks/activity-timeline
 
 Timeline d'activités et d'événements chronologiques.
 

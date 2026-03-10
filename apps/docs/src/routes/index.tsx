@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Navbar } from "~/components/landing/navbar"
-import { Hero } from "~/components/landing/hero"
-import { StatsBar } from "~/components/landing/stats-bar"
-import { FeaturesGrid } from "~/components/landing/features-grid"
 import { AppShowcase } from "~/components/landing/app-showcase"
-import { RoiCalculator } from "~/components/landing/roi-calculator"
-import { Pricing } from "~/components/landing/pricing"
 import { Faq } from "~/components/landing/faq"
+import { FeaturesGrid } from "~/components/landing/features-grid"
 import { Footer } from "~/components/landing/footer"
+import { Hero } from "~/components/landing/hero"
+import { Navbar } from "~/components/landing/navbar"
+import { Pricing } from "~/components/landing/pricing"
+import { RoiCalculator } from "~/components/landing/roi-calculator"
+import { StatsBar } from "~/components/landing/stats-bar"
 
 export const Route = createFileRoute("/")({
 	component: Home,
@@ -18,9 +18,9 @@ function Home() {
 		<div className="min-h-screen bg-app">
 			<Navbar />
 			<Hero />
+			<AppShowcase />
 			<StatsBar />
 			<FeaturesGrid />
-			<AppShowcase />
 			<RoiCalculator />
 			<Pricing />
 			<Faq />

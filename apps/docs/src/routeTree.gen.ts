@@ -91,6 +91,7 @@ import { Route as DocsDocsComponentsUiMenuRouteImport } from './routes/_docs/doc
 import { Route as DocsDocsComponentsUiLabelRouteImport } from './routes/_docs/docs/components/ui/label'
 import { Route as DocsDocsComponentsUiInputRouteImport } from './routes/_docs/docs/components/ui/input'
 import { Route as DocsDocsComponentsUiFramePanelRouteImport } from './routes/_docs/docs/components/ui/frame-panel'
+import { Route as DocsDocsComponentsUiFilterPanelRouteImport } from './routes/_docs/docs/components/ui/filter-panel'
 import { Route as DocsDocsComponentsUiFileUploadRouteImport } from './routes/_docs/docs/components/ui/file-upload'
 import { Route as DocsDocsComponentsUiFieldRouteImport } from './routes/_docs/docs/components/ui/field'
 import { Route as DocsDocsComponentsUiEmptyRouteImport } from './routes/_docs/docs/components/ui/empty'
@@ -659,6 +660,12 @@ const DocsDocsComponentsUiFramePanelRoute =
   DocsDocsComponentsUiFramePanelRouteImport.update({
     id: '/docs/components/ui/frame-panel',
     path: '/docs/components/ui/frame-panel',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsUiFilterPanelRoute =
+  DocsDocsComponentsUiFilterPanelRouteImport.update({
+    id: '/docs/components/ui/filter-panel',
+    path: '/docs/components/ui/filter-panel',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiFileUploadRoute =
@@ -1416,6 +1423,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/empty': typeof DocsDocsComponentsUiEmptyRoute
   '/docs/components/ui/field': typeof DocsDocsComponentsUiFieldRoute
   '/docs/components/ui/file-upload': typeof DocsDocsComponentsUiFileUploadRoute
+  '/docs/components/ui/filter-panel': typeof DocsDocsComponentsUiFilterPanelRoute
   '/docs/components/ui/frame-panel': typeof DocsDocsComponentsUiFramePanelRoute
   '/docs/components/ui/input': typeof DocsDocsComponentsUiInputRoute
   '/docs/components/ui/label': typeof DocsDocsComponentsUiLabelRoute
@@ -1601,6 +1609,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/empty': typeof DocsDocsComponentsUiEmptyRoute
   '/docs/components/ui/field': typeof DocsDocsComponentsUiFieldRoute
   '/docs/components/ui/file-upload': typeof DocsDocsComponentsUiFileUploadRoute
+  '/docs/components/ui/filter-panel': typeof DocsDocsComponentsUiFilterPanelRoute
   '/docs/components/ui/frame-panel': typeof DocsDocsComponentsUiFramePanelRoute
   '/docs/components/ui/input': typeof DocsDocsComponentsUiInputRoute
   '/docs/components/ui/label': typeof DocsDocsComponentsUiLabelRoute
@@ -1788,6 +1797,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/empty': typeof DocsDocsComponentsUiEmptyRoute
   '/_docs/docs/components/ui/field': typeof DocsDocsComponentsUiFieldRoute
   '/_docs/docs/components/ui/file-upload': typeof DocsDocsComponentsUiFileUploadRoute
+  '/_docs/docs/components/ui/filter-panel': typeof DocsDocsComponentsUiFilterPanelRoute
   '/_docs/docs/components/ui/frame-panel': typeof DocsDocsComponentsUiFramePanelRoute
   '/_docs/docs/components/ui/input': typeof DocsDocsComponentsUiInputRoute
   '/_docs/docs/components/ui/label': typeof DocsDocsComponentsUiLabelRoute
@@ -1975,6 +1985,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/empty'
     | '/docs/components/ui/field'
     | '/docs/components/ui/file-upload'
+    | '/docs/components/ui/filter-panel'
     | '/docs/components/ui/frame-panel'
     | '/docs/components/ui/input'
     | '/docs/components/ui/label'
@@ -2160,6 +2171,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/empty'
     | '/docs/components/ui/field'
     | '/docs/components/ui/file-upload'
+    | '/docs/components/ui/filter-panel'
     | '/docs/components/ui/frame-panel'
     | '/docs/components/ui/input'
     | '/docs/components/ui/label'
@@ -2346,6 +2358,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/empty'
     | '/_docs/docs/components/ui/field'
     | '/_docs/docs/components/ui/file-upload'
+    | '/_docs/docs/components/ui/filter-panel'
     | '/_docs/docs/components/ui/frame-panel'
     | '/_docs/docs/components/ui/input'
     | '/_docs/docs/components/ui/label'
@@ -2963,6 +2976,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/frame-panel'
       fullPath: '/docs/components/ui/frame-panel'
       preLoaderRoute: typeof DocsDocsComponentsUiFramePanelRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/ui/filter-panel': {
+      id: '/_docs/docs/components/ui/filter-panel'
+      path: '/docs/components/ui/filter-panel'
+      fullPath: '/docs/components/ui/filter-panel'
+      preLoaderRoute: typeof DocsDocsComponentsUiFilterPanelRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/file-upload': {
@@ -3828,6 +3848,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiEmptyRoute: typeof DocsDocsComponentsUiEmptyRoute
   DocsDocsComponentsUiFieldRoute: typeof DocsDocsComponentsUiFieldRoute
   DocsDocsComponentsUiFileUploadRoute: typeof DocsDocsComponentsUiFileUploadRoute
+  DocsDocsComponentsUiFilterPanelRoute: typeof DocsDocsComponentsUiFilterPanelRoute
   DocsDocsComponentsUiFramePanelRoute: typeof DocsDocsComponentsUiFramePanelRoute
   DocsDocsComponentsUiInputRoute: typeof DocsDocsComponentsUiInputRoute
   DocsDocsComponentsUiLabelRoute: typeof DocsDocsComponentsUiLabelRoute
@@ -4037,6 +4058,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiEmptyRoute: DocsDocsComponentsUiEmptyRoute,
   DocsDocsComponentsUiFieldRoute: DocsDocsComponentsUiFieldRoute,
   DocsDocsComponentsUiFileUploadRoute: DocsDocsComponentsUiFileUploadRoute,
+  DocsDocsComponentsUiFilterPanelRoute: DocsDocsComponentsUiFilterPanelRoute,
   DocsDocsComponentsUiFramePanelRoute: DocsDocsComponentsUiFramePanelRoute,
   DocsDocsComponentsUiInputRoute: DocsDocsComponentsUiInputRoute,
   DocsDocsComponentsUiLabelRoute: DocsDocsComponentsUiLabelRoute,
