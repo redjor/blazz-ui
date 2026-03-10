@@ -10,6 +10,7 @@ import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
+	{ id: "sections", title: "Sections" },
 	{ id: "props", title: "Props" },
 	{ id: "guidelines", title: "Guidelines" },
 ]
@@ -29,6 +30,42 @@ const propertyProps: DocProp[] = [
 		name: "className",
 		type: "string",
 		description: "Additional CSS classes for the wrapper.",
+	},
+]
+
+const sectionProps: DocProp[] = [
+	{
+		name: "title",
+		type: "string",
+		required: true,
+		description: "Section title displayed above the properties.",
+	},
+	{
+		name: "description",
+		type: "string",
+		description: "Optional description below the title.",
+	},
+	{
+		name: "columns",
+		type: "1 | 2 | 3 | 4",
+		default: "3",
+		description: "Number of responsive grid columns.",
+	},
+	{
+		name: "actions",
+		type: "React.ReactNode",
+		description: "Slot for action buttons displayed top-right.",
+	},
+	{
+		name: "children",
+		type: "React.ReactNode",
+		required: true,
+		description: "Property elements to display in the grid.",
+	},
+	{
+		name: "className",
+		type: "string",
+		description: "Additional CSS classes for the section wrapper.",
 	},
 ]
 
@@ -79,6 +116,37 @@ const examples = [
 <Property label="Notes">
   <span className="text-fg-subtle italic">Aucune note</span>
 </Property>`,
+	},
+	{
+		key: "section-basic",
+		code: `<Property.Section title="Informations générales">
+  <Property label="Entreprise">Acme Corp</Property>
+  <Property label="Secteur">Technologie</Property>
+  <Property label="Taille">250 employés</Property>
+  <Property label="Localisation">Paris, France</Property>
+  <Property label="Chiffre d'affaires">12.5M €</Property>
+  <Property label="Statut">
+    <Badge variant="success">Actif</Badge>
+  </Property>
+</Property.Section>`,
+	},
+	{
+		key: "section-multiple",
+		code: `<div className="flex flex-col gap-8">
+  <Property.Section title="Informations" description="Données principales de l'entreprise">
+    <Property label="Entreprise">Acme Corp</Property>
+    <Property label="Secteur">Technologie</Property>
+    <Property label="Localisation">Paris, France</Property>
+  </Property.Section>
+  <Property.Section title="Commercial" columns={2}>
+    <Property label="Pipeline">€120 000</Property>
+    <Property label="Deals actifs">3</Property>
+    <Property label="Dernier contact">Il y a 2 jours</Property>
+    <Property label="Score">
+      <Badge variant="info">A+</Badge>
+    </Property>
+  </Property.Section>
+</div>`,
 	},
 ] as const
 
@@ -198,8 +266,56 @@ function PropertyPage() {
 				</DocExampleClient>
 			</DocSection>
 
+			<DocSection id="sections" title="Sections">
+				<DocExampleClient
+					title="Basic Section"
+					description="Group related properties under a titled section with a separator."
+					code={examples[5].code}
+					highlightedCode={html("section-basic")}
+				>
+					<Property.Section title="Informations générales">
+						<Property label="Entreprise">Acme Corp</Property>
+						<Property label="Secteur">Technologie</Property>
+						<Property label="Taille">250 employés</Property>
+						<Property label="Localisation">Paris, France</Property>
+						<Property label="Chiffre d'affaires">12.5M €</Property>
+						<Property label="Statut">
+							<Badge variant="success">Actif</Badge>
+						</Property>
+					</Property.Section>
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Multiple Sections"
+					description="Stack sections to organize a detail page into logical groups."
+					code={examples[6].code}
+					highlightedCode={html("section-multiple")}
+				>
+					<div className="flex flex-col gap-8">
+						<Property.Section title="Informations" description="Données principales de l'entreprise">
+							<Property label="Entreprise">Acme Corp</Property>
+							<Property label="Secteur">Technologie</Property>
+							<Property label="Localisation">Paris, France</Property>
+						</Property.Section>
+						<Property.Section title="Commercial" columns={2}>
+							<Property label="Pipeline">€120 000</Property>
+							<Property label="Deals actifs">3</Property>
+							<Property label="Dernier contact">Il y a 2 jours</Property>
+							<Property label="Score">
+								<Badge variant="info">A+</Badge>
+							</Property>
+						</Property.Section>
+					</div>
+				</DocExampleClient>
+			</DocSection>
+
 			<DocSection id="props" title="Props">
-				<DocPropsTable props={propertyProps} />
+				<DocPropsTable
+					groups={[
+						{ title: "Property", props: propertyProps },
+						{ title: "Property.Section", props: sectionProps },
+					]}
+				/>
 			</DocSection>
 
 			<DocSection id="guidelines" title="Guidelines">
