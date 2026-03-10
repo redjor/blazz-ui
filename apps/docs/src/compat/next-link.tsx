@@ -4,7 +4,7 @@ import { Link as TanStackLink } from "@tanstack/react-router"
 import { forwardRef } from "react"
 
 export interface LinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
-  href: string
+  href?: string
   prefetch?: boolean
   replace?: boolean
   scroll?: boolean
@@ -12,7 +12,7 @@ export interface LinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorEle
 }
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { href, children, prefetch, replace, scroll, ...rest },
+  { href = "#", children, prefetch, replace, scroll, ...rest },
   ref,
 ) {
   // External links or hash links — use a plain <a>
