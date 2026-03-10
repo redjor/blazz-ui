@@ -222,6 +222,33 @@ const options = [
 </Card>`,
 	},
 	{
+		key: "button-group",
+		code: `const [value, setValue] = React.useState("monthly")
+
+const options = [
+  { value: "monthly", label: "Monthly" },
+  { value: "quarterly", label: "Quarterly" },
+  { value: "yearly", label: "Yearly" },
+]
+
+<RadioGroup value={value} onValueChange={setValue} className="inline-flex rounded-lg border border-edge bg-surface p-1 gap-1">
+  {options.map((option) => (
+    <label
+      key={option.value}
+      className={cn(
+        "cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
+        value === option.value
+          ? "bg-raised text-fg shadow-sm"
+          : "text-fg-muted hover:text-fg"
+      )}
+    >
+      <RadioGroupItem value={option.value} className="sr-only" />
+      {option.label}
+    </label>
+  ))}
+</RadioGroup>`,
+	},
+	{
 		key: "card-grid",
 		code: `const [value, setValue] = React.useState("payments")
 
@@ -285,6 +312,35 @@ const cardListOptions = [
 	{ value: "phone", label: "Phone", icon: SmartphoneIcon },
 	{ value: "chat", label: "Chat", icon: MessageCircleIcon },
 ]
+
+const buttonGroupOptions = [
+	{ value: "monthly", label: "Monthly" },
+	{ value: "quarterly", label: "Quarterly" },
+	{ value: "yearly", label: "Yearly" },
+]
+
+function ButtonGroupRadioDemo() {
+	const [value, setValue] = React.useState("monthly")
+
+	return (
+		<RadioGroup value={value} onValueChange={setValue} className="inline-flex rounded-lg border border-edge bg-surface p-1 gap-1">
+			{buttonGroupOptions.map((option) => (
+				<label
+					key={option.value}
+					className={cn(
+						"cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
+						value === option.value
+							? "bg-raised text-fg shadow-sm"
+							: "text-fg-muted hover:text-fg",
+					)}
+				>
+					<RadioGroupItem value={option.value} className="sr-only" />
+					{option.label}
+				</label>
+			))}
+		</RadioGroup>
+	)
+}
 
 function CardGridRadioDemo() {
 	const [value, setValue] = React.useState("payments")
@@ -510,9 +566,18 @@ function RadioGroupPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
+					title="Button Group"
+					description="Radio options styled as a segmented button group. The radio dot is visually hidden."
+					code={examples[7].code}
+					highlightedCode={html("button-group")}
+				>
+					<ButtonGroupRadioDemo />
+				</DocExampleClient>
+
+				<DocExampleClient
 					title="Card Grid"
 					description="A 2-column grid of selectable cards with active border and background."
-					code={examples[7].code}
+					code={examples[8].code}
 					highlightedCode={html("card-grid")}
 				>
 					<CardGridRadioDemo />
