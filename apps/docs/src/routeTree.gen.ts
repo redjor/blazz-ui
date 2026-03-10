@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
 import { Route as DocsDocsSandboxRouteImport } from './routes/_docs/docs/sandbox'
 import { Route as DocsDocsMcpRouteImport } from './routes/_docs/docs/mcp'
+import { Route as DocsDocsGuideIndexRouteImport } from './routes/_docs/docs/guide/index'
 import { Route as DocsDocsComponentsIndexRouteImport } from './routes/_docs/docs/components/index'
 import { Route as DocsDocsUtilsUnsavedChangesBarRouteImport } from './routes/_docs/docs/utils/unsaved-changes-bar'
 import { Route as DocsDocsUtilsQuickLoginRouteImport } from './routes/_docs/docs/utils/quick-login'
@@ -28,6 +29,7 @@ import { Route as DocsDocsComponentsColorsRouteImport } from './routes/_docs/doc
 import { Route as DocsDocsComponentsActionsRouteImport } from './routes/_docs/docs/components/actions'
 import { Route as DocsDocsComponentsUiIndexRouteImport } from './routes/_docs/docs/components/ui/index'
 import { Route as DocsDocsComponentsLayoutIndexRouteImport } from './routes/_docs/docs/components/layout/index'
+import { Route as DocsDocsComponentsBlocksIndexRouteImport } from './routes/_docs/docs/components/blocks/index'
 import { Route as DocsDocsComponentsAiIndexRouteImport } from './routes/_docs/docs/components/ai/index'
 import { Route as DocsDocsComponentsUiTreeViewRouteImport } from './routes/_docs/docs/components/ui/tree-view'
 import { Route as DocsDocsComponentsUiTooltipRouteImport } from './routes/_docs/docs/components/ui/tooltip'
@@ -220,6 +222,11 @@ const DocsDocsMcpRoute = DocsDocsMcpRouteImport.update({
   path: '/docs/mcp',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsDocsGuideIndexRoute = DocsDocsGuideIndexRouteImport.update({
+  id: '/docs/guide/',
+  path: '/docs/guide/',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsComponentsIndexRoute = DocsDocsComponentsIndexRouteImport.update({
   id: '/docs/components/',
   path: '/docs/components/',
@@ -293,6 +300,12 @@ const DocsDocsComponentsLayoutIndexRoute =
   DocsDocsComponentsLayoutIndexRouteImport.update({
     id: '/docs/components/layout/',
     path: '/docs/components/layout/',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsBlocksIndexRoute =
+  DocsDocsComponentsBlocksIndexRouteImport.update({
+    id: '/docs/components/blocks/',
+    path: '/docs/components/blocks/',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsAiIndexRoute =
@@ -1285,6 +1298,7 @@ export interface FileRoutesByFullPath {
   '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/docs/components/': typeof DocsDocsComponentsIndexRoute
+  '/docs/guide/': typeof DocsDocsGuideIndexRoute
   '/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
   '/docs/components/ai/confirmation': typeof DocsDocsComponentsAiConfirmationRoute
   '/docs/components/ai/context': typeof DocsDocsComponentsAiContextRoute
@@ -1397,6 +1411,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
+  '/docs/components/blocks/': typeof DocsDocsComponentsBlocksIndexRoute
   '/docs/components/layout/': typeof DocsDocsComponentsLayoutIndexRoute
   '/docs/components/ui/': typeof DocsDocsComponentsUiIndexRoute
   '/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -1467,6 +1482,7 @@ export interface FileRoutesByTo {
   '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/docs/components': typeof DocsDocsComponentsIndexRoute
+  '/docs/guide': typeof DocsDocsGuideIndexRoute
   '/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
   '/docs/components/ai/confirmation': typeof DocsDocsComponentsAiConfirmationRoute
   '/docs/components/ai/context': typeof DocsDocsComponentsAiContextRoute
@@ -1579,6 +1595,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/docs/components/ai': typeof DocsDocsComponentsAiIndexRoute
+  '/docs/components/blocks': typeof DocsDocsComponentsBlocksIndexRoute
   '/docs/components/layout': typeof DocsDocsComponentsLayoutIndexRoute
   '/docs/components/ui': typeof DocsDocsComponentsUiIndexRoute
   '/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -1651,6 +1668,7 @@ export interface FileRoutesById {
   '/_docs/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
   '/_docs/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/_docs/docs/components/': typeof DocsDocsComponentsIndexRoute
+  '/_docs/docs/guide/': typeof DocsDocsGuideIndexRoute
   '/_docs/docs/components/ai/chain-of-thought': typeof DocsDocsComponentsAiChainOfThoughtRoute
   '/_docs/docs/components/ai/confirmation': typeof DocsDocsComponentsAiConfirmationRoute
   '/_docs/docs/components/ai/context': typeof DocsDocsComponentsAiContextRoute
@@ -1763,6 +1781,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/tooltip': typeof DocsDocsComponentsUiTooltipRoute
   '/_docs/docs/components/ui/tree-view': typeof DocsDocsComponentsUiTreeViewRoute
   '/_docs/docs/components/ai/': typeof DocsDocsComponentsAiIndexRoute
+  '/_docs/docs/components/blocks/': typeof DocsDocsComponentsBlocksIndexRoute
   '/_docs/docs/components/layout/': typeof DocsDocsComponentsLayoutIndexRoute
   '/_docs/docs/components/ui/': typeof DocsDocsComponentsUiIndexRoute
   '/_docs/docs/components/ai/chat/attachments': typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -1835,6 +1854,7 @@ export interface FileRouteTypes {
     | '/docs/utils/quick-login'
     | '/docs/utils/unsaved-changes-bar'
     | '/docs/components/'
+    | '/docs/guide/'
     | '/docs/components/ai/chain-of-thought'
     | '/docs/components/ai/confirmation'
     | '/docs/components/ai/context'
@@ -1947,6 +1967,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
     | '/docs/components/ai/'
+    | '/docs/components/blocks/'
     | '/docs/components/layout/'
     | '/docs/components/ui/'
     | '/docs/components/ai/chat/attachments'
@@ -2017,6 +2038,7 @@ export interface FileRouteTypes {
     | '/docs/utils/quick-login'
     | '/docs/utils/unsaved-changes-bar'
     | '/docs/components'
+    | '/docs/guide'
     | '/docs/components/ai/chain-of-thought'
     | '/docs/components/ai/confirmation'
     | '/docs/components/ai/context'
@@ -2129,6 +2151,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/tooltip'
     | '/docs/components/ui/tree-view'
     | '/docs/components/ai'
+    | '/docs/components/blocks'
     | '/docs/components/layout'
     | '/docs/components/ui'
     | '/docs/components/ai/chat/attachments'
@@ -2200,6 +2223,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/utils/quick-login'
     | '/_docs/docs/utils/unsaved-changes-bar'
     | '/_docs/docs/components/'
+    | '/_docs/docs/guide/'
     | '/_docs/docs/components/ai/chain-of-thought'
     | '/_docs/docs/components/ai/confirmation'
     | '/_docs/docs/components/ai/context'
@@ -2312,6 +2336,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/tooltip'
     | '/_docs/docs/components/ui/tree-view'
     | '/_docs/docs/components/ai/'
+    | '/_docs/docs/components/blocks/'
     | '/_docs/docs/components/layout/'
     | '/_docs/docs/components/ui/'
     | '/_docs/docs/components/ai/chat/attachments'
@@ -2416,6 +2441,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsMcpRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/guide/': {
+      id: '/_docs/docs/guide/'
+      path: '/docs/guide'
+      fullPath: '/docs/guide/'
+      preLoaderRoute: typeof DocsDocsGuideIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/components/': {
       id: '/_docs/docs/components/'
       path: '/docs/components'
@@ -2505,6 +2537,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/layout'
       fullPath: '/docs/components/layout/'
       preLoaderRoute: typeof DocsDocsComponentsLayoutIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/blocks/': {
+      id: '/_docs/docs/components/blocks/'
+      path: '/docs/components/blocks'
+      fullPath: '/docs/components/blocks/'
+      preLoaderRoute: typeof DocsDocsComponentsBlocksIndexRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ai/': {
@@ -3658,6 +3697,7 @@ interface DocsRouteChildren {
   DocsDocsUtilsQuickLoginRoute: typeof DocsDocsUtilsQuickLoginRoute
   DocsDocsUtilsUnsavedChangesBarRoute: typeof DocsDocsUtilsUnsavedChangesBarRoute
   DocsDocsComponentsIndexRoute: typeof DocsDocsComponentsIndexRoute
+  DocsDocsGuideIndexRoute: typeof DocsDocsGuideIndexRoute
   DocsDocsComponentsAiChainOfThoughtRoute: typeof DocsDocsComponentsAiChainOfThoughtRoute
   DocsDocsComponentsAiConfirmationRoute: typeof DocsDocsComponentsAiConfirmationRoute
   DocsDocsComponentsAiContextRoute: typeof DocsDocsComponentsAiContextRoute
@@ -3770,6 +3810,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiTooltipRoute: typeof DocsDocsComponentsUiTooltipRoute
   DocsDocsComponentsUiTreeViewRoute: typeof DocsDocsComponentsUiTreeViewRoute
   DocsDocsComponentsAiIndexRoute: typeof DocsDocsComponentsAiIndexRoute
+  DocsDocsComponentsBlocksIndexRoute: typeof DocsDocsComponentsBlocksIndexRoute
   DocsDocsComponentsLayoutIndexRoute: typeof DocsDocsComponentsLayoutIndexRoute
   DocsDocsComponentsUiIndexRoute: typeof DocsDocsComponentsUiIndexRoute
   DocsDocsComponentsAiChatAttachmentsRoute: typeof DocsDocsComponentsAiChatAttachmentsRoute
@@ -3838,6 +3879,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsUtilsQuickLoginRoute: DocsDocsUtilsQuickLoginRoute,
   DocsDocsUtilsUnsavedChangesBarRoute: DocsDocsUtilsUnsavedChangesBarRoute,
   DocsDocsComponentsIndexRoute: DocsDocsComponentsIndexRoute,
+  DocsDocsGuideIndexRoute: DocsDocsGuideIndexRoute,
   DocsDocsComponentsAiChainOfThoughtRoute:
     DocsDocsComponentsAiChainOfThoughtRoute,
   DocsDocsComponentsAiConfirmationRoute: DocsDocsComponentsAiConfirmationRoute,
@@ -3996,6 +4038,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiTooltipRoute: DocsDocsComponentsUiTooltipRoute,
   DocsDocsComponentsUiTreeViewRoute: DocsDocsComponentsUiTreeViewRoute,
   DocsDocsComponentsAiIndexRoute: DocsDocsComponentsAiIndexRoute,
+  DocsDocsComponentsBlocksIndexRoute: DocsDocsComponentsBlocksIndexRoute,
   DocsDocsComponentsLayoutIndexRoute: DocsDocsComponentsLayoutIndexRoute,
   DocsDocsComponentsUiIndexRoute: DocsDocsComponentsUiIndexRoute,
   DocsDocsComponentsAiChatAttachmentsRoute:
