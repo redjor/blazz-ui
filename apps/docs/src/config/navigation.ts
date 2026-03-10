@@ -1191,8 +1191,8 @@ export const sectionTabs: { id: SectionId; label: string; defaultUrl: string }[]
 ]
 
 export function getSectionForPathname(pathname: string): SectionId {
-	if (pathname.startsWith("/docs/components/ai/")) return "ai"
-	if (pathname.startsWith("/docs/components/blocks/")) return "blocks"
+	if (pathname === "/docs/components/ai" || pathname.startsWith("/docs/components/ai/")) return "ai"
+	if (pathname === "/docs/components/blocks" || pathname.startsWith("/docs/components/blocks/")) return "blocks"
 	if (pathname.startsWith("/docs/guide")) return "guide"
 	if (pathname.startsWith("/docs/mcp") || pathname.startsWith("/docs/sandbox") || pathname.startsWith("/docs/utils/")) return "guide"
 	if (pathname.startsWith("/docs/components/colors") || pathname.startsWith("/docs/components/typography")) return "guide"

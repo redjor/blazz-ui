@@ -2,13 +2,12 @@ import { useState, useEffect } from "react"
 import { createFileRoute, Outlet, useLocation, Link } from "@tanstack/react-router"
 import { Menu, Search } from "lucide-react"
 import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
+import { NavbarTabs, NavbarTab } from "@blazz/ui/components/patterns/navbar"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import { DocsSidebar } from "~/components/docs/docs-sidebar"
 import { DocsMobileSheet } from "~/components/docs/docs-mobile-sheet"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { navigationConfig, sectionTabs, getSectionForPathname } from "~/config/navigation"
-import type { SectionId } from "~/config/navigation"
-import { cn } from "@blazz/ui/lib/utils"
 import { Toaster } from "@blazz/ui/components/ui/toast"
 import { Kbd, KbdGroup } from "@blazz/ui/components/ui/kbd"
 
@@ -63,22 +62,13 @@ function DocsLayout() {
           </div>
 
           {/* Section tabs — desktop only */}
-          <nav className="hidden lg:flex items-center gap-1 ml-6">
+          <NavbarTabs value={activeSectionId} className="hidden lg:flex ml-6">
             {sectionTabs.map((tab) => (
-              <Link
-                key={tab.id}
-                to={tab.defaultUrl}
-                className={cn(
-                  "px-3 py-1.5 text-sm rounded-md transition-colors",
-                  activeSectionId === tab.id
-                    ? "text-fg font-medium bg-raised"
-                    : "text-fg-muted hover:text-fg hover:bg-raised"
-                )}
-              >
-                {tab.label}
-              </Link>
+              <NavbarTab key={tab.id} value={tab.id}>
+                <Link to={tab.defaultUrl}>{tab.label}</Link>
+              </NavbarTab>
             ))}
-          </nav>
+          </NavbarTabs>
 
           {/* Spacer */}
           <div className="flex-1" />
