@@ -75,7 +75,7 @@ function mapCategory(item: NavigationItem): ComponentNavCategory | null {
 }
 
 export const componentsNavigation: ComponentNavCategory[] = sidebarConfig.navigation
-	.filter((section) => section.id === "ui" || section.id === "patterns" || section.id === "blocks" || section.id === "ai")
+	.filter((section) => section.id === "components" || section.id === "blocks" || section.id === "ai")
 	.flatMap((section) => section.items)
 	.map(mapCategory)
 	.filter((category): category is ComponentNavCategory => Boolean(category))
