@@ -46,6 +46,13 @@ storybook-static
 
 # claude
 .claude/worktrees/
+.claude/mcp.json
+
+# mcp
+.mcp.json
+
+# tanstack
+.tanstack/
 
 # generated files (regenerated at build time — do not edit manually)
 packages/ui/AI.md
