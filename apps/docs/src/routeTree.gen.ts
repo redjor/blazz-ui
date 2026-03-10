@@ -74,6 +74,7 @@ import { Route as DocsDocsComponentsUiConfirmationDialogRouteImport } from './ro
 import { Route as DocsDocsComponentsUiCommandRouteImport } from './routes/_docs/docs/components/ui/command'
 import { Route as DocsDocsComponentsUiComboboxRouteImport } from './routes/_docs/docs/components/ui/combobox'
 import { Route as DocsDocsComponentsUiColorPickerRouteImport } from './routes/_docs/docs/components/ui/color-picker'
+import { Route as DocsDocsComponentsUiCollapsibleRouteImport } from './routes/_docs/docs/components/ui/collapsible'
 import { Route as DocsDocsComponentsUiCheckboxRouteImport } from './routes/_docs/docs/components/ui/checkbox'
 import { Route as DocsDocsComponentsUiCellsRouteImport } from './routes/_docs/docs/components/ui/cells'
 import { Route as DocsDocsComponentsUiCascadingSelectRouteImport } from './routes/_docs/docs/components/ui/cascading-select'
@@ -570,6 +571,12 @@ const DocsDocsComponentsUiColorPickerRoute =
   DocsDocsComponentsUiColorPickerRouteImport.update({
     id: '/docs/components/ui/color-picker',
     path: '/docs/components/ui/color-picker',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsUiCollapsibleRoute =
+  DocsDocsComponentsUiCollapsibleRouteImport.update({
+    id: '/docs/components/ui/collapsible',
+    path: '/docs/components/ui/collapsible',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiCheckboxRoute =
@@ -1367,6 +1374,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/cascading-select': typeof DocsDocsComponentsUiCascadingSelectRoute
   '/docs/components/ui/cells': typeof DocsDocsComponentsUiCellsRoute
   '/docs/components/ui/checkbox': typeof DocsDocsComponentsUiCheckboxRoute
+  '/docs/components/ui/collapsible': typeof DocsDocsComponentsUiCollapsibleRoute
   '/docs/components/ui/color-picker': typeof DocsDocsComponentsUiColorPickerRoute
   '/docs/components/ui/combobox': typeof DocsDocsComponentsUiComboboxRoute
   '/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
@@ -1551,6 +1559,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/cascading-select': typeof DocsDocsComponentsUiCascadingSelectRoute
   '/docs/components/ui/cells': typeof DocsDocsComponentsUiCellsRoute
   '/docs/components/ui/checkbox': typeof DocsDocsComponentsUiCheckboxRoute
+  '/docs/components/ui/collapsible': typeof DocsDocsComponentsUiCollapsibleRoute
   '/docs/components/ui/color-picker': typeof DocsDocsComponentsUiColorPickerRoute
   '/docs/components/ui/combobox': typeof DocsDocsComponentsUiComboboxRoute
   '/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
@@ -1737,6 +1746,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/cascading-select': typeof DocsDocsComponentsUiCascadingSelectRoute
   '/_docs/docs/components/ui/cells': typeof DocsDocsComponentsUiCellsRoute
   '/_docs/docs/components/ui/checkbox': typeof DocsDocsComponentsUiCheckboxRoute
+  '/_docs/docs/components/ui/collapsible': typeof DocsDocsComponentsUiCollapsibleRoute
   '/_docs/docs/components/ui/color-picker': typeof DocsDocsComponentsUiColorPickerRoute
   '/_docs/docs/components/ui/combobox': typeof DocsDocsComponentsUiComboboxRoute
   '/_docs/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
@@ -1923,6 +1933,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/cascading-select'
     | '/docs/components/ui/cells'
     | '/docs/components/ui/checkbox'
+    | '/docs/components/ui/collapsible'
     | '/docs/components/ui/color-picker'
     | '/docs/components/ui/combobox'
     | '/docs/components/ui/command'
@@ -2107,6 +2118,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/cascading-select'
     | '/docs/components/ui/cells'
     | '/docs/components/ui/checkbox'
+    | '/docs/components/ui/collapsible'
     | '/docs/components/ui/color-picker'
     | '/docs/components/ui/combobox'
     | '/docs/components/ui/command'
@@ -2292,6 +2304,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/cascading-select'
     | '/_docs/docs/components/ui/cells'
     | '/_docs/docs/components/ui/checkbox'
+    | '/_docs/docs/components/ui/collapsible'
     | '/_docs/docs/components/ui/color-picker'
     | '/_docs/docs/components/ui/combobox'
     | '/_docs/docs/components/ui/command'
@@ -2852,6 +2865,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/color-picker'
       fullPath: '/docs/components/ui/color-picker'
       preLoaderRoute: typeof DocsDocsComponentsUiColorPickerRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/ui/collapsible': {
+      id: '/_docs/docs/components/ui/collapsible'
+      path: '/docs/components/ui/collapsible'
+      fullPath: '/docs/components/ui/collapsible'
+      preLoaderRoute: typeof DocsDocsComponentsUiCollapsibleRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/checkbox': {
@@ -3766,6 +3786,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiCascadingSelectRoute: typeof DocsDocsComponentsUiCascadingSelectRoute
   DocsDocsComponentsUiCellsRoute: typeof DocsDocsComponentsUiCellsRoute
   DocsDocsComponentsUiCheckboxRoute: typeof DocsDocsComponentsUiCheckboxRoute
+  DocsDocsComponentsUiCollapsibleRoute: typeof DocsDocsComponentsUiCollapsibleRoute
   DocsDocsComponentsUiColorPickerRoute: typeof DocsDocsComponentsUiColorPickerRoute
   DocsDocsComponentsUiComboboxRoute: typeof DocsDocsComponentsUiComboboxRoute
   DocsDocsComponentsUiCommandRoute: typeof DocsDocsComponentsUiCommandRoute
@@ -3991,6 +4012,7 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsUiCascadingSelectRoute,
   DocsDocsComponentsUiCellsRoute: DocsDocsComponentsUiCellsRoute,
   DocsDocsComponentsUiCheckboxRoute: DocsDocsComponentsUiCheckboxRoute,
+  DocsDocsComponentsUiCollapsibleRoute: DocsDocsComponentsUiCollapsibleRoute,
   DocsDocsComponentsUiColorPickerRoute: DocsDocsComponentsUiColorPickerRoute,
   DocsDocsComponentsUiComboboxRoute: DocsDocsComponentsUiComboboxRoute,
   DocsDocsComponentsUiCommandRoute: DocsDocsComponentsUiCommandRoute,

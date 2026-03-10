@@ -407,6 +407,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["table cell", "grid cell", "data cell", "column type"],
 						},
 						{
+							title: "Collapsible",
+							url: "/docs/components/ui/collapsible",
+							keywords: ["collapse", "expand", "toggle", "disclosure", "show hide", "accordion"],
+						},
+						{
 							title: "Data Table",
 							url: "/docs/components/blocks/data-table",
 							keywords: ["grid", "datagrid", "sorting", "filtering", "pagination", "bulk actions"],
