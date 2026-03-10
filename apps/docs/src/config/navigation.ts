@@ -326,6 +326,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["modal", "popup", "overlay", "lightbox", "window"],
 						},
 						{
+							title: "Filter Panel",
+							url: "/docs/components/ui/filter-panel",
+							keywords: ["filter dropdown", "filter popover", "checkbox filter", "faceted filter", "market filter"],
+						},
+						{
 							title: "Popover",
 							url: "/docs/components/ui/popover",
 							keywords: ["dropdown", "popup", "floating", "bubble", "fly-out"],
