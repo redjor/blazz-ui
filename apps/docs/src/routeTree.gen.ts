@@ -14,6 +14,7 @@ import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
 import { Route as DocsDocsSandboxRouteImport } from './routes/_docs/docs/sandbox'
+import { Route as DocsDocsMcpRouteImport } from './routes/_docs/docs/mcp'
 import { Route as DocsDocsComponentsIndexRouteImport } from './routes/_docs/docs/components/index'
 import { Route as DocsDocsUtilsUnsavedChangesBarRouteImport } from './routes/_docs/docs/utils/unsaved-changes-bar'
 import { Route as DocsDocsUtilsQuickLoginRouteImport } from './routes/_docs/docs/utils/quick-login'
@@ -212,6 +213,11 @@ const ThumbnailSlugRoute = ThumbnailSlugRouteImport.update({
 const DocsDocsSandboxRoute = DocsDocsSandboxRouteImport.update({
   id: '/docs/sandbox',
   path: '/docs/sandbox',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsMcpRoute = DocsDocsMcpRouteImport.update({
+  id: '/docs/mcp',
+  path: '/docs/mcp',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsDocsComponentsIndexRoute = DocsDocsComponentsIndexRouteImport.update({
@@ -1266,6 +1272,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
+  '/docs/mcp': typeof DocsDocsMcpRoute
   '/docs/sandbox': typeof DocsDocsSandboxRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
@@ -1447,6 +1454,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
+  '/docs/mcp': typeof DocsDocsMcpRoute
   '/docs/sandbox': typeof DocsDocsSandboxRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
@@ -1630,6 +1638,7 @@ export interface FileRoutesById {
   '/_docs': typeof DocsRouteWithChildren
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
+  '/_docs/docs/mcp': typeof DocsDocsMcpRoute
   '/_docs/docs/sandbox': typeof DocsDocsSandboxRoute
   '/_docs/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/_docs/docs/components/colors': typeof DocsDocsComponentsColorsRoute
@@ -1813,6 +1822,7 @@ export interface FileRouteTypes {
     | '/'
     | '/thumbnail'
     | '/thumbnail/$slug'
+    | '/docs/mcp'
     | '/docs/sandbox'
     | '/docs/components/actions'
     | '/docs/components/colors'
@@ -1994,6 +2004,7 @@ export interface FileRouteTypes {
     | '/'
     | '/thumbnail'
     | '/thumbnail/$slug'
+    | '/docs/mcp'
     | '/docs/sandbox'
     | '/docs/components/actions'
     | '/docs/components/colors'
@@ -2176,6 +2187,7 @@ export interface FileRouteTypes {
     | '/_docs'
     | '/thumbnail'
     | '/thumbnail/$slug'
+    | '/_docs/docs/mcp'
     | '/_docs/docs/sandbox'
     | '/_docs/docs/components/actions'
     | '/_docs/docs/components/colors'
@@ -2395,6 +2407,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/sandbox'
       fullPath: '/docs/sandbox'
       preLoaderRoute: typeof DocsDocsSandboxRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/mcp': {
+      id: '/_docs/docs/mcp'
+      path: '/docs/mcp'
+      fullPath: '/docs/mcp'
+      preLoaderRoute: typeof DocsDocsMcpRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/': {
@@ -3626,6 +3645,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface DocsRouteChildren {
+  DocsDocsMcpRoute: typeof DocsDocsMcpRoute
   DocsDocsSandboxRoute: typeof DocsDocsSandboxRoute
   DocsDocsComponentsActionsRoute: typeof DocsDocsComponentsActionsRoute
   DocsDocsComponentsColorsRoute: typeof DocsDocsComponentsColorsRoute
@@ -3805,6 +3825,7 @@ interface DocsRouteChildren {
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
+  DocsDocsMcpRoute: DocsDocsMcpRoute,
   DocsDocsSandboxRoute: DocsDocsSandboxRoute,
   DocsDocsComponentsActionsRoute: DocsDocsComponentsActionsRoute,
   DocsDocsComponentsColorsRoute: DocsDocsComponentsColorsRoute,

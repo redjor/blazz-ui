@@ -2,6 +2,7 @@
 
 import type { SidebarConfig } from "@blazz/ui/types/navigation"
 import {
+	Bot,
 	Brain,
 	Calendar,
 	ChartLine,
@@ -1156,6 +1157,28 @@ export const sidebarConfig: SidebarConfig = {
 			id: "outils",
 			title: "Outils",
 			items: [
+				{
+					id: "outils-mcp",
+					title: "AI",
+					url: "/docs/mcp",
+					icon: Bot,
+					items: [
+						{
+							title: "MCP Server",
+							url: "/docs/mcp",
+							keywords: [
+								"mcp",
+								"model context protocol",
+								"ai",
+								"assistant",
+								"claude",
+								"cursor",
+								"tools",
+								"design system",
+							],
+						},
+					],
+				},
 				{
 					id: "sandbox",
 					title: "Sandbox",
