@@ -1184,15 +1184,16 @@ export const navigationConfig = sidebarConfig.navigation
 export type SectionId = "components" | "blocks" | "ai" | "guide"
 
 export const sectionTabs: { id: SectionId; label: string; defaultUrl: string }[] = [
-	{ id: "components", label: "Composants", defaultUrl: "/docs/components/layout" },
-	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/components/blocks/charts" },
-	{ id: "ai", label: "AI", defaultUrl: "/docs/components/ai/chat/conversation" },
-	{ id: "guide", label: "Guide", defaultUrl: "/docs/components/colors" },
+	{ id: "components", label: "Composants", defaultUrl: "/docs/components" },
+	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/components/blocks" },
+	{ id: "ai", label: "AI", defaultUrl: "/docs/components/ai" },
+	{ id: "guide", label: "Guide", defaultUrl: "/docs/guide" },
 ]
 
 export function getSectionForPathname(pathname: string): SectionId {
 	if (pathname.startsWith("/docs/components/ai/")) return "ai"
 	if (pathname.startsWith("/docs/components/blocks/")) return "blocks"
+	if (pathname.startsWith("/docs/guide")) return "guide"
 	if (pathname.startsWith("/docs/mcp") || pathname.startsWith("/docs/sandbox") || pathname.startsWith("/docs/utils/")) return "guide"
 	if (pathname.startsWith("/docs/components/colors") || pathname.startsWith("/docs/components/typography")) return "guide"
 	if (pathname.startsWith("/docs/components/layout/inset")) return "guide"
