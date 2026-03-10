@@ -18,7 +18,8 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@blazz/ui/components/ui/sidebar"
-import { sidebarConfig } from "~/config/navigation"
+import { getSectionNavigation } from "~/config/navigation"
+import type { SectionId } from "~/config/navigation"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
 
 function findActiveParentItemId(navigation: NavigationSection[], pathname: string): string | null {
@@ -39,9 +40,10 @@ function findActiveParentItemId(navigation: NavigationSection[], pathname: strin
 	return null
 }
 
-export function DocsSidebar() {
+export function DocsSidebar({ sectionId }: { sectionId: SectionId }) {
 	const { pathname } = useLocation()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
+	const section = getSectionNavigation(sectionId)
 
 	const isActive = (url?: string) => {
 		if (!url) return false
@@ -50,9 +52,12 @@ export function DocsSidebar() {
 	}
 
 	React.useEffect(() => {
-		const activeParentId = findActiveParentItemId(sidebarConfig.navigation, pathname)
+		if (!section) return
+		const activeParentId = findActiveParentItemId([section], pathname)
 		if (activeParentId) setOpenItemId(activeParentId)
-	}, [pathname])
+	}, [pathname, section])
+
+	if (!section) return null
 
 	return (
 		<Sidebar
@@ -60,15 +65,12 @@ export function DocsSidebar() {
 			className="hidden lg:flex rounded-lg overflow-hidden border border-container"
 		>
 			<SidebarContent>
-				{sidebarConfig.navigation.map((section) => (
-					<NavSection
-						key={section.id ?? section.title}
-						section={section}
-						isActive={isActive}
-						openItemId={openItemId}
-						setOpenItemId={setOpenItemId}
-					/>
-				))}
+				<NavSection
+					section={{ ...section, title: undefined }}
+					isActive={isActive}
+					openItemId={openItemId}
+					setOpenItemId={setOpenItemId}
+				/>
 			</SidebarContent>
 		</Sidebar>
 	)

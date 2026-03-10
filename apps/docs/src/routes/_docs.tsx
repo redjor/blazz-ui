@@ -6,7 +6,9 @@ import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
 import { DocsSidebar } from "~/components/docs/docs-sidebar"
 import { DocsMobileSheet } from "~/components/docs/docs-mobile-sheet"
 import { ThemeToggle } from "~/components/theme-toggle"
-import { navigationConfig } from "~/config/navigation"
+import { navigationConfig, sectionTabs, getSectionForPathname } from "~/config/navigation"
+import type { SectionId } from "~/config/navigation"
+import { cn } from "@blazz/ui/lib/utils"
 import { Toaster } from "@blazz/ui/components/ui/toast"
 import { Kbd, KbdGroup } from "@blazz/ui/components/ui/kbd"
 
@@ -32,14 +34,16 @@ function useSyncDocTitle() {
 function DocsLayout() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { pathname } = useLocation()
+  const activeSectionId = getSectionForPathname(pathname)
   useSyncDocTitle()
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-app">
       {/* Topbar */}
       <header className="h-14 shrink-0 bg-app z-50">
-        <div className="flex h-full items-center justify-between px-4">
-          {/* Gauche: hamburger mobile + logo desktop */}
+        <div className="flex h-full items-center px-4">
+          {/* Left: hamburger mobile + logo desktop */}
           <div className="flex items-center gap-2">
             {/* Hamburger — visible uniquement en mobile */}
             <button
@@ -58,7 +62,28 @@ function DocsLayout() {
             </Link>
           </div>
 
-          {/* Actions droite */}
+          {/* Section tabs — desktop only */}
+          <nav className="hidden lg:flex items-center gap-1 ml-6">
+            {sectionTabs.map((tab) => (
+              <Link
+                key={tab.id}
+                to={tab.defaultUrl}
+                className={cn(
+                  "px-3 py-1.5 text-sm rounded-md transition-colors",
+                  activeSectionId === tab.id
+                    ? "text-fg font-medium bg-raised"
+                    : "text-fg-muted hover:text-fg hover:bg-raised"
+                )}
+              >
+                {tab.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Actions right */}
           <div className="flex items-center gap-1">
             <button
               type="button"
@@ -84,12 +109,12 @@ function DocsLayout() {
 
       {/* Body */}
       <SidebarProvider style={{ minHeight: 0 }} className="flex-1 gap-2 px-2 pb-2">
-        <DocsSidebar />
+        <DocsSidebar sectionId={activeSectionId} />
         <main className="flex-1 overflow-y-auto min-w-0 bg-surface rounded-lg border border-container">
           <Outlet />
         </main>
         {/* Mobile sheet — à l'intérieur du SidebarProvider car il utilise des composants Sidebar */}
-        <DocsMobileSheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} />
+        <DocsMobileSheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} sectionId={activeSectionId} />
       </SidebarProvider>
 
       <CommandPalette

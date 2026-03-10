@@ -20,14 +20,16 @@ import {
 	SidebarMenuSubItem,
 } from "@blazz/ui/components/ui/sidebar"
 import { sidebarConfig } from "~/config/navigation"
+import type { SectionId } from "~/config/navigation"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
 
 interface DocsMobileSheetProps {
 	open: boolean
 	onOpenChange: (open: boolean) => void
+	sectionId: SectionId
 }
 
-export function DocsMobileSheet({ open, onOpenChange }: DocsMobileSheetProps) {
+export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileSheetProps) {
 	const { pathname } = useLocation()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 
