@@ -1,6 +1,9 @@
 import * as React from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { RadioGroup } from "@blazz/ui/components/ui/radio-group"
+import { RadioGroup, RadioGroupItem } from "@blazz/ui/components/ui/radio-group"
+import { cn } from "@blazz/ui/lib/utils"
+import { Card } from "@blazz/ui/components/ui/card"
+import { Separator } from "@blazz/ui/components/ui/separator"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -8,9 +11,19 @@ import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { highlightCode } from "~/lib/highlight-code"
+import {
+	MailIcon,
+	MessageCircleIcon,
+	SmartphoneIcon,
+	CircleDollarSignIcon,
+	FileTextIcon,
+	CreditCardIcon,
+	ChartNoAxesColumnDecreasingIcon,
+} from "lucide-react"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
+	{ id: "composition", title: "Composition" },
 	{ id: "radio-group-props", title: "RadioGroup Props" },
 	{ id: "radio-group-option", title: "RadioGroupOption" },
 	{ id: "guidelines", title: "Guidelines" },
@@ -175,6 +188,76 @@ const examples = [
   </p>
 </div>`,
 	},
+	{
+		key: "card-list",
+		code: `const [value, setValue] = React.useState("email")
+
+const options = [
+  { value: "email", label: "Email", icon: MailIcon },
+  { value: "phone", label: "Phone", icon: SmartphoneIcon },
+  { value: "chat", label: "Chat", icon: MessageCircleIcon },
+]
+
+<Card className="w-full max-w-xs p-0 overflow-hidden">
+  <RadioGroup value={value} onValueChange={setValue}>
+    {options.map((option, i) => (
+      <React.Fragment key={option.value}>
+        {i > 0 && <Separator />}
+        <div
+          onClick={() => setValue(option.value)}
+          className={cn(
+            "flex cursor-pointer items-center justify-between px-4 py-3 transition-colors",
+            value === option.value && "bg-brand/5"
+          )}
+        >
+          <span className="flex items-center gap-2 text-sm font-medium">
+            <option.icon className="size-4 opacity-60" />
+            {option.label}
+          </span>
+          <RadioGroupItem value={option.value} />
+        </div>
+      </React.Fragment>
+    ))}
+  </RadioGroup>
+</Card>`,
+	},
+	{
+		key: "card-grid",
+		code: `const [value, setValue] = React.useState("payments")
+
+const items = [
+  { title: "Payments", description: "Receive payments", value: "payments", icon: CircleDollarSignIcon },
+  { title: "Invoices", description: "Create and send invoices", value: "invoices", icon: FileTextIcon },
+  { title: "Billing", description: "Manage subscriptions", value: "billing", icon: CreditCardIcon },
+  { title: "Reports", description: "View analytics", value: "reports", icon: ChartNoAxesColumnDecreasingIcon },
+]
+
+<RadioGroup value={value} onValueChange={setValue} className="grid w-full max-w-xs grid-cols-2 gap-3">
+  {items.map((item) => (
+    <div
+      key={item.value}
+      onClick={() => setValue(item.value)}
+      className={cn(
+        "relative cursor-pointer rounded-lg border border-edge p-3 transition-colors",
+        value === item.value && "border-brand bg-brand/5"
+      )}
+    >
+      <div className="absolute top-3 right-3">
+        <RadioGroupItem value={item.value} />
+      </div>
+      <div className="flex flex-col items-start gap-3">
+        <div className="rounded-xl flex items-center justify-center border border-edge p-2">
+          <item.icon className="size-4" />
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-semibold">{item.title}</span>
+          <span className="text-fg-muted text-xs">{item.description}</span>
+        </div>
+      </div>
+    </div>
+  ))}
+</RadioGroup>`,
+	},
 ] as const
 
 export const Route = createFileRoute("/_docs/docs/components/ui/radio-group")({
@@ -189,6 +272,80 @@ export const Route = createFileRoute("/_docs/docs/components/ui/radio-group")({
 	},
 	component: RadioGroupPage,
 })
+
+const cardGridItems = [
+	{ title: "Payments", description: "Receive payments", value: "payments", icon: CircleDollarSignIcon },
+	{ title: "Invoices", description: "Create and send invoices", value: "invoices", icon: FileTextIcon },
+	{ title: "Billing", description: "Manage subscriptions", value: "billing", icon: CreditCardIcon },
+	{ title: "Reports", description: "View analytics", value: "reports", icon: ChartNoAxesColumnDecreasingIcon },
+]
+
+const cardListOptions = [
+	{ value: "email", label: "Email", icon: MailIcon },
+	{ value: "phone", label: "Phone", icon: SmartphoneIcon },
+	{ value: "chat", label: "Chat", icon: MessageCircleIcon },
+]
+
+function CardGridRadioDemo() {
+	const [value, setValue] = React.useState("payments")
+
+	return (
+		<RadioGroup value={value} onValueChange={setValue} className="grid w-full max-w-xs grid-cols-2 gap-3">
+			{cardGridItems.map((item) => (
+				<div
+					key={item.value}
+					onClick={() => setValue(item.value)}
+					className={cn(
+						"relative cursor-pointer rounded-lg border border-edge p-3 transition-colors",
+						value === item.value && "border-brand bg-brand/5",
+					)}
+				>
+					<div className="absolute top-3 right-3">
+						<RadioGroupItem value={item.value} />
+					</div>
+					<div className="flex flex-col items-start gap-3">
+						<div className="rounded-xl flex items-center justify-center border border-edge p-2">
+							<item.icon aria-hidden="true" className="size-4" />
+						</div>
+						<div className="flex flex-col gap-0.5">
+							<span className="text-sm font-semibold">{item.title}</span>
+							<span className="text-fg-muted text-xs">{item.description}</span>
+						</div>
+					</div>
+				</div>
+			))}
+		</RadioGroup>
+	)
+}
+
+function CardListRadioDemo() {
+	const [value, setValue] = React.useState("email")
+
+	return (
+		<Card className="w-full max-w-xs p-0 overflow-hidden">
+			<RadioGroup value={value} onValueChange={setValue}>
+				{cardListOptions.map((option, i) => (
+					<React.Fragment key={option.value}>
+						{i > 0 && <Separator />}
+						<div
+							onClick={() => setValue(option.value)}
+							className={cn(
+								"flex cursor-pointer items-center justify-between px-4 py-3 transition-colors",
+								value === option.value && "bg-brand/5",
+							)}
+						>
+							<span className="flex items-center gap-2 text-sm font-medium">
+								<option.icon aria-hidden="true" className="size-4 opacity-60" />
+								{option.label}
+							</span>
+							<RadioGroupItem value={option.value} />
+						</div>
+					</React.Fragment>
+				))}
+			</RadioGroup>
+		</Card>
+	)
+}
 
 function ControlledRadioGroupDemo() {
 	const [value, setValue] = React.useState("email")
@@ -338,6 +495,27 @@ function RadioGroupPage() {
 							Please select a priority level.
 						</p>
 					</div>
+				</DocExampleClient>
+			</DocSection>
+
+			{/* Composition */}
+			<DocSection id="composition" title="Composition">
+				<DocExampleClient
+					title="Card List"
+					description="Clickable rows with active highlight. Uses composition mode without the options prop."
+					code={examples[6].code}
+					highlightedCode={html("card-list")}
+				>
+					<CardListRadioDemo />
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Card Grid"
+					description="A 2-column grid of selectable cards with active border and background."
+					code={examples[7].code}
+					highlightedCode={html("card-grid")}
+				>
+					<CardGridRadioDemo />
 				</DocExampleClient>
 			</DocSection>
 

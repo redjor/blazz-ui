@@ -44,7 +44,8 @@ export interface RadioGroupOption {
 export interface RadioGroupProps {
 	label?: string
 	description?: string
-	options: RadioGroupOption[]
+	options?: RadioGroupOption[]
+	children?: React.ReactNode
 	value?: string
 	defaultValue?: string
 	onValueChange?: (value: string) => void
@@ -58,6 +59,7 @@ function RadioGroup({
 	label,
 	description,
 	options,
+	children,
 	value,
 	defaultValue,
 	onValueChange,
@@ -66,6 +68,22 @@ function RadioGroup({
 	orientation = "vertical",
 	className,
 }: RadioGroupProps) {
+	// Composition mode: render children directly when no options provided
+	if (!options) {
+		return (
+			<RadioGroupPrimitiveRoot
+				data-slot="radio-group"
+				value={value}
+				defaultValue={defaultValue}
+				onValueChange={onValueChange}
+				disabled={disabled}
+				className={className}
+			>
+				{children}
+			</RadioGroupPrimitiveRoot>
+		)
+	}
+
 	return (
 		<RadioGroupPrimitiveRoot
 			data-slot="radio-group"
@@ -132,4 +150,7 @@ function RadioGroup({
 	)
 }
 
-export { Radio, RadioGroup }
+/** Alias for Radio — use in composition mode with RadioGroup */
+const RadioGroupItem = Radio
+
+export { Radio, RadioGroup, RadioGroupItem }

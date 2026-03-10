@@ -60,17 +60,45 @@ function Field({ orientation = "vertical", className, ...props }: FieldProps) {
 	)
 }
 
+/* ─── FieldGroup ──────────────────────────────────────── */
+
+type FieldGroupProps = React.ComponentProps<"div">
+
+function FieldGroup({ className, ...props }: FieldGroupProps) {
+	return (
+		<div
+			data-slot="field-group"
+			className={cn("flex flex-col gap-4", className)}
+			{...props}
+		/>
+	)
+}
+
+/* ─── FieldTitle ──────────────────────────────────────── */
+
+type FieldTitleProps = React.ComponentProps<"span">
+
+function FieldTitle({ className, ...props }: FieldTitleProps) {
+	return (
+		<span
+			data-slot="field-title"
+			className={cn("text-sm font-medium leading-none", className)}
+			{...props}
+		/>
+	)
+}
+
 /* ─── FieldLabel ───────────────────────────────────────── */
 
 type FieldLabelProps = React.ComponentProps<typeof Label>
 
 function FieldLabel({ className, ...props }: FieldLabelProps) {
-	const { id, hasError } = useFieldContext()
+	const ctx = React.useContext(FieldContext)
 
 	return (
 		<Label
-			htmlFor={id}
-			className={cn(hasError && "text-negative", className)}
+			htmlFor={ctx?.id}
+			className={cn(ctx?.hasError && "text-negative", className)}
 			{...props}
 		/>
 	)
@@ -172,6 +200,8 @@ function FieldError({ errors, children, className, ...props }: FieldErrorProps) 
 
 export {
 	Field,
+	FieldGroup,
+	FieldTitle,
 	FieldLabel,
 	FieldContent,
 	FieldControl,
@@ -182,6 +212,8 @@ export {
 
 export type {
 	FieldProps,
+	FieldGroupProps,
+	FieldTitleProps,
 	FieldLabelProps,
 	FieldContentProps,
 	FieldControlProps,
