@@ -150,11 +150,24 @@ export const Route = createFileRoute("/_docs/docs/ai/")({
 
 function AIElementsPage() {
 	return (
-		<Page
-			title="AI Elements"
-			subtitle={`${totalComponents} components for building AI chat interfaces. Browse by category.`}
-		>
-			<div className="space-y-10">
+		<Page>
+			<div className="relative -mx-6 -mt-6 overflow-hidden rounded-b-2xl border-b border-edge bg-raised/40 bg-cover bg-center px-6 py-16 text-center">
+				<div
+					className="pointer-events-none absolute inset-0 opacity-40"
+					style={{
+						backgroundImage:
+							"radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
+						backgroundSize: "24px 24px",
+					}}
+				/>
+				<div className="relative z-10 mx-auto max-w-2xl space-y-3">
+					<h1 className="text-4xl font-bold tracking-tight text-fg">AI Elements</h1>
+					<p className="text-base text-fg-muted">
+						{totalComponents} components for building AI chat interfaces. Browse by category.
+					</p>
+				</div>
+			</div>
+			<div className="space-y-10 py-8">
 				{aiCategories.map((category) => (
 					<section key={category.id} className="space-y-3">
 						<div className="flex items-center gap-3">
