@@ -74,6 +74,36 @@ export type { OrgMenuProps, Organization } from "./org-menu"
 export { PropertyCard } from "./property-card"
 export type { PropertyCardProps, PropertyCardItemProps } from "./property-card"
 
+export {
+	Inbox,
+	InboxSidebar,
+	InboxDetail,
+	InboxDetailEmpty,
+	InboxPanel,
+	InboxHeader,
+	InboxList,
+	InboxItem,
+	filterInboxItems,
+} from "./inbox"
+export type {
+	InboxProps,
+	InboxSidebarProps,
+	InboxDetailProps,
+	InboxDetailEmptyProps,
+	InboxPanelProps,
+	InboxHeaderProps,
+	InboxListProps,
+	InboxItemProps,
+	InboxNotification,
+	InboxAuthor,
+	InboxActionType,
+	InboxStatusVariant,
+	InboxPriority,
+	InboxMenuAction,
+	InboxFilters,
+	InboxReadFilter,
+} from "./inbox"
+
 // ── Data Table ─────────────────────────────────
 // DataTable barrel has naming conflicts (BulkAction, RowAction, FilterGroup, FilterOperator)
 // Import DataTable from "@blazz/ui/components/blocks/data-table"

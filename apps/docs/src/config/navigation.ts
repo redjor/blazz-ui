@@ -660,6 +660,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["line items", "quote lines", "deal items", "product lines"],
 						},
 						{
+							title: "Inbox",
+							url: "/docs/blocks/inbox",
+							keywords: ["inbox", "notifications", "linear", "messages", "feed"],
+						},
+						{
 							title: "Inline Edit",
 							url: "/docs/blocks/inline-edit",
 							keywords: ["inline editing", "in-place edit", "click to edit"],

@@ -41,6 +41,7 @@ import { Route as DocsDocsBlocksNotificationCenterRouteImport } from './routes/_
 import { Route as DocsDocsBlocksMultiStepFormRouteImport } from './routes/_docs/docs/blocks/multi-step-form'
 import { Route as DocsDocsBlocksKanbanBoardRouteImport } from './routes/_docs/docs/blocks/kanban-board'
 import { Route as DocsDocsBlocksInlineEditRouteImport } from './routes/_docs/docs/blocks/inline-edit'
+import { Route as DocsDocsBlocksInboxRouteImport } from './routes/_docs/docs/blocks/inbox'
 import { Route as DocsDocsBlocksFilterBarRouteImport } from './routes/_docs/docs/blocks/filter-bar'
 import { Route as DocsDocsBlocksDetailPanelRouteImport } from './routes/_docs/docs/blocks/detail-panel'
 import { Route as DocsDocsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/blocks/deal-lines-editor'
@@ -371,6 +372,11 @@ const DocsDocsBlocksInlineEditRoute =
     path: '/docs/blocks/inline-edit',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksInboxRoute = DocsDocsBlocksInboxRouteImport.update({
+  id: '/docs/blocks/inbox',
+  path: '/docs/blocks/inbox',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsBlocksFilterBarRoute = DocsDocsBlocksFilterBarRouteImport.update({
   id: '/docs/blocks/filter-bar',
   path: '/docs/blocks/filter-bar',
@@ -1295,6 +1301,7 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
   '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
+  '/docs/blocks/inbox': typeof DocsDocsBlocksInboxRoute
   '/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
   '/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
   '/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
@@ -1481,6 +1488,7 @@ export interface FileRoutesByTo {
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
   '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
+  '/docs/blocks/inbox': typeof DocsDocsBlocksInboxRoute
   '/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
   '/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
   '/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
@@ -1669,6 +1677,7 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/_docs/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
   '/_docs/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
+  '/_docs/docs/blocks/inbox': typeof DocsDocsBlocksInboxRoute
   '/_docs/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
   '/_docs/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
   '/_docs/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
@@ -1857,6 +1866,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
     | '/docs/blocks/filter-bar'
+    | '/docs/blocks/inbox'
     | '/docs/blocks/inline-edit'
     | '/docs/blocks/kanban-board'
     | '/docs/blocks/multi-step-form'
@@ -2043,6 +2053,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
     | '/docs/blocks/filter-bar'
+    | '/docs/blocks/inbox'
     | '/docs/blocks/inline-edit'
     | '/docs/blocks/kanban-board'
     | '/docs/blocks/multi-step-form'
@@ -2230,6 +2241,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/deal-lines-editor'
     | '/_docs/docs/blocks/detail-panel'
     | '/_docs/docs/blocks/filter-bar'
+    | '/_docs/docs/blocks/inbox'
     | '/_docs/docs/blocks/inline-edit'
     | '/_docs/docs/blocks/kanban-board'
     | '/_docs/docs/blocks/multi-step-form'
@@ -2626,6 +2638,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/blocks/inline-edit'
       fullPath: '/docs/blocks/inline-edit'
       preLoaderRoute: typeof DocsDocsBlocksInlineEditRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/inbox': {
+      id: '/_docs/docs/blocks/inbox'
+      path: '/docs/blocks/inbox'
+      fullPath: '/docs/blocks/inbox'
+      preLoaderRoute: typeof DocsDocsBlocksInboxRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/filter-bar': {
@@ -3720,6 +3739,7 @@ interface DocsRouteChildren {
   DocsDocsBlocksDealLinesEditorRoute: typeof DocsDocsBlocksDealLinesEditorRoute
   DocsDocsBlocksDetailPanelRoute: typeof DocsDocsBlocksDetailPanelRoute
   DocsDocsBlocksFilterBarRoute: typeof DocsDocsBlocksFilterBarRoute
+  DocsDocsBlocksInboxRoute: typeof DocsDocsBlocksInboxRoute
   DocsDocsBlocksInlineEditRoute: typeof DocsDocsBlocksInlineEditRoute
   DocsDocsBlocksKanbanBoardRoute: typeof DocsDocsBlocksKanbanBoardRoute
   DocsDocsBlocksMultiStepFormRoute: typeof DocsDocsBlocksMultiStepFormRoute
@@ -3904,6 +3924,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksDealLinesEditorRoute: DocsDocsBlocksDealLinesEditorRoute,
   DocsDocsBlocksDetailPanelRoute: DocsDocsBlocksDetailPanelRoute,
   DocsDocsBlocksFilterBarRoute: DocsDocsBlocksFilterBarRoute,
+  DocsDocsBlocksInboxRoute: DocsDocsBlocksInboxRoute,
   DocsDocsBlocksInlineEditRoute: DocsDocsBlocksInlineEditRoute,
   DocsDocsBlocksKanbanBoardRoute: DocsDocsBlocksKanbanBoardRoute,
   DocsDocsBlocksMultiStepFormRoute: DocsDocsBlocksMultiStepFormRoute,
