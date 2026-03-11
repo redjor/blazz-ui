@@ -46,7 +46,7 @@ function PageHeaderBase({
 	className,
 }: PageHeaderProps) {
 	return (
-		<div className={cn("space-y-3 pb-6", className)}>
+		<div className={cn("space-y-3", className)}>
 			{breadcrumbs && breadcrumbs.length > 0 && (
 				<Breadcrumb>
 					<BreadcrumbList>
