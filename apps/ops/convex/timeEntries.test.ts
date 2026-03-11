@@ -364,3 +364,60 @@ describe("timeEntries status transitions", () => {
 		})
 	})
 })
+
+describe("timeEntries CRUD", () => {
+	it("creates an entry with correct fields", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 90,
+			hourlyRate: 100,
+			description: "Feature work",
+			billable: true,
+			status: "draft",
+		})
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry).not.toBeNull()
+			expect(entry?.minutes).toBe(90)
+			expect(entry?.hourlyRate).toBe(100)
+			expect(entry?.description).toBe("Feature work")
+			expect(entry?.billable).toBe(true)
+			expect(entry?.status).toBe("draft")
+			expect(entry?.createdAt).toBeGreaterThan(0)
+		})
+	})
+
+	it("defaults status to undefined when not provided", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+		})
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry?.status).toBeUndefined()
+		})
+	})
+
+	it("lists entries filtered by project", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+		})
+		const entries = await asUser.query(api.timeEntries.list, { projectId })
+		expect(entries).toHaveLength(1)
+		expect(entries[0].projectId).toBe(projectId)
+	})
+})
