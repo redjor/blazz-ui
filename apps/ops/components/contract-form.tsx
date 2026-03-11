@@ -24,7 +24,7 @@ import { format, parseISO } from "date-fns"
 
 const schema = z
   .object({
-    type: z.enum(["tma", "forfait"]),
+    type: z.enum(["tma", "forfait", "agile"]),
     daysPerMonth: z.preprocess(
       (v) => (v === "" || v === undefined ? undefined : Number(v)),
       z.number().positive("Requis pour TMA").optional()
@@ -101,9 +101,10 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
         <Label>Type *</Label>
         <Select
           value={watch("type")}
-          onValueChange={(v) => setValue("type", v as "tma" | "forfait")}
+          onValueChange={(v) => setValue("type", v as "tma" | "forfait" | "agile")}
           items={[
             { value: "tma", label: "TMA (jours/mois)" },
+            { value: "agile", label: "Agile (régie)" },
             { value: "forfait", label: "Forfait" },
           ]}
         >
@@ -112,6 +113,7 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="tma" label="TMA (jours/mois)">TMA (jours/mois)</SelectItem>
+            <SelectItem value="agile" label="Agile (régie)">Agile (régie)</SelectItem>
             <SelectItem value="forfait" label="Forfait">Forfait</SelectItem>
           </SelectContent>
         </Select>

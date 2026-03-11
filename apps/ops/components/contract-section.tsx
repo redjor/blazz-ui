@@ -7,20 +7,20 @@ import type { Doc } from "@/convex/_generated/dataModel"
 
 interface ContractSectionProps {
   contract: Doc<"contracts">
-  metrics: ContractMetrics
+  metrics: ContractMetrics | null
   onComplete?: () => void
 }
 
 const CONTRACT_STATUS_LABEL: Record<string, string> = {
   active: "Actif",
-  completed: "Termin\u00e9",
-  cancelled: "Annul\u00e9",
+  completed: "Terminé",
+  cancelled: "Annulé",
 }
 
 export function ContractSection({ contract, metrics, onComplete }: ContractSectionProps) {
-  const colors = healthColor(metrics.contractHealth)
+  const colors = metrics ? healthColor(metrics.contractHealth) : null
   const percentThisMonth =
-    metrics.daysAllocatedThisMonth > 0
+    metrics && metrics.daysAllocatedThisMonth > 0
       ? Math.round(
           (metrics.daysConsumedThisMonth / metrics.daysAllocatedThisMonth) * 100 * 10
         ) / 10
@@ -32,7 +32,9 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
       {/* Contract header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-fg">Contrat TMA</h3>
+          <h3 className="text-sm font-medium text-fg">
+            {contract.type === "tma" ? "Contrat TMA" : contract.type === "agile" ? "Mission Agile" : "Contrat Forfait"}
+          </h3>
           <span className="text-xs text-fg-muted">
             {contract.startDate} &rarr; {contract.endDate}
           </span>
@@ -49,118 +51,123 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
         </div>
       </div>
 
-      {/* Alert banner */}
-      {metrics.contractHealth === "over" && (
-        <div className={`px-4 py-2.5 rounded-lg text-sm font-medium ${colors.bg} ${colors.text}`}>
-          D\u00e9passement de {Math.abs(metrics.daysRemainingThisMonth)}j ce mois
-        </div>
-      )}
-      {(metrics.contractHealth === "danger" || metrics.contractHealth === "warning") && (
-        <div className={`px-4 py-2.5 rounded-lg text-sm font-medium ${colors.bg} ${colors.text}`}>
-          {percentThisMonth}% des jours consomm\u00e9s ce mois
-        </div>
-      )}
+      {/* Metrics section — only for TMA contracts with computed metrics */}
+      {metrics && colors && (
+        <>
+          {/* Alert banner */}
+          {metrics.contractHealth === "over" && (
+            <div className={`px-4 py-2.5 rounded-lg text-sm font-medium ${colors.bg} ${colors.text}`}>
+              Dépassement de {Math.abs(metrics.daysRemainingThisMonth)}j ce mois
+            </div>
+          )}
+          {(metrics.contractHealth === "danger" || metrics.contractHealth === "warning") && (
+            <div className={`px-4 py-2.5 rounded-lg text-sm font-medium ${colors.bg} ${colors.text}`}>
+              {percentThisMonth}% des jours consommés ce mois
+            </div>
+          )}
 
-      {/* KPI cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-fg-muted mb-1">Ce mois</p>
-            <p className="text-xl font-semibold font-mono">
-              {metrics.daysConsumedThisMonth}
-              <span className="text-sm text-fg-muted font-normal">/{metrics.daysAllocatedThisMonth}j</span>
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-fg-muted mb-1">Restant ce mois</p>
-            <p className={`text-xl font-semibold font-mono ${
-              metrics.daysRemainingThisMonth < 0
-                ? "text-red-600 dark:text-red-400"
-                : "text-green-600 dark:text-green-400"
-            }`}>
-              {metrics.daysRemainingThisMonth}j
-            </p>
-          </CardContent>
-        </Card>
-        {contract.carryOver && metrics.carryInThisMonth > 0 && (
-          <Card>
-            <CardContent className="p-4">
-              <p className="text-xs text-fg-muted mb-1">Report entrant</p>
-              <p className="text-xl font-semibold font-mono">
-                +{metrics.carryInThisMonth}j
-              </p>
-            </CardContent>
-          </Card>
-        )}
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-fg-muted mb-1">Total contrat</p>
-            <p className="text-xl font-semibold font-mono">
-              {metrics.totalDaysConsumed}
-              <span className="text-sm text-fg-muted font-normal">/{metrics.totalDaysAllocated}j</span>
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Progress bar — this month */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs">
-          <span className="text-fg-muted">Consommation du mois</span>
-          <span className="text-fg font-mono font-medium">
-            {metrics.daysConsumedThisMonth} / {metrics.daysAllocatedThisMonth}j ({percentThisMonth}%)
-          </span>
-        </div>
-        <div className="h-2.5 bg-raised rounded-full overflow-hidden border border-edge">
-          <div
-            className={`h-full rounded-full transition-all ${colors.bar}`}
-            style={{ width: `${clampedPercent}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Monthly breakdown table */}
-      {metrics.monthlyBreakdown.length > 1 && (
-        <div className="space-y-2">
-          <p className="text-xs text-fg-muted">Historique mensuel</p>
-          <div className="border border-edge rounded-lg overflow-hidden">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="bg-raised">
-                  <th className="text-left px-3 py-2 font-medium text-fg-muted">Mois</th>
-                  <th className="text-right px-3 py-2 font-medium text-fg-muted">Allou\u00e9s</th>
-                  <th className="text-right px-3 py-2 font-medium text-fg-muted">Consomm\u00e9s</th>
-                  {contract.carryOver && (
-                    <th className="text-right px-3 py-2 font-medium text-fg-muted">Report</th>
-                  )}
-                  <th className="text-right px-3 py-2 font-medium text-fg-muted">Restant</th>
-                </tr>
-              </thead>
-              <tbody>
-                {metrics.monthlyBreakdown.map((row) => {
-                  const rowColors = healthColor(row.health)
-                  return (
-                    <tr key={row.month} className="border-t border-edge">
-                      <td className="px-3 py-2 font-mono text-fg">{row.month}</td>
-                      <td className="text-right px-3 py-2 font-mono text-fg-muted">{row.allocated}j</td>
-                      <td className="text-right px-3 py-2 font-mono text-fg">{row.consumed}j</td>
-                      {contract.carryOver && (
-                        <td className="text-right px-3 py-2 font-mono text-fg-muted">
-                          {row.carryIn > 0 ? `+${row.carryIn}j` : "\u2014"}
-                        </td>
-                      )}
-                      <td className={`text-right px-3 py-2 font-mono font-medium ${rowColors.text}`}>
-                        {row.remaining}j
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+          {/* KPI cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-4">
+                <p className="text-xs text-fg-muted mb-1">Ce mois</p>
+                <p className="text-xl font-semibold font-mono">
+                  {metrics.daysConsumedThisMonth}
+                  <span className="text-sm text-fg-muted font-normal">/{metrics.daysAllocatedThisMonth}j</span>
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <p className="text-xs text-fg-muted mb-1">Restant ce mois</p>
+                <p className={`text-xl font-semibold font-mono ${
+                  metrics.daysRemainingThisMonth < 0
+                    ? "text-red-600 dark:text-red-400"
+                    : "text-green-600 dark:text-green-400"
+                }`}>
+                  {metrics.daysRemainingThisMonth}j
+                </p>
+              </CardContent>
+            </Card>
+            {contract.carryOver && metrics.carryInThisMonth > 0 && (
+              <Card>
+                <CardContent className="p-4">
+                  <p className="text-xs text-fg-muted mb-1">Report entrant</p>
+                  <p className="text-xl font-semibold font-mono">
+                    +{metrics.carryInThisMonth}j
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+            <Card>
+              <CardContent className="p-4">
+                <p className="text-xs text-fg-muted mb-1">Total contrat</p>
+                <p className="text-xl font-semibold font-mono">
+                  {metrics.totalDaysConsumed}
+                  <span className="text-sm text-fg-muted font-normal">/{metrics.totalDaysAllocated}j</span>
+                </p>
+              </CardContent>
+            </Card>
           </div>
-        </div>
+
+          {/* Progress bar — this month */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-fg-muted">Consommation du mois</span>
+              <span className="text-fg font-mono font-medium">
+                {metrics.daysConsumedThisMonth} / {metrics.daysAllocatedThisMonth}j ({percentThisMonth}%)
+              </span>
+            </div>
+            <div className="h-2.5 bg-raised rounded-full overflow-hidden border border-edge">
+              <div
+                className={`h-full rounded-full transition-all ${colors.bar}`}
+                style={{ width: `${clampedPercent}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Monthly breakdown table */}
+          {metrics.monthlyBreakdown.length > 1 && (
+            <div className="space-y-2">
+              <p className="text-xs text-fg-muted">Historique mensuel</p>
+              <div className="border border-edge rounded-lg overflow-hidden">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="bg-raised">
+                      <th className="text-left px-3 py-2 font-medium text-fg-muted">Mois</th>
+                      <th className="text-right px-3 py-2 font-medium text-fg-muted">Alloués</th>
+                      <th className="text-right px-3 py-2 font-medium text-fg-muted">Consommés</th>
+                      {contract.carryOver && (
+                        <th className="text-right px-3 py-2 font-medium text-fg-muted">Report</th>
+                      )}
+                      <th className="text-right px-3 py-2 font-medium text-fg-muted">Restant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {metrics.monthlyBreakdown.map((row) => {
+                      const rowColors = healthColor(row.health)
+                      return (
+                        <tr key={row.month} className="border-t border-edge">
+                          <td className="px-3 py-2 font-mono text-fg">{row.month}</td>
+                          <td className="text-right px-3 py-2 font-mono text-fg-muted">{row.allocated}j</td>
+                          <td className="text-right px-3 py-2 font-mono text-fg">{row.consumed}j</td>
+                          {contract.carryOver && (
+                            <td className="text-right px-3 py-2 font-mono text-fg-muted">
+                              {row.carryIn > 0 ? `+${row.carryIn}j` : "—"}
+                            </td>
+                          )}
+                          <td className={`text-right px-3 py-2 font-mono font-medium ${rowColors.text}`}>
+                            {row.remaining}j
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   )

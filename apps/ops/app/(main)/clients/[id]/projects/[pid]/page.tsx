@@ -200,8 +200,8 @@ export default function ProjectDetailPage({ params }: Props) {
             />
         )}
 
-        {/* Contract TMA section */}
-        {activeContract && contractMetrics && (
+        {/* Contract section */}
+        {activeContract && (
           <ContractSection
             contract={activeContract}
             metrics={contractMetrics}
@@ -240,7 +240,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 >
                   <span className="font-mono">{c.startDate} → {c.endDate}</span>
                   <span>
-                    {c.type === "tma" ? `${c.daysPerMonth}j/mois` : "Forfait"} ·{" "}
+                    {c.type === "tma" ? `${c.daysPerMonth}j/mois` : c.type === "agile" ? "Agile" : "Forfait"} ·{" "}
                     {c.status === "completed" ? "Terminé" : "Annulé"}
                   </span>
                 </div>
