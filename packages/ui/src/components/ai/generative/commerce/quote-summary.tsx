@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { FileText, Clock, Hash } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type QuoteStatus = "draft" | "sent" | "accepted" | "declined" | "expired"
@@ -28,7 +29,7 @@ const statusConfig = {
 	expired: { label: "Expired", variant: "warning" as const },
 } as const
 
-export function QuoteSummary({
+function QuoteSummaryBase({
 	number,
 	client,
 	total,
@@ -91,3 +92,5 @@ export function QuoteSummary({
 		</Wrapper>
 	)
 }
+
+export const QuoteSummary = withProGuard(QuoteSummaryBase, "QuoteSummary")

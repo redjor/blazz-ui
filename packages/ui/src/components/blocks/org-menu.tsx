@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Building2, Check, ChevronsUpDown, Plus, Settings } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -44,7 +45,7 @@ function getOrgInitials(name: string): string {
 		.slice(0, 2)
 }
 
-export function OrgMenu({
+function OrgMenuBase({
 	organizations,
 	activeOrganization,
 	onSelect,
@@ -133,3 +134,5 @@ export function OrgMenu({
 		</DropdownMenu>
 	)
 }
+
+export const OrgMenu = withProGuard(OrgMenuBase, "OrgMenu")

@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ComparisonTableProps {
@@ -9,7 +10,7 @@ export interface ComparisonTableProps {
 	className?: string
 }
 
-export function ComparisonTable({
+function ComparisonTableBase({
 	title,
 	columns,
 	rows,
@@ -55,3 +56,5 @@ export function ComparisonTable({
 		</div>
 	)
 }
+
+export const ComparisonTable = withProGuard(ComparisonTableBase, "ComparisonTable")

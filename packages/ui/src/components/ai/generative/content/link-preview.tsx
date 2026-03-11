@@ -1,6 +1,7 @@
 "use client"
 
 import { ExternalLink } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface LinkPreviewProps {
@@ -12,7 +13,7 @@ export interface LinkPreviewProps {
 	className?: string
 }
 
-export function LinkPreview({
+function LinkPreviewBase({
 	url,
 	title,
 	description,
@@ -54,3 +55,5 @@ export function LinkPreview({
 		</a>
 	)
 }
+
+export const LinkPreview = withProGuard(LinkPreviewBase, "LinkPreview")

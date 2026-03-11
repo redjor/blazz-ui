@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { ArrowUpRight, ArrowDownLeft, CreditCard, Building2 } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type TransactionType = "incoming" | "outgoing"
@@ -26,7 +27,7 @@ const statusConfig = {
 	failed: { label: "Failed", variant: "critical" as const },
 } as const
 
-export function TransactionCard({
+function TransactionCardBase({
 	title,
 	amount,
 	type = "incoming",
@@ -95,3 +96,5 @@ export function TransactionCard({
 		</div>
 	)
 }
+
+export const TransactionCard = withProGuard(TransactionCardBase, "TransactionCard")

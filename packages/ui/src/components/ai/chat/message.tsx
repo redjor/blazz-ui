@@ -14,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../ui/tooltip";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { cjk } from "@streamdown/cjk";
 import { code } from "@streamdown/code";
@@ -35,7 +36,7 @@ export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage["role"];
 };
 
-export const Message = ({ className, from, ...props }: MessageProps) => (
+const MessageBase = ({ className, from, ...props }: MessageProps) => (
   <div
     className={cn(
       "group flex w-full max-w-[95%] flex-col gap-2",
@@ -48,7 +49,7 @@ export const Message = ({ className, from, ...props }: MessageProps) => (
 
 export type MessageContentProps = HTMLAttributes<HTMLDivElement>;
 
-export const MessageContent = ({
+const MessageContentBase = ({
   children,
   className,
   ...props
@@ -68,7 +69,7 @@ export const MessageContent = ({
 
 export type MessageActionsProps = ComponentProps<"div">;
 
-export const MessageActions = ({
+const MessageActionsBase = ({
   className,
   children,
   ...props
@@ -83,7 +84,7 @@ export type MessageActionProps = ComponentProps<typeof Button> & {
   label?: string;
 };
 
-export const MessageAction = ({
+const MessageActionBase = ({
   tooltip,
   children,
   label,
@@ -144,7 +145,7 @@ export type MessageBranchProps = HTMLAttributes<HTMLDivElement> & {
   onBranchChange?: (branchIndex: number) => void;
 };
 
-export const MessageBranch = ({
+const MessageBranchBase = ({
   defaultBranch = 0,
   onBranchChange,
   className,
@@ -197,7 +198,7 @@ export const MessageBranch = ({
 
 export type MessageBranchContentProps = HTMLAttributes<HTMLDivElement>;
 
-export const MessageBranchContent = ({
+const MessageBranchContentBase = ({
   children,
   ...props
 }: MessageBranchContentProps) => {
@@ -230,7 +231,7 @@ export const MessageBranchContent = ({
 
 export type MessageBranchSelectorProps = ComponentProps<typeof ButtonGroup>;
 
-export const MessageBranchSelector = ({
+const MessageBranchSelectorBase = ({
   className,
   ...props
 }: MessageBranchSelectorProps) => {
@@ -255,7 +256,7 @@ export const MessageBranchSelector = ({
 
 export type MessageBranchPreviousProps = ComponentProps<typeof Button>;
 
-export const MessageBranchPrevious = ({
+const MessageBranchPreviousBase = ({
   children,
   ...props
 }: MessageBranchPreviousProps) => {
@@ -278,7 +279,7 @@ export const MessageBranchPrevious = ({
 
 export type MessageBranchNextProps = ComponentProps<typeof Button>;
 
-export const MessageBranchNext = ({
+const MessageBranchNextBase = ({
   children,
   ...props
 }: MessageBranchNextProps) => {
@@ -301,7 +302,7 @@ export const MessageBranchNext = ({
 
 export type MessageBranchPageProps = HTMLAttributes<HTMLSpanElement>;
 
-export const MessageBranchPage = ({
+const MessageBranchPageBase = ({
   className,
   ...props
 }: MessageBranchPageProps) => {
@@ -324,7 +325,7 @@ export type MessageResponseProps = ComponentProps<typeof Streamdown>;
 
 const streamdownPlugins = { cjk, code, math, mermaid };
 
-export const MessageResponse = memo(
+const MessageResponseBase = memo(
   ({ className, ...props }: MessageResponseProps) => (
     <Streamdown
       className={cn(
@@ -338,11 +339,11 @@ export const MessageResponse = memo(
   (prevProps, nextProps) => prevProps.children === nextProps.children
 );
 
-MessageResponse.displayName = "MessageResponse";
+MessageResponseBase.displayName = "MessageResponse";
 
 export type MessageToolbarProps = ComponentProps<"div">;
 
-export const MessageToolbar = ({
+const MessageToolbarBase = ({
   className,
   children,
   ...props
@@ -357,3 +358,27 @@ export const MessageToolbar = ({
     {children}
   </div>
 );
+
+export const Message = withProGuard(MessageBase, "Message")
+
+export const MessageContent = withProGuard(MessageContentBase, "MessageContent")
+
+export const MessageActions = withProGuard(MessageActionsBase, "MessageActions")
+
+export const MessageAction = withProGuard(MessageActionBase, "MessageAction")
+
+export const MessageBranch = withProGuard(MessageBranchBase, "MessageBranch")
+
+export const MessageBranchContent = withProGuard(MessageBranchContentBase, "MessageBranchContent")
+
+export const MessageBranchSelector = withProGuard(MessageBranchSelectorBase, "MessageBranchSelector")
+
+export const MessageBranchPrevious = withProGuard(MessageBranchPreviousBase, "MessageBranchPrevious")
+
+export const MessageBranchNext = withProGuard(MessageBranchNextBase, "MessageBranchNext")
+
+export const MessageBranchPage = withProGuard(MessageBranchPageBase, "MessageBranchPage")
+
+export const MessageToolbar = withProGuard(MessageToolbarBase, "MessageToolbar")
+
+export const MessageResponse = withProGuard(MessageResponseBase, "MessageResponse")

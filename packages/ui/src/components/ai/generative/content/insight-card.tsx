@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { Lightbulb, TrendingUp, AlertTriangle, Info } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type InsightType = "recommendation" | "opportunity" | "warning" | "info"
@@ -24,7 +25,7 @@ const typeConfig = {
 	info: { icon: Info, color: "text-blue-500", bg: "bg-blue-500/10", label: "Info" },
 } as const
 
-export function InsightCard({
+function InsightCardBase({
 	title,
 	description,
 	type = "recommendation",
@@ -79,3 +80,5 @@ export function InsightCard({
 		</div>
 	)
 }
+
+export const InsightCard = withProGuard(InsightCardBase, "InsightCard")

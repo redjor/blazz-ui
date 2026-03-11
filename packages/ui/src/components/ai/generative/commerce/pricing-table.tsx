@@ -3,6 +3,7 @@
 import { Check } from "lucide-react"
 import { Badge } from "../../../ui/badge"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface PricingTier {
 	name: string
@@ -19,7 +20,7 @@ export interface PricingTableProps {
 	className?: string
 }
 
-export function PricingTable({
+function PricingTableBase({
 	title,
 	tiers,
 	className,
@@ -70,3 +71,5 @@ export function PricingTable({
 		</div>
 	)
 }
+
+export const PricingTable = withProGuard(PricingTableBase, "PricingTable")

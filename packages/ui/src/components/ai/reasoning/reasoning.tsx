@@ -8,6 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../../ui/collapsible";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { cjk } from "@streamdown/cjk";
 import { code } from "@streamdown/code";
@@ -56,7 +57,7 @@ export type ReasoningProps = ComponentProps<typeof Collapsible> & {
 const AUTO_CLOSE_DELAY = 1000;
 const MS_IN_S = 1000;
 
-export const Reasoning = memo(
+const ReasoningBase = memo(
   ({
     className,
     isStreaming = false,
@@ -165,7 +166,7 @@ const defaultGetThinkingMessage = (isStreaming: boolean, duration?: number) => {
   return <p>Thought for {duration} seconds</p>;
 };
 
-export const ReasoningTrigger = memo(
+const ReasoningTriggerBase = memo(
   ({
     className,
     children,
@@ -207,7 +208,7 @@ export type ReasoningContentProps = ComponentProps<
 
 const streamdownPlugins = { cjk, code, math, mermaid };
 
-export const ReasoningContent = memo(
+const ReasoningContentBase = memo(
   ({ className, children, ...props }: ReasoningContentProps) => (
     <CollapsibleContent
       className={cn(
@@ -224,6 +225,12 @@ export const ReasoningContent = memo(
   )
 );
 
-Reasoning.displayName = "Reasoning";
-ReasoningTrigger.displayName = "ReasoningTrigger";
-ReasoningContent.displayName = "ReasoningContent";
+ReasoningBase.displayName = "Reasoning";
+ReasoningTriggerBase.displayName = "ReasoningTrigger";
+ReasoningContentBase.displayName = "ReasoningContent";
+
+export const Reasoning = withProGuard(ReasoningBase, "Reasoning")
+
+export const ReasoningTrigger = withProGuard(ReasoningTriggerBase, "ReasoningTrigger")
+
+export const ReasoningContent = withProGuard(ReasoningContentBase, "ReasoningContent")

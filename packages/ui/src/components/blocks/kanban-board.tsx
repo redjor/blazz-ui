@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useState, useRef, useCallback } from "react"
 import { Badge } from "../ui/badge"
 import { cn } from "../../lib/utils"
@@ -25,7 +26,7 @@ export interface KanbanBoardProps<T extends { id: string }> {
 
 /* ─── Component ─── */
 
-export function KanbanBoard<T extends { id: string }>({
+function KanbanBoardBase<T extends { id: string }>({
 	columns,
 	items,
 	getColumnId,
@@ -146,3 +147,5 @@ export function KanbanBoard<T extends { id: string }>({
 		</div>
 	)
 }
+
+export const KanbanBoard = withProGuard(KanbanBoardBase, "KanbanBoard")

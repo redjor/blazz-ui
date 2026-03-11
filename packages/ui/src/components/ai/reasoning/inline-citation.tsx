@@ -14,6 +14,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../ui/hover-card";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import {
@@ -26,7 +27,7 @@ import {
 
 export type InlineCitationProps = ComponentProps<"span">;
 
-export const InlineCitation = ({
+const InlineCitationBase = ({
   className,
   ...props
 }: InlineCitationProps) => (
@@ -38,7 +39,7 @@ export const InlineCitation = ({
 
 export type InlineCitationTextProps = ComponentProps<"span">;
 
-export const InlineCitationText = ({
+const InlineCitationTextBase = ({
   className,
   ...props
 }: InlineCitationTextProps) => (
@@ -50,7 +51,7 @@ export const InlineCitationText = ({
 
 export type InlineCitationCardProps = ComponentProps<typeof HoverCard>;
 
-export const InlineCitationCard = (props: InlineCitationCardProps) => (
+const InlineCitationCardBase = (props: InlineCitationCardProps) => (
   <HoverCard closeDelay={0} openDelay={0} {...props} />
 );
 
@@ -58,7 +59,7 @@ export type InlineCitationCardTriggerProps = ComponentProps<typeof Badge> & {
   sources: string[];
 };
 
-export const InlineCitationCardTrigger = ({
+const InlineCitationCardTriggerBase = ({
   sources,
   className,
   ...props
@@ -75,7 +76,7 @@ export const InlineCitationCardTrigger = ({
 
 export type InlineCitationCardBodyProps = ComponentProps<"div">;
 
-export const InlineCitationCardBody = ({
+const InlineCitationCardBodyBase = ({
   className,
   ...props
 }: InlineCitationCardBodyProps) => (
@@ -91,7 +92,7 @@ const useCarouselApi = () => {
 
 export type InlineCitationCarouselProps = ComponentProps<typeof Carousel>;
 
-export const InlineCitationCarousel = ({
+const InlineCitationCarouselBase = ({
   className,
   children,
   ...props
@@ -109,13 +110,13 @@ export const InlineCitationCarousel = ({
 
 export type InlineCitationCarouselContentProps = ComponentProps<"div">;
 
-export const InlineCitationCarouselContent = (
+const InlineCitationCarouselContentBase = (
   props: InlineCitationCarouselContentProps
 ) => <CarouselContent {...props} />;
 
 export type InlineCitationCarouselItemProps = ComponentProps<"div">;
 
-export const InlineCitationCarouselItem = ({
+const InlineCitationCarouselItemBase = ({
   className,
   ...props
 }: InlineCitationCarouselItemProps) => (
@@ -127,7 +128,7 @@ export const InlineCitationCarouselItem = ({
 
 export type InlineCitationCarouselHeaderProps = ComponentProps<"div">;
 
-export const InlineCitationCarouselHeader = ({
+const InlineCitationCarouselHeaderBase = ({
   className,
   ...props
 }: InlineCitationCarouselHeaderProps) => (
@@ -142,7 +143,7 @@ export const InlineCitationCarouselHeader = ({
 
 export type InlineCitationCarouselIndexProps = ComponentProps<"div">;
 
-export const InlineCitationCarouselIndex = ({
+const InlineCitationCarouselIndexBase = ({
   children,
   className,
   ...props
@@ -185,7 +186,7 @@ export const InlineCitationCarouselIndex = ({
 
 export type InlineCitationCarouselPrevProps = ComponentProps<"button">;
 
-export const InlineCitationCarouselPrev = ({
+const InlineCitationCarouselPrevBase = ({
   className,
   ...props
 }: InlineCitationCarouselPrevProps) => {
@@ -212,7 +213,7 @@ export const InlineCitationCarouselPrev = ({
 
 export type InlineCitationCarouselNextProps = ComponentProps<"button">;
 
-export const InlineCitationCarouselNext = ({
+const InlineCitationCarouselNextBase = ({
   className,
   ...props
 }: InlineCitationCarouselNextProps) => {
@@ -243,7 +244,7 @@ export type InlineCitationSourceProps = ComponentProps<"div"> & {
   description?: string;
 };
 
-export const InlineCitationSource = ({
+const InlineCitationSourceBase = ({
   title,
   url,
   description,
@@ -269,7 +270,7 @@ export const InlineCitationSource = ({
 
 export type InlineCitationQuoteProps = ComponentProps<"blockquote">;
 
-export const InlineCitationQuote = ({
+const InlineCitationQuoteBase = ({
   children,
   className,
   ...props
@@ -284,3 +285,31 @@ export const InlineCitationQuote = ({
     {children}
   </blockquote>
 );
+
+export const InlineCitation = withProGuard(InlineCitationBase, "InlineCitation")
+
+export const InlineCitationText = withProGuard(InlineCitationTextBase, "InlineCitationText")
+
+export const InlineCitationCard = withProGuard(InlineCitationCardBase, "InlineCitationCard")
+
+export const InlineCitationCardTrigger = withProGuard(InlineCitationCardTriggerBase, "InlineCitationCardTrigger")
+
+export const InlineCitationCardBody = withProGuard(InlineCitationCardBodyBase, "InlineCitationCardBody")
+
+export const InlineCitationCarousel = withProGuard(InlineCitationCarouselBase, "InlineCitationCarousel")
+
+export const InlineCitationCarouselContent = withProGuard(InlineCitationCarouselContentBase, "InlineCitationCarouselContent")
+
+export const InlineCitationCarouselItem = withProGuard(InlineCitationCarouselItemBase, "InlineCitationCarouselItem")
+
+export const InlineCitationCarouselHeader = withProGuard(InlineCitationCarouselHeaderBase, "InlineCitationCarouselHeader")
+
+export const InlineCitationCarouselIndex = withProGuard(InlineCitationCarouselIndexBase, "InlineCitationCarouselIndex")
+
+export const InlineCitationCarouselPrev = withProGuard(InlineCitationCarouselPrevBase, "InlineCitationCarouselPrev")
+
+export const InlineCitationCarouselNext = withProGuard(InlineCitationCarouselNextBase, "InlineCitationCarouselNext")
+
+export const InlineCitationSource = withProGuard(InlineCitationSourceBase, "InlineCitationSource")
+
+export const InlineCitationQuote = withProGuard(InlineCitationQuoteBase, "InlineCitationQuote")

@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ScoreBreakdown {
@@ -17,7 +18,7 @@ export interface ScoreCardProps {
 	className?: string
 }
 
-export function ScoreCard({
+function ScoreCardBase({
 	title,
 	score,
 	maxScore = 100,
@@ -96,3 +97,5 @@ export function ScoreCard({
 		</div>
 	)
 }
+
+export const ScoreCard = withProGuard(ScoreCardBase, "ScoreCard")

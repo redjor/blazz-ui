@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Play, Clock, ExternalLink } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface VideoCardProps {
@@ -13,7 +14,7 @@ export interface VideoCardProps {
 	className?: string
 }
 
-export function VideoCard({
+function VideoCardBase({
 	title,
 	thumbnail,
 	duration,
@@ -73,3 +74,5 @@ export function VideoCard({
 		</Wrapper>
 	)
 }
+
+export const VideoCard = withProGuard(VideoCardBase, "VideoCard")

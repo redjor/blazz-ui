@@ -3,6 +3,7 @@
 import type { ComponentProps } from "react";
 
 import { Button } from "../../ui/button";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { ArrowDownIcon, DownloadIcon } from "lucide-react";
 import { useCallback } from "react";
@@ -10,7 +11,7 @@ import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 
 export type ConversationProps = ComponentProps<typeof StickToBottom>;
 
-export const Conversation = ({ className, ...props }: ConversationProps) => (
+const ConversationBase = ({ className, ...props }: ConversationProps) => (
   <StickToBottom
     className={cn("relative flex-1 overflow-y-hidden", className)}
     initial="smooth"
@@ -24,7 +25,7 @@ export type ConversationContentProps = ComponentProps<
   typeof StickToBottom.Content
 >;
 
-export const ConversationContent = ({
+const ConversationContentBase = ({
   className,
   ...props
 }: ConversationContentProps) => (
@@ -40,7 +41,7 @@ export type ConversationEmptyStateProps = ComponentProps<"div"> & {
   icon?: React.ReactNode;
 };
 
-export const ConversationEmptyState = ({
+const ConversationEmptyStateBase = ({
   className,
   title = "No messages yet",
   description = "Start a conversation to see messages here",
@@ -71,7 +72,7 @@ export const ConversationEmptyState = ({
 
 export type ConversationScrollButtonProps = ComponentProps<typeof Button>;
 
-export const ConversationScrollButton = ({
+const ConversationScrollButtonBase = ({
   className,
   ...props
 }: ConversationScrollButtonProps) => {
@@ -128,7 +129,7 @@ export const messagesToMarkdown = (
   ) => string = defaultFormatMessage
 ): string => messages.map((msg, i) => formatMessage(msg, i)).join("\n\n");
 
-export const ConversationDownload = ({
+const ConversationDownloadBase = ({
   messages,
   filename = "conversation.md",
   formatMessage = defaultFormatMessage,
@@ -165,3 +166,13 @@ export const ConversationDownload = ({
     </Button>
   );
 };
+
+export const Conversation = withProGuard(ConversationBase, "Conversation")
+
+export const ConversationContent = withProGuard(ConversationContentBase, "ConversationContent")
+
+export const ConversationEmptyState = withProGuard(ConversationEmptyStateBase, "ConversationEmptyState")
+
+export const ConversationScrollButton = withProGuard(ConversationScrollButtonBase, "ConversationScrollButton")
+
+export const ConversationDownload = withProGuard(ConversationDownloadBase, "ConversationDownload")

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import { TrendingUp, TrendingDown } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface MetricCardProps {
@@ -13,7 +14,7 @@ export interface MetricCardProps {
 	className?: string
 }
 
-export function MetricCard({
+function MetricCardBase({
 	label,
 	value,
 	trend,
@@ -54,3 +55,5 @@ export function MetricCard({
 		</div>
 	)
 }
+
+export const MetricCard = withProGuard(MetricCardBase, "MetricCard")

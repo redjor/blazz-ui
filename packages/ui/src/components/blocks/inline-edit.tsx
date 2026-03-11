@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useState, useRef, useEffect, useCallback } from "react"
 import { Check, X, Pencil } from "lucide-react"
 import { Input } from "../ui/input"
@@ -15,7 +16,7 @@ export interface InlineEditProps {
 	renderValue?: (value: string) => React.ReactNode
 }
 
-export function InlineEdit({
+function InlineEditBase({
 	value,
 	onSave,
 	type = "text",
@@ -110,3 +111,5 @@ export function InlineEdit({
 		</button>
 	)
 }
+
+export const InlineEdit = withProGuard(InlineEditBase, "InlineEdit")

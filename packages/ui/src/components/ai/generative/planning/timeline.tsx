@@ -1,6 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface TimelineItem {
@@ -25,7 +26,7 @@ const dotColor = {
 	info: "bg-inform",
 } as const
 
-export function Timeline({ title, items, className }: TimelineProps) {
+function TimelineBase({ title, items, className }: TimelineProps) {
 	return (
 		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			{title && (
@@ -71,3 +72,5 @@ export function Timeline({ title, items, className }: TimelineProps) {
 		</div>
 	)
 }
+
+export const Timeline = withProGuard(TimelineBase, "Timeline")

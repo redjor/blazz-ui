@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { FileText, FileImage, FileSpreadsheet, FileCode, File, Download } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 const iconMap: Record<string, typeof FileText> = {
@@ -40,7 +41,7 @@ export interface FileCardProps {
 	className?: string
 }
 
-export function FileCard({
+function FileCardBase({
 	name,
 	size,
 	type,
@@ -73,3 +74,5 @@ export function FileCard({
 		</Wrapper>
 	)
 }
+
+export const FileCard = withProGuard(FileCardBase, "FileCard")

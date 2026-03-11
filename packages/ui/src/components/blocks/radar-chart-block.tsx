@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import {
 	PolarAngleAxis,
 	PolarGrid,
@@ -46,7 +47,7 @@ export interface RadarChartBlockProps {
 	className?: string
 }
 
-export function RadarChartBlock({
+function RadarChartBlockBase({
 	title = "Radar Chart",
 	description,
 	data = defaultData,
@@ -94,3 +95,5 @@ export function RadarChartBlock({
 		</Card>
 	)
 }
+
+export const RadarChartBlock = withProGuard(RadarChartBlockBase, "RadarChartBlock")

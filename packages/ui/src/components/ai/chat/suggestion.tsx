@@ -7,12 +7,13 @@ import {
   ScrollArea,
   ScrollBar,
 } from "../../ui/scroll-area";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { useCallback } from "react";
 
 export type SuggestionsProps = ComponentProps<typeof ScrollArea>;
 
-export const Suggestions = ({
+const SuggestionsBase = ({
   className,
   children,
   ...props
@@ -30,7 +31,7 @@ export type SuggestionProps = Omit<ComponentProps<typeof Button>, "onClick"> & {
   onClick?: (suggestion: string) => void;
 };
 
-export const Suggestion = ({
+const SuggestionBase = ({
   suggestion,
   onClick,
   className,
@@ -56,3 +57,7 @@ export const Suggestion = ({
     </Button>
   );
 };
+
+export const Suggestions = withProGuard(SuggestionsBase, "Suggestions")
+
+export const Suggestion = withProGuard(SuggestionBase, "Suggestion")

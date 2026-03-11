@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import type { Control, FieldPath, FieldValues } from "react-hook-form"
 import { Controller } from "react-hook-form"
 import { cn } from "../../lib/utils"
@@ -17,7 +18,7 @@ export interface CategorySelectProps<TFieldValues extends FieldValues = FieldVal
 	className?: string
 }
 
-export function CategorySelect<TFieldValues extends FieldValues = FieldValues>({
+function CategorySelectBase<TFieldValues extends FieldValues = FieldValues>({
 	name,
 	label,
 	control,
@@ -53,3 +54,5 @@ export function CategorySelect<TFieldValues extends FieldValues = FieldValues>({
 		/>
 	)
 }
+
+export const CategorySelect = withProGuard(CategorySelectBase, "CategorySelect")

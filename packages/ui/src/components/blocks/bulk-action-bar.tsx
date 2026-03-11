@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { X } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Button } from "../ui/button"
@@ -19,7 +20,7 @@ export interface BulkActionBarProps {
 	className?: string
 }
 
-export function BulkActionBar({
+function BulkActionBarBase({
 	selectedCount,
 	actions,
 	onClearSelection,
@@ -65,3 +66,5 @@ export function BulkActionBar({
 		</div>
 	)
 }
+
+export const BulkActionBar = withProGuard(BulkActionBarBase, "BulkActionBar")

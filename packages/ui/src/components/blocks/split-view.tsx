@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useState, useCallback, useRef, useEffect } from "react"
 import { cn } from "../../lib/utils"
 
@@ -13,7 +14,7 @@ export interface SplitViewProps {
 	className?: string
 }
 
-export function SplitView({
+function SplitViewBase({
 	master,
 	detail,
 	emptyDetail,
@@ -83,3 +84,5 @@ export function SplitView({
 		</div>
 	)
 }
+
+export const SplitView = withProGuard(SplitViewBase, "SplitView")

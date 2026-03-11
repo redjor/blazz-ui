@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Circle, CheckCircle2, Clock, AlertCircle } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type TaskPriority = "low" | "medium" | "high" | "urgent"
@@ -41,7 +42,7 @@ const statusConfig = {
 	"blocked": { label: "Blocked", icon: AlertCircle, color: "text-red-500" },
 } as const
 
-export function TaskCard({
+function TaskCardBase({
 	title,
 	description,
 	assignee,
@@ -113,3 +114,5 @@ export function TaskCard({
 		</Wrapper>
 	)
 }
+
+export const TaskCard = withProGuard(TaskCardBase, "TaskCard")

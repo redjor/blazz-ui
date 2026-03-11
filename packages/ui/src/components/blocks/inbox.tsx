@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useMemo, useState } from "react"
 import {
 	AtSign,
@@ -674,13 +675,15 @@ export interface InboxProps {
 	className?: string
 }
 
-export function Inbox({ children, className }: InboxProps) {
+function InboxBase({ children, className }: InboxProps) {
 	return (
 		<div className={cn("flex h-full", className)}>
 			{children}
 		</div>
 	)
 }
+
+export const Inbox = withProGuard(InboxBase, "Inbox")
 
 // ---------------------------------------------------------------------------
 // InboxSidebar (left pane)

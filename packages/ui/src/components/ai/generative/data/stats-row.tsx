@@ -1,6 +1,7 @@
 "use client"
 
 import { TrendingUp, TrendingDown } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface StatItem {
@@ -14,7 +15,7 @@ export interface StatsRowProps {
 	className?: string
 }
 
-export function StatsRow({ items, className }: StatsRowProps) {
+function StatsRowBase({ items, className }: StatsRowProps) {
 	return (
 		<div
 			className={cn(
@@ -49,3 +50,5 @@ export function StatsRow({ items, className }: StatsRowProps) {
 		</div>
 	)
 }
+
+export const StatsRow = withProGuard(StatsRowBase, "StatsRow")

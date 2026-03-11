@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card"
 import { cn } from "../../lib/utils"
 
@@ -26,7 +27,7 @@ const DEFAULT_COLORS = [
 	"bg-red-400",
 ]
 
-export function FunnelChart({
+function FunnelChartBase({
 	title,
 	description,
 	stages,
@@ -88,3 +89,5 @@ export function FunnelChart({
 		</Card>
 	)
 }
+
+export const FunnelChart = withProGuard(FunnelChartBase, "FunnelChart")

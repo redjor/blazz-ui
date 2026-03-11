@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import {
 	LineChart,
 	Line,
@@ -38,7 +39,7 @@ export interface ChartCardProps {
 	className?: string
 }
 
-export function ChartCard({
+function ChartCardBase({
 	title,
 	description,
 	type,
@@ -160,3 +161,5 @@ export function ChartCard({
 		</Card>
 	)
 }
+
+export const ChartCard = withProGuard(ChartCardBase, "ChartCard")

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Globe, MapPin, Users, DollarSign } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface CompanyCardProps {
@@ -26,7 +27,7 @@ function getInitials(name: string) {
 	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
 }
 
-export function CompanyCard({
+function CompanyCardBase({
 	name,
 	logo,
 	industry,
@@ -105,3 +106,5 @@ export function CompanyCard({
 		</Wrapper>
 	)
 }
+
+export const CompanyCard = withProGuard(CompanyCardBase, "CompanyCard")

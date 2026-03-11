@@ -1,6 +1,7 @@
 "use client"
 
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface DataListItem {
@@ -25,7 +26,7 @@ const badgeVariantMap = {
 	critical: "critical",
 } as const
 
-export function DataList({ title, items, className }: DataListProps) {
+function DataListBase({ title, items, className }: DataListProps) {
 	return (
 		<div
 			className={cn(
@@ -66,3 +67,5 @@ export function DataList({ title, items, className }: DataListProps) {
 		</div>
 	)
 }
+
+export const DataList = withProGuard(DataListBase, "DataList")

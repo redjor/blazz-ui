@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useState } from "react"
 import { ChevronRight } from "lucide-react"
 import { Button } from "../ui/button"
@@ -44,7 +45,7 @@ const activeColorMap: Record<string, string> = {
 	purple: "bg-purple-600 text-white border-purple-600",
 }
 
-export function StatusFlow({
+function StatusFlowBase({
 	currentStatus,
 	statuses,
 	transitions = [],
@@ -119,3 +120,5 @@ export function StatusFlow({
 		</div>
 	)
 }
+
+export const StatusFlow = withProGuard(StatusFlowBase, "StatusFlow")

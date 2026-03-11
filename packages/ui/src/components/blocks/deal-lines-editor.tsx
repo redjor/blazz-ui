@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useState, useCallback } from "react"
 import { Plus, Trash2 } from "lucide-react"
 import { Button } from "../ui/button"
@@ -31,7 +32,7 @@ function nextLineId() {
 	return `line-${++lineCounter}-${Date.now()}`
 }
 
-export function DealLinesEditor({
+function DealLinesEditorBase({
 	lines,
 	onChange,
 	currency = "EUR",
@@ -186,3 +187,5 @@ export function DealLinesEditor({
 		</div>
 	)
 }
+
+export const DealLinesEditor = withProGuard(DealLinesEditorBase, "DealLinesEditor")

@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useState, type ComponentType } from "react"
 import type { ZodSchema } from "zod"
 import { Check } from "lucide-react"
@@ -30,7 +31,7 @@ export interface MultiStepFormProps {
 
 /* ─── Component ─── */
 
-export function MultiStepForm({
+function MultiStepFormBase({
 	steps,
 	onSubmit,
 	onSaveDraft,
@@ -197,3 +198,5 @@ export function MultiStepForm({
 		</div>
 	)
 }
+
+export const MultiStepForm = withProGuard(MultiStepFormBase, "MultiStepForm")

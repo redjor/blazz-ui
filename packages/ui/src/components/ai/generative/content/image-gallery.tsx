@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ImageGalleryItem {
@@ -15,7 +16,7 @@ export interface ImageGalleryProps {
 	className?: string
 }
 
-export function ImageGallery({ images, className }: ImageGalleryProps) {
+function ImageGalleryBase({ images, className }: ImageGalleryProps) {
 	const [current, setCurrent] = useState(0)
 
 	if (images.length === 0) return null
@@ -80,3 +81,5 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 		</div>
 	)
 }
+
+export const ImageGallery = withProGuard(ImageGalleryBase, "ImageGallery")

@@ -1,3 +1,4 @@
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Skeleton } from "../ui/skeleton"
 import { cn } from "../../lib/utils"
 
@@ -67,7 +68,7 @@ function TimelineSkeleton() {
 	)
 }
 
-export function ActivityTimeline({
+function ActivityTimelineBase({
 	events,
 	loading = false,
 	className,
@@ -90,3 +91,5 @@ export function ActivityTimeline({
 		</ul>
 	)
 }
+
+export const ActivityTimeline = withProGuard(ActivityTimelineBase, "ActivityTimeline")

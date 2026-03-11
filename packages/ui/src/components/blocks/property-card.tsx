@@ -1,3 +1,4 @@
+import { withProGuard } from "../../lib/with-pro-guard"
 import type * as React from "react"
 import { cn } from "../../lib/utils"
 import {
@@ -33,7 +34,7 @@ const gridCols = {
 	4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
 }
 
-export function PropertyCard({
+function PropertyCardBase({
 	title,
 	description,
 	columns = 3,
@@ -85,4 +86,6 @@ function PropertyCardItem({ label, value, span, className }: PropertyCardItemPro
 	)
 }
 
-PropertyCard.Item = PropertyCardItem
+export const PropertyCard = Object.assign(withProGuard(PropertyCardBase, "PropertyCard"), {
+	Item: PropertyCardItem,
+})

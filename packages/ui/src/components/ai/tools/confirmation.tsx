@@ -5,6 +5,7 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { Alert, AlertDescription } from "../../ui/alert";
 import { Button } from "../../ui/button";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { createContext, useContext } from "react";
 
@@ -60,7 +61,7 @@ export type ConfirmationProps = ComponentProps<typeof Alert> & {
   state: ToolUIPart["state"];
 };
 
-export const Confirmation = ({
+const ConfirmationBase = ({
   className,
   approval,
   state,
@@ -79,7 +80,7 @@ export const Confirmation = ({
 
 export type ConfirmationTitleProps = ComponentProps<typeof AlertDescription>;
 
-export const ConfirmationTitle = ({
+const ConfirmationTitleBase = ({
   className,
   ...props
 }: ConfirmationTitleProps) => (
@@ -90,7 +91,7 @@ export interface ConfirmationRequestProps {
   children?: ReactNode;
 }
 
-export const ConfirmationRequest = ({ children }: ConfirmationRequestProps) => {
+const ConfirmationRequestBase = ({ children }: ConfirmationRequestProps) => {
   const { state } = useConfirmation();
 
   // Only show when approval is requested
@@ -105,7 +106,7 @@ export interface ConfirmationAcceptedProps {
   children?: ReactNode;
 }
 
-export const ConfirmationAccepted = ({
+const ConfirmationAcceptedBase = ({
   children,
 }: ConfirmationAcceptedProps) => {
   const { approval, state } = useConfirmation();
@@ -127,7 +128,7 @@ export interface ConfirmationRejectedProps {
   children?: ReactNode;
 }
 
-export const ConfirmationRejected = ({
+const ConfirmationRejectedBase = ({
   children,
 }: ConfirmationRejectedProps) => {
   const { approval, state } = useConfirmation();
@@ -147,7 +148,7 @@ export const ConfirmationRejected = ({
 
 export type ConfirmationActionsProps = ComponentProps<"div">;
 
-export const ConfirmationActions = ({
+const ConfirmationActionsBase = ({
   className,
   ...props
 }: ConfirmationActionsProps) => {
@@ -168,6 +169,20 @@ export const ConfirmationActions = ({
 
 export type ConfirmationActionProps = ComponentProps<typeof Button>;
 
-export const ConfirmationAction = (props: ConfirmationActionProps) => (
+const ConfirmationActionBase = (props: ConfirmationActionProps) => (
   <Button className="h-8 px-3 text-sm" type="button" {...props} />
 );
+
+export const Confirmation = withProGuard(ConfirmationBase, "Confirmation")
+
+export const ConfirmationTitle = withProGuard(ConfirmationTitleBase, "ConfirmationTitle")
+
+export const ConfirmationRequest = withProGuard(ConfirmationRequestBase, "ConfirmationRequest")
+
+export const ConfirmationAccepted = withProGuard(ConfirmationAcceptedBase, "ConfirmationAccepted")
+
+export const ConfirmationRejected = withProGuard(ConfirmationRejectedBase, "ConfirmationRejected")
+
+export const ConfirmationActions = withProGuard(ConfirmationActionsBase, "ConfirmationActions")
+
+export const ConfirmationAction = withProGuard(ConfirmationActionBase, "ConfirmationAction")

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { CheckSquare, Square } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ChecklistItem {
@@ -15,7 +16,7 @@ export interface ChecklistCardProps {
 	className?: string
 }
 
-export function ChecklistCard({
+function ChecklistCardBase({
 	title,
 	items: initialItems,
 	className,
@@ -78,3 +79,5 @@ export function ChecklistCard({
 		</div>
 	)
 }
+
+export const ChecklistCard = withProGuard(ChecklistCardBase, "ChecklistCard")

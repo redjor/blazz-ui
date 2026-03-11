@@ -1,6 +1,7 @@
 "use client"
 
 import { Star } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface RatingCardProps {
@@ -13,7 +14,7 @@ export interface RatingCardProps {
 	className?: string
 }
 
-export function RatingCard({
+function RatingCardBase({
 	title,
 	score,
 	maxScore = 5,
@@ -93,3 +94,5 @@ export function RatingCard({
 		</div>
 	)
 }
+
+export const RatingCard = withProGuard(RatingCardBase, "RatingCard")

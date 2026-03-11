@@ -10,6 +10,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../../ui/collapsible";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { BrainIcon, ChevronDownIcon, DotIcon } from "lucide-react";
 import { createContext, memo, useContext, useMemo } from "react";
@@ -39,7 +40,7 @@ export type ChainOfThoughtProps = ComponentProps<"div"> & {
   onOpenChange?: (open: boolean) => void;
 };
 
-export const ChainOfThought = memo(
+const ChainOfThoughtBase = memo(
   ({
     className,
     open,
@@ -73,7 +74,7 @@ export type ChainOfThoughtHeaderProps = ComponentProps<
   typeof CollapsibleTrigger
 >;
 
-export const ChainOfThoughtHeader = memo(
+const ChainOfThoughtHeaderBase = memo(
   ({ className, children, ...props }: ChainOfThoughtHeaderProps) => {
     const { isOpen, setIsOpen } = useChainOfThought();
 
@@ -115,7 +116,7 @@ const stepStatusStyles = {
   pending: "text-muted-foreground/50",
 };
 
-export const ChainOfThoughtStep = memo(
+const ChainOfThoughtStepBase = memo(
   ({
     className,
     icon: Icon = DotIcon,
@@ -151,7 +152,7 @@ export const ChainOfThoughtStep = memo(
 
 export type ChainOfThoughtSearchResultsProps = ComponentProps<"div">;
 
-export const ChainOfThoughtSearchResults = memo(
+const ChainOfThoughtSearchResultsBase = memo(
   ({ className, ...props }: ChainOfThoughtSearchResultsProps) => (
     <div
       className={cn("flex flex-wrap items-center gap-2", className)}
@@ -162,7 +163,7 @@ export const ChainOfThoughtSearchResults = memo(
 
 export type ChainOfThoughtSearchResultProps = ComponentProps<typeof Badge>;
 
-export const ChainOfThoughtSearchResult = memo(
+const ChainOfThoughtSearchResultBase = memo(
   ({ className, children, ...props }: ChainOfThoughtSearchResultProps) => (
     <Badge
       className={cn("gap-1 px-2 py-0.5 font-normal text-xs", className)}
@@ -178,7 +179,7 @@ export type ChainOfThoughtContentProps = ComponentProps<
   typeof CollapsibleContent
 >;
 
-export const ChainOfThoughtContent = memo(
+const ChainOfThoughtContentBase = memo(
   ({ className, children, ...props }: ChainOfThoughtContentProps) => {
     const { isOpen } = useChainOfThought();
 
@@ -203,7 +204,7 @@ export type ChainOfThoughtImageProps = ComponentProps<"div"> & {
   caption?: string;
 };
 
-export const ChainOfThoughtImage = memo(
+const ChainOfThoughtImageBase = memo(
   ({ className, children, caption, ...props }: ChainOfThoughtImageProps) => (
     <div className={cn("mt-2 space-y-2", className)} {...props}>
       <div className="relative flex max-h-[22rem] items-center justify-center overflow-hidden rounded-lg bg-muted p-3">
@@ -214,10 +215,24 @@ export const ChainOfThoughtImage = memo(
   )
 );
 
-ChainOfThought.displayName = "ChainOfThought";
-ChainOfThoughtHeader.displayName = "ChainOfThoughtHeader";
-ChainOfThoughtStep.displayName = "ChainOfThoughtStep";
-ChainOfThoughtSearchResults.displayName = "ChainOfThoughtSearchResults";
-ChainOfThoughtSearchResult.displayName = "ChainOfThoughtSearchResult";
-ChainOfThoughtContent.displayName = "ChainOfThoughtContent";
-ChainOfThoughtImage.displayName = "ChainOfThoughtImage";
+ChainOfThoughtBase.displayName = "ChainOfThought";
+ChainOfThoughtHeaderBase.displayName = "ChainOfThoughtHeader";
+ChainOfThoughtStepBase.displayName = "ChainOfThoughtStep";
+ChainOfThoughtSearchResultsBase.displayName = "ChainOfThoughtSearchResults";
+ChainOfThoughtSearchResultBase.displayName = "ChainOfThoughtSearchResult";
+ChainOfThoughtContentBase.displayName = "ChainOfThoughtContent";
+ChainOfThoughtImageBase.displayName = "ChainOfThoughtImage";
+
+export const ChainOfThought = withProGuard(ChainOfThoughtBase, "ChainOfThought")
+
+export const ChainOfThoughtHeader = withProGuard(ChainOfThoughtHeaderBase, "ChainOfThoughtHeader")
+
+export const ChainOfThoughtStep = withProGuard(ChainOfThoughtStepBase, "ChainOfThoughtStep")
+
+export const ChainOfThoughtSearchResults = withProGuard(ChainOfThoughtSearchResultsBase, "ChainOfThoughtSearchResults")
+
+export const ChainOfThoughtSearchResult = withProGuard(ChainOfThoughtSearchResultBase, "ChainOfThoughtSearchResult")
+
+export const ChainOfThoughtContent = withProGuard(ChainOfThoughtContentBase, "ChainOfThoughtContent")
+
+export const ChainOfThoughtImage = withProGuard(ChainOfThoughtImageBase, "ChainOfThoughtImage")

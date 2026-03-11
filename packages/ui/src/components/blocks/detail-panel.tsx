@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import type * as React from "react"
 import type { LucideIcon } from "lucide-react"
 import { Button } from "../ui/button"
@@ -102,9 +103,11 @@ export interface DetailPanelProps {
 	className?: string
 }
 
-export function DetailPanel({ children, className }: DetailPanelProps) {
+function DetailPanelBase({ children, className }: DetailPanelProps) {
 	return <div className={cn("space-y-6", className)}>{children}</div>
 }
 
-DetailPanel.Header = DetailPanelHeader
-DetailPanel.Section = DetailPanelSection
+export const DetailPanel = Object.assign(withProGuard(DetailPanelBase, "DetailPanel"), {
+	Header: DetailPanelHeader,
+	Section: DetailPanelSection,
+})

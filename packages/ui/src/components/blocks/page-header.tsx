@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Fragment } from "react"
 import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
@@ -36,7 +37,7 @@ export interface PageHeaderProps {
 	className?: string
 }
 
-export function PageHeader({
+function PageHeaderBase({
 	title,
 	description,
 	breadcrumbs,
@@ -119,3 +120,5 @@ export function PageHeader({
 		</div>
 	)
 }
+
+export const PageHeader = withProGuard(PageHeaderBase, "PageHeader")

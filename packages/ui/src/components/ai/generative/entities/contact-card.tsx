@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Phone, Mail, Building2, Clock } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ContactCardProps {
@@ -25,7 +26,7 @@ function getInitials(name: string) {
 	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
 }
 
-export function ContactCard({
+function ContactCardBase({
 	name,
 	avatar,
 	role,
@@ -106,3 +107,5 @@ export function ContactCard({
 		</Wrapper>
 	)
 }
+
+export const ContactCard = withProGuard(ContactCardBase, "ContactCard")

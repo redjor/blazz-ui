@@ -1,3 +1,5 @@
+"use client";
+
 import type { ComponentProps, ReactNode } from "react";
 
 import {
@@ -17,17 +19,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 
 export type ModelSelectorProps = ComponentProps<typeof Dialog>;
 
-export const ModelSelector = (props: ModelSelectorProps) => (
+const ModelSelectorBase = (props: ModelSelectorProps) => (
   <Dialog {...props} />
 );
 
 export type ModelSelectorTriggerProps = ComponentProps<typeof DialogTrigger>;
 
-export const ModelSelectorTrigger = (props: ModelSelectorTriggerProps) => (
+const ModelSelectorTriggerBase = (props: ModelSelectorTriggerProps) => (
   <DialogTrigger {...props} />
 );
 
@@ -35,7 +38,7 @@ export type ModelSelectorContentProps = ComponentProps<typeof DialogContent> & {
   title?: ReactNode;
 };
 
-export const ModelSelectorContent = ({
+const ModelSelectorContentBase = ({
   className,
   children,
   title = "Model Selector",
@@ -58,13 +61,13 @@ export const ModelSelectorContent = ({
 
 export type ModelSelectorDialogProps = ComponentProps<typeof CommandDialog>;
 
-export const ModelSelectorDialog = (props: ModelSelectorDialogProps) => (
+const ModelSelectorDialogBase = (props: ModelSelectorDialogProps) => (
   <CommandDialog {...props} />
 );
 
 export type ModelSelectorInputProps = ComponentProps<typeof CommandInput>;
 
-export const ModelSelectorInput = ({
+const ModelSelectorInputBase = ({
   className,
   ...props
 }: ModelSelectorInputProps) => (
@@ -73,31 +76,31 @@ export const ModelSelectorInput = ({
 
 export type ModelSelectorListProps = ComponentProps<typeof CommandList>;
 
-export const ModelSelectorList = (props: ModelSelectorListProps) => (
+const ModelSelectorListBase = (props: ModelSelectorListProps) => (
   <CommandList {...props} />
 );
 
 export type ModelSelectorEmptyProps = ComponentProps<typeof CommandEmpty>;
 
-export const ModelSelectorEmpty = (props: ModelSelectorEmptyProps) => (
+const ModelSelectorEmptyBase = (props: ModelSelectorEmptyProps) => (
   <CommandEmpty {...props} />
 );
 
 export type ModelSelectorGroupProps = ComponentProps<typeof CommandGroup>;
 
-export const ModelSelectorGroup = (props: ModelSelectorGroupProps) => (
+const ModelSelectorGroupBase = (props: ModelSelectorGroupProps) => (
   <CommandGroup {...props} />
 );
 
 export type ModelSelectorItemProps = ComponentProps<typeof CommandItem>;
 
-export const ModelSelectorItem = (props: ModelSelectorItemProps) => (
+const ModelSelectorItemBase = (props: ModelSelectorItemProps) => (
   <CommandItem {...props} />
 );
 
 export type ModelSelectorShortcutProps = ComponentProps<typeof CommandShortcut>;
 
-export const ModelSelectorShortcut = (props: ModelSelectorShortcutProps) => (
+const ModelSelectorShortcutBase = (props: ModelSelectorShortcutProps) => (
   <CommandShortcut {...props} />
 );
 
@@ -105,7 +108,7 @@ export type ModelSelectorSeparatorProps = ComponentProps<
   typeof CommandSeparator
 >;
 
-export const ModelSelectorSeparator = (props: ModelSelectorSeparatorProps) => (
+const ModelSelectorSeparatorBase = (props: ModelSelectorSeparatorProps) => (
   <CommandSeparator {...props} />
 );
 
@@ -174,7 +177,7 @@ export type ModelSelectorLogoProps = Omit<
     | (string & {});
 };
 
-export const ModelSelectorLogo = ({
+const ModelSelectorLogoBase = ({
   provider,
   className,
   ...props
@@ -191,7 +194,7 @@ export const ModelSelectorLogo = ({
 
 export type ModelSelectorLogoGroupProps = ComponentProps<"div">;
 
-export const ModelSelectorLogoGroup = ({
+const ModelSelectorLogoGroupBase = ({
   className,
   ...props
 }: ModelSelectorLogoGroupProps) => (
@@ -206,9 +209,37 @@ export const ModelSelectorLogoGroup = ({
 
 export type ModelSelectorNameProps = ComponentProps<"span">;
 
-export const ModelSelectorName = ({
+const ModelSelectorNameBase = ({
   className,
   ...props
 }: ModelSelectorNameProps) => (
   <span className={cn("flex-1 truncate text-left", className)} {...props} />
 );
+
+export const ModelSelector = withProGuard(ModelSelectorBase, "ModelSelector")
+
+export const ModelSelectorTrigger = withProGuard(ModelSelectorTriggerBase, "ModelSelectorTrigger")
+
+export const ModelSelectorContent = withProGuard(ModelSelectorContentBase, "ModelSelectorContent")
+
+export const ModelSelectorDialog = withProGuard(ModelSelectorDialogBase, "ModelSelectorDialog")
+
+export const ModelSelectorInput = withProGuard(ModelSelectorInputBase, "ModelSelectorInput")
+
+export const ModelSelectorList = withProGuard(ModelSelectorListBase, "ModelSelectorList")
+
+export const ModelSelectorEmpty = withProGuard(ModelSelectorEmptyBase, "ModelSelectorEmpty")
+
+export const ModelSelectorGroup = withProGuard(ModelSelectorGroupBase, "ModelSelectorGroup")
+
+export const ModelSelectorItem = withProGuard(ModelSelectorItemBase, "ModelSelectorItem")
+
+export const ModelSelectorShortcut = withProGuard(ModelSelectorShortcutBase, "ModelSelectorShortcut")
+
+export const ModelSelectorSeparator = withProGuard(ModelSelectorSeparatorBase, "ModelSelectorSeparator")
+
+export const ModelSelectorLogo = withProGuard(ModelSelectorLogoBase, "ModelSelectorLogo")
+
+export const ModelSelectorLogoGroup = withProGuard(ModelSelectorLogoGroupBase, "ModelSelectorLogoGroup")
+
+export const ModelSelectorName = withProGuard(ModelSelectorNameBase, "ModelSelectorName")

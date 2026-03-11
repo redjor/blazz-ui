@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useRef, useState, useEffect, useCallback } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Card } from "../ui/card"
@@ -90,7 +91,7 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
 // StatsStrip
 // ---------------------------------------------------------------------------
 
-export function StatsStrip({ stats, loading = false, loadingCount = 4, className }: StatsStripProps) {
+function StatsStripBase({ stats, loading = false, loadingCount = 4, className }: StatsStripProps) {
 	const scrollRef = useRef<HTMLDivElement>(null)
 	const [canScrollLeft, setCanScrollLeft] = useState(false)
 	const [canScrollRight, setCanScrollRight] = useState(false)
@@ -202,3 +203,5 @@ export function StatsStrip({ stats, loading = false, loadingCount = 4, className
 		</Card>
 	)
 }
+
+export const StatsStrip = withProGuard(StatsStripBase, "StatsStrip")

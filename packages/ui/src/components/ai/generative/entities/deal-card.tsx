@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { Calendar, Building2, TrendingUp } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 const stageVariantMap = {
@@ -30,7 +31,7 @@ export interface DealCardProps {
 	className?: string
 }
 
-export function DealCard({
+function DealCardBase({
 	title,
 	amount,
 	stage,
@@ -103,3 +104,5 @@ export function DealCard({
 		</Wrapper>
 	)
 }
+
+export const DealCard = withProGuard(DealCardBase, "DealCard")

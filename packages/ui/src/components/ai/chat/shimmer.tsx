@@ -3,6 +3,7 @@
 import type { MotionProps } from "motion/react";
 import type { CSSProperties, ElementType, JSX } from "react";
 
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { motion } from "motion/react";
 import { memo, useMemo } from "react";
@@ -75,4 +76,6 @@ const ShimmerComponent = ({
   );
 };
 
-export const Shimmer = memo(ShimmerComponent);
+const ShimmerBase = memo(ShimmerComponent);
+
+export const Shimmer = withProGuard(ShimmerBase, "Shimmer")

@@ -1,6 +1,7 @@
 "use client"
 
 import { MapPin, ExternalLink } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface LocationCardProps {
@@ -12,7 +13,7 @@ export interface LocationCardProps {
 	className?: string
 }
 
-export function LocationCard({
+function LocationCardBase({
 	name,
 	address,
 	city,
@@ -57,3 +58,5 @@ export function LocationCard({
 		</div>
 	)
 }
+
+export const LocationCard = withProGuard(LocationCardBase, "LocationCard")

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { MapPin, Briefcase, Mail } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 const statusVariantMap = {
@@ -42,7 +43,7 @@ function getInitials(name: string) {
 		.slice(0, 2)
 }
 
-export function CandidateCard({
+function CandidateCardBase({
 	name,
 	avatar,
 	role,
@@ -160,3 +161,5 @@ export function CandidateCard({
 		</Wrapper>
 	)
 }
+
+export const CandidateCard = withProGuard(CandidateCardBase, "CandidateCard")

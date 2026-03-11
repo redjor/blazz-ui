@@ -1,3 +1,4 @@
+import { withProGuard } from "../../lib/with-pro-guard"
 import type { LucideIcon } from "lucide-react"
 import { TrendingUp, TrendingDown } from "lucide-react"
 import { Card, CardContent } from "../ui/card"
@@ -91,7 +92,7 @@ function StatCardSkeleton() {
 	)
 }
 
-export function StatsGrid({
+function StatsGridBase({
 	stats,
 	columns = 4,
 	loading = false,
@@ -113,3 +114,5 @@ export function StatsGrid({
 		</div>
 	)
 }
+
+export const StatsGrid = withProGuard(StatsGridBase, "StatsGrid")

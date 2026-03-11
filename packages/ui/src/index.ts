@@ -131,5 +131,9 @@ export * from "./lib/theme-context"
 export * from "./lib/use-frame-layout"
 export * from "./lib/tab-utils"
 
+// ── License ──────────────────────────────────
+export { BlazzProvider, useLicense } from "./lib/license-context"
+export type { LicenseInfo, LicensePlan } from "./lib/license"
+
 // ── Types ──────────────────────────────────────
 export * from "./types/navigation"

@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { ArrowRight } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface StatusUpdateProps {
@@ -17,7 +18,7 @@ export interface StatusUpdateProps {
 	className?: string
 }
 
-export function StatusUpdate({
+function StatusUpdateBase({
 	title,
 	description,
 	from,
@@ -56,3 +57,5 @@ export function StatusUpdate({
 		</div>
 	)
 }
+
+export const StatusUpdate = withProGuard(StatusUpdateBase, "StatusUpdate")

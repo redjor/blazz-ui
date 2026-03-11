@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import { ChevronRight } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ActionListItem {
@@ -17,7 +18,7 @@ export interface ActionListProps {
 	className?: string
 }
 
-export function ActionList({ title, items, className }: ActionListProps) {
+function ActionListBase({ title, items, className }: ActionListProps) {
 	return (
 		<div className={cn("rounded-lg border border-container bg-surface", className)}>
 			{title && (
@@ -51,3 +52,5 @@ export function ActionList({ title, items, className }: ActionListProps) {
 		</div>
 	)
 }
+
+export const ActionList = withProGuard(ActionListBase, "ActionList")

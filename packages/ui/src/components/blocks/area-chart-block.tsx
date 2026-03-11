@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import {
 	type ChartConfig,
@@ -42,7 +43,7 @@ export interface AreaChartBlockProps {
 	className?: string
 }
 
-export function AreaChartBlock({
+function AreaChartBlockBase({
 	title = "Area Chart",
 	description,
 	data = defaultData,
@@ -89,3 +90,5 @@ export function AreaChartBlock({
 		</Card>
 	)
 }
+
+export const AreaChartBlock = withProGuard(AreaChartBlockBase, "AreaChartBlock")

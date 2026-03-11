@@ -5,6 +5,7 @@ import {
 	Area,
 	ResponsiveContainer,
 } from "recharts"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface MiniChartProps {
@@ -15,7 +16,7 @@ export interface MiniChartProps {
 	className?: string
 }
 
-export function MiniChart({
+function MiniChartBase({
 	label,
 	data,
 	value,
@@ -60,3 +61,5 @@ export function MiniChart({
 		</div>
 	)
 }
+
+export const MiniChart = withProGuard(MiniChartBase, "MiniChart")

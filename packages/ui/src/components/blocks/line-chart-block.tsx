@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 import {
 	type ChartConfig,
@@ -41,7 +42,7 @@ export interface LineChartBlockProps {
 	className?: string
 }
 
-export function LineChartBlock({
+function LineChartBlockBase({
 	title = "Line Chart",
 	description,
 	data = defaultData,
@@ -85,3 +86,5 @@ export function LineChartBlock({
 		</Card>
 	)
 }
+
+export const LineChartBlock = withProGuard(LineChartBlockBase, "LineChartBlock")

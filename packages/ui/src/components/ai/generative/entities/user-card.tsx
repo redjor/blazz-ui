@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface UserCardProps {
@@ -26,7 +27,7 @@ function getInitials(name: string) {
 	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
 }
 
-export function UserCard({
+function UserCardBase({
 	name,
 	avatar,
 	role,
@@ -68,3 +69,5 @@ export function UserCard({
 		</Wrapper>
 	)
 }
+
+export const UserCard = withProGuard(UserCardBase, "UserCard")

@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { Package } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type ProductStatus = "active" | "draft" | "archived"
@@ -25,7 +26,7 @@ const statusConfig = {
 	archived: { label: "Archived", variant: "outline" as const },
 } as const
 
-export function ProductCard({
+function ProductCardBase({
 	name,
 	price,
 	category,
@@ -82,3 +83,5 @@ export function ProductCard({
 		</Wrapper>
 	)
 }
+
+export const ProductCard = withProGuard(ProductCardBase, "ProductCard")

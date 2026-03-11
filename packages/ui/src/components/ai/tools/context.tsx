@@ -10,6 +10,7 @@ import {
   HoverCardTrigger,
 } from "../../ui/hover-card";
 import { Progress } from "../../ui/progress";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { createContext, useContext, useMemo } from "react";
 import { getUsage } from "tokenlens";
@@ -43,7 +44,7 @@ const useContextValue = () => {
 
 export type ContextProps = ComponentProps<typeof HoverCard> & ContextSchema;
 
-export const Context = ({
+const ContextBase = ({
   usedTokens,
   maxTokens,
   usage,
@@ -105,7 +106,7 @@ const ContextIcon = () => {
 
 export type ContextTriggerProps = ComponentProps<typeof Button>;
 
-export const ContextTrigger = ({ children, ...props }: ContextTriggerProps) => {
+const ContextTriggerBase = ({ children, ...props }: ContextTriggerProps) => {
   const { usedTokens, maxTokens } = useContextValue();
   const usedPercent = usedTokens / maxTokens;
   const renderedPercent = new Intl.NumberFormat("en-US", {
@@ -129,7 +130,7 @@ export const ContextTrigger = ({ children, ...props }: ContextTriggerProps) => {
 
 export type ContextContentProps = ComponentProps<typeof HoverCardContent>;
 
-export const ContextContent = ({
+const ContextContentBase = ({
   className,
   ...props
 }: ContextContentProps) => (
@@ -141,7 +142,7 @@ export const ContextContent = ({
 
 export type ContextContentHeaderProps = ComponentProps<"div">;
 
-export const ContextContentHeader = ({
+const ContextContentHeaderBase = ({
   children,
   className,
   ...props
@@ -180,7 +181,7 @@ export const ContextContentHeader = ({
 
 export type ContextContentBodyProps = ComponentProps<"div">;
 
-export const ContextContentBody = ({
+const ContextContentBodyBase = ({
   children,
   className,
   ...props
@@ -192,7 +193,7 @@ export const ContextContentBody = ({
 
 export type ContextContentFooterProps = ComponentProps<"div">;
 
-export const ContextContentFooter = ({
+const ContextContentFooterBase = ({
   children,
   className,
   ...props
@@ -232,7 +233,7 @@ export const ContextContentFooter = ({
 
 export type ContextInputUsageProps = ComponentProps<"div">;
 
-export const ContextInputUsage = ({
+const ContextInputUsageBase = ({
   className,
   children,
   ...props
@@ -272,7 +273,7 @@ export const ContextInputUsage = ({
 
 export type ContextOutputUsageProps = ComponentProps<"div">;
 
-export const ContextOutputUsage = ({
+const ContextOutputUsageBase = ({
   className,
   children,
   ...props
@@ -312,7 +313,7 @@ export const ContextOutputUsage = ({
 
 export type ContextReasoningUsageProps = ComponentProps<"div">;
 
-export const ContextReasoningUsage = ({
+const ContextReasoningUsageBase = ({
   className,
   children,
   ...props
@@ -352,7 +353,7 @@ export const ContextReasoningUsage = ({
 
 export type ContextCacheUsageProps = ComponentProps<"div">;
 
-export const ContextCacheUsage = ({
+const ContextCacheUsageBase = ({
   className,
   children,
   ...props
@@ -408,3 +409,23 @@ const TokensWithCost = ({
     ) : null}
   </span>
 );
+
+export const Context = withProGuard(ContextBase, "Context")
+
+export const ContextTrigger = withProGuard(ContextTriggerBase, "ContextTrigger")
+
+export const ContextContent = withProGuard(ContextContentBase, "ContextContent")
+
+export const ContextContentHeader = withProGuard(ContextContentHeaderBase, "ContextContentHeader")
+
+export const ContextContentBody = withProGuard(ContextContentBodyBase, "ContextContentBody")
+
+export const ContextContentFooter = withProGuard(ContextContentFooterBase, "ContextContentFooter")
+
+export const ContextInputUsage = withProGuard(ContextInputUsageBase, "ContextInputUsage")
+
+export const ContextOutputUsage = withProGuard(ContextOutputUsageBase, "ContextOutputUsage")
+
+export const ContextReasoningUsage = withProGuard(ContextReasoningUsageBase, "ContextReasoningUsage")
+
+export const ContextCacheUsage = withProGuard(ContextCacheUsageBase, "ContextCacheUsage")

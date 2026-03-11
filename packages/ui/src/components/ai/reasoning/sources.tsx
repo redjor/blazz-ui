@@ -7,12 +7,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../../ui/collapsible";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import { BookIcon, ChevronDownIcon } from "lucide-react";
 
 export type SourcesProps = ComponentProps<typeof Collapsible>;
 
-export const Sources = ({ className, ...props }: SourcesProps) => (
+const SourcesBase = ({ className, ...props }: SourcesProps) => (
   <Collapsible
     className={cn("not-prose mb-4 text-primary text-xs", className)}
     {...props}
@@ -23,7 +24,7 @@ export type SourcesTriggerProps = ComponentProps<typeof CollapsibleTrigger> & {
   count: number;
 };
 
-export const SourcesTrigger = ({
+const SourcesTriggerBase = ({
   className,
   count,
   children,
@@ -44,7 +45,7 @@ export const SourcesTrigger = ({
 
 export type SourcesContentProps = ComponentProps<typeof CollapsibleContent>;
 
-export const SourcesContent = ({
+const SourcesContentBase = ({
   className,
   ...props
 }: SourcesContentProps) => (
@@ -60,7 +61,7 @@ export const SourcesContent = ({
 
 export type SourceProps = ComponentProps<"a">;
 
-export const Source = ({ href, title, children, ...props }: SourceProps) => (
+const SourceBase = ({ href, title, children, ...props }: SourceProps) => (
   <a
     className="flex items-center gap-2"
     href={href}
@@ -76,3 +77,11 @@ export const Source = ({ href, title, children, ...props }: SourceProps) => (
     )}
   </a>
 );
+
+export const Sources = withProGuard(SourcesBase, "Sources")
+
+export const SourcesTrigger = withProGuard(SourcesTriggerBase, "SourcesTrigger")
+
+export const SourcesContent = withProGuard(SourcesContentBase, "SourcesContent")
+
+export const Source = withProGuard(SourceBase, "Source")

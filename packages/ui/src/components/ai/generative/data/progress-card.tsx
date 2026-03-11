@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ProgressCardProps {
@@ -10,7 +11,7 @@ export interface ProgressCardProps {
 	className?: string
 }
 
-export function ProgressCard({
+function ProgressCardBase({
 	label,
 	value,
 	description,
@@ -45,3 +46,5 @@ export function ProgressCard({
 		</div>
 	)
 }
+
+export const ProgressCard = withProGuard(ProgressCardBase, "ProgressCard")

@@ -9,6 +9,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../ui/hover-card";
+import { withProGuard } from "../../../lib/with-pro-guard"
 import { cn } from "../../../lib/utils";
 import {
   FileTextIcon,
@@ -151,7 +152,7 @@ export type AttachmentsProps = HTMLAttributes<HTMLDivElement> & {
   variant?: AttachmentVariant;
 };
 
-export const Attachments = ({
+const AttachmentsBase = ({
   variant = "grid",
   className,
   children,
@@ -185,7 +186,7 @@ export type AttachmentProps = HTMLAttributes<HTMLDivElement> & {
   onRemove?: () => void;
 };
 
-export const Attachment = ({
+const AttachmentBase = ({
   data,
   onRemove,
   className,
@@ -234,7 +235,7 @@ export type AttachmentPreviewProps = HTMLAttributes<HTMLDivElement> & {
   fallbackIcon?: ReactNode;
 };
 
-export const AttachmentPreview = ({
+const AttachmentPreviewBase = ({
   fallbackIcon,
   className,
   ...props
@@ -284,7 +285,7 @@ export type AttachmentInfoProps = HTMLAttributes<HTMLDivElement> & {
   showMediaType?: boolean;
 };
 
-export const AttachmentInfo = ({
+const AttachmentInfoBase = ({
   showMediaType = false,
   className,
   ...props
@@ -316,7 +317,7 @@ export type AttachmentRemoveProps = ComponentProps<typeof Button> & {
   label?: string;
 };
 
-export const AttachmentRemove = ({
+const AttachmentRemoveBase = ({
   label = "Remove",
   className,
   children,
@@ -372,7 +373,7 @@ export const AttachmentRemove = ({
 
 export type AttachmentHoverCardProps = ComponentProps<typeof HoverCard>;
 
-export const AttachmentHoverCard = ({
+const AttachmentHoverCardBase = ({
   openDelay = 0,
   closeDelay = 0,
   ...props
@@ -384,7 +385,7 @@ export type AttachmentHoverCardTriggerProps = ComponentProps<
   typeof HoverCardTrigger
 >;
 
-export const AttachmentHoverCardTrigger = (
+const AttachmentHoverCardTriggerBase = (
   props: AttachmentHoverCardTriggerProps
 ) => <HoverCardTrigger {...props} />;
 
@@ -392,7 +393,7 @@ export type AttachmentHoverCardContentProps = ComponentProps<
   typeof HoverCardContent
 >;
 
-export const AttachmentHoverCardContent = ({
+const AttachmentHoverCardContentBase = ({
   align = "start",
   className,
   ...props
@@ -410,7 +411,7 @@ export const AttachmentHoverCardContent = ({
 
 export type AttachmentEmptyProps = HTMLAttributes<HTMLDivElement>;
 
-export const AttachmentEmpty = ({
+const AttachmentEmptyBase = ({
   className,
   children,
   ...props
@@ -425,3 +426,21 @@ export const AttachmentEmpty = ({
     {children ?? "No attachments"}
   </div>
 );
+
+export const Attachments = withProGuard(AttachmentsBase, "Attachments")
+
+export const Attachment = withProGuard(AttachmentBase, "Attachment")
+
+export const AttachmentPreview = withProGuard(AttachmentPreviewBase, "AttachmentPreview")
+
+export const AttachmentInfo = withProGuard(AttachmentInfoBase, "AttachmentInfo")
+
+export const AttachmentRemove = withProGuard(AttachmentRemoveBase, "AttachmentRemove")
+
+export const AttachmentHoverCard = withProGuard(AttachmentHoverCardBase, "AttachmentHoverCard")
+
+export const AttachmentHoverCardTrigger = withProGuard(AttachmentHoverCardTriggerBase, "AttachmentHoverCardTrigger")
+
+export const AttachmentHoverCardContent = withProGuard(AttachmentHoverCardContentBase, "AttachmentHoverCardContent")
+
+export const AttachmentEmpty = withProGuard(AttachmentEmptyBase, "AttachmentEmpty")

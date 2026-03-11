@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { AlertCircle } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface ApprovalCardProps {
@@ -20,7 +21,7 @@ const statusConfig = {
 	rejected: { label: "Rejected", variant: "critical" as const },
 } as const
 
-export function ApprovalCard({
+function ApprovalCardBase({
 	title,
 	description,
 	details,
@@ -74,3 +75,5 @@ export function ApprovalCard({
 		</div>
 	)
 }
+
+export const ApprovalCard = withProGuard(ApprovalCardBase, "ApprovalCard")

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import { FileText, ChevronRight } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface SummaryCardProps {
@@ -13,7 +14,7 @@ export interface SummaryCardProps {
 	className?: string
 }
 
-export function SummaryCard({
+function SummaryCardBase({
 	title,
 	points,
 	conclusion,
@@ -55,3 +56,5 @@ export function SummaryCard({
 		</div>
 	)
 }
+
+export const SummaryCard = withProGuard(SummaryCardBase, "SummaryCard")

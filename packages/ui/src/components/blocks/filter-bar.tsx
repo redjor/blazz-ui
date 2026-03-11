@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useCallback } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Search, X } from "lucide-react"
@@ -43,7 +44,7 @@ export interface FilterBarProps {
 
 /* ─── Component ─── */
 
-export function FilterBar({
+function FilterBarBase({
 	filters,
 	values = {},
 	className,
@@ -152,3 +153,5 @@ export function FilterBar({
 		</div>
 	)
 }
+
+export const FilterBar = withProGuard(FilterBarBase, "FilterBar")

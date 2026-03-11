@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Calendar, Mail, Phone, Send, StickyNote } from "lucide-react"
 import { useState } from "react"
 import { Button } from "../ui/button"
@@ -22,7 +23,7 @@ const activityTypes: { type: ActivityType; label: string; icon: typeof Phone }[]
 	{ type: "meeting", label: "RDV", icon: Calendar },
 ]
 
-export function QuickLogActivity({ onLog, trigger, className }: QuickLogActivityProps) {
+function QuickLogActivityBase({ onLog, trigger, className }: QuickLogActivityProps) {
 	const [open, setOpen] = useState(false)
 	const [type, setType] = useState<ActivityType>("call")
 	const [note, setNote] = useState("")
@@ -104,3 +105,5 @@ export function QuickLogActivity({ onLog, trigger, className }: QuickLogActivity
 		</Popover>
 	)
 }
+
+export const QuickLogActivity = withProGuard(QuickLogActivityBase, "QuickLogActivity")

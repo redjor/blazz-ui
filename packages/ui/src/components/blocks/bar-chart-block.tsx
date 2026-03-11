@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import {
 	type ChartConfig,
@@ -41,7 +42,7 @@ export interface BarChartBlockProps {
 	className?: string
 }
 
-export function BarChartBlock({
+function BarChartBlockBase({
 	title = "Bar Chart",
 	description,
 	data = defaultData,
@@ -83,3 +84,5 @@ export function BarChartBlock({
 		</Card>
 	)
 }
+
+export const BarChartBlock = withProGuard(BarChartBlockBase, "BarChartBlock")

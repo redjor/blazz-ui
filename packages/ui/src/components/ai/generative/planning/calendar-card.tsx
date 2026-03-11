@@ -2,6 +2,7 @@
 
 import { Calendar, Clock } from "lucide-react"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface CalendarEvent {
@@ -23,7 +24,7 @@ export interface CalendarCardProps {
 	className?: string
 }
 
-export function CalendarCard({
+function CalendarCardBase({
 	month,
 	days,
 	className,
@@ -79,3 +80,5 @@ export function CalendarCard({
 		</div>
 	)
 }
+
+export const CalendarCard = withProGuard(CalendarCardBase, "CalendarCard")

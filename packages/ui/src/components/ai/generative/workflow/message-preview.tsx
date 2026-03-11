@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { MessageSquare, Phone, Mail, Hash } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type MessagePlatform = "sms" | "whatsapp" | "slack" | "email"
@@ -28,7 +29,7 @@ const platformConfig = {
 	email: { label: "Email", icon: Mail, color: "text-blue-500" },
 } as const
 
-export function MessagePreview({
+function MessagePreviewBase({
 	platform,
 	from,
 	content,
@@ -74,3 +75,5 @@ export function MessagePreview({
 		</div>
 	)
 }
+
+export const MessagePreview = withProGuard(MessagePreviewBase, "MessagePreview")

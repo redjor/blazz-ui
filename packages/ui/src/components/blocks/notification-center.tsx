@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { useEffect, useRef, useState } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Bell, Check, MoreHorizontal } from "lucide-react"
@@ -130,7 +131,7 @@ export interface NotificationCenterProps {
 	className?: string
 }
 
-export function NotificationCenter({
+function NotificationCenterBase({
 	children,
 	loading = false,
 	error = false,
@@ -190,6 +191,8 @@ export function NotificationCenter({
 		</div>
 	)
 }
+
+export const NotificationCenter = withProGuard(NotificationCenterBase, "NotificationCenter")
 
 // ---------------------------------------------------------------------------
 // NotificationList

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Check } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface PollOption {
@@ -18,7 +19,7 @@ export interface PollCardProps {
 	className?: string
 }
 
-export function PollCard({
+function PollCardBase({
 	question,
 	options,
 	totalVotes: totalVotesProp,
@@ -81,3 +82,5 @@ export function PollCard({
 		</div>
 	)
 }
+
+export const PollCard = withProGuard(PollCardBase, "PollCard")

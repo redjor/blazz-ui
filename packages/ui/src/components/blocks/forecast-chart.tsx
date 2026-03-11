@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import {
 	AreaChart,
 	Area,
@@ -43,7 +44,7 @@ const tooltipStyle = {
 	fontSize: "12px",
 }
 
-export function ForecastChart({
+function ForecastChartBase({
 	title = "Prévision de revenus",
 	description,
 	data,
@@ -138,3 +139,5 @@ export function ForecastChart({
 		</Card>
 	)
 }
+
+export const ForecastChart = withProGuard(ForecastChartBase, "ForecastChart")

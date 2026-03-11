@@ -6,6 +6,7 @@ import { Calendar, Clock, MapPin, Users } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { AvatarGroup, AvatarGroupCount } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface EventParticipant {
@@ -38,7 +39,7 @@ export interface EventCardProps {
 	className?: string
 }
 
-export function EventCard({
+function EventCardBase({
 	title,
 	type,
 	date,
@@ -116,3 +117,5 @@ export function EventCard({
 		</Wrapper>
 	)
 }
+
+export const EventCard = withProGuard(EventCardBase, "EventCard")

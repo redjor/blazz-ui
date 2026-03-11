@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { cn } from "../../lib/utils"
 
 export interface QuoteLineItem {
@@ -41,7 +42,7 @@ function formatDate(dateStr: string) {
 	})
 }
 
-export function QuotePreview({
+function QuotePreviewBase({
 	reference,
 	date,
 	validUntil,
@@ -180,3 +181,5 @@ export function QuotePreview({
 		</div>
 	)
 }
+
+export const QuotePreview = withProGuard(QuotePreviewBase, "QuotePreview")

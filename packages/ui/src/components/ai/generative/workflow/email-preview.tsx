@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import { Mail, Paperclip } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export interface EmailPreviewProps {
@@ -28,7 +29,7 @@ const statusConfig = {
 	scheduled: { label: "Scheduled", variant: "info" as const },
 } as const
 
-export function EmailPreview({
+function EmailPreviewBase({
 	subject,
 	from,
 	to,
@@ -101,3 +102,5 @@ export function EmailPreview({
 		</div>
 	)
 }
+
+export const EmailPreview = withProGuard(EmailPreviewBase, "EmailPreview")

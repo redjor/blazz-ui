@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Receipt } from "lucide-react"
 import { Badge } from "../../../ui/badge"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "cancelled"
 
@@ -34,7 +35,7 @@ const statusConfig = {
 	cancelled: { label: "Cancelled", variant: "default" as const },
 } as const
 
-export function InvoiceCard({
+function InvoiceCardBase({
 	number,
 	client,
 	amount,
@@ -117,3 +118,5 @@ export function InvoiceCard({
 		</Wrapper>
 	)
 }
+
+export const InvoiceCard = withProGuard(InvoiceCardBase, "InvoiceCard")

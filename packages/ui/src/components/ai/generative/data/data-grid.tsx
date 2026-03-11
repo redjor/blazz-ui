@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { ArrowDown, ArrowUp } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
 import { Badge } from "../../../ui/badge"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 // ---------- Column definition ----------
@@ -147,7 +148,7 @@ function CellRenderer({ cell }: { cell: DataGridCell }) {
 
 // ---------- Component ----------
 
-export function DataGrid({
+function DataGridBase({
 	title,
 	columns,
 	rows,
@@ -253,3 +254,5 @@ export function DataGrid({
 		</div>
 	)
 }
+
+export const DataGrid = withProGuard(DataGridBase, "DataGrid")

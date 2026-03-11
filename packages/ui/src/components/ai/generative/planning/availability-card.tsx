@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Clock } from "lucide-react"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
 
 export type SlotStatus = "available" | "busy" | "tentative"
@@ -29,7 +30,7 @@ const slotStyles = {
 	tentative: "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300 dark:hover:bg-amber-900 cursor-pointer",
 } as const
 
-export function AvailabilityCard({
+function AvailabilityCardBase({
 	title = "Available times",
 	days,
 	onSelect,
@@ -95,3 +96,5 @@ export function AvailabilityCard({
 		</div>
 	)
 }
+
+export const AvailabilityCard = withProGuard(AvailabilityCardBase, "AvailabilityCard")

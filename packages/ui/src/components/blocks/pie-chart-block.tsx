@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Pie, PieChart, Label } from "recharts"
 import {
 	type ChartConfig,
@@ -42,7 +43,7 @@ export interface PieChartBlockProps {
 	className?: string
 }
 
-export function PieChartBlock({
+function PieChartBlockBase({
 	title = "Pie Chart",
 	description,
 	data = defaultData,
@@ -124,3 +125,5 @@ export function PieChartBlock({
 		</Card>
 	)
 }
+
+export const PieChartBlock = withProGuard(PieChartBlockBase, "PieChartBlock")

@@ -1,5 +1,6 @@
 "use client"
 
+import { withProGuard } from "../../lib/with-pro-guard"
 import * as React from "react"
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 import type { LucideIcon } from "lucide-react"
@@ -14,7 +15,7 @@ interface ViewConfigPanelProps extends React.ComponentProps<"div"> {
 	width?: number
 }
 
-function ViewConfigPanel({
+function ViewConfigPanelBase({
 	className,
 	width = 280,
 	style,
@@ -337,6 +338,8 @@ function ViewConfigFooterAction({
 // ---------------------------------------------------------------------------
 // Exports
 // ---------------------------------------------------------------------------
+
+const ViewConfigPanel = withProGuard(ViewConfigPanelBase, "ViewConfigPanel")
 
 export {
 	ViewConfigPanel,
