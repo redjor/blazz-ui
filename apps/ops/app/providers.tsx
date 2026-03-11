@@ -1,6 +1,7 @@
 "use client"
 
 import { ConvexAuthNextjsProvider } from "@convex-dev/auth/nextjs"
+import { BlazzProvider } from "@blazz/ui"
 import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
 import { ThemeAwareToaster } from "@/components/theme-aware-toaster"
 import { ConvexReactClient } from "convex/react"
@@ -13,10 +14,12 @@ export function Providers({ children }: { children: ReactNode }) {
 	return (
 		<ConvexAuthNextjsProvider client={convex}>
 			<ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-				<ThemePaletteProvider>
-					{children}
-					<ThemeAwareToaster />
-				</ThemePaletteProvider>
+				<BlazzProvider licenseKey={process.env.NEXT_PUBLIC_BLAZZ_LICENSE_KEY}>
+					<ThemePaletteProvider>
+						{children}
+						<ThemeAwareToaster />
+					</ThemePaletteProvider>
+				</BlazzProvider>
 			</ThemeProvider>
 		</ConvexAuthNextjsProvider>
 	)
