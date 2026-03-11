@@ -20,7 +20,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@blazz/ui/components/ui/sidebar";
-import { CheckSquare, Clock, LayoutDashboard, Sun, Users } from "lucide-react";
+import { CheckSquare, Clock, FolderOpen, LayoutDashboard, Sun, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,6 +32,7 @@ import { OpsUserMenu } from "./ops-user-menu";
 const navItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Aujourd'hui", url: "/today", icon: Sun },
+  { title: "Projets", url: "/projects", icon: FolderOpen },
   { title: "Clients", url: "/clients", icon: Users },
   {
     title: "Suivi de temps",
