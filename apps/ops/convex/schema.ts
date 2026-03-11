@@ -84,4 +84,15 @@ export default defineSchema({
 	})
 		.index("by_status", ["status"])
 		.index("by_category", ["categoryId"]),
+
+	packages: defineTable({
+		name: v.string(),
+		latestVersion: v.string(),
+		publishedAt: v.string(),
+		weeklyDownloads: v.number(),
+		description: v.string(),
+		license: v.optional(v.string()),
+		unpackedSize: v.optional(v.number()),
+		lastSyncedAt: v.number(),
+	}).index("by_name", ["name"]),
 })
