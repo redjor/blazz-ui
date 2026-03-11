@@ -63,10 +63,12 @@ export default defineSchema({
 		status: v.union(
 			v.literal("triage"),
 			v.literal("todo"),
+			v.literal("blocked"),
 			v.literal("in_progress"),
 			v.literal("done")
 		),
 		source: v.union(v.literal("app"), v.literal("telegram")),
+		dueDate: v.optional(v.string()),
 		projectId: v.optional(v.id("projects")),
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),

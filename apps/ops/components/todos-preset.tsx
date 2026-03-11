@@ -5,6 +5,8 @@ import { col } from '@blazz/ui/components/blocks/data-table/factories/col'
 import { createStatusViews } from '@blazz/ui/components/blocks/data-table/factories/view-builders'
 import { createCRUDActions, createBulkActions } from '@blazz/ui/components/blocks/data-table/factories/action-builders'
 import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '@blazz/ui/components/blocks/data-table'
+import { isToday, isTomorrow, isPast, isThisWeek, parseISO, format } from 'date-fns'
+import { fr } from 'date-fns/locale'
 import { getCategoryColorClasses } from './manage-categories-sheet'
 import type { Id } from '@/convex/_generated/dataModel'
 
@@ -13,13 +15,14 @@ export interface Todo {
 	_id: Id<"todos">
 	text: string
 	description?: string
-	status: "triage" | "todo" | "in_progress" | "done"
+	status: "triage" | "todo" | "blocked" | "in_progress" | "done"
 	priority?: "urgent" | "high" | "normal" | "low"
 	projectId?: string
 	projectName?: string
 	categoryId?: Id<"categories">
 	categoryName?: string
 	categoryColor?: string
+	dueDate?: string
 	tags?: string[]
 	createdAt: number
 }
@@ -46,18 +49,79 @@ const priorityBarMap: Record<string, string> = {
 	low: 'bg-fg-muted/30',
 }
 
-const statusDotMap: Record<string, string> = {
-	triage: 'bg-zinc-400',
-	todo: 'bg-zinc-500',
-	in_progress: 'bg-yellow-500',
-	done: 'bg-green-500',
-}
-
 const statusLabelMap: Record<string, string> = {
 	triage: 'Triage',
 	todo: 'Todo',
+	blocked: 'Bloqué',
 	in_progress: 'En cours',
 	done: 'Fait',
+}
+
+/* ─── Due date helpers ─── */
+
+export function formatDueDate(dueDate: string): { label: string; overdue: boolean; className: string } {
+	const date = parseISO(dueDate)
+	const today = new Date()
+	today.setHours(0, 0, 0, 0)
+
+	if (isToday(date)) return { label: "Aujourd'hui", overdue: false, className: 'text-orange-500 font-medium' }
+	if (isTomorrow(date)) return { label: 'Demain', overdue: false, className: 'text-fg-muted' }
+	if (isPast(date)) return { label: format(date, 'd MMM', { locale: fr }), overdue: true, className: 'text-destructive font-medium' }
+	if (isThisWeek(date, { weekStartsOn: 1 })) return { label: format(date, 'EEEE', { locale: fr }), overdue: false, className: 'text-fg-muted' }
+	return { label: format(date, 'd MMM', { locale: fr }), overdue: false, className: 'text-fg-muted' }
+}
+
+/* ─── Linear-style status icons (SVG inline, 14×14) ─── */
+
+export function StatusIcon({ status, className = '' }: { status: string; className?: string }) {
+	const size = 14
+	const cn = `shrink-0 ${className}`
+	switch (status) {
+		case 'triage':
+			// Dashed circle — unprocessed
+			return (
+				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" className="text-zinc-400" />
+				</svg>
+			)
+		case 'todo':
+			// Empty circle — to do
+			return (
+				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-zinc-500" />
+				</svg>
+			)
+		case 'blocked':
+			// Circle with horizontal line — blocked
+			return (
+				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-red-500" />
+					<line x1="4" y1="7" x2="10" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="text-red-500" />
+				</svg>
+			)
+		case 'in_progress':
+			// Half-filled circle — in progress
+			return (
+				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-yellow-500" />
+					<path d="M7 1.5 A5.5 5.5 0 0 1 7 12.5 Z" fill="currentColor" className="text-yellow-500" />
+				</svg>
+			)
+		case 'done':
+			// Filled circle with checkmark — done
+			return (
+				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
+					<circle cx="7" cy="7" r="6" fill="currentColor" className="text-green-500" />
+					<path d="M4.5 7.2 L6.2 8.9 L9.5 5.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+				</svg>
+			)
+		default:
+			return (
+				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-zinc-400" />
+				</svg>
+			)
+	}
 }
 
 export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
@@ -101,23 +165,41 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 			enableSorting: true,
 		} as DataTableColumnDef<Todo>,
 
-		// Status — dot 6px + label (double-coded: color + text)
+		// Status — Linear-style icon + label (double-coded: shape + text)
 		{
 			accessorKey: 'status',
 			header: ({ column }) => <DataTableColumnHeader column={column} title="Statut" />,
 			cell: ({ row }) => {
 				const value = row.getValue('status') as string
-				const dotClass = statusDotMap[value] ?? 'bg-zinc-400'
 				const label = statusLabelMap[value] ?? value
 				return (
 					<div className="flex items-center gap-1.5">
-						<span className={`h-1.5 w-1.5 shrink-0 rounded-full ${dotClass}`} />
+						<StatusIcon status={value} />
 						<span className="text-sm text-fg-muted">{label}</span>
 					</div>
 				)
 			},
 			enableSorting: true,
 			size: 120,
+		} as DataTableColumnDef<Todo>,
+
+		// Due date — relative label, overdue in red
+		{
+			accessorKey: 'dueDate',
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Échéance" />,
+			cell: ({ row }) => {
+				const value = row.getValue('dueDate') as string | undefined
+				if (!value) return <span className="text-fg-muted/40 text-sm">—</span>
+				const isDone = row.original.status === 'done'
+				const { label, className } = formatDueDate(value)
+				return (
+					<span className={`text-sm ${isDone ? 'text-fg-muted/40 line-through' : className}`}>
+						{label}
+					</span>
+				)
+			},
+			enableSorting: true,
+			size: 110,
 		} as DataTableColumnDef<Todo>,
 
 		// Category — colored badge
@@ -188,6 +270,7 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 		statuses: [
 			{ id: 'triage', name: 'Triage', value: 'triage' },
 			{ id: 'todo', name: 'Todo', value: 'todo' },
+			{ id: 'blocked', name: 'Bloqué', value: 'blocked' },
 			{ id: 'in_progress', name: 'En cours', value: 'in_progress' },
 			{ id: 'done', name: 'Fait', value: 'done' },
 		],

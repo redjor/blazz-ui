@@ -16,6 +16,7 @@ import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation } from "convex/react"
 import { Flag, Trash2 } from "lucide-react"
 import { useState } from "react"
+import { DueDatePicker } from "@/components/due-date-picker"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { TagInput } from "@/components/tag-input"
 import { api } from "@/convex/_generated/api"
@@ -98,12 +99,14 @@ export function EditTodoDialog({
 	const [priority, setPriority] = useState(todo.priority ?? "normal")
 	const [projectId, setProjectId] = useState(todo.projectId ?? "")
 	const [categoryId, setCategoryId] = useState(todo.categoryId ?? "")
+	const [dueDate, setDueDate] = useState(todo.dueDate ?? "")
 	const [tags, setTags] = useState<string[]>(todo.tags ?? [])
 
 	function resetToTodo() {
 		setText(todo.text)
 		setDescription(todo.description ?? "")
 		setPriority(todo.priority ?? "normal")
+		setDueDate(todo.dueDate ?? "")
 		setProjectId(todo.projectId ?? "")
 		setCategoryId(todo.categoryId ?? "")
 		setTags(todo.tags ?? [])
@@ -113,6 +116,7 @@ export function EditTodoDialog({
 		text.trim() === todo.text &&
 		description.trim() === (todo.description ?? "") &&
 		priority === (todo.priority ?? "normal") &&
+		(dueDate || undefined) === todo.dueDate &&
 		(projectId || undefined) === todo.projectId &&
 		(categoryId || undefined) === todo.categoryId &&
 		JSON.stringify(tags) === JSON.stringify(todo.tags ?? [])
@@ -125,6 +129,7 @@ export function EditTodoDialog({
 			text: text.trim(),
 			description: description.trim() || undefined,
 			priority: priority as "urgent" | "high" | "normal" | "low",
+			dueDate: dueDate || undefined,
 			projectId: (projectId || undefined) as Id<"projects"> | undefined,
 			categoryId: (categoryId || undefined) as Id<"categories"> | undefined,
 			tags: tags.length > 0 ? tags : undefined,
@@ -170,6 +175,7 @@ export function EditTodoDialog({
 						searchPlaceholder="Rechercher…"
 						emptyMessage="Aucun résultat"
 					/>
+					<DueDatePicker value={dueDate} onChange={setDueDate} />
 					<Select
 						value={projectId}
 						onValueChange={setProjectId}

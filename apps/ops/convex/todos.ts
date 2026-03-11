@@ -4,6 +4,7 @@ import { mutation, query } from "./_generated/server"
 const statusValidator = v.union(
 	v.literal("triage"),
 	v.literal("todo"),
+	v.literal("blocked"),
 	v.literal("in_progress"),
 	v.literal("done")
 )
@@ -50,17 +51,19 @@ export const create = mutation({
 		description: v.optional(v.string()),
 		status: v.optional(statusValidator),
 		source: v.optional(v.union(v.literal("app"), v.literal("telegram"))),
+		dueDate: v.optional(v.string()),
 		projectId: v.optional(v.id("projects")),
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),
 		priority: v.optional(priorityValidator),
 	},
-	handler: async (ctx, { text, description, status = "triage", source = "app", projectId, categoryId, tags, priority }) => {
+	handler: async (ctx, { text, description, status = "triage", source = "app", dueDate, projectId, categoryId, tags, priority }) => {
 		return ctx.db.insert("todos", {
 			text,
 			description,
 			status,
 			source,
+			dueDate,
 			projectId,
 			categoryId,
 			tags,
@@ -76,15 +79,17 @@ export const update = mutation({
 		text: v.optional(v.string()),
 		description: v.optional(v.string()),
 		priority: v.optional(priorityValidator),
+		dueDate: v.optional(v.string()),
 		projectId: v.optional(v.id("projects")),
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),
 	},
-	handler: async (ctx, { id, text, description, priority, projectId, categoryId, tags }) => {
+	handler: async (ctx, { id, text, description, priority, dueDate, projectId, categoryId, tags }) => {
 		const patch: Record<string, unknown> = {}
 		if (text !== undefined) patch.text = text
 		if (description !== undefined) patch.description = description
 		if (priority !== undefined) patch.priority = priority
+		patch.dueDate = dueDate
 		patch.projectId = projectId
 		patch.categoryId = categoryId
 		patch.tags = tags

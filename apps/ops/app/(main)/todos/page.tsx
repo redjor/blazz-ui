@@ -19,24 +19,26 @@ import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
 import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { useMutation, useQuery } from "convex/react"
-import { CheckSquare, Columns3, LayoutList, Plus } from "lucide-react"
+import { Calendar, CheckSquare, Columns3, LayoutList, Plus } from "lucide-react"
 import { useMemo, useState } from "react"
+import { DueDatePicker } from "@/components/due-date-picker"
 import { EditTodoDialog, PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
 import type { Category } from "@/components/edit-todo-dialog"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
-import { createTodosPreset } from "@/components/todos-preset"
+import { createTodosPreset, StatusIcon, formatDueDate } from "@/components/todos-preset"
 import type { Todo } from "@/components/todos-preset"
 import { ManageCategoriesSheet, CategoryBadge, getCategoryColorClasses } from "@/components/manage-categories-sheet"
 import { TagInput } from "@/components/tag-input"
 
-type TodoStatus = "triage" | "todo" | "in_progress" | "done"
+type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
 type TodoWithId = Doc<"todos"> & { id: string }
 
 const COLUMNS: { status: TodoStatus; label: string }[] = [
 	{ status: "triage", label: "Triage" },
 	{ status: "todo", label: "Todo" },
+	{ status: "blocked", label: "Bloqué" },
 	{ status: "in_progress", label: "En cours" },
 	{ status: "done", label: "Fait" },
 ]
@@ -71,6 +73,15 @@ function TodoCard({
 				)}
 				<div className="flex items-center gap-1.5 flex-wrap">
 					<PriorityIcon priority={todo.priority} />
+					{todo.dueDate && todo.status !== "done" && (() => {
+						const { label, className } = formatDueDate(todo.dueDate)
+						return (
+							<span className={`inline-flex items-center gap-1 text-xs ${className}`}>
+								<Calendar className="size-3" />
+								{label}
+							</span>
+						)
+					})()}
 					<ProjectBadge projectId={todo.projectId} projects={projects} />
 					{cat && <CategoryBadge name={cat.name} color={cat.color} />}
 				</div>
@@ -120,12 +131,14 @@ function AddTodoDialog({
 	const [priority, setPriority] = useState<string>("normal")
 	const [projectId, setProjectId] = useState<string | undefined>(undefined)
 	const [categoryId, setCategoryId] = useState<string>("")
+	const [dueDate, setDueDate] = useState("")
 	const [tags, setTags] = useState<string[]>([])
 
 	function reset() {
 		setText("")
 		setDescription("")
 		setPriority("normal")
+		setDueDate("")
 		setProjectId(undefined)
 		setCategoryId("")
 		setTags([])
@@ -139,6 +152,7 @@ function AddTodoDialog({
 			description: description.trim() || undefined,
 			status: defaultStatus,
 			source: "app",
+			dueDate: dueDate || undefined,
 			priority: priority as "urgent" | "high" | "normal" | "low",
 			projectId: projectId as Id<"projects"> | undefined,
 			categoryId: (categoryId || undefined) as Id<"categories"> | undefined,
@@ -195,6 +209,7 @@ function AddTodoDialog({
 							</SelectContent>
 						</Select>
 					</div>
+					<DueDatePicker value={dueDate} onChange={setDueDate} />
 					<Select
 						value={categoryId}
 						onValueChange={setCategoryId}
@@ -369,7 +384,7 @@ export default function TodosPage() {
 						)}
 
 						{todos === undefined ? (
-							<div className="grid grid-cols-4 gap-4">
+							<div className="grid grid-cols-5 gap-4">
 								{COLUMNS.map((col) => (
 									<div key={col.status} className="space-y-3">
 										<Skeleton className="h-5 w-24" />
@@ -396,6 +411,7 @@ export default function TodosPage() {
 								renderColumnHeader={(col, colItems) => (
 									<div className="flex items-center justify-between px-3 py-2 border-b border-edge">
 										<div className="flex items-center gap-2">
+											<StatusIcon status={col.id} />
 											<span className="text-sm font-medium text-fg">{col.label}</span>
 											{colItems.length > 0 && (
 												<Badge variant="secondary" fill="subtle" size="xs" className="tabular-nums">
