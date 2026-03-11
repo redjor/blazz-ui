@@ -30,6 +30,24 @@ export default defineSchema({
 		.index("by_client", ["clientId"])
 		.index("by_status", ["status"]),
 
+	contracts: defineTable({
+		projectId: v.id("projects"),
+		type: v.union(v.literal("tma"), v.literal("forfait")),
+		daysPerMonth: v.optional(v.number()),
+		carryOver: v.boolean(),
+		startDate: v.string(),
+		endDate: v.string(),
+		status: v.union(
+			v.literal("active"),
+			v.literal("completed"),
+			v.literal("cancelled")
+		),
+		notes: v.optional(v.string()),
+		createdAt: v.number(),
+	})
+		.index("by_project", ["projectId"])
+		.index("by_status", ["status"]),
+
 	timeEntries: defineTable({
 		projectId: v.id("projects"),
 		date: v.string(),
