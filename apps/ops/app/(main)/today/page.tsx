@@ -3,13 +3,17 @@
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Card, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Banknote, Clock, Plus } from "lucide-react"
 import { useState } from "react"
+import { CurrentSessionCard } from "@/components/current-session-card"
+import { DayTimelineCard, type TimelineItem } from "@/components/day-timeline-card"
 import { EditTodoDialog } from "@/components/edit-todo-dialog"
+import { EnergyCheckCard, type EnergyLevel } from "@/components/energy-check-card"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
@@ -42,6 +46,7 @@ export default function TodayPage() {
 	const [addOpen, setAddOpen] = useState(false)
 	const [editingEntry, setEditingEntry] = useState<Doc<"timeEntries"> | null>(null)
 	const [editingTodo, setEditingTodo] = useState<Doc<"todos"> | null>(null)
+	const [energy, setEnergy] = useState<EnergyLevel | null>("medium")
 	const [quickModal, setQuickModal] = useState<{
 		open: boolean
 		projectId: Id<"projects"> | null
@@ -54,6 +59,32 @@ export default function TodayPage() {
 	const dateTitle = format(new Date(), "EEEE d MMMM yyyy", { locale: fr }).replace(/^\w/, (c) =>
 		c.toUpperCase()
 	)
+	const timelineItems: TimelineItem[] = (todayEntries ?? []).map((entry, index) => {
+		const project = projectList.find((p) => p._id === entry.projectId)
+		const kind = entry.billable ? "focus" : "admin"
+
+		return {
+			id: entry._id,
+			start: `${9 + index}:00`,
+			end: `${9 + index}:${entry.minutes >= 30 ? "30" : "00"}`,
+			minutes: entry.minutes,
+			label: entry.description || project?.name || "Bloc sans titre",
+			description: entry.description,
+			kind,
+			projectName: project?.name,
+		}
+	})
+	const uncategorizedMinutes = Math.max(0, 8 * 60 - totalMinutesToday)
+	const currentSession =
+		timelineItems.length > 0
+			? {
+					label: timelineItems[timelineItems.length - 1].label,
+					projectName: timelineItems[timelineItems.length - 1].projectName,
+					startLabel: timelineItems[timelineItems.length - 1].start ?? "Maintenant",
+					elapsedLabel: formatMinutes(timelineItems[timelineItems.length - 1].minutes),
+					kind: timelineItems[timelineItems.length - 1].kind === "focus" ? "focus" : "admin",
+				}
+			: null
 
 	return (
 		<div className="p-6 space-y-6">
@@ -64,119 +95,158 @@ export default function TodayPage() {
 			/>
 
 			<StatsGrid
-				columns={2}
+				columns={3}
 				loading={isLoading}
 				stats={[
 					{
-						label: "Heures aujourd'hui",
+						label: "Temps conscient",
 						value: formatMinutes(totalMinutesToday),
 						icon: Clock,
 					},
 					{
-						label: "Facturable aujourd'hui",
+						label: "Facturable",
 						value: formatCurrency(totalAmountToday),
 						icon: Banknote,
+					},
+					{
+						label: "Zone floue",
+						value: formatMinutes(uncategorizedMinutes),
+						icon: Clock,
 					},
 				]}
 			/>
 
-			{/* Projets actifs */}
-			<div className="space-y-3">
-				<h2 className="text-sm font-medium text-fg">Projets actifs</h2>
-				{projectList.length === 0 ? (
-					<p className="text-sm text-fg-muted">Aucun projet actif.</p>
-				) : (
-					<div className="space-y-1">
-						{projectList.map((project) => (
-							<div
-								key={project._id}
-								className="flex items-center justify-between py-2 border-b border-edge last:border-0"
-							>
-								<div>
-									<p className="text-sm font-medium text-fg">{project.name}</p>
-									<p className="text-xs text-fg-muted tabular-nums">
-										{project.tjm}€/j · {project.hoursPerDay}h/j
-									</p>
+			<div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_380px]">
+				<DayTimelineCard
+					title="Timeline du jour"
+					items={timelineItems}
+					onAddClick={() => setAddOpen(true)}
+					onItemClick={(id) => {
+						const entry = todayEntries?.find((item) => item._id === id)
+						if (entry) setEditingEntry(entry)
+					}}
+				/>
+
+				<div className="space-y-4">
+					<CurrentSessionCard
+						session={currentSession}
+						onStart={() => setAddOpen(true)}
+						onPause={() => setAddOpen(true)}
+						onStop={() => setAddOpen(true)}
+						onSwitch={() => setAddOpen(true)}
+					/>
+					<EnergyCheckCard value={energy} onChange={setEnergy} />
+
+					<Card>
+						<CardHeader className="border-b border-separator">
+							<CardTitle>Projets actifs</CardTitle>
+						</CardHeader>
+						<div>
+							{projectList.length === 0 ? (
+								<p className="px-6 py-4 text-sm text-fg-muted">Aucun projet actif.</p>
+							) : (
+								<div className="space-y-0">
+									{projectList.map((project) => (
+										<div
+											key={project._id}
+											className="flex items-center justify-between border-b border-edge px-6 py-3 last:border-0"
+										>
+											<div>
+												<p className="text-sm font-medium text-fg">{project.name}</p>
+												<p className="text-xs text-fg-muted tabular-nums">
+													{project.tjm}€/j · {project.hoursPerDay}h/j
+												</p>
+											</div>
+											<Button
+												type="button"
+												variant="outline"
+												size="sm"
+												className="h-7 px-3 text-xs gap-1.5"
+												onClick={() =>
+													setQuickModal({
+														open: true,
+														projectId: project._id,
+														projectName: project.name,
+														hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+													})
+												}
+											>
+												<Plus className="size-3" />
+												Log
+											</Button>
+										</div>
+									))}
 								</div>
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									className="h-7 px-3 text-xs gap-1.5"
-									onClick={() =>
-										setQuickModal({
-											open: true,
-											projectId: project._id,
-											projectName: project.name,
-											hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
-										})
-									}
-								>
-									<Plus className="size-3" />
-									Log
-								</Button>
+							)}
+						</div>
+					</Card>
+				</div>
+			</div>
+
+			<div className="grid gap-6 lg:grid-cols-2">
+				<Card>
+					<CardHeader className="border-b border-separator">
+						<CardTitle>Entrées d'aujourd'hui</CardTitle>
+					</CardHeader>
+					<div>
+						{todayEntries === undefined ? (
+							<p className="px-6 py-4 text-sm text-fg-muted">Chargement…</p>
+						) : todayEntries.length === 0 ? (
+							<p className="px-6 py-4 text-sm text-fg-muted">Aucune entrée pour aujourd'hui.</p>
+						) : (
+							<div className="space-y-0">
+								{todayEntries.map((entry) => {
+									const project = projectList.find((p) => p._id === entry.projectId)
+									return (
+										<button
+											key={entry._id}
+											type="button"
+											className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-raised/50 last:border-0"
+											onClick={() => setEditingEntry(entry)}
+										>
+											<div className="flex items-center gap-3">
+												<span className="w-28 shrink-0 truncate text-xs text-fg-muted">
+													{project?.name ?? "—"}
+												</span>
+												<span className="text-sm text-fg">{entry.description ?? "—"}</span>
+											</div>
+											<span className="font-mono text-sm text-fg-muted tabular-nums">
+												{formatMinutes(entry.minutes)}
+											</span>
+										</button>
+									)
+								})}
 							</div>
-						))}
+						)}
 					</div>
-				)}
-			</div>
+				</Card>
 
-			{/* Entrées d'aujourd'hui */}
-			<div className="space-y-3">
-				<h2 className="text-sm font-medium text-fg">Entrées d'aujourd'hui</h2>
-				{todayEntries === undefined ? (
-					<p className="text-sm text-fg-muted">Chargement…</p>
-				) : todayEntries.length === 0 ? (
-					<p className="text-sm text-fg-muted">Aucune entrée pour aujourd'hui.</p>
-				) : (
-					<div className="space-y-0">
-						{todayEntries.map((entry) => {
-							const project = projectList.find((p) => p._id === entry.projectId)
-							return (
-								<button
-									key={entry._id}
-									type="button"
-									className="w-full flex items-center justify-between py-2.5 border-b border-edge last:border-0 hover:bg-raised/50 transition-colors text-left"
-									onClick={() => setEditingEntry(entry)}
-								>
-									<div className="flex items-center gap-3">
-										<span className="text-xs text-fg-muted w-28 shrink-0 truncate">
-											{project?.name ?? "—"}
-										</span>
-										<span className="text-sm text-fg">{entry.description ?? "—"}</span>
-									</div>
-									<span className="text-sm font-mono text-fg-muted tabular-nums">
-										{formatMinutes(entry.minutes)}
-									</span>
-								</button>
-							)
-						})}
+				<Card>
+					<CardHeader className="border-b border-separator">
+						<CardTitle>Todos actifs</CardTitle>
+					</CardHeader>
+					<div>
+						{todos === undefined ? (
+							<p className="px-6 py-4 text-sm text-fg-muted">Chargement…</p>
+						) : activeTodos.length === 0 ? (
+							<p className="px-6 py-4 text-sm text-fg-muted">Aucun todo actif.</p>
+						) : (
+							<div className="space-y-0">
+								{activeTodos.map((todo) => (
+									<button
+										key={todo._id}
+										type="button"
+										className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-raised/50 last:border-0"
+										onClick={() => setEditingTodo(todo)}
+									>
+										<span className="text-sm text-fg">{todo.text}</span>
+										<span className="text-xs text-fg-muted capitalize">{todo.status}</span>
+									</button>
+								))}
+							</div>
+						)}
 					</div>
-				)}
-			</div>
-
-			{/* Todos actifs */}
-			<div className="space-y-3">
-				<h2 className="text-sm font-medium text-fg">Todos actifs</h2>
-				{todos === undefined ? (
-					<p className="text-sm text-fg-muted">Chargement…</p>
-				) : activeTodos.length === 0 ? (
-					<p className="text-sm text-fg-muted">Aucun todo actif.</p>
-				) : (
-					<div className="space-y-0">
-						{activeTodos.map((todo) => (
-							<button
-								key={todo._id}
-								type="button"
-								className="w-full flex items-center justify-between py-2.5 border-b border-edge last:border-0 hover:bg-raised/50 transition-colors text-left"
-								onClick={() => setEditingTodo(todo)}
-							>
-								<span className="text-sm text-fg">{todo.text}</span>
-								<span className="text-xs text-fg-muted capitalize">{todo.status}</span>
-							</button>
-						))}
-					</div>
-				)}
+				</Card>
 			</div>
 
 			{/* Dialog nouvelle entrée */}

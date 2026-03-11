@@ -2,6 +2,7 @@
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
+import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import {
 	Dialog,
 	DialogContent,
@@ -10,7 +11,6 @@ import {
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
-import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
@@ -24,9 +24,10 @@ import { useMutation, useQuery } from "convex/react"
 import { endOfMonth, format, parseISO, startOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
 import { CheckCheck, Download, FileText } from "lucide-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
+import { JournalDayCard } from "@/components/journal-day-card"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -88,6 +89,32 @@ export default function RecapPage() {
 	const totalMinutes = filteredEntries?.reduce((s, e) => s + e.minutes, 0) ?? 0
 	const totalAmount = filteredEntries?.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0) ?? 0
 	const totalDays = totalMinutes / 60 / 8
+	const journalDays = useMemo(() => {
+		const groups = new Map<string, typeof filteredEntries>()
+		for (const entry of filteredEntries ?? []) {
+			const existing = groups.get(entry.date) ?? []
+			groups.set(entry.date, [...existing, entry])
+		}
+
+		return Array.from(groups.entries())
+			.sort((a, b) => b[0].localeCompare(a[0]))
+			.slice(0, 6)
+			.map(([date, entries]) => {
+				const total = entries.reduce((sum, entry) => sum + entry.minutes, 0)
+				const lead = entries[0]?.description || "Bloc sans description"
+				return {
+					dateLabel: format(new Date(`${date}T00:00:00`), "EEEE d MMMM", { locale: fr }),
+					summary:
+						entries.length > 1
+							? `${entries.length} entrées regroupées. ${lead} ouvre la journée.`
+							: lead,
+					topActivities: entries
+						.slice(0, 3)
+						.map((entry) => entry.description || "Sans description"),
+					note: `${formatMinutes(total)} sur cette journée.`,
+				}
+			})
+	}, [filteredEntries])
 
 	const handleMarkInvoiced = async () => {
 		if (!filteredEntries?.length) return
@@ -141,7 +168,7 @@ export default function RecapPage() {
 
 	return (
 		<>
-		<div className="p-6 space-y-6">
+			<div className="p-6 space-y-6">
 				<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
 				{/* Filters */}
@@ -163,7 +190,9 @@ export default function RecapPage() {
 								<SelectValue placeholder="Tous" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="_all" label="Tous les clients">Tous les clients</SelectItem>
+								<SelectItem value="_all" label="Tous les clients">
+									Tous les clients
+								</SelectItem>
 								{clients?.map((c) => (
 									<SelectItem key={c._id} value={c._id} label={c.name}>
 										{c.name}
@@ -188,7 +217,9 @@ export default function RecapPage() {
 									<SelectValue placeholder="Tous" />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value="_all" label="Tous les projets">Tous les projets</SelectItem>
+									<SelectItem value="_all" label="Tous les projets">
+										Tous les projets
+									</SelectItem>
 									{clientProjects?.map((p) => (
 										<SelectItem key={p._id} value={p._id} label={p.name}>
 											{p.name}
@@ -214,9 +245,15 @@ export default function RecapPage() {
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="current" label="Mois en cours">Mois en cours</SelectItem>
-								<SelectItem value="last" label="Mois précédent">Mois précédent</SelectItem>
-								<SelectItem value="custom" label="Personnalisée">Personnalisée</SelectItem>
+								<SelectItem value="current" label="Mois en cours">
+									Mois en cours
+								</SelectItem>
+								<SelectItem value="last" label="Mois précédent">
+									Mois précédent
+								</SelectItem>
+								<SelectItem value="custom" label="Personnalisée">
+									Personnalisée
+								</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>
@@ -247,8 +284,8 @@ export default function RecapPage() {
 							className={cn(
 								"h-7 px-3 rounded-md transition-colors",
 								statusFilter === s
-							? "bg-surface shadow-sm font-medium text-fg"
-							: "text-fg-muted hover:text-fg"
+									? "bg-surface shadow-sm font-medium text-fg"
+									: "text-fg-muted hover:text-fg"
 							)}
 						>
 							<EntryStatusBadge status={s} />
@@ -283,7 +320,7 @@ export default function RecapPage() {
 									{filteredEntries.map((entry) => (
 										<tr key={entry._id} className="border-b border-edge last:border-0">
 											<td className="p-3 text-fg-muted">
-												{format(new Date(entry.date + "T00:00:00"), "dd MMM", { locale: fr })}
+												{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 											</td>
 											<td className="p-3 text-fg">{entry.description ?? "—"}</td>
 											<td className="p-3 text-right font-mono text-fg">
@@ -333,6 +370,26 @@ export default function RecapPage() {
 								</Button>
 							)}
 						</div>
+
+						<div className="space-y-3 pt-2">
+							<div>
+								<h2 className="text-sm font-medium text-fg">Journal de période</h2>
+								<p className="text-xs text-fg-muted">
+									Lecture compacte des dernières journées présentes dans ce récapitulatif.
+								</p>
+							</div>
+							<div className="grid gap-4 lg:grid-cols-2">
+								{journalDays.map((day) => (
+									<JournalDayCard
+										key={day.dateLabel}
+										dateLabel={day.dateLabel}
+										summary={day.summary}
+										topActivities={day.topActivities}
+										note={day.note}
+									/>
+								))}
+							</div>
+						</div>
 					</>
 				)}
 			</div>
@@ -343,8 +400,8 @@ export default function RecapPage() {
 						<DialogTitle>Marquer comme facturé ?</DialogTitle>
 					</DialogHeader>
 					<p className="text-sm text-fg-muted">
-						{filteredEntries?.length ?? 0} entrée(s) seront marquées comme facturées et
-						déplacées dans l'onglet Facturé. Cette action peut être annulée depuis la page Temps.
+						{filteredEntries?.length ?? 0} entrée(s) seront marquées comme facturées et déplacées
+						dans l'onglet Facturé. Cette action peut être annulée depuis la page Temps.
 					</p>
 					<DialogFooter>
 						<Button type="button" variant="outline" onClick={() => setShowConfirm(false)}>

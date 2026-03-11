@@ -15,18 +15,29 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
-import { addDays, addMonths, addWeeks, endOfMonth, format, startOfMonth, startOfWeek, subMonths, subWeeks } from "date-fns"
+import {
+	addDays,
+	addMonths,
+	addWeeks,
+	endOfMonth,
+	format,
+	startOfMonth,
+	startOfWeek,
+	subMonths,
+	subWeeks,
+} from "date-fns"
 import { fr } from "date-fns/locale"
 import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
+import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
+import { MonthCalendar } from "@/components/month-calendar"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
-import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { WeekGrid } from "@/components/week-grid"
-import { MonthCalendar } from "@/components/month-calendar"
+import { WeekInsightsCard } from "@/components/week-insights-card"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -120,7 +131,7 @@ export default function TimePage() {
 	const dayDetailEntries = useMemo(() => {
 		if (!dayDetail.open || !dayDetail.projectId || !weekEntries) return []
 		return weekEntries.filter(
-			(e) => e.projectId === dayDetail.projectId && e.date === dayDetail.date,
+			(e) => e.projectId === dayDetail.projectId && e.date === dayDetail.date
 		)
 	}, [dayDetail.open, dayDetail.projectId, dayDetail.date, weekEntries])
 
@@ -281,6 +292,36 @@ export default function TimePage() {
 		const endStr = format(end, "d MMM yyyy", { locale: fr })
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
+	const weekInsights = useMemo(() => {
+		const entries = weekEntries ?? []
+		const focusedMinutes = entries
+			.filter((entry) => entry.billable)
+			.reduce((sum, entry) => sum + entry.minutes, 0)
+		const totalMinutes = entries.reduce((sum, entry) => sum + entry.minutes, 0)
+		const uncategorizedMinutes = Math.max(
+			0,
+			activeProjects ? activeProjects.length * 60 - focusedMinutes : 0
+		)
+		const fragmentedMinutes = entries
+			.filter((entry) => entry.minutes < 90)
+			.reduce((sum, entry) => sum + entry.minutes, 0)
+
+		let summary = "Semaine vide pour le moment."
+		if (entries.length > 0) {
+			summary =
+				fragmentedMinutes > focusedMinutes
+					? "Semaine plus hachée que profonde. La grille met surtout en évidence des blocs courts."
+					: "Semaine plutôt lisible. Les blocs les plus longs dominent encore le rythme."
+		}
+
+		return {
+			focusedMinutes,
+			fragmentedMinutes,
+			uncategorizedMinutes,
+			totalMinutes,
+			summary,
+		}
+	}, [activeProjects, weekEntries])
 
 	function resetFilters() {
 		setFilterProjectId(undefined)
@@ -412,56 +453,58 @@ export default function TimePage() {
 				</div>
 
 				{view === "week" && (
-					<div
-						className={
-							weekEntries === undefined || activeProjects === undefined
-								? "opacity-50 pointer-events-none"
-								: ""
-						}
-					>
-						<WeekGrid
-							weekStart={weekStart}
-							entries={weekEntries ?? []}
-							projects={activeProjects ?? []}
-							onCellClick={(projectId, date, dayEntries) => {
-								const project = activeProjects?.find((p) => p._id === projectId)
-								if (!project) return
-								if (dayEntries.length > 0) {
-									setDayDetail({
+					<div className="space-y-4">
+						<WeekInsightsCard
+							stats={{
+								focusedMinutes: weekInsights.focusedMinutes,
+								fragmentedMinutes: weekInsights.fragmentedMinutes,
+								uncategorizedMinutes: weekInsights.uncategorizedMinutes,
+								totalMinutes: weekInsights.totalMinutes,
+							}}
+							summary={weekInsights.summary}
+						/>
+						<div
+							className={
+								weekEntries === undefined || activeProjects === undefined
+									? "opacity-50 pointer-events-none"
+									: ""
+							}
+						>
+							<WeekGrid
+								weekStart={weekStart}
+								entries={weekEntries ?? []}
+								projects={activeProjects ?? []}
+								onCellClick={(projectId, date, dayEntries) => {
+									const project = activeProjects?.find((p) => p._id === projectId)
+									if (!project) return
+									if (dayEntries.length > 0) {
+										setDayDetail({
+											open: true,
+											projectId,
+											projectName: project.name,
+											date,
+										})
+										return
+									}
+									setQuickModal({
 										open: true,
 										projectId,
 										projectName: project.name,
+										hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
 										date,
 									})
-									return
-								}
-								setQuickModal({
-									open: true,
-									projectId,
-									projectName: project.name,
-									hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
-									date,
-								})
-							}}
-							onCellDelete={(entryId) => {
-								setDeleteConfirm({ open: true, entryId })
-							}}
-						/>
+								}}
+								onCellDelete={(entryId) => {
+									setDeleteConfirm({ open: true, entryId })
+								}}
+							/>
+						</div>
 					</div>
 				)}
 
 				{view === "totals" && (
-					<div
-						className={
-							monthEntries === undefined
-								? "opacity-50 pointer-events-none"
-								: ""
-						}
-					>
-						<MonthCalendar
-							month={currentMonth}
-							entries={monthEntries ?? []}
-						/>
+					<div className={monthEntries === undefined ? "opacity-50 pointer-events-none" : ""}>
+						<MonthCalendar month={currentMonth} entries={monthEntries ?? []} />
 					</div>
 				)}
 
