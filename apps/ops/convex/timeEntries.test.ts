@@ -86,3 +86,55 @@ describe("timeEntries auth", () => {
 		).rejects.toThrow("Non authentifié")
 	})
 })
+
+describe("timeEntries delete guards", () => {
+	it("cannot delete an invoiced entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "invoiced",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.remove, { id: entryId })
+		).rejects.toThrow("facturée")
+	})
+
+	it("cannot delete a paid entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "paid",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.remove, { id: entryId })
+		).rejects.toThrow("payée")
+	})
+
+	it("can delete a draft entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "draft",
+		})
+		await asUser.mutation(api.timeEntries.remove, { id: entryId })
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry).toBeNull()
+		})
+	})
+})

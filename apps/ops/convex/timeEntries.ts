@@ -106,6 +106,14 @@ export const remove = mutation({
 	args: { id: v.id("timeEntries") },
 	handler: async (ctx, { id }) => {
 		await requireAuth(ctx)
+		const entry = await ctx.db.get(id)
+		if (!entry) throw new ConvexError("Entrée introuvable")
+		if (entry.status === "invoiced") {
+			throw new ConvexError("Impossible de supprimer une entrée facturée")
+		}
+		if (entry.status === "paid") {
+			throw new ConvexError("Impossible de supprimer une entrée payée")
+		}
 		return ctx.db.delete(id)
 	},
 })
