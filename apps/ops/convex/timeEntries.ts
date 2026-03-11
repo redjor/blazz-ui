@@ -98,6 +98,14 @@ export const update = mutation({
 	},
 	handler: async (ctx, { id, ...fields }) => {
 		await requireAuth(ctx)
+		const entry = await ctx.db.get(id)
+		if (!entry) throw new ConvexError("Entrée introuvable")
+		if (entry.status === "invoiced") {
+			throw new ConvexError("Impossible de modifier une entrée facturée")
+		}
+		if (entry.status === "paid") {
+			throw new ConvexError("Impossible de modifier une entrée payée")
+		}
 		return ctx.db.patch(id, fields)
 	},
 })

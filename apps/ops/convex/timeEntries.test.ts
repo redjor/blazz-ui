@@ -120,6 +120,24 @@ describe("timeEntries delete guards", () => {
 		).rejects.toThrow("payée")
 	})
 
+	it("can delete a ready_to_invoice entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "ready_to_invoice",
+		})
+		await asUser.mutation(api.timeEntries.remove, { id: entryId })
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry).toBeNull()
+		})
+	})
+
 	it("can delete a draft entry", async () => {
 		const { t, asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
@@ -135,6 +153,79 @@ describe("timeEntries delete guards", () => {
 		await t.run(async (ctx) => {
 			const entry = await ctx.db.get(entryId)
 			expect(entry).toBeNull()
+		})
+	})
+})
+
+describe("timeEntries update guards", () => {
+	it("cannot update an invoiced entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "invoiced",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.update, {
+				id: entryId,
+				projectId,
+				date: "2026-03-01",
+				minutes: 90,
+				hourlyRate: 100,
+				billable: true,
+			})
+		).rejects.toThrow("facturée")
+	})
+
+	it("cannot update a paid entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "paid",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.update, {
+				id: entryId,
+				projectId,
+				date: "2026-03-01",
+				minutes: 90,
+				hourlyRate: 100,
+				billable: true,
+			})
+		).rejects.toThrow("payée")
+	})
+
+	it("can update a draft entry", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "draft",
+		})
+		await asUser.mutation(api.timeEntries.update, {
+			id: entryId,
+			projectId,
+			date: "2026-03-01",
+			minutes: 90,
+			hourlyRate: 100,
+			billable: true,
+		})
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry?.minutes).toBe(90)
 		})
 	})
 })
