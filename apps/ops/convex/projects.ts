@@ -11,6 +11,7 @@ const statusValidator = v.union(
 export const listByClient = query({
   args: { clientId: v.id("clients") },
   handler: async (ctx, { clientId }) => {
+    await requireAuth(ctx)
     const projects = await ctx.db
       .query("projects")
       .withIndex("by_client", (q) => q.eq("clientId", clientId))
@@ -38,12 +39,16 @@ export const listByClient = query({
 
 export const listAll = query({
   args: {},
-  handler: async (ctx) => ctx.db.query("projects").collect(),
+  handler: async (ctx) => {
+    await requireAuth(ctx)
+    return ctx.db.query("projects").collect()
+  },
 })
 
 export const listAllWithBudget = query({
   args: {},
   handler: async (ctx) => {
+    await requireAuth(ctx)
     const projects = await ctx.db.query("projects").collect()
 
     return Promise.all(
@@ -85,6 +90,7 @@ export const listAllWithBudget = query({
 export const listActive = query({
   args: {},
   handler: async (ctx) => {
+    await requireAuth(ctx)
     return ctx.db
       .query("projects")
       .withIndex("by_status", (q) => q.eq("status", "active"))
@@ -94,7 +100,10 @@ export const listActive = query({
 
 export const get = query({
   args: { id: v.id("projects") },
-  handler: async (ctx, { id }) => ctx.db.get(id),
+  handler: async (ctx, { id }) => {
+    await requireAuth(ctx)
+    return ctx.db.get(id)
+  },
 })
 
 export const create = mutation({
@@ -171,6 +180,7 @@ function buildWeeklyBurnDown(
 export const getWithStats = query({
   args: { id: v.id("projects") },
   handler: async (ctx, { id }) => {
+    await requireAuth(ctx)
     const project = await ctx.db.get(id)
     if (!project) return null
 

@@ -5,6 +5,7 @@ import { requireAuth } from "./lib/auth"
 export const list = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx)
 		const clients = await ctx.db.query("clients").order("desc").collect()
 		return Promise.all(
 			clients.map(async (c) => ({
@@ -18,6 +19,7 @@ export const list = query({
 export const get = query({
 	args: { id: v.id("clients") },
 	handler: async (ctx, { id }) => {
+		await requireAuth(ctx)
 		const c = await ctx.db.get(id)
 		if (!c) return null
 		return {
@@ -90,6 +92,7 @@ export const remove = mutation({
 export const getStats = query({
 	args: { clientId: v.id("clients") },
 	handler: async (ctx, { clientId }) => {
+		await requireAuth(ctx)
 		const projects = await ctx.db
 			.query("projects")
 			.withIndex("by_client", (q) => q.eq("clientId", clientId))

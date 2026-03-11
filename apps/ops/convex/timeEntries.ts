@@ -11,6 +11,7 @@ export const list = query({
 		to: v.optional(v.string()),
 	},
 	handler: async (ctx, { projectId, from, to }) => {
+		await requireAuth(ctx)
 		let entries = projectId
 			? await ctx.db
 					.query("timeEntries")
@@ -28,6 +29,7 @@ export const list = query({
 export const recent = query({
 	args: { limit: v.optional(v.number()) },
 	handler: async (ctx, { limit = 10 }) => {
+		await requireAuth(ctx)
 		return ctx.db.query("timeEntries").order("desc").take(limit)
 	},
 })
@@ -40,6 +42,7 @@ export const listForRecap = query({
 		includeInvoiced: v.optional(v.boolean()),
 	},
 	handler: async (ctx, { projectId, from, to, includeInvoiced = false }) => {
+		await requireAuth(ctx)
 		let entries = projectId
 			? await ctx.db
 					.query("timeEntries")
@@ -205,6 +208,7 @@ export const listPaginated = query({
 		paginationOpts: paginationOptsValidator,
 	},
 	handler: async (ctx, { projectId, status, billable, from, to, paginationOpts }) => {
+		await requireAuth(ctx)
 		const baseQuery = ctx.db.query("timeEntries").withIndex("by_date").order("desc")
 
 		const hasFilters =
