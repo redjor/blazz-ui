@@ -229,3 +229,138 @@ describe("timeEntries update guards", () => {
 		})
 	})
 })
+
+describe("timeEntries status transitions", () => {
+	it("draft → ready_to_invoice is valid", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "draft",
+		})
+		await asUser.mutation(api.timeEntries.setStatus, {
+			ids: [entryId],
+			status: "ready_to_invoice",
+		})
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry?.status).toBe("ready_to_invoice")
+		})
+	})
+
+	it("draft → paid is invalid", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "draft",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.setStatus, {
+				ids: [entryId],
+				status: "paid",
+			})
+		).rejects.toThrow("Transition invalide")
+	})
+
+	it("draft → invoiced is invalid", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "draft",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.setStatus, {
+				ids: [entryId],
+				status: "invoiced",
+			})
+		).rejects.toThrow("Transition invalide")
+	})
+
+	it("paid → any status is invalid (terminal)", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "paid",
+		})
+		await expect(
+			asUser.mutation(api.timeEntries.setStatus, {
+				ids: [entryId],
+				status: "draft",
+			})
+		).rejects.toThrow("Transition invalide")
+		await expect(
+			asUser.mutation(api.timeEntries.setStatus, {
+				ids: [entryId],
+				status: "ready_to_invoice",
+			})
+		).rejects.toThrow("Transition invalide")
+		await expect(
+			asUser.mutation(api.timeEntries.setStatus, {
+				ids: [entryId],
+				status: "invoiced",
+			})
+		).rejects.toThrow("Transition invalide")
+	})
+
+	it("invoiced → ready_to_invoice is valid (revert)", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "invoiced",
+		})
+		await asUser.mutation(api.timeEntries.setStatus, {
+			ids: [entryId],
+			status: "ready_to_invoice",
+		})
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry?.status).toBe("ready_to_invoice")
+			expect(entry?.invoicedAt).toBeUndefined()
+		})
+	})
+
+	it("invoiced → paid is valid", async () => {
+		const { t, asUser } = setup()
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-01",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "invoiced",
+		})
+		await asUser.mutation(api.timeEntries.setStatus, {
+			ids: [entryId],
+			status: "paid",
+		})
+		await t.run(async (ctx) => {
+			const entry = await ctx.db.get(entryId)
+			expect(entry?.status).toBe("paid")
+		})
+	})
+})

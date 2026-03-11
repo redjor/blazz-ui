@@ -2,6 +2,7 @@ import { paginationOptsValidator } from "convex/server"
 import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
+import { validateTransition, type EntryStatus } from "./lib/status"
 
 export const list = query({
 	args: {
@@ -174,8 +175,11 @@ export const setStatus = mutation({
 		const now = Date.now()
 		await Promise.all(
 			ids.map(async (id) => {
+				const entry = await ctx.db.get(id)
+				if (!entry) throw new ConvexError("Entrée introuvable")
+				const currentStatus: EntryStatus = entry.status ?? "draft"
+				validateTransition(currentStatus, status)
 				const patch: Record<string, unknown> = { status }
-				// Keep invoicedAt in sync for backward compat
 				if (status === "invoiced") patch.invoicedAt = now
 				if (status === "draft" || status === "ready_to_invoice") patch.invoicedAt = undefined
 				await ctx.db.patch(id, patch)
