@@ -10,10 +10,28 @@ const statusValidator = v.union(
 export const listByClient = query({
   args: { clientId: v.id("clients") },
   handler: async (ctx, { clientId }) => {
-    return ctx.db
+    const projects = await ctx.db
       .query("projects")
       .withIndex("by_client", (q) => q.eq("clientId", clientId))
       .collect()
+
+    return Promise.all(
+      projects.map(async (project) => {
+        if (!project.budgetAmount) return { ...project, budgetPercent: null }
+        const entries = await ctx.db
+          .query("timeEntries")
+          .withIndex("by_project", (q) => q.eq("projectId", project._id))
+          .collect()
+        const billableEntries = entries.filter((e) => e.billable)
+        const daysConsumed =
+          project.hoursPerDay > 0
+            ? billableEntries.reduce((s, e) => s + e.minutes, 0) / (project.hoursPerDay * 60)
+            : 0
+        const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
+        const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
+        return { ...project, budgetPercent: Math.round(percentUsed * 10) / 10 }
+      })
+    )
   },
 })
 
@@ -44,6 +62,7 @@ export const create = mutation({
     description: v.optional(v.string()),
     tjm: v.number(),
     hoursPerDay: v.number(),
+    budgetAmount: v.optional(v.number()),
     currency: v.string(),
     status: statusValidator,
     startDate: v.optional(v.string()),
@@ -61,6 +80,7 @@ export const update = mutation({
     description: v.optional(v.string()),
     tjm: v.number(),
     hoursPerDay: v.number(),
+    budgetAmount: v.optional(v.number()),
     currency: v.string(),
     status: statusValidator,
     startDate: v.optional(v.string()),
@@ -68,6 +88,39 @@ export const update = mutation({
   },
   handler: async (ctx, { id, ...fields }) => ctx.db.patch(id, fields),
 })
+
+function buildWeeklyBurnDown(
+    project: { startDate?: string; budgetAmount?: number; tjm: number; hoursPerDay: number },
+    billableEntries: Array<{ date: string; minutes: number; hourlyRate: number }>
+) {
+    if (!project.budgetAmount || !project.startDate) return null
+
+    const revenueByWeek: Record<string, number> = {}
+    for (const e of billableEntries) {
+        const d = new Date(e.date)
+        const day = d.getDay() || 7
+        const monday = new Date(d)
+        monday.setDate(d.getDate() - day + 1)
+        const weekKey = monday.toISOString().slice(0, 10)
+        revenueByWeek[weekKey] = (revenueByWeek[weekKey] ?? 0) + (e.minutes / 60) * e.hourlyRate
+    }
+
+    const sortedWeeks = Object.keys(revenueByWeek).sort()
+    if (sortedWeeks.length === 0) return null
+
+    const budget = project.budgetAmount
+    let cumulative = 0
+    const points = sortedWeeks.map((week) => {
+        cumulative += revenueByWeek[week]
+        return { week, remaining: Math.round(budget - cumulative) }
+    })
+
+    const totalWeeks = points.length
+    return points.map((p, i) => ({
+        ...p,
+        theoretical: Math.round(budget - (budget / totalWeeks) * (i + 1)),
+    }))
+}
 
 export const getWithStats = query({
   args: { id: v.id("projects") },
@@ -112,11 +165,16 @@ export const getWithStats = query({
       entries: [...entries].sort((a, b) => b.date.localeCompare(a.date)),
       stats: {
         totalMinutes,
+        billableMinutes: billableEntries.reduce((s, e) => s + e.minutes, 0),
+        billableRevenue: Math.round(
+            billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+        ),
         totalRevenue: Math.round(totalRevenue),
         invoicedRevenue: Math.round(invoicedRevenue),
         pendingRevenue: Math.round(pendingRevenue),
       },
       monthlyData,
+      weeklyBurnDown: buildWeeklyBurnDown(project, billableEntries),
     }
   },
 })

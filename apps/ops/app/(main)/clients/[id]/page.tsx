@@ -174,6 +174,18 @@ export default function ClientDetailPage({ params }: Props) {
 									</span>
 								</Link>
 								<div className="flex items-center gap-3 shrink-0 ml-4">
+									{project.budgetPercent !== null && (
+										<span
+											className={`inline-block size-2 rounded-full ${
+												project.budgetPercent >= 90
+													? "bg-red-500"
+													: project.budgetPercent >= 70
+														? "bg-amber-500"
+														: "bg-green-500"
+											}`}
+											title={`Budget : ${project.budgetPercent}%`}
+										/>
+									)}
 									<span className="flex items-center gap-1.5 text-xs text-fg-muted">
 										<span
 											className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`}

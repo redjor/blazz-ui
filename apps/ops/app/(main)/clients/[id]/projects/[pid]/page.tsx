@@ -10,6 +10,8 @@ import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { BudgetSection } from "@/components/budget-section"
+import { computeBudgetMetrics } from "@/lib/budget"
 import { formatMinutes } from "@/lib/format"
 import { getEffectiveStatus, type EntryStatus, ENTRY_STATUS_LABELS } from "@/lib/time-entry-status"
 import { format, parseISO } from "date-fns"
@@ -79,6 +81,14 @@ export default function ProjectDetailPage({ params }: Props) {
   }
 
   const { project, entries, stats } = data
+
+  const budgetMetrics = computeBudgetMetrics({
+    budgetAmount: project.budgetAmount,
+    tjm: project.tjm,
+    hoursPerDay: project.hoursPerDay,
+    billableMinutes: stats.billableMinutes,
+    billableRevenue: stats.billableRevenue,
+  })
 
   const filteredEntries =
     statusFilter === "all"
@@ -151,6 +161,15 @@ export default function ProjectDetailPage({ params }: Props) {
             </CardContent>
           </Card>
         </div>
+
+        {/* Budget section */}
+        {budgetMetrics && (
+            <BudgetSection
+                metrics={budgetMetrics}
+                tjm={project.tjm}
+                weeklyBurnDown={data.weeklyBurnDown ?? null}
+            />
+        )}
 
         {/* Timeline of entries */}
         <div className="space-y-4">

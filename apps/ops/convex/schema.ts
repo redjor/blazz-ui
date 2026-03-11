@@ -20,6 +20,7 @@ export default defineSchema({
 		description: v.optional(v.string()),
 		tjm: v.number(),
 		hoursPerDay: v.number(),
+		budgetAmount: v.optional(v.number()),
 		currency: v.union(v.literal("EUR")),
 		status: v.union(v.literal("active"), v.literal("paused"), v.literal("closed")),
 		startDate: v.optional(v.string()),
