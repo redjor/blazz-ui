@@ -417,24 +417,9 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["collapse", "expand", "toggle", "disclosure", "show hide", "accordion"],
 						},
 						{
-							title: "Data Table",
-							url: "/docs/blocks/data-table",
-							keywords: ["grid", "datagrid", "sorting", "filtering", "pagination", "bulk actions"],
-						},
-						{
 							title: "Property",
 							url: "/docs/components/ui/property",
 							keywords: ["key value", "detail", "metadata", "attribute", "property list"],
-						},
-						{
-							title: "Property Card",
-							url: "/docs/blocks/property-card",
-							keywords: ["detail card", "info card", "property group", "metadata card"],
-						},
-						{
-							title: "Stats Strip",
-							url: "/docs/blocks/stats-strip",
-							keywords: ["metrics", "kpi", "statistics", "dashboard stats", "sparkline"],
 						},
 						{
 							title: "Table",
