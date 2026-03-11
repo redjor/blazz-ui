@@ -1,6 +1,7 @@
 "use client"
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
@@ -12,6 +13,9 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { BudgetSection } from "@/components/budget-section"
 import { computeBudgetMetrics } from "@/lib/budget"
+import { ContractSection } from "@/components/contract-section"
+import { ContractForm } from "@/components/contract-form"
+import { computeContractMetrics } from "@/lib/contracts"
 import { formatMinutes } from "@/lib/format"
 import { getEffectiveStatus, type EntryStatus, ENTRY_STATUS_LABELS } from "@/lib/time-entry-status"
 import { format, parseISO } from "date-fns"
@@ -40,6 +44,13 @@ export default function ProjectDetailPage({ params }: Props) {
   const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
   const client = useQuery(api.clients.get, { id: id as Id<"clients"> })
   const [editOpen, setEditOpen] = useState(false)
+  const [contractOpen, setContractOpen] = useState(false)
+  const activeContract = useQuery(api.contracts.getActiveByProject, {
+    projectId: pid as Id<"projects">,
+  })
+  const allContracts = useQuery(api.contracts.listByProject, {
+    projectId: pid as Id<"projects">,
+  })
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
 
   useOpsTopBar(
@@ -89,6 +100,22 @@ export default function ProjectDetailPage({ params }: Props) {
     billableMinutes: stats.billableMinutes,
     billableRevenue: stats.billableRevenue,
   })
+
+  const contractMetrics =
+    activeContract && activeContract.type === "tma" && activeContract.daysPerMonth
+      ? computeContractMetrics({
+          daysPerMonth: activeContract.daysPerMonth,
+          carryOver: activeContract.carryOver,
+          startDate: activeContract.startDate,
+          endDate: activeContract.endDate,
+          hoursPerDay: project.hoursPerDay,
+          entries: entries.map((e) => ({
+            date: e.date,
+            minutes: e.minutes,
+            billable: e.billable,
+          })),
+        })
+      : null
 
   const filteredEntries =
     statusFilter === "all"
@@ -171,6 +198,47 @@ export default function ProjectDetailPage({ params }: Props) {
             />
         )}
 
+        {/* Contract TMA section */}
+        {activeContract && contractMetrics && (
+          <ContractSection
+            contract={activeContract}
+            metrics={contractMetrics}
+            daysPerMonth={activeContract.daysPerMonth!}
+          />
+        )}
+
+        {/* Contract management */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-medium text-fg">Contrats</h2>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setContractOpen(true)}
+          >
+            Nouveau contrat
+          </Button>
+        </div>
+
+        {/* Past contracts list */}
+        {allContracts && allContracts.filter((c) => c.status !== "active").length > 0 && (
+          <div className="space-y-1">
+            {allContracts
+              .filter((c) => c.status !== "active")
+              .map((c) => (
+                <div
+                  key={c._id}
+                  className="flex items-center justify-between py-2 border-b border-edge last:border-0 text-xs text-fg-muted"
+                >
+                  <span className="font-mono">{c.startDate} → {c.endDate}</span>
+                  <span>
+                    {c.type === "tma" ? `${c.daysPerMonth}j/mois` : "Forfait"} ·{" "}
+                    {c.status === "completed" ? "Terminé" : "Annulé"}
+                  </span>
+                </div>
+              ))}
+          </div>
+        )}
+
         {/* Timeline of entries */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -239,6 +307,20 @@ export default function ProjectDetailPage({ params }: Props) {
             defaultValues={{ ...project, id: project._id }}
             onSuccess={() => setEditOpen(false)}
             onCancel={() => setEditOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* New contract dialog */}
+      <Dialog open={contractOpen} onOpenChange={setContractOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Nouveau contrat</DialogTitle>
+          </DialogHeader>
+          <ContractForm
+            projectId={pid as Id<"projects">}
+            onSuccess={() => setContractOpen(false)}
+            onCancel={() => setContractOpen(false)}
           />
         </DialogContent>
       </Dialog>
