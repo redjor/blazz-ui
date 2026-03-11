@@ -33,7 +33,7 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-medium text-fg">
-            {contract.type === "tma" ? "Contrat TMA" : contract.type === "agile" ? "Mission Agile" : "Contrat Forfait"}
+            {contract.type === "tma" ? "Contrat TMA" : contract.type === "regie" ? "Régie" : "Contrat Forfait"}
           </h3>
           <span className="text-xs text-fg-muted">
             {contract.startDate} &rarr; {contract.endDate}

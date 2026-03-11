@@ -11,7 +11,7 @@ const contractStatusValidator = v.union(
 const contractTypeValidator = v.union(
   v.literal("tma"),
   v.literal("forfait"),
-  v.literal("agile")
+  v.literal("regie")
 )
 
 // ── Queries ────────────────────────────────────────

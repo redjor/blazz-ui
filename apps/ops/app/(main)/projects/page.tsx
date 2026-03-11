@@ -121,9 +121,9 @@ export default function ProjectsPage() {
 										TMA {project.contractDaysPerMonth}j/mois
 									</span>
 								)}
-								{project.hasActiveContract && project.contractType === "agile" && (
+								{project.hasActiveContract && project.contractType === "regie" && (
 									<span className="text-xs font-medium text-brand">
-										Agile
+										Régie
 									</span>
 								)}
 								{/* Budget health dot */}

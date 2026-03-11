@@ -240,7 +240,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 >
                   <span className="font-mono">{c.startDate} → {c.endDate}</span>
                   <span>
-                    {c.type === "tma" ? `${c.daysPerMonth}j/mois` : c.type === "agile" ? "Agile" : "Forfait"} ·{" "}
+                    {c.type === "tma" ? `${c.daysPerMonth}j/mois` : c.type === "regie" ? "Régie" : "Forfait"} ·{" "}
                     {c.status === "completed" ? "Terminé" : "Annulé"}
                   </span>
                 </div>

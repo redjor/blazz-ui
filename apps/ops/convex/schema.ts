@@ -32,7 +32,7 @@ export default defineSchema({
 
 	contracts: defineTable({
 		projectId: v.id("projects"),
-		type: v.union(v.literal("tma"), v.literal("forfait"), v.literal("agile")),
+		type: v.union(v.literal("tma"), v.literal("forfait"), v.literal("regie")),
 		daysPerMonth: v.optional(v.number()),
 		carryOver: v.boolean(),
 		startDate: v.string(),
