@@ -37,7 +37,14 @@ export const upsert = internalMutation({
 export const sync = internalAction({
 	args: {},
 	handler: async (ctx) => {
-		const TRACKED = ["@blazz/ui"]
+		const TRACKED = [
+			"@blazz/ui",
+			"next",
+			"react",
+			"typescript",
+			"tailwindcss",
+			"prisma",
+		]
 
 		for (const name of TRACKED) {
 			try {
