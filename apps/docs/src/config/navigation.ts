@@ -118,9 +118,14 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["toolbar", "action bar", "button bar", "segmented"],
 						},
 						{
+							title: "Context Menu",
+							url: "/docs/components/ui/context-menu",
+							keywords: ["right-click", "right click menu", "secondary actions"],
+						},
+						{
 							title: "Dropdown Menu",
 							url: "/docs/components/ui/dropdown-menu",
-							keywords: ["context menu", "right-click", "actions menu", "menu", "popover menu"],
+							keywords: ["context menu", "actions menu", "menu", "popover menu"],
 						},
 					],
 				},

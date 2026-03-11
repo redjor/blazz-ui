@@ -103,6 +103,7 @@ import { Route as DocsDocsComponentsUiDropdownMenuRouteImport } from './routes/_
 import { Route as DocsDocsComponentsUiDialogRouteImport } from './routes/_docs/docs/components/ui/dialog'
 import { Route as DocsDocsComponentsUiDateSelectorRouteImport } from './routes/_docs/docs/components/ui/date-selector'
 import { Route as DocsDocsComponentsUiCurrencyInputRouteImport } from './routes/_docs/docs/components/ui/currency-input'
+import { Route as DocsDocsComponentsUiContextMenuRouteImport } from './routes/_docs/docs/components/ui/context-menu'
 import { Route as DocsDocsComponentsUiConfirmationDialogRouteImport } from './routes/_docs/docs/components/ui/confirmation-dialog'
 import { Route as DocsDocsComponentsUiCommandRouteImport } from './routes/_docs/docs/components/ui/command'
 import { Route as DocsDocsComponentsUiComboboxRouteImport } from './routes/_docs/docs/components/ui/combobox'
@@ -733,6 +734,12 @@ const DocsDocsComponentsUiCurrencyInputRoute =
   DocsDocsComponentsUiCurrencyInputRouteImport.update({
     id: '/docs/components/ui/currency-input',
     path: '/docs/components/ui/currency-input',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsComponentsUiContextMenuRoute =
+  DocsDocsComponentsUiContextMenuRouteImport.update({
+    id: '/docs/components/ui/context-menu',
+    path: '/docs/components/ui/context-menu',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsComponentsUiConfirmationDialogRoute =
@@ -1445,6 +1452,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/combobox': typeof DocsDocsComponentsUiComboboxRoute
   '/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
   '/docs/components/ui/confirmation-dialog': typeof DocsDocsComponentsUiConfirmationDialogRoute
+  '/docs/components/ui/context-menu': typeof DocsDocsComponentsUiContextMenuRoute
   '/docs/components/ui/currency-input': typeof DocsDocsComponentsUiCurrencyInputRoute
   '/docs/components/ui/date-selector': typeof DocsDocsComponentsUiDateSelectorRoute
   '/docs/components/ui/dialog': typeof DocsDocsComponentsUiDialogRoute
@@ -1635,6 +1643,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/combobox': typeof DocsDocsComponentsUiComboboxRoute
   '/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
   '/docs/components/ui/confirmation-dialog': typeof DocsDocsComponentsUiConfirmationDialogRoute
+  '/docs/components/ui/context-menu': typeof DocsDocsComponentsUiContextMenuRoute
   '/docs/components/ui/currency-input': typeof DocsDocsComponentsUiCurrencyInputRoute
   '/docs/components/ui/date-selector': typeof DocsDocsComponentsUiDateSelectorRoute
   '/docs/components/ui/dialog': typeof DocsDocsComponentsUiDialogRoute
@@ -1827,6 +1836,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/combobox': typeof DocsDocsComponentsUiComboboxRoute
   '/_docs/docs/components/ui/command': typeof DocsDocsComponentsUiCommandRoute
   '/_docs/docs/components/ui/confirmation-dialog': typeof DocsDocsComponentsUiConfirmationDialogRoute
+  '/_docs/docs/components/ui/context-menu': typeof DocsDocsComponentsUiContextMenuRoute
   '/_docs/docs/components/ui/currency-input': typeof DocsDocsComponentsUiCurrencyInputRoute
   '/_docs/docs/components/ui/date-selector': typeof DocsDocsComponentsUiDateSelectorRoute
   '/_docs/docs/components/ui/dialog': typeof DocsDocsComponentsUiDialogRoute
@@ -2019,6 +2029,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/combobox'
     | '/docs/components/ui/command'
     | '/docs/components/ui/confirmation-dialog'
+    | '/docs/components/ui/context-menu'
     | '/docs/components/ui/currency-input'
     | '/docs/components/ui/date-selector'
     | '/docs/components/ui/dialog'
@@ -2209,6 +2220,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/combobox'
     | '/docs/components/ui/command'
     | '/docs/components/ui/confirmation-dialog'
+    | '/docs/components/ui/context-menu'
     | '/docs/components/ui/currency-input'
     | '/docs/components/ui/date-selector'
     | '/docs/components/ui/dialog'
@@ -2400,6 +2412,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/combobox'
     | '/_docs/docs/components/ui/command'
     | '/_docs/docs/components/ui/confirmation-dialog'
+    | '/_docs/docs/components/ui/context-menu'
     | '/_docs/docs/components/ui/currency-input'
     | '/_docs/docs/components/ui/date-selector'
     | '/_docs/docs/components/ui/dialog'
@@ -3109,6 +3122,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/components/ui/currency-input'
       fullPath: '/docs/components/ui/currency-input'
       preLoaderRoute: typeof DocsDocsComponentsUiCurrencyInputRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/components/ui/context-menu': {
+      id: '/_docs/docs/components/ui/context-menu'
+      path: '/docs/components/ui/context-menu'
+      fullPath: '/docs/components/ui/context-menu'
+      preLoaderRoute: typeof DocsDocsComponentsUiContextMenuRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/components/ui/confirmation-dialog': {
@@ -3922,6 +3942,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiComboboxRoute: typeof DocsDocsComponentsUiComboboxRoute
   DocsDocsComponentsUiCommandRoute: typeof DocsDocsComponentsUiCommandRoute
   DocsDocsComponentsUiConfirmationDialogRoute: typeof DocsDocsComponentsUiConfirmationDialogRoute
+  DocsDocsComponentsUiContextMenuRoute: typeof DocsDocsComponentsUiContextMenuRoute
   DocsDocsComponentsUiCurrencyInputRoute: typeof DocsDocsComponentsUiCurrencyInputRoute
   DocsDocsComponentsUiDateSelectorRoute: typeof DocsDocsComponentsUiDateSelectorRoute
   DocsDocsComponentsUiDialogRoute: typeof DocsDocsComponentsUiDialogRoute
@@ -4135,6 +4156,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiCommandRoute: DocsDocsComponentsUiCommandRoute,
   DocsDocsComponentsUiConfirmationDialogRoute:
     DocsDocsComponentsUiConfirmationDialogRoute,
+  DocsDocsComponentsUiContextMenuRoute: DocsDocsComponentsUiContextMenuRoute,
   DocsDocsComponentsUiCurrencyInputRoute:
     DocsDocsComponentsUiCurrencyInputRoute,
   DocsDocsComponentsUiDateSelectorRoute: DocsDocsComponentsUiDateSelectorRoute,
