@@ -48,6 +48,14 @@ export default defineSchema({
 		.index("by_project", ["projectId"])
 		.index("by_status", ["status"]),
 
+	contractFiles: defineTable({
+		contractId: v.id("contracts"),
+		storageId: v.id("_storage"),
+		fileName: v.string(),
+		fileSize: v.number(),
+		createdAt: v.number(),
+	}).index("by_contract", ["contractId"]),
+
 	timeEntries: defineTable({
 		projectId: v.id("projects"),
 		date: v.string(),

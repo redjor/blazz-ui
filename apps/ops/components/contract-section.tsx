@@ -3,7 +3,11 @@
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { type ContractMetrics, healthColor } from "@/lib/contracts"
-import type { Doc } from "@/convex/_generated/dataModel"
+import type { Doc, Id } from "@/convex/_generated/dataModel"
+import { useQuery, useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import { Download, FileText, Trash2 } from "lucide-react"
+import { toast } from "sonner"
 
 interface ContractSectionProps {
   contract: Doc<"contracts">
@@ -18,6 +22,8 @@ const CONTRACT_STATUS_LABEL: Record<string, string> = {
 }
 
 export function ContractSection({ contract, metrics, onComplete }: ContractSectionProps) {
+  const files = useQuery(api.contractFiles.listByContract, { contractId: contract._id })
+  const removeFile = useMutation(api.contractFiles.remove)
   const colors = metrics ? healthColor(metrics.contractHealth) : null
   const percentThisMonth =
     metrics && metrics.daysAllocatedThisMonth > 0
@@ -168,6 +174,53 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
             </div>
           )}
         </>
+      )}
+
+      {/* Attached files */}
+      {files && files.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs text-fg-muted">Pièces jointes</p>
+          <ul className="space-y-1">
+            {files.map((file) => (
+              <li
+                key={file._id}
+                className="flex items-center gap-2 rounded-md border border-edge bg-surface px-3 py-2 text-sm"
+              >
+                <FileText className="size-4 shrink-0 text-fg-muted" />
+                <span className="min-w-0 flex-1 truncate text-fg">{file.fileName}</span>
+                <span className="shrink-0 text-xs text-fg-muted">
+                  {(file.fileSize / 1024).toFixed(0)} Ko
+                </span>
+                {file.url && (
+                  <a
+                    href={file.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shrink-0 rounded p-1 text-fg-muted hover:text-fg"
+                    title="Télécharger"
+                  >
+                    <Download className="size-3.5" />
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await removeFile({ id: file._id })
+                      toast.success("Fichier supprimé")
+                    } catch {
+                      toast.error("Erreur lors de la suppression")
+                    }
+                  }}
+                  className="shrink-0 rounded p-1 text-fg-muted hover:text-red-500"
+                  title="Supprimer"
+                >
+                  <Trash2 className="size-3.5" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   )

@@ -322,7 +322,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
       {/* New contract dialog */}
       <Dialog open={contractOpen} onOpenChange={setContractOpen}>
-        <DialogContent>
+        <DialogContent size="lg" className="max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Nouveau contrat</DialogTitle>
           </DialogHeader>
