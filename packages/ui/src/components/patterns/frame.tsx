@@ -35,7 +35,7 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 			<div className="flex h-screen overflow-hidden">
 				<aside
 					className={cn(
-						"fixed left-0 z-10 h-screen overflow-y-auto hidden md:block rounded-tl-(--main-radius)",
+						"fixed left-0 z-10 h-screen overflow-y-auto max-md:contents md:block rounded-tl-(--main-radius)",
 						hasTopBar ? "top-(--topbar-height)" : "top-0",
 					)}
 				>

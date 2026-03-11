@@ -75,13 +75,13 @@ const SidebarProvider = React.forwardRef<
 			[setOpenProp, open]
 		)
 
-		// Helper to toggle the sidebar.
-		const toggleSidebar = React.useCallback(() => {
-			return setOpen((open) => !open)
-		}, [setOpen])
-
 		// Detect mobile viewport.
 		const [isMobile, setIsMobile] = React.useState(false)
+
+		// Helper to toggle the sidebar.
+		const toggleSidebar = React.useCallback(() => {
+			return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
+		}, [isMobile, setOpen, setOpenMobile])
 
 		React.useEffect(() => {
 			const mediaQuery = window.matchMedia("(max-width: 768px)")
@@ -195,7 +195,10 @@ const Sidebar = React.forwardRef<
 						aria-label="Close sidebar"
 						data-sidebar="sidebar"
 						data-mobile="true"
-						className="fixed inset-0 z-50 hidden bg-surface/80 data-[mobile=true]:data-[state=open]:block md:hidden"
+						className={cn(
+							"fixed inset-0 z-50 bg-surface/80 transition-opacity duration-200 ease-linear md:hidden",
+							openMobile ? "opacity-100" : "pointer-events-none opacity-0"
+						)}
 						data-state={openMobile ? "open" : "closed"}
 						onClick={() => setOpenMobile(false)}
 					/>
@@ -204,10 +207,10 @@ const Sidebar = React.forwardRef<
 						data-mobile="true"
 						data-state={openMobile ? "open" : "closed"}
 						className={cn(
-							"fixed inset-y-0 z-50 hidden h-svh w-[--sidebar-width-mobile] flex-col border-r bg-(--sidebar-background) text-fg transition-[left,right] duration-200 ease-linear data-[mobile=true]:data-[state=open]:flex md:hidden",
+							"fixed inset-y-0 z-50 flex h-svh w-[--sidebar-width-mobile] flex-col border-r bg-(--sidebar-background) text-fg transition-transform duration-200 ease-linear md:hidden",
 							side === "left"
-								? "left-0 data-[state=closed]:-left-[--sidebar-width-mobile]"
-								: "right-0 data-[state=closed]:-right-[--sidebar-width-mobile]",
+								? openMobile ? "translate-x-0" : "-translate-x-full"
+								: openMobile ? "translate-x-0" : "translate-x-full",
 							className
 						)}
 						ref={ref}
