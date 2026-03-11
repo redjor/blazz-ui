@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { requireAuth } from "./lib/auth"
 
 export const list = query({
 	args: {},
@@ -28,7 +29,10 @@ export const get = query({
 
 export const generateUploadUrl = mutation({
 	args: {},
-	handler: async (ctx) => ctx.storage.generateUploadUrl(),
+	handler: async (ctx) => {
+		await requireAuth(ctx)
+		return ctx.storage.generateUploadUrl()
+	},
 })
 
 export const create = mutation({
@@ -41,6 +45,7 @@ export const create = mutation({
 		logoStorageId: v.optional(v.id("_storage")),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx)
 		return ctx.db.insert("clients", { ...args, createdAt: Date.now() })
 	},
 })
@@ -56,6 +61,7 @@ export const update = mutation({
 		logoStorageId: v.optional(v.id("_storage")),
 	},
 	handler: async (ctx, { id, ...fields }) => {
+		await requireAuth(ctx)
 		// If logo is being replaced, delete old file from storage
 		const existing = await ctx.db.get(id)
 		if (
@@ -72,6 +78,7 @@ export const update = mutation({
 export const remove = mutation({
 	args: { id: v.id("clients") },
 	handler: async (ctx, { id }) => {
+		await requireAuth(ctx)
 		const existing = await ctx.db.get(id)
 		if (existing?.logoStorageId) {
 			await ctx.storage.delete(existing.logoStorageId)

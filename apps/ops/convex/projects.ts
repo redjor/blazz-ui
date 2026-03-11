@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server"
 import { v } from "convex/values"
+import { requireAuth } from "./lib/auth"
 
 const statusValidator = v.union(
   v.literal("active"),
@@ -110,6 +111,7 @@ export const create = mutation({
     endDate: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    await requireAuth(ctx)
     return ctx.db.insert("projects", { ...args, createdAt: Date.now() })
   },
 })
@@ -127,7 +129,10 @@ export const update = mutation({
     startDate: v.optional(v.string()),
     endDate: v.optional(v.string()),
   },
-  handler: async (ctx, { id, ...fields }) => ctx.db.patch(id, fields),
+  handler: async (ctx, { id, ...fields }) => {
+    await requireAuth(ctx)
+    return ctx.db.patch(id, fields)
+  },
 })
 
 function buildWeeklyBurnDown(
