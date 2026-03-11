@@ -131,7 +131,7 @@ export default function ProjectDetailPage({ params }: Props) {
           <Card>
             <CardContent className="p-4">
               <p className="text-xs text-fg-muted mb-1">CA total</p>
-              <p className="text-xl font-semibold tabular-nums">
+              <p className="text-xl font-semibold font-pixel">
                 {stats.totalRevenue.toLocaleString("fr-FR")} €
               </p>
             </CardContent>
@@ -139,7 +139,7 @@ export default function ProjectDetailPage({ params }: Props) {
           <Card>
             <CardContent className="p-4">
               <p className="text-xs text-fg-muted mb-1">Facturé</p>
-              <p className="text-xl font-semibold tabular-nums text-green-600 dark:text-green-400">
+              <p className="text-xl font-semibold font-pixel text-green-600 dark:text-green-400">
                 {stats.invoicedRevenue.toLocaleString("fr-FR")} €
               </p>
             </CardContent>
@@ -147,7 +147,7 @@ export default function ProjectDetailPage({ params }: Props) {
           <Card>
             <CardContent className="p-4">
               <p className="text-xs text-fg-muted mb-1">À facturer</p>
-              <p className="text-xl font-semibold tabular-nums text-amber-600 dark:text-amber-400">
+              <p className="text-xl font-semibold font-pixel text-amber-600 dark:text-amber-400">
                 {stats.pendingRevenue.toLocaleString("fr-FR")} €
               </p>
             </CardContent>
@@ -155,7 +155,7 @@ export default function ProjectDetailPage({ params }: Props) {
           <Card>
             <CardContent className="p-4">
               <p className="text-xs text-fg-muted mb-1">Heures</p>
-              <p className="text-xl font-semibold tabular-nums">
+              <p className="text-xl font-semibold font-pixel">
                 {formatMinutes(stats.totalMinutes)}
               </p>
             </CardContent>
@@ -205,16 +205,16 @@ export default function ProjectDetailPage({ params }: Props) {
                     key={entry._id}
                     className="flex items-center gap-4 py-2.5 border-b border-edge last:border-0"
                   >
-                    <span className="text-xs tabular-nums text-fg-muted w-20 shrink-0">
+                    <span className="text-xs font-mono text-fg-muted w-20 shrink-0">
                       {format(parseISO(entry.date), "dd/MM/yyyy")}
                     </span>
-                    <span className="text-xs tabular-nums text-fg w-12 shrink-0">
+                    <span className="text-xs font-mono text-fg w-12 shrink-0">
                       {formatMinutes(entry.minutes)}
                     </span>
                     <span className="text-xs text-fg-muted flex-1 min-w-0 truncate">
                       {entry.description || "—"}
                     </span>
-                    <span className="text-xs tabular-nums text-fg shrink-0">
+                    <span className="text-xs font-mono text-fg shrink-0">
                       {entry.billable ? `${revenue.toLocaleString("fr-FR")} €` : "—"}
                     </span>
                     <div className="shrink-0 w-28">

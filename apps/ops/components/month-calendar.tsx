@@ -211,7 +211,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 												{formatMinutes(mins)}
 											</p>
 											{stats && stats.amount > 0 && (
-												<p className="text-[10px] text-fg-muted tabular-nums leading-tight">
+												<p className="text-[10px] text-fg-muted font-mono leading-tight">
 													{formatCurrency(stats.amount)}
 												</p>
 											)}

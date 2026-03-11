@@ -45,7 +45,7 @@ export function BudgetSection({ metrics, tjm, weeklyBurnDown }: BudgetSectionPro
             <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
                     <span className="text-fg-muted">Budget</span>
-                    <span className="text-fg tabular-nums font-medium">
+                    <span className="text-fg font-mono font-medium">
                         {formatCurrency(metrics.revenueConsumed)} / {formatCurrency(metrics.budgetAmount)} ({metrics.percentUsed}%)
                     </span>
                 </div>
@@ -55,7 +55,7 @@ export function BudgetSection({ metrics, tjm, weeklyBurnDown }: BudgetSectionPro
                         style={{ width: `${clampedPercent}%` }}
                     />
                 </div>
-                <p className="text-xs text-fg-muted tabular-nums">
+                <p className="text-xs text-fg-muted font-mono">
                     Reste : {formatCurrency(Math.max(0, metrics.remaining))} (~{Math.round(daysRemaining * 10) / 10}j)
                 </p>
             </div>
@@ -65,7 +65,7 @@ export function BudgetSection({ metrics, tjm, weeklyBurnDown }: BudgetSectionPro
                 <CardContent className="p-4">
                     <p className="text-xs text-fg-muted mb-1">TJM effectif</p>
                     <div className="flex items-baseline gap-2">
-                        <p className={`text-xl font-semibold tabular-nums ${
+                        <p className={`text-xl font-semibold font-mono ${
                             metrics.effectiveTjm !== null && metrics.effectiveTjm >= tjm
                                 ? "text-green-600 dark:text-green-400"
                                 : "text-red-600 dark:text-red-400"

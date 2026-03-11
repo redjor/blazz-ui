@@ -169,7 +169,7 @@ export default function TimePage() {
 				accessorKey: "hourlyRate",
 				header: "Taux",
 				cell: ({ row }) => (
-					<span className="tabular-nums">{Math.round(row.original.hourlyRate)}€/h</span>
+					<span className="font-mono">{Math.round(row.original.hourlyRate)}€/h</span>
 				),
 				enableSorting: true,
 			},
@@ -178,7 +178,7 @@ export default function TimePage() {
 				header: "Montant",
 				cell: ({ row }) => {
 					const amount = (row.original.minutes / 60) * row.original.hourlyRate
-					return <span className="tabular-nums">{formatCurrency(amount)}</span>
+					return <span className="font-mono">{formatCurrency(amount)}</span>
 				},
 			},
 			{

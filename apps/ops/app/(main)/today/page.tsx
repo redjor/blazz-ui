@@ -153,7 +153,7 @@ export default function TodayPage() {
 										>
 											<div>
 												<p className="text-sm font-medium text-fg">{project.name}</p>
-												<p className="text-xs text-fg-muted tabular-nums">
+												<p className="text-xs text-fg-muted font-mono">
 													{project.tjm}€/j · {project.hoursPerDay}h/j
 												</p>
 											</div>

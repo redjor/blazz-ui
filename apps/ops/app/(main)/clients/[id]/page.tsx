@@ -168,7 +168,7 @@ export default function ClientDetailPage({ params }: Props) {
 									className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
 								>
 									<span className="block text-sm font-medium text-fg">{project.name}</span>
-									<span className="block text-xs text-fg-muted mt-0.5 tabular-nums">
+									<span className="block text-xs text-fg-muted mt-0.5 font-mono">
 										{project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
 										{project.startDate && ` · depuis ${project.startDate}`}
 									</span>

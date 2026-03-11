@@ -68,7 +68,7 @@ export default function DashboardPage() {
 									className="flex items-center justify-between py-2 border-b border-edge last:border-0"
 								>
 									<p className="text-sm font-medium text-fg">{project.name}</p>
-									<p className="text-xs text-fg-muted tabular-nums">
+									<p className="text-xs text-fg-muted font-mono">
 										{project.tjm}€/j · {project.hoursPerDay}h/j
 									</p>
 								</div>
@@ -88,7 +88,7 @@ export default function DashboardPage() {
 									className="flex items-center justify-between py-2.5 border-b border-edge last:border-0"
 								>
 									<div className="flex items-center gap-3">
-										<span className="text-xs text-fg-muted w-20 shrink-0 tabular-nums">
+										<span className="text-xs text-fg-muted w-20 shrink-0 font-mono">
 											{format(new Date(entry.date + "T00:00:00"), "dd MMM", { locale: fr })}
 										</span>
 										<span className="text-sm text-fg">{entry.description ?? "—"}</span>
