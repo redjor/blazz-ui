@@ -1,6 +1,7 @@
 import { paginationOptsValidator } from "convex/server"
-import { v } from "convex/values"
+import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { requireAuth } from "./lib/auth"
 
 export const list = query({
 	args: {
@@ -72,6 +73,7 @@ export const create = mutation({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx)
 		return ctx.db.insert("timeEntries", { ...args, createdAt: Date.now() })
 	},
 })
@@ -94,18 +96,25 @@ export const update = mutation({
 			)
 		),
 	},
-	handler: async (ctx, { id, ...fields }) => ctx.db.patch(id, fields),
+	handler: async (ctx, { id, ...fields }) => {
+		await requireAuth(ctx)
+		return ctx.db.patch(id, fields)
+	},
 })
 
 export const remove = mutation({
 	args: { id: v.id("timeEntries") },
-	handler: async (ctx, { id }) => ctx.db.delete(id),
+	handler: async (ctx, { id }) => {
+		await requireAuth(ctx)
+		return ctx.db.delete(id)
+	},
 })
 
 /** @deprecated Use setStatus({ ids, status: "draft" }) instead — does not update the status field. */
 export const unmarkInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
 	handler: async (ctx, { ids }) => {
+		await requireAuth(ctx)
 		await Promise.all(
 			ids.map(async (id) => {
 				const entry = await ctx.db.get(id)
@@ -121,6 +130,7 @@ export const unmarkInvoiced = mutation({
 export const markInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
 	handler: async (ctx, { ids }) => {
+		await requireAuth(ctx)
 		const now = Date.now()
 		await Promise.all(
 			ids.map(async (id) => {
@@ -144,6 +154,7 @@ export const setStatus = mutation({
 		),
 	},
 	handler: async (ctx, { ids, status }) => {
+		await requireAuth(ctx)
 		const now = Date.now()
 		await Promise.all(
 			ids.map(async (id) => {
