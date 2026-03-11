@@ -47,19 +47,35 @@ export const listAllWithBudget = query({
 
     return Promise.all(
       projects.map(async (project) => {
-        if (!project.budgetAmount) return { ...project, budgetPercent: null }
         const entries = await ctx.db
           .query("timeEntries")
           .withIndex("by_project", (q) => q.eq("projectId", project._id))
           .collect()
         const billableEntries = entries.filter((e) => e.billable)
+        const billableMinutes = billableEntries.reduce((s, e) => s + e.minutes, 0)
+        const billableRevenue = Math.round(
+          billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+        )
         const daysConsumed =
-          project.hoursPerDay > 0
-            ? billableEntries.reduce((s, e) => s + e.minutes, 0) / (project.hoursPerDay * 60)
-            : 0
+          project.hoursPerDay > 0 ? billableMinutes / (project.hoursPerDay * 60) : 0
+
+        if (!project.budgetAmount) {
+          return {
+            ...project,
+            budgetPercent: null,
+            billableRevenue,
+            daysConsumed: Math.round(daysConsumed * 10) / 10,
+          }
+        }
+
         const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
         const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
-        return { ...project, budgetPercent: Math.round(percentUsed * 10) / 10 }
+        return {
+          ...project,
+          budgetPercent: Math.round(percentUsed * 10) / 10,
+          billableRevenue,
+          daysConsumed: Math.round(daysConsumed * 10) / 10,
+        }
       })
     )
   },

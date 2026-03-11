@@ -94,7 +94,29 @@ export default function ProjectsPage() {
 									{clientMap.get(project.clientId) ?? "…"} · {project.tjm}€/j
 								</span>
 							</Link>
-							<div className="flex items-center gap-3 shrink-0 ml-4">
+							<div className="flex items-center gap-4 shrink-0 ml-4">
+								{/* Budget progress or days billed */}
+								<span className="text-xs tabular-nums text-fg-muted text-right min-w-[120px]">
+									{project.budgetAmount && project.budgetPercent !== null ? (
+										<>
+											<span className={
+												project.budgetPercent >= 90
+													? "text-red-600 dark:text-red-400 font-medium"
+													: project.budgetPercent >= 70
+														? "text-amber-600 dark:text-amber-400 font-medium"
+														: "text-fg"
+											}>
+												{project.billableRevenue.toLocaleString("fr-FR")}€
+											</span>
+											{" / "}
+											{project.budgetAmount.toLocaleString("fr-FR")}€
+											<span className="text-fg-muted ml-1">({project.budgetPercent}%)</span>
+										</>
+									) : (
+										<>{project.daysConsumed}j facturés</>
+									)}
+								</span>
+								{/* Budget health dot */}
 								{project.budgetPercent !== null && (
 									<span
 										className={`inline-block size-2 rounded-full ${
@@ -104,7 +126,6 @@ export default function ProjectsPage() {
 													? "bg-amber-500"
 													: "bg-green-500"
 										}`}
-										title={`Budget : ${project.budgetPercent}%`}
 									/>
 								)}
 								<span className="flex items-center gap-1.5 text-xs text-fg-muted">
