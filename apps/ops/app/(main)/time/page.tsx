@@ -24,6 +24,7 @@ import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
+import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { WeekGrid } from "@/components/week-grid"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
@@ -97,6 +98,21 @@ export default function TimePage() {
 		open: boolean
 		entryId: Id<"timeEntries"> | null
 	}>({ open: false, entryId: null })
+
+	const [dayDetail, setDayDetail] = useState<{
+		open: boolean
+		projectId: Id<"projects"> | null
+		projectName: string
+		date: string
+	}>({ open: false, projectId: null, projectName: "", date: "" })
+
+	// Derive day entries from live Convex data so the dialog stays in sync
+	const dayDetailEntries = useMemo(() => {
+		if (!dayDetail.open || !dayDetail.projectId || !weekEntries) return []
+		return weekEntries.filter(
+			(e) => e.projectId === dayDetail.projectId && e.date === dayDetail.date,
+		)
+	}, [dayDetail.open, dayDetail.projectId, dayDetail.date, weekEntries])
 
 	const projectMap = useMemo(
 		() => new Map((allProjects ?? []).map((p) => [p._id, p.name])),
@@ -352,13 +368,18 @@ export default function TimePage() {
 							weekStart={weekStart}
 							entries={weekEntries ?? []}
 							projects={activeProjects ?? []}
-							onCellClick={(projectId, date, existingEntry) => {
-								if (existingEntry) {
-									setEditing(existingEntry)
-									return
-								}
+							onCellClick={(projectId, date, dayEntries) => {
 								const project = activeProjects?.find((p) => p._id === projectId)
 								if (!project) return
+								if (dayEntries.length > 0) {
+									setDayDetail({
+										open: true,
+										projectId,
+										projectName: project.name,
+										date,
+									})
+									return
+								}
 								setQuickModal({
 									open: true,
 									projectId,
@@ -581,6 +602,28 @@ export default function TimePage() {
 					} catch {
 						toast.error("Erreur lors de la suppression")
 					}
+				}}
+			/>
+
+			<DayEntriesDialog
+				open={dayDetail.open}
+				onOpenChange={(open) => setDayDetail((s) => ({ ...s, open }))}
+				projectName={dayDetail.projectName}
+				date={dayDetail.date}
+				entries={dayDetailEntries}
+				onEdit={(entry) => setEditing(entry)}
+				onDelete={(entryId) => setDeleteConfirm({ open: true, entryId })}
+				onAdd={() => {
+					if (!dayDetail.projectId) return
+					const project = activeProjects?.find((p) => p._id === dayDetail.projectId)
+					if (!project) return
+					setQuickModal({
+						open: true,
+						projectId: dayDetail.projectId,
+						projectName: project.name,
+						hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+						date: dayDetail.date,
+					})
 				}}
 			/>
 		</>

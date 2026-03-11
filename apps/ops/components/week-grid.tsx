@@ -35,7 +35,7 @@ interface WeekGridProps {
   weekStart: Date // doit être un lundi
   entries: TimeEntry[]
   projects: Project[]
-  onCellClick: (projectId: Id<"projects">, date: string, existingEntry?: TimeEntry) => void
+  onCellClick: (projectId: Id<"projects">, date: string, dayEntries: TimeEntry[]) => void
   onCellDelete?: (entryId: Id<"timeEntries">) => void
 }
 
@@ -160,7 +160,7 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick, onCellDele
                           <button
                             type="button"
                             aria-label={`${hasEntries ? "Modifier" : "Ajouter une entrée"} — ${project.name}, ${dateStr}`}
-                            onClick={() => onCellClick(project._id, dateStr, dayEntries[0])}
+                            onClick={() => onCellClick(project._id, dateStr, dayEntries)}
                             className={cn(
                               "w-full h-10 rounded-md text-xs font-mono transition-colors",
                               isWeekend(day) && "opacity-50",
@@ -180,7 +180,7 @@ export function WeekGrid({ weekStart, entries, projects, onCellClick, onCellDele
                               <span className="text-[10px]">+</span>
                             )}
                           </button>
-                          {hasEntries && onCellDelete && (
+                          {hasEntries && onCellDelete && dayEntries.length === 1 && (
                             <button
                               type="button"
                               aria-label={`Supprimer — ${project.name}, ${dateStr}`}
