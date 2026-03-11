@@ -1,0 +1,8 @@
+import { cronJobs } from "convex/server"
+import { internal } from "./_generated/api"
+
+const crons = cronJobs()
+
+crons.interval("sync npm packages", { minutes: 15 }, internal.packages.sync)
+
+export default crons
