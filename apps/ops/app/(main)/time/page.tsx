@@ -15,7 +15,7 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
-import { addDays, addWeeks, format, startOfWeek, subWeeks } from "date-fns"
+import { addDays, addMonths, addWeeks, endOfMonth, format, startOfMonth, startOfWeek, subMonths, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
 import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react"
 import { useMemo, useState } from "react"
@@ -26,6 +26,7 @@ import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { WeekGrid } from "@/components/week-grid"
+import { MonthCalendar } from "@/components/month-calendar"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -34,7 +35,7 @@ import { getAllowedTransitions, getEffectiveStatus } from "@/lib/time-entry-stat
 
 type TimeEntry = Doc<"timeEntries">
 
-type View = "list" | "week"
+type View = "list" | "week" | "totals"
 
 function getWeekStart(date: Date): Date {
 	return startOfWeek(date, { weekStartsOn: 1 })
@@ -51,6 +52,15 @@ export default function TimePage() {
 		view === "week" ? { from: weekFrom, to: weekTo } : "skip"
 	)
 	const activeProjects = useQuery(api.projects.listActive)
+
+	// Month calendar state
+	const [currentMonth, setCurrentMonth] = useState<Date>(() => startOfMonth(new Date()))
+	const monthFrom = format(currentMonth, "yyyy-MM-dd")
+	const monthTo = format(endOfMonth(currentMonth), "yyyy-MM-dd")
+	const monthEntries = useQuery(
+		api.timeEntries.list,
+		view === "totals" ? { from: monthFrom, to: monthTo } : "skip"
+	)
 	const allProjects = useQuery(api.projects.listAll)
 
 	// Filter state for list view
@@ -311,6 +321,15 @@ export default function TimePage() {
 						<Button
 							type="button"
 							size="sm"
+							variant={view === "totals" ? "default" : "ghost"}
+							onClick={() => setView("totals")}
+							className="h-7 px-3 text-xs"
+						>
+							Mois
+						</Button>
+						<Button
+							type="button"
+							size="sm"
 							variant={view === "list" ? "default" : "ghost"}
 							onClick={() => setView("list")}
 							className="h-7 px-3 text-xs"
@@ -319,7 +338,7 @@ export default function TimePage() {
 						</Button>
 					</div>
 
-					{/* Navigation semaine (seulement en vue semaine) */}
+					{/* Navigation semaine */}
 					{view === "week" && (
 						<>
 							<Button
@@ -351,6 +370,42 @@ export default function TimePage() {
 								onClick={() => setWeekStart(getWeekStart(new Date()))}
 							>
 								Aujourd'hui
+							</Button>
+						</>
+					)}
+
+					{/* Navigation mois */}
+					{view === "totals" && (
+						<>
+							<Button
+								type="button"
+								variant="ghost"
+								size="icon"
+								className="size-8"
+								onClick={() => setCurrentMonth((m) => subMonths(m, 1))}
+							>
+								<ChevronLeft className="h-4 w-4" />
+							</Button>
+							<span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">
+								{format(currentMonth, "MMMM yyyy", { locale: fr })}
+							</span>
+							<Button
+								type="button"
+								variant="ghost"
+								size="icon"
+								className="size-8"
+								onClick={() => setCurrentMonth((m) => addMonths(m, 1))}
+							>
+								<ChevronRight className="h-4 w-4" />
+							</Button>
+							<Button
+								type="button"
+								variant="ghost"
+								size="sm"
+								className="text-xs h-7 px-2"
+								onClick={() => setCurrentMonth(startOfMonth(new Date()))}
+							>
+								Ce mois
 							</Button>
 						</>
 					)}
@@ -391,6 +446,21 @@ export default function TimePage() {
 							onCellDelete={(entryId) => {
 								setDeleteConfirm({ open: true, entryId })
 							}}
+						/>
+					</div>
+				)}
+
+				{view === "totals" && (
+					<div
+						className={
+							monthEntries === undefined
+								? "opacity-50 pointer-events-none"
+								: ""
+						}
+					>
+						<MonthCalendar
+							month={currentMonth}
+							entries={monthEntries ?? []}
 						/>
 					</div>
 				)}
