@@ -92,6 +92,10 @@ export const complete = mutation({
   args: { id: v.id("contracts") },
   handler: async (ctx, { id }) => {
     await requireAuth(ctx)
+    const contract = await ctx.db.get(id)
+    if (!contract || contract.status !== "active") {
+      throw new Error("Seul un contrat actif peut être clôturé.")
+    }
     return ctx.db.patch(id, { status: "completed" })
   },
 })
@@ -100,6 +104,10 @@ export const cancel = mutation({
   args: { id: v.id("contracts") },
   handler: async (ctx, { id }) => {
     await requireAuth(ctx)
+    const contract = await ctx.db.get(id)
+    if (!contract || contract.status !== "active") {
+      throw new Error("Seul un contrat actif peut être annulé.")
+    }
     return ctx.db.patch(id, { status: "cancelled" })
   },
 })

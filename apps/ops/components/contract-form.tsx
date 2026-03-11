@@ -39,6 +39,10 @@ const schema = z
     (d) => d.type !== "tma" || (d.daysPerMonth && d.daysPerMonth > 0),
     { message: "Jours/mois requis pour un contrat TMA", path: ["daysPerMonth"] }
   )
+  .refine(
+    (d) => !d.startDate || !d.endDate || d.endDate > d.startDate,
+    { message: "La date de fin doit être après la date de début", path: ["endDate"] }
+  )
 
 type FormValues = z.infer<typeof schema>
 
@@ -158,6 +162,9 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
         />
         {errors.startDate && (
           <p className="text-xs text-red-500">{errors.startDate.message}</p>
+        )}
+        {errors.endDate && (
+          <p className="text-xs text-red-500">{errors.endDate.message}</p>
         )}
       </div>
 

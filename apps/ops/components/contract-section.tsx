@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { type ContractMetrics, healthColor } from "@/lib/contracts"
 import type { Doc } from "@/convex/_generated/dataModel"
@@ -7,7 +8,7 @@ import type { Doc } from "@/convex/_generated/dataModel"
 interface ContractSectionProps {
   contract: Doc<"contracts">
   metrics: ContractMetrics
-  daysPerMonth: number
+  onComplete?: () => void
 }
 
 const CONTRACT_STATUS_LABEL: Record<string, string> = {
@@ -16,7 +17,7 @@ const CONTRACT_STATUS_LABEL: Record<string, string> = {
   cancelled: "Annul\u00e9",
 }
 
-export function ContractSection({ contract, metrics, daysPerMonth }: ContractSectionProps) {
+export function ContractSection({ contract, metrics, onComplete }: ContractSectionProps) {
   const colors = healthColor(metrics.contractHealth)
   const percentThisMonth =
     metrics.daysAllocatedThisMonth > 0
@@ -36,9 +37,16 @@ export function ContractSection({ contract, metrics, daysPerMonth }: ContractSec
             {contract.startDate} &rarr; {contract.endDate}
           </span>
         </div>
-        <span className="text-xs text-fg-muted">
-          {CONTRACT_STATUS_LABEL[contract.status]}
-        </span>
+        <div className="flex items-center gap-2">
+          {contract.status === "active" && onComplete && (
+            <Button size="sm" variant="outline" onClick={onComplete}>
+              Clôturer
+            </Button>
+          )}
+          <span className="text-xs text-fg-muted">
+            {CONTRACT_STATUS_LABEL[contract.status]}
+          </span>
+        </div>
       </div>
 
       {/* Alert banner */}

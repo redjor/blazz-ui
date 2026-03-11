@@ -4,7 +4,7 @@ import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { useQuery } from "convex/react"
+import { useMutation, useQuery } from "convex/react"
 import { use, useState } from "react"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { useOpsTopBar } from "@/components/ops-frame"
@@ -19,6 +19,7 @@ import { computeContractMetrics } from "@/lib/contracts"
 import { formatMinutes } from "@/lib/format"
 import { getEffectiveStatus, type EntryStatus, ENTRY_STATUS_LABELS } from "@/lib/time-entry-status"
 import { format, parseISO } from "date-fns"
+import { toast } from "sonner"
 import {
   Dialog,
   DialogContent,
@@ -51,6 +52,7 @@ export default function ProjectDetailPage({ params }: Props) {
   const allContracts = useQuery(api.contracts.listByProject, {
     projectId: pid as Id<"projects">,
   })
+  const completeContract = useMutation(api.contracts.complete)
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
 
   useOpsTopBar(
@@ -203,7 +205,14 @@ export default function ProjectDetailPage({ params }: Props) {
           <ContractSection
             contract={activeContract}
             metrics={contractMetrics}
-            daysPerMonth={activeContract.daysPerMonth!}
+            onComplete={async () => {
+              try {
+                await completeContract({ id: activeContract._id })
+                toast.success("Contrat clôturé")
+              } catch (e) {
+                toast.error(e instanceof Error ? e.message : "Erreur")
+              }
+            }}
           />
         )}
 
