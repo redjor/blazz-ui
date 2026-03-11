@@ -102,6 +102,7 @@ export * from "./components/blocks/quote-preview"
 export * from "./components/blocks/split-view"
 export * from "./components/blocks/stats-grid"
 export * from "./components/blocks/stats-strip"
+export * from "./components/blocks/view-config-panel"
 export * from "./components/blocks/status-flow"
 export * from "./components/blocks/inbox"
 

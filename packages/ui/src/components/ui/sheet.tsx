@@ -110,10 +110,9 @@ function SheetHeader({
 		<div
 			data-slot="sheet-header"
 			className={cn(
-				"flex flex-col gap-1.5 px-inset pt-inset border-b border-separator",
+				"flex flex-col gap-1.5 p-inset border-b border-separator",
 				className
 			)}
-			style={{ paddingBottom: 'calc(var(--inset) * 0.75)' }}
 			{...props}
 		>
 			{children}

@@ -74,7 +74,7 @@ const examples = [
 		code: `<Sheet>
   <SheetTrigger render={<Button variant="outline">Open</Button>} />
   <SheetContent>
-    <div className="p-6">
+    <div className="p-inset">
       <h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
       <p className="text-sm text-fg-muted">
         This is a sheet component that slides in from the side.
@@ -89,7 +89,7 @@ const examples = [
   <Sheet>
     <SheetTrigger render={<Button variant="outline">Left</Button>} />
     <SheetContent side="left">
-      <div className="p-6">
+      <div className="p-inset">
         <h2 className="text-lg font-semibold">Left Sheet</h2>
         <p className="text-sm text-fg-muted mt-2">
           Slides from the left edge
@@ -101,7 +101,7 @@ const examples = [
   <Sheet>
     <SheetTrigger render={<Button variant="outline">Right</Button>} />
     <SheetContent side="right">
-      <div className="p-6">
+      <div className="p-inset">
         <h2 className="text-lg font-semibold">Right Sheet</h2>
         <p className="text-sm text-fg-muted mt-2">
           Slides from the right edge
@@ -113,7 +113,7 @@ const examples = [
   <Sheet>
     <SheetTrigger render={<Button variant="outline">Top</Button>} />
     <SheetContent side="top">
-      <div className="p-6">
+      <div className="p-inset">
         <h2 className="text-lg font-semibold">Top Sheet</h2>
         <p className="text-sm text-fg-muted mt-2">
           Slides from the top edge
@@ -125,7 +125,7 @@ const examples = [
   <Sheet>
     <SheetTrigger render={<Button variant="outline">Bottom</Button>} />
     <SheetContent side="bottom">
-      <div className="p-6">
+      <div className="p-inset">
         <h2 className="text-lg font-semibold">Bottom Sheet</h2>
         <p className="text-sm text-fg-muted mt-2">
           Slides from the bottom edge
@@ -219,7 +219,7 @@ const examples = [
     }
   />
   <SheetContent side="left">
-    <div className="p-6">
+    <div className="p-inset">
       <h2 className="text-lg font-semibold mb-4">Navigation</h2>
       <nav className="flex flex-col gap-2">
         <Button variant="ghost" className="justify-start">Home</Button>
@@ -314,7 +314,7 @@ function SheetPage() {
 					<Sheet>
 						<SheetTrigger render={<Button variant="outline">Open Left</Button>} />
 						<SheetContent side="left">
-							<div className="p-6">
+							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
 								<p className="text-sm text-fg-muted">
 									This is a sheet component that slides in from the side.
@@ -325,7 +325,7 @@ function SheetPage() {
 					<Sheet>
 						<SheetTrigger render={<Button variant="outline">Open Right</Button>} />
 						<SheetContent side="right">
-							<div className="p-6">
+							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
 								<p className="text-sm text-fg-muted">
 									This is a sheet component that slides in from the right.
@@ -346,7 +346,7 @@ function SheetPage() {
 					<Sheet>
 						<SheetTrigger render={<Button variant="outline">Open</Button>} />
 						<SheetContent>
-							<div className="p-6">
+							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
 								<p className="text-sm text-fg-muted">
 									This is a sheet component that slides in from the side.
@@ -366,7 +366,7 @@ function SheetPage() {
 						<Sheet>
 							<SheetTrigger render={<Button variant="outline">Left</Button>} />
 							<SheetContent side="left">
-								<div className="p-6">
+								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Left Sheet</h2>
 									<p className="text-sm text-fg-muted mt-2">
 										Slides from the left edge
@@ -378,7 +378,7 @@ function SheetPage() {
 						<Sheet>
 							<SheetTrigger render={<Button variant="outline">Right</Button>} />
 							<SheetContent side="right">
-								<div className="p-6">
+								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Right Sheet</h2>
 									<p className="text-sm text-fg-muted mt-2">
 										Slides from the right edge
@@ -390,7 +390,7 @@ function SheetPage() {
 						<Sheet>
 							<SheetTrigger render={<Button variant="outline">Top</Button>} />
 							<SheetContent side="top">
-								<div className="p-6">
+								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Top Sheet</h2>
 									<p className="text-sm text-fg-muted mt-2">
 										Slides from the top edge
@@ -402,7 +402,7 @@ function SheetPage() {
 						<Sheet>
 							<SheetTrigger render={<Button variant="outline">Bottom</Button>} />
 							<SheetContent side="bottom">
-								<div className="p-6">
+								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Bottom Sheet</h2>
 									<p className="text-sm text-fg-muted mt-2">
 										Slides from the bottom edge
@@ -539,7 +539,7 @@ function SheetPage() {
 							}
 						/>
 						<SheetContent side="left">
-							<div className="p-6">
+							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Navigation</h2>
 								<nav className="flex flex-col gap-2">
 									<Button variant="ghost" className="justify-start">Home</Button>

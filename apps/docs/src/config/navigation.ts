@@ -603,7 +603,7 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "block-data",
 					title: "Data",
-					url: "/docs/blocks/data-table",
+					url: "/docs/blocks/data",
 					icon: Table2,
 					items: [
 						{
@@ -621,12 +621,17 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/blocks/bulk-action-bar",
 							keywords: ["bulk", "multi-select", "batch actions", "selection bar"],
 						},
+						{
+							title: "View Config Panel",
+							url: "/docs/blocks/view-config-panel",
+							keywords: ["view config", "table view", "filter panel", "display properties", "board config", "linear"],
+						},
 					],
 				},
 				{
 					id: "block-business",
 					title: "Business",
-					url: "/docs/blocks/activity-timeline",
+					url: "/docs/blocks/business",
 					icon: Puzzle,
 					items: [
 						{

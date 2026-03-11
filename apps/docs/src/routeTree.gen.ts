@@ -29,6 +29,7 @@ import { Route as DocsDocsComponentsFeedbackRouteImport } from './routes/_docs/d
 import { Route as DocsDocsComponentsDataDisplayRouteImport } from './routes/_docs/docs/components/data-display'
 import { Route as DocsDocsComponentsColorsRouteImport } from './routes/_docs/docs/components/colors'
 import { Route as DocsDocsComponentsActionsRouteImport } from './routes/_docs/docs/components/actions'
+import { Route as DocsDocsBlocksViewConfigPanelRouteImport } from './routes/_docs/docs/blocks/view-config-panel'
 import { Route as DocsDocsBlocksStatusFlowRouteImport } from './routes/_docs/docs/blocks/status-flow'
 import { Route as DocsDocsBlocksStatsStripRouteImport } from './routes/_docs/docs/blocks/stats-strip'
 import { Route as DocsDocsBlocksStatsGridRouteImport } from './routes/_docs/docs/blocks/stats-grid'
@@ -46,7 +47,9 @@ import { Route as DocsDocsBlocksFilterBarRouteImport } from './routes/_docs/docs
 import { Route as DocsDocsBlocksDetailPanelRouteImport } from './routes/_docs/docs/blocks/detail-panel'
 import { Route as DocsDocsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/blocks/deal-lines-editor'
 import { Route as DocsDocsBlocksDataTableRouteImport } from './routes/_docs/docs/blocks/data-table'
+import { Route as DocsDocsBlocksDataRouteImport } from './routes/_docs/docs/blocks/data'
 import { Route as DocsDocsBlocksChartCardRouteImport } from './routes/_docs/docs/blocks/chart-card'
+import { Route as DocsDocsBlocksBusinessRouteImport } from './routes/_docs/docs/blocks/business'
 import { Route as DocsDocsBlocksBulkActionBarRouteImport } from './routes/_docs/docs/blocks/bulk-action-bar'
 import { Route as DocsDocsBlocksActivityTimelineRouteImport } from './routes/_docs/docs/blocks/activity-timeline'
 import { Route as DocsDocsAiSourcesRouteImport } from './routes/_docs/docs/ai/sources'
@@ -303,6 +306,12 @@ const DocsDocsComponentsActionsRoute =
     path: '/docs/components/actions',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksViewConfigPanelRoute =
+  DocsDocsBlocksViewConfigPanelRouteImport.update({
+    id: '/docs/blocks/view-config-panel',
+    path: '/docs/blocks/view-config-panel',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsBlocksStatusFlowRoute =
   DocsDocsBlocksStatusFlowRouteImport.update({
     id: '/docs/blocks/status-flow',
@@ -399,9 +408,19 @@ const DocsDocsBlocksDataTableRoute = DocsDocsBlocksDataTableRouteImport.update({
   path: '/docs/blocks/data-table',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsDocsBlocksDataRoute = DocsDocsBlocksDataRouteImport.update({
+  id: '/docs/blocks/data',
+  path: '/docs/blocks/data',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsBlocksChartCardRoute = DocsDocsBlocksChartCardRouteImport.update({
   id: '/docs/blocks/chart-card',
   path: '/docs/blocks/chart-card',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksBusinessRoute = DocsDocsBlocksBusinessRouteImport.update({
+  id: '/docs/blocks/business',
+  path: '/docs/blocks/business',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsDocsBlocksBulkActionBarRoute =
@@ -1296,7 +1315,9 @@ export interface FileRoutesByFullPath {
   '/docs/ai/sources': typeof DocsDocsAiSourcesRoute
   '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
   '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
+  '/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
@@ -1314,6 +1335,7 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
   '/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
+  '/docs/blocks/view-config-panel': typeof DocsDocsBlocksViewConfigPanelRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1483,7 +1505,9 @@ export interface FileRoutesByTo {
   '/docs/ai/sources': typeof DocsDocsAiSourcesRoute
   '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
   '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
+  '/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
@@ -1501,6 +1525,7 @@ export interface FileRoutesByTo {
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
   '/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
+  '/docs/blocks/view-config-panel': typeof DocsDocsBlocksViewConfigPanelRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1672,7 +1697,9 @@ export interface FileRoutesById {
   '/_docs/docs/ai/sources': typeof DocsDocsAiSourcesRoute
   '/_docs/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
   '/_docs/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
+  '/_docs/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/_docs/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/_docs/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/_docs/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
   '/_docs/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/_docs/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
@@ -1690,6 +1717,7 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/_docs/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
   '/_docs/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
+  '/_docs/docs/blocks/view-config-panel': typeof DocsDocsBlocksViewConfigPanelRoute
   '/_docs/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/_docs/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/_docs/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1861,7 +1889,9 @@ export interface FileRouteTypes {
     | '/docs/ai/sources'
     | '/docs/blocks/activity-timeline'
     | '/docs/blocks/bulk-action-bar'
+    | '/docs/blocks/business'
     | '/docs/blocks/chart-card'
+    | '/docs/blocks/data'
     | '/docs/blocks/data-table'
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
@@ -1879,6 +1909,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/stats-grid'
     | '/docs/blocks/stats-strip'
     | '/docs/blocks/status-flow'
+    | '/docs/blocks/view-config-panel'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -2048,7 +2079,9 @@ export interface FileRouteTypes {
     | '/docs/ai/sources'
     | '/docs/blocks/activity-timeline'
     | '/docs/blocks/bulk-action-bar'
+    | '/docs/blocks/business'
     | '/docs/blocks/chart-card'
+    | '/docs/blocks/data'
     | '/docs/blocks/data-table'
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
@@ -2066,6 +2099,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/stats-grid'
     | '/docs/blocks/stats-strip'
     | '/docs/blocks/status-flow'
+    | '/docs/blocks/view-config-panel'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -2236,7 +2270,9 @@ export interface FileRouteTypes {
     | '/_docs/docs/ai/sources'
     | '/_docs/docs/blocks/activity-timeline'
     | '/_docs/docs/blocks/bulk-action-bar'
+    | '/_docs/docs/blocks/business'
     | '/_docs/docs/blocks/chart-card'
+    | '/_docs/docs/blocks/data'
     | '/_docs/docs/blocks/data-table'
     | '/_docs/docs/blocks/deal-lines-editor'
     | '/_docs/docs/blocks/detail-panel'
@@ -2254,6 +2290,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/stats-grid'
     | '/_docs/docs/blocks/stats-strip'
     | '/_docs/docs/blocks/status-flow'
+    | '/_docs/docs/blocks/view-config-panel'
     | '/_docs/docs/components/actions'
     | '/_docs/docs/components/colors'
     | '/_docs/docs/components/data-display'
@@ -2556,6 +2593,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsActionsRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/view-config-panel': {
+      id: '/_docs/docs/blocks/view-config-panel'
+      path: '/docs/blocks/view-config-panel'
+      fullPath: '/docs/blocks/view-config-panel'
+      preLoaderRoute: typeof DocsDocsBlocksViewConfigPanelRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/status-flow': {
       id: '/_docs/docs/blocks/status-flow'
       path: '/docs/blocks/status-flow'
@@ -2675,11 +2719,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsBlocksDataTableRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/data': {
+      id: '/_docs/docs/blocks/data'
+      path: '/docs/blocks/data'
+      fullPath: '/docs/blocks/data'
+      preLoaderRoute: typeof DocsDocsBlocksDataRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/chart-card': {
       id: '/_docs/docs/blocks/chart-card'
       path: '/docs/blocks/chart-card'
       fullPath: '/docs/blocks/chart-card'
       preLoaderRoute: typeof DocsDocsBlocksChartCardRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/business': {
+      id: '/_docs/docs/blocks/business'
+      path: '/docs/blocks/business'
+      fullPath: '/docs/blocks/business'
+      preLoaderRoute: typeof DocsDocsBlocksBusinessRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/bulk-action-bar': {
@@ -3734,7 +3792,9 @@ interface DocsRouteChildren {
   DocsDocsAiSourcesRoute: typeof DocsDocsAiSourcesRoute
   DocsDocsBlocksActivityTimelineRoute: typeof DocsDocsBlocksActivityTimelineRoute
   DocsDocsBlocksBulkActionBarRoute: typeof DocsDocsBlocksBulkActionBarRoute
+  DocsDocsBlocksBusinessRoute: typeof DocsDocsBlocksBusinessRoute
   DocsDocsBlocksChartCardRoute: typeof DocsDocsBlocksChartCardRoute
+  DocsDocsBlocksDataRoute: typeof DocsDocsBlocksDataRoute
   DocsDocsBlocksDataTableRoute: typeof DocsDocsBlocksDataTableRoute
   DocsDocsBlocksDealLinesEditorRoute: typeof DocsDocsBlocksDealLinesEditorRoute
   DocsDocsBlocksDetailPanelRoute: typeof DocsDocsBlocksDetailPanelRoute
@@ -3752,6 +3812,7 @@ interface DocsRouteChildren {
   DocsDocsBlocksStatsGridRoute: typeof DocsDocsBlocksStatsGridRoute
   DocsDocsBlocksStatsStripRoute: typeof DocsDocsBlocksStatsStripRoute
   DocsDocsBlocksStatusFlowRoute: typeof DocsDocsBlocksStatusFlowRoute
+  DocsDocsBlocksViewConfigPanelRoute: typeof DocsDocsBlocksViewConfigPanelRoute
   DocsDocsComponentsActionsRoute: typeof DocsDocsComponentsActionsRoute
   DocsDocsComponentsColorsRoute: typeof DocsDocsComponentsColorsRoute
   DocsDocsComponentsDataDisplayRoute: typeof DocsDocsComponentsDataDisplayRoute
@@ -3919,7 +3980,9 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsAiSourcesRoute: DocsDocsAiSourcesRoute,
   DocsDocsBlocksActivityTimelineRoute: DocsDocsBlocksActivityTimelineRoute,
   DocsDocsBlocksBulkActionBarRoute: DocsDocsBlocksBulkActionBarRoute,
+  DocsDocsBlocksBusinessRoute: DocsDocsBlocksBusinessRoute,
   DocsDocsBlocksChartCardRoute: DocsDocsBlocksChartCardRoute,
+  DocsDocsBlocksDataRoute: DocsDocsBlocksDataRoute,
   DocsDocsBlocksDataTableRoute: DocsDocsBlocksDataTableRoute,
   DocsDocsBlocksDealLinesEditorRoute: DocsDocsBlocksDealLinesEditorRoute,
   DocsDocsBlocksDetailPanelRoute: DocsDocsBlocksDetailPanelRoute,
@@ -3937,6 +4000,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksStatsGridRoute: DocsDocsBlocksStatsGridRoute,
   DocsDocsBlocksStatsStripRoute: DocsDocsBlocksStatsStripRoute,
   DocsDocsBlocksStatusFlowRoute: DocsDocsBlocksStatusFlowRoute,
+  DocsDocsBlocksViewConfigPanelRoute: DocsDocsBlocksViewConfigPanelRoute,
   DocsDocsComponentsActionsRoute: DocsDocsComponentsActionsRoute,
   DocsDocsComponentsColorsRoute: DocsDocsComponentsColorsRoute,
   DocsDocsComponentsDataDisplayRoute: DocsDocsComponentsDataDisplayRoute,
