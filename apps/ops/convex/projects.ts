@@ -65,12 +65,22 @@ export const listAllWithBudget = query({
         const daysConsumed =
           project.hoursPerDay > 0 ? billableMinutes / (project.hoursPerDay * 60) : 0
 
+        // Fetch active contract
+        const contracts = await ctx.db
+          .query("contracts")
+          .withIndex("by_project", (q) => q.eq("projectId", project._id))
+          .collect()
+        const activeContract = contracts.find((c) => c.status === "active")
+
         if (!project.budgetAmount) {
           return {
             ...project,
             budgetPercent: null,
             billableRevenue,
             daysConsumed: Math.round(daysConsumed * 10) / 10,
+            hasActiveContract: !!activeContract,
+            contractType: activeContract?.type ?? null,
+            contractDaysPerMonth: activeContract?.daysPerMonth ?? null,
           }
         }
 
@@ -81,6 +91,9 @@ export const listAllWithBudget = query({
           budgetPercent: Math.round(percentUsed * 10) / 10,
           billableRevenue,
           daysConsumed: Math.round(daysConsumed * 10) / 10,
+          hasActiveContract: !!activeContract,
+          contractType: activeContract?.type ?? null,
+          contractDaysPerMonth: activeContract?.daysPerMonth ?? null,
         }
       })
     )

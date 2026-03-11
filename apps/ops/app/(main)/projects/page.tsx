@@ -116,6 +116,11 @@ export default function ProjectsPage() {
 										<>{project.daysConsumed}j facturés</>
 									)}
 								</span>
+								{project.hasActiveContract && project.contractType === "tma" && (
+									<span className="text-xs font-medium text-brand">
+										TMA {project.contractDaysPerMonth}j/mois
+									</span>
+								)}
 								{/* Budget health dot */}
 								{project.budgetPercent !== null && (
 									<span
