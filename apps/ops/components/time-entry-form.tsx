@@ -5,6 +5,7 @@ import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
+import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
@@ -169,7 +170,7 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 
 			<div className="space-y-1.5">
 				<Label>Description</Label>
-				<Input placeholder="Ce qui a été fait…" {...register("description")} />
+				<Textarea placeholder="Ce qui a été fait…" rows={3} {...register("description")} />
 			</div>
 
 			<div className="flex items-center gap-2">

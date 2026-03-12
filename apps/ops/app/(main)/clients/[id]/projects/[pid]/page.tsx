@@ -9,6 +9,7 @@ import { use, useState } from "react"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
+import { TimeEntryForm } from "@/components/time-entry-form"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { BudgetSection } from "@/components/budget-section"
@@ -16,8 +17,10 @@ import { computeBudgetMetrics } from "@/lib/budget"
 import { ContractSection } from "@/components/contract-section"
 import { ContractForm } from "@/components/contract-form"
 import { computeContractMetrics } from "@/lib/contracts"
+import { Pencil } from "lucide-react"
 import { formatMinutes } from "@/lib/format"
 import { getEffectiveStatus, type EntryStatus, ENTRY_STATUS_LABELS } from "@/lib/time-entry-status"
+import type { Doc } from "@/convex/_generated/dataModel"
 import { format, parseISO } from "date-fns"
 import { toast } from "sonner"
 import {
@@ -54,6 +57,7 @@ export default function ProjectDetailPage({ params }: Props) {
   })
   const completeContract = useMutation(api.contracts.complete)
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
+  const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
 
   useOpsTopBar(
     data != null
@@ -277,10 +281,12 @@ export default function ProjectDetailPage({ params }: Props) {
               {filteredEntries.map((entry) => {
                 const revenue = Math.round((entry.minutes / 60) * entry.hourlyRate)
                 const effectiveStatus = getEffectiveStatus(entry)
+                const editable = effectiveStatus !== "invoiced" && effectiveStatus !== "paid"
                 return (
                   <div
                     key={entry._id}
-                    className="flex items-center gap-4 py-2.5 border-b border-edge last:border-0"
+                    className={`group flex items-center gap-4 py-2.5 border-b border-edge last:border-0 ${editable ? "cursor-pointer hover:bg-surface-hover" : ""}`}
+                    onClick={editable ? () => setEditing(entry) : undefined}
                   >
                     <span className="text-xs font-mono text-fg-muted w-20 shrink-0">
                       {format(parseISO(entry.date), "dd/MM/yyyy")}
@@ -297,6 +303,9 @@ export default function ProjectDetailPage({ params }: Props) {
                     <div className="shrink-0 w-28">
                       <EntryStatusBadge status={effectiveStatus} />
                     </div>
+                    {editable && (
+                      <Pencil className="size-3.5 text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    )}
                   </div>
                 )
               })}
@@ -317,6 +326,30 @@ export default function ProjectDetailPage({ params }: Props) {
             onSuccess={() => setEditOpen(false)}
             onCancel={() => setEditOpen(false)}
           />
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit time entry dialog */}
+      <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Modifier l'entrée</DialogTitle>
+          </DialogHeader>
+          {editing && (
+            <TimeEntryForm
+              defaultValues={{
+                id: editing._id,
+                projectId: editing.projectId,
+                date: editing.date,
+                minutes: editing.minutes,
+                description: editing.description,
+                billable: editing.billable,
+                status: editing.status ?? "draft",
+              }}
+              onSuccess={() => setEditing(null)}
+              onCancel={() => setEditing(null)}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
