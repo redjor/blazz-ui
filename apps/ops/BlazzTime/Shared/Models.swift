@@ -82,6 +82,23 @@ struct PendingEntry: Codable, Identifiable {
     let createdAt: Date
 }
 
+// MARK: - Todos
+
+struct TodoItem: Decodable, Identifiable, Hashable {
+    let _id: String
+    let text: String
+    let description: String?
+    let status: String
+    let priority: String?
+    let dueDate: String?
+    let projectId: String?
+    let categoryId: String?
+    let tags: [String]?
+    let createdAt: Double?
+
+    var id: String { _id }
+}
+
 // MARK: - Convex Mutation Payloads
 
 struct CreateTimeEntryArgs: Encodable {
