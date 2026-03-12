@@ -4,6 +4,11 @@ options:
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "16.0"
+settings:
+  base:
+    DEVELOPMENT_TEAM: P9KAWJ28LA
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "Apple Development"
 targets:
   BlazzTime:
     type: application
@@ -22,24 +27,21 @@ targets:
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
         ENABLE_HARDENED_RUNTIME: false
         MACOSX_DEPLOYMENT_TARGET: "14.0"
-        CODE_SIGN_IDENTITY: "-"
-        CODE_SIGNING_REQUIRED: "NO"
-        CODE_SIGN_ENTITLEMENTS: ""
   BlazzTimeWidget:
     type: app-extension
     platform: macOS
     sources:
-      - BlazzTimeWidget
+      - path: BlazzTimeWidget
+        excludes:
+          - Info.plist
+          - BlazzTimeWidget.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazztime.widget
         SWIFT_VERSION: "5.9"
         MACOSX_DEPLOYMENT_TARGET: "14.0"
-        CODE_SIGN_IDENTITY: "-"
-        CODE_SIGNING_REQUIRED: "NO"
-        GENERATE_INFOPLIST_FILE: "YES"
-        INFOPLIST_KEY_CFBundleDisplayName: "Blazz Todos"
-        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        INFOPLIST_FILE: BlazzTimeWidget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: BlazzTimeWidget/BlazzTimeWidget.entitlements
     dependencies:
       - sdk: WidgetKit.framework
       - sdk: SwiftUI.framework
@@ -54,5 +56,3 @@ targets:
       base:
         SWIFT_VERSION: "5.9"
         GENERATE_INFOPLIST_FILE: "YES"
-        CODE_SIGN_IDENTITY: "-"
-        CODE_SIGNING_REQUIRED: "NO"

@@ -1,6 +1,7 @@
 import WidgetKit
 import SwiftUI
 
+@main
 struct BlazzTimeWidget: Widget {
     let kind = "BlazzTimeWidget"
 
