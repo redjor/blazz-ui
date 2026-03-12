@@ -1,7 +1,10 @@
 /// <reference types="vite/client" />
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import type { ReactNode } from "react"
+import { BlazzProvider } from "@blazz/ui/lib/license-context"
 import appCss from "~/styles/globals.css?url"
+
+const BLAZZ_DEV_LICENSE = "BLAZZ-PRO-BLAZZDEV-20271231-569bc77c0666d084"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -34,7 +37,9 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-['Inter',sans-serif] antialiased">
-        {children}
+        <BlazzProvider licenseKey={BLAZZ_DEV_LICENSE}>
+          {children}
+        </BlazzProvider>
         <Scripts />
       </body>
     </html>

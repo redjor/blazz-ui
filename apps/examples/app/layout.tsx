@@ -2,7 +2,10 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "next-themes"
+import { BlazzProvider } from "@blazz/ui"
 import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
+
+const BLAZZ_DEV_LICENSE = "BLAZZ-PRO-BLAZZDEV-20271231-569bc77c0666d084"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="fr" suppressHydrationWarning>
 			<body className={`${inter.className} antialiased`}>
 				<ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-					<ThemePaletteProvider>
-						{children}
-					</ThemePaletteProvider>
+					<BlazzProvider licenseKey={BLAZZ_DEV_LICENSE}>
+						<ThemePaletteProvider>
+							{children}
+						</ThemePaletteProvider>
+					</BlazzProvider>
 				</ThemeProvider>
 			</body>
 		</html>
