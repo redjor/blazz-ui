@@ -9,18 +9,30 @@
 /* Begin PBXBuildFile section */
 		0139D2ABE849AE296BFB4D94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55CEE9C590AA30061703567D /* Assets.xcassets */; };
 		1186ACCDAE188F1E0EE84A1B /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */; };
+		16E3BEDC5E236BD409708C0F /* BlazzTimeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 173932A782F4C2872229F719 /* BlazzTimeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2F6F47787318D4C10FCC8923 /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A708AA1B826499AD1F048046 /* OfflineBuffer.swift */; };
 		31442169F913AC8F5B3B9ACC /* OfflineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164401DCB2C626D4560053C7 /* OfflineBufferTests.swift */; };
 		740861216DC574F2B8CF53BE /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A85488B2E9108C493913BE /* HotKey.swift */; };
+		762ADFCD906BCA7FA255FE68 /* TodoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF28035152084B65F5E4E3E2 /* TodoProvider.swift */; };
 		7EBAD12D06F1AF110E24699C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0CA83994D1D865287EB7EB /* AuthManager.swift */; };
+		8ABD8101B22B6B63F674287C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */; };
 		968411DDBA09696E84FE8725 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FC04ECE40748E742E6534E /* Models.swift */; };
 		A8CEDC0702D04E86C0F0C902 /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */; };
+		AC59DD501918450CA3FE42D1 /* BlazzTimeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */; };
 		CBC050AA7FC40C9C71330ABD /* BlazzTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */; };
+		DDB202F8C9E70CC234B8F8DC /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE43F87EAC8A43B394519FD /* WidgetKit.framework */; };
 		EAE1EA217C36760398ED1047 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951B912FA58C6E65C243F31 /* ConvexClient.swift */; };
 		FFF9C7A16F4CED19DF37F9A7 /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F888E93D86716AB9C24A50 /* AuthManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6ED12B2B4160BA61E69748C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA18904B00208CC6E1486093 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A0D148A68060AD2AD558A2B;
+			remoteInfo = BlazzTimeWidget;
+		};
 		CF02D87BDF09C7E397F7F16B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EA18904B00208CC6E1486093 /* Project object */;
@@ -30,23 +42,54 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F3DE79ACDE99EE19D48C705E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				16E3BEDC5E236BD409708C0F /* BlazzTimeWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		03FC04ECE40748E742E6534E /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		164401DCB2C626D4560053C7 /* OfflineBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBufferTests.swift; sourceTree = "<group>"; };
+		173932A782F4C2872229F719 /* BlazzTimeWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzTimeWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlazzTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BB179DD849B2A6134B17EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3B0CA83994D1D865287EB7EB /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		55CEE9C590AA30061703567D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
 		9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlazzTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CE43F87EAC8A43B394519FD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A708AA1B826499AD1F048046 /* OfflineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBuffer.swift; sourceTree = "<group>"; };
 		A7F888E93D86716AB9C24A50 /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
+		AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzTimeWidget.swift; sourceTree = "<group>"; };
+		CF28035152084B65F5E4E3E2 /* TodoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoProvider.swift; sourceTree = "<group>"; };
 		D1D91EBC25B31030353823D1 /* BlazzTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlazzTime.entitlements; sourceTree = "<group>"; };
 		D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickEntryView.swift; sourceTree = "<group>"; };
+		D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		E0A85488B2E9108C493913BE /* HotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		F951B912FA58C6E65C243F31 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
 		FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzTimeApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AFD643C93B7FF6B93056C4CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB202F8C9E70CC234B8F8DC /* WidgetKit.framework in Frameworks */,
+				8ABD8101B22B6B63F674287C /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		00F078133BB306856EF6AF62 /* BlazzTime */ = {
@@ -67,6 +110,15 @@
 			path = BlazzTime;
 			sourceTree = "<group>";
 		};
+		2A30F6201645D4644FB68343 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */,
+				9CE43F87EAC8A43B394519FD /* WidgetKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A2695E949907EA83ADA58302 /* BlazzTimeTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,8 +133,19 @@
 			children = (
 				00F078133BB306856EF6AF62 /* BlazzTime */,
 				A2695E949907EA83ADA58302 /* BlazzTimeTests */,
+				CF482D6C428B16BCCD3DDC48 /* BlazzTimeWidget */,
+				2A30F6201645D4644FB68343 /* Frameworks */,
 				F75108EA9B94015EF1466C5B /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		CF482D6C428B16BCCD3DDC48 /* BlazzTimeWidget */ = {
+			isa = PBXGroup;
+			children = (
+				AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */,
+				CF28035152084B65F5E4E3E2 /* TodoProvider.swift */,
+			);
+			path = BlazzTimeWidget;
 			sourceTree = "<group>";
 		};
 		F75108EA9B94015EF1466C5B /* Products */ = {
@@ -90,6 +153,7 @@
 			children = (
 				9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */,
 				1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */,
+				173932A782F4C2872229F719 /* BlazzTimeWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,10 +167,12 @@
 			buildPhases = (
 				F924CC251933179AD97E38EE /* Sources */,
 				95C1326A1F890F0655DDF54D /* Resources */,
+				F3DE79ACDE99EE19D48C705E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				70710E1BA833DA1C9B6B84A4 /* PBXTargetDependency */,
 			);
 			name = BlazzTime;
 			packageProductDependencies = (
@@ -114,6 +180,24 @@
 			productName = BlazzTime;
 			productReference = 9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8A0D148A68060AD2AD558A2B /* BlazzTimeWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F927C4494AB3F41D3C6DB83 /* Build configuration list for PBXNativeTarget "BlazzTimeWidget" */;
+			buildPhases = (
+				A4DA2A835FD03069447C1B1B /* Sources */,
+				AFD643C93B7FF6B93056C4CB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlazzTimeWidget;
+			packageProductDependencies = (
+			);
+			productName = BlazzTimeWidget;
+			productReference = 173932A782F4C2872229F719 /* BlazzTimeWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		BAC0149A2CEFD3EF34AED465 /* BlazzTimeTests */ = {
 			isa = PBXNativeTarget;
@@ -160,6 +244,7 @@
 			targets = (
 				5230B0C0368760AB98A95F42 /* BlazzTime */,
 				BAC0149A2CEFD3EF34AED465 /* BlazzTimeTests */,
+				8A0D148A68060AD2AD558A2B /* BlazzTimeWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -185,6 +270,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A4DA2A835FD03069447C1B1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC59DD501918450CA3FE42D1 /* BlazzTimeWidget.swift in Sources */,
+				762ADFCD906BCA7FA255FE68 /* TodoProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F924CC251933179AD97E38EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,6 +297,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		70710E1BA833DA1C9B6B84A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A0D148A68060AD2AD558A2B /* BlazzTimeWidget */;
+			targetProxy = 6ED12B2B4160BA61E69748C3 /* PBXContainerItemProxy */;
+		};
 		90799032BE245CCCFB57009C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5230B0C0368760AB98A95F42 /* BlazzTime */;
@@ -314,6 +413,27 @@
 			};
 			name = Release;
 		};
+		6B68F96BE2D5C4D7441D444E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Blazz Todos";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazztime.widget;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
 		6FF2B32127ECFC7B98453DB4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -390,6 +510,27 @@
 			};
 			name = Debug;
 		};
+		D528DB2A241975767B5CAAED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Blazz Todos";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazztime.widget;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
 		EC5F2524F791C2C63432B00F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -427,6 +568,15 @@
 			buildConfigurations = (
 				1BDF138ACB7C3746C7664F96 /* Debug */,
 				6FF2B32127ECFC7B98453DB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9F927C4494AB3F41D3C6DB83 /* Build configuration list for PBXNativeTarget "BlazzTimeWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B68F96BE2D5C4D7441D444E /* Debug */,
+				D528DB2A241975767B5CAAED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

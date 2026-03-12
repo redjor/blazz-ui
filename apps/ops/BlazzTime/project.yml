@@ -10,6 +10,8 @@ targets:
     platform: macOS
     sources:
       - BlazzTime
+    dependencies:
+      - target: BlazzTimeWidget
     settings:
       base:
         INFOPLIST_FILE: BlazzTime/Info.plist
@@ -23,6 +25,24 @@ targets:
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGNING_REQUIRED: "NO"
         CODE_SIGN_ENTITLEMENTS: ""
+  BlazzTimeWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - BlazzTimeWidget
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazztime.widget
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGNING_REQUIRED: "NO"
+        GENERATE_INFOPLIST_FILE: "YES"
+        INFOPLIST_KEY_CFBundleDisplayName: "Blazz Todos"
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+    dependencies:
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
   BlazzTimeTests:
     type: bundle.unit-test
     platform: macOS

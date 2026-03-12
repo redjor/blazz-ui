@@ -31,6 +31,17 @@ export const list = query({
 	},
 })
 
+export const listByDate = query({
+	args: { date: v.string() },
+	handler: async (ctx, { date }) => {
+		const todos = await ctx.db.query("todos").collect()
+		const priorityOrder: Record<string, number> = { urgent: 0, high: 1, normal: 2, low: 3 }
+		return todos
+			.filter((t) => t.dueDate === date && t.status !== "done")
+			.sort((a, b) => (priorityOrder[a.priority ?? "normal"] ?? 2) - (priorityOrder[b.priority ?? "normal"] ?? 2))
+	},
+})
+
 export const listAllTags = query({
 	args: {},
 	handler: async (ctx) => {
