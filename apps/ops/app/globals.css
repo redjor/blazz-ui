@@ -700,31 +700,154 @@ html[data-theme="warm"].dark {
 	margin-bottom: calc(-1 * var(--inset));
 }
 
-/* Tiptap editor */
-.tiptap p.is-editor-empty:first-child::before {
+/* ── Tiptap Notion-style editor ── */
+
+/* Placeholder for empty nodes */
+.tiptap-notion .is-empty::before {
 	content: attr(data-placeholder);
 	float: left;
 	color: var(--text-secondary);
-	opacity: 0.5;
+	opacity: 0.4;
 	pointer-events: none;
 	height: 0;
 }
 
-.tiptap ul[data-type="taskList"] {
+/* Remove default prose margins for tighter spacing */
+.tiptap-notion > * + * {
+	margin-top: 0.5em;
+}
+
+.tiptap-notion h2 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-top: 1.5em;
+	margin-bottom: 0.25em;
+	color: var(--text-primary);
+}
+
+.tiptap-notion h3 {
+	font-size: 1.05rem;
+	font-weight: 600;
+	margin-top: 1.25em;
+	margin-bottom: 0.2em;
+	color: var(--text-primary);
+}
+
+.tiptap-notion p {
+	line-height: 1.65;
+	color: var(--text-primary);
+}
+
+/* Task list (checkboxes) */
+.tiptap-notion ul[data-type="taskList"] {
 	list-style: none;
 	padding: 0;
 }
 
-.tiptap ul[data-type="taskList"] li {
+.tiptap-notion ul[data-type="taskList"] li {
 	display: flex;
 	align-items: flex-start;
 	gap: 0.5rem;
+	padding: 2px 0;
 }
 
-.tiptap ul[data-type="taskList"] li > label {
-	margin-top: 0.25rem;
+.tiptap-notion ul[data-type="taskList"] li > label {
+	margin-top: 3px;
+	flex-shrink: 0;
 }
 
-.tiptap ul[data-type="taskList"] li > div {
+.tiptap-notion ul[data-type="taskList"] li > label input[type="checkbox"] {
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border: 1.5px solid var(--border-default);
+	border-radius: 3px;
+	background: transparent;
+	cursor: pointer;
+	display: grid;
+	place-content: center;
+}
+
+.tiptap-notion ul[data-type="taskList"] li > label input[type="checkbox"]:checked {
+	background: var(--accent);
+	border-color: var(--accent);
+}
+
+.tiptap-notion ul[data-type="taskList"] li > label input[type="checkbox"]:checked::after {
+	content: "";
+	width: 10px;
+	height: 10px;
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.6666 3.5L5.24992 9.91667L2.33325 7' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-size: contain;
+}
+
+.tiptap-notion ul[data-type="taskList"] li[data-checked="true"] > div > p {
+	text-decoration: line-through;
+	color: var(--text-muted);
+}
+
+.tiptap-notion ul[data-type="taskList"] li > div {
 	flex: 1;
+}
+
+/* Blockquote */
+.tiptap-notion blockquote {
+	border-left: 3px solid var(--border-default);
+	padding-left: 1rem;
+	color: var(--text-secondary);
+	font-style: italic;
+}
+
+/* Code block */
+.tiptap-notion pre {
+	background: var(--bg-raised);
+	border: 1px solid var(--border-default);
+	border-radius: 6px;
+	padding: 0.75rem 1rem;
+	font-size: 0.85rem;
+	overflow-x: auto;
+}
+
+.tiptap-notion pre code {
+	background: none;
+	padding: 0;
+	border: none;
+	font-size: inherit;
+	color: inherit;
+}
+
+/* Inline code */
+.tiptap-notion code {
+	background: var(--bg-raised);
+	border: 1px solid var(--border-subtle);
+	border-radius: 4px;
+	padding: 1px 4px;
+	font-size: 0.875em;
+	color: var(--accent);
+}
+
+/* Horizontal rule */
+.tiptap-notion hr {
+	border: none;
+	border-top: 1px solid var(--border-default);
+	margin: 1.5em 0;
+}
+
+/* Lists */
+.tiptap-notion ul:not([data-type="taskList"]) {
+	padding-left: 1.25em;
+	list-style-type: disc;
+}
+
+.tiptap-notion ol {
+	padding-left: 1.25em;
+	list-style-type: decimal;
+}
+
+.tiptap-notion li {
+	padding: 1px 0;
+}
+
+.tiptap-notion li > p {
+	margin: 0;
 }
