@@ -20,7 +20,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@blazz/ui/components/ui/sidebar";
-import { CheckSquare, Clock, FolderOpen, LayoutDashboard, Package, Sun, Users } from "lucide-react";
+import { CheckSquare, Clock, FolderOpen, LayoutDashboard, MessageSquare, Package, Sun, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -41,6 +41,7 @@ const navItems = [
     items: [{ title: "Récapitulatif", url: "/recap" }],
   },
   { title: "Todos", url: "/todos", icon: CheckSquare },
+  { title: "Chat", url: "/chat", icon: MessageSquare },
   { title: "Packages", url: "/packages", icon: Package },
 ];
 

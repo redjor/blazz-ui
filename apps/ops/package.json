@@ -14,6 +14,8 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.41",
+    "@ai-sdk/react": "^3.0.118",
     "@auth/core": "^0.37.4",
     "@blazz/ui": "workspace:*",
     "@convex-dev/auth": "^0.0.91",
@@ -25,6 +27,7 @@
     "@tiptap/extension-task-list": "^3.20.1",
     "@tiptap/react": "^3.20.1",
     "@tiptap/starter-kit": "^3.20.1",
+    "ai": "^6.0.97",
     "convex": "^1.22.0",
     "date-fns": "^4.1.0",
     "geist": "^1.7.0",
