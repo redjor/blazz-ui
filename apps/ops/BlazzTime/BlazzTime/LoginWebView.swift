@@ -70,8 +70,26 @@ private struct WebViewRepresentable: NSViewRepresentable {
         let script = WKUserScript(
             source: """
             (function checkToken() {
-                var token = localStorage.getItem('__convexAuthJWT');
-                if (token && token.length > 10) {
+                // Debug: log all localStorage keys
+                var keys = [];
+                for (var i = 0; i < localStorage.length; i++) {
+                    var key = localStorage.key(i);
+                    var val = localStorage.getItem(key);
+                    keys.push(key + ' = ' + (val ? val.substring(0, 50) : 'null'));
+                }
+                window.webkit.messageHandlers.auth.postMessage('__debug__:' + JSON.stringify(keys));
+
+                // Try known Convex token keys
+                var token = null;
+                for (var i = 0; i < localStorage.length; i++) {
+                    var key = localStorage.key(i);
+                    var val = localStorage.getItem(key);
+                    if (val && val.length > 100 && (key.includes('auth') || key.includes('token') || key.includes('convex'))) {
+                        token = val;
+                        break;
+                    }
+                }
+                if (token) {
                     window.webkit.messageHandlers.auth.postMessage(token);
                 }
             })();
@@ -108,15 +126,21 @@ private class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegat
 
     // Called when JS sends a message via webkit.messageHandlers.auth
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        guard !tokenReceived,
-              let token = message.body as? String,
-              !token.isEmpty else { return }
+        guard let value = message.body as? String, !value.isEmpty else { return }
 
+        // Debug messages
+        if value.hasPrefix("__debug__:") {
+            let debugInfo = value.dropFirst("__debug__:".count)
+            print("[LoginWebView] localStorage keys: \(debugInfo)")
+            return
+        }
+
+        guard !tokenReceived else { return }
         tokenReceived = true
-        print("[LoginWebView] Token received (\(token.prefix(20))...)")
+        print("[LoginWebView] Token received (\(value.prefix(30))...)")
 
         DispatchQueue.main.async {
-            self.authManager.saveToken(token)
+            self.authManager.saveToken(value)
             self.onDone()
         }
     }
@@ -126,12 +150,24 @@ private class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegat
         guard !tokenReceived else { return }
 
         // Wait a moment for localStorage to be populated after redirect
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             webView.evaluateJavaScript("""
                 (function() {
-                    var token = localStorage.getItem('__convexAuthJWT');
-                    if (token && token.length > 10) {
-                        window.webkit.messageHandlers.auth.postMessage(token);
+                    var keys = [];
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var val = localStorage.getItem(key);
+                        keys.push(key + ' = ' + (val ? val.substring(0, 50) : 'null'));
+                    }
+                    window.webkit.messageHandlers.auth.postMessage('__debug__:' + JSON.stringify(keys));
+
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var val = localStorage.getItem(key);
+                        if (val && val.length > 100 && (key.includes('auth') || key.includes('token') || key.includes('convex'))) {
+                            window.webkit.messageHandlers.auth.postMessage(val);
+                            return;
+                        }
                     }
                 })();
             """)
