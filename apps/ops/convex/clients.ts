@@ -1,12 +1,16 @@
-import { v } from "convex/values"
+import { v, ConvexError } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const list = query({
 	args: {},
 	handler: async (ctx) => {
-		await requireAuth(ctx)
-		const clients = await ctx.db.query("clients").order("desc").collect()
+		const { userId } = await requireAuth(ctx)
+		const clients = await ctx.db
+			.query("clients")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.order("desc")
+			.collect()
 		return Promise.all(
 			clients.map(async (c) => ({
 				...c,
@@ -19,9 +23,9 @@ export const list = query({
 export const get = query({
 	args: { id: v.id("clients") },
 	handler: async (ctx, { id }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const c = await ctx.db.get(id)
-		if (!c) return null
+		if (!c || c.userId !== userId) return null
 		return {
 			...c,
 			logoUrl: c.logoStorageId ? await ctx.storage.getUrl(c.logoStorageId) : null,
@@ -47,8 +51,8 @@ export const create = mutation({
 		logoStorageId: v.optional(v.id("_storage")),
 	},
 	handler: async (ctx, args) => {
-		await requireAuth(ctx)
-		return ctx.db.insert("clients", { ...args, createdAt: Date.now() })
+		const { userId } = await requireAuth(ctx)
+		return ctx.db.insert("clients", { ...args, userId, createdAt: Date.now() })
 	},
 })
 
@@ -63,11 +67,12 @@ export const update = mutation({
 		logoStorageId: v.optional(v.id("_storage")),
 	},
 	handler: async (ctx, { id, ...fields }) => {
-		await requireAuth(ctx)
-		// If logo is being replaced, delete old file from storage
+		const { userId } = await requireAuth(ctx)
 		const existing = await ctx.db.get(id)
+		if (!existing || existing.userId !== userId) throw new ConvexError("Introuvable")
+		// If logo is being replaced, delete old file from storage
 		if (
-			existing?.logoStorageId &&
+			existing.logoStorageId &&
 			fields.logoStorageId !== undefined &&
 			fields.logoStorageId !== existing.logoStorageId
 		) {
@@ -80,9 +85,10 @@ export const update = mutation({
 export const remove = mutation({
 	args: { id: v.id("clients") },
 	handler: async (ctx, { id }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const existing = await ctx.db.get(id)
-		if (existing?.logoStorageId) {
+		if (!existing || existing.userId !== userId) throw new ConvexError("Introuvable")
+		if (existing.logoStorageId) {
 			await ctx.storage.delete(existing.logoStorageId)
 		}
 		return ctx.db.delete(id)
@@ -92,24 +98,21 @@ export const remove = mutation({
 export const getStats = query({
 	args: { clientId: v.id("clients") },
 	handler: async (ctx, { clientId }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
+		const client = await ctx.db.get(clientId)
+		if (!client || client.userId !== userId) return null
+
 		const projects = await ctx.db
 			.query("projects")
-			.withIndex("by_client", (q) => q.eq("clientId", clientId))
+			.withIndex("by_user_client", (q) => q.eq("userId", userId).eq("clientId", clientId))
 			.collect()
 
-		const allEntries = (
-			await Promise.all(
-				projects.map((p) =>
-					ctx.db
-						.query("timeEntries")
-						.withIndex("by_project", (q) => q.eq("projectId", p._id))
-						.collect()
-				)
-			)
-		)
-			.flat()
-			.filter((e) => e.billable)
+		const projectIds = new Set(projects.map((p) => p._id))
+		const allUserEntries = await ctx.db
+			.query("timeEntries")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const allEntries = allUserEntries.filter((e) => projectIds.has(e.projectId) && e.billable)
 
 		const calc = (filter: (e: (typeof allEntries)[number]) => boolean) =>
 			Math.round(allEntries.filter(filter).reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0))

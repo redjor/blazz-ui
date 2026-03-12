@@ -11,13 +11,16 @@ export const list = query({
 		to: v.optional(v.string()),
 	},
 	handler: async (ctx, { projectId, from, to }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		let entries = projectId
 			? await ctx.db
 					.query("timeEntries")
-					.withIndex("by_project", (q) => q.eq("projectId", projectId))
+					.withIndex("by_user_project", (q) => q.eq("userId", userId).eq("projectId", projectId))
 					.collect()
-			: await ctx.db.query("timeEntries").collect()
+			: await ctx.db
+					.query("timeEntries")
+					.withIndex("by_user", (q) => q.eq("userId", userId))
+					.collect()
 
 		if (from) entries = entries.filter((e) => e.date >= from)
 		if (to) entries = entries.filter((e) => e.date <= to)
@@ -29,10 +32,10 @@ export const list = query({
 export const listByDate = query({
 	args: { date: v.string() },
 	handler: async (ctx, { date }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		return ctx.db
 			.query("timeEntries")
-			.withIndex("by_date", (q) => q.eq("date", date))
+			.withIndex("by_user_date", (q) => q.eq("userId", userId).eq("date", date))
 			.collect()
 	},
 })
@@ -40,8 +43,12 @@ export const listByDate = query({
 export const recent = query({
 	args: { limit: v.optional(v.number()) },
 	handler: async (ctx, { limit = 10 }) => {
-		await requireAuth(ctx)
-		return ctx.db.query("timeEntries").order("desc").take(limit)
+		const { userId } = await requireAuth(ctx)
+		return ctx.db
+			.query("timeEntries")
+			.order("desc")
+			.filter((q) => q.eq(q.field("userId"), userId))
+			.take(limit)
 	},
 })
 
@@ -53,13 +60,16 @@ export const listForRecap = query({
 		includeInvoiced: v.optional(v.boolean()),
 	},
 	handler: async (ctx, { projectId, from, to, includeInvoiced = false }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		let entries = projectId
 			? await ctx.db
 					.query("timeEntries")
-					.withIndex("by_project", (q) => q.eq("projectId", projectId))
+					.withIndex("by_user_project", (q) => q.eq("userId", userId).eq("projectId", projectId))
 					.collect()
-			: await ctx.db.query("timeEntries").collect()
+			: await ctx.db
+					.query("timeEntries")
+					.withIndex("by_user", (q) => q.eq("userId", userId))
+					.collect()
 
 		if (!includeInvoiced) entries = entries.filter((e) => !e.invoicedAt)
 		if (from) entries = entries.filter((e) => e.date >= from)
@@ -88,8 +98,10 @@ export const create = mutation({
 		),
 	},
 	handler: async (ctx, args) => {
-		await requireAuth(ctx)
-		return ctx.db.insert("timeEntries", { ...args, createdAt: Date.now() })
+		const { userId } = await requireAuth(ctx)
+		const project = await ctx.db.get(args.projectId)
+		if (!project || project.userId !== userId) throw new ConvexError("Projet introuvable")
+		return ctx.db.insert("timeEntries", { ...args, userId, createdAt: Date.now() })
 	},
 })
 
@@ -112,9 +124,9 @@ export const update = mutation({
 		),
 	},
 	handler: async (ctx, { id, ...fields }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const entry = await ctx.db.get(id)
-		if (!entry) throw new ConvexError("Entrée introuvable")
+		if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
 		if (entry.status === "invoiced") {
 			throw new ConvexError("Impossible de modifier une entrée facturée")
 		}
@@ -128,9 +140,9 @@ export const update = mutation({
 export const remove = mutation({
 	args: { id: v.id("timeEntries") },
 	handler: async (ctx, { id }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const entry = await ctx.db.get(id)
-		if (!entry) throw new ConvexError("Entrée introuvable")
+		if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
 		if (entry.status === "invoiced") {
 			throw new ConvexError("Impossible de supprimer une entrée facturée")
 		}
@@ -145,11 +157,12 @@ export const remove = mutation({
 export const unmarkInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
 	handler: async (ctx, { ids }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		await Promise.all(
 			ids.map(async (id) => {
 				const entry = await ctx.db.get(id)
-				if (entry?.invoicedAt) {
+				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
+				if (entry.invoicedAt) {
 					await ctx.db.patch(id, { invoicedAt: undefined })
 				}
 			})
@@ -161,12 +174,13 @@ export const unmarkInvoiced = mutation({
 export const markInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
 	handler: async (ctx, { ids }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const now = Date.now()
 		await Promise.all(
 			ids.map(async (id) => {
 				const entry = await ctx.db.get(id)
-				if (entry && !entry.invoicedAt) {
+				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
+				if (!entry.invoicedAt) {
 					await ctx.db.patch(id, { invoicedAt: now })
 				}
 			})
@@ -185,12 +199,12 @@ export const setStatus = mutation({
 		),
 	},
 	handler: async (ctx, { ids, status }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const now = Date.now()
 		await Promise.all(
 			ids.map(async (id) => {
 				const entry = await ctx.db.get(id)
-				if (!entry) throw new ConvexError("Entrée introuvable")
+				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
 				const currentStatus: EntryStatus = entry.status ?? "draft"
 				validateTransition(currentStatus, status)
 				const patch: Record<string, unknown> = { status }
@@ -219,27 +233,18 @@ export const listPaginated = query({
 		paginationOpts: paginationOptsValidator,
 	},
 	handler: async (ctx, { projectId, status, billable, from, to, paginationOpts }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const baseQuery = ctx.db.query("timeEntries").withIndex("by_date").order("desc")
 
-		const hasFilters =
-			projectId !== undefined ||
-			status !== undefined ||
-			billable !== undefined ||
-			from !== undefined ||
-			to !== undefined
-
-		const filtered = hasFilters
-			? baseQuery.filter((q) => {
-					const conditions = []
-					if (projectId !== undefined) conditions.push(q.eq(q.field("projectId"), projectId))
-					if (status !== undefined) conditions.push(q.eq(q.field("status"), status))
-					if (billable !== undefined) conditions.push(q.eq(q.field("billable"), billable))
-					if (from !== undefined) conditions.push(q.gte(q.field("date"), from))
-					if (to !== undefined) conditions.push(q.lte(q.field("date"), to))
-					return conditions.reduce((acc, cond) => q.and(acc, cond))
-				})
-			: baseQuery
+		const filtered = baseQuery.filter((q) => {
+			const conditions = [q.eq(q.field("userId"), userId)]
+			if (projectId !== undefined) conditions.push(q.eq(q.field("projectId"), projectId))
+			if (status !== undefined) conditions.push(q.eq(q.field("status"), status))
+			if (billable !== undefined) conditions.push(q.eq(q.field("billable"), billable))
+			if (from !== undefined) conditions.push(q.gte(q.field("date"), from))
+			if (to !== undefined) conditions.push(q.lte(q.field("date"), to))
+			return conditions.reduce((acc, cond) => q.and(acc, cond))
+		})
 
 		return filtered.paginate(paginationOpts)
 	},

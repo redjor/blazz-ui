@@ -8,6 +8,7 @@ import { mutation } from "./_generated/server"
 export const run = mutation({
 	args: {},
 	handler: async (ctx) => {
+		const SEED_USER_ID = "seed-user-dev"
 		// Wipe existing data
 		const existingTodos = await ctx.db.query("todos").collect()
 		for (const t of existingTodos) await ctx.db.delete(t._id)
@@ -33,6 +34,7 @@ export const run = mutation({
 
 		// ── Clients ──────────────────────────────────────────────────────────────
 		const acmeId = await ctx.db.insert("clients", {
+			userId: SEED_USER_ID,
 			name: "Acme Corp",
 			email: "contact@acme.fr",
 			phone: "+33 1 42 00 00 01",
@@ -42,6 +44,7 @@ export const run = mutation({
 		})
 
 		const veridianId = await ctx.db.insert("clients", {
+			userId: SEED_USER_ID,
 			name: "Veridian Solutions",
 			email: "tech@veridian.io",
 			phone: "+33 6 12 34 56 78",
@@ -51,6 +54,7 @@ export const run = mutation({
 		})
 
 		const atlasId = await ctx.db.insert("clients", {
+			userId: SEED_USER_ID,
 			name: "Atlas Média",
 			email: "projets@atlas-media.fr",
 			notes: "Agence digitale. Missions ponctuelles.",
@@ -59,6 +63,7 @@ export const run = mutation({
 
 		// ── Projects ─────────────────────────────────────────────────────────────
 		const acmeDashboardId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: acmeId,
 			name: "Dashboard Analytics",
 			description: "Refonte complète du dashboard interne avec Next.js + Recharts.",
@@ -71,6 +76,7 @@ export const run = mutation({
 		})
 
 		const acmeMobileId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: acmeId,
 			name: "App Mobile RH",
 			description: "Prototype React Native pour la gestion des congés.",
@@ -84,6 +90,7 @@ export const run = mutation({
 		})
 
 		const veridianApiId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: veridianId,
 			name: "API Gateway v2",
 			description: "Migration vers tRPC + Zod. Couverture de tests >80%.",
@@ -96,6 +103,7 @@ export const run = mutation({
 		})
 
 		const veridianDesignId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: veridianId,
 			name: "Design System",
 			description: "Audit + implémentation Figma tokens → composants React.",
@@ -109,6 +117,7 @@ export const run = mutation({
 		})
 
 		const atlasId2 = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: atlasId,
 			name: "Site Vitrine E-commerce",
 			description: "Next.js + Stripe. Livraison prévue fin mars.",
@@ -121,6 +130,7 @@ export const run = mutation({
 		})
 
 		const atlasRedesignId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: atlasId,
 			name: "Refonte Brand Identity",
 			description: "Audit + refonte charte graphique web.",
@@ -135,6 +145,7 @@ export const run = mutation({
 
 		// ── Client 4 : Nexus Labs ─────────────────────────────────────────────────
 		const nexusId = await ctx.db.insert("clients", {
+			userId: SEED_USER_ID,
 			name: "Nexus Labs",
 			email: "eng@nexuslabs.dev",
 			phone: "+33 7 55 44 33 22",
@@ -144,6 +155,7 @@ export const run = mutation({
 		})
 
 		const nexusPlatformId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: nexusId,
 			name: "ML Platform",
 			description: "Dashboard monitoring modèles ML + alerting pipeline.",
@@ -156,6 +168,7 @@ export const run = mutation({
 		})
 
 		const nexusOnboardingId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: nexusId,
 			name: "Onboarding Flow",
 			description: "Refonte parcours utilisateur signup → activation.",
@@ -170,6 +183,7 @@ export const run = mutation({
 
 		// ── Client 5 : Orbital Finance ────────────────────────────────────────────
 		const orbitalId = await ctx.db.insert("clients", {
+			userId: SEED_USER_ID,
 			name: "Orbital Finance",
 			email: "tech@orbital.finance",
 			phone: "+33 1 88 77 66 55",
@@ -179,6 +193,7 @@ export const run = mutation({
 		})
 
 		const orbitalRiskId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: orbitalId,
 			name: "Risk Dashboard",
 			description: "Tableau de bord risque temps réel. Projet terminé.",
@@ -192,6 +207,7 @@ export const run = mutation({
 		})
 
 		const orbitalMobileId = await ctx.db.insert("projects", {
+			userId: SEED_USER_ID,
 			clientId: orbitalId,
 			name: "App Mobile Trader",
 			description: "React Native — suivi portefeuille + alertes.",
@@ -217,7 +233,7 @@ export const run = mutation({
 			status?: EntryStatus
 		}
 
-		const insert = (e: EntryArgs) => ctx.db.insert("timeEntries", { ...e, createdAt: now })
+		const insert = (e: EntryArgs) => ctx.db.insert("timeEntries", { ...e, userId: SEED_USER_ID, createdAt: now })
 
 		const invoicedTs = now - 15 * 86400_000
 		const paidTs = now - 60 * 86400_000
@@ -1198,7 +1214,7 @@ export const run = mutation({
 		]
 
 		for (const todo of todos) {
-			await ctx.db.insert("todos", { ...todo, createdAt: now })
+			await ctx.db.insert("todos", { ...todo, userId: SEED_USER_ID, createdAt: now })
 		}
 
 		return {

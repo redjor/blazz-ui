@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server"
-import { v } from "convex/values"
+import { v, ConvexError } from "convex/values"
 import { requireAuth } from "./lib/auth"
 
 // ── Queries ────────────────────────────────────────
@@ -7,7 +7,10 @@ import { requireAuth } from "./lib/auth"
 export const listByContract = query({
 	args: { contractId: v.id("contracts") },
 	handler: async (ctx, { contractId }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
+		const contract = await ctx.db.get(contractId)
+		if (!contract || contract.userId !== userId) return []
+
 		const files = await ctx.db
 			.query("contractFiles")
 			.withIndex("by_contract", (q) => q.eq("contractId", contractId))
@@ -41,9 +44,12 @@ export const create = mutation({
 		fileSize: v.number(),
 	},
 	handler: async (ctx, args) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
+		const contract = await ctx.db.get(args.contractId)
+		if (!contract || contract.userId !== userId) throw new ConvexError("Introuvable")
 		return ctx.db.insert("contractFiles", {
 			...args,
+			userId,
 			createdAt: Date.now(),
 		})
 	},
@@ -52,9 +58,9 @@ export const create = mutation({
 export const remove = mutation({
 	args: { id: v.id("contractFiles") },
 	handler: async (ctx, { id }) => {
-		await requireAuth(ctx)
+		const { userId } = await requireAuth(ctx)
 		const file = await ctx.db.get(id)
-		if (!file) throw new Error("Fichier introuvable.")
+		if (!file || file.userId !== userId) throw new ConvexError("Introuvable")
 		await ctx.storage.delete(file.storageId)
 		await ctx.db.delete(id)
 	},

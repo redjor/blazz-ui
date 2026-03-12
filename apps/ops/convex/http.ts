@@ -1,6 +1,6 @@
 import { httpRouter } from "convex/server"
 import { httpAction } from "./_generated/server"
-import { api } from "./_generated/api"
+import { internal } from "./_generated/api"
 import { auth } from "./auth"
 
 const http = httpRouter()
@@ -38,8 +38,14 @@ http.route({
 			return new Response("OK", { status: 200 })
 		}
 
-		await ctx.runMutation(api.todos.create, {
+		const telegramUserId = process.env.TELEGRAM_USER_ID
+		if (!telegramUserId) {
+			return new Response("Telegram user not configured", { status: 500 })
+		}
+
+		await ctx.runMutation(internal.todos.internalCreate, {
 			text,
+			userId: telegramUserId,
 			status: "triage",
 			source: "telegram",
 		})
@@ -74,7 +80,7 @@ http.route({
 				status: 200,
 				headers: {
 					"Content-Type": "application/json",
-					"Access-Control-Allow-Origin": "*",
+					"Access-Control-Allow-Origin": process.env.BLAZZTIME_ORIGIN ?? "tauri://localhost",
 				},
 			}
 		)

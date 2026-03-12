@@ -7,6 +7,7 @@ import { v } from "convex/values"
 
 export default defineSchema({
 	clients: defineTable({
+		userId: v.string(),
 		name: v.string(),
 		email: v.optional(v.string()),
 		phone: v.optional(v.string()),
@@ -14,9 +15,10 @@ export default defineSchema({
 		notes: v.optional(v.string()),
 		logoStorageId: v.optional(v.id("_storage")),
 		createdAt: v.number(),
-	}),
+	}).index("by_user", ["userId"]),
 
 	projects: defineTable({
+		userId: v.string(),
 		clientId: v.id("clients"),
 		name: v.string(),
 		description: v.optional(v.string()),
@@ -30,9 +32,13 @@ export default defineSchema({
 		createdAt: v.number(),
 	})
 		.index("by_client", ["clientId"])
-		.index("by_status", ["status"]),
+		.index("by_status", ["status"])
+		.index("by_user", ["userId"])
+		.index("by_user_client", ["userId", "clientId"])
+		.index("by_user_status", ["userId", "status"]),
 
 	timeEntries: defineTable({
+		userId: v.string(),
 		projectId: v.id("projects"),
 		date: v.string(),
 		minutes: v.number(),
@@ -51,15 +57,20 @@ export default defineSchema({
 		createdAt: v.number(),
 	})
 		.index("by_project", ["projectId"])
-		.index("by_date", ["date"]),
+		.index("by_date", ["date"])
+		.index("by_user", ["userId"])
+		.index("by_user_project", ["userId", "projectId"])
+		.index("by_user_date", ["userId", "date"]),
 
 	categories: defineTable({
+		userId: v.optional(v.string()),
 		name: v.string(),
 		color: v.optional(v.string()),
 		createdAt: v.number(),
-	}),
+	}).index("by_user", ["userId"]),
 
 	todos: defineTable({
+		userId: v.string(),
 		text: v.string(),
 		description: v.optional(v.string()),
 		status: v.union(
@@ -85,7 +96,10 @@ export default defineSchema({
 		createdAt: v.number(),
 	})
 		.index("by_status", ["status"])
-		.index("by_category", ["categoryId"]),
+		.index("by_category", ["categoryId"])
+		.index("by_user", ["userId"])
+		.index("by_user_status", ["userId", "status"])
+		.index("by_user_category", ["userId", "categoryId"]),
 
 	packages: defineTable({
 		name: v.string(),

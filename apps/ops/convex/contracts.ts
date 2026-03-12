@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server"
-import { v } from "convex/values"
+import { v, ConvexError } from "convex/values"
 import { requireAuth } from "./lib/auth"
 
 const contractStatusValidator = v.union(
@@ -19,7 +19,10 @@ const contractTypeValidator = v.union(
 export const getActiveByProject = query({
   args: { projectId: v.id("projects") },
   handler: async (ctx, { projectId }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
+    const project = await ctx.db.get(projectId)
+    if (!project || project.userId !== userId) return null
+
     const contracts = await ctx.db
       .query("contracts")
       .withIndex("by_project", (q) => q.eq("projectId", projectId))
@@ -31,7 +34,10 @@ export const getActiveByProject = query({
 export const listByProject = query({
   args: { projectId: v.id("projects") },
   handler: async (ctx, { projectId }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
+    const project = await ctx.db.get(projectId)
+    if (!project || project.userId !== userId) return []
+
     const contracts = await ctx.db
       .query("contracts")
       .withIndex("by_project", (q) => q.eq("projectId", projectId))
@@ -54,7 +60,9 @@ export const create = mutation({
     notes: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
+    const project = await ctx.db.get(args.projectId)
+    if (!project || project.userId !== userId) throw new ConvexError("Introuvable")
 
     // Enforce: only one active contract per project
     if (args.status === "active") {
@@ -73,7 +81,7 @@ export const create = mutation({
       throw new Error("Le nombre de jours/mois est requis pour un contrat TMA.")
     }
 
-    return ctx.db.insert("contracts", { ...args, createdAt: Date.now() })
+    return ctx.db.insert("contracts", { ...args, userId, createdAt: Date.now() })
   },
 })
 
@@ -84,7 +92,9 @@ export const update = mutation({
     notes: v.optional(v.string()),
   },
   handler: async (ctx, { id, ...fields }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
+    const contract = await ctx.db.get(id)
+    if (!contract || contract.userId !== userId) throw new ConvexError("Introuvable")
     return ctx.db.patch(id, fields)
   },
 })
@@ -92,9 +102,10 @@ export const update = mutation({
 export const complete = mutation({
   args: { id: v.id("contracts") },
   handler: async (ctx, { id }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
     const contract = await ctx.db.get(id)
-    if (!contract || contract.status !== "active") {
+    if (!contract || contract.userId !== userId) throw new ConvexError("Introuvable")
+    if (contract.status !== "active") {
       throw new Error("Seul un contrat actif peut être clôturé.")
     }
     return ctx.db.patch(id, { status: "completed" })
@@ -104,9 +115,10 @@ export const complete = mutation({
 export const cancel = mutation({
   args: { id: v.id("contracts") },
   handler: async (ctx, { id }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
     const contract = await ctx.db.get(id)
-    if (!contract || contract.status !== "active") {
+    if (!contract || contract.userId !== userId) throw new ConvexError("Introuvable")
+    if (contract.status !== "active") {
       throw new Error("Seul un contrat actif peut être annulé.")
     }
     return ctx.db.patch(id, { status: "cancelled" })

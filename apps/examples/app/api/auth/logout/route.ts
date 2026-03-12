@@ -14,6 +14,9 @@ export async function POST() {
 		// - JWT: invalider le token (blacklist)
 		// - Okta/Auth0: appeler l'endpoint de logout du provider
 
+		// NOTE: Client-side code calling this endpoint should also invalidate
+		// the React Query ["session"] cache via queryClient.invalidateQueries()
+
 		// Pour l'instant, on retourne une réponse de succès
 		// La vraie implémentation dépendra du système d'authentification choisi
 

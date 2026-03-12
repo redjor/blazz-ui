@@ -1,5 +1,5 @@
 import { mutation, query } from "./_generated/server"
-import { v } from "convex/values"
+import { v, ConvexError } from "convex/values"
 import { requireAuth } from "./lib/auth"
 
 const statusValidator = v.union(
@@ -11,102 +11,136 @@ const statusValidator = v.union(
 export const listByClient = query({
   args: { clientId: v.id("clients") },
   handler: async (ctx, { clientId }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
+    const client = await ctx.db.get(clientId)
+    if (!client || client.userId !== userId) return []
+
     const projects = await ctx.db
       .query("projects")
-      .withIndex("by_client", (q) => q.eq("clientId", clientId))
+      .withIndex("by_user_client", (q) => q.eq("userId", userId).eq("clientId", clientId))
       .collect()
 
-    return Promise.all(
-      projects.map(async (project) => {
-        if (!project.budgetAmount) return { ...project, budgetPercent: null }
-        const entries = await ctx.db
-          .query("timeEntries")
-          .withIndex("by_project", (q) => q.eq("projectId", project._id))
-          .collect()
-        const billableEntries = entries.filter((e) => e.billable)
-        const daysConsumed =
-          project.hoursPerDay > 0
-            ? billableEntries.reduce((s, e) => s + e.minutes, 0) / (project.hoursPerDay * 60)
-            : 0
-        const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
-        const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
-        return { ...project, budgetPercent: Math.round(percentUsed * 10) / 10 }
-      })
-    )
+    // Batch fetch timeEntries for all projects at once (eliminates N+1)
+    const projectIds = new Set(projects.map((p) => p._id))
+    const allEntries = await ctx.db
+      .query("timeEntries")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .collect()
+    const entriesByProject = new Map<string, typeof allEntries>()
+    for (const e of allEntries) {
+      if (projectIds.has(e.projectId)) {
+        const key = e.projectId as string
+        if (!entriesByProject.has(key)) entriesByProject.set(key, [])
+        entriesByProject.get(key)!.push(e)
+      }
+    }
+
+    return projects.map((project) => {
+      if (!project.budgetAmount) return { ...project, budgetPercent: null }
+      const entries = entriesByProject.get(project._id as string) ?? []
+      const billableEntries = entries.filter((e) => e.billable)
+      const daysConsumed =
+        project.hoursPerDay > 0
+          ? billableEntries.reduce((s, e) => s + e.minutes, 0) / (project.hoursPerDay * 60)
+          : 0
+      const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
+      const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
+      return { ...project, budgetPercent: Math.round(percentUsed * 10) / 10 }
+    })
   },
 })
 
 export const listAll = query({
   args: {},
   handler: async (ctx) => {
-    await requireAuth(ctx)
-    return ctx.db.query("projects").collect()
+    const { userId } = await requireAuth(ctx)
+    return ctx.db
+      .query("projects")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .collect()
   },
 })
 
 export const listAllWithBudget = query({
   args: {},
   handler: async (ctx) => {
-    await requireAuth(ctx)
-    const projects = await ctx.db.query("projects").collect()
+    const { userId } = await requireAuth(ctx)
+    const projects = await ctx.db
+      .query("projects")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .collect()
 
-    return Promise.all(
-      projects.map(async (project) => {
-        const entries = await ctx.db
-          .query("timeEntries")
-          .withIndex("by_project", (q) => q.eq("projectId", project._id))
-          .collect()
-        const billableEntries = entries.filter((e) => e.billable)
-        const billableMinutes = billableEntries.reduce((s, e) => s + e.minutes, 0)
-        const billableRevenue = Math.round(
-          billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
-        )
-        const daysConsumed =
-          project.hoursPerDay > 0 ? billableMinutes / (project.hoursPerDay * 60) : 0
+    // Batch fetch all user's timeEntries and contracts (eliminates N+1)
+    const allEntries = await ctx.db
+      .query("timeEntries")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .collect()
+    const allContracts = await ctx.db
+      .query("contracts")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .collect()
 
-        // Fetch active contract
-        const contracts = await ctx.db
-          .query("contracts")
-          .withIndex("by_project", (q) => q.eq("projectId", project._id))
-          .collect()
-        const activeContract = contracts.find((c) => c.status === "active")
+    // Group by project in memory
+    const entriesByProject = new Map<string, typeof allEntries>()
+    for (const e of allEntries) {
+      const key = e.projectId as string
+      if (!entriesByProject.has(key)) entriesByProject.set(key, [])
+      entriesByProject.get(key)!.push(e)
+    }
+    const contractsByProject = new Map<string, typeof allContracts>()
+    for (const c of allContracts) {
+      const key = c.projectId as string
+      if (!contractsByProject.has(key)) contractsByProject.set(key, [])
+      contractsByProject.get(key)!.push(c)
+    }
 
-        if (!project.budgetAmount) {
-          return {
-            ...project,
-            budgetPercent: null,
-            billableRevenue,
-            daysConsumed: Math.round(daysConsumed * 10) / 10,
-            hasActiveContract: !!activeContract,
-            contractType: activeContract?.type ?? null,
-            contractDaysPerMonth: activeContract?.daysPerMonth ?? null,
-          }
-        }
+    return projects.map((project) => {
+      const entries = entriesByProject.get(project._id as string) ?? []
+      const billableEntries = entries.filter((e) => e.billable)
+      const billableMinutes = billableEntries.reduce((s, e) => s + e.minutes, 0)
+      const billableRevenue = Math.round(
+        billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+      )
+      const daysConsumed =
+        project.hoursPerDay > 0 ? billableMinutes / (project.hoursPerDay * 60) : 0
 
-        const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
-        const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
+      const contracts = contractsByProject.get(project._id as string) ?? []
+      const activeContract = contracts.find((c) => c.status === "active")
+
+      if (!project.budgetAmount) {
         return {
           ...project,
-          budgetPercent: Math.round(percentUsed * 10) / 10,
+          budgetPercent: null,
           billableRevenue,
           daysConsumed: Math.round(daysConsumed * 10) / 10,
           hasActiveContract: !!activeContract,
           contractType: activeContract?.type ?? null,
           contractDaysPerMonth: activeContract?.daysPerMonth ?? null,
         }
-      })
-    )
+      }
+
+      const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
+      const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
+      return {
+        ...project,
+        budgetPercent: Math.round(percentUsed * 10) / 10,
+        billableRevenue,
+        daysConsumed: Math.round(daysConsumed * 10) / 10,
+        hasActiveContract: !!activeContract,
+        contractType: activeContract?.type ?? null,
+        contractDaysPerMonth: activeContract?.daysPerMonth ?? null,
+      }
+    })
   },
 })
 
 export const listActive = query({
   args: {},
   handler: async (ctx) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
     return ctx.db
       .query("projects")
-      .withIndex("by_status", (q) => q.eq("status", "active"))
+      .withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "active"))
       .collect()
   },
 })
@@ -114,8 +148,10 @@ export const listActive = query({
 export const get = query({
   args: { id: v.id("projects") },
   handler: async (ctx, { id }) => {
-    await requireAuth(ctx)
-    return ctx.db.get(id)
+    const { userId } = await requireAuth(ctx)
+    const project = await ctx.db.get(id)
+    if (!project || project.userId !== userId) return null
+    return project
   },
 })
 
@@ -133,8 +169,10 @@ export const create = mutation({
     endDate: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    await requireAuth(ctx)
-    return ctx.db.insert("projects", { ...args, createdAt: Date.now() })
+    const { userId } = await requireAuth(ctx)
+    const client = await ctx.db.get(args.clientId)
+    if (!client || client.userId !== userId) throw new ConvexError("Introuvable")
+    return ctx.db.insert("projects", { ...args, userId, createdAt: Date.now() })
   },
 })
 
@@ -152,7 +190,9 @@ export const update = mutation({
     endDate: v.optional(v.string()),
   },
   handler: async (ctx, { id, ...fields }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
+    const project = await ctx.db.get(id)
+    if (!project || project.userId !== userId) throw new ConvexError("Introuvable")
     return ctx.db.patch(id, fields)
   },
 })
@@ -193,9 +233,9 @@ function buildWeeklyBurnDown(
 export const getWithStats = query({
   args: { id: v.id("projects") },
   handler: async (ctx, { id }) => {
-    await requireAuth(ctx)
+    const { userId } = await requireAuth(ctx)
     const project = await ctx.db.get(id)
-    if (!project) return null
+    if (!project || project.userId !== userId) return null
 
     const entries = await ctx.db
       .query("timeEntries")

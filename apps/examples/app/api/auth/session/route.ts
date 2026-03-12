@@ -19,7 +19,7 @@ export async function GET() {
 		// La vraie implémentation dépendra du système d'authentification choisi
 
 		// Vérifier si l'utilisateur est connecté (à implémenter)
-		const isAuthenticated = false // À remplacer par la vraie vérification
+		const isAuthenticated = true // Demo mode — mock user always authenticated
 
 		if (!isAuthenticated) {
 			return NextResponse.json(

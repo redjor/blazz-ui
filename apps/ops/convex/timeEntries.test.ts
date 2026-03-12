@@ -421,3 +421,101 @@ describe("timeEntries CRUD", () => {
 		expect(entries[0].projectId).toBe(projectId)
 	})
 })
+
+describe("ownership isolation", () => {
+	it("user2 cannot see user1's clients", async () => {
+		const { t, asUser } = setup()
+		const asUser2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+
+		await asUser.mutation(api.clients.create, { name: "User1 Client" })
+		const user2Clients = await asUser2.query(api.clients.list, {})
+		expect(user2Clients).toHaveLength(0)
+	})
+
+	it("user2 cannot get user1's client by id", async () => {
+		const { t, asUser } = setup()
+		const asUser2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+
+		const clientId = await asUser.mutation(api.clients.create, { name: "User1 Client" })
+		const client = await asUser2.query(api.clients.get, { id: clientId })
+		expect(client).toBeNull()
+	})
+
+	it("user2 cannot delete user1's time entry", async () => {
+		const { t, asUser } = setup()
+		const asUser2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+		})
+		await expect(
+			asUser2.mutation(api.timeEntries.remove, { id: entryId })
+		).rejects.toThrow("introuvable")
+	})
+
+	it("user2 cannot update user1's time entry", async () => {
+		const { t, asUser } = setup()
+		const asUser2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+		})
+		await expect(
+			asUser2.mutation(api.timeEntries.update, {
+				id: entryId,
+				projectId,
+				date: "2026-03-11",
+				minutes: 90,
+				hourlyRate: 100,
+				billable: true,
+			})
+		).rejects.toThrow("introuvable")
+	})
+
+	it("user2 cannot list user1's time entries", async () => {
+		const { t, asUser } = setup()
+		const asUser2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+
+		const { projectId } = await createTestProject(asUser)
+		await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+		})
+		const entries = await asUser2.query(api.timeEntries.list, {})
+		expect(entries).toHaveLength(0)
+	})
+
+	it("user2 cannot change status of user1's entries", async () => {
+		const { t, asUser } = setup()
+		const asUser2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+
+		const { projectId } = await createTestProject(asUser)
+		const entryId = await asUser.mutation(api.timeEntries.create, {
+			projectId,
+			date: "2026-03-11",
+			minutes: 60,
+			hourlyRate: 100,
+			billable: true,
+			status: "draft",
+		})
+		await expect(
+			asUser2.mutation(api.timeEntries.setStatus, {
+				ids: [entryId],
+				status: "ready_to_invoice",
+			})
+		).rejects.toThrow("introuvable")
+	})
+})
