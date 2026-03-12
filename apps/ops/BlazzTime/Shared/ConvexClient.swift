@@ -43,6 +43,16 @@ final class ConvexClient: ObservableObject {
     }
 
     @MainActor
+    func fetchAllTodos() async throws -> [TodoItem] {
+        try await query("todos:list", args: [:])
+    }
+
+    @MainActor
+    func fetchTodosByDate(_ date: String) async throws -> [TodoItem] {
+        try await query("todos:listByDate", args: ["date": date])
+    }
+
+    @MainActor
     func createEntry(projectId: String, minutes: Int, hourlyRate: Double, description: String?) async throws {
         let today = Self.todayString()
         var args: [String: Any] = [
