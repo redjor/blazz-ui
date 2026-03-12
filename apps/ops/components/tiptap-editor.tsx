@@ -53,6 +53,7 @@ export function TiptapEditor({
 	placeholder?: string
 }) {
 	const editor = useEditor({
+		immediatelyRender: false,
 		extensions: [
 			StarterKit.configure({
 				heading: { levels: [2, 3] },
