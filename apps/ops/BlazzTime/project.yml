@@ -3,6 +3,7 @@ options:
   bundleIdPrefix: dev.blazz
   deploymentTarget:
     macOS: "14.0"
+    iOS: "17.0"
   xcodeVersion: "16.0"
 settings:
   base:
@@ -46,6 +47,24 @@ targets:
     dependencies:
       - sdk: WidgetKit.framework
       - sdk: SwiftUI.framework
+  BlazzTimeIOS:
+    type: application
+    platform: iOS
+    sources:
+      - path: BlazzTimeIOS
+        excludes:
+          - Info.plist
+      - Shared
+    settings:
+      base:
+        INFOPLIST_FILE: BlazzTimeIOS/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazztime.ios
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: "NO"
   BlazzTimeTests:
     type: bundle.unit-test
     platform: macOS
