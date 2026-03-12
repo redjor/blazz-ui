@@ -66,9 +66,6 @@ function TodoCard({
 			onKeyDown={(e) => e.key === "Enter" && router.push(`/todos/${todo._id}`)}
 		>
 			<p className="text-sm text-fg leading-snug">{todo.text}</p>
-			{todo.description && (
-				<p className="text-xs text-fg-muted leading-relaxed whitespace-pre-wrap line-clamp-2">{todo.description}</p>
-			)}
 			<div className="flex items-center gap-1.5 flex-wrap">
 				<PriorityIcon priority={todo.priority} />
 				{todo.dueDate && todo.status !== "done" && (() => {

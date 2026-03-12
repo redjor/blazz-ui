@@ -152,14 +152,8 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 			header: ({ column }) => <DataTableColumnHeader column={column} title="Tâche" />,
 			cell: ({ row }) => {
 				const text = row.getValue('text') as string
-				const description = row.original.description
 				return (
-					<div className="flex flex-col gap-0.5 min-w-0">
-						<span className="text-sm font-medium text-fg truncate">{text}</span>
-						{description && (
-							<span className="text-xs text-fg-muted truncate">{description}</span>
-						)}
-					</div>
+					<span className="text-sm font-medium text-fg truncate">{text}</span>
 				)
 			},
 			enableSorting: true,
