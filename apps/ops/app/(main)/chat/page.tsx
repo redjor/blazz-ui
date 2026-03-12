@@ -22,14 +22,12 @@ import { PageHeader } from "@blazz/ui/components/blocks/page-header";
 import { Button } from "@blazz/ui/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { RotateCcw } from "lucide-react";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { toast } from "sonner";
 import { ChatSuggestions } from "@/components/chat/chat-suggestions";
 import { ChatToolHandler } from "@/components/chat/chat-tool-handler";
 
 export default function ChatPage() {
-  const formRef = useRef<HTMLFormElement>(null);
-
   const {
     messages,
     sendMessage,
@@ -46,14 +44,11 @@ export default function ChatPage() {
     },
   });
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const formData = new FormData(e.currentTarget);
-      const text = (formData.get("message") as string)?.trim();
-      if (!text) return;
-      sendMessage({ text });
-      e.currentTarget.reset();
+  const handlePromptSubmit = useCallback(
+    ({ text }: { text: string; files: unknown[] }) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      sendMessage({ text: trimmed });
     },
     [sendMessage]
   );
@@ -139,22 +134,20 @@ export default function ChatPage() {
 
       <div className="border-t border-edge bg-surface px-4 py-3">
         <div className="max-w-3xl mx-auto">
-          <form ref={formRef} onSubmit={handleSubmit}>
-            <PromptInput>
-              <PromptInputBody>
-                <PromptInputTextarea
-                  placeholder="Demande-moi quelque chose..."
-                  disabled={isStreaming}
+          <PromptInput onSubmit={handlePromptSubmit}>
+            <PromptInputBody>
+              <PromptInputTextarea
+                placeholder="Demande-moi quelque chose..."
+                disabled={isStreaming}
+              />
+              <PromptInputFooter>
+                <PromptInputSubmit
+                  status={isStreaming ? "streaming" : "ready"}
+                  onStop={stop}
                 />
-                <PromptInputFooter>
-                  <PromptInputSubmit
-                    status={isStreaming ? "streaming" : "ready"}
-                    onStop={stop}
-                  />
-                </PromptInputFooter>
-              </PromptInputBody>
-            </PromptInput>
-          </form>
+              </PromptInputFooter>
+            </PromptInputBody>
+          </PromptInput>
         </div>
       </div>
     </div>
