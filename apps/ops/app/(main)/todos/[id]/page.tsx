@@ -211,12 +211,6 @@ export default function TodoDetailPage() {
 						placeholder="Titre du todo"
 					/>
 					<TiptapEditor content={description} onUpdate={handleDescriptionChange} />
-
-					{/* Activity placeholder */}
-					<div className="pt-8 border-t border-edge">
-						<h3 className="text-sm font-medium text-fg-muted mb-4">Activity</h3>
-						<p className="text-sm text-fg-muted/60">Bientôt disponible…</p>
-					</div>
 				</div>
 
 				{/* Sidebar */}
