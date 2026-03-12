@@ -217,7 +217,7 @@ export default function TodoDetailPage() {
 				<div className="space-y-5">
 					{/* Status */}
 					<div className="space-y-1.5">
-						<label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Status</label>
+						<label className="text-xs text-fg-muted">Status</label>
 						<Select
 							value={todo.status}
 							onValueChange={handleStatusChange}
@@ -241,7 +241,7 @@ export default function TodoDetailPage() {
 
 					{/* Priority */}
 					<div className="space-y-1.5">
-						<label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Priorité</label>
+						<label className="text-xs text-fg-muted">Priorité</label>
 						<Combobox
 							value={todo.priority ?? "normal"}
 							onValueChange={handlePriorityChange}
@@ -254,13 +254,13 @@ export default function TodoDetailPage() {
 
 					{/* Due date */}
 					<div className="space-y-1.5">
-						<label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Échéance</label>
+						<label className="text-xs text-fg-muted">Échéance</label>
 						<DueDatePicker value={todo.dueDate ?? ""} onChange={handleDueDateChange} />
 					</div>
 
 					{/* Project */}
 					<div className="space-y-1.5">
-						<label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Projet</label>
+						<label className="text-xs text-fg-muted">Projet</label>
 						<Select
 							value={todo.projectId ?? ""}
 							onValueChange={handleProjectChange}
@@ -283,7 +283,7 @@ export default function TodoDetailPage() {
 
 					{/* Category */}
 					<div className="space-y-1.5">
-						<label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Catégorie</label>
+						<label className="text-xs text-fg-muted">Catégorie</label>
 						<Select
 							value={todo.categoryId ?? ""}
 							onValueChange={handleCategoryChange}
@@ -308,7 +308,7 @@ export default function TodoDetailPage() {
 
 					{/* Tags */}
 					<div className="space-y-1.5">
-						<label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Tags</label>
+						<label className="text-xs text-fg-muted">Tags</label>
 						<TagInput value={todo.tags ?? []} onChange={handleTagsChange} suggestions={allTagsList} />
 					</div>
 
