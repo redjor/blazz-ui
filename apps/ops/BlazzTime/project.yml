@@ -15,6 +15,7 @@ targets:
     platform: macOS
     sources:
       - BlazzTime
+      - Shared
     dependencies:
       - target: BlazzTimeWidget
     settings:

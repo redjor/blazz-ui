@@ -8,20 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		0139D2ABE849AE296BFB4D94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55CEE9C590AA30061703567D /* Assets.xcassets */; };
+		090746B6E770B5E6CA9EE0EF /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407ADB64A97CD2744EEA5804 /* Models.swift */; };
 		1186ACCDAE188F1E0EE84A1B /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */; };
 		16E3BEDC5E236BD409708C0F /* BlazzTimeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 173932A782F4C2872229F719 /* BlazzTimeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2F6F47787318D4C10FCC8923 /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A708AA1B826499AD1F048046 /* OfflineBuffer.swift */; };
 		31442169F913AC8F5B3B9ACC /* OfflineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164401DCB2C626D4560053C7 /* OfflineBufferTests.swift */; };
 		740861216DC574F2B8CF53BE /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A85488B2E9108C493913BE /* HotKey.swift */; };
 		762ADFCD906BCA7FA255FE68 /* TodoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF28035152084B65F5E4E3E2 /* TodoProvider.swift */; };
-		7EBAD12D06F1AF110E24699C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0CA83994D1D865287EB7EB /* AuthManager.swift */; };
+		81F0C17FBB46C053A01AD3D4 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016C318808EE380A6F22766 /* AuthManager.swift */; };
+		88627C39C566660A35636043 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421A4ED99FADC650A393EE8 /* ConvexClient.swift */; };
 		8ABD8101B22B6B63F674287C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */; };
-		968411DDBA09696E84FE8725 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FC04ECE40748E742E6534E /* Models.swift */; };
 		A8CEDC0702D04E86C0F0C902 /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */; };
 		AC59DD501918450CA3FE42D1 /* BlazzTimeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */; };
 		CBC050AA7FC40C9C71330ABD /* BlazzTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */; };
 		DDB202F8C9E70CC234B8F8DC /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE43F87EAC8A43B394519FD /* WidgetKit.framework */; };
-		EAE1EA217C36760398ED1047 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F951B912FA58C6E65C243F31 /* ConvexClient.swift */; };
 		FFF9C7A16F4CED19DF37F9A7 /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F888E93D86716AB9C24A50 /* AuthManagerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,16 +57,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03FC04ECE40748E742E6534E /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		164401DCB2C626D4560053C7 /* OfflineBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBufferTests.swift; sourceTree = "<group>"; };
 		173932A782F4C2872229F719 /* BlazzTimeWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzTimeWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlazzTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BB179DD849B2A6134B17EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		3B0CA83994D1D865287EB7EB /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		407ADB64A97CD2744EEA5804 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		55CEE9C590AA30061703567D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7016C318808EE380A6F22766 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
 		9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlazzTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE43F87EAC8A43B394519FD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A421A4ED99FADC650A393EE8 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
 		A708AA1B826499AD1F048046 /* OfflineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBuffer.swift; sourceTree = "<group>"; };
 		A7F888E93D86716AB9C24A50 /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
 		AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzTimeWidget.swift; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickEntryView.swift; sourceTree = "<group>"; };
 		D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		E0A85488B2E9108C493913BE /* HotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
-		F951B912FA58C6E65C243F31 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
 		FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzTimeApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,14 +96,11 @@
 			isa = PBXGroup;
 			children = (
 				55CEE9C590AA30061703567D /* Assets.xcassets */,
-				3B0CA83994D1D865287EB7EB /* AuthManager.swift */,
 				D1D91EBC25B31030353823D1 /* BlazzTime.entitlements */,
 				FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */,
-				F951B912FA58C6E65C243F31 /* ConvexClient.swift */,
 				E0A85488B2E9108C493913BE /* HotKey.swift */,
 				34BB179DD849B2A6134B17EC /* Info.plist */,
 				8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */,
-				03FC04ECE40748E742E6534E /* Models.swift */,
 				A708AA1B826499AD1F048046 /* OfflineBuffer.swift */,
 				D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */,
 			);
@@ -134,9 +131,20 @@
 				00F078133BB306856EF6AF62 /* BlazzTime */,
 				A2695E949907EA83ADA58302 /* BlazzTimeTests */,
 				CF482D6C428B16BCCD3DDC48 /* BlazzTimeWidget */,
+				AE240A867D87FDE33F86EBBF /* Shared */,
 				2A30F6201645D4644FB68343 /* Frameworks */,
 				F75108EA9B94015EF1466C5B /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AE240A867D87FDE33F86EBBF /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				7016C318808EE380A6F22766 /* AuthManager.swift */,
+				A421A4ED99FADC650A393EE8 /* ConvexClient.swift */,
+				407ADB64A97CD2744EEA5804 /* Models.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		CF482D6C428B16BCCD3DDC48 /* BlazzTimeWidget */ = {
@@ -224,7 +232,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2610;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					5230B0C0368760AB98A95F42 = {
 						DevelopmentTeam = P9KAWJ28LA;
@@ -295,12 +303,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EBAD12D06F1AF110E24699C /* AuthManager.swift in Sources */,
+				81F0C17FBB46C053A01AD3D4 /* AuthManager.swift in Sources */,
 				CBC050AA7FC40C9C71330ABD /* BlazzTimeApp.swift in Sources */,
-				EAE1EA217C36760398ED1047 /* ConvexClient.swift in Sources */,
+				88627C39C566660A35636043 /* ConvexClient.swift in Sources */,
 				740861216DC574F2B8CF53BE /* HotKey.swift in Sources */,
 				1186ACCDAE188F1E0EE84A1B /* LoginWebView.swift in Sources */,
-				968411DDBA09696E84FE8725 /* Models.swift in Sources */,
+				090746B6E770B5E6CA9EE0EF /* Models.swift in Sources */,
 				2F6F47787318D4C10FCC8923 /* OfflineBuffer.swift in Sources */,
 				A8CEDC0702D04E86C0F0C902 /* QuickEntryView.swift in Sources */,
 			);
@@ -328,13 +336,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = BlazzTime/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazztime;
@@ -347,7 +351,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -380,12 +383,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = P9KAWJ28LA;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -406,7 +407,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -418,7 +418,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -437,9 +436,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BlazzTimeWidget/BlazzTimeWidget.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = BlazzTimeWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -457,7 +453,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -490,12 +485,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = P9KAWJ28LA;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -509,7 +502,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -521,7 +513,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -540,9 +531,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = BlazzTimeWidget/BlazzTimeWidget.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = BlazzTimeWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -562,13 +550,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = BlazzTime/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazztime;
