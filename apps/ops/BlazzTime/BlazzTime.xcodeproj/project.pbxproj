@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0139D2ABE849AE296BFB4D94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55CEE9C590AA30061703567D /* Assets.xcassets */; };
 		090746B6E770B5E6CA9EE0EF /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407ADB64A97CD2744EEA5804 /* Models.swift */; };
-		1186ACCDAE188F1E0EE84A1B /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */; };
+		0BA8525044C6F3E1B30DB09B /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1825522BF8E85B80E81FCE /* LoginWebView.swift */; };
 		16E3BEDC5E236BD409708C0F /* BlazzTimeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 173932A782F4C2872229F719 /* BlazzTimeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2F6F47787318D4C10FCC8923 /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A708AA1B826499AD1F048046 /* OfflineBuffer.swift */; };
 		31442169F913AC8F5B3B9ACC /* OfflineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164401DCB2C626D4560053C7 /* OfflineBufferTests.swift */; };
@@ -61,10 +61,10 @@
 		173932A782F4C2872229F719 /* BlazzTimeWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzTimeWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlazzTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BB179DD849B2A6134B17EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3F1825522BF8E85B80E81FCE /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
 		407ADB64A97CD2744EEA5804 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		55CEE9C590AA30061703567D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7016C318808EE380A6F22766 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
 		9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlazzTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE43F87EAC8A43B394519FD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A421A4ED99FADC650A393EE8 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
@@ -100,7 +100,6 @@
 				FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */,
 				E0A85488B2E9108C493913BE /* HotKey.swift */,
 				34BB179DD849B2A6134B17EC /* Info.plist */,
-				8E0283DE7DF42B0C10014C8C /* LoginWebView.swift */,
 				A708AA1B826499AD1F048046 /* OfflineBuffer.swift */,
 				D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */,
 			);
@@ -142,6 +141,7 @@
 			children = (
 				7016C318808EE380A6F22766 /* AuthManager.swift */,
 				A421A4ED99FADC650A393EE8 /* ConvexClient.swift */,
+				3F1825522BF8E85B80E81FCE /* LoginWebView.swift */,
 				407ADB64A97CD2744EEA5804 /* Models.swift */,
 			);
 			path = Shared;
@@ -307,7 +307,7 @@
 				CBC050AA7FC40C9C71330ABD /* BlazzTimeApp.swift in Sources */,
 				88627C39C566660A35636043 /* ConvexClient.swift in Sources */,
 				740861216DC574F2B8CF53BE /* HotKey.swift in Sources */,
-				1186ACCDAE188F1E0EE84A1B /* LoginWebView.swift in Sources */,
+				0BA8525044C6F3E1B30DB09B /* LoginWebView.swift in Sources */,
 				090746B6E770B5E6CA9EE0EF /* Models.swift in Sources */,
 				2F6F47787318D4C10FCC8923 /* OfflineBuffer.swift in Sources */,
 				A8CEDC0702D04E86C0F0C902 /* QuickEntryView.swift in Sources */,
