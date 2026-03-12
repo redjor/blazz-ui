@@ -1,5 +1,46 @@
 import type { Id } from "./_generated/dataModel"
-import { mutation } from "./_generated/server"
+import { internalMutation, mutation } from "./_generated/server"
+
+const BACKFILL_TABLES = [
+	"clients",
+	"projects",
+	"contracts",
+	"contractFiles",
+	"timeEntries",
+	"categories",
+	"todos",
+] as const
+
+/**
+ * One-shot migration: replace "seed-user-dev" userId with the real auth user ID.
+ * Run via: npx convex run seed:migrateUserId
+ */
+export const migrateUserId = mutation({
+	args: {},
+	handler: async (ctx) => {
+		const OLD_ID = "seed-user-dev"
+		// Get the first (only) real auth user
+		const user = await ctx.db.query("users").first()
+		if (!user) return { error: "No auth user found" }
+		const realUserId = user._id
+		const stats: Record<string, number> = {}
+
+		for (const table of BACKFILL_TABLES) {
+			let patched = 0
+			const docs = await ctx.db.query(table).collect()
+			for (const doc of docs) {
+				const d = doc as Record<string, unknown>
+				if (d.userId === OLD_ID) {
+					await ctx.db.patch(doc._id, { userId: realUserId } as never)
+					patched++
+				}
+			}
+			if (patched > 0) stats[table] = patched
+		}
+
+		return { migratedTo: realUserId, ...stats }
+	},
+})
 
 /**
  * Seed mutation — dev only.
