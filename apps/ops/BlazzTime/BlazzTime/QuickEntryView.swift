@@ -70,25 +70,24 @@ struct QuickEntryView: View {
     // MARK: - Subviews
 
     private var notAuthenticatedView: some View {
-        VStack(spacing: 8) {
-            Text("Token non configuré")
+        VStack(spacing: 12) {
+            Image(systemName: "person.crop.circle.badge.questionmark")
+                .font(.system(size: 32))
+                .foregroundStyle(.secondary)
+            Text("Connectez-vous pour commencer")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            Text("Ouvrez Blazz Ops dans le navigateur, copiez le token depuis les DevTools (localStorage → __convexAuthJWT), et collez-le ci-dessous.")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
-                .multilineTextAlignment(.center)
-            TextField("Coller le token ici", text: $note)
-                .textFieldStyle(.roundedBorder)
-                .font(.caption)
-            Button("Enregistrer le token") {
-                let token = note.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !token.isEmpty else { return }
-                authManager.saveToken(token)
-                note = ""
+            Button(action: {
+                LoginWindow.open(authManager: authManager)
+            }) {
+                HStack(spacing: 6) {
+                    Image(systemName: "globe")
+                        .font(.caption)
+                    Text("Se connecter avec Google")
+                }
+                .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
-            .disabled(note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
         }
     }
 

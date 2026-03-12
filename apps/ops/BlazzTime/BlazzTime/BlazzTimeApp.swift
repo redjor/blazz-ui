@@ -14,7 +14,11 @@ struct BlazzTimeApp: App {
                 offlineBuffer: offlineBuffer
             )
         } label: {
-            Label("Blazz Time", systemImage: offlineBuffer.hasPending ? "clock.badge.exclamationmark" : "clock.fill")
+            if offlineBuffer.hasPending {
+                Label("Blazz Time", systemImage: "clock.badge.exclamationmark")
+            } else {
+                Image("MenuBarIcon")
+            }
         }
         .menuBarExtraStyle(.window)
     }
