@@ -31,6 +31,13 @@ export const list = query({
 	},
 })
 
+export const get = query({
+	args: { id: v.id("todos") },
+	handler: async (ctx, { id }) => {
+		return ctx.db.get(id)
+	},
+})
+
 export const listByDate = query({
 	args: { date: v.string() },
 	handler: async (ctx, { date }) => {
