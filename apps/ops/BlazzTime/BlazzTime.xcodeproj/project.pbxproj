@@ -10,18 +10,31 @@
 		0139D2ABE849AE296BFB4D94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55CEE9C590AA30061703567D /* Assets.xcassets */; };
 		090746B6E770B5E6CA9EE0EF /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407ADB64A97CD2744EEA5804 /* Models.swift */; };
 		0BA8525044C6F3E1B30DB09B /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1825522BF8E85B80E81FCE /* LoginWebView.swift */; };
+		102969D0ABF7C1C4F9471D3B /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D046E1D110C3D9E7F8F93DC6 /* TodayView.swift */; };
 		16E3BEDC5E236BD409708C0F /* BlazzTimeWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 173932A782F4C2872229F719 /* BlazzTimeWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2F6F47787318D4C10FCC8923 /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A708AA1B826499AD1F048046 /* OfflineBuffer.swift */; };
 		31442169F913AC8F5B3B9ACC /* OfflineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164401DCB2C626D4560053C7 /* OfflineBufferTests.swift */; };
+		4C395121F3D8954645BE8173 /* StatusCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBDEEAA0C16C7388BACBD85 /* StatusCircleView.swift */; };
+		541433EAC56FD45D8442CEFD /* AllTodosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70924DD123981E2A8D90C953 /* AllTodosView.swift */; };
+		637E099C1DCF40FAB86B6880 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407ADB64A97CD2744EEA5804 /* Models.swift */; };
+		67B9A863B94754B96371516F /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1825522BF8E85B80E81FCE /* LoginWebView.swift */; };
+		72B03D73D54DADDFB1115AF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F24F4A9AA4AD1B913737F95 /* LoginView.swift */; };
 		740861216DC574F2B8CF53BE /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A85488B2E9108C493913BE /* HotKey.swift */; };
+		757284E2312EBF1C242BC9F4 /* PillFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D4E131770B1BD5427A5EDE /* PillFilterView.swift */; };
 		762ADFCD906BCA7FA255FE68 /* TodoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF28035152084B65F5E4E3E2 /* TodoProvider.swift */; };
 		81F0C17FBB46C053A01AD3D4 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016C318808EE380A6F22766 /* AuthManager.swift */; };
 		88627C39C566660A35636043 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421A4ED99FADC650A393EE8 /* ConvexClient.swift */; };
 		8ABD8101B22B6B63F674287C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */; };
+		92623DF65992BD39D63C637D /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350169C4EEF597981450B512 /* TodoDetailView.swift */; };
 		A8CEDC0702D04E86C0F0C902 /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */; };
+		AA029E6FB182A56C0D552200 /* TodoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09CE7CC550A4BCFAEE1A62 /* TodoRowView.swift */; };
 		AC59DD501918450CA3FE42D1 /* BlazzTimeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */; };
+		C1C9F0DF4BEB6881443E34F2 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A421A4ED99FADC650A393EE8 /* ConvexClient.swift */; };
 		CBC050AA7FC40C9C71330ABD /* BlazzTimeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5FCB20E344EB23748F5475 /* BlazzTimeApp.swift */; };
 		DDB202F8C9E70CC234B8F8DC /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CE43F87EAC8A43B394519FD /* WidgetKit.framework */; };
+		E4B69F6D4C9BEBF0C4AAC652 /* BlazzTimeIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610FDF9D9E38AB13E1C31F5A /* BlazzTimeIOSApp.swift */; };
+		E5B0B814B7AF499A500781C9 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5624412B08C643109151F187 /* TodoStore.swift */; };
+		E6A011602A91828EC6E490D0 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016C318808EE380A6F22766 /* AuthManager.swift */; };
 		FFF9C7A16F4CED19DF37F9A7 /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F888E93D86716AB9C24A50 /* AuthManagerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,10 +74,19 @@
 		173932A782F4C2872229F719 /* BlazzTimeWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzTimeWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlazzTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34BB179DD849B2A6134B17EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		350169C4EEF597981450B512 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		3F1825522BF8E85B80E81FCE /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
 		407ADB64A97CD2744EEA5804 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		55CEE9C590AA30061703567D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5624412B08C643109151F187 /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
+		58D4E131770B1BD5427A5EDE /* PillFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillFilterView.swift; sourceTree = "<group>"; };
+		5F24F4A9AA4AD1B913737F95 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		610FDF9D9E38AB13E1C31F5A /* BlazzTimeIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzTimeIOSApp.swift; sourceTree = "<group>"; };
+		6E09CE7CC550A4BCFAEE1A62 /* TodoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRowView.swift; sourceTree = "<group>"; };
 		7016C318808EE380A6F22766 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		70924DD123981E2A8D90C953 /* AllTodosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTodosView.swift; sourceTree = "<group>"; };
+		7512FA5C97130D45BB87DE86 /* BlazzTimeIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BlazzTimeIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FBDEEAA0C16C7388BACBD85 /* StatusCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCircleView.swift; sourceTree = "<group>"; };
 		9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlazzTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE43F87EAC8A43B394519FD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A421A4ED99FADC650A393EE8 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
@@ -72,6 +94,7 @@
 		A7F888E93D86716AB9C24A50 /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
 		AC4AF6A8C1FB3DE66EAF0F52 /* BlazzTimeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzTimeWidget.swift; sourceTree = "<group>"; };
 		CF28035152084B65F5E4E3E2 /* TodoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoProvider.swift; sourceTree = "<group>"; };
+		D046E1D110C3D9E7F8F93DC6 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		D1D91EBC25B31030353823D1 /* BlazzTime.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlazzTime.entitlements; sourceTree = "<group>"; };
 		D2EA7413EC1E89735DE38A64 /* QuickEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickEntryView.swift; sourceTree = "<group>"; };
 		D4DFD8CC8579AC1F5AB417FB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -128,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				00F078133BB306856EF6AF62 /* BlazzTime */,
+				E92C58462C1358FA6CBD698E /* BlazzTimeIOS */,
 				A2695E949907EA83ADA58302 /* BlazzTimeTests */,
 				CF482D6C428B16BCCD3DDC48 /* BlazzTimeWidget */,
 				AE240A867D87FDE33F86EBBF /* Shared */,
@@ -156,10 +180,27 @@
 			path = BlazzTimeWidget;
 			sourceTree = "<group>";
 		};
+		E92C58462C1358FA6CBD698E /* BlazzTimeIOS */ = {
+			isa = PBXGroup;
+			children = (
+				70924DD123981E2A8D90C953 /* AllTodosView.swift */,
+				610FDF9D9E38AB13E1C31F5A /* BlazzTimeIOSApp.swift */,
+				5F24F4A9AA4AD1B913737F95 /* LoginView.swift */,
+				58D4E131770B1BD5427A5EDE /* PillFilterView.swift */,
+				7FBDEEAA0C16C7388BACBD85 /* StatusCircleView.swift */,
+				D046E1D110C3D9E7F8F93DC6 /* TodayView.swift */,
+				350169C4EEF597981450B512 /* TodoDetailView.swift */,
+				6E09CE7CC550A4BCFAEE1A62 /* TodoRowView.swift */,
+				5624412B08C643109151F187 /* TodoStore.swift */,
+			);
+			path = BlazzTimeIOS;
+			sourceTree = "<group>";
+		};
 		F75108EA9B94015EF1466C5B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				9BD66F910E2E3970A78F2BD8 /* BlazzTime.app */,
+				7512FA5C97130D45BB87DE86 /* BlazzTimeIOS.app */,
 				1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */,
 				173932A782F4C2872229F719 /* BlazzTimeWidget.appex */,
 			);
@@ -225,6 +266,23 @@
 			productReference = 1DD0F3ECF40E23267D67654B /* BlazzTimeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		DD96B7E193D7C548D0F26098 /* BlazzTimeIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BA87D9825E6037793C11B83 /* Build configuration list for PBXNativeTarget "BlazzTimeIOS" */;
+			buildPhases = (
+				0801221C51DB1A49D7E1792E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlazzTimeIOS;
+			packageProductDependencies = (
+			);
+			productName = BlazzTimeIOS;
+			productReference = 7512FA5C97130D45BB87DE86 /* BlazzTimeIOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -246,6 +304,10 @@
 						DevelopmentTeam = P9KAWJ28LA;
 						ProvisioningStyle = Automatic;
 					};
+					DD96B7E193D7C548D0F26098 = {
+						DevelopmentTeam = P9KAWJ28LA;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 3F5FE212E5251C260752D63F /* Build configuration list for PBXProject "BlazzTime" */;
@@ -263,6 +325,7 @@
 			projectRoot = "";
 			targets = (
 				5230B0C0368760AB98A95F42 /* BlazzTime */,
+				DD96B7E193D7C548D0F26098 /* BlazzTimeIOS */,
 				BAC0149A2CEFD3EF34AED465 /* BlazzTimeTests */,
 				8A0D148A68060AD2AD558A2B /* BlazzTimeWidget */,
 			);
@@ -281,6 +344,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0801221C51DB1A49D7E1792E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				541433EAC56FD45D8442CEFD /* AllTodosView.swift in Sources */,
+				E6A011602A91828EC6E490D0 /* AuthManager.swift in Sources */,
+				E4B69F6D4C9BEBF0C4AAC652 /* BlazzTimeIOSApp.swift in Sources */,
+				C1C9F0DF4BEB6881443E34F2 /* ConvexClient.swift in Sources */,
+				72B03D73D54DADDFB1115AF5 /* LoginView.swift in Sources */,
+				67B9A863B94754B96371516F /* LoginWebView.swift in Sources */,
+				637E099C1DCF40FAB86B6880 /* Models.swift in Sources */,
+				757284E2312EBF1C242BC9F4 /* PillFilterView.swift in Sources */,
+				4C395121F3D8954645BE8173 /* StatusCircleView.swift in Sources */,
+				102969D0ABF7C1C4F9471D3B /* TodayView.swift in Sources */,
+				92623DF65992BD39D63C637D /* TodoDetailView.swift in Sources */,
+				AA029E6FB182A56C0D552200 /* TodoRowView.swift in Sources */,
+				E5B0B814B7AF499A500781C9 /* TodoStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1CDC13BD9420897A4D3A126E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,15 +484,36 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		53F96BD3025C7346F1AF7693 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = BlazzTimeIOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazztime.ios;
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -497,14 +601,35 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9BA2EED69C3BA267454D25E1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = BlazzTimeIOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazztime.ios;
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -578,6 +703,15 @@
 			buildConfigurations = (
 				1BDF138ACB7C3746C7664F96 /* Debug */,
 				6FF2B32127ECFC7B98453DB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4BA87D9825E6037793C11B83 /* Build configuration list for PBXNativeTarget "BlazzTimeIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53F96BD3025C7346F1AF7693 /* Debug */,
+				9BA2EED69C3BA267454D25E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
