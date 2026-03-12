@@ -26,6 +26,17 @@ export const list = query({
 	},
 })
 
+export const listByDate = query({
+	args: { date: v.string() },
+	handler: async (ctx, { date }) => {
+		await requireAuth(ctx)
+		return ctx.db
+			.query("timeEntries")
+			.withIndex("by_date", (q) => q.eq("date", date))
+			.collect()
+	},
+})
+
 export const recent = query({
 	args: { limit: v.optional(v.number()) },
 	handler: async (ctx, { limit = 10 }) => {

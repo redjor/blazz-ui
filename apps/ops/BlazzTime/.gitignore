@@ -1,0 +1,10 @@
+# Xcode
+BlazzTime.xcodeproj/project.xcworkspace/
+BlazzTime.xcodeproj/xcuserdata/
+build/
+DerivedData/
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+.swiftpm/

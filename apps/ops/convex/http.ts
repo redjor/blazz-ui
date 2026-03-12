@@ -48,4 +48,37 @@ http.route({
 	}),
 })
 
+// Token endpoint for BlazzTime menu bar app
+// Visit while logged in to get your session token
+http.route({
+	path: "/api/auth/token",
+	method: "GET",
+	handler: httpAction(async (ctx, request) => {
+		const identity = await ctx.auth.getUserIdentity()
+		if (!identity) {
+			return new Response(JSON.stringify({ error: "Not authenticated" }), {
+				status: 401,
+				headers: { "Content-Type": "application/json" },
+			})
+		}
+		// Extract token from Authorization header (passed by Convex client)
+		const authHeader = request.headers.get("Authorization")
+		const token = authHeader?.replace("Bearer ", "") ?? null
+		return new Response(
+			JSON.stringify({
+				message: "Copy this token into BlazzTime",
+				token,
+				subject: identity.subject,
+			}),
+			{
+				status: 200,
+				headers: {
+					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
+				},
+			}
+		)
+	}),
+})
+
 export default http
