@@ -9,10 +9,10 @@ import { useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Banknote, Clock, Plus } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { CurrentSessionCard } from "@/components/current-session-card"
 import { DayTimelineCard, type TimelineItem } from "@/components/day-timeline-card"
-import { EditTodoDialog } from "@/components/edit-todo-dialog"
 import { EnergyCheckCard, type EnergyLevel } from "@/components/energy-check-card"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -23,13 +23,12 @@ import { formatCurrency, formatMinutes } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
 
 export default function TodayPage() {
+	const router = useRouter()
 	const today = format(new Date(), "yyyy-MM-dd")
 
 	const todayEntries = useQuery(api.timeEntries.list, { from: today, to: today })
 	const activeProjects = useQuery(api.projects.listActive)
 	const todos = useQuery(api.todos.list, {})
-	const categories = useQuery(api.categories.list, {})
-	const allTags = useQuery(api.todos.listAllTags, {})
 
 	const isLoading =
 		todayEntries === undefined || activeProjects === undefined || todos === undefined
@@ -40,12 +39,9 @@ export default function TodayPage() {
 
 	const activeTodos = todos?.filter((t) => t.status !== "done") ?? []
 	const projectList = activeProjects ?? []
-	const categoryList = categories ?? []
-	const allTagsList = allTags ?? []
 
 	const [addOpen, setAddOpen] = useState(false)
 	const [editingEntry, setEditingEntry] = useState<Doc<"timeEntries"> | null>(null)
-	const [editingTodo, setEditingTodo] = useState<Doc<"todos"> | null>(null)
 	const [energy, setEnergy] = useState<EnergyLevel | null>("medium")
 	const [quickModal, setQuickModal] = useState<{
 		open: boolean
@@ -237,7 +233,7 @@ export default function TodayPage() {
 										key={todo._id}
 										type="button"
 										className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-raised/50 last:border-0"
-										onClick={() => setEditingTodo(todo)}
+										onClick={() => router.push(`/todos/${todo._id}`)}
 									>
 										<span className="text-sm text-fg">{todo.text}</span>
 										<span className="text-xs text-fg-muted capitalize">{todo.status}</span>
@@ -293,18 +289,6 @@ export default function TodayPage() {
 				date={today}
 			/>
 
-			{/* Dialog édition todo */}
-			{editingTodo && (
-				<EditTodoDialog
-					key={editingTodo._id}
-					todo={editingTodo}
-					open={true}
-					onOpenChange={(v) => !v && setEditingTodo(null)}
-					projects={projectList}
-					categories={categoryList}
-					allTags={allTagsList}
-				/>
-			)}
 		</div>
 	)
 }
