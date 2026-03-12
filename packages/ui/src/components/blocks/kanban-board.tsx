@@ -20,6 +20,7 @@ export interface KanbanBoardProps<T extends { id: string }> {
 	onMove?: (itemId: string, fromColumn: string, toColumn: string) => void | Promise<void>
 	renderCard: (item: T) => React.ReactNode
 	renderColumnHeader?: (column: KanbanColumn<T>, items: T[]) => React.ReactNode
+	renderAfterCards?: (column: KanbanColumn<T>, items: T[]) => React.ReactNode
 	columnClassName?: string
 	className?: string
 }
@@ -33,6 +34,7 @@ function KanbanBoardBase<T extends { id: string }>({
 	onMove,
 	renderCard,
 	renderColumnHeader,
+	renderAfterCards,
 	columnClassName,
 	className,
 }: KanbanBoardProps<T>) {
@@ -96,7 +98,7 @@ function KanbanBoardBase<T extends { id: string }>({
 					<div
 						key={column.id}
 						className={cn(
-							"flex min-w-[280px] flex-col rounded-lg border bg-raised/30 transition-colors",
+							"flex min-w-[280px] flex-col rounded-lg border border-edge bg-surface transition-colors",
 							isOver && "border-fg/30 bg-raised/60",
 							columnClassName
 						)}
@@ -119,28 +121,34 @@ function KanbanBoardBase<T extends { id: string }>({
 						)}
 
 						{/* Cards */}
-						<div className="flex-1 space-y-2 p-2">
-							{columnItems.map((item) => (
-								<div
-									key={item.id}
-									draggable={!!onMove}
-									onDragStart={(e) => handleDragStart(e, item)}
-									onDragEnd={handleDragEnd}
-									className={cn(
-										"transition-opacity",
-										onMove && "cursor-grab active:cursor-grabbing",
-										dragItemId === item.id && "opacity-40"
-									)}
-								>
-									{renderCard(item)}
-								</div>
-							))}
-							{columnItems.length === 0 && (
-								<p className="py-8 text-center text-xs text-fg-muted">
-									Aucun élément
-								</p>
-							)}
+						<div className="relative flex-1 min-h-0">
+							<div className="absolute inset-0 overflow-y-auto space-y-2 p-2">
+								{columnItems.map((item) => (
+									<div
+										key={item.id}
+										draggable={!!onMove}
+										onDragStart={(e) => handleDragStart(e, item)}
+										onDragEnd={handleDragEnd}
+										className={cn(
+											"transition-opacity",
+											onMove && "cursor-grab active:cursor-grabbing",
+											dragItemId === item.id && "opacity-40"
+										)}
+									>
+										{renderCard(item)}
+									</div>
+								))}
+								{columnItems.length === 0 && (
+									<p className="py-8 text-center text-xs text-fg-muted">
+										Aucun élément
+									</p>
+								)}
+								{renderAfterCards?.(column, columnItems)}
+							</div>
+							{/* Bottom fade */}
+							<div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 rounded-b-lg bg-gradient-to-t from-surface to-transparent" />
 						</div>
+
 					</div>
 				)
 			})}

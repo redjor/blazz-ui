@@ -287,7 +287,7 @@ export default function TodosPage() {
 
 	return (
 		<>
-		<div className="p-6 space-y-6">
+		<div className="flex flex-col p-6 gap-6 h-full">
 				<PageHeader
 					title="Todos"
 					description="Capturez et organisez vos tâches"
@@ -333,7 +333,7 @@ export default function TodosPage() {
 						getRowId={(row) => row._id}
 					/>
 				) : (
-					<>
+					<div className="flex flex-col flex-1 min-h-0 gap-6">
 						{/* Category filter bar */}
 						{categoryList.length > 0 && (
 							<div className="flex flex-wrap gap-1.5">
@@ -370,9 +370,9 @@ export default function TodosPage() {
 						)}
 
 						{todos === undefined ? (
-							<div className="grid grid-cols-5 gap-4">
+							<div className="flex gap-4 overflow-x-auto pb-4">
 								{COLUMNS.map((col) => (
-									<div key={col.status} className="space-y-3">
+									<div key={col.status} className="w-[330px] min-w-[330px] space-y-3">
 										<Skeleton className="h-5 w-24" />
 										<Skeleton className="h-20 w-full rounded-md" />
 										<Skeleton className="h-20 w-full rounded-md" />
@@ -390,12 +390,14 @@ export default function TodosPage() {
 							<KanbanBoard
 								columns={COLUMNS.map((col) => ({ id: col.status, label: col.label }))}
 								items={filteredItems}
+								className="flex-1 min-h-0"
+								columnClassName="!min-w-[330px] w-[330px] group"
 								getColumnId={(t) => t.status}
 								onMove={async (id, _from, to) => {
 									await updateStatus({ id: id as Id<"todos">, status: to as TodoStatus })
 								}}
 								renderColumnHeader={(col, colItems) => (
-									<div className="flex items-center justify-between px-3 py-2 border-b border-edge">
+									<div className="flex items-center justify-between px-3 py-1.5 border-b border-edge">
 										<div className="flex items-center gap-2">
 											<StatusIcon status={col.id} />
 											<span className="text-sm font-medium text-fg">{col.label}</span>
@@ -410,6 +412,7 @@ export default function TodosPage() {
 											size="icon-sm"
 											onClick={() => setAddFor(col.id as TodoStatus)}
 											aria-label={`Ajouter dans ${col.label}`}
+											className="opacity-0 group-hover:opacity-100 transition-opacity"
 										>
 											<Plus className="size-3.5" />
 										</Button>
@@ -422,9 +425,18 @@ export default function TodosPage() {
 										categories={categoryList}
 									/>
 								)}
+								renderAfterCards={(col) => (
+									<button
+										type="button"
+										onClick={() => setAddFor(col.id as TodoStatus)}
+										className="flex items-center justify-center w-full p-3 rounded-md border border-dashed border-edge text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-fg"
+									>
+										<Plus className="size-4" />
+									</button>
+								)}
 							/>
 						)}
-					</>
+					</div>
 				)}
 			</div>
 
