@@ -18,9 +18,8 @@ import {
 	CheckSquare,
 	Quote,
 	Minus,
-	CornerDownLeft,
 } from "lucide-react"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 // ── Bubble Menu Button ──────────────────────────────────────────────
 
@@ -57,23 +56,44 @@ interface SlashCommand {
 	label: string
 	description: string
 	icon: React.ReactNode
-	action: () => void
+	command: string // editor chain command name
 }
+
+const SLASH_COMMANDS: SlashCommand[] = [
+	{ label: "Titre", description: "Grande section", icon: <Heading2 className="size-4" />, command: "heading2" },
+	{ label: "Sous-titre", description: "Petite section", icon: <Heading3 className="size-4" />, command: "heading3" },
+	{ label: "Liste", description: "Liste à puces", icon: <List className="size-4" />, command: "bulletList" },
+	{ label: "Liste numérotée", description: "Liste ordonnée", icon: <ListOrdered className="size-4" />, command: "orderedList" },
+	{ label: "Checklist", description: "Cases à cocher", icon: <CheckSquare className="size-4" />, command: "taskList" },
+	{ label: "Citation", description: "Bloc citation", icon: <Quote className="size-4" />, command: "blockquote" },
+	{ label: "Code", description: "Bloc de code", icon: <Code className="size-4" />, command: "codeBlock" },
+	{ label: "Séparateur", description: "Ligne horizontale", icon: <Minus className="size-4" />, command: "horizontalRule" },
+]
 
 function SlashMenu({
 	commands,
 	selectedIndex,
 	onSelect,
+	onHover,
 }: {
 	commands: SlashCommand[]
 	selectedIndex: number
 	onSelect: (index: number) => void
+	onHover: (index: number) => void
 }) {
+	const listRef = useRef<HTMLDivElement>(null)
+
+	// Scroll selected item into view
+	useEffect(() => {
+		const el = listRef.current?.children[selectedIndex] as HTMLElement | undefined
+		el?.scrollIntoView({ block: "nearest" })
+	}, [selectedIndex])
+
 	return (
-		<div className="bg-surface border border-edge rounded-lg shadow-lg overflow-hidden py-1 w-64">
+		<div ref={listRef} className="bg-surface border border-edge rounded-lg shadow-lg overflow-hidden overflow-y-auto max-h-72 py-1 w-64">
 			{commands.map((cmd, index) => (
 				<button
-					key={cmd.label}
+					key={cmd.command}
 					type="button"
 					className={`flex items-center gap-3 w-full px-3 py-2 text-left transition-colors ${
 						index === selectedIndex
@@ -81,12 +101,12 @@ function SlashMenu({
 							: "text-fg-muted hover:bg-raised hover:text-fg"
 					}`}
 					onClick={() => onSelect(index)}
-					onMouseEnter={() => onSelect(index)}
+					onMouseEnter={() => onHover(index)}
 				>
-					<span className="flex items-center justify-center size-8 rounded-md border border-edge bg-surface text-fg-muted">
+					<span className="flex items-center justify-center size-8 rounded-md border border-edge bg-surface text-fg-muted shrink-0">
 						{cmd.icon}
 					</span>
-					<div>
+					<div className="min-w-0">
 						<p className="text-sm font-medium">{cmd.label}</p>
 						<p className="text-xs text-fg-muted">{cmd.description}</p>
 					</div>
@@ -107,11 +127,99 @@ export function TiptapEditor({
 	onUpdate: (html: string) => void
 	placeholder?: string
 }) {
-	const [slashMenuOpen, setSlashMenuOpen] = useState(false)
-	const [slashMenuPos, setSlashMenuPos] = useState<{ top: number; left: number } | null>(null)
+	// Slash menu state — use refs for handleKeyDown closure + state for rendering
+	const [slashOpen, setSlashOpen] = useState(false)
+	const [slashPos, setSlashPos] = useState<{ top: number; left: number } | null>(null)
 	const [slashFilter, setSlashFilter] = useState("")
-	const [selectedIndex, setSelectedIndex] = useState(0)
-	const menuRef = useRef<HTMLDivElement>(null)
+	const [selectedIdx, setSelectedIdx] = useState(0)
+	const menuContainerRef = useRef<HTMLDivElement>(null)
+
+	// Refs that mirror state so handleKeyDown always reads fresh values
+	const slashOpenRef = useRef(false)
+	const slashFilterRef = useRef("")
+	const selectedIdxRef = useRef(0)
+
+	function openSlash(filter: string, pos: { top: number; left: number }) {
+		slashOpenRef.current = true
+		slashFilterRef.current = filter
+		selectedIdxRef.current = 0
+		setSlashOpen(true)
+		setSlashFilter(filter)
+		setSelectedIdx(0)
+		setSlashPos(pos)
+	}
+
+	function closeSlash() {
+		slashOpenRef.current = false
+		slashFilterRef.current = ""
+		selectedIdxRef.current = 0
+		setSlashOpen(false)
+		setSlashFilter("")
+		setSelectedIdx(0)
+	}
+
+	function updateFilter(filter: string) {
+		slashFilterRef.current = filter
+		selectedIdxRef.current = 0
+		setSlashFilter(filter)
+		setSelectedIdx(0)
+	}
+
+	function updateSelectedIdx(idx: number) {
+		selectedIdxRef.current = idx
+		setSelectedIdx(idx)
+	}
+
+	function getFilteredCommands(filter: string) {
+		if (!filter) return SLASH_COMMANDS
+		return SLASH_COMMANDS.filter((cmd) =>
+			cmd.label.toLowerCase().includes(filter.toLowerCase())
+		)
+	}
+
+	// Stable ref to editor for use inside commands
+	const editorRef = useRef<ReturnType<typeof useEditor>>(null)
+
+	function executeCommand(cmd: SlashCommand) {
+		const e = editorRef.current
+		if (!e) return
+
+		// Delete the /filter text first
+		const { from } = e.state.selection
+		const textBefore = e.state.doc.textBetween(Math.max(0, from - 20), from, "\n")
+		const match = textBefore.match(/\/([a-zA-Zéèà]*)$/)
+		if (match) {
+			e.chain().focus().deleteRange({ from: from - match[0].length, to: from }).run()
+		}
+
+		// Execute the block command
+		switch (cmd.command) {
+			case "heading2":
+				e.chain().focus().toggleHeading({ level: 2 }).run()
+				break
+			case "heading3":
+				e.chain().focus().toggleHeading({ level: 3 }).run()
+				break
+			case "bulletList":
+				e.chain().focus().toggleBulletList().run()
+				break
+			case "orderedList":
+				e.chain().focus().toggleOrderedList().run()
+				break
+			case "taskList":
+				e.chain().focus().toggleTaskList().run()
+				break
+			case "blockquote":
+				e.chain().focus().toggleBlockquote().run()
+				break
+			case "codeBlock":
+				e.chain().focus().toggleCodeBlock().run()
+				break
+			case "horizontalRule":
+				e.chain().focus().setHorizontalRule().run()
+				break
+		}
+	}
 
 	const editor = useEditor({
 		immediatelyRender: false,
@@ -136,30 +244,33 @@ export function TiptapEditor({
 				class: "tiptap-notion prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[200px]",
 			},
 			handleKeyDown: (_view, event) => {
-				if (!slashMenuOpen) return false
+				if (!slashOpenRef.current) return false
+
+				const cmds = getFilteredCommands(slashFilterRef.current)
+				if (cmds.length === 0) return false
 
 				if (event.key === "ArrowDown") {
 					event.preventDefault()
-					setSelectedIndex((i) => (i + 1) % filteredCommands.length)
+					const next = (selectedIdxRef.current + 1) % cmds.length
+					updateSelectedIdx(next)
 					return true
 				}
 				if (event.key === "ArrowUp") {
 					event.preventDefault()
-					setSelectedIndex((i) => (i - 1 + filteredCommands.length) % filteredCommands.length)
+					const prev = (selectedIdxRef.current - 1 + cmds.length) % cmds.length
+					updateSelectedIdx(prev)
 					return true
 				}
 				if (event.key === "Enter") {
 					event.preventDefault()
-					const cmd = filteredCommands[selectedIndex]
-					if (cmd) {
-						cmd.action()
-						closeSlashMenu()
-					}
+					const cmd = cmds[selectedIdxRef.current]
+					if (cmd) executeCommand(cmd)
+					closeSlash()
 					return true
 				}
 				if (event.key === "Escape") {
 					event.preventDefault()
-					closeSlashMenu()
+					closeSlash()
 					return true
 				}
 
@@ -169,137 +280,34 @@ export function TiptapEditor({
 		onUpdate: ({ editor: e }) => {
 			onUpdate(e.getHTML())
 
-			// Detect slash command
+			// Detect slash command trigger
 			const { from } = e.state.selection
-			const textBefore = e.state.doc.textBetween(
-				Math.max(0, from - 20),
-				from,
-				"\n"
-			)
+			const textBefore = e.state.doc.textBetween(Math.max(0, from - 20), from, "\n")
 			const slashMatch = textBefore.match(/\/([a-zA-Zéèà]*)$/)
 
 			if (slashMatch) {
-				setSlashFilter(slashMatch[1])
-				setSelectedIndex(0)
-
-				// Position the menu
 				const coords = e.view.coordsAtPos(from - slashMatch[0].length)
 				const editorRect = e.view.dom.getBoundingClientRect()
-				setSlashMenuPos({
-					top: coords.bottom - editorRect.top + 4,
-					left: coords.left - editorRect.left,
-				})
-				setSlashMenuOpen(true)
-			} else if (slashMenuOpen) {
-				closeSlashMenu()
+
+				if (slashOpenRef.current) {
+					// Already open — just update filter
+					updateFilter(slashMatch[1])
+				} else {
+					openSlash(slashMatch[1], {
+						top: coords.bottom - editorRect.top + 4,
+						left: coords.left - editorRect.left,
+					})
+				}
+			} else if (slashOpenRef.current) {
+				closeSlash()
 			}
 		},
 	})
 
-	function closeSlashMenu() {
-		setSlashMenuOpen(false)
-		setSlashFilter("")
-		setSelectedIndex(0)
-	}
+	// Keep editorRef in sync
+	editorRef.current = editor
 
-	function deleteSlashText() {
-		if (!editor) return
-		const { from } = editor.state.selection
-		const textBefore = editor.state.doc.textBetween(
-			Math.max(0, from - 20),
-			from,
-			"\n"
-		)
-		const slashMatch = textBefore.match(/\/([a-zA-Zéèà]*)$/)
-		if (slashMatch) {
-			editor
-				.chain()
-				.focus()
-				.deleteRange({ from: from - slashMatch[0].length, to: from })
-				.run()
-		}
-	}
-
-	const slashCommands: SlashCommand[] = editor
-		? [
-				{
-					label: "Titre",
-					description: "Grande section",
-					icon: <Heading2 className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleHeading({ level: 2 }).run()
-					},
-				},
-				{
-					label: "Sous-titre",
-					description: "Petite section",
-					icon: <Heading3 className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleHeading({ level: 3 }).run()
-					},
-				},
-				{
-					label: "Liste",
-					description: "Liste à puces",
-					icon: <List className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleBulletList().run()
-					},
-				},
-				{
-					label: "Liste numérotée",
-					description: "Liste ordonnée",
-					icon: <ListOrdered className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleOrderedList().run()
-					},
-				},
-				{
-					label: "Checklist",
-					description: "Cases à cocher",
-					icon: <CheckSquare className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleTaskList().run()
-					},
-				},
-				{
-					label: "Citation",
-					description: "Bloc citation",
-					icon: <Quote className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleBlockquote().run()
-					},
-				},
-				{
-					label: "Code",
-					description: "Bloc de code",
-					icon: <Code className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().toggleCodeBlock().run()
-					},
-				},
-				{
-					label: "Séparateur",
-					description: "Ligne horizontale",
-					icon: <Minus className="size-4" />,
-					action: () => {
-						deleteSlashText()
-						editor.chain().focus().setHorizontalRule().run()
-					},
-				},
-			]
-		: []
-
-	const filteredCommands = slashCommands.filter((cmd) =>
-		cmd.label.toLowerCase().includes(slashFilter.toLowerCase())
-	)
+	const filteredCommands = getFilteredCommands(slashFilter)
 
 	// Sync content when it changes externally
 	useEffect(() => {
@@ -310,15 +318,15 @@ export function TiptapEditor({
 
 	// Close slash menu on click outside
 	useEffect(() => {
-		if (!slashMenuOpen) return
+		if (!slashOpen) return
 		function handleClick(e: MouseEvent) {
-			if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-				closeSlashMenu()
+			if (menuContainerRef.current && !menuContainerRef.current.contains(e.target as Node)) {
+				closeSlash()
 			}
 		}
 		document.addEventListener("mousedown", handleClick)
 		return () => document.removeEventListener("mousedown", handleClick)
-	}, [slashMenuOpen])
+	}, [slashOpen])
 
 	if (!editor) return null
 
@@ -376,19 +384,20 @@ export function TiptapEditor({
 			</BubbleMenu>
 
 			{/* Slash command menu */}
-			{slashMenuOpen && slashMenuPos && filteredCommands.length > 0 && (
+			{slashOpen && slashPos && filteredCommands.length > 0 && (
 				<div
-					ref={menuRef}
+					ref={menuContainerRef}
 					className="absolute z-50"
-					style={{ top: slashMenuPos.top, left: slashMenuPos.left }}
+					style={{ top: slashPos.top, left: slashPos.left }}
 				>
 					<SlashMenu
 						commands={filteredCommands}
-						selectedIndex={selectedIndex >= filteredCommands.length ? 0 : selectedIndex}
+						selectedIndex={selectedIdx >= filteredCommands.length ? 0 : selectedIdx}
 						onSelect={(index) => {
-							filteredCommands[index]?.action()
-							closeSlashMenu()
+							executeCommand(filteredCommands[index])
+							closeSlash()
 						}}
+						onHover={(index) => updateSelectedIdx(index)}
 					/>
 				</div>
 			)}
