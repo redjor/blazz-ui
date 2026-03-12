@@ -1,8 +1,12 @@
 "use client"
 
-import { Badge } from "@blazz/ui/components/ui/badge"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Box } from "@blazz/ui/components/ui/box"
+import { Divider } from "@blazz/ui/components/ui/divider"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Combobox, type ComboboxOption } from "@blazz/ui/components/ui/combobox"
+import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
 	SelectContent,
@@ -154,166 +158,165 @@ export default function TodoDetailPage() {
 	// Loading state
 	if (todo === undefined) {
 		return (
-			<div className="p-6 space-y-6">
-				<Skeleton className="h-8 w-48" />
-				<div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-					<div className="space-y-4">
-						<Skeleton className="h-10 w-full" />
-						<Skeleton className="h-64 w-full" />
+			<Box padding="6">
+				<BlockStack gap="600">
+					<Skeleton className="h-8 w-48" />
+					<div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+						<BlockStack gap="400">
+							<Skeleton className="h-10 w-full" />
+							<Skeleton className="h-64 w-full" />
+						</BlockStack>
+						<BlockStack gap="400">
+							<Skeleton className="h-10 w-full" />
+							<Skeleton className="h-10 w-full" />
+							<Skeleton className="h-10 w-full" />
+						</BlockStack>
 					</div>
-					<div className="space-y-4">
-						<Skeleton className="h-10 w-full" />
-						<Skeleton className="h-10 w-full" />
-						<Skeleton className="h-10 w-full" />
-					</div>
-				</div>
-			</div>
+				</BlockStack>
+			</Box>
 		)
 	}
 
 	// Not found
 	if (todo === null) {
 		return (
-			<div className="p-6">
-				<Button variant="ghost" size="sm" onClick={() => router.push("/todos")}>
-					<ArrowLeft className="size-4 mr-2" />
-					Retour
-				</Button>
-				<p className="mt-8 text-center text-fg-muted">Todo introuvable.</p>
-			</div>
+			<Box padding="6">
+				<BlockStack gap="800">
+					<Button variant="ghost" size="sm" onClick={() => router.push("/todos")}>
+						<ArrowLeft className="size-4 mr-2" />
+						Retour
+					</Button>
+					<p className="text-center text-fg-muted">Todo introuvable.</p>
+				</BlockStack>
+			</Box>
 		)
 	}
 
 	return (
-		<div className="p-6 space-y-6">
-			{/* Header */}
-			<div className="flex items-center gap-3">
-				<Button variant="ghost" size="icon-sm" onClick={() => router.push("/todos")}>
-					<ArrowLeft className="size-4" />
-				</Button>
-				<div className="flex items-center gap-2">
-					<StatusIcon status={todo.status} />
-					<span className="text-sm text-fg-muted capitalize">
-						{STATUS_OPTIONS.find((s) => s.value === todo.status)?.label ?? todo.status}
-					</span>
-				</div>
-			</div>
+		<Box padding="6">
+			<BlockStack gap="600">
+				{/* Header */}
+				<InlineStack gap="300" blockAlign="center">
+					<Button variant="ghost" size="icon-sm" onClick={() => router.push("/todos")}>
+						<ArrowLeft className="size-4" />
+					</Button>
+					<InlineStack gap="200" blockAlign="center">
+						<StatusIcon status={todo.status} />
+						<span className="text-sm text-fg-muted">
+							{STATUS_OPTIONS.find((s) => s.value === todo.status)?.label ?? todo.status}
+						</span>
+					</InlineStack>
+				</InlineStack>
 
-			{/* 2-column layout */}
-			<div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-				{/* Main column */}
-				<div className="space-y-4 min-w-0">
-					<input
-						type="text"
-						value={title}
-						onChange={handleTitleChange}
-						className="w-full text-2xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted"
-						placeholder="Titre du todo"
-					/>
-					<TiptapEditor content={description} onUpdate={handleDescriptionChange} />
-				</div>
-
-				{/* Sidebar */}
-				<div className="space-y-5">
-					{/* Status */}
-					<div className="space-y-1.5">
-						<label className="text-xs text-fg-muted">Status</label>
-						<Select
-							value={todo.status}
-							onValueChange={handleStatusChange}
-							items={STATUS_OPTIONS}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue />
-							</SelectTrigger>
-							<SelectContent>
-								{STATUS_OPTIONS.map((s) => (
-									<SelectItem key={s.value} value={s.value}>
-										<div className="flex items-center gap-2">
-											<StatusIcon status={s.value} />
-											{s.label}
-										</div>
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</div>
-
-					{/* Priority */}
-					<div className="space-y-1.5">
-						<label className="text-xs text-fg-muted">Priorité</label>
-						<Combobox
-							value={todo.priority ?? "normal"}
-							onValueChange={handlePriorityChange}
-							options={PRIORITY_OPTIONS}
-							placeholder="Priorité"
-							searchPlaceholder="Rechercher…"
-							emptyMessage="Aucun résultat"
+				{/* 2-column layout */}
+				<div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+					{/* Main column */}
+					<BlockStack gap="400" className="min-w-0">
+						<input
+							type="text"
+							value={title}
+							onChange={handleTitleChange}
+							className="w-full text-2xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted"
+							placeholder="Titre du todo"
 						/>
-					</div>
+						<TiptapEditor content={description} onUpdate={handleDescriptionChange} />
+					</BlockStack>
 
-					{/* Due date */}
-					<div className="space-y-1.5">
-						<label className="text-xs text-fg-muted">Échéance</label>
-						<DueDatePicker value={todo.dueDate ?? ""} onChange={handleDueDateChange} />
-					</div>
+					{/* Sidebar */}
+					<BlockStack gap="500">
+						<BlockStack gap="150">
+							<Label className="text-xs text-fg-muted">Status</Label>
+							<Select
+								value={todo.status}
+								onValueChange={handleStatusChange}
+								items={STATUS_OPTIONS}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									{STATUS_OPTIONS.map((s) => (
+										<SelectItem key={s.value} value={s.value}>
+											<InlineStack gap="200" blockAlign="center">
+												<StatusIcon status={s.value} />
+												{s.label}
+											</InlineStack>
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</BlockStack>
 
-					{/* Project */}
-					<div className="space-y-1.5">
-						<label className="text-xs text-fg-muted">Projet</label>
-						<Select
-							value={todo.projectId ?? ""}
-							onValueChange={handleProjectChange}
-							items={[
-								{ value: "", label: "Aucun" },
-								...projectList.map((p) => ({ value: p._id, label: p.name })),
-							]}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Aucun" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="">Aucun</SelectItem>
-								{projectList.map((p) => (
-									<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</div>
+						<BlockStack gap="150">
+							<Label className="text-xs text-fg-muted">Priorité</Label>
+							<Combobox
+								value={todo.priority ?? "normal"}
+								onValueChange={handlePriorityChange}
+								options={PRIORITY_OPTIONS}
+								placeholder="Priorité"
+								searchPlaceholder="Rechercher…"
+								emptyMessage="Aucun résultat"
+							/>
+						</BlockStack>
 
-					{/* Category */}
-					<div className="space-y-1.5">
-						<label className="text-xs text-fg-muted">Catégorie</label>
-						<Select
-							value={todo.categoryId ?? ""}
-							onValueChange={handleCategoryChange}
-							items={[
-								{ value: "", label: "Aucune" },
-								...categoryList.map((c) => ({ value: c._id, label: c.name })),
-							]}
-						>
-							<SelectTrigger className="w-full">
-								<SelectValue placeholder="Aucune" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="">Aucune</SelectItem>
-								{categoryList.map((c) => (
-									<SelectItem key={c._id} value={c._id}>
-										<CategoryBadge name={c.name} color={c.color} />
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</div>
+						<BlockStack gap="150">
+							<Label className="text-xs text-fg-muted">Échéance</Label>
+							<DueDatePicker value={todo.dueDate ?? ""} onChange={handleDueDateChange} />
+						</BlockStack>
 
-					{/* Tags */}
-					<div className="space-y-1.5">
-						<label className="text-xs text-fg-muted">Tags</label>
-						<TagInput value={todo.tags ?? []} onChange={handleTagsChange} suggestions={allTagsList} />
-					</div>
+						<BlockStack gap="150">
+							<Label className="text-xs text-fg-muted">Projet</Label>
+							<Select
+								value={todo.projectId ?? ""}
+								onValueChange={handleProjectChange}
+								items={[
+									{ value: "", label: "Aucun" },
+									...projectList.map((p) => ({ value: p._id, label: p.name })),
+								]}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Aucun" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="">Aucun</SelectItem>
+									{projectList.map((p) => (
+										<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</BlockStack>
 
-					{/* Delete */}
-					<div className="pt-4 border-t border-edge">
+						<BlockStack gap="150">
+							<Label className="text-xs text-fg-muted">Catégorie</Label>
+							<Select
+								value={todo.categoryId ?? ""}
+								onValueChange={handleCategoryChange}
+								items={[
+									{ value: "", label: "Aucune" },
+									...categoryList.map((c) => ({ value: c._id, label: c.name })),
+								]}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Aucune" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="">Aucune</SelectItem>
+									{categoryList.map((c) => (
+										<SelectItem key={c._id} value={c._id}>
+											<CategoryBadge name={c.name} color={c.color} />
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</BlockStack>
+
+						<BlockStack gap="150">
+							<Label className="text-xs text-fg-muted">Tags</Label>
+							<TagInput value={todo.tags ?? []} onChange={handleTagsChange} suggestions={allTagsList} />
+						</BlockStack>
+
+						<Divider />
+
 						<Button
 							variant="ghost"
 							size="sm"
@@ -323,9 +326,9 @@ export default function TodoDetailPage() {
 							<Trash2 className="size-4 mr-2" />
 							Supprimer ce todo
 						</Button>
-					</div>
+					</BlockStack>
 				</div>
-			</div>
-		</div>
+			</BlockStack>
+		</Box>
 	)
 }
