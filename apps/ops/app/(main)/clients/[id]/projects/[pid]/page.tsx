@@ -5,7 +5,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
-import { use, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
@@ -17,7 +17,10 @@ import { computeBudgetMetrics } from "@/lib/budget"
 import { ContractSection } from "@/components/contract-section"
 import { ContractForm } from "@/components/contract-form"
 import { computeContractMetrics } from "@/lib/contracts"
-import { Pencil } from "lucide-react"
+import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
+import { Checkbox } from "@blazz/ui/components/ui/checkbox"
+import { BulkActionBar } from "@/components/bulk-action-bar"
+import { Pencil, Plus } from "lucide-react"
 import { formatMinutes } from "@/lib/format"
 import { getEffectiveStatus, type EntryStatus, ENTRY_STATUS_LABELS } from "@/lib/time-entry-status"
 import type { Doc } from "@/convex/_generated/dataModel"
@@ -48,6 +51,7 @@ export default function ProjectDetailPage({ params }: Props) {
   const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
   const client = useQuery(api.clients.get, { id: id as Id<"clients"> })
   const [editOpen, setEditOpen] = useState(false)
+  const [quickEntryOpen, setQuickEntryOpen] = useState(false)
   const [contractOpen, setContractOpen] = useState(false)
   const activeContract = useQuery(api.contracts.getActiveByProject, {
     projectId: pid as Id<"projects">,
@@ -56,8 +60,14 @@ export default function ProjectDetailPage({ params }: Props) {
     projectId: pid as Id<"projects">,
   })
   const completeContract = useMutation(api.contracts.complete)
+  const bulkSetStatus = useMutation(api.timeEntries.setStatus)
+  const bulkRemove = useMutation(api.timeEntries.removeBatch)
+  const bulkSetBillable = useMutation(api.timeEntries.setBillable)
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
   const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
+  const [selection, setSelection] = useState<Set<string>>(new Set())
+
+  useEffect(() => { setSelection(new Set()) }, [statusFilter])
 
   useOpsTopBar(
     data != null
@@ -127,6 +137,60 @@ export default function ProjectDetailPage({ params }: Props) {
     statusFilter === "all"
       ? entries
       : entries.filter((e) => getEffectiveStatus(e) === statusFilter)
+
+  const toggleEntry = (id: string) => {
+    setSelection((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const editableEntries = filteredEntries.filter((e) => {
+    const s = getEffectiveStatus(e)
+    return s !== "invoiced" && s !== "paid"
+  })
+
+  const allSelected = editableEntries.length > 0 && editableEntries.every((e) => selection.has(e._id))
+
+  const toggleAll = () => {
+    if (allSelected) {
+      setSelection(new Set())
+    } else {
+      setSelection(new Set(editableEntries.map((e) => e._id)))
+    }
+  }
+
+  const handleBulkStatus = async (ids: string[], status: EntryStatus) => {
+    try {
+      await bulkSetStatus({ ids: ids as Id<"timeEntries">[], status })
+      toast.success(`${ids.length} entrée(s) → ${ENTRY_STATUS_LABELS[status]}`)
+      setSelection(new Set())
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Erreur")
+    }
+  }
+
+  const handleBulkBillable = async (ids: string[], billable: boolean) => {
+    try {
+      await bulkSetBillable({ ids: ids as Id<"timeEntries">[], billable })
+      toast.success(`${ids.length} entrée(s) → ${billable ? "Facturable" : "Non facturable"}`)
+      setSelection(new Set())
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Erreur")
+    }
+  }
+
+  const handleBulkDelete = async (ids: string[]) => {
+    try {
+      await bulkRemove({ ids: ids as Id<"timeEntries">[] })
+      toast.success(`${ids.length} entrée(s) supprimée(s)`)
+      setSelection(new Set())
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Erreur")
+    }
+  }
 
   const statusDot: Record<string, string> = {
     active: "bg-green-500",
@@ -255,7 +319,23 @@ export default function ProjectDetailPage({ params }: Props) {
         {/* Timeline of entries */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
+            <div className="flex items-center gap-3">
+              {filteredEntries.length > 0 && (
+                <Checkbox
+                  checked={allSelected}
+                  onCheckedChange={toggleAll}
+                />
+              )}
+              <h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setQuickEntryOpen(true)}
+              >
+                <Plus className="size-3.5 mr-1" />
+                Nouvelle entrée
+              </Button>
+            </div>
             <div className="flex items-center gap-1.5 flex-wrap">
               {STATUS_FILTERS.map(({ key, label }) => (
                 <button
@@ -288,6 +368,15 @@ export default function ProjectDetailPage({ params }: Props) {
                     className={`group flex items-center gap-4 py-2.5 border-b border-edge last:border-0 ${editable ? "cursor-pointer hover:bg-surface-hover" : ""}`}
                     onClick={editable ? () => setEditing(entry) : undefined}
                   >
+                    {editable ? (
+                      <Checkbox
+                        checked={selection.has(entry._id)}
+                        onCheckedChange={() => toggleEntry(entry._id)}
+                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                      />
+                    ) : (
+                      <span className="w-4" />
+                    )}
                     <span className="text-xs font-mono text-fg-muted w-20 shrink-0">
                       {format(parseISO(entry.date), "dd/MM/yyyy")}
                     </span>
@@ -353,6 +442,17 @@ export default function ProjectDetailPage({ params }: Props) {
         </DialogContent>
       </Dialog>
 
+      {/* Quick time entry modal */}
+      <QuickTimeEntryModal
+        open={quickEntryOpen}
+        onOpenChange={setQuickEntryOpen}
+        projectId={project._id}
+        projectName={project.name}
+        hourlyRate={project.tjm / project.hoursPerDay}
+        hoursPerDay={project.hoursPerDay}
+        date={format(new Date(), "yyyy-MM-dd")}
+      />
+
       {/* New contract dialog */}
       <Dialog open={contractOpen} onOpenChange={setContractOpen}>
         <DialogContent size="lg" className="max-h-[85vh] overflow-y-auto">
@@ -366,6 +466,15 @@ export default function ProjectDetailPage({ params }: Props) {
           />
         </DialogContent>
       </Dialog>
+
+      <BulkActionBar
+        selectedIds={selection}
+        entries={filteredEntries}
+        onClear={() => setSelection(new Set())}
+        onStatusChange={handleBulkStatus}
+        onBillableChange={handleBulkBillable}
+        onDelete={handleBulkDelete}
+      />
     </>
   )
 }
