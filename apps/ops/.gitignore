@@ -10,3 +10,4 @@ convex/_generated
 # General
 .DS_Store
 *.tsbuildinfo
+.vercel
