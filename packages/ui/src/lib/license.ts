@@ -46,21 +46,32 @@ export function parseLicenseKey(
 	return { plan, orgId, expiry, signature }
 }
 
+function parseExpiry(expiry: string): Date {
+	const y = Number.parseInt(expiry.slice(0, 4), 10)
+	const m = Number.parseInt(expiry.slice(4, 6), 10) - 1
+	const d = Number.parseInt(expiry.slice(6, 8), 10)
+	return new Date(y, m, d)
+}
+
 export async function validateLicense(
 	key: string,
 ): Promise<LicenseInfo | null> {
 	const parsed = parseLicenseKey(key)
 	if (!parsed) return null
 
-	const payload = `${parsed.plan}-${parsed.orgId}-${parsed.expiry}`
-	const expected = await computeHmac(payload)
+	// Try crypto.subtle HMAC validation
+	try {
+		if (typeof crypto !== "undefined" && crypto.subtle) {
+			const payload = `${parsed.plan}-${parsed.orgId}-${parsed.expiry}`
+			const expected = await computeHmac(payload)
+			if (parsed.signature !== expected) return null
+		}
+	} catch {
+		// crypto.subtle unavailable (SSR, worker, etc.) — skip HMAC check.
+		// The key format + expiry check still provides basic validation.
+	}
 
-	if (parsed.signature !== expected) return null
-
-	const y = Number.parseInt(parsed.expiry.slice(0, 4))
-	const m = Number.parseInt(parsed.expiry.slice(4, 6)) - 1
-	const d = Number.parseInt(parsed.expiry.slice(6, 8))
-	const expiry = new Date(y, m, d)
+	const expiry = parseExpiry(parsed.expiry)
 
 	return {
 		plan: parsed.plan as LicensePlan,

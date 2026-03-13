@@ -30,22 +30,25 @@ export function BlazzProvider({
 			return
 		}
 		let cancelled = false
-		validateLicense(licenseKey).then((result) => {
-			if (!cancelled) {
-				setLicense(result)
-				setIsLoading(false)
-			}
-		})
+		validateLicense(licenseKey)
+			.then((result) => {
+				if (!cancelled) {
+					setLicense(result)
+					setIsLoading(false)
+				}
+			})
+			.catch(() => {
+				if (!cancelled) {
+					setLicense(null)
+					setIsLoading(false)
+				}
+			})
 		return () => {
 			cancelled = true
 		}
 	}, [licenseKey])
 
-	return (
-		<LicenseContext value={{ license, isLoading }}>
-			{children}
-		</LicenseContext>
-	)
+	return <LicenseContext value={{ license, isLoading }}>{children}</LicenseContext>
 }
 
 export function useLicense(): LicenseContextValue {
