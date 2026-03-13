@@ -49,7 +49,9 @@ export const sync = internalAction({
 		for (const name of TRACKED) {
 			try {
 				const [registryRes, downloadsRes] = await Promise.all([
-					fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`),
+					fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, {
+						headers: { Accept: "application/vnd.npm.install-v1+json" },
+					}),
 					fetch(
 						`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`
 					),
@@ -70,10 +72,10 @@ export const sync = internalAction({
 				await ctx.runMutation(internal.packages.upsert, {
 					name,
 					latestVersion,
-					publishedAt: registry.time?.[latestVersion] ?? "",
+					publishedAt: registry.modified ?? "",
 					weeklyDownloads,
 					description: registry.description ?? "",
-					license: versionData?.license ?? registry.license ?? undefined,
+					license: versionData?.license ?? undefined,
 					unpackedSize: versionData?.dist?.unpackedSize ?? undefined,
 					lastSyncedAt: Date.now(),
 				})
