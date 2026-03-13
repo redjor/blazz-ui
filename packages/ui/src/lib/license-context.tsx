@@ -1,16 +1,7 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState } from "react"
-import { type LicenseInfo, parseLicenseKey, validateLicense } from "./license"
-
-async function debugValidateLicense(key: string): Promise<LicenseInfo | null> {
-	const parsed = parseLicenseKey(key)
-	console.log("[blazz] key:", key)
-	console.log("[blazz] parsed:", parsed)
-	const result = await validateLicense(key)
-	console.log("[blazz] result:", result)
-	return result
-}
+import { type LicenseInfo, validateLicense } from "./license"
 
 interface LicenseContextValue {
 	license: LicenseInfo | null
@@ -39,7 +30,7 @@ export function BlazzProvider({
 			return
 		}
 		let cancelled = false
-		debugValidateLicense(licenseKey)
+		validateLicense(licenseKey)
 			.then((result) => {
 				if (!cancelled) {
 					setLicense(result)

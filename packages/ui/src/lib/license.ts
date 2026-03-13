@@ -36,7 +36,7 @@ export function parseLicenseKey(key: string): {
 	expiry: string
 	signature: string
 } | null {
-	const parts = key.split("-")
+	const parts = key.trim().split("-")
 	if (parts.length !== 5 || parts[0] !== "BLAZZ") return null
 	const [, plan, orgId, expiry, signature] = parts
 	if (!VALID_PLANS.has(plan)) return null
