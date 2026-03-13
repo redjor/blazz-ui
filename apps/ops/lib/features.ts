@@ -29,7 +29,7 @@ const routeMap: Record<string, FeatureFlag> = {
 }
 
 export function routeToFlag(pathname: string): FeatureFlag | null {
-	if (routeMap[pathname]) return routeMap[pathname]
+	if (pathname in routeMap) return routeMap[pathname]
 	for (const [route, flag] of Object.entries(routeMap)) {
 		if (route !== "/" && pathname.startsWith(`${route}/`)) return flag
 	}
