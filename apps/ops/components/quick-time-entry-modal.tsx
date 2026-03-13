@@ -36,6 +36,7 @@ interface Props {
   projectId: Id<"projects"> | null
   projectName: string | null
   hourlyRate: number | null
+  hoursPerDay: number | null
   date: string | null
 }
 
@@ -45,6 +46,7 @@ export function QuickTimeEntryModal({
   projectId,
   projectName,
   hourlyRate,
+  hoursPerDay,
   date,
 }: Props) {
   const create = useMutation(api.timeEntries.create)
@@ -111,7 +113,29 @@ export function QuickTimeEntryModal({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="quick-hours">Durée (heures) *</Label>
+            <Label htmlFor="quick-hours">Durée *</Label>
+            {hoursPerDay && hoursPerDay > 0 && (
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 h-8 text-xs"
+                  onClick={() => setValue("hours", hoursPerDay / 2)}
+                >
+                  ½ journée ({hoursPerDay / 2}h)
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 h-8 text-xs"
+                  onClick={() => setValue("hours", hoursPerDay)}
+                >
+                  Journée ({hoursPerDay}h)
+                </Button>
+              </div>
+            )}
             <Input
               id="quick-hours"
               type="number"

@@ -162,7 +162,34 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					/>
 				</div>
 				<div className="space-y-1.5">
-					<Label>Durée (heures) *</Label>
+					<Label>Durée *</Label>
+					{(() => {
+						const selectedProject = projects?.find((p: { _id: string }) => p._id === watch("projectId"))
+						const hpd = (selectedProject as { hoursPerDay?: number } | undefined)?.hoursPerDay
+						if (!hpd || hpd <= 0) return null
+						return (
+							<div className="flex gap-2">
+								<Button
+									type="button"
+									variant="outline"
+									size="sm"
+									className="flex-1 h-8 text-xs"
+									onClick={() => setValue("hours", hpd / 2)}
+								>
+									½ j ({hpd / 2}h)
+								</Button>
+								<Button
+									type="button"
+									variant="outline"
+									size="sm"
+									className="flex-1 h-8 text-xs"
+									onClick={() => setValue("hours", hpd)}
+								>
+									1 j ({hpd}h)
+								</Button>
+							</div>
+						)
+					})()}
 					<Input type="number" step="0.25" min="0.25" max="24" {...register("hours")} />
 					{errors.hours && <p className="text-xs text-red-500">{errors.hours.message}</p>}
 				</div>

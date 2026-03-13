@@ -112,8 +112,9 @@ export default function TimePage() {
 		projectId: Id<"projects"> | null
 		projectName: string | null
 		hourlyRate: number | null
+		hoursPerDay: number | null
 		date: string | null
-	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, date: null })
+	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, hoursPerDay: null, date: null })
 
 	const [deleteConfirm, setDeleteConfirm] = useState<{
 		open: boolean
@@ -491,6 +492,7 @@ export default function TimePage() {
 										projectId,
 										projectName: project.name,
 										hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+										hoursPerDay: project.hoursPerDay,
 										date,
 									})
 								}}
@@ -696,6 +698,7 @@ export default function TimePage() {
 				projectId={quickModal.projectId}
 				projectName={quickModal.projectName}
 				hourlyRate={quickModal.hourlyRate}
+				hoursPerDay={quickModal.hoursPerDay}
 				date={quickModal.date}
 			/>
 
@@ -735,6 +738,7 @@ export default function TimePage() {
 						projectId: dayDetail.projectId,
 						projectName: project.name,
 						hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+						hoursPerDay: project.hoursPerDay,
 						date: dayDetail.date,
 					})
 				}}

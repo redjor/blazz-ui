@@ -48,7 +48,8 @@ export default function TodayPage() {
 		projectId: Id<"projects"> | null
 		projectName: string | null
 		hourlyRate: number | null
-	}>({ open: false, projectId: null, projectName: null, hourlyRate: null })
+		hoursPerDay: number | null
+	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, hoursPerDay: null })
 
 	useOpsTopBar([{ label: "Aujourd'hui" }])
 
@@ -164,6 +165,7 @@ export default function TodayPage() {
 														projectId: project._id,
 														projectName: project.name,
 														hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+														hoursPerDay: project.hoursPerDay,
 													})
 												}
 											>
@@ -286,6 +288,7 @@ export default function TodayPage() {
 				projectId={quickModal.projectId}
 				projectName={quickModal.projectName}
 				hourlyRate={quickModal.hourlyRate}
+				hoursPerDay={quickModal.hoursPerDay}
 				date={today}
 			/>
 
