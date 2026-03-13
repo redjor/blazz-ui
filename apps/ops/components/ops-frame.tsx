@@ -26,23 +26,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
+import { type FeatureFlag, isEnabled } from "@/lib/features";
 import { type BreadcrumbItem, OpsBreadcrumb } from "./ops-breadcrumb";
 import { OpsUserMenu } from "./ops-user-menu";
 
-const navItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Aujourd'hui", url: "/today", icon: Sun },
-  { title: "Projets", url: "/projects", icon: FolderOpen },
-  { title: "Clients", url: "/clients", icon: Users },
+const navItems: Array<{
+  title: string;
+  url: string;
+  icon: React.ComponentType;
+  flag?: FeatureFlag;
+  items?: Array<{ title: string; url: string; flag?: FeatureFlag }>;
+}> = [
+  { title: "Dashboard", url: "/", icon: LayoutDashboard, flag: "dashboard" },
+  { title: "Aujourd'hui", url: "/today", icon: Sun, flag: "today" },
+  { title: "Projets", url: "/projects", icon: FolderOpen, flag: "projects" },
+  { title: "Clients", url: "/clients", icon: Users, flag: "clients" },
   {
     title: "Suivi de temps",
     url: "/time",
     icon: Clock,
-    items: [{ title: "Récapitulatif", url: "/recap" }],
+    flag: "time",
+    items: [{ title: "Récapitulatif", url: "/recap", flag: "recap" }],
   },
-  { title: "Todos", url: "/todos", icon: CheckSquare },
-  { title: "Chat", url: "/chat", icon: MessageSquare },
-  { title: "Packages", url: "/packages", icon: Package },
+  { title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
+  { title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
+  { title: "Packages", url: "/packages", icon: Package, flag: "packages" },
 ];
 
 function OpsSidebar() {
@@ -76,58 +84,67 @@ function OpsSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
-                if (item.items) {
-                  const isParentActive =
-                    isActive(item.url) && !hasActiveChild(item.items);
-                  return (
-                    <SidebarCollapsible
-                      key={item.url}
-                      open={isActive(item.url) || hasActiveChild(item.items)}
-                    >
-                      <SidebarMenuItem>
-                        <SidebarMenuCollapsibleTrigger
-                          spacing="compact"
-                          asChild
-                          isActive={isParentActive}
-                        >
-                          <Link href={item.url}>
-                            <item.icon />
-                            <span>{item.title}</span>
-                          </Link>
-                        </SidebarMenuCollapsibleTrigger>
-                        <SidebarCollapsibleContent>
-                          <SidebarMenuSub>
-                            {item.items.map((sub) => (
-                              <SidebarMenuSubItem
-                                key={sub.url}
-                                isActive={isActive(sub.url)}
-                              >
-                                <SidebarMenuSubButton
-                                  asChild
+              {navItems
+                .filter((item) => !item.flag || isEnabled(item.flag))
+                .map((item) => {
+                  const filteredItems = item.items?.filter(
+                    (sub) => !sub.flag || isEnabled(sub.flag),
+                  );
+                  const current = filteredItems?.length
+                    ? { ...item, items: filteredItems }
+                    : { ...item, items: undefined };
+
+                  if (current.items) {
+                    const isParentActive =
+                      isActive(current.url) && !hasActiveChild(current.items);
+                    return (
+                      <SidebarCollapsible
+                        key={current.url}
+                        open={isActive(current.url) || hasActiveChild(current.items)}
+                      >
+                        <SidebarMenuItem>
+                          <SidebarMenuCollapsibleTrigger
+                            spacing="compact"
+                            asChild
+                            isActive={isParentActive}
+                          >
+                            <Link href={current.url}>
+                              <current.icon />
+                              <span>{current.title}</span>
+                            </Link>
+                          </SidebarMenuCollapsibleTrigger>
+                          <SidebarCollapsibleContent>
+                            <SidebarMenuSub>
+                              {current.items.map((sub) => (
+                                <SidebarMenuSubItem
+                                  key={sub.url}
                                   isActive={isActive(sub.url)}
                                 >
-                                  <Link href={sub.url}>{sub.title}</Link>
-                                </SidebarMenuSubButton>
-                              </SidebarMenuSubItem>
-                            ))}
-                          </SidebarMenuSub>
-                        </SidebarCollapsibleContent>
-                      </SidebarMenuItem>
-                    </SidebarCollapsible>
+                                  <SidebarMenuSubButton
+                                    asChild
+                                    isActive={isActive(sub.url)}
+                                  >
+                                    <Link href={sub.url}>{sub.title}</Link>
+                                  </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                              ))}
+                            </SidebarMenuSub>
+                          </SidebarCollapsibleContent>
+                        </SidebarMenuItem>
+                      </SidebarCollapsible>
+                    );
+                  }
+                  return (
+                    <SidebarMenuItem key={current.url}>
+                      <SidebarMenuButton asChild isActive={isActive(current.url)}>
+                        <Link href={current.url}>
+                          <current.icon />
+                          <span>{current.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
                   );
-                }
-                return (
-                  <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+                })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
