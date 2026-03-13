@@ -153,6 +153,22 @@ export const remove = mutation({
 	},
 })
 
+export const removeBatch = mutation({
+	args: { ids: v.array(v.id("timeEntries")) },
+	handler: async (ctx, { ids }) => {
+		const { userId } = await requireAuth(ctx)
+		await Promise.all(
+			ids.map(async (id) => {
+				const entry = await ctx.db.get(id)
+				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
+				if (entry.status === "invoiced") throw new ConvexError("Impossible de supprimer une entrée facturée")
+				if (entry.status === "paid") throw new ConvexError("Impossible de supprimer une entrée payée")
+				await ctx.db.delete(id)
+			})
+		)
+	},
+})
+
 /** @deprecated Use setStatus({ ids, status: "draft" }) instead — does not update the status field. */
 export const unmarkInvoiced = mutation({
 	args: { ids: v.array(v.id("timeEntries")) },
