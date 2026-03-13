@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AllTodosView: View {
-    let store: TodoStore
+    let convex: ConvexService
     @State private var selectedStatus: String? = nil
 
     private let filterOptions: [(label: String, value: String?)] = [
@@ -21,12 +21,8 @@ struct AllTodosView: View {
 
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        let todos = store.todosFiltered(by: selectedStatus)
-                        if store.isLoading && todos.isEmpty {
-                            ProgressView()
-                                .tint(.white)
-                                .padding(.top, 80)
-                        } else if todos.isEmpty {
+                        let todos = TodoStoreHelpers.todosFiltered(from: convex.allTodos, by: selectedStatus)
+                        if todos.isEmpty {
                             Text("Aucune tâche")
                                 .font(.callout)
                                 .foregroundStyle(.white.opacity(0.5))
@@ -49,12 +45,6 @@ struct AllTodosView: View {
             .background(Color.black)
             .navigationTitle("Tâches")
             .toolbarColorScheme(.dark, for: .navigationBar)
-            .refreshable {
-                await store.fetchAll()
-            }
-        }
-        .task {
-            await store.fetchAll()
         }
     }
 }

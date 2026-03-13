@@ -1,23 +1,21 @@
 import SwiftUI
 
 struct TodayView: View {
-    let store: TodoStore
+    let convex: ConvexService
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("\(formattedDate) — \(store.todayTodos.count) tâche\(store.todayTodos.count > 1 ? "s" : "")")
+                    Text("\(formattedDate) — \(convex.todayTodos.count) tâche\(convex.todayTodos.count > 1 ? "s" : "")")
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.5))
                         .padding(.horizontal)
                         .padding(.bottom, 20)
 
-                    if let error = store.error {
+                    if let error = convex.error {
                         errorView(error)
-                    } else if store.isLoading && store.todayTodos.isEmpty {
-                        loadingView
-                    } else if store.todayTodos.isEmpty {
+                    } else if convex.todayTodos.isEmpty {
                         emptyView
                     } else {
                         todoList
@@ -27,18 +25,12 @@ struct TodayView: View {
             .background(Color.black)
             .navigationTitle("Aujourd'hui")
             .toolbarColorScheme(.dark, for: .navigationBar)
-            .refreshable {
-                await store.fetchToday()
-            }
-        }
-        .task {
-            await store.fetchToday()
         }
     }
 
     @ViewBuilder
     private var todoList: some View {
-        let grouped = store.todayGroupedByPriority()
+        let grouped = TodoStoreHelpers.todayGroupedByPriority(convex.todayTodos)
         ForEach(grouped, id: \.0) { priority, todos in
             Section {
                 ForEach(todos) { todo in
@@ -73,21 +65,9 @@ struct TodayView: View {
             Text(error)
                 .font(.caption)
                 .foregroundStyle(.red)
-            Button("Réessayer") {
-                Task { await store.fetchToday() }
-            }
-            .buttonStyle(.bordered)
-            .tint(.white)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 80)
-    }
-
-    private var loadingView: some View {
-        ProgressView()
-            .tint(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.top, 80)
     }
 
     private var emptyView: some View {

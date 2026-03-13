@@ -3,12 +3,18 @@ import SwiftUI
 @main
 struct BlazzOSIOSApp: App {
     @StateObject private var authManager = AuthManager()
+    @State private var convex = ConvexService()
 
     var body: some Scene {
         WindowGroup {
             Group {
                 if authManager.isAuthenticated {
-                    MainTabView(authManager: authManager)
+                    MainTabView(convex: convex)
+                        .onAppear {
+                            convex.configure(authManager: authManager)
+                            convex.subscribeTodayTodos()
+                            convex.subscribeAllTodos()
+                        }
                 } else {
                     LoginView(authManager: authManager)
                 }
@@ -19,22 +25,16 @@ struct BlazzOSIOSApp: App {
 }
 
 struct MainTabView: View {
-    let authManager: AuthManager
-    @State private var store: TodoStore
-
-    init(authManager: AuthManager) {
-        self.authManager = authManager
-        self._store = State(initialValue: TodoStore(client: ConvexClient(authManager: authManager)))
-    }
+    let convex: ConvexService
 
     var body: some View {
         TabView {
-            TodayView(store: store)
+            TodayView(convex: convex)
                 .tabItem {
                     Label("Aujourd'hui", systemImage: "sun.max")
                 }
 
-            AllTodosView(store: store)
+            AllTodosView(convex: convex)
                 .tabItem {
                     Label("Tâches", systemImage: "checklist")
                 }
