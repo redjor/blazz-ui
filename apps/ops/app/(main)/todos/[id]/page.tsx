@@ -131,22 +131,22 @@ export default function TodoDetailPage() {
 
 	async function handleDueDateChange(date: string) {
 		if (!todo) return
-		await updateTodo({ id: todo._id, dueDate: date || undefined })
+		await updateTodo({ id: todo._id, dueDate: date || null })
 	}
 
 	async function handleProjectChange(projectId: string) {
 		if (!todo) return
-		await updateTodo({ id: todo._id, projectId: (projectId || undefined) as Id<"projects"> | undefined })
+		await updateTodo({ id: todo._id, projectId: (projectId || null) as Id<"projects"> | null })
 	}
 
 	async function handleCategoryChange(categoryId: string) {
 		if (!todo) return
-		await updateTodo({ id: todo._id, categoryId: (categoryId || undefined) as Id<"categories"> | undefined })
+		await updateTodo({ id: todo._id, categoryId: (categoryId || null) as Id<"categories"> | null })
 	}
 
 	async function handleTagsChange(tags: string[]) {
 		if (!todo) return
-		await updateTodo({ id: todo._id, tags: tags.length > 0 ? tags : undefined })
+		await updateTodo({ id: todo._id, tags: tags.length > 0 ? tags : null })
 	}
 
 	async function handleDelete() {

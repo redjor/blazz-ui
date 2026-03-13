@@ -129,10 +129,10 @@ export function EditTodoDialog({
 			text: text.trim(),
 			description: description.trim() || undefined,
 			priority: priority as "urgent" | "high" | "normal" | "low",
-			dueDate: dueDate || undefined,
-			projectId: (projectId || undefined) as Id<"projects"> | undefined,
-			categoryId: (categoryId || undefined) as Id<"categories"> | undefined,
-			tags: tags.length > 0 ? tags : undefined,
+			dueDate: dueDate || null,
+			projectId: (projectId || null) as Id<"projects"> | null,
+			categoryId: (categoryId || null) as Id<"categories"> | null,
+			tags: tags.length > 0 ? tags : null,
 		})
 		onOpenChange(false)
 	}
