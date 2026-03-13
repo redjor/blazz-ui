@@ -1,34 +1,28 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
-import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
-import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
 import { ExpandedRowGrid } from "@blazz/ui/components/blocks/data-table/cells/expanded-row-grid"
 import { ExpandedRowTabs } from "@blazz/ui/components/blocks/data-table/cells/expanded-row-tabs"
+import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
+import type { DataTableColumnDef } from "@blazz/ui/components/blocks/data-table/data-table.types"
+import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
 import { createCompaniesPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-companies"
 import { createContactsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-contacts"
 import { createDealsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-deals"
-import { createQuotesPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-quotes"
-import { createProductsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-products"
 import { createEditableDealsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-deals-editable"
+import { createProductsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-products"
+import { createQuotesPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-quotes"
 import { createLinearIssuesPreset } from "@blazz/ui/components/blocks/data-table/presets/linear-issues"
-import type { Deal } from "~/lib/sample-data"
-import type { DataTableColumnDef } from "@blazz/ui/components/blocks/data-table/data-table.types"
-import {
-	companies,
-	contacts,
-	deals,
-	quotes,
-	products,
-} from "~/lib/sample-data"
-import { linearIssues } from "~/lib/linear-data"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocPropGroup } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocPropGroup, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
+import { linearIssues } from "~/lib/linear-data"
+import type { Deal } from "~/lib/sample-data"
+import { companies, contacts, deals, products, quotes } from "~/lib/sample-data"
 
 const examples = [
 	{
@@ -231,98 +225,282 @@ const propGroups: DocPropGroup[] = [
 	{
 		title: "Core",
 		props: [
-			{ name: "data", type: "TData[]", description: "Array of data objects to display.", required: true },
-			{ name: "columns", type: "DataTableColumnDef<TData>[]", description: "Column definitions — use col.* builders.", required: true },
-			{ name: "getRowId", type: "(row: TData) => string", description: "Custom row ID accessor. Required for editing & selection persistence." },
-			{ name: "variant", type: '"default" | "lined" | "striped" | "editable" | "spreadsheet"', default: '"lined"', description: "Visual style variant." },
-			{ name: "density", type: '"compact" | "default" | "comfortable"', default: '"default"', description: "Row spacing density." },
-			{ name: "locale", type: '"fr" | "en"', default: '"en"', description: "Locale for i18n (labels, formats)." },
+			{
+				name: "data",
+				type: "TData[]",
+				description: "Array of data objects to display.",
+				required: true,
+			},
+			{
+				name: "columns",
+				type: "DataTableColumnDef<TData>[]",
+				description: "Column definitions — use col.* builders.",
+				required: true,
+			},
+			{
+				name: "getRowId",
+				type: "(row: TData) => string",
+				description: "Custom row ID accessor. Required for editing & selection persistence.",
+			},
+			{
+				name: "variant",
+				type: '"default" | "lined" | "striped" | "editable" | "spreadsheet"',
+				default: '"lined"',
+				description: "Visual style variant.",
+			},
+			{
+				name: "density",
+				type: '"compact" | "default" | "comfortable"',
+				default: '"default"',
+				description: "Row spacing density.",
+			},
+			{
+				name: "locale",
+				type: '"fr" | "en"',
+				default: '"en"',
+				description: "Locale for i18n (labels, formats).",
+			},
 			{ name: "className", type: "string", description: "Additional CSS classes on the wrapper." },
 		],
 	},
 	{
 		title: "Search & Filtering",
 		props: [
-			{ name: "enableGlobalSearch", type: "boolean", default: "true", description: "Enable global search input." },
-			{ name: "searchPlaceholder", type: "string", description: "Placeholder text for search input." },
-			{ name: "onSearchChange", type: "(search: string) => void", description: "Callback when search value changes." },
-			{ name: "enableAdvancedFilters", type: "boolean", default: "false", description: "Enable advanced filter builder with AND/OR logic." },
-			{ name: "defaultFilterGroup", type: "FilterGroup", description: "Default filter group configuration." },
-			{ name: "onFilterGroupChange", type: "(group: FilterGroup | null) => void", description: "Callback when filter group changes." },
-			{ name: "combineSearchAndFilters", type: "boolean", description: "Single button toggles both search and inline filters." },
+			{
+				name: "enableGlobalSearch",
+				type: "boolean",
+				default: "true",
+				description: "Enable global search input.",
+			},
+			{
+				name: "searchPlaceholder",
+				type: "string",
+				description: "Placeholder text for search input.",
+			},
+			{
+				name: "onSearchChange",
+				type: "(search: string) => void",
+				description: "Callback when search value changes.",
+			},
+			{
+				name: "enableAdvancedFilters",
+				type: "boolean",
+				default: "false",
+				description: "Enable advanced filter builder with AND/OR logic.",
+			},
+			{
+				name: "defaultFilterGroup",
+				type: "FilterGroup",
+				description: "Default filter group configuration.",
+			},
+			{
+				name: "onFilterGroupChange",
+				type: "(group: FilterGroup | null) => void",
+				description: "Callback when filter group changes.",
+			},
+			{
+				name: "combineSearchAndFilters",
+				type: "boolean",
+				description: "Single button toggles both search and inline filters.",
+			},
 		],
 	},
 	{
 		title: "Sorting",
 		props: [
-			{ name: "enableSorting", type: "boolean", default: "true", description: "Enable column sorting." },
+			{
+				name: "enableSorting",
+				type: "boolean",
+				default: "true",
+				description: "Enable column sorting.",
+			},
 			{ name: "enableMultiSort", type: "boolean", description: "Enable multi-column sorting." },
-			{ name: "defaultSorting", type: "SortingState", description: "Default sorting configuration." },
-			{ name: "onSortingChange", type: "(sorting: SortingState) => void", description: "Callback when sorting changes." },
+			{
+				name: "defaultSorting",
+				type: "SortingState",
+				description: "Default sorting configuration.",
+			},
+			{
+				name: "onSortingChange",
+				type: "(sorting: SortingState) => void",
+				description: "Callback when sorting changes.",
+			},
 		],
 	},
 	{
 		title: "Column Pinning",
 		props: [
-			{ name: "enableColumnPinning", type: "boolean", description: "Enable sticky left/right columns." },
-			{ name: "defaultColumnPinning", type: "{ left?: string[]; right?: string[] }", description: "Columns pinned by default." },
-			{ name: "onColumnPinningChange", type: "(pinning) => void", description: "Callback when pinning changes." },
+			{
+				name: "enableColumnPinning",
+				type: "boolean",
+				description: "Enable sticky left/right columns.",
+			},
+			{
+				name: "defaultColumnPinning",
+				type: "{ left?: string[]; right?: string[] }",
+				description: "Columns pinned by default.",
+			},
+			{
+				name: "onColumnPinningChange",
+				type: "(pinning) => void",
+				description: "Callback when pinning changes.",
+			},
 		],
 	},
 	{
 		title: "Row Expand",
 		props: [
-			{ name: "enableRowExpand", type: "boolean", description: "Enable expandable row detail panel." },
-			{ name: "renderExpandedRow", type: "(row: Row<TData>) => ReactNode", description: "Render function for the expanded panel." },
-			{ name: "expandMode", type: '"single" | "multiple"', description: "Accordion (single) or multi-expand." },
-			{ name: "defaultExpanded", type: "boolean | string[]", description: "Default expanded state (false, true, or row IDs)." },
+			{
+				name: "enableRowExpand",
+				type: "boolean",
+				description: "Enable expandable row detail panel.",
+			},
+			{
+				name: "renderExpandedRow",
+				type: "(row: Row<TData>) => ReactNode",
+				description: "Render function for the expanded panel.",
+			},
+			{
+				name: "expandMode",
+				type: '"single" | "multiple"',
+				description: "Accordion (single) or multi-expand.",
+			},
+			{
+				name: "defaultExpanded",
+				type: "boolean | string[]",
+				description: "Default expanded state (false, true, or row IDs).",
+			},
 		],
 	},
 	{
 		title: "Grouping & Aggregations",
 		props: [
-			{ name: "enableGrouping", type: "boolean", description: "Enable row grouping by column values." },
+			{
+				name: "enableGrouping",
+				type: "boolean",
+				description: "Enable row grouping by column values.",
+			},
 			{ name: "defaultGrouping", type: "string[]", description: "Columns to group by on mount." },
-			{ name: "onGroupingChange", type: "(grouping: string[]) => void", description: "Callback when grouping changes." },
-			{ name: "groupAggregations", type: 'Record<string, AggregationType>', description: 'Aggregation per column: "sum", "avg", "min", "max", "count".' },
+			{
+				name: "onGroupingChange",
+				type: "(grouping: string[]) => void",
+				description: "Callback when grouping changes.",
+			},
+			{
+				name: "groupAggregations",
+				type: "Record<string, AggregationType>",
+				description: 'Aggregation per column: "sum", "avg", "min", "max", "count".',
+			},
 		],
 	},
 	{
 		title: "Cell Editing",
 		props: [
-			{ name: "enableCellEditing", type: "boolean", description: "Enable cell focus, keyboard nav, and edit mode." },
-			{ name: "onCellEdit", type: "(rowId, columnId, value, previousValue) => void", description: "Callback on cell change (also used by undo/redo)." },
-			{ name: "editHistorySize", type: "number", default: "50", description: "Max entries in the undo/redo stack." },
+			{
+				name: "enableCellEditing",
+				type: "boolean",
+				description: "Enable cell focus, keyboard nav, and edit mode.",
+			},
+			{
+				name: "onCellEdit",
+				type: "(rowId, columnId, value, previousValue) => void",
+				description: "Callback on cell change (also used by undo/redo).",
+			},
+			{
+				name: "editHistorySize",
+				type: "number",
+				default: "50",
+				description: "Max entries in the undo/redo stack.",
+			},
 		],
 	},
 	{
 		title: "Selection & Actions",
 		props: [
-			{ name: "enableRowSelection", type: "boolean", default: "false", description: "Enable row selection with checkboxes." },
-			{ name: "onRowSelectionChange", type: "(selection) => void", description: "Callback when selection changes." },
-			{ name: "rowActions", type: "RowAction<TData>[]", description: "Per-row dropdown actions (view, edit, delete, ...)." },
-			{ name: "bulkActions", type: "BulkAction<TData>[]", description: "Actions for multiple selected rows." },
-			{ name: "onRowClick", type: "(row: TData) => void", description: "Callback when a row is clicked." },
+			{
+				name: "enableRowSelection",
+				type: "boolean",
+				default: "false",
+				description: "Enable row selection with checkboxes.",
+			},
+			{
+				name: "onRowSelectionChange",
+				type: "(selection) => void",
+				description: "Callback when selection changes.",
+			},
+			{
+				name: "rowActions",
+				type: "RowAction<TData>[]",
+				description: "Per-row dropdown actions (view, edit, delete, ...).",
+			},
+			{
+				name: "bulkActions",
+				type: "BulkAction<TData>[]",
+				description: "Actions for multiple selected rows.",
+			},
+			{
+				name: "onRowClick",
+				type: "(row: TData) => void",
+				description: "Callback when a row is clicked.",
+			},
 		],
 	},
 	{
 		title: "Views",
 		props: [
-			{ name: "views", type: "DataTableView[]", description: "Predefined views (filters + sorting presets)." },
+			{
+				name: "views",
+				type: "DataTableView[]",
+				description: "Predefined views (filters + sorting presets).",
+			},
 			{ name: "activeView", type: "DataTableView | null", description: "Currently active view." },
-			{ name: "onViewChange", type: "(view: DataTableView) => void", description: "Callback when view changes." },
-			{ name: "enableCustomViews", type: "boolean", default: "false", description: "Allow users to create and save custom views." },
-			{ name: "onViewSave", type: "(view: DataTableView) => void", description: "Callback when user saves a view." },
-			{ name: "onViewUpdate", type: "(viewId, updates) => void", description: "Callback when user updates a view." },
-			{ name: "onViewDelete", type: "(viewId: string) => void", description: "Callback when user deletes a view." },
+			{
+				name: "onViewChange",
+				type: "(view: DataTableView) => void",
+				description: "Callback when view changes.",
+			},
+			{
+				name: "enableCustomViews",
+				type: "boolean",
+				default: "false",
+				description: "Allow users to create and save custom views.",
+			},
+			{
+				name: "onViewSave",
+				type: "(view: DataTableView) => void",
+				description: "Callback when user saves a view.",
+			},
+			{
+				name: "onViewUpdate",
+				type: "(viewId, updates) => void",
+				description: "Callback when user updates a view.",
+			},
+			{
+				name: "onViewDelete",
+				type: "(viewId: string) => void",
+				description: "Callback when user deletes a view.",
+			},
 		],
 	},
 	{
 		title: "Pagination",
 		props: [
-			{ name: "enablePagination", type: "boolean", default: "true", description: "Enable pagination controls." },
-			{ name: "pagination", type: "PaginationConfig", description: "Pagination config (pageSize, pageSizeOptions)." },
-			{ name: "onPaginationChange", type: "(pagination) => void", description: "Callback when pagination changes." },
+			{
+				name: "enablePagination",
+				type: "boolean",
+				default: "true",
+				description: "Enable pagination controls.",
+			},
+			{
+				name: "pagination",
+				type: "PaginationConfig",
+				description: "Pagination config (pageSize, pageSizeOptions).",
+			},
+			{
+				name: "onPaginationChange",
+				type: "(pagination) => void",
+				description: "Callback when pagination changes.",
+			},
 		],
 	},
 	{
@@ -331,9 +509,17 @@ const propGroups: DocPropGroup[] = [
 			{ name: "isLoading", type: "boolean", description: "Show loading skeleton state." },
 			{ name: "loadingComponent", type: "ReactNode", description: "Custom loading component." },
 			{ name: "emptyComponent", type: "ReactNode", description: "Custom empty state component." },
-			{ name: "hideToolbar", type: "boolean", description: "Hide the toolbar (search, filters, views)." },
+			{
+				name: "hideToolbar",
+				type: "boolean",
+				description: "Hide the toolbar (search, filters, views).",
+			},
 			{ name: "hideHeaders", type: "boolean", description: "Hide column headers." },
-			{ name: "defaultColumnVisibility", type: "Record<string, boolean>", description: "Default column visibility." },
+			{
+				name: "defaultColumnVisibility",
+				type: "Record<string, boolean>",
+				description: "Default column visibility.",
+			},
 		],
 	},
 ]
@@ -411,9 +597,7 @@ function DataTablePage() {
 	const [editableDeals, setEditableDeals] = React.useState(deals.slice(0, 8))
 	const handleCellEdit = React.useCallback((rowId: string, columnId: string, value: unknown) => {
 		setEditableDeals((prev) =>
-			prev.map((deal) =>
-				deal.id === rowId ? { ...deal, [columnId]: value } : deal
-			)
+			prev.map((deal) => (deal.id === rowId ? { ...deal, [columnId]: value } : deal))
 		)
 	}, [])
 	const editablePreset = React.useMemo(
@@ -442,9 +626,11 @@ function DataTablePage() {
 			<DocSection id="col-namespace" title="col.* Namespace">
 				<p className="text-sm text-fg-muted">
 					The <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col</code> namespace
-					replaces verbose <code className="text-xs bg-raised px-1.5 py-0.5 rounded">createXxxColumn()</code> calls
-					with a concise, discoverable API. Titles are auto-derived from accessor keys
-					(<code className="text-xs bg-raised px-1.5 py-0.5 rounded">companyName</code> {"->"} "Company Name").
+					replaces verbose{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">createXxxColumn()</code> calls
+					with a concise, discoverable API. Titles are auto-derived from accessor keys (
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">companyName</code> {"->"}{" "}
+					"Company Name").
 				</p>
 
 				<DocExampleClient
@@ -526,8 +712,10 @@ function DataTablePage() {
 
 			<DocSection id="define-preset" title="definePreset()">
 				<p className="text-sm text-fg-muted">
-					Build a typed preset object that you spread into <code className="text-xs bg-raised px-1.5 py-0.5 rounded">{"<DataTable />"}</code>.
-					The preset contains everything except <code className="text-xs bg-raised px-1.5 py-0.5 rounded">data</code>.
+					Build a typed preset object that you spread into{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">{"<DataTable />"}</code>. The
+					preset contains everything except{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">data</code>.
 				</p>
 				<DocExampleClient
 					title="Typed Preset Builder"
@@ -578,8 +766,11 @@ function DataTablePage() {
 
 			<DocSection id="row-expand" title="Row Expand">
 				<p className="text-sm text-fg-muted">
-					Expand rows to reveal detail panels. Use <code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowGrid</code> for
-					a quick key-value layout or <code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowTabs</code> for tabbed content.
+					Expand rows to reveal detail panels. Use{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowGrid</code> for a
+					quick key-value layout or{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowTabs</code> for
+					tabbed content.
 				</p>
 
 				<DocExampleClient
@@ -655,7 +846,9 @@ function DataTablePage() {
 									{
 										label: "Historique",
 										value: "history",
-										content: <p className="text-sm text-fg-muted py-2">Timeline des activités...</p>,
+										content: (
+											<p className="text-sm text-fg-muted py-2">Timeline des activités...</p>
+										),
 									},
 								]}
 							/>
@@ -669,8 +862,8 @@ function DataTablePage() {
 
 			<DocSection id="grouping" title="Grouping & Aggregations">
 				<p className="text-sm text-fg-muted">
-					Group rows by column values and compute aggregations (sum, avg, min, max, count)
-					on grouped header rows.
+					Group rows by column values and compute aggregations (sum, avg, min, max, count) on
+					grouped header rows.
 				</p>
 				<DocExampleClient
 					title="Group by Stage"
@@ -684,7 +877,11 @@ function DataTablePage() {
 							col.text<Deal>("title", { title: "Opportunité" }),
 							col.text<Deal>("companyName", { title: "Entreprise" }),
 							col.currency<Deal>("amount", { title: "Montant", currency: "EUR", locale: "fr-FR" }),
-							col.numeric<Deal>("probability", { title: "Prob.", formatter: (v) => `${v}%`, align: "right" }),
+							col.numeric<Deal>("probability", {
+								title: "Prob.",
+								formatter: (v) => `${v}%`,
+								align: "right",
+							}),
 							col.status<Deal>("stage", { title: "Étape", statusMap: stageStatusMap }),
 						]}
 						getRowId={(row) => row.id}
@@ -700,7 +897,8 @@ function DataTablePage() {
 
 			<DocSection id="inline-editing" title="Inline Editing">
 				<p className="text-sm text-fg-muted">
-					Turn any table into a spreadsheet-like editor with <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.editable*()</code> columns,
+					Turn any table into a spreadsheet-like editor with{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.editable*()</code> columns,
 					keyboard navigation, and undo/redo history.
 				</p>
 				<DocExampleClient
@@ -727,8 +925,12 @@ function DataTablePage() {
 						<table className="w-full text-sm">
 							<thead>
 								<tr className="border-b border-edge">
-									<th className="py-2 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Key</th>
-									<th className="py-2 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Action</th>
+									<th className="py-2 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
+										Key
+									</th>
+									<th className="py-2 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
+										Action
+									</th>
 								</tr>
 							</thead>
 							<tbody className="text-fg-muted">
@@ -742,7 +944,9 @@ function DataTablePage() {
 								].map(([key, action]) => (
 									<tr key={key} className="border-b border-edge last:border-0">
 										<td className="py-2 pr-4">
-											<kbd className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono text-fg">{key}</kbd>
+											<kbd className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono text-fg">
+												{key}
+											</kbd>
 										</td>
 										<td className="py-2 text-xs">{action}</td>
 									</tr>
@@ -755,8 +959,9 @@ function DataTablePage() {
 
 			<DocSection id="crm-presets" title="CRM Presets">
 				<p className="text-sm text-fg-muted">
-					Domain-specific presets for Forge CRM. Each preset provides columns, views, row actions, and bulk actions
-					tailored to the domain — all built with <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.*</code>.
+					Domain-specific presets for Forge CRM. Each preset provides columns, views, row actions,
+					and bulk actions tailored to the domain — all built with{" "}
+					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.*</code>.
 				</p>
 				<Tabs defaultValue="companies" className="w-full">
 					<TabsList>
@@ -912,21 +1117,81 @@ function DataTablePage() {
 				</p>
 				<div className="grid gap-3 md:grid-cols-2">
 					{[
-						{ name: "CRM Companies", fn: "createCompaniesPreset()", desc: "Company management with industry, revenue, and status views." },
-						{ name: "CRM Contacts", fn: "createContactsPreset()", desc: "Contact management with company links and primary badge." },
-						{ name: "CRM Deals", fn: "createDealsPreset()", desc: "Deal pipeline with stage badges, probability, and amount." },
-						{ name: "CRM Quotes", fn: "createQuotesPreset()", desc: "Quote management with duplicate, print, and delete actions." },
-						{ name: "CRM Products", fn: "createProductsPreset()", desc: "Product catalog with category filters and deactivation." },
-						{ name: "Editable Deals", fn: "createEditableDealsPreset()", desc: "Inline-editable deal table with text, number, and select cells." },
-						{ name: "TalentFlow Candidates", fn: "createCandidatesPreset()", desc: "ATS candidate tracking with skills tags and pipeline stages." },
-						{ name: "TalentFlow Jobs", fn: "createJobsPreset()", desc: "Job posting management with status and applicant counts." },
-						{ name: "StockBase Inventory", fn: "createInventoryPreset()", desc: "Inventory management with stock levels and reorder alerts." },
-						{ name: "StockBase Movements", fn: "createMovementsPreset()", desc: "Stock movement history with in/out tracking." },
-						{ name: "User Management", fn: "createUserManagementPreset()", desc: "User listing with status filtering and bulk operations." },
-						{ name: "Invitations", fn: "createInvitationPreset()", desc: "Invitation management with status tracking and resend." },
-						{ name: "Order Management", fn: "createOrderManagementPreset()", desc: "Order tracking with fulfillment and payment status." },
-						{ name: "Linear Issues", fn: "createLinearIssuesPreset()", desc: "Linear-style issue tracker with priority bars, status dots, and grouping." },
-						{ name: "Spreadsheet", fn: "createSpreadsheetPreset()", desc: "Generic Airtable-style editable table with typed columns." },
+						{
+							name: "CRM Companies",
+							fn: "createCompaniesPreset()",
+							desc: "Company management with industry, revenue, and status views.",
+						},
+						{
+							name: "CRM Contacts",
+							fn: "createContactsPreset()",
+							desc: "Contact management with company links and primary badge.",
+						},
+						{
+							name: "CRM Deals",
+							fn: "createDealsPreset()",
+							desc: "Deal pipeline with stage badges, probability, and amount.",
+						},
+						{
+							name: "CRM Quotes",
+							fn: "createQuotesPreset()",
+							desc: "Quote management with duplicate, print, and delete actions.",
+						},
+						{
+							name: "CRM Products",
+							fn: "createProductsPreset()",
+							desc: "Product catalog with category filters and deactivation.",
+						},
+						{
+							name: "Editable Deals",
+							fn: "createEditableDealsPreset()",
+							desc: "Inline-editable deal table with text, number, and select cells.",
+						},
+						{
+							name: "TalentFlow Candidates",
+							fn: "createCandidatesPreset()",
+							desc: "ATS candidate tracking with skills tags and pipeline stages.",
+						},
+						{
+							name: "TalentFlow Jobs",
+							fn: "createJobsPreset()",
+							desc: "Job posting management with status and applicant counts.",
+						},
+						{
+							name: "StockBase Inventory",
+							fn: "createInventoryPreset()",
+							desc: "Inventory management with stock levels and reorder alerts.",
+						},
+						{
+							name: "StockBase Movements",
+							fn: "createMovementsPreset()",
+							desc: "Stock movement history with in/out tracking.",
+						},
+						{
+							name: "User Management",
+							fn: "createUserManagementPreset()",
+							desc: "User listing with status filtering and bulk operations.",
+						},
+						{
+							name: "Invitations",
+							fn: "createInvitationPreset()",
+							desc: "Invitation management with status tracking and resend.",
+						},
+						{
+							name: "Order Management",
+							fn: "createOrderManagementPreset()",
+							desc: "Order tracking with fulfillment and payment status.",
+						},
+						{
+							name: "Linear Issues",
+							fn: "createLinearIssuesPreset()",
+							desc: "Linear-style issue tracker with priority bars, status dots, and grouping.",
+						},
+						{
+							name: "Spreadsheet",
+							fn: "createSpreadsheetPreset()",
+							desc: "Generic Airtable-style editable table with typed columns.",
+						},
 					].map((preset) => (
 						<div key={preset.fn} className="border border-edge rounded-lg p-4">
 							<h3 className="font-semibold text-sm mb-1">{preset.name}</h3>
@@ -939,26 +1204,66 @@ function DataTablePage() {
 
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted text-sm">
-					<li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">col.*</code> for all column definitions — titles auto-derive, types are enforced.</li>
-					<li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">definePreset()</code> to build typed, reusable table configs.</li>
-					<li>Always provide <code className="text-xs bg-raised px-1 py-0.5 rounded">getRowId</code> when using selection, editing, or expand — prevents re-render bugs.</li>
-					<li>Pin identifier columns (name, title) left and status/action columns right for wide tables.</li>
-					<li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">expandMode="single"</code> for detail panels to keep the page scannable.</li>
-					<li>Combine grouping with aggregations to build mini-reports (sum totals, avg metrics).</li>
-					<li>Use <code className="text-xs bg-raised px-1 py-0.5 rounded">variant="spreadsheet"</code> with <code className="text-xs bg-raised px-1 py-0.5 rounded">enableCellEditing</code> for the full editing experience.</li>
+					<li>
+						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">col.*</code> for all column
+						definitions — titles auto-derive, types are enforced.
+					</li>
+					<li>
+						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">definePreset()</code> to
+						build typed, reusable table configs.
+					</li>
+					<li>
+						Always provide <code className="text-xs bg-raised px-1 py-0.5 rounded">getRowId</code>{" "}
+						when using selection, editing, or expand — prevents re-render bugs.
+					</li>
+					<li>
+						Pin identifier columns (name, title) left and status/action columns right for wide
+						tables.
+					</li>
+					<li>
+						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">expandMode="single"</code>{" "}
+						for detail panels to keep the page scannable.
+					</li>
+					<li>
+						Combine grouping with aggregations to build mini-reports (sum totals, avg metrics).
+					</li>
+					<li>
+						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">variant="spreadsheet"</code>{" "}
+						with <code className="text-xs bg-raised px-1 py-0.5 rounded">enableCellEditing</code>{" "}
+						for the full editing experience.
+					</li>
 					<li>Enable pagination for datasets with more than 25 rows.</li>
 					<li>Use views to save frequently used filter + sort combinations.</li>
-					<li>Use appropriate density for your context: compact for dashboards, comfortable for detailed views.</li>
+					<li>
+						Use appropriate density for your context: compact for dashboards, comfortable for
+						detailed views.
+					</li>
 				</ul>
 			</DocSection>
 
 			<DocSection id="related" title="Related">
 				<DocRelated
 					items={[
-						{ title: "Cell Types", href: "/docs/components/ui/cells", description: "21 specialized cell renderers for DataTable columns." },
-						{ title: "Badge", href: "/docs/components/ui/badge", description: "Status badges used by col.status() columns." },
-						{ title: "Avatar", href: "/docs/components/ui/avatar", description: "User avatars used by col.user() and col.avatarGroup()." },
-						{ title: "Table", href: "/docs/components/ui/table", description: "Simple semantic HTML table for lighter use cases." },
+						{
+							title: "Cell Types",
+							href: "/docs/components/ui/cells",
+							description: "21 specialized cell renderers for DataTable columns.",
+						},
+						{
+							title: "Badge",
+							href: "/docs/components/ui/badge",
+							description: "Status badges used by col.status() columns.",
+						},
+						{
+							title: "Avatar",
+							href: "/docs/components/ui/avatar",
+							description: "User avatars used by col.user() and col.avatarGroup().",
+						},
+						{
+							title: "Table",
+							href: "/docs/components/ui/table",
+							description: "Simple semantic HTML table for lighter use cases.",
+						},
 					]}
 				/>
 			</DocSection>

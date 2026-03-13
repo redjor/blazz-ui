@@ -1,12 +1,12 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { AlertCircle, CheckCircle2, Circle, Clock } from "lucide-react"
 import Link from "next/link"
-import { Circle, CheckCircle2, Clock, AlertCircle } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 export type TaskPriority = "low" | "medium" | "high" | "urgent"
 export type TaskStatus = "todo" | "in-progress" | "done" | "blocked"
@@ -25,7 +25,12 @@ export interface TaskCardProps {
 }
 
 function getInitials(name: string) {
-	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
+	return name
+		.split(" ")
+		.map((w) => w[0])
+		.join("")
+		.toUpperCase()
+		.slice(0, 2)
 }
 
 const priorityConfig = {
@@ -36,10 +41,10 @@ const priorityConfig = {
 } as const
 
 const statusConfig = {
-	"todo": { label: "To do", icon: Circle, color: "text-fg-muted" },
+	todo: { label: "To do", icon: Circle, color: "text-fg-muted" },
 	"in-progress": { label: "In progress", icon: Clock, color: "text-blue-500" },
-	"done": { label: "Done", icon: CheckCircle2, color: "text-emerald-500" },
-	"blocked": { label: "Blocked", icon: AlertCircle, color: "text-red-500" },
+	done: { label: "Done", icon: CheckCircle2, color: "text-emerald-500" },
+	blocked: { label: "Blocked", icon: AlertCircle, color: "text-red-500" },
 } as const
 
 function TaskCardBase({
@@ -65,7 +70,7 @@ function TaskCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-start gap-2.5">

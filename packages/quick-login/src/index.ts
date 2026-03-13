@@ -1,4 +1,4 @@
 // Components
-export { QuickAccountSelector } from './components';
+export { QuickAccountSelector } from "./components"
 // Types
-export type { ParsedAccountMetadata, QuickAccountSelectorProps, TestAccount } from './types';
+export type { ParsedAccountMetadata, QuickAccountSelectorProps, TestAccount } from "./types"

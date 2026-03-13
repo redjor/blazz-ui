@@ -1,10 +1,10 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import * as React from "react"
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 import type { LucideIcon } from "lucide-react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 
 // ---------------------------------------------------------------------------
 // ViewConfigPanel — Root container
@@ -15,12 +15,7 @@ interface ViewConfigPanelProps extends React.ComponentProps<"div"> {
 	width?: number
 }
 
-function ViewConfigPanelBase({
-	className,
-	width = 280,
-	style,
-	...props
-}: ViewConfigPanelProps) {
+function ViewConfigPanelBase({ className, width = 280, style, ...props }: ViewConfigPanelProps) {
 	return (
 		<div
 			data-slot="view-config-panel"
@@ -51,19 +46,11 @@ interface ViewConfigTabsProps {
 	className?: string
 }
 
-function ViewConfigTabs({
-	tabs,
-	value,
-	onValueChange,
-	className,
-}: ViewConfigTabsProps) {
+function ViewConfigTabs({ tabs, value, onValueChange, className }: ViewConfigTabsProps) {
 	return (
 		<div
 			data-slot="view-config-tabs"
-			className={cn(
-				"mx-3 mt-3 mb-1 flex items-center gap-0.5 rounded-lg bg-raised p-1",
-				className
-			)}
+			className={cn("mx-3 mt-3 mb-1 flex items-center gap-0.5 rounded-lg bg-raised p-1", className)}
 		>
 			{tabs.map((tab) => {
 				const isActive = tab.value === value
@@ -75,9 +62,7 @@ function ViewConfigTabs({
 						onClick={() => onValueChange(tab.value)}
 						className={cn(
 							"flex flex-1 cursor-pointer flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors duration-150 ease-out",
-							isActive
-								? "bg-surface text-fg shadow-sm"
-								: "text-fg-muted hover:text-fg"
+							isActive ? "bg-surface text-fg shadow-sm" : "text-fg-muted hover:text-fg"
 						)}
 					>
 						<Icon className="size-4" />
@@ -98,23 +83,12 @@ interface ViewConfigSectionProps extends React.ComponentProps<"div"> {
 	title?: string
 }
 
-function ViewConfigSection({
-	title,
-	className,
-	children,
-	...props
-}: ViewConfigSectionProps) {
+function ViewConfigSection({ title, className, children, ...props }: ViewConfigSectionProps) {
 	return (
-		<div
-			data-slot="view-config-section"
-			className={cn("flex flex-col", className)}
-			{...props}
-		>
+		<div data-slot="view-config-section" className={cn("flex flex-col", className)} {...props}>
 			{title && (
 				<div className="px-3 pb-1 pt-3">
-					<span className="text-[13px] font-medium text-fg">
-						{title}
-					</span>
+					<span className="text-[13px] font-medium text-fg">{title}</span>
 				</div>
 			)}
 			<div className="flex flex-col">{children}</div>
@@ -154,18 +128,11 @@ function ViewConfigFilterRow({
 	return (
 		<div
 			data-slot="view-config-filter-row"
-			className={cn(
-				"flex items-center gap-2 px-3 py-1.5",
-				className
-			)}
+			className={cn("flex items-center gap-2 px-3 py-1.5", className)}
 			{...props}
 		>
-			{Icon && (
-				<Icon className="size-3.5 shrink-0 text-fg-muted" />
-			)}
-			<span className="w-[72px] shrink-0 text-[13px] text-fg-muted">
-				{label}
-			</span>
+			{Icon && <Icon className="size-3.5 shrink-0 text-fg-muted" />}
+			<span className="w-[72px] shrink-0 text-[13px] text-fg-muted">{label}</span>
 			<div className="flex flex-1 items-center gap-1">{children}</div>
 		</div>
 	)
@@ -220,9 +187,7 @@ function ViewConfigToggle({
 					"data-disabled:cursor-not-allowed data-disabled:opacity-50"
 				)}
 			>
-				<SwitchPrimitive.Thumb
-					className="bg-fg rounded-full size-4 data-checked:translate-x-[calc(100%-2px)] data-unchecked:translate-x-0 pointer-events-none block ring-0 transition-transform"
-				/>
+				<SwitchPrimitive.Thumb className="bg-fg rounded-full size-4 data-checked:translate-x-[calc(100%-2px)] data-unchecked:translate-x-0 pointer-events-none block ring-0 transition-transform" />
 			</SwitchPrimitive.Root>
 		</label>
 	)
@@ -325,9 +290,7 @@ function ViewConfigFooterAction({
 			data-slot="view-config-footer-action"
 			className={cn(
 				"text-[13px] font-medium transition-colors duration-150 ease-out",
-				variant === "accent"
-					? "text-brand hover:text-brand/80"
-					: "text-fg-muted hover:text-fg",
+				variant === "accent" ? "text-brand hover:text-brand/80" : "text-fg-muted hover:text-fg",
 				className
 			)}
 			{...props}

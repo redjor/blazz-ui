@@ -1,10 +1,10 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { ArrowRight } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export interface StatusUpdateProps {
 	title: string
@@ -42,18 +42,20 @@ function StatusUpdateBase({
 			{(from || to) && (
 				<div className="mt-2 flex items-center gap-2">
 					{from && (
-						<Badge variant={fromVariant} size="xs" fill="subtle">{from}</Badge>
+						<Badge variant={fromVariant} size="xs" fill="subtle">
+							{from}
+						</Badge>
 					)}
 					{from && to && <ArrowRight className="size-3 text-fg-muted" />}
 					{to && (
-						<Badge variant={toVariant} size="xs" fill="subtle">{to}</Badge>
+						<Badge variant={toVariant} size="xs" fill="subtle">
+							{to}
+						</Badge>
 					)}
 				</div>
 			)}
 
-			{description && (
-				<p className="mt-2 text-xs text-fg-muted">{description}</p>
-			)}
+			{description && <p className="mt-2 text-xs text-fg-muted">{description}</p>}
 		</div>
 	)
 }

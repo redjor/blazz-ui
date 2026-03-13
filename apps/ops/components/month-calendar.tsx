@@ -1,21 +1,20 @@
 "use client"
 
-import { useMemo } from "react"
+import { cn } from "@blazz/ui/lib/utils"
 import {
-	format,
-	startOfMonth,
-	endOfMonth,
-	startOfWeek,
-	endOfWeek,
 	addDays,
+	endOfMonth,
+	endOfWeek,
+	format,
 	isSameMonth,
 	isToday,
 	isWeekend,
+	startOfMonth,
+	startOfWeek,
 } from "date-fns"
-import { fr } from "date-fns/locale"
-import { formatMinutes, formatCurrency } from "@/lib/format"
+import { useMemo } from "react"
 import type { Doc } from "@/convex/_generated/dataModel"
-import { cn } from "@blazz/ui/lib/utils"
+import { formatCurrency, formatMinutes } from "@/lib/format"
 
 type TimeEntry = Doc<"timeEntries">
 
@@ -45,10 +44,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 
 	// Build a map: dateStr → { totalMinutes, billableMinutes, amount }
 	const dayMap = useMemo(() => {
-		const map = new Map<
-			string,
-			{ totalMinutes: number; billableMinutes: number; amount: number }
-		>()
+		const map = new Map<string, { totalMinutes: number; billableMinutes: number; amount: number }>()
 		for (const entry of entries) {
 			const existing = map.get(entry.date) ?? {
 				totalMinutes: 0,
@@ -129,16 +125,10 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 					label="Moy. / jour"
 					value={
 						monthStats.daysWorked > 0
-							? formatMinutes(
-									Math.round(monthStats.totalMinutes / monthStats.daysWorked),
-								)
+							? formatMinutes(Math.round(monthStats.totalMinutes / monthStats.daysWorked))
 							: "—"
 					}
-					sub={
-						monthStats.daysWorked > 0
-							? `sur ${monthStats.daysWorked} jours`
-							: undefined
-					}
+					sub={monthStats.daysWorked > 0 ? `sur ${monthStats.daysWorked} jours` : undefined}
 				/>
 			</div>
 
@@ -160,10 +150,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 				{weeks.map((week, wi) => (
 					<div
 						key={wi}
-						className={cn(
-							"grid grid-cols-7",
-							wi < weeks.length - 1 && "border-b border-edge",
-						)}
+						className={cn("grid grid-cols-7", wi < weeks.length - 1 && "border-b border-edge")}
 					>
 						{week.map((day) => {
 							const dateStr = format(day, "yyyy-MM-dd")
@@ -172,8 +159,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 							const weekend = isWeekend(day)
 							const stats = dayMap.get(dateStr)
 							const mins = stats?.totalMinutes ?? 0
-							const intensity =
-								mins > 0 ? Math.max(mins / maxMinutes, 0.15) : 0
+							const intensity = mins > 0 ? Math.max(mins / maxMinutes, 0.15) : 0
 
 							return (
 								<div
@@ -182,7 +168,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 										"relative min-h-[72px] p-1.5 transition-colors",
 										!inMonth && "opacity-30",
 										weekend && inMonth && "bg-surface/50",
-										"[&:not(:last-child)]:border-r border-edge",
+										"[&:not(:last-child)]:border-r border-edge"
 									)}
 								>
 									{/* Day number */}
@@ -192,7 +178,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 												"text-xs font-medium leading-none",
 												today
 													? "bg-brand text-white size-5 rounded-full flex items-center justify-center"
-													: "text-fg-muted",
+													: "text-fg-muted"
 											)}
 										>
 											{format(day, "d")}
@@ -227,16 +213,10 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 	)
 }
 
-function SummaryCard({
-	label,
-	value,
-	sub,
-}: { label: string; value: string; sub?: string }) {
+function SummaryCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
 	return (
 		<div className="rounded-lg border border-edge bg-raised p-4">
-			<p className="text-xs text-fg-muted uppercase tracking-wide mb-1">
-				{label}
-			</p>
+			<p className="text-xs text-fg-muted uppercase tracking-wide mb-1">{label}</p>
 			<p className="text-2xl font-semibold font-mono text-fg">{value}</p>
 			{sub && <p className="text-xs text-fg-muted mt-1">{sub}</p>}
 		</div>

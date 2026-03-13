@@ -10,7 +10,7 @@ export default defineConfig({
 	treeshake: true,
 	define: {
 		"process.env.BLAZZ_LICENSE_SECRET": JSON.stringify(
-			process.env.BLAZZ_LICENSE_SECRET || "__BLAZZ_DEV__",
+			process.env.BLAZZ_LICENSE_SECRET || "__BLAZZ_DEV__"
 		),
 	},
 })

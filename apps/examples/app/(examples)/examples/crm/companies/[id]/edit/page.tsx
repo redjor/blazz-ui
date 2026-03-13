@@ -1,25 +1,20 @@
 "use client"
 
-import { notFound } from "next/navigation"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { FormField } from "@blazz/ui/components/patterns/form-field"
+import { FormSection } from "@blazz/ui/components/patterns/form-section"
+import { Button } from "@blazz/ui/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Save, X } from "lucide-react"
+import { notFound, useRouter } from "next/navigation"
 import { use } from "react"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { Save, X } from "lucide-react"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { FormSection } from "@blazz/ui/components/patterns/form-section"
-import { FormField } from "@blazz/ui/components/patterns/form-field"
-import { FieldGrid } from "@blazz/ui/components/patterns/field-grid"
-import { Button } from "@blazz/ui/components/ui/button"
 import { getCompanyById } from "@/lib/sample-data"
-import { companySchema, type CompanyFormData } from "@/lib/schemas"
+import { type CompanyFormData, companySchema } from "@/lib/schemas"
 
-export default function EditCompanyPage({
-	params,
-}: {
-	params: Promise<{ id: string }>
-}) {
+export default function EditCompanyPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = use(params)
 	const company = getCompanyById(id)
 	const router = useRouter()

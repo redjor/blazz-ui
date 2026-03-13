@@ -1,12 +1,12 @@
+import { FileUpload } from "@blazz/ui/components/ui/file-upload"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
-import { FileUpload } from "@blazz/ui/components/ui/file-upload"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -131,7 +131,8 @@ function ControlledFileUploadDemo() {
 				description="Drag and drop or click to upload"
 			/>
 			<p className="text-xs text-fg-muted">
-				{files.length} file(s) selected{files.length > 0 && `: ${files.map((f) => f.name).join(", ")}`}
+				{files.length} file(s) selected
+				{files.length > 0 && `: ${files.map((f) => f.name).join(", ")}`}
 			</p>
 		</div>
 	)
@@ -148,11 +149,7 @@ function FileUploadPage() {
 			toc={toc}
 		>
 			<DocHero>
-				<FileUpload
-					accept="image/*"
-					description="PNG, JPG up to 10MB"
-					className="max-w-md"
-				/>
+				<FileUpload accept="image/*" description="PNG, JPG up to 10MB" className="max-w-md" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">

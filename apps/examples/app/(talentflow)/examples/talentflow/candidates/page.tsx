@@ -1,10 +1,10 @@
 "use client"
 
+import { createCandidatesPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Box } from "@blazz/ui/components/ui/box"
 import { useMemo } from "react"
 import { toast } from "sonner"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DataTable, createCandidatesPreset } from "@blazz/ui/components/blocks/data-table"
-import { Box } from "@blazz/ui/components/ui/box"
 import { candidates } from "@/lib/talentflow-data"
 
 export default function CandidatesPage() {
@@ -15,7 +15,7 @@ export default function CandidatesPage() {
 				onBulkArchive: (items) => toast.success(`${items.length} candidat(s) archivé(s)`),
 				onBulkDelete: (items) => toast.success(`${items.length} candidat(s) supprimé(s)`),
 			}),
-		[],
+		[]
 	)
 
 	return (

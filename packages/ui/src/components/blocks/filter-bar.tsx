@@ -1,12 +1,12 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useCallback } from "react"
-import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Search, X } from "lucide-react"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useCallback } from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
 
 /* ─── Filter Config ─── */
 
@@ -44,11 +44,7 @@ export interface FilterBarProps {
 
 /* ─── Component ─── */
 
-function FilterBarBase({
-	filters,
-	values = {},
-	className,
-}: FilterBarProps) {
+function FilterBarBase({ filters, values = {}, className }: FilterBarProps) {
 	const router = useRouter()
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
@@ -72,9 +68,7 @@ function FilterBarBase({
 		router.push(pathname)
 	}, [router, pathname])
 
-	const hasActiveFilters = filters.some(
-		(f) => values[f.id] !== undefined && values[f.id] !== ""
-	)
+	const hasActiveFilters = filters.some((f) => values[f.id] !== undefined && values[f.id] !== "")
 
 	return (
 		<div className={cn("flex flex-wrap items-center gap-3 pb-4", className)}>
@@ -107,16 +101,9 @@ function FilterBarBase({
 									!values[filter.id] && "text-fg-muted"
 								)}
 								value={values[filter.id] || ""}
-								onChange={(e) =>
-									updateParam(
-										filter.id,
-										e.target.value || undefined
-									)
-								}
+								onChange={(e) => updateParam(filter.id, e.target.value || undefined)}
 							>
-								<option value="">
-									{filter.placeholder || filter.label || "Tous"}
-								</option>
+								<option value="">{filter.placeholder || filter.label || "Tous"}</option>
 								{filter.options.map((opt) => (
 									<option key={opt.value} value={opt.value}>
 										{opt.label}
@@ -132,10 +119,7 @@ function FilterBarBase({
 								className="h-8 w-[160px] text-sm"
 								value={values[filter.id] || ""}
 								onChange={(e) =>
-									updateParam(
-										filter.id,
-										(e.target as HTMLInputElement).value || undefined
-									)
+									updateParam(filter.id, (e.target as HTMLInputElement).value || undefined)
 								}
 							/>
 						)

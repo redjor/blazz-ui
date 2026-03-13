@@ -1,11 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
-import Link from "next/link"
 import { Package } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import Link from "next/link"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export type ProductStatus = "active" | "draft" | "archived"
 
@@ -46,16 +46,12 @@ function ProductCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-start gap-3">
 				{image ? (
-					<img
-						src={image}
-						alt={name}
-						className="mt-0.5 size-10 shrink-0 rounded-md object-cover"
-					/>
+					<img src={image} alt={name} className="mt-0.5 size-10 shrink-0 rounded-md object-cover" />
 				) : (
 					<div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-md bg-raised">
 						<Package className="size-4 text-fg-muted" />

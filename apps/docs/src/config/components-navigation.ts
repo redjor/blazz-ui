@@ -1,5 +1,5 @@
-import { Circle, type LucideIcon } from "lucide-react"
 import type { NavigationItem } from "@blazz/ui/types/navigation"
+import { Circle, type LucideIcon } from "lucide-react"
 import { sidebarConfig } from "./navigation"
 
 export interface ComponentNavItem {

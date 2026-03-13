@@ -1,5 +1,5 @@
-import * as React from "react"
 import { X } from "lucide-react"
+import type * as React from "react"
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
 
@@ -88,12 +88,7 @@ export function CalloutCard({
 
 			{illustration && (
 				<div className="hidden shrink-0 sm:block">
-					<img
-						src={illustration}
-						alt=""
-						className="h-24 w-24 object-contain"
-						aria-hidden="true"
-					/>
+					<img src={illustration} alt="" className="h-24 w-24 object-contain" aria-hidden="true" />
 				</div>
 			)}
 		</div>

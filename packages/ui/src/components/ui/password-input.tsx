@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 
 export interface PasswordInputProps extends Omit<React.ComponentProps<"input">, "type"> {
@@ -44,11 +44,7 @@ function PasswordInput({ className, showToggle = true, ...props }: PasswordInput
 					className="absolute right-2 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg transition-colors outline-none"
 					aria-label={visible ? "Hide password" : "Show password"}
 				>
-					{visible ? (
-						<EyeOffIcon className="size-4" />
-					) : (
-						<EyeIcon className="size-4" />
-					)}
+					{visible ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
 				</button>
 			)}
 		</div>

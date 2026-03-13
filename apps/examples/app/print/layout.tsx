@@ -2,7 +2,7 @@ import type * as React from "react"
 
 export default function PrintLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html>
+		<html lang="fr">
 			<body className="bg-white text-black">
 				<div className="mx-auto max-w-4xl px-8 py-6 print:px-0 print:py-0">
 					{/* Print header */}

@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { Card, CardContent, CardHeader } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { Card, CardHeader, CardContent } from "@blazz/ui/components/ui/card"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -98,7 +98,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/skeleton")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -107,8 +107,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/skeleton")({
 
 function SkeletonPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -238,10 +237,18 @@ function SkeletonPage() {
 					Skeleton uses the design system tokens for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-raised</code> - Skeleton background color</li>
-					<li><code className="text-xs">rounded-md</code> - Default border radius (0.375rem)</li>
-					<li><code className="text-xs">animate-pulse</code> - Pulsing animation</li>
-					<li><code className="text-xs">rounded-full</code> - For circular skeletons (avatars)</li>
+					<li>
+						<code className="text-xs">bg-raised</code> - Skeleton background color
+					</li>
+					<li>
+						<code className="text-xs">rounded-md</code> - Default border radius (0.375rem)
+					</li>
+					<li>
+						<code className="text-xs">animate-pulse</code> - Pulsing animation
+					</li>
+					<li>
+						<code className="text-xs">rounded-full</code> - For circular skeletons (avatars)
+					</li>
 				</ul>
 				<div className="space-y-4">
 					<h3 className="font-semibold text-sm text-fg">Common Patterns</h3>

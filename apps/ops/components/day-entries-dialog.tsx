@@ -1,18 +1,13 @@
 "use client"
 
+import { Button } from "@blazz/ui/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Pencil, Plus, Trash2 } from "lucide-react"
-import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { EntryStatusBadge } from "@/components/entry-status-badge"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatMinutes } from "@/lib/format"
-import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { getEffectiveStatus } from "@/lib/time-entry-status"
 
 type TimeEntry = Doc<"timeEntries">
@@ -38,9 +33,7 @@ export function DayEntriesDialog({
 	onDelete,
 	onAdd,
 }: DayEntriesDialogProps) {
-	const dateLabel = date
-		? format(new Date(`${date}T00:00:00`), "EEEE d MMMM", { locale: fr })
-		: ""
+	const dateLabel = date ? format(new Date(`${date}T00:00:00`), "EEEE d MMMM", { locale: fr }) : ""
 	const totalMinutes = entries.reduce((sum, e) => sum + e.minutes, 0)
 
 	return (
@@ -71,9 +64,7 @@ export function DayEntriesDialog({
 									<EntryStatusBadge status={getEffectiveStatus(entry)} />
 								</div>
 								{entry.description && (
-									<p className="text-xs text-fg-muted mt-0.5 truncate">
-										{entry.description}
-									</p>
+									<p className="text-xs text-fg-muted mt-0.5 truncate">{entry.description}</p>
 								)}
 							</div>
 							<div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">

@@ -1,7 +1,7 @@
 "use client"
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { useTheme } from "next-themes"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 
 export type ThemePalette = "slate" | "corporate" | "warm"
 

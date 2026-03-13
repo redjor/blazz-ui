@@ -1,12 +1,12 @@
 "use client"
 
-import { Paintbrush, Check } from "lucide-react"
-import { useThemePalette, type ThemePalette } from "../../lib/theme-context"
+import { Check, Paintbrush } from "lucide-react"
+import { type ThemePalette, useThemePalette } from "../../lib/theme-context"
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 
 const palettes: { id: ThemePalette; label: string; color: string }[] = [
@@ -34,10 +34,7 @@ export function ThemePaletteSwitcher() {
 			<DropdownMenuContent align="end" sideOffset={8}>
 				{palettes.map((p) => (
 					<DropdownMenuItem key={p.id} onClick={() => setPalette(p.id)}>
-						<span
-							className="h-3 w-3 rounded-full shrink-0"
-							style={{ backgroundColor: p.color }}
-						/>
+						<span className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
 						<span className="flex-1">{p.label}</span>
 						{palette === p.id && <Check className="h-3.5 w-3.5 text-fg-muted" />}
 					</DropdownMenuItem>

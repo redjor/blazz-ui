@@ -1,12 +1,12 @@
+import { ColorPicker } from "@blazz/ui/components/ui/color-picker"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
-import { ColorPicker } from "@blazz/ui/components/ui/color-picker"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -97,9 +97,7 @@ function ControlledColorPickerDemo() {
 	return (
 		<div className="space-y-3">
 			<ColorPicker value={color} onValueChange={setColor} />
-			<p className="text-xs text-fg-muted">
-				Selected: {color || "none"}
-			</p>
+			<p className="text-xs text-fg-muted">Selected: {color || "none"}</p>
 		</div>
 	)
 }
@@ -144,10 +142,7 @@ function ColorPickerPage() {
 					highlightedCode={html("custom-presets")}
 				>
 					<ColorPicker
-						presets={[
-							"#ef4444", "#f97316", "#eab308",
-							"#22c55e", "#3b82f6", "#8b5cf6",
-						]}
+						presets={["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6"]}
 					/>
 				</DocExampleClient>
 

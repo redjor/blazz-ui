@@ -1,13 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router"
 import {
 	Reasoning,
-	ReasoningTrigger,
 	ReasoningContent,
+	ReasoningTrigger,
 } from "@blazz/ui/components/ai/reasoning/reasoning"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -66,8 +66,7 @@ Let me structure the response clearly with practical examples for each technique
 
 function ReasoningPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -95,7 +94,9 @@ function ReasoningPage() {
 						<Reasoning defaultOpen duration={8}>
 							<ReasoningTrigger />
 							<ReasoningContent>
-								The user wants to understand how React Server Components work. Let me break this down into the key concepts: server-only rendering, zero client-side JavaScript for server components, and the boundary between server and client components.
+								The user wants to understand how React Server Components work. Let me break this
+								down into the key concepts: server-only rendering, zero client-side JavaScript for
+								server components, and the boundary between server and client components.
 							</ReasoningContent>
 						</Reasoning>
 					</div>
@@ -111,7 +112,9 @@ function ReasoningPage() {
 						<Reasoning defaultOpen={false} duration={5}>
 							<ReasoningTrigger />
 							<ReasoningContent>
-								I need to analyze the user's codebase structure and identify potential areas for optimization. The main bottlenecks appear to be in the data fetching layer and the rendering pipeline.
+								I need to analyze the user's codebase structure and identify potential areas for
+								optimization. The main bottlenecks appear to be in the data fetching layer and the
+								rendering pipeline.
 							</ReasoningContent>
 						</Reasoning>
 					</div>
@@ -127,7 +130,8 @@ function ReasoningPage() {
 						<Reasoning isStreaming defaultOpen>
 							<ReasoningTrigger />
 							<ReasoningContent>
-								Analyzing the question about state management patterns. I should compare different approaches including local state, context, and external stores...
+								Analyzing the question about state management patterns. I should compare different
+								approaches including local state, context, and external stores...
 							</ReasoningContent>
 						</Reasoning>
 					</div>

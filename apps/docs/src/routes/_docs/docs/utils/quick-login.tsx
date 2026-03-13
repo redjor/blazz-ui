@@ -1,14 +1,14 @@
 "use client"
 
+import type { TestAccount } from "@blazz/quick-login"
+import { QuickAccountSelector } from "@blazz/quick-login"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
-import { QuickAccountSelector } from "@blazz/quick-login"
-import type { TestAccount } from "@blazz/quick-login"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -114,7 +114,7 @@ export const Route = createFileRoute("/_docs/docs/utils/quick-login")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -223,7 +223,8 @@ const accountProps: DocProp[] = [
 	{
 		name: "avatarUrl",
 		type: "string",
-		description: "Optional avatar image URL. Falls back to initials if not provided or fails to load.",
+		description:
+			"Optional avatar image URL. Falls back to initials if not provided or fails to load.",
 	},
 ]
 
@@ -266,17 +267,15 @@ function QuickLoginPage() {
 			<DocSection id="setup" title="Setup">
 				<ol className="list-decimal list-inside space-y-2 text-sm text-fg-muted">
 					<li>
-						Add{" "}
-						<code className="text-fg">@blazz/quick-login</code> to your app's dependencies.
+						Add <code className="text-fg">@blazz/quick-login</code> to your app's dependencies.
 					</li>
 					<li>
 						Import the CSS once at the root of your app:{" "}
-						<code className="text-fg">import "@blazz/quick-login/styles.css"</code> — required
-						for the slide animations to work.
+						<code className="text-fg">import "@blazz/quick-login/styles.css"</code> — required for
+						the slide animations to work.
 					</li>
 					<li>
-						Drop{" "}
-						<code className="text-fg">{"<QuickAccountSelector />"}</code> anywhere in your
+						Drop <code className="text-fg">{"<QuickAccountSelector />"}</code> anywhere in your
 						login page tree. It renders as <code className="text-fg">null</code> outside of{" "}
 						<code className="text-fg">NODE_ENV === "development"</code> unless you pass{" "}
 						<code className="text-fg">forceShow</code>.

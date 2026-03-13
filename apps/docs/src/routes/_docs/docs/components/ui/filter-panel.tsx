@@ -1,33 +1,33 @@
 "use client"
 
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import {
-	Search,
-	Settings2,
-	Repeat,
-	BarChart3,
-	Percent,
-	Activity,
-	Layers,
-	CircleDot,
-	CircleOff,
-} from "lucide-react"
 import {
 	FilterPanel,
-	FilterPanelHeader,
-	FilterPanelTabs,
-	FilterPanelActions,
 	FilterPanelAction,
-	FilterPanelSection,
+	FilterPanelActions,
 	FilterPanelCheckboxItem,
+	FilterPanelHeader,
+	FilterPanelSection,
+	FilterPanelTabs,
 	FilterPanelTreeItem,
 } from "@blazz/ui/components/ui/filter-panel"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import {
+	Activity,
+	BarChart3,
+	CircleDot,
+	CircleOff,
+	Layers,
+	Percent,
+	Repeat,
+	Search,
+	Settings2,
+} from "lucide-react"
+import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -186,7 +186,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/filter-panel")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -249,7 +249,7 @@ function DefaultExample() {
 					icon={<Layers className="size-3.5" />}
 					label="Options"
 					count={3}
-					checked={checked["Options"] ?? false}
+					checked={checked.Options ?? false}
 					onCheckedChange={toggle("Options")}
 				/>
 				<FilterPanelCheckboxItem
@@ -302,8 +302,7 @@ function MultiSectionExample() {
 
 function FilterPanelPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

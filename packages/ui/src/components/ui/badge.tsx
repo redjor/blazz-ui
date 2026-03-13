@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
-import { X } from "lucide-react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { X } from "lucide-react"
 
 import { cn } from "../../lib/utils"
 
@@ -31,22 +31,42 @@ const badgeVariants = cva(
 		compoundVariants: [
 			// Default
 			{ variant: "default", fill: "solid", className: "bg-brand text-brand-fg" },
-			{ variant: "default", fill: "subtle", className: "bg-brand/15 text-brand border border-brand/30" },
+			{
+				variant: "default",
+				fill: "subtle",
+				className: "bg-brand/15 text-brand border border-brand/30",
+			},
 			// Secondary
 			{ variant: "secondary", fill: "solid", className: "bg-fg-muted text-surface" },
 			{ variant: "secondary", fill: "subtle", className: "bg-raised text-fg-muted" },
 			// Info
 			{ variant: "info", fill: "solid", className: "bg-inform text-white" },
-			{ variant: "info", fill: "subtle", className: "bg-inform/15 text-inform border border-inform/30" },
+			{
+				variant: "info",
+				fill: "subtle",
+				className: "bg-inform/15 text-inform border border-inform/30",
+			},
 			// Success
 			{ variant: "success", fill: "solid", className: "bg-positive text-white" },
-			{ variant: "success", fill: "subtle", className: "bg-positive/15 text-positive border border-positive/30" },
+			{
+				variant: "success",
+				fill: "subtle",
+				className: "bg-positive/15 text-positive border border-positive/30",
+			},
 			// Warning
 			{ variant: "warning", fill: "solid", className: "bg-caution text-white" },
-			{ variant: "warning", fill: "subtle", className: "bg-caution/15 text-caution border border-caution/30" },
+			{
+				variant: "warning",
+				fill: "subtle",
+				className: "bg-caution/15 text-caution border border-caution/30",
+			},
 			// Critical
 			{ variant: "critical", fill: "solid", className: "bg-negative text-white" },
-			{ variant: "critical", fill: "subtle", className: "bg-negative/15 text-negative border border-negative/30" },
+			{
+				variant: "critical",
+				fill: "subtle",
+				className: "bg-negative/15 text-negative border border-negative/30",
+			},
 		],
 		defaultVariants: {
 			variant: "default",
@@ -82,9 +102,7 @@ const dotSizeMap: Record<string, string> = {
 	md: "size-2",
 }
 
-interface BadgeProps
-	extends useRender.ComponentProps<"span">,
-		VariantProps<typeof badgeVariants> {
+interface BadgeProps extends useRender.ComponentProps<"span">, VariantProps<typeof badgeVariants> {
 	dot?: boolean
 	onDismiss?: () => void
 }
@@ -119,9 +137,7 @@ function Badge({
 								className={cn(
 									"shrink-0 rounded-full",
 									dotSizeMap[sizeKey],
-									fillKey === "solid"
-										? dotSolidColorMap[variantKey]
-										: dotColorMap[variantKey]
+									fillKey === "solid" ? dotSolidColorMap[variantKey] : dotColorMap[variantKey]
 								)}
 							/>
 						)}

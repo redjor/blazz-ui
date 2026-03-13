@@ -1,12 +1,8 @@
-import { notFound } from "next/navigation"
 import { QuotePreview } from "@blazz/ui/components/blocks/quote-preview"
-import { getQuoteById, getQuoteLines, getCompanyById } from "@/lib/sample-data"
+import { notFound } from "next/navigation"
+import { getCompanyById, getQuoteById, getQuoteLines } from "@/lib/sample-data"
 
-export default async function PrintQuotePage({
-	params,
-}: {
-	params: Promise<{ id: string }>
-}) {
+export default async function PrintQuotePage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
 	const quote = getQuoteById(id)
 

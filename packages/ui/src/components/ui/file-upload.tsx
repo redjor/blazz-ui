@@ -1,7 +1,7 @@
 "use client"
 
+import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react"
 import * as React from "react"
-import { UploadCloudIcon, XIcon, FileIcon } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 export interface FileUploadProps {
@@ -107,9 +107,7 @@ function FileUpload({
 			>
 				<UploadCloudIcon className="size-8 text-fg-muted" />
 				<p className="text-sm text-fg-muted">{placeholder}</p>
-				{description && (
-					<p className="text-xs text-fg-muted">{description}</p>
-				)}
+				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
 
 			<input

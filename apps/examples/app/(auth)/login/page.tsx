@@ -1,13 +1,13 @@
 "use client"
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { loginSchema, type LoginFormData } from "@/lib/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { type LoginFormData, loginSchema } from "@/lib/schemas"
 
 export default function LoginPage() {
 	const router = useRouter()
@@ -25,9 +25,7 @@ export default function LoginPage() {
 		<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1 text-center">
 				<h2 className="text-lg font-semibold">Connexion</h2>
-				<p className="text-sm text-fg-muted">
-					Entrez vos identifiants pour accéder au CRM
-				</p>
+				<p className="text-sm text-fg-muted">Entrez vos identifiants pour accéder au CRM</p>
 			</div>
 
 			<div className="space-y-3">
@@ -47,10 +45,7 @@ export default function LoginPage() {
 				<div className="space-y-1.5">
 					<div className="flex items-center justify-between">
 						<Label htmlFor="password">Mot de passe</Label>
-						<Link
-							href="/forgot-password"
-							className="text-xs text-fg-muted hover:underline"
-						>
+						<Link href="/forgot-password" className="text-xs text-fg-muted hover:underline">
 							Mot de passe oublié ?
 						</Link>
 					</div>

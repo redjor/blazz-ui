@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [

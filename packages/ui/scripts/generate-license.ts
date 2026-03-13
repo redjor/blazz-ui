@@ -48,7 +48,7 @@ async function main() {
 		enc.encode(secret),
 		{ name: "HMAC", hash: "SHA-256" },
 		false,
-		["sign"],
+		["sign"]
 	)
 	const sig = await crypto.subtle.sign("HMAC", key, enc.encode(payload))
 	const signature = bytesToHex(new Uint8Array(sig)).slice(0, 16)

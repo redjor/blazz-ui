@@ -1,17 +1,17 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import {
 	type ChartConfig,
 	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
 	ChartLegend,
 	ChartLegendContent,
+	ChartTooltip,
+	ChartTooltipContent,
 } from "../ui/chart"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card"
-import { cn } from "../../lib/utils"
 
 const defaultData = [
 	{ month: "Jan", desktop: 186, mobile: 80 },
@@ -62,12 +62,7 @@ function LineChartBlockBase({
 				<ChartContainer config={config} className="min-h-[200px] w-full">
 					<LineChart accessibilityLayer data={data}>
 						<CartesianGrid vertical={false} />
-						<XAxis
-							dataKey={xKey}
-							tickLine={false}
-							tickMargin={10}
-							axisLine={false}
-						/>
+						<XAxis dataKey={xKey} tickLine={false} tickMargin={10} axisLine={false} />
 						<ChartTooltip content={<ChartTooltipContent />} />
 						<ChartLegend content={<ChartLegendContent />} />
 						{dataKeys.map((key) => (

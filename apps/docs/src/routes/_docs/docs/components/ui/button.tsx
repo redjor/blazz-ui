@@ -1,15 +1,15 @@
-import { createFileRoute, useLoaderData } from "@tanstack/react-router"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Spinner } from "@blazz/ui/components/ui/spinner"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { createFileRoute, useLoaderData } from "@tanstack/react-router"
+import { ChevronRight, Mail, Plus } from "lucide-react"
 import { DocDoDont } from "~/components/docs/doc-do-dont"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
-import { Mail, ChevronRight, Plus } from "lucide-react"
 
 const examples = [
 	{
@@ -113,8 +113,7 @@ const buttonProps: DocProp[] = [
 function ButtonPage() {
 	const { highlighted } = useLoaderData({ from: "/_docs/docs/components/ui/button" })
 
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -265,13 +264,9 @@ function ButtonPage() {
 					dontText="Don't use multiple primary buttons -- it creates confusion about the main action."
 				/>
 				<DocDoDont
-					doExample={
-						<Button variant="destructive">Delete account</Button>
-					}
+					doExample={<Button variant="destructive">Delete account</Button>}
 					doText="Use destructive variant only for irreversible, dangerous actions."
-					dontExample={
-						<Button variant="destructive">Cancel</Button>
-					}
+					dontExample={<Button variant="destructive">Cancel</Button>}
 					dontText="Don't use destructive for cancel or dismiss actions."
 				/>
 			</DocSection>

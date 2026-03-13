@@ -1,12 +1,12 @@
 "use client"
 
-import { ConvexAuthNextjsProvider } from "@convex-dev/auth/nextjs"
 import { BlazzProvider } from "@blazz/ui"
 import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
-import { ThemeAwareToaster } from "@/components/theme-aware-toaster"
+import { ConvexAuthNextjsProvider } from "@convex-dev/auth/nextjs"
 import { ConvexReactClient } from "convex/react"
 import { ThemeProvider } from "next-themes"
 import type { ReactNode } from "react"
+import { ThemeAwareToaster } from "@/components/theme-aware-toaster"
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 

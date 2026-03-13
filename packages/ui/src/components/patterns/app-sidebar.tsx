@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
+import { cn } from "../../lib/utils"
+import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
 import {
 	Sidebar,
 	SidebarCollapsible,
@@ -23,8 +25,6 @@ import {
 	SidebarRail,
 } from "../ui/sidebar"
 import { SidebarUserMenu } from "./sidebar-user"
-import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
-import { cn } from "../../lib/utils"
 
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	config: SidebarConfig
@@ -84,9 +84,7 @@ export function AppSidebar({ config, header, className, ...props }: AppSidebarPr
 	return (
 		<Sidebar collapsible="none" {...props} className={cn("w-[240px] top-[56px]", className)}>
 			{header && (
-				<SidebarHeader className="border-b border-edge-subtle pb-2">
-					{header}
-				</SidebarHeader>
+				<SidebarHeader className="border-b border-edge-subtle pb-2">{header}</SidebarHeader>
 			)}
 			<SidebarContent>
 				{config.navigation.map((section) => (

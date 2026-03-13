@@ -1,15 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@blazz/ui/components/ui/card"
+import { Button } from "@blazz/ui/components/ui/button"
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@blazz/ui/components/ui/card"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Button } from "@blazz/ui/components/ui/button"
-import { User, Settings, CreditCard } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { createFileRoute } from "@tanstack/react-router"
+import { CreditCard, Settings, User } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -110,7 +116,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/tabs")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -119,8 +125,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/tabs")({
 
 function TabsPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -154,9 +159,7 @@ function TabsPage() {
 							<Card>
 								<CardHeader>
 									<CardTitle>Account</CardTitle>
-									<CardDescription>
-										Make changes to your account here.
-									</CardDescription>
+									<CardDescription>Make changes to your account here.</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-4">
 									<div className="space-y-2">
@@ -198,19 +201,13 @@ function TabsPage() {
 							<TabsTrigger value="billing">Billing</TabsTrigger>
 						</TabsList>
 						<TabsContent value="profile" className="pt-4">
-							<p className="text-sm text-fg-muted">
-								Your profile information and settings.
-							</p>
+							<p className="text-sm text-fg-muted">Your profile information and settings.</p>
 						</TabsContent>
 						<TabsContent value="settings" className="pt-4">
-							<p className="text-sm text-fg-muted">
-								Application settings and preferences.
-							</p>
+							<p className="text-sm text-fg-muted">Application settings and preferences.</p>
 						</TabsContent>
 						<TabsContent value="billing" className="pt-4">
-							<p className="text-sm text-fg-muted">
-								Manage your billing and subscription.
-							</p>
+							<p className="text-sm text-fg-muted">Manage your billing and subscription.</p>
 						</TabsContent>
 					</Tabs>
 				</DocExampleClient>
@@ -275,9 +272,7 @@ function TabsPage() {
 									<CardTitle>Security Settings</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="text-sm text-fg-muted">
-										Manage your security preferences.
-									</p>
+									<p className="text-sm text-fg-muted">Manage your security preferences.</p>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -287,9 +282,7 @@ function TabsPage() {
 									<CardTitle>Notification Settings</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="text-sm text-fg-muted">
-										Control your notification preferences.
-									</p>
+									<p className="text-sm text-fg-muted">Control your notification preferences.</p>
 								</CardContent>
 							</Card>
 						</TabsContent>

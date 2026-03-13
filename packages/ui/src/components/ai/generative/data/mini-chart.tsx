@@ -1,12 +1,8 @@
 "use client"
 
-import {
-	AreaChart,
-	Area,
-	ResponsiveContainer,
-} from "recharts"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Area, AreaChart, ResponsiveContainer } from "recharts"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface MiniChartProps {
 	label: string
@@ -26,17 +22,10 @@ function MiniChartBase({
 	const chartData = data.map((v, i) => ({ i, v }))
 
 	return (
-		<div
-			className={cn(
-				"rounded-lg border border-container bg-surface p-4",
-				className,
-			)}
-		>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-baseline justify-between">
 				<span className="text-xs text-fg-muted">{label}</span>
-				{value && (
-					<span className="text-lg font-semibold text-fg">{value}</span>
-				)}
+				{value && <span className="text-lg font-semibold text-fg">{value}</span>}
 			</div>
 			<div className="mt-2 h-[60px]">
 				<ResponsiveContainer width="100%" height="100%">

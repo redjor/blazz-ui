@@ -1,10 +1,10 @@
+import { MetricCard } from "@blazz/ui/components/ai/generative/data/metric-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DollarSign, Users } from "lucide-react"
-import { MetricCard } from "@blazz/ui/components/ai/generative/data/metric-card"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -33,9 +33,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/data/metric-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/data/metric-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -52,8 +50,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function MetricCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -105,12 +102,7 @@ function MetricCardPage() {
 					highlightedCode={html("negative-trend")}
 				>
 					<div className="max-w-xs">
-						<MetricCard
-							label="Churn Rate"
-							value="4.8%"
-							trend={-1.2}
-							trendLabel="vs last month"
-						/>
+						<MetricCard label="Churn Rate" value="4.8%" trend={-1.2} trendLabel="vs last month" />
 					</div>
 				</DocExampleClient>
 

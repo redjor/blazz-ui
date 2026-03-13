@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Grid } from "@blazz/ui/components/ui/grid"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -101,13 +101,13 @@ const toc = [
 const gridProps: DocProp[] = [
 	{
 		name: "columns",
-		type: '{ xs?: number; sm?: number; md?: number; lg?: number; xl?: number }',
-		default: '{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }',
+		type: "{ xs?: number; sm?: number; md?: number; lg?: number; xl?: number }",
+		default: "{ xs: 6, sm: 6, md: 12, lg: 12, xl: 12 }",
 		description: "Number of columns at each breakpoint.",
 	},
 	{
 		name: "gap",
-		type: '{ xs?: string; sm?: string; md?: string; lg?: string; xl?: string }',
+		type: "{ xs?: string; sm?: string; md?: string; lg?: string; xl?: string }",
 		default: '"4"',
 		description: "Gap between grid cells at each breakpoint.",
 	},
@@ -121,8 +121,8 @@ const gridProps: DocProp[] = [
 const gridCellProps: DocProp[] = [
 	{
 		name: "columnSpan",
-		type: '{ xs?: number; sm?: number; md?: number; lg?: number; xl?: number }',
-		default: '{ xs: 6 }',
+		type: "{ xs?: number; sm?: number; md?: number; lg?: number; xl?: number }",
+		default: "{ xs: 6 }",
 		description: "Number of columns to span at each breakpoint.",
 	},
 	{
@@ -145,11 +145,7 @@ function GridPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Grid"
-			subtitle="Create complex layouts based on CSS Grid."
-			toc={toc}
-		>
+		<DocPage title="Grid" subtitle="Create complex layouts based on CSS Grid." toc={toc}>
 			<DocSection id="examples" title="Examples">
 				<DocExampleClient
 					title="Two Column"
@@ -164,9 +160,7 @@ function GridPage() {
 									<CardTitle>Sales</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="text-sm text-fg-muted">
-										View a summary of your store's sales
-									</p>
+									<p className="text-sm text-fg-muted">View a summary of your store's sales</p>
 								</CardContent>
 							</Card>
 						</Grid.Cell>
@@ -176,9 +170,7 @@ function GridPage() {
 									<CardTitle>Orders</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="text-sm text-fg-muted">
-										View a summary of your store's orders
-									</p>
+									<p className="text-sm text-fg-muted">View a summary of your store's orders</p>
 								</CardContent>
 							</Card>
 						</Grid.Cell>

@@ -1,12 +1,12 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { Briefcase, Mail, MapPin } from "lucide-react"
 import Link from "next/link"
-import { MapPin, Briefcase, Mail } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 const statusVariantMap = {
 	available: { variant: "success" as const, label: "Available" },
@@ -69,7 +69,7 @@ function CandidateCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			{/* Header: avatar + name + status */}
@@ -80,15 +80,9 @@ function CandidateCardBase({
 				</Avatar>
 				<div className="min-w-0 flex-1">
 					<div className="flex items-center gap-2">
-						<span className="truncate text-sm font-semibold text-fg">
-							{name}
-						</span>
+						<span className="truncate text-sm font-semibold text-fg">{name}</span>
 						{statusConfig && (
-							<Badge
-								variant={statusConfig.variant}
-								size="xs"
-								fill="subtle"
-							>
+							<Badge variant={statusConfig.variant} size="xs" fill="subtle">
 								{statusConfig.label}
 							</Badge>
 						)}
@@ -97,12 +91,8 @@ function CandidateCardBase({
 				</div>
 				{matchScore !== undefined && (
 					<div className="flex flex-col items-center">
-						<span className="text-lg font-semibold text-brand">
-							{matchScore}%
-						</span>
-						<span className="text-[10px] uppercase tracking-wide text-fg-muted">
-							Match
-						</span>
+						<span className="text-lg font-semibold text-brand">{matchScore}%</span>
+						<span className="text-[10px] uppercase tracking-wide text-fg-muted">Match</span>
 					</div>
 				)}
 			</div>
@@ -132,20 +122,13 @@ function CandidateCardBase({
 			)}
 
 			{/* Experience */}
-			{experience && (
-				<p className="mt-2 text-xs text-fg-muted">{experience}</p>
-			)}
+			{experience && <p className="mt-2 text-xs text-fg-muted">{experience}</p>}
 
 			{/* Skills */}
 			{skills && skills.length > 0 && (
 				<div className="mt-3 flex flex-wrap gap-1.5">
 					{skills.map((skill) => (
-						<Badge
-							key={skill}
-							variant="secondary"
-							size="xs"
-							fill="subtle"
-						>
+						<Badge key={skill} variant="secondary" size="xs" fill="subtle">
 							{skill}
 						</Badge>
 					))}

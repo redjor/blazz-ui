@@ -15,11 +15,7 @@ export function FieldGrid({ columns = 3, children, className }: FieldGridProps) 
 		4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
 	}
 
-	return (
-		<div className={cn("grid gap-x-6 gap-y-4", gridCols[columns], className)}>
-			{children}
-		</div>
-	)
+	return <div className={cn("grid gap-x-6 gap-y-4", gridCols[columns], className)}>{children}</div>
 }
 
 export interface FieldProps {
@@ -36,9 +32,7 @@ export function Field({ label, value, span, className }: FieldProps) {
 			style={span ? { gridColumn: `span ${span}` } : undefined}
 		>
 			<dt className="text-sm text-fg-muted">{label}</dt>
-			<dd className="mt-0.5 text-sm font-medium text-fg">
-				{value ?? "—"}
-			</dd>
+			<dd className="mt-0.5 text-sm font-medium text-fg">{value ?? "—"}</dd>
 		</div>
 	)
 }

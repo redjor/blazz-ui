@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { cn } from "@blazz/ui/lib/utils"
+import * as React from "react"
 
 export interface TocItem {
 	id: string
@@ -49,9 +49,7 @@ export function DocToc({ items }: DocTocProps) {
 							href={`#${item.id}`}
 							className={cn(
 								"block text-[13px] leading-snug transition-colors",
-								activeId === item.id
-									? "font-medium text-brand"
-									: "text-fg-muted hover:text-fg"
+								activeId === item.id ? "font-medium text-brand" : "text-fg-muted hover:text-fg"
 							)}
 						>
 							{item.title}

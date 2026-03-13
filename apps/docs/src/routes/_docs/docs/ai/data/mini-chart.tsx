@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { MiniChart } from "@blazz/ui/components/ai/generative/data/mini-chart"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -24,9 +24,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/data/mini-chart"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/data/mini-chart")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -43,8 +41,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function MiniChartPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -54,11 +51,7 @@ function MiniChartPage() {
 		>
 			<DocHero>
 				<div className="max-w-sm">
-					<MiniChart
-						label="Weekly Signups"
-						data={[3, 7, 4, 9, 6, 11, 8, 14, 12, 16]}
-						value="16"
-					/>
+					<MiniChart label="Weekly Signups" data={[3, 7, 4, 9, 6, 11, 8, 14, 12, 16]} value="16" />
 				</div>
 			</DocHero>
 
@@ -85,16 +78,8 @@ function MiniChartPage() {
 					highlightedCode={html("side-by-side")}
 				>
 					<div className="grid grid-cols-2 gap-3">
-						<MiniChart
-							label="MRR"
-							data={[10, 12, 11, 15, 18, 20]}
-							value="$20K"
-						/>
-						<MiniChart
-							label="Churn"
-							data={[5, 4, 6, 3, 4, 2]}
-							value="2%"
-						/>
+						<MiniChart label="MRR" data={[10, 12, 11, 15, 18, 20]} value="$20K" />
+						<MiniChart label="Churn" data={[5, 4, 6, 3, 4, 2]} value="2%" />
 					</div>
 				</DocExampleClient>
 			</DocSection>

@@ -2,7 +2,7 @@ import { paginationOptsValidator } from "convex/server"
 import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
-import { validateTransition, type EntryStatus } from "./lib/status"
+import { type EntryStatus, validateTransition } from "./lib/status"
 
 export const list = query({
 	args: {
@@ -161,8 +161,10 @@ export const removeBatch = mutation({
 			ids.map(async (id) => {
 				const entry = await ctx.db.get(id)
 				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
-				if (entry.status === "invoiced") throw new ConvexError("Impossible de supprimer une entrée facturée")
-				if (entry.status === "paid") throw new ConvexError("Impossible de supprimer une entrée payée")
+				if (entry.status === "invoiced")
+					throw new ConvexError("Impossible de supprimer une entrée facturée")
+				if (entry.status === "paid")
+					throw new ConvexError("Impossible de supprimer une entrée payée")
 				await ctx.db.delete(id)
 			})
 		)

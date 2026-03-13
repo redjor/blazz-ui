@@ -1,43 +1,33 @@
 "use client"
 
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import {
-	List,
-	LayoutGrid,
-	Columns3,
-	Rows3,
-	ArrowUpDown,
-	ListFilter,
-	Calendar,
-	Kanban,
-	Table,
-} from "lucide-react"
-import {
-	ViewConfigPanel,
-	ViewConfigTabs,
-	ViewConfigSection,
 	ViewConfigDivider,
 	ViewConfigFilterRow,
-	ViewConfigToggle,
-	ViewConfigPropertyToggles,
 	ViewConfigFooter,
 	ViewConfigFooterAction,
+	ViewConfigPanel,
+	ViewConfigPropertyToggles,
+	ViewConfigSection,
+	ViewConfigTabs,
+	ViewConfigToggle,
 } from "@blazz/ui/components/blocks/view-config-panel"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Select,
-	SelectTrigger,
-	SelectValue,
 	SelectContent,
 	SelectItem,
+	SelectTrigger,
+	SelectValue,
 } from "@blazz/ui/components/ui/select"
-import { Button } from "@blazz/ui/components/ui/button"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { ArrowUpDown, Columns3, LayoutGrid, List, ListFilter, Rows3 } from "lucide-react"
+import * as React from "react"
 import { DocExampleSync } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocPropGroup } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocPropGroup, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 
 export const Route = createFileRoute("/_docs/docs/blocks/view-config-panel")({
 	component: ViewConfigPanelPage,
@@ -193,8 +183,7 @@ const propGroups: DocPropGroup[] = [
 			{
 				name: "tabs",
 				type: "ViewConfigTab[]",
-				description:
-					'Array of tabs: { value: string, label: string, icon: LucideIcon }.',
+				description: "Array of tabs: { value: string, label: string, icon: LucideIcon }.",
 				required: true,
 			},
 			{
@@ -217,8 +206,7 @@ const propGroups: DocPropGroup[] = [
 			{
 				name: "title",
 				type: "string",
-				description:
-					'Optional section heading (e.g. "Board options", "Display properties").',
+				description: 'Optional section heading (e.g. "Board options", "Display properties").',
 			},
 		],
 	},
@@ -239,8 +227,7 @@ const propGroups: DocPropGroup[] = [
 			{
 				name: "children",
 				type: "ReactNode",
-				description:
-					"Control(s) rendered on the right side (Select, Button, etc.).",
+				description: "Control(s) rendered on the right side (Select, Button, etc.).",
 			},
 		],
 	},
@@ -305,8 +292,7 @@ const propGroups: DocPropGroup[] = [
 				name: "variant",
 				type: '"default" | "accent"',
 				default: '"default"',
-				description:
-					"Visual variant. Use accent for the primary action.",
+				description: "Visual variant. Use accent for the primary action.",
 			},
 		],
 	},
@@ -379,11 +365,7 @@ function FullDemo() {
 
 			<ViewConfigSection>
 				<ViewConfigFilterRow icon={Columns3} label="Columns">
-					<Select
-						items={columnItems}
-						value={columns}
-						onValueChange={setColumns}
-					>
+					<Select items={columnItems} value={columns} onValueChange={setColumns}>
 						<SelectTrigger size="sm" className="h-7 flex-1">
 							<SelectValue />
 						</SelectTrigger>
@@ -397,11 +379,7 @@ function FullDemo() {
 					</Select>
 				</ViewConfigFilterRow>
 				<ViewConfigFilterRow icon={Rows3} label="Rows">
-					<Select
-						items={rowItems}
-						value={rows}
-						onValueChange={setRows}
-					>
+					<Select items={rowItems} value={rows} onValueChange={setRows}>
 						<SelectTrigger size="sm" className="h-7 flex-1">
 							<SelectValue />
 						</SelectTrigger>
@@ -415,11 +393,7 @@ function FullDemo() {
 					</Select>
 				</ViewConfigFilterRow>
 				<ViewConfigFilterRow icon={ArrowUpDown} label="Ordering">
-					<Select
-						items={orderItems}
-						value={ordering}
-						onValueChange={setOrdering}
-					>
+					<Select items={orderItems} value={ordering} onValueChange={setOrdering}>
 						<SelectTrigger size="sm" className="h-7 flex-1">
 							<SelectValue />
 						</SelectTrigger>
@@ -461,21 +435,12 @@ function FullDemo() {
 			<ViewConfigFooter>
 				<ViewConfigFooterAction
 					onClick={() =>
-						setActiveProps([
-							"id",
-							"status",
-							"assignee",
-							"priority",
-							"project",
-							"due_date",
-						])
+						setActiveProps(["id", "status", "assignee", "priority", "project", "due_date"])
 					}
 				>
 					Reset
 				</ViewConfigFooterAction>
-				<ViewConfigFooterAction variant="accent">
-					Set default for everyone
-				</ViewConfigFooterAction>
+				<ViewConfigFooterAction variant="accent">Set default for everyone</ViewConfigFooterAction>
 			</ViewConfigFooter>
 		</ViewConfigPanel>
 	)
@@ -483,11 +448,7 @@ function FullDemo() {
 
 function BoardConfigDemo() {
 	const [view, setView] = React.useState("board")
-	const [activeProps, setActiveProps] = React.useState([
-		"status",
-		"priority",
-		"assignee",
-	])
+	const [activeProps, setActiveProps] = React.useState(["status", "priority", "assignee"])
 
 	return (
 		<ViewConfigPanel>
@@ -502,11 +463,7 @@ function BoardConfigDemo() {
 
 			<ViewConfigSection>
 				<ViewConfigFilterRow icon={Columns3} label="Columns">
-					<Select
-						items={columnItems}
-						value="status"
-						onValueChange={() => {}}
-					>
+					<Select items={columnItems} value="status" onValueChange={() => {}}>
 						<SelectTrigger size="sm" className="h-7 flex-1">
 							<SelectValue />
 						</SelectTrigger>
@@ -520,11 +477,7 @@ function BoardConfigDemo() {
 					</Select>
 				</ViewConfigFilterRow>
 				<ViewConfigFilterRow icon={Rows3} label="Rows">
-					<Select
-						items={rowItems}
-						value="none"
-						onValueChange={() => {}}
-					>
+					<Select items={rowItems} value="none" onValueChange={() => {}}>
 						<SelectTrigger size="sm" className="h-7 flex-1">
 							<SelectValue />
 						</SelectTrigger>
@@ -566,12 +519,7 @@ function MinimalDemo() {
 		{ value: "amount", label: "Amount" },
 		{ value: "source", label: "Source" },
 	]
-	const [visible, setVisible] = React.useState([
-		"name",
-		"status",
-		"owner",
-		"date",
-	])
+	const [visible, setVisible] = React.useState(["name", "status", "owner", "date"])
 
 	return (
 		<ViewConfigPanel width={240}>
@@ -657,20 +605,17 @@ function ViewConfigPanelPage() {
 						{
 							title: "Filter Bar",
 							href: "/docs/blocks/filter-bar",
-							description:
-								"URL-driven filter bar for search, select and date filters.",
+							description: "URL-driven filter bar for search, select and date filters.",
 						},
 						{
 							title: "Filter Panel",
 							href: "/docs/components/ui/filter-panel",
-							description:
-								"Faceted filter panel with checkboxes and tree items.",
+							description: "Faceted filter panel with checkboxes and tree items.",
 						},
 						{
 							title: "Data Table",
 							href: "/docs/blocks/data-table",
-							description:
-								"Full-featured data table with views, sorting, filtering and more.",
+							description: "Full-featured data table with views, sorting, filtering and more.",
 						},
 					]}
 				/>

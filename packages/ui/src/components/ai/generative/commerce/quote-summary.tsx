@@ -1,11 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { Clock, FileText, Hash } from "lucide-react"
 import Link from "next/link"
-import { FileText, Clock, Hash } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export type QuoteStatus = "draft" | "sent" | "accepted" | "declined" | "expired"
 
@@ -50,7 +50,7 @@ function QuoteSummaryBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-start gap-3">

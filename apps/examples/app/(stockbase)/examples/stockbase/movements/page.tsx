@@ -1,10 +1,10 @@
 "use client"
 
+import { createMovementsPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Box } from "@blazz/ui/components/ui/box"
 import { useMemo } from "react"
 import { toast } from "sonner"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DataTable, createMovementsPreset } from "@blazz/ui/components/blocks/data-table"
-import { Box } from "@blazz/ui/components/ui/box"
 import { stockMovements } from "@/lib/stockbase-data"
 
 export default function MovementsPage() {
@@ -13,7 +13,7 @@ export default function MovementsPage() {
 			createMovementsPreset({
 				onView: (movement) => toast.info(`Mouvement : ${movement.itemName} (${movement.reason})`),
 			}),
-		[],
+		[]
 	)
 
 	return (

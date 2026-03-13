@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
+import { createFileRoute } from "@tanstack/react-router"
+import { Building2, ChevronRight, Command, FolderTree, List, Menu, PanelTop } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
-import { ChevronRight, Command, Menu, List, FolderTree, PanelTop, Building2 } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/navigation")({
 	component: NavigationPage,
@@ -11,35 +11,40 @@ const navigationComponents = [
 	{
 		title: "Breadcrumb",
 		href: "/docs/components/ui/breadcrumb",
-		description: "Shows the current page's location within the navigational hierarchy and allows quick navigation to parent pages.",
+		description:
+			"Shows the current page's location within the navigational hierarchy and allows quick navigation to parent pages.",
 		icon: ChevronRight,
 		thumbnail: "breadcrumb",
 	},
 	{
 		title: "Command",
 		href: "/docs/components/ui/command",
-		description: "A command palette for quick navigation and actions with keyboard shortcuts and fuzzy search.",
+		description:
+			"A command palette for quick navigation and actions with keyboard shortcuts and fuzzy search.",
 		icon: Command,
 		thumbnail: "command",
 	},
 	{
 		title: "Menu",
 		href: "/docs/components/ui/menu",
-		description: "An unstyled, accessible menu component for building custom navigation and action menus.",
+		description:
+			"An unstyled, accessible menu component for building custom navigation and action menus.",
 		icon: Menu,
 		thumbnail: "menu",
 	},
 	{
 		title: "Menubar",
 		href: "/docs/components/ui/menubar",
-		description: "A horizontal menu bar with dropdown menus, keyboard navigation, and support for checkboxes and radio items.",
+		description:
+			"A horizontal menu bar with dropdown menus, keyboard navigation, and support for checkboxes and radio items.",
 		icon: PanelTop,
 		thumbnail: "menubar",
 	},
 	{
 		title: "Nav Menu",
 		href: "/docs/components/ui/nav-menu",
-		description: "Lightweight vertical navigation menu for page sidebars, dialogs, sheets, or any panel.",
+		description:
+			"Lightweight vertical navigation menu for page sidebars, dialogs, sheets, or any panel.",
 		icon: List,
 		thumbnail: "nav-menu",
 	},

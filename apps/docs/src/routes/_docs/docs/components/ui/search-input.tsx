@@ -1,12 +1,12 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { SearchInput } from "@blazz/ui/components/ui/search-input"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -20,7 +20,8 @@ const searchInputProps: DocProp[] = [
 	{
 		name: "onClear",
 		type: "() => void",
-		description: "Callback when the clear button is clicked. The clear button is only visible when a value is present.",
+		description:
+			"Callback when the clear button is clicked. The clear button is only visible when a value is present.",
 	},
 	{
 		name: "value",
@@ -62,15 +63,13 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/components/ui/search-input",
-)({
+export const Route = createFileRoute("/_docs/docs/components/ui/search-input")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -88,17 +87,14 @@ function SearchInputWithClearDemo() {
 				onChange={(e) => setValue(e.target.value)}
 				onClear={() => setValue("")}
 			/>
-			<p className="text-xs text-fg-muted">
-				Value: {value || "(empty)"}
-			</p>
+			<p className="text-xs text-fg-muted">Value: {value || "(empty)"}</p>
 		</div>
 	)
 }
 
 function SearchInputPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

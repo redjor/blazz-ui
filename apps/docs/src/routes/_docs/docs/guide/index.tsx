@@ -1,6 +1,6 @@
+import { Page } from "@blazz/ui/components/ui/page"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { ArrowRight, Circle } from "lucide-react"
-import { Page } from "@blazz/ui/components/ui/page"
 import { getSectionNavigation } from "~/config/navigation"
 
 export const Route = createFileRoute("/_docs/docs/guide/")({
@@ -9,10 +9,7 @@ export const Route = createFileRoute("/_docs/docs/guide/")({
 
 const section = getSectionNavigation("guide")
 const categories = section?.items ?? []
-const totalItems = categories.reduce(
-	(sum, cat) => sum + (cat.items?.length ?? 0),
-	0,
-)
+const totalItems = categories.reduce((sum, cat) => sum + (cat.items?.length ?? 0), 0)
 
 function GuidePage() {
 	return (
@@ -21,16 +18,14 @@ function GuidePage() {
 				<div
 					className="pointer-events-none absolute inset-0 opacity-40"
 					style={{
-						backgroundImage:
-							"radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
+						backgroundImage: "radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
 						backgroundSize: "24px 24px",
 					}}
 				/>
 				<div className="relative z-10 mx-auto max-w-2xl space-y-3">
 					<h1 className="text-4xl font-bold tracking-tight text-fg">Guide</h1>
 					<p className="text-base text-fg-muted">
-						{totalItems} resources — design tokens, concepts, outils et
-						utilitaires.
+						{totalItems} resources — design tokens, concepts, outils et utilitaires.
 					</p>
 				</div>
 			</div>
@@ -45,9 +40,7 @@ function GuidePage() {
 								</div>
 								<div className="min-w-0">
 									<div className="flex items-center gap-2">
-										<h2 className="text-sm font-semibold text-fg">
-											{category.title}
-										</h2>
+										<h2 className="text-sm font-semibold text-fg">{category.title}</h2>
 										<span className="text-xs text-fg-muted tabular-nums">
 											{category.items?.length ?? 0}
 										</span>
@@ -61,9 +54,7 @@ function GuidePage() {
 										to={item.url ?? "/"}
 										className="group flex items-center justify-between rounded-lg border border-edge bg-surface px-3.5 py-2.5 transition-colors hover:bg-raised"
 									>
-										<span className="text-sm text-fg group-hover:text-fg">
-											{item.title}
-										</span>
+										<span className="text-sm text-fg group-hover:text-fg">{item.title}</span>
 										<ArrowRight className="h-3.5 w-3.5 text-fg-muted opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
 									</Link>
 								))}

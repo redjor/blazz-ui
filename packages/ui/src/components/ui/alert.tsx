@@ -29,7 +29,7 @@ function Alert({
 			data-slot="alert"
 			role="alert"
 			className={cn(alertVariants({ variant }), className)}
-			style={{ paddingBlock: 'calc(var(--inset) * 0.5)' }}
+			style={{ paddingBlock: "calc(var(--inset) * 0.5)" }}
 			{...props}
 		/>
 	)

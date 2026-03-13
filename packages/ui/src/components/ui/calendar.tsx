@@ -1,7 +1,7 @@
 "use client"
 
-import { DayPicker } from "react-day-picker"
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react"
+import { DayPicker } from "react-day-picker"
 
 import { cn } from "../../lib/utils"
 
@@ -35,8 +35,7 @@ function Calendar({
 					"absolute right-1 top-0 z-10 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-raised transition-colors",
 				month_grid: "w-full border-collapse",
 				weekdays: "flex",
-				weekday:
-					"w-9 text-center text-[0.8rem] font-normal text-fg-muted rounded-md",
+				weekday: "w-9 text-center text-[0.8rem] font-normal text-fg-muted rounded-md",
 				week: "flex w-full mt-2",
 				day: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20",
 				day_button:

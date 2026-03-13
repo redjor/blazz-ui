@@ -1,31 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Command,
 	CommandDialog,
-	CommandInput,
-	CommandList,
 	CommandEmpty,
 	CommandGroup,
+	CommandInput,
 	CommandItem,
+	CommandList,
 	CommandSeparator,
 	CommandShortcut,
 } from "@blazz/ui/components/ui/command"
-import {
-	Calculator,
-	Calendar,
-	CreditCard,
-	Settings,
-	User,
-	Smile,
-	Search,
-} from "lucide-react"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { Calculator, Calendar, CreditCard, Search, Settings, Smile, User } from "lucide-react"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -199,8 +191,8 @@ function CommandDialogExample() {
 				Press{" "}
 				<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-raised px-1.5 font-mono text-[10px] font-medium text-fg-muted opacity-100">
 					<span className="text-xs">⌘</span>K
-				</kbd>
-				{" "}to open
+				</kbd>{" "}
+				to open
 			</p>
 			<Button onClick={() => setOpen(true)}>Open Command</Button>
 			<CommandDialog open={open} onOpenChange={setOpen}>

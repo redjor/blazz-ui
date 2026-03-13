@@ -5,7 +5,6 @@ import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
-import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
@@ -14,6 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
 import { format, parseISO } from "date-fns"
@@ -119,7 +119,13 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					status: values.billable ? (values.status ?? "draft") : undefined,
 				})
 				toast.success("Entrée ajoutée")
-				reset({ date: values.date, hours: 1, projectId: values.projectId, billable: true, status: "draft" })
+				reset({
+					date: values.date,
+					hours: 1,
+					projectId: values.projectId,
+					billable: true,
+					status: "draft",
+				})
 			}
 			onSuccess?.()
 		} catch {
@@ -134,7 +140,12 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 				<Select
 					value={watch("projectId") ?? ""}
 					onValueChange={(v) => setValue("projectId", v ?? "")}
-					items={projects?.map((p: { _id: string; name: string }) => ({ value: p._id, label: p.name })) ?? []}
+					items={
+						projects?.map((p: { _id: string; name: string }) => ({
+							value: p._id,
+							label: p.name,
+						})) ?? []
+					}
 				>
 					<SelectTrigger className="w-full">
 						<SelectValue placeholder="Choisir un projet…" />
@@ -164,7 +175,9 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 				<div className="space-y-1.5">
 					<Label>Durée *</Label>
 					{(() => {
-						const selectedProject = projects?.find((p: { _id: string }) => p._id === watch("projectId"))
+						const selectedProject = projects?.find(
+							(p: { _id: string }) => p._id === watch("projectId")
+						)
 						const hpd = (selectedProject as { hoursPerDay?: number } | undefined)?.hoursPerDay
 						if (!hpd || hpd <= 0) return null
 						return (
@@ -217,14 +230,21 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					<Select
 						value={watch("status") ?? "draft"}
 						onValueChange={(v) => setValue("status", v as "draft" | "ready_to_invoice")}
-						items={[{ value: "draft", label: "Brouillon" }, { value: "ready_to_invoice", label: "Prêt à facturer" }]}
+						items={[
+							{ value: "draft", label: "Brouillon" },
+							{ value: "ready_to_invoice", label: "Prêt à facturer" },
+						]}
 					>
 						<SelectTrigger className="w-full">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="draft" label="Brouillon">Brouillon</SelectItem>
-							<SelectItem value="ready_to_invoice" label="Prêt à facturer">Prêt à facturer</SelectItem>
+							<SelectItem value="draft" label="Brouillon">
+								Brouillon
+							</SelectItem>
+							<SelectItem value="ready_to_invoice" label="Prêt à facturer">
+								Prêt à facturer
+							</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>

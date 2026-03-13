@@ -1,32 +1,22 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@blazz/ui/components/ui/sheet"
-import {
-	NotificationCenter,
-	NotificationList,
-	NotificationGroup,
-	NotificationItem,
-	NotificationTrigger,
-} from "@blazz/ui/components/blocks/notification-center"
 import type { Notification } from "@blazz/ui/components/blocks/notification-center"
 import {
-	DollarSign,
-	UserPlus,
-	MessageSquare,
-	AlertCircle,
-	Bell,
-	ShieldAlert,
-} from "lucide-react"
+	NotificationCenter,
+	NotificationGroup,
+	NotificationItem,
+	NotificationList,
+	NotificationTrigger,
+} from "@blazz/ui/components/blocks/notification-center"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@blazz/ui/components/ui/sheet"
+import { createFileRoute } from "@tanstack/react-router"
+import { AlertCircle, DollarSign, MessageSquare, ShieldAlert, UserPlus } from "lucide-react"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -48,9 +38,7 @@ const heroNotifications: Notification[] = [
 		description: "The $48,000 deal has been marked as won.",
 		time: "2m ago",
 		read: false,
-		actions: [
-			{ label: "View Deal", onClick: () => {}, variant: "primary" },
-		],
+		actions: [{ label: "View Deal", onClick: () => {}, variant: "primary" }],
 	},
 	{
 		id: "2",
@@ -66,7 +54,7 @@ const heroNotifications: Notification[] = [
 		icon: MessageSquare,
 		iconVariant: "warning",
 		title: "Comment on Quote #1042",
-		description: "Jordan left a comment: \"Can we adjust the pricing?\"",
+		description: 'Jordan left a comment: "Can we adjust the pricing?"',
 		time: "1h ago",
 		read: true,
 	},
@@ -209,9 +197,7 @@ const sheetNotifications: Notification[] = [
 		description: "The $48,000 deal has been marked as won.",
 		time: "2m ago",
 		read: false,
-		actions: [
-			{ label: "View Deal", onClick: () => {}, variant: "primary" },
-		],
+		actions: [{ label: "View Deal", onClick: () => {}, variant: "primary" }],
 	},
 	{
 		id: "s2",
@@ -441,15 +427,13 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/blocks/notification-center",
-)({
+export const Route = createFileRoute("/_docs/docs/blocks/notification-center")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -462,20 +446,11 @@ function TriggerDemo() {
 	return (
 		<div className="flex items-center gap-4">
 			<NotificationTrigger unreadCount={count} />
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => setCount((c) => c + 1)}
-			>
+			<Button variant="outline" size="sm" onClick={() => setCount((c) => c + 1)}>
 				Simulate notification
 			</Button>
 			{count > 0 && (
-				<Button
-					variant="ghost"
-					size="sm"
-					onClick={() => setCount(0)}
-					className="text-fg-muted"
-				>
+				<Button variant="ghost" size="sm" onClick={() => setCount(0)} className="text-fg-muted">
 					Reset
 				</Button>
 			)}
@@ -485,8 +460,7 @@ function TriggerDemo() {
 
 function NotificationCenterPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -497,10 +471,7 @@ function NotificationCenterPage() {
 			{/* Hero */}
 			<DocHero>
 				<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
-					<NotificationCenter
-						unreadCount={2}
-						onMarkAllRead={() => {}}
-					>
+					<NotificationCenter unreadCount={2} onMarkAllRead={() => {}}>
 						<NotificationList>
 							{heroNotifications.map((n) => (
 								<NotificationItem key={n.id} notification={n} />

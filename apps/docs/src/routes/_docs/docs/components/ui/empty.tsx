@@ -1,13 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Building, Plus, SearchX, RotateCcw, Rocket, FileText, Users } from "lucide-react"
-import { Empty, EmptyIcon, EmptyTitle, EmptyDescription, EmptyActions } from "@blazz/ui/components/ui/empty"
 import { Button } from "@blazz/ui/components/ui/button"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import {
+	Empty,
+	EmptyActions,
+	EmptyDescription,
+	EmptyIcon,
+	EmptyTitle,
+} from "@blazz/ui/components/ui/empty"
+import { createFileRoute } from "@tanstack/react-router"
+import { Building, FileText, Plus, Rocket, RotateCcw, SearchX, Users } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -155,12 +161,14 @@ const emptyProps: DocProp[] = [
 		name: "size",
 		type: '"sm" | "default" | "lg"',
 		default: '"default"',
-		description: "Controls padding and icon size. Use sm for cards, default for page sections, lg for full-page states.",
+		description:
+			"Controls padding and icon size. Use sm for cards, default for page sections, lg for full-page states.",
 	},
 	{
 		name: "children",
 		type: "React.ReactNode",
-		description: "When provided, enables compositional mode. Props-based content (icon, title, etc.) is ignored.",
+		description:
+			"When provided, enables compositional mode. Props-based content (icon, title, etc.) is ignored.",
 	},
 ]
 
@@ -332,7 +340,9 @@ function EmptyPage() {
 						</EmptyDescription>
 						<EmptyActions>
 							<Button size="sm">Import CSV</Button>
-							<Button size="sm" variant="outline">Create deal</Button>
+							<Button size="sm" variant="outline">
+								Create deal
+							</Button>
 						</EmptyActions>
 					</Empty>
 				</DocExampleClient>
@@ -368,12 +378,17 @@ function EmptyPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Distinguish between "no data" (first-time) and "no results" (filters too restrictive)</li>
+					<li>
+						Distinguish between "no data" (first-time) and "no results" (filters too restrictive)
+					</li>
 					<li>"No data" states should include a CTA to create the first item</li>
 					<li>"No results" states should offer a way to reset filters</li>
 					<li>Always provide an action — never leave the user without a next step</li>
 					<li>Keep descriptions short and actionable (1 sentence max)</li>
-					<li>Use <code className="text-xs">sm</code> size inside cards and panels, <code className="text-xs">lg</code> for full-page onboarding</li>
+					<li>
+						Use <code className="text-xs">sm</code> size inside cards and panels,{" "}
+						<code className="text-xs">lg</code> for full-page onboarding
+					</li>
 					<li>Icons should be descriptive of the content type, not decorative</li>
 				</ul>
 			</DocSection>

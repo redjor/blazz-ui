@@ -1,28 +1,28 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import {
 	Breadcrumb,
-	BreadcrumbList,
-	BreadcrumbItem,
-	BreadcrumbLink,
 	BreadcrumbBackLink,
 	BreadcrumbPage as BreadcrumbCurrent,
-	BreadcrumbSeparator,
 	BreadcrumbEllipsis,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbSeparator,
 } from "@blazz/ui/components/ui/breadcrumb"
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
+import { createFileRoute } from "@tanstack/react-router"
 import { Home, Slash } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -246,7 +246,7 @@ function BreadcrumbPage() {
 								<DropdownMenu>
 									<DropdownMenuTrigger
 										render={
-											<button className="flex items-center gap-1 hover:text-fg">
+											<button type="button" className="flex items-center gap-1 hover:text-fg">
 												<BreadcrumbEllipsis />
 											</button>
 										}
@@ -303,12 +303,24 @@ function BreadcrumbPage() {
 					Breadcrumb uses the design system tokens for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">text-fg-muted</code> - Breadcrumb link color</li>
-					<li><code className="text-xs">text-fg</code> - Current page and hover color</li>
-					<li><code className="text-xs">gap-1.5</code> - Spacing between items (0.375rem)</li>
-					<li><code className="text-xs">text-body-md</code> - Body medium text size</li>
-					<li><code className="text-xs">font-semibold</code> - Current page font weight</li>
-					<li><code className="text-xs">text-lg</code> - Current page larger size</li>
+					<li>
+						<code className="text-xs">text-fg-muted</code> - Breadcrumb link color
+					</li>
+					<li>
+						<code className="text-xs">text-fg</code> - Current page and hover color
+					</li>
+					<li>
+						<code className="text-xs">gap-1.5</code> - Spacing between items (0.375rem)
+					</li>
+					<li>
+						<code className="text-xs">text-body-md</code> - Body medium text size
+					</li>
+					<li>
+						<code className="text-xs">font-semibold</code> - Current page font weight
+					</li>
+					<li>
+						<code className="text-xs">text-lg</code> - Current page larger size
+					</li>
 				</ul>
 			</DocSection>
 
@@ -327,9 +339,17 @@ function BreadcrumbPage() {
 
 			<DocSection id="accessibility" title="Accessibility">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
-					<li>Uses semantic <code className="text-xs">&lt;nav&gt;</code> element with aria-label="breadcrumb"</li>
-					<li>Current page marked with <code className="text-xs">aria-current="page"</code></li>
-					<li>Separators have <code className="text-xs">aria-hidden="true"</code> to avoid screen reader verbosity</li>
+					<li>
+						Uses semantic <code className="text-xs">&lt;nav&gt;</code> element with
+						aria-label="breadcrumb"
+					</li>
+					<li>
+						Current page marked with <code className="text-xs">aria-current="page"</code>
+					</li>
+					<li>
+						Separators have <code className="text-xs">aria-hidden="true"</code> to avoid screen
+						reader verbosity
+					</li>
 					<li>All links are keyboard accessible with standard tab navigation</li>
 					<li>Provides clear visual feedback on hover and focus states</li>
 				</ul>

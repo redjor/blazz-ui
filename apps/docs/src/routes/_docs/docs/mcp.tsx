@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocPage } from "~/components/docs/doc-page"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -170,7 +170,7 @@ export const Route = createFileRoute("/_docs/docs/mcp")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -194,8 +194,7 @@ const toc = [
 
 function McpPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -209,15 +208,13 @@ function McpPage() {
 				<div className="space-y-4 text-sm text-fg-secondary leading-relaxed">
 					<p>
 						<strong className="text-fg">@blazz/mcp</strong> est un serveur{" "}
-						<strong className="text-fg">Model Context Protocol</strong> qui
-						donne à votre assistant AI (Claude, Cursor, Copilot) un accès
-						structuré au design system Blazz.
+						<strong className="text-fg">Model Context Protocol</strong> qui donne à votre assistant
+						AI (Claude, Cursor, Copilot) un accès structuré au design system Blazz.
 					</p>
 					<p>
-						Au lieu de copier-coller de la documentation dans vos prompts,
-						l'IA interroge directement le MCP pour obtenir les props d'un
-						composant, le skeleton d'une page, ou les tokens CSS.
-						Le code généré respecte les conventions{" "}
+						Au lieu de copier-coller de la documentation dans vos prompts, l'IA interroge
+						directement le MCP pour obtenir les props d'un composant, le skeleton d'une page, ou les
+						tokens CSS. Le code généré respecte les conventions{" "}
 						<strong className="text-fg">dès le premier essai</strong>.
 					</p>
 
@@ -225,22 +222,22 @@ function McpPage() {
 						<div className="rounded-lg border border-container p-4 space-y-2">
 							<p className="text-xs font-medium text-fg uppercase tracking-wider">Sans MCP</p>
 							<p className="text-[13px] text-fg-muted">
-								L'IA invente des props, utilise des patterns non standards, et
-								ignore les conventions du projet. Aller-retour constants.
+								L'IA invente des props, utilise des patterns non standards, et ignore les
+								conventions du projet. Aller-retour constants.
 							</p>
 						</div>
 						<div className="rounded-lg border border-container p-4 space-y-2">
 							<p className="text-xs font-medium text-fg uppercase tracking-wider">Avec MCP</p>
 							<p className="text-[13px] text-fg-muted">
-								L'IA interroge l'API des composants, récupère les patterns
-								exacts, et génère du code conforme au design system.
+								L'IA interroge l'API des composants, récupère les patterns exacts, et génère du code
+								conforme au design system.
 							</p>
 						</div>
 						<div className="rounded-lg border border-container p-4 space-y-2">
 							<p className="text-xs font-medium text-fg uppercase tracking-wider">6 tools</p>
 							<p className="text-[13px] text-fg-muted">
-								Composants, patterns de pages, tokens CSS, principes de design,
-								et conventions de code — tout est accessible.
+								Composants, patterns de pages, tokens CSS, principes de design, et conventions de
+								code — tout est accessible.
 							</p>
 						</div>
 					</div>
@@ -251,15 +248,17 @@ function McpPage() {
 			<DocSection id="installation" title="Installation">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le serveur MCP se configure dans le fichier de config de votre
-						éditeur. Il utilise{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">npx @blazz/mcp</code>{" "}
+						Le serveur MCP se configure dans le fichier de config de votre éditeur. Il utilise{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">
+							npx @blazz/mcp
+						</code>{" "}
 						— aucune installation globale nécessaire.
 					</p>
 					<p>
-						La variable <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">BLAZZ_ROOT</code>{" "}
-						pointe vers la racine du monorepo. Si omise, le serveur remonte
-						l'arborescence pour trouver le dossier{" "}
+						La variable{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">BLAZZ_ROOT</code>{" "}
+						pointe vers la racine du monorepo. Si omise, le serveur remonte l'arborescence pour
+						trouver le dossier{" "}
 						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">ai/</code>.
 					</p>
 				</div>
@@ -272,7 +271,9 @@ function McpPage() {
 				>
 					<div className="space-y-2 text-sm">
 						<div className="flex items-center gap-2">
-							<Badge variant="outline" className="text-[10px]">Claude Code</Badge>
+							<Badge variant="outline" className="text-[10px]">
+								Claude Code
+							</Badge>
 							<span className="text-xs text-fg-muted">.claude/mcp.json</span>
 						</div>
 						<p className="text-xs text-fg-muted">
@@ -289,7 +290,9 @@ function McpPage() {
 				>
 					<div className="space-y-2 text-sm">
 						<div className="flex items-center gap-2">
-							<Badge variant="outline" className="text-[10px]">Cursor</Badge>
+							<Badge variant="outline" className="text-[10px]">
+								Cursor
+							</Badge>
 							<span className="text-xs text-fg-muted">.cursor/mcp.json</span>
 						</div>
 						<p className="text-xs text-fg-muted">
@@ -303,10 +306,9 @@ function McpPage() {
 			<DocSection id="tools" title="Les 6 tools">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le serveur expose <strong className="text-fg">6 tools</strong>{" "}
-						que l'assistant AI peut appeler à tout moment pendant une
-						conversation. Chaque tool retourne du contenu structuré — JSON
-						ou Markdown — que l'IA utilise pour générer du code.
+						Le serveur expose <strong className="text-fg">6 tools</strong> que l'assistant AI peut
+						appeler à tout moment pendant une conversation. Chaque tool retourne du contenu
+						structuré — JSON ou Markdown — que l'IA utilise pour générer du code.
 					</p>
 				</div>
 
@@ -315,8 +317,12 @@ function McpPage() {
 						<thead>
 							<tr className="border-b border-separator bg-raised/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Tool</th>
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Arguments</th>
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Description</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
+									Arguments
+								</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
+									Description
+								</th>
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-separator">
@@ -371,9 +377,10 @@ function McpPage() {
 			<DocSection id="tool-list-components" title="list_components">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne la liste complète des composants disponibles. L'IA utilise
-						cette tool pour savoir quel composant chercher avant d'appeler{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">get_component</code>.
+						Retourne la liste complète des composants disponibles. L'IA utilise cette tool pour
+						savoir quel composant chercher avant d'appeler{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">get_component</code>
+						.
 					</p>
 				</div>
 
@@ -386,12 +393,10 @@ function McpPage() {
 					<div className="space-y-2">
 						<p className="text-xs font-medium text-fg">Catégories retournées</p>
 						<div className="flex flex-wrap gap-2">
-							{[
-								"Primitives (ui/)",
-								"Blocks Data (blocks/)",
-								"Layouts",
-							].map((cat) => (
-								<Badge key={cat} variant="outline" className="text-[10px]">{cat}</Badge>
+							{["Primitives (ui/)", "Blocks Data (blocks/)", "Layouts"].map((cat) => (
+								<Badge key={cat} variant="outline" className="text-[10px]">
+									{cat}
+								</Badge>
 							))}
 						</div>
 					</div>
@@ -402,10 +407,12 @@ function McpPage() {
 			<DocSection id="tool-get-component" title="get_component">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne la documentation complète d'un composant : props avec types
-						et defaults, exemples d'usage canoniques, et gotchas à éviter.
-						Le contenu vient de{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">ai/components.md</code>.
+						Retourne la documentation complète d'un composant : props avec types et defaults,
+						exemples d'usage canoniques, et gotchas à éviter. Le contenu vient de{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">
+							ai/components.md
+						</code>
+						.
 					</p>
 				</div>
 
@@ -417,12 +424,14 @@ function McpPage() {
 				>
 					<div className="space-y-3">
 						<div className="flex items-center gap-2">
-							<code className="rounded bg-raised px-2 py-1 text-xs font-mono text-brand">name: "Button"</code>
+							<code className="rounded bg-raised px-2 py-1 text-xs font-mono text-brand">
+								name: "Button"
+							</code>
 							<span className="text-xs text-fg-muted">ou "DataGrid", "PageHeader", etc.</span>
 						</div>
 						<p className="text-xs text-fg-muted">
-							Si le composant n'existe pas, retourne une erreur avec la
-							suggestion d'utiliser <code className="text-brand">list_components</code>.
+							Si le composant n'existe pas, retourne une erreur avec la suggestion d'utiliser{" "}
+							<code className="text-brand">list_components</code>.
 						</p>
 					</div>
 				</DocExampleClient>
@@ -432,10 +441,12 @@ function McpPage() {
 			<DocSection id="tool-get-pattern" title="get_pattern">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne un pattern de page complet avec la structure de fichiers,
-						le code skeleton, les conventions spécifiques et les 4 états
-						(loading, empty, error, success). Source :{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">ai/patterns/*.md</code>.
+						Retourne un pattern de page complet avec la structure de fichiers, le code skeleton, les
+						conventions spécifiques et les 4 états (loading, empty, error, success). Source :{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">
+							ai/patterns/*.md
+						</code>
+						.
 					</p>
 				</div>
 
@@ -470,9 +481,9 @@ function McpPage() {
 			<DocSection id="tool-get-rules" title="get_rules">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne les conventions de code non négociables : architecture
-						(Server Components par défaut), formulaires (react-hook-form + zod),
-						les 4 états obligatoires, et les conventions d'import. Source :{" "}
+						Retourne les conventions de code non négociables : architecture (Server Components par
+						défaut), formulaires (react-hook-form + zod), les 4 états obligatoires, et les
+						conventions d'import. Source :{" "}
 						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">ai/rules.md</code>.
 					</p>
 				</div>
@@ -508,9 +519,8 @@ function McpPage() {
 			<DocSection id="tool-get-design-principles" title="get_design_principles">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne les principes de design du kit : ratio data-ink de Tufte,
-						lois de Gestalt, densité enterprise, échelle de 4px, typographie
-						Inter, couleurs sémantiques. Source :{" "}
+						Retourne les principes de design du kit : ratio data-ink de Tufte, lois de Gestalt,
+						densité enterprise, échelle de 4px, typographie Inter, couleurs sémantiques. Source :{" "}
 						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">ai/design.md</code>.
 					</p>
 				</div>
@@ -548,9 +558,8 @@ function McpPage() {
 					<p>
 						Retourne le fichier{" "}
 						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">tokens.css</code>{" "}
-						complet avec les 25 tokens oklch pour les thèmes light et dark.
-						L'IA les utilise pour appliquer les bonnes variables CSS au lieu
-						de hardcoder des couleurs.
+						complet avec les 25 tokens oklch pour les thèmes light et dark. L'IA les utilise pour
+						appliquer les bonnes variables CSS au lieu de hardcoder des couleurs.
 					</p>
 				</div>
 
@@ -567,9 +576,13 @@ function McpPage() {
 							{ label: "Accents", tokens: ["--brand", "--info", "--success"] },
 						].map((group) => (
 							<div key={group.label} className="space-y-1.5">
-								<p className="text-[11px] font-medium text-fg uppercase tracking-wider">{group.label}</p>
+								<p className="text-[11px] font-medium text-fg uppercase tracking-wider">
+									{group.label}
+								</p>
 								{group.tokens.map((t) => (
-									<code key={t} className="block text-xs font-mono text-fg-muted">{t}</code>
+									<code key={t} className="block text-xs font-mono text-fg-muted">
+										{t}
+									</code>
 								))}
 							</div>
 						))}
@@ -581,9 +594,9 @@ function McpPage() {
 			<DocSection id="workflow" title="Workflow type">
 				<div className="space-y-4 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Voici comment un assistant AI utilise le MCP en pratique. Les tools
-						sont appelées <strong className="text-fg">automatiquement</strong>{" "}
-						par l'IA — tu n'as pas besoin de les invoquer manuellement.
+						Voici comment un assistant AI utilise le MCP en pratique. Les tools sont appelées{" "}
+						<strong className="text-fg">automatiquement</strong> par l'IA — tu n'as pas besoin de
+						les invoquer manuellement.
 					</p>
 				</div>
 
@@ -597,7 +610,11 @@ function McpPage() {
 						{[
 							{ step: "1", label: "get_rules", desc: "Charger les conventions au démarrage" },
 							{ step: "2", label: "get_pattern", desc: "Obtenir le skeleton de la page demandée" },
-							{ step: "3", label: "get_component", desc: "Récupérer les props des composants utilisés" },
+							{
+								step: "3",
+								label: "get_component",
+								desc: "Récupérer les props des composants utilisés",
+							},
 							{ step: "4", label: "get_tokens", desc: "Vérifier les tokens pour le styling" },
 						].map((s) => (
 							<div key={s.step} className="flex items-start gap-3">
@@ -628,7 +645,11 @@ function McpPage() {
 						<tbody className="divide-y divide-separator">
 							{[
 								{ client: "Claude Code", config: ".claude/mcp.json", status: "Supporté" },
-								{ client: "Claude Desktop", config: "claude_desktop_config.json", status: "Supporté" },
+								{
+									client: "Claude Desktop",
+									config: "claude_desktop_config.json",
+									status: "Supporté",
+								},
 								{ client: "Cursor", config: ".cursor/mcp.json", status: "Supporté" },
 								{ client: "Windsurf", config: ".windsurf/mcp.json", status: "Supporté" },
 								{ client: "Continue", config: ".continue/config.json", status: "Supporté" },

@@ -37,7 +37,7 @@ function Timeline({ className, orientation = "vertical", ...props }: TimelinePro
 				className={cn(
 					"relative",
 					orientation === "horizontal" ? "flex flex-row items-start" : "space-y-0",
-					className,
+					className
 				)}
 				{...props}
 			/>
@@ -63,7 +63,7 @@ function TimelineItem({ className, showLine = true, ...props }: TimelineItemProp
 			className={cn(
 				"relative",
 				orientation === "horizontal" ? "flex flex-1 flex-col" : "flex gap-3",
-				className,
+				className
 			)}
 			{...props}
 		/>
@@ -88,7 +88,7 @@ function TimelineIndicator({ className, children, ...props }: React.ComponentPro
 						"z-10 flex size-7 shrink-0 items-center justify-center rounded-full",
 						"border border-edge bg-surface text-fg-muted",
 						"[&>svg]:size-3.5",
-						className,
+						className
 					)}
 					{...props}
 				>
@@ -108,7 +108,7 @@ function TimelineIndicator({ className, children, ...props }: React.ComponentPro
 					"flex size-7 shrink-0 items-center justify-center rounded-full",
 					"border border-edge bg-surface text-fg-muted",
 					"[&>svg]:size-3.5",
-					className,
+					className
 				)}
 				{...props}
 			>
@@ -125,13 +125,7 @@ function TimelineIndicator({ className, children, ...props }: React.ComponentPro
  * --------------------------------------------------------------------------- */
 
 function TimelineHeader({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="timeline-header"
-			className={cn("flex flex-col", className)}
-			{...props}
-		/>
-	)
+	return <div data-slot="timeline-header" className={cn("flex flex-col", className)} {...props} />
 }
 
 /* ---------------------------------------------------------------------------
@@ -147,7 +141,7 @@ function TimelineContent({ className, ...props }: React.ComponentProps<"div">) {
 				orientation === "horizontal"
 					? "mt-2 flex flex-col items-center text-center"
 					: "flex-1 pt-0.5 pb-6 [[data-slot='timeline-item']:last-child_&]:pb-1",
-				className,
+				className
 			)}
 			{...props}
 		/>

@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { Clock } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { useState } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export type SlotStatus = "available" | "busy" | "tentative"
 
@@ -25,9 +25,11 @@ export interface AvailabilityCardProps {
 }
 
 const slotStyles = {
-	available: "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 cursor-pointer",
+	available:
+		"border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 cursor-pointer",
 	busy: "border-edge-subtle bg-raised/50 text-fg-muted/50 cursor-not-allowed",
-	tentative: "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300 dark:hover:bg-amber-900 cursor-pointer",
+	tentative:
+		"border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300 dark:hover:bg-amber-900 cursor-pointer",
 } as const
 
 function AvailabilityCardBase({
@@ -68,9 +70,7 @@ function AvailabilityCardBase({
 										onClick={() => handleSelect(day.date, slot.time, slot.status)}
 										className={cn(
 											"rounded-md border px-2.5 py-1 text-xs font-medium transition-colors",
-											isSelected
-												? "border-brand bg-brand text-white"
-												: slotStyles[slot.status],
+											isSelected ? "border-brand bg-brand text-white" : slotStyles[slot.status]
 										)}
 									>
 										{slot.time}

@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react"
-import { describe, it, expect, vi } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 import { useNavigationTabTitle } from "./use-navigation-tab-title"
 
 const mockUpdateTabTitle = vi.fn()

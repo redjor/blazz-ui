@@ -1,11 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { Mail, Paperclip } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 export interface EmailPreviewProps {
 	subject: string
@@ -20,7 +20,12 @@ export interface EmailPreviewProps {
 }
 
 function getInitials(name: string) {
-	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
+	return name
+		.split(" ")
+		.map((w) => w[0])
+		.join("")
+		.toUpperCase()
+		.slice(0, 2)
 }
 
 const statusConfig = {
@@ -73,9 +78,7 @@ function EmailPreviewBase({
 				</div>
 				<div className="flex items-center gap-2">
 					<span className="text-xs text-fg-muted shrink-0">To:</span>
-					<span className="text-xs text-fg truncate">
-						{to.map((t) => t.name).join(", ")}
-					</span>
+					<span className="text-xs text-fg truncate">{to.map((t) => t.name).join(", ")}</span>
 				</div>
 			</div>
 

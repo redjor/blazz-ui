@@ -1,23 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { useState } from "react"
-import { Button } from "@blazz/ui/components/ui/button"
 import {
 	ModelSelector,
-	ModelSelectorTrigger,
 	ModelSelectorContent,
-	ModelSelectorInput,
-	ModelSelectorList,
 	ModelSelectorEmpty,
 	ModelSelectorGroup,
+	ModelSelectorInput,
 	ModelSelectorItem,
+	ModelSelectorList,
 	ModelSelectorLogo,
 	ModelSelectorLogoGroup,
 	ModelSelectorName,
+	ModelSelectorTrigger,
 } from "@blazz/ui/components/ai/tools/model-selector"
+import { Button } from "@blazz/ui/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -63,9 +63,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/model-selector"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/model-selector")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -101,11 +99,7 @@ function ModelSelectorDemo() {
 					<ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
 					<ModelSelectorGroup heading="Available Models">
 						{models.map((model) => (
-							<ModelSelectorItem
-								key={model.id}
-								value={model.id}
-								onSelect={() => setOpen(false)}
-							>
+							<ModelSelectorItem key={model.id} value={model.id} onSelect={() => setOpen(false)}>
 								<ModelSelectorLogo provider={model.provider} />
 								<ModelSelectorName>{model.name}</ModelSelectorName>
 							</ModelSelectorItem>
@@ -175,8 +169,7 @@ function LogoGroupDemo() {
 
 function ModelSelectorPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

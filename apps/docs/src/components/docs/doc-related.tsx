@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router"
 import { cn } from "@blazz/ui/lib/utils"
+import { Link } from "@tanstack/react-router"
 
 export interface DocRelatedItem {
 	title: string

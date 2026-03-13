@@ -1,10 +1,10 @@
+import { StatusUpdate } from "@blazz/ui/components/ai/generative/planning/status-update"
 import { createFileRoute } from "@tanstack/react-router"
 import { ArrowRightLeft } from "lucide-react"
-import { StatusUpdate } from "@blazz/ui/components/ai/generative/planning/status-update"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -33,9 +33,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/planning/status-update"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/planning/status-update")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -52,8 +50,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function StatusUpdatePage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

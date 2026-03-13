@@ -1,9 +1,9 @@
-import { getInitials } from './initials';
+import { getInitials } from "./initials"
 
 export interface ParsedAccountMetadata {
-  scope: string;
-  role: string;
-  initials: string;
+	scope: string
+	role: string
+	initials: string
 }
 
 /**
@@ -14,12 +14,12 @@ export interface ParsedAccountMetadata {
  * // { scope: "Global", role: "Directeur", initials: "GD" }
  */
 export function parseAccountMetadata(label: string): ParsedAccountMetadata {
-  const cleaned = label.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
-  const parts = cleaned.split(' - ');
+	const cleaned = label.replace(/[\u{1F300}-\u{1F9FF}]/gu, "").trim()
+	const parts = cleaned.split(" - ")
 
-  return {
-    scope: parts[0]?.trim() || '',
-    role: parts[1]?.trim() || '',
-    initials: getInitials(label),
-  };
+	return {
+		scope: parts[0]?.trim() || "",
+		role: parts[1]?.trim() || "",
+		initials: getInitials(label),
+	}
 }

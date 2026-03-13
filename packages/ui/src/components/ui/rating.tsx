@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { StarIcon } from "lucide-react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 
 export interface RatingProps {
@@ -103,18 +103,12 @@ function Rating({
 									fill="currentColor"
 								/>
 								<span className="absolute inset-0 overflow-hidden w-1/2">
-									<StarIcon
-										className={cn(sizeClasses[size], "text-warning")}
-										fill="currentColor"
-									/>
+									<StarIcon className={cn(sizeClasses[size], "text-warning")} fill="currentColor" />
 								</span>
 							</span>
 						) : (
 							<StarIcon
-								className={cn(
-									sizeClasses[size],
-									filled ? "text-warning" : "text-fg-muted/30"
-								)}
+								className={cn(sizeClasses[size], filled ? "text-warning" : "text-fg-muted/30")}
 								fill="currentColor"
 							/>
 						)}

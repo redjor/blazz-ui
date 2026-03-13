@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { getEffectiveStatus, getAllowedTransitions } from "./time-entry-status"
+import { getAllowedTransitions, getEffectiveStatus } from "./time-entry-status"
 
 describe("getEffectiveStatus", () => {
 	it("returns null for non-billable", () => {

@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Mail, Phone, Calendar, FileText } from "lucide-react"
 import { ActionList } from "@blazz/ui/components/ai/generative/workflow/action-list"
+import { createFileRoute } from "@tanstack/react-router"
+import { Calendar, FileText, Mail, Phone } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -31,9 +31,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/workflow/action-list"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/workflow/action-list")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -50,8 +48,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function ActionListPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -64,10 +61,26 @@ function ActionListPage() {
 					<ActionList
 						title="Suggested Actions"
 						items={[
-							{ icon: <Mail className="size-4" />, label: "Send follow-up email", description: "Draft a proposal follow-up to Laura Chen" },
-							{ icon: <Phone className="size-4" />, label: "Schedule a call", description: "Book 30min with the engineering team" },
-							{ icon: <Calendar className="size-4" />, label: "Create a meeting", description: "Product demo for next week" },
-							{ icon: <FileText className="size-4" />, label: "Generate quote", description: "Enterprise License — $48,000" },
+							{
+								icon: <Mail className="size-4" />,
+								label: "Send follow-up email",
+								description: "Draft a proposal follow-up to Laura Chen",
+							},
+							{
+								icon: <Phone className="size-4" />,
+								label: "Schedule a call",
+								description: "Book 30min with the engineering team",
+							},
+							{
+								icon: <Calendar className="size-4" />,
+								label: "Create a meeting",
+								description: "Product demo for next week",
+							},
+							{
+								icon: <FileText className="size-4" />,
+								label: "Generate quote",
+								description: "Enterprise License — $48,000",
+							},
 						]}
 					/>
 				</div>
@@ -84,8 +97,16 @@ function ActionListPage() {
 						<ActionList
 							title="Suggested Actions"
 							items={[
-								{ icon: <Mail className="size-4" />, label: "Send email", description: "Follow-up on proposal" },
-								{ icon: <Phone className="size-4" />, label: "Schedule call", description: "30min sync" },
+								{
+									icon: <Mail className="size-4" />,
+									label: "Send email",
+									description: "Follow-up on proposal",
+								},
+								{
+									icon: <Phone className="size-4" />,
+									label: "Schedule call",
+									description: "30min sync",
+								},
 								{ icon: <FileText className="size-4" />, label: "Generate quote" },
 							]}
 						/>

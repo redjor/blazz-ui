@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { Check } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { useState } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface PollOption {
 	label: string
@@ -58,7 +58,7 @@ function PollCardBase({
 								isSelected
 									? "border-brand bg-brand/5 text-fg"
 									: "border-container text-fg hover:bg-raised cursor-pointer",
-								selected !== null && !isSelected && "opacity-70",
+								selected !== null && !isSelected && "opacity-70"
 							)}
 						>
 							{showResults && (
@@ -77,7 +77,9 @@ function PollCardBase({
 				})}
 			</div>
 			{showResults && totalVotes > 0 && (
-				<p className="mt-2 text-xs text-fg-muted">{totalVotes} vote{totalVotes > 1 ? "s" : ""}</p>
+				<p className="mt-2 text-xs text-fg-muted">
+					{totalVotes} vote{totalVotes > 1 ? "s" : ""}
+				</p>
 			)}
 		</div>
 	)

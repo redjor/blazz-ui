@@ -1,22 +1,22 @@
 "use client"
 
-import * as React from "react"
-import { Toaster } from "sonner"
+import { type Organization, OrgMenu } from "@blazz/ui/components/blocks/org-menu"
+import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
 import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
+import { FrameProvider, useFrame } from "@blazz/ui/components/patterns/frame-context"
 import {
-	NavigationTabsProvider,
 	NavigationTabsInterceptor,
+	NavigationTabsProvider,
 	useNavigationTabs,
 	useNavigationTabUrlSync,
 } from "@blazz/ui/components/patterns/navigation-tabs"
-import { OrgMenu, type Organization } from "@blazz/ui/components/blocks/org-menu"
-import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
-import { FrameProvider, useFrame } from "@blazz/ui/components/patterns/frame-context"
 import { TabBar } from "@blazz/ui/components/patterns/tab-bar"
 import { SidebarProvider } from "@blazz/ui/components/ui/sidebar"
-import { crmSidebarConfig, crmNavigationConfig } from "@/config/crm-navigation"
 import { titleFromPathname } from "@blazz/ui/lib/tab-utils"
 import { useFrameLayout } from "@blazz/ui/lib/use-frame-layout"
+import * as React from "react"
+import { Toaster } from "sonner"
+import { crmNavigationConfig, crmSidebarConfig } from "@/config/crm-navigation"
 
 const docsUrl = process.env.NEXT_PUBLIC_DOCS_URL ?? ""
 
@@ -60,11 +60,12 @@ function CrmLayoutInner({ children }: { children: React.ReactNode }) {
 			>
 				{children}
 			</AppFrame>
-			<NavigationTabsInterceptor
-				excludePaths={["/docs"]}
-				titleResolver={titleFromPathname}
+			<NavigationTabsInterceptor excludePaths={["/docs"]} titleResolver={titleFromPathname} />
+			<CommandPalette
+				navigation={crmNavigationConfig}
+				open={commandPaletteOpen}
+				onOpenChange={setCommandPaletteOpen}
 			/>
-			<CommandPalette navigation={crmNavigationConfig} open={commandPaletteOpen} onOpenChange={setCommandPaletteOpen} />
 			<Toaster />
 		</SidebarProvider>
 	)

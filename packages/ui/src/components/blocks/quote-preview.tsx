@@ -1,7 +1,7 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 
 export interface QuoteLineItem {
 	product: string
@@ -69,7 +69,8 @@ function QuotePreviewBase({
 				<div>
 					<h1 className="text-xl font-bold text-fg">Forge CRM</h1>
 					<p className="mt-1 text-sm text-fg-muted">
-						123 Avenue des Champs-Élysées<br />
+						123 Avenue des Champs-Élysées
+						<br />
 						75008 Paris, France
 					</p>
 				</div>
@@ -82,9 +83,7 @@ function QuotePreviewBase({
 			{/* Dates + Client */}
 			<div className="mt-6 grid grid-cols-2 gap-8">
 				<div>
-					<h3 className="text-xs font-semibold uppercase tracking-wide text-fg-muted">
-						Client
-					</h3>
+					<h3 className="text-xs font-semibold uppercase tracking-wide text-fg-muted">Client</h3>
 					<div className="mt-2 text-sm">
 						<p className="font-medium">{company.name}</p>
 						{company.address && <p className="text-fg-muted">{company.address}</p>}
@@ -97,9 +96,7 @@ function QuotePreviewBase({
 						{contact && (
 							<div className="mt-2">
 								<p>{contact.name}</p>
-								{contact.email && (
-									<p className="text-fg-muted">{contact.email}</p>
-								)}
+								{contact.email && <p className="text-fg-muted">{contact.email}</p>}
 							</div>
 						)}
 					</div>
@@ -134,9 +131,7 @@ function QuotePreviewBase({
 							<tr key={i} className="border-b last:border-0">
 								<td className="py-3">
 									<p className="font-medium">{line.product}</p>
-									{line.description && (
-										<p className="text-fg-muted">{line.description}</p>
-									)}
+									{line.description && <p className="text-fg-muted">{line.description}</p>}
 								</td>
 								<td className="py-3 text-right tabular-nums">{line.quantity}</td>
 								<td className="py-3 text-right tabular-nums">

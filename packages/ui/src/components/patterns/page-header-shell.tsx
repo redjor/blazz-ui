@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "../../lib/utils"
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -9,7 +10,6 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "../ui/breadcrumb"
-import { cn } from "../../lib/utils"
 
 export interface BreadcrumbItemType {
 	label: string
@@ -62,7 +62,7 @@ export function PageHeader({
 							const isLast = index === breadcrumbs.length - 1
 
 							return (
-								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+								// biome-ignore lint/suspicious/noArrayIndexKey: breadcrumb items have stable order
 								<React.Fragment key={index}>
 									<BreadcrumbItem>
 										{isLast || !breadcrumb.href ? (

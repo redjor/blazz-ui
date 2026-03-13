@@ -1,18 +1,18 @@
 "use client"
 
-import { createFileRoute } from "@tanstack/react-router"
-import { useState } from "react"
+import { Button } from "@blazz/ui"
 import {
 	UnsavedChangesBar,
 	UnsavedChangesProvider,
 	useUnsavedChanges,
 } from "@blazz/ui/components/patterns/unsaved-changes-bar"
-import { Button } from "@blazz/ui"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -86,7 +86,7 @@ export const Route = createFileRoute("/_docs/docs/utils/unsaved-changes-bar")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -276,16 +276,15 @@ function UnsavedChangesBarPage() {
 						<code className="text-fg">UnsavedChangesProvider</code>.
 					</li>
 					<li>
-						Place <code className="text-fg">{"<UnsavedChangesBar blockNavigation />"}</code> in
-						your top bar or bottom bar. The <code className="text-fg">blockNavigation</code>{" "}
-						prop blocks browser back/forward and tab close automatically — no separate hook
-						needed. Use <code className="text-fg">side="bottom"</code> if placing it at the
-						bottom.
+						Place <code className="text-fg">{"<UnsavedChangesBar blockNavigation />"}</code> in your
+						top bar or bottom bar. The <code className="text-fg">blockNavigation</code> prop blocks
+						browser back/forward and tab close automatically — no separate hook needed. Use{" "}
+						<code className="text-fg">side="bottom"</code> if placing it at the bottom.
 					</li>
 					<li>
-						Call <code className="text-fg">useUnsavedChanges()</code> in any form component.
-						The bar appears automatically when <code className="text-fg">isDirty</code> is true
-						and disappears on save or discard.
+						Call <code className="text-fg">useUnsavedChanges()</code> in any form component. The bar
+						appears automatically when <code className="text-fg">isDirty</code> is true and
+						disappears on save or discard.
 					</li>
 					<li>
 						Before programmatic navigation after a successful save, call{" "}
@@ -307,19 +306,19 @@ function UnsavedChangesBarPage() {
 				<ul className="list-disc list-inside space-y-2 text-sm text-fg-muted">
 					<li>
 						Prefer <code className="text-fg">blockNavigation</code> on the bar over calling{" "}
-						<code className="text-fg">useUnsavedChangesNavigationGuard()</code> separately —
-						it's one less thing to wire up.
+						<code className="text-fg">useUnsavedChangesNavigationGuard()</code> separately — it's
+						one less thing to wire up.
 					</li>
 					<li>
 						Always call <code className="text-fg">allowNextNavigation()</code> before{" "}
-						<code className="text-fg">router.push()</code> after a successful save, otherwise
-						the navigation guard will call <code className="text-fg">history.back()</code> to
-						undo the redirect.
+						<code className="text-fg">router.push()</code> after a successful save, otherwise the
+						navigation guard will call <code className="text-fg">history.back()</code> to undo the
+						redirect.
 					</li>
 					<li>
 						<code className="text-fg">onDiscard</code> gets{" "}
-						<code className="text-fg">allowNextNavigation()</code> called automatically — no
-						need to call it yourself in that callback.
+						<code className="text-fg">allowNextNavigation()</code> called automatically — no need to
+						call it yourself in that callback.
 					</li>
 					<li>
 						One form at a time — only one registered form is displayed. If multiple forms mount

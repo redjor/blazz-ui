@@ -1,12 +1,12 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { Building2, Clock, Mail, Phone } from "lucide-react"
 import Link from "next/link"
-import { Phone, Mail, Building2, Clock } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 export interface ContactCardProps {
 	name: string
@@ -23,7 +23,12 @@ export interface ContactCardProps {
 }
 
 function getInitials(name: string) {
-	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
+	return name
+		.split(" ")
+		.map((w) => w[0])
+		.join("")
+		.toUpperCase()
+		.slice(0, 2)
 }
 
 function ContactCardBase({
@@ -48,7 +53,7 @@ function ContactCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-start gap-3">
@@ -94,7 +99,9 @@ function ContactCardBase({
 			{tags && tags.length > 0 && (
 				<div className="mt-3 flex flex-wrap gap-1.5">
 					{tags.map((tag) => (
-						<Badge key={tag} variant="secondary" size="xs" fill="subtle">{tag}</Badge>
+						<Badge key={tag} variant="secondary" size="xs" fill="subtle">
+							{tag}
+						</Badge>
 					))}
 				</div>
 			)}

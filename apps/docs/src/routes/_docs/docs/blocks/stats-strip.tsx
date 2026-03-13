@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { StatsStrip } from "@blazz/ui/components/blocks/stats-strip"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -19,7 +19,12 @@ const toc = [
 const trendStats = [
 	{ label: "Revenus", value: "€45 200", chart: [30, 32, 35, 38, 42, 44, 50] },
 	{ label: "Taux de rebond", value: "61 %", chart: [48, 52, 55, 58, 60, 62, 61] },
-	{ label: "Commandes", value: "128", chart: [140, 135, 128, 122, 118, 115, 112], trend: "down" as const },
+	{
+		label: "Commandes",
+		value: "128",
+		chart: [140, 135, 128, 122, 118, 115, 112],
+		trend: "down" as const,
+	},
 	{ label: "Satisfaction", value: "4.8 / 5", chart: [4.5, 4.5, 4.6, 4.6, 4.7, 4.8, 4.8] },
 ]
 
@@ -71,7 +76,8 @@ const statsStripProps: DocProp[] = [
 		name: "loadingCount",
 		type: "number",
 		default: "4",
-		description: "Number of skeleton items to render while loading. Set this to match the expected number of stats.",
+		description:
+			"Number of skeleton items to render while loading. Set this to match the expected number of stats.",
 	},
 	{
 		name: "className",
@@ -159,7 +165,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/stats-strip")({
 			[...examples].map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -168,8 +174,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/stats-strip")({
 
 function StatsStripPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -240,7 +245,10 @@ function StatsStripPage() {
 
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
-					<li>Use for analytics headers and dashboard summaries — not as the main KPI display (use StatsGrid for that)</li>
+					<li>
+						Use for analytics headers and dashboard summaries — not as the main KPI display (use
+						StatsGrid for that)
+					</li>
 					<li>Pre-format values before passing them (e.g. "€45 200", "3.2 %")</li>
 					<li>Provide at least 7 data points for smooth sparklines</li>
 					<li>Keep labels concise — long labels will be truncated with a tooltip</li>

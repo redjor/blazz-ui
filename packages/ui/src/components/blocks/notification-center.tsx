@@ -1,12 +1,13 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useEffect, useRef, useState } from "react"
 import type { LucideIcon } from "lucide-react"
 import { Bell, Check, MoreHorizontal } from "lucide-react"
-import { Button } from "../ui/button"
+import { useEffect, useRef, useState } from "react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { ErrorState } from "../patterns/error-state"
 import { Badge } from "../ui/badge"
-import { Skeleton } from "../ui/skeleton"
+import { Button } from "../ui/button"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -14,8 +15,7 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { Empty } from "../ui/empty"
-import { ErrorState } from "../patterns/error-state"
-import { cn } from "../../lib/utils"
+import { Skeleton } from "../ui/skeleton"
 
 // ---------------------------------------------------------------------------
 // Types
@@ -60,10 +60,7 @@ export interface NotificationTriggerProps {
 	className?: string
 }
 
-export function NotificationTrigger({
-	unreadCount = 0,
-	className,
-}: NotificationTriggerProps) {
+export function NotificationTrigger({ unreadCount = 0, className }: NotificationTriggerProps) {
 	const prevCountRef = useRef(unreadCount)
 	const [animate, setAnimate] = useState(false)
 
@@ -77,10 +74,7 @@ export function NotificationTrigger({
 	return (
 		<button
 			type="button"
-			className={cn(
-				"relative rounded-lg p-2 transition-colors hover:bg-raised",
-				className,
-			)}
+			className={cn("relative rounded-lg p-2 transition-colors hover:bg-raised", className)}
 			aria-label="Notifications"
 		>
 			<Bell
@@ -140,8 +134,7 @@ function NotificationCenterBase({
 	unreadCount = 0,
 	className,
 }: NotificationCenterProps) {
-	const hasChildren =
-		children !== undefined && children !== null && children !== false
+	const hasChildren = children !== undefined && children !== null && children !== false
 
 	return (
 		<div className={cn("flex h-full flex-col", className)}>
@@ -156,12 +149,7 @@ function NotificationCenterBase({
 					)}
 				</div>
 				{onMarkAllRead && unreadCount > 0 && (
-					<Button
-						variant="ghost"
-						size="xs"
-						onClick={onMarkAllRead}
-						className="text-fg-muted"
-					>
+					<Button variant="ghost" size="xs" onClick={onMarkAllRead} className="text-fg-muted">
 						<Check className="size-3" data-icon="inline-start" />
 						Mark all read
 					</Button>
@@ -204,11 +192,7 @@ export interface NotificationListProps {
 }
 
 export function NotificationList({ children, className }: NotificationListProps) {
-	return (
-		<div className={cn("flex-1 overflow-y-auto", className)}>
-			{children}
-		</div>
-	)
+	return <div className={cn("flex-1 overflow-y-auto", className)}>{children}</div>
 }
 
 // ---------------------------------------------------------------------------
@@ -221,17 +205,11 @@ export interface NotificationGroupProps {
 	className?: string
 }
 
-export function NotificationGroup({
-	label,
-	children,
-	className,
-}: NotificationGroupProps) {
+export function NotificationGroup({ label, children, className }: NotificationGroupProps) {
 	return (
 		<div className={cn("", className)}>
 			<div className="flex items-center gap-2 px-4 py-2">
-				<span className="text-2xs font-medium uppercase text-fg-muted">
-					{label}
-				</span>
+				<span className="text-2xs font-medium uppercase text-fg-muted">{label}</span>
 				<div className="h-px flex-1 bg-edge" />
 			</div>
 			{children}
@@ -249,19 +227,13 @@ export interface NotificationItemProps {
 	className?: string
 }
 
-export function NotificationItem({
-	notification,
-	onClick,
-	className,
-}: NotificationItemProps) {
+export function NotificationItem({ notification, onClick, className }: NotificationItemProps) {
 	const Icon = notification.icon
 	const isUnread = !notification.read
 
-	const primaryActions = notification.actions?.filter(
-		(a) => a.variant === "primary",
-	)
+	const primaryActions = notification.actions?.filter((a) => a.variant === "primary")
 	const secondaryActions = notification.actions?.filter(
-		(a) => !a.variant || a.variant === "default",
+		(a) => !a.variant || a.variant === "default"
 	)
 
 	return (
@@ -280,7 +252,7 @@ export function NotificationItem({
 				onClick && "cursor-pointer",
 				isUnread && "bg-white/[0.02]",
 				"hover:bg-raised",
-				className,
+				className
 			)}
 		>
 			{/* Icon */}
@@ -289,7 +261,7 @@ export function NotificationItem({
 					"flex size-8 shrink-0 items-center justify-center rounded-lg",
 					notification.iconVariant
 						? iconVariantClasses[notification.iconVariant]
-						: defaultIconClasses,
+						: defaultIconClasses
 				)}
 			>
 				<Icon className="size-4" />
@@ -299,22 +271,14 @@ export function NotificationItem({
 			<div className="min-w-0 flex-1">
 				{/* Title row */}
 				<div className="flex items-center gap-1.5">
-					<span className="truncate text-sm font-medium text-fg">
-						{notification.title}
-					</span>
-					{isUnread && (
-						<span className="size-1.5 shrink-0 rounded-full bg-blue-500" />
-					)}
-					<span className="ml-auto shrink-0 text-xs text-fg-muted">
-						{notification.time}
-					</span>
+					<span className="truncate text-sm font-medium text-fg">{notification.title}</span>
+					{isUnread && <span className="size-1.5 shrink-0 rounded-full bg-blue-500" />}
+					<span className="ml-auto shrink-0 text-xs text-fg-muted">{notification.time}</span>
 				</div>
 
 				{/* Description */}
 				{notification.description && (
-					<p className="mt-0.5 text-sm text-fg-muted line-clamp-2">
-						{notification.description}
-					</p>
+					<p className="mt-0.5 text-sm text-fg-muted line-clamp-2">{notification.description}</p>
 				)}
 
 				{/* Primary actions */}

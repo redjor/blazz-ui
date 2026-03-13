@@ -1,10 +1,10 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useState, useRef, useEffect, useCallback } from "react"
-import { Check, X, Pencil } from "lucide-react"
-import { Input } from "../ui/input"
+import { Check, Pencil, X } from "lucide-react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Input } from "../ui/input"
 
 export interface InlineEditProps {
 	value: string

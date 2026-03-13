@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { CheckIcon } from "lucide-react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
@@ -88,9 +88,7 @@ function CheckboxGroup({
 
 	const toggle = React.useCallback(
 		(optionValue: string, checked: boolean) => {
-			const next = checked
-				? [...selected, optionValue]
-				: selected.filter((v) => v !== optionValue)
+			const next = checked ? [...selected, optionValue] : selected.filter((v) => v !== optionValue)
 			if (!isControlled) setInternalValue(next)
 			onValueChange?.(next)
 		},
@@ -98,27 +96,15 @@ function CheckboxGroup({
 	)
 
 	return (
-		<fieldset
-			data-slot="checkbox-group"
-			className={cn("space-y-3", className)}
-			disabled={disabled}
-		>
+		<fieldset data-slot="checkbox-group" className={cn("space-y-3", className)} disabled={disabled}>
 			{(label || description) && (
 				<div className="space-y-1">
-					{label && (
-						<legend className="text-sm font-medium leading-none text-fg">
-							{label}
-						</legend>
-					)}
-					{description && (
-						<p className="text-sm text-fg-muted">{description}</p>
-					)}
+					{label && <legend className="text-sm font-medium leading-none text-fg">{label}</legend>}
+					{description && <p className="text-sm text-fg-muted">{description}</p>}
 				</div>
 			)}
 			<div
-				className={cn(
-					orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2"
-				)}
+				className={cn(orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2")}
 			>
 				{options.map((option) => {
 					const id = `checkbox-group-${option.value}`

@@ -1,8 +1,5 @@
 "use client"
 
-import { useAuthActions } from "@convex-dev/auth/react"
-import { useQuery } from "convex/react"
-import { ChevronsUpDown, LogOut } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
 import {
 	DropdownMenu,
@@ -12,6 +9,9 @@ import {
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
 import { SidebarMenuButton } from "@blazz/ui/components/ui/sidebar"
+import { useAuthActions } from "@convex-dev/auth/react"
+import { useQuery } from "convex/react"
+import { ChevronsUpDown, LogOut } from "lucide-react"
 import { api } from "@/convex/_generated/api"
 
 export function OpsUserMenu() {

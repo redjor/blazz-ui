@@ -1,13 +1,13 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useState, useRef, useCallback } from "react"
-import { Badge } from "../ui/badge"
+import { useCallback, useRef, useState } from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Badge } from "../ui/badge"
 
 /* ─── Types ─── */
 
-export interface KanbanColumn<T> {
+export interface KanbanColumn<_T> {
 	id: string
 	label: string
 	variant?: "default" | "success" | "info" | "warning" | "critical" | "outline"
@@ -52,14 +52,11 @@ function KanbanBoardBase<T extends { id: string }>({
 		[getColumnId]
 	)
 
-	const handleDragOver = useCallback(
-		(e: React.DragEvent, columnId: string) => {
-			e.preventDefault()
-			e.dataTransfer.dropEffect = "move"
-			setDragOverColumn(columnId)
-		},
-		[]
-	)
+	const handleDragOver = useCallback((e: React.DragEvent, columnId: string) => {
+		e.preventDefault()
+		e.dataTransfer.dropEffect = "move"
+		setDragOverColumn(columnId)
+	}, [])
 
 	const handleDragLeave = useCallback(() => {
 		setDragOverColumn(null)
@@ -139,16 +136,13 @@ function KanbanBoardBase<T extends { id: string }>({
 									</div>
 								))}
 								{columnItems.length === 0 && (
-									<p className="py-8 text-center text-xs text-fg-muted">
-										Aucun élément
-									</p>
+									<p className="py-8 text-center text-xs text-fg-muted">Aucun élément</p>
 								)}
 								{renderAfterCards?.(column, columnItems)}
 							</div>
 							{/* Bottom fade */}
 							<div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 rounded-b-lg bg-gradient-to-t from-surface to-transparent" />
 						</div>
-
 					</div>
 				)
 			})}

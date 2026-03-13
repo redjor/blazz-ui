@@ -1,11 +1,11 @@
 "use client"
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Box } from "@blazz/ui/components/ui/box"
-import { Divider } from "@blazz/ui/components/ui/divider"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Combobox, type ComboboxOption } from "@blazz/ui/components/ui/combobox"
+import { Divider } from "@blazz/ui/components/ui/divider"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
@@ -22,9 +22,9 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { DueDatePicker } from "@/components/due-date-picker"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { useOpsTopBar } from "@/components/ops-frame"
-import { StatusIcon } from "@/components/todos-preset"
 import { TagInput } from "@/components/tag-input"
 import { TiptapEditor } from "@/components/tiptap-editor"
+import { StatusIcon } from "@/components/todos-preset"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -37,10 +37,22 @@ const STATUS_OPTIONS = [
 ]
 
 const PRIORITY_OPTIONS: ComboboxOption[] = [
-	{ value: "urgent", label: "Urgent", icon: <Flag fill="currentColor" className="size-3 shrink-0 text-destructive" /> },
-	{ value: "high", label: "High", icon: <Flag fill="currentColor" className="size-3 shrink-0 text-orange-500" /> },
+	{
+		value: "urgent",
+		label: "Urgent",
+		icon: <Flag fill="currentColor" className="size-3 shrink-0 text-destructive" />,
+	},
+	{
+		value: "high",
+		label: "High",
+		icon: <Flag fill="currentColor" className="size-3 shrink-0 text-orange-500" />,
+	},
 	{ value: "normal", label: "Normal", icon: <Flag className="size-3 shrink-0 text-fg-muted" /> },
-	{ value: "low", label: "Low", icon: <Flag className="size-3 shrink-0 text-fg-muted opacity-40" /> },
+	{
+		value: "low",
+		label: "Low",
+		icon: <Flag className="size-3 shrink-0 text-fg-muted opacity-40" />,
+	},
 ]
 
 type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
@@ -88,10 +100,7 @@ export default function TodoDetailPage() {
 		}
 	}, [todo])
 
-	useOpsTopBar([
-		{ label: "Todos", href: "/todos" },
-		{ label: todo?.text ?? "…" },
-	])
+	useOpsTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }])
 
 	// Auto-save with debounce
 	const saveField = useCallback(
@@ -226,11 +235,7 @@ export default function TodoDetailPage() {
 					<BlockStack gap="500">
 						<BlockStack gap="150">
 							<Label className="text-xs text-fg-muted">Status</Label>
-							<Select
-								value={todo.status}
-								onValueChange={handleStatusChange}
-								items={STATUS_OPTIONS}
-							>
+							<Select value={todo.status} onValueChange={handleStatusChange} items={STATUS_OPTIONS}>
 								<SelectTrigger className="w-full">
 									<SelectValue />
 								</SelectTrigger>
@@ -280,7 +285,9 @@ export default function TodoDetailPage() {
 								<SelectContent>
 									<SelectItem value="">Aucun</SelectItem>
 									{projectList.map((p) => (
-										<SelectItem key={p._id} value={p._id}>{p.name}</SelectItem>
+										<SelectItem key={p._id} value={p._id}>
+											{p.name}
+										</SelectItem>
 									))}
 								</SelectContent>
 							</Select>
@@ -312,7 +319,11 @@ export default function TodoDetailPage() {
 
 						<BlockStack gap="150">
 							<Label className="text-xs text-fg-muted">Tags</Label>
-							<TagInput value={todo.tags ?? []} onChange={handleTagsChange} suggestions={allTagsList} />
+							<TagInput
+								value={todo.tags ?? []}
+								onChange={handleTagsChange}
+								suggestions={allTagsList}
+							/>
 						</BlockStack>
 
 						<Divider />

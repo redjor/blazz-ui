@@ -343,7 +343,9 @@ export default function RecapPage() {
 										<td className="p-3 text-right font-mono font-medium text-fg">
 											{formatMinutes(totalMinutes)}
 										</td>
-										<td className="p-3 text-right text-fg-muted font-mono">{totalDays.toFixed(1)}j</td>
+										<td className="p-3 text-right text-fg-muted font-mono">
+											{totalDays.toFixed(1)}j
+										</td>
 										<td className="p-3 text-right font-semibold text-fg font-mono">
 											{formatCurrency(totalAmount)}
 										</td>

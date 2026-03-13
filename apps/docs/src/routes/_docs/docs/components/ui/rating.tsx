@@ -1,12 +1,12 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { Rating } from "@blazz/ui/components/ui/rating"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -103,7 +103,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/rating")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -116,17 +116,14 @@ function ControlledRatingDemo() {
 	return (
 		<div className="space-y-3">
 			<Rating value={value} onValueChange={setValue} />
-			<p className="text-xs text-fg-muted">
-				Rating: {value} / 5
-			</p>
+			<p className="text-xs text-fg-muted">Rating: {value} / 5</p>
 		</div>
 	)
 }
 
 function RatingPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

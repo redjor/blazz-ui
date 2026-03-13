@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import {
 	Dialog,
 	DialogContent,
@@ -12,10 +10,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import {
 	Select,
 	SelectContent,
@@ -23,6 +19,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 import type { User } from "@/types/user-management"
 
 const createUserSchema = z.object({
@@ -32,7 +32,10 @@ const createUserSchema = z.object({
 	username: z
 		.string()
 		.min(3, "Username must be at least 3 characters")
-		.regex(/^[a-z0-9_-]+$/, "Username can only contain lowercase letters, numbers, hyphens and underscores"),
+		.regex(
+			/^[a-z0-9_-]+$/,
+			"Username can only contain lowercase letters, numbers, hyphens and underscores"
+		),
 	role: z.string().min(1, "Role is required"),
 	password: z.string().min(8, "Password must be at least 8 characters"),
 	sendVerificationEmail: z.boolean(),
@@ -127,9 +130,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 			<DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>Create user</DialogTitle>
-					<DialogDescription>
-						Create a new user account with the details below.
-					</DialogDescription>
+					<DialogDescription>Create a new user account with the details below.</DialogDescription>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
@@ -142,9 +143,7 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							{...register("email")}
 							autoFocus
 						/>
-						{errors.email && (
-							<p className="text-sm text-negative">{errors.email.message}</p>
-						)}
+						{errors.email && <p className="text-sm text-negative">{errors.email.message}</p>}
 					</div>
 
 					<div className="grid grid-cols-2 gap-4">
@@ -171,14 +170,20 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 							<span className="text-fg-muted text-sm">@</span>
 							<Input id="username" placeholder="johndoe" {...register("username")} />
 						</div>
-						{errors.username && (
-							<p className="text-sm text-negative">{errors.username.message}</p>
-						)}
+						{errors.username && <p className="text-sm text-negative">{errors.username.message}</p>}
 					</div>
 
 					<div className="space-y-2">
 						<Label htmlFor="role">Role *</Label>
-						<Select value={role} onValueChange={(value) => setValue("role", value)} items={[{ value: "admin", label: "Admin" }, { value: "moderator", label: "Moderator" }, { value: "user", label: "User" }]}>
+						<Select
+							value={role}
+							onValueChange={(value) => setValue("role", value)}
+							items={[
+								{ value: "admin", label: "Admin" },
+								{ value: "moderator", label: "Moderator" },
+								{ value: "user", label: "User" },
+							]}
+						>
 							<SelectTrigger id="role">
 								<SelectValue placeholder="Select a role" />
 							</SelectTrigger>
@@ -188,22 +193,13 @@ export function CreateUserDialog({ open, onOpenChange, onSubmit }: CreateUserDia
 								<SelectItem value="user">User</SelectItem>
 							</SelectContent>
 						</Select>
-						{errors.role && (
-							<p className="text-sm text-negative">{errors.role.message}</p>
-						)}
+						{errors.role && <p className="text-sm text-negative">{errors.role.message}</p>}
 					</div>
 
 					<div className="space-y-2">
 						<Label htmlFor="password">Password *</Label>
-						<Input
-							id="password"
-							type="password"
-							placeholder="••••••••"
-							{...register("password")}
-						/>
-						{errors.password && (
-							<p className="text-sm text-negative">{errors.password.message}</p>
-						)}
+						<Input id="password" type="password" placeholder="••••••••" {...register("password")} />
+						{errors.password && <p className="text-sm text-negative">{errors.password.message}</p>}
 					</div>
 
 					<div className="flex items-center gap-2">

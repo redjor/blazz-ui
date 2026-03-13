@@ -1,12 +1,12 @@
+import { DateRangeSelector, DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
-import { DateSelector, DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -130,7 +130,8 @@ const dateRangeSelectorProps: DocProp[] = [
 	{
 		name: "onRangeChange",
 		type: "(range: { from?: Date; to?: Date }) => void",
-		description: "Callback when the range changes. Called on each click — popover auto-closes once both dates are selected.",
+		description:
+			"Callback when the range changes. Called on each click — popover auto-closes once both dates are selected.",
 	},
 	{
 		name: "fromPlaceholder",
@@ -171,11 +172,7 @@ function DateSelectorDemo() {
 	return (
 		<div className="space-y-2">
 			<DateSelector value={date} onValueChange={setDate} />
-			{date && (
-				<p className="text-xs text-fg-muted">
-					Selected: {date.toLocaleDateString()}
-				</p>
-			)}
+			{date && <p className="text-xs text-fg-muted">Selected: {date.toLocaleDateString()}</p>}
 		</div>
 	)
 }
@@ -318,7 +315,9 @@ function DateSelectorPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use DateSelector for single date fields in forms (due date, birth date, etc.)</li>
 					<li>Use DateRangeSelector for start/end pairs (contract period, filter range, etc.)</li>
-					<li>The range popover auto-closes when both dates are selected — no extra click needed</li>
+					<li>
+						The range popover auto-closes when both dates are selected — no extra click needed
+					</li>
 					<li>For inline calendar display (outside forms), use the Calendar component directly</li>
 					<li>The trigger matches the Select trigger style for visual consistency in forms</li>
 				</ul>

@@ -113,8 +113,7 @@ export const features = {
 	/** Mode maintenance */
 	maintenance: {
 		enabled: import.meta.env.VITE_MAINTENANCE_MODE === "true",
-		message:
-			"L'application est actuellement en maintenance. Nous serons de retour bientot.",
+		message: "L'application est actuellement en maintenance. Nous serons de retour bientot.",
 	},
 
 	/** Debug mode */
@@ -145,13 +144,7 @@ export const auth = {
 	enabled: false,
 
 	/** Provider d'authentification */
-	provider: "none" as
-		| "nextauth"
-		| "clerk"
-		| "auth0"
-		| "supabase"
-		| "firebase"
-		| "none",
+	provider: "none" as "nextauth" | "clerk" | "auth0" | "supabase" | "firebase" | "none",
 
 	/** Pages d'authentification */
 	pages: {

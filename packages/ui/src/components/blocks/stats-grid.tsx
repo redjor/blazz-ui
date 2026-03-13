@@ -1,9 +1,9 @@
-import { withProGuard } from "../../lib/with-pro-guard"
 import type { LucideIcon } from "lucide-react"
-import { TrendingUp, TrendingDown } from "lucide-react"
+import { TrendingDown, TrendingUp } from "lucide-react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Card, CardContent } from "../ui/card"
 import { Skeleton } from "../ui/skeleton"
-import { cn } from "../../lib/utils"
 
 export interface StatItem {
 	label: string
@@ -36,9 +36,7 @@ function StatCard({ stat }: { stat: StatItem }) {
 				<div className="flex items-start justify-between">
 					<div className="space-y-2">
 						<p className="text-sm text-fg-muted">{stat.label}</p>
-						<p className="text-2xl font-semibold tracking-tight">
-							{stat.value}
-						</p>
+						<p className="text-2xl font-semibold tracking-tight">{stat.value}</p>
 					</div>
 					{Icon && (
 						<div className="rounded-md bg-raised p-2">
@@ -51,22 +49,16 @@ function StatCard({ stat }: { stat: StatItem }) {
 						{trendIsGood && (
 							<>
 								<TrendingUp className="size-3 text-green-600" />
-								<span className="text-green-600">
-									+{Math.abs(stat.trend!)}%
-								</span>
+								<span className="text-green-600">+{Math.abs(stat.trend!)}%</span>
 							</>
 						)}
 						{trendIsBad && (
 							<>
 								<TrendingDown className="size-3 text-red-600" />
-								<span className="text-red-600">
-									{stat.trend!}%
-								</span>
+								<span className="text-red-600">{stat.trend!}%</span>
 							</>
 						)}
-						{!trendIsGood && !trendIsBad && (
-							<span className="text-fg-muted">0%</span>
-						)}
+						{!trendIsGood && !trendIsBad && <span className="text-fg-muted">0%</span>}
 						<span className="text-fg-muted">vs période précédente</span>
 					</div>
 				)}
@@ -92,12 +84,7 @@ function StatCardSkeleton() {
 	)
 }
 
-function StatsGridBase({
-	stats,
-	columns = 4,
-	loading = false,
-	className,
-}: StatsGridProps) {
+function StatsGridBase({ stats, columns = 4, loading = false, className }: StatsGridProps) {
 	const gridCols = {
 		2: "grid-cols-1 sm:grid-cols-2",
 		3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
@@ -107,9 +94,7 @@ function StatsGridBase({
 	return (
 		<div className={cn("grid gap-4", gridCols[columns], className)}>
 			{loading
-				? Array.from({ length: columns }).map((_, i) => (
-						<StatCardSkeleton key={i} />
-					))
+				? Array.from({ length: columns }).map((_, i) => <StatCardSkeleton key={i} />)
 				: stats.map((stat, i) => <StatCard key={i} stat={stat} />)}
 		</div>
 	)

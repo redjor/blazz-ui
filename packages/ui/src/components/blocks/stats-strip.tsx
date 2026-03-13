@@ -1,11 +1,11 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useRef, useState, useEffect, useCallback } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Card } from "../ui/card"
 import { Skeleton } from "../ui/skeleton"
-import { cn } from "../../lib/utils"
 
 // ---------------------------------------------------------------------------
 // Types
@@ -22,9 +22,7 @@ export interface StatsStripItem {
 	trend?: "up" | "down" | "neutral"
 }
 
-function resolveTrend(
-	item: StatsStripItem,
-): "up" | "down" | "neutral" | undefined {
+function resolveTrend(item: StatsStripItem): "up" | "down" | "neutral" | undefined {
 	if (item.trend) return item.trend
 	if (!item.chart || item.chart.length < 2) return undefined
 	const first = item.chart[0]
@@ -155,17 +153,12 @@ function StatsStripBase({ stats, loading = false, loadingCount = 4, className }:
 				style={{ scrollbarWidth: "none" }}
 			>
 				{stats.map((stat, i) => (
-					<div
-						key={i}
-						className="flex min-w-48 flex-1 shrink-0 flex-col gap-1 px-4 py-3"
-					>
+					<div key={i} className="flex min-w-48 flex-1 shrink-0 flex-col gap-1 px-4 py-3">
 						<span className="truncate text-[13px] text-fg-muted" title={stat.label}>
 							{stat.label}
 						</span>
 						<div className="flex items-end justify-between gap-3">
-							<span className="text-base font-semibold tabular-nums text-fg">
-								{stat.value}
-							</span>
+							<span className="text-base font-semibold tabular-nums text-fg">{stat.value}</span>
 							{stat.chart && stat.chart.length >= 2 && (
 								<Sparkline
 									data={stat.chart}

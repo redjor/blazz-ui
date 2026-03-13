@@ -1,8 +1,8 @@
 "use client"
 
-import { MapPin, ExternalLink } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { ExternalLink, MapPin } from "lucide-react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface LocationCardProps {
 	name?: string
@@ -32,16 +32,10 @@ function LocationCardBase({
 					<MapPin className="size-4 text-fg-muted" />
 				</div>
 				<div className="min-w-0 flex-1">
-					{name && (
-						<span className="text-sm font-semibold text-fg">{name}</span>
-					)}
-					<p className={cn("text-xs text-fg-muted", name && "mt-0.5")}>
-						{address}
-					</p>
+					{name && <span className="text-sm font-semibold text-fg">{name}</span>}
+					<p className={cn("text-xs text-fg-muted", name && "mt-0.5")}>{address}</p>
 					{(city || country) && (
-						<p className="text-xs text-fg-muted">
-							{[city, country].filter(Boolean).join(", ")}
-						</p>
+						<p className="text-xs text-fg-muted">{[city, country].filter(Boolean).join(", ")}</p>
 					)}
 				</div>
 			</div>

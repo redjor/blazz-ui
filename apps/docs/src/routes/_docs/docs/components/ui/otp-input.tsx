@@ -1,12 +1,12 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { OtpInput } from "@blazz/ui/components/ui/otp-input"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -100,7 +100,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/otp-input")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -125,8 +125,7 @@ function ControlledOtpInputDemo() {
 
 function OtpInputPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -185,9 +184,7 @@ function OtpInputPage() {
 				>
 					<div className="space-y-2">
 						<OtpInput length={6} aria-invalid />
-						<p className="text-sm text-negative">
-							Invalid verification code. Please try again.
-						</p>
+						<p className="text-sm text-negative">Invalid verification code. Please try again.</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>

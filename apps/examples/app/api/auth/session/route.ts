@@ -22,10 +22,7 @@ export async function GET() {
 		const isAuthenticated = true // Demo mode — mock user always authenticated
 
 		if (!isAuthenticated) {
-			return NextResponse.json(
-				{ error: "Non authentifié" },
-				{ status: 401 }
-			)
+			return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
 		}
 
 		// Utilisateur mock pour les tests

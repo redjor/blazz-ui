@@ -1,17 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { PropertyCard } from "@blazz/ui/components/blocks/property-card"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router"
 import { Edit } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -140,15 +137,13 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/blocks/property-card",
-)({
+export const Route = createFileRoute("/_docs/docs/blocks/property-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -157,8 +152,7 @@ export const Route = createFileRoute(
 
 function PropertyCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -293,8 +287,13 @@ function PropertyCardPage() {
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
 					<li>Use 2 columns for fewer than 8 fields, 3 columns for 8-15 fields</li>
-					<li>Use <code className="text-xs">span</code> for long values like addresses or descriptions</li>
-					<li>Stack multiple PropertyCards with <code className="text-xs">space-y-6</code> for detail pages</li>
+					<li>
+						Use <code className="text-xs">span</code> for long values like addresses or descriptions
+					</li>
+					<li>
+						Stack multiple PropertyCards with <code className="text-xs">space-y-6</code> for detail
+						pages
+					</li>
 					<li>Pair with Badge for status values, links for emails/URLs</li>
 					<li>Never leave a field empty — omit the Item or show "—"</li>
 				</ul>

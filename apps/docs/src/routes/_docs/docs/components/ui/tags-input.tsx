@@ -1,13 +1,13 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { TagsInput } from "@blazz/ui/components/ui/tags-input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { TagsInput } from "@blazz/ui/components/ui/tags-input"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -32,7 +32,8 @@ const tagsInputProps: DocProp[] = [
 		name: "suggestions",
 		type: "string[]",
 		default: "[]",
-		description: "Optional list of suggestions shown as the user types. Filters dynamically based on input.",
+		description:
+			"Optional list of suggestions shown as the user types. Filters dynamically based on input.",
 	},
 	{
 		name: "placeholder",
@@ -104,7 +105,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/tags-input")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -115,12 +116,7 @@ function TagsInputDefaultDemo() {
 	const [tags, setTags] = React.useState(["React", "TypeScript"])
 
 	return (
-		<TagsInput
-			tags={tags}
-			onTagsChange={setTags}
-			placeholder="Add a tag..."
-			className="max-w-sm"
-		/>
+		<TagsInput tags={tags} onTagsChange={setTags} placeholder="Add a tag..." className="max-w-sm" />
 	)
 }
 
@@ -152,12 +148,7 @@ function TagsInputMaxTagsDemo() {
 	return (
 		<div className="max-w-sm space-y-2">
 			<Label>Tags (max 3)</Label>
-			<TagsInput
-				tags={tags}
-				onTagsChange={setTags}
-				maxTags={3}
-				placeholder="Add up to 3 tags..."
-			/>
+			<TagsInput tags={tags} onTagsChange={setTags} maxTags={3} placeholder="Add up to 3 tags..." />
 		</div>
 	)
 }
@@ -180,8 +171,7 @@ function TagsInputWithLabelDemo() {
 
 function TagsInputPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

@@ -74,10 +74,7 @@ function BoxInner<T extends React.ElementType = "div">(
 	return (
 		<Component
 			ref={ref}
-			className={cn(
-				boxVariants({ padding, background, border, borderRadius, shadow }),
-				className
-			)}
+			className={cn(boxVariants({ padding, background, border, borderRadius, shadow }), className)}
 			{...props}
 		>
 			{children}
@@ -85,7 +82,9 @@ function BoxInner<T extends React.ElementType = "div">(
 	)
 }
 
-export const Box = React.forwardRef(BoxInner as any) as unknown as <T extends React.ElementType = "div">(
+export const Box = React.forwardRef(BoxInner as any) as unknown as <
+	T extends React.ElementType = "div",
+>(
 	props: BoxProps<T> &
 		Omit<React.ComponentPropsWithoutRef<T>, keyof BoxProps<T>> & {
 			ref?: PolymorphicRef<T>

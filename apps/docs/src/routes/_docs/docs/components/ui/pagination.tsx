@@ -1,20 +1,20 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import {
 	Pagination,
 	PaginationContent,
+	PaginationEllipsis,
 	PaginationItem,
 	PaginationLink,
-	PaginationPrevious,
 	PaginationNext,
-	PaginationEllipsis,
+	PaginationPrevious,
 } from "@blazz/ui/components/ui/pagination"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -125,7 +125,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/pagination")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -165,9 +165,7 @@ function ControlledPaginationDemo() {
 
 					{visiblePages[0] > 1 && (
 						<PaginationItem>
-							<PaginationLink onClick={() => setCurrentPage(1)}>
-								1
-							</PaginationLink>
+							<PaginationLink onClick={() => setCurrentPage(1)}>1</PaginationLink>
 						</PaginationItem>
 					)}
 
@@ -179,10 +177,7 @@ function ControlledPaginationDemo() {
 
 					{visiblePages.map((page) => (
 						<PaginationItem key={page}>
-							<PaginationLink
-								isActive={page === currentPage}
-								onClick={() => setCurrentPage(page)}
-							>
+							<PaginationLink isActive={page === currentPage} onClick={() => setCurrentPage(page)}>
 								{page}
 							</PaginationLink>
 						</PaginationItem>
@@ -219,8 +214,7 @@ function ControlledPaginationDemo() {
 
 function PaginationPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

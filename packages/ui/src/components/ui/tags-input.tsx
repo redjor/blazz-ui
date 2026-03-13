@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { X } from "lucide-react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 import { Badge } from "./badge"
 import { Input } from "./input"
@@ -35,11 +35,7 @@ export function TagsInput({
 
 	const addTag = (tag: string) => {
 		const trimmedTag = tag.trim()
-		if (
-			trimmedTag &&
-			!tags.includes(trimmedTag) &&
-			(!maxTags || tags.length < maxTags)
-		) {
+		if (trimmedTag && !tags.includes(trimmedTag) && (!maxTags || tags.length < maxTags)) {
 			onTagsChange([...tags, trimmedTag])
 			setInputValue("")
 			setShowSuggestions(false)
@@ -63,11 +59,7 @@ export function TagsInput({
 		<div className={cn("relative", className)}>
 			<div className="flex flex-wrap gap-2 mb-2">
 				{tags.map((tag) => (
-					<Badge
-						key={tag}
-						variant="secondary"
-						className="gap-1 pr-1"
-					>
+					<Badge key={tag} variant="secondary" className="gap-1 pr-1">
 						<span>{tag}</span>
 						<button
 							type="button"

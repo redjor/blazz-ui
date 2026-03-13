@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { useState } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface ImageGalleryItem {
 	src: string
@@ -64,7 +64,7 @@ function ImageGalleryBase({ images, className }: ImageGalleryProps) {
 									onClick={() => setCurrent(i)}
 									className={cn(
 										"size-1.5 rounded-full transition-colors cursor-pointer",
-										i === current ? "bg-white" : "bg-white/50",
+										i === current ? "bg-white" : "bg-white/50"
 									)}
 								/>
 							))}

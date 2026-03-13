@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { RatingCard } from "@blazz/ui/components/ai/generative/data/rating-card"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -36,9 +36,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/data/rating-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/data/rating-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -55,8 +53,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function RatingCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -73,12 +70,7 @@ function RatingCardPage() {
 						reviewCount={128}
 						label="Based on recent surveys"
 					/>
-					<RatingCard
-						title="Net Promoter Score"
-						score={62}
-						type="nps"
-						label="Q4 2025"
-					/>
+					<RatingCard title="Net Promoter Score" score={62} type="nps" label="Q4 2025" />
 				</div>
 			</DocHero>
 
@@ -90,12 +82,7 @@ function RatingCardPage() {
 					highlightedCode={html("stars")}
 				>
 					<div className="max-w-xs">
-						<RatingCard
-							title="Customer Satisfaction"
-							score={4.3}
-							type="stars"
-							reviewCount={128}
-						/>
+						<RatingCard title="Customer Satisfaction" score={4.3} type="stars" reviewCount={128} />
 					</div>
 				</DocExampleClient>
 
@@ -106,12 +93,7 @@ function RatingCardPage() {
 					highlightedCode={html("nps")}
 				>
 					<div className="max-w-xs">
-						<RatingCard
-							title="Net Promoter Score"
-							score={62}
-							type="nps"
-							label="Q4 2025"
-						/>
+						<RatingCard title="Net Promoter Score" score={62} type="nps" label="Q4 2025" />
 					</div>
 				</DocExampleClient>
 
@@ -122,12 +104,7 @@ function RatingCardPage() {
 					highlightedCode={html("numeric")}
 				>
 					<div className="max-w-xs">
-						<RatingCard
-							title="Product Score"
-							score={8.5}
-							maxScore={10}
-							type="numeric"
-						/>
+						<RatingCard title="Product Score" score={8.5} maxScore={10} type="numeric" />
 					</div>
 				</DocExampleClient>
 			</DocSection>

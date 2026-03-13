@@ -87,9 +87,7 @@ export default function ProjectsPage() {
 								href={`/clients/${project.clientId}/projects/${project._id}`}
 								className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
 							>
-								<span className="block text-sm font-medium text-fg">
-									{project.name}
-								</span>
+								<span className="block text-sm font-medium text-fg">{project.name}</span>
 								<span className="block text-xs text-fg-muted mt-0.5 tabular-nums">
 									{clientMap.get(project.clientId) ?? "…"} · {project.tjm}€/j
 								</span>
@@ -99,13 +97,15 @@ export default function ProjectsPage() {
 								<span className="text-xs tabular-nums text-fg-muted text-right min-w-[120px]">
 									{project.budgetAmount && project.budgetPercent !== null ? (
 										<>
-											<span className={
-												project.budgetPercent >= 90
-													? "text-red-600 dark:text-red-400 font-medium"
-													: project.budgetPercent >= 70
-														? "text-amber-600 dark:text-amber-400 font-medium"
-														: "text-fg"
-											}>
+											<span
+												className={
+													project.budgetPercent >= 90
+														? "text-red-600 dark:text-red-400 font-medium"
+														: project.budgetPercent >= 70
+															? "text-amber-600 dark:text-amber-400 font-medium"
+															: "text-fg"
+												}
+											>
 												{project.billableRevenue.toLocaleString("fr-FR")}€
 											</span>
 											{" / "}
@@ -122,9 +122,7 @@ export default function ProjectsPage() {
 									</span>
 								)}
 								{project.hasActiveContract && project.contractType === "regie" && (
-									<span className="text-xs font-medium text-brand">
-										Régie
-									</span>
+									<span className="text-xs font-medium text-brand">Régie</span>
 								)}
 								{/* Budget health dot */}
 								{project.budgetPercent !== null && (

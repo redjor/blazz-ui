@@ -86,12 +86,7 @@ export default defineSchema({
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),
 		priority: v.optional(
-			v.union(
-				v.literal("urgent"),
-				v.literal("high"),
-				v.literal("normal"),
-				v.literal("low")
-			)
+			v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
 		),
 		createdAt: v.number(),
 	})

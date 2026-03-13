@@ -2,12 +2,12 @@ import * as React from "react"
 import { cn } from "../../lib/utils"
 import {
 	Breadcrumb,
-	BreadcrumbList,
+	BreadcrumbBackLink,
 	BreadcrumbItem,
 	BreadcrumbLink,
-	BreadcrumbBackLink,
-	BreadcrumbSeparator,
+	BreadcrumbList,
 	BreadcrumbPage,
+	BreadcrumbSeparator,
 } from "./breadcrumb"
 
 export interface BreadcrumbParent {
@@ -33,7 +33,9 @@ function isBreadcrumbConfig(value: unknown): value is BreadcrumbConfig {
 }
 
 function isPageBreadcrumbArray(value: unknown): value is PageBreadcrumbItem[] {
-	return Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "label" in value[0]
+	return (
+		Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "label" in value[0]
+	)
 }
 
 export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -194,9 +196,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 													{item.label}
 												</BreadcrumbBackLink>
 											) : (
-												<BreadcrumbLink href={item.href}>
-													{item.label}
-												</BreadcrumbLink>
+												<BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
 											)
 										) : (
 											<BreadcrumbPage>{item.label}</BreadcrumbPage>
@@ -242,14 +242,17 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 		}
 
 		const hasHeader =
-			resolvedTitle || primaryAction || secondaryActions || resolvedBreadcrumbs || titleMetadata || additionalMetadata
+			resolvedTitle ||
+			primaryAction ||
+			secondaryActions ||
+			resolvedBreadcrumbs ||
+			titleMetadata ||
+			additionalMetadata
 
 		// Actions block — shared between all header layouts
 		const actionsBlock = (primaryAction || secondaryActions) && (
 			<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-				{secondaryActions && (
-					<div className="flex items-center gap-2">{secondaryActions}</div>
-				)}
+				{secondaryActions && <div className="flex items-center gap-2">{secondaryActions}</div>}
 				{primaryAction && <div className="flex items-center">{primaryAction}</div>}
 			</div>
 		)
@@ -299,7 +302,13 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 			>
 				{/* Page Header */}
 				{hasHeader && (
-					<div className={cn("space-y-4 py-4", divider && "border-b border-separator", headerClassName)}>
+					<div
+						className={cn(
+							"space-y-4 py-4",
+							divider && "border-b border-separator",
+							headerClassName
+						)}
+					>
 						{titleDisplay}
 						{additionalMetadata && <div className="flex items-center">{additionalMetadata}</div>}
 					</div>

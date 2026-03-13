@@ -1,22 +1,22 @@
 "use client"
 
-import { Building2, Handshake, TrendingUp, FileText } from "lucide-react"
+import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
+import { ForecastChart } from "@blazz/ui/components/blocks/forecast-chart"
+import { FunnelChart } from "@blazz/ui/components/blocks/funnel-chart"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
-import { FunnelChart } from "@blazz/ui/components/blocks/funnel-chart"
-import { ForecastChart } from "@blazz/ui/components/blocks/forecast-chart"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { Building2, FileText, Handshake, TrendingUp } from "lucide-react"
 import {
-	revenueChartData,
-	dealsByStageData,
-	deals,
 	companies,
-	formatCurrency,
-	pipelineFunnelData,
-	forecastData,
+	deals,
 	dealsByAssigneeData,
 	dealsBySourceData,
+	dealsByStageData,
+	forecastData,
+	formatCurrency,
+	pipelineFunnelData,
+	revenueChartData,
 } from "@/lib/sample-data"
 
 export default function ReportsPage() {

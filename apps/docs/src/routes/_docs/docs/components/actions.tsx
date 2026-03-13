@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
+import { createFileRoute } from "@tanstack/react-router"
+import { Menu, MoreHorizontal, MousePointerClick } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
-import { MousePointerClick, Menu, MoreHorizontal } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/actions")({
 	component: ActionsPage,
@@ -25,7 +25,8 @@ const actionComponents = [
 	{
 		title: "Dropdown Menu",
 		href: "/docs/components/ui/dropdown-menu",
-		description: "Displays a menu of actions in a dropdown overlay with keyboard navigation support.",
+		description:
+			"Displays a menu of actions in a dropdown overlay with keyboard navigation support.",
 		icon: MoreHorizontal,
 		thumbnail: "dropdown-menu",
 	},

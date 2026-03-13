@@ -1,16 +1,13 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import { DealLinesEditor } from "@blazz/ui/components/blocks/deal-lines-editor"
 import type { DealLine } from "@blazz/ui/components/blocks/deal-lines-editor"
+import { DealLinesEditor } from "@blazz/ui/components/blocks/deal-lines-editor"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
@@ -217,7 +214,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/deal-lines-editor")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -261,8 +258,7 @@ function UsdDemo() {
 
 function DealLinesEditorPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -293,11 +289,7 @@ function DealLinesEditorPage() {
 					highlightedCode={html("readonly")}
 				>
 					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
-						<DealLinesEditor
-							lines={readOnlyLines}
-							onChange={() => {}}
-							readOnly
-						/>
+						<DealLinesEditor lines={readOnlyLines} onChange={() => {}} readOnly />
 					</div>
 				</DocExampleClient>
 
@@ -328,7 +320,8 @@ function DealLinesEditorPage() {
 						{
 							title: "Quote Preview",
 							href: "/docs/blocks/quote-preview",
-							description: "Read-only quote document with line items, totals, and PDF-ready layout.",
+							description:
+								"Read-only quote document with line items, totals, and PDF-ready layout.",
 						},
 						{
 							title: "Multi Step Form",

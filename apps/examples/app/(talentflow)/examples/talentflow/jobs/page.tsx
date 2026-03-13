@@ -1,10 +1,10 @@
 "use client"
 
+import { createJobsPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Box } from "@blazz/ui/components/ui/box"
 import { useMemo } from "react"
 import { toast } from "sonner"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DataTable, createJobsPreset } from "@blazz/ui/components/blocks/data-table"
-import { Box } from "@blazz/ui/components/ui/box"
 import { jobs } from "@/lib/talentflow-data"
 
 export default function JobsPage() {
@@ -16,7 +16,7 @@ export default function JobsPage() {
 				onBulkArchive: (items) => toast.success(`${items.length} offre(s) archivée(s)`),
 				onBulkDelete: (items) => toast.success(`${items.length} offre(s) supprimée(s)`),
 			}),
-		[],
+		[]
 	)
 
 	return (

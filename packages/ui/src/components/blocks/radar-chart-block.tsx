@@ -1,22 +1,17 @@
 "use client"
 
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
+import { cn } from "../../lib/utils"
 import { withProGuard } from "../../lib/with-pro-guard"
-import {
-	PolarAngleAxis,
-	PolarGrid,
-	Radar,
-	RadarChart,
-} from "recharts"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import {
 	type ChartConfig,
 	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
 	ChartLegend,
 	ChartLegendContent,
+	ChartTooltip,
+	ChartTooltipContent,
 } from "../ui/chart"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card"
-import { cn } from "../../lib/utils"
 
 const defaultData = [
 	{ skill: "Design", desktop: 86, mobile: 60 },
@@ -64,15 +59,9 @@ function RadarChartBlockBase({
 				{description && <CardDescription>{description}</CardDescription>}
 			</CardHeader>
 			<CardContent className="pb-0">
-				<ChartContainer
-					config={config}
-					className="mx-auto aspect-square max-h-[250px]"
-				>
+				<ChartContainer config={config} className="mx-auto aspect-square max-h-[250px]">
 					<RadarChart data={data}>
-						<ChartTooltip
-							cursor={false}
-							content={<ChartTooltipContent />}
-						/>
+						<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 						<PolarAngleAxis dataKey={angleKey} />
 						<PolarGrid />
 						{dataKeys.map((key) => (
@@ -85,10 +74,7 @@ function RadarChartBlockBase({
 								strokeWidth={2}
 							/>
 						))}
-						<ChartLegend
-							className="mt-4"
-							content={<ChartLegendContent />}
-						/>
+						<ChartLegend className="mt-4" content={<ChartLegendContent />} />
 					</RadarChart>
 				</ChartContainer>
 			</CardContent>

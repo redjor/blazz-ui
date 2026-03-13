@@ -1,7 +1,7 @@
 "use client"
 
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface ComparisonTableProps {
 	title?: string
@@ -10,19 +10,9 @@ export interface ComparisonTableProps {
 	className?: string
 }
 
-function ComparisonTableBase({
-	title,
-	columns,
-	rows,
-	className,
-}: ComparisonTableProps) {
+function ComparisonTableBase({ title, columns, rows, className }: ComparisonTableProps) {
 	return (
-		<div
-			className={cn(
-				"overflow-hidden rounded-lg border border-container bg-surface",
-				className,
-			)}
-		>
+		<div className={cn("overflow-hidden rounded-lg border border-container bg-surface", className)}>
 			{title && (
 				<div className="px-4 pt-3 pb-2">
 					<span className="text-sm font-medium text-fg">{title}</span>
@@ -32,10 +22,7 @@ function ComparisonTableBase({
 				<thead>
 					<tr className="border-b border-separator">
 						{columns.map((col) => (
-							<th
-								key={col}
-								className="px-3 py-1.5 text-xs font-medium text-fg-muted"
-							>
+							<th key={col} className="px-3 py-1.5 text-xs font-medium text-fg-muted">
 								{col}
 							</th>
 						))}

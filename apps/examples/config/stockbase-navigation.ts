@@ -1,7 +1,7 @@
 "use client"
 
-import { ArrowLeftRight, LayoutDashboard, Package } from "lucide-react"
 import type { SidebarConfig } from "@blazz/ui/types/navigation"
+import { ArrowLeftRight, LayoutDashboard, Package } from "lucide-react"
 
 export const stockbaseSidebarConfig: SidebarConfig = {
 	user: {

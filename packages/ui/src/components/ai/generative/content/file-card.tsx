@@ -1,9 +1,9 @@
 "use client"
 
+import { Download, File, FileCode, FileImage, FileSpreadsheet, FileText } from "lucide-react"
 import Link from "next/link"
-import { FileText, FileImage, FileSpreadsheet, FileCode, File, Download } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 const iconMap: Record<string, typeof FileText> = {
 	pdf: FileText,
@@ -41,13 +41,7 @@ export interface FileCardProps {
 	className?: string
 }
 
-function FileCardBase({
-	name,
-	size,
-	type,
-	href,
-	className,
-}: FileCardProps) {
+function FileCardBase({ name, size, type, href, className }: FileCardProps) {
 	const Icon = getFileIcon(name)
 	const Wrapper = href ? Link : "div"
 	const wrapperProps = href ? { href } : {}
@@ -58,7 +52,7 @@ function FileCardBase({
 			className={cn(
 				"flex items-center gap-3 rounded-lg border border-container bg-surface p-3",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-raised border border-container">
@@ -66,9 +60,7 @@ function FileCardBase({
 			</div>
 			<div className="min-w-0 flex-1">
 				<span className="block truncate text-sm font-medium text-fg">{name}</span>
-				<span className="text-xs text-fg-muted">
-					{[type, size].filter(Boolean).join(" · ")}
-				</span>
+				<span className="text-xs text-fg-muted">{[type, size].filter(Boolean).join(" · ")}</span>
 			</div>
 			{href && <Download className="size-4 shrink-0 text-fg-muted" />}
 		</Wrapper>

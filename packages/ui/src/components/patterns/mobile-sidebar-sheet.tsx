@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import * as React from "react"
+import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
 import { ScrollArea } from "../ui/scroll-area"
 import { Sheet, SheetContent } from "../ui/sheet"
 import {
@@ -20,7 +21,6 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "../ui/sidebar"
-import type { NavigationItem, NavigationSection, SidebarConfig } from "../../types/navigation"
 
 interface MobileSidebarSheetProps {
 	open: boolean

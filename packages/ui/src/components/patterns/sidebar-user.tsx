@@ -2,6 +2,7 @@
 
 import { ChevronsUpDown, LogOut, Settings, User } from "lucide-react"
 import { useRouter } from "next/navigation"
+import type { SidebarUser } from "../../types/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
 	DropdownMenu,
@@ -12,7 +13,6 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { SidebarMenuButton } from "../ui/sidebar"
-import type { SidebarUser } from "../../types/navigation"
 
 interface SidebarUserProps {
 	user: SidebarUser
@@ -66,9 +66,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 						</Avatar>
 						<div className="grid flex-1 text-left text-sm leading-tight">
 							<span className="truncate font-semibold">{user.name}</span>
-							{user.role && (
-								<span className="truncate text-xs text-fg-muted">{user.role}</span>
-							)}
+							{user.role && <span className="truncate text-xs text-fg-muted">{user.role}</span>}
 						</div>
 						<ChevronsUpDown className="ml-auto size-4" />
 					</SidebarMenuButton>
@@ -88,9 +86,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 					<div className="grid flex-1 text-left text-sm leading-tight">
 						<span className="truncate font-semibold">{user.name}</span>
 						{user.role && (
-							<span className="truncate text-xs text-fg-muted font-medium">
-								{user.role}
-							</span>
+							<span className="truncate text-xs text-fg-muted font-medium">{user.role}</span>
 						)}
 					</div>
 				</div>

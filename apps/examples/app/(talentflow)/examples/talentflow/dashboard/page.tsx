@@ -1,22 +1,19 @@
 "use client"
 
-import { Briefcase, Calendar, TrendingUp, Users } from "lucide-react"
+import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
+import { Briefcase, Calendar, TrendingUp, Users } from "lucide-react"
 import {
-	talentflowDashboardStats,
 	applicationsChartData,
 	pipelineChartData,
+	talentflowDashboardStats,
 } from "@/lib/talentflow-data"
 
 export default function TalentFlowDashboardPage() {
 	return (
 		<div className="p-6 space-y-6">
-			<PageHeader
-				title="Tableau de bord"
-				description="Vue d'ensemble du recrutement"
-			/>
+			<PageHeader title="Tableau de bord" description="Vue d'ensemble du recrutement" />
 
 			<StatsGrid
 				stats={[

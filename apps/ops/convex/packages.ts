@@ -1,6 +1,6 @@
 import { v } from "convex/values"
-import { action, internalAction, internalMutation, query } from "./_generated/server"
 import { internal } from "./_generated/api"
+import { action, internalAction, internalMutation, query } from "./_generated/server"
 
 export const list = query({
 	args: {},
@@ -37,14 +37,7 @@ export const upsert = internalMutation({
 export const sync = internalAction({
 	args: {},
 	handler: async (ctx) => {
-		const TRACKED = [
-			"@blazz/ui",
-			"next",
-			"react",
-			"typescript",
-			"tailwindcss",
-			"prisma",
-		]
+		const TRACKED = ["@blazz/ui", "next", "react", "typescript", "tailwindcss", "prisma"]
 
 		for (const name of TRACKED) {
 			try {
@@ -52,9 +45,7 @@ export const sync = internalAction({
 					fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, {
 						headers: { Accept: "application/vnd.npm.install-v1+json" },
 					}),
-					fetch(
-						`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`
-					),
+					fetch(`https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(name)}`),
 				])
 
 				if (!registryRes.ok) continue

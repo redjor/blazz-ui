@@ -1,21 +1,15 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
+import type { FormStep, StepComponentProps } from "@blazz/ui/components/blocks/multi-step-form"
 import { MultiStepForm } from "@blazz/ui/components/blocks/multi-step-form"
-import type {
-	FormStep,
-	StepComponentProps,
-} from "@blazz/ui/components/blocks/multi-step-form"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -40,7 +34,8 @@ const multiStepFormProps: DocProp[] = [
 	{
 		name: "onSaveDraft",
 		type: "(data: Record<string, unknown>) => void | Promise<void>",
-		description: "Optional callback to save form data as draft. Shows a 'Sauvegarder le brouillon' button when provided.",
+		description:
+			"Optional callback to save form data as draft. Shows a 'Sauvegarder le brouillon' button when provided.",
 	},
 	{
 		name: "className",
@@ -103,9 +98,7 @@ function InformationsStep({ data, onChange, errors }: StepComponentProps) {
 					onChange={(e) => onChange({ companyName: e.target.value })}
 					placeholder="Acme Corporation"
 				/>
-				{errors?.companyName && (
-					<p className="text-xs text-negative">{errors.companyName}</p>
-				)}
+				{errors?.companyName && <p className="text-xs text-negative">{errors.companyName}</p>}
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="siret">SIRET</Label>
@@ -115,9 +108,7 @@ function InformationsStep({ data, onChange, errors }: StepComponentProps) {
 					onChange={(e) => onChange({ siret: e.target.value })}
 					placeholder="123 456 789 00001"
 				/>
-				{errors?.siret && (
-					<p className="text-xs text-negative">{errors.siret}</p>
-				)}
+				{errors?.siret && <p className="text-xs text-negative">{errors.siret}</p>}
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="sector">Secteur d'activite</Label>
@@ -143,9 +134,7 @@ function DetailsStep({ data, onChange, errors }: StepComponentProps) {
 					onChange={(e) => onChange({ address: e.target.value })}
 					placeholder="123 Avenue des Champs-Elysees"
 				/>
-				{errors?.address && (
-					<p className="text-xs text-negative">{errors.address}</p>
-				)}
+				{errors?.address && <p className="text-xs text-negative">{errors.address}</p>}
 			</div>
 			<div className="grid grid-cols-2 gap-4">
 				<div className="space-y-1.5">
@@ -184,46 +173,35 @@ function DetailsStep({ data, onChange, errors }: StepComponentProps) {
 function ConfirmationStep({ data }: StepComponentProps) {
 	return (
 		<div className="space-y-4">
-			<p className="text-sm text-fg-muted">
-				Verifiez les informations avant de valider.
-			</p>
+			<p className="text-sm text-fg-muted">Verifiez les informations avant de valider.</p>
 			<div className="rounded-lg border border-edge bg-raised/50 p-4 space-y-3">
 				<div className="grid grid-cols-2 gap-3 text-sm">
 					<div>
 						<span className="text-fg-muted">Entreprise</span>
-						<p className="font-medium text-fg">
-							{(data.companyName as string) || "—"}
-						</p>
+						<p className="font-medium text-fg">{(data.companyName as string) || "—"}</p>
 					</div>
 					<div>
 						<span className="text-fg-muted">SIRET</span>
-						<p className="font-medium text-fg">
-							{(data.siret as string) || "—"}
-						</p>
+						<p className="font-medium text-fg">{(data.siret as string) || "—"}</p>
 					</div>
 					<div>
 						<span className="text-fg-muted">Secteur</span>
-						<p className="font-medium text-fg">
-							{(data.sector as string) || "—"}
-						</p>
+						<p className="font-medium text-fg">{(data.sector as string) || "—"}</p>
 					</div>
 					<div>
 						<span className="text-fg-muted">Ville</span>
-						<p className="font-medium text-fg">
-							{(data.city as string) || "—"}
-						</p>
+						<p className="font-medium text-fg">{(data.city as string) || "—"}</p>
 					</div>
 					<div className="col-span-2">
 						<span className="text-fg-muted">Adresse</span>
 						<p className="font-medium text-fg">
-							{(data.address as string) || "—"}{(data.postalCode as string) ? `, ${data.postalCode}` : ""}
+							{(data.address as string) || "—"}
+							{(data.postalCode as string) ? `, ${data.postalCode}` : ""}
 						</p>
 					</div>
 					<div>
 						<span className="text-fg-muted">Email</span>
-						<p className="font-medium text-fg">
-							{(data.contactEmail as string) || "—"}
-						</p>
+						<p className="font-medium text-fg">{(data.contactEmail as string) || "—"}</p>
 					</div>
 				</div>
 			</div>
@@ -377,7 +355,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/multi-step-form")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -392,7 +370,13 @@ function HeroDemo() {
 			<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
 				<div className="flex flex-col items-center justify-center py-8 space-y-3">
 					<div className="flex size-12 items-center justify-center rounded-full bg-positive/10 text-positive">
-						<svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+						<svg
+							className="size-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
 							<path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 					</div>
@@ -411,10 +395,7 @@ function HeroDemo() {
 
 	return (
 		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
-			<MultiStepForm
-				steps={heroSteps}
-				onSubmit={() => setSubmitted(true)}
-			/>
+			<MultiStepForm steps={heroSteps} onSubmit={() => setSubmitted(true)} />
 		</div>
 	)
 }
@@ -449,8 +430,7 @@ function WithDraftDemo() {
 
 function MultiStepFormPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

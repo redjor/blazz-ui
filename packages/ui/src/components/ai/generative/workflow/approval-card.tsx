@@ -1,10 +1,10 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { AlertCircle } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export interface ApprovalCardProps {
 	title: string
@@ -44,9 +44,7 @@ function ApprovalCardBase({
 							{config.label}
 						</Badge>
 					</div>
-					{description && (
-						<p className="mt-1 text-xs text-fg-muted">{description}</p>
-					)}
+					{description && <p className="mt-1 text-xs text-fg-muted">{description}</p>}
 				</div>
 			</div>
 
@@ -57,7 +55,7 @@ function ApprovalCardBase({
 							key={i}
 							className={cn(
 								"flex items-center justify-between py-1.5",
-								i < details.length - 1 && "border-b border-edge-subtle",
+								i < details.length - 1 && "border-b border-edge-subtle"
 							)}
 						>
 							<span className="text-xs text-fg-muted">{d.label}</span>

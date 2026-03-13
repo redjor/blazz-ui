@@ -1,13 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Tooltip, TooltipTrigger, TooltipContent } from "@blazz/ui/components/ui/tooltip"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+import { createFileRoute } from "@tanstack/react-router"
 import { HelpCircle, Plus, Settings } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -97,7 +97,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/tooltip")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -106,8 +106,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/tooltip")({
 
 function TooltipPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -200,8 +199,8 @@ function TooltipPage() {
 							<HelpCircle />
 						</TooltipTrigger>
 						<TooltipContent className="max-w-xs">
-							This tooltip contains more detailed information about the feature or
-							action. Keep it concise but informative.
+							This tooltip contains more detailed information about the feature or action. Keep it
+							concise but informative.
 						</TooltipContent>
 					</Tooltip>
 				</DocExampleClient>
@@ -216,12 +215,24 @@ function TooltipPage() {
 					Tooltip uses the design system tokens for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-raised</code> - Tooltip background color</li>
-					<li><code className="text-xs">text-fg</code> - Tooltip text color</li>
-					<li><code className="text-xs">shadow-md</code> - Medium shadow for elevation</li>
-					<li><code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)</li>
-					<li><code className="text-xs">px-2 py-1</code> - Compact padding</li>
-					<li><code className="text-xs">text-xs</code> - Small text size (0.6875rem)</li>
+					<li>
+						<code className="text-xs">bg-raised</code> - Tooltip background color
+					</li>
+					<li>
+						<code className="text-xs">text-fg</code> - Tooltip text color
+					</li>
+					<li>
+						<code className="text-xs">shadow-md</code> - Medium shadow for elevation
+					</li>
+					<li>
+						<code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)
+					</li>
+					<li>
+						<code className="text-xs">px-2 py-1</code> - Compact padding
+					</li>
+					<li>
+						<code className="text-xs">text-xs</code> - Small text size (0.6875rem)
+					</li>
 				</ul>
 			</DocSection>
 

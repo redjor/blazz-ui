@@ -2,39 +2,43 @@
 export * from "./app-frame"
 export * from "./app-sidebar"
 export * from "./app-top-bar"
+// ── Utilities ──────────────────────────────────
+export * from "./command-palette/command-palette"
 export * from "./dashboard-layout"
-export { type FrameProps } from "./frame"
-export { type Breadcrumb as FrameBreadcrumb, FrameProvider, useFrame, useBreadcrumbs } from "./frame-context"
-export * from "./layout-frame"
-export * from "./layout-top-bar"
-export * from "./mobile-sidebar-sheet"
-export * from "./notification-sheet"
-export * from "./sidebar-exports"
-export * from "./sidebar-search"
-export * from "./sidebar-user"
-export * from "./top-bar"
-export * from "./user-menu"
-
-// ── Navigation ─────────────────────────────────
-export * from "./nav-tabs"
-export * from "./navbar"
-export * from "./tab-bar"
-export * from "./navigation-tabs"
-
+export * from "./error-state"
+export { FieldGrid, type FieldGridProps } from "./field-grid"
 // ── Forms ──────────────────────────────────────
 export * from "./form-field"
 export * from "./form-section"
-export { FieldGrid, type FieldGridProps } from "./field-grid"
-
+export type { FrameProps } from "./frame"
+export {
+	type Breadcrumb as FrameBreadcrumb,
+	FrameProvider,
+	useBreadcrumbs,
+	useFrame,
+} from "./frame-context"
+export * from "./image-upload/image-preview"
 // ── Media ──────────────────────────────────────
 export * from "./image-upload/image-upload"
-export * from "./image-upload/image-preview"
-
-// ── Utilities ──────────────────────────────────
-export * from "./command-palette/command-palette"
-export * from "./error-state"
-export * from "./theme-toggle"
-export * from "./theme-palette-switcher"
-
+export * from "./layout-frame"
+export * from "./layout-top-bar"
+export * from "./mobile-sidebar-sheet"
+// ── Navigation ─────────────────────────────────
+export * from "./nav-tabs"
+export * from "./navbar"
+export * from "./navigation-tabs"
+export * from "./notification-sheet"
 // ── Page Header Shell ──────────────────────────
-export { type BreadcrumbItemType, PageHeader as PageHeaderShell, type PageHeaderProps as PageHeaderShellProps } from "./page-header-shell"
+export {
+	type BreadcrumbItemType,
+	PageHeader as PageHeaderShell,
+	type PageHeaderProps as PageHeaderShellProps,
+} from "./page-header-shell"
+export * from "./sidebar-exports"
+export * from "./sidebar-search"
+export * from "./sidebar-user"
+export * from "./tab-bar"
+export * from "./theme-palette-switcher"
+export * from "./theme-toggle"
+export * from "./top-bar"
+export * from "./user-menu"

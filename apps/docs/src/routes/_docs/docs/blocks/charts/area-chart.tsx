@@ -1,14 +1,14 @@
 "use client"
 
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleSync } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { AreaChartBlock } from "@blazz/ui/components/blocks/area-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleSync } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 
 export const Route = createFileRoute("/_docs/docs/blocks/charts/area-chart")({
 	component: AreaChartPage,
@@ -84,7 +84,12 @@ function AreaChartPage() {
 		>
 			<DocHero>
 				<div className="max-w-lg">
-					<AreaChartBlock title="Sources de trafic" description="Organique vs payant" data={trafficData} config={trafficConfig} />
+					<AreaChartBlock
+						title="Sources de trafic"
+						description="Organique vs payant"
+						data={trafficData}
+						config={trafficConfig}
+					/>
 				</div>
 			</DocHero>
 
@@ -110,7 +115,12 @@ function AreaChartPage() {
 />`}
 				>
 					<div className="max-w-lg">
-						<AreaChartBlock title="Sources de trafic" description="Organique vs payant" data={trafficData} config={trafficConfig} />
+						<AreaChartBlock
+							title="Sources de trafic"
+							description="Organique vs payant"
+							data={trafficData}
+							config={trafficConfig}
+						/>
 					</div>
 				</DocExampleSync>
 
@@ -126,7 +136,13 @@ function AreaChartPage() {
 />`}
 				>
 					<div className="max-w-lg">
-						<AreaChartBlock title="Sources de trafic" description="Vue cumulée" data={trafficData} config={trafficConfig} stacked />
+						<AreaChartBlock
+							title="Sources de trafic"
+							description="Vue cumulée"
+							data={trafficData}
+							config={trafficConfig}
+							stacked
+						/>
 					</div>
 				</DocExampleSync>
 			</DocSection>
@@ -138,9 +154,21 @@ function AreaChartPage() {
 			<DocSection id="related" title="Related">
 				<DocRelated
 					items={[
-						{ title: "Line Chart", href: "/docs/components/charts/line-chart", description: "Courbes sans remplissage." },
-						{ title: "Bar Chart", href: "/docs/components/charts/bar-chart", description: "Barres pour comparer des valeurs." },
-						{ title: "Pie Chart", href: "/docs/components/charts/pie-chart", description: "Camembert pour répartitions." },
+						{
+							title: "Line Chart",
+							href: "/docs/components/charts/line-chart",
+							description: "Courbes sans remplissage.",
+						},
+						{
+							title: "Bar Chart",
+							href: "/docs/components/charts/bar-chart",
+							description: "Barres pour comparer des valeurs.",
+						},
+						{
+							title: "Pie Chart",
+							href: "/docs/components/charts/pie-chart",
+							description: "Camembert pour répartitions.",
+						},
 					]}
 				/>
 			</DocSection>

@@ -1,11 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { Building2, Calendar, TrendingUp } from "lucide-react"
 import Link from "next/link"
-import { Calendar, Building2, TrendingUp } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 const stageVariantMap = {
 	prospecting: { variant: "secondary" as const, label: "Prospecting" },
@@ -53,7 +53,7 @@ function DealCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-start justify-between gap-3">

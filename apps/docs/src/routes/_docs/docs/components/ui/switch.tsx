@@ -1,13 +1,13 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { Switch } from "@blazz/ui/components/ui/switch"
 import { Label } from "@blazz/ui/components/ui/label"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { Switch } from "@blazz/ui/components/ui/switch"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -106,7 +106,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/switch")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -126,8 +126,7 @@ function ControlledSwitchDemo() {
 
 function SwitchPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -245,11 +244,21 @@ function SwitchPage() {
 					Switch uses the design system for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-raised</code> - Unchecked background</li>
-					<li><code className="text-xs">bg-brand</code> - Checked background</li>
-					<li><code className="text-xs">rounded-full</code> - Pill-shaped container</li>
-					<li><code className="text-xs">shadow-sm</code> - Subtle elevation</li>
-					<li><code className="text-xs">transition-p-150</code> - Smooth state transitions</li>
+					<li>
+						<code className="text-xs">bg-raised</code> - Unchecked background
+					</li>
+					<li>
+						<code className="text-xs">bg-brand</code> - Checked background
+					</li>
+					<li>
+						<code className="text-xs">rounded-full</code> - Pill-shaped container
+					</li>
+					<li>
+						<code className="text-xs">shadow-sm</code> - Subtle elevation
+					</li>
+					<li>
+						<code className="text-xs">transition-p-150</code> - Smooth state transitions
+					</li>
 				</ul>
 			</DocSection>
 

@@ -1,19 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
 } from "@blazz/ui/components/ui/card"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocDoDont } from "~/components/docs/doc-do-dont"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocPage } from "~/components/docs/doc-page"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -138,7 +138,7 @@ export const Route = createFileRoute("/_docs/docs/components/layout/inset")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -160,8 +160,7 @@ const toc = [
 
 function InsetPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -174,15 +173,21 @@ function InsetPage() {
 			<DocSection id="concept" title="Le concept">
 				<div className="space-y-4 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le design system utilise un <strong className="text-fg">token unique <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code></strong> pour
-						contrôler le padding interne des containers. Au lieu de hardcoder{" "}
+						Le design system utilise un{" "}
+						<strong className="text-fg">
+							token unique{" "}
+							<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code>
+						</strong>{" "}
+						pour contrôler le padding interne des containers. Au lieu de hardcoder{" "}
 						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-4</code>,{" "}
 						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-2.5</code> ou{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">px-4</code> dans chaque composant,
-						tous consomment la même variable CSS.
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">px-4</code> dans
+						chaque composant, tous consomment la même variable CSS.
 					</p>
 					<p>
-						Ce token s'utilise dans deux contextes distincts — qu'on appelle <strong className="text-fg">Container Inset</strong> et <strong className="text-fg">Wrapper Inset</strong> :
+						Ce token s'utilise dans deux contextes distincts — qu'on appelle{" "}
+						<strong className="text-fg">Container Inset</strong> et{" "}
+						<strong className="text-fg">Wrapper Inset</strong> :
 					</p>
 					<div className="grid gap-4 sm:grid-cols-2">
 						<div className="rounded-lg border border-container p-4 space-y-2">
@@ -190,7 +195,9 @@ function InsetPage() {
 								<Badge variant="outline">Container</Badge>
 							</div>
 							<p className="text-[13px] text-fg-muted">
-								Padding <strong className="text-fg">à l'intérieur</strong> des composants surfaciques : Card, Dialog, Sheet, Popover, HoverCard, Alert. Le composant gère son propre inset.
+								Padding <strong className="text-fg">à l'intérieur</strong> des composants
+								surfaciques : Card, Dialog, Sheet, Popover, HoverCard, Alert. Le composant gère son
+								propre inset.
 							</p>
 						</div>
 						<div className="rounded-lg border border-container p-4 space-y-2">
@@ -198,13 +205,17 @@ function InsetPage() {
 								<Badge variant="outline">Wrapper</Badge>
 							</div>
 							<p className="text-[13px] text-fg-muted">
-								Padding <strong className="text-fg">autour du contenu</strong> dans les wrappers de page ou de section. Le wrapper utilise le même token pour aligner ses marges internes avec les containers qu'il contient.
+								Padding <strong className="text-fg">autour du contenu</strong> dans les wrappers de
+								page ou de section. Le wrapper utilise le même token pour aligner ses marges
+								internes avec les containers qu'il contient.
 							</p>
 						</div>
 					</div>
 					<p>
-						L'avantage : changer <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> à un endroit
-						ajuste <strong className="text-fg">tous les paddings simultanément</strong> — containers et wrappers — sans toucher un seul composant.
+						L'avantage : changer{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> à un
+						endroit ajuste <strong className="text-fg">tous les paddings simultanément</strong> —
+						containers et wrappers — sans toucher un seul composant.
 					</p>
 				</div>
 
@@ -216,7 +227,9 @@ function InsetPage() {
 				>
 					<div className="space-y-3 text-sm">
 						<div className="flex items-center gap-3">
-							<code className="shrink-0 rounded bg-raised px-2 py-1 text-xs font-mono text-brand">--inset: 1rem</code>
+							<code className="shrink-0 rounded bg-raised px-2 py-1 text-xs font-mono text-brand">
+								--inset: 1rem
+							</code>
 							<span className="text-fg-muted">→ 16px — valeur par défaut</span>
 						</div>
 						<div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -240,8 +253,11 @@ function InsetPage() {
 			<DocSection id="container-inset" title="Container Inset">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le <strong className="text-fg">container inset</strong> est le padding géré par les composants surfaciques eux-mêmes.
-						Quand tu utilises une Card, un Dialog ou un Sheet, le padding est déjà câblé sur <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> — tu n'as rien à faire.
+						Le <strong className="text-fg">container inset</strong> est le padding géré par les
+						composants surfaciques eux-mêmes. Quand tu utilises une Card, un Dialog ou un Sheet, le
+						padding est déjà câblé sur{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> — tu
+						n'as rien à faire.
 					</p>
 				</div>
 
@@ -270,14 +286,18 @@ function InsetPage() {
 			<DocSection id="wrapper-inset" title="Wrapper Inset">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le <strong className="text-fg">wrapper inset</strong> est le même token appliqué aux wrappers de page ou de section.
-						En utilisant <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">px-inset</code> ou{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-inset</code> sur un wrapper,
-						tu garantis que ses marges internes s'alignent parfaitement avec le padding des containers enfants.
+						Le <strong className="text-fg">wrapper inset</strong> est le même token appliqué aux
+						wrappers de page ou de section. En utilisant{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">px-inset</code> ou{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-inset</code> sur
+						un wrapper, tu garantis que ses marges internes s'alignent parfaitement avec le padding
+						des containers enfants.
 					</p>
 					<p>
-						Le pattern bleed (marges négatives) fonctionne aussi dans ce contexte : un enfant peut utiliser{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">-mx-inset</code> pour s'étendre jusqu'aux bords du wrapper.
+						Le pattern bleed (marges négatives) fonctionne aussi dans ce contexte : un enfant peut
+						utiliser{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">-mx-inset</code>{" "}
+						pour s'étendre jusqu'aux bords du wrapper.
 					</p>
 				</div>
 
@@ -294,7 +314,9 @@ function InsetPage() {
 						</div>
 						<div className="px-[var(--inset)]">
 							<div className="mx-[calc(-1*var(--inset))] px-[var(--inset)] border-t border-separator py-3">
-								<p className="text-xs text-fg-muted">Contenu pleine largeur avec sa propre bordure</p>
+								<p className="text-xs text-fg-muted">
+									Contenu pleine largeur avec sa propre bordure
+								</p>
 							</div>
 						</div>
 					</div>
@@ -305,9 +327,10 @@ function InsetPage() {
 			<DocSection id="bleed-pattern" title="Pattern Bleed">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Les headers et footers de Dialog et Sheet utilisent des <strong className="text-fg">marges négatives</strong> pour
-						occuper toute la largeur du container, indépendamment du padding parent. Les marges négatives et le padding
-						positif consomment le même token, donc ils restent synchronisés.
+						Les headers et footers de Dialog et Sheet utilisent des{" "}
+						<strong className="text-fg">marges négatives</strong> pour occuper toute la largeur du
+						container, indépendamment du padding parent. Les marges négatives et le padding positif
+						consomment le même token, donc ils restent synchronisés.
 					</p>
 				</div>
 
@@ -331,7 +354,9 @@ function InsetPage() {
 
 							{/* Simulated dialog footer */}
 							<div className="mx-[calc(-1*var(--inset))] mb-[calc(-1*var(--inset))] p-[var(--inset)] border-t border-separator flex justify-end gap-2">
-								<Button variant="outline" size="sm">Annuler</Button>
+								<Button variant="outline" size="sm">
+									Annuler
+								</Button>
 								<Button size="sm">Confirmer</Button>
 							</div>
 						</div>
@@ -343,9 +368,13 @@ function InsetPage() {
 			<DocSection id="asymmetric" title="Padding asymétrique">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Certains composants ont intentionnellement <strong className="text-fg">moins de padding vertical</strong> que horizontal.
-						Au lieu de hardcoder, on utilise <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">calc(var(--inset) * ratio)</code> pour que
-						tout scale ensemble quand on change le token.
+						Certains composants ont intentionnellement{" "}
+						<strong className="text-fg">moins de padding vertical</strong> que horizontal. Au lieu
+						de hardcoder, on utilise{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">
+							calc(var(--inset) * ratio)
+						</code>{" "}
+						pour que tout scale ensemble quand on change le token.
 					</p>
 				</div>
 
@@ -357,13 +386,19 @@ function InsetPage() {
 				>
 					<div className="space-y-3">
 						<div className="rounded-lg border border-container overflow-hidden">
-							<div className="px-[var(--inset)] bg-raised/50" style={{ paddingBlock: "calc(var(--inset) * 0.75)" }}>
+							<div
+								className="px-[var(--inset)] bg-raised/50"
+								style={{ paddingBlock: "calc(var(--inset) * 0.75)" }}
+							>
 								<p className="text-xs font-medium text-fg">Sheet Header</p>
 								<p className="text-[11px] text-fg-muted">paddingBlock = inset × 0.75</p>
 							</div>
 						</div>
 						<div className="rounded-lg border border-container overflow-hidden">
-							<div className="px-[var(--inset)] bg-info/10" style={{ paddingBlock: "calc(var(--inset) * 0.5)" }}>
+							<div
+								className="px-[var(--inset)] bg-info/10"
+								style={{ paddingBlock: "calc(var(--inset) * 0.5)" }}
+							>
 								<p className="text-xs font-medium text-fg">Alert</p>
 								<p className="text-[11px] text-fg-muted">paddingBlock = inset × 0.5</p>
 							</div>
@@ -376,8 +411,10 @@ function InsetPage() {
 			<DocSection id="overrides" title="Overrides de densité">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Puisque <code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> est une variable CSS,
-						n'importe quel parent peut la redéfinir. Tous les enfants — containers et wrappers — héritent automatiquement de la nouvelle valeur.
+						Puisque{" "}
+						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> est
+						une variable CSS, n'importe quel parent peut la redéfinir. Tous les enfants — containers
+						et wrappers — héritent automatiquement de la nouvelle valeur.
 					</p>
 				</div>
 
@@ -389,7 +426,9 @@ function InsetPage() {
 				>
 					<div className="grid gap-4 sm:grid-cols-3">
 						<div className="space-y-2">
-							<Badge variant="outline" className="text-[10px]">Dense — 0.5rem</Badge>
+							<Badge variant="outline" className="text-[10px]">
+								Dense — 0.5rem
+							</Badge>
 							<div style={{ ["--inset" as string]: "0.5rem" }}>
 								<Card>
 									<CardContent>
@@ -399,7 +438,9 @@ function InsetPage() {
 							</div>
 						</div>
 						<div className="space-y-2">
-							<Badge variant="outline" className="text-[10px]">Default — 1rem</Badge>
+							<Badge variant="outline" className="text-[10px]">
+								Default — 1rem
+							</Badge>
 							<Card>
 								<CardContent>
 									<p className="text-xs text-fg-muted">Padding standard</p>
@@ -407,7 +448,9 @@ function InsetPage() {
 							</Card>
 						</div>
 						<div className="space-y-2">
-							<Badge variant="outline" className="text-[10px]">Spacieux — 1.5rem</Badge>
+							<Badge variant="outline" className="text-[10px]">
+								Spacieux — 1.5rem
+							</Badge>
 							<div style={{ ["--inset" as string]: "1.5rem" }}>
 								<Card>
 									<CardContent>
@@ -427,7 +470,9 @@ function InsetPage() {
 				>
 					<div className="grid gap-4 sm:grid-cols-2">
 						<div style={{ ["--inset" as string]: "0.5rem" }} className="space-y-2">
-							<p className="text-[11px] font-medium text-fg-muted uppercase tracking-wider">--inset: 0.5rem</p>
+							<p className="text-[11px] font-medium text-fg-muted uppercase tracking-wider">
+								--inset: 0.5rem
+							</p>
 							<Card>
 								<CardHeader>
 									<CardTitle className="text-sm">Compact</CardTitle>
@@ -436,12 +481,16 @@ function InsetPage() {
 									<p className="text-xs text-fg-muted">Tous les sous-composants sont compacts.</p>
 								</CardContent>
 								<CardFooter>
-									<Button size="sm" variant="outline">Action</Button>
+									<Button size="sm" variant="outline">
+										Action
+									</Button>
 								</CardFooter>
 							</Card>
 						</div>
 						<div style={{ ["--inset" as string]: "1.5rem" }} className="space-y-2">
-							<p className="text-[11px] font-medium text-fg-muted uppercase tracking-wider">--inset: 1.5rem</p>
+							<p className="text-[11px] font-medium text-fg-muted uppercase tracking-wider">
+								--inset: 1.5rem
+							</p>
 							<Card>
 								<CardHeader>
 									<CardTitle className="text-sm">Spacieux</CardTitle>
@@ -450,7 +499,9 @@ function InsetPage() {
 									<p className="text-xs text-fg-muted">Tous les sous-composants sont spacieux.</p>
 								</CardContent>
 								<CardFooter>
-									<Button size="sm" variant="outline">Action</Button>
+									<Button size="sm" variant="outline">
+										Action
+									</Button>
 								</CardFooter>
 							</Card>
 						</div>
@@ -465,7 +516,9 @@ function InsetPage() {
 						<thead>
 							<tr className="border-b border-separator bg-raised/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Classe</th>
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">CSS généré</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
+									CSS généré
+								</th>
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Usage</th>
 							</tr>
 						</thead>
@@ -475,9 +528,21 @@ function InsetPage() {
 								{ cls: "px-inset", css: "padding-inline: var(--inset)", usage: "Horizontal seul" },
 								{ cls: "py-inset", css: "padding-block: var(--inset)", usage: "Vertical seul" },
 								{ cls: "pt-inset", css: "padding-top: var(--inset)", usage: "Haut seul (headers)" },
-								{ cls: "-mx-inset", css: "margin-inline: calc(-1 * var(--inset))", usage: "Bleed horizontal" },
-								{ cls: "-mt-inset", css: "margin-top: calc(-1 * var(--inset))", usage: "Bleed en haut" },
-								{ cls: "-mb-inset", css: "margin-bottom: calc(-1 * var(--inset))", usage: "Bleed en bas" },
+								{
+									cls: "-mx-inset",
+									css: "margin-inline: calc(-1 * var(--inset))",
+									usage: "Bleed horizontal",
+								},
+								{
+									cls: "-mt-inset",
+									css: "margin-top: calc(-1 * var(--inset))",
+									usage: "Bleed en haut",
+								},
+								{
+									cls: "-mb-inset",
+									css: "margin-bottom: calc(-1 * var(--inset))",
+									usage: "Bleed en bas",
+								},
 							].map((row) => (
 								<tr key={row.cls}>
 									<td className="px-4 py-2">
@@ -498,8 +563,9 @@ function InsetPage() {
 			<DocSection id="components" title="Composants concernés">
 				<div className="space-y-4 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Seuls les composants <strong className="text-fg">surfaciques plats</strong> utilisent le token. Les menus
-						(Dropdown, ContextMenu, Select), les tooltips et les composants avec leur propre système de spacing (Sidebar, Table, Accordion) ne sont pas affectés.
+						Seuls les composants <strong className="text-fg">surfaciques plats</strong> utilisent le
+						token. Les menus (Dropdown, ContextMenu, Select), les tooltips et les composants avec
+						leur propre système de spacing (Sidebar, Table, Accordion) ne sont pas affectés.
 					</p>
 				</div>
 
@@ -507,8 +573,12 @@ function InsetPage() {
 					<table className="w-full text-sm">
 						<thead>
 							<tr className="border-b border-separator bg-raised/50">
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Composant</th>
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Classes inset</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
+									Composant
+								</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
+									Classes inset
+								</th>
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Pattern</th>
 							</tr>
 						</thead>
@@ -532,7 +602,9 @@ function InsetPage() {
 										<code className="text-xs font-mono text-fg-muted">{row.cls}</code>
 									</td>
 									<td className="px-4 py-2">
-										<Badge variant="outline" className="text-[10px]">{row.pattern}</Badge>
+										<Badge variant="outline" className="text-[10px]">
+											{row.pattern}
+										</Badge>
 									</td>
 								</tr>
 							))}
@@ -547,18 +619,18 @@ function InsetPage() {
 					doExample={
 						<div className="space-y-2 text-xs font-mono">
 							<p className="text-fg-muted">{"/* Utiliser les utilitaires inset */"}</p>
-							<p className="text-fg">{"<div className=\"p-inset\">"}</p>
-							<p className="text-fg">{"<div className=\"px-inset\">"}</p>
-							<p className="text-fg">{"<div className=\"-mx-inset p-inset\">"}</p>
+							<p className="text-fg">{'<div className="p-inset">'}</p>
+							<p className="text-fg">{'<div className="px-inset">'}</p>
+							<p className="text-fg">{'<div className="-mx-inset p-inset">'}</p>
 						</div>
 					}
 					doText="Utiliser les classes p-inset, px-inset etc. pour que le padding s'adapte automatiquement au contexte de densité."
 					dontExample={
 						<div className="space-y-2 text-xs font-mono">
 							<p className="text-fg-muted">{"/* Hardcoder le padding */"}</p>
-							<p className="text-fg">{"<div className=\"p-4\">"}</p>
-							<p className="text-fg">{"<div className=\"px-4\">"}</p>
-							<p className="text-fg">{"<div className=\"-mx-4 p-4\">"}</p>
+							<p className="text-fg">{'<div className="p-4">'}</p>
+							<p className="text-fg">{'<div className="px-4">'}</p>
+							<p className="text-fg">{'<div className="-mx-4 p-4">'}</p>
 						</div>
 					}
 					dontText="Ne pas hardcoder p-4 ou px-4 dans les containers — le padding ne s'adaptera pas quand on change la densité."
@@ -577,9 +649,9 @@ function InsetPage() {
 					dontExample={
 						<div className="space-y-2 text-xs font-mono">
 							<p className="text-fg-muted">{"/* Override composant par composant */"}</p>
-							<p className="text-fg">{"<Card className=\"p-2\">"}</p>
-							<p className="text-fg">{"<Dialog className=\"p-2\">"}</p>
-							<p className="text-fg">{"<Sheet className=\"p-2\">"}</p>
+							<p className="text-fg">{'<Card className="p-2">'}</p>
+							<p className="text-fg">{'<Dialog className="p-2">'}</p>
+							<p className="text-fg">{'<Sheet className="p-2">'}</p>
 						</div>
 					}
 					dontText="Ne pas overrider le padding composant par composant — ça casse la cohérence et le bleed pattern."

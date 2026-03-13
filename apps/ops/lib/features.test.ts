@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { features, isEnabled, routeToFlag, type FeatureFlag } from "./features"
+import { type FeatureFlag, features, isEnabled, routeToFlag } from "./features"
 
 describe("isEnabled", () => {
 	it("returns true for enabled flags", () => {

@@ -1,16 +1,13 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import { OrgMenu } from "@blazz/ui/components/blocks/org-menu"
 import type { Organization } from "@blazz/ui/components/blocks/org-menu"
+import { OrgMenu } from "@blazz/ui/components/blocks/org-menu"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -179,7 +176,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/org-menu")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -207,11 +204,7 @@ function ManyOrgsDemo() {
 
 	return (
 		<div className="w-64">
-			<OrgMenu
-				organizations={manyOrganizations}
-				activeOrganization={active}
-				onSelect={setActive}
-			/>
+			<OrgMenu organizations={manyOrganizations} activeOrganization={active} onSelect={setActive} />
 		</div>
 	)
 }
@@ -246,8 +239,7 @@ function EmptyDemo() {
 
 function OrgMenuPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -314,7 +306,10 @@ function OrgMenuPage() {
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
 					<li>Place at the top of the sidebar, above the navigation items</li>
 					<li>Always show the active organization name and plan in the trigger</li>
-					<li>Use square-rounded avatars (rounded-lg) to differentiate from user avatars (rounded-full)</li>
+					<li>
+						Use square-rounded avatars (rounded-lg) to differentiate from user avatars
+						(rounded-full)
+					</li>
 					<li>Keep organization names short — long names are truncated with a tooltip</li>
 					<li>Provide onCreate to allow users to add organizations inline</li>
 				</ul>

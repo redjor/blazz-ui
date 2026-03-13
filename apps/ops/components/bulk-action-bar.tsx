@@ -1,9 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { Trash2, X } from "lucide-react"
 import { Button } from "@blazz/ui/components/ui/button"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import {
 	Dialog,
 	DialogContent,
@@ -11,6 +8,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Trash2, X } from "lucide-react"
+import { useState } from "react"
 import type { EntryStatus } from "@/lib/time-entry-status"
 import {
 	ENTRY_STATUS_LABELS,
@@ -56,7 +56,7 @@ export function BulkActionBar({
 
 	// Compute common transitions across all selected entries
 	const transitionSets = selectedEntries.map(
-		(entry) => new Set(getAllowedTransitions(getEffectiveStatus(entry))),
+		(entry) => new Set(getAllowedTransitions(getEffectiveStatus(entry)))
 	)
 	const commonTransitions = intersectSets(transitionSets)
 
@@ -85,9 +85,7 @@ export function BulkActionBar({
 						</InlineStack>
 
 						{/* Separator */}
-						{commonTransitions.size > 0 && (
-							<div className="h-4 w-px bg-edge" />
-						)}
+						{commonTransitions.size > 0 && <div className="h-4 w-px bg-edge" />}
 
 						{/* Status transition buttons */}
 						{[...commonTransitions].map((status) => (
@@ -146,11 +144,7 @@ export function BulkActionBar({
 						<div className="h-4 w-px bg-edge" />
 
 						{/* Delete button */}
-						<Button
-							variant="destructive"
-							size="sm"
-							onClick={() => setConfirmOpen(true)}
-						>
+						<Button variant="destructive" size="sm" onClick={() => setConfirmOpen(true)}>
 							<Trash2 className="size-3.5 mr-1" />
 							Supprimer
 						</Button>
@@ -165,16 +159,11 @@ export function BulkActionBar({
 						<DialogTitle>Confirmer la suppression</DialogTitle>
 					</DialogHeader>
 					<p className="text-sm text-fg-muted">
-						{selectedCount} entrée{selectedCount > 1 ? "s" : ""} seront
-						supprimée{selectedCount > 1 ? "s" : ""}. Cette action est
-						irréversible.
+						{selectedCount} entrée{selectedCount > 1 ? "s" : ""} seront supprimée
+						{selectedCount > 1 ? "s" : ""}. Cette action est irréversible.
 					</p>
 					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => setConfirmOpen(false)}
-						>
+						<Button type="button" variant="outline" onClick={() => setConfirmOpen(false)}>
 							Annuler
 						</Button>
 						<Button variant="destructive" onClick={handleDelete}>

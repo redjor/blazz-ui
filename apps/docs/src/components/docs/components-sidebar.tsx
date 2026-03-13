@@ -1,12 +1,11 @@
 "use client"
 
-import { Link } from "@tanstack/react-router"
-import { useLocation } from "@tanstack/react-router"
-import * as React from "react"
-import { ChevronRight } from "lucide-react"
-import { cn } from "@blazz/ui/lib/utils"
-import { componentsNavigation, type ComponentNavCategory } from "~/config/components-navigation"
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
+import { cn } from "@blazz/ui/lib/utils"
+import { Link, useLocation } from "@tanstack/react-router"
+import { ChevronRight } from "lucide-react"
+import * as React from "react"
+import { type ComponentNavCategory, componentsNavigation } from "~/config/components-navigation"
 
 export function ComponentsSidebar() {
 	const { pathname } = useLocation()
@@ -15,7 +14,7 @@ export function ComponentsSidebar() {
 	// Auto-open category containing active item
 	React.useEffect(() => {
 		const activeCategory = componentsNavigation.find((category) =>
-			category.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"))
+			category.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
 		)
 		if (activeCategory) {
 			setOpenCategories((prev) =>
@@ -26,14 +25,12 @@ export function ComponentsSidebar() {
 
 	const toggleCategory = (categoryId: string) => {
 		setOpenCategories((prev) =>
-			prev.includes(categoryId)
-				? prev.filter((id) => id !== categoryId)
-				: [...prev, categoryId]
+			prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]
 		)
 	}
 
 	const isItemActive = (href: string) => {
-		return pathname === href || pathname.startsWith(href + "/")
+		return pathname === href || pathname.startsWith(`${href}/`)
 	}
 
 	return (
@@ -130,7 +127,7 @@ export function ComponentsSidebarMobile() {
 
 	React.useEffect(() => {
 		const activeCategory = componentsNavigation.find((category) =>
-			category.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"))
+			category.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
 		)
 		if (activeCategory) {
 			setOpenCategories((prev) =>
@@ -141,14 +138,12 @@ export function ComponentsSidebarMobile() {
 
 	const toggleCategory = (categoryId: string) => {
 		setOpenCategories((prev) =>
-			prev.includes(categoryId)
-				? prev.filter((id) => id !== categoryId)
-				: [...prev, categoryId]
+			prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]
 		)
 	}
 
 	const isItemActive = (href: string) => {
-		return pathname === href || pathname.startsWith(href + "/")
+		return pathname === href || pathname.startsWith(`${href}/`)
 	}
 
 	// Find current component name
@@ -165,10 +160,7 @@ export function ComponentsSidebarMobile() {
 			>
 				<span>{currentComponent?.title || "Components"}</span>
 				<ChevronRight
-					className={cn(
-						"h-4 w-4 transition-transform duration-200",
-						open && "rotate-90"
-					)}
+					className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-90")}
 				/>
 			</button>
 			{open && (

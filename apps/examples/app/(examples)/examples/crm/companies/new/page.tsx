@@ -1,16 +1,16 @@
 "use client"
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { Save, X } from "lucide-react"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { FormSection } from "@blazz/ui/components/patterns/form-section"
-import { FormField } from "@blazz/ui/components/patterns/form-field"
 import { FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { FormField } from "@blazz/ui/components/patterns/form-field"
+import { FormSection } from "@blazz/ui/components/patterns/form-section"
 import { Button } from "@blazz/ui/components/ui/button"
-import { companySchema, type CompanyFormData } from "@/lib/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Save, X } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { type CompanyFormData, companySchema } from "@/lib/schemas"
 
 export default function NewCompanyPage() {
 	const router = useRouter()
@@ -40,7 +40,12 @@ export default function NewCompanyPage() {
 				<FormSection title="Informations générales" defaultOpen>
 					<FieldGrid columns={2}>
 						<FormField name="name" label="Nom de l'entreprise" control={form.control} required />
-						<FormField name="domain" label="Domaine" control={form.control} placeholder="exemple.com" />
+						<FormField
+							name="domain"
+							label="Domaine"
+							control={form.control}
+							placeholder="exemple.com"
+						/>
 						<FormField
 							name="industry"
 							label="Secteur"

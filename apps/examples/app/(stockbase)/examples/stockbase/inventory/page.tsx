@@ -1,10 +1,10 @@
 "use client"
 
+import { createInventoryPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Box } from "@blazz/ui/components/ui/box"
 import { useMemo } from "react"
 import { toast } from "sonner"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DataTable, createInventoryPreset } from "@blazz/ui/components/blocks/data-table"
-import { Box } from "@blazz/ui/components/ui/box"
 import { inventoryItems } from "@/lib/stockbase-data"
 
 export default function InventoryPage() {
@@ -17,7 +17,7 @@ export default function InventoryPage() {
 				onBulkExport: (items) => toast.success(`${items.length} article(s) exporte(s)`),
 				onBulkAdjust: (items) => toast.success(`Stock ajuste pour ${items.length} article(s)`),
 			}),
-		[],
+		[]
 	)
 
 	return (

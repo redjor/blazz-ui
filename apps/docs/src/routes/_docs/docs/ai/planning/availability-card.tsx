@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { AvailabilityCard } from "@blazz/ui/components/ai/generative/planning/availability-card"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -22,9 +22,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/planning/availability-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/planning/availability-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -41,8 +39,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function AvailabilityCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -88,15 +85,17 @@ function AvailabilityCardPage() {
 				>
 					<div className="max-w-sm">
 						<AvailabilityCard
-							days={[{
-								date: "Monday, Mar 11",
-								slots: [
-									{ time: "9:00 AM", status: "available" },
-									{ time: "10:00 AM", status: "busy" },
-									{ time: "11:00 AM", status: "available" },
-									{ time: "2:00 PM", status: "tentative" },
-								],
-							}]}
+							days={[
+								{
+									date: "Monday, Mar 11",
+									slots: [
+										{ time: "9:00 AM", status: "available" },
+										{ time: "10:00 AM", status: "busy" },
+										{ time: "11:00 AM", status: "available" },
+										{ time: "2:00 PM", status: "tentative" },
+									],
+								},
+							]}
 						/>
 					</div>
 				</DocExampleClient>

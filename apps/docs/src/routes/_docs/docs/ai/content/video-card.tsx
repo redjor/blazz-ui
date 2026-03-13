@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { VideoCard } from "@blazz/ui/components/ai/generative/content/video-card"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -26,9 +26,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/content/video-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/content/video-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -45,8 +43,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function VideoCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -72,11 +69,7 @@ function VideoCardPage() {
 					highlightedCode={html("without-thumbnail")}
 				>
 					<div className="max-w-xs">
-						<VideoCard
-							title="Product Demo: Forge CRM"
-							duration="12:34"
-							channel="Forge Academy"
-						/>
+						<VideoCard title="Product Demo: Forge CRM" duration="12:34" channel="Forge Academy" />
 					</div>
 				</DocExampleClient>
 

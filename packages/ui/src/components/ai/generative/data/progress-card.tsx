@@ -1,7 +1,7 @@
 "use client"
 
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface ProgressCardProps {
 	label: string
@@ -11,22 +11,11 @@ export interface ProgressCardProps {
 	className?: string
 }
 
-function ProgressCardBase({
-	label,
-	value,
-	description,
-	color,
-	className,
-}: ProgressCardProps) {
+function ProgressCardBase({ label, value, description, color, className }: ProgressCardProps) {
 	const clamped = Math.min(100, Math.max(0, value))
 
 	return (
-		<div
-			className={cn(
-				"rounded-lg border border-container bg-surface p-4",
-				className,
-			)}
-		>
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-baseline justify-between">
 				<span className="text-sm font-medium text-fg">{label}</span>
 				<span className="text-sm tabular-nums text-fg-muted">{clamped}%</span>
@@ -40,9 +29,7 @@ function ProgressCardBase({
 					}}
 				/>
 			</div>
-			{description && (
-				<p className="mt-2 text-xs text-fg-muted">{description}</p>
-			)}
+			{description && <p className="mt-2 text-xs text-fg-muted">{description}</p>}
 		</div>
 	)
 }

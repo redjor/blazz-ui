@@ -1,9 +1,9 @@
 "use client"
 
 import { Calendar, Clock } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export interface CalendarEvent {
 	title: string
@@ -24,11 +24,7 @@ export interface CalendarCardProps {
 	className?: string
 }
 
-function CalendarCardBase({
-	month,
-	days,
-	className,
-}: CalendarCardProps) {
+function CalendarCardBase({ month, days, className }: CalendarCardProps) {
 	return (
 		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-center gap-2">
@@ -43,13 +39,15 @@ function CalendarCardBase({
 						className={cn(
 							"flex items-start gap-3 rounded-md px-2 py-1.5",
 							day.isToday && "bg-brand/5",
-							day.isHighlighted && "bg-raised",
+							day.isHighlighted && "bg-raised"
 						)}
 					>
-						<span className={cn(
-							"w-6 shrink-0 text-xs font-medium tabular-nums text-right",
-							day.isToday ? "text-brand font-bold" : "text-fg-muted",
-						)}>
+						<span
+							className={cn(
+								"w-6 shrink-0 text-xs font-medium tabular-nums text-right",
+								day.isToday ? "text-brand font-bold" : "text-fg-muted"
+							)}
+						>
 							{day.day}
 						</span>
 						{day.events && day.events.length > 0 ? (

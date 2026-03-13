@@ -1,7 +1,6 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useMemo, useState } from "react"
+import type { LucideIcon } from "lucide-react"
 import {
 	AtSign,
 	Filter,
@@ -13,37 +12,27 @@ import {
 	UserPlus,
 	X,
 } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
-import { Button } from "../ui/button"
-import { Skeleton } from "../ui/skeleton"
-import { Empty } from "../ui/empty"
+import { useState } from "react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import { ErrorState } from "../patterns/error-state"
+import { Button } from "../ui/button"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-import { cn } from "../../lib/utils"
+import { Empty } from "../ui/empty"
+import { Skeleton } from "../ui/skeleton"
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-export type InboxActionType =
-	| "comment"
-	| "reply"
-	| "reaction"
-	| "mention"
-	| "added"
+export type InboxActionType = "comment" | "reply" | "reaction" | "mention" | "added"
 
-export type InboxStatusVariant =
-	| "urgent"
-	| "done"
-	| "in-progress"
-	| "cancelled"
-	| "default"
+export type InboxStatusVariant = "urgent" | "done" | "in-progress" | "cancelled" | "default"
 
 export type InboxPriority = "urgent" | "high" | "medium" | "low" | "none"
 
@@ -108,11 +97,7 @@ const statusDotClasses: Record<InboxStatusVariant, string> = {
 function InboxStatusDot({ status }: { status: InboxStatusVariant }) {
 	if (status === "in-progress") {
 		return (
-			<svg
-				className="size-3.5 shrink-0 text-fg-muted"
-				viewBox="0 0 16 16"
-				fill="none"
-			>
+			<svg className="size-3.5 shrink-0 text-fg-muted" viewBox="0 0 16 16" fill="none">
 				<circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
 				<path
 					d="M8 1.5A6.5 6.5 0 0 1 14.5 8"
@@ -124,24 +109,14 @@ function InboxStatusDot({ status }: { status: InboxStatusVariant }) {
 		)
 	}
 
-	return (
-		<span
-			className={cn("size-2.5 shrink-0 rounded-full", statusDotClasses[status])}
-		/>
-	)
+	return <span className={cn("size-2.5 shrink-0 rounded-full", statusDotClasses[status])} />
 }
 
 // ---------------------------------------------------------------------------
 // InboxAvatar
 // ---------------------------------------------------------------------------
 
-function InboxAvatar({
-	author,
-	actionType,
-}: {
-	author: InboxAuthor
-	actionType: InboxActionType
-}) {
+function InboxAvatar({ author, actionType }: { author: InboxAuthor; actionType: InboxActionType }) {
 	const ActionIcon = actionTypeIcons[actionType]
 
 	return (
@@ -183,10 +158,8 @@ function InboxPriorityBadge({ priority }: { priority: InboxPriority }) {
 		<span
 			className={cn(
 				"inline-flex size-4 shrink-0 items-center justify-center rounded-sm text-[10px] font-bold",
-				priority === "urgent" &&
-					"bg-orange-500/15 text-orange-500",
-				priority === "high" &&
-					"bg-orange-500/15 text-orange-500",
+				priority === "urgent" && "bg-orange-500/15 text-orange-500",
+				priority === "high" && "bg-orange-500/15 text-orange-500"
 			)}
 		>
 			!
@@ -224,12 +197,7 @@ export interface InboxItemProps {
 	className?: string
 }
 
-export function InboxItem({
-	item,
-	selected = false,
-	onClick,
-	className,
-}: InboxItemProps) {
+export function InboxItem({ item, selected = false, onClick, className }: InboxItemProps) {
 	const isUnread = !item.read
 
 	return (
@@ -246,10 +214,8 @@ export function InboxItem({
 			className={cn(
 				"group relative flex items-start gap-3 px-3 py-2.5 transition-colors",
 				onClick && "cursor-pointer",
-				selected
-					? "bg-white/[0.04]"
-					: "hover:bg-white/[0.02]",
-				className,
+				selected ? "bg-white/[0.04]" : "hover:bg-white/[0.02]",
+				className
 			)}
 		>
 			{/* Avatar + action icon */}
@@ -262,27 +228,21 @@ export function InboxItem({
 					<span
 						className={cn(
 							"truncate text-[13px]",
-							isUnread ? "font-medium text-fg" : "text-fg-muted",
+							isUnread ? "font-medium text-fg" : "text-fg-muted"
 						)}
 					>
 						{item.title}
 					</span>
-					{item.status && item.status !== "default" && (
-						<InboxStatusDot status={item.status} />
-					)}
+					{item.status && item.status !== "default" && <InboxStatusDot status={item.status} />}
 				</div>
 
 				{/* Description row */}
 				<div className="flex items-center gap-1.5">
-					<span className="truncate text-xs text-fg-muted">
-						{item.description}
-					</span>
+					<span className="truncate text-xs text-fg-muted">{item.description}</span>
 					{item.priority &&
 						item.priority !== "none" &&
 						item.priority !== "low" &&
-						item.priority !== "medium" && (
-							<InboxPriorityBadge priority={item.priority} />
-						)}
+						item.priority !== "medium" && <InboxPriorityBadge priority={item.priority} />}
 					<span className="ml-auto shrink-0 text-[11px] text-fg-muted/60 tabular-nums">
 						{item.time}
 					</span>
@@ -302,9 +262,7 @@ export interface InboxListProps {
 }
 
 export function InboxList({ children, className }: InboxListProps) {
-	return (
-		<div className={cn("flex-1 overflow-y-auto", className)}>{children}</div>
-	)
+	return <div className={cn("flex-1 overflow-y-auto", className)}>{children}</div>
 }
 
 // ---------------------------------------------------------------------------
@@ -333,7 +291,7 @@ const statusLabels: Record<InboxStatusVariant, string> = {
 	default: "Default",
 }
 
-const priorityLabels: Record<InboxPriority, string> = {
+const _priorityLabels: Record<InboxPriority, string> = {
 	urgent: "Urgent",
 	high: "High",
 	medium: "Medium",
@@ -352,7 +310,7 @@ function isFiltersEmpty(filters: InboxFilters): boolean {
 
 export function filterInboxItems(
 	items: InboxNotification[],
-	filters: InboxFilters,
+	filters: InboxFilters
 ): InboxNotification[] {
 	return items.filter((item) => {
 		if (filters.read === "unread" && item.read) return false
@@ -398,9 +356,7 @@ function InboxFilterChip({
 			onClick={onClick}
 			className={cn(
 				"shrink-0 rounded-md px-2 py-0.5 text-[11px] font-medium transition-colors cursor-pointer",
-				active
-					? "bg-brand/15 text-brand"
-					: "bg-fg/5 text-fg-muted hover:bg-fg/10",
+				active ? "bg-brand/15 text-brand" : "bg-fg/5 text-fg-muted hover:bg-fg/10"
 			)}
 		>
 			{label}
@@ -421,9 +377,7 @@ function InboxFilterBar({
 }) {
 	const toggleActionType = (type: InboxActionType) => {
 		const current = filters.actionTypes ?? []
-		const next = current.includes(type)
-			? current.filter((t) => t !== type)
-			: [...current, type]
+		const next = current.includes(type) ? current.filter((t) => t !== type) : [...current, type]
 		onFiltersChange({ ...filters, actionTypes: next.length > 0 ? next : undefined })
 	}
 
@@ -463,16 +417,14 @@ function InboxFilterBar({
 			</div>
 			{/* Status filter */}
 			<div className="flex items-center gap-1 flex-wrap">
-				{(["urgent", "in-progress", "done", "cancelled"] as InboxStatusVariant[]).map(
-					(status) => (
-						<InboxFilterChip
-							key={status}
-							label={statusLabels[status]}
-							active={filters.statuses?.includes(status) ?? false}
-							onClick={() => toggleStatus(status)}
-						/>
-					),
-				)}
+				{(["urgent", "in-progress", "done", "cancelled"] as InboxStatusVariant[]).map((status) => (
+					<InboxFilterChip
+						key={status}
+						label={statusLabels[status]}
+						active={filters.statuses?.includes(status) ?? false}
+						onClick={() => toggleStatus(status)}
+					/>
+				))}
 			</div>
 		</div>
 	)
@@ -520,11 +472,7 @@ export function InboxHeader({
 								<DropdownMenuItem
 									key={action.label}
 									onClick={action.onClick}
-									className={
-										action.variant === "destructive"
-											? "text-negative"
-											: undefined
-									}
+									className={action.variant === "destructive" ? "text-negative" : undefined}
 								>
 									{action.label}
 								</DropdownMenuItem>
@@ -544,10 +492,7 @@ export function InboxHeader({
 								}
 								setShowFilters(!showFilters)
 							}}
-							className={cn(
-								"text-fg-muted",
-								hasActiveFilters && "text-brand",
-							)}
+							className={cn("text-fg-muted", hasActiveFilters && "text-brand")}
 						>
 							{showFilters && hasActiveFilters ? (
 								<X className="size-3.5" />
@@ -561,10 +506,7 @@ export function InboxHeader({
 
 			{/* Filter bar */}
 			{showFilters && onFiltersChange && filters && (
-				<InboxFilterBar
-					filters={filters}
-					onFiltersChange={onFiltersChange}
-				/>
+				<InboxFilterBar filters={filters} onFiltersChange={onFiltersChange} />
 			)}
 		</div>
 	)
@@ -589,8 +531,7 @@ export function InboxPanel({
 	onRetry,
 	className,
 }: InboxPanelProps) {
-	const hasChildren =
-		children !== undefined && children !== null && children !== false
+	const hasChildren = children !== undefined && children !== null && children !== false
 
 	return (
 		<div className={cn("flex h-full flex-col", className)}>
@@ -631,12 +572,7 @@ export function InboxDetailEmpty({
 	className,
 }: InboxDetailEmptyProps) {
 	return (
-		<div
-			className={cn(
-				"flex flex-1 flex-col items-center justify-center gap-3",
-				className,
-			)}
-		>
+		<div className={cn("flex flex-1 flex-col items-center justify-center gap-3", className)}>
 			<svg
 				className="size-20 text-fg-muted/20"
 				viewBox="0 0 80 80"
@@ -650,11 +586,7 @@ export function InboxDetailEmpty({
 					strokeLinecap="round"
 					strokeLinejoin="round"
 				/>
-				<path
-					d="M8 52H28L32 58H48L52 52H72"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				/>
+				<path d="M8 52H28L32 58H48L52 52H72" strokeLinecap="round" strokeLinejoin="round" />
 				<path
 					d="M20 32V16C20 13.8 21.8 12 24 12H56C58.2 12 60 13.8 60 16V32"
 					strokeLinecap="round"
@@ -676,11 +608,7 @@ export interface InboxProps {
 }
 
 function InboxBase({ children, className }: InboxProps) {
-	return (
-		<div className={cn("flex h-full", className)}>
-			{children}
-		</div>
-	)
+	return <div className={cn("flex h-full", className)}>{children}</div>
 }
 
 export const Inbox = withProGuard(InboxBase, "Inbox")
@@ -695,11 +623,7 @@ export interface InboxSidebarProps {
 	className?: string
 }
 
-export function InboxSidebar({
-	children,
-	width = 340,
-	className,
-}: InboxSidebarProps) {
+export function InboxSidebar({ children, width = 340, className }: InboxSidebarProps) {
 	return (
 		<div
 			className={cn("flex h-full flex-col border-r border-edge", className)}
@@ -721,8 +645,6 @@ export interface InboxDetailProps {
 
 export function InboxDetail({ children, className }: InboxDetailProps) {
 	return (
-		<div className={cn("flex flex-1 flex-col", className)}>
-			{children ?? <InboxDetailEmpty />}
-		</div>
+		<div className={cn("flex flex-1 flex-col", className)}>{children ?? <InboxDetailEmpty />}</div>
 	)
 }

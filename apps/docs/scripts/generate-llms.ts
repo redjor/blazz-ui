@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 // apps/docs/scripts/generate-llms.ts
 
-import { writeFileSync, mkdirSync } from "node:fs"
+import { mkdirSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import { registry } from "../src/data/registry"
 import type { ComponentData } from "../src/data/types"

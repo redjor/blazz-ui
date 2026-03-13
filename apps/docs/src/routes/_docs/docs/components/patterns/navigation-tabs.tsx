@@ -1,9 +1,9 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -194,7 +194,8 @@ const providerProps: DocProp[] = [
 		name: "children",
 		type: "React.ReactNode",
 		required: true,
-		description: "Arbre React enfant. Tous les composants et hooks navigation-tabs doivent être dans cet arbre.",
+		description:
+			"Arbre React enfant. Tous les composants et hooks navigation-tabs doivent être dans cet arbre.",
 	},
 ]
 
@@ -229,12 +230,14 @@ const contextValueProps: DocProp[] = [
 	{
 		name: "activateTab",
 		type: "(id: string) => void",
-		description: "Active un tab existant sans naviguer (la navigation doit être faite séparément via router.push).",
+		description:
+			"Active un tab existant sans naviguer (la navigation doit être faite séparément via router.push).",
 	},
 	{
 		name: "updateActiveTabUrl",
 		type: "(url: string) => void",
-		description: "Met à jour l'URL enregistrée du tab actif (appelé automatiquement par useNavigationTabUrlSync).",
+		description:
+			"Met à jour l'URL enregistrée du tab actif (appelé automatiquement par useNavigationTabUrlSync).",
 	},
 	{
 		name: "updateTabTitle",
@@ -249,7 +252,7 @@ const interceptorProps: DocProp[] = [
 		type: "string[]",
 		default: "[]",
 		description:
-			"Chemins exclus de l'interception Cmd+clic. Les liens dont le href commence par un de ces chemins sont ignorés (ex: [\"/api\", \"/auth\"]).",
+			'Chemins exclus de l\'interception Cmd+clic. Les liens dont le href commence par un de ces chemins sont ignorés (ex: ["/api", "/auth"]).',
 	},
 	{
 		name: "titleResolver",
@@ -334,40 +337,106 @@ function TabBarPreview() {
 				<div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto px-1">
 					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-raised text-fg font-semibold">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
-							<svg className="h-3.5 w-3.5 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+							<svg
+								className="h-3.5 w-3.5 shrink-0 opacity-60"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+								/>
 							</svg>
 							<span className="truncate">Dashboard</span>
 						</div>
 						<div className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm hover:bg-edge-subtle">
-							<svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+							<svg
+								className="h-3 w-3"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						</div>
 					</div>
 					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
-							<svg className="h-3.5 w-3.5 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" />
+							<svg
+								className="h-3.5 w-3.5 shrink-0 opacity-60"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"
+								/>
 							</svg>
 							<span className="truncate">Contacts &gt; Jane Dupont</span>
 						</div>
 						<div className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm opacity-0 group-hover:opacity-100 hover:bg-edge-subtle">
-							<svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+							<svg
+								className="h-3 w-3"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						</div>
 					</div>
 					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
-							<svg className="h-3.5 w-3.5 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+							<svg
+								className="h-3.5 w-3.5 shrink-0 opacity-60"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+								/>
 							</svg>
 							<span className="truncate">Rapports</span>
 						</div>
 						<div className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm opacity-0 group-hover:opacity-100 hover:bg-edge-subtle">
-							<svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+							<svg
+								className="h-3 w-3"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						</div>
 					</div>
@@ -377,7 +446,13 @@ function TabBarPreview() {
 					className="flex h-9 w-9 shrink-0 items-center justify-center border-l border-edge-subtle text-fg-muted"
 					aria-label="Open new tab"
 				>
-					<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+					<svg
+						className="h-4 w-4"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
 					</svg>
 				</button>
@@ -404,7 +479,9 @@ function NavigationTabsPage() {
 					<div className="grid grid-cols-1 gap-2 text-xs">
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">NavigationTabsProvider</span>
-							<span className="text-fg-muted">— Context React + reducer + persistance localStorage</span>
+							<span className="text-fg-muted">
+								— Context React + reducer + persistance localStorage
+							</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">NavigationTabsBar</span>
@@ -412,7 +489,9 @@ function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">NavigationTabsItem</span>
-							<span className="text-fg-muted">— Tab individuel avec icône, titre tronqué, bouton ×</span>
+							<span className="text-fg-muted">
+								— Tab individuel avec icône, titre tronqué, bouton ×
+							</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">NavigationTabsInterceptor</span>
@@ -428,7 +507,9 @@ function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useNavigationTabTitle()</span>
-							<span className="text-fg-muted">— Met à jour le titre du tab actif depuis une page</span>
+							<span className="text-fg-muted">
+								— Met à jour le titre du tab actif depuis une page
+							</span>
 						</div>
 					</div>
 				</div>
@@ -451,8 +532,19 @@ function NavigationTabsPage() {
 					highlightedCode={html("use-navigation-tabs")}
 				>
 					<div className="flex items-center gap-2 p-4 rounded border border-dashed border-edge-subtle text-sm text-fg-muted">
-						<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+						<svg
+							className="h-4 w-4"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							aria-hidden="true"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M12 4v16m8-8H4"
+							/>
 						</svg>
 						Ouvrir dans un onglet
 					</div>
@@ -483,11 +575,15 @@ function NavigationTabsPage() {
 				>
 					<div className="grid grid-cols-2 gap-3 text-xs">
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
-							<kbd className="rounded border border-edge-subtle bg-raised px-1.5 py-0.5 font-mono text-fg">⌘ Clic</kbd>
+							<kbd className="rounded border border-edge-subtle bg-raised px-1.5 py-0.5 font-mono text-fg">
+								⌘ Clic
+							</kbd>
 							<span className="text-fg-muted">Ouvre dans un nouveau tab</span>
 						</div>
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
-							<kbd className="rounded border border-edge-subtle bg-raised px-1.5 py-0.5 font-mono text-fg">⌘ W</kbd>
+							<kbd className="rounded border border-edge-subtle bg-raised px-1.5 py-0.5 font-mono text-fg">
+								⌘ W
+							</kbd>
 							<span className="text-fg-muted">Ferme le tab actif</span>
 						</div>
 					</div>

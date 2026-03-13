@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
-import { addDays } from "date-fns"
 import { Calendar } from "@blazz/ui/components/ui/calendar"
+import { createFileRoute } from "@tanstack/react-router"
+import { addDays } from "date-fns"
+import * as React from "react"
 import type { DateRange } from "react-day-picker"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -97,7 +97,8 @@ const calendarProps: DocProp[] = [
 	{
 		name: "disabled",
 		type: "Matcher | Matcher[]",
-		description: "Days that cannot be selected. Accepts dates, date ranges, day-of-week arrays, or functions.",
+		description:
+			"Days that cannot be selected. Accepts dates, date ranges, day-of-week arrays, or functions.",
 	},
 	{
 		name: "numberOfMonths",
@@ -141,9 +142,7 @@ function SingleSelectionDemo() {
 				onSelect={setDate}
 				className="rounded-lg border border-edge"
 			/>
-			{date && (
-				<p className="text-xs text-fg-muted">Selected: {date.toLocaleDateString()}</p>
-			)}
+			{date && <p className="text-xs text-fg-muted">Selected: {date.toLocaleDateString()}</p>}
 		</div>
 	)
 }
@@ -252,7 +251,8 @@ function CalendarPage() {
 
 			<DocSection id="calendar-props" title="Props">
 				<p className="mb-4 text-sm text-fg-muted">
-					Calendar accepts all <code className="text-xs">react-day-picker</code> DayPicker props. Key ones listed below.
+					Calendar accepts all <code className="text-xs">react-day-picker</code> DayPicker props.
+					Key ones listed below.
 				</p>
 				<DocPropsTable props={calendarProps} />
 			</DocSection>
@@ -262,13 +262,28 @@ function CalendarPage() {
 					Calendar uses the design system tokens for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">text-fg</code> — Day text and caption label</li>
-					<li><code className="text-xs">text-fg-muted</code> — Weekday headers, nav chevrons, outside days</li>
-					<li><code className="text-xs">bg-raised</code> — Today highlight, day hover, range middle</li>
-					<li><code className="text-xs">bg-brand / text-brand-fg</code> — Selected day</li>
-					<li><code className="text-xs">bg-brand-hover</code> — Selected day hover</li>
-					<li><code className="text-xs">border-edge</code> — Nav button borders</li>
-					<li><code className="text-xs">ring-brand/40</code> — Focus ring on day buttons</li>
+					<li>
+						<code className="text-xs">text-fg</code> — Day text and caption label
+					</li>
+					<li>
+						<code className="text-xs">text-fg-muted</code> — Weekday headers, nav chevrons, outside
+						days
+					</li>
+					<li>
+						<code className="text-xs">bg-raised</code> — Today highlight, day hover, range middle
+					</li>
+					<li>
+						<code className="text-xs">bg-brand / text-brand-fg</code> — Selected day
+					</li>
+					<li>
+						<code className="text-xs">bg-brand-hover</code> — Selected day hover
+					</li>
+					<li>
+						<code className="text-xs">border-edge</code> — Nav button borders
+					</li>
+					<li>
+						<code className="text-xs">ring-brand/40</code> — Focus ring on day buttons
+					</li>
 				</ul>
 			</DocSection>
 
@@ -276,10 +291,23 @@ function CalendarPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use Calendar inline when the date picker is the primary focus of the UI</li>
 					<li>For form fields, prefer DateSelector which wraps Calendar in a Popover</li>
-					<li>Use <code className="text-xs">disabled</code> to enforce constraints (no past dates, weekdays only, etc.)</li>
-					<li>Use <code className="text-xs">numberOfMonths=&#123;2&#125;</code> for range selection to show context</li>
-					<li>Use <code className="text-xs">captionLayout="dropdown"</code> for date-of-birth pickers where users need to jump years</li>
-					<li>Always provide <code className="text-xs">selected</code> and <code className="text-xs">onSelect</code> for interactive use — without them, clicks have no visible effect</li>
+					<li>
+						Use <code className="text-xs">disabled</code> to enforce constraints (no past dates,
+						weekdays only, etc.)
+					</li>
+					<li>
+						Use <code className="text-xs">numberOfMonths=&#123;2&#125;</code> for range selection to
+						show context
+					</li>
+					<li>
+						Use <code className="text-xs">captionLayout="dropdown"</code> for date-of-birth pickers
+						where users need to jump years
+					</li>
+					<li>
+						Always provide <code className="text-xs">selected</code> and{" "}
+						<code className="text-xs">onSelect</code> for interactive use — without them, clicks
+						have no visible effect
+					</li>
 				</ul>
 			</DocSection>
 

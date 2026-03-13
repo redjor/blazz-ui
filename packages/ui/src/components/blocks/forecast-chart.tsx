@@ -1,19 +1,18 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
 import {
-	AreaChart,
 	Area,
+	AreaChart,
+	CartesianGrid,
+	Legend,
+	ResponsiveContainer,
+	Tooltip,
 	XAxis,
 	YAxis,
-	CartesianGrid,
-	Tooltip,
-	ResponsiveContainer,
-	Legend,
-	ReferenceLine,
 } from "recharts"
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 
 export interface ForecastDataPoint {
 	period: string
@@ -53,7 +52,11 @@ function ForecastChartBase({
 	className,
 }: ForecastChartProps) {
 	const formatTooltipValue = (value: number) =>
-		new Intl.NumberFormat("fr-FR", { style: "currency", currency, maximumFractionDigits: 0 }).format(value)
+		new Intl.NumberFormat("fr-FR", {
+			style: "currency",
+			currency,
+			maximumFractionDigits: 0,
+		}).format(value)
 
 	const hasTarget = data.some((d) => d.target !== undefined)
 
@@ -71,11 +74,7 @@ function ForecastChartBase({
 					</linearGradient>
 				</defs>
 				<CartesianGrid strokeDasharray="3 3" className="stroke-edge" />
-				<XAxis
-					dataKey="period"
-					className="text-xs"
-					tick={{ fill: "var(--text-secondary)" }}
-				/>
+				<XAxis dataKey="period" className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
 				<YAxis
 					className="text-xs"
 					tick={{ fill: "var(--text-secondary)" }}
@@ -131,9 +130,7 @@ function ForecastChartBase({
 		<Card className={cn(className)}>
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
-				{description && (
-					<p className="text-sm text-fg-muted">{description}</p>
-				)}
+				{description && <p className="text-sm text-fg-muted">{description}</p>}
 			</CardHeader>
 			<CardContent>{content}</CardContent>
 		</Card>

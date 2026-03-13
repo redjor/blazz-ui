@@ -1,17 +1,17 @@
 "use client"
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { Save, X } from "lucide-react"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { FormSection } from "@blazz/ui/components/patterns/form-section"
-import { FormField } from "@blazz/ui/components/patterns/form-field"
 import { FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { FormField } from "@blazz/ui/components/patterns/form-field"
+import { FormSection } from "@blazz/ui/components/patterns/form-section"
 import { Button } from "@blazz/ui/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Save, X } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { companies, contacts } from "@/lib/sample-data"
-import { dealSchema, type DealFormData } from "@/lib/schemas"
+import { type DealFormData, dealSchema } from "@/lib/schemas"
 
 export default function NewDealPage() {
 	const router = useRouter()
@@ -40,8 +40,20 @@ export default function NewDealPage() {
 			<form onSubmit={form.handleSubmit(onSubmit)} className="max-w-3xl space-y-6">
 				<FormSection title="Informations du deal" defaultOpen>
 					<FieldGrid columns={2}>
-						<FormField name="title" label="Titre du deal" control={form.control} required span={2} />
-						<FormField name="amount" label="Montant (€)" type="number" control={form.control} required />
+						<FormField
+							name="title"
+							label="Titre du deal"
+							control={form.control}
+							required
+							span={2}
+						/>
+						<FormField
+							name="amount"
+							label="Montant (€)"
+							type="number"
+							control={form.control}
+							required
+						/>
 						<FormField
 							name="stage"
 							label="Étape"
@@ -54,8 +66,19 @@ export default function NewDealPage() {
 								{ value: "negotiation", label: "Négociation" },
 							]}
 						/>
-						<FormField name="probability" label="Probabilité (%)" type="number" control={form.control} />
-						<FormField name="expectedCloseDate" label="Date de clôture prévue" type="text" control={form.control} placeholder="YYYY-MM-DD" />
+						<FormField
+							name="probability"
+							label="Probabilité (%)"
+							type="number"
+							control={form.control}
+						/>
+						<FormField
+							name="expectedCloseDate"
+							label="Date de clôture prévue"
+							type="text"
+							control={form.control}
+							placeholder="YYYY-MM-DD"
+						/>
 						<FormField
 							name="source"
 							label="Source"
@@ -89,7 +112,10 @@ export default function NewDealPage() {
 							label="Contact"
 							type="select"
 							control={form.control}
-							options={contacts.map((c) => ({ value: c.id, label: `${c.firstName} ${c.lastName}` }))}
+							options={contacts.map((c) => ({
+								value: c.id,
+								label: `${c.firstName} ${c.lastName}`,
+							}))}
 						/>
 					</FieldGrid>
 				</FormSection>

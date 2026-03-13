@@ -11,7 +11,12 @@ interface TagInputProps {
 	placeholder?: string
 }
 
-export function TagInput({ value, onChange, suggestions = [], placeholder = "Ajouter un tag..." }: TagInputProps) {
+export function TagInput({
+	value,
+	onChange,
+	suggestions = [],
+	placeholder = "Ajouter un tag...",
+}: TagInputProps) {
 	const [input, setInput] = useState("")
 	const [showSuggestions, setShowSuggestions] = useState(false)
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -48,11 +53,18 @@ export function TagInput({ value, onChange, suggestions = [], placeholder = "Ajo
 				onClick={() => inputRef.current?.focus()}
 			>
 				{value.map((tag) => (
-					<Badge key={tag} variant="secondary" className="text-xs px-1.5 py-0 flex items-center gap-1 h-5">
+					<Badge
+						key={tag}
+						variant="secondary"
+						className="text-xs px-1.5 py-0 flex items-center gap-1 h-5"
+					>
 						{tag}
 						<button
 							type="button"
-							onClick={(e) => { e.stopPropagation(); removeTag(tag) }}
+							onClick={(e) => {
+								e.stopPropagation()
+								removeTag(tag)
+							}}
 							className="text-fg-muted hover:text-fg ml-0.5"
 						>
 							<X className="size-2.5" />
@@ -62,7 +74,10 @@ export function TagInput({ value, onChange, suggestions = [], placeholder = "Ajo
 				<input
 					ref={inputRef}
 					value={input}
-					onChange={(e) => { setInput(e.target.value); setShowSuggestions(true) }}
+					onChange={(e) => {
+						setInput(e.target.value)
+						setShowSuggestions(true)
+					}}
 					onKeyDown={handleKeyDown}
 					onFocus={() => setShowSuggestions(true)}
 					onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}

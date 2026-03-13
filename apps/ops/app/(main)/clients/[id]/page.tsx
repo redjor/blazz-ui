@@ -14,6 +14,7 @@ import {
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Pencil, Plus } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
@@ -21,7 +22,6 @@ import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
-import Image from "next/image"
 
 interface Props {
 	params: Promise<{ id: string }>
@@ -48,30 +48,28 @@ export default function ClientDetailPage({ params }: Props) {
 	const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
 
 	useOpsTopBar(
-		client != null
-			? [{ label: "Clients", href: "/clients" }, { label: client.name }]
-			: null
+		client != null ? [{ label: "Clients", href: "/clients" }, { label: client.name }] : null
 	)
 
 	if (client === undefined) {
 		return (
 			<div className="p-6 space-y-6">
-					<div className="space-y-2">
-						<Skeleton className="h-4 w-24" />
-						<Skeleton className="h-6 w-48" />
-					</div>
-					<div className="flex items-start gap-4">
-						<Skeleton className="size-14 rounded-lg shrink-0" />
-						<div className="grid grid-cols-3 gap-x-6 gap-y-4 flex-1">
-							{Array.from({ length: 6 }).map((_, i) => (
-								<div key={i} className="space-y-1.5">
-									<Skeleton className="h-3.5 w-20" />
-									<Skeleton className="h-4 w-32" />
-								</div>
-							))}
-						</div>
+				<div className="space-y-2">
+					<Skeleton className="h-4 w-24" />
+					<Skeleton className="h-6 w-48" />
+				</div>
+				<div className="flex items-start gap-4">
+					<Skeleton className="size-14 rounded-lg shrink-0" />
+					<div className="grid grid-cols-3 gap-x-6 gap-y-4 flex-1">
+						{Array.from({ length: 6 }).map((_, i) => (
+							<div key={i} className="space-y-1.5">
+								<Skeleton className="h-3.5 w-20" />
+								<Skeleton className="h-4 w-32" />
+							</div>
+						))}
 					</div>
 				</div>
+			</div>
 		)
 	}
 
@@ -83,7 +81,7 @@ export default function ClientDetailPage({ params }: Props) {
 
 	return (
 		<>
-		<div className="p-6 space-y-8">
+			<div className="p-6 space-y-8">
 				<PageHeader
 					title={client.name}
 					actions={[
@@ -99,7 +97,13 @@ export default function ClientDetailPage({ params }: Props) {
 				<div className="flex items-start gap-4">
 					<div className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
 						{client.logoUrl ? (
-							<Image src={client.logoUrl} alt={client.name} className="size-full object-contain" width={40} height={40} />
+							<Image
+								src={client.logoUrl}
+								alt={client.name}
+								className="size-full object-contain"
+								width={40}
+								height={40}
+							/>
 						) : (
 							<span className="text-lg font-semibold text-fg-muted">
 								{client.name.slice(0, 2).toUpperCase()}

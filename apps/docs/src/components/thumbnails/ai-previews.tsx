@@ -1,69 +1,69 @@
-import { DollarSign, CornerDownLeft, SendIcon, BrainIcon, CheckIcon, XIcon } from "lucide-react"
 import {
+	ActionList,
+	// Generative UI — Actions & Decisions
+	ApprovalCard,
+	AvailabilityCard,
+	// Generative UI — Scheduling
+	CalendarCard,
+	// Generative UI — People & Entities
+	CandidateCard,
+	ChainOfThought,
+	ChainOfThoughtContent,
+	ChainOfThoughtHeader,
+	ChainOfThoughtStep,
+	ChecklistCard,
+	CompanyCard,
+	ComparisonTable,
+	ContactCard,
+	DataGrid,
+	DataList,
+	DealCard,
+	// Generative UI — Communication
+	EmailPreview,
+	EventCard,
+	FileCard,
+	// Generative UI — Insights & Analytics
+	InsightCard,
+	// Generative UI — Financial
+	InvoiceCard,
+	LinkPreview,
+	// Generative UI — Location & Media
+	LocationCard,
 	// Chat
 	Message,
 	MessageContent,
-	Suggestions,
-	Suggestion,
-	// Reasoning
-	Reasoning,
-	ReasoningTrigger,
-	ReasoningContent,
-	ChainOfThought,
-	ChainOfThoughtHeader,
-	ChainOfThoughtContent,
-	ChainOfThoughtStep,
-	Sources,
-	SourcesTrigger,
-	SourcesContent,
-	Source,
+	MessagePreview,
 	// Generative UI — Data & Metrics
 	MetricCard,
-	StatsRow,
 	MiniChart,
-	ComparisonTable,
-	ProgressCard,
-	DataList,
-	DataGrid,
-	// Generative UI — People & Entities
-	CandidateCard,
-	ContactCard,
-	CompanyCard,
-	DealCard,
-	UserCard,
-	// Generative UI — Timeline & Activity
-	Timeline,
-	EventCard,
-	StatusUpdate,
-	// Generative UI — Actions & Decisions
-	ApprovalCard,
-	ActionList,
 	PollCard,
-	// Generative UI — Communication
-	EmailPreview,
-	MessagePreview,
+	PricingTable,
+	ProgressCard,
+	QuoteSummary,
+	RatingCard,
+	// Reasoning
+	Reasoning,
+	ReasoningContent,
+	ReasoningTrigger,
+	ScoreCard,
+	Source,
+	Sources,
+	SourcesContent,
+	SourcesTrigger,
+	StatsRow,
+	StatusUpdate,
+	Suggestion,
+	Suggestions,
+	SummaryCard,
 	// Generative UI — Tasks & Workflow
 	TaskCard,
-	ChecklistCard,
-	// Generative UI — Financial
-	InvoiceCard,
-	QuoteSummary,
-	PricingTable,
+	// Generative UI — Timeline & Activity
+	Timeline,
 	TransactionCard,
-	// Generative UI — Scheduling
-	CalendarCard,
-	AvailabilityCard,
-	// Generative UI — Insights & Analytics
-	InsightCard,
-	SummaryCard,
-	RatingCard,
-	ScoreCard,
-	// Generative UI — Location & Media
-	LocationCard,
+	UserCard,
 	VideoCard,
-	FileCard,
-	LinkPreview,
 } from "@blazz/ui/components/ai"
+import { BrainIcon, CheckIcon, CornerDownLeft, DollarSign, XIcon } from "lucide-react"
 
 // ============================================================================
 // Chat Components
@@ -77,7 +77,8 @@ export function AiConversationPreview() {
 			</Message>
 			<Message from="assistant">
 				<MessageContent>
-					Based on the data, your top 3 deals were Acme Corp ($120K), TechVentures ($85K), and GlobalTech ($72K).
+					Based on the data, your top 3 deals were Acme Corp ($120K), TechVentures ($85K), and
+					GlobalTech ($72K).
 				</MessageContent>
 			</Message>
 		</div>
@@ -137,7 +138,9 @@ export function AiReasoningPreview() {
 			<Reasoning defaultOpen>
 				<ReasoningTrigger />
 				<ReasoningContent>
-					{"Analyzing the quarterly sales data to identify trends and patterns across all regions..."}
+					{
+						"Analyzing the quarterly sales data to identify trends and patterns across all regions..."
+					}
 				</ReasoningContent>
 			</Reasoning>
 		</div>
@@ -217,7 +220,13 @@ export function AiModelSelectorPreview() {
 			<div className="rounded-lg border border-edge bg-surface overflow-hidden">
 				<div className="border-b border-edge px-3 py-2.5">
 					<div className="flex items-center gap-2 text-sm text-fg-muted">
-						<svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+						<svg
+							className="size-4"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+						>
 							<circle cx="11" cy="11" r="8" />
 							<path d="m21 21-4.35-4.35" />
 						</svg>
@@ -265,13 +274,7 @@ export function AiStatsRowPreview() {
 }
 
 export function AiMiniChartPreview() {
-	return (
-		<MiniChart
-			label="Revenue Trend"
-			data={[22, 28, 35, 31, 42, 38, 45, 52]}
-			value="$52K"
-		/>
-	)
+	return <MiniChart label="Revenue Trend" data={[22, 28, 35, 31, 42, 38, 45, 52]} value="$52K" />
 }
 
 export function AiComparisonTablePreview() {
@@ -289,13 +292,7 @@ export function AiComparisonTablePreview() {
 }
 
 export function AiProgressCardPreview() {
-	return (
-		<ProgressCard
-			label="Sprint Progress"
-			value={72}
-			description="18 of 25 tasks completed"
-		/>
-	)
+	return <ProgressCard label="Sprint Progress" value={72} description="18 of 25 tasks completed" />
 }
 
 export function AiDataListPreview() {
@@ -350,7 +347,6 @@ export function AiCandidateCardPreview() {
 	return (
 		<CandidateCard
 			name="Sarah Chen"
-			role="Senior Frontend Engineer"
 			company="Google"
 			location="San Francisco, CA"
 			matchScore={92}
@@ -365,7 +361,6 @@ export function AiContactCardPreview() {
 	return (
 		<ContactCard
 			name="Marc Dupont"
-			role="VP of Sales"
 			company="Acme Corp"
 			email="marc@acme.com"
 			phone="+1 555 0123"
@@ -403,14 +398,7 @@ export function AiDealCardPreview() {
 }
 
 export function AiUserCardPreview() {
-	return (
-		<UserCard
-			name="Lisa Park"
-			role="Product Manager"
-			department="Product"
-			status="online"
-		/>
-	)
+	return <UserCard name="Lisa Park" department="Product" status="online" />
 }
 
 // ============================================================================
@@ -513,7 +501,9 @@ export function AiEmailPreviewPreview() {
 			subject="Q1 Contract Renewal"
 			from={{ name: "Sarah Chen", email: "sarah@company.com" }}
 			to={[{ name: "Marc Dupont", email: "marc@acme.com" }]}
-			body={"Hi Marc,\n\nI wanted to follow up regarding the Q1 contract renewal. Please let me know a good time to discuss the updated terms."}
+			body={
+				"Hi Marc,\n\nI wanted to follow up regarding the Q1 contract renewal. Please let me know a good time to discuss the updated terms."
+			}
 			date="Feb 23, 2026"
 			status="draft"
 		/>
@@ -766,13 +756,7 @@ export function AiVideoCardPreview() {
 }
 
 export function AiFileCardPreview() {
-	return (
-		<FileCard
-			name="Q4-Sales-Report.pdf"
-			size="2.4 MB"
-			type="PDF"
-		/>
-	)
+	return <FileCard name="Q4-Sales-Report.pdf" size="2.4 MB" type="PDF" />
 }
 
 export function AiLinkPreviewPreview() {
@@ -792,7 +776,13 @@ export function AiImageGalleryPreview() {
 			<div className="relative aspect-video bg-raised">
 				<div className="flex h-full w-full items-center justify-center">
 					<div className="flex flex-col items-center gap-2 text-fg-muted/50">
-						<svg className="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+						<svg
+							className="size-10"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="1.5"
+						>
 							<rect x="3" y="3" width="18" height="18" rx="2" />
 							<circle cx="8.5" cy="8.5" r="1.5" />
 							<path d="M21 15l-5-5L5 21" />

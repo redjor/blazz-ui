@@ -1,5 +1,5 @@
-import { defineSchema, defineTable } from "convex/server"
 import { authTables } from "@convex-dev/auth/server"
+import { defineSchema, defineTable } from "convex/server"
 import { v } from "convex/values"
 
 export default defineSchema({
@@ -43,11 +43,7 @@ export default defineSchema({
 		carryOver: v.boolean(),
 		startDate: v.string(),
 		endDate: v.string(),
-		status: v.union(
-			v.literal("active"),
-			v.literal("completed"),
-			v.literal("cancelled")
-		),
+		status: v.union(v.literal("active"), v.literal("completed"), v.literal("cancelled")),
 		notes: v.optional(v.string()),
 		createdAt: v.number(),
 	})
@@ -115,12 +111,7 @@ export default defineSchema({
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),
 		priority: v.optional(
-			v.union(
-				v.literal("urgent"),
-				v.literal("high"),
-				v.literal("normal"),
-				v.literal("low")
-			)
+			v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
 		),
 		createdAt: v.number(),
 	})

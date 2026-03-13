@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { ChevronDown } from "lucide-react"
+import { useState } from "react"
 import { cn } from "../../lib/utils"
 
 export interface FormSectionProps {
@@ -30,15 +30,10 @@ export function FormSection({
 			>
 				<div>
 					<h3 className="text-sm font-semibold text-fg">{title}</h3>
-					{description && (
-						<p className="text-sm text-fg-muted">{description}</p>
-					)}
+					{description && <p className="text-sm text-fg-muted">{description}</p>}
 				</div>
 				<ChevronDown
-					className={cn(
-						"size-4 text-fg-muted transition-transform",
-						open && "rotate-180"
-					)}
+					className={cn("size-4 text-fg-muted transition-transform", open && "rotate-180")}
 				/>
 			</button>
 			{open && <div className="border-t px-4 py-4">{children}</div>}

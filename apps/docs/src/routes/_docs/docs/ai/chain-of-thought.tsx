@@ -1,17 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router"
 import {
 	ChainOfThought,
-	ChainOfThoughtHeader,
 	ChainOfThoughtContent,
-	ChainOfThoughtStep,
-	ChainOfThoughtSearchResults,
+	ChainOfThoughtHeader,
 	ChainOfThoughtSearchResult,
+	ChainOfThoughtSearchResults,
+	ChainOfThoughtStep,
 } from "@blazz/ui/components/ai/reasoning/chain-of-thought"
-import { SearchIcon, DatabaseIcon, CodeIcon, CheckCircleIcon } from "lucide-react"
+import { createFileRoute } from "@tanstack/react-router"
+import { CheckCircleIcon, CodeIcon, DatabaseIcon, SearchIcon } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -56,9 +56,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/chain-of-thought"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/chain-of-thought")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -75,8 +73,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function ChainOfThoughtPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -136,14 +133,8 @@ function ChainOfThoughtPage() {
 								description="Parsed user query successfully"
 								status="complete"
 							/>
-							<ChainOfThoughtStep
-								label="Retrieving context"
-								status="active"
-							/>
-							<ChainOfThoughtStep
-								label="Generating response"
-								status="pending"
-							/>
+							<ChainOfThoughtStep label="Retrieving context" status="active" />
+							<ChainOfThoughtStep label="Generating response" status="pending" />
 						</ChainOfThoughtContent>
 					</ChainOfThought>
 				</DocExampleClient>

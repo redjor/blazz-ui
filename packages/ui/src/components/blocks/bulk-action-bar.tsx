@@ -1,10 +1,10 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { X } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { Button } from "../ui/button"
+import { X } from "lucide-react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Button } from "../ui/button"
 
 export interface BulkAction {
 	label: string
@@ -44,15 +44,8 @@ function BulkActionBarBase({
 
 			<div className="flex items-center gap-2">
 				{actions.map((action, i) => (
-					<Button
-						key={i}
-						variant={action.variant || "outline"}
-						size="sm"
-						onClick={action.onClick}
-					>
-						{action.icon && (
-							<action.icon className="size-4" data-icon="inline-start" />
-						)}
+					<Button key={i} variant={action.variant || "outline"} size="sm" onClick={action.onClick}>
+						{action.icon && <action.icon className="size-4" data-icon="inline-start" />}
 						{action.label}
 					</Button>
 				))}

@@ -1,16 +1,16 @@
 "use client"
 
+import { type DealLine, DealLinesEditor } from "@blazz/ui/components/blocks/deal-lines-editor"
+import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Printer, Send } from "lucide-react"
 import { notFound } from "next/navigation"
 import { use } from "react"
 import { toast } from "sonner"
-import { Printer, Send } from "lucide-react"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
-import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
-import { DealLinesEditor, type DealLine } from "@blazz/ui/components/blocks/deal-lines-editor"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
-import { getQuoteById, getQuoteLines, formatCurrency, formatDate } from "@/lib/sample-data"
+import { formatCurrency, formatDate, getQuoteById, getQuoteLines } from "@/lib/sample-data"
 
 const statusVariant: Record<string, "success" | "info" | "warning" | "critical" | "outline"> = {
 	draft: "outline",
@@ -28,11 +28,7 @@ const statusLabel: Record<string, string> = {
 	expired: "Expiré",
 }
 
-export default function QuoteDetailPage({
-	params,
-}: {
-	params: Promise<{ id: string }>
-}) {
+export default function QuoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = use(params)
 	const quote = getQuoteById(id)
 

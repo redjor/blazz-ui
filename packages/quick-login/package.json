@@ -1,44 +1,44 @@
 {
-  "name": "@blazz/quick-login",
-  "version": "0.1.0",
-  "description": "Development-only quick account selector component",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
-    },
-    "./styles.css": {
-      "default": "./dist/styles.css"
-    }
-  },
-  "scripts": {
-    "build": "tsup && pnpm run build:css",
-    "build:css": "postcss src/styles.css -o dist/styles.css --verbose",
-    "dev": "tsup --watch",
-    "type-check": "tsc --noEmit",
-    "lint": "biome check .",
-    "clean": "rm -rf dist"
-  },
-  "peerDependencies": {
-    "@blazz/ui": "*",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@blazz/ui": "workspace:*",
-    "@tailwindcss/postcss": "^4.1.18",
-    "@types/node": "^20",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "postcss": "^8.5.8",
-    "postcss-cli": "^11.0.1",
-    "tailwindcss": "^4.1.18",
-    "tsup": "^8",
-    "typescript": "^5.7.3"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@blazz/quick-login",
+	"version": "0.1.0",
+	"description": "Development-only quick account selector component",
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
+		"./styles.css": {
+			"default": "./dist/styles.css"
+		}
+	},
+	"scripts": {
+		"build": "tsup && pnpm run build:css",
+		"build:css": "postcss src/styles.css -o dist/styles.css --verbose",
+		"dev": "tsup --watch",
+		"type-check": "tsc --noEmit",
+		"lint": "biome check .",
+		"clean": "rm -rf dist"
+	},
+	"peerDependencies": {
+		"@blazz/ui": "*",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"devDependencies": {
+		"@blazz/ui": "workspace:*",
+		"@tailwindcss/postcss": "^4.1.18",
+		"@types/node": "^20",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"postcss": "^8.5.8",
+		"postcss-cli": "^11.0.1",
+		"tailwindcss": "^4.1.18",
+		"tsup": "^8",
+		"typescript": "^5.7.3"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }

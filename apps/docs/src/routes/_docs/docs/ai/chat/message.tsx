@@ -1,15 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router"
 import {
 	Message,
-	MessageContent,
-	MessageActions,
 	MessageAction,
+	MessageActions,
+	MessageContent,
 } from "@blazz/ui/components/ai/chat/message"
-import { CopyIcon, ThumbsUpIcon, ThumbsDownIcon, RefreshCwIcon } from "lucide-react"
+import { createFileRoute } from "@tanstack/react-router"
+import { CopyIcon, RefreshCwIcon, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -46,9 +46,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/chat/message"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/chat/message")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -65,8 +63,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function MessagePage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -77,9 +74,7 @@ function MessagePage() {
 			<DocHero>
 				<div className="flex w-full max-w-lg flex-col gap-6">
 					<Message from="user">
-						<MessageContent>
-							What are the benefits of using TypeScript with React?
-						</MessageContent>
+						<MessageContent>What are the benefits of using TypeScript with React?</MessageContent>
 					</Message>
 					<Message from="assistant">
 						<MessageContent>
@@ -131,7 +126,9 @@ function MessagePage() {
 					<div className="flex flex-col gap-4">
 						<Message from="assistant">
 							<MessageContent>
-								You can deploy a Next.js app using Vercel, Docker, or any Node.js hosting platform. Vercel is the recommended option as it provides zero-config deployments with edge functions support.
+								You can deploy a Next.js app using Vercel, Docker, or any Node.js hosting platform.
+								Vercel is the recommended option as it provides zero-config deployments with edge
+								functions support.
 							</MessageContent>
 						</Message>
 					</div>

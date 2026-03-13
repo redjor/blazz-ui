@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { forgotPasswordSchema, type ForgotPasswordFormData } from "@/lib/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { type ForgotPasswordFormData, forgotPasswordSchema } from "@/lib/schemas"
 
 export default function ForgotPasswordPage() {
 	const [sent, setSent] = useState(false)
@@ -25,8 +25,7 @@ export default function ForgotPasswordPage() {
 			<div className="space-y-4 text-center">
 				<h2 className="text-lg font-semibold">Email envoyé</h2>
 				<p className="text-sm text-fg-muted">
-					Si un compte existe avec cette adresse, vous recevrez un lien
-					de réinitialisation.
+					Si un compte existe avec cette adresse, vous recevrez un lien de réinitialisation.
 				</p>
 				<Link href="/login">
 					<Button variant="outline" className="w-full">

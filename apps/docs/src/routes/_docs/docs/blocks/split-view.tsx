@@ -1,13 +1,13 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { SplitView } from "@blazz/ui/components/blocks/split-view"
-import { Mail, Phone, Building2, MapPin } from "lucide-react"
+import { createFileRoute } from "@tanstack/react-router"
+import { Building2, Mail, MapPin, Phone } from "lucide-react"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
@@ -35,12 +35,60 @@ interface Contact {
 }
 
 const contacts: Contact[] = [
-	{ id: "1", name: "Marie Dupont", role: "Directrice technique", company: "Nextera Solutions", email: "m.dupont@nextera.fr", phone: "+33 1 42 68 55 00", city: "Paris" },
-	{ id: "2", name: "Thomas Bernard", role: "Chef de projet", company: "Groupe Artémis", email: "t.bernard@artemis.fr", phone: "+33 4 91 22 33 44", city: "Marseille" },
-	{ id: "3", name: "Sophie Lemaire", role: "Responsable produit", company: "Atelier Numérique", email: "s.lemaire@atelier-num.fr", phone: "+33 1 55 12 78 90", city: "Lyon" },
-	{ id: "4", name: "Nicolas Moreau", role: "Lead developer", company: "DevFactory", email: "n.moreau@devfactory.io", phone: "+33 6 12 34 56 78", city: "Bordeaux" },
-	{ id: "5", name: "Claire Martin", role: "DRH", company: "TalentFlow", email: "c.martin@talentflow.fr", phone: "+33 1 40 20 10 05", city: "Paris" },
-	{ id: "6", name: "Julien Petit", role: "Architecte logiciel", company: "CloudScale", email: "j.petit@cloudscale.io", phone: "+33 6 98 76 54 32", city: "Toulouse" },
+	{
+		id: "1",
+		name: "Marie Dupont",
+		role: "Directrice technique",
+		company: "Nextera Solutions",
+		email: "m.dupont@nextera.fr",
+		phone: "+33 1 42 68 55 00",
+		city: "Paris",
+	},
+	{
+		id: "2",
+		name: "Thomas Bernard",
+		role: "Chef de projet",
+		company: "Groupe Artémis",
+		email: "t.bernard@artemis.fr",
+		phone: "+33 4 91 22 33 44",
+		city: "Marseille",
+	},
+	{
+		id: "3",
+		name: "Sophie Lemaire",
+		role: "Responsable produit",
+		company: "Atelier Numérique",
+		email: "s.lemaire@atelier-num.fr",
+		phone: "+33 1 55 12 78 90",
+		city: "Lyon",
+	},
+	{
+		id: "4",
+		name: "Nicolas Moreau",
+		role: "Lead developer",
+		company: "DevFactory",
+		email: "n.moreau@devfactory.io",
+		phone: "+33 6 12 34 56 78",
+		city: "Bordeaux",
+	},
+	{
+		id: "5",
+		name: "Claire Martin",
+		role: "DRH",
+		company: "TalentFlow",
+		email: "c.martin@talentflow.fr",
+		phone: "+33 1 40 20 10 05",
+		city: "Paris",
+	},
+	{
+		id: "6",
+		name: "Julien Petit",
+		role: "Architecte logiciel",
+		company: "CloudScale",
+		email: "j.petit@cloudscale.io",
+		phone: "+33 6 98 76 54 32",
+		city: "Toulouse",
+	},
 ]
 
 // ---------------------------------------------------------------------------
@@ -158,7 +206,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/split-view")({
 			[...examples].map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -171,8 +219,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/split-view")({
 
 function SplitViewPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -182,7 +229,10 @@ function SplitViewPage() {
 		>
 			{/* Hero */}
 			<DocHero>
-				<div className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden" style={{ height: 400 }}>
+				<div
+					className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
+					style={{ height: 400 }}
+				>
 					<HeroDemo />
 				</div>
 			</DocHero>
@@ -277,7 +327,11 @@ function ContactListItem({
 	contact,
 	selected,
 	onClick,
-}: { contact: Contact; selected: boolean; onClick: () => void }) {
+}: {
+	contact: Contact
+	selected: boolean
+	onClick: () => void
+}) {
 	return (
 		<button
 			type="button"

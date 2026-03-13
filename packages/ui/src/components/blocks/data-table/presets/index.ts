@@ -7,33 +7,26 @@
  * @module presets
  */
 
-// CRM Deals Editable preset - Inline-editable deals table
-export * from './crm-deals-editable';
-
-// Order Management preset - Order tracking and fulfillment
-export * from './orders';
-
-// User Management preset - User and invitation management
-export * from './users';
-export * from './invitations';
-
 // CRM Forge presets - Domain-specific table configurations for Forge CRM
-export * from './crm-companies';
-export * from './crm-contacts';
-export * from './crm-deals';
-export * from './crm-quotes';
-export * from './crm-products';
-
-// TalentFlow ATS presets
-export * from './talentflow-candidates';
-export * from './talentflow-jobs';
-
-// StockBase Inventory presets
-export * from './stockbase-inventory';
-export * from './stockbase-movements';
-
+export * from "./crm-companies"
+export * from "./crm-contacts"
+export * from "./crm-deals"
+// CRM Deals Editable preset - Inline-editable deals table
+export * from "./crm-deals-editable"
+export * from "./crm-products"
+export * from "./crm-quotes"
+export * from "./invitations"
 // Linear Issues preset - Linear-style issue tracker
-export * from './linear-issues';
-
+export * from "./linear-issues"
+// Order Management preset - Order tracking and fulfillment
+export * from "./orders"
 // Spreadsheet preset - Generic Airtable-style editable table
-export * from './spreadsheet';
+export * from "./spreadsheet"
+// StockBase Inventory presets
+export * from "./stockbase-inventory"
+export * from "./stockbase-movements"
+// TalentFlow ATS presets
+export * from "./talentflow-candidates"
+export * from "./talentflow-jobs"
+// User Management preset - User and invitation management
+export * from "./users"

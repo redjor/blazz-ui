@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { CalendarPlus, MessageCircle, ExternalLink } from "lucide-react"
 import { CandidateCard } from "@blazz/ui/components/ai/generative/entities/candidate-card"
 import { Button } from "@blazz/ui/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router"
+import { CalendarPlus, ExternalLink, MessageCircle } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -94,9 +94,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/entities/candidate-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/entities/candidate-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -113,8 +111,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function CandidateCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -127,7 +124,6 @@ function CandidateCardPage() {
 					<CandidateCard
 						name="Sarah Connor"
 						avatar="https://i.pravatar.cc/150?u=sarah"
-						role="Senior Frontend Engineer"
 						company="Cyberdyne Systems"
 						location="Los Angeles, CA"
 						status="available"
@@ -149,7 +145,6 @@ function CandidateCardPage() {
 						<CandidateCard
 							name="Sarah Connor"
 							avatar="https://i.pravatar.cc/150?u=sarah"
-							role="Senior Frontend Engineer"
 							company="Cyberdyne Systems"
 							location="Los Angeles, CA"
 							email="sarah@skynet.com"
@@ -168,11 +163,7 @@ function CandidateCardPage() {
 					highlightedCode={html("minimal")}
 				>
 					<div className="max-w-sm">
-						<CandidateCard
-							name="John Doe"
-							role="Product Designer"
-							status="in-process"
-						/>
+						<CandidateCard name="John Doe" status="in-process" />
 					</div>
 				</DocExampleClient>
 
@@ -186,7 +177,6 @@ function CandidateCardPage() {
 						<CandidateCard
 							name="Marie Curie"
 							avatar="https://i.pravatar.cc/150?u=marie"
-							role="Data Scientist"
 							company="CNRS"
 							location="Paris, France"
 							status="available"
@@ -220,7 +210,6 @@ function CandidateCardPage() {
 							href="#"
 							name="Sarah Connor"
 							avatar="https://i.pravatar.cc/150?u=sarah"
-							role="Senior Frontend Engineer"
 							company="Cyberdyne Systems"
 							status="available"
 							matchScore={92}
@@ -239,7 +228,6 @@ function CandidateCardPage() {
 						<CandidateCard
 							name="Alice Martin"
 							avatar="https://i.pravatar.cc/150?u=alice"
-							role="Backend Engineer"
 							company="Stripe"
 							status="available"
 							matchScore={95}
@@ -248,7 +236,6 @@ function CandidateCardPage() {
 						<CandidateCard
 							name="Bob Chen"
 							avatar="https://i.pravatar.cc/150?u=bob"
-							role="Backend Engineer"
 							company="Datadog"
 							status="in-process"
 							matchScore={88}

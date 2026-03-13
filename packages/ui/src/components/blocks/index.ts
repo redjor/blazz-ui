@@ -1,108 +1,100 @@
 // Block components — high-level, opinionated components for CRM/backoffice pages
 // Imported as @/components/blocks/[component-name]
 
-export { PageHeader } from "./page-header"
-export type { PageHeaderProps, PageHeaderAction, PageHeaderBreadcrumb } from "./page-header"
-
-export { Empty } from "../ui/empty"
 export type { EmptyAction } from "../ui/empty"
-
-export { StatsGrid } from "./stats-grid"
-export type { StatsGridProps, StatItem } from "./stats-grid"
-
-export { StatsStrip } from "./stats-strip"
-export type { StatsStripProps, StatsStripItem } from "./stats-strip"
-
+export { Empty } from "../ui/empty"
+export type { ActivityTimelineProps, TimelineEvent } from "./activity-timeline"
+export { ActivityTimeline } from "./activity-timeline"
+export type { AreaChartBlockProps } from "./area-chart-block"
+export { AreaChartBlock } from "./area-chart-block"
+export type { BarChartBlockProps } from "./bar-chart-block"
+export { BarChartBlock } from "./bar-chart-block"
+export type { BulkAction, BulkActionBarProps } from "./bulk-action-bar"
+export { BulkActionBar } from "./bulk-action-bar"
+export type { ChartCardProps } from "./chart-card"
+export { ChartCard } from "./chart-card"
+export type {
+	DetailPanelAction,
+	DetailPanelHeaderProps,
+	DetailPanelProps,
+	DetailPanelSectionProps,
+} from "./detail-panel"
 export { DetailPanel } from "./detail-panel"
 export type {
-	DetailPanelProps,
-	DetailPanelHeaderProps,
-	DetailPanelSectionProps,
-	DetailPanelAction,
-} from "./detail-panel"
-
-export { ActivityTimeline } from "./activity-timeline"
-export type { ActivityTimelineProps, TimelineEvent } from "./activity-timeline"
-
-export { StatusFlow } from "./status-flow"
-export type { StatusFlowProps, StatusDefinition, StatusTransition } from "./status-flow"
-
-export { BulkActionBar } from "./bulk-action-bar"
-export type { BulkActionBarProps, BulkAction } from "./bulk-action-bar"
-
-export { AreaChartBlock } from "./area-chart-block"
-export type { AreaChartBlockProps } from "./area-chart-block"
-
-export { BarChartBlock } from "./bar-chart-block"
-export type { BarChartBlockProps } from "./bar-chart-block"
-
-export { ChartCard } from "./chart-card"
-export type { ChartCardProps } from "./chart-card"
-
-export { LineChartBlock } from "./line-chart-block"
-export type { LineChartBlockProps } from "./line-chart-block"
-
-export { PieChartBlock } from "./pie-chart-block"
-export type { PieChartBlockProps } from "./pie-chart-block"
-
-export { RadarChartBlock } from "./radar-chart-block"
-export type { RadarChartBlockProps } from "./radar-chart-block"
-
+	DateFilterConfig,
+	FilterBarProps,
+	FilterConfig,
+	SearchFilterConfig,
+	SelectFilterConfig,
+} from "./filter-bar"
 export { FilterBar } from "./filter-bar"
-export type { FilterBarProps, FilterConfig, SearchFilterConfig, SelectFilterConfig, DateFilterConfig } from "./filter-bar"
-
-export { MultiStepForm } from "./multi-step-form"
-export type { MultiStepFormProps, FormStep, StepComponentProps } from "./multi-step-form"
-
-export { SplitView } from "./split-view"
-export type { SplitViewProps } from "./split-view"
-
-export { NotificationCenter, NotificationList, NotificationGroup, NotificationItem, NotificationTrigger } from "./notification-center"
 export type {
-	NotificationCenterProps,
-	NotificationListProps,
-	NotificationGroupProps,
-	NotificationItemProps,
-	NotificationTriggerProps,
-	Notification,
-	NotificationAction,
-} from "./notification-center"
-
-export { OrgMenu } from "./org-menu"
-export type { OrgMenuProps, Organization } from "./org-menu"
-
-export { PropertyCard } from "./property-card"
-export type { PropertyCardProps, PropertyCardItemProps } from "./property-card"
-
+	InboxActionType,
+	InboxAuthor,
+	InboxDetailEmptyProps,
+	InboxDetailProps,
+	InboxFilters,
+	InboxHeaderProps,
+	InboxItemProps,
+	InboxListProps,
+	InboxMenuAction,
+	InboxNotification,
+	InboxPanelProps,
+	InboxPriority,
+	InboxProps,
+	InboxReadFilter,
+	InboxSidebarProps,
+	InboxStatusVariant,
+} from "./inbox"
 export {
+	filterInboxItems,
 	Inbox,
-	InboxSidebar,
 	InboxDetail,
 	InboxDetailEmpty,
-	InboxPanel,
 	InboxHeader,
-	InboxList,
 	InboxItem,
-	filterInboxItems,
+	InboxList,
+	InboxPanel,
+	InboxSidebar,
 } from "./inbox"
+export type { LineChartBlockProps } from "./line-chart-block"
+export { LineChartBlock } from "./line-chart-block"
+export type { FormStep, MultiStepFormProps, StepComponentProps } from "./multi-step-form"
+export { MultiStepForm } from "./multi-step-form"
 export type {
-	InboxProps,
-	InboxSidebarProps,
-	InboxDetailProps,
-	InboxDetailEmptyProps,
-	InboxPanelProps,
-	InboxHeaderProps,
-	InboxListProps,
-	InboxItemProps,
-	InboxNotification,
-	InboxAuthor,
-	InboxActionType,
-	InboxStatusVariant,
-	InboxPriority,
-	InboxMenuAction,
-	InboxFilters,
-	InboxReadFilter,
-} from "./inbox"
+	Notification,
+	NotificationAction,
+	NotificationCenterProps,
+	NotificationGroupProps,
+	NotificationItemProps,
+	NotificationListProps,
+	NotificationTriggerProps,
+} from "./notification-center"
+export {
+	NotificationCenter,
+	NotificationGroup,
+	NotificationItem,
+	NotificationList,
+	NotificationTrigger,
+} from "./notification-center"
+export type { Organization, OrgMenuProps } from "./org-menu"
+export { OrgMenu } from "./org-menu"
+export type { PageHeaderAction, PageHeaderBreadcrumb, PageHeaderProps } from "./page-header"
+export { PageHeader } from "./page-header"
+export type { PieChartBlockProps } from "./pie-chart-block"
+export { PieChartBlock } from "./pie-chart-block"
+export type { PropertyCardItemProps, PropertyCardProps } from "./property-card"
+export { PropertyCard } from "./property-card"
+export type { RadarChartBlockProps } from "./radar-chart-block"
+export { RadarChartBlock } from "./radar-chart-block"
+export type { SplitViewProps } from "./split-view"
+export { SplitView } from "./split-view"
+export type { StatItem, StatsGridProps } from "./stats-grid"
+export { StatsGrid } from "./stats-grid"
+export type { StatsStripItem, StatsStripProps } from "./stats-strip"
+export { StatsStrip } from "./stats-strip"
+export type { StatusDefinition, StatusFlowProps, StatusTransition } from "./status-flow"
+export { StatusFlow } from "./status-flow"
 
 // ── Data Table ─────────────────────────────────
 // DataTable barrel has naming conflicts (BulkAction, RowAction, FilterGroup, FilterOperator)

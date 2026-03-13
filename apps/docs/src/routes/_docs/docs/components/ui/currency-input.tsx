@@ -1,12 +1,12 @@
+import { CurrencyInput } from "@blazz/ui/components/ui/currency-input"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
-import { CurrencyInput } from "@blazz/ui/components/ui/currency-input"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -112,15 +112,8 @@ function ControlledCurrencyInputDemo() {
 	const [value, setValue] = React.useState<number | null>(99.99)
 	return (
 		<div className="space-y-3">
-			<CurrencyInput
-				value={value}
-				onValueChange={setValue}
-				currency="EUR"
-				className="max-w-xs"
-			/>
-			<p className="text-xs text-fg-muted">
-				Value: {value !== null ? value : "null"}
-			</p>
+			<CurrencyInput value={value} onValueChange={setValue} currency="EUR" className="max-w-xs" />
+			<p className="text-xs text-fg-muted">Value: {value !== null ? value : "null"}</p>
 		</div>
 	)
 }

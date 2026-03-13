@@ -1,8 +1,7 @@
 "use client"
 
-import { useAuthActions } from "@convex-dev/auth/react"
-import { useAuthToken } from "@convex-dev/auth/react"
 import { Button } from "@blazz/ui/components/ui/button"
+import { useAuthActions, useAuthToken } from "@convex-dev/auth/react"
 import { useConvexAuth } from "convex/react"
 import { useEffect, useRef } from "react"
 

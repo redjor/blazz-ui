@@ -34,13 +34,7 @@ BreadcrumbItem.displayName = "BreadcrumbItem"
 
 const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, React.ComponentPropsWithoutRef<"a">>(
 	({ className, ...props }, ref) => {
-		return (
-			<a
-				ref={ref}
-				className={cn("transition-colors hover:text-fg", className)}
-				{...props}
-			/>
-		)
+		return <a ref={ref} className={cn("transition-colors hover:text-fg", className)} {...props} />
 	}
 )
 BreadcrumbLink.displayName = "BreadcrumbLink"
@@ -80,7 +74,10 @@ const BreadcrumbBackLink = React.forwardRef<
 	return (
 		<a
 			ref={ref}
-			className={cn("group/back inline-flex items-center gap-1.5 transition-colors hover:text-fg", className)}
+			className={cn(
+				"group/back inline-flex items-center gap-1.5 transition-colors hover:text-fg",
+				className
+			)}
 			{...props}
 		>
 			<span className="relative inline-flex size-3.5 items-center justify-center overflow-hidden">

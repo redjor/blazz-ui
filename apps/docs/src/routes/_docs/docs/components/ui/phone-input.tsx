@@ -1,11 +1,11 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { PhoneInput } from "@blazz/ui/components/ui/phone-input"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -88,7 +88,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/phone-input")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -119,9 +119,7 @@ function DefaultExample() {
 				defaultCountry="FR"
 				placeholder="06 12 34 56 78"
 			/>
-			<p className="text-xs text-fg-muted font-mono">
-				Value: {value || "(empty)"}
-			</p>
+			<p className="text-xs text-fg-muted font-mono">Value: {value || "(empty)"}</p>
 		</div>
 	)
 }
@@ -132,28 +130,32 @@ function SizesExample() {
 	const [v3, setV3] = useState("")
 	return (
 		<div className="space-y-3">
-			<PhoneInput value={v1} onChange={setV1} variant="sm" defaultCountry="FR" placeholder="Small" />
+			<PhoneInput
+				value={v1}
+				onChange={setV1}
+				variant="sm"
+				defaultCountry="FR"
+				placeholder="Small"
+			/>
 			<PhoneInput value={v2} onChange={setV2} defaultCountry="US" placeholder="Default" />
-			<PhoneInput value={v3} onChange={setV3} variant="lg" defaultCountry="GB" placeholder="Large" />
+			<PhoneInput
+				value={v3}
+				onChange={setV3}
+				variant="lg"
+				defaultCountry="GB"
+				placeholder="Large"
+			/>
 		</div>
 	)
 }
 
 function DisabledExample() {
-	return (
-		<PhoneInput
-			value="+33612345678"
-			onChange={() => {}}
-			defaultCountry="FR"
-			disabled
-		/>
-	)
+	return <PhoneInput value="+33612345678" onChange={() => {}} defaultCountry="FR" disabled />
 }
 
 function PhoneInputPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -204,9 +206,15 @@ function PhoneInputPage() {
 			{/* Best Practices */}
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Set <code className="font-mono text-fg-subtle">defaultCountry</code> to match your primary user base</li>
+					<li>
+						Set <code className="font-mono text-fg-subtle">defaultCountry</code> to match your
+						primary user base
+					</li>
 					<li>The value is always in E.164 format — store it as-is in your database</li>
-					<li>Use with <code className="font-mono text-fg-subtle">Field</code> component for label and error handling</li>
+					<li>
+						Use with <code className="font-mono text-fg-subtle">Field</code> component for label and
+						error handling
+					</li>
 					<li>The country selector supports keyboard search for quick navigation</li>
 				</ul>
 			</DocSection>

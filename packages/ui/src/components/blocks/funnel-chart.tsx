@@ -1,8 +1,8 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 
 export interface FunnelStage {
 	label: string
@@ -50,14 +50,8 @@ function FunnelChartBase({
 						<div className="flex items-center justify-between text-sm">
 							<span className="font-medium">{stage.label}</span>
 							<div className="flex items-center gap-2">
-								{conversionRate && (
-									<span className="text-xs text-fg-muted">
-										{conversionRate}%
-									</span>
-								)}
-								<span className="font-semibold tabular-nums">
-									{formatValue(stage.value)}
-								</span>
+								{conversionRate && <span className="text-xs text-fg-muted">{conversionRate}%</span>}
+								<span className="font-semibold tabular-nums">{formatValue(stage.value)}</span>
 							</div>
 						</div>
 						<div className="h-8 w-full rounded-md bg-raised/50">
@@ -81,9 +75,7 @@ function FunnelChartBase({
 		<Card className={className}>
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
-				{description && (
-					<p className="text-sm text-fg-muted">{description}</p>
-				)}
+				{description && <p className="text-sm text-fg-muted">{description}</p>}
 			</CardHeader>
 			<CardContent>{content}</CardContent>
 		</Card>

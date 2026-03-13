@@ -2,17 +2,14 @@
 
 import type { NavigationSection, SidebarConfig } from "@blazz/ui/types/navigation"
 import {
-	Bot,
 	Brain,
 	Calendar,
 	ChartLine,
 	CreditCard,
 	FileText,
 	FormInput,
-	KeyRound,
 	Layers,
 	Layers2,
-	Save,
 	LayoutGrid,
 	ListChecks,
 	MessageCircle,
@@ -22,6 +19,7 @@ import {
 	Palette,
 	PanelLeft,
 	Puzzle,
+	Save,
 	Table2,
 	Users,
 	Wrench,
@@ -333,7 +331,13 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "Filter Panel",
 							url: "/docs/components/ui/filter-panel",
-							keywords: ["filter dropdown", "filter popover", "checkbox filter", "faceted filter", "market filter"],
+							keywords: [
+								"filter dropdown",
+								"filter popover",
+								"checkbox filter",
+								"faceted filter",
+								"market filter",
+							],
 						},
 						{
 							title: "Popover",
@@ -616,7 +620,7 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/blocks/data-table",
 							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
 						},
-{
+						{
 							title: "Filter Bar",
 							url: "/docs/blocks/filter-bar",
 							keywords: ["filter", "search filters", "facets", "query bar"],
@@ -629,7 +633,14 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "View Config Panel",
 							url: "/docs/blocks/view-config-panel",
-							keywords: ["view config", "table view", "filter panel", "display properties", "board config", "linear"],
+							keywords: [
+								"view config",
+								"table view",
+								"filter panel",
+								"display properties",
+								"board config",
+								"linear",
+							],
 						},
 					],
 				},
@@ -1176,8 +1187,17 @@ export function getSectionForPathname(pathname: string): SectionId {
 	if (pathname === "/docs/ai" || pathname.startsWith("/docs/ai/")) return "ai"
 	if (pathname === "/docs/blocks" || pathname.startsWith("/docs/blocks/")) return "blocks"
 	if (pathname.startsWith("/docs/guide")) return "guide"
-	if (pathname.startsWith("/docs/mcp") || pathname.startsWith("/docs/sandbox") || pathname.startsWith("/docs/utils/")) return "guide"
-	if (pathname.startsWith("/docs/components/colors") || pathname.startsWith("/docs/components/typography")) return "guide"
+	if (
+		pathname.startsWith("/docs/mcp") ||
+		pathname.startsWith("/docs/sandbox") ||
+		pathname.startsWith("/docs/utils/")
+	)
+		return "guide"
+	if (
+		pathname.startsWith("/docs/components/colors") ||
+		pathname.startsWith("/docs/components/typography")
+	)
+		return "guide"
 	if (pathname.startsWith("/docs/components/layout/inset")) return "guide"
 	if (pathname.startsWith("/docs/components/ui/text")) return "guide"
 	return "components"

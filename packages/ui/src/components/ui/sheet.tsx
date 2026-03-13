@@ -3,8 +3,8 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { XIcon } from "lucide-react"
 import type * as React from "react"
-import { Button } from "./button"
 import { cn } from "../../lib/utils"
+import { Button } from "./button"
 
 // Réutiliser Dialog de Base UI comme base pour Sheet
 const Sheet = DialogPrimitive.Root
@@ -64,13 +64,13 @@ function SheetContent({
 				right: `right-2 bottom-2 ${sizeClass} data-closed:slide-out-to-right data-open:slide-in-from-right`,
 				top: `left-2 right-2 ${sizeClass} data-closed:slide-out-to-top data-open:slide-in-from-top`,
 				bottom: `left-2 right-2 bottom-2 ${sizeClass} data-closed:slide-out-to-bottom data-open:slide-in-from-bottom`,
-		  }
+			}
 		: {
 				left: `top-2 bottom-2 left-2 ${sizeClass} data-closed:slide-out-to-left data-open:slide-in-from-left`,
 				right: `top-2 bottom-2 right-2 ${sizeClass} data-closed:slide-out-to-right data-open:slide-in-from-right`,
 				top: `top-2 left-2 right-2 ${sizeClass} data-closed:slide-out-to-top data-open:slide-in-from-top`,
 				bottom: `bottom-2 left-2 right-2 ${sizeClass} data-closed:slide-out-to-bottom data-open:slide-in-from-bottom`,
-		  }
+			}
 
 	const isVerticalSide = side === "left" || side === "right"
 	const computedStyle: React.CSSProperties | undefined =
@@ -109,10 +109,7 @@ function SheetHeader({
 	return (
 		<div
 			data-slot="sheet-header"
-			className={cn(
-				"flex flex-col gap-1.5 p-inset border-b border-separator",
-				className
-			)}
+			className={cn("flex flex-col gap-1.5 p-inset border-b border-separator", className)}
 			{...props}
 		>
 			{children}
@@ -137,7 +134,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
 				"bg-raised border-t border-separator px-inset flex gap-2 justify-end",
 				className
 			)}
-			style={{ paddingBlock: 'calc(var(--inset) * 0.75)' }}
+			style={{ paddingBlock: "calc(var(--inset) * 0.75)" }}
 			{...props}
 		/>
 	)

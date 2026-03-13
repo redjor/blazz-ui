@@ -1,18 +1,25 @@
 "use client"
 
+import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
+import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
+import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { Edit } from "lucide-react"
 import { notFound } from "next/navigation"
 import { use } from "react"
 import { toast } from "sonner"
-import { Edit } from "lucide-react"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
-import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
-import { getContactById, getCompanyById, getDealsByCompany, formatCurrency, formatDate, recentActivities } from "@/lib/sample-data"
+import {
+	formatCurrency,
+	formatDate,
+	getCompanyById,
+	getContactById,
+	getDealsByCompany,
+	recentActivities,
+} from "@/lib/sample-data"
 
 const statusVariant: Record<string, "success" | "outline" | "warning"> = {
 	active: "success",
@@ -26,11 +33,7 @@ const statusLabel: Record<string, string> = {
 	archived: "Archivé",
 }
 
-export default function ContactDetailPage({
-	params,
-}: {
-	params: Promise<{ id: string }>
-}) {
+export default function ContactDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = use(params)
 	const contact = getContactById(id)
 
@@ -66,7 +69,9 @@ export default function ContactDetailPage({
 				<QuickLogActivity
 					onLog={async ({ type, note }) => {
 						const typeLabels = { call: "Appel", email: "Email", note: "Note", meeting: "RDV" }
-						toast.success(`${typeLabels[type]} enregistré pour ${contact.firstName} ${contact.lastName} : ${note}`)
+						toast.success(
+							`${typeLabels[type]} enregistré pour ${contact.firstName} ${contact.lastName} : ${note}`
+						)
 					}}
 				/>
 			</div>
@@ -115,7 +120,10 @@ export default function ContactDetailPage({
 									<FieldGrid columns={3}>
 										<Field label="Secteur" value={company.industry} />
 										<Field label="Taille" value={company.size} />
-										<Field label="Chiffre d'affaires" value={company.revenue ? formatCurrency(company.revenue) : "—"} />
+										<Field
+											label="Chiffre d'affaires"
+											value={company.revenue ? formatCurrency(company.revenue) : "—"}
+										/>
 										<Field label="Téléphone" value={company.phone ?? "—"} />
 										<Field label="Email" value={company.email ?? "—"} />
 										<Field label="Ville" value={company.city ?? "—"} />

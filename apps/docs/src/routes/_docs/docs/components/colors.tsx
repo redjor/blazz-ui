@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
+import { createFileRoute } from "@tanstack/react-router"
 import { CategoryPageHero } from "~/components/docs/component-card"
 
 export const Route = createFileRoute("/_docs/docs/components/colors")({
@@ -58,7 +58,15 @@ function ColorSwatch({ token }: { token: ColorToken }) {
 	)
 }
 
-function ColorGroup({ title, description, tokens }: { title: string; description: string; tokens: ColorToken[] }) {
+function ColorGroup({
+	title,
+	description,
+	tokens,
+}: {
+	title: string
+	description: string
+	tokens: ColorToken[]
+}) {
 	return (
 		<section className="space-y-4">
 			<div>
@@ -106,22 +114,18 @@ function SurfaceStack() {
 		<section className="space-y-4">
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Surface Hierarchy</h2>
-				<p className="text-sm text-fg-muted">Layered surfaces create visual depth. Each level is slightly lighter/darker.</p>
+				<p className="text-sm text-fg-muted">
+					Layered surfaces create visual depth. Each level is slightly lighter/darker.
+				</p>
 			</div>
-			<div
-				className="rounded-xl p-6"
-				style={{ backgroundColor: "var(--bg-app)" }}
-			>
+			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--bg-app)" }}>
 				<p className="text-xs font-mono text-fg-subtle mb-3">bg-app</p>
 				<div
 					className="rounded-lg p-5 border border-edge"
 					style={{ backgroundColor: "var(--bg-surface)" }}
 				>
 					<p className="text-xs font-mono text-fg-subtle mb-3">bg-surface</p>
-					<div
-						className="rounded-md p-4"
-						style={{ backgroundColor: "var(--bg-raised)" }}
-					>
+					<div className="rounded-md p-4" style={{ backgroundColor: "var(--bg-raised)" }}>
 						<p className="text-xs font-mono text-fg-subtle mb-3">bg-raised</p>
 						<div
 							className="rounded-md p-3 border border-edge"
@@ -141,11 +145,17 @@ function TextPreview() {
 		<section className="space-y-4">
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Text Hierarchy</h2>
-				<p className="text-sm text-fg-muted">Three levels of text emphasis for content hierarchy.</p>
+				<p className="text-sm text-fg-muted">
+					Three levels of text emphasis for content hierarchy.
+				</p>
 			</div>
 			<div className="space-y-3 rounded-lg border border-edge bg-raised p-6">
-				<p className="text-base text-fg font-medium">Primary text — headings, labels, key content</p>
-				<p className="text-sm text-fg-muted">Secondary text — descriptions, supporting information</p>
+				<p className="text-base text-fg font-medium">
+					Primary text — headings, labels, key content
+				</p>
+				<p className="text-sm text-fg-muted">
+					Secondary text — descriptions, supporting information
+				</p>
 				<p className="text-xs text-fg-subtle">Muted text — timestamps, metadata, disabled states</p>
 			</div>
 		</section>
@@ -157,7 +167,9 @@ function AccentPreview() {
 		<section className="space-y-4">
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Accent in Context</h2>
-				<p className="text-sm text-fg-muted">The accent color for interactive elements and focus states.</p>
+				<p className="text-sm text-fg-muted">
+					The accent color for interactive elements and focus states.
+				</p>
 			</div>
 			<div className="flex flex-wrap items-center gap-3">
 				<button
@@ -230,7 +242,10 @@ function ColorsPage() {
 
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold text-fg">Token Reference</h2>
-					<p className="text-sm text-fg-muted">All design tokens are CSS custom properties defined in globals.css, mapped to Tailwind utilities via <code className="font-mono text-fg-subtle">@theme inline</code>.</p>
+					<p className="text-sm text-fg-muted">
+						All design tokens are CSS custom properties defined in globals.css, mapped to Tailwind
+						utilities via <code className="font-mono text-fg-subtle">@theme inline</code>.
+					</p>
 					<div className="overflow-x-auto rounded-lg border border-edge">
 						<table className="w-full text-sm">
 							<thead>

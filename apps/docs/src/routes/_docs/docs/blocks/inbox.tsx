@@ -1,26 +1,23 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
+import type { InboxFilters, InboxNotification } from "@blazz/ui/components/blocks/inbox"
 import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import {
+	filterInboxItems,
 	Inbox,
-	InboxSidebar,
 	InboxDetail,
 	InboxDetailEmpty,
-	InboxPanel,
 	InboxHeader,
-	InboxList,
 	InboxItem,
-	filterInboxItems,
+	InboxList,
+	InboxPanel,
+	InboxSidebar,
 } from "@blazz/ui/components/blocks/inbox"
-import type { InboxNotification, InboxFilters } from "@blazz/ui/components/blocks/inbox"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
@@ -381,7 +378,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/inbox")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -398,13 +395,14 @@ function InboxHeroDemo() {
 	const filtered = filterInboxItems(heroItems, filters)
 
 	return (
-		<div className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden" style={{ height: 480 }}>
+		<div
+			className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden"
+			style={{ height: 480 }}
+		>
 			<Inbox>
 				<InboxSidebar>
 					<InboxHeader
-						menuActions={[
-							{ label: "Mark all read", onClick: () => {} },
-						]}
+						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
 						filters={filters}
 						onFiltersChange={setFilters}
 					/>
@@ -433,8 +431,7 @@ function InboxHeroDemo() {
 
 function InboxPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -473,7 +470,10 @@ function InboxPage() {
 					code={examples[2].code}
 					highlightedCode={html("loading")}
 				>
-					<div className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden" style={{ height: 280 }}>
+					<div
+						className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden"
+						style={{ height: 280 }}
+					>
 						<InboxPanel loading />
 					</div>
 				</DocExampleClient>
@@ -484,7 +484,10 @@ function InboxPage() {
 					code={examples[3].code}
 					highlightedCode={html("empty")}
 				>
-					<div className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden" style={{ height: 200 }}>
+					<div
+						className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden"
+						style={{ height: 200 }}
+					>
 						<InboxPanel>
 							<InboxHeader />
 						</InboxPanel>
@@ -547,7 +550,10 @@ function BasicListDemo() {
 	const filtered = filterInboxItems(basicItems, filters)
 
 	return (
-		<div className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden" style={{ height: 320 }}>
+		<div
+			className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden"
+			style={{ height: 320 }}
+		>
 			<InboxPanel>
 				<InboxHeader filters={filters} onFiltersChange={setFilters} />
 				<InboxList>
@@ -567,13 +573,14 @@ function SplitViewDemo() {
 	const selected = filtered.find((i) => i.id === selectedId)
 
 	return (
-		<div className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden" style={{ height: 320 }}>
+		<div
+			className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
+			style={{ height: 320 }}
+		>
 			<Inbox>
 				<InboxSidebar width={300}>
 					<InboxHeader
-						menuActions={[
-							{ label: "Mark all read", onClick: () => {} },
-						]}
+						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
 						filters={filters}
 						onFiltersChange={setFilters}
 					/>

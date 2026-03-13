@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Label } from "@blazz/ui/components/ui/label"
+import { useState } from "react"
 import { toast } from "sonner"
 
 interface UserMetadataEditorProps {
@@ -23,7 +23,7 @@ export function UserMetadataEditor({ metadata, onSave, label }: UserMetadataEdit
 			toast.success("Metadata updated", {
 				description: `${label} has been updated successfully.`,
 			})
-		} catch (err) {
+		} catch (_err) {
 			setError("Invalid JSON format")
 			toast.error("Invalid JSON", {
 				description: "Please enter valid JSON format.",

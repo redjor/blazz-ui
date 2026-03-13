@@ -1,11 +1,11 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useState, useCallback } from "react"
 import { Plus, Trash2 } from "lucide-react"
+import { useCallback } from "react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
-import { cn } from "../../lib/utils"
 
 export interface DealLine {
 	id: string
@@ -41,11 +41,7 @@ function DealLinesEditorBase({
 }: DealLinesEditorProps) {
 	const updateLine = useCallback(
 		(id: string, field: keyof DealLine, value: string | number) => {
-			onChange(
-				lines.map((line) =>
-					line.id === id ? { ...line, [field]: value } : line
-				)
-			)
+			onChange(lines.map((line) => (line.id === id ? { ...line, [field]: value } : line)))
 		},
 		[lines, onChange]
 	)
@@ -128,7 +124,9 @@ function DealLinesEditorBase({
 								</td>
 								<td className="px-3 py-1.5">
 									{readOnly ? (
-										<span className="block text-right">{formatAmount(line.unitPrice, currency)}</span>
+										<span className="block text-right">
+											{formatAmount(line.unitPrice, currency)}
+										</span>
 									) : (
 										<Input
 											type="number"

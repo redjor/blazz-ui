@@ -1,13 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
 import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { Label } from "@blazz/ui/components/ui/label"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -392,9 +392,7 @@ function CheckboxPage() {
 							<Checkbox id="error" aria-invalid />
 							<Label htmlFor="error">Accept terms and conditions</Label>
 						</div>
-						<p className="text-sm text-negative">
-							You must accept the terms to continue.
-						</p>
+						<p className="text-sm text-negative">You must accept the terms to continue.</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>
@@ -512,9 +510,7 @@ function CheckboxPage() {
 								{ value: "privacy", label: "I accept the privacy policy" },
 							]}
 						/>
-						<p className="text-sm text-negative">
-							You must accept both to continue.
-						</p>
+						<p className="text-sm text-negative">You must accept both to continue.</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>

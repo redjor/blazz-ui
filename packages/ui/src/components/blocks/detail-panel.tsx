@@ -1,10 +1,10 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import type * as React from "react"
 import type { LucideIcon } from "lucide-react"
-import { Button } from "../ui/button"
+import type * as React from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Button } from "../ui/button"
 
 /* ─── DetailPanel.Header ─── */
 
@@ -42,9 +42,7 @@ function DetailPanelHeader({
 					<h2 className="text-lg font-semibold text-fg">{title}</h2>
 					{status}
 				</div>
-				{subtitle && (
-					<p className="text-sm text-fg-muted">{subtitle}</p>
-				)}
+				{subtitle && <p className="text-sm text-fg-muted">{subtitle}</p>}
 			</div>
 
 			{actions && actions.length > 0 && (
@@ -56,9 +54,7 @@ function DetailPanelHeader({
 							size="sm"
 							onClick={action.onClick}
 						>
-							{action.icon && (
-								<action.icon className="size-4" data-icon="inline-start" />
-							)}
+							{action.icon && <action.icon className="size-4" data-icon="inline-start" />}
 							{action.label}
 						</Button>
 					))}
@@ -77,19 +73,12 @@ export interface DetailPanelSectionProps {
 	className?: string
 }
 
-function DetailPanelSection({
-	title,
-	description,
-	children,
-	className,
-}: DetailPanelSectionProps) {
+function DetailPanelSection({ title, description, children, className }: DetailPanelSectionProps) {
 	return (
 		<div className={cn("space-y-3", className)}>
 			<div>
 				<h3 className="text-sm font-semibold text-fg">{title}</h3>
-				{description && (
-					<p className="text-sm text-fg-muted">{description}</p>
-				)}
+				{description && <p className="text-sm text-fg-muted">{description}</p>}
 			</div>
 			{children}
 		</div>

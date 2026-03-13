@@ -37,7 +37,14 @@ function getUserInitials(name: string): string {
 		.slice(0, 2)
 }
 
-export function UserMenu({ user, badge, onProfile, onSettings, onLogout, className }: UserMenuProps) {
+export function UserMenu({
+	user,
+	badge,
+	onProfile,
+	onSettings,
+	onLogout,
+	className,
+}: UserMenuProps) {
 	const displayName = user?.name ?? "Jean Dupont"
 	const displayRole = user?.role
 	const initials = getUserInitials(displayName)
@@ -62,7 +69,11 @@ export function UserMenu({ user, badge, onProfile, onSettings, onLogout, classNa
 				<div className="flex flex-col text-left">
 					<div className="flex items-center gap-1.5">
 						<span className="text-sm font-semibold text-fg">{displayName}</span>
-						{badge && <Badge variant="default" size="xs">{badge}</Badge>}
+						{badge && (
+							<Badge variant="default" size="xs">
+								{badge}
+							</Badge>
+						)}
 					</div>
 					{displayRole && <span className="text-xs text-fg-muted">{displayRole}</span>}
 				</div>
@@ -82,9 +93,7 @@ export function UserMenu({ user, badge, onProfile, onSettings, onLogout, classNa
 						{displayRole && (
 							<span className="truncate text-xs text-fg-muted font-medium">{displayRole}</span>
 						)}
-						{user?.email && (
-							<span className="truncate text-xs text-fg-muted">{user.email}</span>
-						)}
+						{user?.email && <span className="truncate text-xs text-fg-muted">{user.email}</span>}
 					</div>
 				</div>
 
@@ -112,10 +121,7 @@ export function UserMenu({ user, badge, onProfile, onSettings, onLogout, classNa
 					<>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem
-								onClick={onLogout}
-								variant="destructive"
-							>
+							<DropdownMenuItem onClick={onLogout} variant="destructive">
 								<LogOut className="mr-2 size-4" />
 								Se déconnecter
 							</DropdownMenuItem>

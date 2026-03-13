@@ -1,12 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
-import { useRouter } from "next/navigation"
 import { ArrowDown, ArrowUp } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { useRouter } from "next/navigation"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 // ---------- Column definition ----------
 
@@ -110,13 +109,9 @@ function CellRenderer({ cell }: { cell: DataGridCell }) {
 						<AvatarFallback>{getInitials(cell.name)}</AvatarFallback>
 					</Avatar>
 					<div className="min-w-0">
-						<span className="block truncate text-sm font-medium text-fg">
-							{cell.name}
-						</span>
+						<span className="block truncate text-sm font-medium text-fg">{cell.name}</span>
 						{cell.subtitle && (
-							<span className="block truncate text-xs text-fg-muted">
-								{cell.subtitle}
-							</span>
+							<span className="block truncate text-xs text-fg-muted">{cell.subtitle}</span>
 						)}
 					</div>
 				</div>
@@ -127,14 +122,10 @@ function CellRenderer({ cell }: { cell: DataGridCell }) {
 				<span
 					className={cn(
 						"inline-flex items-center gap-1 text-sm font-medium",
-						positive ? "text-positive" : "text-negative",
+						positive ? "text-positive" : "text-negative"
 					)}
 				>
-					{positive ? (
-						<ArrowUp className="size-3" />
-					) : (
-						<ArrowDown className="size-3" />
-					)}
+					{positive ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />}
 					{positive ? "+" : ""}
 					{cell.value}
 					{cell.suffix ?? "%"}
@@ -148,22 +139,11 @@ function CellRenderer({ cell }: { cell: DataGridCell }) {
 
 // ---------- Component ----------
 
-function DataGridBase({
-	title,
-	columns,
-	rows,
-	caption,
-	className,
-}: DataGridProps) {
+function DataGridBase({ title, columns, rows, caption, className }: DataGridProps) {
 	const router = useRouter()
 
 	return (
-		<div
-			className={cn(
-				"overflow-hidden rounded-lg border border-container bg-surface",
-				className,
-			)}
-		>
+		<div className={cn("overflow-hidden rounded-lg border border-container bg-surface", className)}>
 			{title && (
 				<div className="px-4 pt-3 pb-2">
 					<span className="text-sm font-medium text-fg">{title}</span>
@@ -178,17 +158,13 @@ function DataGridBase({
 									key={col.key}
 									className={cn(
 										"whitespace-nowrap px-3 py-2 text-xs font-medium text-fg-muted",
-										alignClass[col.align ?? "left"],
+										alignClass[col.align ?? "left"]
 									)}
 								>
 									<span className="inline-flex items-center gap-1">
 										{col.label}
-										{col.sorted === "asc" && (
-											<ArrowUp className="size-3 text-fg-muted" />
-										)}
-										{col.sorted === "desc" && (
-											<ArrowDown className="size-3 text-fg-muted" />
-										)}
+										{col.sorted === "asc" && <ArrowUp className="size-3 text-fg-muted" />}
+										{col.sorted === "desc" && <ArrowDown className="size-3 text-fg-muted" />}
 									</span>
 								</th>
 							))}
@@ -204,7 +180,7 @@ function DataGridBase({
 									key={i}
 									className={cn(
 										"border-b border-edge-subtle last:border-0",
-										isLink && "transition-colors hover:bg-raised/60 cursor-pointer",
+										isLink && "transition-colors hover:bg-raised/60 cursor-pointer"
 									)}
 									{...(isLink && {
 										role: "link",
@@ -219,10 +195,7 @@ function DataGridBase({
 										const raw = cells[col.key]
 										if (raw === undefined) {
 											return (
-												<td
-													key={col.key}
-													className="px-3 py-2 text-sm text-fg-muted"
-												>
+												<td key={col.key} className="px-3 py-2 text-sm text-fg-muted">
 													—
 												</td>
 											)
@@ -231,10 +204,7 @@ function DataGridBase({
 										return (
 											<td
 												key={col.key}
-												className={cn(
-													"px-3 py-2",
-													alignClass[col.align ?? "left"],
-												)}
+												className={cn("px-3 py-2", alignClass[col.align ?? "left"])}
 											>
 												<CellRenderer cell={cell} />
 											</td>

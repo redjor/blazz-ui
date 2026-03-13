@@ -1,26 +1,26 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import {
 	Menu,
-	MenuTrigger,
-	MenuPortal,
-	MenuPositioner,
-	MenuPopup,
-	MenuItem,
-	MenuSeparator,
+	MenuCheckboxItem,
 	MenuGroup,
 	MenuGroupLabel,
+	MenuItem,
+	MenuPopup,
+	MenuPortal,
+	MenuPositioner,
 	MenuRadioGroup,
 	MenuRadioItem,
-	MenuCheckboxItem,
+	MenuSeparator,
+	MenuTrigger,
 } from "@blazz/ui/components/ui/menu"
-import { User, Settings, LogOut, ChevronDown } from "lucide-react"
+import { createFileRoute } from "@tanstack/react-router"
+import { ChevronDown, LogOut, Settings, User } from "lucide-react"
+import * as React from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -204,7 +204,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/menu")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -213,8 +213,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/menu")({
 
 function MenuPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	const [notifications, setNotifications] = React.useState(true)
 	const [autoSave, setAutoSave] = React.useState(false)
@@ -261,19 +260,11 @@ function MenuPage() {
 						<MenuPortal>
 							<MenuPositioner sideOffset={8}>
 								<MenuPopup>
-									<MenuItem onClick={() => console.log("New")}>
-										New File
-									</MenuItem>
-									<MenuItem onClick={() => console.log("Open")}>
-										Open...
-									</MenuItem>
-									<MenuItem onClick={() => console.log("Save")}>
-										Save
-									</MenuItem>
+									<MenuItem onClick={() => console.log("New")}>New File</MenuItem>
+									<MenuItem onClick={() => console.log("Open")}>Open...</MenuItem>
+									<MenuItem onClick={() => console.log("Save")}>Save</MenuItem>
 									<MenuSeparator />
-									<MenuItem onClick={() => console.log("Exit")}>
-										Exit
-									</MenuItem>
+									<MenuItem onClick={() => console.log("Exit")}>Exit</MenuItem>
 								</MenuPopup>
 							</MenuPositioner>
 						</MenuPortal>
@@ -325,24 +316,16 @@ function MenuPage() {
 					highlightedCode={html("checkbox")}
 				>
 					<Menu>
-						<MenuTrigger className="px-4 py-2 rounded-md border">
-							Settings
-						</MenuTrigger>
+						<MenuTrigger className="px-4 py-2 rounded-md border">Settings</MenuTrigger>
 						<MenuPortal>
 							<MenuPositioner sideOffset={8}>
 								<MenuPopup>
 									<MenuGroup>
 										<MenuGroupLabel>Preferences</MenuGroupLabel>
-										<MenuCheckboxItem
-											checked={notifications}
-											onCheckedChange={setNotifications}
-										>
+										<MenuCheckboxItem checked={notifications} onCheckedChange={setNotifications}>
 											Enable Notifications
 										</MenuCheckboxItem>
-										<MenuCheckboxItem
-											checked={autoSave}
-											onCheckedChange={setAutoSave}
-										>
+										<MenuCheckboxItem checked={autoSave} onCheckedChange={setAutoSave}>
 											Auto-save
 										</MenuCheckboxItem>
 									</MenuGroup>
@@ -359,9 +342,7 @@ function MenuPage() {
 					highlightedCode={html("radio")}
 				>
 					<Menu>
-						<MenuTrigger className="px-4 py-2 rounded-md border">
-							Theme: {theme}
-						</MenuTrigger>
+						<MenuTrigger className="px-4 py-2 rounded-md border">Theme: {theme}</MenuTrigger>
 						<MenuPortal>
 							<MenuPositioner sideOffset={8}>
 								<MenuPopup>

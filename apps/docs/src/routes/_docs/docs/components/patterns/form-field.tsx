@@ -1,14 +1,13 @@
-import { createFileRoute, useLoaderData } from "@tanstack/react-router"
-import * as React from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { FormField } from "@blazz/ui/components/patterns/form-field"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { createFileRoute, useLoaderData } from "@tanstack/react-router"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -128,7 +127,8 @@ const formFieldProps: DocProp[] = [
 		name: "name",
 		type: "FieldPath<TFieldValues>",
 		required: true,
-		description: "Nom du champ dans le schéma react-hook-form. Doit correspondre exactement à une clé du formulaire.",
+		description:
+			"Nom du champ dans le schéma react-hook-form. Doit correspondre exactement à une clé du formulaire.",
 	},
 	{
 		name: "label",
@@ -146,7 +146,8 @@ const formFieldProps: DocProp[] = [
 		name: "type",
 		type: '"text" | "email" | "tel" | "number" | "password" | "select" | "textarea"',
 		default: '"text"',
-		description: "Type de l'input. Utiliser \"select\" avec la prop options, \"textarea\" pour les textes longs.",
+		description:
+			'Type de l\'input. Utiliser "select" avec la prop options, "textarea" pour les textes longs.',
 	},
 	{
 		name: "placeholder",
@@ -156,7 +157,8 @@ const formFieldProps: DocProp[] = [
 	{
 		name: "description",
 		type: "string",
-		description: "Texte d'aide affiché sous l'input. Masqué si une erreur de validation est présente.",
+		description:
+			"Texte d'aide affiché sous l'input. Masqué si une erreur de validation est présente.",
 	},
 	{
 		name: "required",
@@ -166,7 +168,8 @@ const formFieldProps: DocProp[] = [
 	{
 		name: "options",
 		type: "FormFieldOption[]",
-		description: 'Options du select. Requis quand type="select". Chaque option = { value: string, label: string }.',
+		description:
+			'Options du select. Requis quand type="select". Chaque option = { value: string, label: string }.',
 	},
 	{
 		name: "rows",
@@ -177,7 +180,8 @@ const formFieldProps: DocProp[] = [
 	{
 		name: "span",
 		type: "number",
-		description: "Nombre de colonnes occupées dans un FieldGrid via gridColumn: span N. Utile pour les champs pleine largeur.",
+		description:
+			"Nombre de colonnes occupées dans un FieldGrid via gridColumn: span N. Utile pour les champs pleine largeur.",
 	},
 	{
 		name: "className",
@@ -199,12 +203,7 @@ function BasicDemo() {
 	})
 	return (
 		<div className="w-full max-w-sm">
-			<FormField
-				name="name"
-				label="Nom"
-				control={control}
-				placeholder="Jean Dupont"
-			/>
+			<FormField name="name" label="Nom" control={control} placeholder="Jean Dupont" />
 		</div>
 	)
 }
@@ -386,7 +385,8 @@ function FormFieldPage() {
 						{
 							title: "Form Section",
 							href: "/docs/components/patterns/form-section",
-							description: "Groupe de champs avec titre collapsible. Contient un ou plusieurs FieldGrid.",
+							description:
+								"Groupe de champs avec titre collapsible. Contient un ou plusieurs FieldGrid.",
 						},
 						{
 							title: "Field Grid",

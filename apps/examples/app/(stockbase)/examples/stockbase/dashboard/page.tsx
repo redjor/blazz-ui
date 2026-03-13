@@ -1,22 +1,19 @@
 "use client"
 
-import { AlertTriangle, ArrowLeftRight, Package, TrendingUp } from "lucide-react"
+import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
+import { AlertTriangle, ArrowLeftRight, Package, TrendingUp } from "lucide-react"
 import {
+	movementsByCategoryChartData,
 	stockbaseDashboardStats,
 	stockValueChartData,
-	movementsByCategoryChartData,
 } from "@/lib/stockbase-data"
 
 export default function StockBaseDashboardPage() {
 	return (
 		<div className="p-6 space-y-6">
-			<PageHeader
-				title="Tableau de bord"
-				description="Vue d'ensemble de l'inventaire"
-			/>
+			<PageHeader title="Tableau de bord" description="Vue d'ensemble de l'inventaire" />
 
 			<StatsGrid
 				stats={[

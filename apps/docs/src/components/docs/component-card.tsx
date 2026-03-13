@@ -1,8 +1,8 @@
-import { useId } from "react"
-import { Link } from "@tanstack/react-router"
 import { Card } from "@blazz/ui/components/ui/card"
 import { cn } from "@blazz/ui/lib/utils"
+import { Link } from "@tanstack/react-router"
 import type { LucideIcon } from "lucide-react"
+import { useId } from "react"
 import { ComponentCardThumbnail } from "./component-card-thumbnail"
 
 export interface CategoryPageHeroProps {
@@ -52,9 +52,7 @@ export function ComponentCard({
 					className
 				)}
 			>
-				{thumbnail && (
-					<ComponentCardThumbnail slug={thumbnail} alt={title} />
-				)}
+				{thumbnail && <ComponentCardThumbnail slug={thumbnail} alt={title} />}
 				<div className="flex flex-col gap-3 p-4">
 					<Icon className="size-5 text-fg-muted" />
 					<div className="space-y-1">

@@ -1,18 +1,17 @@
 "use client"
 
+import type { SidebarConfig } from "@blazz/ui/types/navigation"
 import {
 	BarChart3,
 	Building2,
 	ClipboardList,
 	FileText,
+	Handshake,
 	LayoutDashboard,
 	Package,
 	Settings,
-	Upload,
 	Users,
-	Handshake,
 } from "lucide-react"
-import type { SidebarConfig } from "@blazz/ui/types/navigation"
 
 export const crmSidebarConfig: SidebarConfig = {
 	user: {

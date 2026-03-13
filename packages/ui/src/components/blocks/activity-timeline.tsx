@@ -1,6 +1,6 @@
+import { cn } from "../../lib/utils"
 import { withProGuard } from "../../lib/with-pro-guard"
 import { Skeleton } from "../ui/skeleton"
-import { cn } from "../../lib/utils"
 
 export interface TimelineEvent {
 	date: string
@@ -36,17 +36,11 @@ function TimelineItem({ event }: { event: TimelineEvent }) {
 
 			<div className="space-y-0.5">
 				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium text-fg">
-						{event.user}
-					</span>
-					<span className="text-xs text-fg-muted">
-						{formatEventDate(event.date)}
-					</span>
+					<span className="text-sm font-medium text-fg">{event.user}</span>
+					<span className="text-xs text-fg-muted">{formatEventDate(event.date)}</span>
 				</div>
 				<p className="text-sm text-fg">{event.action}</p>
-				{event.detail && (
-					<p className="text-sm text-fg-muted">{event.detail}</p>
-				)}
+				{event.detail && <p className="text-sm text-fg-muted">{event.detail}</p>}
 			</div>
 		</li>
 	)
@@ -68,11 +62,7 @@ function TimelineSkeleton() {
 	)
 }
 
-function ActivityTimelineBase({
-	events,
-	loading = false,
-	className,
-}: ActivityTimelineProps) {
+function ActivityTimelineBase({ events, loading = false, className }: ActivityTimelineProps) {
 	if (loading) {
 		return (
 			<ul className={cn("list-none", className)}>

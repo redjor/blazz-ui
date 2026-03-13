@@ -1,1 +1,1 @@
-export { QuickAccountSelector } from './quick-account-selector';
+export { QuickAccountSelector } from "./quick-account-selector"

@@ -1,21 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Input } from "@blazz/ui/components/ui/input"
-import { Switch } from "@blazz/ui/components/ui/switch"
 import {
 	Frame,
-	FramePanel,
-	FrameHeader,
-	FrameTitle,
 	FrameDescription,
 	FrameFooter,
+	FrameHeader,
+	FramePanel,
+	FrameTitle,
 } from "@blazz/ui/components/ui/frame-panel"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { Input } from "@blazz/ui/components/ui/input"
+import { Switch } from "@blazz/ui/components/ui/switch"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -312,7 +312,9 @@ function FramePanelPage() {
 							<div className="flex items-center justify-between">
 								<div>
 									<div className="text-sm font-medium">Notifications</div>
-									<div className="text-sm text-fg-muted">Configure email and push notifications.</div>
+									<div className="text-sm text-fg-muted">
+										Configure email and push notifications.
+									</div>
 								</div>
 							</div>
 						</FramePanel>
@@ -343,14 +345,18 @@ function FramePanelPage() {
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-2">
 									<div className="text-sm font-medium">Pro Plan</div>
-									<Badge variant="success" fill="subtle" size="xs">Active</Badge>
+									<Badge variant="success" fill="subtle" size="xs">
+										Active
+									</Badge>
 								</div>
 								<div className="text-sm font-medium">$29/mo</div>
 							</div>
 							<FrameFooter>
 								<div className="flex items-center justify-between">
 									<div className="text-xs text-fg-muted">Renews on March 15, 2026</div>
-									<Button size="sm" variant="outline">Manage</Button>
+									<Button size="sm" variant="outline">
+										Manage
+									</Button>
 								</div>
 							</FrameFooter>
 						</FramePanel>
@@ -418,7 +424,9 @@ function FramePanelPage() {
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-2">
 									<div className="text-sm font-medium">Email Digest</div>
-									<Badge variant="info" fill="subtle" size="xs">Weekly</Badge>
+									<Badge variant="info" fill="subtle" size="xs">
+										Weekly
+									</Badge>
 								</div>
 								<Switch defaultChecked />
 							</div>

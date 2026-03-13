@@ -2,9 +2,9 @@
 
 import type { Control, FieldPath, FieldValues } from "react-hook-form"
 import { Controller } from "react-hook-form"
+import { cn } from "../../lib/utils"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
-import { cn } from "../../lib/utils"
 
 export interface FormFieldOption {
 	value: string
@@ -103,11 +103,7 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 					{description && !fieldState.error && (
 						<p className="text-xs text-fg-muted">{description}</p>
 					)}
-					{fieldState.error && (
-						<p className="text-xs text-negative">
-							{fieldState.error.message}
-						</p>
-					)}
+					{fieldState.error && <p className="text-xs text-negative">{fieldState.error.message}</p>}
 				</div>
 			)}
 		/>

@@ -3,6 +3,7 @@
 import { Menu } from "lucide-react"
 import Link from "next/link"
 import * as React from "react"
+import { cn } from "../../lib/utils"
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -10,7 +11,6 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "../ui/breadcrumb"
-import { cn } from "../../lib/utils"
 import { type Breadcrumb as BreadcrumbItemType, useFrame } from "./frame-context"
 
 export interface TopBarProps {
@@ -88,10 +88,7 @@ export function TopBar({
 										{isLast || !breadcrumb.href ? (
 											<BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
 										) : (
-											<Link
-												href={breadcrumb.href}
-												className="transition-colors hover:text-fg"
-											>
+											<Link href={breadcrumb.href} className="transition-colors hover:text-fg">
 												{breadcrumb.label}
 											</Link>
 										)}

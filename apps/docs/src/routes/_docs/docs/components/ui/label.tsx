@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Label } from "@blazz/ui/components/ui/label"
-import { Input } from "@blazz/ui/components/ui/input"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
+import { Input } from "@blazz/ui/components/ui/input"
+import { Label } from "@blazz/ui/components/ui/label"
 import { Switch } from "@blazz/ui/components/ui/switch"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -22,8 +22,7 @@ const labelProps: DocProp[] = [
 	{
 		name: "htmlFor",
 		type: "string",
-		description:
-			"The id of the form element that this label is associated with.",
+		description: "The id of the form element that this label is associated with.",
 	},
 	{
 		name: "className",
@@ -74,7 +73,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/label")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -83,8 +82,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/label")({
 
 function LabelPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -161,7 +159,10 @@ function LabelPage() {
 					<li>Always use htmlFor to associate the label with its form control for accessibility</li>
 					<li>Keep label text concise and descriptive</li>
 					<li>Place labels above inputs or to the left of checkboxes and switches</li>
-					<li>Label automatically handles disabled styling via peer-disabled and group-data-disabled selectors</li>
+					<li>
+						Label automatically handles disabled styling via peer-disabled and group-data-disabled
+						selectors
+					</li>
 				</ul>
 			</DocSection>
 

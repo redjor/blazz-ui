@@ -1,46 +1,36 @@
 "use client"
 
-import * as React from "react"
-import Link from "next/link"
 import { cva, type VariantProps } from "class-variance-authority"
-import {
-	AlertCircle,
-	CheckCircle2,
-	Info,
-	AlertTriangle,
-	X,
-	type LucideIcon,
-} from "lucide-react"
+import { AlertCircle, AlertTriangle, CheckCircle2, Info, type LucideIcon, X } from "lucide-react"
+import Link from "next/link"
+import type * as React from "react"
 import { cn } from "../../lib/utils"
 import { Button, buttonVariants } from "./button"
 
-const bannerVariants = cva(
-	"relative flex gap-2 rounded-md border border-container bg-raised p-3",
-	{
-		variants: {
-			variant: {
-				default: "border-l-2",
-				outline: "",
-			},
-			tone: {
-				info: "",
-				success: "",
-				warning: "",
-				critical: "",
-			},
+const bannerVariants = cva("relative flex gap-2 rounded-md border border-container bg-raised p-3", {
+	variants: {
+		variant: {
+			default: "border-l-2",
+			outline: "",
 		},
-		compoundVariants: [
-			{ variant: "default", tone: "info", className: "border-l-inform" },
-			{ variant: "default", tone: "success", className: "border-l-positive" },
-			{ variant: "default", tone: "warning", className: "border-l-caution" },
-			{ variant: "default", tone: "critical", className: "border-l-negative" },
-		],
-		defaultVariants: {
-			variant: "default",
-			tone: "info",
+		tone: {
+			info: "",
+			success: "",
+			warning: "",
+			critical: "",
 		},
-	}
-)
+	},
+	compoundVariants: [
+		{ variant: "default", tone: "info", className: "border-l-inform" },
+		{ variant: "default", tone: "success", className: "border-l-positive" },
+		{ variant: "default", tone: "warning", className: "border-l-caution" },
+		{ variant: "default", tone: "critical", className: "border-l-negative" },
+	],
+	defaultVariants: {
+		variant: "default",
+		tone: "info",
+	},
+})
 
 const iconVariants = cva("mt-0.5 size-4 shrink-0", {
 	variants: {
@@ -90,13 +80,16 @@ export interface BannerProps
 	stopAnnouncements?: boolean
 }
 
-function ActionButton({ bannerAction, variant }: { bannerAction: BannerAction; variant: "default" | "destructive" | "outline" }) {
+function ActionButton({
+	bannerAction,
+	variant,
+}: {
+	bannerAction: BannerAction
+	variant: "default" | "destructive" | "outline"
+}) {
 	if (bannerAction.url) {
 		return (
-			<Link
-				href={bannerAction.url}
-				className={cn(buttonVariants({ variant, size: "sm" }))}
-			>
+			<Link href={bannerAction.url} className={cn(buttonVariants({ variant, size: "sm" }))}>
 				{bannerAction.content}
 			</Link>
 		)
@@ -143,7 +136,11 @@ export function Banner({
 
 			<div className="flex-1 space-y-1.5">
 				{title && <p className="text-sm font-medium">{title}</p>}
-				{children && <div className="text-sm text-fg-muted [&_a]:underline [&_p]:leading-relaxed">{children}</div>}
+				{children && (
+					<div className="text-sm text-fg-muted [&_a]:underline [&_p]:leading-relaxed">
+						{children}
+					</div>
+				)}
 
 				{(action || secondaryAction) && (
 					<div className="flex flex-wrap gap-2 pt-1">
@@ -153,12 +150,7 @@ export function Banner({
 								variant={tone === "critical" ? "destructive" : "default"}
 							/>
 						)}
-						{secondaryAction && (
-							<ActionButton
-								bannerAction={secondaryAction}
-								variant="outline"
-							/>
-						)}
+						{secondaryAction && <ActionButton bannerAction={secondaryAction} variant="outline" />}
 					</div>
 				)}
 			</div>

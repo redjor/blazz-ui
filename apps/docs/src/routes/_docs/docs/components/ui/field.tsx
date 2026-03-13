@@ -1,23 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Field,
-	FieldLabel,
-	FieldControl,
 	FieldContent,
+	FieldControl,
 	FieldDescription,
 	FieldError,
+	FieldLabel,
 } from "@blazz/ui/components/ui/field"
 import { Input } from "@blazz/ui/components/ui/input"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
-import { Button } from "@blazz/ui/components/ui/button"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -186,7 +192,8 @@ const fieldProps: DocProp[] = [
 		name: "orientation",
 		type: '"vertical" | "horizontal"',
 		default: '"vertical"',
-		description: "Layout direction of the field. Vertical stacks label above control; horizontal places them side by side.",
+		description:
+			"Layout direction of the field. Vertical stacks label above control; horizontal places them side by side.",
 	},
 	{
 		name: "className",
@@ -204,7 +211,8 @@ const fieldLabelProps: DocProp[] = [
 	{
 		name: "className",
 		type: "string",
-		description: "Additional CSS classes. Turns text-negative automatically when the field has errors.",
+		description:
+			"Additional CSS classes. Turns text-negative automatically when the field has errors.",
 	},
 ]
 
@@ -212,7 +220,8 @@ const fieldControlProps: DocProp[] = [
 	{
 		name: "children",
 		type: "ReactElement",
-		description: "The form control element. Receives id, aria-describedby, and aria-invalid via cloneElement.",
+		description:
+			"The form control element. Receives id, aria-describedby, and aria-invalid via cloneElement.",
 	},
 	{
 		name: "render",
@@ -317,12 +326,7 @@ function FieldMultipleErrorsDemo() {
 				<FieldControl>
 					<Input type="password" placeholder="Enter password" />
 				</FieldControl>
-				<FieldError
-					errors={[
-						"Must be at least 8 characters.",
-						"Must contain a number.",
-					]}
-				/>
+				<FieldError errors={["Must be at least 8 characters.", "Must contain a number."]} />
 			</Field>
 		</div>
 	)
@@ -422,8 +426,7 @@ function FieldHorizontalDemo() {
 
 function FieldHorizontalControlledDemo() {
 	const [email, setEmail] = React.useState("")
-	const error =
-		email && !email.includes("@") ? "Please enter a valid email address." : undefined
+	const error = email && !email.includes("@") ? "Please enter a valid email address." : undefined
 
 	return (
 		<div className="w-full max-w-lg">
@@ -611,11 +614,18 @@ function FieldPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Always use FieldLabel for accessibility — it auto-connects to the control via htmlFor</li>
+					<li>
+						Always use FieldLabel for accessibility — it auto-connects to the control via htmlFor
+					</li>
 					<li>Use FieldControl to inject aria attributes into your form control</li>
-					<li>Use the render prop on FieldControl for components that don't accept an id prop directly</li>
+					<li>
+						Use the render prop on FieldControl for components that don't accept an id prop directly
+					</li>
 					<li>For horizontal layouts, wrap control + description + error in FieldContent</li>
-					<li>FieldError accepts either children (static) or an errors array (dynamic, e.g. from react-hook-form)</li>
+					<li>
+						FieldError accepts either children (static) or an errors array (dynamic, e.g. from
+						react-hook-form)
+					</li>
 					<li>Field is framework-agnostic — works with or without react-hook-form</li>
 				</ul>
 			</DocSection>

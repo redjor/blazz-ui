@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -158,9 +158,7 @@ function BleedPage() {
 					<Card>
 						<CardContent>
 							<Bleed marginBlock="400">
-								<div className="bg-brand/10 px-4 py-3 text-sm">
-									This content bleeds vertically
-								</div>
+								<div className="bg-brand/10 px-4 py-3 text-sm">This content bleeds vertically</div>
 							</Bleed>
 							<p className="mt-4 text-sm">Content below the bleed</p>
 						</CardContent>

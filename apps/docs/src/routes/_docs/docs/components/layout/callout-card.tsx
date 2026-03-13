@@ -1,14 +1,14 @@
 "use client"
 
+import { CalloutCard } from "@blazz/ui/components/ui/callout-card"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
-import { CalloutCard } from "@blazz/ui/components/ui/callout-card"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocExampleSync } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { DocDoDont } from "~/components/docs/doc-do-dont"
+import { DocExampleSync } from "~/components/docs/doc-example-client"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 
 export const Route = createFileRoute("/_docs/docs/components/layout/callout-card")({
 	component: CalloutCardPage,
@@ -46,7 +46,7 @@ const calloutCardProps: DocProp[] = [
 	},
 	{
 		name: "secondaryAction",
-		type: '{ content: string; url?: string; onAction?: () => void; variant?: ButtonVariant }',
+		type: "{ content: string; url?: string; onAction?: () => void; variant?: ButtonVariant }",
 		description: "Secondary action for the card.",
 	},
 	{
@@ -150,8 +150,8 @@ function CalloutCardPage() {
 							onAction: () => alert("Learn more clicked"),
 						}}
 					>
-						Add an extra layer of security to your account by requiring a code in addition
-						to your password.
+						Add an extra layer of security to your account by requiring a code in addition to your
+						password.
 					</CalloutCard>
 				</DocExampleSync>
 

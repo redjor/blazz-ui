@@ -1,16 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { createFileRoute } from "@tanstack/react-router"
 import { Pencil, Trash2 } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
@@ -225,7 +222,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/detail-panel")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -288,8 +285,7 @@ function DetailPanelHeroDemo() {
 
 function DetailPanelPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -312,10 +308,7 @@ function DetailPanelPage() {
 				>
 					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-6">
 						<DetailPanel>
-							<DetailPanel.Header
-								title="Nextera Solutions"
-								subtitle="Client depuis janvier 2024"
-							/>
+							<DetailPanel.Header title="Nextera Solutions" subtitle="Client depuis janvier 2024" />
 							<DetailPanel.Section title="Informations générales">
 								<div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
 									<span className="text-fg-muted">Secteur</span>
@@ -399,8 +392,8 @@ function DetailPanelPage() {
 								description="Informations complémentaires sur le deal"
 							>
 								<p className="text-sm text-fg">
-									Le client a validé le POC. Signature prévue fin avril
-									après validation du comité de direction.
+									Le client a validé le POC. Signature prévue fin avril après validation du comité
+									de direction.
 								</p>
 							</DetailPanel.Section>
 						</DetailPanel>

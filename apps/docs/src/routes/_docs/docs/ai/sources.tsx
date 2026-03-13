@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
 import {
-	Sources,
-	SourcesTrigger,
-	SourcesContent,
 	Source,
+	Sources,
+	SourcesContent,
+	SourcesTrigger,
 } from "@blazz/ui/components/ai/reasoning/sources"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -68,8 +68,7 @@ const mockSources = [
 
 function SourcesPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -83,11 +82,7 @@ function SourcesPage() {
 						<SourcesTrigger count={3} />
 						<SourcesContent>
 							{mockSources.map((source) => (
-								<Source
-									key={source.href}
-									href={source.href}
-									title={source.title}
-								/>
+								<Source key={source.href} href={source.href} title={source.title} />
 							))}
 						</SourcesContent>
 					</Sources>

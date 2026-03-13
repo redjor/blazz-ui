@@ -1,32 +1,32 @@
 "use client"
 
+import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
+import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
+import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import {
+	Breadcrumb,
+	BreadcrumbItem as BreadcrumbItemPrimitive,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
+import { buttonVariants } from "@blazz/ui/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { Edit } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { use } from "react"
 import { toast } from "sonner"
-import { Edit } from "lucide-react"
-import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
-import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
-import { Badge } from "@blazz/ui/components/ui/badge"
 import {
-	Breadcrumb,
-	BreadcrumbList,
-	BreadcrumbItem as BreadcrumbItemPrimitive,
-	BreadcrumbLink,
-	BreadcrumbSeparator,
-	BreadcrumbPage,
-} from "@blazz/ui/components/ui/breadcrumb"
-import { buttonVariants } from "@blazz/ui/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
-import {
+	formatCurrency,
+	formatDate,
 	getCompanyById,
 	getContactsByCompany,
 	getDealsByCompany,
-	formatCurrency,
-	formatDate,
 	recentActivities,
 } from "@/lib/sample-data"
 
@@ -53,11 +53,7 @@ const stageLabel: Record<string, string> = {
 	closed_lost: "Perdu",
 }
 
-export default function CompanyDetailPage({
-	params,
-}: {
-	params: Promise<{ id: string }>
-}) {
+export default function CompanyDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = use(params)
 	const company = getCompanyById(id)
 
@@ -130,7 +126,10 @@ export default function CompanyDetailPage({
 								<FieldGrid columns={3}>
 									<Field label="Secteur" value={company.industry} />
 									<Field label="Taille" value={company.size} />
-									<Field label="Chiffre d'affaires" value={company.revenue ? formatCurrency(company.revenue) : "—"} />
+									<Field
+										label="Chiffre d'affaires"
+										value={company.revenue ? formatCurrency(company.revenue) : "—"}
+									/>
 									<Field label="Téléphone" value={company.phone ?? "—"} />
 									<Field label="Email" value={company.email ?? "—"} />
 									<Field label="Site web" value={company.domain ?? "—"} />
@@ -187,7 +186,9 @@ export default function CompanyDetailPage({
 													<p className="text-sm font-medium">
 														{ct.firstName} {ct.lastName}
 														{ct.isPrimary && (
-															<Badge variant="outline" className="ml-2 text-xs">Principal</Badge>
+															<Badge variant="outline" className="ml-2 text-xs">
+																Principal
+															</Badge>
 														)}
 													</p>
 													<p className="text-xs text-fg-muted">{ct.jobTitle}</p>

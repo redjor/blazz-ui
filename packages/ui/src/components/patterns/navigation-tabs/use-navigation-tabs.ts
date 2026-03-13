@@ -1,8 +1,8 @@
 "use client"
 
 import { useContext } from "react"
-import { NavigationTabsContext } from "./navigation-tabs-provider"
 import type { NavigationTabsContextValue } from "./navigation-tabs-provider"
+import { NavigationTabsContext } from "./navigation-tabs-provider"
 
 export type { NavigationTabsContextValue }
 

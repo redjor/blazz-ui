@@ -1,12 +1,12 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { Stepper } from "@blazz/ui/components/ui/stepper"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -26,7 +26,8 @@ const stepperProps: DocProp[] = [
 	{
 		name: "activeStep",
 		type: "number",
-		description: "The current active step index (0-based). Steps before this index are marked as completed.",
+		description:
+			"The current active step index (0-based). Steps before this index are marked as completed.",
 	},
 	{
 		name: "variant",
@@ -156,7 +157,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/stepper")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -249,9 +250,7 @@ function SegmentedStepperDemo() {
 	return (
 		<div className="space-y-6">
 			<Stepper variant="segmented" steps={segmentedSteps} activeStep={activeStep} />
-			<p className="text-center text-sm text-fg-muted">
-				Step {activeStep + 1} content
-			</p>
+			<p className="text-center text-sm text-fg-muted">Step {activeStep + 1} content</p>
 			<div className="flex items-center justify-center gap-3">
 				<button
 					type="button"
@@ -285,11 +284,7 @@ function VerticalStepperDemo() {
 
 	return (
 		<div className="space-y-6">
-			<Stepper
-				orientation="vertical"
-				steps={verticalSteps}
-				activeStep={activeStep}
-			/>
+			<Stepper orientation="vertical" steps={verticalSteps} activeStep={activeStep} />
 			<p className="text-center text-sm text-fg-muted">
 				{verticalSteps[activeStep]?.label} content
 			</p>
@@ -317,8 +312,7 @@ function VerticalStepperDemo() {
 
 function StepperPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -466,9 +460,18 @@ function StepperPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Use <code className="text-fg text-xs">progress-bar</code> variant for form wizards where step names matter</li>
-					<li>Use <code className="text-fg text-xs">segmented</code> variant for minimal flows where only progress matters</li>
-					<li>Use <code className="text-fg text-xs">default</code> vertical for sidebar or narrow layouts with descriptions</li>
+					<li>
+						Use <code className="text-fg text-xs">progress-bar</code> variant for form wizards where
+						step names matter
+					</li>
+					<li>
+						Use <code className="text-fg text-xs">segmented</code> variant for minimal flows where
+						only progress matters
+					</li>
+					<li>
+						Use <code className="text-fg text-xs">default</code> vertical for sidebar or narrow
+						layouts with descriptions
+					</li>
 					<li>Keep step labels short and descriptive</li>
 					<li>Manage activeStep externally to control navigation</li>
 					<li>Use 3-7 steps for the best user experience</li>

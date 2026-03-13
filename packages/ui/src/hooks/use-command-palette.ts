@@ -96,7 +96,7 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 
 		document.addEventListener("keydown", down)
 		return () => document.removeEventListener("keydown", down)
-	}, [])
+	}, [isOpen, setIsOpen])
 
 	// Navigate to a command item
 	const navigate = React.useCallback(
@@ -119,7 +119,7 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 			router.push(item.url)
 			setIsOpen(false)
 		},
-		[recentItems, router]
+		[recentItems, router, setIsOpen]
 	)
 
 	return {

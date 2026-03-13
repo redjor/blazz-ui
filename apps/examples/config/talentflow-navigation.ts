@@ -1,7 +1,7 @@
 "use client"
 
-import { Briefcase, LayoutDashboard, Users } from "lucide-react"
 import type { SidebarConfig } from "@blazz/ui/types/navigation"
+import { Briefcase, LayoutDashboard, Users } from "lucide-react"
 
 export const talentflowSidebarConfig: SidebarConfig = {
 	user: {

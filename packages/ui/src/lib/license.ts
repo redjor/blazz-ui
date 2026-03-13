@@ -24,15 +24,13 @@ async function computeHmac(payload: string): Promise<string> {
 		enc.encode(HMAC_SECRET),
 		{ name: "HMAC", hash: "SHA-256" },
 		false,
-		["sign"],
+		["sign"]
 	)
 	const sig = await crypto.subtle.sign("HMAC", key, enc.encode(payload))
 	return bytesToHex(new Uint8Array(sig)).slice(0, 16)
 }
 
-export function parseLicenseKey(
-	key: string,
-): {
+export function parseLicenseKey(key: string): {
 	plan: string
 	orgId: string
 	expiry: string
@@ -53,9 +51,7 @@ function parseExpiry(expiry: string): Date {
 	return new Date(y, m, d)
 }
 
-export async function validateLicense(
-	key: string,
-): Promise<LicenseInfo | null> {
+export async function validateLicense(key: string): Promise<LicenseInfo | null> {
 	const parsed = parseLicenseKey(key)
 	if (!parsed) return null
 

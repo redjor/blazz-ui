@@ -1,12 +1,11 @@
-'use client'
+"use client"
+
 // 'use client' justifié: useState pour onglet actif et checkbox eligibility
 
-import { useState } from "react"
-import { X } from "lucide-react"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { RadioGroup } from "@blazz/ui/components/ui/radio-group"
 import {
 	Select,
@@ -15,6 +14,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { X } from "lucide-react"
+import { useState } from "react"
 
 const tabs = [
 	{ id: "monthly", label: "Monthly Fee" },
@@ -76,7 +77,14 @@ export function SandboxPreview() {
 								</span>
 								<Input type="number" defaultValue="0.00" step="0.01" min="0" className="pl-7" />
 							</div>
-							<Select defaultValue="eur" items={[{ value: "eur", label: "🇪🇺 EUR" }, { value: "usd", label: "🇺🇸 USD" }, { value: "gbp", label: "🇬🇧 GBP" }]}>
+							<Select
+								defaultValue="eur"
+								items={[
+									{ value: "eur", label: "🇪🇺 EUR" },
+									{ value: "usd", label: "🇺🇸 USD" },
+									{ value: "gbp", label: "🇬🇧 GBP" },
+								]}
+							>
 								<SelectTrigger className="w-28">
 									<SelectValue />
 								</SelectTrigger>
@@ -97,7 +105,13 @@ export function SandboxPreview() {
 							</span>
 						</div>
 						<div className="px-6 py-4 flex flex-col gap-3">
-							<Select items={[{ value: "none", label: "None" }, { value: "existing", label: "Existing Account" }, { value: "verified", label: "Verified User" }]}>
+							<Select
+								items={[
+									{ value: "none", label: "None" },
+									{ value: "existing", label: "Existing Account" },
+									{ value: "verified", label: "Verified User" },
+								]}
+							>
 								<SelectTrigger className="w-full">
 									<SelectValue placeholder="Prerequisites" />
 								</SelectTrigger>

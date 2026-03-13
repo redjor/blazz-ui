@@ -1,6 +1,6 @@
+import { getAuthUserId } from "@convex-dev/auth/server"
 import type { GenericQueryCtx } from "convex/server"
 import { ConvexError } from "convex/values"
-import { getAuthUserId } from "@convex-dev/auth/server"
 
 /**
  * Vérifie que l'utilisateur est authentifié.

@@ -1,17 +1,14 @@
-import { useState, useCallback } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import type { KanbanColumn } from "@blazz/ui/components/blocks/kanban-board"
+import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { useCallback, useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -40,7 +37,8 @@ const kanbanBoardProps: DocProp[] = [
 	{
 		name: "onMove",
 		type: "(itemId: string, fromColumn: string, toColumn: string) => void | Promise<void>",
-		description: "Callback when an item is dragged to another column. Omit to disable drag-and-drop.",
+		description:
+			"Callback when an item is dragged to another column. Omit to disable drag-and-drop.",
 	},
 	{
 		name: "renderCard",
@@ -93,9 +91,21 @@ interface Deal {
 
 const sampleDeals: Deal[] = [
 	{ id: "1", name: "Refonte SI", company: "Acme Corp", amount: 45000, stage: "qualification" },
-	{ id: "2", name: "Migration Cloud", company: "TechVision", amount: 120000, stage: "qualification" },
+	{
+		id: "2",
+		name: "Migration Cloud",
+		company: "TechVision",
+		amount: 120000,
+		stage: "qualification",
+	},
 	{ id: "3", name: "App Mobile", company: "RetailPlus", amount: 35000, stage: "proposition" },
-	{ id: "4", name: "ERP Integration", company: "IndustrieMax", amount: 85000, stage: "proposition" },
+	{
+		id: "4",
+		name: "ERP Integration",
+		company: "IndustrieMax",
+		amount: 85000,
+		stage: "proposition",
+	},
 	{ id: "5", name: "Data Platform", company: "FinanceOne", amount: 200000, stage: "negociation" },
 	{ id: "6", name: "CRM Setup", company: "StartupLab", amount: 18000, stage: "negociation" },
 	{ id: "7", name: "Audit Securite", company: "BankSecure", amount: 55000, stage: "gagne" },
@@ -115,9 +125,7 @@ function DealCard({ deal }: { deal: Deal }) {
 				<span className="text-sm font-medium text-fg">{deal.name}</span>
 			</div>
 			<p className="text-xs text-fg-muted">{deal.company}</p>
-			<p className="text-sm font-semibold text-fg">
-				{deal.amount.toLocaleString("fr-FR")} €
-			</p>
+			<p className="text-sm font-semibold text-fg">{deal.amount.toLocaleString("fr-FR")} €</p>
 		</div>
 	)
 }
@@ -239,7 +247,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/kanban-board")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -249,17 +257,15 @@ export const Route = createFileRoute("/_docs/docs/blocks/kanban-board")({
 function HeroDemo() {
 	const [deals, setDeals] = useState<Deal[]>(sampleDeals)
 
-	const handleMove = useCallback(
-		(itemId: string, _from: string, toColumn: string) => {
-			setDeals((prev) =>
-				prev.map((d) => (d.id === itemId ? { ...d, stage: toColumn } : d)),
-			)
-		},
-		[],
-	)
+	const handleMove = useCallback((itemId: string, _from: string, toColumn: string) => {
+		setDeals((prev) => prev.map((d) => (d.id === itemId ? { ...d, stage: toColumn } : d)))
+	}, [])
 
 	return (
-		<div className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden p-4" style={{ minHeight: 420 }}>
+		<div
+			className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden p-4"
+			style={{ minHeight: 420 }}
+		>
 			<KanbanBoard
 				columns={pipelineColumns}
 				items={deals}
@@ -284,17 +290,13 @@ function BasicPipelineDemo() {
 			items={deals}
 			getColumnId={(d) => d.stage}
 			onMove={(id, _from, to) => {
-				setDeals((prev) =>
-					prev.map((d) => (d.id === id ? { ...d, stage: to } : d)),
-				)
+				setDeals((prev) => prev.map((d) => (d.id === id ? { ...d, stage: to } : d)))
 			}}
 			renderCard={(deal) => (
 				<div className="rounded-lg border border-edge bg-surface p-3 space-y-1">
 					<p className="text-sm font-medium text-fg">{deal.name}</p>
 					<p className="text-xs text-fg-muted">{deal.company}</p>
-					<p className="text-sm font-semibold text-fg">
-						{deal.amount.toLocaleString("fr-FR")} €
-					</p>
+					<p className="text-sm font-semibold text-fg">{deal.amount.toLocaleString("fr-FR")} €</p>
 				</div>
 			)}
 		/>
@@ -304,7 +306,13 @@ function BasicPipelineDemo() {
 function CustomCardDemo() {
 	const [deals, setDeals] = useState<Deal[]>([
 		{ id: "1", name: "Refonte SI", company: "Acme Corp", amount: 45000, stage: "qualification" },
-		{ id: "2", name: "Migration Cloud", company: "TechVision", amount: 120000, stage: "qualification" },
+		{
+			id: "2",
+			name: "Migration Cloud",
+			company: "TechVision",
+			amount: 120000,
+			stage: "qualification",
+		},
 		{ id: "3", name: "App Mobile", company: "RetailPlus", amount: 35000, stage: "proposition" },
 		{ id: "4", name: "Data Platform", company: "FinanceOne", amount: 200000, stage: "negociation" },
 	])
@@ -315,9 +323,7 @@ function CustomCardDemo() {
 			items={deals}
 			getColumnId={(d) => d.stage}
 			onMove={(id, _from, to) => {
-				setDeals((prev) =>
-					prev.map((d) => (d.id === id ? { ...d, stage: to } : d)),
-				)
+				setDeals((prev) => prev.map((d) => (d.id === id ? { ...d, stage: to } : d)))
 			}}
 			renderCard={(deal) => (
 				<div className="rounded-lg border border-edge bg-surface p-3 space-y-2">
@@ -328,9 +334,7 @@ function CustomCardDemo() {
 						</Badge>
 					</div>
 					<p className="text-xs text-fg-muted">{deal.company}</p>
-					<p className="text-sm font-semibold text-fg">
-						{deal.amount.toLocaleString("fr-FR")} €
-					</p>
+					<p className="text-sm font-semibold text-fg">{deal.amount.toLocaleString("fr-FR")} €</p>
 				</div>
 			)}
 		/>
@@ -353,9 +357,7 @@ function ReadOnlyDemo() {
 				<div className="rounded-lg border border-edge bg-surface p-3 space-y-1">
 					<p className="text-sm font-medium text-fg">{deal.name}</p>
 					<p className="text-xs text-fg-muted">{deal.company}</p>
-					<p className="text-sm font-semibold text-fg">
-						{deal.amount.toLocaleString("fr-FR")} €
-					</p>
+					<p className="text-sm font-semibold text-fg">{deal.amount.toLocaleString("fr-FR")} €</p>
 				</div>
 			)}
 		/>
@@ -364,8 +366,7 @@ function ReadOnlyDemo() {
 
 function KanbanBoardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

@@ -5,23 +5,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 		<div className="flex min-h-svh flex-col items-center justify-center bg-raised/40 px-4">
 			{/* Branding */}
 			<div className="mb-8 text-center">
-				<h1 className="text-2xl font-bold tracking-tight text-fg">
-					Forge CRM
-				</h1>
-				<p className="text-sm text-fg-muted">
-					Gestion commerciale intelligente
-				</p>
+				<h1 className="text-2xl font-bold tracking-tight text-fg">Forge CRM</h1>
+				<p className="text-sm text-fg-muted">Gestion commerciale intelligente</p>
 			</div>
 
 			{/* Auth card */}
-			<div className="w-full max-w-sm rounded-xl border bg-surface p-6 shadow-sm">
-				{children}
-			</div>
+			<div className="w-full max-w-sm rounded-xl border bg-surface p-6 shadow-sm">{children}</div>
 
 			{/* Footer */}
-			<p className="mt-6 text-xs text-fg-muted">
-				Pro UI Kit by Blazz
-			</p>
+			<p className="mt-6 text-xs text-fg-muted">Pro UI Kit by Blazz</p>
 		</div>
 	)
 }

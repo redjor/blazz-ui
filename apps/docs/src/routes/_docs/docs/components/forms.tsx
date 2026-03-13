@@ -1,10 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
+import { createFileRoute } from "@tanstack/react-router"
 import {
+	AlignLeft,
 	CalendarDays,
 	CalendarIcon,
 	CheckSquare,
+	ChevronDown,
 	Circle,
 	Clock,
 	DollarSign,
@@ -14,16 +15,15 @@ import {
 	KeyRound,
 	Palette,
 	Phone,
-	ChevronDown,
 	Search,
 	SlidersHorizontal,
 	Star,
 	Tag,
 	ToggleLeft,
 	Type,
-	AlignLeft,
 	Upload,
 } from "lucide-react"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 
 export const Route = createFileRoute("/_docs/docs/components/forms")({
 	component: FormsPage,
@@ -33,8 +33,7 @@ const formComponents = [
 	{
 		title: "Calendar",
 		href: "/docs/components/ui/calendar",
-		description:
-			"An inline date calendar built on react-day-picker for standalone date selection.",
+		description: "An inline date calendar built on react-day-picker for standalone date selection.",
 		icon: CalendarIcon,
 		thumbnail: "calendar",
 	},
@@ -81,16 +80,14 @@ const formComponents = [
 	{
 		title: "Field",
 		href: "/docs/components/ui/field",
-		description:
-			"A wrapper component for form inputs with label, description, and error handling.",
+		description: "A wrapper component for form inputs with label, description, and error handling.",
 		icon: FileText,
 		thumbnail: "form-field",
 	},
 	{
 		title: "File Upload",
 		href: "/docs/components/ui/file-upload",
-		description:
-			"A drag-and-drop file upload zone with preview, progress, and validation support.",
+		description: "A drag-and-drop file upload zone with preview, progress, and validation support.",
 		icon: Upload,
 		thumbnail: "file-upload",
 	},
@@ -105,8 +102,7 @@ const formComponents = [
 	{
 		title: "Label",
 		href: "/docs/components/ui/label",
-		description:
-			"A label component for form controls with proper association and accessibility.",
+		description: "A label component for form controls with proper association and accessibility.",
 		icon: Tag,
 		thumbnail: "label",
 	},
@@ -121,16 +117,14 @@ const formComponents = [
 	{
 		title: "OTP Input",
 		href: "/docs/components/ui/otp-input",
-		description:
-			"A one-time password input with individual digit slots and auto-advance behavior.",
+		description: "A one-time password input with individual digit slots and auto-advance behavior.",
 		icon: KeyRound,
 		thumbnail: "otp-input",
 	},
 	{
 		title: "Password Input",
 		href: "/docs/components/ui/password-input",
-		description:
-			"A text input with show/hide password toggle and optional strength indicator.",
+		description: "A text input with show/hide password toggle and optional strength indicator.",
 		icon: Eye,
 		thumbnail: "password-input",
 	},
@@ -145,24 +139,21 @@ const formComponents = [
 	{
 		title: "Radio Group",
 		href: "/docs/components/ui/radio-group",
-		description:
-			"A set of mutually exclusive options where only one can be selected at a time.",
+		description: "A set of mutually exclusive options where only one can be selected at a time.",
 		icon: Circle,
 		thumbnail: "radio-group",
 	},
 	{
 		title: "Rating",
 		href: "/docs/components/ui/rating",
-		description:
-			"A star-based rating input for collecting user feedback on a numeric scale.",
+		description: "A star-based rating input for collecting user feedback on a numeric scale.",
 		icon: Star,
 		thumbnail: "rating",
 	},
 	{
 		title: "Search Input",
 		href: "/docs/components/ui/search-input",
-		description:
-			"A text input with search icon and optional clear button for search interactions.",
+		description: "A text input with search icon and optional clear button for search interactions.",
 		icon: Search,
 		thumbnail: "search-input",
 	},
@@ -177,16 +168,14 @@ const formComponents = [
 	{
 		title: "Slider",
 		href: "/docs/components/ui/slider",
-		description:
-			"A range control for selecting a numeric value within a defined min/max range.",
+		description: "A range control for selecting a numeric value within a defined min/max range.",
 		icon: SlidersHorizontal,
 		thumbnail: "slider",
 	},
 	{
 		title: "Switch",
 		href: "/docs/components/ui/switch",
-		description:
-			"A toggle switch for binary choices with clear on/off states.",
+		description: "A toggle switch for binary choices with clear on/off states.",
 		icon: ToggleLeft,
 		thumbnail: "switch",
 	},
@@ -201,16 +190,14 @@ const formComponents = [
 	{
 		title: "Textarea",
 		href: "/docs/components/ui/textarea",
-		description:
-			"A multi-line text input field with auto-resize and character count support.",
+		description: "A multi-line text input field with auto-resize and character count support.",
 		icon: AlignLeft,
 		thumbnail: "textarea",
 	},
 	{
 		title: "Time Picker",
 		href: "/docs/components/ui/time-picker",
-		description:
-			"A time selection input with hour, minute, and optional AM/PM controls.",
+		description: "A time selection input with hour, minute, and optional AM/PM controls.",
 		icon: Clock,
 		thumbnail: "time-picker",
 	},

@@ -1,19 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router"
-import type { LanguageModelUsage } from "ai"
 import {
 	Context,
-	ContextTrigger,
 	ContextContent,
-	ContextContentHeader,
 	ContextContentBody,
 	ContextContentFooter,
+	ContextContentHeader,
 	ContextInputUsage,
 	ContextOutputUsage,
+	ContextTrigger,
 } from "@blazz/ui/components/ai/tools/context"
+import { createFileRoute } from "@tanstack/react-router"
+import type { LanguageModelUsage } from "ai"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -87,7 +87,11 @@ const toc = [{ id: "examples", title: "Examples" }]
 function mockUsage(input: number, output: number): LanguageModelUsage {
 	return {
 		inputTokens: input,
-		inputTokenDetails: { noCacheTokens: input, cacheReadTokens: undefined, cacheWriteTokens: undefined },
+		inputTokenDetails: {
+			noCacheTokens: input,
+			cacheReadTokens: undefined,
+			cacheWriteTokens: undefined,
+		},
 		outputTokens: output,
 		outputTokenDetails: { textTokens: output, reasoningTokens: undefined },
 		totalTokens: input + output,
@@ -96,8 +100,7 @@ function mockUsage(input: number, output: number): LanguageModelUsage {
 
 function ContextPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -185,10 +188,7 @@ function ContextPage() {
 					code={examples[2].code}
 					highlightedCode={html("without-model")}
 				>
-					<Context
-						usedTokens={15000}
-						maxTokens={32000}
-					>
+					<Context usedTokens={15000} maxTokens={32000}>
 						<ContextTrigger />
 						<ContextContent>
 							<ContextContentHeader />

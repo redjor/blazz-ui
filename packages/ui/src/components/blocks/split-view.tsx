@@ -1,8 +1,8 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useState, useCallback, useRef, useEffect } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 
 export interface SplitViewProps {
 	master: React.ReactNode
@@ -62,10 +62,7 @@ function SplitViewBase({
 			className={cn("flex h-full overflow-hidden rounded-lg border", className)}
 		>
 			{/* Master panel */}
-			<div
-				className="overflow-y-auto border-r"
-				style={{ width: `${ratio * 100}%` }}
-			>
+			<div className="overflow-y-auto border-r" style={{ width: `${ratio * 100}%` }}>
 				{master}
 			</div>
 
@@ -78,9 +75,7 @@ function SplitViewBase({
 			</div>
 
 			{/* Detail panel */}
-			<div className="flex-1 overflow-y-auto">
-				{detail || emptyDetail}
-			</div>
+			<div className="flex-1 overflow-y-auto">{detail || emptyDetail}</div>
 		</div>
 	)
 }

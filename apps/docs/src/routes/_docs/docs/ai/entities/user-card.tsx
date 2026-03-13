@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { UserCard } from "@blazz/ui/components/ai/generative/entities/user-card"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -27,9 +27,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/entities/user-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/entities/user-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -46,8 +44,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function UserCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -60,7 +57,6 @@ function UserCardPage() {
 					<UserCard
 						name="Jean Dupont"
 						avatar="https://i.pravatar.cc/150?u=jean"
-						role="Account Executive"
 						department="Sales"
 						status="online"
 					/>
@@ -78,7 +74,6 @@ function UserCardPage() {
 						<UserCard
 							name="Jean Dupont"
 							avatar="https://i.pravatar.cc/150?u=jean"
-							role="Account Executive"
 							department="Sales"
 							status="online"
 						/>
@@ -92,9 +87,24 @@ function UserCardPage() {
 					highlightedCode={html("team-list")}
 				>
 					<div className="max-w-xs space-y-2">
-						<UserCard name="Jean Dupont" avatar="https://i.pravatar.cc/150?u=jean" role="AE" department="Sales" status="online" />
-						<UserCard name="Marie Martin" avatar="https://i.pravatar.cc/150?u=mariem" role="CSM" department="Success" status="busy" />
-						<UserCard name="Paul Bernard" avatar="https://i.pravatar.cc/150?u=paul" role="SDR" department="Sales" status="away" />
+						<UserCard
+							name="Jean Dupont"
+							avatar="https://i.pravatar.cc/150?u=jean"
+							department="Sales"
+							status="online"
+						/>
+						<UserCard
+							name="Marie Martin"
+							avatar="https://i.pravatar.cc/150?u=mariem"
+							department="Success"
+							status="busy"
+						/>
+						<UserCard
+							name="Paul Bernard"
+							avatar="https://i.pravatar.cc/150?u=paul"
+							department="Sales"
+							status="away"
+						/>
 					</div>
 				</DocExampleClient>
 			</DocSection>

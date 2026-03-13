@@ -1,19 +1,13 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
+import type { StatusDefinition, StatusTransition } from "@blazz/ui/components/blocks/status-flow"
 import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
-import type {
-	StatusDefinition,
-	StatusTransition,
-} from "@blazz/ui/components/blocks/status-flow"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
@@ -182,12 +176,14 @@ const statusFlowProps: DocProp[] = [
 		name: "transitions",
 		type: "StatusTransition[]",
 		default: "[]",
-		description: "Available transitions from each status. Buttons are shown for transitions matching the current status.",
+		description:
+			"Available transitions from each status. Buttons are shown for transitions matching the current status.",
 	},
 	{
 		name: "onTransition",
 		type: "(from: string, to: string) => void | Promise<void>",
-		description: "Callback when a transition button is clicked. Supports async handlers with automatic loading state.",
+		description:
+			"Callback when a transition button is clicked. Supports async handlers with automatic loading state.",
 	},
 	{
 		name: "className",
@@ -210,7 +206,8 @@ const statusDefinitionProps: DocProp[] = [
 	{
 		name: "color",
 		type: '"gray" | "blue" | "green" | "yellow" | "red" | "purple"',
-		description: "Color theme for the status badge. Active status uses a solid variant, past statuses use a light variant, future statuses are dimmed.",
+		description:
+			"Color theme for the status badge. Active status uses a solid variant, past statuses use a light variant, future statuses are dimmed.",
 	},
 ]
 
@@ -218,7 +215,8 @@ const statusTransitionProps: DocProp[] = [
 	{
 		name: "from",
 		type: "string",
-		description: "Source status id. The transition button only appears when currentStatus matches this value.",
+		description:
+			"Source status id. The transition button only appears when currentStatus matches this value.",
 	},
 	{
 		name: "to",
@@ -228,12 +226,13 @@ const statusTransitionProps: DocProp[] = [
 	{
 		name: "action",
 		type: "string",
-		description: "Label for the transition button (e.g. \"Qualifier\", \"Envoyer proposition\").",
+		description: 'Label for the transition button (e.g. "Qualifier", "Envoyer proposition").',
 	},
 	{
 		name: "role",
 		type: "string",
-		description: "Optional role hint for documentation or permission checks (e.g. \"commercial\", \"logistique\").",
+		description:
+			'Optional role hint for documentation or permission checks (e.g. "commercial", "logistique").',
 	},
 ]
 
@@ -259,7 +258,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/status-flow")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -339,8 +338,7 @@ function OrderFlowDemo() {
 
 function StatusFlowPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -410,7 +408,8 @@ function StatusFlowPage() {
 						{
 							title: "Multi Step Form",
 							href: "/docs/blocks/multi-step-form",
-							description: "Step-by-step form wizard with validation, progress indicator, and navigation.",
+							description:
+								"Step-by-step form wizard with validation, progress indicator, and navigation.",
 						},
 						{
 							title: "Stats Grid",

@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Phone, Mail, FileText, Calendar } from "lucide-react"
 import { Timeline } from "@blazz/ui/components/ai/generative/planning/timeline"
+import { createFileRoute } from "@tanstack/react-router"
+import { Calendar, FileText, Mail, Phone } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -31,9 +31,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/planning/timeline"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/planning/timeline")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -50,8 +48,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function TimelinePage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -64,10 +61,32 @@ function TimelinePage() {
 					<Timeline
 						title="Recent Activity"
 						items={[
-							{ icon: <Phone className="size-4" />, title: "Call with Laura Chen", description: "Discussed enterprise pricing", time: "2h ago", variant: "success" },
-							{ icon: <Mail className="size-4" />, title: "Email sent to Acme Corp", description: "Proposal follow-up", time: "5h ago" },
-							{ icon: <FileText className="size-4" />, title: "Quote #247 created", description: "$48,000 — Enterprise License", time: "Yesterday" },
-							{ icon: <Calendar className="size-4" />, title: "Meeting scheduled", description: "Demo with engineering team", time: "2 days ago", variant: "info" },
+							{
+								icon: <Phone className="size-4" />,
+								title: "Call with Laura Chen",
+								description: "Discussed enterprise pricing",
+								time: "2h ago",
+								variant: "success",
+							},
+							{
+								icon: <Mail className="size-4" />,
+								title: "Email sent to Acme Corp",
+								description: "Proposal follow-up",
+								time: "5h ago",
+							},
+							{
+								icon: <FileText className="size-4" />,
+								title: "Quote #247 created",
+								description: "$48,000 — Enterprise License",
+								time: "Yesterday",
+							},
+							{
+								icon: <Calendar className="size-4" />,
+								title: "Meeting scheduled",
+								description: "Demo with engineering team",
+								time: "2 days ago",
+								variant: "info",
+							},
 						]}
 					/>
 				</div>
@@ -84,9 +103,18 @@ function TimelinePage() {
 						<Timeline
 							title="Recent Activity"
 							items={[
-								{ icon: <Phone className="size-4" />, title: "Call with Laura", time: "2h ago", variant: "success" },
+								{
+									icon: <Phone className="size-4" />,
+									title: "Call with Laura",
+									time: "2h ago",
+									variant: "success",
+								},
 								{ icon: <Mail className="size-4" />, title: "Email sent", time: "5h ago" },
-								{ icon: <FileText className="size-4" />, title: "Quote created", time: "Yesterday" },
+								{
+									icon: <FileText className="size-4" />,
+									title: "Quote created",
+									time: "Yesterday",
+								},
 							]}
 						/>
 					</div>

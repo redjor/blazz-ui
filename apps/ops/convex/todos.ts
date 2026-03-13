@@ -58,7 +58,11 @@ export const listByDate = query({
 		const priorityOrder: Record<string, number> = { urgent: 0, high: 1, normal: 2, low: 3 }
 		return todos
 			.filter((t) => t.dueDate === date && t.status !== "done")
-			.sort((a, b) => (priorityOrder[a.priority ?? "normal"] ?? 2) - (priorityOrder[b.priority ?? "normal"] ?? 2))
+			.sort(
+				(a, b) =>
+					(priorityOrder[a.priority ?? "normal"] ?? 2) -
+					(priorityOrder[b.priority ?? "normal"] ?? 2)
+			)
 	},
 })
 
@@ -92,7 +96,20 @@ export const create = mutation({
 		tags: v.optional(v.array(v.string())),
 		priority: v.optional(priorityValidator),
 	},
-	handler: async (ctx, { text, description, status = "triage", source = "app", dueDate, projectId, categoryId, tags, priority }) => {
+	handler: async (
+		ctx,
+		{
+			text,
+			description,
+			status = "triage",
+			source = "app",
+			dueDate,
+			projectId,
+			categoryId,
+			tags,
+			priority,
+		}
+	) => {
 		const { userId } = await requireAuth(ctx)
 		return ctx.db.insert("todos", {
 			text,
@@ -140,7 +157,10 @@ export const update = mutation({
 		categoryId: v.optional(v.union(v.id("categories"), v.null())),
 		tags: v.optional(v.union(v.array(v.string()), v.null())),
 	},
-	handler: async (ctx, { id, text, description, priority, dueDate, projectId, categoryId, tags }) => {
+	handler: async (
+		ctx,
+		{ id, text, description, priority, dueDate, projectId, categoryId, tags }
+	) => {
 		const { userId } = await requireAuth(ctx)
 		const todo = await ctx.db.get(id)
 		if (!todo || todo.userId !== userId) throw new ConvexError("Introuvable")

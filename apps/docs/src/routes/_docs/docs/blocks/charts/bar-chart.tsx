@@ -1,14 +1,14 @@
 "use client"
 
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleSync } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { BarChartBlock } from "@blazz/ui/components/blocks/bar-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleSync } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 
 export const Route = createFileRoute("/_docs/docs/blocks/charts/bar-chart")({
 	component: BarChartPage,
@@ -35,7 +35,8 @@ const barChartProps: DocProp[] = [
 	{
 		name: "data",
 		type: "Record<string, unknown>[]",
-		description: "Array of data points. Each object should contain the xKey field and one field per series defined in config.",
+		description:
+			"Array of data points. Each object should contain the xKey field and one field per series defined in config.",
 	},
 	{
 		name: "config",
@@ -91,7 +92,12 @@ function BarChartPage() {
 		>
 			<DocHero>
 				<div className="max-w-lg">
-					<BarChartBlock title="Revenus mensuels" description="Récurrent vs ponctuel" data={revenueData} config={revenueConfig} />
+					<BarChartBlock
+						title="Revenus mensuels"
+						description="Récurrent vs ponctuel"
+						data={revenueData}
+						config={revenueConfig}
+					/>
 				</div>
 			</DocHero>
 
@@ -146,7 +152,12 @@ const config = {
 />`}
 				>
 					<div className="max-w-lg">
-						<BarChartBlock title="Revenus mensuels" description="Récurrent vs ponctuel" data={revenueData} config={revenueConfig} />
+						<BarChartBlock
+							title="Revenus mensuels"
+							description="Récurrent vs ponctuel"
+							data={revenueData}
+							config={revenueConfig}
+						/>
 					</div>
 				</DocExampleSync>
 			</DocSection>
@@ -158,9 +169,21 @@ const config = {
 			<DocSection id="related" title="Related">
 				<DocRelated
 					items={[
-						{ title: "Line Chart", href: "/docs/components/charts/line-chart", description: "Courbes pour tendances temporelles." },
-						{ title: "Area Chart", href: "/docs/components/charts/area-chart", description: "Courbes remplies pour volumes." },
-						{ title: "Pie Chart", href: "/docs/components/charts/pie-chart", description: "Camembert pour répartitions." },
+						{
+							title: "Line Chart",
+							href: "/docs/components/charts/line-chart",
+							description: "Courbes pour tendances temporelles.",
+						},
+						{
+							title: "Area Chart",
+							href: "/docs/components/charts/area-chart",
+							description: "Courbes remplies pour volumes.",
+						},
+						{
+							title: "Pie Chart",
+							href: "/docs/components/charts/pie-chart",
+							description: "Camembert pour répartitions.",
+						},
 					]}
 				/>
 			</DocSection>

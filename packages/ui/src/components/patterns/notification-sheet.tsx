@@ -1,19 +1,15 @@
 "use client"
 
-import { DollarSign, UserPlus, MessageSquare, AlertCircle } from "lucide-react"
+import { AlertCircle, DollarSign, MessageSquare, UserPlus } from "lucide-react"
 import { useState } from "react"
-import {
-	Sheet,
-	SheetContent,
-	SheetTrigger,
-} from "../ui/sheet"
+import type { Notification } from "../blocks/notification-center"
 import {
 	NotificationCenter,
-	NotificationList,
 	NotificationItem,
+	NotificationList,
 	NotificationTrigger,
 } from "../blocks/notification-center"
-import type { Notification } from "../blocks/notification-center"
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
 
 const mockNotifications: Notification[] = [
 	{
@@ -90,9 +86,7 @@ export function NotificationSheet() {
 	}
 
 	function markRead(notif: Notification) {
-		setNotifications((prev) =>
-			prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n))
-		)
+		setNotifications((prev) => prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n)))
 	}
 
 	return (
@@ -100,17 +94,10 @@ export function NotificationSheet() {
 			<SheetTrigger render={<NotificationTrigger unreadCount={unreadCount} />} />
 
 			<SheetContent side="right">
-				<NotificationCenter
-					onMarkAllRead={markAllRead}
-					unreadCount={unreadCount}
-				>
+				<NotificationCenter onMarkAllRead={markAllRead} unreadCount={unreadCount}>
 					<NotificationList>
 						{notifications.map((n) => (
-							<NotificationItem
-								key={n.id}
-								notification={n}
-								onClick={markRead}
-							/>
+							<NotificationItem key={n.id} notification={n} onClick={markRead} />
 						))}
 					</NotificationList>
 				</NotificationCenter>

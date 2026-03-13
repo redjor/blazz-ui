@@ -1,7 +1,5 @@
 "use client"
 
-import { Link, useLocation } from "@tanstack/react-router"
-import * as React from "react"
 import {
 	Sidebar,
 	SidebarCollapsible,
@@ -18,9 +16,11 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@blazz/ui/components/ui/sidebar"
-import { getSectionNavigation } from "~/config/navigation"
-import type { SectionId } from "~/config/navigation"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
+import { Link, useLocation } from "@tanstack/react-router"
+import * as React from "react"
+import type { SectionId } from "~/config/navigation"
+import { getSectionNavigation } from "~/config/navigation"
 
 function findActiveParentItemId(navigation: NavigationSection[], pathname: string): string | null {
 	for (const section of navigation) {

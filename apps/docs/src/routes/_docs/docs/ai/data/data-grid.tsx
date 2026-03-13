@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { DataGrid } from "@blazz/ui/components/ai/generative/data/data-grid"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -97,9 +97,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/data/data-grid"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/data/data-grid")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -116,8 +114,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function DataGridPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -136,19 +133,34 @@ function DataGridPage() {
 					]}
 					rows={[
 						{
-							candidate: { type: "avatar", name: "Sarah Connor", src: "https://i.pravatar.cc/150?u=sarah", subtitle: "Cyberdyne" },
+							candidate: {
+								type: "avatar",
+								name: "Sarah Connor",
+								src: "https://i.pravatar.cc/150?u=sarah",
+								subtitle: "Cyberdyne",
+							},
 							role: "Frontend Engineer",
 							status: { type: "badge", value: "Available", variant: "success" },
 							match: { type: "trend", value: 92, suffix: "%" },
 						},
 						{
-							candidate: { type: "avatar", name: "John Doe", src: "https://i.pravatar.cc/150?u=john", subtitle: "Acme Corp" },
+							candidate: {
+								type: "avatar",
+								name: "John Doe",
+								src: "https://i.pravatar.cc/150?u=john",
+								subtitle: "Acme Corp",
+							},
 							role: "Product Designer",
 							status: { type: "badge", value: "In Process", variant: "info" },
 							match: { type: "trend", value: 87, suffix: "%" },
 						},
 						{
-							candidate: { type: "avatar", name: "Marie Curie", src: "https://i.pravatar.cc/150?u=marie", subtitle: "CNRS" },
+							candidate: {
+								type: "avatar",
+								name: "Marie Curie",
+								src: "https://i.pravatar.cc/150?u=marie",
+								subtitle: "CNRS",
+							},
 							role: "Data Scientist",
 							status: { type: "badge", value: "Available", variant: "success" },
 							match: { type: "trend", value: 81, suffix: "%" },
@@ -194,12 +206,22 @@ function DataGridPage() {
 						]}
 						rows={[
 							{
-								person: { type: "avatar", name: "Alice Martin", src: "https://i.pravatar.cc/150?u=alice", subtitle: "Engineering" },
+								person: {
+									type: "avatar",
+									name: "Alice Martin",
+									src: "https://i.pravatar.cc/150?u=alice",
+									subtitle: "Engineering",
+								},
 								role: "Tech Lead",
 								status: { type: "badge", value: "Active", variant: "success" },
 							},
 							{
-								person: { type: "avatar", name: "Bob Chen", src: "https://i.pravatar.cc/150?u=bob", subtitle: "Design" },
+								person: {
+									type: "avatar",
+									name: "Bob Chen",
+									src: "https://i.pravatar.cc/150?u=bob",
+									subtitle: "Design",
+								},
 								role: "Senior Designer",
 								status: { type: "badge", value: "On Leave", variant: "warning" },
 							},
@@ -263,19 +285,34 @@ function DataGridPage() {
 						rows={[
 							{
 								href: "#",
-								person: { type: "avatar", name: "Alice Martin", src: "https://i.pravatar.cc/150?u=alice", subtitle: "Engineering" },
+								person: {
+									type: "avatar",
+									name: "Alice Martin",
+									src: "https://i.pravatar.cc/150?u=alice",
+									subtitle: "Engineering",
+								},
 								role: "Tech Lead",
 								status: { type: "badge", value: "Active", variant: "success" },
 							},
 							{
 								href: "#",
-								person: { type: "avatar", name: "Bob Chen", src: "https://i.pravatar.cc/150?u=bob", subtitle: "Design" },
+								person: {
+									type: "avatar",
+									name: "Bob Chen",
+									src: "https://i.pravatar.cc/150?u=bob",
+									subtitle: "Design",
+								},
 								role: "Senior Designer",
 								status: { type: "badge", value: "On Leave", variant: "warning" },
 							},
 							{
 								href: "#",
-								person: { type: "avatar", name: "Clara Diaz", src: "https://i.pravatar.cc/150?u=clara", subtitle: "Product" },
+								person: {
+									type: "avatar",
+									name: "Clara Diaz",
+									src: "https://i.pravatar.cc/150?u=clara",
+									subtitle: "Product",
+								},
 								role: "PM",
 								status: { type: "badge", value: "Active", variant: "success" },
 							},

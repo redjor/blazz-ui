@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { toast, toastProgress } from "@blazz/ui/components/ui/toast"
 import { Button } from "@blazz/ui/components/ui/button"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { toast, toastProgress } from "@blazz/ui/components/ui/toast"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -310,11 +310,7 @@ function ToastPage() {
 					>
 						Warning
 					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => toast.info("Mise à jour disponible")}
-					>
+					<Button variant="outline" size="sm" onClick={() => toast.info("Mise à jour disponible")}>
 						Info
 					</Button>
 				</div>
@@ -328,8 +324,8 @@ function ToastPage() {
 					highlightedCode={html("setup")}
 				>
 					<p className="text-sm text-fg-muted">
-						Le composant <code className="text-xs bg-raised px-1 py-0.5 rounded">Toaster</code>{" "}
-						est déjà présent dans ce layout — essaie les boutons ci-dessous.
+						Le composant <code className="text-xs bg-raised px-1 py-0.5 rounded">Toaster</code> est
+						déjà présent dans ce layout — essaie les boutons ci-dessous.
 					</p>
 				</DocExampleClient>
 			</DocSection>
@@ -380,8 +376,7 @@ function ToastPage() {
 							size="sm"
 							onClick={() =>
 								toastProgress.info("Nouvelle version disponible", {
-									description:
-										"Rechargez la page pour profiter des dernières fonctionnalités.",
+									description: "Rechargez la page pour profiter des dernières fonctionnalités.",
 								})
 							}
 						>
@@ -543,8 +538,8 @@ function ToastPage() {
 			<DocSection id="props" title="Toaster Props">
 				<p className="text-sm text-fg-muted mb-4">
 					Le composant <code className="text-xs bg-raised px-1 py-0.5 rounded">Toaster</code> de{" "}
-					<code className="text-xs bg-raised px-1 py-0.5 rounded">@blazz/ui</code> pre-configure
-					les valeurs optimales pour le design system. Toutes les props peuvent être surchargées.
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">@blazz/ui</code> pre-configure les
+					valeurs optimales pour le design system. Toutes les props peuvent être surchargées.
 				</p>
 				<DocPropsTable props={toasterProps} />
 			</DocSection>
@@ -556,8 +551,8 @@ function ToastPage() {
 			<DocSection id="progress-api" title="toastProgress Options">
 				<p className="text-sm text-fg-muted mb-4">
 					Options passées en second argument de{" "}
-					<code className="text-xs bg-raised px-1 py-0.5 rounded">toastProgress.success()</code>{" "}
-					et ses variantes. Les méthodes disponibles sont{" "}
+					<code className="text-xs bg-raised px-1 py-0.5 rounded">toastProgress.success()</code> et
+					ses variantes. Les méthodes disponibles sont{" "}
 					<code className="text-xs bg-raised px-1 py-0.5 rounded">.success()</code>,{" "}
 					<code className="text-xs bg-raised px-1 py-0.5 rounded">.error()</code>,{" "}
 					<code className="text-xs bg-raised px-1 py-0.5 rounded">.warning()</code>,{" "}
@@ -575,8 +570,8 @@ function ToastPage() {
 						évite de gérer manuellement les états
 					</li>
 					<li>
-						Toujours utiliser les variants sémantiques (success, error, warning) plutôt que le
-						toast neutre pour les retours d'actions
+						Toujours utiliser les variants sémantiques (success, error, warning) plutôt que le toast
+						neutre pour les retours d'actions
 					</li>
 					<li>Garder les messages courts — max 60 caractères pour le titre</li>
 					<li>

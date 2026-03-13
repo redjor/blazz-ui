@@ -1,19 +1,17 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { MultiStepForm, type StepComponentProps } from "@blazz/ui/components/blocks/multi-step-form"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 function UploadStep({ data, onChange }: StepComponentProps) {
 	return (
 		<div className="space-y-4">
 			<h3 className="text-sm font-semibold">1. Choisissez un fichier</h3>
-			<p className="text-sm text-fg-muted">
-				Formats acceptés : CSV, XLSX. Taille max : 5 Mo.
-			</p>
+			<p className="text-sm text-fg-muted">Formats acceptés : CSV, XLSX. Taille max : 5 Mo.</p>
 			<div className="space-y-1.5">
 				<Label htmlFor="file">Fichier</Label>
 				<Input
@@ -79,17 +77,14 @@ function ReviewStep({ data }: StepComponentProps) {
 					<strong>{(data.fileName as string) || "Non sélectionné"}</strong>
 				</p>
 				<p className="text-sm">
-					<span className="text-fg-muted">Contacts à importer :</span>{" "}
-					<strong>42</strong> (simulation)
+					<span className="text-fg-muted">Contacts à importer :</span> <strong>42</strong>{" "}
+					(simulation)
 				</p>
 				<p className="text-sm">
-					<span className="text-fg-muted">Doublons détectés :</span>{" "}
-					<strong>3</strong>
+					<span className="text-fg-muted">Doublons détectés :</span> <strong>3</strong>
 				</p>
 			</div>
-			<p className="text-xs text-fg-muted">
-				Cliquez sur "Terminer" pour lancer l'import.
-			</p>
+			<p className="text-xs text-fg-muted">Cliquez sur "Terminer" pour lancer l'import.</p>
 		</div>
 	)
 }

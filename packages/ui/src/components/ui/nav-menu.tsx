@@ -1,15 +1,11 @@
 import { Slot } from "@radix-ui/react-slot"
 import type * as React from "react"
-import { Separator } from "./separator"
 import { cn } from "../../lib/utils"
+import { Separator } from "./separator"
 
 function NavMenu({ className, ...props }: React.ComponentProps<"nav">) {
 	return (
-		<nav
-			data-slot="nav-menu"
-			className={cn("flex min-w-0 flex-col gap-1", className)}
-			{...props}
-		/>
+		<nav data-slot="nav-menu" className={cn("flex min-w-0 flex-col gap-1", className)} {...props} />
 	)
 }
 

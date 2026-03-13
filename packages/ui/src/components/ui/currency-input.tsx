@@ -3,7 +3,8 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
 
-export interface CurrencyInputProps extends Omit<React.ComponentProps<"input">, "type" | "value" | "onChange"> {
+export interface CurrencyInputProps
+	extends Omit<React.ComponentProps<"input">, "type" | "value" | "onChange"> {
 	value?: number | null
 	onValueChange?: (value: number | null) => void
 	/** Currency symbol. @default "EUR" */
@@ -32,13 +33,15 @@ function CurrencyInput({
 
 	const symbol = React.useMemo(() => {
 		try {
-			return new Intl.NumberFormat(locale, {
-				style: "currency",
-				currency,
-				currencyDisplay: "narrowSymbol",
-			})
-				.formatToParts(0)
-				.find((p) => p.type === "currency")?.value ?? currency
+			return (
+				new Intl.NumberFormat(locale, {
+					style: "currency",
+					currency,
+					currencyDisplay: "narrowSymbol",
+				})
+					.formatToParts(0)
+					.find((p) => p.type === "currency")?.value ?? currency
+			)
 		} catch {
 			return currency
 		}

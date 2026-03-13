@@ -1,8 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Link } from "@tanstack/react-router"
-import type { LucideIcon } from "lucide-react"
-import { ArrowRight, Brain, Calendar, ChartLine, CreditCard, FileText, ListChecks, MessageCircle, Users, Wrench } from "lucide-react"
 import { Page } from "@blazz/ui/components/ui/page"
+import { createFileRoute, Link } from "@tanstack/react-router"
+import type { LucideIcon } from "lucide-react"
+import {
+	ArrowRight,
+	Brain,
+	Calendar,
+	ChartLine,
+	CreditCard,
+	FileText,
+	ListChecks,
+	MessageCircle,
+	Users,
+	Wrench,
+} from "lucide-react"
 
 interface AIComponentItem {
 	title: string
@@ -155,8 +165,7 @@ function AIElementsPage() {
 				<div
 					className="pointer-events-none absolute inset-0 opacity-40"
 					style={{
-						backgroundImage:
-							"radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
+						backgroundImage: "radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
 						backgroundSize: "24px 24px",
 					}}
 				/>

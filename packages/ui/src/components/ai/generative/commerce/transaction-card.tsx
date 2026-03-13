@@ -1,10 +1,10 @@
 "use client"
 
+import { ArrowDownLeft, ArrowUpRight, Building2, CreditCard } from "lucide-react"
 import type { ReactNode } from "react"
-import { ArrowUpRight, ArrowDownLeft, CreditCard, Building2 } from "lucide-react"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export type TransactionType = "incoming" | "outgoing"
 export type TransactionStatus = "completed" | "pending" | "failed"
@@ -44,10 +44,12 @@ function TransactionCardBase({
 	return (
 		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-start gap-3">
-				<div className={cn(
-					"mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full",
-					isIncoming ? "bg-emerald-500/10" : "bg-raised",
-				)}>
+				<div
+					className={cn(
+						"mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full",
+						isIncoming ? "bg-emerald-500/10" : "bg-raised"
+					)}
+				>
 					{isIncoming ? (
 						<ArrowDownLeft className="size-4 text-emerald-500" />
 					) : (
@@ -63,11 +65,14 @@ function TransactionCardBase({
 					</div>
 					{date && <p className="mt-0.5 text-xs text-fg-muted">{date}</p>}
 				</div>
-				<span className={cn(
-					"text-sm font-semibold tabular-nums",
-					isIncoming ? "text-emerald-600 dark:text-emerald-400" : "text-fg",
-				)}>
-					{isIncoming ? "+" : "-"}{amount}
+				<span
+					className={cn(
+						"text-sm font-semibold tabular-nums",
+						isIncoming ? "text-emerald-600 dark:text-emerald-400" : "text-fg"
+					)}
+				>
+					{isIncoming ? "+" : "-"}
+					{amount}
 				</span>
 			</div>
 

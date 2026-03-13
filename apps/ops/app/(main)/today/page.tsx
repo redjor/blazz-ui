@@ -291,7 +291,6 @@ export default function TodayPage() {
 				hoursPerDay={quickModal.hoursPerDay}
 				date={today}
 			/>
-
 		</div>
 	)
 }

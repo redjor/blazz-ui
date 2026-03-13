@@ -1,12 +1,12 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { NumberInput } from "@blazz/ui/components/ui/number-input"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -103,7 +103,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/number-input")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -129,8 +129,7 @@ function ControlledNumberInputDemo() {
 
 function NumberInputPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -201,8 +200,13 @@ function NumberInputPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use for numeric values where precise adjustment is needed</li>
 					<li>Always set min and max when the value has natural bounds</li>
-					<li>Choose a step size that makes sense for the data (e.g., 0.1 for prices, 5 for percentages)</li>
-					<li>Use a Slider instead when the exact value is less important than the relative position</li>
+					<li>
+						Choose a step size that makes sense for the data (e.g., 0.1 for prices, 5 for
+						percentages)
+					</li>
+					<li>
+						Use a Slider instead when the exact value is less important than the relative position
+					</li>
 				</ul>
 			</DocSection>
 

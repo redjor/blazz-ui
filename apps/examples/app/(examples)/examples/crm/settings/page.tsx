@@ -1,15 +1,15 @@
 "use client"
 
-import { toast } from "sonner"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { FormSection } from "@blazz/ui/components/patterns/form-section"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Switch } from "@blazz/ui/components/ui/switch"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { toast } from "sonner"
 
 export default function SettingsPage() {
 	return (
@@ -77,7 +77,11 @@ export default function SettingsPage() {
 								</div>
 							</div>
 							<div className="mt-4 flex justify-end">
-								<Button size="sm" variant="outline" onClick={() => toast.success("Mot de passe modifié")}>
+								<Button
+									size="sm"
+									variant="outline"
+									onClick={() => toast.success("Mot de passe modifié")}
+								>
 									Modifier le mot de passe
 								</Button>
 							</div>
@@ -103,7 +107,10 @@ export default function SettingsPage() {
 								</div>
 								<div className="space-y-1.5 col-span-2">
 									<Label htmlFor="companyAddress">Adresse</Label>
-									<Input id="companyAddress" defaultValue="123 Avenue des Champs-Élysées, 75008 Paris" />
+									<Input
+										id="companyAddress"
+										defaultValue="123 Avenue des Champs-Élysées, 75008 Paris"
+									/>
 								</div>
 							</div>
 							<div className="mt-4 flex justify-end">
@@ -143,11 +150,36 @@ export default function SettingsPage() {
 							<CardContent>
 								<div className="space-y-4">
 									{[
-										{ id: "new-deal", label: "Nouveau deal créé", desc: "Recevoir un email quand un deal est créé", defaultChecked: true },
-										{ id: "deal-won", label: "Deal gagné", desc: "Notification quand un deal est marqué comme gagné", defaultChecked: true },
-										{ id: "deal-lost", label: "Deal perdu", desc: "Notification quand un deal est marqué comme perdu", defaultChecked: false },
-										{ id: "new-contact", label: "Nouveau contact", desc: "Recevoir un email quand un contact est ajouté", defaultChecked: false },
-										{ id: "quote-accepted", label: "Devis accepté", desc: "Notification quand un devis est accepté par le client", defaultChecked: true },
+										{
+											id: "new-deal",
+											label: "Nouveau deal créé",
+											desc: "Recevoir un email quand un deal est créé",
+											defaultChecked: true,
+										},
+										{
+											id: "deal-won",
+											label: "Deal gagné",
+											desc: "Notification quand un deal est marqué comme gagné",
+											defaultChecked: true,
+										},
+										{
+											id: "deal-lost",
+											label: "Deal perdu",
+											desc: "Notification quand un deal est marqué comme perdu",
+											defaultChecked: false,
+										},
+										{
+											id: "new-contact",
+											label: "Nouveau contact",
+											desc: "Recevoir un email quand un contact est ajouté",
+											defaultChecked: false,
+										},
+										{
+											id: "quote-accepted",
+											label: "Devis accepté",
+											desc: "Notification quand un devis est accepté par le client",
+											defaultChecked: true,
+										},
 									].map((item) => (
 										<div key={item.id} className="flex items-center justify-between">
 											<div>
@@ -168,9 +200,24 @@ export default function SettingsPage() {
 							<CardContent>
 								<div className="space-y-4">
 									{[
-										{ id: "in-mentions", label: "Mentions", desc: "Quand quelqu'un vous mentionne dans un commentaire", defaultChecked: true },
-										{ id: "in-assignments", label: "Assignations", desc: "Quand un deal ou contact vous est assigné", defaultChecked: true },
-										{ id: "in-reminders", label: "Rappels", desc: "Rappels de suivi et échéances", defaultChecked: true },
+										{
+											id: "in-mentions",
+											label: "Mentions",
+											desc: "Quand quelqu'un vous mentionne dans un commentaire",
+											defaultChecked: true,
+										},
+										{
+											id: "in-assignments",
+											label: "Assignations",
+											desc: "Quand un deal ou contact vous est assigné",
+											defaultChecked: true,
+										},
+										{
+											id: "in-reminders",
+											label: "Rappels",
+											desc: "Rappels de suivi et échéances",
+											defaultChecked: true,
+										},
 									].map((item) => (
 										<div key={item.id} className="flex items-center justify-between">
 											<div>
@@ -189,7 +236,11 @@ export default function SettingsPage() {
 				<TabsContent value="integrations">
 					<div className="max-w-2xl space-y-4 pt-4">
 						{[
-							{ name: "Google Workspace", desc: "Synchroniser contacts et calendrier", connected: true },
+							{
+								name: "Google Workspace",
+								desc: "Synchroniser contacts et calendrier",
+								connected: true,
+							},
 							{ name: "Slack", desc: "Notifications dans vos canaux Slack", connected: true },
 							{ name: "Stripe", desc: "Suivi des paiements et factures", connected: false },
 							{ name: "HubSpot", desc: "Import/export de contacts et deals", connected: false },
@@ -213,10 +264,7 @@ export default function SettingsPage() {
 											</Button>
 										</div>
 									) : (
-										<Button
-											size="sm"
-											onClick={() => toast.success(`${integration.name} connecté`)}
-										>
+										<Button size="sm" onClick={() => toast.success(`${integration.name} connecté`)}>
 											Connecter
 										</Button>
 									)}

@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Property } from "@blazz/ui/components/ui/property"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { Property } from "@blazz/ui/components/ui/property"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -156,7 +156,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/property")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -165,8 +165,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/property")({
 
 function PropertyPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -225,10 +224,14 @@ function PropertyPage() {
 				>
 					<div className="flex gap-10">
 						<Property label="Email">
-							<a href="#" className="text-sm font-semibold text-brand hover:underline">contact@acme.com</a>
+							<a href="#" className="text-sm font-semibold text-brand hover:underline">
+								contact@acme.com
+							</a>
 						</Property>
 						<Property label="Site web">
-							<a href="#" className="text-sm font-semibold text-brand hover:underline">acme.com</a>
+							<a href="#" className="text-sm font-semibold text-brand hover:underline">
+								acme.com
+							</a>
 						</Property>
 					</div>
 				</DocExampleClient>
@@ -292,7 +295,10 @@ function PropertyPage() {
 					highlightedCode={html("section-multiple")}
 				>
 					<div className="flex flex-col gap-8">
-						<Property.Section title="Informations" description="Données principales de l'entreprise">
+						<Property.Section
+							title="Informations"
+							description="Données principales de l'entreprise"
+						>
 							<Property label="Entreprise">Acme Corp</Property>
 							<Property label="Secteur">Technologie</Property>
 							<Property label="Localisation">Paris, France</Property>

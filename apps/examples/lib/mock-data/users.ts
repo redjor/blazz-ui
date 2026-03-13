@@ -1,4 +1,4 @@
-import type { User, Invitation } from "@/types/user-management"
+import type { Invitation, User } from "@/types/user-management"
 
 /**
  * Mock users data

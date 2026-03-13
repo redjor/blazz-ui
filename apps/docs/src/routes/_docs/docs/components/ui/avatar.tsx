@@ -1,18 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router"
 import {
 	Avatar,
-	AvatarImage,
+	AvatarBadge,
 	AvatarFallback,
 	AvatarGroup,
 	AvatarGroupCount,
-	AvatarBadge,
+	AvatarImage,
 } from "@blazz/ui/components/ui/avatar"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -236,13 +236,27 @@ function AvatarPage() {
 					Avatar uses the design system tokens for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-raised</code> - Fallback background color</li>
-					<li><code className="text-xs">text-fg-muted</code> - Fallback text color</li>
-					<li><code className="text-xs">rounded-full</code> - Circular shape</li>
-					<li><code className="text-xs">size-8</code> - Small avatar (2rem)</li>
-					<li><code className="text-xs">size-10</code> - Default avatar (2.5rem)</li>
-					<li><code className="text-xs">size-12</code> - Large avatar (3rem)</li>
-					<li><code className="text-xs">bg-green-500</code> - Badge status indicator</li>
+					<li>
+						<code className="text-xs">bg-raised</code> - Fallback background color
+					</li>
+					<li>
+						<code className="text-xs">text-fg-muted</code> - Fallback text color
+					</li>
+					<li>
+						<code className="text-xs">rounded-full</code> - Circular shape
+					</li>
+					<li>
+						<code className="text-xs">size-8</code> - Small avatar (2rem)
+					</li>
+					<li>
+						<code className="text-xs">size-10</code> - Default avatar (2.5rem)
+					</li>
+					<li>
+						<code className="text-xs">size-12</code> - Large avatar (3rem)
+					</li>
+					<li>
+						<code className="text-xs">bg-green-500</code> - Badge status indicator
+					</li>
 				</ul>
 			</DocSection>
 

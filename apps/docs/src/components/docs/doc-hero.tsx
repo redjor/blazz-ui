@@ -13,8 +13,7 @@ export function DocHero({ children, className }: DocHeroProps) {
 				className
 			)}
 			style={{
-				backgroundImage:
-					"radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
+				backgroundImage: "radial-gradient(circle, var(--border-default) 1px, transparent 1px)",
 				backgroundSize: "24px 24px",
 			}}
 		>

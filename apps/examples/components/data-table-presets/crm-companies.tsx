@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 /**
  * CRM Companies preset for DataTable
@@ -9,47 +9,47 @@
  * @module presets/crm-companies
  */
 
-import Link from 'next/link';
-import type { Company } from '@/lib/sample-data';
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from '../data-table.types';
-import { col } from '../factories/col';
-import { createStatusViews } from '../factories/view-builders';
-import { createCRUDActions, createBulkActions } from '../factories/action-builders';
+import Link from "next/link"
+import type { Company } from "@/lib/sample-data"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "../data-table.types"
+import { createBulkActions, createCRUDActions } from "../factories/action-builders"
+import { col } from "../factories/col"
+import { createStatusViews } from "../factories/view-builders"
 
 /**
  * Configuration options for Companies preset
  */
 export interface CompaniesPresetConfig {
-  onView?: (company: Company) => void | Promise<void>;
-  onEdit?: (company: Company) => void | Promise<void>;
-  onArchive?: (company: Company) => void | Promise<void>;
-  onDelete?: (company: Company) => void | Promise<void>;
-  onBulkArchive?: (companies: Company[]) => void | Promise<void>;
-  onBulkDelete?: (companies: Company[]) => void | Promise<void>;
+	onView?: (company: Company) => void | Promise<void>
+	onEdit?: (company: Company) => void | Promise<void>
+	onArchive?: (company: Company) => void | Promise<void>
+	onDelete?: (company: Company) => void | Promise<void>
+	onBulkArchive?: (companies: Company[]) => void | Promise<void>
+	onBulkDelete?: (companies: Company[]) => void | Promise<void>
 }
 
 /**
  * Return type for the Companies preset
  */
 export interface CompaniesPreset {
-  columns: DataTableColumnDef<Company>[];
-  views: DataTableView[];
-  rowActions: RowAction<Company>[];
-  bulkActions: BulkAction<Company>[];
+	columns: DataTableColumnDef<Company>[]
+	views: DataTableView[]
+	rowActions: RowAction<Company>[]
+	bulkActions: BulkAction<Company>[]
 }
 
 /**
  * Industry options for select filter
  */
 const industryOptions = [
-  { label: 'Technologie', value: 'Technologie' },
-  { label: 'Finance', value: 'Finance' },
-  { label: 'Santé', value: 'Santé' },
-  { label: 'Industrie', value: 'Industrie' },
-  { label: 'Services', value: 'Services' },
-  { label: 'Commerce', value: 'Commerce' },
-  { label: 'Éducation', value: 'Éducation' },
-];
+	{ label: "Technologie", value: "Technologie" },
+	{ label: "Finance", value: "Finance" },
+	{ label: "Santé", value: "Santé" },
+	{ label: "Industrie", value: "Industrie" },
+	{ label: "Services", value: "Services" },
+	{ label: "Commerce", value: "Commerce" },
+	{ label: "Éducation", value: "Éducation" },
+]
 
 /**
  * Creates a complete Companies preset for the Forge CRM DataTable.
@@ -66,107 +66,100 @@ const industryOptions = [
  * ```
  */
 export function createCompaniesPreset(config: CompaniesPresetConfig = {}): CompaniesPreset {
-  const { onView, onEdit, onArchive, onDelete, onBulkArchive, onBulkDelete } = config;
+	const { onView, onEdit, onArchive, onDelete, onBulkArchive, onBulkDelete } = config
 
-  const columns: DataTableColumnDef<Company>[] = [
-    col.text<Company>('name', {
-      title: 'Entreprise',
-      placeholder: 'Rechercher par nom...',
-      showInlineFilter: true,
-      defaultInlineFilter: false,
-      cellRenderer: (_value, row) => (
-        <Link
-          href={`/companies/${row.id}`}
-          className="font-medium text-fg hover:underline"
-        >
-          {row.name}
-        </Link>
-      ),
-    }),
-    col.select<Company>('industry', {
-      title: 'Secteur',
-      options: industryOptions,
-      showInlineFilter: true,
-      defaultInlineFilter: false,
-    }),
-    col.text<Company>('city', {
-      title: 'Ville',
-      showInlineFilter: false,
-    }),
-    col.currency<Company>('revenue', {
-      title: 'Chiffre d\u2019affaires',
-      currency: 'EUR',
-      locale: 'fr-FR',
-      showInlineFilter: true,
-      defaultInlineFilter: false,
-    }),
-    col.status<Company>('status', {
-      title: 'Statut',
-      statusMap: {
-        prospect: { variant: 'warning', label: 'Prospect' },
-        active: { variant: 'success', label: 'Actif' },
-        inactive: { variant: 'secondary', label: 'Inactif' },
-        churned: { variant: 'destructive', label: 'Perdu' },
-      },
-      filterOptions: [
-        { label: 'Prospect', value: 'prospect' },
-        { label: 'Actif', value: 'active' },
-        { label: 'Inactif', value: 'inactive' },
-        { label: 'Perdu', value: 'churned' },
-      ],
-      showInlineFilter: true,
-      defaultInlineFilter: true,
-    }),
-    col.text<Company>('assignedTo', {
-      title: 'Responsable',
-      showInlineFilter: false,
-    }),
-    col.date<Company>('createdAt', {
-      title: 'Créé le',
-      locale: 'fr-FR',
-      showInlineFilter: false,
-    }),
-  ];
+	const columns: DataTableColumnDef<Company>[] = [
+		col.text<Company>("name", {
+			title: "Entreprise",
+			placeholder: "Rechercher par nom...",
+			showInlineFilter: true,
+			defaultInlineFilter: false,
+			cellRenderer: (_value, row) => (
+				<Link href={`/companies/${row.id}`} className="font-medium text-fg hover:underline">
+					{row.name}
+				</Link>
+			),
+		}),
+		col.select<Company>("industry", {
+			title: "Secteur",
+			options: industryOptions,
+			showInlineFilter: true,
+			defaultInlineFilter: false,
+		}),
+		col.text<Company>("city", {
+			title: "Ville",
+			showInlineFilter: false,
+		}),
+		col.currency<Company>("revenue", {
+			title: "Chiffre d\u2019affaires",
+			currency: "EUR",
+			locale: "fr-FR",
+			showInlineFilter: true,
+			defaultInlineFilter: false,
+		}),
+		col.status<Company>("status", {
+			title: "Statut",
+			statusMap: {
+				prospect: { variant: "warning", label: "Prospect" },
+				active: { variant: "success", label: "Actif" },
+				inactive: { variant: "secondary", label: "Inactif" },
+				churned: { variant: "destructive", label: "Perdu" },
+			},
+			filterOptions: [
+				{ label: "Prospect", value: "prospect" },
+				{ label: "Actif", value: "active" },
+				{ label: "Inactif", value: "inactive" },
+				{ label: "Perdu", value: "churned" },
+			],
+			showInlineFilter: true,
+			defaultInlineFilter: true,
+		}),
+		col.text<Company>("assignedTo", {
+			title: "Responsable",
+			showInlineFilter: false,
+		}),
+		col.date<Company>("createdAt", {
+			title: "Créé le",
+			locale: "fr-FR",
+			showInlineFilter: false,
+		}),
+	]
 
-  const views = createStatusViews({
-    column: 'status',
-    statuses: [
-      { id: 'active', name: 'Actifs', value: 'active' },
-      { id: 'prospect', name: 'Prospects', value: 'prospect' },
-      { id: 'inactive', name: 'Inactifs', value: 'inactive' },
-    ],
-    allViewName: 'Tous',
-  });
+	const views = createStatusViews({
+		column: "status",
+		statuses: [
+			{ id: "active", name: "Actifs", value: "active" },
+			{ id: "prospect", name: "Prospects", value: "prospect" },
+			{ id: "inactive", name: "Inactifs", value: "inactive" },
+		],
+		allViewName: "Tous",
+	})
 
-  const rowActions = createCRUDActions<Company>({
-    onView,
-    onEdit,
-    onArchive,
-    onDelete,
-    archiveConfirmation: (row) =>
-      `Êtes-vous sûr de vouloir archiver ${row.original.name} ?`,
-    deleteConfirmation: (row) =>
-      `Êtes-vous sûr de vouloir supprimer ${row.original.name} ?`,
-    labels: {
-      view: 'Voir',
-      edit: 'Modifier',
-      archive: 'Archiver',
-      delete: 'Supprimer',
-    },
-  });
+	const rowActions = createCRUDActions<Company>({
+		onView,
+		onEdit,
+		onArchive,
+		onDelete,
+		archiveConfirmation: (row) => `Êtes-vous sûr de vouloir archiver ${row.original.name} ?`,
+		deleteConfirmation: (row) => `Êtes-vous sûr de vouloir supprimer ${row.original.name} ?`,
+		labels: {
+			view: "Voir",
+			edit: "Modifier",
+			archive: "Archiver",
+			delete: "Supprimer",
+		},
+	})
 
-  const bulkActions = createBulkActions<Company>({
-    onArchive: onBulkArchive,
-    onDelete: onBulkDelete,
-    archiveConfirmation: (count) =>
-      `Êtes-vous sûr de vouloir archiver ${count} entreprise(s) ?`,
-    deleteConfirmation: (count) =>
-      `Êtes-vous sûr de vouloir supprimer ${count} entreprise(s) ?`,
-    labels: {
-      archive: 'Archiver la sélection',
-      delete: 'Supprimer la sélection',
-    },
-  });
+	const bulkActions = createBulkActions<Company>({
+		onArchive: onBulkArchive,
+		onDelete: onBulkDelete,
+		archiveConfirmation: (count) => `Êtes-vous sûr de vouloir archiver ${count} entreprise(s) ?`,
+		deleteConfirmation: (count) => `Êtes-vous sûr de vouloir supprimer ${count} entreprise(s) ?`,
+		labels: {
+			archive: "Archiver la sélection",
+			delete: "Supprimer la sélection",
+		},
+	})
 
-  return { columns, views, rowActions, bulkActions };
+	return { columns, views, rowActions, bulkActions }
 }

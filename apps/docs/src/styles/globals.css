@@ -110,14 +110,14 @@
 	--text-muted: oklch(0.55 0 0);
 
 	/* Accent — Indigo/Violet */
-	--accent: oklch(0.50 0.22 275);
+	--accent: oklch(0.5 0.22 275);
 	--accent-hover: oklch(0.44 0.22 275);
 	--accent-foreground: oklch(0.985 0 0);
 
 	/* Semantic */
 	--success: oklch(0.45 0.18 145);
 	--warning: oklch(0.55 0.15 70);
-	--destructive: oklch(0.50 0.2 25);
+	--destructive: oklch(0.5 0.2 25);
 	--info: oklch(0.45 0.2 265);
 
 	/* Density */
@@ -390,19 +390,39 @@ html.dark {
 
 	/* Notification trigger — bell ring & dot pulse */
 	@keyframes bell-ring {
-		0% { transform: rotate(0deg); }
-		15% { transform: rotate(14deg); }
-		30% { transform: rotate(-12deg); }
-		45% { transform: rotate(8deg); }
-		60% { transform: rotate(-5deg); }
-		75% { transform: rotate(2deg); }
-		100% { transform: rotate(0deg); }
+		0% {
+			transform: rotate(0deg);
+		}
+		15% {
+			transform: rotate(14deg);
+		}
+		30% {
+			transform: rotate(-12deg);
+		}
+		45% {
+			transform: rotate(8deg);
+		}
+		60% {
+			transform: rotate(-5deg);
+		}
+		75% {
+			transform: rotate(2deg);
+		}
+		100% {
+			transform: rotate(0deg);
+		}
 	}
 
 	@keyframes dot-pulse {
-		0% { transform: scale(1); }
-		50% { transform: scale(1.5); }
-		100% { transform: scale(1); }
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.5);
+		}
+		100% {
+			transform: scale(1);
+		}
 	}
 
 	/* Sheet animation — spring enter, gentle exit */
@@ -582,11 +602,11 @@ html.dark {
 /* Shiki dual-theme: switch to dark colors when .dark is active */
 html.dark .shiki,
 html.dark .shiki span {
-	color: var(--shiki-dark) !important;
-	background-color: var(--shiki-dark-bg) !important;
-	font-style: var(--shiki-dark-font-style) !important;
-	font-weight: var(--shiki-dark-font-weight) !important;
-	text-decoration: var(--shiki-dark-text-decoration) !important;
+	color: var(--shiki-dark);
+	background-color: var(--shiki-dark-bg);
+	font-style: var(--shiki-dark-font-style);
+	font-weight: var(--shiki-dark-font-weight);
+	text-decoration: var(--shiki-dark-text-decoration);
 }
 
 /* Container inset utilities */

@@ -1,11 +1,11 @@
 "use client"
 
 import * as React from "react"
+import type { NavigationSection, SidebarConfig } from "../../types/navigation"
 import { AppSidebar } from "./app-sidebar"
-import { AppTopBar, type AppTopBarProps, type TopBarSection } from "./app-top-bar"
+import { AppTopBar, type TopBarSection } from "./app-top-bar"
 import { Frame } from "./frame"
 import { MobileSidebarSheet } from "./mobile-sidebar-sheet"
-import type { NavigationSection, SidebarConfig } from "../../types/navigation"
 
 export interface AppFrameProps {
 	navigation?: NavigationSection[]
@@ -79,7 +79,13 @@ export function AppFrame({
 						/>
 					)
 				}
-				navigation={<AppSidebar config={config} header={sidebarHeader} className={noTopBar ? "top-0" : undefined} />}
+				navigation={
+					<AppSidebar
+						config={config}
+						header={sidebarHeader}
+						className={noTopBar ? "top-0" : undefined}
+					/>
+				}
 				tabBar={tabBar}
 			>
 				{children}

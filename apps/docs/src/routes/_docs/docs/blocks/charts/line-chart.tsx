@@ -1,14 +1,14 @@
 "use client"
 
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleSync } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { LineChartBlock } from "@blazz/ui/components/blocks/line-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleSync } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 
 export const Route = createFileRoute("/_docs/docs/blocks/charts/line-chart")({
 	component: LineChartPage,
@@ -91,7 +91,12 @@ function LineChartPage() {
 		>
 			<DocHero>
 				<div className="max-w-lg">
-					<LineChartBlock title="Trafic web" description="Visiteurs et pages vues" data={trendData} config={trendConfig} />
+					<LineChartBlock
+						title="Trafic web"
+						description="Visiteurs et pages vues"
+						data={trendData}
+						config={trendConfig}
+					/>
 				</div>
 			</DocHero>
 
@@ -140,7 +145,12 @@ function LineChartPage() {
 />`}
 				>
 					<div className="max-w-lg">
-						<LineChartBlock title="Trafic web" description="Visiteurs et pages vues" data={trendData} config={trendConfig} />
+						<LineChartBlock
+							title="Trafic web"
+							description="Visiteurs et pages vues"
+							data={trendData}
+							config={trendConfig}
+						/>
 					</div>
 				</DocExampleSync>
 			</DocSection>
@@ -152,9 +162,21 @@ function LineChartPage() {
 			<DocSection id="related" title="Related">
 				<DocRelated
 					items={[
-						{ title: "Bar Chart", href: "/docs/components/charts/bar-chart", description: "Barres pour comparer des valeurs." },
-						{ title: "Area Chart", href: "/docs/components/charts/area-chart", description: "Courbes remplies pour volumes." },
-						{ title: "Radar Chart", href: "/docs/components/charts/radar-chart", description: "Radar pour comparer des dimensions." },
+						{
+							title: "Bar Chart",
+							href: "/docs/components/charts/bar-chart",
+							description: "Barres pour comparer des valeurs.",
+						},
+						{
+							title: "Area Chart",
+							href: "/docs/components/charts/area-chart",
+							description: "Courbes remplies pour volumes.",
+						},
+						{
+							title: "Radar Chart",
+							href: "/docs/components/charts/radar-chart",
+							description: "Radar pour comparer des dimensions.",
+						},
 					]}
 				/>
 			</DocSection>

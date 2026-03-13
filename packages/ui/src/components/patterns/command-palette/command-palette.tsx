@@ -2,6 +2,7 @@
 
 import { Clock, FileText, Search } from "lucide-react"
 import * as React from "react"
+import { useCommandPalette } from "../../../hooks/use-command-palette"
 import type { NavigationSection } from "../../../types/navigation"
 import {
 	CommandDialog,
@@ -12,7 +13,6 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "../../ui/command"
-import { useCommandPalette } from "../../../hooks/use-command-palette"
 
 export interface CommandPaletteProps {
 	navigation: NavigationSection[]
@@ -21,7 +21,11 @@ export interface CommandPaletteProps {
 }
 
 export function CommandPalette({ navigation, open, onOpenChange }: CommandPaletteProps) {
-	const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({ navigation, open, onOpenChange })
+	const { isOpen, setIsOpen, items, recentItems, navigate } = useCommandPalette({
+		navigation,
+		open,
+		onOpenChange,
+	})
 
 	// Group items by section
 	const groupedItems = React.useMemo(() => {

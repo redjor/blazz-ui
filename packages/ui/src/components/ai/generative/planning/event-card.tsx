@@ -1,13 +1,18 @@
 "use client"
 
-import type { ReactNode } from "react"
-import Link from "next/link"
 import { Calendar, Clock, MapPin, Users } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { AvatarGroup, AvatarGroupCount } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import Link from "next/link"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarGroup,
+	AvatarGroupCount,
+	AvatarImage,
+} from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 export interface EventParticipant {
 	name: string
@@ -24,7 +29,12 @@ const typeConfig = {
 } as const
 
 function getInitials(name: string) {
-	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
+	return name
+		.split(" ")
+		.map((w) => w[0])
+		.join("")
+		.toUpperCase()
+		.slice(0, 2)
 }
 
 export interface EventCardProps {
@@ -60,13 +70,15 @@ function EventCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-center gap-2">
 				<span className="text-sm font-semibold text-fg">{title}</span>
 				{config && (
-					<Badge variant={config.variant} size="xs" fill="subtle">{config.label}</Badge>
+					<Badge variant={config.variant} size="xs" fill="subtle">
+						{config.label}
+					</Badge>
 				)}
 			</div>
 

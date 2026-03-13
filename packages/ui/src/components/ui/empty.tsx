@@ -1,6 +1,6 @@
-import Link from "next/link"
 import { cva, type VariantProps } from "class-variance-authority"
 import type { LucideIcon } from "lucide-react"
+import Link from "next/link"
 
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
@@ -16,21 +16,18 @@ export interface EmptyAction {
 
 /* ----- Size variants ----- */
 
-const emptyVariants = cva(
-	"flex w-full min-w-0 flex-col items-center justify-center text-center",
-	{
-		variants: {
-			size: {
-				sm: "gap-3 py-6",
-				default: "gap-4 py-12",
-				lg: "gap-5 py-20",
-			},
+const emptyVariants = cva("flex w-full min-w-0 flex-col items-center justify-center text-center", {
+	variants: {
+		size: {
+			sm: "gap-3 py-6",
+			default: "gap-4 py-12",
+			lg: "gap-5 py-20",
 		},
-		defaultVariants: {
-			size: "default",
-		},
-	}
-)
+	},
+	defaultVariants: {
+		size: "default",
+	},
+})
 
 const emptyIconVariants = cva(
 	"flex shrink-0 items-center justify-center rounded-full bg-raised text-fg-muted [&_svg]:pointer-events-none [&_svg]:shrink-0",
@@ -56,11 +53,7 @@ function EmptyIcon({
 	...props
 }: React.ComponentProps<"div"> & VariantProps<typeof emptyIconVariants>) {
 	return (
-		<div
-			data-slot="empty-icon"
-			className={cn(emptyIconVariants({ size, className }))}
-			{...props}
-		/>
+		<div data-slot="empty-icon" className={cn(emptyIconVariants({ size, className }))} {...props} />
 	)
 }
 
@@ -96,7 +89,13 @@ function EmptyActions({ className, ...props }: React.ComponentProps<"div">) {
 
 /* ----- Action renderer ----- */
 
-function EmptyActionButton({ action, variant = "default" }: { action: EmptyAction; variant?: "default" | "outline" }) {
+function EmptyActionButton({
+	action,
+	variant = "default",
+}: {
+	action: EmptyAction
+	variant?: "default" | "outline"
+}) {
 	const ActionIcon = action.icon
 
 	if (action.href) {
@@ -118,9 +117,7 @@ function EmptyActionButton({ action, variant = "default" }: { action: EmptyActio
 
 /* ----- Main component ----- */
 
-interface EmptyProps
-	extends React.ComponentProps<"div">,
-		VariantProps<typeof emptyVariants> {
+interface EmptyProps extends React.ComponentProps<"div">, VariantProps<typeof emptyVariants> {
 	/** Lucide icon component rendered in a circular container. */
 	icon?: LucideIcon
 	/** Title text. */
@@ -147,11 +144,7 @@ function Empty({
 	// Compositional mode: just render children
 	if (children) {
 		return (
-			<div
-				data-slot="empty"
-				className={cn(emptyVariants({ size, className }))}
-				{...props}
-			>
+			<div data-slot="empty" className={cn(emptyVariants({ size, className }))} {...props}>
 				{children}
 			</div>
 		)
@@ -159,11 +152,7 @@ function Empty({
 
 	// Props-based mode
 	return (
-		<div
-			data-slot="empty"
-			className={cn(emptyVariants({ size, className }))}
-			{...props}
-		>
+		<div data-slot="empty" className={cn(emptyVariants({ size, className }))} {...props}>
 			{Icon && (
 				<EmptyIcon size={size}>
 					<Icon />
@@ -172,27 +161,17 @@ function Empty({
 			{(title || description) && (
 				<div className="flex max-w-sm flex-col items-center gap-1">
 					{title && <EmptyTitle>{title}</EmptyTitle>}
-					{description && (
-						<EmptyDescription>{description}</EmptyDescription>
-					)}
+					{description && <EmptyDescription>{description}</EmptyDescription>}
 				</div>
 			)}
 			{(action || secondaryAction) && (
 				<EmptyActions>
 					{action && <EmptyActionButton action={action} />}
-					{secondaryAction && (
-						<EmptyActionButton action={secondaryAction} variant="outline" />
-					)}
+					{secondaryAction && <EmptyActionButton action={secondaryAction} variant="outline" />}
 				</EmptyActions>
 			)}
 		</div>
 	)
 }
 
-export {
-	Empty,
-	EmptyIcon,
-	EmptyTitle,
-	EmptyDescription,
-	EmptyActions,
-}
+export { Empty, EmptyIcon, EmptyTitle, EmptyDescription, EmptyActions }

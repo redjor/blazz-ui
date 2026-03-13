@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useRef, useState, useCallback } from "react"
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { cn } from "../../lib/utils/cn"
 
 export interface NavbarProps {
@@ -56,7 +56,7 @@ export function NavbarTabs({ value, children, className }: NavbarTabsProps) {
 
 	useEffect(() => {
 		updateIndicator()
-	}, [value, updateIndicator])
+	}, [updateIndicator])
 
 	return (
 		<NavbarTabsContext.Provider value={value}>

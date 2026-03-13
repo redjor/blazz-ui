@@ -1,9 +1,9 @@
 "use client"
 
+import { Check, ChevronsUpDown, GlobeIcon } from "lucide-react"
 import { createContext, useContext, useState } from "react"
 import * as BasePhoneInput from "react-phone-number-input"
 import flags from "react-phone-number-input/flags"
-
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
 import {
@@ -14,10 +14,9 @@ import {
 	CommandItem,
 	CommandList,
 } from "./command"
-import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 import { Input } from "./input"
+import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 import { ScrollArea } from "./scroll-area"
-import { Check, ChevronsUpDown, GlobeIcon } from "lucide-react"
 
 type PhoneInputSize = "sm" | "default" | "lg"
 
@@ -27,25 +26,13 @@ const PhoneInputContext = createContext<{
 	variant: "default",
 })
 
-type PhoneInputProps = Omit<
-	React.ComponentProps<"input">,
-	"onChange" | "value" | "ref"
-> &
-	Omit<
-		BasePhoneInput.Props<typeof BasePhoneInput.default>,
-		"onChange" | "variant"
-	> & {
+type PhoneInputProps = Omit<React.ComponentProps<"input">, "onChange" | "value" | "ref"> &
+	Omit<BasePhoneInput.Props<typeof BasePhoneInput.default>, "onChange" | "variant"> & {
 		onChange?: (value: BasePhoneInput.Value) => void
 		variant?: PhoneInputSize
 	}
 
-function PhoneInput({
-	className,
-	variant,
-	onChange,
-	value,
-	...props
-}: PhoneInputProps) {
+function PhoneInput({ className, variant, onChange, value, ...props }: PhoneInputProps) {
 	const phoneInputSize = variant || "default"
 	return (
 		<PhoneInputContext.Provider value={{ variant: phoneInputSize }}>
@@ -63,10 +50,7 @@ function PhoneInput({
 	)
 }
 
-function InputComponent({
-	className,
-	...props
-}: React.ComponentProps<typeof Input>) {
+function InputComponent({ className, ...props }: React.ComponentProps<typeof Input>) {
 	const { variant } = useContext(PhoneInputContext)
 
 	return (
@@ -114,10 +98,7 @@ function CountrySelect({
 					)}
 					disabled={disabled}
 				>
-					<FlagComponent
-						country={selectedCountry}
-						countryName={selectedCountry}
-					/>
+					<FlagComponent country={selectedCountry} countryName={selectedCountry} />
 					<ChevronsUpDown className="size-3.5 opacity-50" />
 				</Button>
 			</PopoverTrigger>
@@ -139,10 +120,7 @@ function CountrySelect({
 											}}
 											className="flex items-center gap-2"
 										>
-											<FlagComponent
-												country={item.value}
-												countryName={item.label}
-											/>
+											<FlagComponent country={item.value} countryName={item.label} />
 											<span className="flex-1 text-sm">{item.label}</span>
 											<span className="text-fg-muted text-xs font-mono">
 												{`+${BasePhoneInput.getCountryCallingCode(item.value)}`}
@@ -170,11 +148,7 @@ function FlagComponent({ country, countryName }: BasePhoneInput.FlagProps) {
 
 	return (
 		<span className="flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-full! [&_svg:not([class*='size-'])]:rounded-[5px]">
-			{Flag ? (
-				<Flag title={countryName} />
-			) : (
-				<GlobeIcon className="size-4 opacity-60" />
-			)}
+			{Flag ? <Flag title={countryName} /> : <GlobeIcon className="size-4 opacity-60" />}
 		</span>
 	)
 }

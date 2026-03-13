@@ -1,8 +1,8 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
 import { Building2, Check, ChevronsUpDown, Plus, Settings } from "lucide-react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
 	DropdownMenu,
@@ -58,21 +58,31 @@ function OrgMenuBase({
 			<DropdownMenuTrigger
 				className={cn(
 					"flex w-full items-center gap-2 rounded-lg px-2 py-2 transition-colors duration-150 ease-out hover:bg-raised focus:outline-none focus-visible:ring-2 focus-visible:ring-brand",
-					className,
+					className
 				)}
 			>
 				<Avatar className="size-8 rounded-lg after:rounded-lg">
-					<AvatarImage src={activeOrganization.avatar} alt={activeOrganization.name} className="rounded-lg" />
+					<AvatarImage
+						src={activeOrganization.avatar}
+						alt={activeOrganization.name}
+						className="rounded-lg"
+					/>
 					<AvatarFallback className="rounded-lg text-xs font-semibold">
 						{getOrgInitials(activeOrganization.name)}
 					</AvatarFallback>
 				</Avatar>
 				<div className="flex min-w-0 flex-1 flex-col text-left">
-					<span className="truncate text-[13px] font-semibold leading-tight text-fg" title={activeOrganization.name}>
+					<span
+						className="truncate text-[13px] font-semibold leading-tight text-fg"
+						title={activeOrganization.name}
+					>
 						{activeOrganization.name}
 					</span>
 					{activeOrganization.plan && (
-						<span className="truncate text-xs leading-tight text-fg-muted" title={activeOrganization.plan}>
+						<span
+							className="truncate text-xs leading-tight text-fg-muted"
+							title={activeOrganization.plan}
+						>
 							{activeOrganization.plan}
 						</span>
 					)}
@@ -80,11 +90,7 @@ function OrgMenuBase({
 				<ChevronsUpDown className="size-3.5 shrink-0 text-fg-muted" />
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent
-				className="w-[--anchor-width] min-w-56"
-				align="start"
-				sideOffset={4}
-			>
+			<DropdownMenuContent className="w-[--anchor-width] min-w-56" align="start" sideOffset={4}>
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>Organisations</DropdownMenuLabel>
 					{organizations.length === 0 ? (
@@ -97,18 +103,16 @@ function OrgMenuBase({
 						organizations.map((org) => {
 							const isActive = org.id === activeOrganization.id
 							return (
-								<DropdownMenuItem
-									key={org.id}
-									onClick={() => onSelect(org)}
-									className="gap-2"
-								>
+								<DropdownMenuItem key={org.id} onClick={() => onSelect(org)} className="gap-2">
 									<Avatar className="size-6 rounded-md after:rounded-md">
 										<AvatarImage src={org.avatar} alt={org.name} className="rounded-md" />
 										<AvatarFallback className="rounded-md text-[10px] font-semibold">
 											{getOrgInitials(org.name)}
 										</AvatarFallback>
 									</Avatar>
-									<span className="min-w-0 flex-1 truncate" title={org.name}>{org.name}</span>
+									<span className="min-w-0 flex-1 truncate" title={org.name}>
+										{org.name}
+									</span>
 									{isActive && <Check className="ml-auto size-4 text-fg-muted" />}
 								</DropdownMenuItem>
 							)

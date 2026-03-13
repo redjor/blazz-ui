@@ -1,15 +1,23 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@blazz/ui/components/ui/card"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { Button } from "@blazz/ui/components/ui/button"
+import {
+	Card,
+	CardAction,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@blazz/ui/components/ui/card"
 import { Progress } from "@blazz/ui/components/ui/progress"
 import { cn } from "@blazz/ui/lib/utils"
+import { createFileRoute } from "@tanstack/react-router"
 import { ArrowRightIcon, BellIcon, ChevronDownIcon, SparklesIcon } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -470,8 +478,8 @@ function CardPage() {
 							</div>
 
 							<p className="text-foreground text-sm">
-								Simplifying your workflow from day one. Manage your tasks, projects, and team in
-								one place.
+								Simplifying your workflow from day one. Manage your tasks, projects, and team in one
+								place.
 							</p>
 
 							<Button>
@@ -502,7 +510,9 @@ function CardPage() {
 					<li>Display information in a way that prioritizes what the user needs to know first</li>
 					<li>Use headings that set clear expectations about the card's purpose</li>
 					<li>Stick to single user flows or break more complicated flows into multiple sections</li>
-					<li>Avoid too many call-to-action buttons and only one primary call to action per card</li>
+					<li>
+						Avoid too many call-to-action buttons and only one primary call to action per card
+					</li>
 				</ul>
 			</DocSection>
 		</DocPage>

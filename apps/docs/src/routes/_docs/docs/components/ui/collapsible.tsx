@@ -1,18 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
 } from "@blazz/ui/components/ui/collapsible"
-import { Button } from "@blazz/ui/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router"
 import { ChevronsUpDown } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -150,8 +150,7 @@ const contentProps: DocProp[] = [
 		name: "keepMounted",
 		type: "boolean",
 		default: "false",
-		description:
-			"Whether the content remains in the DOM when collapsed.",
+		description: "Whether the content remains in the DOM when collapsed.",
 	},
 ]
 
@@ -192,16 +191,10 @@ function CollapsiblePage() {
 							<span className="sr-only">Toggle</span>
 						</CollapsibleTrigger>
 					</div>
-					<div className="rounded-md border border-edge px-4 py-3 text-sm">
-						Item 1
-					</div>
+					<div className="rounded-md border border-edge px-4 py-3 text-sm">Item 1</div>
 					<CollapsibleContent className="space-y-2">
-						<div className="rounded-md border border-edge px-4 py-3 text-sm">
-							Item 2
-						</div>
-						<div className="rounded-md border border-edge px-4 py-3 text-sm">
-							Item 3
-						</div>
+						<div className="rounded-md border border-edge px-4 py-3 text-sm">Item 2</div>
+						<div className="rounded-md border border-edge px-4 py-3 text-sm">Item 3</div>
 					</CollapsibleContent>
 				</Collapsible>
 			</DocHero>
@@ -235,16 +228,10 @@ function CollapsiblePage() {
 								<span className="sr-only">Toggle</span>
 							</CollapsibleTrigger>
 						</div>
-						<div className="rounded-md border border-edge px-4 py-3 text-sm">
-							Item 1
-						</div>
+						<div className="rounded-md border border-edge px-4 py-3 text-sm">Item 1</div>
 						<CollapsibleContent className="space-y-2">
-							<div className="rounded-md border border-edge px-4 py-3 text-sm">
-								Item 2
-							</div>
-							<div className="rounded-md border border-edge px-4 py-3 text-sm">
-								Item 3
-							</div>
+							<div className="rounded-md border border-edge px-4 py-3 text-sm">Item 2</div>
+							<div className="rounded-md border border-edge px-4 py-3 text-sm">Item 3</div>
 						</CollapsibleContent>
 					</Collapsible>
 				</DocExampleClient>
@@ -308,20 +295,16 @@ function CollapsiblePage() {
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						Use Collapsible for progressive disclosure — show the essential first, reveal details on demand
+						Use Collapsible for progressive disclosure — show the essential first, reveal details on
+						demand
 					</li>
 					<li>
-						Use the <code className="text-xs">render</code> prop on CollapsibleTrigger to compose with Button (never use asChild)
+						Use the <code className="text-xs">render</code> prop on CollapsibleTrigger to compose
+						with Button (never use asChild)
 					</li>
-					<li>
-						For multiple collapsible sections (FAQ, settings), consider Accordion instead
-					</li>
-					<li>
-						Keep the trigger label descriptive so users know what will be revealed
-					</li>
-					<li>
-						Add a visual indicator (chevron icon) to signal that the section is expandable
-					</li>
+					<li>For multiple collapsible sections (FAQ, settings), consider Accordion instead</li>
+					<li>Keep the trigger label descriptive so users know what will be revealed</li>
+					<li>Add a visual indicator (chevron icon) to signal that the section is expandable</li>
 				</ul>
 			</DocSection>
 
@@ -331,8 +314,7 @@ function CollapsiblePage() {
 						{
 							title: "Accordion",
 							href: "/docs/components/ui/accordion",
-							description:
-								"For multiple collapsible sections where only one or some can be open.",
+							description: "For multiple collapsible sections where only one or some can be open.",
 						},
 						{
 							title: "Dialog",
@@ -343,8 +325,7 @@ function CollapsiblePage() {
 						{
 							title: "Tabs",
 							href: "/docs/components/ui/tabs",
-							description:
-								"For switching between views where all content is equally important.",
+							description: "For switching between views where all content is equally important.",
 						},
 					]}
 				/>

@@ -1,7 +1,7 @@
 "use client"
 
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface ScoreBreakdown {
 	label: string
@@ -30,8 +30,14 @@ function ScoreCardBase({
 	const circumference = 2 * Math.PI * 36
 	const dashOffset = circumference - (percentage / 100) * circumference
 
-	const color = percentage >= 75 ? "text-emerald-500" : percentage >= 50 ? "text-amber-500" : "text-red-500"
-	const strokeColor = percentage >= 75 ? "stroke-emerald-500" : percentage >= 50 ? "stroke-amber-500" : "stroke-red-500"
+	const color =
+		percentage >= 75 ? "text-emerald-500" : percentage >= 50 ? "text-amber-500" : "text-red-500"
+	const strokeColor =
+		percentage >= 75
+			? "stroke-emerald-500"
+			: percentage >= 50
+				? "stroke-amber-500"
+				: "stroke-red-500"
 
 	return (
 		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
@@ -40,14 +46,7 @@ function ScoreCardBase({
 			<div className="mt-3 flex items-center gap-4">
 				<div className="relative size-20 shrink-0">
 					<svg className="size-20 -rotate-90" viewBox="0 0 80 80">
-						<circle
-							cx="40"
-							cy="40"
-							r="36"
-							fill="none"
-							className="stroke-raised"
-							strokeWidth="6"
-						/>
+						<circle cx="40" cy="40" r="36" fill="none" className="stroke-raised" strokeWidth="6" />
 						<circle
 							cx="40"
 							cy="40"
@@ -83,7 +82,11 @@ function ScoreCardBase({
 										<div
 											className={cn(
 												"h-full rounded-full",
-												itemPct >= 75 ? "bg-emerald-500" : itemPct >= 50 ? "bg-amber-500" : "bg-red-500",
+												itemPct >= 75
+													? "bg-emerald-500"
+													: itemPct >= 50
+														? "bg-amber-500"
+														: "bg-red-500"
 											)}
 											style={{ width: `${itemPct}%` }}
 										/>

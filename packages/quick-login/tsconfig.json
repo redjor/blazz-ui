@@ -1,18 +1,18 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "incremental": false,
-    "jsx": "react-jsx",
-    "paths": {
-      "@blazz/ui": ["../ui/src"],
-      "@blazz/ui/*": ["../ui/src/*"]
-    },
-    "declaration": true,
-    "outDir": "./dist",
-    "declarationMap": true,
-    "skipLibCheck": true,
-    "types": ["node"]
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"incremental": false,
+		"jsx": "react-jsx",
+		"paths": {
+			"@blazz/ui": ["../ui/src"],
+			"@blazz/ui/*": ["../ui/src/*"]
+		},
+		"declaration": true,
+		"outDir": "./dist",
+		"declarationMap": true,
+		"skipLibCheck": true,
+		"types": ["node"]
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
 }

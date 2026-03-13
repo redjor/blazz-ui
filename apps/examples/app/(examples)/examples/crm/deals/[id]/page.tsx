@@ -1,20 +1,20 @@
 "use client"
 
+import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
+import { type DealLine, DealLinesEditor } from "@blazz/ui/components/blocks/deal-lines-editor"
+import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
+import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
+import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { Edit } from "lucide-react"
 import { notFound } from "next/navigation"
 import { use } from "react"
 import { toast } from "sonner"
-import { Edit } from "lucide-react"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
-import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
-import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { DealLinesEditor, type DealLine } from "@blazz/ui/components/blocks/deal-lines-editor"
-import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@blazz/ui/components/ui/tabs"
-import { getDealById, formatCurrency, formatDate, recentActivities } from "@/lib/sample-data"
+import { formatCurrency, formatDate, getDealById, recentActivities } from "@/lib/sample-data"
 
 const stageLabel: Record<string, string> = {
 	lead: "Lead",
@@ -43,16 +43,30 @@ const dealTransitions = [
 ]
 
 const sampleDealLines: DealLine[] = [
-	{ id: "dl1", product: "Licence CRM Enterprise", description: "50 utilisateurs, 12 mois", quantity: 1, unitPrice: 24000 },
-	{ id: "dl2", product: "Module Analytics", description: "Tableaux de bord avancés", quantity: 1, unitPrice: 8500 },
-	{ id: "dl3", product: "Formation sur site", description: "2 jours, 10 participants", quantity: 2, unitPrice: 1500 },
+	{
+		id: "dl1",
+		product: "Licence CRM Enterprise",
+		description: "50 utilisateurs, 12 mois",
+		quantity: 1,
+		unitPrice: 24000,
+	},
+	{
+		id: "dl2",
+		product: "Module Analytics",
+		description: "Tableaux de bord avancés",
+		quantity: 1,
+		unitPrice: 8500,
+	},
+	{
+		id: "dl3",
+		product: "Formation sur site",
+		description: "2 jours, 10 participants",
+		quantity: 2,
+		unitPrice: 1500,
+	},
 ]
 
-export default function DealDetailPage({
-	params,
-}: {
-	params: Promise<{ id: string }>
-}) {
+export default function DealDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = use(params)
 	const deal = getDealById(id)
 
@@ -67,9 +81,7 @@ export default function DealDetailPage({
 					{ label: "Pipeline", href: "/examples/crm/deals" },
 					{ label: deal.title },
 				]}
-				actions={[
-					{ label: "Modifier", href: `/deals/${id}/edit`, icon: Edit, variant: "outline" },
-				]}
+				actions={[{ label: "Modifier", href: `/deals/${id}/edit`, icon: Edit, variant: "outline" }]}
 			/>
 
 			<div className="flex items-center justify-between">
@@ -94,7 +106,15 @@ export default function DealDetailPage({
 					title={deal.title}
 					subtitle={deal.companyName}
 					status={
-						<Badge variant={deal.stage === "closed_won" ? "success" : deal.stage === "closed_lost" ? "critical" : "info"}>
+						<Badge
+							variant={
+								deal.stage === "closed_won"
+									? "success"
+									: deal.stage === "closed_lost"
+										? "critical"
+										: "info"
+							}
+						>
 							{stageLabel[deal.stage] ?? deal.stage}
 						</Badge>
 					}
@@ -118,7 +138,10 @@ export default function DealDetailPage({
 								<FieldGrid columns={3}>
 									<Field label="Montant" value={formatCurrency(deal.amount)} />
 									<Field label="Probabilité" value={`${deal.probability}%`} />
-									<Field label="Date de clôture prévue" value={formatDate(deal.expectedCloseDate)} />
+									<Field
+										label="Date de clôture prévue"
+										value={formatDate(deal.expectedCloseDate)}
+									/>
 									<Field label="Source" value={deal.source} />
 									<Field label="Assigné à" value={deal.assignedTo} />
 									<Field label="Créé le" value={formatDate(deal.createdAt)} />

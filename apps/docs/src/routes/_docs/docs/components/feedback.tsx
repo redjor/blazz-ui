@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
+import { createFileRoute } from "@tanstack/react-router"
+import { AlertCircle, Bell, InboxIcon, Loader2, MessageSquare, Tag } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
-import { AlertCircle, Tag, MessageSquare, Loader2, InboxIcon, Bell } from "lucide-react"
 
 export const Route = createFileRoute("/_docs/docs/components/feedback")({
 	component: FeedbackComponentsPage,
@@ -11,42 +11,48 @@ const feedbackComponents = [
 	{
 		title: "Alert",
 		href: "/docs/components/ui/alert",
-		description: "Displays important inline messages and notifications with different severity levels.",
+		description:
+			"Displays important inline messages and notifications with different severity levels.",
 		icon: AlertCircle,
 		thumbnail: "alert",
 	},
 	{
 		title: "Badge",
 		href: "/docs/components/ui/badge",
-		description: "Small status indicators for labeling, categorizing, or showing counts with semantic colors.",
+		description:
+			"Small status indicators for labeling, categorizing, or showing counts with semantic colors.",
 		icon: Tag,
 		thumbnail: "badge",
 	},
 	{
 		title: "Banner",
 		href: "/docs/components/ui/banner",
-		description: "Informs users about important page-level changes or persistent conditions that need attention.",
+		description:
+			"Informs users about important page-level changes or persistent conditions that need attention.",
 		icon: MessageSquare,
 		thumbnail: "banner",
 	},
 	{
 		title: "Empty",
 		href: "/docs/components/ui/empty",
-		description: "Contextual empty states with actionable guidance for when data doesn't exist yet or search returns no results.",
+		description:
+			"Contextual empty states with actionable guidance for when data doesn't exist yet or search returns no results.",
 		icon: InboxIcon,
 		thumbnail: "empty",
 	},
 	{
 		title: "Skeleton",
 		href: "/docs/components/ui/skeleton",
-		description: "Display placeholder content while data is loading to improve perceived performance.",
+		description:
+			"Display placeholder content while data is loading to improve perceived performance.",
 		icon: Loader2,
 		thumbnail: "skeleton",
 	},
 	{
 		title: "Toast",
 		href: "/docs/components/ui/toast",
-		description: "Temporary notifications triggered imperatively after user actions. Supports success, error, warning, and promise states.",
+		description:
+			"Temporary notifications triggered imperatively after user actions. Supports success, error, warning, and promise states.",
 		icon: Bell,
 	},
 ]

@@ -1,14 +1,14 @@
 "use client"
 
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleSync } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { RadarChartBlock } from "@blazz/ui/components/blocks/radar-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleSync } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 
 export const Route = createFileRoute("/_docs/docs/blocks/charts/radar-chart")({
 	component: RadarChartPage,
@@ -35,7 +35,8 @@ const radarChartProps: DocProp[] = [
 	{
 		name: "data",
 		type: "Record<string, unknown>[]",
-		description: "Array of data points. Each object should contain the angleKey and one field per series.",
+		description:
+			"Array of data points. Each object should contain the angleKey and one field per series.",
 	},
 	{
 		name: "config",
@@ -127,7 +128,12 @@ function RadarChartPage() {
 />`}
 				>
 					<div className="max-w-sm">
-						<RadarChartBlock title="Stack technique" data={singleData} config={singleConfig} angleKey="area" />
+						<RadarChartBlock
+							title="Stack technique"
+							data={singleData}
+							config={singleConfig}
+							angleKey="area"
+						/>
 					</div>
 				</DocExampleSync>
 
@@ -166,9 +172,21 @@ function RadarChartPage() {
 			<DocSection id="related" title="Related">
 				<DocRelated
 					items={[
-						{ title: "Pie Chart", href: "/docs/components/charts/pie-chart", description: "Camembert pour répartitions." },
-						{ title: "Bar Chart", href: "/docs/components/charts/bar-chart", description: "Barres pour comparer des valeurs." },
-						{ title: "Line Chart", href: "/docs/components/charts/line-chart", description: "Courbes pour tendances." },
+						{
+							title: "Pie Chart",
+							href: "/docs/components/charts/pie-chart",
+							description: "Camembert pour répartitions.",
+						},
+						{
+							title: "Bar Chart",
+							href: "/docs/components/charts/bar-chart",
+							description: "Barres pour comparer des valeurs.",
+						},
+						{
+							title: "Line Chart",
+							href: "/docs/components/charts/line-chart",
+							description: "Courbes pour tendances.",
+						},
 					]}
 				/>
 			</DocSection>

@@ -1,8 +1,8 @@
 "use client"
 
-import { TrendingUp, TrendingDown } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { TrendingDown, TrendingUp } from "lucide-react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface StatItem {
 	label: string
@@ -20,7 +20,7 @@ function StatsRowBase({ items, className }: StatsRowProps) {
 		<div
 			className={cn(
 				"flex divide-x divide-separator rounded-lg border border-container bg-surface",
-				className,
+				className
 			)}
 		>
 			{items.map((item, i) => (
@@ -34,12 +34,7 @@ function StatsRowBase({ items, className }: StatsRowProps) {
 							) : (
 								<TrendingDown className="size-3 text-negative" />
 							)}
-							<span
-								className={cn(
-									"text-sm",
-									item.trend >= 0 ? "text-positive" : "text-negative",
-								)}
-							>
+							<span className={cn("text-sm", item.trend >= 0 ? "text-positive" : "text-negative")}>
 								{item.trend >= 0 ? "+" : ""}
 								{item.trend}%
 							</span>

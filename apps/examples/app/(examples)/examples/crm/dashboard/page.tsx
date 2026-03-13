@@ -1,24 +1,22 @@
 "use client"
 
-import { Building2, Handshake, TrendingUp, BarChart3 } from "lucide-react"
+import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
+import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { Card, CardHeader, CardTitle, CardContent } from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { BarChart3, Building2, Handshake, TrendingUp } from "lucide-react"
 import {
 	dashboardStats,
-	revenueChartData,
-	dealsByStageData,
-	recentActivities,
 	deals,
+	dealsByStageData,
 	formatCurrency,
+	recentActivities,
+	revenueChartData,
 } from "@/lib/sample-data"
 
 export default function DashboardPage() {
-	const openDeals = deals.filter(
-		(d) => !["closed_won", "closed_lost"].includes(d.stage)
-	)
+	const openDeals = deals.filter((d) => !["closed_won", "closed_lost"].includes(d.stage))
 
 	return (
 		<div className="p-6 space-y-6">
@@ -93,13 +91,9 @@ export default function DashboardPage() {
 								>
 									<div>
 										<p className="text-sm font-medium">{deal.title}</p>
-										<p className="text-xs text-fg-muted">
-											{deal.companyName}
-										</p>
+										<p className="text-xs text-fg-muted">{deal.companyName}</p>
 									</div>
-									<span className="text-sm font-medium">
-										{formatCurrency(deal.amount)}
-									</span>
+									<span className="text-sm font-medium">{formatCurrency(deal.amount)}</span>
 								</a>
 							))}
 						</div>

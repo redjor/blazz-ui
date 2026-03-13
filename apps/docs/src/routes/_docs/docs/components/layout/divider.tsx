@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Divider } from "@blazz/ui/components/ui/divider"
-import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { Divider } from "@blazz/ui/components/ui/divider"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -74,11 +74,7 @@ function DividerPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Divider"
-			subtitle="Use to separate or group content."
-			toc={toc}
-		>
+		<DocPage title="Divider" subtitle="Use to separate or group content." toc={toc}>
 			<DocSection id="examples" title="Examples">
 				<DocExampleClient
 					title="Default"

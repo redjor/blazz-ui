@@ -1,8 +1,6 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Label } from "@blazz/ui/components/ui/label"
 import { Card } from "@blazz/ui/components/ui/card"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import {
@@ -11,10 +9,12 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
+import { Label } from "@blazz/ui/components/ui/label"
 import { MoreVerticalIcon } from "lucide-react"
+import { useState } from "react"
+import { toast } from "sonner"
 import type { User } from "@/types/user-management"
 import { UserMetadataEditor } from "./user-metadata-editor"
-import { toast } from "sonner"
 
 interface UserSettingsFormProps {
 	user: User
@@ -44,13 +44,9 @@ export function UserSettingsForm({ user }: UserSettingsFormProps) {
 					<Label>Username</Label>
 					<div className="flex items-center gap-2">
 						<span className="text-fg-muted text-sm">@</span>
-						<div className="flex-1 px-3 py-2 bg-raised/50 rounded-md text-sm">
-							{user.username}
-						</div>
+						<div className="flex-1 px-3 py-2 bg-raised/50 rounded-md text-sm">{user.username}</div>
 					</div>
-					<p className="text-xs text-fg-muted">
-						Username can be modified in the Profile tab.
-					</p>
+					<p className="text-xs text-fg-muted">Username can be modified in the Profile tab.</p>
 				</div>
 			</Card>
 
@@ -101,7 +97,10 @@ export function UserSettingsForm({ user }: UserSettingsFormProps) {
 				) : (
 					<div className="space-y-3">
 						{user.devices.map((device) => (
-							<div key={device.id} className="flex items-center justify-between p-3 border rounded-lg">
+							<div
+								key={device.id}
+								className="flex items-center justify-between p-3 border rounded-lg"
+							>
 								<div>
 									<p className="text-sm font-medium">{device.name}</p>
 									<p className="text-xs text-fg-muted">

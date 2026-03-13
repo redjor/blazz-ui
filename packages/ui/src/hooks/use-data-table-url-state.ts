@@ -63,7 +63,7 @@ export function useDataTableUrlState({
 				params.set("selectedView", view.id)
 
 				// Add filter params from view for URL readability
-				if (view.filters && view.filters.conditions) {
+				if (view.filters?.conditions) {
 					view.filters.conditions.forEach((condition) => {
 						if ("column" in condition && "value" in condition) {
 							params.set(condition.column, String(condition.value))

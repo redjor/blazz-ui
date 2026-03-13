@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
 import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitiveRoot } from "@base-ui/react/radio-group"
+import type * as React from "react"
 import { cn } from "../../lib/utils"
 
 function Radio({ className, ...props }: RadioPrimitive.Root.Props) {
@@ -95,20 +95,12 @@ function RadioGroup({
 		>
 			{(label || description) && (
 				<div className="space-y-1">
-					{label && (
-						<span className="text-sm font-medium leading-none text-fg">
-							{label}
-						</span>
-					)}
-					{description && (
-						<p className="text-sm text-fg-muted">{description}</p>
-					)}
+					{label && <span className="text-sm font-medium leading-none text-fg">{label}</span>}
+					{description && <p className="text-sm text-fg-muted">{description}</p>}
 				</div>
 			)}
 			<div
-				className={cn(
-					orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2"
-				)}
+				className={cn(orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2")}
 			>
 				{options.map((option) => {
 					const id = `radio-group-${option.value}`

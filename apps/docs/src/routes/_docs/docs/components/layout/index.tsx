@@ -1,19 +1,19 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
+import { createFileRoute } from "@tanstack/react-router"
 import {
-	Expand,
-	Rows3,
-	Square,
-	SeparatorHorizontal,
-	LayoutGrid,
 	Columns3,
-	GalleryHorizontal,
-	Megaphone,
-	RectangleHorizontal,
-	PanelsTopLeft,
+	Expand,
 	FileText,
+	GalleryHorizontal,
+	LayoutGrid,
+	Megaphone,
+	PanelsTopLeft,
+	RectangleHorizontal,
+	Rows3,
+	SeparatorHorizontal,
+	Square,
 } from "lucide-react"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 
 export const Route = createFileRoute("/_docs/docs/components/layout/")({
 	component: LayoutComponentsPage,
@@ -22,14 +22,16 @@ export const Route = createFileRoute("/_docs/docs/components/layout/")({
 const layoutPrimitives = [
 	{
 		title: "Bleed",
-		description: "Applies negative margin to allow content to bleed out into the surrounding layout.",
+		description:
+			"Applies negative margin to allow content to bleed out into the surrounding layout.",
 		href: "/docs/components/layout/bleed",
 		icon: Expand,
 		thumbnail: "bleed",
 	},
 	{
 		title: "Block Stack",
-		description: "Use to display children vertically with full width by default. Based on CSS Flexbox.",
+		description:
+			"Use to display children vertically with full width by default. Based on CSS Flexbox.",
 		href: "/docs/components/layout/block-stack",
 		icon: Rows3,
 		thumbnail: "block-stack",
@@ -57,7 +59,8 @@ const layoutPrimitives = [
 	},
 	{
 		title: "Inline Grid",
-		description: "Use to lay out children horizontally with equal gap between columns. Based on CSS Grid.",
+		description:
+			"Use to lay out children horizontally with equal gap between columns. Based on CSS Grid.",
 		href: "/docs/components/layout/inline-grid",
 		icon: Columns3,
 		thumbnail: "inline-grid",
@@ -74,14 +77,16 @@ const layoutPrimitives = [
 const layoutCompositions = [
 	{
 		title: "Callout Card",
-		description: "Callout cards are used to encourage users to take an action related to a new feature.",
+		description:
+			"Callout cards are used to encourage users to take an action related to a new feature.",
 		href: "/docs/components/layout/callout-card",
 		icon: Megaphone,
 		thumbnail: "callout-card",
 	},
 	{
 		title: "Card",
-		description: "Used to group similar concepts and tasks together for easier scanning and reading.",
+		description:
+			"Used to group similar concepts and tasks together for easier scanning and reading.",
 		href: "/docs/components/layout/card",
 		icon: RectangleHorizontal,
 		thumbnail: "card",
@@ -95,7 +100,8 @@ const layoutCompositions = [
 	},
 	{
 		title: "Page",
-		description: "A container component for page-level layout with title, actions, and breadcrumbs.",
+		description:
+			"A container component for page-level layout with title, actions, and breadcrumbs.",
 		href: "/docs/components/layout/page-component",
 		icon: FileText,
 		thumbnail: "page-component",

@@ -1,82 +1,57 @@
-"use client";
+"use client"
 
-import type { ComponentProps } from "react";
-
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../../ui/collapsible";
+import { BookIcon, ChevronDownIcon } from "lucide-react"
+import type { ComponentProps } from "react"
+import { cn } from "../../../lib/utils"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { cn } from "../../../lib/utils";
-import { BookIcon, ChevronDownIcon } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../../ui/collapsible"
 
-export type SourcesProps = ComponentProps<typeof Collapsible>;
+export type SourcesProps = ComponentProps<typeof Collapsible>
 
 const SourcesBase = ({ className, ...props }: SourcesProps) => (
-  <Collapsible
-    className={cn("not-prose mb-4 text-primary text-xs", className)}
-    {...props}
-  />
-);
+	<Collapsible className={cn("not-prose mb-4 text-primary text-xs", className)} {...props} />
+)
 
 export type SourcesTriggerProps = ComponentProps<typeof CollapsibleTrigger> & {
-  count: number;
-};
+	count: number
+}
 
-const SourcesTriggerBase = ({
-  className,
-  count,
-  children,
-  ...props
-}: SourcesTriggerProps) => (
-  <CollapsibleTrigger
-    className={cn("flex items-center gap-2", className)}
-    {...props}
-  >
-    {children ?? (
-      <>
-        <p className="font-medium">Used {count} sources</p>
-        <ChevronDownIcon className="h-4 w-4" />
-      </>
-    )}
-  </CollapsibleTrigger>
-);
+const SourcesTriggerBase = ({ className, count, children, ...props }: SourcesTriggerProps) => (
+	<CollapsibleTrigger className={cn("flex items-center gap-2", className)} {...props}>
+		{children ?? (
+			<>
+				<p className="font-medium">Used {count} sources</p>
+				<ChevronDownIcon className="h-4 w-4" />
+			</>
+		)}
+	</CollapsibleTrigger>
+)
 
-export type SourcesContentProps = ComponentProps<typeof CollapsibleContent>;
+export type SourcesContentProps = ComponentProps<typeof CollapsibleContent>
 
-const SourcesContentBase = ({
-  className,
-  ...props
-}: SourcesContentProps) => (
-  <CollapsibleContent
-    className={cn(
-      "mt-3 flex w-fit flex-col gap-2",
-      "data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
-      className
-    )}
-    {...props}
-  />
-);
+const SourcesContentBase = ({ className, ...props }: SourcesContentProps) => (
+	<CollapsibleContent
+		className={cn(
+			"mt-3 flex w-fit flex-col gap-2",
+			"data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 outline-none data-[state=closed]:animate-out data-[state=open]:animate-in",
+			className
+		)}
+		{...props}
+	/>
+)
 
-export type SourceProps = ComponentProps<"a">;
+export type SourceProps = ComponentProps<"a">
 
 const SourceBase = ({ href, title, children, ...props }: SourceProps) => (
-  <a
-    className="flex items-center gap-2"
-    href={href}
-    rel="noreferrer"
-    target="_blank"
-    {...props}
-  >
-    {children ?? (
-      <>
-        <BookIcon className="h-4 w-4" />
-        <span className="block font-medium">{title}</span>
-      </>
-    )}
-  </a>
-);
+	<a className="flex items-center gap-2" href={href} rel="noreferrer" target="_blank" {...props}>
+		{children ?? (
+			<>
+				<BookIcon className="h-4 w-4" />
+				<span className="block font-medium">{title}</span>
+			</>
+		)}
+	</a>
+)
 
 export const Sources = withProGuard(SourcesBase, "Sources")
 

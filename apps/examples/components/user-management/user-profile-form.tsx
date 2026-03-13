@@ -1,21 +1,21 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Input } from "@blazz/ui/components/ui/input"
-import { Label } from "@blazz/ui/components/ui/label"
-import { Card } from "@blazz/ui/components/ui/card"
-import { Badge } from "@blazz/ui/components/ui/badge"
 import { Avatar, AvatarFallback } from "@blazz/ui/components/ui/avatar"
-import { CopyIcon, CheckIcon, PlusIcon, MoreVerticalIcon } from "lucide-react"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Card } from "@blazz/ui/components/ui/card"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
-import type { User } from "@/types/user-management"
+import { Input } from "@blazz/ui/components/ui/input"
+import { Label } from "@blazz/ui/components/ui/label"
+import { CheckIcon, CopyIcon, MoreVerticalIcon, PlusIcon } from "lucide-react"
+import { useState } from "react"
 import { toast } from "sonner"
+import type { User } from "@/types/user-management"
 
 interface UserProfileFormProps {
 	user: User
@@ -57,7 +57,8 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
 		})
 	}
 
-	const initials = `${user.firstName?.charAt(0) || ""}${user.lastName?.charAt(0) || ""}`.toUpperCase()
+	const initials =
+		`${user.firstName?.charAt(0) || ""}${user.lastName?.charAt(0) || ""}`.toUpperCase()
 	const primaryEmail = user.emailAddresses.find((email) => email.isPrimary)
 
 	return (

@@ -1,5 +1,5 @@
-import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 
 const textVariants = cva("", {
@@ -71,7 +71,7 @@ function TextInner<T extends React.ElementType = "span">(
 		className,
 		...props
 	}: TextProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>>,
-	ref: PolymorphicRef<T>,
+	ref: PolymorphicRef<T>
 ) {
 	const Component = as || variantElementMap[variant ?? "body-md"]
 
@@ -82,14 +82,16 @@ function TextInner<T extends React.ElementType = "span">(
 				textVariants({ variant, tone }),
 				truncate && "truncate",
 				numeric && "tabular-nums",
-				className,
+				className
 			)}
 			{...props}
 		/>
 	)
 }
 
-export const Text = React.forwardRef(TextInner as any) as unknown as <T extends React.ElementType = "span">(
+export const Text = React.forwardRef(TextInner as any) as unknown as <
+	T extends React.ElementType = "span",
+>(
 	props: TextProps<T> &
 		Omit<React.ComponentPropsWithoutRef<T>, keyof TextProps<T>> & {
 			ref?: PolymorphicRef<T>

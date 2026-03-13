@@ -1,12 +1,12 @@
+import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { FormField } from "@blazz/ui/components/patterns/form-field"
 import { createFileRoute, useLoaderData } from "@tanstack/react-router"
 import { useForm } from "react-hook-form"
-import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
-import { FormField } from "@blazz/ui/components/patterns/form-field"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp, type DocPropGroup } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, type DocPropGroup, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -103,13 +103,15 @@ const propGroups: DocPropGroup[] = [
 				name: "columns",
 				type: "1 | 2 | 3 | 4",
 				default: "3",
-				description: "Nombre de colonnes sur grands écrans. Sur mobile la grille est toujours 1 colonne, 2 colonnes à partir de sm.",
+				description:
+					"Nombre de colonnes sur grands écrans. Sur mobile la grille est toujours 1 colonne, 2 colonnes à partir de sm.",
 			},
 			{
 				name: "children",
 				type: "React.ReactNode",
 				required: true,
-				description: "Champs à afficher — Field pour les fiches détail, FormField pour les formulaires.",
+				description:
+					"Champs à afficher — Field pour les fiches détail, FormField pour les formulaires.",
 			},
 			{
 				name: "className",
@@ -273,7 +275,8 @@ function FieldGridPage() {
 						{
 							title: "Form Field",
 							href: "/docs/components/patterns/form-field",
-							description: "Input de formulaire connecté à react-hook-form. S'utilise dans un FieldGrid.",
+							description:
+								"Input de formulaire connecté à react-hook-form. S'utilise dans un FieldGrid.",
 						},
 						{
 							title: "Form Section",

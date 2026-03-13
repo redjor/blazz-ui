@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import {
 	Dialog,
 	DialogContent,
@@ -12,10 +10,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import {
 	Select,
 	SelectContent,
@@ -23,6 +19,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 import type { Invitation } from "@/types/user-management"
 
 const inviteUserSchema = z.object({
@@ -108,14 +108,20 @@ export function InviteUserDialog({ open, onOpenChange, onSubmit }: InviteUserDia
 							{...register("email")}
 							autoFocus
 						/>
-						{errors.email && (
-							<p className="text-sm text-negative">{errors.email.message}</p>
-						)}
+						{errors.email && <p className="text-sm text-negative">{errors.email.message}</p>}
 					</div>
 
 					<div className="space-y-2">
 						<Label htmlFor="role">Role *</Label>
-						<Select value={role} onValueChange={(value) => setValue("role", value)} items={[{ value: "admin", label: "Admin" }, { value: "moderator", label: "Moderator" }, { value: "user", label: "User" }]}>
+						<Select
+							value={role}
+							onValueChange={(value) => setValue("role", value)}
+							items={[
+								{ value: "admin", label: "Admin" },
+								{ value: "moderator", label: "Moderator" },
+								{ value: "user", label: "User" },
+							]}
+						>
 							<SelectTrigger id="role">
 								<SelectValue placeholder="Select a role" />
 							</SelectTrigger>
@@ -125,9 +131,7 @@ export function InviteUserDialog({ open, onOpenChange, onSubmit }: InviteUserDia
 								<SelectItem value="user">User</SelectItem>
 							</SelectContent>
 						</Select>
-						{errors.role && (
-							<p className="text-sm text-negative">{errors.role.message}</p>
-						)}
+						{errors.role && <p className="text-sm text-negative">{errors.role.message}</p>}
 					</div>
 
 					<div className="flex items-center gap-2">

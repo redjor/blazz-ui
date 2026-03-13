@@ -1,23 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router"
 import {
 	InlineCitation,
-	InlineCitationText,
 	InlineCitationCard,
-	InlineCitationCardTrigger,
 	InlineCitationCardBody,
+	InlineCitationCardTrigger,
 	InlineCitationCarousel,
 	InlineCitationCarouselContent,
-	InlineCitationCarouselItem,
 	InlineCitationCarouselHeader,
 	InlineCitationCarouselIndex,
-	InlineCitationCarouselPrev,
+	InlineCitationCarouselItem,
 	InlineCitationCarouselNext,
+	InlineCitationCarouselPrev,
 	InlineCitationSource,
+	InlineCitationText,
 } from "@blazz/ui/components/ai/reasoning/inline-citation"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -63,9 +63,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/inline-citation"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/inline-citation")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -82,8 +80,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function InlineCitationPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -98,7 +95,9 @@ function InlineCitationPage() {
 						<InlineCitation>
 							<InlineCitationText>reducing the JavaScript sent to the client</InlineCitationText>
 							<InlineCitationCard>
-								<InlineCitationCardTrigger sources={["https://react.dev/blog/2023/03/22/react-labs"]} />
+								<InlineCitationCardTrigger
+									sources={["https://react.dev/blog/2023/03/22/react-labs"]}
+								/>
 								<InlineCitationCardBody>
 									<InlineCitationCarousel>
 										<InlineCitationCarouselHeader>
@@ -156,8 +155,8 @@ function InlineCitationPage() {
 									</InlineCitationCarousel>
 								</InlineCitationCardBody>
 							</InlineCitationCard>
-						</InlineCitation>
-						{" "}rather than at runtime.
+						</InlineCitation>{" "}
+						rather than at runtime.
 					</p>
 				</DocExampleClient>
 

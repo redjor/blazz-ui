@@ -1,1 +1,1 @@
-export type { TestAccount, QuickAccountSelectorProps, ParsedAccountMetadata } from "./types/index"
+export type { ParsedAccountMetadata, QuickAccountSelectorProps, TestAccount } from "./types/index"

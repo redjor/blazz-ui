@@ -1,7 +1,7 @@
 "use client"
 
-import type * as React from "react"
 import { Plus } from "lucide-react"
+import type * as React from "react"
 import { cn } from "../../../lib/utils"
 
 interface NavigationTabsBarProps {

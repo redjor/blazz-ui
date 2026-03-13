@@ -1,5 +1,5 @@
 import type { Id } from "./_generated/dataModel"
-import { internalMutation, mutation } from "./_generated/server"
+import { mutation } from "./_generated/server"
 
 const BACKFILL_TABLES = [
 	"clients",
@@ -143,7 +143,7 @@ export const run = mutation({
 			createdAt: now - 40 * 86400_000,
 		})
 
-		const veridianDesignId = await ctx.db.insert("projects", {
+		const _veridianDesignId = await ctx.db.insert("projects", {
 			userId: SEED_USER_ID,
 			clientId: veridianId,
 			name: "Design System",
@@ -274,9 +274,10 @@ export const run = mutation({
 			status?: EntryStatus
 		}
 
-		const insert = (e: EntryArgs) => ctx.db.insert("timeEntries", { ...e, userId: SEED_USER_ID, createdAt: now })
+		const insert = (e: EntryArgs) =>
+			ctx.db.insert("timeEntries", { ...e, userId: SEED_USER_ID, createdAt: now })
 
-		const invoicedTs = now - 15 * 86400_000
+		const _invoicedTs = now - 15 * 86400_000
 		const paidTs = now - 60 * 86400_000
 
 		// Acme — Dashboard Analytics

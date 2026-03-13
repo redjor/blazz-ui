@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { ImageGallery } from "@blazz/ui/components/ai/generative/content/image-gallery"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -27,9 +27,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/content/image-gallery"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/content/image-gallery")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -46,8 +44,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function ImageGalleryPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -59,9 +56,21 @@ function ImageGalleryPage() {
 				<div className="max-w-sm">
 					<ImageGallery
 						images={[
-							{ src: "https://picsum.photos/seed/office1/600/400", alt: "Office space", caption: "Main office — 3rd floor" },
-							{ src: "https://picsum.photos/seed/office2/600/400", alt: "Meeting room", caption: "Conference room A" },
-							{ src: "https://picsum.photos/seed/office3/600/400", alt: "Workspace", caption: "Open workspace area" },
+							{
+								src: "https://picsum.photos/seed/office1/600/400",
+								alt: "Office space",
+								caption: "Main office — 3rd floor",
+							},
+							{
+								src: "https://picsum.photos/seed/office2/600/400",
+								alt: "Meeting room",
+								caption: "Conference room A",
+							},
+							{
+								src: "https://picsum.photos/seed/office3/600/400",
+								alt: "Workspace",
+								caption: "Open workspace area",
+							},
 						]}
 					/>
 				</div>
@@ -94,7 +103,11 @@ function ImageGalleryPage() {
 					<div className="max-w-sm">
 						<ImageGallery
 							images={[
-								{ src: "https://picsum.photos/seed/single/600/400", alt: "Product shot", caption: "New dashboard design" },
+								{
+									src: "https://picsum.photos/seed/single/600/400",
+									alt: "Product shot",
+									caption: "New dashboard design",
+								},
 							]}
 						/>
 					</div>

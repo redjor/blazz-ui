@@ -1,9 +1,9 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -151,7 +151,7 @@ const navTabItemProps: DocProp[] = [
 		name: "badge",
 		type: 'number | "loading"',
 		description:
-			"Badge affiché à droite du label. number → count (affiche \"9+\" si > 9). \"loading\" → spinner Loader2 animé. Ignoré si 0 ou undefined.",
+			'Badge affiché à droite du label. number → count (affiche "9+" si > 9). "loading" → spinner Loader2 animé. Ignoré si 0 ou undefined.',
 	},
 	{
 		name: "disabled",
@@ -170,12 +170,8 @@ function NavTabsPreview() {
 				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
 					Companies
 				</span>
-				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-					Contacts
-				</span>
-				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-					Reports
-				</span>
+				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Contacts</span>
+				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Reports</span>
 			</div>
 		</div>
 	)
@@ -204,7 +200,14 @@ function NavTabsBadgePreview() {
 							viewBox="0 0 24 24"
 							aria-hidden="true"
 						>
-							<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+							<circle
+								className="opacity-25"
+								cx="12"
+								cy="12"
+								r="10"
+								stroke="currentColor"
+								strokeWidth="4"
+							/>
 							<path
 								className="opacity-75"
 								fill="currentColor"
@@ -256,7 +259,9 @@ function NavTabsPage() {
 			<DocSection id="badges" title="Badges">
 				<DocExampleClient
 					title="Badges numériques et loading"
-					description={'badge: number affiche un count ("9+" si supérieur à 9). badge: "loading" affiche un spinner — utile quand les données du tab sont en cours de chargement.'}
+					description={
+						'badge: number affiche un count ("9+" si supérieur à 9). badge: "loading" affiche un spinner — utile quand les données du tab sont en cours de chargement.'
+					}
 					code={examples[1].code}
 					highlightedCode={html("badges")}
 				>

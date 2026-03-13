@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Page, PageSection } from "@blazz/ui/components/ui/page"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Page, PageSection } from "@blazz/ui/components/ui/page"
 import { Tabs, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { createFileRoute } from "@tanstack/react-router"
 import { Package, Tag } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -218,7 +218,8 @@ const pageProps: DocProp[] = [
 	{
 		name: "titleMetadata",
 		type: "React.ReactNode",
-		description: "Inline metadata displayed next to the title or breadcrumb title (e.g., status badge).",
+		description:
+			"Inline metadata displayed next to the title or breadcrumb title (e.g., status badge).",
 	},
 	{
 		name: "additionalMetadata",
@@ -422,9 +423,7 @@ function PageComponentPage() {
 								backIcon: Tag,
 								title: "Wireless Headphones",
 							}}
-							titleMetadata={
-								<Badge variant="outline">Active</Badge>
-							}
+							titleMetadata={<Badge variant="outline">Active</Badge>}
 							primaryAction={<Button size="sm">Save</Button>}
 						>
 							<p className="text-sm text-fg-muted">Page content here</p>
@@ -444,9 +443,7 @@ function PageComponentPage() {
 							subtitle="SKU: WH-1000"
 							primaryAction={<Button size="sm">Save</Button>}
 							additionalMetadata={
-								<p className="text-sm text-fg-muted">
-									Updated by an app on January 2 at 10:39
-								</p>
+								<p className="text-sm text-fg-muted">Updated by an app on January 2 at 10:39</p>
 							}
 						>
 							<p className="text-sm text-fg-muted">Page content here</p>
@@ -502,9 +499,7 @@ function PageComponentPage() {
 				>
 					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Settings" narrowWidth>
-							<p className="text-sm text-fg-muted">
-								Narrow content for forms
-							</p>
+							<p className="text-sm text-fg-muted">Narrow content for forms</p>
 						</Page>
 					</div>
 				</DocExampleClient>
@@ -518,21 +513,11 @@ function PageComponentPage() {
 					<div className="rounded-lg border border-edge bg-raised">
 						<Page title="Settings">
 							<div className="space-y-8">
-								<PageSection
-									title="General"
-									description="Basic settings for your store"
-								>
-									<p className="text-sm text-fg-muted">
-										General settings content
-									</p>
+								<PageSection title="General" description="Basic settings for your store">
+									<p className="text-sm text-fg-muted">General settings content</p>
 								</PageSection>
-								<PageSection
-									title="Notifications"
-									description="Configure notification preferences"
-								>
-									<p className="text-sm text-fg-muted">
-										Notification settings content
-									</p>
+								<PageSection title="Notifications" description="Configure notification preferences">
+									<p className="text-sm text-fg-muted">Notification settings content</p>
 								</PageSection>
 							</div>
 						</Page>

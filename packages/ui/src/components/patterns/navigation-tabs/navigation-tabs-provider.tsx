@@ -32,7 +32,10 @@ function resolveActiveTabAfterClose(
 	return tabs[0].id
 }
 
-function tabsReducer(state: NavigationTabsState, action: NavigationTabsAction): NavigationTabsState {
+function tabsReducer(
+	state: NavigationTabsState,
+	action: NavigationTabsAction
+): NavigationTabsState {
 	switch (action.type) {
 		case "ADD_TAB": {
 			const existing = state.tabs.find((t) => t.url === action.payload.url)
@@ -119,7 +122,9 @@ export interface NavigationTabsContextValue {
 	updateTabTitle: (id: string, title: string) => void
 }
 
-export const NavigationTabsContext = React.createContext<NavigationTabsContextValue | undefined>(undefined)
+export const NavigationTabsContext = React.createContext<NavigationTabsContextValue | undefined>(
+	undefined
+)
 
 const initialState: NavigationTabsState = { tabs: [], activeTabId: null }
 

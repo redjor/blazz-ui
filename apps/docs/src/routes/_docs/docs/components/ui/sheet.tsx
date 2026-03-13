@@ -1,24 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Sheet,
-	SheetTrigger,
-	SheetContent,
-	SheetClose,
-	SheetHeader,
-	SheetFooter,
-	SheetTitle,
-	SheetDescription,
-} from "@blazz/ui/components/ui/sheet"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import {
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from "@blazz/ui/components/ui/sheet"
+import { createFileRoute } from "@tanstack/react-router"
 import { Menu, Settings } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -291,7 +291,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/sheet")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -300,8 +300,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/sheet")({
 
 function SheetPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -368,9 +367,7 @@ function SheetPage() {
 							<SheetContent side="left">
 								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Left Sheet</h2>
-									<p className="text-sm text-fg-muted mt-2">
-										Slides from the left edge
-									</p>
+									<p className="text-sm text-fg-muted mt-2">Slides from the left edge</p>
 								</div>
 							</SheetContent>
 						</Sheet>
@@ -380,9 +377,7 @@ function SheetPage() {
 							<SheetContent side="right">
 								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Right Sheet</h2>
-									<p className="text-sm text-fg-muted mt-2">
-										Slides from the right edge
-									</p>
+									<p className="text-sm text-fg-muted mt-2">Slides from the right edge</p>
 								</div>
 							</SheetContent>
 						</Sheet>
@@ -392,9 +387,7 @@ function SheetPage() {
 							<SheetContent side="top">
 								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Top Sheet</h2>
-									<p className="text-sm text-fg-muted mt-2">
-										Slides from the top edge
-									</p>
+									<p className="text-sm text-fg-muted mt-2">Slides from the top edge</p>
 								</div>
 							</SheetContent>
 						</Sheet>
@@ -404,9 +397,7 @@ function SheetPage() {
 							<SheetContent side="bottom">
 								<div className="p-inset">
 									<h2 className="text-lg font-semibold">Bottom Sheet</h2>
-									<p className="text-sm text-fg-muted mt-2">
-										Slides from the bottom edge
-									</p>
+									<p className="text-sm text-fg-muted mt-2">Slides from the bottom edge</p>
 								</div>
 							</SheetContent>
 						</Sheet>
@@ -439,7 +430,9 @@ function SheetPage() {
 									<SheetTitle>Medium (400px)</SheetTitle>
 								</SheetHeader>
 								<div className="flex-1 p-4">
-									<p className="text-sm text-fg-muted">Default size, good for forms and settings.</p>
+									<p className="text-sm text-fg-muted">
+										Default size, good for forms and settings.
+									</p>
 								</div>
 							</SheetContent>
 						</Sheet>
@@ -542,10 +535,18 @@ function SheetPage() {
 							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Navigation</h2>
 								<nav className="flex flex-col gap-2">
-									<Button variant="ghost" className="justify-start">Home</Button>
-									<Button variant="ghost" className="justify-start">Products</Button>
-									<Button variant="ghost" className="justify-start">About</Button>
-									<Button variant="ghost" className="justify-start">Contact</Button>
+									<Button variant="ghost" className="justify-start">
+										Home
+									</Button>
+									<Button variant="ghost" className="justify-start">
+										Products
+									</Button>
+									<Button variant="ghost" className="justify-start">
+										About
+									</Button>
+									<Button variant="ghost" className="justify-start">
+										Contact
+									</Button>
 								</nav>
 							</div>
 						</SheetContent>
@@ -601,7 +602,8 @@ function SheetPage() {
 									<div key={i} className="rounded-lg border border-edge p-3">
 										<p className="text-sm font-medium">Notification {i + 1}</p>
 										<p className="text-xs text-fg-muted mt-1">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+											incididunt ut labore.
 										</p>
 									</div>
 								))}
@@ -643,9 +645,7 @@ function SheetPage() {
 					<li>
 						<code className="text-xs">bg-raised</code> - Footer background
 					</li>
-					<li>
-						400ms spring enter / 500ms ease-out exit
-					</li>
+					<li>400ms spring enter / 500ms ease-out exit</li>
 				</ul>
 			</DocSection>
 

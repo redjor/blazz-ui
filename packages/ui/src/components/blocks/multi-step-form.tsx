@@ -1,11 +1,11 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useState, type ComponentType } from "react"
-import type { ZodSchema } from "zod"
 import { Check } from "lucide-react"
-import { Button } from "../ui/button"
+import { type ComponentType, useState } from "react"
+import type { ZodSchema } from "zod"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Button } from "../ui/button"
 
 /* ─── Types ─── */
 
@@ -31,12 +31,7 @@ export interface MultiStepFormProps {
 
 /* ─── Component ─── */
 
-function MultiStepFormBase({
-	steps,
-	onSubmit,
-	onSaveDraft,
-	className,
-}: MultiStepFormProps) {
+function MultiStepFormBase({ steps, onSubmit, onSaveDraft, className }: MultiStepFormProps) {
 	const [currentStep, setCurrentStep] = useState(0)
 	const [formData, setFormData] = useState<Record<string, unknown>>({})
 	const [errors, setErrors] = useState<Record<string, string>>({})
@@ -128,28 +123,15 @@ function MultiStepFormBase({
 								<div
 									className={cn(
 										"flex size-7 items-center justify-center rounded-full border text-xs font-medium transition-colors",
-										isCompleted &&
-											"border-fg bg-fg text-surface",
-										isCurrent &&
-											"border-fg text-fg",
-										!isCompleted &&
-											!isCurrent &&
-											"border-container text-fg-muted"
+										isCompleted && "border-fg bg-fg text-surface",
+										isCurrent && "border-fg text-fg",
+										!isCompleted && !isCurrent && "border-container text-fg-muted"
 									)}
 								>
-									{isCompleted ? (
-										<Check className="size-3.5" />
-									) : (
-										i + 1
-									)}
+									{isCompleted ? <Check className="size-3.5" /> : i + 1}
 								</div>
 								<span
-									className={cn(
-										"text-sm",
-										isCurrent
-											? "font-medium text-fg"
-											: "text-fg-muted"
-									)}
+									className={cn("text-sm", isCurrent ? "font-medium text-fg" : "text-fg-muted")}
 								>
 									{s.title}
 								</span>
@@ -161,11 +143,7 @@ function MultiStepFormBase({
 
 			{/* Step content */}
 			<div className="rounded-lg border p-6">
-				<StepComponent
-					data={formData}
-					onChange={handleChange}
-					errors={errors}
-				/>
+				<StepComponent data={formData} onChange={handleChange} errors={errors} />
 			</div>
 
 			{/* Navigation */}
@@ -177,22 +155,14 @@ function MultiStepFormBase({
 						</Button>
 					)}
 					{onSaveDraft && (
-						<Button
-							variant="ghost"
-							onClick={handleDraft}
-							disabled={submitting}
-						>
+						<Button variant="ghost" onClick={handleDraft} disabled={submitting}>
 							Sauvegarder le brouillon
 						</Button>
 					)}
 				</div>
 
 				<Button onClick={handleNext} disabled={submitting}>
-					{submitting
-						? "Enregistrement..."
-						: isLast
-							? "Terminer"
-							: "Suivant"}
+					{submitting ? "Enregistrement..." : isLast ? "Terminer" : "Suivant"}
 				</Button>
 			</div>
 		</div>

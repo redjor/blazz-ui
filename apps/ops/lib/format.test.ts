@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { formatMinutes, formatCurrency, Currency, formatBytes } from "./format"
+import { formatBytes, formatCurrency, formatMinutes } from "./format"
 
 describe("formatMinutes", () => {
 	it("formats full hours", () => {

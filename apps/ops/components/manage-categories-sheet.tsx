@@ -16,14 +16,54 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
 export const CATEGORY_COLORS = [
-	{ id: "indigo", label: "Indigo", bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400" },
-	{ id: "violet", label: "Violet", bg: "bg-violet-100 dark:bg-violet-900/30", text: "text-violet-700 dark:text-violet-400" },
-	{ id: "rose", label: "Rose", bg: "bg-rose-100 dark:bg-rose-900/30", text: "text-rose-700 dark:text-rose-400" },
-	{ id: "orange", label: "Orange", bg: "bg-orange-100 dark:bg-orange-900/30", text: "text-orange-700 dark:text-orange-400" },
-	{ id: "amber", label: "Ambre", bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400" },
-	{ id: "emerald", label: "Émeraude", bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-400" },
-	{ id: "sky", label: "Ciel", bg: "bg-sky-100 dark:bg-sky-900/30", text: "text-sky-700 dark:text-sky-400" },
-	{ id: "zinc", label: "Zinc", bg: "bg-zinc-100 dark:bg-zinc-800", text: "text-zinc-700 dark:text-zinc-300" },
+	{
+		id: "indigo",
+		label: "Indigo",
+		bg: "bg-indigo-100 dark:bg-indigo-900/30",
+		text: "text-indigo-700 dark:text-indigo-400",
+	},
+	{
+		id: "violet",
+		label: "Violet",
+		bg: "bg-violet-100 dark:bg-violet-900/30",
+		text: "text-violet-700 dark:text-violet-400",
+	},
+	{
+		id: "rose",
+		label: "Rose",
+		bg: "bg-rose-100 dark:bg-rose-900/30",
+		text: "text-rose-700 dark:text-rose-400",
+	},
+	{
+		id: "orange",
+		label: "Orange",
+		bg: "bg-orange-100 dark:bg-orange-900/30",
+		text: "text-orange-700 dark:text-orange-400",
+	},
+	{
+		id: "amber",
+		label: "Ambre",
+		bg: "bg-amber-100 dark:bg-amber-900/30",
+		text: "text-amber-700 dark:text-amber-400",
+	},
+	{
+		id: "emerald",
+		label: "Émeraude",
+		bg: "bg-emerald-100 dark:bg-emerald-900/30",
+		text: "text-emerald-700 dark:text-emerald-400",
+	},
+	{
+		id: "sky",
+		label: "Ciel",
+		bg: "bg-sky-100 dark:bg-sky-900/30",
+		text: "text-sky-700 dark:text-sky-400",
+	},
+	{
+		id: "zinc",
+		label: "Zinc",
+		bg: "bg-zinc-100 dark:bg-zinc-800",
+		text: "text-zinc-700 dark:text-zinc-300",
+	},
 ]
 
 export function getCategoryColorClasses(color?: string) {
@@ -33,7 +73,9 @@ export function getCategoryColorClasses(color?: string) {
 export function CategoryBadge({ name, color }: { name: string; color?: string }) {
 	const cls = getCategoryColorClasses(color)
 	return (
-		<span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls.bg} ${cls.text}`}>
+		<span
+			className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls.bg} ${cls.text}`}
+		>
 			{name}
 		</span>
 	)
@@ -89,11 +131,7 @@ export function ManageCategoriesSheet() {
 
 					<form onSubmit={handleCreate} className="space-y-3 border-t border-edge pt-4">
 						<p className="text-sm font-medium text-fg">Nouvelle catégorie</p>
-						<Input
-							placeholder="Nom"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-						/>
+						<Input placeholder="Nom" value={name} onChange={(e) => setName(e.target.value)} />
 						<div className="flex flex-wrap gap-1.5">
 							{CATEGORY_COLORS.map((c) => (
 								<button

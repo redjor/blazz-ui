@@ -65,13 +65,7 @@ function Field({ orientation = "vertical", className, ...props }: FieldProps) {
 type FieldGroupProps = React.ComponentProps<"div">
 
 function FieldGroup({ className, ...props }: FieldGroupProps) {
-	return (
-		<div
-			data-slot="field-group"
-			className={cn("flex flex-col gap-4", className)}
-			{...props}
-		/>
-	)
+	return <div data-slot="field-group" className={cn("flex flex-col gap-4", className)} {...props} />
 }
 
 /* ─── FieldTitle ──────────────────────────────────────── */
@@ -110,11 +104,7 @@ type FieldContentProps = React.ComponentProps<"div">
 
 function FieldContent({ className, ...props }: FieldContentProps) {
 	return (
-		<div
-			data-slot="field-content"
-			className={cn("flex flex-col gap-1.5", className)}
-			{...props}
-		/>
+		<div data-slot="field-content" className={cn("flex flex-col gap-1.5", className)} {...props} />
 	)
 }
 
@@ -123,7 +113,12 @@ function FieldContent({ className, ...props }: FieldContentProps) {
 type FieldControlProps = {
 	children: React.ReactElement<Record<string, unknown>>
 	/** Render function alternative — receives { id, descriptionId, errorId, hasError } */
-	render?: (ctx: { id: string; descriptionId: string; errorId: string; hasError: boolean }) => React.ReactNode
+	render?: (ctx: {
+		id: string
+		descriptionId: string
+		errorId: string
+		hasError: boolean
+	}) => React.ReactNode
 }
 
 function FieldControl({ children, render }: FieldControlProps) {
@@ -179,11 +174,7 @@ function FieldError({ errors, children, className, ...props }: FieldErrorProps) 
 	return (
 		<div id={errorId} data-slot="field-error" aria-live="polite">
 			{(errors ?? []).map((msg) => (
-				<p
-					key={msg}
-					className={cn("text-sm text-negative", className)}
-					{...props}
-				>
+				<p key={msg} className={cn("text-sm text-negative", className)} {...props}>
 					{msg}
 				</p>
 			))}

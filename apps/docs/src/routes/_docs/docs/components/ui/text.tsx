@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Text } from "@blazz/ui/components/ui/text"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -24,7 +24,8 @@ const textProps: DocProp[] = [
 		name: "as",
 		type: '"h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "strong" | "em" | "dt" | "dd" | "label" | "legend"',
 		default: "varies by variant",
-		description: "The HTML element to render. Defaults to the semantic element for the variant (e.g. heading-xl renders as h3, body-md as p).",
+		description:
+			"The HTML element to render. Defaults to the semantic element for the variant (e.g. heading-xl renders as h3, body-md as p).",
 	},
 	{
 		name: "tone",
@@ -116,7 +117,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/text")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -125,8 +126,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/text")({
 
 function TextPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -181,7 +181,9 @@ function TextPage() {
 				>
 					<div className="space-y-3">
 						<Text variant="heading-xl">Section Title (h3)</Text>
-						<Text variant="heading-xl" as="h1">Page Title (h1 override)</Text>
+						<Text variant="heading-xl" as="h1">
+							Page Title (h1 override)
+						</Text>
 						<Text>Paragraph content (p)</Text>
 						<Text as="label">Field label (label override)</Text>
 					</div>
@@ -194,13 +196,27 @@ function TextPage() {
 					highlightedCode={html("tones")}
 				>
 					<div className="space-y-2">
-						<div><Text tone="default">Default text</Text></div>
-						<div><Text tone="muted">Muted secondary text</Text></div>
-						<div><Text tone="subtle">Subtle disabled text</Text></div>
-						<div><Text tone="success">Success message</Text></div>
-						<div><Text tone="danger">Error message</Text></div>
-						<div><Text tone="warning">Warning message</Text></div>
-						<div><Text tone="info">Information</Text></div>
+						<div>
+							<Text tone="default">Default text</Text>
+						</div>
+						<div>
+							<Text tone="muted">Muted secondary text</Text>
+						</div>
+						<div>
+							<Text tone="subtle">Subtle disabled text</Text>
+						</div>
+						<div>
+							<Text tone="success">Success message</Text>
+						</div>
+						<div>
+							<Text tone="danger">Error message</Text>
+						</div>
+						<div>
+							<Text tone="warning">Warning message</Text>
+						</div>
+						<div>
+							<Text tone="info">Information</Text>
+						</div>
 					</div>
 				</DocExampleClient>
 
@@ -212,7 +228,8 @@ function TextPage() {
 				>
 					<div className="max-w-xs border border-edge rounded-lg p-4">
 						<Text truncate>
-							This is a very long text that will be truncated with an ellipsis when it exceeds the container width.
+							This is a very long text that will be truncated with an ellipsis when it exceeds the
+							container width.
 						</Text>
 					</div>
 				</DocExampleClient>
@@ -224,9 +241,15 @@ function TextPage() {
 					highlightedCode={html("numeric")}
 				>
 					<div className="space-y-2">
-						<div><Text>Regular: $1,234.56</Text></div>
-						<div><Text numeric>Numeric: $1,234.56</Text></div>
-						<div><Text numeric>Phone: +1 (555) 123-4567</Text></div>
+						<div>
+							<Text>Regular: $1,234.56</Text>
+						</div>
+						<div>
+							<Text numeric>Numeric: $1,234.56</Text>
+						</div>
+						<div>
+							<Text numeric>Phone: +1 (555) 123-4567</Text>
+						</div>
 					</div>
 				</DocExampleClient>
 
@@ -240,9 +263,12 @@ function TextPage() {
 						<Text variant="heading-lg">Invoice #1042</Text>
 						<Text tone="muted">Due in 14 days</Text>
 						<div>
-							<Text tone="muted" className="line-through">$99.99</Text>
-							{" "}
-							<Text tone="danger" className="font-semibold">$79.99</Text>
+							<Text tone="muted" className="line-through">
+								$99.99
+							</Text>{" "}
+							<Text tone="danger" className="font-semibold">
+								$79.99
+							</Text>
 						</div>
 					</div>
 				</DocExampleClient>
@@ -254,12 +280,26 @@ function TextPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Use <code>variant</code> for size -- never set <code>text-lg</code> directly on Text</li>
-					<li>Use <code>tone</code> for semantic color -- not <code>className="text-red-500"</code></li>
-					<li>Omit <code>as</code> to get the right semantic element automatically (heading-xl = h3, body-md = p)</li>
-					<li>Use <code>as</code> only when the visual variant and semantic element differ (e.g. heading-xl styled as h1)</li>
-					<li>For anything else (alignment, decoration, weight override), use <code>className</code></li>
-					<li>Keep the API surface small -- <code>className</code> handles edge cases</li>
+					<li>
+						Use <code>variant</code> for size -- never set <code>text-lg</code> directly on Text
+					</li>
+					<li>
+						Use <code>tone</code> for semantic color -- not <code>className="text-red-500"</code>
+					</li>
+					<li>
+						Omit <code>as</code> to get the right semantic element automatically (heading-xl = h3,
+						body-md = p)
+					</li>
+					<li>
+						Use <code>as</code> only when the visual variant and semantic element differ (e.g.
+						heading-xl styled as h1)
+					</li>
+					<li>
+						For anything else (alignment, decoration, weight override), use <code>className</code>
+					</li>
+					<li>
+						Keep the API surface small -- <code>className</code> handles edge cases
+					</li>
 				</ul>
 			</DocSection>
 		</DocPage>

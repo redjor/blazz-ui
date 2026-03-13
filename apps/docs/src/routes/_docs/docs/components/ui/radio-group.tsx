@@ -1,25 +1,25 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { RadioGroup, RadioGroupItem } from "@blazz/ui/components/ui/radio-group"
-import { cn } from "@blazz/ui/lib/utils"
 import { Card } from "@blazz/ui/components/ui/card"
+import { RadioGroup, RadioGroupItem } from "@blazz/ui/components/ui/radio-group"
 import { Separator } from "@blazz/ui/components/ui/separator"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import { highlightCode } from "~/lib/highlight-code"
+import { cn } from "@blazz/ui/lib/utils"
+import { createFileRoute } from "@tanstack/react-router"
 import {
+	ChartNoAxesColumnDecreasingIcon,
+	CircleDollarSignIcon,
+	CreditCardIcon,
+	FileTextIcon,
 	MailIcon,
 	MessageCircleIcon,
 	SmartphoneIcon,
-	CircleDollarSignIcon,
-	FileTextIcon,
-	CreditCardIcon,
-	ChartNoAxesColumnDecreasingIcon,
 } from "lucide-react"
+import * as React from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
+import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
@@ -293,7 +293,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/radio-group")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -301,10 +301,25 @@ export const Route = createFileRoute("/_docs/docs/components/ui/radio-group")({
 })
 
 const cardGridItems = [
-	{ title: "Payments", description: "Receive payments", value: "payments", icon: CircleDollarSignIcon },
-	{ title: "Invoices", description: "Create and send invoices", value: "invoices", icon: FileTextIcon },
+	{
+		title: "Payments",
+		description: "Receive payments",
+		value: "payments",
+		icon: CircleDollarSignIcon,
+	},
+	{
+		title: "Invoices",
+		description: "Create and send invoices",
+		value: "invoices",
+		icon: FileTextIcon,
+	},
 	{ title: "Billing", description: "Manage subscriptions", value: "billing", icon: CreditCardIcon },
-	{ title: "Reports", description: "View analytics", value: "reports", icon: ChartNoAxesColumnDecreasingIcon },
+	{
+		title: "Reports",
+		description: "View analytics",
+		value: "reports",
+		icon: ChartNoAxesColumnDecreasingIcon,
+	},
 ]
 
 const cardListOptions = [
@@ -323,15 +338,17 @@ function ButtonGroupRadioDemo() {
 	const [value, setValue] = React.useState("monthly")
 
 	return (
-		<RadioGroup value={value} onValueChange={setValue} className="inline-flex rounded-lg border border-edge bg-surface p-1 gap-1">
+		<RadioGroup
+			value={value}
+			onValueChange={setValue}
+			className="inline-flex rounded-lg border border-edge bg-surface p-1 gap-1"
+		>
 			{buttonGroupOptions.map((option) => (
 				<label
 					key={option.value}
 					className={cn(
 						"cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
-						value === option.value
-							? "bg-raised text-fg shadow-sm"
-							: "text-fg-muted hover:text-fg",
+						value === option.value ? "bg-raised text-fg shadow-sm" : "text-fg-muted hover:text-fg"
 					)}
 				>
 					<RadioGroupItem value={option.value} className="sr-only" />
@@ -346,14 +363,18 @@ function CardGridRadioDemo() {
 	const [value, setValue] = React.useState("payments")
 
 	return (
-		<RadioGroup value={value} onValueChange={setValue} className="grid w-full max-w-xs grid-cols-2 gap-3">
+		<RadioGroup
+			value={value}
+			onValueChange={setValue}
+			className="grid w-full max-w-xs grid-cols-2 gap-3"
+		>
 			{cardGridItems.map((item) => (
 				<div
 					key={item.value}
 					onClick={() => setValue(item.value)}
 					className={cn(
 						"relative cursor-pointer rounded-lg border border-edge p-3 transition-colors",
-						value === item.value && "border-brand bg-brand/5",
+						value === item.value && "border-brand bg-brand/5"
 					)}
 				>
 					<div className="absolute top-3 right-3">
@@ -387,7 +408,7 @@ function CardListRadioDemo() {
 							onClick={() => setValue(option.value)}
 							className={cn(
 								"flex cursor-pointer items-center justify-between px-4 py-3 transition-colors",
-								value === option.value && "bg-brand/5",
+								value === option.value && "bg-brand/5"
 							)}
 						>
 							<span className="flex items-center gap-2 text-sm font-medium">
@@ -418,17 +439,14 @@ function ControlledRadioGroupDemo() {
 				value={value}
 				onValueChange={setValue}
 			/>
-			<p className="text-xs text-fg-muted">
-				Selected: {value}
-			</p>
+			<p className="text-xs text-fg-muted">Selected: {value}</p>
 		</div>
 	)
 }
 
 function RadioGroupPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -547,9 +565,7 @@ function RadioGroupPage() {
 								{ value: "high", label: "High" },
 							]}
 						/>
-						<p className="text-sm text-negative">
-							Please select a priority level.
-						</p>
+						<p className="text-sm text-negative">Please select a priority level.</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>

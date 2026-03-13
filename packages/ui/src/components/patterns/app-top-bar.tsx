@@ -2,9 +2,9 @@ import { Menu, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "../../lib/utils"
-import { ThemeToggle } from "./theme-toggle"
-import { ThemePaletteSwitcher } from "./theme-palette-switcher"
 import { NotificationSheet } from "./notification-sheet"
+import { ThemePaletteSwitcher } from "./theme-palette-switcher"
+import { ThemeToggle } from "./theme-toggle"
 import { UserMenu } from "./user-menu"
 
 export interface TopBarSection {
@@ -39,7 +39,15 @@ export interface AppTopBarProps {
  * - Center: Search Bar (opens Command Palette)
  * - Right: Notifications + User Menu
  */
-export function AppTopBar({ onOpenCommandPalette, onOpenMobileMenu, className, activeSection, sections = [], minimal, user }: AppTopBarProps) {
+export function AppTopBar({
+	onOpenCommandPalette,
+	onOpenMobileMenu,
+	className,
+	activeSection,
+	sections = [],
+	minimal,
+	user,
+}: AppTopBarProps) {
 	return (
 		<header
 			className={cn(

@@ -108,11 +108,7 @@ export function ActivityHeatmap({ entries, weeks = 26 }: Props) {
 								return (
 									<div
 										key={dow}
-										title={
-											minutes > 0
-												? `${label} — ${hours}h`
-												: `${label} — aucune activité`
-										}
+										title={minutes > 0 ? `${label} — ${hours}h` : `${label} — aucune activité`}
 										className={`cursor-default ${LEVEL_CLASSES[level]}`}
 										style={{ width: CELL, height: CELL }}
 									/>
@@ -127,11 +123,7 @@ export function ActivityHeatmap({ entries, weeks = 26 }: Props) {
 			<div className="flex items-center gap-1.5 justify-end">
 				<span className="text-[10px] text-fg-muted">Moins</span>
 				{([0, 1, 2, 3, 4] as const).map((level) => (
-					<div
-						key={level}
-						className={LEVEL_CLASSES[level]}
-						style={{ width: CELL, height: CELL }}
-					/>
+					<div key={level} className={LEVEL_CLASSES[level]} style={{ width: CELL, height: CELL }} />
 				))}
 				<span className="text-[10px] text-fg-muted">Plus</span>
 			</div>

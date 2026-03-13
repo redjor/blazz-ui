@@ -1,9 +1,9 @@
 "use client"
 
-import * as React from "react"
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
 import { CheckIcon, ChevronRightIcon } from "lucide-react"
+import * as React from "react"
 import { cn } from "../../lib/utils"
 
 // ---------------------------------------------------------------------------
@@ -74,9 +74,7 @@ function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelT
 						onClick={() => onValueChange(tab)}
 						className={cn(
 							"rounded-[5px] px-2.5 py-1 text-xs font-medium transition-colors duration-150 ease-out",
-							isActive
-								? "bg-surface text-fg shadow-sm"
-								: "text-fg-muted hover:text-fg"
+							isActive ? "bg-surface text-fg shadow-sm" : "text-fg-muted hover:text-fg"
 						)}
 					>
 						{tab}
@@ -133,11 +131,7 @@ interface FilterPanelSectionProps extends React.ComponentProps<"div"> {
 
 function FilterPanelSection({ label, className, children, ...props }: FilterPanelSectionProps) {
 	return (
-		<div
-			data-slot="filter-panel-section"
-			className={cn("flex flex-col", className)}
-			{...props}
-		>
+		<div data-slot="filter-panel-section" className={cn("flex flex-col", className)} {...props}>
 			{label && (
 				<div className="px-3 pb-1 pt-2.5">
 					<span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
@@ -260,7 +254,7 @@ function FilterPanelTreeItem({
 		>
 			<CollapsiblePrimitive.Trigger
 				className={cn(
-					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-raised",
+					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-raised"
 				)}
 			>
 				<ChevronRightIcon className="size-3 shrink-0 text-fg-muted transition-transform duration-150 ease-out group-data-[panel-open]/tree:rotate-90" />

@@ -114,7 +114,14 @@ export default function TimePage() {
 		hourlyRate: number | null
 		hoursPerDay: number | null
 		date: string | null
-	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, hoursPerDay: null, date: null })
+	}>({
+		open: false,
+		projectId: null,
+		projectName: null,
+		hourlyRate: null,
+		hoursPerDay: null,
+		date: null,
+	})
 
 	const [deleteConfirm, setDeleteConfirm] = useState<{
 		open: boolean
@@ -188,7 +195,7 @@ export default function TimePage() {
 				cell: ({ row }) => <EntryStatusBadge status={getEffectiveStatus(row.original)} />,
 			},
 		],
-		[]
+		[projectMap.get]
 	)
 
 	const rowActions = useMemo<RowAction<TimeEntry>[]>(

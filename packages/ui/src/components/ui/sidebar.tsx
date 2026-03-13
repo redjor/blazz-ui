@@ -4,11 +4,11 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 import * as React from "react"
+import { cn } from "../../lib/utils"
 import { Button } from "./button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible"
 import { Separator } from "./separator"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip"
-import { cn } from "../../lib/utils"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7 // 7 days
@@ -81,7 +81,7 @@ const SidebarProvider = React.forwardRef<
 		// Helper to toggle the sidebar.
 		const toggleSidebar = React.useCallback(() => {
 			return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open)
-		}, [isMobile, setOpen, setOpenMobile])
+		}, [isMobile, setOpen])
 
 		React.useEffect(() => {
 			const mediaQuery = window.matchMedia("(max-width: 768px)")
@@ -209,8 +209,12 @@ const Sidebar = React.forwardRef<
 						className={cn(
 							"fixed inset-y-0 z-50 flex h-svh w-[--sidebar-width-mobile] flex-col border-r bg-(--sidebar-background) text-fg transition-transform duration-200 ease-linear md:hidden",
 							side === "left"
-								? openMobile ? "translate-x-0" : "-translate-x-full"
-								: openMobile ? "translate-x-0" : "translate-x-full",
+								? openMobile
+									? "translate-x-0"
+									: "-translate-x-full"
+								: openMobile
+									? "translate-x-0"
+									: "translate-x-full",
 							className
 						)}
 						ref={ref}
@@ -739,10 +743,7 @@ const SidebarMenuSkeleton = React.forwardRef<
 			{...props}
 		>
 			{showIcon && (
-				<div
-					className="size-4 rounded-md bg-brand/10"
-					data-sidebar="menu-skeleton-icon"
-				/>
+				<div className="size-4 rounded-md bg-brand/10" data-sidebar="menu-skeleton-icon" />
 			)}
 			<div
 				className="h-4 flex-1 max-w-[--skeleton-width] rounded-md bg-brand/10"

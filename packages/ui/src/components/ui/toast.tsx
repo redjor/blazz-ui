@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import { Toaster as SonnerToaster, toast } from "sonner";
-import { AlertCircle, AlertTriangle, CheckCircle2, Info, X } from "lucide-react";
+import { AlertCircle, AlertTriangle, CheckCircle2, Info, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { Toaster as SonnerToaster, toast } from "sonner"
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../lib/utils"
 
-type ToasterProps = React.ComponentProps<typeof SonnerToaster>;
+type ToasterProps = React.ComponentProps<typeof SonnerToaster>
 
 function Toaster(props: ToasterProps) {
 	return (
@@ -26,30 +26,30 @@ function Toaster(props: ToasterProps) {
 			}}
 			{...props}
 		/>
-	);
+	)
 }
 
 // --- Progress Toast ---
 
-type ProgressToastType = "success" | "error" | "warning" | "info" | "default";
+type ProgressToastType = "success" | "error" | "warning" | "info" | "default"
 
 export interface ProgressToastOptions {
-	description?: string;
-	duration?: number;
+	description?: string
+	duration?: number
 	/** Show the shrinking progress bar at the bottom. Default: true */
-	showProgress?: boolean;
+	showProgress?: boolean
 	/** Show "Dismissing in X seconds" countdown. Default: true */
-	showCountdown?: boolean;
+	showCountdown?: boolean
 }
 
 interface ProgressToastContentProps {
-	id: string | number;
-	title: string;
-	type: ProgressToastType;
-	description?: string;
-	duration: number;
-	showProgress: boolean;
-	showCountdown: boolean;
+	id: string | number
+	title: string
+	type: ProgressToastType
+	description?: string
+	duration: number
+	showProgress: boolean
+	showCountdown: boolean
 }
 
 const ICON_MAP = {
@@ -58,7 +58,7 @@ const ICON_MAP = {
 	warning: AlertTriangle,
 	info: Info,
 	default: null,
-} as const;
+} as const
 
 const ICON_COLOR: Record<ProgressToastType, string> = {
 	success: "text-emerald-500",
@@ -66,7 +66,7 @@ const ICON_COLOR: Record<ProgressToastType, string> = {
 	warning: "text-amber-500",
 	info: "text-blue-500",
 	default: "text-fg-muted",
-};
+}
 
 const PROGRESS_COLOR: Record<ProgressToastType, string> = {
 	success: "bg-emerald-500",
@@ -74,7 +74,7 @@ const PROGRESS_COLOR: Record<ProgressToastType, string> = {
 	warning: "bg-amber-500",
 	info: "bg-blue-500",
 	default: "bg-brand",
-};
+}
 
 function ProgressToastContent({
 	id,
@@ -85,33 +85,33 @@ function ProgressToastContent({
 	showProgress,
 	showCountdown,
 }: ProgressToastContentProps) {
-	const [remaining, setRemaining] = useState(Math.ceil(duration / 1000));
-	const progressBarRef = useRef<HTMLDivElement>(null);
+	const [remaining, setRemaining] = useState(Math.ceil(duration / 1000))
+	const progressBarRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		const start = Date.now();
-		let raf: number;
+		const start = Date.now()
+		let raf: number
 
 		const tick = () => {
-			const elapsed = Date.now() - start;
-			const rem = Math.max(0, duration - elapsed);
+			const elapsed = Date.now() - start
+			const rem = Math.max(0, duration - elapsed)
 
 			if (showProgress && progressBarRef.current) {
-				progressBarRef.current.style.width = `${(rem / duration) * 100}%`;
+				progressBarRef.current.style.width = `${(rem / duration) * 100}%`
 			}
 
 			if (showCountdown) {
-				setRemaining(Math.ceil(rem / 1000));
+				setRemaining(Math.ceil(rem / 1000))
 			}
 
-			if (rem > 0) raf = requestAnimationFrame(tick);
-		};
+			if (rem > 0) raf = requestAnimationFrame(tick)
+		}
 
-		raf = requestAnimationFrame(tick);
-		return () => cancelAnimationFrame(raf);
-	}, [duration, showProgress, showCountdown]);
+		raf = requestAnimationFrame(tick)
+		return () => cancelAnimationFrame(raf)
+	}, [duration, showProgress, showCountdown])
 
-	const IconComponent = ICON_MAP[type];
+	const IconComponent = ICON_MAP[type]
 
 	return (
 		<div
@@ -131,10 +131,7 @@ function ProgressToastContent({
 						{title}
 					</p>
 					{description && (
-						<p
-							className="text-sm mt-0.5 leading-5"
-							style={{ color: "var(--text-secondary)" }}
-						>
+						<p className="text-sm mt-0.5 leading-5" style={{ color: "var(--text-secondary)" }}>
 							{description}
 						</p>
 					)}
@@ -163,19 +160,16 @@ function ProgressToastContent({
 					className="absolute bottom-0 left-0 right-0 h-[3px]"
 					style={{ background: "rgb(0 0 0 / 0.06)" }}
 				>
-					<div
-						ref={progressBarRef}
-						className={cn("h-full w-full", PROGRESS_COLOR[type])}
-					/>
+					<div ref={progressBarRef} className={cn("h-full w-full", PROGRESS_COLOR[type])} />
 				</div>
 			)}
 		</div>
-	);
+	)
 }
 
 function createProgressToast(type: ProgressToastType) {
 	return (title: string, options: ProgressToastOptions = {}) => {
-		const { description, duration = 5000, showProgress = true, showCountdown = true } = options;
+		const { description, duration = 5000, showProgress = true, showCountdown = true } = options
 		return toast.custom(
 			(id) => (
 				<ProgressToastContent
@@ -188,9 +182,9 @@ function createProgressToast(type: ProgressToastType) {
 					showCountdown={showCountdown}
 				/>
 			),
-			{ duration },
-		);
-	};
+			{ duration }
+		)
+	}
 }
 
 const toastProgress = {
@@ -199,6 +193,6 @@ const toastProgress = {
 	warning: createProgressToast("warning"),
 	info: createProgressToast("info"),
 	default: createProgressToast("default"),
-};
+}
 
-export { Toaster, toast, toastProgress };
+export { Toaster, toast, toastProgress }

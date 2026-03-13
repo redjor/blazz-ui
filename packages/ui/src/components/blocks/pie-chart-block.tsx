@@ -1,17 +1,17 @@
 "use client"
 
+import { Label, Pie, PieChart } from "recharts"
+import { cn } from "../../lib/utils"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Pie, PieChart, Label } from "recharts"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import {
 	type ChartConfig,
 	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
 	ChartLegend,
 	ChartLegendContent,
+	ChartTooltip,
+	ChartTooltipContent,
 } from "../ui/chart"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card"
-import { cn } from "../../lib/utils"
 
 const defaultData = [
 	{ browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -55,10 +55,7 @@ function PieChartBlockBase({
 	totalLabel = "Total",
 	className,
 }: PieChartBlockProps) {
-	const total = data.reduce(
-		(sum, item) => sum + (Number(item[dataKey]) || 0),
-		0,
-	)
+	const total = data.reduce((sum, item) => sum + (Number(item[dataKey]) || 0), 0)
 
 	return (
 		<Card className={cn("flex flex-col", className)}>
@@ -67,15 +64,9 @@ function PieChartBlockBase({
 				{description && <CardDescription>{description}</CardDescription>}
 			</CardHeader>
 			<CardContent className="flex-1 pb-0">
-				<ChartContainer
-					config={config}
-					className="mx-auto aspect-square max-h-[250px]"
-				>
+				<ChartContainer config={config} className="mx-auto aspect-square max-h-[250px]">
 					<PieChart>
-						<ChartTooltip
-							cursor={false}
-							content={<ChartTooltipContent hideLabel />}
-						/>
+						<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
 						<Pie
 							data={data}
 							dataKey={dataKey}

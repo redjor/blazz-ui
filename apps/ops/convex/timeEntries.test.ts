@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest"
 import { convexTest } from "convex-test"
-import schema from "./test.schema"
+import { describe, expect, it } from "vitest"
 import { api } from "./_generated/api"
+import schema from "./test.schema"
 
 const modules = import.meta.glob("./**/*.*s")
 
@@ -49,9 +49,9 @@ describe("timeEntries auth", () => {
 			hourlyRate: 100,
 			billable: true,
 		})
-		await expect(
-			t.mutation(api.timeEntries.remove, { id: entryId })
-		).rejects.toThrow("Non authentifié")
+		await expect(t.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow(
+			"Non authentifié"
+		)
 	})
 
 	it("update rejects unauthenticated", async () => {
@@ -89,7 +89,7 @@ describe("timeEntries auth", () => {
 
 describe("timeEntries delete guards", () => {
 	it("cannot delete an invoiced entry", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -99,13 +99,13 @@ describe("timeEntries delete guards", () => {
 			billable: true,
 			status: "invoiced",
 		})
-		await expect(
-			asUser.mutation(api.timeEntries.remove, { id: entryId })
-		).rejects.toThrow("facturée")
+		await expect(asUser.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow(
+			"facturée"
+		)
 	})
 
 	it("cannot delete a paid entry", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -115,9 +115,7 @@ describe("timeEntries delete guards", () => {
 			billable: true,
 			status: "paid",
 		})
-		await expect(
-			asUser.mutation(api.timeEntries.remove, { id: entryId })
-		).rejects.toThrow("payée")
+		await expect(asUser.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow("payée")
 	})
 
 	it("can delete a ready_to_invoice entry", async () => {
@@ -159,7 +157,7 @@ describe("timeEntries delete guards", () => {
 
 describe("timeEntries update guards", () => {
 	it("cannot update an invoiced entry", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -182,7 +180,7 @@ describe("timeEntries update guards", () => {
 	})
 
 	it("cannot update a paid entry", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -253,7 +251,7 @@ describe("timeEntries status transitions", () => {
 	})
 
 	it("draft → paid is invalid", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -272,7 +270,7 @@ describe("timeEntries status transitions", () => {
 	})
 
 	it("draft → invoiced is invalid", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -291,7 +289,7 @@ describe("timeEntries status transitions", () => {
 	})
 
 	it("paid → any status is invalid (terminal)", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		const entryId = await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -407,7 +405,7 @@ describe("timeEntries CRUD", () => {
 	})
 
 	it("lists entries filtered by project", async () => {
-		const { t, asUser } = setup()
+		const { asUser } = setup()
 		const { projectId } = await createTestProject(asUser)
 		await asUser.mutation(api.timeEntries.create, {
 			projectId,
@@ -453,9 +451,9 @@ describe("ownership isolation", () => {
 			hourlyRate: 100,
 			billable: true,
 		})
-		await expect(
-			asUser2.mutation(api.timeEntries.remove, { id: entryId })
-		).rejects.toThrow("introuvable")
+		await expect(asUser2.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow(
+			"introuvable"
+		)
 	})
 
 	it("user2 cannot update user1's time entry", async () => {

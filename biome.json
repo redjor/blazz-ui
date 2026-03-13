@@ -20,14 +20,29 @@
 			"recommended": true,
 			"a11y": {
 				"useKeyWithClickEvents": "warn",
-				"noSvgWithoutTitle": "warn"
+				"noSvgWithoutTitle": "warn",
+				"noAutofocus": "warn",
+				"useSemanticElements": "warn",
+				"noStaticElementInteractions": "warn",
+				"useFocusableInteractive": "warn",
+				"noLabelWithoutControl": "warn",
+				"useValidAnchor": "warn",
+				"useButtonType": "warn"
+			},
+			"performance": {
+				"noImgElement": "warn",
+				"noAccumulatingSpread": "warn"
 			},
 			"complexity": {
 				"noExcessiveCognitiveComplexity": "warn"
 			},
 			"correctness": {
 				"useExhaustiveDependencies": "warn",
-				"noUnusedVariables": "error"
+				"noUnusedVariables": "error",
+				"noUnusedFunctionParameters": "warn"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "warn"
 			},
 			"style": {
 				"noNonNullAssertion": "off",
@@ -35,7 +50,9 @@
 			},
 			"suspicious": {
 				"noArrayIndexKey": "warn",
-				"noExplicitAny": "warn"
+				"noExplicitAny": "warn",
+				"noDocumentCookie": "warn",
+				"useIterableCallbackReturn": "warn"
 			}
 		}
 	},
@@ -64,6 +81,18 @@
 						"noExplicitAny": "off"
 					}
 				}
+			}
+		},
+		{
+			"includes": ["**/routeTree.gen.ts"],
+			"linter": {
+				"enabled": false
+			},
+			"formatter": {
+				"enabled": false
+			},
+			"assist": {
+				"enabled": false
 			}
 		}
 	],

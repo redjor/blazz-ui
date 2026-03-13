@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { PricingTable } from "@blazz/ui/components/ai/generative/commerce/pricing-table"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -29,9 +29,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/commerce/pricing-table"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/commerce/pricing-table")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -48,8 +46,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function PricingTablePage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -82,7 +79,12 @@ function PricingTablePage() {
 								price: "$199",
 								period: "mo",
 								description: "For large organizations",
-								features: ["Unlimited users", "1 TB storage", "24/7 support", "Custom integrations"],
+								features: [
+									"Unlimited users",
+									"1 TB storage",
+									"24/7 support",
+									"Custom integrations",
+								],
 							},
 						]}
 					/>
@@ -100,9 +102,25 @@ function PricingTablePage() {
 						<PricingTable
 							title="Choose a plan"
 							tiers={[
-								{ name: "Starter", price: "$29", period: "mo", features: ["5 users", "Email support"] },
-								{ name: "Pro", price: "$79", period: "mo", features: ["25 users", "Priority support"], recommended: true },
-								{ name: "Enterprise", price: "$199", period: "mo", features: ["Unlimited", "24/7 support"] },
+								{
+									name: "Starter",
+									price: "$29",
+									period: "mo",
+									features: ["5 users", "Email support"],
+								},
+								{
+									name: "Pro",
+									price: "$79",
+									period: "mo",
+									features: ["25 users", "Priority support"],
+									recommended: true,
+								},
+								{
+									name: "Enterprise",
+									price: "$199",
+									period: "mo",
+									features: ["Unlimited", "24/7 support"],
+								},
 							]}
 						/>
 					</div>
@@ -117,8 +135,19 @@ function PricingTablePage() {
 					<div className="max-w-sm">
 						<PricingTable
 							tiers={[
-								{ name: "Monthly", price: "$49", period: "mo", features: ["All features", "Cancel anytime"] },
-								{ name: "Annual", price: "$39", period: "mo", features: ["All features", "Save 20%"], recommended: true },
+								{
+									name: "Monthly",
+									price: "$49",
+									period: "mo",
+									features: ["All features", "Cancel anytime"],
+								},
+								{
+									name: "Annual",
+									price: "$39",
+									period: "mo",
+									features: ["All features", "Save 20%"],
+									recommended: true,
+								},
 							]}
 						/>
 					</div>

@@ -1,10 +1,10 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { useState } from "react"
 import { ChevronRight } from "lucide-react"
-import { Button } from "../ui/button"
+import { useState } from "react"
 import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Button } from "../ui/button"
 
 export interface StatusDefinition {
 	id: string
@@ -54,9 +54,7 @@ function StatusFlowBase({
 }: StatusFlowProps) {
 	const [loading, setLoading] = useState<string | null>(null)
 
-	const availableTransitions = transitions.filter(
-		(t) => t.from === currentStatus
-	)
+	const availableTransitions = transitions.filter((t) => t.from === currentStatus)
 
 	const handleTransition = async (to: string) => {
 		if (!onTransition) return
@@ -74,16 +72,12 @@ function StatusFlowBase({
 			<div className="flex items-center gap-1 overflow-x-auto">
 				{statuses.map((status, i) => {
 					const isCurrent = status.id === currentStatus
-					const currentIndex = statuses.findIndex(
-						(s) => s.id === currentStatus
-					)
+					const currentIndex = statuses.findIndex((s) => s.id === currentStatus)
 					const isPast = i < currentIndex
 
 					return (
 						<div key={status.id} className="flex items-center gap-1">
-							{i > 0 && (
-								<ChevronRight className="size-4 shrink-0 text-fg-muted" />
-							)}
+							{i > 0 && <ChevronRight className="size-4 shrink-0 text-fg-muted" />}
 							<span
 								className={cn(
 									"inline-flex items-center whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium transition-colors",

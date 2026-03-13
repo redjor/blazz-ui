@@ -1,16 +1,12 @@
 "use client"
 
-import * as React from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import * as React from "react"
 
 import { cn } from "../../lib/utils"
 import { Calendar } from "./calendar"
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "./popover"
+import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 
 /* ----- Trigger styles (matches Select trigger) ----- */
 
@@ -50,11 +46,7 @@ function DateSelector({
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger
 				disabled={disabled}
-				className={cn(
-					triggerBase,
-					!value && "text-fg-muted",
-					className,
-				)}
+				className={cn(triggerBase, !value && "text-fg-muted", className)}
 			>
 				<CalendarIcon className="size-4 text-fg-muted" />
 				{value ? format(value, formatStr) : placeholder}
@@ -105,14 +97,7 @@ function DateRangeSelector({
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger
-				disabled={disabled}
-				className={cn(
-					triggerBase,
-					"gap-0",
-					className,
-				)}
-			>
+			<PopoverTrigger disabled={disabled} className={cn(triggerBase, "gap-0", className)}>
 				<CalendarIcon className="mr-1.5 size-4 text-fg-muted" />
 				<span className={cn(!from && "text-fg-muted")}>
 					{from ? format(from, formatStr) : fromPlaceholder}

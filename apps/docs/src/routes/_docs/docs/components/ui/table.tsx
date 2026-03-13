@@ -1,24 +1,24 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import {
-	Table,
-	TableHeader,
-	TableBody,
-	TableFooter,
-	TableHead,
-	TableRow,
-	TableCell,
-	TableCaption,
-} from "@blazz/ui/components/ui/table"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@blazz/ui/components/ui/table"
+import { createFileRoute } from "@tanstack/react-router"
 import { MoreHorizontal } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -181,7 +181,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/table")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -205,7 +205,7 @@ function TableWithSelectionDemo() {
 		if (selectedRows.size === invoices.length) {
 			setSelectedRows(new Set())
 		} else {
-			setSelectedRows(new Set(invoices.map(inv => inv.id)))
+			setSelectedRows(new Set(invoices.map((inv) => inv.id)))
 		}
 	}
 
@@ -214,10 +214,7 @@ function TableWithSelectionDemo() {
 			<TableHeader>
 				<TableRow>
 					<TableHead className="w-12">
-						<Checkbox
-							checked={selectedRows.size === invoices.length}
-							onCheckedChange={toggleAll}
-						/>
+						<Checkbox checked={selectedRows.size === invoices.length} onCheckedChange={toggleAll} />
 					</TableHead>
 					<TableHead>Invoice</TableHead>
 					<TableHead>Status</TableHead>
@@ -248,8 +245,7 @@ function TableWithSelectionDemo() {
 
 function TablePage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -363,8 +359,11 @@ function TablePage() {
 									<TableCell>
 										<Badge
 											variant={
-												invoice.status === "Paid" ? "success" :
-												invoice.status === "Pending" ? "warning" : "critical"
+												invoice.status === "Paid"
+													? "success"
+													: invoice.status === "Pending"
+														? "warning"
+														: "critical"
 											}
 										>
 											{invoice.status}

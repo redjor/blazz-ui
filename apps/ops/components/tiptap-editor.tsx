@@ -1,30 +1,30 @@
 "use client"
 
-import { useEditor, EditorContent } from "@tiptap/react"
+import Image from "@tiptap/extension-image"
+import Placeholder from "@tiptap/extension-placeholder"
+import TaskItem from "@tiptap/extension-task-item"
+import TaskList from "@tiptap/extension-task-list"
+import { EditorContent, useEditor } from "@tiptap/react"
 import { BubbleMenu } from "@tiptap/react/menus"
 import StarterKit from "@tiptap/starter-kit"
-import TaskList from "@tiptap/extension-task-list"
-import TaskItem from "@tiptap/extension-task-item"
-import Placeholder from "@tiptap/extension-placeholder"
-import Image from "@tiptap/extension-image"
 import { useMutation } from "convex/react"
-import { api } from "@/convex/_generated/api"
-import { toast } from "sonner"
 import {
 	Bold,
-	Italic,
-	Strikethrough,
+	CheckSquare,
 	Code,
 	Heading2,
 	Heading3,
+	ImagePlus,
+	Italic,
 	List,
 	ListOrdered,
-	CheckSquare,
-	Quote,
 	Minus,
-	ImagePlus,
+	Quote,
+	Strikethrough,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
+import { api } from "@/convex/_generated/api"
 
 // ── Bubble Menu Button ──────────────────────────────────────────────
 
@@ -45,9 +45,7 @@ function BubbleButton({
 			onClick={onClick}
 			title={title}
 			className={`p-1.5 rounded transition-colors ${
-				active
-					? "bg-white/20 text-white"
-					: "text-white/70 hover:text-white hover:bg-white/10"
+				active ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"
 			}`}
 		>
 			{children}
@@ -70,15 +68,60 @@ interface SlashCommand {
 }
 
 const SLASH_COMMANDS: SlashCommand[] = [
-	{ label: "Titre", description: "Grande section", icon: <Heading2 className="size-4" />, command: "heading2" },
-	{ label: "Sous-titre", description: "Petite section", icon: <Heading3 className="size-4" />, command: "heading3" },
-	{ label: "Liste", description: "Liste à puces", icon: <List className="size-4" />, command: "bulletList" },
-	{ label: "Liste numérotée", description: "Liste ordonnée", icon: <ListOrdered className="size-4" />, command: "orderedList" },
-	{ label: "Checklist", description: "Cases à cocher", icon: <CheckSquare className="size-4" />, command: "taskList" },
-	{ label: "Citation", description: "Bloc citation", icon: <Quote className="size-4" />, command: "blockquote" },
-	{ label: "Code", description: "Bloc de code", icon: <Code className="size-4" />, command: "codeBlock" },
-	{ label: "Séparateur", description: "Ligne horizontale", icon: <Minus className="size-4" />, command: "horizontalRule" },
-	{ label: "Image", description: "Insérer une image", icon: <ImagePlus className="size-4" />, command: "image" },
+	{
+		label: "Titre",
+		description: "Grande section",
+		icon: <Heading2 className="size-4" />,
+		command: "heading2",
+	},
+	{
+		label: "Sous-titre",
+		description: "Petite section",
+		icon: <Heading3 className="size-4" />,
+		command: "heading3",
+	},
+	{
+		label: "Liste",
+		description: "Liste à puces",
+		icon: <List className="size-4" />,
+		command: "bulletList",
+	},
+	{
+		label: "Liste numérotée",
+		description: "Liste ordonnée",
+		icon: <ListOrdered className="size-4" />,
+		command: "orderedList",
+	},
+	{
+		label: "Checklist",
+		description: "Cases à cocher",
+		icon: <CheckSquare className="size-4" />,
+		command: "taskList",
+	},
+	{
+		label: "Citation",
+		description: "Bloc citation",
+		icon: <Quote className="size-4" />,
+		command: "blockquote",
+	},
+	{
+		label: "Code",
+		description: "Bloc de code",
+		icon: <Code className="size-4" />,
+		command: "codeBlock",
+	},
+	{
+		label: "Séparateur",
+		description: "Ligne horizontale",
+		icon: <Minus className="size-4" />,
+		command: "horizontalRule",
+	},
+	{
+		label: "Image",
+		description: "Insérer une image",
+		icon: <ImagePlus className="size-4" />,
+		command: "image",
+	},
 ]
 
 function SlashMenu({
@@ -101,7 +144,10 @@ function SlashMenu({
 	}, [selectedIndex])
 
 	return (
-		<div ref={listRef} className="bg-surface border border-edge rounded-lg shadow-lg overflow-hidden overflow-y-auto max-h-72 py-1 w-64">
+		<div
+			ref={listRef}
+			className="bg-surface border border-edge rounded-lg shadow-lg overflow-hidden overflow-y-auto max-h-72 py-1 w-64"
+		>
 			{commands.map((cmd, index) => (
 				<button
 					key={cmd.command}
@@ -184,10 +230,7 @@ export function TiptapEditor({
 			})
 
 			if (placeholderPos) {
-				editor.chain().focus()
-					.deleteRange(placeholderPos)
-					.setImage({ src: storageUrl })
-					.run()
+				editor.chain().focus().deleteRange(placeholderPos).setImage({ src: storageUrl }).run()
 			} else {
 				editor.chain().focus().setImage({ src: storageUrl }).run()
 			}
@@ -200,7 +243,11 @@ export function TiptapEditor({
 					const resolved = doc.resolve(pos)
 					const parent = resolved.parent
 					const parentPos = resolved.before(resolved.depth)
-					editor.chain().focus().deleteRange({ from: parentPos, to: parentPos + parent.nodeSize }).run()
+					editor
+						.chain()
+						.focus()
+						.deleteRange({ from: parentPos, to: parentPos + parent.nodeSize })
+						.run()
 					return false
 				}
 			})
@@ -252,9 +299,7 @@ export function TiptapEditor({
 
 	function getFilteredCommands(filter: string) {
 		if (!filter) return SLASH_COMMANDS
-		return SLASH_COMMANDS.filter((cmd) =>
-			cmd.label.toLowerCase().includes(filter.toLowerCase())
-		)
+		return SLASH_COMMANDS.filter((cmd) => cmd.label.toLowerCase().includes(filter.toLowerCase()))
 	}
 
 	// Stable ref to editor for use inside commands
@@ -269,7 +314,10 @@ export function TiptapEditor({
 		const textBefore = e.state.doc.textBetween(Math.max(0, from - 20), from, "\n")
 		const match = textBefore.match(/\/([a-zA-Zéèà]*)$/)
 		if (match) {
-			e.chain().focus().deleteRange({ from: from - match[0].length, to: from }).run()
+			e.chain()
+				.focus()
+				.deleteRange({ from: from - match[0].length, to: from })
+				.run()
 		}
 
 		// Execute the block command
@@ -336,7 +384,8 @@ export function TiptapEditor({
 		content,
 		editorProps: {
 			attributes: {
-				class: "tiptap-notion prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[200px]",
+				class:
+					"tiptap-notion prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[200px]",
 			},
 			handleKeyDown: (_view, event) => {
 				if (!slashOpenRef.current) return false
@@ -371,7 +420,7 @@ export function TiptapEditor({
 
 				return false
 			},
-			handleDrop: (view, event, _slice, moved) => {
+			handleDrop: (_view, event, _slice, moved) => {
 				if (moved || !event.dataTransfer?.files.length) return false
 				const file = event.dataTransfer.files[0]
 				if (file && ACCEPTED_IMAGE_TYPES.includes(file.type)) {
@@ -436,7 +485,7 @@ export function TiptapEditor({
 		if (editor && content !== editor.getHTML()) {
 			editor.commands.setContent(content)
 		}
-	}, [content]) // eslint-disable-line react-hooks/exhaustive-deps
+	}, [content, editor]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Close slash menu on click outside
 	useEffect(() => {
@@ -448,7 +497,7 @@ export function TiptapEditor({
 		}
 		document.addEventListener("mousedown", handleClick)
 		return () => document.removeEventListener("mousedown", handleClick)
-	}, [slashOpen])
+	}, [slashOpen, closeSlash])
 
 	if (!editor) return null
 

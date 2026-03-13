@@ -1,9 +1,9 @@
 "use client"
 
+import { ChevronRight, FileText } from "lucide-react"
 import type { ReactNode } from "react"
-import { FileText, ChevronRight } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface SummaryCardProps {
 	title: string
@@ -44,9 +44,7 @@ function SummaryCardBase({
 				</div>
 			)}
 
-			{source && (
-				<p className="mt-2 text-xs text-fg-muted">Source: {source}</p>
-			)}
+			{source && <p className="mt-2 text-xs text-fg-muted">Source: {source}</p>}
 
 			{actions && (
 				<div className="mt-3 flex items-center gap-2 border-t border-edge-subtle pt-3">

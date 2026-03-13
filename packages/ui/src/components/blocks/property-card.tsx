@@ -1,14 +1,7 @@
-import { withProGuard } from "../../lib/with-pro-guard"
 import type * as React from "react"
 import { cn } from "../../lib/utils"
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	CardAction,
-	CardContent,
-} from "../ui/card"
+import { withProGuard } from "../../lib/with-pro-guard"
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 
 // ---------------------------------------------------------------------------
 // PropertyCard
@@ -50,9 +43,7 @@ function PropertyCardBase({
 				{actions && <CardAction>{actions}</CardAction>}
 			</CardHeader>
 			<CardContent>
-				<div className={cn("grid gap-x-6 gap-y-4", gridCols[columns])}>
-					{children}
-				</div>
+				<div className={cn("grid gap-x-6 gap-y-4", gridCols[columns])}>{children}</div>
 			</CardContent>
 		</Card>
 	)
@@ -79,9 +70,7 @@ function PropertyCardItem({ label, value, span, className }: PropertyCardItemPro
 			style={span ? { gridColumn: `span ${span}` } : undefined}
 		>
 			<dt className="text-[13px] text-fg-muted">{label}</dt>
-			<dd className="mt-0.5 text-sm font-medium text-fg">
-				{value ?? "—"}
-			</dd>
+			<dd className="mt-0.5 text-sm font-medium text-fg">{value ?? "—"}</dd>
 		</div>
 	)
 }

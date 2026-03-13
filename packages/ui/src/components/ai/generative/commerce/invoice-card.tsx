@@ -1,11 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
-import Link from "next/link"
 import { Receipt } from "lucide-react"
-import { Badge } from "../../../ui/badge"
+import Link from "next/link"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
 import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "cancelled"
 
@@ -57,7 +57,7 @@ function InvoiceCardBase({
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<div className="flex items-start gap-3">
@@ -100,7 +100,7 @@ function InvoiceCardBase({
 							key={i}
 							className={cn(
 								"flex items-center justify-between py-1.5",
-								i < items.length - 1 && "border-b border-edge-subtle",
+								i < items.length - 1 && "border-b border-edge-subtle"
 							)}
 						>
 							<span className="text-xs text-fg-muted">{item.description}</span>

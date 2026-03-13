@@ -1,9 +1,9 @@
 import "./globals.css"
+import { BlazzProvider } from "@blazz/ui"
+import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "next-themes"
-import { BlazzProvider } from "@blazz/ui"
-import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
 
 const BLAZZ_DEV_LICENSE = "BLAZZ-PRO-BLAZZDEV-20271231-569bc77c0666d084"
 
@@ -23,9 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body className={`${inter.className} antialiased`}>
 				<ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
 					<BlazzProvider licenseKey={BLAZZ_DEV_LICENSE}>
-						<ThemePaletteProvider>
-							{children}
-						</ThemePaletteProvider>
+						<ThemePaletteProvider>{children}</ThemePaletteProvider>
 					</BlazzProvider>
 				</ThemeProvider>
 			</body>

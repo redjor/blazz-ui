@@ -1,41 +1,41 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import {
 	ContextMenu,
-	ContextMenuTrigger,
+	ContextMenuCheckboxItem,
 	ContextMenuContent,
+	ContextMenuGroup,
 	ContextMenuItem,
 	ContextMenuLabel,
-	ContextMenuSeparator,
-	ContextMenuGroup,
-	ContextMenuCheckboxItem,
 	ContextMenuRadioGroup,
 	ContextMenuRadioItem,
-	ContextMenuSub,
-	ContextMenuSubTrigger,
-	ContextMenuSubContent,
+	ContextMenuSeparator,
 	ContextMenuShortcut,
+	ContextMenuSub,
+	ContextMenuSubContent,
+	ContextMenuSubTrigger,
+	ContextMenuTrigger,
 } from "@blazz/ui/components/ui/context-menu"
+import { createFileRoute } from "@tanstack/react-router"
 import {
-	Copy,
-	Scissors,
+	AlignCenter,
+	AlignLeft,
+	AlignRight,
 	ClipboardPaste,
-	RotateCcw,
-	RotateCw,
-	Trash2,
+	Copy,
 	Eye,
 	EyeOff,
+	RotateCcw,
+	RotateCw,
+	Scissors,
+	Trash2,
 	Type,
-	AlignLeft,
-	AlignCenter,
-	AlignRight,
 } from "lucide-react"
+import * as React from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -307,17 +307,11 @@ function CheckboxItemsDemo() {
 				<ContextMenuGroup>
 					<ContextMenuLabel>Display</ContextMenuLabel>
 					<ContextMenuSeparator />
-					<ContextMenuCheckboxItem
-						checked={showGrid}
-						onCheckedChange={setShowGrid}
-					>
+					<ContextMenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
 						<Eye className="mr-2 h-4 w-4" />
 						Show Grid
 					</ContextMenuCheckboxItem>
-					<ContextMenuCheckboxItem
-						checked={showRulers}
-						onCheckedChange={setShowRulers}
-					>
+					<ContextMenuCheckboxItem checked={showRulers} onCheckedChange={setShowRulers}>
 						<EyeOff className="mr-2 h-4 w-4" />
 						Show Rulers
 					</ContextMenuCheckboxItem>
@@ -546,7 +540,9 @@ function ContextMenuPage() {
 
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
-					<li>Use context menus for secondary actions — primary actions should be visible in the UI</li>
+					<li>
+						Use context menus for secondary actions — primary actions should be visible in the UI
+					</li>
 					<li>Keep the trigger area large enough to be easily right-clicked</li>
 					<li>Show keyboard shortcuts to help users discover faster alternatives</li>
 					<li>Use labels and separators to organize related items into groups</li>

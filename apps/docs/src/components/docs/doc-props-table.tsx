@@ -1,6 +1,6 @@
-import * as React from "react"
-import { cn } from "@blazz/ui/lib/utils"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { cn } from "@blazz/ui/lib/utils"
+import * as React from "react"
 
 export interface DocProp {
 	name: string
@@ -28,9 +28,7 @@ function PropsRows({ props }: { props: DocProp[] }) {
 				<tr key={prop.name} className="border-b border-separator last:border-0">
 					<td className="py-2.5 pr-4 align-top">
 						<div className="flex items-center gap-2">
-							<code className="text-[13px] font-semibold text-fg">
-								{prop.name}
-							</code>
+							<code className="text-[13px] font-semibold text-fg">{prop.name}</code>
 							{prop.required && (
 								<Badge variant="warning" fill="subtle" size="xs">
 									required
@@ -50,9 +48,7 @@ function PropsRows({ props }: { props: DocProp[] }) {
 							<span className="text-xs text-fg-subtle">&mdash;</span>
 						)}
 					</td>
-					<td className="py-2.5 align-top text-[13px] text-fg-muted">
-						{prop.description}
-					</td>
+					<td className="py-2.5 align-top text-[13px] text-fg-muted">{prop.description}</td>
 				</tr>
 			))}
 		</>

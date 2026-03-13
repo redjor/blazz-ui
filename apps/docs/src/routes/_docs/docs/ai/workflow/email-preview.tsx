@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { EmailPreview } from "@blazz/ui/components/ai/generative/workflow/email-preview"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -31,9 +31,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/workflow/email-preview"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/workflow/email-preview")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -50,8 +48,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function EmailPreviewPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -65,7 +62,9 @@ function EmailPreviewPage() {
 						subject="Follow-up: Q4 Partnership Proposal"
 						from={{ name: "Laura Chen", email: "laura@acme.com" }}
 						to={[{ name: "Marc Dupont", email: "marc@forge.io" }]}
-						body={"Hi Marc,\n\nJust following up on our conversation last week about the Q4 partnership. I've attached the revised proposal with the updated pricing.\n\nLooking forward to your feedback."}
+						body={
+							"Hi Marc,\n\nJust following up on our conversation last week about the Q4 partnership. I've attached the revised proposal with the updated pricing.\n\nLooking forward to your feedback."
+						}
 						date="Today, 2:30 PM"
 						attachments={1}
 						status="draft"

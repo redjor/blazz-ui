@@ -19,21 +19,21 @@
  * ```
  */
 export type FilterOperator =
-  | 'equals'
-  | 'notEquals'
-  | 'contains'
-  | 'notContains'
-  | 'startsWith'
-  | 'endsWith'
-  | 'greaterThan'
-  | 'greaterThanOrEqual'
-  | 'lessThan'
-  | 'lessThanOrEqual'
-  | 'between'
-  | 'in'
-  | 'notIn'
-  | 'isEmpty'
-  | 'isNotEmpty';
+	| "equals"
+	| "notEquals"
+	| "contains"
+	| "notContains"
+	| "startsWith"
+	| "endsWith"
+	| "greaterThan"
+	| "greaterThanOrEqual"
+	| "lessThan"
+	| "lessThanOrEqual"
+	| "between"
+	| "in"
+	| "notIn"
+	| "isEmpty"
+	| "isNotEmpty"
 
 /**
  * Data types for filter conditions.
@@ -45,7 +45,7 @@ export type FilterOperator =
  * - **boolean**: True/false comparisons
  * - **select**: Dropdown selection with predefined options
  */
-export type FilterType = 'text' | 'number' | 'date' | 'boolean' | 'select';
+export type FilterType = "text" | "number" | "date" | "boolean" | "select"
 
 /**
  * A single filter condition for a column.
@@ -82,23 +82,23 @@ export type FilterType = 'text' | 'number' | 'date' | 'boolean' | 'select';
  * ```
  */
 export interface FilterCondition {
-  /** Unique identifier for this condition */
-  id: string;
+	/** Unique identifier for this condition */
+	id: string
 
-  /** Column accessorKey to filter on */
-  column: string;
+	/** Column accessorKey to filter on */
+	column: string
 
-  /** Comparison operator */
-  operator: FilterOperator;
+	/** Comparison operator */
+	operator: FilterOperator
 
-  /** Filter value */
-  value: any;
+	/** Filter value */
+	value: any
 
-  /** Second value for "between" operator */
-  value2?: any;
+	/** Second value for "between" operator */
+	value2?: any
 
-  /** Data type determines available operators */
-  type: FilterType;
+	/** Data type determines available operators */
+	type: FilterType
 }
 
 /**
@@ -138,17 +138,17 @@ export interface FilterCondition {
  * ```
  */
 export interface FilterGroup {
-  /** Unique identifier for this group */
-  id: string;
+	/** Unique identifier for this group */
+	id: string
 
-  /** How to combine conditions/groups (AND requires all, OR requires at least one) */
-  operator: 'AND' | 'OR';
+	/** How to combine conditions/groups (AND requires all, OR requires at least one) */
+	operator: "AND" | "OR"
 
-  /** Filter conditions at this level */
-  conditions: FilterCondition[];
+	/** Filter conditions at this level */
+	conditions: FilterCondition[]
 
-  /** Nested filter groups for complex logic */
-  groups?: FilterGroup[];
+	/** Nested filter groups for complex logic */
+	groups?: FilterGroup[]
 }
 
 /**
@@ -195,82 +195,82 @@ export interface FilterGroup {
  * ```
  */
 export interface ColumnFilterConfig {
-  /** Data type of the column - determines available operators */
-  type: FilterType;
+	/** Data type of the column - determines available operators */
+	type: FilterType
 
-  /** Allowed filter operators (if not specified, all operators for type are available) */
-  operators?: FilterOperator[];
+	/** Allowed filter operators (if not specified, all operators for type are available) */
+	operators?: FilterOperator[]
 
-  /** Options for select type (required for type: "select") */
-  options?: { label: string; value: any }[];
+	/** Options for select type (required for type: "select") */
+	options?: { label: string; value: any }[]
 
-  /** Minimum value for number inputs */
-  min?: number;
+	/** Minimum value for number inputs */
+	min?: number
 
-  /** Maximum value for number inputs */
-  max?: number;
+	/** Maximum value for number inputs */
+	max?: number
 
-  /** Step increment for number inputs */
-  step?: number;
+	/** Step increment for number inputs */
+	step?: number
 
-  /** Placeholder text for filter inputs */
-  placeholder?: string;
+	/** Placeholder text for filter inputs */
+	placeholder?: string
 
-  /** @deprecated Use showInlineFilter and defaultInlineFilter instead */
-  showQuickFilter?: boolean;
+	/** @deprecated Use showInlineFilter and defaultInlineFilter instead */
+	showQuickFilter?: boolean
 
-  /** Whether this filter is available in the inline filter system */
-  showInlineFilter?: boolean;
+	/** Whether this filter is available in the inline filter system */
+	showInlineFilter?: boolean
 
-  /** Whether this filter is displayed by default (vs "Ajouter un filtre") */
-  defaultInlineFilter?: boolean;
+	/** Whether this filter is displayed by default (vs "Ajouter un filtre") */
+	defaultInlineFilter?: boolean
 
-  /** Custom label for the filter dropdown (defaults to column header) */
-  filterLabel?: string;
+	/** Custom label for the filter dropdown (defaults to column header) */
+	filterLabel?: string
 }
 
 // Operator definitions for each filter type
 export const textOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: 'contains', label: 'Contains', requiresValue: true },
-  { value: 'notContains', label: 'Does not contain', requiresValue: true },
-  { value: 'equals', label: 'Is equal to', requiresValue: true },
-  { value: 'notEquals', label: 'Is not equal to', requiresValue: true },
-  { value: 'startsWith', label: 'Starts with', requiresValue: true },
-  { value: 'endsWith', label: 'Ends with', requiresValue: true },
-  { value: 'isEmpty', label: 'Is empty', requiresValue: false },
-  { value: 'isNotEmpty', label: 'Is not empty', requiresValue: false },
-];
+	{ value: "contains", label: "Contains", requiresValue: true },
+	{ value: "notContains", label: "Does not contain", requiresValue: true },
+	{ value: "equals", label: "Is equal to", requiresValue: true },
+	{ value: "notEquals", label: "Is not equal to", requiresValue: true },
+	{ value: "startsWith", label: "Starts with", requiresValue: true },
+	{ value: "endsWith", label: "Ends with", requiresValue: true },
+	{ value: "isEmpty", label: "Is empty", requiresValue: false },
+	{ value: "isNotEmpty", label: "Is not empty", requiresValue: false },
+]
 
 export const numberOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: 'equals', label: 'Equals', requiresValue: true },
-  { value: 'notEquals', label: 'Not equals', requiresValue: true },
-  { value: 'greaterThan', label: 'Greater than', requiresValue: true },
-  { value: 'greaterThanOrEqual', label: 'Greater than or equal', requiresValue: true },
-  { value: 'lessThan', label: 'Less than', requiresValue: true },
-  { value: 'lessThanOrEqual', label: 'Less than or equal', requiresValue: true },
-  { value: 'between', label: 'Between', requiresValue: true },
-  { value: 'isEmpty', label: 'Is empty', requiresValue: false },
-  { value: 'isNotEmpty', label: 'Is not empty', requiresValue: false },
-];
+	{ value: "equals", label: "Equals", requiresValue: true },
+	{ value: "notEquals", label: "Not equals", requiresValue: true },
+	{ value: "greaterThan", label: "Greater than", requiresValue: true },
+	{ value: "greaterThanOrEqual", label: "Greater than or equal", requiresValue: true },
+	{ value: "lessThan", label: "Less than", requiresValue: true },
+	{ value: "lessThanOrEqual", label: "Less than or equal", requiresValue: true },
+	{ value: "between", label: "Between", requiresValue: true },
+	{ value: "isEmpty", label: "Is empty", requiresValue: false },
+	{ value: "isNotEmpty", label: "Is not empty", requiresValue: false },
+]
 
 export const selectOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: 'equals', label: 'Is', requiresValue: true },
-  { value: 'notEquals', label: 'Is not', requiresValue: true },
-  { value: 'in', label: 'Is one of', requiresValue: true },
-  { value: 'notIn', label: 'Is not one of', requiresValue: true },
-];
+	{ value: "equals", label: "Is", requiresValue: true },
+	{ value: "notEquals", label: "Is not", requiresValue: true },
+	{ value: "in", label: "Is one of", requiresValue: true },
+	{ value: "notIn", label: "Is not one of", requiresValue: true },
+]
 
 export const booleanOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] =
-  [{ value: 'equals', label: 'Is', requiresValue: true }];
+	[{ value: "equals", label: "Is", requiresValue: true }]
 
 export const dateOperators: { value: FilterOperator; label: string; requiresValue: boolean }[] = [
-  { value: 'equals', label: 'Is', requiresValue: true },
-  { value: 'notEquals', label: 'Is not', requiresValue: true },
-  { value: 'greaterThan', label: 'Is after', requiresValue: true },
-  { value: 'greaterThanOrEqual', label: 'Is on or after', requiresValue: true },
-  { value: 'lessThan', label: 'Is before', requiresValue: true },
-  { value: 'lessThanOrEqual', label: 'Is on or before', requiresValue: true },
-  { value: 'between', label: 'Is between', requiresValue: true },
-  { value: 'isEmpty', label: 'Is empty', requiresValue: false },
-  { value: 'isNotEmpty', label: 'Is not empty', requiresValue: false },
-];
+	{ value: "equals", label: "Is", requiresValue: true },
+	{ value: "notEquals", label: "Is not", requiresValue: true },
+	{ value: "greaterThan", label: "Is after", requiresValue: true },
+	{ value: "greaterThanOrEqual", label: "Is on or after", requiresValue: true },
+	{ value: "lessThan", label: "Is before", requiresValue: true },
+	{ value: "lessThanOrEqual", label: "Is on or before", requiresValue: true },
+	{ value: "between", label: "Is between", requiresValue: true },
+	{ value: "isEmpty", label: "Is empty", requiresValue: false },
+	{ value: "isNotEmpty", label: "Is not empty", requiresValue: false },
+]

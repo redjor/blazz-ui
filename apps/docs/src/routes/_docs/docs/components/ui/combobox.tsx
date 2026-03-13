@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
 import { Combobox } from "@blazz/ui/components/ui/combobox"
 import { Label } from "@blazz/ui/components/ui/label"
+import { createFileRoute } from "@tanstack/react-router"
 import { Flag, Globe } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -157,13 +157,15 @@ const comboboxProps: DocProp[] = [
 	{
 		name: "icon",
 		type: "React.ReactNode",
-		description: "Optional icon rendered before the selected label. Used as fallback in iconTrigger mode when no option is selected.",
+		description:
+			"Optional icon rendered before the selected label. Used as fallback in iconTrigger mode when no option is selected.",
 	},
 	{
 		name: "iconTrigger",
 		type: "boolean",
 		default: "false",
-		description: "When true, the trigger renders as a compact icon-only button (32×32px). Shows the selected option's icon, or the icon prop as fallback.",
+		description:
+			"When true, the trigger renders as a compact icon-only button (32×32px). Shows the selected option's icon, or the icon prop as fallback.",
 	},
 	{
 		name: "className",
@@ -208,31 +210,36 @@ const teamMembers = [
 		value: "alex",
 		label: "Alex Johnson",
 		description: "Software Engineer",
-		avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
+		avatar:
+			"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
 	},
 	{
 		value: "sarah",
 		label: "Sarah Chen",
 		description: "Product Manager",
-		avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face",
+		avatar:
+			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face",
 	},
 	{
 		value: "michael",
 		label: "Michael Rodriguez",
 		description: "UX Designer",
-		avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face",
+		avatar:
+			"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face",
 	},
 	{
 		value: "emma",
 		label: "Emma Wilson",
 		description: "Technical Lead",
-		avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
+		avatar:
+			"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
 	},
 	{
 		value: "david",
 		label: "David Kim",
 		description: "CTO",
-		avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&crop=face",
+		avatar:
+			"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&crop=face",
 	},
 ]
 
@@ -425,19 +432,11 @@ function ComboboxPage() {
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						Use Combobox when you have more than 7-10 options that benefit from
-						search filtering
+						Use Combobox when you have more than 7-10 options that benefit from search filtering
 					</li>
-					<li>
-						For fewer options without search, prefer a standard Select component
-					</li>
-					<li>
-						Provide clear placeholder and searchPlaceholder text to guide users
-					</li>
-					<li>
-						Customize emptyMessage to give helpful feedback when search yields
-						no results
-					</li>
+					<li>For fewer options without search, prefer a standard Select component</li>
+					<li>Provide clear placeholder and searchPlaceholder text to guide users</li>
+					<li>Customize emptyMessage to give helpful feedback when search yields no results</li>
 				</ul>
 			</DocSection>
 
@@ -447,20 +446,17 @@ function ComboboxPage() {
 						{
 							title: "Select",
 							href: "/docs/components/ui/select",
-							description:
-								"A dropdown for selecting from a short list of options.",
+							description: "A dropdown for selecting from a short list of options.",
 						},
 						{
 							title: "Command",
 							href: "/docs/components/ui/command",
-							description:
-								"A command palette for searching and executing actions.",
+							description: "A command palette for searching and executing actions.",
 						},
 						{
 							title: "Search Input",
 							href: "/docs/components/ui/search-input",
-							description:
-								"A text input with search icon for search interactions.",
+							description: "A text input with search icon for search interactions.",
 						},
 					]}
 				/>

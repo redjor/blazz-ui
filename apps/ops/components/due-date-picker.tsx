@@ -6,16 +6,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui
 import {
 	addDays,
 	format,
-	nextFriday,
-	nextMonday,
-	isToday,
-	isTomorrow,
 	isFriday,
 	isThisWeek,
+	isToday,
+	isTomorrow,
+	nextFriday,
+	nextMonday,
 	parseISO,
 } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Calendar, Sun, Sunrise, Sofa, ArrowRight, X } from "lucide-react"
+import { ArrowRight, Calendar, Sofa, Sun, Sunrise, X } from "lucide-react"
 import { useState } from "react"
 
 interface DueDatePickerProps {
@@ -48,7 +48,7 @@ function getShortcuts(): Shortcut[] {
 		{
 			label: "Vendredi",
 			icon: <Sofa className="size-4 text-blue-500" />,
-			getDate: () => isFriday(now) ? now : nextFriday(now),
+			getDate: () => (isFriday(now) ? now : nextFriday(now)),
 			hint: () => format(isFriday(now) ? now : nextFriday(now), "d MMM", { locale: fr }),
 		},
 		{
@@ -86,13 +86,15 @@ export function DueDatePicker({ value, onChange }: DueDatePickerProps) {
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger render={
-				<Button
-					type="button"
-					variant="outline"
-					className="w-full justify-start text-left font-normal"
-				/>
-			}>
+			<PopoverTrigger
+				render={
+					<Button
+						type="button"
+						variant="outline"
+						className="w-full justify-start text-left font-normal"
+					/>
+				}
+			>
 				<Calendar className="size-4 text-fg-muted mr-2" />
 				{displayLabel ? (
 					<span className="text-sm">{displayLabel}</span>

@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, type ReactNode } from "react"
+import { type ReactNode, useEffect } from "react"
 import { isEnabled, routeToFlag } from "@/lib/features"
 
 export function RouteGuard({ children }: { children: ReactNode }) {

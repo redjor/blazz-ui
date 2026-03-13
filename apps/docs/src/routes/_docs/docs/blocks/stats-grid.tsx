@@ -1,25 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
 import type { StatItem } from "@blazz/ui/components/blocks/stats-grid"
-import { highlightCode } from "~/lib/highlight-code"
+import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import { createFileRoute } from "@tanstack/react-router"
 import {
-	DollarSign,
-	Handshake,
-	Users,
-	TrendingUp,
-	ShoppingCart,
 	Clock,
 	CreditCard,
+	DollarSign,
+	Handshake,
+	ShoppingCart,
+	TrendingUp,
+	Users,
 } from "lucide-react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
+import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
 // Sample data
@@ -237,13 +234,15 @@ const statsGridProps: DocProp[] = [
 		name: "columns",
 		type: "2 | 3 | 4",
 		default: "4",
-		description: "Number of columns in the grid. Responsive: collapses to 2 on tablet, 1 on mobile.",
+		description:
+			"Number of columns in the grid. Responsive: collapses to 2 on tablet, 1 on mobile.",
 	},
 	{
 		name: "loading",
 		type: "boolean",
 		default: "false",
-		description: "Show skeleton loading state. Renders placeholder cards matching the column count.",
+		description:
+			"Show skeleton loading state. Renders placeholder cards matching the column count.",
 	},
 	{
 		name: "className",
@@ -256,7 +255,7 @@ const statItemProps: DocProp[] = [
 	{
 		name: "label",
 		type: "string",
-		description: "Label text displayed above the value (e.g. \"Chiffre d'affaires\").",
+		description: 'Label text displayed above the value (e.g. "Chiffre d\'affaires").',
 	},
 	{
 		name: "value",
@@ -266,12 +265,14 @@ const statItemProps: DocProp[] = [
 	{
 		name: "trend",
 		type: "number",
-		description: "Percentage change vs previous period. Positive shows green up arrow, negative shows red down arrow.",
+		description:
+			"Percentage change vs previous period. Positive shows green up arrow, negative shows red down arrow.",
 	},
 	{
 		name: "trendInverted",
 		type: "boolean",
-		description: "Invert trend colors: negative becomes green (good) and positive becomes red (bad). Use for cost-type metrics where lower is better.",
+		description:
+			"Invert trend colors: negative becomes green (good) and positive becomes red (bad). Use for cost-type metrics where lower is better.",
 	},
 	{
 		name: "icon",
@@ -301,7 +302,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/stats-grid")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -326,8 +327,7 @@ function StatsGridHeroDemo() {
 
 function StatsGridPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -404,12 +404,14 @@ function StatsGridPage() {
 						{
 							title: "Stats Strip",
 							href: "/docs/blocks/stats-strip",
-							description: "Horizontal row of key metrics with trend indicators and compact layout.",
+							description:
+								"Horizontal row of key metrics with trend indicators and compact layout.",
 						},
 						{
 							title: "Data Table",
 							href: "/docs/blocks/data-table",
-							description: "Full-featured data table with sorting, filtering, pagination, and row selection.",
+							description:
+								"Full-featured data table with sorting, filtering, pagination, and row selection.",
 						},
 						{
 							title: "Chart Card",

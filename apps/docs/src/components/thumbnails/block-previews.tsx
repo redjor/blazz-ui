@@ -1,34 +1,32 @@
-import {
-	Download,
-	UserPlus,
-	Trash2,
-	Upload,
-	Plus,
-	DollarSign,
-	Users,
-	Target,
-	TrendingUp,
-	Edit,
-	Mail,
-	Check,
-	ChevronRight,
-} from "lucide-react"
-
 import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { BulkActionBar } from "@blazz/ui/components/blocks/bulk-action-bar"
 import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
 import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
-import { ErrorState } from "@blazz/ui/components/patterns/error-state"
-import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
 import { FilterBar } from "@blazz/ui/components/blocks/filter-bar"
-import { FormSection } from "@blazz/ui/components/patterns/form-section"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { SplitView } from "@blazz/ui/components/blocks/split-view"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
 import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
+import { ErrorState } from "@blazz/ui/components/patterns/error-state"
+import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { FormSection } from "@blazz/ui/components/patterns/form-section"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import {
+	Check,
+	ChevronRight,
+	DollarSign,
+	Download,
+	Edit,
+	Mail,
+	Plus,
+	Target,
+	Trash2,
+	TrendingUp,
+	Upload,
+	UserPlus,
+	Users,
+} from "lucide-react"
 
 // ════════════════════════════════════════════════════════════════════════════
 // activity-timeline
@@ -78,9 +76,7 @@ export function BulkActionBarPreview() {
 		<div className="relative flex h-[120px] w-[600px] items-end justify-center pb-4">
 			{/* Override fixed positioning for thumbnail preview */}
 			<div className="flex items-center gap-3 rounded-lg border bg-surface px-4 py-2.5 shadow-lg">
-				<span className="text-sm font-medium text-fg">
-					12 selected
-				</span>
+				<span className="text-sm font-medium text-fg">12 selected</span>
 				<div className="h-4 w-px bg-border" />
 				<div className="flex items-center gap-2">
 					<button
@@ -156,7 +152,6 @@ export function ChartCardPreview() {
 		</div>
 	)
 }
-
 
 // ════════════════════════════════════════════════════════════════════════════
 // detail-panel
@@ -332,11 +327,7 @@ export function FormSectionPreview() {
 					</div>
 				</div>
 			</FormSection>
-			<FormSection
-				title="Address"
-				description="Billing and shipping address"
-				defaultOpen={false}
-			>
+			<FormSection title="Address" description="Billing and shipping address" defaultOpen={false}>
 				<div className="space-y-3">
 					<div className="space-y-1.5">
 						<Label>Street</Label>
@@ -376,19 +367,9 @@ export function MultiStepFormPreview() {
 											: "border-edge text-fg-muted"
 								}`}
 							>
-								{step.completed ? (
-									<Check className="size-3.5" />
-								) : (
-									i + 1
-								)}
+								{step.completed ? <Check className="size-3.5" /> : i + 1}
 							</div>
-							<span
-								className={`text-sm ${
-									step.current
-										? "font-medium text-fg"
-										: "text-fg-muted"
-								}`}
-							>
+							<span className={`text-sm ${step.current ? "font-medium text-fg" : "text-fg-muted"}`}>
 								{step.title}
 							</span>
 						</div>
@@ -401,21 +382,15 @@ export function MultiStepFormPreview() {
 				<div className="grid grid-cols-2 gap-4">
 					<div className="space-y-1.5">
 						<Label>
-							Contact name{" "}
-							<span className="ml-0.5 text-negative">*</span>
+							Contact name <span className="ml-0.5 text-negative">*</span>
 						</Label>
 						<Input placeholder="Full name" defaultValue="Sarah Chen" />
 					</div>
 					<div className="space-y-1.5">
 						<Label>
-							Email{" "}
-							<span className="ml-0.5 text-negative">*</span>
+							Email <span className="ml-0.5 text-negative">*</span>
 						</Label>
-						<Input
-							type="email"
-							placeholder="email@company.com"
-							defaultValue="sarah@acme.com"
-						/>
+						<Input type="email" placeholder="email@company.com" defaultValue="sarah@acme.com" />
 					</div>
 					<div className="space-y-1.5">
 						<Label>Phone</Label>
@@ -457,10 +432,7 @@ export function PageHeaderPreview() {
 			<PageHeader
 				title="Contacts"
 				description="Manage your customer contacts"
-				breadcrumbs={[
-					{ label: "CRM", href: "/" },
-					{ label: "Contacts" },
-				]}
+				breadcrumbs={[{ label: "CRM", href: "/" }, { label: "Contacts" }]}
 				actions={[
 					{
 						label: "Import",
@@ -501,20 +473,14 @@ export function SplitViewPreview() {
 						{splitViewItems.map((item) => (
 							<div
 								key={item.name}
-								className={`flex items-center gap-3 px-4 py-3 ${
-									item.active ? "bg-brand/5" : ""
-								}`}
+								className={`flex items-center gap-3 px-4 py-3 ${item.active ? "bg-brand/5" : ""}`}
 							>
 								<div className="flex size-8 items-center justify-center rounded-full bg-raised text-xs font-medium">
 									{item.name.charAt(0)}
 								</div>
 								<div className="min-w-0 flex-1">
-									<p className="truncate text-sm font-medium text-fg">
-										{item.name}
-									</p>
-									<p className="text-xs text-fg-muted">
-										{item.subtitle}
-									</p>
+									<p className="truncate text-sm font-medium text-fg">{item.name}</p>
+									<p className="text-xs text-fg-muted">{item.subtitle}</p>
 								</div>
 								<ChevronRight className="size-4 text-fg-muted" />
 							</div>
@@ -528,38 +494,26 @@ export function SplitViewPreview() {
 								A
 							</div>
 							<div>
-								<p className="text-sm font-semibold text-fg">
-									Acme Corp
-								</p>
-								<p className="text-xs text-fg-muted">
-									Technology
-								</p>
+								<p className="text-sm font-semibold text-fg">Acme Corp</p>
+								<p className="text-xs text-fg-muted">Technology</p>
 							</div>
 						</div>
 						<div className="grid grid-cols-2 gap-3">
 							<div>
 								<p className="text-xs text-fg-muted">Revenue</p>
-								<p className="text-sm font-medium text-fg">
-									$2.4M
-								</p>
+								<p className="text-sm font-medium text-fg">$2.4M</p>
 							</div>
 							<div>
 								<p className="text-xs text-fg-muted">Employees</p>
-								<p className="text-sm font-medium text-fg">
-									150
-								</p>
+								<p className="text-sm font-medium text-fg">150</p>
 							</div>
 							<div>
 								<p className="text-xs text-fg-muted">Location</p>
-								<p className="text-sm font-medium text-fg">
-									San Francisco, CA
-								</p>
+								<p className="text-sm font-medium text-fg">San Francisco, CA</p>
 							</div>
 							<div>
 								<p className="text-xs text-fg-muted">Founded</p>
-								<p className="text-sm font-medium text-fg">
-									2019
-								</p>
+								<p className="text-sm font-medium text-fg">2019</p>
 							</div>
 						</div>
 					</div>

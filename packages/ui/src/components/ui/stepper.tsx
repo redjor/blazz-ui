@@ -1,4 +1,3 @@
-import * as React from "react"
 import { CheckIcon } from "lucide-react"
 import { cn } from "../../lib/utils"
 
@@ -43,12 +42,7 @@ function StepperProgressBar({
 					index < activeStep ? "completed" : index === activeStep ? "active" : "pending"
 
 				return (
-					<div
-						key={step.label}
-						role="listitem"
-						data-status={status}
-						className="flex-1 space-y-2"
-					>
+					<div key={step.label} role="listitem" data-status={status} className="flex-1 space-y-2">
 						<div
 							className={cn(
 								"h-1 rounded-full transition-colors",
@@ -127,12 +121,7 @@ function StepperDefault({
 			data-slot="stepper"
 			role="list"
 			aria-label="Progress"
-			className={cn(
-				orientation === "horizontal"
-					? "flex items-start"
-					: "flex flex-col",
-				className
-			)}
+			className={cn(orientation === "horizontal" ? "flex items-start" : "flex flex-col", className)}
 		>
 			{steps.map((step, index) => {
 				const status =
@@ -144,9 +133,7 @@ function StepperDefault({
 						role="listitem"
 						data-status={status}
 						className={cn(
-							orientation === "horizontal"
-								? "flex flex-1 items-start"
-								: "flex items-start"
+							orientation === "horizontal" ? "flex flex-1 items-start" : "flex items-start"
 						)}
 					>
 						{/* Step indicator + connector */}
@@ -169,14 +156,8 @@ function StepperDefault({
 								{(orientation === "horizontal" || index > 0) && (
 									<div
 										className={cn(
-											orientation === "horizontal"
-												? "h-0.5 flex-1"
-												: "w-0.5 h-6",
-											index === 0
-												? "bg-transparent"
-												: index <= activeStep
-													? "bg-brand"
-													: "bg-edge"
+											orientation === "horizontal" ? "h-0.5 flex-1" : "w-0.5 h-6",
+											index === 0 ? "bg-transparent" : index <= activeStep ? "bg-brand" : "bg-edge"
 										)}
 									/>
 								)}
@@ -202,9 +183,7 @@ function StepperDefault({
 								{(orientation === "horizontal" || index < steps.length - 1) && (
 									<div
 										className={cn(
-											orientation === "horizontal"
-												? "h-0.5 flex-1"
-												: "w-0.5 h-6",
+											orientation === "horizontal" ? "h-0.5 flex-1" : "w-0.5 h-6",
 											index === steps.length - 1
 												? "bg-transparent"
 												: index < activeStep
@@ -260,10 +239,7 @@ function StepperDefault({
  * Stepper — Root entry point
  * --------------------------------------------------------------------------- */
 
-function Stepper({
-	variant = "default",
-	...props
-}: StepperProps) {
+function Stepper({ variant = "default", ...props }: StepperProps) {
 	if (variant === "progress-bar") return <StepperProgressBar {...props} />
 	if (variant === "segmented") return <StepperSegmented {...props} />
 	return <StepperDefault {...props} />

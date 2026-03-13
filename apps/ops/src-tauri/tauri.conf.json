@@ -1,31 +1,26 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Blazz Ops",
-  "version": "0.1.0",
-  "identifier": "dev.blazz.ops",
-  "build": {
-    "frontendDist": "../out",
-    "devUrl": "http://localhost:3120"
-  },
-  "app": {
-    "windows": [
-      {
-        "title": "Blazz Ops",
-        "width": 1200,
-        "height": 800,
-        "minWidth": 900,
-        "minHeight": 600
-      }
-    ]
-  },
-  "bundle": {
-    "active": true,
-    "targets": "all",
-    "icon": [
-      "icons/icon.icns",
-      "icons/icon.ico",
-      "icons/32x32.png",
-      "icons/128x128.png"
-    ]
-  }
+	"$schema": "https://schema.tauri.app/config/2",
+	"productName": "Blazz Ops",
+	"version": "0.1.0",
+	"identifier": "dev.blazz.ops",
+	"build": {
+		"frontendDist": "../out",
+		"devUrl": "http://localhost:3120"
+	},
+	"app": {
+		"windows": [
+			{
+				"title": "Blazz Ops",
+				"width": 1200,
+				"height": 800,
+				"minWidth": 900,
+				"minHeight": 600
+			}
+		]
+	},
+	"bundle": {
+		"active": true,
+		"targets": "all",
+		"icon": ["icons/icon.icns", "icons/icon.ico", "icons/32x32.png", "icons/128x128.png"]
+	}
 }

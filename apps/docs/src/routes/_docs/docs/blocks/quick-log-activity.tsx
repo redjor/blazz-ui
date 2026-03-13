@@ -1,15 +1,15 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
-import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
 import type { ActivityType } from "@blazz/ui/components/blocks/quick-log-activity"
+import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
 import { Button } from "@blazz/ui/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router"
 import { StickyNote } from "lucide-react"
+import { useState } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 // ---------------------------------------------------------------------------
@@ -117,7 +117,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/quick-log-activity")({
 			[...examples].map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -130,8 +130,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/quick-log-activity")({
 
 function QuickLogActivityPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -155,9 +154,7 @@ function QuickLogActivityPage() {
 					highlightedCode={html("basic")}
 				>
 					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
-						<QuickLogActivity
-							onLog={(activity) => console.log("Logged:", activity)}
-						/>
+						<QuickLogActivity onLog={(activity) => console.log("Logged:", activity)} />
 					</div>
 				</DocExampleClient>
 
@@ -203,7 +200,10 @@ function QuickLogActivityPage() {
 
 			<DocSection id="activity-type" title="ActivityType">
 				<p className="mb-4 text-sm text-fg-muted">
-					Union type: <code className="rounded bg-raised px-1.5 py-0.5 text-xs">"call" | "email" | "note" | "meeting"</code>
+					Union type:{" "}
+					<code className="rounded bg-raised px-1.5 py-0.5 text-xs">
+						"call" | "email" | "note" | "meeting"
+					</code>
 				</p>
 				<DocPropsTable props={activityTypeProps} />
 			</DocSection>
@@ -260,7 +260,9 @@ function HeroDemo() {
 					<p className="text-xs font-medium text-fg-muted">Activités enregistrées :</p>
 					{logs.map((log, i) => (
 						<div key={i} className="flex items-center gap-2 text-xs text-fg-muted">
-							<span className="rounded bg-raised px-1.5 py-0.5 font-mono text-[10px] uppercase">{log.type}</span>
+							<span className="rounded bg-raised px-1.5 py-0.5 font-mono text-[10px] uppercase">
+								{log.type}
+							</span>
 							<span className="truncate">{log.note}</span>
 						</div>
 					))}

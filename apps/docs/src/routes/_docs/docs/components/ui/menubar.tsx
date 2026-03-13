@@ -1,28 +1,28 @@
-import * as React from "react"
-import { createFileRoute } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import {
 	Menubar,
-	MenubarMenu,
-	MenubarTrigger,
-	MenubarContent,
-	MenubarItem,
-	MenubarSeparator,
-	MenubarShortcut,
 	MenubarCheckboxItem,
+	MenubarContent,
+	MenubarGroup,
+	MenubarItem,
+	MenubarLabel,
+	MenubarMenu,
 	MenubarRadioGroup,
 	MenubarRadioItem,
+	MenubarSeparator,
+	MenubarShortcut,
 	MenubarSub,
-	MenubarSubTrigger,
 	MenubarSubContent,
-	MenubarLabel,
-	MenubarGroup,
+	MenubarSubTrigger,
+	MenubarTrigger,
 } from "@blazz/ui/components/ui/menubar"
+import { createFileRoute } from "@tanstack/react-router"
+import * as React from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -249,7 +249,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/menubar")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -258,8 +258,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/menubar")({
 
 function MenubarPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	const [showBookmarks, setShowBookmarks] = React.useState(true)
 	const [showFullUrls, setShowFullUrls] = React.useState(false)
@@ -321,16 +320,10 @@ function MenubarPage() {
 					<MenubarMenu>
 						<MenubarTrigger>View</MenubarTrigger>
 						<MenubarContent>
-							<MenubarCheckboxItem
-								checked={showBookmarks}
-								onCheckedChange={setShowBookmarks}
-							>
+							<MenubarCheckboxItem checked={showBookmarks} onCheckedChange={setShowBookmarks}>
 								Show Bookmarks
 							</MenubarCheckboxItem>
-							<MenubarCheckboxItem
-								checked={showFullUrls}
-								onCheckedChange={setShowFullUrls}
-							>
+							<MenubarCheckboxItem checked={showFullUrls} onCheckedChange={setShowFullUrls}>
 								Show Full URLs
 							</MenubarCheckboxItem>
 						</MenubarContent>
@@ -391,16 +384,10 @@ function MenubarPage() {
 						<MenubarMenu>
 							<MenubarTrigger>View</MenubarTrigger>
 							<MenubarContent>
-								<MenubarCheckboxItem
-									checked={showBookmarks}
-									onCheckedChange={setShowBookmarks}
-								>
+								<MenubarCheckboxItem checked={showBookmarks} onCheckedChange={setShowBookmarks}>
 									Show Bookmarks
 								</MenubarCheckboxItem>
-								<MenubarCheckboxItem
-									checked={showFullUrls}
-									onCheckedChange={setShowFullUrls}
-								>
+								<MenubarCheckboxItem checked={showFullUrls} onCheckedChange={setShowFullUrls}>
 									Show Full URLs
 								</MenubarCheckboxItem>
 							</MenubarContent>

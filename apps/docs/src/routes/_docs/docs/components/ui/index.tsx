@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Link } from "@tanstack/react-router"
+import { Card, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Page } from "@blazz/ui/components/ui/page"
-import { Card, CardHeader, CardTitle, CardDescription } from "@blazz/ui/components/ui/card"
+import { createFileRoute, Link } from "@tanstack/react-router"
 
 const actionComponents = [
 	{
@@ -167,9 +166,7 @@ function ComponentSection({
 						<Card className="h-full transition-colors hover:bg-raised/50">
 							<CardHeader>
 								<CardTitle className="text-base">{component.title}</CardTitle>
-								<CardDescription className="line-clamp-2">
-									{component.description}
-								</CardDescription>
+								<CardDescription className="line-clamp-2">{component.description}</CardDescription>
 							</CardHeader>
 						</Card>
 					</Link>
@@ -185,10 +182,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/")({
 
 function UIComponentsPage() {
 	return (
-		<Page
-			title="UI Components"
-			subtitle="Interactive elements for building user interfaces."
-		>
+		<Page title="UI Components" subtitle="Interactive elements for building user interfaces.">
 			<div className="space-y-8">
 				<ComponentSection title="Actions" components={actionComponents} />
 				<ComponentSection title="Form Controls" components={formComponents} />

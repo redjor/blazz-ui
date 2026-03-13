@@ -1,8 +1,8 @@
 "use client"
 
 import { Star } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface RatingCardProps {
 	title: string
@@ -40,7 +40,7 @@ function RatingCardBase({
 											? "fill-amber-400 text-amber-400"
 											: i < score
 												? "fill-amber-400/50 text-amber-400"
-												: "text-fg-muted/30",
+												: "text-fg-muted/30"
 									)}
 								/>
 							))}
@@ -67,7 +67,7 @@ function RatingCardBase({
 							<div
 								className={cn(
 									"h-full rounded-full transition-all",
-									score >= 50 ? "bg-emerald-500" : score >= 0 ? "bg-amber-500" : "bg-red-500",
+									score >= 50 ? "bg-emerald-500" : score >= 0 ? "bg-amber-500" : "bg-red-500"
 								)}
 								style={{ width: `${((score + 100) / 200) * 100}%` }}
 							/>

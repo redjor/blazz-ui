@@ -1,25 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { CheckIcon, AlertCircleIcon, MailIcon, CircleIcon, ChevronRightIcon } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "@blazz/ui/components/ui/collapsible"
+import { Frame, FrameHeader, FramePanel } from "@blazz/ui/components/ui/frame-panel"
+import { Spinner } from "@blazz/ui/components/ui/spinner"
 import {
 	Timeline,
-	TimelineItem,
-	TimelineIndicator,
 	TimelineContent,
-	TimelineTitle,
 	TimelineDescription,
+	TimelineIndicator,
+	TimelineItem,
 	TimelineTime,
+	TimelineTitle,
 } from "@blazz/ui/components/ui/timeline"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Spinner } from "@blazz/ui/components/ui/spinner"
-import { Avatar, AvatarImage, AvatarFallback } from "@blazz/ui/components/ui/avatar"
-import { Frame, FramePanel, FrameHeader } from "@blazz/ui/components/ui/frame-panel"
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@blazz/ui/components/ui/collapsible"
 import { cn } from "@blazz/ui/lib/utils"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { AlertCircleIcon, CheckIcon, ChevronRightIcon, CircleIcon, MailIcon } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -209,7 +213,7 @@ export const Route = createFileRoute("/_docs/docs/components/ui/timeline")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -281,7 +285,7 @@ function PipelineExample() {
 							step.status === "completed" && "bg-brand text-brand-fg border-brand",
 							step.status === "active" &&
 								"bg-inform/15 text-inform border-inform/30 ring-2 ring-inform/20",
-							step.status === "pending" && "opacity-50",
+							step.status === "pending" && "opacity-50"
 						)}
 					>
 						<PipelineStatusIcon status={step.status} />
@@ -335,8 +339,7 @@ function PipelineExample() {
 
 function TimelinePage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -502,25 +505,55 @@ function TimelinePage() {
 				<div className="space-y-4 text-sm text-fg-muted">
 					<p>Timeline is built from composable sub-components:</p>
 					<ul className="list-inside list-disc space-y-2">
-						<li><code className="text-xs">Timeline</code> - Root container. Accepts <code className="text-xs">orientation</code> (<code className="text-xs">"vertical" | "horizontal"</code>, default <code className="text-xs">"vertical"</code>)</li>
-						<li><code className="text-xs">TimelineItem</code> - Individual event wrapper. Accepts <code className="text-xs">showLine</code> prop (default <code className="text-xs">true</code>)</li>
-						<li><code className="text-xs">TimelineIndicator</code> - The circle indicator, optionally containing an icon</li>
-						<li><code className="text-xs">TimelineHeader</code> - Optional wrapper to group date and title above/below the indicator</li>
-						<li><code className="text-xs">TimelineContent</code> - Content wrapper for the event</li>
-						<li><code className="text-xs">TimelineTitle</code> - Event title text</li>
-						<li><code className="text-xs">TimelineDescription</code> - Event description text</li>
-						<li><code className="text-xs">TimelineTime</code> / <code className="text-xs">TimelineDate</code> - Timestamp display</li>
+						<li>
+							<code className="text-xs">Timeline</code> - Root container. Accepts{" "}
+							<code className="text-xs">orientation</code> (
+							<code className="text-xs">"vertical" | "horizontal"</code>, default{" "}
+							<code className="text-xs">"vertical"</code>)
+						</li>
+						<li>
+							<code className="text-xs">TimelineItem</code> - Individual event wrapper. Accepts{" "}
+							<code className="text-xs">showLine</code> prop (default{" "}
+							<code className="text-xs">true</code>)
+						</li>
+						<li>
+							<code className="text-xs">TimelineIndicator</code> - The circle indicator, optionally
+							containing an icon
+						</li>
+						<li>
+							<code className="text-xs">TimelineHeader</code> - Optional wrapper to group date and
+							title above/below the indicator
+						</li>
+						<li>
+							<code className="text-xs">TimelineContent</code> - Content wrapper for the event
+						</li>
+						<li>
+							<code className="text-xs">TimelineTitle</code> - Event title text
+						</li>
+						<li>
+							<code className="text-xs">TimelineDescription</code> - Event description text
+						</li>
+						<li>
+							<code className="text-xs">TimelineTime</code> /{" "}
+							<code className="text-xs">TimelineDate</code> - Timestamp display
+						</li>
 					</ul>
 				</div>
 			</DocSection>
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>Set <code className="text-xs">showLine={false}</code> on the last <code className="text-xs">TimelineItem</code> to avoid a trailing connector</li>
+					<li>
+						Set <code className="text-xs">showLine={false}</code> on the last{" "}
+						<code className="text-xs">TimelineItem</code> to avoid a trailing connector
+					</li>
 					<li>Use icons to visually distinguish event types</li>
 					<li>Keep timeline items concise for readability</li>
 					<li>Order events chronologically (newest first or last, be consistent)</li>
-					<li>Use <code className="text-xs">orientation="horizontal"</code> for step-by-step workflows with few items</li>
+					<li>
+						Use <code className="text-xs">orientation="horizontal"</code> for step-by-step workflows
+						with few items
+					</li>
 				</ul>
 			</DocSection>
 

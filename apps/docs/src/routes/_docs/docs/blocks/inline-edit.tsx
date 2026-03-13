@@ -1,15 +1,12 @@
-import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
 import { InlineEdit } from "@blazz/ui/components/blocks/inline-edit"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
+import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import {
-	DocPropsTable,
-	type DocProp,
-} from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const toc = [
@@ -123,7 +120,7 @@ export const Route = createFileRoute("/_docs/docs/blocks/inline-edit")({
 			examples.map(async (ex) => ({
 				key: ex.key,
 				html: await highlightCode({ data: { code: ex.code } }),
-			})),
+			}))
 		)
 		return { highlighted }
 	},
@@ -149,9 +146,7 @@ function HeroDemo() {
 						onSave={setRevenue}
 						type="number"
 						renderValue={(v) => (
-							<span className="font-semibold text-fg">
-								{Number(v).toLocaleString("fr-FR")} €
-							</span>
+							<span className="font-semibold text-fg">{Number(v).toLocaleString("fr-FR")} €</span>
 						)}
 					/>
 				</div>
@@ -181,12 +176,7 @@ function NumberDemo() {
 	return (
 		<div className="space-y-1">
 			<span className="text-xs text-fg-muted">Montant (€)</span>
-			<InlineEdit
-				value={amount}
-				onSave={setAmount}
-				type="number"
-				placeholder="0"
-			/>
+			<InlineEdit value={amount} onSave={setAmount} type="number" placeholder="0" />
 		</div>
 	)
 }
@@ -200,9 +190,7 @@ function CustomRenderDemo() {
 			<InlineEdit
 				value={status}
 				onSave={setStatus}
-				renderValue={(v) => (
-					<span className="font-semibold text-brand">{v}</span>
-				)}
+				renderValue={(v) => <span className="font-semibold text-brand">{v}</span>}
 			/>
 		</div>
 	)
@@ -210,8 +198,7 @@ function CustomRenderDemo() {
 
 function InlineEditPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage

@@ -1,7 +1,7 @@
 "use client"
 
-import { motion } from "motion/react"
 import { ChevronDown } from "lucide-react"
+import { motion } from "motion/react"
 
 const faqs = [
 	{
@@ -68,9 +68,7 @@ export function Faq() {
 									{faq.question}
 									<ChevronDown className="size-3.5 text-fg-muted transition-transform duration-150 group-open:rotate-180" />
 								</summary>
-								<div className="px-4 pb-3 text-xs text-fg-muted leading-relaxed">
-									{faq.answer}
-								</div>
+								<div className="px-4 pb-3 text-xs text-fg-muted leading-relaxed">{faq.answer}</div>
 							</motion.details>
 						))}
 					</div>

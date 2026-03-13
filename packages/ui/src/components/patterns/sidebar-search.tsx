@@ -2,8 +2,8 @@
 
 import { Search } from "lucide-react"
 import * as React from "react"
-import { Input } from "../ui/input"
 import { cn } from "../../lib/utils"
+import { Input } from "../ui/input"
 
 interface SidebarSearchProps {
 	placeholder?: string

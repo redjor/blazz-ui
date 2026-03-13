@@ -1,22 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
-	DialogTrigger,
+	DialogClose,
 	DialogContent,
-	DialogHeader,
-	DialogTitle,
 	DialogDescription,
 	DialogFooter,
-	DialogClose,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
 } from "@blazz/ui/components/ui/dialog"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -187,13 +187,9 @@ function DialogPage() {
 					<DialogContent>
 						<DialogHeader>
 							<DialogTitle>Dialog Title</DialogTitle>
-							<DialogDescription>
-								This is a description of the dialog content.
-							</DialogDescription>
+							<DialogDescription>This is a description of the dialog content.</DialogDescription>
 						</DialogHeader>
-						<p className="text-sm text-fg-muted">
-							Your dialog content goes here.
-						</p>
+						<p className="text-sm text-fg-muted">Your dialog content goes here.</p>
 					</DialogContent>
 				</Dialog>
 			</DocHero>
@@ -210,13 +206,10 @@ function DialogPage() {
 						<DialogContent>
 							<DialogHeader>
 								<DialogTitle>Dialog Title</DialogTitle>
-								<DialogDescription>
-									This is a description of the dialog content.
-								</DialogDescription>
+								<DialogDescription>This is a description of the dialog content.</DialogDescription>
 							</DialogHeader>
 							<p className="text-sm text-fg-muted">
-								Your dialog content goes here. This could be anything from text to
-								forms.
+								Your dialog content goes here. This could be anything from text to forms.
 							</p>
 						</DialogContent>
 					</Dialog>
@@ -262,9 +255,7 @@ function DialogPage() {
 					highlightedCode={html("no-close-button")}
 				>
 					<Dialog>
-						<DialogTrigger render={<Button variant="outline" />}>
-							No Close Button
-						</DialogTrigger>
+						<DialogTrigger render={<Button variant="outline" />}>No Close Button</DialogTrigger>
 						<DialogContent showCloseButton={false}>
 							<DialogHeader separator={false}>
 								<DialogTitle>Custom Dialog</DialogTitle>
@@ -286,15 +277,13 @@ function DialogPage() {
 					highlightedCode={html("confirmation")}
 				>
 					<Dialog>
-						<DialogTrigger render={<Button variant="destructive" />}>
-							Delete Account
-						</DialogTrigger>
+						<DialogTrigger render={<Button variant="destructive" />}>Delete Account</DialogTrigger>
 						<DialogContent>
 							<DialogHeader separator={false}>
 								<DialogTitle>Are you absolutely sure?</DialogTitle>
 								<DialogDescription>
-									This action cannot be undone. This will permanently delete your
-									account and remove your data from our servers.
+									This action cannot be undone. This will permanently delete your account and remove
+									your data from our servers.
 								</DialogDescription>
 							</DialogHeader>
 							<DialogFooter>
@@ -314,9 +303,7 @@ function DialogPage() {
 					<div className="flex flex-wrap gap-2">
 						{(["sm", "md", "lg", "xl", "full"] as const).map((size) => (
 							<Dialog key={size}>
-								<DialogTrigger render={<Button variant="outline" />}>
-									{size}
-								</DialogTrigger>
+								<DialogTrigger render={<Button variant="outline" />}>{size}</DialogTrigger>
 								<DialogContent size={size}>
 									<DialogHeader>
 										<DialogTitle>Size: {size}</DialogTitle>

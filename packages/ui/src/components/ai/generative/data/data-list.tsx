@@ -1,8 +1,8 @@
 "use client"
 
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Badge } from "../../../ui/badge"
 
 export interface DataListItem {
 	label: string
@@ -28,24 +28,15 @@ const badgeVariantMap = {
 
 function DataListBase({ title, items, className }: DataListProps) {
 	return (
-		<div
-			className={cn(
-				"rounded-lg border border-container bg-surface p-4",
-				className,
-			)}
-		>
-			{title && (
-				<span className="mb-3 block text-sm font-medium text-fg">
-					{title}
-				</span>
-			)}
+		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+			{title && <span className="mb-3 block text-sm font-medium text-fg">{title}</span>}
 			<div>
 				{items.map((item, i) => (
 					<div
 						key={i}
 						className={cn(
 							"flex items-center justify-between py-2",
-							i < items.length - 1 && "border-b border-edge-subtle",
+							i < items.length - 1 && "border-b border-edge-subtle"
 						)}
 					>
 						<span className="text-sm text-fg-muted">{item.label}</span>

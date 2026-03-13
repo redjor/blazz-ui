@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Box } from "@blazz/ui/components/ui/box"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -82,7 +82,8 @@ const boxProps: DocProp[] = [
 		name: "background",
 		type: '"transparent" | "app" | "surface" | "raised" | "overlay"',
 		default: '"transparent"',
-		description: "Background color of the box. Follows the surface hierarchy: app < surface < raised < overlay.",
+		description:
+			"Background color of the box. Follows the surface hierarchy: app < surface < raised < overlay.",
 	},
 	{
 		name: "border",
@@ -218,9 +219,7 @@ function BoxPage() {
 					highlightedCode={html("polymorphic")}
 				>
 					<Box as="section" background="raised" padding="4" borderRadius="md">
-						<p className="text-sm text-fg-muted">
-							Rendered as a section element
-						</p>
+						<p className="text-sm text-fg-muted">Rendered as a section element</p>
 					</Box>
 				</DocExampleClient>
 			</DocSection>

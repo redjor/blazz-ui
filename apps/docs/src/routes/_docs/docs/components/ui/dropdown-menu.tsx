@@ -1,39 +1,39 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
-import { DocRelated } from "~/components/docs/doc-related"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuGroup,
-	DropdownMenuCheckboxItem,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
-	DropdownMenuSub,
-	DropdownMenuSubTrigger,
-	DropdownMenuSubContent,
+	DropdownMenuSeparator,
 	DropdownMenuShortcut,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
+	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
+import { createFileRoute } from "@tanstack/react-router"
 import {
-	User,
 	CreditCard,
-	Settings,
 	LogOut,
-	MoreHorizontal,
 	Mail,
 	MessageSquare,
+	MoreHorizontal,
 	PlusCircle,
+	Settings,
+	User,
 	UserPlus,
 } from "lucide-react"
+import * as React from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
+import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -295,16 +295,10 @@ function CheckboxItemsDemo() {
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>Appearance</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<DropdownMenuCheckboxItem
-						checked={showStatusBar}
-						onCheckedChange={setShowStatusBar}
-					>
+					<DropdownMenuCheckboxItem checked={showStatusBar} onCheckedChange={setShowStatusBar}>
 						Status Bar
 					</DropdownMenuCheckboxItem>
-					<DropdownMenuCheckboxItem
-						checked={showActivityBar}
-						onCheckedChange={setShowActivityBar}
-					>
+					<DropdownMenuCheckboxItem checked={showActivityBar} onCheckedChange={setShowActivityBar}>
 						Activity Bar
 					</DropdownMenuCheckboxItem>
 				</DropdownMenuGroup>
@@ -339,11 +333,7 @@ function DropdownMenuPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Dropdown Menu"
-			subtitle="Displays a menu of actions in a dropdown."
-			toc={toc}
-		>
+		<DocPage title="Dropdown Menu" subtitle="Displays a menu of actions in a dropdown." toc={toc}>
 			<DocHero>
 				<DropdownMenu>
 					<DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />

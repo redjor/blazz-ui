@@ -1,12 +1,12 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
 import { Calendar, Mail, Phone, Send, StickyNote } from "lucide-react"
 import { useState } from "react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import { Button } from "../ui/button"
 import { Label } from "../ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { cn } from "../../lib/utils"
 
 export type ActivityType = "call" | "email" | "note" | "meeting"
 
@@ -62,9 +62,7 @@ function QuickLogActivityBase({ onLog, trigger, className }: QuickLogActivityPro
 								onClick={() => setType(at.type)}
 								className={cn(
 									"flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs transition-colors",
-									type === at.type
-										? "border-fg bg-fg text-surface"
-										: "border-field hover:bg-raised"
+									type === at.type ? "border-fg bg-fg text-surface" : "border-field hover:bg-raised"
 								)}
 							>
 								<at.icon className="size-4" />

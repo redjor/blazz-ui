@@ -8,10 +8,9 @@ const warnedComponents = new Set<string>()
 
 export function withProGuard<P extends object>(
 	Component: ComponentType<P>,
-	displayName?: string,
+	displayName?: string
 ): ComponentType<P> {
-	const name =
-		displayName || Component.displayName || Component.name || "ProComponent"
+	const name = displayName || Component.displayName || Component.name || "ProComponent"
 
 	function Guarded(props: P) {
 		const { license, isLoading } = useLicense()
@@ -26,7 +25,7 @@ export function withProGuard<P extends object>(
 			) {
 				warnedComponents.add(name)
 				console.warn(
-					`[blazz] <${name}> is a Pro component. Add a valid license key to <BlazzProvider> to remove the watermark. Learn more: https://blazz.dev/pricing`,
+					`[blazz] <${name}> is a Pro component. Add a valid license key to <BlazzProvider> to remove the watermark. Learn more: https://blazz.dev/pricing`
 				)
 			}
 		}, [isLicensed, isLoading])

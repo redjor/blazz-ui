@@ -12,7 +12,13 @@ interface NavigationTabsItemProps {
 	onClose: () => void
 }
 
-export function NavigationTabsItem({ title, icon: Icon, isActive, onClick, onClose }: NavigationTabsItemProps) {
+export function NavigationTabsItem({
+	title,
+	icon: Icon,
+	isActive,
+	onClick,
+	onClose,
+}: NavigationTabsItemProps) {
 	return (
 		<div
 			className={cn(

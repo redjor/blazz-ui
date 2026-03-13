@@ -1,5 +1,5 @@
-import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
+import type * as React from "react"
 import { cn } from "../../lib/utils"
 
 /* ---------------------------------------------------------------------------
@@ -9,7 +9,6 @@ import { cn } from "../../lib/utils"
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
 	return (
 		<nav
-			role="navigation"
 			aria-label="Pagination"
 			data-slot="pagination"
 			className={cn("flex items-center justify-center", className)}
@@ -29,13 +28,7 @@ function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) 
 }
 
 function PaginationItem({ className, ...props }: React.ComponentProps<"li">) {
-	return (
-		<li
-			data-slot="pagination-item"
-			className={cn("", className)}
-			{...props}
-		/>
-	)
+	return <li data-slot="pagination-item" className={cn("", className)} {...props} />
 }
 
 /* ---------------------------------------------------------------------------
@@ -57,9 +50,7 @@ function PaginationLink({ className, isActive, ...props }: PaginationLinkProps) 
 				"transition-colors outline-none",
 				"focus-visible:ring-[3px] focus-visible:ring-brand/20",
 				"disabled:opacity-50 disabled:pointer-events-none",
-				isActive
-					? "bg-brand text-brand-fg"
-					: "text-fg-muted hover:bg-raised hover:text-fg",
+				isActive ? "bg-brand text-brand-fg" : "text-fg-muted hover:bg-raised hover:text-fg",
 				className
 			)}
 			{...props}

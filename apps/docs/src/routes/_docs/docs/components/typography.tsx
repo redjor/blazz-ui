@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { Page } from "@blazz/ui/components/ui/page"
-import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
+import { createFileRoute } from "@tanstack/react-router"
 import { Type } from "lucide-react"
+import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 
 export const Route = createFileRoute("/_docs/docs/components/typography")({
 	component: TypographyPage,
@@ -11,7 +11,8 @@ const typographyComponents = [
 	{
 		title: "Text",
 		href: "/docs/components/ui/text",
-		description: "Display text content with consistent typography using design system tokens and semantic HTML.",
+		description:
+			"Display text content with consistent typography using design system tokens and semantic HTML.",
 		icon: Type,
 	},
 ]

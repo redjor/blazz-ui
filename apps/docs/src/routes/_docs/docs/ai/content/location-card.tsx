@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router"
 import { LocationCard } from "@blazz/ui/components/ai/generative/content/location-card"
+import { createFileRoute } from "@tanstack/react-router"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
-import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -27,9 +27,7 @@ const examples = [
 	},
 ] as const
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/content/location-card"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/content/location-card")({
 	loader: async () => {
 		const highlighted = await Promise.all(
 			examples.map(async (ex) => ({
@@ -46,8 +44,7 @@ const toc = [{ id: "examples", title: "Examples" }]
 
 function LocationCardPage() {
 	const { highlighted } = Route.useLoaderData()
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
 		<DocPage
@@ -92,11 +89,7 @@ function LocationCardPage() {
 					highlightedCode={html("simple")}
 				>
 					<div className="max-w-sm">
-						<LocationCard
-							address="45 rue du Faubourg Saint-Honoré"
-							city="Paris"
-							country="France"
-						/>
+						<LocationCard address="45 rue du Faubourg Saint-Honoré" city="Paris" country="France" />
 					</div>
 				</DocExampleClient>
 			</DocSection>

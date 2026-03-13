@@ -1,8 +1,8 @@
 "use client"
 
 import type * as React from "react"
-import { ScrollArea } from "../ui/scroll-area"
 import { cn } from "../../lib/utils"
+import { ScrollArea } from "../ui/scroll-area"
 
 export interface FrameProps {
 	topBar?: React.ReactNode
@@ -36,7 +36,7 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 				<aside
 					className={cn(
 						"fixed left-0 z-10 h-screen overflow-y-auto max-md:contents md:block rounded-tl-(--main-radius)",
-						hasTopBar ? "top-(--topbar-height)" : "top-0",
+						hasTopBar ? "top-(--topbar-height)" : "top-0"
 					)}
 				>
 					{navigation}
@@ -45,7 +45,7 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 				<main
 					className={cn(
 						"flex-1 min-w-0 md:pl-(--sidebar-width)",
-						hasTopBar && "mt-(--topbar-height)",
+						hasTopBar && "mt-(--topbar-height)"
 					)}
 				>
 					<div className="flex h-full flex-col">
@@ -53,7 +53,7 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 						<ScrollArea
 							className={cn(
 								"min-h-0 w-full flex-1 bg-(--main-background)",
-								!tabBar && "rounded-tr-(--main-radius)",
+								!tabBar && "rounded-tr-(--main-radius)"
 							)}
 						>
 							{children}

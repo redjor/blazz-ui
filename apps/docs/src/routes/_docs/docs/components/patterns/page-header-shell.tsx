@@ -1,9 +1,9 @@
 import { createFileRoute, useLoaderData } from "@tanstack/react-router"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -168,8 +168,19 @@ function PageHeaderActionsPreview() {
 							Export
 						</div>
 						<div className="flex h-8 items-center gap-1.5 rounded bg-brand px-3 text-sm text-white">
-							<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+							<svg
+								className="h-4 w-4"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M12 4v16m8-8H4"
+								/>
 							</svg>
 							Ajouter un produit
 						</div>
@@ -186,7 +197,13 @@ function PageHeaderBreadcrumbPreview() {
 			<div className="border-b border-edge-subtle bg-white dark:bg-surface px-6 py-4">
 				<nav className="mb-2 flex items-center gap-1 text-sm">
 					<span className="text-brand hover:underline cursor-pointer">Produits</span>
-					<svg className="h-4 w-4 text-fg-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+					<svg
+						className="h-4 w-4 text-fg-muted"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 					</svg>
 					<span className="text-fg-muted">MacBook Pro</span>
@@ -270,7 +287,8 @@ function PageHeaderShellPage() {
 						{
 							title: "Top Bar",
 							href: "/docs/components/patterns/top-bar",
-							description: "Header de zone de contenu avec breadcrumbs contextuels fournis par AppFrame.",
+							description:
+								"Header de zone de contenu avec breadcrumbs contextuels fournis par AppFrame.",
 						},
 						{
 							title: "Breadcrumb",

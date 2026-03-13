@@ -20,10 +20,7 @@ export async function POST() {
 		// Pour l'instant, on retourne une réponse de succès
 		// La vraie implémentation dépendra du système d'authentification choisi
 
-		const response = NextResponse.json(
-			{ message: "Déconnexion réussie" },
-			{ status: 200 }
-		)
+		const response = NextResponse.json({ message: "Déconnexion réussie" }, { status: 200 })
 
 		// Supprimer les cookies de session (à adapter selon votre implémentation)
 		response.cookies.set("session", "", {
@@ -36,9 +33,6 @@ export async function POST() {
 		return response
 	} catch (error) {
 		console.error("Erreur lors de la déconnexion:", error)
-		return NextResponse.json(
-			{ error: "Erreur lors de la déconnexion" },
-			{ status: 500 }
-		)
+		return NextResponse.json({ error: "Erreur lors de la déconnexion" }, { status: 500 })
 	}
 }

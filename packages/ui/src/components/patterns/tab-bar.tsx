@@ -12,11 +12,7 @@ import {
 	Users,
 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import {
-	NavigationTabsBar,
-	NavigationTabsItem,
-	useNavigationTabs,
-} from "./navigation-tabs"
+import { NavigationTabsBar, NavigationTabsItem, useNavigationTabs } from "./navigation-tabs"
 
 /**
  * Maps a CRM URL to its entity icon and section label.

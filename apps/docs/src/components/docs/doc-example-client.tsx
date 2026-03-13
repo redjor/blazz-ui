@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
-import { Check, ChevronDown, Copy } from "lucide-react"
 import { cn } from "@blazz/ui/lib/utils"
+import { Check, ChevronDown, Copy } from "lucide-react"
+import * as React from "react"
 
 interface DocExampleClientProps {
 	title?: string
@@ -23,10 +23,7 @@ function escapeHtml(str: string) {
  * Client-safe variant of DocExample — skips Shiki highlighting.
  * Use this when the parent page is a Client Component ('use client').
  */
-export function DocExampleSync({
-	code,
-	...props
-}: Omit<DocExampleClientProps, "highlightedCode">) {
+export function DocExampleSync({ code, ...props }: Omit<DocExampleClientProps, "highlightedCode">) {
 	return (
 		<DocExampleClient
 			{...props}
@@ -60,14 +57,14 @@ export function DocExampleClient({
 			{(title || description) && (
 				<div className="space-y-1">
 					{title && <h3 className="text-sm font-medium text-fg">{title}</h3>}
-					{description && (
-						<p className="text-[13px] text-fg-muted">{description}</p>
-					)}
+					{description && <p className="text-[13px] text-fg-muted">{description}</p>}
 				</div>
 			)}
 
 			{/* Preview */}
-			<div className={cn("rounded-lg border border-container bg-raised p-6", previewClassName)}>{children}</div>
+			<div className={cn("rounded-lg border border-container bg-raised p-6", previewClassName)}>
+				{children}
+			</div>
 
 			{/* Code block with header bar */}
 			<div className="overflow-hidden rounded-lg border border-container">
@@ -79,10 +76,7 @@ export function DocExampleClient({
 						className="flex items-center gap-1.5 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
 					>
 						<ChevronDown
-							className={cn(
-								"size-3.5 transition-transform duration-200",
-								showCode && "rotate-180"
-							)}
+							className={cn("size-3.5 transition-transform duration-200", showCode && "rotate-180")}
 						/>
 						{showCode ? "Hide code" : "Show code"}
 					</button>
@@ -91,11 +85,7 @@ export function DocExampleClient({
 						onClick={copyToClipboard}
 						className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:text-fg hover:bg-raised"
 					>
-						{copied ? (
-							<Check className="size-3.5 text-positive" />
-						) : (
-							<Copy className="size-3.5" />
-						)}
+						{copied ? <Check className="size-3.5 text-positive" /> : <Copy className="size-3.5" />}
 					</button>
 				</div>
 

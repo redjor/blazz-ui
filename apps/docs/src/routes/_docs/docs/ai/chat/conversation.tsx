@@ -1,33 +1,28 @@
-import { createFileRoute } from "@tanstack/react-router"
-import {
-	Conversation,
-	ConversationContent,
-} from "@blazz/ui/components/ai/chat/conversation"
+import { Conversation, ConversationContent } from "@blazz/ui/components/ai/chat/conversation"
 import { Message, MessageContent } from "@blazz/ui/components/ai/chat/message"
 import {
-	Reasoning,
-	ReasoningTrigger,
-	ReasoningContent,
-} from "@blazz/ui/components/ai/reasoning/reasoning"
-import {
-	Sources,
-	SourcesTrigger,
-	SourcesContent,
-	Source,
-} from "@blazz/ui/components/ai/reasoning/sources"
-import { Suggestions, Suggestion } from "@blazz/ui/components/ai/chat/suggestion"
-import {
 	PromptInput,
-	PromptInputTextarea,
 	PromptInputFooter,
 	PromptInputSubmit,
+	PromptInputTextarea,
 } from "@blazz/ui/components/ai/chat/prompt-input"
-import { DocPage } from "~/components/docs/doc-page"
+import { Suggestion, Suggestions } from "@blazz/ui/components/ai/chat/suggestion"
+import {
+	Reasoning,
+	ReasoningContent,
+	ReasoningTrigger,
+} from "@blazz/ui/components/ai/reasoning/reasoning"
+import {
+	Source,
+	Sources,
+	SourcesContent,
+	SourcesTrigger,
+} from "@blazz/ui/components/ai/reasoning/sources"
+import { createFileRoute } from "@tanstack/react-router"
 import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
 
-export const Route = createFileRoute(
-	"/_docs/docs/ai/chat/conversation"
-)({
+export const Route = createFileRoute("/_docs/docs/ai/chat/conversation")({
 	component: ConversationPage,
 })
 
@@ -57,34 +52,62 @@ function ConversationPage() {
 					<Conversation>
 						<ConversationContent className="gap-6 p-6">
 							<Message from="user">
-								<MessageContent>Comment puis-je optimiser les performances de mon application React ?</MessageContent>
+								<MessageContent>
+									Comment puis-je optimiser les performances de mon application React ?
+								</MessageContent>
 							</Message>
 
 							<Message from="assistant">
 								<Reasoning defaultOpen={false} duration={12}>
 									<ReasoningTrigger />
 									<ReasoningContent>
-										L'utilisateur demande des conseils sur les performances React.
-										Je vais couvrir la memoisation, le code splitting et la virtualisation
-										car ce sont les trois leviers les plus impactants pour une application
-										React standard.
+										L'utilisateur demande des conseils sur les performances React. Je vais couvrir
+										la memoisation, le code splitting et la virtualisation car ce sont les trois
+										leviers les plus impactants pour une application React standard.
 									</ReasoningContent>
 								</Reasoning>
 								<MessageContent>
 									<div className="space-y-3">
-										<p>Voici plusieurs strategies pour ameliorer les performances de votre application React :</p>
-										<p><strong>1. Memoisation des composants</strong></p>
-										<p>Utilisez <code className="rounded bg-raised px-1.5 py-0.5 text-xs">React.memo()</code> pour eviter les re-renders inutiles.</p>
-										<p><strong>2. Code splitting</strong></p>
-										<p>Divisez votre bundle avec <code className="rounded bg-raised px-1.5 py-0.5 text-xs">React.lazy()</code> et <code className="rounded bg-raised px-1.5 py-0.5 text-xs">Suspense</code>.</p>
-										<p><strong>3. Virtualisation des listes</strong></p>
-										<p>Pour les longues listes, utilisez <code className="rounded bg-raised px-1.5 py-0.5 text-xs">react-window</code> ou <code className="rounded bg-raised px-1.5 py-0.5 text-xs">@tanstack/virtual</code>.</p>
+										<p>
+											Voici plusieurs strategies pour ameliorer les performances de votre
+											application React :
+										</p>
+										<p>
+											<strong>1. Memoisation des composants</strong>
+										</p>
+										<p>
+											Utilisez{" "}
+											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">React.memo()</code>{" "}
+											pour eviter les re-renders inutiles.
+										</p>
+										<p>
+											<strong>2. Code splitting</strong>
+										</p>
+										<p>
+											Divisez votre bundle avec{" "}
+											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">React.lazy()</code>{" "}
+											et <code className="rounded bg-raised px-1.5 py-0.5 text-xs">Suspense</code>.
+										</p>
+										<p>
+											<strong>3. Virtualisation des listes</strong>
+										</p>
+										<p>
+											Pour les longues listes, utilisez{" "}
+											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">react-window</code>{" "}
+											ou{" "}
+											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">
+												@tanstack/virtual
+											</code>
+											.
+										</p>
 									</div>
 								</MessageContent>
 							</Message>
 
 							<Message from="user">
-								<MessageContent>Et pour le state management, quelles sont les meilleures pratiques ?</MessageContent>
+								<MessageContent>
+									Et pour le state management, quelles sont les meilleures pratiques ?
+								</MessageContent>
 							</Message>
 
 							<Message from="assistant">
@@ -92,10 +115,21 @@ function ConversationPage() {
 									<div className="space-y-3">
 										<p>Le choix depend de la complexite de votre application :</p>
 										<ul className="list-inside list-disc space-y-1">
-											<li><strong>Etat local</strong> : <code className="rounded bg-raised px-1.5 py-0.5 text-xs">useState</code> + <code className="rounded bg-raised px-1.5 py-0.5 text-xs">useReducer</code></li>
-											<li><strong>Etat serveur</strong> : TanStack Query ou SWR</li>
-											<li><strong>Etat global</strong> : Zustand ou Jotai</li>
-											<li><strong>Etat URL</strong> : <code className="rounded bg-raised px-1.5 py-0.5 text-xs">nuqs</code></li>
+											<li>
+												<strong>Etat local</strong> :{" "}
+												<code className="rounded bg-raised px-1.5 py-0.5 text-xs">useState</code> +{" "}
+												<code className="rounded bg-raised px-1.5 py-0.5 text-xs">useReducer</code>
+											</li>
+											<li>
+												<strong>Etat serveur</strong> : TanStack Query ou SWR
+											</li>
+											<li>
+												<strong>Etat global</strong> : Zustand ou Jotai
+											</li>
+											<li>
+												<strong>Etat URL</strong> :{" "}
+												<code className="rounded bg-raised px-1.5 py-0.5 text-xs">nuqs</code>
+											</li>
 										</ul>
 									</div>
 								</MessageContent>
@@ -103,11 +137,7 @@ function ConversationPage() {
 									<SourcesTrigger count={3} />
 									<SourcesContent>
 										{mockSources.map((source) => (
-											<Source
-												key={source.href}
-												href={source.href}
-												title={source.title}
-											/>
+											<Source key={source.href} href={source.href} title={source.title} />
 										))}
 									</SourcesContent>
 								</Sources>

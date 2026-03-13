@@ -1,14 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
 import { Banner } from "@blazz/ui/components/ui/banner"
 import { Button } from "@blazz/ui/components/ui/button"
+import { createFileRoute } from "@tanstack/react-router"
 import { Info } from "lucide-react"
-import { DocPage } from "~/components/docs/doc-page"
-import { DocSection } from "~/components/docs/doc-section"
-import { DocHero } from "~/components/docs/doc-hero"
+import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
-import { DocPropsTable, type DocProp } from "~/components/docs/doc-props-table"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
+import { DocSection } from "~/components/docs/doc-section"
 import { highlightCode } from "~/lib/highlight-code"
 
 const examples = [
@@ -219,7 +219,9 @@ function InfoBannerDemo() {
 			A new version of the app is available. Update to get the latest features.
 		</Banner>
 	) : (
-		<Button variant="outline" onClick={() => setShow(true)}>Show Info Banner</Button>
+		<Button variant="outline" onClick={() => setShow(true)}>
+			Show Info Banner
+		</Button>
 	)
 }
 
@@ -230,7 +232,9 @@ function SuccessBannerDemo() {
 			Your settings have been saved successfully.
 		</Banner>
 	) : (
-		<Button variant="outline" onClick={() => setShow(true)}>Show Success Banner</Button>
+		<Button variant="outline" onClick={() => setShow(true)}>
+			Show Success Banner
+		</Button>
 	)
 }
 
@@ -241,7 +245,9 @@ function WarningBannerDemo() {
 			Some features are temporarily unavailable due to maintenance.
 		</Banner>
 	) : (
-		<Button variant="outline" onClick={() => setShow(true)}>Show Warning Banner</Button>
+		<Button variant="outline" onClick={() => setShow(true)}>
+			Show Warning Banner
+		</Button>
 	)
 }
 
@@ -252,7 +258,9 @@ function CriticalBannerDemo() {
 			Your payment could not be processed. Please update your payment method.
 		</Banner>
 	) : (
-		<Button variant="outline" onClick={() => setShow(true)}>Show Critical Banner</Button>
+		<Button variant="outline" onClick={() => setShow(true)}>
+			Show Critical Banner
+		</Button>
 	)
 }
 
@@ -394,15 +402,33 @@ function BannerPage() {
 					Banner uses the design system tokens for consistent styling:
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-inform</code> - Info banner background</li>
-					<li><code className="text-xs">text-inform</code> - Info banner text</li>
-					<li><code className="text-xs">border-inform</code> - Info banner border</li>
-					<li><code className="text-xs">bg-positive</code> - Success banner background</li>
-					<li><code className="text-xs">bg-caution</code> - Warning banner background</li>
-					<li><code className="text-xs">bg-negative</code> - Critical banner background</li>
-					<li><code className="text-xs">rounded-lg</code> - Border radius (0.5rem)</li>
-					<li><code className="text-xs">p-4</code> - Internal padding (1rem)</li>
-					<li><code className="text-xs">gap-3</code> - Gap between elements (0.75rem)</li>
+					<li>
+						<code className="text-xs">bg-inform</code> - Info banner background
+					</li>
+					<li>
+						<code className="text-xs">text-inform</code> - Info banner text
+					</li>
+					<li>
+						<code className="text-xs">border-inform</code> - Info banner border
+					</li>
+					<li>
+						<code className="text-xs">bg-positive</code> - Success banner background
+					</li>
+					<li>
+						<code className="text-xs">bg-caution</code> - Warning banner background
+					</li>
+					<li>
+						<code className="text-xs">bg-negative</code> - Critical banner background
+					</li>
+					<li>
+						<code className="text-xs">rounded-lg</code> - Border radius (0.5rem)
+					</li>
+					<li>
+						<code className="text-xs">p-4</code> - Internal padding (1rem)
+					</li>
+					<li>
+						<code className="text-xs">gap-3</code> - Gap between elements (0.75rem)
+					</li>
 				</ul>
 			</DocSection>
 

@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { X } from "lucide-react"
 import { Button } from "../../ui/button"
 import type { UploadedImage } from "./types"
@@ -13,11 +12,7 @@ export interface ImagePreviewProps {
 export function ImagePreview({ image, onRemove }: ImagePreviewProps) {
 	return (
 		<div className="relative group aspect-square rounded-lg border border-container overflow-hidden bg-raised">
-			<img
-				src={image.preview}
-				alt="Preview"
-				className="w-full h-full object-cover"
-			/>
+			<img src={image.preview} alt="Preview" className="w-full h-full object-cover" />
 			<div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
 				<Button
 					type="button"

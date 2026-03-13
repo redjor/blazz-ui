@@ -57,16 +57,12 @@ function PropertySection({
 			<div className="flex items-start justify-between gap-4">
 				<div className="flex flex-col gap-0.5">
 					<h3 className="text-sm font-semibold text-fg">{title}</h3>
-					{description && (
-						<p className="text-xs text-fg-muted">{description}</p>
-					)}
+					{description && <p className="text-xs text-fg-muted">{description}</p>}
 				</div>
 				{actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
 			</div>
 			<div className="border-t border-edge" />
-			<div className={cn("grid gap-x-6 gap-y-4", sectionGridCols[columns])}>
-				{children}
-			</div>
+			<div className={cn("grid gap-x-6 gap-y-4", sectionGridCols[columns])}>{children}</div>
 		</div>
 	)
 }

@@ -1,7 +1,5 @@
 "use client"
 
-import { Link, useLocation } from "@tanstack/react-router"
-import * as React from "react"
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
 import { Sheet, SheetContent } from "@blazz/ui/components/ui/sheet"
 import {
@@ -19,10 +17,12 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@blazz/ui/components/ui/sidebar"
-import { sectionTabs, getSectionNavigation } from "~/config/navigation"
-import type { SectionId } from "~/config/navigation"
 import { cn } from "@blazz/ui/lib/utils"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
+import { Link, useLocation } from "@tanstack/react-router"
+import * as React from "react"
+import type { SectionId } from "~/config/navigation"
+import { getSectionNavigation, sectionTabs } from "~/config/navigation"
 
 interface DocsMobileSheetProps {
 	open: boolean
@@ -80,7 +80,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 									"px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
 									sectionId === tab.id
 										? "text-fg font-medium bg-raised"
-										: "text-fg-muted hover:text-fg",
+										: "text-fg-muted hover:text-fg"
 								)}
 							>
 								{tab.label}

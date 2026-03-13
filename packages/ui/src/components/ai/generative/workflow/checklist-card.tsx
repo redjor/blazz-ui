@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { CheckSquare, Square } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import { useState } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface ChecklistItem {
 	label: string
@@ -16,11 +16,7 @@ export interface ChecklistCardProps {
 	className?: string
 }
 
-function ChecklistCardBase({
-	title,
-	items: initialItems,
-	className,
-}: ChecklistCardProps) {
+function ChecklistCardBase({ title, items: initialItems, className }: ChecklistCardProps) {
 	const [items, setItems] = useState(initialItems)
 
 	const doneCount = items.filter((i) => i.checked).length
@@ -28,9 +24,7 @@ function ChecklistCardBase({
 
 	function toggle(index: number) {
 		setItems((prev) =>
-			prev.map((item, i) =>
-				i === index ? { ...item, checked: !item.checked } : item,
-			),
+			prev.map((item, i) => (i === index ? { ...item, checked: !item.checked } : item))
 		)
 	}
 
@@ -66,10 +60,7 @@ function ChecklistCardBase({
 							<Square className="size-4 shrink-0 text-fg-muted" />
 						)}
 						<span
-							className={cn(
-								"text-xs",
-								item.checked ? "text-fg-muted line-through" : "text-fg",
-							)}
+							className={cn("text-xs", item.checked ? "text-fg-muted line-through" : "text-fg")}
 						>
 							{item.label}
 						</span>

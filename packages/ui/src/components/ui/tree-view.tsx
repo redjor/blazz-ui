@@ -1,7 +1,7 @@
 "use client"
 
+import { ChevronRightIcon, FileIcon, FolderIcon } from "lucide-react"
 import * as React from "react"
-import { ChevronRightIcon, FolderIcon, FileIcon } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 /* ---------------------------------------------------------------------------
@@ -46,9 +46,7 @@ function TreeView({
 	const expanded = controlledExpanded ?? internalExpanded
 
 	const toggleExpand = (id: string) => {
-		const next = expanded.includes(id)
-			? expanded.filter((e) => e !== id)
-			: [...expanded, id]
+		const next = expanded.includes(id) ? expanded.filter((e) => e !== id) : [...expanded, id]
 		if (!controlledExpanded) setInternalExpanded(next)
 		onExpandChange?.(next)
 	}
@@ -56,9 +54,7 @@ function TreeView({
 	const handleSelect = (id: string) => {
 		let next: string[]
 		if (multiSelect) {
-			next = selected.includes(id)
-				? selected.filter((s) => s !== id)
-				: [...selected, id]
+			next = selected.includes(id) ? selected.filter((s) => s !== id) : [...selected, id]
 		} else {
 			next = selected.includes(id) ? [] : [id]
 		}
@@ -67,11 +63,7 @@ function TreeView({
 	}
 
 	return (
-		<div
-			data-slot="tree-view"
-			role="tree"
-			className={cn("text-sm", className)}
-		>
+		<div data-slot="tree-view" role="tree" className={cn("text-sm", className)}>
 			{data.map((node) => (
 				<TreeNodeItem
 					key={node.id}
@@ -162,7 +154,8 @@ function TreeNodeItem({
 				)}
 
 				<span className="shrink-0 text-fg-muted">
-					{node.icon ?? (hasChildren ? <FolderIcon className="size-4" /> : <FileIcon className="size-4" />)}
+					{node.icon ??
+						(hasChildren ? <FolderIcon className="size-4" /> : <FileIcon className="size-4" />)}
 				</span>
 
 				<span className="truncate">{node.label}</span>

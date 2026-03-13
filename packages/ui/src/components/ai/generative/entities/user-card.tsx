@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"
-import { Badge } from "../../../ui/badge"
-import { withProGuard } from "../../../../lib/with-pro-guard"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
+import { Avatar, AvatarFallback, AvatarImage } from "../../../ui/avatar"
+import { Badge } from "../../../ui/badge"
 
 export interface UserCardProps {
 	name: string
@@ -24,18 +24,15 @@ const statusConfig = {
 } as const
 
 function getInitials(name: string) {
-	return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
+	return name
+		.split(" ")
+		.map((w) => w[0])
+		.join("")
+		.toUpperCase()
+		.slice(0, 2)
 }
 
-function UserCardBase({
-	name,
-	avatar,
-	role,
-	department,
-	status,
-	href,
-	className,
-}: UserCardProps) {
+function UserCardBase({ name, avatar, role, department, status, href, className }: UserCardProps) {
 	const Wrapper = href ? Link : "div"
 	const wrapperProps = href ? { href } : {}
 	const config = status ? statusConfig[status] : null
@@ -46,7 +43,7 @@ function UserCardBase({
 			className={cn(
 				"flex items-center gap-3 rounded-lg border border-container bg-surface p-3",
 				href && "transition-colors hover:bg-raised cursor-pointer",
-				className,
+				className
 			)}
 		>
 			<Avatar>
@@ -57,7 +54,9 @@ function UserCardBase({
 				<div className="flex items-center gap-2">
 					<span className="truncate text-sm font-medium text-fg">{name}</span>
 					{config && (
-						<Badge variant={config.variant} size="xs" fill="subtle">{config.label}</Badge>
+						<Badge variant={config.variant} size="xs" fill="subtle">
+							{config.label}
+						</Badge>
 					)}
 				</div>
 				{(role || department) && (

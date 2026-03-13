@@ -1,19 +1,19 @@
 "use client"
 
-import { withProGuard } from "../../lib/with-pro-guard"
-import { Fragment } from "react"
-import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
-import { Button, buttonVariants } from "../ui/button"
+import Link from "next/link"
+import { Fragment } from "react"
+import { cn } from "../../lib/utils"
+import { withProGuard } from "../../lib/with-pro-guard"
 import {
 	Breadcrumb,
-	BreadcrumbList,
 	BreadcrumbItem as BreadcrumbItemPrimitive,
 	BreadcrumbLink,
-	BreadcrumbSeparator,
+	BreadcrumbList,
 	BreadcrumbPage,
+	BreadcrumbSeparator,
 } from "../ui/breadcrumb"
-import { cn } from "../../lib/utils"
+import { Button, buttonVariants } from "../ui/button"
 
 export interface PageHeaderBreadcrumb {
 	label: string
@@ -55,9 +55,7 @@ function PageHeaderBase({
 								{i > 0 && <BreadcrumbSeparator />}
 								<BreadcrumbItemPrimitive>
 									{item.href ? (
-										<BreadcrumbLink href={item.href}>
-											{item.label}
-										</BreadcrumbLink>
+										<BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
 									) : (
 										<BreadcrumbPage>{item.label}</BreadcrumbPage>
 									)}
@@ -70,12 +68,8 @@ function PageHeaderBase({
 
 			<div className="flex items-start justify-between gap-4">
 				<div className="space-y-1">
-					<h1 className="text-lg font-semibold leading-normal text-fg">
-						{title}
-					</h1>
-					{description && (
-						<p className="text-sm text-fg-muted">{description}</p>
-					)}
+					<h1 className="text-lg font-semibold leading-normal text-fg">{title}</h1>
+					{description && <p className="text-sm text-fg-muted">{description}</p>}
 				</div>
 
 				{((actions && actions.length > 0) || actionsSlot) && (
@@ -104,11 +98,7 @@ function PageHeaderBase({
 							}
 
 							return (
-								<Button
-									key={i}
-									variant={action.variant || "default"}
-									onClick={action.onClick}
-								>
+								<Button key={i} variant={action.variant || "default"} onClick={action.onClick}>
 									{icon}
 									{action.label}
 								</Button>

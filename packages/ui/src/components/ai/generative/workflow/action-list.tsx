@@ -1,9 +1,9 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { ChevronRight } from "lucide-react"
-import { withProGuard } from "../../../../lib/with-pro-guard"
+import type { ReactNode } from "react"
 import { cn } from "../../../../lib/utils"
+import { withProGuard } from "../../../../lib/with-pro-guard"
 
 export interface ActionListItem {
 	icon?: ReactNode

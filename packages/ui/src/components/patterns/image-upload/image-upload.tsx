@@ -1,8 +1,8 @@
 "use client"
 
+import { Plus, Upload } from "lucide-react"
 import * as React from "react"
 import { useDropzone } from "react-dropzone"
-import { Plus, Upload } from "lucide-react"
 import { cn } from "../../../lib/utils"
 import { ImagePreview } from "./image-preview"
 import type { UploadedImage } from "./types"
@@ -87,9 +87,7 @@ export function ImageUpload({
 						) : (
 							<>
 								<Plus className="h-8 w-8 text-fg-muted" />
-								<p className="text-sm text-fg-muted text-center px-2">
-									Add image
-								</p>
+								<p className="text-sm text-fg-muted text-center px-2">Add image</p>
 							</>
 						)}
 					</div>
