@@ -232,6 +232,26 @@ export const setStatus = mutation({
 	},
 })
 
+export const setBillable = mutation({
+	args: {
+		ids: v.array(v.id("timeEntries")),
+		billable: v.boolean(),
+	},
+	handler: async (ctx, { ids, billable }) => {
+		const { userId } = await requireAuth(ctx)
+		await Promise.all(
+			ids.map(async (id) => {
+				const entry = await ctx.db.get(id)
+				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
+				if (entry.status === "invoiced" || entry.status === "paid") {
+					throw new ConvexError("Impossible de modifier une entrée facturée/payée")
+				}
+				await ctx.db.patch(id, { billable })
+			})
+		)
+	},
+})
+
 export const listPaginated = query({
 	args: {
 		projectId: v.optional(v.id("projects")),
