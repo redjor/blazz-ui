@@ -7,7 +7,7 @@ final class OfflineBuffer: ObservableObject {
 
     init(directory: URL? = nil) {
         let dir = directory ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-            .appendingPathComponent("BlazzTime")
+            .appendingPathComponent("BlazzOS")
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         fileURL = dir.appendingPathComponent("pending.json")
         load()

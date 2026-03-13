@@ -1,0 +1,740 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		086F6A9E67927D7216BA5E80 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B861DC7D837A85D3B3D240 /* Models.swift */; };
+		09DAF3EEE24ED299845F6D1B /* TodoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3849E3E3FE2987D78AC79420 /* TodoRowView.swift */; };
+		0E07AE92115F2BF0F0AE419F /* StatusCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69051DD459885DCD04973BCD /* StatusCircleView.swift */; };
+		16926434B7BF3D1A7C55E1E0 /* BlazzOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */; };
+		24A9D453F22F7CF46C0B8506 /* AllTodosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */; };
+		26212ADCCDAA4EC156D4075D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF43F4C115349A11307D6DC /* SwiftUI.framework */; };
+		26F94B5685B781C760389D7E /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281155606314627A740CF87 /* TodoDetailView.swift */; };
+		2CF6C336CE91D61D73AAFCE4 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */; };
+		2F2F95761771B4CC32A771BF /* BlazzOSIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */; };
+		37A568B8ACD648213D1BA0AC /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46920912E804C90AFC5317A7 /* OfflineBuffer.swift */; };
+		3C6A2CD751706DD7E487EE5E /* PillFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934CD28E539193DD209ECCB /* PillFilterView.swift */; };
+		3E8141B7428AB97F5D07C2CE /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */; };
+		44AD70C4E406D0EE8CE8B9CA /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3A1B2007067A0CBB884A9A /* TodayView.swift */; };
+		5108668D3D8301EDF527B015 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA81468EB7D81F01AD78AC /* TodoStore.swift */; };
+		5757E4281797F99078CF8282 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF09104330332A9919FF0F3F /* AuthManager.swift */; };
+		668F86737F92655593EA1CCB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F913FCBB2591720321E1840 /* WidgetKit.framework */; };
+		6D892950B457AEF8D4961528 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEEAAA6445423B131AC1D9 /* HotKey.swift */; };
+		87CA3AB8BE026E17BA84A0F7 /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533BC76566B382038A1DF8A8 /* QuickEntryView.swift */; };
+		8CAA7EA15DC417ECB7B2EBC4 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */; };
+		8FF88E63CD59970E1C78B1E7 /* BlazzOSWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A90CC9085F9F99A1C751FD58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B34D797964BC956BA283D3 /* Assets.xcassets */; };
+		B70DE27580C055AD238F8B70 /* OfflineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE4EAF4C0F610B9C610BB90 /* OfflineBufferTests.swift */; };
+		B74359B105CB754F66AC1D73 /* TodoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F808E9C806F05323776E57 /* TodoProvider.swift */; };
+		BB9BBD3A93F1DFE91605AC08 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF09104330332A9919FF0F3F /* AuthManager.swift */; };
+		C35EFC778EDFD6EC1CDFBF4E /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */; };
+		D397342C2808ACF763BED0A2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8705345AF0B8EC46073A7CE /* LoginView.swift */; };
+		D4CFF3307E8EE7730265A97A /* BlazzOSWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6CDF20E56D32AA7B2A846F /* BlazzOSWidget.swift */; };
+		E41A65FC505A872127BD98C5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B861DC7D837A85D3B3D240 /* Models.swift */; };
+		E98702D2581470AC92AAF55F /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441D3AD01469B77CBE60A5A9 /* AuthManagerTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3F3E3AE5D6F5E51D29C32EA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8565ADCE4C731A9E489468E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 442C709043852934E2D82BBF;
+			remoteInfo = BlazzOS;
+		};
+		CC2EAAB67E4F43B547EDDD36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8565ADCE4C731A9E489468E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E06521B5444CDC95974350AF;
+			remoteInfo = BlazzOSWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		811C9E5CCCD6E6BEE6DB3CAB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8FF88E63CD59970E1C78B1E7 /* BlazzOSWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
+		2FF43F4C115349A11307D6DC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		34DF27A6E58E35A03A62822A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3849E3E3FE2987D78AC79420 /* TodoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRowView.swift; sourceTree = "<group>"; };
+		3934CD28E539193DD209ECCB /* PillFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillFilterView.swift; sourceTree = "<group>"; };
+		41D37ED9CCDBC07ACFD4B680 /* BlazzOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlazzOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		441D3AD01469B77CBE60A5A9 /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
+		46920912E804C90AFC5317A7 /* OfflineBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBuffer.swift; sourceTree = "<group>"; };
+		4AE4EAF4C0F610B9C610BB90 /* OfflineBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineBufferTests.swift; sourceTree = "<group>"; };
+		533BC76566B382038A1DF8A8 /* QuickEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickEntryView.swift; sourceTree = "<group>"; };
+		55BA81468EB7D81F01AD78AC /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
+		5F913FCBB2591720321E1840 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		62F38C2CB37AE18AC4BFA5EF /* BlazzOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlazzOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65B34D797964BC956BA283D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		69051DD459885DCD04973BCD /* StatusCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCircleView.swift; sourceTree = "<group>"; };
+		93ACA2C94905678C0F5E3140 /* BlazzOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlazzOS.entitlements; sourceTree = "<group>"; };
+		96FEEAAA6445423B131AC1D9 /* HotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
+		9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSApp.swift; sourceTree = "<group>"; };
+		A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
+		B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzOSWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C281155606314627A740CF87 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
+		CD3A1B2007067A0CBB884A9A /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		CF09104330332A9919FF0F3F /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTodosView.swift; sourceTree = "<group>"; };
+		D8705345AF0B8EC46073A7CE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DE6CDF20E56D32AA7B2A846F /* BlazzOSWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSWidget.swift; sourceTree = "<group>"; };
+		E2B861DC7D837A85D3B3D240 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		F857EA63FAF9B5FCEFAD5DAB /* BlazzOSIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BlazzOSIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9F808E9C806F05323776E57 /* TodoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoProvider.swift; sourceTree = "<group>"; };
+		FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSIOSApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2D0B85D0792E832FCB8EE879 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				668F86737F92655593EA1CCB /* WidgetKit.framework in Frameworks */,
+				26212ADCCDAA4EC156D4075D /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3E531AD1DE82976DBFC4516C /* BlazzOS */ = {
+			isa = PBXGroup;
+			children = (
+				65B34D797964BC956BA283D3 /* Assets.xcassets */,
+				93ACA2C94905678C0F5E3140 /* BlazzOS.entitlements */,
+				9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */,
+				96FEEAAA6445423B131AC1D9 /* HotKey.swift */,
+				34DF27A6E58E35A03A62822A /* Info.plist */,
+				46920912E804C90AFC5317A7 /* OfflineBuffer.swift */,
+				533BC76566B382038A1DF8A8 /* QuickEntryView.swift */,
+			);
+			path = BlazzOS;
+			sourceTree = "<group>";
+		};
+		70732021BA8A2C5799F57D72 /* BlazzOSWidget */ = {
+			isa = PBXGroup;
+			children = (
+				DE6CDF20E56D32AA7B2A846F /* BlazzOSWidget.swift */,
+				F9F808E9C806F05323776E57 /* TodoProvider.swift */,
+			);
+			path = BlazzOSWidget;
+			sourceTree = "<group>";
+		};
+		7A4630BA6AD3E07981404EE6 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				CF09104330332A9919FF0F3F /* AuthManager.swift */,
+				A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */,
+				1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */,
+				E2B861DC7D837A85D3B3D240 /* Models.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		9740A3030E73F711F2D7BB8F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FF43F4C115349A11307D6DC /* SwiftUI.framework */,
+				5F913FCBB2591720321E1840 /* WidgetKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BBA22772D4398395C5ED350C /* BlazzOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				441D3AD01469B77CBE60A5A9 /* AuthManagerTests.swift */,
+				4AE4EAF4C0F610B9C610BB90 /* OfflineBufferTests.swift */,
+			);
+			path = BlazzOSTests;
+			sourceTree = "<group>";
+		};
+		C91981E16B795093B1FCA069 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62F38C2CB37AE18AC4BFA5EF /* BlazzOS.app */,
+				F857EA63FAF9B5FCEFAD5DAB /* BlazzOSIOS.app */,
+				41D37ED9CCDBC07ACFD4B680 /* BlazzOSTests.xctest */,
+				B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D13A648AC46D9DFD33F3F8E1 = {
+			isa = PBXGroup;
+			children = (
+				3E531AD1DE82976DBFC4516C /* BlazzOS */,
+				F8BC003DECDC8779CCC95221 /* BlazzOSIOS */,
+				BBA22772D4398395C5ED350C /* BlazzOSTests */,
+				70732021BA8A2C5799F57D72 /* BlazzOSWidget */,
+				7A4630BA6AD3E07981404EE6 /* Shared */,
+				9740A3030E73F711F2D7BB8F /* Frameworks */,
+				C91981E16B795093B1FCA069 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F8BC003DECDC8779CCC95221 /* BlazzOSIOS */ = {
+			isa = PBXGroup;
+			children = (
+				D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */,
+				FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */,
+				D8705345AF0B8EC46073A7CE /* LoginView.swift */,
+				3934CD28E539193DD209ECCB /* PillFilterView.swift */,
+				69051DD459885DCD04973BCD /* StatusCircleView.swift */,
+				CD3A1B2007067A0CBB884A9A /* TodayView.swift */,
+				C281155606314627A740CF87 /* TodoDetailView.swift */,
+				3849E3E3FE2987D78AC79420 /* TodoRowView.swift */,
+				55BA81468EB7D81F01AD78AC /* TodoStore.swift */,
+			);
+			path = BlazzOSIOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		442C709043852934E2D82BBF /* BlazzOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA242D8D19F166DCF01044A2 /* Build configuration list for PBXNativeTarget "BlazzOS" */;
+			buildPhases = (
+				64B245F262C4397167985C9A /* Sources */,
+				BEFD92BA02A6267148D21208 /* Resources */,
+				811C9E5CCCD6E6BEE6DB3CAB /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DBD02502E26534909F4F304F /* PBXTargetDependency */,
+			);
+			name = BlazzOS;
+			packageProductDependencies = (
+			);
+			productName = BlazzOS;
+			productReference = 62F38C2CB37AE18AC4BFA5EF /* BlazzOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CA2E013DCE884C2E022344C8 /* BlazzOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4239E93094199D0C6C35C33A /* Build configuration list for PBXNativeTarget "BlazzOSTests" */;
+			buildPhases = (
+				53DDCA0E464B4533E348091B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7AE3D1FDABA93C93E2DA2C27 /* PBXTargetDependency */,
+			);
+			name = BlazzOSTests;
+			packageProductDependencies = (
+			);
+			productName = BlazzOSTests;
+			productReference = 41D37ED9CCDBC07ACFD4B680 /* BlazzOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E06521B5444CDC95974350AF /* BlazzOSWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44569F0F0967C6DD1333A8E3 /* Build configuration list for PBXNativeTarget "BlazzOSWidget" */;
+			buildPhases = (
+				9EFA0977F13AF1AD12BABBFF /* Sources */,
+				2D0B85D0792E832FCB8EE879 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlazzOSWidget;
+			packageProductDependencies = (
+			);
+			productName = BlazzOSWidget;
+			productReference = B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		FD62D53344F3B451B08008FD /* BlazzOSIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0593D126C5B6B1808A13420B /* Build configuration list for PBXNativeTarget "BlazzOSIOS" */;
+			buildPhases = (
+				737BB4886600A044DF050FB4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlazzOSIOS;
+			packageProductDependencies = (
+			);
+			productName = BlazzOSIOS;
+			productReference = F857EA63FAF9B5FCEFAD5DAB /* BlazzOSIOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C8565ADCE4C731A9E489468E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					442C709043852934E2D82BBF = {
+						DevelopmentTeam = P9KAWJ28LA;
+						ProvisioningStyle = Automatic;
+					};
+					CA2E013DCE884C2E022344C8 = {
+						DevelopmentTeam = P9KAWJ28LA;
+						ProvisioningStyle = Automatic;
+					};
+					E06521B5444CDC95974350AF = {
+						DevelopmentTeam = P9KAWJ28LA;
+						ProvisioningStyle = Automatic;
+					};
+					FD62D53344F3B451B08008FD = {
+						DevelopmentTeam = P9KAWJ28LA;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7EE28CC866ED1B4172EC293C /* Build configuration list for PBXProject "BlazzOS" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D13A648AC46D9DFD33F3F8E1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C91981E16B795093B1FCA069 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				442C709043852934E2D82BBF /* BlazzOS */,
+				FD62D53344F3B451B08008FD /* BlazzOSIOS */,
+				CA2E013DCE884C2E022344C8 /* BlazzOSTests */,
+				E06521B5444CDC95974350AF /* BlazzOSWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BEFD92BA02A6267148D21208 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A90CC9085F9F99A1C751FD58 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		53DDCA0E464B4533E348091B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E98702D2581470AC92AAF55F /* AuthManagerTests.swift in Sources */,
+				B70DE27580C055AD238F8B70 /* OfflineBufferTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64B245F262C4397167985C9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5757E4281797F99078CF8282 /* AuthManager.swift in Sources */,
+				16926434B7BF3D1A7C55E1E0 /* BlazzOSApp.swift in Sources */,
+				2CF6C336CE91D61D73AAFCE4 /* ConvexClient.swift in Sources */,
+				6D892950B457AEF8D4961528 /* HotKey.swift in Sources */,
+				C35EFC778EDFD6EC1CDFBF4E /* LoginWebView.swift in Sources */,
+				E41A65FC505A872127BD98C5 /* Models.swift in Sources */,
+				37A568B8ACD648213D1BA0AC /* OfflineBuffer.swift in Sources */,
+				87CA3AB8BE026E17BA84A0F7 /* QuickEntryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		737BB4886600A044DF050FB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24A9D453F22F7CF46C0B8506 /* AllTodosView.swift in Sources */,
+				BB9BBD3A93F1DFE91605AC08 /* AuthManager.swift in Sources */,
+				2F2F95761771B4CC32A771BF /* BlazzOSIOSApp.swift in Sources */,
+				8CAA7EA15DC417ECB7B2EBC4 /* ConvexClient.swift in Sources */,
+				D397342C2808ACF763BED0A2 /* LoginView.swift in Sources */,
+				3E8141B7428AB97F5D07C2CE /* LoginWebView.swift in Sources */,
+				086F6A9E67927D7216BA5E80 /* Models.swift in Sources */,
+				3C6A2CD751706DD7E487EE5E /* PillFilterView.swift in Sources */,
+				0E07AE92115F2BF0F0AE419F /* StatusCircleView.swift in Sources */,
+				44AD70C4E406D0EE8CE8B9CA /* TodayView.swift in Sources */,
+				26F94B5685B781C760389D7E /* TodoDetailView.swift in Sources */,
+				09DAF3EEE24ED299845F6D1B /* TodoRowView.swift in Sources */,
+				5108668D3D8301EDF527B015 /* TodoStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9EFA0977F13AF1AD12BABBFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4CFF3307E8EE7730265A97A /* BlazzOSWidget.swift in Sources */,
+				B74359B105CB754F66AC1D73 /* TodoProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7AE3D1FDABA93C93E2DA2C27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 442C709043852934E2D82BBF /* BlazzOS */;
+			targetProxy = 3F3E3AE5D6F5E51D29C32EA5 /* PBXContainerItemProxy */;
+		};
+		DBD02502E26534909F4F304F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E06521B5444CDC95974350AF /* BlazzOSWidget */;
+			targetProxy = CC2EAAB67E4F43B547EDDD36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		006FB7952275F9F64F345515 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BlazzOSWidget/BlazzOSWidget.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = BlazzOSWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazzos.widget;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		0654B88FD63FB84AEF2A5BA8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = BlazzOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazzos;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		5504951756CDDDCDBBDF728E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = BlazzOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazzos;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		6A70FAE3D2C053B637120D82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = BlazzOSIOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazzos.ios;
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		82AC08B2885900B643ACD7B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = BlazzOSIOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazzos.ios;
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9921FE2B8F4DA35F5CE9E1D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.BlazzOSTests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BlazzOS.app/Contents/MacOS/BlazzOS";
+			};
+			name = Debug;
+		};
+		A4BD7184E1ECC6589F01DD17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = P9KAWJ28LA;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B19BE724B8E9209586297DB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = P9KAWJ28LA;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B38A0487279354FA818C440A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.BlazzOSTests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BlazzOS.app/Contents/MacOS/BlazzOS";
+			};
+			name = Release;
+		};
+		F57622E75F028E186842F838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BlazzOSWidget/BlazzOSWidget.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = BlazzOSWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.blazz.blazzos.widget;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0593D126C5B6B1808A13420B /* Build configuration list for PBXNativeTarget "BlazzOSIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A70FAE3D2C053B637120D82 /* Debug */,
+				82AC08B2885900B643ACD7B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4239E93094199D0C6C35C33A /* Build configuration list for PBXNativeTarget "BlazzOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9921FE2B8F4DA35F5CE9E1D5 /* Debug */,
+				B38A0487279354FA818C440A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		44569F0F0967C6DD1333A8E3 /* Build configuration list for PBXNativeTarget "BlazzOSWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				006FB7952275F9F64F345515 /* Debug */,
+				F57622E75F028E186842F838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7EE28CC866ED1B4172EC293C /* Build configuration list for PBXProject "BlazzOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B19BE724B8E9209586297DB7 /* Debug */,
+				A4BD7184E1ECC6589F01DD17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AA242D8D19F166DCF01044A2 /* Build configuration list for PBXNativeTarget "BlazzOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0654B88FD63FB84AEF2A5BA8 /* Debug */,
+				5504951756CDDDCDBBDF728E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C8565ADCE4C731A9E489468E /* Project object */;
+}

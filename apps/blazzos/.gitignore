@@ -1,6 +1,6 @@
 # Xcode
-BlazzTime.xcodeproj/project.xcworkspace/
-BlazzTime.xcodeproj/xcuserdata/
+BlazzOS.xcodeproj/project.xcworkspace/
+BlazzOS.xcodeproj/xcuserdata/
 build/
 DerivedData/
 *.xcuserstate

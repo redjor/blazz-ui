@@ -4,7 +4,7 @@ import Security
 final class AuthManager: ObservableObject {
     @Published var isAuthenticated: Bool = false
 
-    private let service = "dev.blazz.blazztime"
+    private let service = "dev.blazz.blazzos"
     private let account = "convex-token"
 
     init() {

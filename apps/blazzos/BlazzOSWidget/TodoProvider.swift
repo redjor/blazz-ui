@@ -108,7 +108,7 @@ struct TodoProvider: TimelineProvider {
     private func getToken() -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: "dev.blazz.blazztime",
+            kSecAttrService as String: "dev.blazz.blazzos",
             kSecAttrAccount as String: "convex-token",
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,

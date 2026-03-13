@@ -5,11 +5,11 @@
     <key>LSUIElement</key>
     <true/>
     <key>CFBundleName</key>
-    <string>BlazzTime</string>
+    <string>BlazzOS</string>
     <key>CFBundleDisplayName</key>
-    <string>Blazz Time</string>
+    <string>BlazzOS</string>
     <key>CFBundleIdentifier</key>
-    <string>dev.blazz.blazztime</string>
+    <string>dev.blazz.blazzos</string>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>CFBundleShortVersionString</key>

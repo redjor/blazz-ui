@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct BlazzTimeIOSApp: App {
+struct BlazzOSIOSApp: App {
     @StateObject private var authManager = AuthManager()
 
     var body: some Scene {

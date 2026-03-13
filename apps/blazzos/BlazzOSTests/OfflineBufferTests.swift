@@ -1,9 +1,9 @@
 import XCTest
-@testable import BlazzTime
+@testable import BlazzOS
 
 final class OfflineBufferTests: XCTestCase {
     var buffer: OfflineBuffer!
-    let testDir = FileManager.default.temporaryDirectory.appendingPathComponent("BlazzTimeTest-\(UUID().uuidString)")
+    let testDir = FileManager.default.temporaryDirectory.appendingPathComponent("BlazzOSTest-\(UUID().uuidString)")
 
     override func setUp() {
         buffer = OfflineBuffer(directory: testDir)

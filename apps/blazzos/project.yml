@@ -1,4 +1,4 @@
-name: BlazzTime
+name: BlazzOS
 options:
   bundleIdPrefix: dev.blazz
   deploymentTarget:
@@ -11,67 +11,67 @@ settings:
     CODE_SIGN_STYLE: Automatic
     CODE_SIGN_IDENTITY: "Apple Development"
 targets:
-  BlazzTime:
+  BlazzOS:
     type: application
     platform: macOS
     sources:
-      - BlazzTime
+      - BlazzOS
       - Shared
     dependencies:
-      - target: BlazzTimeWidget
+      - target: BlazzOSWidget
     settings:
       base:
-        INFOPLIST_FILE: BlazzTime/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazztime
+        INFOPLIST_FILE: BlazzOS/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazzos
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "5.9"
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
         ENABLE_HARDENED_RUNTIME: false
         MACOSX_DEPLOYMENT_TARGET: "14.0"
-  BlazzTimeWidget:
+  BlazzOSWidget:
     type: app-extension
     platform: macOS
     sources:
-      - path: BlazzTimeWidget
+      - path: BlazzOSWidget
         excludes:
           - Info.plist
-          - BlazzTimeWidget.entitlements
+          - BlazzOSWidget.entitlements
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazztime.widget
+        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazzos.widget
         SWIFT_VERSION: "5.9"
         MACOSX_DEPLOYMENT_TARGET: "14.0"
-        INFOPLIST_FILE: BlazzTimeWidget/Info.plist
-        CODE_SIGN_ENTITLEMENTS: BlazzTimeWidget/BlazzTimeWidget.entitlements
+        INFOPLIST_FILE: BlazzOSWidget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: BlazzOSWidget/BlazzOSWidget.entitlements
     dependencies:
       - sdk: WidgetKit.framework
       - sdk: SwiftUI.framework
-  BlazzTimeIOS:
+  BlazzOSIOS:
     type: application
     platform: iOS
     sources:
-      - path: BlazzTimeIOS
+      - path: BlazzOSIOS
         excludes:
           - Info.plist
       - Shared
     settings:
       base:
-        INFOPLIST_FILE: BlazzTimeIOS/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazztime.ios
+        INFOPLIST_FILE: BlazzOSIOS/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: dev.blazz.blazzos.ios
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "5.9"
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
         TARGETED_DEVICE_FAMILY: "1,2"
         SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: "NO"
-  BlazzTimeTests:
+  BlazzOSTests:
     type: bundle.unit-test
     platform: macOS
     sources:
-      - BlazzTimeTests
+      - BlazzOSTests
     dependencies:
-      - target: BlazzTime
+      - target: BlazzOS
     settings:
       base:
         SWIFT_VERSION: "5.9"

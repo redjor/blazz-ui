@@ -2,7 +2,7 @@ import SwiftUI
 import ServiceManagement
 
 @main
-struct BlazzTimeApp: App {
+struct BlazzOSApp: App {
     @StateObject private var authManager = AuthManager()
     @StateObject private var offlineBuffer = OfflineBuffer()
 
@@ -15,7 +15,7 @@ struct BlazzTimeApp: App {
             )
         } label: {
             if offlineBuffer.hasPending {
-                Label("Blazz Time", systemImage: "clock.badge.exclamationmark")
+                Label("BlazzOS", systemImage: "clock.badge.exclamationmark")
             } else {
                 Image("MenuBarIcon")
             }

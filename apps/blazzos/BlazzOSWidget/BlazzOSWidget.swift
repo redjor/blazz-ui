@@ -2,8 +2,8 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct BlazzTimeWidget: Widget {
-    let kind = "BlazzTimeWidget"
+struct BlazzOSWidget: Widget {
+    let kind = "BlazzOSWidget"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TodoProvider()) { entry in
@@ -105,7 +105,7 @@ struct TodoWidgetView: View {
 // MARK: - Preview
 
 #Preview(as: .systemMedium) {
-    BlazzTimeWidget()
+    BlazzOSWidget()
 } timeline: {
     TodoEntry.placeholder
     TodoEntry.empty

@@ -1,5 +1,5 @@
 import XCTest
-@testable import BlazzTime
+@testable import BlazzOS
 
 final class AuthManagerTests: XCTestCase {
     let manager = AuthManager()
