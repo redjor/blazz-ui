@@ -5,6 +5,9 @@ options:
     macOS: "14.0"
     iOS: "17.0"
   xcodeVersion: "16.0"
+configFiles:
+  Debug: Config/Debug.xcconfig
+  Release: Config/Release.xcconfig
 settings:
   base:
     DEVELOPMENT_TEAM: P9KAWJ28LA
@@ -29,6 +32,7 @@ targets:
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
         ENABLE_HARDENED_RUNTIME: false
         MACOSX_DEPLOYMENT_TARGET: "14.0"
+        CODE_SIGN_ENTITLEMENTS: BlazzOS/BlazzOS.entitlements
   BlazzOSWidget:
     type: app-extension
     platform: macOS

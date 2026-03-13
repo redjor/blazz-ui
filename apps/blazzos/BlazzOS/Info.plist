@@ -16,5 +16,9 @@
     <string>1.0.0</string>
     <key>LSMinimumSystemVersion</key>
     <string>14.0</string>
+    <key>ConvexURL</key>
+    <string>$(CONVEX_URL)</string>
+    <key>AppURL</key>
+    <string>$(APP_URL)</string>
 </dict>
 </plist>

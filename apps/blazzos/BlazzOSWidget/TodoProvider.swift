@@ -34,7 +34,7 @@ struct TodoEntry: TimelineEntry {
 }
 
 struct TodoProvider: TimelineProvider {
-    private static let deploymentURL = "https://rightful-guineapig-376.eu-west-1.convex.cloud"
+    private static let deploymentURL: String = Bundle.main.infoDictionary?["ConvexURL"] as? String ?? ""
 
     func placeholder(in context: Context) -> TodoEntry {
         .placeholder
@@ -62,13 +62,17 @@ struct TodoProvider: TimelineProvider {
     // MARK: - Convex HTTP
 
     private func fetchTodos(completion: @escaping (TodoEntry) -> Void) {
+        guard !Self.deploymentURL.isEmpty, let url = URL(string: "\(Self.deploymentURL)/api/query") else {
+            completion(TodoEntry(date: Date(), todos: [], error: "URL non configurée", lastUpdated: Date()))
+            return
+        }
+
         guard let token = getToken() else {
             completion(TodoEntry(date: Date(), todos: [], error: "Non connecté", lastUpdated: Date()))
             return
         }
 
         let today = todayString()
-        let url = URL(string: "\(Self.deploymentURL)/api/query")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

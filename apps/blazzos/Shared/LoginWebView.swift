@@ -104,7 +104,7 @@ struct LoginWindow {
             backing: .buffered,
             defer: false
         )
-        win.title = "Blazz Time — Connexion"
+        win.title = "BlazzOS — Connexion"
         win.contentView = hostingView
         win.center()
         win.isReleasedWhenClosed = false

@@ -1,11 +1,8 @@
 import Foundation
 
 final class ConvexClient: ObservableObject {
-    /// Set this to your Convex deployment URL, e.g. "https://your-deployment-123.convex.cloud"
-    static let deploymentURL = "https://rightful-guineapig-376.eu-west-1.convex.cloud"
-
-    /// URL of the Blazz Ops web app (for login WebView)
-    static let appURL = "http://localhost:3120"
+    static let deploymentURL: String = Bundle.main.infoDictionary?["ConvexURL"] as? String ?? ""
+    static let appURL: String = Bundle.main.infoDictionary?["AppURL"] as? String ?? ""
 
     @Published var projects: [Project] = []
     @Published var todayEntries: [TimeEntry] = []

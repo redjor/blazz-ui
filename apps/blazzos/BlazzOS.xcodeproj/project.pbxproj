@@ -88,10 +88,12 @@
 		93ACA2C94905678C0F5E3140 /* BlazzOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlazzOS.entitlements; sourceTree = "<group>"; };
 		96FEEAAA6445423B131AC1D9 /* HotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSApp.swift; sourceTree = "<group>"; };
+		A15B6BE270F7AE61CCCBEF29 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
 		B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzOSWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C281155606314627A740CF87 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		CD3A1B2007067A0CBB884A9A /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		CD4587156D61EA2D15D30AA5 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		CF09104330332A9919FF0F3F /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTodosView.swift; sourceTree = "<group>"; };
 		D8705345AF0B8EC46073A7CE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -158,6 +160,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		986685DE38AC60D7DDD22DE2 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				A15B6BE270F7AE61CCCBEF29 /* Debug.xcconfig */,
+				CD4587156D61EA2D15D30AA5 /* Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		BBA22772D4398395C5ED350C /* BlazzOSTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +196,7 @@
 				F8BC003DECDC8779CCC95221 /* BlazzOSIOS */,
 				BBA22772D4398395C5ED350C /* BlazzOSTests */,
 				70732021BA8A2C5799F57D72 /* BlazzOSWidget */,
+				986685DE38AC60D7DDD22DE2 /* Config */,
 				7A4630BA6AD3E07981404EE6 /* Shared */,
 				9740A3030E73F711F2D7BB8F /* Frameworks */,
 				C91981E16B795093B1FCA069 /* Products */,
@@ -435,6 +447,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BlazzOS/BlazzOS.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -452,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BlazzOS/BlazzOS.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -527,6 +541,7 @@
 		};
 		A4BD7184E1ECC6589F01DD17 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD4587156D61EA2D15D30AA5 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -586,6 +601,7 @@
 		};
 		B19BE724B8E9209586297DB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A15B6BE270F7AE61CCCBEF29 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

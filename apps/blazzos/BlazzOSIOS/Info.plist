@@ -36,5 +36,9 @@
         <key>NSAllowsLocalNetworking</key>
         <true/>
     </dict>
+    <key>ConvexURL</key>
+    <string>$(CONVEX_URL)</string>
+    <key>AppURL</key>
+    <string>$(APP_URL)</string>
 </dict>
 </plist>
