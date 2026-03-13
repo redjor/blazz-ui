@@ -45,14 +45,15 @@ struct TodoProvider: TimelineProvider {
             completion(.placeholder)
             return
         }
-        fetchTodos { entry in
+        Task {
+            let entry = await fetchTodos()
             completion(entry)
         }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<TodoEntry>) -> Void) {
-        fetchTodos { entry in
-            // Refresh in 30 minutes
+        Task {
+            let entry = await fetchTodos()
             let nextUpdate = Calendar.current.date(byAdding: .minute, value: 30, to: Date())!
             let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
             completion(timeline)
@@ -61,15 +62,13 @@ struct TodoProvider: TimelineProvider {
 
     // MARK: - Convex HTTP
 
-    private func fetchTodos(completion: @escaping (TodoEntry) -> Void) {
+    private func fetchTodos() async -> TodoEntry {
         guard !Self.deploymentURL.isEmpty, let url = URL(string: "\(Self.deploymentURL)/api/query") else {
-            completion(TodoEntry(date: Date(), todos: [], error: "URL non configurée", lastUpdated: Date()))
-            return
+            return TodoEntry(date: Date(), todos: [], error: "URL non configurée", lastUpdated: Date())
         }
 
         guard let token = getToken() else {
-            completion(TodoEntry(date: Date(), todos: [], error: "Non connecté", lastUpdated: Date()))
-            return
+            return TodoEntry(date: Date(), todos: [], error: "Non connecté", lastUpdated: Date())
         }
 
         let today = todayString()
@@ -77,6 +76,7 @@ struct TodoProvider: TimelineProvider {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.timeoutInterval = 10
 
         let body: [String: Any] = [
             "path": "todos:listByDate",
@@ -85,13 +85,19 @@ struct TodoProvider: TimelineProvider {
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data,
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            let httpStatus = (response as? HTTPURLResponse)?.statusCode ?? 0
+            guard httpStatus == 200 else {
+                let body = String(data: data, encoding: .utf8)?.prefix(100) ?? ""
+                return TodoEntry(date: Date(), todos: [], error: "HTTP \(httpStatus): \(body)", lastUpdated: Date())
+            }
+
+            guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let value = json["value"] as? [[String: Any]] else {
-                let errorMsg = error?.localizedDescription ?? "Erreur réseau"
-                completion(TodoEntry(date: Date(), todos: [], error: errorMsg, lastUpdated: Date()))
-                return
+                let raw = String(data: data, encoding: .utf8)?.prefix(100) ?? "?"
+                return TodoEntry(date: Date(), todos: [], error: "Format: \(raw)", lastUpdated: Date())
             }
 
             let todos = value.prefix(5).map { item in
@@ -103,8 +109,10 @@ struct TodoProvider: TimelineProvider {
                 )
             }
 
-            completion(TodoEntry(date: Date(), todos: Array(todos), error: nil, lastUpdated: Date()))
-        }.resume()
+            return TodoEntry(date: Date(), todos: Array(todos), error: nil, lastUpdated: Date())
+        } catch {
+            return TodoEntry(date: Date(), todos: [], error: error.localizedDescription, lastUpdated: Date())
+        }
     }
 
     // MARK: - Keychain (same as AuthManager)

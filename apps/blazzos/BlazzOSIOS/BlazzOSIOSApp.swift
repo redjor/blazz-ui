@@ -12,8 +12,6 @@ struct BlazzOSIOSApp: App {
                     MainTabView(convex: convex)
                         .onAppear {
                             convex.configure(authManager: authManager)
-                            convex.subscribeTodayTodos()
-                            convex.subscribeAllTodos()
                         }
                 } else {
                     LoginView(authManager: authManager)

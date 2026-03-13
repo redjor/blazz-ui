@@ -12,7 +12,7 @@ struct LoginView: View {
                 .font(.system(size: 64))
                 .foregroundStyle(.white)
 
-            Text("Blazz Todos")
+            Text("BlazzOS")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.white)
 

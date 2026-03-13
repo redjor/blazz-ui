@@ -59,6 +59,7 @@ final class ConvexService {
     // MARK: - Configuration
 
     func configure(authManager: AuthManager) {
+        guard client == nil else { return } // Already configured
         let deploymentURL = Bundle.main.infoDictionary?["ConvexURL"] as? String ?? ""
         guard !deploymentURL.isEmpty else {
             error = "ConvexURL not configured"
@@ -68,10 +69,16 @@ final class ConvexService {
         let provider = KeychainAuthProvider(authManager: authManager)
         client = ConvexClientWithAuth(deploymentUrl: deploymentURL, authProvider: provider)
 
-        // Authenticate from cached keychain token
+        // Auth from cached keychain token (convex-swift handles retry internally)
         Task {
             _ = await client?.loginFromCache()
         }
+
+        // Start subscriptions immediately — convex-swift re-evaluates when auth completes
+        subscribeProjects()
+        subscribeTodayEntries()
+        subscribeTodayTodos()
+        subscribeAllTodos()
     }
 
     // MARK: - Subscriptions

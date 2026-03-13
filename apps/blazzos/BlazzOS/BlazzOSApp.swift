@@ -17,8 +17,6 @@ struct BlazzOSApp: App {
             .onAppear {
                 if authManager.isAuthenticated {
                     convex.configure(authManager: authManager)
-                    convex.subscribeProjects()
-                    convex.subscribeTodayEntries()
                 }
             }
         } label: {
