@@ -21,6 +21,20 @@ Basées sur shadcn/ui, étendues pour le contexte pro.
 - **EmptyState** — État vide. Props: icon, title, description, action (CTA).
 - **ErrorState** — État erreur. Props: title, description, onRetry.
 
+### Layout Primitives
+
+OBLIGATOIRES pour tout layout. Jamais de `<div>` nu avec des classes flex/grid Tailwind.
+
+- **BlockStack** — Empilement vertical (flex-col + gap). Props: gap (SpaceScale), align, inlineAlign, as, reverseOrder. Import: `@blazz/ui/components/ui/block-stack`
+- **InlineStack** — Alignement horizontal (flex-row + gap). Props: gap, align, blockAlign, direction, wrap. Import: `@blazz/ui/components/ui/inline-stack`
+- **Grid** — Grille responsive 12 colonnes. Sous-composant `Grid.Cell` avec `columnSpan` par breakpoint (xs/sm/md/lg/xl). Import: `@blazz/ui/components/ui/grid`
+- **InlineGrid** — Grille simple à colonnes égales (CSS grid). Props: columns (number | "oneThird" | "oneHalf" | "twoThirds"), gap, alignItems. Import: `@blazz/ui/components/ui/inline-grid`
+- **Box** — Conteneur visuel polymorphe (background, border, padding, shadow, borderRadius). Props: as, padding, background, border, borderRadius, shadow. Import: `@blazz/ui/components/ui/box`
+- **Bleed** — Marge négative contrôlée pour déborder du padding parent. Props: marginInline, marginBlock, marginBlockStart/End, marginInlineStart/End (SpaceScale). Import: `@blazz/ui/components/ui/bleed`
+- **Divider** — Séparateur horizontal (`<hr>`). Props: borderColor (default | secondary | inverse | transparent), borderWidth (025 | 050 | 100). Import: `@blazz/ui/components/ui/divider`
+
+**SpaceScale** : "0" | "050" | "100" | "150" | "200" | "300" | "400" | "500" | "600" | "800" | "1000" | "1200" | "1600"
+
 ## Blocks Data (`@/components/blocks/`)
 
 ### DataGrid
