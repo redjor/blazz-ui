@@ -6,6 +6,10 @@ import StarterKit from "@tiptap/starter-kit"
 import TaskList from "@tiptap/extension-task-list"
 import TaskItem from "@tiptap/extension-task-item"
 import Placeholder from "@tiptap/extension-placeholder"
+import Image from "@tiptap/extension-image"
+import { useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
+import { toast } from "sonner"
 import {
 	Bold,
 	Italic,
@@ -18,6 +22,7 @@ import {
 	CheckSquare,
 	Quote,
 	Minus,
+	ImagePlus,
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
@@ -68,6 +73,7 @@ const SLASH_COMMANDS: SlashCommand[] = [
 	{ label: "Citation", description: "Bloc citation", icon: <Quote className="size-4" />, command: "blockquote" },
 	{ label: "Code", description: "Bloc de code", icon: <Code className="size-4" />, command: "codeBlock" },
 	{ label: "Séparateur", description: "Ligne horizontale", icon: <Minus className="size-4" />, command: "horizontalRule" },
+	{ label: "Image", description: "Insérer une image", icon: <ImagePlus className="size-4" />, command: "image" },
 ]
 
 function SlashMenu({
@@ -127,6 +133,77 @@ export function TiptapEditor({
 	onUpdate: (html: string) => void
 	placeholder?: string
 }) {
+	// ── Image upload ────────────────────────────────────────────────
+	const generateUploadUrl = useMutation(api.todos.generateUploadUrl)
+	const getStorageUrl = useMutation(api.todos.getStorageUrl)
+
+	const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"]
+	const MAX_IMAGE_SIZE = 5 * 1024 * 1024
+
+	async function uploadImage(file: File, editor: NonNullable<ReturnType<typeof useEditor>>) {
+		if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+			toast.error("Format non supporté. Utilisez PNG, JPEG, WebP ou GIF.")
+			return
+		}
+		if (file.size > MAX_IMAGE_SIZE) {
+			toast.error("Image trop lourde (max 5 Mo).")
+			return
+		}
+
+		// Insert placeholder
+		editor.chain().focus().insertContent("<p><em>⏳ Upload en cours…</em></p>").run()
+
+		try {
+			const uploadUrl = await generateUploadUrl()
+			const result = await fetch(uploadUrl, {
+				method: "POST",
+				headers: { "Content-Type": file.type },
+				body: file,
+			})
+			const { storageId } = await result.json()
+			const storageUrl = await getStorageUrl({ storageId })
+
+			if (!storageUrl) throw new Error("URL de stockage introuvable")
+
+			// Remove placeholder and insert image
+			const { doc } = editor.state
+			let placeholderPos: { from: number; to: number } | null = null
+			doc.descendants((node, pos) => {
+				if (placeholderPos) return false
+				if (node.isText && node.text?.includes("⏳ Upload en cours…")) {
+					// Find the parent paragraph node
+					const resolved = doc.resolve(pos)
+					const parent = resolved.parent
+					const parentPos = resolved.before(resolved.depth)
+					placeholderPos = { from: parentPos, to: parentPos + parent.nodeSize }
+					return false
+				}
+			})
+
+			if (placeholderPos) {
+				editor.chain().focus()
+					.deleteRange(placeholderPos)
+					.setImage({ src: storageUrl })
+					.run()
+			} else {
+				editor.chain().focus().setImage({ src: storageUrl }).run()
+			}
+		} catch (err) {
+			toast.error("Erreur lors de l'upload de l'image.")
+			// Try to remove placeholder on error
+			const { doc } = editor.state
+			doc.descendants((node, pos) => {
+				if (node.isText && node.text?.includes("⏳ Upload en cours…")) {
+					const resolved = doc.resolve(pos)
+					const parent = resolved.parent
+					const parentPos = resolved.before(resolved.depth)
+					editor.chain().focus().deleteRange({ from: parentPos, to: parentPos + parent.nodeSize }).run()
+					return false
+				}
+			})
+		}
+	}
+
 	// Slash menu state — use refs for handleKeyDown closure + state for rendering
 	const [slashOpen, setSlashOpen] = useState(false)
 	const [slashPos, setSlashPos] = useState<{ top: number; left: number } | null>(null)
@@ -218,6 +295,17 @@ export function TiptapEditor({
 			case "horizontalRule":
 				e.chain().focus().setHorizontalRule().run()
 				break
+			case "image": {
+				const input = document.createElement("input")
+				input.type = "file"
+				input.accept = "image/png,image/jpeg,image/webp,image/gif"
+				input.onchange = () => {
+					const file = input.files?.[0]
+					if (file) uploadImage(file, e)
+				}
+				input.click()
+				break
+			}
 		}
 	}
 
@@ -229,6 +317,10 @@ export function TiptapEditor({
 			}),
 			TaskList,
 			TaskItem.configure({ nested: true }),
+			Image.configure({
+				inline: false,
+				allowBase64: false,
+			}),
 			Placeholder.configure({
 				placeholder: ({ node }) => {
 					if (node.type.name === "heading") {
@@ -274,6 +366,33 @@ export function TiptapEditor({
 					return true
 				}
 
+				return false
+			},
+			handleDrop: (view, event, _slice, moved) => {
+				if (moved || !event.dataTransfer?.files.length) return false
+				const file = event.dataTransfer.files[0]
+				if (file && ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+					event.preventDefault()
+					const e = editorRef.current
+					if (e) uploadImage(file, e)
+					return true
+				}
+				return false
+			},
+			handlePaste: (_view, event) => {
+				const items = event.clipboardData?.items
+				if (!items) return false
+				for (const item of items) {
+					if (ACCEPTED_IMAGE_TYPES.includes(item.type)) {
+						const file = item.getAsFile()
+						if (file) {
+							event.preventDefault()
+							const e = editorRef.current
+							if (e) uploadImage(file, e)
+							return true
+						}
+					}
+				}
 				return false
 			},
 		},
@@ -335,7 +454,7 @@ export function TiptapEditor({
 			{/* Bubble menu on text selection */}
 			<BubbleMenu
 				editor={editor}
-				tippyOptions={{ duration: 150 }}
+				options={{ placement: "top", offset: 8 }}
 				className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1 py-0.5 shadow-xl"
 			>
 				<BubbleButton

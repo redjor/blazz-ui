@@ -178,3 +178,18 @@ export const remove = mutation({
 		return ctx.db.delete(id)
 	},
 })
+
+export const generateUploadUrl = mutation({
+	args: {},
+	handler: async (ctx) => {
+		await requireAuth(ctx)
+		return ctx.storage.generateUploadUrl()
+	},
+})
+
+export const getStorageUrl = mutation({
+	args: { storageId: v.id("_storage") },
+	handler: async (ctx, { storageId }) => {
+		return ctx.storage.getUrl(storageId)
+	},
+})
