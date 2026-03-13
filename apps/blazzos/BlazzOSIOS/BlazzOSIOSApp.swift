@@ -9,7 +9,7 @@ struct BlazzOSIOSApp: App {
         WindowGroup {
             Group {
                 if authManager.isAuthenticated {
-                    MainTabView(convex: convex)
+                    MainTabView(convex: convex, authManager: authManager)
                         .onAppear {
                             convex.configure(authManager: authManager)
                         }
@@ -24,6 +24,7 @@ struct BlazzOSIOSApp: App {
 
 struct MainTabView: View {
     let convex: ConvexService
+    let authManager: AuthManager
 
     var body: some View {
         TabView {
@@ -36,7 +37,30 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Tâches", systemImage: "checklist")
                 }
+
+            SettingsView(authManager: authManager)
+                .tabItem {
+                    Label("Réglages", systemImage: "gear")
+                }
         }
         .tint(.white)
+    }
+}
+
+struct SettingsView: View {
+    @ObservedObject var authManager: AuthManager
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Button(role: .destructive) {
+                    authManager.deleteToken()
+                } label: {
+                    Label("Se déconnecter", systemImage: "rectangle.portrait.and.arrow.right")
+                }
+            }
+            .navigationTitle("Réglages")
+            .toolbarColorScheme(.dark, for: .navigationBar)
+        }
     }
 }
