@@ -16,7 +16,6 @@
 		24A9D453F22F7CF46C0B8506 /* AllTodosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */; };
 		26212ADCCDAA4EC156D4075D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF43F4C115349A11307D6DC /* SwiftUI.framework */; };
 		26F94B5685B781C760389D7E /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281155606314627A740CF87 /* TodoDetailView.swift */; };
-		2CF6C336CE91D61D73AAFCE4 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */; };
 		2F2F95761771B4CC32A771BF /* BlazzOSIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */; };
 		37A568B8ACD648213D1BA0AC /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46920912E804C90AFC5317A7 /* OfflineBuffer.swift */; };
 		3C6A2CD751706DD7E487EE5E /* PillFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934CD28E539193DD209ECCB /* PillFilterView.swift */; };
@@ -28,7 +27,7 @@
 		668F86737F92655593EA1CCB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F913FCBB2591720321E1840 /* WidgetKit.framework */; };
 		6D892950B457AEF8D4961528 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEEAAA6445423B131AC1D9 /* HotKey.swift */; };
 		87CA3AB8BE026E17BA84A0F7 /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533BC76566B382038A1DF8A8 /* QuickEntryView.swift */; };
-		8CAA7EA15DC417ECB7B2EBC4 /* ConvexClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */; };
+		8CF1CDB9CA39CA8AA41222B4 /* ConvexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6E5C9E08DAD6F19D1D5670 /* ConvexService.swift */; };
 		8FF88E63CD59970E1C78B1E7 /* BlazzOSWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A90CC9085F9F99A1C751FD58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B34D797964BC956BA283D3 /* Assets.xcassets */; };
 		B70DE27580C055AD238F8B70 /* OfflineBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE4EAF4C0F610B9C610BB90 /* OfflineBufferTests.swift */; };
@@ -37,6 +36,7 @@
 		C35EFC778EDFD6EC1CDFBF4E /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */; };
 		D397342C2808ACF763BED0A2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8705345AF0B8EC46073A7CE /* LoginView.swift */; };
 		D4CFF3307E8EE7730265A97A /* BlazzOSWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6CDF20E56D32AA7B2A846F /* BlazzOSWidget.swift */; };
+		D507A2FC32ADEDEC675474D5 /* ConvexService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6E5C9E08DAD6F19D1D5670 /* ConvexService.swift */; };
 		E41A65FC505A872127BD98C5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B861DC7D837A85D3B3D240 /* Models.swift */; };
 		E98702D2581470AC92AAF55F /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441D3AD01469B77CBE60A5A9 /* AuthManagerTests.swift */; };
 /* End PBXBuildFile section */
@@ -93,7 +93,6 @@
 		96FEEAAA6445423B131AC1D9 /* HotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSApp.swift; sourceTree = "<group>"; };
 		A15B6BE270F7AE61CCCBEF29 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexClient.swift; sourceTree = "<group>"; };
 		B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzOSWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C281155606314627A740CF87 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		CD3A1B2007067A0CBB884A9A /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
@@ -105,6 +104,7 @@
 		E2B861DC7D837A85D3B3D240 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		F857EA63FAF9B5FCEFAD5DAB /* BlazzOSIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BlazzOSIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9F808E9C806F05323776E57 /* TodoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoProvider.swift; sourceTree = "<group>"; };
+		FB6E5C9E08DAD6F19D1D5670 /* ConvexService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvexService.swift; sourceTree = "<group>"; };
 		FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSIOSApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,7 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				CF09104330332A9919FF0F3F /* AuthManager.swift */,
-				A2A209CEBA673A19BA9587A3 /* ConvexClient.swift */,
+				FB6E5C9E08DAD6F19D1D5670 /* ConvexService.swift */,
 				1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */,
 				E2B861DC7D837A85D3B3D240 /* Models.swift */,
 			);
@@ -408,7 +408,7 @@
 			files = (
 				5757E4281797F99078CF8282 /* AuthManager.swift in Sources */,
 				16926434B7BF3D1A7C55E1E0 /* BlazzOSApp.swift in Sources */,
-				2CF6C336CE91D61D73AAFCE4 /* ConvexClient.swift in Sources */,
+				8CF1CDB9CA39CA8AA41222B4 /* ConvexService.swift in Sources */,
 				6D892950B457AEF8D4961528 /* HotKey.swift in Sources */,
 				C35EFC778EDFD6EC1CDFBF4E /* LoginWebView.swift in Sources */,
 				E41A65FC505A872127BD98C5 /* Models.swift in Sources */,
@@ -424,7 +424,7 @@
 				24A9D453F22F7CF46C0B8506 /* AllTodosView.swift in Sources */,
 				BB9BBD3A93F1DFE91605AC08 /* AuthManager.swift in Sources */,
 				2F2F95761771B4CC32A771BF /* BlazzOSIOSApp.swift in Sources */,
-				8CAA7EA15DC417ECB7B2EBC4 /* ConvexClient.swift in Sources */,
+				D507A2FC32ADEDEC675474D5 /* ConvexService.swift in Sources */,
 				D397342C2808ACF763BED0A2 /* LoginView.swift in Sources */,
 				3E8141B7428AB97F5D07C2CE /* LoginWebView.swift in Sources */,
 				086F6A9E67927D7216BA5E80 /* Models.swift in Sources */,

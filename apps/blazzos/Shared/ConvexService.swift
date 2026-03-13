@@ -147,6 +147,8 @@ final class ConvexService {
 
     // MARK: - Helpers
 
+    static let appURL: String = Bundle.main.infoDictionary?["AppURL"] as? String ?? ""
+
     static func todayString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"

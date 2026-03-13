@@ -55,8 +55,13 @@ class AuthWebViewCoordinator: NSObject, WKScriptMessageHandler, WKNavigationDele
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard !tokenReceived else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            webView.evaluateJavaScript(tokenExtractionJS)
+        // Retry token extraction multiple times after each navigation
+        // OAuth flow: login → Google → callback → token written to localStorage
+        for delay in [0.5, 1.5, 3.0, 5.0] {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                guard self?.tokenReceived != true else { return }
+                webView.evaluateJavaScript(tokenExtractionJS)
+            }
         }
     }
 
@@ -74,7 +79,7 @@ class AuthWebViewCoordinator: NSObject, WKScriptMessageHandler, WKNavigationDele
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
 
-        let loginURL = URL(string: "\(ConvexClient.appURL)/login")!
+        let loginURL = URL(string: "\(ConvexService.appURL)/login")!
         webView.load(URLRequest(url: loginURL))
 
         return webView
