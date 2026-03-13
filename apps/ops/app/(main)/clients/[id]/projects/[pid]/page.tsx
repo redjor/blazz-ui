@@ -365,14 +365,12 @@ export default function ProjectDetailPage({ params }: Props) {
                 return (
                   <div
                     key={entry._id}
-                    className={`group flex items-center gap-4 py-2.5 border-b border-edge last:border-0 ${editable ? "cursor-pointer hover:bg-surface-hover" : ""}`}
-                    onClick={editable ? () => setEditing(entry) : undefined}
+                    className={`group flex items-center gap-4 py-2.5 border-b border-edge last:border-0`}
                   >
                     {editable ? (
                       <Checkbox
                         checked={selection.has(entry._id)}
                         onCheckedChange={() => toggleEntry(entry._id)}
-                        onClick={(e: React.MouseEvent) => e.stopPropagation()}
                       />
                     ) : (
                       <span className="w-4" />
@@ -393,7 +391,13 @@ export default function ProjectDetailPage({ params }: Props) {
                       <EntryStatusBadge status={effectiveStatus} />
                     </div>
                     {editable && (
-                      <Pencil className="size-3.5 text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                      <button
+                        type="button"
+                        onClick={() => setEditing(entry)}
+                        className="shrink-0 p-1 rounded hover:bg-raised transition-colors cursor-pointer"
+                      >
+                        <Pencil className="size-3.5 text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
                     )}
                   </div>
                 )

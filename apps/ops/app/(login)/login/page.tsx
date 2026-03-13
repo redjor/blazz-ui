@@ -12,12 +12,8 @@ export default function LoginPage() {
 	const { isAuthenticated, isLoading } = useConvexAuth()
 	const router = useRouter()
 
-	console.log("[LoginPage]", { isLoading, isAuthenticated, convexUrl: process.env.NEXT_PUBLIC_CONVEX_URL })
-
 	useEffect(() => {
-		console.log("[LoginPage] effect", { isLoading, isAuthenticated })
 		if (!isLoading && isAuthenticated) {
-			console.log("[LoginPage] → redirect /")
 			router.replace("/")
 		}
 	}, [isAuthenticated, isLoading, router])
