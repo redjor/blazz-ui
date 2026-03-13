@@ -11,6 +11,8 @@
 		09DAF3EEE24ED299845F6D1B /* TodoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3849E3E3FE2987D78AC79420 /* TodoRowView.swift */; };
 		0E07AE92115F2BF0F0AE419F /* StatusCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69051DD459885DCD04973BCD /* StatusCircleView.swift */; };
 		16926434B7BF3D1A7C55E1E0 /* BlazzOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */; };
+		1A9717511F59344E45D844BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20E325082CDF9857B54E2ABA /* Assets.xcassets */; };
+		1E4D993B6CA1631A339AFA69 /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = 062090A8B9E0E978D76D2C96 /* ConvexMobile */; };
 		24A9D453F22F7CF46C0B8506 /* AllTodosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */; };
 		26212ADCCDAA4EC156D4075D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FF43F4C115349A11307D6DC /* SwiftUI.framework */; };
 		26F94B5685B781C760389D7E /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281155606314627A740CF87 /* TodoDetailView.swift */; };
@@ -22,6 +24,7 @@
 		44AD70C4E406D0EE8CE8B9CA /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3A1B2007067A0CBB884A9A /* TodayView.swift */; };
 		5108668D3D8301EDF527B015 /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BA81468EB7D81F01AD78AC /* TodoStore.swift */; };
 		5757E4281797F99078CF8282 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF09104330332A9919FF0F3F /* AuthManager.swift */; };
+		64D0C7663D5B24F050F1A2F2 /* ConvexMobile in Frameworks */ = {isa = PBXBuildFile; productRef = CAF28A5801A8E3BE13CED458 /* ConvexMobile */; };
 		668F86737F92655593EA1CCB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F913FCBB2591720321E1840 /* WidgetKit.framework */; };
 		6D892950B457AEF8D4961528 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEEAAA6445423B131AC1D9 /* HotKey.swift */; };
 		87CA3AB8BE026E17BA84A0F7 /* QuickEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533BC76566B382038A1DF8A8 /* QuickEntryView.swift */; };
@@ -71,6 +74,7 @@
 
 /* Begin PBXFileReference section */
 		1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebView.swift; sourceTree = "<group>"; };
+		20E325082CDF9857B54E2ABA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FF43F4C115349A11307D6DC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		34DF27A6E58E35A03A62822A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3849E3E3FE2987D78AC79420 /* TodoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRowView.swift; sourceTree = "<group>"; };
@@ -111,6 +115,22 @@
 			files = (
 				668F86737F92655593EA1CCB /* WidgetKit.framework in Frameworks */,
 				26212ADCCDAA4EC156D4075D /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65F813EC4567B405FB29794E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64D0C7663D5B24F050F1A2F2 /* ConvexMobile in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BC5278CD9002C53263E844D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E4D993B6CA1631A339AFA69 /* ConvexMobile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				D60DCE05F4ACC1C69A0C074F /* AllTodosView.swift */,
+				20E325082CDF9857B54E2ABA /* Assets.xcassets */,
 				FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */,
 				D8705345AF0B8EC46073A7CE /* LoginView.swift */,
 				3934CD28E539193DD209ECCB /* PillFilterView.swift */,
@@ -228,6 +249,7 @@
 			buildPhases = (
 				64B245F262C4397167985C9A /* Sources */,
 				BEFD92BA02A6267148D21208 /* Resources */,
+				65F813EC4567B405FB29794E /* Frameworks */,
 				811C9E5CCCD6E6BEE6DB3CAB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -237,6 +259,7 @@
 			);
 			name = BlazzOS;
 			packageProductDependencies = (
+				CAF28A5801A8E3BE13CED458 /* ConvexMobile */,
 			);
 			productName = BlazzOS;
 			productReference = 62F38C2CB37AE18AC4BFA5EF /* BlazzOS.app */;
@@ -283,6 +306,8 @@
 			buildConfigurationList = 0593D126C5B6B1808A13420B /* Build configuration list for PBXNativeTarget "BlazzOSIOS" */;
 			buildPhases = (
 				737BB4886600A044DF050FB4 /* Sources */,
+				F0B1FF30311BA629B991BC04 /* Resources */,
+				7BC5278CD9002C53263E844D /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -290,6 +315,7 @@
 			);
 			name = BlazzOSIOS;
 			packageProductDependencies = (
+				062090A8B9E0E978D76D2C96 /* ConvexMobile */,
 			);
 			productName = BlazzOSIOS;
 			productReference = F857EA63FAF9B5FCEFAD5DAB /* BlazzOSIOS.app */;
@@ -331,6 +357,9 @@
 			);
 			mainGroup = D13A648AC46D9DFD33F3F8E1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4D92731FEEBE55A0F64D5DE0 /* XCRemoteSwiftPackageReference "convex-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C91981E16B795093B1FCA069 /* Products */;
 			projectDirPath = "";
@@ -350,6 +379,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A90CC9085F9F99A1C751FD58 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0B1FF30311BA629B991BC04 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A9717511F59344E45D844BD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +788,30 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4D92731FEEBE55A0F64D5DE0 /* XCRemoteSwiftPackageReference "convex-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/get-convex/convex-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		062090A8B9E0E978D76D2C96 /* ConvexMobile */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D92731FEEBE55A0F64D5DE0 /* XCRemoteSwiftPackageReference "convex-swift" */;
+			productName = ConvexMobile;
+		};
+		CAF28A5801A8E3BE13CED458 /* ConvexMobile */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D92731FEEBE55A0F64D5DE0 /* XCRemoteSwiftPackageReference "convex-swift" */;
+			productName = ConvexMobile;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C8565ADCE4C731A9E489468E /* Project object */;
 }
