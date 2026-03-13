@@ -5,14 +5,22 @@ import ServiceManagement
 struct BlazzOSApp: App {
     @StateObject private var authManager = AuthManager()
     @StateObject private var offlineBuffer = OfflineBuffer()
+    @State private var convex = ConvexService()
 
     var body: some Scene {
         MenuBarExtra {
             QuickEntryView(
-                client: ConvexClient(authManager: authManager),
+                convex: convex,
                 authManager: authManager,
                 offlineBuffer: offlineBuffer
             )
+            .onAppear {
+                if authManager.isAuthenticated {
+                    convex.configure(authManager: authManager)
+                    convex.subscribeProjects()
+                    convex.subscribeTodayEntries()
+                }
+            }
         } label: {
             if offlineBuffer.hasPending {
                 Label("BlazzOS", systemImage: "clock.badge.exclamationmark")

@@ -2,7 +2,7 @@ import SwiftUI
 import ServiceManagement
 
 struct QuickEntryView: View {
-    @ObservedObject var client: ConvexClient
+    var convex: ConvexService
     @ObservedObject var authManager: AuthManager
     @ObservedObject var offlineBuffer: OfflineBuffer
 
@@ -13,15 +13,15 @@ struct QuickEntryView: View {
     @State private var isSubmitting = false
 
     private var selectedProject: Project? {
-        client.projects.first { $0._id == selectedProjectId }
+        convex.projects.first { $0._id == selectedProjectId }
     }
 
     private var todayTotalMinutes: Int {
-        client.todayEntries.reduce(0) { $0 + $1.minutes }
+        convex.todayEntries.reduce(0) { $0 + $1.minutes }
     }
 
     private var todayTotalRevenue: Double {
-        client.todayEntries.reduce(0.0) { $0 + $1.revenue }
+        convex.todayEntries.reduce(0.0) { $0 + $1.revenue }
     }
 
     var body: some View {
@@ -30,7 +30,7 @@ struct QuickEntryView: View {
             HStack {
                 Image(systemName: "clock.fill")
                     .foregroundStyle(.secondary)
-                Text("Blazz Time")
+                Text("BlazzOS")
                     .font(.headline)
                 Spacer()
                 if offlineBuffer.hasPending {
@@ -43,7 +43,7 @@ struct QuickEntryView: View {
 
             if !authManager.isAuthenticated {
                 notAuthenticatedView
-            } else if client.isLoading {
+            } else if convex.isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity)
             } else {
@@ -58,11 +58,6 @@ struct QuickEntryView: View {
         .frame(width: 300)
         .task {
             guard authManager.isAuthenticated else { return }
-            client.isLoading = true
-            async let p: () = client.fetchProjects()
-            async let e: () = client.fetchTodayEntries()
-            _ = await (p, e)
-            client.isLoading = false
             await flushPendingEntries()
         }
     }
@@ -96,7 +91,7 @@ struct QuickEntryView: View {
             // Project picker
             Picker("Projet", selection: $selectedProjectId) {
                 Text("Choisir...").tag("")
-                ForEach(client.projects) { project in
+                ForEach(convex.projects) { project in
                     Text(project.name).tag(project._id)
                 }
             }
@@ -138,7 +133,7 @@ struct QuickEntryView: View {
             .keyboardShortcut(.return, modifiers: .command)
 
             // Error
-            if let error = client.error {
+            if let error = convex.error {
                 Text(error)
                     .font(.caption)
                     .foregroundStyle(.red)
@@ -161,7 +156,7 @@ struct QuickEntryView: View {
                     .foregroundStyle(.green)
             }
 
-            ForEach(client.todayEntries) { entry in
+            ForEach(convex.todayEntries) { entry in
                 HStack {
                     Text(entry.formattedDuration)
                         .font(.caption)
@@ -218,11 +213,11 @@ struct QuickEntryView: View {
         let desc = note.isEmpty ? nil : note
 
         isSubmitting = true
-        client.error = nil
+        convex.error = nil
 
         Task {
             do {
-                try await client.createEntry(
+                try await convex.createTimeEntry(
                     projectId: project._id,
                     minutes: minutes,
                     hourlyRate: project.hourlyRate,
@@ -239,7 +234,7 @@ struct QuickEntryView: View {
                 let pending = PendingEntry(
                     id: UUID(),
                     projectId: project._id,
-                    date: ConvexClient.todayString(),
+                    date: ConvexService.todayString(),
                     minutes: minutes,
                     hourlyRate: project.hourlyRate,
                     description: desc,
@@ -247,7 +242,7 @@ struct QuickEntryView: View {
                     createdAt: Date()
                 )
                 offlineBuffer.add(pending)
-                client.error = "Sauvé hors-ligne (sync auto)"
+                convex.error = "Sauvé hors-ligne (sync auto)"
             }
             isSubmitting = false
         }
@@ -256,7 +251,7 @@ struct QuickEntryView: View {
     private func flushPendingEntries() async {
         for entry in offlineBuffer.pending {
             do {
-                try await client.createEntry(
+                try await convex.createTimeEntry(
                     projectId: entry.projectId,
                     minutes: entry.minutes,
                     hourlyRate: entry.hourlyRate,
@@ -283,6 +278,6 @@ struct QuickEntryView: View {
     }
 
     private func projectName(for projectId: String) -> String {
-        client.projects.first { $0._id == projectId }?.name ?? "?"
+        convex.projects.first { $0._id == projectId }?.name ?? "?"
     }
 }
