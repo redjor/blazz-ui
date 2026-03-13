@@ -851,3 +851,15 @@ html[data-theme="warm"].dark {
 .tiptap-notion li > p {
 	margin: 0;
 }
+
+.tiptap-notion img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 0.5rem;
+	margin: 0.75rem 0;
+}
+
+.tiptap-notion img.ProseMirror-selectednode {
+	outline: 2px solid oklch(0.585 0.22 275);
+	outline-offset: 2px;
+}

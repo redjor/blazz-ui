@@ -55,6 +55,11 @@ function BubbleButton({
 	)
 }
 
+// ── Image Upload Constants ───────────────────────────────────────────
+
+const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"]
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024 // 5 MB
+
 // ── Slash Command Menu ──────────────────────────────────────────────
 
 interface SlashCommand {
@@ -137,9 +142,6 @@ export function TiptapEditor({
 	const generateUploadUrl = useMutation(api.todos.generateUploadUrl)
 	const getStorageUrl = useMutation(api.todos.getStorageUrl)
 
-	const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"]
-	const MAX_IMAGE_SIZE = 5 * 1024 * 1024
-
 	async function uploadImage(file: File, editor: NonNullable<ReturnType<typeof useEditor>>) {
 		if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
 			toast.error("Format non supporté. Utilisez PNG, JPEG, WebP ou GIF.")
@@ -160,6 +162,7 @@ export function TiptapEditor({
 				headers: { "Content-Type": file.type },
 				body: file,
 			})
+			if (!result.ok) throw new Error(`Upload failed: ${result.status}`)
 			const { storageId } = await result.json()
 			const storageUrl = await getStorageUrl({ storageId })
 
@@ -188,7 +191,7 @@ export function TiptapEditor({
 			} else {
 				editor.chain().focus().setImage({ src: storageUrl }).run()
 			}
-		} catch (err) {
+		} catch {
 			toast.error("Erreur lors de l'upload de l'image.")
 			// Try to remove placeholder on error
 			const { doc } = editor.state

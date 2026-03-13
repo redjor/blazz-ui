@@ -135,10 +135,10 @@ export const update = mutation({
 		text: v.optional(v.string()),
 		description: v.optional(v.string()),
 		priority: v.optional(priorityValidator),
-		dueDate: v.optional(v.string()),
-		projectId: v.optional(v.id("projects")),
-		categoryId: v.optional(v.id("categories")),
-		tags: v.optional(v.array(v.string())),
+		dueDate: v.optional(v.union(v.string(), v.null())),
+		projectId: v.optional(v.union(v.id("projects"), v.null())),
+		categoryId: v.optional(v.union(v.id("categories"), v.null())),
+		tags: v.optional(v.union(v.array(v.string()), v.null())),
 	},
 	handler: async (ctx, { id, text, description, priority, dueDate, projectId, categoryId, tags }) => {
 		const { userId } = await requireAuth(ctx)
@@ -148,10 +148,10 @@ export const update = mutation({
 		if (text !== undefined) patch.text = text
 		if (description !== undefined) patch.description = description
 		if (priority !== undefined) patch.priority = priority
-		patch.dueDate = dueDate
-		patch.projectId = projectId
-		patch.categoryId = categoryId
-		patch.tags = tags
+		if (dueDate !== undefined) patch.dueDate = dueDate ?? undefined
+		if (projectId !== undefined) patch.projectId = projectId ?? undefined
+		if (categoryId !== undefined) patch.categoryId = categoryId ?? undefined
+		if (tags !== undefined) patch.tags = tags ?? undefined
 		return ctx.db.patch(id, patch)
 	},
 })
@@ -190,6 +190,7 @@ export const generateUploadUrl = mutation({
 export const getStorageUrl = mutation({
 	args: { storageId: v.id("_storage") },
 	handler: async (ctx, { storageId }) => {
+		await requireAuth(ctx)
 		return ctx.storage.getUrl(storageId)
 	},
 })
