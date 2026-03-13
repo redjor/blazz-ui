@@ -33,12 +33,14 @@ export function BlazzProvider({
 		validateLicense(licenseKey)
 			.then((result) => {
 				if (!cancelled) {
+					console.log("[blazz] license validation:", result ? `valid=${result.valid}, plan=${result.plan}` : "null (invalid key)")
 					setLicense(result)
 					setIsLoading(false)
 				}
 			})
-			.catch(() => {
+			.catch((err) => {
 				if (!cancelled) {
+					console.error("[blazz] license validation error:", err)
 					setLicense(null)
 					setIsLoading(false)
 				}
