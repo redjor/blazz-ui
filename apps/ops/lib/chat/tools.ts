@@ -1,5 +1,10 @@
-import { tool } from "ai";
 import { z } from "zod";
+
+// ai@6.0.116 tool() helper puts schema in `parameters` but streamText reads `inputSchema`.
+// Build tool objects directly with inputSchema until the SDK fixes this.
+function tool(opts: { description: string; parameters: z.ZodType }) {
+  return { description: opts.description, inputSchema: opts.parameters };
+}
 
 // ─── Read tools (executed server-side) ───
 
@@ -100,9 +105,12 @@ export const writeSafeTools = {
       clientId: z.string().describe("Client ID"),
       name: z.string().describe("Project name"),
       tjm: z.number().describe("Daily rate (TJM) in EUR"),
-      hoursPerDay: z.number().default(7).describe("Hours per day (default: 7)"),
-      currency: z.literal("EUR").default("EUR"),
-      status: z.enum(["active", "paused", "closed"]).default("active"),
+      hoursPerDay: z.number().optional().describe("Hours per day (default: 7)"),
+      currency: z.string().optional().describe("Currency (default: EUR)"),
+      status: z
+        .enum(["active", "paused", "closed"])
+        .optional()
+        .describe("Status (default: active)"),
     }),
   }),
 
@@ -112,9 +120,11 @@ export const writeSafeTools = {
       projectId: z.string().describe("Project ID"),
       date: z.string().describe("Date (YYYY-MM-DD)"),
       minutes: z.number().describe("Duration in minutes"),
-      hourlyRate: z.number().describe("Hourly rate in EUR (get from project TJM)"),
+      hourlyRate: z
+        .number()
+        .describe("Hourly rate in EUR (get from project TJM)"),
       description: z.string().optional().describe("What was done"),
-      billable: z.boolean().default(true).describe("Is this billable?"),
+      billable: z.boolean().optional().describe("Is this billable? (default: true)"),
     }),
   }),
 };
@@ -150,7 +160,7 @@ export const writeDangerousTools = {
     description: "Update a client",
     parameters: z.object({
       id: z.string().describe("Client ID"),
-      name: z.string().describe("Client name"),
+      name: z.string().optional().describe("Client name"),
       email: z.string().optional(),
       phone: z.string().optional(),
     }),
@@ -167,11 +177,11 @@ export const writeDangerousTools = {
     description: "Update a project",
     parameters: z.object({
       id: z.string().describe("Project ID"),
-      name: z.string().describe("Project name"),
-      tjm: z.number().describe("Daily rate"),
-      hoursPerDay: z.number().describe("Hours per day"),
-      status: z.enum(["active", "paused", "closed"]),
-      currency: z.literal("EUR").default("EUR"),
+      name: z.string().optional().describe("Project name"),
+      tjm: z.number().optional().describe("Daily rate"),
+      hoursPerDay: z.number().optional().describe("Hours per day"),
+      status: z.enum(["active", "paused", "closed"]).optional(),
+      currency: z.string().optional(),
     }),
   }),
 

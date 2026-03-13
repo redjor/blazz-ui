@@ -27,7 +27,7 @@
     "@tiptap/extension-task-list": "^3.20.1",
     "@tiptap/react": "^3.20.1",
     "@tiptap/starter-kit": "^3.20.1",
-    "ai": "^6.0.97",
+    "ai": "^6.0.116",
     "convex": "^1.22.0",
     "date-fns": "^4.1.0",
     "geist": "^1.7.0",
@@ -40,8 +40,7 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.1",
     "recharts": "2.15.4",
-    "sonner": "^2.0.7",
-    "zod": "^4.3.5"
+    "sonner": "^2.0.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -52,6 +51,7 @@
     "convex-test": "^0.0.41",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.0.17"
+    "vitest": "^4.0.17",
+    "zod": "^4.3.6"
   }
 }

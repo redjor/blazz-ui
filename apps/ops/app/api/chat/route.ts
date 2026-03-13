@@ -1,5 +1,5 @@
 import { openai } from "@ai-sdk/openai";
-import { streamText, type ToolSet } from "ai";
+import { convertToModelMessages, streamText, type ToolSet } from "ai";
 import { convexAuthNextjsToken } from "@convex-dev/auth/nextjs/server";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "@/convex/_generated/api";
@@ -198,7 +198,7 @@ export async function POST(req: Request) {
   const executors = buildReadToolExecutors(token);
 
   // Build tools: read tools with execute, write tools without
-  const tools: ToolSet = {};
+  const tools: Record<string, any> = {};
 
   for (const [name, t] of Object.entries(readTools)) {
     tools[name] = {
@@ -214,10 +214,22 @@ export async function POST(req: Request) {
     tools[name] = t;
   }
 
+  // useChat sends UIMessage[] — streamText expects ModelMessage[]
+  let modelMessages;
+  try {
+    modelMessages = await convertToModelMessages(messages, { tools });
+  } catch (err) {
+    console.error("[chat] convertToModelMessages failed:", err);
+    return new Response(
+      JSON.stringify({ error: "Failed to convert messages" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   const result = streamText({
-    model: openai("gpt-4o"),
+    model: openai.chat("gpt-4o-mini"),
     system: systemPrompt,
-    messages,
+    messages: modelMessages,
     tools,
     maxSteps: 5,
   });

@@ -3,7 +3,6 @@
 import {
   Conversation,
   ConversationContent,
-  ConversationEmptyState,
   ConversationScrollButton,
 } from "@blazz/ui/components/ai/chat/conversation";
 import {
@@ -13,12 +12,12 @@ import {
 } from "@blazz/ui/components/ai/chat/message";
 import {
   PromptInput,
-  PromptInputBody,
   PromptInputFooter,
   PromptInputSubmit,
   PromptInputTextarea,
 } from "@blazz/ui/components/ai/chat/prompt-input";
-import { PageHeader } from "@blazz/ui/components/blocks/page-header";
+import { BlockStack } from "@blazz/ui/components/ui/block-stack";
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack";
 import { Button } from "@blazz/ui/components/ui/button";
 import { useChat } from "@ai-sdk/react";
 import { RotateCcw } from "lucide-react";
@@ -65,34 +64,52 @@ export default function ChatPage() {
   }, [setMessages]);
 
   const isStreaming = status === "streaming" || status === "submitted";
+  const hasMessages = messages.length > 0;
 
+  // Empty state: Gemini-style centered layout
+  if (!hasMessages) {
+    return (
+      <div className="flex flex-col h-full items-center justify-center px-4">
+        <BlockStack gap="600" className="w-full max-w-2xl">
+          <BlockStack gap="200" className="text-center">
+            <h1 className="text-3xl font-semibold text-fg tracking-tight">
+              Comment puis-je t&apos;aider ?
+            </h1>
+            <p className="text-sm text-fg-subtle">
+              Je peux gérer tes todos, clients, projets et temps.
+            </p>
+          </BlockStack>
+
+          <PromptInput onSubmit={handlePromptSubmit}>
+            <PromptInputTextarea placeholder="Demande-moi quelque chose..." />
+            <PromptInputFooter>
+              <div />
+              <PromptInputSubmit status="ready" />
+            </PromptInputFooter>
+          </PromptInput>
+
+          <ChatSuggestions onSelect={handleSuggestion} />
+        </BlockStack>
+      </div>
+    );
+  }
+
+  // Conversation state: messages + input pinned at bottom
   return (
     <div className="flex flex-col h-full">
-      <PageHeader title="Chat">
-        {messages.length > 0 && (
-          <Button variant="outline" size="sm" onClick={handleClear}>
-            <RotateCcw className="size-3.5" />
-            Effacer
-          </Button>
-        )}
-      </PageHeader>
+      <InlineStack
+        align="end"
+        blockAlign="center"
+        className="px-4 py-2 border-b border-edge"
+      >
+        <Button variant="outline" size="sm" onClick={handleClear}>
+          <RotateCcw className="size-3.5" />
+          Effacer
+        </Button>
+      </InlineStack>
 
       <Conversation className="flex-1 min-h-0">
         <ConversationContent className="max-w-3xl mx-auto px-4">
-          {messages.length === 0 && (
-            <ConversationEmptyState>
-              <div className="text-center space-y-4">
-                <h2 className="text-lg font-semibold text-fg">
-                  Comment puis-je t&apos;aider ?
-                </h2>
-                <p className="text-sm text-fg-subtle">
-                  Je peux gérer tes todos, clients, projets et temps.
-                </p>
-                <ChatSuggestions onSelect={handleSuggestion} />
-              </div>
-            </ConversationEmptyState>
-          )}
-
           {messages.map((message) => (
             <Message
               key={message.id}
@@ -107,7 +124,6 @@ export default function ChatPage() {
                       </MessageResponse>
                     );
                   }
-                  // Handle tool invocation parts (type starts with "tool-")
                   if (
                     "toolCallId" in part &&
                     "state" in part &&
@@ -135,18 +151,17 @@ export default function ChatPage() {
       <div className="border-t border-edge bg-surface px-4 py-3">
         <div className="max-w-3xl mx-auto">
           <PromptInput onSubmit={handlePromptSubmit}>
-            <PromptInputBody>
-              <PromptInputTextarea
-                placeholder="Demande-moi quelque chose..."
-                disabled={isStreaming}
+            <PromptInputTextarea
+              placeholder="Demande-moi quelque chose..."
+              disabled={isStreaming}
+            />
+            <PromptInputFooter>
+              <div />
+              <PromptInputSubmit
+                status={isStreaming ? "streaming" : "ready"}
+                onStop={stop}
               />
-              <PromptInputFooter>
-                <PromptInputSubmit
-                  status={isStreaming ? "streaming" : "ready"}
-                  onStop={stop}
-                />
-              </PromptInputFooter>
-            </PromptInputBody>
+            </PromptInputFooter>
           </PromptInput>
         </div>
       </div>
