@@ -1,21 +1,5 @@
 import Foundation
 
-// MARK: - Convex API
-
-struct ConvexResponse<T: Decodable>: Decodable {
-    let value: T
-}
-
-struct ConvexError: Decodable {
-    let code: String?
-    let message: String?
-}
-
-struct ConvexErrorResponse: Decodable {
-    let code: String
-    let message: String
-}
-
 // MARK: - Domain
 
 struct Project: Decodable, Identifiable, Hashable {
@@ -99,31 +83,3 @@ struct TodoItem: Decodable, Identifiable, Hashable {
     var id: String { _id }
 }
 
-// MARK: - Convex Mutation Payloads
-
-struct CreateTimeEntryArgs: Encodable {
-    let projectId: String
-    let date: String
-    let minutes: Int
-    let hourlyRate: Double
-    let description: String?
-    let billable: Bool
-}
-
-struct ConvexRequest: Encodable {
-    let path: String
-    let args: [String: AnyCodable]
-}
-
-/// Type-erased Encodable wrapper for Convex args
-struct AnyCodable: Encodable {
-    private let _encode: (Encoder) throws -> Void
-
-    init<T: Encodable>(_ value: T) {
-        _encode = { try value.encode(to: $0) }
-    }
-
-    func encode(to encoder: Encoder) throws {
-        try _encode(encoder)
-    }
-}
