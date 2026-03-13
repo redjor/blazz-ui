@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LoginView: View {
     let authManager: AuthManager
-    @State private var showWebView = false
 
     var body: some View {
         VStack(spacing: 32) {
@@ -23,7 +22,7 @@ struct LoginView: View {
             Spacer()
 
             Button {
-                showWebView = true
+                BrowserAuth.login(authManager: authManager)
             } label: {
                 Text("Se connecter avec Google")
                     .font(.body.weight(.semibold))
@@ -38,11 +37,5 @@ struct LoginView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
-        .sheet(isPresented: $showWebView) {
-            IOSWebViewRepresentable(authManager: authManager) {
-                showWebView = false
-            }
-            .ignoresSafeArea()
-        }
     }
 }
