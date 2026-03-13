@@ -1,9 +1,9 @@
 name: Release
 
 on:
-  workflow_dispatch: # Manual trigger only — release paused until npm publish is ready
-  # push:
-  #   branches: [main]
+  push:
+    tags:
+      - "v*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
