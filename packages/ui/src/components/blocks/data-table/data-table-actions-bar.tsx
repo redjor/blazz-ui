@@ -104,6 +104,9 @@ interface DataTableActionsBarProps {
 	// Save view
 	onSaveView?: () => void
 
+	/** Save a new view inline (stacked layout) */
+	onSaveViewInline?: (name: string, description?: string) => void
+
 	// Locale
 	locale?: "fr" | "en"
 }
@@ -211,10 +214,27 @@ export function DataTableActionsBar({
 	toolbarLayout = "classic",
 	onExport,
 	onSaveView,
+	onSaveViewInline,
 	locale = "fr",
 }: DataTableActionsBarProps) {
 	const t = useDataTableTranslations(locale)
 	const searchInputRef = React.useRef<HTMLInputElement>(null)
+
+	// Inline view editing state (stacked layout)
+	const [viewEditing, setViewEditing] = React.useState<{
+		mode: "create" | "rename"
+		viewId?: string
+		name: string
+		description: string
+	} | null>(null)
+	const viewNameRef = React.useRef<HTMLInputElement>(null)
+
+	React.useEffect(() => {
+		if (viewEditing && viewNameRef.current) {
+			viewNameRef.current.focus()
+			viewNameRef.current.select()
+		}
+	}, [viewEditing])
 
 	// Focus search input when search opens
 	React.useEffect(() => {
@@ -406,11 +426,17 @@ export function DataTableActionsBar({
 								)}
 
 								{/* Create view */}
-								{enableCustomViews && onCreateView && (
+								{enableCustomViews && (
 									<Button
 										variant="ghost"
 										size="sm"
-										onClick={onCreateView}
+										onClick={() =>
+											setViewEditing({
+												mode: "create",
+												name: "",
+												description: "",
+											})
+										}
 										className="h-7 shrink-0 px-1.5"
 										aria-label={t.createView}
 									>
@@ -584,6 +610,73 @@ export function DataTableActionsBar({
 						)}
 					</div>
 				</div>
+
+				{/* Inline view editor (conditional) */}
+				{viewEditing && (
+					<div className="border-t border-separator px-3 py-2.5">
+						<div className="flex items-start justify-between gap-4">
+							<div className="flex-1 space-y-1.5">
+								<input
+									ref={viewNameRef}
+									type="text"
+									value={viewEditing.name}
+									onChange={(e) =>
+										setViewEditing((prev) => (prev ? { ...prev, name: e.target.value } : prev))
+									}
+									onKeyDown={(e) => {
+										if (e.key === "Enter" && viewEditing.name.trim()) {
+											onSaveViewInline?.(viewEditing.name.trim(), viewEditing.description.trim() || undefined)
+											setViewEditing(null)
+										}
+										if (e.key === "Escape") setViewEditing(null)
+									}}
+									placeholder={locale === "fr" ? "Nom de la vue" : "View name"}
+									className="w-full bg-transparent text-sm font-medium text-fg outline-none placeholder:text-fg-muted"
+								/>
+								<input
+									type="text"
+									value={viewEditing.description}
+									onChange={(e) =>
+										setViewEditing((prev) =>
+											prev ? { ...prev, description: e.target.value } : prev
+										)
+									}
+									onKeyDown={(e) => {
+										if (e.key === "Enter" && viewEditing.name.trim()) {
+											onSaveViewInline?.(viewEditing.name.trim(), viewEditing.description.trim() || undefined)
+											setViewEditing(null)
+										}
+										if (e.key === "Escape") setViewEditing(null)
+									}}
+									placeholder={locale === "fr" ? "Description (optionnel)" : "Description (optional)"}
+									className="w-full bg-transparent text-xs text-fg-muted outline-none placeholder:text-fg-muted/60"
+								/>
+							</div>
+							<div className="flex shrink-0 items-center gap-1">
+								<button
+									type="button"
+									onClick={() => setViewEditing(null)}
+									className="px-2 py-1 text-xs text-fg-muted hover:text-fg transition-colors"
+								>
+									Cancel
+								</button>
+								<button
+									type="button"
+									onClick={() => {
+										if (viewEditing.name.trim()) {
+											onSaveViewInline?.(viewEditing.name.trim(), viewEditing.description.trim() || undefined)
+											setViewEditing(null)
+										}
+									}}
+									disabled={!viewEditing.name.trim()}
+									className="px-2 py-1 text-xs font-medium text-fg hover:text-brand transition-colors disabled:opacity-40"
+								>
+									Save
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
 
 				{/* ROW 2: Search input (conditional) */}
 				{searchOpen && (
