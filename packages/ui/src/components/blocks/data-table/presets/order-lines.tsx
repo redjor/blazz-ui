@@ -123,15 +123,11 @@ function readOnlyColumns(): DataTableColumnDef<OrderLineRow>[] {
 			cell: ({ row }) => {
 				const name = row.original.articleName
 				const variant = row.original.articleVariant
-				const ref = row.original.articleRef
 				return (
-					<div className="flex flex-col gap-0.5">
-						<span className="font-medium text-fg">
-							{name}
-							{variant ? ` [${variant}]` : ""}
-						</span>
-						<span className="text-xs text-fg-muted font-mono">{ref}</span>
-					</div>
+					<span className="font-medium text-fg">
+						{name}
+						{variant ? ` [${variant}]` : ""}
+					</span>
 				)
 			},
 			enableSorting: true,
