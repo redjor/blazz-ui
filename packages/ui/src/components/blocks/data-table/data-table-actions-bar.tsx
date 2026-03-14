@@ -89,6 +89,8 @@ interface DataTableActionsBarProps {
 	activeFilterValues?: Record<string, any[]>
 	/** Toggle a filter value on/off for a column */
 	onToggleFilterValue?: (columnId: string, value: any, type: string) => void
+	/** Add an empty filter for a column (opens it in the filter bar for editing) */
+	onAddColumnFilter?: (columnId: string) => void
 
 	/** When true, a single button toggles both search and inline filters */
 	combineSearchAndFilters?: boolean
@@ -204,6 +206,7 @@ export function DataTableActionsBar({
 	filterableColumns = [],
 	activeFilterValues = {},
 	onToggleFilterValue,
+	onAddColumnFilter,
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
 	onExport,
@@ -511,15 +514,11 @@ export function DataTableActionsBar({
 										)
 									}
 
-									// Columns without options → open inline filters
+									// Columns without options → add empty filter for this column
 									return (
 										<DropdownMenuItem
 											key={col.id}
-											onClick={() => {
-												if (onToggleInlineFilters && !showInlineFilters) {
-													onToggleInlineFilters()
-												}
-											}}
+											onClick={() => onAddColumnFilter?.(col.id)}
 										>
 											<FilterIcon className="h-4 w-4" />
 											<span>{col.label}</span>

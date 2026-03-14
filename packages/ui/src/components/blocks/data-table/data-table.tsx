@@ -456,6 +456,40 @@ export function DataTable<TData, TValue = unknown>({
 		[viewsHook, activeFilterValues]
 	)
 
+	// Add an empty filter for a column (user will fill in the value in the filter bar)
+	const handleAddColumnFilter = React.useCallback(
+		(columnId: string) => {
+			const colDef = columns.find((c) => {
+				const id = "accessorKey" in c ? String(c.accessorKey) : c.id || ""
+				return id === columnId
+			})
+			const filterType = colDef?.filterConfig?.type || "text"
+			const condition = {
+				id: `qf-${columnId}-${Date.now()}`,
+				column: columnId,
+				operator: (filterType === "text" ? "contains" : "equals") as any,
+				value: "",
+				type: filterType as "text" | "number" | "date" | "boolean" | "select",
+			}
+			const newGroup = viewsHook.filterGroup
+				? {
+						...viewsHook.filterGroup,
+						conditions: [...viewsHook.filterGroup.conditions, condition],
+					}
+				: {
+						id: "root",
+						operator: "AND" as const,
+						conditions: [condition],
+						groups: [],
+					}
+			viewsHook.handleFilterGroupChange(newGroup)
+			if (!viewsHook.showInlineFilters) {
+				viewsHook.setShowInlineFilters(true)
+			}
+		},
+		[columns, viewsHook]
+	)
+
 	// Determine if we're doing server-side filtering
 	const isServerSideFiltering = props.onSearchChange !== undefined
 
@@ -760,6 +794,7 @@ export function DataTable<TData, TValue = unknown>({
 						filterableColumns={filterableColumns}
 						activeFilterValues={activeFilterValues}
 						onToggleFilterValue={handleToggleFilterValue}
+						onAddColumnFilter={handleAddColumnFilter}
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}
