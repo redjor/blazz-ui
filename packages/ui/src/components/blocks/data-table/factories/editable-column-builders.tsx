@@ -154,9 +154,13 @@ function useEditableCell<T>({
 // Shared styles
 // ---------------------------------------------------------------------------
 
+/** Wrapper class for editable cells — negative margins eat the td padding so the
+ *  button/input fills the entire cell edge-to-edge (ring visible at cell borders). */
+export const cellWrapper = "relative -m-3"
+
 /** Shared base for both idle button and editing input — identical box model = zero layout shift.
- *  Padding is on the content (not the td) so the edit ring fills the entire cell. */
-export const cellShared = "w-full px-3 py-2 text-body-md text-fg rounded-none bg-transparent"
+ *  Padding matches the td density default so text stays aligned with non-editable cells. */
+export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent"
 
 const idleCell = `${cellShared} cursor-text text-left hover:bg-surface-3/40`
 
@@ -251,7 +255,7 @@ function EditableTextCell({
 
 	if (!editing) {
 		return (
-			<div className="relative">
+			<div className={cellWrapper}>
 				<button
 					type="button"
 					className={cn(idleCell, className)}
@@ -268,7 +272,7 @@ function EditableTextCell({
 	}
 
 	return (
-		<div className="relative">
+		<div className={cellWrapper}>
 			<input
 				ref={inputRef}
 				value={localValue}
@@ -343,7 +347,7 @@ function EditableNumberCell({
 
 	if (!editing) {
 		return (
-			<div className="relative">
+			<div className={cellWrapper}>
 				<button
 					type="button"
 					className={cn(idleCell, "text-right", className)}
@@ -360,7 +364,7 @@ function EditableNumberCell({
 	}
 
 	return (
-		<div className="relative">
+		<div className={cellWrapper}>
 			<input
 				type="text"
 				inputMode="decimal"
@@ -434,7 +438,7 @@ function EditableCurrencyCell({
 
 	if (!editing) {
 		return (
-			<div className="relative">
+			<div className={cellWrapper}>
 				<button
 					type="button"
 					className={cn(idleCell, "text-right", className)}
@@ -451,7 +455,7 @@ function EditableCurrencyCell({
 	}
 
 	return (
-		<div className="relative">
+		<div className={cellWrapper}>
 			<input
 				type="text"
 				inputMode="decimal"
@@ -518,7 +522,7 @@ function EditableSelectCell({
 
 	if (!editing) {
 		return (
-			<div className="relative">
+			<div className={cellWrapper}>
 				<button type="button" className={cn(idleCell, className)} onClick={() => setEditing(true)}>
 					{selectedOption?.label ?? value}
 				</button>
@@ -595,7 +599,7 @@ function EditableDateCell({
 	)
 
 	return (
-		<div className="relative">
+		<div className={cellWrapper}>
 			<DateSelector
 				value={dateValue}
 				onValueChange={handleChange}
