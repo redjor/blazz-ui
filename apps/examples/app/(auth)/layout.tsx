@@ -2,7 +2,7 @@ import type * as React from "react"
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="flex min-h-svh flex-col items-center justify-center bg-raised/40 px-4">
+		<div className="flex min-h-svh flex-col items-center justify-center bg-surface-3/40 px-4">
 			{/* Branding */}
 			<div className="mb-8 text-center">
 				<h1 className="text-2xl font-bold tracking-tight text-fg">Forge CRM</h1>

@@ -87,7 +87,7 @@ export default function DashboardPage() {
 								<a
 									key={deal.id}
 									href={`/deals/${deal.id}`}
-									className="flex items-center justify-between rounded-md p-2 hover:bg-raised"
+									className="flex items-center justify-between rounded-md p-2 hover:bg-surface-3"
 								>
 									<div>
 										<p className="text-sm font-medium">{deal.title}</p>

@@ -44,7 +44,7 @@ export function UserSettingsForm({ user }: UserSettingsFormProps) {
 					<Label>Username</Label>
 					<div className="flex items-center gap-2">
 						<span className="text-fg-muted text-sm">@</span>
-						<div className="flex-1 px-3 py-2 bg-raised/50 rounded-md text-sm">{user.username}</div>
+						<div className="flex-1 px-3 py-2 bg-surface-3/50 rounded-md text-sm">{user.username}</div>
 					</div>
 					<p className="text-xs text-fg-muted">Username can be modified in the Profile tab.</p>
 				</div>
@@ -186,7 +186,7 @@ export function UserSettingsForm({ user }: UserSettingsFormProps) {
 			</Card>
 
 			{/* Disabled Settings */}
-			<Card className="p-6 bg-raised/30">
+			<Card className="p-6 bg-surface-3/30">
 				<h2 className="text-lg font-semibold mb-4">Disabled settings</h2>
 				<div className="space-y-4">
 					<div className="flex items-center justify-between">

@@ -180,7 +180,7 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
 											<a
 												key={ct.id}
 												href={`/contacts/${ct.id}`}
-												className="flex items-center justify-between p-3 hover:bg-raised rounded-md transition-colors"
+												className="flex items-center justify-between p-3 hover:bg-surface-3 rounded-md transition-colors"
 											>
 												<div>
 													<p className="text-sm font-medium">
@@ -221,7 +221,7 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
 											<a
 												key={d.id}
 												href={`/deals/${d.id}`}
-												className="flex items-center justify-between p-3 hover:bg-raised rounded-md transition-colors"
+												className="flex items-center justify-between p-3 hover:bg-surface-3 rounded-md transition-colors"
 											>
 												<div>
 													<p className="text-sm font-medium">{d.title}</p>
