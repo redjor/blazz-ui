@@ -455,6 +455,98 @@ export function DataTable<TData, TValue = unknown>({
 		[viewsHook, activeFilterValues]
 	)
 
+	// Derive active filter pills for the stacked toolbar bar
+	const activeFilterPills = React.useMemo(() => {
+		if (!viewsHook.filterGroup) return []
+		const pills: Array<{
+			id: string
+			columnId: string
+			columnLabel: string
+			valueLabel: string
+		}> = []
+		for (const cond of viewsHook.filterGroup.conditions) {
+			const colDef = filterableColumns.find((c) => c.id === cond.column)
+			const columnLabel = colDef?.label ?? cond.column
+
+			if (cond.operator === "equals") {
+				const opt = colDef?.options?.find(
+					(o: { value: any }) => String(o.value) === String(cond.value)
+				)
+				pills.push({
+					id: cond.id,
+					columnId: cond.column,
+					columnLabel,
+					valueLabel: opt?.label ?? String(cond.value),
+				})
+			} else if (cond.operator === "in" && Array.isArray(cond.value)) {
+				for (const val of cond.value) {
+					const opt = colDef?.options?.find(
+						(o: { value: any }) => String(o.value) === String(val)
+					)
+					pills.push({
+						id: `${cond.id}-${val}`,
+						columnId: cond.column,
+						columnLabel,
+						valueLabel: opt?.label ?? String(val),
+					})
+				}
+			} else {
+				pills.push({
+					id: cond.id,
+					columnId: cond.column,
+					columnLabel,
+					valueLabel: String(cond.value),
+				})
+			}
+		}
+		return pills
+	}, [viewsHook.filterGroup, filterableColumns])
+
+	// Remove a single filter pill (removes value from condition)
+	const handleRemoveFilter = React.useCallback(
+		(pillId: string) => {
+			if (!viewsHook.filterGroup) return
+
+			const newConditions = viewsHook.filterGroup.conditions
+				.map((cond) => {
+					// Direct match — remove condition
+					if (cond.id === pillId) return null
+
+					// "in" condition — remove specific value from array
+					if (cond.operator === "in" && Array.isArray(cond.value)) {
+						const matchSuffix = pillId.replace(`${cond.id}-`, "")
+						if (pillId.startsWith(cond.id)) {
+							const newValues = cond.value.filter(
+								(v: any) => String(v) !== matchSuffix
+							)
+							if (newValues.length === 0) return null
+							if (newValues.length === 1) {
+								return { ...cond, operator: "equals" as const, value: newValues[0] }
+							}
+							return { ...cond, value: newValues }
+						}
+					}
+					return cond
+				})
+				.filter(Boolean) as typeof viewsHook.filterGroup.conditions
+
+			if (newConditions.length === 0 && !viewsHook.filterGroup.groups?.length) {
+				viewsHook.handleFilterGroupChange(null)
+			} else {
+				viewsHook.handleFilterGroupChange({
+					...viewsHook.filterGroup,
+					conditions: newConditions,
+				})
+			}
+		},
+		[viewsHook]
+	)
+
+	// Clear all filters
+	const handleClearAllFilters = React.useCallback(() => {
+		viewsHook.handleFilterGroupChange(null)
+	}, [viewsHook])
+
 	// Determine if we're doing server-side filtering
 	const isServerSideFiltering = props.onSearchChange !== undefined
 
@@ -759,6 +851,9 @@ export function DataTable<TData, TValue = unknown>({
 						filterableColumns={filterableColumns}
 						activeFilterValues={activeFilterValues}
 						onToggleFilterValue={handleToggleFilterValue}
+						activeFilterPills={activeFilterPills}
+						onRemoveFilter={handleRemoveFilter}
+						onClearAllFilters={handleClearAllFilters}
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}
