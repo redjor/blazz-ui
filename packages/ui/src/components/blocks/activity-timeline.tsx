@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "../../lib/utils"
 import { withProGuard } from "../../lib/with-pro-guard"
 import { Skeleton } from "../ui/skeleton"
