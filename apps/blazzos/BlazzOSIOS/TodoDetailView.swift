@@ -1,5 +1,149 @@
 import SwiftUI
 
+// MARK: - Read-only detail view (tap from list)
+
+struct TodoDetailView: View {
+    let todoId: String
+    let convex: ConvexService
+    @State private var showEditSheet = false
+
+    private var todo: TodoItem? {
+        convex.allTodos.first { $0._id == todoId }
+            ?? convex.todayTodos.first { $0._id == todoId }
+    }
+
+    var body: some View {
+        Group {
+            if let todo {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text(todo.text)
+                            .font(.title.bold())
+                            .foregroundStyle(.white)
+
+                        // Status & Priority pills
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                MetadataPill(
+                                    icon: nil,
+                                    text: statusLabel(todo.status),
+                                    color: statusColor(todo.status)
+                                )
+
+                                if let priority = todo.priority {
+                                    MetadataPill(
+                                        icon: "exclamationmark.triangle.fill",
+                                        text: priority.capitalized,
+                                        color: priorityColor(priority)
+                                    )
+                                }
+
+                                if let dueDate = todo.dueDate {
+                                    MetadataPill(
+                                        icon: "calendar",
+                                        text: dueDate,
+                                        color: .gray
+                                    )
+                                }
+                            }
+                        }
+
+                        if let description = todo.description, !description.isEmpty {
+                            let cleaned = Self.stripHTML(description)
+                            if !cleaned.isEmpty {
+                                Text(cleaned)
+                                    .font(.body)
+                                    .foregroundStyle(.white.opacity(0.7))
+                                    .lineSpacing(4)
+                            }
+                        }
+
+                        if let tags = todo.tags, !tags.isEmpty {
+                            FlowLayout(spacing: 8) {
+                                ForEach(tags, id: \.self) { tag in
+                                    Text(tag)
+                                        .font(.caption)
+                                        .foregroundStyle(.white.opacity(0.7))
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 4)
+                                        .background(Color.white.opacity(0.1))
+                                        .clipShape(Capsule())
+                                }
+                            }
+                        }
+                    }
+                    .padding()
+                }
+            } else {
+                ContentUnavailableView("Tâche introuvable", systemImage: "questionmark.circle")
+            }
+        }
+        .background(Color.black)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showEditSheet = true
+                } label: {
+                    Image(systemName: "pencil")
+                }
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            TodoEditSheet(todoId: todoId, convex: convex)
+        }
+    }
+
+    static func stripHTML(_ html: String) -> String {
+        guard html.contains("<") else { return html }
+        var text = html
+        text = text.replacingOccurrences(of: "<br\\s*/?>", with: "\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "</p>\\s*<p>", with: "\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+        text = text.replacingOccurrences(of: "&amp;", with: "&")
+        text = text.replacingOccurrences(of: "&lt;", with: "<")
+        text = text.replacingOccurrences(of: "&gt;", with: ">")
+        text = text.replacingOccurrences(of: "&quot;", with: "\"")
+        text = text.replacingOccurrences(of: "&#39;", with: "'")
+        text = text.replacingOccurrences(of: "&nbsp;", with: " ")
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func statusLabel(_ status: String) -> String {
+        switch status {
+        case "triage": return "Triage"
+        case "todo": return "Todo"
+        case "in_progress": return "In Progress"
+        case "blocked": return "Blocked"
+        case "done": return "Done"
+        default: return status
+        }
+    }
+
+    private func statusColor(_ status: String) -> Color {
+        switch status {
+        case "triage": return .gray
+        case "todo": return .white
+        case "in_progress": return .yellow
+        case "blocked": return .red
+        case "done": return .green
+        default: return .gray
+        }
+    }
+
+    private func priorityColor(_ priority: String) -> Color {
+        switch priority {
+        case "urgent": return .red
+        case "high": return .orange
+        case "normal": return .blue
+        case "low": return .gray
+        default: return .blue
+        }
+    }
+}
+
+// MARK: - Edit sheet (modal dialog, Linear-style)
+
 struct TodoEditSheet: View {
     let todoId: String
     let convex: ConvexService
@@ -68,15 +212,13 @@ struct TodoEditSheet: View {
     private var formContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Title
                 TextField("Titre", text: $text, axis: .vertical)
                     .font(.title2.bold())
                     .foregroundStyle(.white)
                     .lineLimit(1...4)
 
-                // Description
                 TextField("Ajouter une description...", text: Binding(
-                    get: { Self.stripHTML(descriptionText) },
+                    get: { TodoDetailView.stripHTML(descriptionText) },
                     set: { descriptionText = $0 }
                 ), axis: .vertical)
                     .font(.body)
@@ -85,7 +227,6 @@ struct TodoEditSheet: View {
 
                 Divider().background(Color.white.opacity(0.1))
 
-                // Status & Priority
                 HStack(spacing: 12) {
                     Menu {
                         ForEach(statuses, id: \.self) { s in
@@ -114,7 +255,6 @@ struct TodoEditSheet: View {
                     Spacer()
                 }
 
-                // Due Date
                 HStack {
                     Toggle("Échéance", isOn: $hasDueDate)
                         .foregroundStyle(.white.opacity(0.7))
@@ -126,7 +266,6 @@ struct TodoEditSheet: View {
                         .labelsHidden()
                 }
 
-                // Tags
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Tags")
                         .font(.caption)
@@ -155,22 +294,7 @@ struct TodoEditSheet: View {
         }
     }
 
-    // MARK: - State Management
-
-    private static func stripHTML(_ html: String) -> String {
-        guard html.contains("<") else { return html }
-        var text = html
-        text = text.replacingOccurrences(of: "<br\\s*/?>", with: "\n", options: .regularExpression)
-        text = text.replacingOccurrences(of: "</p>\\s*<p>", with: "\n", options: .regularExpression)
-        text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
-        text = text.replacingOccurrences(of: "&amp;", with: "&")
-        text = text.replacingOccurrences(of: "&lt;", with: "<")
-        text = text.replacingOccurrences(of: "&gt;", with: ">")
-        text = text.replacingOccurrences(of: "&quot;", with: "\"")
-        text = text.replacingOccurrences(of: "&#39;", with: "'")
-        text = text.replacingOccurrences(of: "&nbsp;", with: " ")
-        return text.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+    // MARK: - State
 
     private func initializeFields() {
         guard !isInitialized, let todo else { return }
@@ -197,8 +321,8 @@ struct TodoEditSheet: View {
     private var hasChanges: Bool {
         guard let todo else { return false }
         if text != todo.text { return true }
-        let strippedOriginal = Self.stripHTML(todo.description ?? "")
-        let strippedCurrent = Self.stripHTML(descriptionText)
+        let strippedOriginal = TodoDetailView.stripHTML(todo.description ?? "")
+        let strippedCurrent = TodoDetailView.stripHTML(descriptionText)
         if strippedCurrent != strippedOriginal { return true }
         if status != todo.status { return true }
         if priority != (todo.priority ?? "normal") { return true }
@@ -213,8 +337,6 @@ struct TodoEditSheet: View {
         return false
     }
 
-    // MARK: - Actions
-
     private func save() async {
         guard hasChanges else { return }
         isSaving = true
@@ -228,8 +350,7 @@ struct TodoEditSheet: View {
             try? await convex.updateTodoStatus(id: todoId, status: status)
         }
 
-        // Send stripped text as description (not HTML)
-        let cleanDescription = Self.stripHTML(descriptionText)
+        let cleanDescription = TodoDetailView.stripHTML(descriptionText)
         try? await convex.updateTodo(
             id: todoId,
             text: text.trimmingCharacters(in: .whitespaces),
@@ -275,7 +396,9 @@ struct TodoEditSheet: View {
     }
 }
 
-private struct MetadataPill: View {
+// MARK: - Shared components
+
+struct MetadataPill: View {
     let icon: String?
     let text: String
     let color: Color
@@ -298,7 +421,7 @@ private struct MetadataPill: View {
     }
 }
 
-private struct FlowLayout: Layout {
+struct FlowLayout: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {

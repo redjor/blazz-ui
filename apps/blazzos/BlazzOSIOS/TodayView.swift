@@ -3,7 +3,6 @@ import SwiftUI
 struct TodayView: View {
     let convex: ConvexService
     @State private var showCreateSheet = false
-    @State private var editingTodoId: String?
 
     var body: some View {
         NavigationStack {
@@ -39,12 +38,6 @@ struct TodayView: View {
             .sheet(isPresented: $showCreateSheet) {
                 TodoCreateSheet(convex: convex)
             }
-            .sheet(item: Binding(
-                get: { editingTodoId.map { EditingTodo(id: $0) } },
-                set: { editingTodoId = $0?.id }
-            )) { item in
-                TodoEditSheet(todoId: item.id, convex: convex)
-            }
         }
     }
 
@@ -54,11 +47,11 @@ struct TodayView: View {
         ForEach(grouped, id: \.0) { priority, todos in
             Section {
                 ForEach(todos) { todo in
-                    TodoRowView(todo: todo)
-                        .onTapGesture {
-                            editingTodoId = todo._id
-                        }
-                        .contextMenu {
+                    NavigationLink(value: todo) {
+                        TodoRowView(todo: todo)
+                    }
+                    .buttonStyle(.plain)
+                    .contextMenu {
                             Button {
                                 Task {
                                     let next = nextStatus(todo.status)
@@ -87,6 +80,9 @@ struct TodayView: View {
                     .padding(.bottom, 6)
             }
             .padding(.horizontal)
+        }
+        .navigationDestination(for: TodoItem.self) { todo in
+            TodoDetailView(todoId: todo._id, convex: convex)
         }
     }
 

@@ -4,7 +4,6 @@ struct AllTodosView: View {
     let convex: ConvexService
     @State private var selectedStatus: String? = nil
     @State private var showCreateSheet = false
-    @State private var editingTodoId: String?
 
     private let filterOptions: [(label: String, value: String?)] = [
         ("Toutes", nil),
@@ -31,12 +30,12 @@ struct AllTodosView: View {
                                 .padding(.top, 80)
                         } else {
                             ForEach(todos) { todo in
-                                TodoRowView(todo: todo)
-                                    .padding(.horizontal)
-                                    .onTapGesture {
-                                        editingTodoId = todo._id
-                                    }
-                                    .contextMenu {
+                                NavigationLink(value: todo) {
+                                    TodoRowView(todo: todo)
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.horizontal)
+                                .contextMenu {
                                         Button {
                                             Task {
                                                 let next = nextStatus(todo.status)
@@ -58,6 +57,9 @@ struct AllTodosView: View {
                     }
                 }
             }
+            .navigationDestination(for: TodoItem.self) { todo in
+                TodoDetailView(todoId: todo._id, convex: convex)
+            }
             .background(Color.black)
             .navigationTitle("Tâches")
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -72,12 +74,6 @@ struct AllTodosView: View {
             }
             .sheet(isPresented: $showCreateSheet) {
                 TodoCreateSheet(convex: convex)
-            }
-            .sheet(item: Binding(
-                get: { editingTodoId.map { EditingTodo(id: $0) } },
-                set: { editingTodoId = $0?.id }
-            )) { item in
-                TodoEditSheet(todoId: item.id, convex: convex)
             }
         }
     }
