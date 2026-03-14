@@ -67,7 +67,7 @@ export function DocExampleClient({
 			</div>
 
 			{/* Code block with header bar */}
-			<div className="overflow-hidden rounded-lg border border-container">
+			<div className="overflow-hidden rounded-lg border border-container bg-surface-3/30">
 				{/* Header bar */}
 				<div className="flex items-center justify-between border-b border-container bg-surface-3/50 px-4 py-2">
 					<button
