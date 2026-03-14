@@ -27,7 +27,7 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 	const hasTopBar = Boolean(topBar)
 
 	return (
-		<div className={cn("h-screen w-full bg-(--top-background)", className)}>
+		<div className={cn("h-screen w-full bg-(--surface-0)", className)}>
 			{hasTopBar && (
 				<div className="fixed top-0 left-0 right-0 z-20 h-(--topbar-height)">{topBar}</div>
 			)}
@@ -52,7 +52,7 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 						{tabBar}
 						<ScrollArea
 							className={cn(
-								"min-h-0 w-full flex-1 bg-(--main-background)",
+								"min-h-0 w-full flex-1 bg-(--surface-1)",
 								!tabBar && "rounded-tr-(--main-radius)"
 							)}
 						>

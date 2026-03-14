@@ -20,7 +20,7 @@ export function NavigationTabsBar({
 	return (
 		<div
 			className={cn(
-				"hidden h-(--tabbar-height) shrink-0 items-center border-t border-(--sidebar-border) rounded-tr-(--main-radius) bg-(--sidebar-background) md:flex",
+				"hidden h-(--tabbar-height) shrink-0 items-center border-t border-(--sidebar-border) rounded-tr-(--main-radius) bg-(--surface-0) md:flex",
 				className
 			)}
 		>
