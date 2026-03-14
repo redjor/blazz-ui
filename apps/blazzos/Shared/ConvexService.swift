@@ -170,7 +170,7 @@ final class ConvexService {
         if let description, !description.isEmpty { args["description"] = description }
         if let priority { args["priority"] = priority }
         if let dueDate { args["dueDate"] = dueDate }
-        if let tags, !tags.isEmpty { args["tags"] = tags }
+        if let tags, !tags.isEmpty { args["tags"] = tags.map { $0 as ConvexEncodable? } }
         try await client.mutation("todos:create", with: args)
     }
 
@@ -190,7 +190,7 @@ final class ConvexService {
         if let description { args["description"] = description }
         if let priority { args["priority"] = priority }
         if let dueDate { args["dueDate"] = dueDate }
-        if let tags { args["tags"] = tags }
+        if let tags { args["tags"] = tags.map { $0 as ConvexEncodable? } }
         try await client.mutation("todos:update", with: args)
     }
 
