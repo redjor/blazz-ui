@@ -84,7 +84,7 @@ function CategoryItem({
 				type="button"
 				onClick={onToggle}
 				className={cn(
-					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-raised",
+					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-surface-3",
 					hasActiveItem ? "text-fg" : "text-fg-muted"
 				)}
 			>
@@ -104,9 +104,9 @@ function CategoryItem({
 							key={item.href}
 							to={item.href}
 							className={cn(
-								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-raised",
+								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-3",
 								isItemActive(item.href)
-									? "bg-raised font-medium text-fg"
+									? "bg-surface-3 font-medium text-fg"
 									: "text-fg-muted hover:text-fg"
 							)}
 						>
@@ -171,7 +171,7 @@ export function ComponentsSidebarMobile() {
 								<button
 									type="button"
 									onClick={() => toggleCategory(category.id)}
-									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-fg-muted hover:bg-raised hover:text-fg"
+									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-fg-muted hover:bg-surface-3 hover:text-fg"
 								>
 									<ChevronRight
 										className={cn(
@@ -190,9 +190,9 @@ export function ComponentsSidebarMobile() {
 												to={item.href}
 												onClick={() => setOpen(false)}
 												className={cn(
-													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-raised",
+													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-3",
 													isItemActive(item.href)
-														? "bg-raised font-medium text-fg"
+														? "bg-surface-3 font-medium text-fg"
 														: "text-fg-muted hover:text-fg"
 												)}
 											>

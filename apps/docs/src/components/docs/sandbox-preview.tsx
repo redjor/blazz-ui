@@ -38,7 +38,7 @@ export function SandboxPreview() {
 					</div>
 					<button
 						type="button"
-						className="rounded-md p-1 text-fg-muted hover:text-fg hover:bg-raised transition-colors"
+						className="rounded-md p-1 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors"
 						aria-label="Fermer"
 					>
 						<X className="size-4" />
@@ -99,7 +99,7 @@ export function SandboxPreview() {
 
 					{/* Eligibility Criteria */}
 					<div>
-						<div className="px-6 py-2 bg-raised">
+						<div className="px-6 py-2 bg-surface-3">
 							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
 								Eligibility Criteria
 							</span>
@@ -136,7 +136,7 @@ export function SandboxPreview() {
 
 					{/* Payment Methods */}
 					<div>
-						<div className="px-6 py-2 bg-raised">
+						<div className="px-6 py-2 bg-surface-3">
 							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
 								Payment Methods
 							</span>
@@ -167,7 +167,7 @@ export function SandboxPreview() {
 
 					{/* Service Availability */}
 					<div>
-						<div className="px-6 py-2 bg-raised">
+						<div className="px-6 py-2 bg-surface-3">
 							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
 								Service Availability
 							</span>

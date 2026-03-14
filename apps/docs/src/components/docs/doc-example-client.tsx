@@ -62,14 +62,14 @@ export function DocExampleClient({
 			)}
 
 			{/* Preview */}
-			<div className={cn("rounded-lg border border-container bg-raised p-6", previewClassName)}>
+			<div className={cn("rounded-lg border border-container bg-surface-3 p-6", previewClassName)}>
 				{children}
 			</div>
 
 			{/* Code block with header bar */}
 			<div className="overflow-hidden rounded-lg border border-container">
 				{/* Header bar */}
-				<div className="flex items-center justify-between border-b border-container bg-raised/50 px-4 py-2">
+				<div className="flex items-center justify-between border-b border-container bg-surface-3/50 px-4 py-2">
 					<button
 						type="button"
 						onClick={() => setShowCode(!showCode)}
@@ -83,7 +83,7 @@ export function DocExampleClient({
 					<button
 						type="button"
 						onClick={copyToClipboard}
-						className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:text-fg hover:bg-raised"
+						className="flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:text-fg hover:bg-surface-3"
 					>
 						{copied ? <Check className="size-3.5 text-positive" /> : <Copy className="size-3.5" />}
 					</button>

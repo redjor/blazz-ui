@@ -270,7 +270,7 @@ function CalendarPage() {
 						days
 					</li>
 					<li>
-						<code className="text-xs">bg-raised</code> — Today highlight, day hover, range middle
+						<code className="text-xs">bg-surface-3</code> — Today highlight, day hover, range middle
 					</li>
 					<li>
 						<code className="text-xs">bg-brand / text-brand-fg</code> — Selected day

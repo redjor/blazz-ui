@@ -238,7 +238,7 @@ function SkeletonPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-raised</code> - Skeleton background color
+						<code className="text-xs">bg-surface-3</code> - Skeleton background color
 					</li>
 					<li>
 						<code className="text-xs">rounded-md</code> - Default border radius (0.375rem)
@@ -255,25 +255,25 @@ function SkeletonPage() {
 					<div className="space-y-4">
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Avatar + Text</h4>
-							<code className="text-xs bg-raised px-2 py-1 rounded">
+							<code className="text-xs bg-surface-3 px-2 py-1 rounded">
 								&lt;Skeleton className="h-12 w-12 rounded-full" /&gt;
 							</code>
 						</div>
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Text Line</h4>
-							<code className="text-xs bg-raised px-2 py-1 rounded">
+							<code className="text-xs bg-surface-3 px-2 py-1 rounded">
 								&lt;Skeleton className="h-4 w-full" /&gt;
 							</code>
 						</div>
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Image/Thumbnail</h4>
-							<code className="text-xs bg-raised px-2 py-1 rounded">
+							<code className="text-xs bg-surface-3 px-2 py-1 rounded">
 								&lt;Skeleton className="h-48 w-full" /&gt;
 							</code>
 						</div>
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Button</h4>
-							<code className="text-xs bg-raised px-2 py-1 rounded">
+							<code className="text-xs bg-surface-3 px-2 py-1 rounded">
 								&lt;Skeleton className="h-10 w-24" /&gt;
 							</code>
 						</div>

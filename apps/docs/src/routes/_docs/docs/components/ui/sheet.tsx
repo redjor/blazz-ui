@@ -631,7 +631,7 @@ function SheetPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-panel</code> - Sheet background color
+						<code className="text-xs">bg-surface-4</code> - Sheet background color
 					</li>
 					<li>
 						<code className="text-xs">border-edge</code> - Border color
@@ -643,7 +643,7 @@ function SheetPage() {
 						<code className="text-xs">shadow-lg</code> - Floating elevation
 					</li>
 					<li>
-						<code className="text-xs">bg-raised</code> - Footer background
+						<code className="text-xs">bg-surface-3</code> - Footer background
 					</li>
 					<li>400ms spring enter / 500ms ease-out exit</li>
 				</ul>

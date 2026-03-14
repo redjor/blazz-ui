@@ -92,7 +92,7 @@ function TabBarPreview() {
 			<div className="flex h-9 items-center border-t border-edge-subtle bg-surface">
 				<div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto px-1">
 					{/* Tab actif */}
-					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-raised text-fg font-semibold">
+					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-surface-3 text-fg font-semibold">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
 							<svg
 								className="h-3.5 w-3.5 shrink-0 opacity-60"
@@ -128,7 +128,7 @@ function TabBarPreview() {
 						</div>
 					</div>
 					{/* Tab inactif */}
-					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted hover:bg-raised/50">
+					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted hover:bg-surface-3/50">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
 							<svg
 								className="h-3.5 w-3.5 shrink-0 opacity-60"
@@ -164,7 +164,7 @@ function TabBarPreview() {
 						</div>
 					</div>
 					{/* Tab inactif 2 */}
-					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted hover:bg-raised/50">
+					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted hover:bg-surface-3/50">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
 							<svg
 								className="h-3.5 w-3.5 shrink-0 opacity-60"
@@ -203,7 +203,7 @@ function TabBarPreview() {
 				{/* Bouton + */}
 				<button
 					type="button"
-					className="flex h-9 w-9 shrink-0 items-center justify-center border-l border-edge-subtle text-fg-muted hover:bg-raised"
+					className="flex h-9 w-9 shrink-0 items-center justify-center border-l border-edge-subtle text-fg-muted hover:bg-surface-3"
 					aria-label="Open new tab"
 				>
 					<svg

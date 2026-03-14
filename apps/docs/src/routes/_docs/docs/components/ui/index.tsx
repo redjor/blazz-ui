@@ -163,7 +163,7 @@ function ComponentSection({
 			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{components.map((component) => (
 					<Link key={component.href} to={component.href}>
-						<Card className="h-full transition-colors hover:bg-raised/50">
+						<Card className="h-full transition-colors hover:bg-surface-3/50">
 							<CardHeader>
 								<CardTitle className="text-base">{component.title}</CardTitle>
 								<CardDescription className="line-clamp-2">{component.description}</CardDescription>

@@ -79,7 +79,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 								className={cn(
 									"px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
 									sectionId === tab.id
-										? "text-fg font-medium bg-raised"
+										? "text-fg font-medium bg-surface-3"
 										: "text-fg-muted hover:text-fg"
 								)}
 							>

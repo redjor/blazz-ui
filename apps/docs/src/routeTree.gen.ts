@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThumbnailRouteImport } from './routes/thumbnail'
+import { Route as SandboxDatatableRouteImport } from './routes/sandbox-datatable'
 import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
@@ -46,6 +47,7 @@ import { Route as DocsDocsBlocksInboxRouteImport } from './routes/_docs/docs/blo
 import { Route as DocsDocsBlocksFilterBarRouteImport } from './routes/_docs/docs/blocks/filter-bar'
 import { Route as DocsDocsBlocksDetailPanelRouteImport } from './routes/_docs/docs/blocks/detail-panel'
 import { Route as DocsDocsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/blocks/deal-lines-editor'
+import { Route as DocsDocsBlocksDataTableV2RouteImport } from './routes/_docs/docs/blocks/data-table-v2'
 import { Route as DocsDocsBlocksDataTableRouteImport } from './routes/_docs/docs/blocks/data-table'
 import { Route as DocsDocsBlocksDataRouteImport } from './routes/_docs/docs/blocks/data'
 import { Route as DocsDocsBlocksChartCardRouteImport } from './routes/_docs/docs/blocks/chart-card'
@@ -203,6 +205,11 @@ import { Route as DocsDocsAiChatAttachmentsRouteImport } from './routes/_docs/do
 const ThumbnailRoute = ThumbnailRouteImport.update({
   id: '/thumbnail',
   path: '/thumbnail',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SandboxDatatableRoute = SandboxDatatableRouteImport.update({
+  id: '/sandbox-datatable',
+  path: '/sandbox-datatable',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsRoute = DocsRouteImport.update({
@@ -402,6 +409,12 @@ const DocsDocsBlocksDealLinesEditorRoute =
   DocsDocsBlocksDealLinesEditorRouteImport.update({
     id: '/docs/blocks/deal-lines-editor',
     path: '/docs/blocks/deal-lines-editor',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksDataTableV2Route =
+  DocsDocsBlocksDataTableV2RouteImport.update({
+    id: '/docs/blocks/data-table-v2',
+    path: '/docs/blocks/data-table-v2',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsBlocksDataTableRoute = DocsDocsBlocksDataTableRouteImport.update({
@@ -1308,6 +1321,7 @@ const DocsDocsAiChatAttachmentsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/sandbox-datatable': typeof SandboxDatatableRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/docs/mcp': typeof DocsDocsMcpRoute
@@ -1326,6 +1340,7 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
   '/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
+  '/docs/blocks/data-table-v2': typeof DocsDocsBlocksDataTableV2Route
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
   '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
@@ -1499,6 +1514,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sandbox-datatable': typeof SandboxDatatableRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/docs/mcp': typeof DocsDocsMcpRoute
@@ -1517,6 +1533,7 @@ export interface FileRoutesByTo {
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
   '/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
+  '/docs/blocks/data-table-v2': typeof DocsDocsBlocksDataTableV2Route
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
   '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
@@ -1692,6 +1709,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_docs': typeof DocsRouteWithChildren
+  '/sandbox-datatable': typeof SandboxDatatableRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/_docs/docs/mcp': typeof DocsDocsMcpRoute
@@ -1710,6 +1728,7 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
   '/_docs/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/_docs/docs/blocks/data-table': typeof DocsDocsBlocksDataTableRoute
+  '/_docs/docs/blocks/data-table-v2': typeof DocsDocsBlocksDataTableV2Route
   '/_docs/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/_docs/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
   '/_docs/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
@@ -1885,6 +1904,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/sandbox-datatable'
     | '/thumbnail'
     | '/thumbnail/$slug'
     | '/docs/mcp'
@@ -1903,6 +1923,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/chart-card'
     | '/docs/blocks/data'
     | '/docs/blocks/data-table'
+    | '/docs/blocks/data-table-v2'
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
     | '/docs/blocks/filter-bar'
@@ -2076,6 +2097,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/sandbox-datatable'
     | '/thumbnail'
     | '/thumbnail/$slug'
     | '/docs/mcp'
@@ -2094,6 +2116,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/chart-card'
     | '/docs/blocks/data'
     | '/docs/blocks/data-table'
+    | '/docs/blocks/data-table-v2'
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
     | '/docs/blocks/filter-bar'
@@ -2268,6 +2291,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_docs'
+    | '/sandbox-datatable'
     | '/thumbnail'
     | '/thumbnail/$slug'
     | '/_docs/docs/mcp'
@@ -2286,6 +2310,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/chart-card'
     | '/_docs/docs/blocks/data'
     | '/_docs/docs/blocks/data-table'
+    | '/_docs/docs/blocks/data-table-v2'
     | '/_docs/docs/blocks/deal-lines-editor'
     | '/_docs/docs/blocks/detail-panel'
     | '/_docs/docs/blocks/filter-bar'
@@ -2461,6 +2486,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DocsRoute: typeof DocsRouteWithChildren
+  SandboxDatatableRoute: typeof SandboxDatatableRoute
   ThumbnailRoute: typeof ThumbnailRouteWithChildren
 }
 
@@ -2471,6 +2497,13 @@ declare module '@tanstack/react-router' {
       path: '/thumbnail'
       fullPath: '/thumbnail'
       preLoaderRoute: typeof ThumbnailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sandbox-datatable': {
+      id: '/sandbox-datatable'
+      path: '/sandbox-datatable'
+      fullPath: '/sandbox-datatable'
+      preLoaderRoute: typeof SandboxDatatableRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_docs': {
@@ -2723,6 +2756,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/blocks/deal-lines-editor'
       fullPath: '/docs/blocks/deal-lines-editor'
       preLoaderRoute: typeof DocsDocsBlocksDealLinesEditorRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/data-table-v2': {
+      id: '/_docs/docs/blocks/data-table-v2'
+      path: '/docs/blocks/data-table-v2'
+      fullPath: '/docs/blocks/data-table-v2'
+      preLoaderRoute: typeof DocsDocsBlocksDataTableV2RouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/data-table': {
@@ -3816,6 +3856,7 @@ interface DocsRouteChildren {
   DocsDocsBlocksChartCardRoute: typeof DocsDocsBlocksChartCardRoute
   DocsDocsBlocksDataRoute: typeof DocsDocsBlocksDataRoute
   DocsDocsBlocksDataTableRoute: typeof DocsDocsBlocksDataTableRoute
+  DocsDocsBlocksDataTableV2Route: typeof DocsDocsBlocksDataTableV2Route
   DocsDocsBlocksDealLinesEditorRoute: typeof DocsDocsBlocksDealLinesEditorRoute
   DocsDocsBlocksDetailPanelRoute: typeof DocsDocsBlocksDetailPanelRoute
   DocsDocsBlocksFilterBarRoute: typeof DocsDocsBlocksFilterBarRoute
@@ -4005,6 +4046,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksChartCardRoute: DocsDocsBlocksChartCardRoute,
   DocsDocsBlocksDataRoute: DocsDocsBlocksDataRoute,
   DocsDocsBlocksDataTableRoute: DocsDocsBlocksDataTableRoute,
+  DocsDocsBlocksDataTableV2Route: DocsDocsBlocksDataTableV2Route,
   DocsDocsBlocksDealLinesEditorRoute: DocsDocsBlocksDealLinesEditorRoute,
   DocsDocsBlocksDetailPanelRoute: DocsDocsBlocksDetailPanelRoute,
   DocsDocsBlocksFilterBarRoute: DocsDocsBlocksFilterBarRoute,
@@ -4221,6 +4263,7 @@ const ThumbnailRouteWithChildren = ThumbnailRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DocsRoute: DocsRouteWithChildren,
+  SandboxDatatableRoute: SandboxDatatableRoute,
   ThumbnailRoute: ThumbnailRouteWithChildren,
 }
 export const routeTree = rootRouteImport

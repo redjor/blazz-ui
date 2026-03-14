@@ -57,7 +57,7 @@ export function RoiCalculator() {
 							{reasons.map((reason) => (
 								<div
 									key={reason.title}
-									className="rounded-lg border border-edge/40 bg-raised/40 p-5"
+									className="rounded-lg border border-edge/40 bg-surface-3/40 p-5"
 								>
 									<div className="mb-2 flex items-center gap-2">
 										<div className="flex size-8 items-center justify-center rounded-md bg-app">

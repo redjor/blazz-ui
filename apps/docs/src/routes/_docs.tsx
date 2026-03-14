@@ -46,7 +46,7 @@ function DocsLayout() {
 						<button
 							type="button"
 							onClick={() => setMobileMenuOpen(true)}
-							className="inline-flex items-center justify-center rounded-md p-2 text-fg-muted hover:text-fg hover:bg-raised transition-colors lg:hidden"
+							className="inline-flex items-center justify-center rounded-md p-2 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors lg:hidden"
 							aria-label="Ouvrir le menu"
 						>
 							<Menu className="size-5" />
@@ -76,7 +76,7 @@ function DocsLayout() {
 						<button
 							type="button"
 							onClick={() => setCommandPaletteOpen(true)}
-							className="inline-flex items-center gap-2 rounded-md p-2 text-fg-muted hover:text-fg hover:bg-raised transition-colors"
+							className="inline-flex items-center gap-2 rounded-md p-2 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors"
 						>
 							<Search className="size-4" />
 							<KbdGroup className="hidden sm:inline-flex">
@@ -87,7 +87,7 @@ function DocsLayout() {
 						<ThemeToggle />
 						<a
 							href={examplesUrl || "/examples"}
-							className="inline-flex items-center rounded-md px-3 py-1.5 text-sm text-fg-muted hover:text-fg hover:bg-raised transition-colors"
+							className="inline-flex items-center rounded-md px-3 py-1.5 text-sm text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors"
 						>
 							Examples
 						</a>

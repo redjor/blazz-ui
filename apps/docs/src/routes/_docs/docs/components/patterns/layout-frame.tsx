@@ -72,11 +72,11 @@ const layoutFrameProps: DocProp[] = [
 function LayoutPlaceholder() {
 	return (
 		<div className="flex flex-col h-32 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
-			<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle bg-raised/50 flex items-center px-3">
+			<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle bg-surface-3/50 flex items-center px-3">
 				Top bar
 			</div>
 			<div className="flex flex-1 overflow-hidden">
-				<div className="w-28 shrink-0 border-r border-dashed border-edge-subtle bg-raised/30 flex items-center justify-center">
+				<div className="w-28 shrink-0 border-r border-dashed border-edge-subtle bg-surface-3/30 flex items-center justify-center">
 					Sidebar
 				</div>
 				<div className="flex-1 flex items-center justify-center bg-surface">Main content</div>

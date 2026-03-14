@@ -245,7 +245,7 @@ function SwitchPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-raised</code> - Unchecked background
+						<code className="text-xs">bg-surface-3</code> - Unchecked background
 					</li>
 					<li>
 						<code className="text-xs">bg-brand</code> - Checked background

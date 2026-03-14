@@ -36,7 +36,7 @@ function SandboxPage() {
 			</div>
 
 			{/* Panneau droit — rapport audit */}
-			<div className="flex-[2] overflow-y-auto bg-raised">
+			<div className="flex-[2] overflow-y-auto bg-surface-3">
 				<div className="p-4 border-b border-container">
 					<p className="text-xs font-mono text-fg-muted">sandbox-report.md</p>
 				</div>

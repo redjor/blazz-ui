@@ -254,7 +254,7 @@ function FramePanelPage() {
 
 			<DocSection id="examples" title="Examples">
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Default"
 					description="A frame with a header and a panel. The header sits outside the panel."
 					code={examples[0].code}
@@ -272,7 +272,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Multiple Panels"
 					description="Multiple content panels sharing a header inside a single frame."
 					code={examples[1].code}
@@ -293,7 +293,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Stacked"
 					description="Panels merge together with shared borders for a compact, continuous layout."
 					code={examples[2].code}
@@ -330,7 +330,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="With Footer"
 					description="A header outside the panel, with content and a footer inside."
 					code={examples[3].code}
@@ -364,7 +364,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Spacing Variants"
 					description="Control inner padding with the spacing prop."
 					code={examples[4].code}
@@ -386,7 +386,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Ghost Variant"
 					description="No outer border or background — panels float freely."
 					code={examples[5].code}
@@ -404,7 +404,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Dense"
 					description="Removes outer padding so panels sit flush against the frame border."
 					code={examples[6].code}
@@ -444,7 +444,7 @@ function FramePanelPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					previewClassName="bg-raised"
+					previewClassName="bg-surface-3"
 					title="Custom Radius"
 					description="Override the border radius via the --frame-radius CSS variable."
 					code={examples[7].code}

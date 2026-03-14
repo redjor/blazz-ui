@@ -86,7 +86,7 @@ export function Pricing() {
 								viewport={{ once: true }}
 								transition={{ duration: 0.3, delay: i * 0.05 }}
 								className={`relative rounded-lg border p-6 flex flex-col ${
-									tier.highlighted ? "border-brand bg-brand/[0.03]" : "border-edge/40 bg-raised/30"
+									tier.highlighted ? "border-brand bg-brand/[0.03]" : "border-edge/40 bg-surface-3/30"
 								}`}
 							>
 								{tier.highlighted && (

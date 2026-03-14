@@ -14,9 +14,9 @@ interface ColorToken {
 
 const surfaces: ColorToken[] = [
 	{ name: "App", cssVar: "--bg-app", utility: "bg-[var(--bg-app)]" },
-	{ name: "Surface", cssVar: "--bg-surface", utility: "bg-surface" },
-	{ name: "Raised", cssVar: "--bg-raised", utility: "bg-raised" },
-	{ name: "Overlay", cssVar: "--bg-overlay", utility: "bg-panel" },
+	{ name: "Surface", cssVar: "--surface-2", utility: "bg-surface" },
+	{ name: "Raised", cssVar: "--surface-3", utility: "bg-surface-3" },
+	{ name: "Overlay", cssVar: "--surface-4", utility: "bg-surface-4" },
 ]
 
 const text: ColorToken[] = [
@@ -122,16 +122,16 @@ function SurfaceStack() {
 				<p className="text-xs font-mono text-fg-subtle mb-3">bg-app</p>
 				<div
 					className="rounded-lg p-5 border border-edge"
-					style={{ backgroundColor: "var(--bg-surface)" }}
+					style={{ backgroundColor: "var(--surface-2)" }}
 				>
 					<p className="text-xs font-mono text-fg-subtle mb-3">bg-surface</p>
-					<div className="rounded-md p-4" style={{ backgroundColor: "var(--bg-raised)" }}>
-						<p className="text-xs font-mono text-fg-subtle mb-3">bg-raised</p>
+					<div className="rounded-md p-4" style={{ backgroundColor: "var(--surface-3)" }}>
+						<p className="text-xs font-mono text-fg-subtle mb-3">bg-surface-3</p>
 						<div
 							className="rounded-md p-3 border border-edge"
-							style={{ backgroundColor: "var(--bg-overlay)" }}
+							style={{ backgroundColor: "var(--surface-4)" }}
 						>
-							<p className="text-xs font-mono text-fg-subtle">bg-overlay (panel)</p>
+							<p className="text-xs font-mono text-fg-subtle">bg-surface-4 (overlay)</p>
 						</div>
 					</div>
 				</div>
@@ -149,7 +149,7 @@ function TextPreview() {
 					Three levels of text emphasis for content hierarchy.
 				</p>
 			</div>
-			<div className="space-y-3 rounded-lg border border-edge bg-raised p-6">
+			<div className="space-y-3 rounded-lg border border-edge bg-surface-3 p-6">
 				<p className="text-base text-fg font-medium">
 					Primary text — headings, labels, key content
 				</p>
@@ -249,7 +249,7 @@ function ColorsPage() {
 					<div className="overflow-x-auto rounded-lg border border-edge">
 						<table className="w-full text-sm">
 							<thead>
-								<tr className="border-b border-edge bg-raised">
+								<tr className="border-b border-edge bg-surface-3">
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">Token</th>
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">CSS Variable</th>
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">Tailwind</th>

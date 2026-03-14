@@ -84,7 +84,7 @@ const appSidebarProps: DocProp[] = [
 
 function SidebarPlaceholder() {
 	return (
-		<div className="h-40 w-48 rounded border border-dashed border-edge-subtle bg-raised/50 flex flex-col p-3 gap-2 text-xs text-fg-muted">
+		<div className="h-40 w-48 rounded border border-dashed border-edge-subtle bg-surface-3/50 flex flex-col p-3 gap-2 text-xs text-fg-muted">
 			<div className="h-6 rounded bg-surface flex items-center px-2">Dashboard</div>
 			<div className="h-6 rounded bg-brand/10 flex items-center px-2 text-brand">Contacts ←</div>
 			<div className="h-6 rounded bg-surface flex items-center px-2">Settings</div>

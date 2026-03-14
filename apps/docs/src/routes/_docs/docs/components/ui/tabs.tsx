@@ -304,7 +304,7 @@ function TabsPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-raised</code> - Tab list background color
+						<code className="text-xs">bg-surface-3</code> - Tab list background color
 					</li>
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Inactive tab text

@@ -182,7 +182,7 @@ function InteractiveStepperDemo() {
 					type="button"
 					onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
 					disabled={activeStep === 0}
-					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-raised disabled:opacity-50 disabled:pointer-events-none"
+					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-surface-3 disabled:opacity-50 disabled:pointer-events-none"
 				>
 					Previous
 				</button>
@@ -223,7 +223,7 @@ function ProgressBarStepperDemo() {
 					type="button"
 					onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
 					disabled={activeStep === 0}
-					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-raised disabled:opacity-50 disabled:pointer-events-none"
+					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-surface-3 disabled:opacity-50 disabled:pointer-events-none"
 				>
 					Previous
 				</button>
@@ -256,7 +256,7 @@ function SegmentedStepperDemo() {
 					type="button"
 					onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
 					disabled={activeStep === 0}
-					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-raised disabled:opacity-50 disabled:pointer-events-none"
+					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-surface-3 disabled:opacity-50 disabled:pointer-events-none"
 				>
 					Previous
 				</button>
@@ -293,7 +293,7 @@ function VerticalStepperDemo() {
 					type="button"
 					onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
 					disabled={activeStep === 0}
-					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-raised disabled:opacity-50 disabled:pointer-events-none"
+					className="inline-flex h-8 items-center rounded-md border border-edge bg-surface px-3 text-sm font-medium text-fg transition-colors hover:bg-surface-3 disabled:opacity-50 disabled:pointer-events-none"
 				>
 					Previous
 				</button>

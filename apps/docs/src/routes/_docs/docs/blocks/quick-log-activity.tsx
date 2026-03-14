@@ -201,7 +201,7 @@ function QuickLogActivityPage() {
 			<DocSection id="activity-type" title="ActivityType">
 				<p className="mb-4 text-sm text-fg-muted">
 					Union type:{" "}
-					<code className="rounded bg-raised px-1.5 py-0.5 text-xs">
+					<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
 						"call" | "email" | "note" | "meeting"
 					</code>
 				</p>
@@ -260,7 +260,7 @@ function HeroDemo() {
 					<p className="text-xs font-medium text-fg-muted">Activités enregistrées :</p>
 					{logs.map((log, i) => (
 						<div key={i} className="flex items-center gap-2 text-xs text-fg-muted">
-							<span className="rounded bg-raised px-1.5 py-0.5 font-mono text-[10px] uppercase">
+							<span className="rounded bg-surface-3 px-1.5 py-0.5 font-mono text-[10px] uppercase">
 								{log.type}
 							</span>
 							<span className="truncate">{log.note}</span>

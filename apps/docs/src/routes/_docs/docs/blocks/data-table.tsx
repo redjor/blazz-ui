@@ -625,11 +625,11 @@ function DataTablePage() {
 
 			<DocSection id="col-namespace" title="col.* Namespace">
 				<p className="text-sm text-fg-muted">
-					The <code className="text-xs bg-raised px-1.5 py-0.5 rounded">col</code> namespace
+					The <code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">col</code> namespace
 					replaces verbose{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">createXxxColumn()</code> calls
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">createXxxColumn()</code> calls
 					with a concise, discoverable API. Titles are auto-derived from accessor keys (
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">companyName</code> {"->"}{" "}
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">companyName</code> {"->"}{" "}
 					"Company Name").
 				</p>
 
@@ -713,9 +713,9 @@ function DataTablePage() {
 			<DocSection id="define-preset" title="definePreset()">
 				<p className="text-sm text-fg-muted">
 					Build a typed preset object that you spread into{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">{"<DataTable />"}</code>. The
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">{"<DataTable />"}</code>. The
 					preset contains everything except{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">data</code>.
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">data</code>.
 				</p>
 				<DocExampleClient
 					title="Typed Preset Builder"
@@ -767,9 +767,9 @@ function DataTablePage() {
 			<DocSection id="row-expand" title="Row Expand">
 				<p className="text-sm text-fg-muted">
 					Expand rows to reveal detail panels. Use{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowGrid</code> for a
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">ExpandedRowGrid</code> for a
 					quick key-value layout or{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">ExpandedRowTabs</code> for
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">ExpandedRowTabs</code> for
 					tabbed content.
 				</p>
 
@@ -898,7 +898,7 @@ function DataTablePage() {
 			<DocSection id="inline-editing" title="Inline Editing">
 				<p className="text-sm text-fg-muted">
 					Turn any table into a spreadsheet-like editor with{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.editable*()</code> columns,
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">col.editable*()</code> columns,
 					keyboard navigation, and undo/redo history.
 				</p>
 				<DocExampleClient
@@ -944,7 +944,7 @@ function DataTablePage() {
 								].map(([key, action]) => (
 									<tr key={key} className="border-b border-edge last:border-0">
 										<td className="py-2 pr-4">
-											<kbd className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono text-fg">
+											<kbd className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono text-fg">
 												{key}
 											</kbd>
 										</td>
@@ -961,7 +961,7 @@ function DataTablePage() {
 				<p className="text-sm text-fg-muted">
 					Domain-specific presets for Forge CRM. Each preset provides columns, views, row actions,
 					and bulk actions tailored to the domain — all built with{" "}
-					<code className="text-xs bg-raised px-1.5 py-0.5 rounded">col.*</code>.
+					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">col.*</code>.
 				</p>
 				<Tabs defaultValue="companies" className="w-full">
 					<TabsList>
@@ -1205,15 +1205,15 @@ function DataTablePage() {
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted text-sm">
 					<li>
-						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">col.*</code> for all column
+						Use <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">col.*</code> for all column
 						definitions — titles auto-derive, types are enforced.
 					</li>
 					<li>
-						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">definePreset()</code> to
+						Use <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">definePreset()</code> to
 						build typed, reusable table configs.
 					</li>
 					<li>
-						Always provide <code className="text-xs bg-raised px-1 py-0.5 rounded">getRowId</code>{" "}
+						Always provide <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">getRowId</code>{" "}
 						when using selection, editing, or expand — prevents re-render bugs.
 					</li>
 					<li>
@@ -1221,15 +1221,15 @@ function DataTablePage() {
 						tables.
 					</li>
 					<li>
-						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">expandMode="single"</code>{" "}
+						Use <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">expandMode="single"</code>{" "}
 						for detail panels to keep the page scannable.
 					</li>
 					<li>
 						Combine grouping with aggregations to build mini-reports (sum totals, avg metrics).
 					</li>
 					<li>
-						Use <code className="text-xs bg-raised px-1 py-0.5 rounded">variant="spreadsheet"</code>{" "}
-						with <code className="text-xs bg-raised px-1 py-0.5 rounded">enableCellEditing</code>{" "}
+						Use <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">variant="spreadsheet"</code>{" "}
+						with <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">enableCellEditing</code>{" "}
 						for the full editing experience.
 					</li>
 					<li>Enable pagination for datasets with more than 25 rows.</li>

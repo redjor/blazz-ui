@@ -74,7 +74,7 @@ export function FeaturesGrid() {
 								className="flex gap-3.5"
 							>
 								<div className="shrink-0 mt-0.5">
-									<div className="flex items-center justify-center size-8 rounded-md bg-raised">
+									<div className="flex items-center justify-center size-8 rounded-md bg-surface-3">
 										<feature.icon className="size-4 text-fg-muted" />
 									</div>
 								</div>

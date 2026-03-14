@@ -72,7 +72,7 @@ function SandboxDataTable() {
 				<section className="border-b border-container">
 					<div className="flex items-center gap-3 px-6 py-3">
 						<h2 className="text-sm font-semibold text-fg">Read-only — Lignes de commande</h2>
-						<span className="rounded-full bg-raised px-2 py-0.5 text-xs text-fg-muted">
+						<span className="rounded-full bg-surface-3 px-2 py-0.5 text-xs text-fg-muted">
 							{orderLines.length} lignes
 						</span>
 					</div>
@@ -99,7 +99,7 @@ function SandboxDataTable() {
 				<section>
 					<div className="flex items-center gap-3 px-6 py-3">
 						<h2 className="text-sm font-semibold text-fg">Editable — Lignes de commande</h2>
-						<span className="rounded-full bg-raised px-2 py-0.5 text-xs text-fg-muted">
+						<span className="rounded-full bg-surface-3 px-2 py-0.5 text-xs text-fg-muted">
 							Qte &amp; PU HT editables
 						</span>
 					</div>

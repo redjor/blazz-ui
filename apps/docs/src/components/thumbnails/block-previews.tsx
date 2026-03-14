@@ -104,7 +104,7 @@ export function BulkActionBarPreview() {
 				<div className="h-4 w-px bg-border" />
 				<button
 					type="button"
-					className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted hover:bg-raised"
+					className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted hover:bg-surface-3"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -475,7 +475,7 @@ export function SplitViewPreview() {
 								key={item.name}
 								className={`flex items-center gap-3 px-4 py-3 ${item.active ? "bg-brand/5" : ""}`}
 							>
-								<div className="flex size-8 items-center justify-center rounded-full bg-raised text-xs font-medium">
+								<div className="flex size-8 items-center justify-center rounded-full bg-surface-3 text-xs font-medium">
 									{item.name.charAt(0)}
 								</div>
 								<div className="min-w-0 flex-1">
@@ -490,7 +490,7 @@ export function SplitViewPreview() {
 				detail={
 					<div className="space-y-4 p-4">
 						<div className="flex items-center gap-3">
-							<div className="flex size-10 items-center justify-center rounded-full bg-raised text-sm font-semibold">
+							<div className="flex size-10 items-center justify-center rounded-full bg-surface-3 text-sm font-semibold">
 								A
 							</div>
 							<div>

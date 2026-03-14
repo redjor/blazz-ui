@@ -337,7 +337,7 @@ function ContactListItem({
 			type="button"
 			onClick={onClick}
 			className={`w-full px-4 py-3 text-left transition-colors border-b border-edge last:border-0 ${
-				selected ? "bg-raised" : "hover:bg-raised/50"
+				selected ? "bg-surface-3" : "hover:bg-surface-3/50"
 			}`}
 		>
 			<p className="text-sm font-medium text-fg">{contact.name}</p>

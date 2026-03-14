@@ -92,7 +92,7 @@ export function AppShowcase() {
 
 							{apps.map((app) => (
 								<TabsContent key={app.id} value={app.id}>
-									<div className="rounded-lg border border-edge/40 bg-raised/50 p-6">
+									<div className="rounded-lg border border-edge/40 bg-surface-3/50 p-6">
 										<div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
 											<div className="grid gap-4 sm:grid-cols-[1.2fr_0.8fr]">
 												<div className="rounded-xl border border-edge/30 bg-app p-3">

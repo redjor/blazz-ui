@@ -62,7 +62,7 @@ export function Faq() {
 								whileInView={{ opacity: 1, y: 0 }}
 								viewport={{ once: true }}
 								transition={{ duration: 0.2, delay: i * 0.03 }}
-								className="group rounded-lg border border-edge/40 bg-raised/30"
+								className="group rounded-lg border border-edge/40 bg-surface-3/30"
 							>
 								<summary className="flex items-center justify-between cursor-pointer px-4 py-3 text-[13px] font-medium text-fg list-none [&::-webkit-details-marker]:hidden">
 									{faq.question}

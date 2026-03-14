@@ -335,7 +335,7 @@ function TabBarPreview() {
 		<div className="rounded border border-edge-subtle overflow-hidden">
 			<div className="flex h-9 items-center border-t border-edge-subtle bg-surface">
 				<div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto px-1">
-					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-raised text-fg font-semibold">
+					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-surface-3 text-fg font-semibold">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
 							<svg
 								className="h-3.5 w-3.5 shrink-0 opacity-60"
@@ -575,13 +575,13 @@ function NavigationTabsPage() {
 				>
 					<div className="grid grid-cols-2 gap-3 text-xs">
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
-							<kbd className="rounded border border-edge-subtle bg-raised px-1.5 py-0.5 font-mono text-fg">
+							<kbd className="rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 font-mono text-fg">
 								⌘ Clic
 							</kbd>
 							<span className="text-fg-muted">Ouvre dans un nouveau tab</span>
 						</div>
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
-							<kbd className="rounded border border-edge-subtle bg-raised px-1.5 py-0.5 font-mono text-fg">
+							<kbd className="rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 font-mono text-fg">
 								⌘ W
 							</kbd>
 							<span className="text-fg-muted">Ferme le tab actif</span>

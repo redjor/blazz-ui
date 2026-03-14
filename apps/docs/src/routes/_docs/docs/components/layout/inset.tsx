@@ -126,7 +126,7 @@ const examples = [
 @utility -mb-inset { margin-bottom: calc(-1 * var(--inset)); }
 
 {/* Usage: header qui "saigne" dans le container parent */}
-<div className="-mx-inset -mt-inset p-inset bg-raised">
+<div className="-mx-inset -mt-inset p-inset bg-surface-3">
   Contenu pleine largeur
 </div>`,
 	},
@@ -176,12 +176,12 @@ function InsetPage() {
 						Le design system utilise un{" "}
 						<strong className="text-fg">
 							token unique{" "}
-							<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code>
+							<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code>
 						</strong>{" "}
 						pour contrôler le padding interne des containers. Au lieu de hardcoder{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-4</code>,{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-2.5</code> ou{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">px-4</code> dans
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">p-4</code>,{" "}
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">p-2.5</code> ou{" "}
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">px-4</code> dans
 						chaque composant, tous consomment la même variable CSS.
 					</p>
 					<p>
@@ -213,7 +213,7 @@ function InsetPage() {
 					</div>
 					<p>
 						L'avantage : changer{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> à un
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> à un
 						endroit ajuste <strong className="text-fg">tous les paddings simultanément</strong> —
 						containers et wrappers — sans toucher un seul composant.
 					</p>
@@ -227,7 +227,7 @@ function InsetPage() {
 				>
 					<div className="space-y-3 text-sm">
 						<div className="flex items-center gap-3">
-							<code className="shrink-0 rounded bg-raised px-2 py-1 text-xs font-mono text-brand">
+							<code className="shrink-0 rounded bg-surface-3 px-2 py-1 text-xs font-mono text-brand">
 								--inset: 1rem
 							</code>
 							<span className="text-fg-muted">→ 16px — valeur par défaut</span>
@@ -256,7 +256,7 @@ function InsetPage() {
 						Le <strong className="text-fg">container inset</strong> est le padding géré par les
 						composants surfaciques eux-mêmes. Quand tu utilises une Card, un Dialog ou un Sheet, le
 						padding est déjà câblé sur{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> — tu
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> — tu
 						n'as rien à faire.
 					</p>
 				</div>
@@ -288,15 +288,15 @@ function InsetPage() {
 					<p>
 						Le <strong className="text-fg">wrapper inset</strong> est le même token appliqué aux
 						wrappers de page ou de section. En utilisant{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">px-inset</code> ou{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">p-inset</code> sur
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">px-inset</code> ou{" "}
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">p-inset</code> sur
 						un wrapper, tu garantis que ses marges internes s'alignent parfaitement avec le padding
 						des containers enfants.
 					</p>
 					<p>
 						Le pattern bleed (marges négatives) fonctionne aussi dans ce contexte : un enfant peut
 						utiliser{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">-mx-inset</code>{" "}
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">-mx-inset</code>{" "}
 						pour s'étendre jusqu'aux bords du wrapper.
 					</p>
 				</div>
@@ -343,7 +343,7 @@ function InsetPage() {
 					<div className="max-w-sm rounded-xl border border-container bg-surface overflow-hidden">
 						<div className="p-[var(--inset)]">
 							{/* Simulated dialog header */}
-							<div className="mx-[calc(-1*var(--inset))] mt-[calc(-1*var(--inset))] p-[var(--inset)] border-b border-separator bg-raised/50">
+							<div className="mx-[calc(-1*var(--inset))] mt-[calc(-1*var(--inset))] p-[var(--inset)] border-b border-separator bg-surface-3/50">
 								<p className="text-sm font-semibold text-fg">Confirmation</p>
 								<p className="text-xs text-fg-muted mt-0.5">Voulez-vous continuer ?</p>
 							</div>
@@ -371,7 +371,7 @@ function InsetPage() {
 						Certains composants ont intentionnellement{" "}
 						<strong className="text-fg">moins de padding vertical</strong> que horizontal. Au lieu
 						de hardcoder, on utilise{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
 							calc(var(--inset) * ratio)
 						</code>{" "}
 						pour que tout scale ensemble quand on change le token.
@@ -387,7 +387,7 @@ function InsetPage() {
 					<div className="space-y-3">
 						<div className="rounded-lg border border-container overflow-hidden">
 							<div
-								className="px-[var(--inset)] bg-raised/50"
+								className="px-[var(--inset)] bg-surface-3/50"
 								style={{ paddingBlock: "calc(var(--inset) * 0.75)" }}
 							>
 								<p className="text-xs font-medium text-fg">Sheet Header</p>
@@ -412,7 +412,7 @@ function InsetPage() {
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
 						Puisque{" "}
-						<code className="rounded bg-raised px-1.5 py-0.5 text-xs font-mono">--inset</code> est
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> est
 						une variable CSS, n'importe quel parent peut la redéfinir. Tous les enfants — containers
 						et wrappers — héritent automatiquement de la nouvelle valeur.
 					</p>
@@ -514,7 +514,7 @@ function InsetPage() {
 				<div className="overflow-hidden rounded-lg border border-container">
 					<table className="w-full text-sm">
 						<thead>
-							<tr className="border-b border-separator bg-raised/50">
+							<tr className="border-b border-separator bg-surface-3/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Classe</th>
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
 									CSS généré
@@ -572,7 +572,7 @@ function InsetPage() {
 				<div className="overflow-hidden rounded-lg border border-container">
 					<table className="w-full text-sm">
 						<thead>
-							<tr className="border-b border-separator bg-raised/50">
+							<tr className="border-b border-separator bg-surface-3/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
 									Composant
 								</th>

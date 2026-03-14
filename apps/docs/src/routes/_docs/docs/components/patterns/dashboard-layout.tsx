@@ -104,7 +104,7 @@ const dashboardLayoutProps: DocProp[] = [
 function LayoutPlaceholder() {
 	return (
 		<div className="flex h-32 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
-			<div className="w-32 shrink-0 border-r border-dashed border-edge-subtle bg-raised/50 flex items-center justify-center">
+			<div className="w-32 shrink-0 border-r border-dashed border-edge-subtle bg-surface-3/50 flex items-center justify-center">
 				Sidebar
 			</div>
 			<div className="flex-1 flex items-center justify-center bg-surface">Main content</div>

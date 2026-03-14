@@ -77,7 +77,7 @@ function ConversationPage() {
 										</p>
 										<p>
 											Utilisez{" "}
-											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">React.memo()</code>{" "}
+											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">React.memo()</code>{" "}
 											pour eviter les re-renders inutiles.
 										</p>
 										<p>
@@ -85,17 +85,17 @@ function ConversationPage() {
 										</p>
 										<p>
 											Divisez votre bundle avec{" "}
-											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">React.lazy()</code>{" "}
-											et <code className="rounded bg-raised px-1.5 py-0.5 text-xs">Suspense</code>.
+											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">React.lazy()</code>{" "}
+											et <code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">Suspense</code>.
 										</p>
 										<p>
 											<strong>3. Virtualisation des listes</strong>
 										</p>
 										<p>
 											Pour les longues listes, utilisez{" "}
-											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">react-window</code>{" "}
+											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">react-window</code>{" "}
 											ou{" "}
-											<code className="rounded bg-raised px-1.5 py-0.5 text-xs">
+											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
 												@tanstack/virtual
 											</code>
 											.
@@ -117,8 +117,8 @@ function ConversationPage() {
 										<ul className="list-inside list-disc space-y-1">
 											<li>
 												<strong>Etat local</strong> :{" "}
-												<code className="rounded bg-raised px-1.5 py-0.5 text-xs">useState</code> +{" "}
-												<code className="rounded bg-raised px-1.5 py-0.5 text-xs">useReducer</code>
+												<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">useState</code> +{" "}
+												<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">useReducer</code>
 											</li>
 											<li>
 												<strong>Etat serveur</strong> : TanStack Query ou SWR
@@ -128,7 +128,7 @@ function ConversationPage() {
 											</li>
 											<li>
 												<strong>Etat URL</strong> :{" "}
-												<code className="rounded bg-raised px-1.5 py-0.5 text-xs">nuqs</code>
+												<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">nuqs</code>
 											</li>
 										</ul>
 									</div>

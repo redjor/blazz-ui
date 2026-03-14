@@ -41,7 +41,7 @@ function PropsRows({ props }: { props: DocProp[] }) {
 					</td>
 					<td className="py-2.5 pr-4 align-top">
 						{prop.default ? (
-							<code className="rounded bg-raised px-1.5 py-0.5 font-mono text-xs text-fg-muted">
+							<code className="rounded bg-surface-3 px-1.5 py-0.5 font-mono text-xs text-fg-muted">
 								{prop.default}
 							</code>
 						) : (

@@ -81,7 +81,7 @@ React.useEffect(() => {
 <>
   <p className="text-sm text-fg-muted">
     Press{" "}
-    <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-raised px-1.5 font-mono text-[10px] font-medium text-fg-muted opacity-100">
+    <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-surface-3 px-1.5 font-mono text-[10px] font-medium text-fg-muted opacity-100">
       <span className="text-xs">⌘</span>K
     </kbd>
   </p>
@@ -189,7 +189,7 @@ function CommandDialogExample() {
 		<div>
 			<p className="text-sm text-fg-muted mb-4">
 				Press{" "}
-				<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-raised px-1.5 font-mono text-[10px] font-medium text-fg-muted opacity-100">
+				<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-surface-3 px-1.5 font-mono text-[10px] font-medium text-fg-muted opacity-100">
 					<span className="text-xs">⌘</span>K
 				</kbd>{" "}
 				to open
@@ -333,7 +333,7 @@ function CommandPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-raised</code> - Command background color
+						<code className="text-xs">bg-surface-3</code> - Command background color
 					</li>
 					<li>
 						<code className="text-xs">text-fg</code> - Command text color
@@ -384,7 +384,7 @@ function CommandPage() {
 			<DocSection id="keyboard-shortcuts" title="Keyboard Shortcuts">
 				<div className="rounded-lg border">
 					<table className="w-full text-sm">
-						<thead className="border-b bg-raised/50">
+						<thead className="border-b bg-surface-3/50">
 							<tr>
 								<th className="p-3 text-left font-medium">Key</th>
 								<th className="p-3 text-left font-medium">Action</th>
