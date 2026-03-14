@@ -5,6 +5,7 @@ import { Frame } from "@blazz/ui/components/patterns/frame"
 import { TopBar } from "@blazz/ui/components/patterns/top-bar"
 import {
 	Sidebar,
+	useSidebar,
 	SidebarCollapsible,
 	SidebarCollapsibleContent,
 	SidebarContent,
@@ -181,13 +182,25 @@ function MobileHeader() {
 }
 
 function OpsTopBarContent({ state }: { state: OpsTopBarState }) {
+	const sidebar = useSidebar()
+	const sidebarCollapsed = sidebar.state === "collapsed"
+
+	if (!state.breadcrumbs) {
+		if (!sidebarCollapsed) return null
+		return (
+			<div className="flex h-10 items-center px-3">
+				<TopBar.SidebarToggle />
+			</div>
+		)
+	}
+
 	return (
 		<TopBar
 			className="bg-surface-1 border-b border-edge-subtle"
 			left={
 				<>
 					<TopBar.SidebarToggle />
-					{state.breadcrumbs && <TopBar.Breadcrumbs items={state.breadcrumbs} />}
+					<TopBar.Breadcrumbs items={state.breadcrumbs} />
 				</>
 			}
 			right={state.actions}
