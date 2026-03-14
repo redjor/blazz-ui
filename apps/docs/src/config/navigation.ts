@@ -621,6 +621,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
 						},
 						{
+							title: "Data Table v2",
+							url: "/docs/blocks/data-table-v2",
+							keywords: ["linear", "stacked toolbar", "editable", "order lines"],
+						},
+						{
 							title: "Filter Bar",
 							url: "/docs/blocks/filter-bar",
 							keywords: ["filter", "search filters", "facets", "query bar"],
