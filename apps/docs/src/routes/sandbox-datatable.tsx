@@ -152,6 +152,7 @@ function SandboxDataTable() {
 						searchPlaceholder="Rechercher un article..."
 						locale="fr"
 						variant="editable"
+						density="compact"
 						pagination={{ pageSize: 15, pageSizeOptions: [10, 15, 25, 50] }}
 					/>
 				</section>
