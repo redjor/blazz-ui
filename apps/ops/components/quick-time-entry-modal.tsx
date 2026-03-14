@@ -98,7 +98,7 @@ export function QuickTimeEntryModal({
 					<DialogTitle>Saisie rapide</DialogTitle>
 				</DialogHeader>
 
-				<div className="rounded-lg bg-raised border border-edge px-4 py-3 space-y-1 text-sm">
+				<div className="rounded-lg bg-surface-3 border border-edge px-4 py-3 space-y-1 text-sm">
 					<div className="flex justify-between">
 						<span className="text-fg-muted">Projet</span>
 						<span className="font-medium text-fg">{projectName ?? "—"}</span>

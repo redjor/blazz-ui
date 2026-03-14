@@ -73,11 +73,11 @@ export function CurrentSessionCard({
 							) : null}
 						</div>
 						<div className="grid grid-cols-2 gap-3">
-							<div className="rounded-md border border-edge bg-raised px-3 py-2">
+							<div className="rounded-md border border-edge bg-surface-3 px-3 py-2">
 								<p className="text-2xs uppercase tracking-wide text-fg-muted">Début</p>
 								<p className="mt-1 font-mono text-sm text-fg">{session.startLabel}</p>
 							</div>
-							<div className="rounded-md border border-edge bg-raised px-3 py-2">
+							<div className="rounded-md border border-edge bg-surface-3 px-3 py-2">
 								<p className="text-2xs uppercase tracking-wide text-fg-muted">Durée</p>
 								<p className="mt-1 font-mono text-sm text-fg">{session.elapsedLabel}</p>
 							</div>

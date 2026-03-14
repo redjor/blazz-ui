@@ -92,7 +92,7 @@ export function TagInput({
 							key={s}
 							type="button"
 							onMouseDown={() => addTag(s)}
-							className="w-full px-3 py-1.5 text-left text-sm text-fg hover:bg-raised"
+							className="w-full px-3 py-1.5 text-left text-sm text-fg hover:bg-surface-3"
 						>
 							{s}
 						</button>

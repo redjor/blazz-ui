@@ -35,7 +35,7 @@ export function OpsUserMenu() {
 				render={
 					<SidebarMenuButton
 						size="lg"
-						className="data-[state=open]:bg-raised data-[state=open]:text-fg"
+						className="data-[state=open]:bg-surface-3 data-[state=open]:text-fg"
 					>
 						<Avatar className="h-8 w-8 rounded-lg">
 							<AvatarImage src={image} alt={name} referrerPolicy="no-referrer" />

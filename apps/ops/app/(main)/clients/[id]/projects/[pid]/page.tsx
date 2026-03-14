@@ -383,7 +383,7 @@ export default function ProjectDetailPage({ params }: Props) {
 											<button
 												type="button"
 												onClick={() => setEditing(entry)}
-												className="shrink-0 p-1 rounded hover:bg-raised transition-colors cursor-pointer"
+												className="shrink-0 p-1 rounded hover:bg-surface-3 transition-colors cursor-pointer"
 											>
 												<Pencil className="size-3.5 text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity" />
 											</button>

@@ -43,7 +43,7 @@ export function DayEntriesDialog({
 					<DialogTitle>{projectName}</DialogTitle>
 				</DialogHeader>
 
-				<div className="flex items-baseline justify-between rounded-lg bg-raised border border-edge px-4 py-3">
+				<div className="flex items-baseline justify-between rounded-lg bg-surface-3 border border-edge px-4 py-3">
 					<span className="text-sm text-fg-muted capitalize">{dateLabel}</span>
 					<span className="text-sm font-medium font-mono text-fg">
 						Total : {formatMinutes(totalMinutes)}
@@ -54,7 +54,7 @@ export function DayEntriesDialog({
 					{entries.map((entry) => (
 						<div
 							key={entry._id}
-							className="group flex items-center gap-3 rounded-lg border border-edge px-3 py-2.5 hover:bg-raised transition-colors"
+							className="group flex items-center gap-3 rounded-lg border border-edge px-3 py-2.5 hover:bg-surface-3 transition-colors"
 						>
 							<div className="flex-1 min-w-0">
 								<div className="flex items-center gap-2">

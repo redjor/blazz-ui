@@ -135,7 +135,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 			{/* Calendar grid */}
 			<div className="border border-edge rounded-lg overflow-hidden">
 				{/* Header row */}
-				<div className="grid grid-cols-7 border-b border-edge bg-raised">
+				<div className="grid grid-cols-7 border-b border-edge bg-surface-3">
 					{DAY_LABELS.map((label) => (
 						<div
 							key={label}
@@ -215,7 +215,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 
 function SummaryCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
 	return (
-		<div className="rounded-lg border border-edge bg-raised p-4">
+		<div className="rounded-lg border border-edge bg-surface-3 p-4">
 			<p className="text-xs text-fg-muted uppercase tracking-wide mb-1">{label}</p>
 			<p className="text-2xl font-semibold font-mono text-fg">{value}</p>
 			{sub && <p className="text-xs text-fg-muted mt-1">{sub}</p>}

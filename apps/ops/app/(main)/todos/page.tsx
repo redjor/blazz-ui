@@ -63,7 +63,7 @@ function TodoCard({
 
 	return (
 		<div
-			className={`p-3 rounded-md border border-edge bg-raised space-y-2 cursor-pointer hover:border-accent/50 transition-colors ${todo.status === "done" ? "opacity-60" : ""}`}
+			className={`p-3 rounded-md border border-edge bg-surface-3 space-y-2 cursor-pointer hover:border-accent/50 transition-colors ${todo.status === "done" ? "opacity-60" : ""}`}
 			onClick={() => router.push(`/todos/${todo._id}`)}
 			role="button"
 			tabIndex={0}
@@ -333,7 +333,7 @@ export default function TodosPage() {
 									variant="ghost"
 									size="icon-sm"
 									onClick={() => setViewMode("kanban")}
-									className={viewMode === "kanban" ? "bg-raised" : ""}
+									className={viewMode === "kanban" ? "bg-surface-3" : ""}
 									aria-label="Vue kanban"
 								>
 									<Columns3 className="size-3.5" />
@@ -342,7 +342,7 @@ export default function TodosPage() {
 									variant="ghost"
 									size="icon-sm"
 									onClick={() => setViewMode("list")}
-									className={viewMode === "list" ? "bg-raised" : ""}
+									className={viewMode === "list" ? "bg-surface-3" : ""}
 									aria-label="Vue liste"
 								>
 									<LayoutList className="size-3.5" />
@@ -377,7 +377,7 @@ export default function TodosPage() {
 									className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
 										activeCategoryId === null
 											? "bg-brand text-white"
-											: "bg-raised border border-edge text-fg-muted hover:text-fg"
+											: "bg-surface-3 border border-edge text-fg-muted hover:text-fg"
 									}`}
 								>
 									Tous
@@ -393,7 +393,7 @@ export default function TodosPage() {
 											className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${
 												isActive
 													? `${cls.bg} ${cls.text} border-transparent`
-													: "bg-raised border-edge text-fg-muted hover:text-fg"
+													: "bg-surface-3 border-edge text-fg-muted hover:text-fg"
 											}`}
 										>
 											{cat.name}

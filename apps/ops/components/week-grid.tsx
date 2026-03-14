@@ -162,7 +162,7 @@ export function WeekGrid({
 															isWeekend(day) && "opacity-50",
 															hasEntries
 																? CELL_STYLES[getDominantCellStatus(dayEntries)]
-																: "bg-raised border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
+																: "bg-surface-3 border border-edge text-fg-muted hover:bg-surface hover:border-brand/40 hover:text-fg"
 														)}
 													>
 														{hasEntries ? (

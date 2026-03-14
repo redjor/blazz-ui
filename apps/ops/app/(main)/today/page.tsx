@@ -199,7 +199,7 @@ export default function TodayPage() {
 										<button
 											key={entry._id}
 											type="button"
-											className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-raised/50 last:border-0"
+											className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-surface-3/50 last:border-0"
 											onClick={() => setEditingEntry(entry)}
 										>
 											<div className="flex items-center gap-3">
@@ -234,7 +234,7 @@ export default function TodayPage() {
 									<button
 										key={todo._id}
 										type="button"
-										className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-raised/50 last:border-0"
+										className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-surface-3/50 last:border-0"
 										onClick={() => router.push(`/todos/${todo._id}`)}
 									>
 										<span className="text-sm text-fg">{todo.text}</span>

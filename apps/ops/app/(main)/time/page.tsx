@@ -357,7 +357,7 @@ export default function TimePage() {
 
 				<div className="flex items-center gap-3">
 					{/* Toggle Semaine/Liste */}
-					<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised">
+					<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-surface-3">
 						<Button
 							type="button"
 							size="sm"

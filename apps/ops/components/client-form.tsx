@@ -102,7 +102,7 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 					type="button"
 					onClick={() => fileInputRef.current?.click()}
 					disabled={uploading}
-					className="relative size-16 rounded-lg border-2 border-dashed border-edge bg-surface hover:bg-raised transition-colors flex items-center justify-center overflow-hidden shrink-0 cursor-pointer"
+					className="relative size-16 rounded-lg border-2 border-dashed border-edge bg-surface hover:bg-surface-3 transition-colors flex items-center justify-center overflow-hidden shrink-0 cursor-pointer"
 				>
 					{uploading ? (
 						<Loader2 className="size-5 text-fg-muted animate-spin" />

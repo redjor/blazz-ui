@@ -177,16 +177,20 @@ struct TodoDetailView: View {
 
     private static func stripHTML(_ html: String) -> String {
         guard html.contains("<") else { return html }
-        guard let data = html.data(using: .utf8),
-              let nsAttr = try? NSAttributedString(
-                  data: data,
-                  options: [.documentType: NSAttributedString.DocumentType.html,
-                            .characterEncoding: String.Encoding.utf8.rawValue],
-                  documentAttributes: nil
-              ) else {
-            return html.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
-        }
-        return nsAttr.string.trimmingCharacters(in: .whitespacesAndNewlines)
+        var text = html
+        // Replace <br>, <br/>, </p><p> with newlines
+        text = text.replacingOccurrences(of: "<br\\s*/?>", with: "\n", options: .regularExpression)
+        text = text.replacingOccurrences(of: "</p>\\s*<p>", with: "\n", options: .regularExpression)
+        // Strip all remaining tags
+        text = text.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+        // Decode common HTML entities
+        text = text.replacingOccurrences(of: "&amp;", with: "&")
+        text = text.replacingOccurrences(of: "&lt;", with: "<")
+        text = text.replacingOccurrences(of: "&gt;", with: ">")
+        text = text.replacingOccurrences(of: "&quot;", with: "\"")
+        text = text.replacingOccurrences(of: "&#39;", with: "'")
+        text = text.replacingOccurrences(of: "&nbsp;", with: " ")
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func initializeFields() {
@@ -205,27 +209,12 @@ struct TodoDetailView: View {
         isInitialized = true
     }
 
-    /// Renders HTML description as AttributedString, or returns nil if empty
-    private var renderedDescription: AttributedString? {
+    /// Strips HTML tags and returns plain text for display
+    private var renderedDescription: String? {
         let raw = descriptionText
         guard !raw.isEmpty else { return nil }
-        // If it contains HTML tags, parse them
-        if raw.contains("<") {
-            guard let data = raw.data(using: .utf8),
-                  let nsAttr = try? NSAttributedString(
-                      data: data,
-                      options: [.documentType: NSAttributedString.DocumentType.html,
-                                .characterEncoding: String.Encoding.utf8.rawValue],
-                      documentAttributes: nil
-                  ) else {
-                // Fallback: strip tags manually
-                let stripped = raw.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
-                return stripped.isEmpty ? nil : AttributedString(stripped)
-            }
-            let plainText = nsAttr.string.trimmingCharacters(in: .whitespacesAndNewlines)
-            return plainText.isEmpty ? nil : AttributedString(plainText)
-        }
-        return AttributedString(raw)
+        let stripped = Self.stripHTML(raw)
+        return stripped.isEmpty ? nil : stripped
     }
 
     private var parsedTags: [String] {

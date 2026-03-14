@@ -60,7 +60,7 @@ export default function PackagesPage() {
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{packages.map((pkg) => (
-						<div key={pkg._id} className="rounded-lg border border-edge bg-raised p-5 space-y-3">
+						<div key={pkg._id} className="rounded-lg border border-edge bg-surface-3 p-5 space-y-3">
 							<div className="flex items-start justify-between gap-2">
 								<div className="min-w-0">
 									<a

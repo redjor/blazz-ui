@@ -1,13 +1,13 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { ChevronRight, Plus, Users } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { ClientForm } from "@/components/client-form"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
@@ -44,21 +44,20 @@ function ClientListSkeleton() {
 export default function ClientsPage() {
 	const clients = useQuery(api.clients.list)
 	const [open, setOpen] = useState(false)
-	useOpsTopBar([{ label: "Clients" }])
+
+	const topBarActions = useMemo(
+		() => (
+			<Button size="sm" onClick={() => setOpen(true)}>
+				Nouveau client
+			</Button>
+		),
+		[],
+	)
+
+	useOpsTopBar([{ label: "Clients" }], topBarActions)
 
 	return (
 		<div className="p-6 space-y-4">
-			{/* Header */}
-			<PageHeader
-				title={`Clients${clients !== undefined ? ` (${clients.length})` : ""}`}
-				actions={[
-					{
-						label: "Nouveau client",
-						icon: Plus,
-						onClick: () => setOpen(true),
-					},
-				]}
-			/>
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogContent>
 					<DialogHeader>
@@ -88,7 +87,7 @@ export default function ClientsPage() {
 						<Link
 							key={client._id}
 							href={`/clients/${client._id}`}
-							className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-transparent hover:border-edge hover:bg-raised transition-colors"
+							className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-transparent hover:border-edge hover:bg-surface-3 transition-colors"
 						>
 							<ClientAvatar name={client.name} logoUrl={client.logoUrl} />
 							<div className="flex-1 min-w-0">

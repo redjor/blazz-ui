@@ -133,7 +133,7 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
 								{percentThisMonth}%)
 							</span>
 						</div>
-						<div className="h-2.5 bg-raised rounded-full overflow-hidden border border-edge">
+						<div className="h-2.5 bg-surface-3 rounded-full overflow-hidden border border-edge">
 							<div
 								className={`h-full rounded-full transition-all ${colors.bar}`}
 								style={{ width: `${clampedPercent}%` }}
@@ -148,7 +148,7 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
 							<div className="border border-edge rounded-lg overflow-hidden">
 								<table className="w-full text-xs">
 									<thead>
-										<tr className="bg-raised">
+										<tr className="bg-surface-3">
 											<th className="text-left px-3 py-2 font-medium text-fg-muted">Mois</th>
 											<th className="text-right px-3 py-2 font-medium text-fg-muted">Alloués</th>
 											<th className="text-right px-3 py-2 font-medium text-fg-muted">Consommés</th>

@@ -154,8 +154,8 @@ function SlashMenu({
 					type="button"
 					className={`flex items-center gap-3 w-full px-3 py-2 text-left transition-colors ${
 						index === selectedIndex
-							? "bg-raised text-fg"
-							: "text-fg-muted hover:bg-raised hover:text-fg"
+							? "bg-surface-3 text-fg"
+							: "text-fg-muted hover:bg-surface-3 hover:text-fg"
 					}`}
 					onClick={() => onSelect(index)}
 					onMouseEnter={() => onHover(index)}

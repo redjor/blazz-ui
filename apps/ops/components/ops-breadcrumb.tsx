@@ -17,7 +17,7 @@ export function OpsBreadcrumb({ items, className }: OpsBreadcrumbProps) {
 		<nav
 			aria-label="breadcrumb"
 			className={cn(
-				"flex h-10 items-center gap-1.5 border-b border-edge-subtle bg-raised px-6 rounded-tr-(--main-radius)",
+				"flex h-10 items-center gap-1.5 border-b border-edge-subtle bg-surface-3 px-6 rounded-tr-(--main-radius)",
 				className
 			)}
 		>

@@ -172,7 +172,7 @@ export default function RecapPage() {
 				<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
 				{/* Filters */}
-				<div className="flex flex-wrap gap-4 p-4 rounded-xl border border-edge bg-raised">
+				<div className="flex flex-wrap gap-4 p-4 rounded-xl border border-edge bg-surface-3">
 					<div className="space-y-1.5">
 						<Label>Client</Label>
 						<Select
@@ -275,7 +275,7 @@ export default function RecapPage() {
 				</div>
 
 				{/* Status tabs */}
-				<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-raised w-fit">
+				<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-surface-3 w-fit">
 					{(["ready_to_invoice", "invoiced", "paid"] as const).map((s) => (
 						<button
 							key={s}
@@ -307,7 +307,7 @@ export default function RecapPage() {
 					<>
 						<div className="rounded-xl border border-edge overflow-hidden">
 							<table className="w-full text-sm">
-								<thead className="bg-raised border-b border-edge">
+								<thead className="bg-surface-3 border-b border-edge">
 									<tr>
 										<th className="text-left p-3 font-medium text-fg-muted">Date</th>
 										<th className="text-left p-3 font-medium text-fg-muted">Description</th>
@@ -335,7 +335,7 @@ export default function RecapPage() {
 										</tr>
 									))}
 								</tbody>
-								<tfoot className="bg-raised border-t border-edge">
+								<tfoot className="bg-surface-3 border-t border-edge">
 									<tr>
 										<td colSpan={2} className="p-3 font-medium text-fg">
 											Total

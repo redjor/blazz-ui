@@ -143,7 +143,7 @@ export function ChatToolHandler({
 
 	if (writeDangerousToolNames.has(toolName)) {
 		return (
-			<div className="rounded-lg border border-edge bg-raised p-3 my-2">
+			<div className="rounded-lg border border-edge bg-surface-3 p-3 my-2">
 				<p className="text-sm font-medium mb-1">{toolLabels[toolName]}</p>
 				<pre className="text-xs text-fg-subtle bg-surface rounded p-2 mb-2 overflow-auto">
 					{JSON.stringify(args, null, 2)}
