@@ -30,11 +30,6 @@
 	--color-surface-3: var(--surface-3);
 	--color-surface-4: var(--surface-4);
 
-	/* Surfaces — backward compat aliases (deprecated) */
-	--color-surface: var(--surface-2);
-	--color-raised: var(--surface-3);
-	--color-panel: var(--surface-4);
-
 	/* Text */
 	--color-fg: var(--text-primary);
 	--color-fg-muted: var(--text-secondary);
@@ -98,12 +93,6 @@
 	color-scheme: light;
 	--radius: 0.5rem;
 
-	/* Surfaces — elevation: app < raised < surface = overlay */
-	--bg-app: oklch(0.96 0 0);
-	--bg-surface: oklch(1 0 0);
-	--bg-raised: oklch(0.97 0 0);
-	--bg-overlay: oklch(1 0 0);
-
 	/* Surface layer scale */
 	--surface-base: oklch(0.94 0 0);
 	--surface-top:  oklch(1.0 0 0);
@@ -149,9 +138,7 @@
 	/* Layout (consumed by Frame/Sidebar) */
 	--topbar-height: 56px;
 	--tabbar-height: 36px;
-	--top-background: var(--surface-0);
 	--main-radius: 10px;
-	--main-background: var(--surface-1);
 
 	/* Chart colors (HSL space for Recharts compatibility) */
 	--chart-1: 220 70% 50%;
@@ -161,7 +148,6 @@
 	--chart-5: 340 75% 55%;
 
 	/* Sidebar (consumed by navigation-tabs) */
-	--sidebar-background: var(--surface-0);
 	--sidebar-foreground: oklch(0.4 0 0);
 	--sidebar-primary: oklch(0.3 0 0);
 	--sidebar-primary-foreground: oklch(0.99 0 0);
@@ -177,12 +163,6 @@
 
 html.dark {
 	color-scheme: dark;
-
-	/* Surfaces */
-	--bg-app: oklch(0.145 0.005 285);
-	--bg-surface: oklch(0.178 0.005 285);
-	--bg-raised: oklch(0.215 0.005 285);
-	--bg-overlay: oklch(0.25 0.005 285);
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.145 0.005 285);
@@ -227,14 +207,11 @@ html.dark {
 	--sidebar-collapsed: 64px;
 
 	/* Layout (consumed by Frame/Sidebar) */
-	--top-background: var(--surface-0);
-	--main-background: var(--surface-1);
 	--main-radius: 10px;
 	--topbar-height: 56px;
 	--tabbar-height: 36px;
 
 	/* Sidebar (consumed by navigation-tabs) */
-	--sidebar-background: var(--surface-0);
 	--sidebar-foreground: oklch(0.85 0 0);
 	--sidebar-primary: oklch(0.85 0 0);
 	--sidebar-primary-foreground: oklch(0.175 0 0);
@@ -568,7 +545,7 @@ html.dark {
 	}
 
 	body {
-		background-color: var(--bg-app);
+		background-color: var(--surface-0);
 		color: var(--text-primary);
 		font-size: 13px;
 		font-feature-settings:
@@ -578,7 +555,7 @@ html.dark {
 
 	/* Sidebar colors — follow theme */
 	.sidebar-container {
-		background-color: var(--bg-surface);
+		background-color: var(--surface-2);
 		color: var(--text-primary);
 	}
 

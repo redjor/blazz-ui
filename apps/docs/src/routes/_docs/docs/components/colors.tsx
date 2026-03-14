@@ -13,7 +13,7 @@ interface ColorToken {
 }
 
 const surfaces: ColorToken[] = [
-	{ name: "App", cssVar: "--bg-app", utility: "bg-[var(--bg-app)]" },
+	{ name: "App", cssVar: "--surface-0", utility: "bg-surface-0" },
 	{ name: "Surface", cssVar: "--surface-2", utility: "bg-surface" },
 	{ name: "Raised", cssVar: "--surface-3", utility: "bg-surface-3" },
 	{ name: "Overlay", cssVar: "--surface-4", utility: "bg-surface-4" },
@@ -118,8 +118,8 @@ function SurfaceStack() {
 					Layered surfaces create visual depth. Each level is slightly lighter/darker.
 				</p>
 			</div>
-			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--bg-app)" }}>
-				<p className="text-xs font-mono text-fg-subtle mb-3">bg-app</p>
+			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--surface-0)" }}>
+				<p className="text-xs font-mono text-fg-subtle mb-3">surface-0</p>
 				<div
 					className="rounded-lg p-5 border border-edge"
 					style={{ backgroundColor: "var(--surface-2)" }}
