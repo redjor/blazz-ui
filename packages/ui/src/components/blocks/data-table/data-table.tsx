@@ -798,6 +798,11 @@ export function DataTable<TData, TValue = unknown>({
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}
+						onViewEditingChange={(editing) => {
+							if (editing && !viewsHook.showInlineFilters) {
+								viewsHook.setShowInlineFilters(true)
+							}
+						}}
 						onSaveViewInline={
 							enableCustomViews
 								? (name: string, description?: string) => {

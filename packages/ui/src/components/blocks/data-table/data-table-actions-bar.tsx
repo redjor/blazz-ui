@@ -106,6 +106,8 @@ interface DataTableActionsBarProps {
 
 	/** Save a new view inline (stacked layout) */
 	onSaveViewInline?: (name: string, description?: string) => void
+	/** Called when inline view editing starts/stops (to show filters) */
+	onViewEditingChange?: (editing: boolean) => void
 
 	// Locale
 	locale?: "fr" | "en"
@@ -215,6 +217,7 @@ export function DataTableActionsBar({
 	onExport,
 	onSaveView,
 	onSaveViewInline,
+	onViewEditingChange,
 	locale = "fr",
 }: DataTableActionsBarProps) {
 	const t = useDataTableTranslations(locale)
@@ -228,6 +231,11 @@ export function DataTableActionsBar({
 		description: string
 	} | null>(null)
 	const viewNameRef = React.useRef<HTMLInputElement>(null)
+
+	const closeViewEditing = React.useCallback(() => {
+		setViewEditing(null)
+		onViewEditingChange?.(false)
+	}, [onViewEditingChange])
 
 	React.useEffect(() => {
 		if (viewEditing && viewNameRef.current) {
@@ -430,13 +438,14 @@ export function DataTableActionsBar({
 									<Button
 										variant="ghost"
 										size="sm"
-										onClick={() =>
+										onClick={() => {
 											setViewEditing({
 												mode: "create",
 												name: "",
 												description: "",
 											})
-										}
+											onViewEditingChange?.(true)
+										}}
 										className="h-7 shrink-0 px-1.5"
 										aria-label={t.createView}
 									>
@@ -626,9 +635,9 @@ export function DataTableActionsBar({
 									onKeyDown={(e) => {
 										if (e.key === "Enter" && viewEditing.name.trim()) {
 											onSaveViewInline?.(viewEditing.name.trim(), viewEditing.description.trim() || undefined)
-											setViewEditing(null)
+											closeViewEditing()
 										}
-										if (e.key === "Escape") setViewEditing(null)
+										if (e.key === "Escape") closeViewEditing()
 									}}
 									placeholder={locale === "fr" ? "Nom de la vue" : "View name"}
 									className="w-full bg-transparent text-sm font-medium text-fg outline-none placeholder:text-fg-muted"
@@ -644,9 +653,9 @@ export function DataTableActionsBar({
 									onKeyDown={(e) => {
 										if (e.key === "Enter" && viewEditing.name.trim()) {
 											onSaveViewInline?.(viewEditing.name.trim(), viewEditing.description.trim() || undefined)
-											setViewEditing(null)
+											closeViewEditing()
 										}
-										if (e.key === "Escape") setViewEditing(null)
+										if (e.key === "Escape") closeViewEditing()
 									}}
 									placeholder={locale === "fr" ? "Description (optionnel)" : "Description (optional)"}
 									className="w-full bg-transparent text-xs text-fg-muted outline-none placeholder:text-fg-muted/60"
@@ -655,7 +664,7 @@ export function DataTableActionsBar({
 							<div className="flex shrink-0 items-center gap-1">
 								<button
 									type="button"
-									onClick={() => setViewEditing(null)}
+									onClick={closeViewEditing}
 									className="px-2 py-1 text-xs text-fg-muted hover:text-fg transition-colors"
 								>
 									Cancel
@@ -665,7 +674,7 @@ export function DataTableActionsBar({
 									onClick={() => {
 										if (viewEditing.name.trim()) {
 											onSaveViewInline?.(viewEditing.name.trim(), viewEditing.description.trim() || undefined)
-											setViewEditing(null)
+											closeViewEditing()
 										}
 									}}
 									disabled={!viewEditing.name.trim()}
