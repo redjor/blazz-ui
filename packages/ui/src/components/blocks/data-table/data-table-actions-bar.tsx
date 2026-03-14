@@ -30,6 +30,9 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "../../ui/dropdown-menu"
 import { Input } from "../../ui/input"
@@ -75,7 +78,14 @@ interface DataTableActionsBarProps {
 	showInlineFilters?: boolean
 	onToggleInlineFilters?: () => void
 	/** Filterable columns for the stacked filter dropdown */
-	filterableColumns?: Array<{ id: string; label: string; type: string }>
+	filterableColumns?: Array<{
+		id: string
+		label: string
+		type: string
+		options?: Array<{ label: string; value: any }>
+	}>
+	/** Callback to apply a quick filter from the dropdown */
+	onQuickFilter?: (columnId: string, value: any, type: string) => void
 
 	/** When true, a single button toggles both search and inline filters */
 	combineSearchAndFilters?: boolean
@@ -189,6 +199,7 @@ export function DataTableActionsBar({
 	showInlineFilters = false,
 	onToggleInlineFilters,
 	filterableColumns = [],
+	onQuickFilter,
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
 	onExport,
@@ -425,7 +436,7 @@ export function DataTableActionsBar({
 										type="button"
 										className={cn(
 											"relative inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-raised hover:text-fg",
-											showInlineFilters && "bg-raised text-fg"
+											(showInlineFilters || filterCount > 0) && "bg-raised text-fg"
 										)}
 										aria-label="Filter options"
 									>
@@ -442,19 +453,7 @@ export function DataTableActionsBar({
 								}
 							/>
 							<DropdownMenuContent align="end" sideOffset={4} className="w-56">
-								{/* Add filter header */}
-								<DropdownMenuItem
-									onClick={() => {
-										if (onToggleInlineFilters && !showInlineFilters) {
-											onToggleInlineFilters()
-										}
-									}}
-									className="text-fg-muted"
-								>
-									<ListFilter className="h-4 w-4" />
-									<span>{locale === "fr" ? "Ajouter un filtre..." : "Add Filter..."}</span>
-								</DropdownMenuItem>
-								{filterableColumns.length > 0 && <DropdownMenuSeparator />}
+								{/* Column filters with submenus */}
 								{filterableColumns.map((col) => {
 									const FilterIcon =
 										col.type === "number"
@@ -466,6 +465,30 @@ export function DataTableActionsBar({
 													: col.type === "select"
 														? ListFilter
 														: Type
+
+									// Columns with options → submenu
+									if (col.options && col.options.length > 0) {
+										return (
+											<DropdownMenuSub key={col.id}>
+												<DropdownMenuSubTrigger>
+													<FilterIcon className="h-4 w-4" />
+													<span>{col.label}</span>
+												</DropdownMenuSubTrigger>
+												<DropdownMenuSubContent>
+													{col.options.map((opt) => (
+														<DropdownMenuItem
+															key={String(opt.value)}
+															onClick={() => onQuickFilter?.(col.id, opt.value, col.type)}
+														>
+															<span>{opt.label}</span>
+														</DropdownMenuItem>
+													))}
+												</DropdownMenuSubContent>
+											</DropdownMenuSub>
+										)
+									}
+
+									// Columns without options → open inline filters
 									return (
 										<DropdownMenuItem
 											key={col.id}
@@ -480,21 +503,19 @@ export function DataTableActionsBar({
 										</DropdownMenuItem>
 									)
 								})}
+								{filterableColumns.length > 0 && filterCount > 0 && <DropdownMenuSeparator />}
 								{filterCount > 0 && (
-									<>
-										<DropdownMenuSeparator />
-										<DropdownMenuItem
-											onClick={() => {
-												if (showInlineFilters && onToggleInlineFilters) {
-													onToggleInlineFilters()
-												}
-											}}
-											variant="destructive"
-										>
-											<X className="h-4 w-4" />
-											<span>{locale === "fr" ? "Effacer les filtres" : "Clear filters"}</span>
-										</DropdownMenuItem>
-									</>
+									<DropdownMenuItem
+										onClick={() => {
+											if (showInlineFilters && onToggleInlineFilters) {
+												onToggleInlineFilters()
+											}
+										}}
+										variant="destructive"
+									>
+										<X className="h-4 w-4" />
+										<span>{locale === "fr" ? "Effacer les filtres" : "Clear filters"}</span>
+									</DropdownMenuItem>
 								)}
 							</DropdownMenuContent>
 						</DropdownMenu>

@@ -145,17 +145,40 @@ function readOnlyColumns(): DataTableColumnDef<OrderLineRow>[] {
 		} as DataTableColumnDef<OrderLineRow>,
 		col.text<OrderLineRow>("sku", { title: "SKU" }),
 		col.text<OrderLineRow>("ean", { title: "EAN", enableSorting: false }),
-		col.text<OrderLineRow>("type", { title: "Type" }),
+		col.select<OrderLineRow>("type", {
+			title: "Type",
+			options: [
+				{ label: "UNIT", value: "UNIT" },
+				{ label: "PACK", value: "PACK" },
+				{ label: "PALLET", value: "PALLET" },
+				{ label: "VRAC", value: "VRAC" },
+			],
+			showInlineFilter: true,
+			defaultInlineFilter: false,
+		}),
 		col.numeric<OrderLineRow>("quantity", { title: "Qté", align: "right" }),
 		col.currency<OrderLineRow>("unitPriceHT", {
 			title: "PU HT",
 			currency: "EUR",
 			locale: "fr-FR",
 		}),
-		col.numeric<OrderLineRow>("vatRate", {
-			title: "TVA %",
-			formatter: (v) => `${v}%`,
-		}),
+		{
+			accessorKey: "vatRate",
+			header: ({ column }) => <DataTableColumnHeader column={column} title="TVA %" />,
+			cell: ({ row }) => `${row.original.vatRate}%`,
+			enableSorting: true,
+			filterConfig: {
+				type: "select",
+				options: [
+					{ label: "5.5%", value: 5.5 },
+					{ label: "20%", value: 20 },
+				],
+				showInlineFilter: true,
+				defaultInlineFilter: false,
+				filterLabel: "TVA %",
+			},
+			meta: { align: "right" },
+		} as DataTableColumnDef<OrderLineRow>,
 		col.currency<OrderLineRow>("totalHT", {
 			title: "Total HT",
 			currency: "EUR",

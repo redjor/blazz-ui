@@ -375,10 +375,44 @@ export function DataTable<TData, TValue = unknown>({
 						label = id.charAt(0).toUpperCase() + id.slice(1)
 					}
 				}
-				return { id, label, type: col.filterConfig?.type || "text" }
+				return {
+					id,
+					label,
+					type: col.filterConfig?.type || "text",
+					options: col.filterConfig?.options,
+				}
 			})
 			.filter((col) => col.id)
 	}, [columns])
+
+	// Quick filter handler: creates a single filter condition from the dropdown
+	const handleQuickFilter = React.useCallback(
+		(columnId: string, value: any, type: string) => {
+			const condition = {
+				id: `qf-${columnId}-${Date.now()}`,
+				column: columnId,
+				operator: "equals" as const,
+				value,
+				type: type as "text" | "number" | "date" | "boolean" | "select",
+			}
+			const newGroup = viewsHook.filterGroup
+				? {
+						...viewsHook.filterGroup,
+						conditions: [...viewsHook.filterGroup.conditions, condition],
+					}
+				: {
+						id: "root",
+						operator: "AND" as const,
+						conditions: [condition],
+						groups: [],
+					}
+			viewsHook.handleFilterGroupChange(newGroup)
+			if (!viewsHook.showInlineFilters) {
+				viewsHook.setShowInlineFilters(true)
+			}
+		},
+		[viewsHook]
+	)
 
 	// Determine if we're doing server-side filtering
 	const isServerSideFiltering = props.onSearchChange !== undefined
@@ -682,6 +716,7 @@ export function DataTable<TData, TValue = unknown>({
 							viewsHook.setShowInlineFilters(!viewsHook.showInlineFilters)
 						}
 						filterableColumns={filterableColumns}
+						onQuickFilter={handleQuickFilter}
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}
