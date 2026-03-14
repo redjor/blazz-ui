@@ -27,7 +27,7 @@ const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 const SIDEBAR_DEFAULT_WIDTH = 240;
 const SIDEBAR_MIN_WIDTH = 180;
-const SIDEBAR_MAX_WIDTH = 400;
+const SIDEBAR_MAX_WIDTH = 240;
 const SIDEBAR_COLLAPSE_THRESHOLD = 100;
 const SIDEBAR_PEEK_CLOSE_DELAY = 300;
 
@@ -268,7 +268,7 @@ const Sidebar = React.forwardRef<
             data-mobile="true"
             data-state={openMobile ? "open" : "closed"}
             className={cn(
-              "fixed inset-y-0 z-50 flex h-svh w-[--sidebar-width-mobile] flex-col border-r bg-(--surface-0) text-fg transition-transform duration-200 ease-linear md:hidden",
+              "fixed inset-y-0 z-50 flex h-svh w-(--sidebar-width-mobile) flex-col border-r bg-(--surface-0) text-fg transition-transform duration-200 ease-linear md:hidden",
               side === "left"
                 ? openMobile
                   ? "translate-x-0"
@@ -301,48 +301,62 @@ const Sidebar = React.forwardRef<
         {/* This is what handles the sidebar gap on desktop */}
         <div
           className={cn(
-            "duration-200 relative h-svh w-[--sidebar-width] bg-transparent transition-[width] ease-linear",
+            "duration-200 relative h-svh w-(--sidebar-width) bg-transparent transition-[width] ease-linear",
             "group-data-[collapsible=offcanvas]:w-0",
             "group-data-[side=right]:rotate-180",
             variant === "floating" || variant === "inset"
               ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]",
+              : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
           )}
         />
-        <div
-          className={cn(
-            "duration-200 fixed inset-y-0 hidden h-svh w-[--sidebar-width] transition-[left,right,width] ease-linear md:flex",
-            isDesktopPeeking
-              ? cn(
-                  "z-50",
-                  side === "left" ? "left-0" : "right-0",
-                )
-              : cn(
-                  "z-10",
-                  side === "left"
-                    ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
-                    : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
-                ),
-            // Adjust the padding for floating and inset variants.
-            variant === "floating" || variant === "inset"
-              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=right]:border-l",
-            className,
-          )}
-          onMouseEnter={isDesktopPeeking ? startPeek : undefined}
-          onMouseLeave={isDesktopPeeking ? stopPeek : undefined}
-          {...props}
-        >
+        {/* Sidebar — normal (only when expanded) */}
+        {state === "expanded" && (
           <div
-            data-sidebar="sidebar"
             className={cn(
-              "flex h-full w-full flex-col bg-(--surface-0) group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-container group-data-[variant=floating]:shadow",
-              isDesktopPeeking && "shadow-xl border-r border-edge",
+              "fixed inset-y-0 h-svh hidden w-(--sidebar-width) md:flex z-10",
+              side === "left"
+                ? "left-0"
+                : "right-0",
+              variant === "floating" || variant === "inset"
+                ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+                : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=right]:border-l",
+              className,
             )}
+            {...props}
           >
-            {children}
+            <div
+              data-sidebar="sidebar"
+              className="flex h-full w-full flex-col bg-(--surface-0) group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-container group-data-[variant=floating]:shadow"
+            >
+              {children}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Sidebar — peek overlay (floating sheet) */}
+        {state === "collapsed" && (
+          <div
+            className={cn(
+              "fixed z-50 top-12 bottom-2 rounded-lg w-60 hidden md:flex transition-transform ease-out",
+              isPeeking ? "duration-200" : "duration-300",
+              side === "left"
+                ? cn("left-2", isPeeking ? "translate-x-0" : "-translate-x-[calc(100%+0.5rem)]")
+                : cn("right-2", isPeeking ? "translate-x-0" : "translate-x-[calc(100%+0.5rem)]"),
+              !isPeeking && "pointer-events-none",
+              className,
+            )}
+            onMouseEnter={startPeek}
+            onMouseLeave={stopPeek}
+            {...props}
+          >
+            <div
+              data-sidebar="sidebar"
+              className="flex h-full w-full flex-col bg-(--surface-0) shadow-xl border border-edge rounded-lg overflow-hidden"
+            >
+              {children}
+            </div>
+          </div>
+        )}
       </div>
     );
   },
@@ -426,6 +440,9 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
+  const sidebar = useSidebarSafe();
+  if (sidebar?.state === "collapsed") return null;
+
   return (
     <div
       ref={ref}
@@ -941,33 +958,38 @@ const SidebarResizeHandle = React.forwardRef<
       document.body.style.cursor = "col-resize";
       document.body.style.userSelect = "none";
 
-      const handleMouseMove = (e: MouseEvent) => {
-        if (!isDraggingRef.current) return;
-        const delta = e.clientX - startXRef.current;
-        const newWidth = Math.max(60, startWidthRef.current + delta);
-        // Direct DOM update for smooth drag (no re-render per frame)
-        if (provider) {
-          provider.style.setProperty("--sidebar-width", `${newWidth}px`);
-        }
-      };
-
-      const handleMouseUp = (e: MouseEvent) => {
+      const cleanup = () => {
         isDraggingRef.current = false;
         document.body.style.cursor = "";
         document.body.style.userSelect = "";
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
+      };
 
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!isDraggingRef.current) return;
         const delta = e.clientX - startXRef.current;
         const newWidth = startWidthRef.current + delta;
 
         if (newWidth < SIDEBAR_COLLAPSE_THRESHOLD) {
-          // Collapse sidebar, restore previous width for reopening
+          // Collapse immediately during drag
+          cleanup();
           setOpen(false);
           setWidth(startWidthRef.current);
-        } else {
-          setWidth(newWidth); // clamps to [min, max]
+          return;
         }
+
+        const clamped = Math.min(SIDEBAR_MAX_WIDTH, Math.max(SIDEBAR_MIN_WIDTH, newWidth));
+        if (provider) {
+          provider.style.setProperty("--sidebar-width", `${clamped}px`);
+        }
+      };
+
+      const handleMouseUp = (e: MouseEvent) => {
+        cleanup();
+        const delta = e.clientX - startXRef.current;
+        const newWidth = startWidthRef.current + delta;
+        setWidth(Math.max(SIDEBAR_MIN_WIDTH, Math.min(SIDEBAR_MAX_WIDTH, newWidth)));
       };
 
       document.addEventListener("mousemove", handleMouseMove);
