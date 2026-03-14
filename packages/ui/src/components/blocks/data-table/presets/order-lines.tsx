@@ -241,6 +241,38 @@ export function createEditableOrderLinesPreset(
 	const { onCellEdit } = config
 	const columns = readOnlyColumns()
 
+	// Replace articleName with editable text
+	const nameIndex = columns.findIndex((c) => "accessorKey" in c && c.accessorKey === "articleName")
+	if (nameIndex !== -1) {
+		columns.splice(
+			nameIndex,
+			1,
+			col.editableText<OrderLineRow>("articleName", {
+				title: "Article",
+				onCellEdit,
+			})
+		)
+	}
+
+	// Replace type with editable select
+	const typeIndex = columns.findIndex((c) => "accessorKey" in c && c.accessorKey === "type")
+	if (typeIndex !== -1) {
+		columns.splice(
+			typeIndex,
+			1,
+			col.editableSelect<OrderLineRow>("type", {
+				title: "Type",
+				onCellEdit,
+				options: [
+					{ label: "UNIT", value: "UNIT" },
+					{ label: "PACK", value: "PACK" },
+					{ label: "PALLET", value: "PALLET" },
+					{ label: "VRAC", value: "VRAC" },
+				],
+			})
+		)
+	}
+
 	// Replace quantity with editable number
 	const qtyIndex = columns.findIndex((c) => "accessorKey" in c && c.accessorKey === "quantity")
 	if (qtyIndex !== -1) {

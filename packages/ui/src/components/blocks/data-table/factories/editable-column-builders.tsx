@@ -160,11 +160,13 @@ export const cellWrapper = "relative -m-3"
 
 /** Shared base for both idle button and editing input — identical box model = zero layout shift.
  *  Padding matches the td density default so text stays aligned with non-editable cells. */
-export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent"
+export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent transition-all duration-150"
 
-const idleCell = `${cellShared} cursor-text text-left hover:bg-surface-3/40`
+/** Idle (read) state — subtle indicator that cell is editable */
+const idleCell = `${cellShared} cursor-text text-left border-b border-dashed border-transparent hover:border-edge hover:bg-surface-3/30`
 
-const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-brand`
+/** Active edit state — ring animates in */
+const editInput = `${cellShared} min-w-0 h-auto border-0 border-b border-transparent outline-none ring-2 ring-inset ring-brand animate-in fade-in duration-150`
 
 // ---------------------------------------------------------------------------
 // Validation feedback component
