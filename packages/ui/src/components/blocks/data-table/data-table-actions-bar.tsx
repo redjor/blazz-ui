@@ -496,8 +496,8 @@ export function DataTableActionsBar({
 															<DropdownMenuCheckboxItem
 																key={String(opt.value)}
 																checked={isChecked}
-																onClick={(e) => {
-																	e.preventDefault()
+																closeOnClick={false}
+																onClick={() => {
 																	onToggleFilterValue?.(col.id, opt.value, col.type)
 																}}
 															>
