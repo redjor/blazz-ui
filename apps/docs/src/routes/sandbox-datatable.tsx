@@ -1,4 +1,12 @@
 import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@blazz/ui/components/ui/table"
 import type {
 	BulkAction,
 	DataTableColumnDef,
@@ -265,6 +273,48 @@ function SandboxDataTable() {
 						density="compact"
 						pagination={{ pageSize: 15, pageSizeOptions: [10, 15, 25, 50] }}
 					/>
+				</section>
+
+				{/* Static table */}
+				<section className="border-b border-container">
+					<div className="flex items-center gap-3 px-6 py-3">
+						<h2 className="text-sm font-semibold text-fg">Table statique</h2>
+						<span className="rounded-full bg-surface-3 px-2 py-0.5 text-xs text-fg-muted">
+							Composant Table de base
+						</span>
+					</div>
+					<div className="px-6 pb-6">
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>Article</TableHead>
+									<TableHead className="text-right">Qte</TableHead>
+									<TableHead className="text-right">PU HT</TableHead>
+									<TableHead className="text-right">Total TTC</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{(orderLines as OrderLineRow[]).slice(0, 8).map((line) => (
+									<TableRow key={line.id}>
+										<TableCell className="font-medium">{line.articleName}</TableCell>
+										<TableCell className="text-right">{line.quantity}</TableCell>
+										<TableCell className="text-right">
+											{line.unitPriceHT.toLocaleString("fr-FR", {
+												style: "currency",
+												currency: "EUR",
+											})}
+										</TableCell>
+										<TableCell className="text-right">
+											{line.totalTTC.toLocaleString("fr-FR", {
+												style: "currency",
+												currency: "EUR",
+											})}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</div>
 				</section>
 
 				{/* Editable table — Preparation de commande */}
