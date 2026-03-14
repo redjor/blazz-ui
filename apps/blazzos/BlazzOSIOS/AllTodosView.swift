@@ -60,7 +60,7 @@ struct AllTodosView: View {
                     }
                 }
                 .navigationDestination(for: TodoItem.self) { todo in
-                    TodoDetailView(todo: todo)
+                    TodoDetailView(todoId: todo._id, convex: convex)
                 }
             }
             .background(Color.black)

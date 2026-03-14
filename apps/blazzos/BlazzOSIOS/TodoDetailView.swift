@@ -1,67 +1,231 @@
 import SwiftUI
 
 struct TodoDetailView: View {
-    let todo: TodoItem
+    let todoId: String
+    let convex: ConvexService
+
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var text: String = ""
+    @State private var descriptionText: String = ""
+    @State private var status: String = "triage"
+    @State private var priority: String = "normal"
+    @State private var hasDueDate: Bool = false
+    @State private var dueDate: Date = Date()
+    @State private var tagsText: String = ""
+    @State private var isInitialized = false
+    @State private var isSaving = false
+    @State private var showDeleteConfirmation = false
+
+    private let statuses = ["triage", "todo", "in_progress", "blocked", "done"]
+    private let priorities = ["urgent", "high", "normal", "low"]
+
+    /// Find the current todo from the live Convex subscription
+    private var todo: TodoItem? {
+        convex.allTodos.first { $0._id == todoId }
+            ?? convex.todayTodos.first { $0._id == todoId }
+    }
 
     var body: some View {
+        Group {
+            if todo != nil {
+                formContent
+            } else {
+                ContentUnavailableView("Tâche introuvable", systemImage: "questionmark.circle")
+            }
+        }
+        .background(Color.black)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                if hasChanges {
+                    Button("Enregistrer") {
+                        Task { await save() }
+                    }
+                    .disabled(text.trimmingCharacters(in: .whitespaces).isEmpty || isSaving)
+                }
+            }
+            ToolbarItem(placement: .destructiveAction) {
+                Button(role: .destructive) {
+                    showDeleteConfirmation = true
+                } label: {
+                    Image(systemName: "trash")
+                        .foregroundStyle(.red)
+                }
+            }
+        }
+        .confirmationDialog("Supprimer cette tâche ?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
+            Button("Supprimer", role: .destructive) {
+                Task {
+                    try? await convex.deleteTodo(id: todoId)
+                    dismiss()
+                }
+            }
+        }
+        .onAppear { initializeFields() }
+    }
+
+    @ViewBuilder
+    private var formContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text(todo.text)
+                // Title
+                TextField("Titre", text: $text)
                     .font(.title.bold())
                     .foregroundStyle(.white)
 
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
+                // Status & Priority pickers
+                HStack(spacing: 12) {
+                    Menu {
+                        ForEach(statuses, id: \.self) { s in
+                            Button {
+                                status = s
+                            } label: {
+                                Label(statusLabel(s), systemImage: status == s ? "checkmark" : "")
+                            }
+                        }
+                    } label: {
                         MetadataPill(
                             icon: nil,
-                            text: statusLabel(todo.status),
-                            color: statusColor(todo.status)
+                            text: statusLabel(status),
+                            color: statusColor(status)
                         )
+                    }
 
-                        if let priority = todo.priority {
-                            MetadataPill(
-                                icon: "exclamationmark.triangle.fill",
-                                text: priority.capitalized,
-                                color: priorityColor(priority)
-                            )
+                    Menu {
+                        ForEach(priorities, id: \.self) { p in
+                            Button {
+                                priority = p
+                            } label: {
+                                Label(p.capitalized, systemImage: priority == p ? "checkmark" : "")
+                            }
                         }
-
-                        if let dueDate = todo.dueDate {
-                            MetadataPill(
-                                icon: "calendar",
-                                text: dueDate,
-                                color: .gray
-                            )
-                        }
+                    } label: {
+                        MetadataPill(
+                            icon: "exclamationmark.triangle.fill",
+                            text: priority.capitalized,
+                            color: priorityColor(priority)
+                        )
                     }
                 }
 
-                if let description = todo.description, !description.isEmpty {
-                    Text(description)
-                        .font(.body)
+                // Due Date
+                VStack(alignment: .leading, spacing: 8) {
+                    Toggle("Date d'échéance", isOn: $hasDueDate)
                         .foregroundStyle(.white.opacity(0.7))
-                        .lineSpacing(4)
+                    if hasDueDate {
+                        DatePicker("", selection: $dueDate, displayedComponents: .date)
+                            .datePickerStyle(.compact)
+                            .labelsHidden()
+                    }
                 }
 
-                if let tags = todo.tags, !tags.isEmpty {
-                    FlowLayout(spacing: 8) {
-                        ForEach(tags, id: \.self) { tag in
-                            Text(tag)
-                                .font(.caption)
-                                .foregroundStyle(.white.opacity(0.7))
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 4)
-                                .background(Color.white.opacity(0.1))
-                                .clipShape(Capsule())
+                // Description
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Description")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.4))
+                    TextField("Ajouter une description...", text: $descriptionText, axis: .vertical)
+                        .lineLimit(3...10)
+                        .foregroundStyle(.white.opacity(0.7))
+                }
+
+                // Tags
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Tags")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.4))
+                    TextField("Séparés par des virgules", text: $tagsText)
+                        .textInputAutocapitalization(.never)
+                        .foregroundStyle(.white.opacity(0.7))
+
+                    if !parsedTags.isEmpty {
+                        FlowLayout(spacing: 8) {
+                            ForEach(parsedTags, id: \.self) { tag in
+                                Text(tag)
+                                    .font(.caption)
+                                    .foregroundStyle(.white.opacity(0.7))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 4)
+                                    .background(Color.white.opacity(0.1))
+                                    .clipShape(Capsule())
+                            }
                         }
                     }
                 }
             }
             .padding()
         }
-        .background(Color.black)
-        .toolbarColorScheme(.dark, for: .navigationBar)
     }
+
+    // MARK: - State Management
+
+    private func initializeFields() {
+        guard !isInitialized, let todo else { return }
+        text = todo.text
+        descriptionText = todo.description ?? ""
+        status = todo.status
+        priority = todo.priority ?? "normal"
+        if let d = todo.dueDate {
+            hasDueDate = true
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            dueDate = formatter.date(from: d) ?? Date()
+        }
+        tagsText = (todo.tags ?? []).joined(separator: ", ")
+        isInitialized = true
+    }
+
+    private var parsedTags: [String] {
+        tagsText.split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+    }
+
+    private var hasChanges: Bool {
+        guard let todo else { return false }
+        if text != todo.text { return true }
+        if descriptionText != (todo.description ?? "") { return true }
+        if status != todo.status { return true }
+        if priority != (todo.priority ?? "normal") { return true }
+        let currentTags = (todo.tags ?? []).joined(separator: ", ")
+        if tagsText != currentTags { return true }
+        if hasDueDate != (todo.dueDate != nil) { return true }
+        if hasDueDate, let d = todo.dueDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            if formatter.string(from: dueDate) != d { return true }
+        }
+        return false
+    }
+
+    // MARK: - Actions
+
+    private func save() async {
+        isSaving = true
+        defer { isSaving = false }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let dueDateString: String? = hasDueDate ? formatter.string(from: dueDate) : nil
+
+        // Update status separately if changed (uses dedicated mutation)
+        if let todo, status != todo.status {
+            try? await convex.updateTodoStatus(id: todoId, status: status)
+        }
+
+        try? await convex.updateTodo(
+            id: todoId,
+            text: text.trimmingCharacters(in: .whitespaces),
+            description: descriptionText.isEmpty ? nil : descriptionText,
+            priority: priority,
+            dueDate: dueDateString,
+            tags: parsedTags.isEmpty ? nil : parsedTags
+        )
+    }
+
+    // MARK: - Helpers
 
     private func statusLabel(_ status: String) -> String {
         switch status {
