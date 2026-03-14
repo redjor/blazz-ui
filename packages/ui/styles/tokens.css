@@ -17,10 +17,17 @@
 	   PRO UI DESIGN SYSTEM — Tailwind Utilities
 	   ============================================= */
 
-	/* Surfaces */
-	--color-surface: var(--bg-surface);
-	--color-raised: var(--bg-raised);
-	--color-panel: var(--bg-overlay);
+	/* Surfaces — hierarchical layer scale */
+	--color-surface-0: var(--surface-0);
+	--color-surface-1: var(--surface-1);
+	--color-surface-2: var(--surface-2);
+	--color-surface-3: var(--surface-3);
+	--color-surface-4: var(--surface-4);
+
+	/* Surfaces — backward compat aliases (deprecated) */
+	--color-surface: var(--surface-2);
+	--color-raised: var(--surface-3);
+	--color-panel: var(--surface-4);
 
 	/* Text */
 	--color-fg: var(--text-primary);
@@ -59,19 +66,19 @@
 	   InputGroup). Maps standard --color-* variables
 	   to the Blazz design-token equivalents.
 	   ============================================= */
-	--color-background: var(--bg-surface);
+	--color-background: var(--surface-1);
 	--color-foreground: var(--text-primary);
-	--color-muted: var(--bg-raised);
+	--color-muted: var(--surface-3);
 	--color-muted-foreground: var(--text-secondary);
-	--color-secondary: var(--bg-raised);
+	--color-secondary: var(--surface-3);
 	--color-secondary-foreground: var(--text-primary);
-	--color-accent: var(--bg-raised);
+	--color-accent: var(--surface-3);
 	--color-accent-foreground: var(--text-primary);
 	--color-primary: var(--accent);
 	--color-primary-foreground: var(--accent-foreground);
 	--color-border: var(--border-default);
 	--color-destructive: var(--destructive);
-	--color-popover: var(--bg-overlay);
+	--color-popover: var(--surface-4);
 	--color-popover-foreground: var(--text-primary);
 	--color-input: var(--border-field);
 	--color-ring: var(--accent);
@@ -90,6 +97,15 @@
 	--bg-surface: oklch(1 0 0);
 	--bg-raised: oklch(0.94 0 0);
 	--bg-overlay: oklch(1 0 0);
+
+	/* Surface layer scale */
+	--surface-base: oklch(0.94 0 0);
+	--surface-top:  oklch(1.0 0 0);
+	--surface-0: var(--surface-base);
+	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
+	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
+	--surface-3: color-mix(in oklch, var(--surface-base) 25%, var(--surface-top));
+	--surface-4: var(--surface-top);
 
 	/* Borders */
 	--border-default: oklch(0.87 0 0);
@@ -127,9 +143,9 @@
 	/* Layout (consumed by Frame/Sidebar) */
 	--topbar-height: 56px;
 	--tabbar-height: 36px;
-	--top-background: oklch(0.175 0.002 264);
+	--top-background: var(--surface-0);
 	--main-radius: 10px;
-	--main-background: oklch(0.96 0 0);
+	--main-background: var(--surface-1);
 
 	/* Chart colors (HSL space for Recharts compatibility) */
 	--chart-1: 220 70% 50%;
@@ -139,7 +155,7 @@
 	--chart-5: 340 75% 55%;
 
 	/* Sidebar (consumed by navigation-tabs) */
-	--sidebar-background: var(--bg-surface);
+	--sidebar-background: var(--surface-0);
 	--sidebar-foreground: oklch(0.4 0 0);
 	--sidebar-primary: oklch(0.3 0 0);
 	--sidebar-primary-foreground: oklch(0.99 0 0);
@@ -161,6 +177,15 @@ html.dark {
 	--bg-surface: oklch(0.178 0.005 285);
 	--bg-raised: oklch(0.215 0.005 285);
 	--bg-overlay: oklch(0.25 0.005 285);
+
+	/* Surface layer scale */
+	--surface-base: oklch(0.145 0.005 285);
+	--surface-top:  oklch(0.28 0.005 285);
+	--surface-0: var(--surface-base);
+	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
+	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
+	--surface-3: color-mix(in oklch, var(--surface-base) 25%, var(--surface-top));
+	--surface-4: var(--surface-top);
 
 	/* Borders */
 	--border-default: oklch(0.35 0.005 285 / 0.6);
@@ -196,14 +221,14 @@ html.dark {
 	--sidebar-collapsed: 64px;
 
 	/* Layout (consumed by Frame/Sidebar) */
-	--top-background: var(--bg-app);
-	--main-background: var(--bg-surface);
+	--top-background: var(--surface-0);
+	--main-background: var(--surface-1);
 	--main-radius: 10px;
 	--topbar-height: 56px;
 	--tabbar-height: 36px;
 
 	/* Sidebar (consumed by navigation-tabs) */
-	--sidebar-background: var(--bg-surface);
+	--sidebar-background: var(--surface-0);
 	--sidebar-foreground: oklch(0.85 0 0);
 	--sidebar-primary: oklch(0.85 0 0);
 	--sidebar-primary-foreground: oklch(0.175 0 0);
@@ -225,6 +250,8 @@ html[data-theme="corporate"] {
 	--bg-surface: oklch(1 0 0);
 	--bg-raised: oklch(0.945 0 0);
 	--bg-overlay: oklch(1 0 0);
+	--surface-base: oklch(0.94 0 0);
+	--surface-top:  oklch(1.0 0 0);
 	--border-default: oklch(0.88 0 0);
 	--border-subtle: oklch(0.93 0 0);
 	--border-container: var(--border-default);
@@ -243,6 +270,8 @@ html[data-theme="corporate"].dark {
 	--bg-surface: oklch(0.178 0 0);
 	--bg-raised: oklch(0.215 0 0);
 	--bg-overlay: oklch(0.25 0 0);
+	--surface-base: oklch(0.145 0 0);
+	--surface-top:  oklch(0.28 0 0);
 	--border-default: oklch(0.35 0 0 / 0.6);
 	--border-subtle: oklch(0.35 0 0 / 0.3);
 	--border-container: var(--border-default);
@@ -265,6 +294,8 @@ html[data-theme="warm"] {
 	--bg-surface: oklch(0.995 0.005 75);
 	--bg-raised: oklch(0.935 0.01 75);
 	--bg-overlay: oklch(0.995 0.005 75);
+	--surface-base: oklch(0.93 0.01 75);
+	--surface-top:  oklch(0.995 0.005 75);
 	--border-default: oklch(0.86 0.01 75);
 	--border-subtle: oklch(0.91 0.008 75);
 	--border-container: var(--border-default);
@@ -283,6 +314,8 @@ html[data-theme="warm"].dark {
 	--bg-surface: oklch(0.19 0.01 60);
 	--bg-raised: oklch(0.225 0.01 60);
 	--bg-overlay: oklch(0.26 0.01 60);
+	--surface-base: oklch(0.155 0.01 60);
+	--surface-top:  oklch(0.28 0.01 60);
 	--border-default: oklch(0.35 0.01 60 / 0.6);
 	--border-subtle: oklch(0.35 0.01 60 / 0.3);
 	--border-container: var(--border-default);
