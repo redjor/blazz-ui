@@ -570,17 +570,6 @@ export function DataTableActionsBar({
 							</MenuPortal>
 						</Menu>
 
-						{/* Display / column visibility */}
-						<Button
-							variant="secondary"
-							size="icon-sm"
-							onClick={onOpenFilterBuilder}
-							className="h-7 w-7"
-							aria-label="Display options"
-						>
-							<SlidersHorizontal className="h-3.5 w-3.5" />
-						</Button>
-
 						{/* Export */}
 						{onExport && (
 							<Button
