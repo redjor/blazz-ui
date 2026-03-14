@@ -131,7 +131,7 @@ export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountShe
 			</div>
 
 			{/* Footer */}
-			<div className="flex-shrink-0 border-t border-separator bg-raised px-4 py-2">
+			<div className="flex-shrink-0 border-t border-separator bg-surface-3 px-4 py-2">
 				<p className="text-center text-[11px] text-fg-muted tabular-nums">
 					{search ? `${filtered.length} / ${totalCount} comptes` : `${totalCount} comptes`}
 					{" · "}

@@ -16,7 +16,7 @@ export function QuickAccountListItem({ account, onSelect }: QuickAccountListItem
 		<button
 			type="button"
 			onClick={onSelect}
-			className="w-full flex items-center gap-2.5 px-3 py-2 border-b border-separator/50 transition-colors hover:bg-raised focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-inset"
+			className="w-full flex items-center gap-2.5 px-3 py-2 border-b border-separator/50 transition-colors hover:bg-surface-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-inset"
 			aria-label={`Se connecter en tant que ${account.label}`}
 		>
 			<Avatar size="sm">
