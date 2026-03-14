@@ -154,9 +154,10 @@ function useEditableCell<T>({
 // Shared styles
 // ---------------------------------------------------------------------------
 
-/** Wrapper class for editable cells — negative margins eat the td padding so the
- *  button/input fills the entire cell edge-to-edge (ring visible at cell borders). */
-export const cellWrapper = "relative -m-3"
+/** Wrapper class for editable cells.
+ *  When variant=editable, td has p-0 so no negative margin needed.
+ *  When variant=lined/default, td has p-3 so we eat it with -m-3. */
+export const cellWrapper = "relative"
 
 /** Shared base for both idle button and editing input — identical box model = zero layout shift.
  *  Padding matches the td density default so text stays aligned with non-editable cells. */

@@ -41,7 +41,7 @@ export const dataTableVariants = cva("w-full", {
 			default: "border-collapse",
 			lined: "[&_tr]:border-b [&_tr]:border-separator",
 			striped: "[&_tbody_tr:nth-child(even)]:bg-surface-3/50",
-			editable: `[&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
+			editable: `table-fixed [&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
 			spreadsheet: [
 				"table-fixed",
 				"[&_tr]:border-b [&_tr]:border-separator",
