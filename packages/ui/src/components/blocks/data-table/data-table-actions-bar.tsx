@@ -436,10 +436,11 @@ export function DataTableActionsBar({
 						<DropdownMenu>
 							<DropdownMenuTrigger
 								render={
-									<button
-										type="button"
+									<Button
+										variant="ghost"
+										size="icon-sm"
 										className={cn(
-											"relative inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-3 hover:text-fg",
+											"relative h-7 w-7",
 											(showInlineFilters || filterCount > 0) && "bg-surface-3 text-fg"
 										)}
 										aria-label="Filter options"
@@ -453,7 +454,7 @@ export function DataTableActionsBar({
 												{filterCount}
 											</Badge>
 										)}
-									</button>
+									</Button>
 								}
 							/>
 							<DropdownMenuContent align="end" sideOffset={4} className="w-56">
@@ -545,11 +546,17 @@ export function DataTableActionsBar({
 						{/* Sort */}
 						<Menu>
 							<MenuTrigger
-								className="inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-3 hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
-								aria-label="Sort options"
-							>
-								<ArrowUpDown className="h-3.5 w-3.5" />
-							</MenuTrigger>
+								render={
+									<Button
+										variant="ghost"
+										size="icon-sm"
+										className="h-7 w-7"
+										aria-label="Sort options"
+									>
+										<ArrowUpDown className="h-3.5 w-3.5" />
+									</Button>
+								}
+							/>
 							<MenuPortal>
 								<MenuPositioner sideOffset={8}>
 									<MenuPopup>
