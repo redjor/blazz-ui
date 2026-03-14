@@ -861,17 +861,19 @@ export function DataTable<TData, TValue = unknown>({
 					/>
 				)}
 
-				{/* Inline Filters */}
-				{enableAdvancedFilters && viewsHook.showInlineFilters && (
-					<DataTableReUIFilters
-						columns={columns as DataTableColumnDef<TData, TValue>[]}
-						filterGroup={viewsHook.filterGroup}
-						onFilterChange={viewsHook.handleFilterGroupChange}
-						locale={finalLocale}
-						variant="outline"
-						size="sm"
-					/>
-				)}
+				{/* Inline Filters — hidden in stacked layout (pills bar replaces it) */}
+				{enableAdvancedFilters &&
+					viewsHook.showInlineFilters &&
+					toolbarLayout !== "stacked" && (
+						<DataTableReUIFilters
+							columns={columns as DataTableColumnDef<TData, TValue>[]}
+							filterGroup={viewsHook.filterGroup}
+							onFilterChange={viewsHook.handleFilterGroupChange}
+							locale={finalLocale}
+							variant="outline"
+							size="sm"
+						/>
+					)}
 
 				<div
 					className={cn(
