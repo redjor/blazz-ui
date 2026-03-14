@@ -5,6 +5,7 @@ import {
 	ArrowUpDown,
 	ChevronDown,
 	Copy,
+	Download,
 	Edit2,
 	ListFilter,
 	MoreVertical,
@@ -72,6 +73,12 @@ interface DataTableActionsBarProps {
 
 	/** When true, a single button toggles both search and inline filters */
 	combineSearchAndFilters?: boolean
+
+	/** Toolbar layout mode */
+	toolbarLayout?: "classic" | "stacked"
+
+	/** Export handler (stacked layout) */
+	onExport?: () => void
 
 	// Save view
 	onSaveView?: () => void
@@ -176,6 +183,8 @@ export function DataTableActionsBar({
 	showInlineFilters = false,
 	onToggleInlineFilters,
 	combineSearchAndFilters = false,
+	toolbarLayout = "classic",
+	onExport,
 	onSaveView,
 	locale = "fr",
 }: DataTableActionsBarProps) {
@@ -312,6 +321,210 @@ export function DataTableActionsBar({
 	const displayedViews = showAllViews ? (views ?? []) : (views ?? []).slice(0, visibleCount)
 	const overflowViews = !showAllViews && views ? views.slice(visibleCount ?? views.length) : []
 
+	// ── Stacked (Linear-style) layout ──────────────────────────────────
+	if (toolbarLayout === "stacked") {
+		return (
+			<div data-slot="data-table-actions-bar" className="border-b border-separator">
+				{/* ROW 1: Views (left) + icon actions (right) */}
+				<div ref={barRef} className="flex items-center justify-between px-2 py-1.5">
+					{/* Left: View pills */}
+					<div ref={containerRef} className="flex items-center gap-1 overflow-x-clip">
+						{views && views.length > 0 ? (
+							<>
+								{displayedViews.map((view) => {
+									const isActive = activeView?.id === view.id
+									return (
+										<button
+											key={view.id}
+											type="button"
+											data-view-item
+											onClick={() => onViewChange?.(view)}
+											className={cn(
+												"inline-flex h-7 shrink-0 items-center whitespace-nowrap rounded-md px-2.5 text-xs font-medium transition-colors",
+												isActive
+													? "bg-raised text-fg"
+													: "text-fg-muted hover:bg-raised/50 hover:text-fg"
+											)}
+										>
+											{view.name}
+										</button>
+									)
+								})}
+
+								{/* Overflow dropdown */}
+								{overflowViews.length > 0 && (
+									<DropdownMenu>
+										<DropdownMenuTrigger
+											render={
+												<Button
+													variant="ghost"
+													size="sm"
+													className="h-7 shrink-0 whitespace-nowrap"
+												>
+													<span>{t.moreViews}</span>
+													<ChevronDown className="ml-1 h-3 w-3" />
+												</Button>
+											}
+										/>
+										<DropdownMenuContent align="start" sideOffset={4}>
+											{overflowViews.map((view) => (
+												<DropdownMenuItem
+													key={view.id}
+													onClick={() => onViewChange?.(view)}
+													className={cn(activeView?.id === view.id && "bg-raised text-fg")}
+												>
+													{view.name}
+												</DropdownMenuItem>
+											))}
+										</DropdownMenuContent>
+									</DropdownMenu>
+								)}
+
+								{/* Create view */}
+								{enableCustomViews && onCreateView && (
+									<Button
+										variant="ghost"
+										size="sm"
+										onClick={onCreateView}
+										className="h-7 shrink-0 px-1.5"
+										aria-label={t.createView}
+									>
+										<Plus className="h-3.5 w-3.5" />
+									</Button>
+								)}
+							</>
+						) : null}
+					</div>
+
+					{/* Right: Icon actions */}
+					<div className="flex shrink-0 items-center gap-0.5">
+						{/* Search toggle */}
+						<Button
+							variant="ghost"
+							size="icon-sm"
+							onClick={() => onSearchOpenChange(!searchOpen)}
+							className={cn("h-7 w-7", searchOpen && "bg-raised text-fg")}
+							aria-label="Toggle search"
+							aria-expanded={searchOpen}
+						>
+							<Search className="h-3.5 w-3.5" />
+						</Button>
+
+						{/* Filter toggle */}
+						<Button
+							variant="ghost"
+							size="icon-sm"
+							onClick={onToggleInlineFilters || onOpenFilterBuilder}
+							className={cn("relative h-7 w-7", showInlineFilters && "bg-raised text-fg")}
+							aria-label="Toggle filters"
+							aria-expanded={showInlineFilters}
+						>
+							<ListFilter className="h-3.5 w-3.5" />
+							{filterCount > 0 && (
+								<Badge
+									variant="secondary"
+									className="absolute -right-1 -top-1 h-3.5 w-3.5 rounded-full p-0 text-[9px] font-medium flex items-center justify-center"
+								>
+									{filterCount}
+								</Badge>
+							)}
+						</Button>
+
+						{/* Sort */}
+						<Menu>
+							<MenuTrigger
+								className="inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-raised hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
+								aria-label="Sort options"
+							>
+								<ArrowUpDown className="h-3.5 w-3.5" />
+							</MenuTrigger>
+							<MenuPortal>
+								<MenuPositioner sideOffset={8}>
+									<MenuPopup>
+										<DataTableSortMenu
+											columns={sortableColumns}
+											sorting={sorting}
+											onSortingChange={onSortingChange}
+											locale={locale}
+										/>
+									</MenuPopup>
+								</MenuPositioner>
+							</MenuPortal>
+						</Menu>
+
+						{/* Display / column visibility */}
+						<Button
+							variant="ghost"
+							size="icon-sm"
+							onClick={onOpenFilterBuilder}
+							className="h-7 w-7"
+							aria-label="Display options"
+						>
+							<SlidersHorizontal className="h-3.5 w-3.5" />
+						</Button>
+
+						{/* Export */}
+						{onExport && (
+							<Button
+								variant="ghost"
+								size="icon-sm"
+								onClick={onExport}
+								className="h-7 w-7"
+								aria-label="Export"
+							>
+								<Download className="h-3.5 w-3.5" />
+							</Button>
+						)}
+					</div>
+				</div>
+
+				{/* ROW 2: Search input (conditional) */}
+				{searchOpen && (
+					<div className="flex items-center gap-2 border-t border-separator px-2 py-1.5">
+						<div className="relative flex-1">
+							<Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-fg-muted" />
+							<Input
+								ref={searchInputRef}
+								type="text"
+								placeholder={searchPlaceholder || t.searchPlaceholder}
+								value={searchValue}
+								onChange={(e) => onSearchChange(e.target.value)}
+								className="h-7 pl-8 pr-8 text-xs"
+								aria-label="Search"
+							/>
+							{searchValue && (
+								<button
+									type="button"
+									onClick={() => onSearchChange("")}
+									className="absolute right-2.5 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg"
+									aria-label="Clear search"
+								>
+									<X className="h-3.5 w-3.5" />
+								</button>
+							)}
+						</div>
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={
+								combineSearchAndFilters
+									? handleCombinedCancel
+									: () => {
+											onSearchOpenChange(false)
+											onSearchChange("")
+										}
+							}
+							className="h-7 px-2 text-xs"
+						>
+							{t.cancel}
+						</Button>
+					</div>
+				)}
+			</div>
+		)
+	}
+
+	// ── Classic layout (default) ───────────────────────────────────────
 	return (
 		<div data-slot="data-table-actions-bar" className="border-b border-separator">
 			{/* Main Actions Bar */}
