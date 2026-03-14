@@ -553,7 +553,7 @@ function EditableSelectCell({
 				>
 					<SelectValue />
 				</SelectTrigger>
-				<SelectContent>
+				<SelectContent alignItemWithTrigger={false} side="bottom">
 					{options.map((opt) => (
 						<SelectItem key={opt.value} value={opt.value}>
 							{opt.label}
