@@ -433,10 +433,10 @@ export function DataTableActionsBar({
 					</div>
 
 					{/* Right: Icon actions */}
-					<div className="flex shrink-0 items-center gap-0.5">
+					<div className="flex shrink-0 items-center gap-1">
 						{/* Search toggle */}
 						<Button
-							variant="ghost"
+							variant="secondary"
 							size="icon-sm"
 							onClick={() => onSearchOpenChange(!searchOpen)}
 							className={cn("h-7 w-7", searchOpen && "bg-surface-3 text-fg")}
@@ -451,7 +451,7 @@ export function DataTableActionsBar({
 							<DropdownMenuTrigger
 								render={
 									<Button
-										variant="ghost"
+										variant="secondary"
 										size="icon-sm"
 										className={cn(
 											"relative h-7 w-7",
@@ -562,7 +562,7 @@ export function DataTableActionsBar({
 							<MenuTrigger
 								render={
 									<Button
-										variant="ghost"
+										variant="secondary"
 										size="icon-sm"
 										className="h-7 w-7"
 										aria-label="Sort options"
@@ -587,7 +587,7 @@ export function DataTableActionsBar({
 
 						{/* Display / column visibility */}
 						<Button
-							variant="ghost"
+							variant="secondary"
 							size="icon-sm"
 							onClick={onOpenFilterBuilder}
 							className="h-7 w-7"
@@ -599,7 +599,7 @@ export function DataTableActionsBar({
 						{/* Export */}
 						{onExport && (
 							<Button
-								variant="ghost"
+								variant="secondary"
 								size="icon-sm"
 								onClick={onExport}
 								className="h-7 w-7"
