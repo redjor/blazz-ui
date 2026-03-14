@@ -37,7 +37,6 @@ import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { WeekGrid } from "@/components/week-grid"
-import { WeekInsightsCard } from "@/components/week-insights-card"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -300,37 +299,6 @@ export default function TimePageClient() {
 		const endStr = format(end, "d MMM yyyy", { locale: fr })
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
-	const weekInsights = useMemo(() => {
-		const entries = weekEntries ?? []
-		const focusedMinutes = entries
-			.filter((entry) => entry.billable)
-			.reduce((sum, entry) => sum + entry.minutes, 0)
-		const totalMinutes = entries.reduce((sum, entry) => sum + entry.minutes, 0)
-		const uncategorizedMinutes = Math.max(
-			0,
-			activeProjects ? activeProjects.length * 60 - focusedMinutes : 0
-		)
-		const fragmentedMinutes = entries
-			.filter((entry) => entry.minutes < 90)
-			.reduce((sum, entry) => sum + entry.minutes, 0)
-
-		let summary = "Semaine vide pour le moment."
-		if (entries.length > 0) {
-			summary =
-				fragmentedMinutes > focusedMinutes
-					? "Semaine plus hachée que profonde. La grille met surtout en évidence des blocs courts."
-					: "Semaine plutôt lisible. Les blocs les plus longs dominent encore le rythme."
-		}
-
-		return {
-			focusedMinutes,
-			fragmentedMinutes,
-			uncategorizedMinutes,
-			totalMinutes,
-			summary,
-		}
-	}, [activeProjects, weekEntries])
-
 	function resetFilters() {
 		setFilterProjectId(undefined)
 		setFilterStatus(undefined)
@@ -461,24 +429,14 @@ export default function TimePageClient() {
 				</div>
 
 				{view === "week" && (
-					<div className="space-y-4">
-						<WeekInsightsCard
-							stats={{
-								focusedMinutes: weekInsights.focusedMinutes,
-								fragmentedMinutes: weekInsights.fragmentedMinutes,
-								uncategorizedMinutes: weekInsights.uncategorizedMinutes,
-								totalMinutes: weekInsights.totalMinutes,
-							}}
-							summary={weekInsights.summary}
-						/>
-						<div
-							className={
-								weekEntries === undefined || activeProjects === undefined
-									? "opacity-50 pointer-events-none"
-									: ""
-							}
-						>
-							<WeekGrid
+					<div
+						className={
+							weekEntries === undefined || activeProjects === undefined
+								? "opacity-50 pointer-events-none"
+								: ""
+						}
+					>
+						<WeekGrid
 								weekStart={weekStart}
 								entries={weekEntries ?? []}
 								projects={activeProjects ?? []}
@@ -507,7 +465,6 @@ export default function TimePageClient() {
 									setDeleteConfirm({ open: true, entryId })
 								}}
 							/>
-						</div>
 					</div>
 				)}
 
