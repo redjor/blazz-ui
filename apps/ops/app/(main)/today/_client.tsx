@@ -3,17 +3,23 @@
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Card, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Box } from "@blazz/ui/components/ui/box"
+import { Divider } from "@blazz/ui/components/ui/divider"
+import {
+	Card,
+	CardAction,
+	CardHeader,
+	CardTitle,
+} from "@blazz/ui/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Banknote, Clock, Plus } from "lucide-react"
+import { Banknote, CheckCircle2, Circle, Clock, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { CurrentSessionCard } from "@/components/current-session-card"
-import { DayTimelineCard, type TimelineItem } from "@/components/day-timeline-card"
-import { EnergyCheckCard, type EnergyLevel } from "@/components/energy-check-card"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
@@ -35,14 +41,16 @@ export default function TodayPageClient() {
 
 	const billableEntries = todayEntries?.filter((e) => e.billable) ?? []
 	const totalMinutesToday = billableEntries.reduce((s, e) => s + e.minutes, 0)
-	const totalAmountToday = billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+	const totalAmountToday = billableEntries.reduce(
+		(s, e) => s + (e.minutes / 60) * e.hourlyRate,
+		0,
+	)
 
 	const activeTodos = todos?.filter((t) => t.status !== "done") ?? []
 	const projectList = activeProjects ?? []
 
 	const [addOpen, setAddOpen] = useState(false)
 	const [editingEntry, setEditingEntry] = useState<Doc<"timeEntries"> | null>(null)
-	const [energy, setEnergy] = useState<EnergyLevel | null>("medium")
 	const [quickModal, setQuickModal] = useState<{
 		open: boolean
 		projectId: Id<"projects"> | null
@@ -54,117 +62,141 @@ export default function TodayPageClient() {
 	useOpsTopBar([{ label: "Aujourd'hui" }])
 
 	const dateTitle = format(new Date(), "EEEE d MMMM yyyy", { locale: fr }).replace(/^\w/, (c) =>
-		c.toUpperCase()
+		c.toUpperCase(),
 	)
-	const timelineItems: TimelineItem[] = (todayEntries ?? []).map((entry, index) => {
-		const project = projectList.find((p) => p._id === entry.projectId)
-		const kind = entry.billable ? "focus" : "admin"
-
-		return {
-			id: entry._id,
-			start: `${9 + index}:00`,
-			end: `${9 + index}:${entry.minutes >= 30 ? "30" : "00"}`,
-			minutes: entry.minutes,
-			label: entry.description || project?.name || "Bloc sans titre",
-			description: entry.description,
-			kind,
-			projectName: project?.name,
-		}
-	})
-	const uncategorizedMinutes = Math.max(0, 8 * 60 - totalMinutesToday)
-	const currentSession =
-		timelineItems.length > 0
-			? {
-					label: timelineItems[timelineItems.length - 1].label,
-					projectName: timelineItems[timelineItems.length - 1].projectName,
-					startLabel: timelineItems[timelineItems.length - 1].start ?? "Maintenant",
-					elapsedLabel: formatMinutes(timelineItems[timelineItems.length - 1].minutes),
-					kind: timelineItems[timelineItems.length - 1].kind === "focus" ? "focus" : "admin",
-				}
-			: null
 
 	return (
-		<div className="p-6 space-y-6">
+		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title={dateTitle}
-				description="Votre journée en un coup d'œil"
 				actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
 			/>
 
 			<StatsGrid
-				columns={3}
+				columns={2}
 				loading={isLoading}
 				stats={[
 					{
-						label: "Temps conscient",
+						label: "Temps facturé",
 						value: formatMinutes(totalMinutesToday),
 						icon: Clock,
 					},
 					{
-						label: "Facturable",
+						label: "Montant facturé",
 						value: formatCurrency(totalAmountToday),
 						icon: Banknote,
-					},
-					{
-						label: "Zone floue",
-						value: formatMinutes(uncategorizedMinutes),
-						icon: Clock,
 					},
 				]}
 			/>
 
-			<div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_380px]">
-				<DayTimelineCard
-					title="Timeline du jour"
-					items={timelineItems}
-					onAddClick={() => setAddOpen(true)}
-					onItemClick={(id) => {
-						const entry = todayEntries?.find((item) => item._id === id)
-						if (entry) setEditingEntry(entry)
-					}}
-				/>
+			<div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+				{/* --- Entrées du jour --- */}
+				<Card>
+					<CardHeader className="border-b border-separator">
+						<CardTitle>Entrées du jour</CardTitle>
+						<CardAction>
+							<Button
+								type="button"
+								variant="ghost"
+								size="sm"
+								onClick={() => setAddOpen(true)}
+							>
+								<Plus className="size-3.5" />
+								Ajouter
+							</Button>
+						</CardAction>
+					</CardHeader>
+					<div>
+						{todayEntries === undefined ? (
+							<p className="px-inset py-8 text-sm text-fg-muted">Chargement…</p>
+						) : todayEntries.length === 0 ? (
+							<BlockStack gap="200" className="px-inset py-10 items-center">
+								<Clock className="size-8 text-fg-muted/40" />
+								<p className="text-sm font-medium text-fg">Aucune entrée</p>
+								<p className="text-xs text-fg-muted">
+									Utilisez les projets à droite pour logger du temps.
+								</p>
+							</BlockStack>
+						) : (
+							<ul className="divide-y divide-separator">
+								{todayEntries.map((entry) => {
+									const project = projectList.find(
+										(p) => p._id === entry.projectId,
+									)
+									return (
+										<li key={entry._id}>
+											<button
+												type="button"
+												className="flex w-full items-center gap-3 px-inset py-3 text-left transition-colors hover:bg-surface-3/50"
+												onClick={() => setEditingEntry(entry)}
+											>
+												<span
+													className="size-1.5 shrink-0 rounded-full"
+													style={{
+														backgroundColor: entry.billable
+															? "var(--color-brand)"
+															: "var(--color-fg-muted)",
+													}}
+												/>
+												<span className="min-w-0 flex-1 truncate text-sm text-fg">
+													{entry.description || project?.name || "—"}
+												</span>
+												<span className="shrink-0 text-xs text-fg-muted">
+													{project?.name ?? "—"}
+												</span>
+												<span className="shrink-0 font-mono text-sm tabular-nums text-fg-muted">
+													{formatMinutes(entry.minutes)}
+												</span>
+											</button>
+										</li>
+									)
+								})}
+							</ul>
+						)}
+					</div>
+				</Card>
 
-				<div className="space-y-4">
-					<CurrentSessionCard
-						session={currentSession}
-						onStart={() => setAddOpen(true)}
-						onPause={() => setAddOpen(true)}
-						onStop={() => setAddOpen(true)}
-						onSwitch={() => setAddOpen(true)}
-					/>
-					<EnergyCheckCard value={energy} onChange={setEnergy} />
-
+				{/* --- Sidebar droite --- */}
+				<BlockStack gap="400">
+					{/* Projets actifs */}
 					<Card>
 						<CardHeader className="border-b border-separator">
 							<CardTitle>Projets actifs</CardTitle>
 						</CardHeader>
 						<div>
 							{projectList.length === 0 ? (
-								<p className="px-6 py-4 text-sm text-fg-muted">Aucun projet actif.</p>
+								<p className="px-inset py-6 text-sm text-fg-muted">
+									Aucun projet actif.
+								</p>
 							) : (
-								<div className="space-y-0">
+								<ul className="divide-y divide-separator">
 									{projectList.map((project) => (
-										<div
+										<li
 											key={project._id}
-											className="flex items-center justify-between border-b border-edge px-6 py-3 last:border-0"
+											className="flex items-center justify-between gap-3 px-inset py-2.5"
 										>
-											<div>
-												<p className="text-sm font-medium text-fg">{project.name}</p>
-												<p className="text-xs text-fg-muted font-mono">
+											<BlockStack gap="050">
+												<span className="text-sm font-medium text-fg">
+													{project.name}
+												</span>
+												<span className="font-mono text-xs text-fg-muted">
 													{project.tjm}€/j · {project.hoursPerDay}h/j
-												</p>
-											</div>
+												</span>
+											</BlockStack>
 											<Button
 												type="button"
 												variant="outline"
 												size="sm"
-												className="h-7 px-3 text-xs gap-1.5"
+												className="h-7 shrink-0 gap-1 px-2.5 text-xs"
 												onClick={() =>
 													setQuickModal({
 														open: true,
 														projectId: project._id,
 														projectName: project.name,
-														hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+														hourlyRate: computeHourlyRate(
+															project.tjm,
+															project.hoursPerDay,
+														),
 														hoursPerDay: project.hoursPerDay,
 													})
 												}
@@ -172,79 +204,69 @@ export default function TodayPageClient() {
 												<Plus className="size-3" />
 												Log
 											</Button>
-										</div>
+										</li>
 									))}
-								</div>
+								</ul>
 							)}
 						</div>
 					</Card>
-				</div>
-			</div>
 
-			<div className="grid gap-6 lg:grid-cols-2">
-				<Card>
-					<CardHeader className="border-b border-separator">
-						<CardTitle>Entrées d'aujourd'hui</CardTitle>
-					</CardHeader>
-					<div>
-						{todayEntries === undefined ? (
-							<p className="px-6 py-4 text-sm text-fg-muted">Chargement…</p>
-						) : todayEntries.length === 0 ? (
-							<p className="px-6 py-4 text-sm text-fg-muted">Aucune entrée pour aujourd'hui.</p>
-						) : (
-							<div className="space-y-0">
-								{todayEntries.map((entry) => {
-									const project = projectList.find((p) => p._id === entry.projectId)
-									return (
-										<button
-											key={entry._id}
-											type="button"
-											className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-surface-3/50 last:border-0"
-											onClick={() => setEditingEntry(entry)}
-										>
-											<div className="flex items-center gap-3">
-												<span className="w-28 shrink-0 truncate text-xs text-fg-muted">
-													{project?.name ?? "—"}
+					{/* Todos actifs */}
+					<Card>
+						<CardHeader className="border-b border-separator">
+							<CardTitle>Todos</CardTitle>
+							<CardAction>
+								<span className="text-xs tabular-nums text-fg-muted">
+									{activeTodos.length}
+								</span>
+							</CardAction>
+						</CardHeader>
+						<div>
+							{todos === undefined ? (
+								<p className="px-inset py-6 text-sm text-fg-muted">
+									Chargement…
+								</p>
+							) : activeTodos.length === 0 ? (
+								<InlineStack
+									gap="200"
+									blockAlign="center"
+									className="px-inset py-6"
+								>
+									<CheckCircle2 className="size-4 text-success" />
+									<span className="text-sm text-fg-muted">Tout est fait.</span>
+								</InlineStack>
+							) : (
+								<ul className="divide-y divide-separator">
+									{activeTodos.slice(0, 6).map((todo) => (
+										<li key={todo._id}>
+											<button
+												type="button"
+												className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-surface-3/50"
+												onClick={() => router.push(`/todos/${todo._id}`)}
+											>
+												<Circle className="size-3.5 shrink-0 text-fg-muted/50" />
+												<span className="min-w-0 flex-1 truncate text-sm text-fg">
+													{todo.text}
 												</span>
-												<span className="text-sm text-fg">{entry.description ?? "—"}</span>
-											</div>
-											<span className="font-mono text-sm text-fg-muted tabular-nums">
-												{formatMinutes(entry.minutes)}
-											</span>
-										</button>
-									)
-								})}
-							</div>
-						)}
-					</div>
-				</Card>
-
-				<Card>
-					<CardHeader className="border-b border-separator">
-						<CardTitle>Todos actifs</CardTitle>
-					</CardHeader>
-					<div>
-						{todos === undefined ? (
-							<p className="px-6 py-4 text-sm text-fg-muted">Chargement…</p>
-						) : activeTodos.length === 0 ? (
-							<p className="px-6 py-4 text-sm text-fg-muted">Aucun todo actif.</p>
-						) : (
-							<div className="space-y-0">
-								{activeTodos.map((todo) => (
-									<button
-										key={todo._id}
-										type="button"
-										className="flex w-full items-center justify-between border-b border-edge px-6 py-3 text-left transition-colors hover:bg-surface-3/50 last:border-0"
-										onClick={() => router.push(`/todos/${todo._id}`)}
-									>
-										<span className="text-sm text-fg">{todo.text}</span>
-										<span className="text-xs text-fg-muted capitalize">{todo.status}</span>
-									</button>
-								))}
-							</div>
-						)}
-					</div>
-				</Card>
+											</button>
+										</li>
+									))}
+									{activeTodos.length > 6 && (
+										<li>
+											<button
+												type="button"
+												className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-surface-3/50"
+												onClick={() => router.push("/todos")}
+											>
+												Voir les {activeTodos.length - 6} autres…
+											</button>
+										</li>
+									)}
+								</ul>
+							)}
+						</div>
+					</Card>
+				</BlockStack>
 			</div>
 
 			{/* Dialog nouvelle entrée */}
@@ -253,12 +275,18 @@ export default function TodayPageClient() {
 					<DialogHeader>
 						<DialogTitle>Nouvelle entrée</DialogTitle>
 					</DialogHeader>
-					<TimeEntryForm onSuccess={() => setAddOpen(false)} onCancel={() => setAddOpen(false)} />
+					<TimeEntryForm
+						onSuccess={() => setAddOpen(false)}
+						onCancel={() => setAddOpen(false)}
+					/>
 				</DialogContent>
 			</Dialog>
 
 			{/* Dialog édition entrée */}
-			<Dialog open={!!editingEntry} onOpenChange={(open) => !open && setEditingEntry(null)}>
+			<Dialog
+				open={!!editingEntry}
+				onOpenChange={(open) => !open && setEditingEntry(null)}
+			>
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>Modifier l'entrée</DialogTitle>
@@ -291,6 +319,6 @@ export default function TodayPageClient() {
 				hoursPerDay={quickModal.hoursPerDay}
 				date={today}
 			/>
-		</div>
+		</BlockStack>
 	)
 }
