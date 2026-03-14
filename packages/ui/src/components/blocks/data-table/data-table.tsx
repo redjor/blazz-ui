@@ -21,7 +21,8 @@ import {
 	type VisibilityState,
 } from "@tanstack/react-table"
 import type { VariantProps } from "class-variance-authority"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, ListFilter } from "lucide-react"
+import { Button } from "../../ui/button"
 import * as React from "react"
 import { cn } from "../../../lib/utils"
 import { Checkbox } from "../../ui/checkbox"
@@ -455,98 +456,6 @@ export function DataTable<TData, TValue = unknown>({
 		[viewsHook, activeFilterValues]
 	)
 
-	// Derive active filter pills for the stacked toolbar bar
-	const activeFilterPills = React.useMemo(() => {
-		if (!viewsHook.filterGroup) return []
-		const pills: Array<{
-			id: string
-			columnId: string
-			columnLabel: string
-			valueLabel: string
-		}> = []
-		for (const cond of viewsHook.filterGroup.conditions) {
-			const colDef = filterableColumns.find((c) => c.id === cond.column)
-			const columnLabel = colDef?.label ?? cond.column
-
-			if (cond.operator === "equals") {
-				const opt = colDef?.options?.find(
-					(o: { value: any }) => String(o.value) === String(cond.value)
-				)
-				pills.push({
-					id: cond.id,
-					columnId: cond.column,
-					columnLabel,
-					valueLabel: opt?.label ?? String(cond.value),
-				})
-			} else if (cond.operator === "in" && Array.isArray(cond.value)) {
-				for (const val of cond.value) {
-					const opt = colDef?.options?.find(
-						(o: { value: any }) => String(o.value) === String(val)
-					)
-					pills.push({
-						id: `${cond.id}-${val}`,
-						columnId: cond.column,
-						columnLabel,
-						valueLabel: opt?.label ?? String(val),
-					})
-				}
-			} else {
-				pills.push({
-					id: cond.id,
-					columnId: cond.column,
-					columnLabel,
-					valueLabel: String(cond.value),
-				})
-			}
-		}
-		return pills
-	}, [viewsHook.filterGroup, filterableColumns])
-
-	// Remove a single filter pill (removes value from condition)
-	const handleRemoveFilter = React.useCallback(
-		(pillId: string) => {
-			if (!viewsHook.filterGroup) return
-
-			const newConditions = viewsHook.filterGroup.conditions
-				.map((cond) => {
-					// Direct match — remove condition
-					if (cond.id === pillId) return null
-
-					// "in" condition — remove specific value from array
-					if (cond.operator === "in" && Array.isArray(cond.value)) {
-						const matchSuffix = pillId.replace(`${cond.id}-`, "")
-						if (pillId.startsWith(cond.id)) {
-							const newValues = cond.value.filter(
-								(v: any) => String(v) !== matchSuffix
-							)
-							if (newValues.length === 0) return null
-							if (newValues.length === 1) {
-								return { ...cond, operator: "equals" as const, value: newValues[0] }
-							}
-							return { ...cond, value: newValues }
-						}
-					}
-					return cond
-				})
-				.filter(Boolean) as typeof viewsHook.filterGroup.conditions
-
-			if (newConditions.length === 0 && !viewsHook.filterGroup.groups?.length) {
-				viewsHook.handleFilterGroupChange(null)
-			} else {
-				viewsHook.handleFilterGroupChange({
-					...viewsHook.filterGroup,
-					conditions: newConditions,
-				})
-			}
-		},
-		[viewsHook]
-	)
-
-	// Clear all filters
-	const handleClearAllFilters = React.useCallback(() => {
-		viewsHook.handleFilterGroupChange(null)
-	}, [viewsHook])
-
 	// Determine if we're doing server-side filtering
 	const isServerSideFiltering = props.onSearchChange !== undefined
 
@@ -851,9 +760,6 @@ export function DataTable<TData, TValue = unknown>({
 						filterableColumns={filterableColumns}
 						activeFilterValues={activeFilterValues}
 						onToggleFilterValue={handleToggleFilterValue}
-						activeFilterPills={activeFilterPills}
-						onRemoveFilter={handleRemoveFilter}
-						onClearAllFilters={handleClearAllFilters}
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}
@@ -861,7 +767,7 @@ export function DataTable<TData, TValue = unknown>({
 					/>
 				)}
 
-				{/* Inline Filters — hidden in stacked layout (pills bar replaces it) */}
+				{/* Inline Filters — classic layout: standalone bar */}
 				{enableAdvancedFilters &&
 					viewsHook.showInlineFilters &&
 					toolbarLayout !== "stacked" && (
@@ -873,6 +779,45 @@ export function DataTable<TData, TValue = unknown>({
 							variant="outline"
 							size="sm"
 						/>
+					)}
+
+				{/* Inline Filters — stacked layout: integrated row with filter icon + Clear/Save */}
+				{enableAdvancedFilters &&
+					viewsHook.showInlineFilters &&
+					toolbarLayout === "stacked" && (
+						<div className="flex items-center gap-1.5 border-b border-separator px-2 py-1.5">
+							<ListFilter className="h-3.5 w-3.5 shrink-0 text-fg-muted" />
+							<div className="flex-1 min-w-0">
+								<DataTableReUIFilters
+									columns={columns as DataTableColumnDef<TData, TValue>[]}
+									filterGroup={viewsHook.filterGroup}
+									onFilterChange={viewsHook.handleFilterGroupChange}
+									locale={finalLocale}
+									variant="outline"
+									size="sm"
+									bare
+								/>
+							</div>
+							<div className="flex shrink-0 items-center gap-1">
+								<button
+									type="button"
+									onClick={() => viewsHook.handleFilterGroupChange(null)}
+									className="px-2 py-0.5 text-xs text-fg-muted hover:text-fg transition-colors"
+								>
+									Clear
+								</button>
+								{enableCustomViews && (
+									<Button
+										variant="ghost"
+										size="sm"
+										onClick={() => viewsHook.setShowSaveViewDialog(true)}
+										className="h-6 px-2 text-xs"
+									>
+										Save
+									</Button>
+								)}
+							</div>
+						</div>
 					)}
 
 				<div

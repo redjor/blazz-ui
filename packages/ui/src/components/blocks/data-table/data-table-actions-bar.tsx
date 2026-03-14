@@ -89,17 +89,6 @@ interface DataTableActionsBarProps {
 	activeFilterValues?: Record<string, any[]>
 	/** Toggle a filter value on/off for a column */
 	onToggleFilterValue?: (columnId: string, value: any, type: string) => void
-	/** Active filter pills for the stacked filter bar */
-	activeFilterPills?: Array<{
-		id: string
-		columnId: string
-		columnLabel: string
-		valueLabel: string
-	}>
-	/** Remove a single filter condition */
-	onRemoveFilter?: (conditionId: string) => void
-	/** Clear all filters */
-	onClearAllFilters?: () => void
 
 	/** When true, a single button toggles both search and inline filters */
 	combineSearchAndFilters?: boolean
@@ -215,9 +204,6 @@ export function DataTableActionsBar({
 	filterableColumns = [],
 	activeFilterValues = {},
 	onToggleFilterValue,
-	activeFilterPills = [],
-	onRemoveFilter,
-	onClearAllFilters,
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
 	onExport,
@@ -357,7 +343,7 @@ export function DataTableActionsBar({
 	const displayedViews = showAllViews ? (views ?? []) : (views ?? []).slice(0, visibleCount)
 	const overflowViews = !showAllViews && views ? views.slice(visibleCount ?? views.length) : []
 
-	// ── Stacked (Linear-style) layout ──────────────────────────────────
+	// ── Stacked layout ─────────────────────────────────────────────────
 	if (toolbarLayout === "stacked") {
 		return (
 			<div data-slot="data-table-actions-bar" className="border-b border-separator">
@@ -611,67 +597,7 @@ export function DataTableActionsBar({
 					</div>
 				</div>
 
-				{/* ROW 2: Active filter pills bar (conditional) */}
-				{activeFilterPills.length > 0 && (
-					<div className="flex items-center gap-1.5 border-t border-separator px-2 py-1.5">
-						{/* Filter icon */}
-						<ListFilter className="h-3.5 w-3.5 shrink-0 text-fg-muted" />
-
-						{/* Filter pills */}
-						<div className="flex flex-1 flex-wrap items-center gap-1">
-							{activeFilterPills.map((pill) => (
-								<button
-									key={pill.id}
-									type="button"
-									className="inline-flex h-6 items-center gap-1 rounded-md bg-surface-3 px-2 text-xs text-fg transition-colors hover:bg-surface-3/80"
-								>
-									<span className="text-fg-muted">{pill.columnLabel}</span>
-									<span className="text-fg-muted">is</span>
-									<span className="font-medium">{pill.valueLabel}</span>
-									<X
-										className="ml-0.5 h-3 w-3 text-fg-muted hover:text-fg"
-										onClick={(e) => {
-											e.stopPropagation()
-											onRemoveFilter?.(pill.id)
-										}}
-									/>
-								</button>
-							))}
-
-							{/* + button to add more filters */}
-							<button
-								type="button"
-								onClick={() => {
-									if (onToggleInlineFilters && !showInlineFilters) {
-										onToggleInlineFilters()
-									}
-								}}
-								className="inline-flex h-6 w-6 items-center justify-center rounded-md text-fg-muted hover:bg-surface-3 hover:text-fg transition-colors"
-								aria-label={locale === "fr" ? "Ajouter un filtre" : "Add filter"}
-							>
-								<Plus className="h-3.5 w-3.5" />
-							</button>
-						</div>
-
-						{/* Right: Clear / Save */}
-						<div className="flex shrink-0 items-center gap-1">
-							<button
-								type="button"
-								onClick={onClearAllFilters}
-								className="px-2 py-0.5 text-xs text-fg-muted hover:text-fg transition-colors"
-							>
-								Clear
-							</button>
-							{onSaveView && (
-								<Button variant="ghost" size="sm" onClick={onSaveView} className="h-6 px-2 text-xs">
-									Save
-								</Button>
-							)}
-						</div>
-					</div>
-				)}
-
-				{/* ROW 3: Search input (conditional) */}
+				{/* ROW 2: Search input (conditional) */}
 				{searchOpen && (
 					<div className="flex items-center gap-2 border-t border-separator px-2 py-1.5">
 						<div className="relative flex-1">

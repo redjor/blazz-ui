@@ -19,6 +19,8 @@ export interface DataTableReUIFiltersProps<TData> {
 	size?: "sm" | "md" | "lg"
 	radius?: "md" | "full"
 	className?: string
+	/** When true, renders without wrapper border/padding and hides the clear button */
+	bare?: boolean
 }
 
 /**
@@ -124,6 +126,7 @@ export function DataTableReUIFilters<TData>({
 	size = "sm",
 	radius = "md",
 	className,
+	bare = false,
 }: DataTableReUIFiltersProps<TData>) {
 	// Convert columns to ReUI FilterFieldConfig[]
 	const fields = React.useMemo(() => columnsToFilterFields(columns), [columns])
@@ -188,6 +191,23 @@ export function DataTableReUIFilters<TData>({
 	}
 
 	const hasActiveFilters = reuiFilters.length > 0
+
+	if (bare) {
+		return (
+			<Filters
+				filters={reuiFilters}
+				fields={fields}
+				onChange={handleChange}
+				variant={variant}
+				size={size}
+				radius={radius}
+				i18n={i18nConfig}
+				showAddButton={true}
+				allowMultiple={true}
+				className={className}
+			/>
+		)
+	}
 
 	return (
 		<div className="border-b">
