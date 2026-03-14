@@ -31,7 +31,7 @@ function ImageGalleryBase({ images, className }: ImageGalleryProps) {
 				<img
 					src={image.src}
 					alt={image.alt ?? ""}
-					className="aspect-video w-full object-cover bg-raised"
+					className="aspect-video w-full object-cover bg-surface-3"
 				/>
 
 				{images.length > 1 && (

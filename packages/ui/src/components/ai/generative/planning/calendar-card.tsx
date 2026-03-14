@@ -39,7 +39,7 @@ function CalendarCardBase({ month, days, className }: CalendarCardProps) {
 						className={cn(
 							"flex items-start gap-3 rounded-md px-2 py-1.5",
 							day.isToday && "bg-brand/5",
-							day.isHighlighted && "bg-raised"
+							day.isHighlighted && "bg-surface-3"
 						)}
 					>
 						<span

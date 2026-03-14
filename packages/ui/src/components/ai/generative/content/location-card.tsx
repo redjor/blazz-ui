@@ -28,7 +28,7 @@ function LocationCardBase({
 	return (
 		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
 			<div className="flex items-start gap-3">
-				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-raised">
+				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-3">
 					<MapPin className="size-4 text-fg-muted" />
 				</div>
 				<div className="min-w-0 flex-1">

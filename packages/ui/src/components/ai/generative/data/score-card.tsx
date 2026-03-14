@@ -78,7 +78,7 @@ function ScoreCardBase({
 											{item.value}/{itemMax}
 										</span>
 									</div>
-									<div className="mt-0.5 h-1.5 rounded-full bg-raised overflow-hidden">
+									<div className="mt-0.5 h-1.5 rounded-full bg-surface-3 overflow-hidden">
 										<div
 											className={cn(
 												"h-full rounded-full",

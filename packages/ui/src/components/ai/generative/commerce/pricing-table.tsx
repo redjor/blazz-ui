@@ -37,7 +37,7 @@ function PricingTableBase({ title, tiers, className }: PricingTableProps) {
 						key={tier.name}
 						className={cn(
 							"rounded-md border p-3",
-							tier.recommended ? "border-brand bg-brand/5" : "border-edge-subtle bg-raised/50"
+							tier.recommended ? "border-brand bg-brand/5" : "border-edge-subtle bg-surface-3/50"
 						)}
 					>
 						<div className="flex items-center gap-2">

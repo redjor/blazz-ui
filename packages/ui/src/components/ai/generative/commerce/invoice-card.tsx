@@ -56,12 +56,12 @@ function InvoiceCardBase({
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
-				href && "transition-colors hover:bg-raised cursor-pointer",
+				href && "transition-colors hover:bg-surface-3 cursor-pointer",
 				className
 			)}
 		>
 			<div className="flex items-start gap-3">
-				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-raised">
+				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-3">
 					<Receipt className="size-4 text-fg-muted" />
 				</div>
 				<div className="min-w-0 flex-1">
@@ -94,7 +94,7 @@ function InvoiceCardBase({
 			)}
 
 			{items && items.length > 0 && (
-				<div className="mt-3 rounded-md bg-raised/50 p-3">
+				<div className="mt-3 rounded-md bg-surface-3/50 p-3">
 					{items.map((item, i) => (
 						<div
 							key={i}

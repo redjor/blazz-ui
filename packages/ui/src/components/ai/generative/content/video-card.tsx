@@ -22,11 +22,11 @@ function VideoCardBase({ title, thumbnail, duration, channel, url, className }: 
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
 				"block rounded-lg border border-container bg-surface overflow-hidden",
-				url && "transition-colors hover:bg-raised cursor-pointer",
+				url && "transition-colors hover:bg-surface-3 cursor-pointer",
 				className
 			)}
 		>
-			<div className="relative aspect-video bg-raised">
+			<div className="relative aspect-video bg-surface-3">
 				{thumbnail ? (
 					<img src={thumbnail} alt={title} className="h-full w-full object-cover" />
 				) : (

@@ -1,6 +1,6 @@
 "use client"
 
-import { Menu } from "lucide-react"
+import { PanelLeft } from "lucide-react"
 import Link from "next/link"
 import * as React from "react"
 import { cn } from "../../lib/utils"
@@ -11,101 +11,160 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "../ui/breadcrumb"
+import { Button } from "../ui/button"
+import { useSidebarSafe } from "../ui/sidebar"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import { type Breadcrumb as BreadcrumbItemType, useFrame } from "./frame-context"
 
+/* ─── TopBar ─────────────────────────────────────────────── */
+
 export interface TopBarProps {
-	breadcrumbs?: BreadcrumbItemType[]
-	actions?: React.ReactNode
-	title?: string
+	left?: React.ReactNode
+	right?: React.ReactNode
 	className?: string
-	onToggleSidebar?: () => void
+	children?: React.ReactNode
 }
 
 /**
- * TopBar - Shopify Polaris-inspired header for content area
+ * TopBar — Composable content-area header.
  *
- * Features:
- * - Sidebar toggle button
- * - Breadcrumb navigation
- * - Optional title
- * - Action buttons on the right
+ * Use `left` / `right` slots, or pass `children` for full control.
+ * Compound components:
+ * - `TopBar.SidebarToggle` — shows when sidebar is collapsed
+ * - `TopBar.Breadcrumbs` — renders breadcrumb items
  *
  * @example
  * <TopBar
- *   breadcrumbs={[
- *     { label: 'Products', href: '/products' },
- *     { label: 'Product Detail' }
- *   ]}
- *   actions={
+ *   left={
  *     <>
- *       <Button variant="outline">Export</Button>
- *       <Button>Create</Button>
+ *       <TopBar.SidebarToggle />
+ *       <TopBar.Breadcrumbs items={[
+ *         { label: "Contacts", href: "/contacts" },
+ *         { label: "Jean Dupont" },
+ *       ]} />
+ *     </>
+ *   }
+ *   right={
+ *     <>
+ *       <Button variant="outline" size="sm">Exporter</Button>
+ *       <Button size="sm">+ Ajouter</Button>
  *     </>
  *   }
  * />
  */
-export function TopBar({
-	breadcrumbs: propBreadcrumbs,
-	actions,
-	title,
-	className,
-	onToggleSidebar,
-}: TopBarProps) {
-	const { breadcrumbs: contextBreadcrumbs } = useFrame()
-
-	// Use prop breadcrumbs if provided, otherwise use context breadcrumbs
-	const breadcrumbs = propBreadcrumbs || contextBreadcrumbs
-
+export function TopBar({ left, right, className, children }: TopBarProps) {
 	return (
 		<header
 			className={cn(
-				"flex h-14 shrink-0 items-center gap-4 border-b border-gray-200 bg-white px-6 shadow-sm",
-				className
+				"flex h-12 shrink-0 items-center gap-2 border-b border-edge bg-surface px-4",
+				className,
 			)}
 		>
-			{/* Sidebar Toggle - visible sur mobile */}
-			{onToggleSidebar && (
-				<button
-					type="button"
-					onClick={onToggleSidebar}
-					className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-gray-100 md:hidden"
-					aria-label="Toggle sidebar"
-				>
-					<Menu className="h-5 w-5 text-gray-600" />
-				</button>
+			{children ? (
+				children
+			) : (
+				<>
+					{left && (
+						<div className="flex min-w-0 flex-1 items-center gap-2">{left}</div>
+					)}
+					{right && (
+						<div className="ml-auto flex shrink-0 items-center gap-2">
+							{right}
+						</div>
+					)}
+				</>
 			)}
-
-			{/* Breadcrumbs */}
-			{breadcrumbs.length > 0 && (
-				<Breadcrumb>
-					<BreadcrumbList>
-						{breadcrumbs.map((breadcrumb, index) => {
-							const isLast = index === breadcrumbs.length - 1
-
-							return (
-								<React.Fragment key={index}>
-									<BreadcrumbItem>
-										{isLast || !breadcrumb.href ? (
-											<BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
-										) : (
-											<Link href={breadcrumb.href} className="transition-colors hover:text-fg">
-												{breadcrumb.label}
-											</Link>
-										)}
-									</BreadcrumbItem>
-									{!isLast && <BreadcrumbSeparator />}
-								</React.Fragment>
-							)
-						})}
-					</BreadcrumbList>
-				</Breadcrumb>
-			)}
-
-			{/* Title (if no breadcrumbs) */}
-			{!breadcrumbs.length && title && <h1 className="text-lg font-semibold">{title}</h1>}
-
-			{/* Actions */}
-			{actions && <div className="ml-auto flex items-center gap-2">{actions}</div>}
 		</header>
 	)
 }
+
+/* ─── TopBar.SidebarToggle ───────────────────────────────── */
+
+interface SidebarToggleProps {
+	className?: string
+}
+
+export function SidebarToggle({ className }: SidebarToggleProps) {
+	const sidebar = useSidebarSafe()
+
+	// No sidebar context → nothing to toggle
+	if (!sidebar) return null
+	// Desktop with expanded sidebar → toggle not needed
+	if (!sidebar.isMobile && sidebar.state === "expanded") return null
+
+	return (
+		<Tooltip>
+			<TooltipTrigger
+				render={
+					<Button
+						variant="ghost"
+						size="icon-sm"
+						onClick={sidebar.toggleSidebar}
+						className={cn("shrink-0", className)}
+						aria-label="Afficher la sidebar"
+					/>
+				}
+			>
+				<PanelLeft className="size-4" />
+			</TooltipTrigger>
+			<TooltipContent side="bottom">Afficher la sidebar</TooltipContent>
+		</Tooltip>
+	)
+}
+
+SidebarToggle.displayName = "TopBar.SidebarToggle"
+
+/* ─── TopBar.Breadcrumbs ─────────────────────────────────── */
+
+interface TopBarBreadcrumbsProps {
+	items?: BreadcrumbItemType[]
+	className?: string
+}
+
+export function TopBarBreadcrumbs({ items: propItems, className }: TopBarBreadcrumbsProps) {
+	let contextBreadcrumbs: BreadcrumbItemType[] = []
+	try {
+		const frame = useFrame()
+		contextBreadcrumbs = frame.breadcrumbs
+	} catch {
+		// No FrameProvider — fine, we just use prop items
+	}
+
+	const items = propItems ?? contextBreadcrumbs
+	if (!items.length) return null
+
+	return (
+		<Breadcrumb className={className}>
+			<BreadcrumbList>
+				{items.map((item, index) => {
+					const isLast = index === items.length - 1
+
+					return (
+						<React.Fragment key={`${item.label}-${index}`}>
+							<BreadcrumbItem>
+								{isLast || !item.href ? (
+									<BreadcrumbPage>{item.label}</BreadcrumbPage>
+								) : (
+									<Link
+										href={item.href}
+										className="transition-colors hover:text-fg"
+									>
+										{item.label}
+									</Link>
+								)}
+							</BreadcrumbItem>
+							{!isLast && <BreadcrumbSeparator />}
+						</React.Fragment>
+					)
+				})}
+			</BreadcrumbList>
+		</Breadcrumb>
+	)
+}
+
+TopBarBreadcrumbs.displayName = "TopBar.Breadcrumbs"
+
+/* ─── Compound export ────────────────────────────────────── */
+
+TopBar.SidebarToggle = SidebarToggle
+TopBar.Breadcrumbs = TopBarBreadcrumbs

@@ -47,7 +47,7 @@ function TransactionCardBase({
 				<div
 					className={cn(
 						"mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full",
-						isIncoming ? "bg-emerald-500/10" : "bg-raised"
+						isIncoming ? "bg-emerald-500/10" : "bg-surface-3"
 					)}
 				>
 					{isIncoming ? (

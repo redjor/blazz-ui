@@ -20,7 +20,7 @@ function ProgressCardBase({ label, value, description, color, className }: Progr
 				<span className="text-sm font-medium text-fg">{label}</span>
 				<span className="text-sm tabular-nums text-fg-muted">{clamped}%</span>
 			</div>
-			<div className="mt-2 h-2 overflow-hidden rounded-full bg-raised">
+			<div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-3">
 				<div
 					className="h-full rounded-full bg-brand transition-all"
 					style={{

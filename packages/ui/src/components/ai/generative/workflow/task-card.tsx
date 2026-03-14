@@ -69,7 +69,7 @@ function TaskCardBase({
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
-				href && "transition-colors hover:bg-raised cursor-pointer",
+				href && "transition-colors hover:bg-surface-3 cursor-pointer",
 				className
 			)}
 		>

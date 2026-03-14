@@ -32,10 +32,10 @@ function ActionListBase({ title, items, className }: ActionListProps) {
 						key={i}
 						type="button"
 						onClick={item.onClick}
-						className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-raised cursor-pointer"
+						className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-surface-3 cursor-pointer"
 					>
 						{item.icon && (
-							<span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-raised border border-container text-fg-muted">
+							<span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-container text-fg-muted">
 								{item.icon}
 							</span>
 						)}

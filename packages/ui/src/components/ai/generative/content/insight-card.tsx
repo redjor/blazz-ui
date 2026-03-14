@@ -79,7 +79,7 @@ function InsightCardBase({
 					{confidence !== undefined && (
 						<div className="flex items-center gap-2">
 							<span className="text-xs text-fg-muted">Confidence</span>
-							<div className="h-1.5 w-16 rounded-full bg-raised overflow-hidden">
+							<div className="h-1.5 w-16 rounded-full bg-surface-3 overflow-hidden">
 								<div
 									className={cn("h-full rounded-full", config.bg.replace("/10", ""))}
 									style={{ width: `${confidence}%`, backgroundColor: undefined }}

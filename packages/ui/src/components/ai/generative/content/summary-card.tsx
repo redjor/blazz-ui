@@ -39,7 +39,7 @@ function SummaryCardBase({
 			</ul>
 
 			{conclusion && (
-				<div className="mt-3 rounded-md bg-raised/50 p-3">
+				<div className="mt-3 rounded-md bg-surface-3/50 p-3">
 					<p className="text-xs font-medium text-fg leading-relaxed">{conclusion}</p>
 				</div>
 			)}

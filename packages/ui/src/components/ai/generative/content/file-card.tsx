@@ -51,11 +51,11 @@ function FileCardBase({ name, size, type, href, className }: FileCardProps) {
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
 				"flex items-center gap-3 rounded-lg border border-container bg-surface p-3",
-				href && "transition-colors hover:bg-raised cursor-pointer",
+				href && "transition-colors hover:bg-surface-3 cursor-pointer",
 				className
 			)}
 		>
-			<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-raised border border-container">
+			<div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-container">
 				<Icon className="size-5 text-fg-muted" />
 			</div>
 			<div className="min-w-0 flex-1">

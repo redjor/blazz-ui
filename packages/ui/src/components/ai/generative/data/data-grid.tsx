@@ -152,7 +152,7 @@ function DataGridBase({ title, columns, rows, caption, className }: DataGridProp
 			<div className="overflow-x-auto">
 				<table className="w-full text-left">
 					<thead>
-						<tr className="border-b border-separator bg-raised/40">
+						<tr className="border-b border-separator bg-surface-3/40">
 							{columns.map((col) => (
 								<th
 									key={col.key}
@@ -180,7 +180,7 @@ function DataGridBase({ title, columns, rows, caption, className }: DataGridProp
 									key={i}
 									className={cn(
 										"border-b border-edge-subtle last:border-0",
-										isLink && "transition-colors hover:bg-raised/60 cursor-pointer"
+										isLink && "transition-colors hover:bg-surface-3/60 cursor-pointer"
 									)}
 									{...(isLink && {
 										role: "link",

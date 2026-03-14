@@ -45,7 +45,7 @@ function ProductCardBase({
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
 				"block rounded-lg border border-container bg-surface p-4",
-				href && "transition-colors hover:bg-raised cursor-pointer",
+				href && "transition-colors hover:bg-surface-3 cursor-pointer",
 				className
 			)}
 		>
@@ -53,7 +53,7 @@ function ProductCardBase({
 				{image ? (
 					<img src={image} alt={name} className="mt-0.5 size-10 shrink-0 rounded-md object-cover" />
 				) : (
-					<div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-md bg-raised">
+					<div className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-md bg-surface-3">
 						<Package className="size-4 text-fg-muted" />
 					</div>
 				)}

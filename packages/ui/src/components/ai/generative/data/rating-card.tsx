@@ -63,7 +63,7 @@ function RatingCardBase({
 							<span className="text-2xl font-bold text-fg tabular-nums">{score}</span>
 							<span className="text-sm text-fg-muted">NPS</span>
 						</div>
-						<div className="h-2 w-full rounded-full bg-raised overflow-hidden">
+						<div className="h-2 w-full rounded-full bg-surface-3 overflow-hidden">
 							<div
 								className={cn(
 									"h-full rounded-full transition-all",

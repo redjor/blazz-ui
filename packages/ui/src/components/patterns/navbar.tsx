@@ -63,7 +63,7 @@ export function NavbarTabs({ value, children, className }: NavbarTabsProps) {
 			<div ref={navRef} className={cn("relative flex items-center gap-1", className)}>
 				<div
 					className={cn(
-						"absolute top-1/2 -translate-y-1/2 h-[30px] rounded-md bg-raised transition-all duration-200 ease-out",
+						"absolute top-1/2 -translate-y-1/2 h-[30px] rounded-md bg-surface-3 transition-all duration-200 ease-out",
 						!indicator.ready && "opacity-0"
 					)}
 					style={{ left: indicator.left, width: indicator.width }}

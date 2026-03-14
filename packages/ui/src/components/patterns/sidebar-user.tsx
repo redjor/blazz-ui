@@ -58,7 +58,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 				render={
 					<SidebarMenuButton
 						size="lg"
-						className="data-[state=open]:bg-raised data-[state=open]:text-fg"
+						className="data-[state=open]:bg-surface-3 data-[state=open]:text-fg"
 					>
 						<Avatar className="h-8 w-8 rounded-lg">
 							<AvatarImage src={user.avatar} alt={user.name} />

@@ -30,7 +30,7 @@ function ComparisonTableBase({ title, columns, rows, className }: ComparisonTabl
 				</thead>
 				<tbody>
 					{rows.map((row, i) => (
-						<tr key={i} className="even:bg-raised/50">
+						<tr key={i} className="even:bg-surface-3/50">
 							{row.map((cell, j) => (
 								<td key={j} className="px-3 py-1.5 text-sm text-fg">
 									{cell}
