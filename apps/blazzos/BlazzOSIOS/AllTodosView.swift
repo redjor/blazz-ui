@@ -20,45 +20,46 @@ struct AllTodosView: View {
                 PillFilterView(options: filterOptions, selected: $selectedStatus)
                     .padding(.vertical, 12)
 
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        let todos = TodoStoreHelpers.todosFiltered(from: convex.allTodos, by: selectedStatus)
-                        if todos.isEmpty {
-                            Text("Aucune tâche")
-                                .font(.callout)
-                                .foregroundStyle(.white.opacity(0.5))
-                                .padding(.top, 80)
-                        } else {
-                            ForEach(todos) { todo in
-                                NavigationLink(value: todo) {
-                                    TodoRowView(todo: todo)
-                                }
-                                .buttonStyle(.plain)
-                                .padding(.horizontal)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    Button(role: .destructive) {
-                                        Task {
-                                            try? await convex.deleteTodo(id: todo._id)
-                                        }
-                                    } label: {
-                                        Label("Supprimer", systemImage: "trash")
+                List {
+                    let todos = TodoStoreHelpers.todosFiltered(from: convex.allTodos, by: selectedStatus)
+                    if todos.isEmpty {
+                        Text("Aucune tâche")
+                            .font(.callout)
+                            .foregroundStyle(.white.opacity(0.5))
+                            .padding(.top, 80)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    } else {
+                        ForEach(todos) { todo in
+                            NavigationLink(value: todo) {
+                                TodoRowView(todo: todo)
+                            }
+                            .listRowBackground(Color.black)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) {
+                                    Task {
+                                        try? await convex.deleteTodo(id: todo._id)
                                     }
+                                } label: {
+                                    Label("Supprimer", systemImage: "trash")
                                 }
-                                .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                    Button {
-                                        Task {
-                                            let next = nextStatus(todo.status)
-                                            try? await convex.updateTodoStatus(id: todo._id, status: next)
-                                        }
-                                    } label: {
-                                        Label(nextStatusLabel(todo.status), systemImage: nextStatusIcon(todo.status))
+                            }
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                Button {
+                                    Task {
+                                        let next = nextStatus(todo.status)
+                                        try? await convex.updateTodoStatus(id: todo._id, status: next)
                                     }
-                                    .tint(nextStatusColor(todo.status))
+                                } label: {
+                                    Label(nextStatusLabel(todo.status), systemImage: nextStatusIcon(todo.status))
                                 }
+                                .tint(nextStatusColor(todo.status))
                             }
                         }
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
                 .navigationDestination(for: TodoItem.self) { todo in
                     TodoDetailView(todoId: todo._id, convex: convex)
                 }

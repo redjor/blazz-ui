@@ -6,23 +6,33 @@ struct TodayView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
+            List {
+                Section {
                     Text("\(formattedDate) — \(convex.todayTodos.count) tâche\(convex.todayTodos.count > 1 ? "s" : "")")
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.5))
-                        .padding(.horizontal)
-                        .padding(.bottom, 20)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                }
 
-                    if let error = convex.error {
+                if let error = convex.error {
+                    Section {
                         errorView(error)
-                    } else if convex.todayTodos.isEmpty {
-                        emptyView
-                    } else {
-                        todoList
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
                     }
+                } else if convex.todayTodos.isEmpty {
+                    Section {
+                        emptyView
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
+                } else {
+                    todoList
                 }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
             .background(Color.black)
             .navigationTitle("Aujourd'hui")
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -50,7 +60,7 @@ struct TodayView: View {
                     NavigationLink(value: todo) {
                         TodoRowView(todo: todo)
                     }
-                    .buttonStyle(.plain)
+                    .listRowBackground(Color.black)
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(role: .destructive) {
                             Task {
@@ -78,11 +88,7 @@ struct TodayView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(.white.opacity(0.3))
                     .textCase(.uppercase)
-                    .padding(.horizontal)
-                    .padding(.top, 20)
-                    .padding(.bottom, 6)
             }
-            .padding(.horizontal)
         }
         .navigationDestination(for: TodoItem.self) { todo in
             TodoDetailView(todoId: todo._id, convex: convex)

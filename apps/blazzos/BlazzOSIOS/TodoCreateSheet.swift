@@ -5,7 +5,7 @@ struct TodoCreateSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var text = ""
-    @State private var description = ""
+    @State private var descriptionText = ""
     @State private var status = "triage"
     @State private var priority = "normal"
     @State private var hasDueDate = false
@@ -21,7 +21,7 @@ struct TodoCreateSheet: View {
             Form {
                 Section {
                     TextField("Titre", text: $text)
-                    TextField("Description (optionnel)", text: $description, axis: .vertical)
+                    TextField("Description (optionnel)", text: $descriptionText, axis: .vertical)
                         .lineLimit(3...6)
                 }
 
@@ -81,7 +81,7 @@ struct TodoCreateSheet: View {
         do {
             try await convex.createTodo(
                 text: text.trimmingCharacters(in: .whitespaces),
-                description: description.isEmpty ? nil : description,
+                description: descriptionText.isEmpty ? nil : descriptionText,
                 status: status,
                 priority: priority,
                 dueDate: dueDateString,
