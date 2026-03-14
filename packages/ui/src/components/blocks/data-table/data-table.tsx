@@ -361,6 +361,25 @@ export function DataTable<TData, TValue = unknown>({
 			})
 	}, [columns, enableGrouping])
 
+	// Extract filterable columns for filter dropdown (stacked toolbar)
+	const filterableColumns = React.useMemo(() => {
+		return columns
+			.filter((col) => col.filterConfig)
+			.map((col) => {
+				const id = "accessorKey" in col ? String(col.accessorKey) : col.id || ""
+				let label = col.filterConfig?.filterLabel || id
+				if (!col.filterConfig?.filterLabel) {
+					if (typeof col.header === "string") {
+						label = col.header
+					} else {
+						label = id.charAt(0).toUpperCase() + id.slice(1)
+					}
+				}
+				return { id, label, type: col.filterConfig?.type || "text" }
+			})
+			.filter((col) => col.id)
+	}, [columns])
+
 	// Determine if we're doing server-side filtering
 	const isServerSideFiltering = props.onSearchChange !== undefined
 
@@ -662,6 +681,7 @@ export function DataTable<TData, TValue = unknown>({
 						onToggleInlineFilters={() =>
 							viewsHook.setShowInlineFilters(!viewsHook.showInlineFilters)
 						}
+						filterableColumns={filterableColumns}
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}

@@ -160,7 +160,7 @@ export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg
 
 const idleCell = `${cellShared} cursor-text text-left hover:bg-raised/40`
 
-const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-p-border-focus`
+const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-brand`
 
 // ---------------------------------------------------------------------------
 // Validation feedback component

@@ -3,17 +3,21 @@
 import type { SortingState } from "@tanstack/react-table"
 import {
 	ArrowUpDown,
+	Calendar,
 	ChevronDown,
 	Copy,
 	Download,
 	Edit2,
+	Hash,
 	ListFilter,
 	MoreVertical,
 	Plus,
 	Save,
 	Search,
 	SlidersHorizontal,
+	ToggleLeft,
 	Trash2,
+	Type,
 	X,
 } from "lucide-react"
 import * as React from "react"
@@ -70,6 +74,8 @@ interface DataTableActionsBarProps {
 	onOpenFilterBuilder: () => void
 	showInlineFilters?: boolean
 	onToggleInlineFilters?: () => void
+	/** Filterable columns for the stacked filter dropdown */
+	filterableColumns?: Array<{ id: string; label: string; type: string }>
 
 	/** When true, a single button toggles both search and inline filters */
 	combineSearchAndFilters?: boolean
@@ -182,6 +188,7 @@ export function DataTableActionsBar({
 	onOpenFilterBuilder,
 	showInlineFilters = false,
 	onToggleInlineFilters,
+	filterableColumns = [],
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
 	onExport,
@@ -410,25 +417,87 @@ export function DataTableActionsBar({
 							<Search className="h-3.5 w-3.5" />
 						</Button>
 
-						{/* Filter toggle */}
-						<Button
-							variant="ghost"
-							size="icon-sm"
-							onClick={onToggleInlineFilters || onOpenFilterBuilder}
-							className={cn("relative h-7 w-7", showInlineFilters && "bg-raised text-fg")}
-							aria-label="Toggle filters"
-							aria-expanded={showInlineFilters}
-						>
-							<ListFilter className="h-3.5 w-3.5" />
-							{filterCount > 0 && (
-								<Badge
-									variant="secondary"
-									className="absolute -right-1 -top-1 h-3.5 w-3.5 rounded-full p-0 text-[9px] font-medium flex items-center justify-center"
+						{/* Filter dropdown */}
+						<DropdownMenu>
+							<DropdownMenuTrigger
+								render={
+									<button
+										type="button"
+										className={cn(
+											"relative inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-raised hover:text-fg",
+											showInlineFilters && "bg-raised text-fg"
+										)}
+										aria-label="Filter options"
+									>
+										<ListFilter className="h-3.5 w-3.5" />
+										{filterCount > 0 && (
+											<Badge
+												variant="secondary"
+												className="absolute -right-1 -top-1 h-3.5 w-3.5 rounded-full p-0 text-[9px] font-medium flex items-center justify-center"
+											>
+												{filterCount}
+											</Badge>
+										)}
+									</button>
+								}
+							/>
+							<DropdownMenuContent align="end" sideOffset={4} className="w-56">
+								{/* Add filter header */}
+								<DropdownMenuItem
+									onClick={() => {
+										if (onToggleInlineFilters && !showInlineFilters) {
+											onToggleInlineFilters()
+										}
+									}}
+									className="text-fg-muted"
 								>
-									{filterCount}
-								</Badge>
-							)}
-						</Button>
+									<ListFilter className="h-4 w-4" />
+									<span>{locale === "fr" ? "Ajouter un filtre..." : "Add Filter..."}</span>
+								</DropdownMenuItem>
+								{filterableColumns.length > 0 && <DropdownMenuSeparator />}
+								{filterableColumns.map((col) => {
+									const FilterIcon =
+										col.type === "number"
+											? Hash
+											: col.type === "date"
+												? Calendar
+												: col.type === "boolean"
+													? ToggleLeft
+													: col.type === "select"
+														? ListFilter
+														: Type
+									return (
+										<DropdownMenuItem
+											key={col.id}
+											onClick={() => {
+												if (onToggleInlineFilters && !showInlineFilters) {
+													onToggleInlineFilters()
+												}
+											}}
+										>
+											<FilterIcon className="h-4 w-4" />
+											<span>{col.label}</span>
+										</DropdownMenuItem>
+									)
+								})}
+								{filterCount > 0 && (
+									<>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem
+											onClick={() => {
+												if (showInlineFilters && onToggleInlineFilters) {
+													onToggleInlineFilters()
+												}
+											}}
+											variant="destructive"
+										>
+											<X className="h-4 w-4" />
+											<span>{locale === "fr" ? "Effacer les filtres" : "Clear filters"}</span>
+										</DropdownMenuItem>
+									</>
+								)}
+							</DropdownMenuContent>
+						</DropdownMenu>
 
 						{/* Sort */}
 						<Menu>
