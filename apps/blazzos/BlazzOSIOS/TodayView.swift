@@ -3,36 +3,27 @@ import SwiftUI
 struct TodayView: View {
     let convex: ConvexService
     @State private var showCreateSheet = false
+    @State private var editingTodoId: String?
 
     var body: some View {
         NavigationStack {
-            List {
-                Section {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
                     Text("\(formattedDate) — \(convex.todayTodos.count) tâche\(convex.todayTodos.count > 1 ? "s" : "")")
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.5))
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                }
+                        .padding(.horizontal)
+                        .padding(.bottom, 20)
 
-                if let error = convex.error {
-                    Section {
+                    if let error = convex.error {
                         errorView(error)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                    }
-                } else if convex.todayTodos.isEmpty {
-                    Section {
+                    } else if convex.todayTodos.isEmpty {
                         emptyView
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
+                    } else {
+                        todoList
                     }
-                } else {
-                    todoList
                 }
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
             .background(Color.black)
             .navigationTitle("Aujourd'hui")
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -48,6 +39,12 @@ struct TodayView: View {
             .sheet(isPresented: $showCreateSheet) {
                 TodoCreateSheet(convex: convex)
             }
+            .sheet(item: Binding(
+                get: { editingTodoId.map { EditingTodo(id: $0) } },
+                set: { editingTodoId = $0?.id }
+            )) { item in
+                TodoEditSheet(todoId: item.id, convex: convex)
+            }
         }
     }
 
@@ -57,30 +54,27 @@ struct TodayView: View {
         ForEach(grouped, id: \.0) { priority, todos in
             Section {
                 ForEach(todos) { todo in
-                    NavigationLink(value: todo) {
-                        TodoRowView(todo: todo)
-                    }
-                    .listRowBackground(Color.black)
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button(role: .destructive) {
-                            Task {
-                                try? await convex.deleteTodo(id: todo._id)
-                            }
-                        } label: {
-                            Label("Supprimer", systemImage: "trash")
+                    TodoRowView(todo: todo)
+                        .onTapGesture {
+                            editingTodoId = todo._id
                         }
-                    }
-                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                        Button {
-                            Task {
-                                let next = nextStatus(todo.status)
-                                try? await convex.updateTodoStatus(id: todo._id, status: next)
+                        .contextMenu {
+                            Button {
+                                Task {
+                                    let next = nextStatus(todo.status)
+                                    try? await convex.updateTodoStatus(id: todo._id, status: next)
+                                }
+                            } label: {
+                                Label(nextStatusLabel(todo.status), systemImage: nextStatusIcon(todo.status))
                             }
-                        } label: {
-                            Label(nextStatusLabel(todo.status), systemImage: nextStatusIcon(todo.status))
+                            Button(role: .destructive) {
+                                Task {
+                                    try? await convex.deleteTodo(id: todo._id)
+                                }
+                            } label: {
+                                Label("Supprimer", systemImage: "trash")
+                            }
                         }
-                        .tint(nextStatusColor(todo.status))
-                    }
                 }
             } header: {
                 Text(priorityLabel(priority))
@@ -88,10 +82,11 @@ struct TodayView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(.white.opacity(0.3))
                     .textCase(.uppercase)
+                    .padding(.horizontal)
+                    .padding(.top, 20)
+                    .padding(.bottom, 6)
             }
-        }
-        .navigationDestination(for: TodoItem.self) { todo in
-            TodoDetailView(todoId: todo._id, convex: convex)
+            .padding(.horizontal)
         }
     }
 

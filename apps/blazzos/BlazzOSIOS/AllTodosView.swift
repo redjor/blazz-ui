@@ -4,6 +4,7 @@ struct AllTodosView: View {
     let convex: ConvexService
     @State private var selectedStatus: String? = nil
     @State private var showCreateSheet = false
+    @State private var editingTodoId: String?
 
     private let filterOptions: [(label: String, value: String?)] = [
         ("Toutes", nil),
@@ -20,48 +21,41 @@ struct AllTodosView: View {
                 PillFilterView(options: filterOptions, selected: $selectedStatus)
                     .padding(.vertical, 12)
 
-                List {
-                    let todos = TodoStoreHelpers.todosFiltered(from: convex.allTodos, by: selectedStatus)
-                    if todos.isEmpty {
-                        Text("Aucune tâche")
-                            .font(.callout)
-                            .foregroundStyle(.white.opacity(0.5))
-                            .padding(.top, 80)
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                    } else {
-                        ForEach(todos) { todo in
-                            NavigationLink(value: todo) {
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        let todos = TodoStoreHelpers.todosFiltered(from: convex.allTodos, by: selectedStatus)
+                        if todos.isEmpty {
+                            Text("Aucune tâche")
+                                .font(.callout)
+                                .foregroundStyle(.white.opacity(0.5))
+                                .padding(.top, 80)
+                        } else {
+                            ForEach(todos) { todo in
                                 TodoRowView(todo: todo)
-                            }
-                            .listRowBackground(Color.black)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button(role: .destructive) {
-                                    Task {
-                                        try? await convex.deleteTodo(id: todo._id)
+                                    .padding(.horizontal)
+                                    .onTapGesture {
+                                        editingTodoId = todo._id
                                     }
-                                } label: {
-                                    Label("Supprimer", systemImage: "trash")
-                                }
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    Task {
-                                        let next = nextStatus(todo.status)
-                                        try? await convex.updateTodoStatus(id: todo._id, status: next)
+                                    .contextMenu {
+                                        Button {
+                                            Task {
+                                                let next = nextStatus(todo.status)
+                                                try? await convex.updateTodoStatus(id: todo._id, status: next)
+                                            }
+                                        } label: {
+                                            Label(nextStatusLabel(todo.status), systemImage: nextStatusIcon(todo.status))
+                                        }
+                                        Button(role: .destructive) {
+                                            Task {
+                                                try? await convex.deleteTodo(id: todo._id)
+                                            }
+                                        } label: {
+                                            Label("Supprimer", systemImage: "trash")
+                                        }
                                     }
-                                } label: {
-                                    Label(nextStatusLabel(todo.status), systemImage: nextStatusIcon(todo.status))
-                                }
-                                .tint(nextStatusColor(todo.status))
                             }
                         }
                     }
-                }
-                .listStyle(.plain)
-                .scrollContentBackground(.hidden)
-                .navigationDestination(for: TodoItem.self) { todo in
-                    TodoDetailView(todoId: todo._id, convex: convex)
                 }
             }
             .background(Color.black)
@@ -78,6 +72,12 @@ struct AllTodosView: View {
             }
             .sheet(isPresented: $showCreateSheet) {
                 TodoCreateSheet(convex: convex)
+            }
+            .sheet(item: Binding(
+                get: { editingTodoId.map { EditingTodo(id: $0) } },
+                set: { editingTodoId = $0?.id }
+            )) { item in
+                TodoEditSheet(todoId: item.id, convex: convex)
             }
         }
     }

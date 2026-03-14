@@ -1,5 +1,10 @@
 import Foundation
 
+/// Identifiable wrapper for sheet(item:) binding
+struct EditingTodo: Identifiable {
+    let id: String
+}
+
 enum TodoStoreHelpers {
     static func todosFiltered(from todos: [TodoItem], by status: String?) -> [TodoItem] {
         let source = status == nil ? todos : todos.filter { $0.status == status }
