@@ -16,6 +16,7 @@ struct TodoDetailView: View {
     @State private var isInitialized = false
     @State private var isSaving = false
     @State private var showDeleteConfirmation = false
+    @State private var isEditing = false
 
     private let statuses = ["triage", "todo", "in_progress", "blocked", "done"]
     private let priorities = ["urgent", "high", "normal", "low"]
@@ -126,9 +127,22 @@ struct TodoDetailView: View {
                     Text("Description")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.4))
-                    TextField("Ajouter une description...", text: $descriptionText, axis: .vertical)
-                        .lineLimit(3...10)
-                        .foregroundStyle(.white.opacity(0.7))
+                    if isEditing {
+                        TextField("Ajouter une description...", text: $descriptionText, axis: .vertical)
+                            .lineLimit(3...10)
+                            .foregroundStyle(.white.opacity(0.7))
+                    } else if let rendered = renderedDescription {
+                        Text(rendered)
+                            .font(.body)
+                            .foregroundStyle(.white.opacity(0.7))
+                            .lineSpacing(4)
+                            .onTapGesture { isEditing = true }
+                    } else {
+                        Text("Ajouter une description...")
+                            .font(.body)
+                            .foregroundStyle(.white.opacity(0.3))
+                            .onTapGesture { isEditing = true }
+                    }
                 }
 
                 // Tags
@@ -161,6 +175,20 @@ struct TodoDetailView: View {
 
     // MARK: - State Management
 
+    private static func stripHTML(_ html: String) -> String {
+        guard html.contains("<") else { return html }
+        guard let data = html.data(using: .utf8),
+              let nsAttr = try? NSAttributedString(
+                  data: data,
+                  options: [.documentType: NSAttributedString.DocumentType.html,
+                            .characterEncoding: String.Encoding.utf8.rawValue],
+                  documentAttributes: nil
+              ) else {
+            return html.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+        }
+        return nsAttr.string.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     private func initializeFields() {
         guard !isInitialized, let todo else { return }
         text = todo.text
@@ -175,6 +203,29 @@ struct TodoDetailView: View {
         }
         tagsText = (todo.tags ?? []).joined(separator: ", ")
         isInitialized = true
+    }
+
+    /// Renders HTML description as AttributedString, or returns nil if empty
+    private var renderedDescription: AttributedString? {
+        let raw = descriptionText
+        guard !raw.isEmpty else { return nil }
+        // If it contains HTML tags, parse them
+        if raw.contains("<") {
+            guard let data = raw.data(using: .utf8),
+                  let nsAttr = try? NSAttributedString(
+                      data: data,
+                      options: [.documentType: NSAttributedString.DocumentType.html,
+                                .characterEncoding: String.Encoding.utf8.rawValue],
+                      documentAttributes: nil
+                  ) else {
+                // Fallback: strip tags manually
+                let stripped = raw.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+                return stripped.isEmpty ? nil : AttributedString(stripped)
+            }
+            let plainText = nsAttr.string.trimmingCharacters(in: .whitespacesAndNewlines)
+            return plainText.isEmpty ? nil : AttributedString(plainText)
+        }
+        return AttributedString(raw)
     }
 
     private var parsedTags: [String] {
