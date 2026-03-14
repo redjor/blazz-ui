@@ -15,6 +15,10 @@ export interface FrameProps {
 /**
  * Frame - Application layout structure
  *
+ * The navigation slot (Sidebar) is placed directly in the flex container.
+ * The Sidebar's built-in spacer div handles the width allocation automatically —
+ * no manual padding-left needed. Collapse, resize, and peek all work natively.
+ *
  * @example
  * <Frame
  *   topBar={<AppTopBar />}
@@ -27,37 +31,18 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 	const hasTopBar = Boolean(topBar)
 
 	return (
-		<div className={cn("h-screen w-full bg-(--surface-0)", className)}>
+		<div className={cn("h-screen w-full bg-surface-0", className)}>
 			{hasTopBar && (
 				<div className="fixed top-0 left-0 right-0 z-20 h-(--topbar-height)">{topBar}</div>
 			)}
 
-			<div className="flex h-screen overflow-hidden">
-				<aside
-					className={cn(
-						"fixed left-0 z-10 h-screen overflow-y-auto max-md:contents md:block rounded-tl-(--main-radius)",
-						hasTopBar ? "top-(--topbar-height)" : "top-0"
-					)}
-				>
-					{navigation}
-				</aside>
+			<div className={cn("flex h-screen overflow-hidden", hasTopBar && "pt-(--topbar-height)")}>
+				{navigation}
 
-				<main
-					className={cn(
-						"flex-1 min-w-0 md:pl-(--sidebar-width)",
-						hasTopBar && "mt-(--topbar-height)"
-					)}
-				>
+				<main className="flex-1 min-w-0">
 					<div className="flex h-full flex-col">
 						{tabBar}
-						<ScrollArea
-							className={cn(
-								"min-h-0 w-full flex-1 bg-(--surface-1)",
-								!tabBar && "rounded-tr-(--main-radius)"
-							)}
-						>
-							{children}
-						</ScrollArea>
+						<ScrollArea className={cn("min-h-0 w-full flex-1 bg-surface-1")}>{children}</ScrollArea>
 					</div>
 				</main>
 			</div>

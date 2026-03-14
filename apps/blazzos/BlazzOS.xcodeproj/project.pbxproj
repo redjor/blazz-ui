@@ -18,6 +18,7 @@
 		26F94B5685B781C760389D7E /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C281155606314627A740CF87 /* TodoDetailView.swift */; };
 		2F2F95761771B4CC32A771BF /* BlazzOSIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE302C0CF8F6413DC40EAC44 /* BlazzOSIOSApp.swift */; };
 		37A568B8ACD648213D1BA0AC /* OfflineBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46920912E804C90AFC5317A7 /* OfflineBuffer.swift */; };
+		39C7F65E6226DED0AD374440 /* TodoCreateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78C9285B81CF009342BC160 /* TodoCreateSheet.swift */; };
 		3C6A2CD751706DD7E487EE5E /* PillFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3934CD28E539193DD209ECCB /* PillFilterView.swift */; };
 		3E8141B7428AB97F5D07C2CE /* LoginWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1209B471EDA7BCD8DCB3DB63 /* LoginWebView.swift */; };
 		44AD70C4E406D0EE8CE8B9CA /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3A1B2007067A0CBB884A9A /* TodayView.swift */; };
@@ -93,6 +94,7 @@
 		96FEEAAA6445423B131AC1D9 /* HotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		9C9CD6B8F5BDA0D5DA10435E /* BlazzOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlazzOSApp.swift; sourceTree = "<group>"; };
 		A15B6BE270F7AE61CCCBEF29 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		A78C9285B81CF009342BC160 /* TodoCreateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCreateSheet.swift; sourceTree = "<group>"; };
 		B49526C8C24F3E5142F00491 /* BlazzOSWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlazzOSWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C281155606314627A740CF87 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		CD3A1B2007067A0CBB884A9A /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				3934CD28E539193DD209ECCB /* PillFilterView.swift */,
 				69051DD459885DCD04973BCD /* StatusCircleView.swift */,
 				CD3A1B2007067A0CBB884A9A /* TodayView.swift */,
+				A78C9285B81CF009342BC160 /* TodoCreateSheet.swift */,
 				C281155606314627A740CF87 /* TodoDetailView.swift */,
 				3849E3E3FE2987D78AC79420 /* TodoRowView.swift */,
 				55BA81468EB7D81F01AD78AC /* TodoStore.swift */,
@@ -431,6 +434,7 @@
 				3C6A2CD751706DD7E487EE5E /* PillFilterView.swift in Sources */,
 				0E07AE92115F2BF0F0AE419F /* StatusCircleView.swift in Sources */,
 				44AD70C4E406D0EE8CE8B9CA /* TodayView.swift in Sources */,
+				39C7F65E6226DED0AD374440 /* TodoCreateSheet.swift in Sources */,
 				26F94B5685B781C760389D7E /* TodoDetailView.swift in Sources */,
 				09DAF3EEE24ED299845F6D1B /* TodoRowView.swift in Sources */,
 				5108668D3D8301EDF527B015 /* TodoStore.swift in Sources */,

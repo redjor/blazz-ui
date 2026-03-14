@@ -11,13 +11,20 @@ import { useMemo, useState } from "react"
 import { ClientForm } from "@/components/client-form"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
+import Image from "next/image"
 
 function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
 	const initials = name.slice(0, 2).toUpperCase()
 	return (
 		<div className="size-8 rounded border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
 			{logoUrl ? (
-				<img src={logoUrl} alt={name} className="size-full object-contain" />
+				<Image
+					src={logoUrl}
+					alt={name}
+					width={24}
+					height={24}
+					className="size-full object-contain"
+				/>
 			) : (
 				<span className="text-xs font-semibold text-fg-muted">{initials}</span>
 			)}
@@ -51,13 +58,13 @@ export default function ClientsPage() {
 				Nouveau client
 			</Button>
 		),
-		[],
+		[]
 	)
 
 	useOpsTopBar([{ label: "Clients" }], topBarActions)
 
 	return (
-		<div className="p-6 space-y-4">
+		<div className="p-4 space-y-4">
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogContent>
 					<DialogHeader>

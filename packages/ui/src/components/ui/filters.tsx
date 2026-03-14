@@ -232,7 +232,7 @@ const filterInputVariants = cva(
 			size: {
 				lg: "h-10 text-sm px-2.5 has-[[data-slot=filters-prefix]]:ps-0 has-[[data-slot=filters-suffix]]:pe-0",
 				md: "h-9 text-sm px-2 has-[[data-slot=filters-prefix]]:ps-0 has-[[data-slot=filters-suffix]]:pe-0",
-				sm: "h-8 text-xs px-1.5 has-[[data-slot=filters-prefix]]:ps-0 has-[[data-slot=filters-suffix]]:pe-0",
+				sm: "h-7 text-xs px-1.5 has-[[data-slot=filters-prefix]]:ps-0 has-[[data-slot=filters-suffix]]:pe-0",
 			},
 			cursorPointer: {
 				true: "cursor-pointer",
@@ -261,7 +261,7 @@ const filterRemoveButtonVariants = cva(
 			size: {
 				lg: "h-10 w-10 [&_svg:not([class*=size-])]:size-4",
 				md: "h-9 w-9 [&_svg:not([class*=size-])]:size-3.5",
-				sm: "h-8 w-8 [&_svg:not([class*=size-])]:size-3",
+				sm: "h-7 w-7 [&_svg:not([class*=size-])]:size-3",
 			},
 			cursorPointer: {
 				true: "cursor-pointer",
@@ -295,7 +295,7 @@ const filterAddButtonVariants = cva(
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
 				md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
-				sm: "h-8 px-2.5 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
+				sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
 			},
 			radius: {
 				md: "rounded-md",
@@ -328,7 +328,7 @@ const filterOperatorVariants = cva(
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5",
 				md: "h-9 px-3 text-sm gap-1.25",
-				sm: "h-8 px-2.5 text-xs gap-1",
+				sm: "h-7 px-2 text-xs gap-1",
 			},
 			cursorPointer: {
 				true: "cursor-pointer",
@@ -357,7 +357,7 @@ const filterFieldLabelVariants = cva(
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
 				md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
-				sm: "h-8 px-2.5 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
+				sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
 			},
 			radius: {
 				md: "rounded-s-md",
@@ -383,7 +383,7 @@ const filterFieldValueVariants = cva(
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
 				md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
-				sm: "h-8 px-2.5 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
+				sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
 			},
 			cursorPointer: {
 				true: "cursor-pointer has-[[data-slot=switch]]:cursor-default",
@@ -407,7 +407,7 @@ const filterFieldAddonVariants = cva("text-fg shrink-0 flex items-center justify
 		size: {
 			lg: "h-10 px-4 text-sm",
 			md: "h-9 px-3 text-sm",
-			sm: "h-8 px-2.5 text-xs",
+			sm: "h-7 px-2 text-xs",
 		},
 	},
 	defaultVariants: {
@@ -425,7 +425,7 @@ const filterFieldBetweenVariants = cva("text-fg-muted shrink-0 flex items-center
 		size: {
 			lg: "h-10 px-4 text-sm",
 			md: "h-9 px-3 text-sm",
-			sm: "h-8 px-2.5 text-xs",
+			sm: "h-7 px-2 text-xs",
 		},
 	},
 	defaultVariants: {

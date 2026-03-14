@@ -1,43 +1,43 @@
 "use client"
 
+import { type FeatureFlag, isEnabled } from "@/lib/features"
 import { Frame } from "@blazz/ui/components/patterns/frame"
 import { TopBar } from "@blazz/ui/components/patterns/top-bar"
 import {
 	Sidebar,
-  Sidebar,
-  SidebarCollapsible,
-  SidebarCollapsibleContent,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuCollapsibleTrigger,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@blazz/ui/components/ui/sidebar";
+	SidebarCollapsible,
+	SidebarCollapsibleContent,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupContent,
+	SidebarHeader,
+	SidebarMenu,
+	SidebarMenuButton,
+	SidebarMenuCollapsibleTrigger,
+	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
+	SidebarProvider,
+	SidebarResizeHandle,
+	SidebarTrigger,
+} from "@blazz/ui/components/ui/sidebar"
 import {
-  CheckSquare,
-  Clock,
-  FolderOpen,
-  LayoutDashboard,
-  MessageSquare,
-  Package,
-  Sun,
-   from "lucide-react"
+	CheckSquare,
+	Clock,
+	FolderOpen,
+	LayoutDashboard,
+	MessageSquare,
+	Package,
+	Sun,
+	Users,
+} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-
 import type { Dispatch, ReactNode, SetStateAction } from "react"
 import { createContext, useContext, useEffect, useState } from "react"
-import { type FeatureFlag, isEnabled } from "@/lib/features"
 import type { BreadcrumbItem } from "./ops-breadcrumb"
 import { OpsUserMenu } from "./ops-user-menu"
 
@@ -77,8 +77,8 @@ function OpsSidebar() {
 		items?.some((sub) => isActive(sub.url)) ?? false
 
 	return (
-		<Sidebar collapsible="offcanvas" className="w-60 top-0 border-r border-edge-subtle">
-			<SidebarHeader className="border-b border-edge-subtle pb-2 h-12 justify-center px-5">
+		<Sidebar collapsible="offcanvas" className="border-r border-edge-subtle gap-2">
+			<SidebarHeader className="h-12 justify-center px-5">
 				<Link href="/" className="flex items-center">
 					<Image src="/logo_blazz_white.svg" alt="Blazz" width={64} height={24} />
 				</Link>
@@ -148,6 +148,7 @@ function OpsSidebar() {
 			<SidebarFooter>
 				<OpsUserMenu />
 			</SidebarFooter>
+			<SidebarResizeHandle />
 		</Sidebar>
 	)
 }
@@ -180,14 +181,13 @@ function MobileHeader() {
 }
 
 function OpsTopBarContent({ state }: { state: OpsTopBarState }) {
-	if (!state.breadcrumbs) return null
 	return (
 		<TopBar
-			className="bg-surface-3 rounded-tr-(--main-radius)"
+			className="bg-surface-1 border-b border-edge-subtle"
 			left={
 				<>
 					<TopBar.SidebarToggle />
-					<TopBar.Breadcrumbs items={state.breadcrumbs} />
+					{state.breadcrumbs && <TopBar.Breadcrumbs items={state.breadcrumbs} />}
 				</>
 			}
 			right={state.actions}
