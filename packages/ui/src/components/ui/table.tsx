@@ -1,18 +1,22 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-	({ className, ...props }, ref) => (
-		<div className="relative w-full overflow-auto">
-			<table
-				ref={ref}
-				data-slot="table"
-				className={cn("w-full caption-bottom text-xs", className)}
-				{...props}
-			/>
-		</div>
-	)
-)
+type TableDensity = "compact" | "default" | "comfortable"
+
+const Table = React.forwardRef<
+	HTMLTableElement,
+	React.HTMLAttributes<HTMLTableElement> & { density?: TableDensity }
+>(({ className, density = "default", ...props }, ref) => (
+	<div className="relative w-full overflow-auto">
+		<table
+			ref={ref}
+			data-slot="table"
+			data-density={density}
+			className={cn("w-full caption-bottom text-xs", className)}
+			{...props}
+		/>
+	</div>
+))
 Table.displayName = "Table"
 
 const TableHeader = React.forwardRef<
@@ -77,7 +81,10 @@ const TableHead = React.forwardRef<
 		ref={ref}
 		data-slot="table-head"
 		className={cn(
-			"h-8 px-3 py-1 text-left align-middle text-xs font-medium leading-none text-fg-muted [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
+			"px-3 text-left align-middle text-xs font-medium leading-none text-fg-muted [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
+			"py-1.5",
+			"[table[data-density=compact]_&]:py-1",
+			"[table[data-density=comfortable]_&]:py-2.5",
 			className
 		)}
 		{...props}
@@ -93,7 +100,10 @@ const TableCell = React.forwardRef<
 		ref={ref}
 		data-slot="table-cell"
 		className={cn(
-			"px-1.5 py-1.5 align-middle first:pl-3 [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
+			"px-3 align-middle [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-[2px]",
+			"py-2.5",
+			"[table[data-density=compact]_&]:py-1.5",
+			"[table[data-density=comfortable]_&]:py-3.5",
 			className
 		)}
 		{...props}
@@ -114,4 +124,14 @@ const TableCaption = React.forwardRef<
 ))
 TableCaption.displayName = "TableCaption"
 
-export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption }
+export {
+	Table,
+	TableHeader,
+	TableBody,
+	TableFooter,
+	TableHead,
+	TableRow,
+	TableCell,
+	TableCaption,
+	type TableDensity,
+}
