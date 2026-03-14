@@ -580,6 +580,16 @@ interface EditableDateCellProps {
 	validateOn?: "blur" | "change"
 }
 
+function formatDateDisplay(value: string): string {
+	if (!value) return ""
+	try {
+		const d = new Date(value)
+		return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" })
+	} catch {
+		return value
+	}
+}
+
 function EditableDateCell({
 	value,
 	rowId,
@@ -588,6 +598,7 @@ function EditableDateCell({
 	className,
 	validate,
 }: EditableDateCellProps) {
+	const [editing, setEditing] = useState(false)
 	const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null)
 
 	const dateValue = value ? new Date(value) : undefined
@@ -598,12 +609,31 @@ function EditableDateCell({
 			if (validate) {
 				const result = validate(newValue)
 				setValidationResult(result)
-				if (result?.level === "error") return
+				if (result?.level === "error") {
+					setEditing(false)
+					return
+				}
 			}
 			onCellEdit(rowId, columnId, newValue)
+			setEditing(false)
 		},
 		[rowId, columnId, onCellEdit, validate]
 	)
+
+	if (!editing) {
+		return (
+			<div className={cellWrapper}>
+				<button
+					type="button"
+					className={cn(idleCell, className)}
+					onClick={() => setEditing(true)}
+				>
+					{value ? formatDateDisplay(value) : <span className="text-fg-muted">—</span>}
+				</button>
+				<ValidationFeedback result={validationResult} />
+			</div>
+		)
+	}
 
 	return (
 		<div className={cellWrapper}>
