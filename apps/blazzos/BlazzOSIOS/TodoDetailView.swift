@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 // MARK: - Read-only detail view (tap from list)
 
@@ -49,13 +50,8 @@ struct TodoDetailView: View {
                         }
 
                         if let description = todo.description, !description.isEmpty {
-                            let cleaned = Self.stripHTML(description)
-                            if !cleaned.isEmpty {
-                                Text(cleaned)
-                                    .font(.body)
-                                    .foregroundStyle(.white.opacity(0.7))
-                                    .lineSpacing(4)
-                            }
+                            HTMLContentView(html: description)
+                                .frame(minHeight: 50)
                         }
 
                         if let tags = todo.tags, !tags.isEmpty {
@@ -392,6 +388,110 @@ struct TodoEditSheet: View {
         case "normal": return .blue
         case "low": return .gray
         default: return .blue
+        }
+    }
+}
+
+// MARK: - HTML Content View (auto-sizing WKWebView)
+
+class AutoSizingWebView: WKWebView {
+    var onHeightChange: ((CGFloat) -> Void)?
+
+    override var intrinsicContentSize: CGSize {
+        CGSize(width: UIView.noIntrinsicMetric, height: scrollView.contentSize.height)
+    }
+}
+
+struct HTMLContentView: UIViewRepresentable {
+    let html: String
+
+    private static let cssTemplate = """
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: rgba(255,255,255,0.7);
+        background: transparent;
+        -webkit-text-size-adjust: none;
+    }
+    p { margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+    h1, h2, h3, h4 {
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 8px;
+        margin-top: 16px;
+    }
+    h1:first-child, h2:first-child, h3:first-child { margin-top: 0; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; font-weight: 600; }
+    strong, b { color: rgba(255,255,255,0.85); }
+    ul, ol { padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 4px; }
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 8px 0;
+        display: block;
+    }
+    a { color: #7B9FFF; }
+    code {
+        background: rgba(255,255,255,0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    pre {
+        background: rgba(255,255,255,0.08);
+        padding: 12px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-bottom: 12px;
+    }
+    pre code { background: none; padding: 0; }
+    blockquote {
+        border-left: 3px solid rgba(255,255,255,0.2);
+        padding-left: 12px;
+        margin-bottom: 12px;
+        color: rgba(255,255,255,0.5);
+    }
+    """
+
+    func makeUIView(context: Context) -> AutoSizingWebView {
+        let webView = AutoSizingWebView(frame: .zero)
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.isScrollEnabled = false
+        webView.scrollView.bounces = false
+        webView.navigationDelegate = context.coordinator
+        return webView
+    }
+
+    func updateUIView(_ webView: AutoSizingWebView, context: Context) {
+        let fullHTML = """
+        <!DOCTYPE html>
+        <html><head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <style>\(Self.cssTemplate)</style>
+        </head><body>\(html)</body></html>
+        """
+        webView.loadHTMLString(fullHTML, baseURL: nil)
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
+    class Coordinator: NSObject, WKNavigationDelegate {
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            // After load, measure content and update intrinsic size
+            webView.evaluateJavaScript("document.body.scrollHeight") { result, _ in
+                guard let height = result as? CGFloat else { return }
+                DispatchQueue.main.async {
+                    webView.frame.size.height = height
+                    webView.invalidateIntrinsicContentSize()
+                }
+            }
         }
     }
 }
