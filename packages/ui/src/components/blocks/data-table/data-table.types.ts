@@ -198,6 +198,9 @@ export interface DataTableProps<TData, TValue = unknown> {
 	/** When true, a single button toggles both search bar and inline filters together */
 	combineSearchAndFilters?: boolean
 
+	/** Toolbar layout: "classic" (single row, default) or "stacked" (Linear-style 3-row) */
+	toolbarLayout?: "classic" | "stacked"
+
 	// Cell editing
 	/** Enable cell-level focus and keyboard navigation (arrow keys, Tab, Enter/F2 to edit) */
 	enableCellEditing?: boolean
