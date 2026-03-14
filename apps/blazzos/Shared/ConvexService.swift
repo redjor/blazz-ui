@@ -152,6 +152,63 @@ final class ConvexService {
         try await client.mutation("timeEntries:create", with: args)
     }
 
+    // MARK: - Todo Mutations
+
+    func createTodo(
+        text: String,
+        description: String? = nil,
+        status: String = "triage",
+        priority: String? = nil,
+        dueDate: String? = nil,
+        tags: [String]? = nil
+    ) async throws {
+        guard let client else { throw ConvexServiceError.notConfigured }
+        var args: [String: ConvexEncodable?] = [
+            "text": text,
+            "status": status,
+        ]
+        if let description, !description.isEmpty { args["description"] = description }
+        if let priority { args["priority"] = priority }
+        if let dueDate { args["dueDate"] = dueDate }
+        if let tags, !tags.isEmpty { args["tags"] = tags }
+        try await client.mutation("todos:create", with: args)
+    }
+
+    func updateTodo(
+        id: String,
+        text: String? = nil,
+        description: String? = nil,
+        priority: String? = nil,
+        dueDate: String? = nil,
+        tags: [String]? = nil
+    ) async throws {
+        guard let client else { throw ConvexServiceError.notConfigured }
+        var args: [String: ConvexEncodable?] = [
+            "id": id,
+        ]
+        if let text { args["text"] = text }
+        if let description { args["description"] = description }
+        if let priority { args["priority"] = priority }
+        if let dueDate { args["dueDate"] = dueDate }
+        if let tags { args["tags"] = tags }
+        try await client.mutation("todos:update", with: args)
+    }
+
+    func updateTodoStatus(id: String, status: String) async throws {
+        guard let client else { throw ConvexServiceError.notConfigured }
+        try await client.mutation("todos:updateStatus", with: [
+            "id": id,
+            "status": status,
+        ])
+    }
+
+    func deleteTodo(id: String) async throws {
+        guard let client else { throw ConvexServiceError.notConfigured }
+        try await client.mutation("todos:remove", with: [
+            "id": id,
+        ])
+    }
+
     // MARK: - Helpers
 
     static let appURL: String = Bundle.main.infoDictionary?["AppURL"] as? String ?? ""
