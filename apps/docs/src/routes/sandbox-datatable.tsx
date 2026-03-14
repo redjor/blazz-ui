@@ -1,15 +1,165 @@
 import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
-import type { BulkAction, RowAction } from "@blazz/ui/components/blocks/data-table/data-table.types"
+import type {
+	BulkAction,
+	DataTableColumnDef,
+	RowAction,
+} from "@blazz/ui/components/blocks/data-table/data-table.types"
+import { DataTableColumnHeader } from "@blazz/ui/components/blocks/data-table/data-table-column-header"
+import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
 import {
-	createEditableOrderLinesPreset,
 	createOrderLinesPreset,
 	type OrderLineRow,
 } from "@blazz/ui/components/blocks/data-table/presets/order-lines"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { ArrowLeft, Copy, Eye, Trash2 } from "lucide-react"
+import { ArrowLeft, ArrowLeftRight, Copy, Eye, Scissors, Trash2 } from "lucide-react"
 import * as React from "react"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { orderLines } from "~/lib/order-lines-data"
+
+// ---------------------------------------------------------------------------
+// Preparation line type + mock data
+// ---------------------------------------------------------------------------
+
+interface PrepLine {
+	id: string
+	articleName: string
+	articleRef: string
+	qteCmde: number
+	qtePrep: number | null
+	lotNumber: string
+	dlc: string
+	status: "en_attente" | "en_cours" | "prepare" | "anomalie"
+}
+
+const prepLines: PrepLine[] = [
+	{
+		id: "p1",
+		articleName: "Tomates Rondes",
+		articleRef: "FLE-101",
+		qteCmde: 80,
+		qtePrep: null,
+		lotNumber: "",
+		dlc: "",
+		status: "en_attente",
+	},
+	{
+		id: "p2",
+		articleName: "Polo Pro",
+		articleRef: "TXT-102",
+		qteCmde: 45,
+		qtePrep: null,
+		lotNumber: "",
+		dlc: "",
+		status: "en_attente",
+	},
+	{
+		id: "p3",
+		articleName: "Pepsi Cannette 33cl",
+		articleRef: "BOI-102",
+		qteCmde: 30,
+		qtePrep: null,
+		lotNumber: "",
+		dlc: "",
+		status: "en_attente",
+	},
+	{
+		id: "p4",
+		articleName: "T-Shirt Classic",
+		articleRef: "TXT-101",
+		qteCmde: 20,
+		qtePrep: null,
+		lotNumber: "",
+		dlc: "",
+		status: "en_attente",
+	},
+	{
+		id: "p5",
+		articleName: "Coca-Cola 33cl",
+		articleRef: "BOI-101",
+		qteCmde: 120,
+		qtePrep: 120,
+		lotNumber: "L2026-0312",
+		dlc: "2026-09-15",
+		status: "prepare",
+	},
+	{
+		id: "p6",
+		articleName: "Beurre President 250g",
+		articleRef: "ALI-155",
+		qteCmde: 60,
+		qtePrep: 58,
+		lotNumber: "L2026-0287",
+		dlc: "2026-04-20",
+		status: "anomalie",
+	},
+	{
+		id: "p7",
+		articleName: "Evian 1.5L",
+		articleRef: "BOI-205",
+		qteCmde: 200,
+		qtePrep: null,
+		lotNumber: "",
+		dlc: "",
+		status: "en_cours",
+	},
+	{
+		id: "p8",
+		articleName: "Pain de mie Harry's",
+		articleRef: "ALI-042",
+		qteCmde: 35,
+		qtePrep: 35,
+		lotNumber: "L2026-0301",
+		dlc: "2026-03-28",
+		status: "prepare",
+	},
+]
+
+// ---------------------------------------------------------------------------
+// Preparation columns
+// ---------------------------------------------------------------------------
+
+function createPrepColumns(
+	onCellEdit: (rowId: string, columnId: string, value: unknown) => void
+): DataTableColumnDef<PrepLine>[] {
+	return [
+		{
+			accessorKey: "articleName",
+			header: ({ column }) => <DataTableColumnHeader column={column} title="Article" />,
+			cell: ({ row }) => (
+				<div className="flex flex-col gap-0.5">
+					<span className="font-medium text-fg">{row.original.articleName}</span>
+					<span className="text-xs text-fg-muted font-mono">{row.original.articleRef}</span>
+				</div>
+			),
+			enableSorting: true,
+		} as DataTableColumnDef<PrepLine>,
+		col.numeric<PrepLine>("qteCmde", { title: "Qte CMD", align: "right" }),
+		col.editableNumber<PrepLine>("qtePrep", {
+			title: "Qte Prep",
+			onCellEdit,
+			className: "text-right",
+		}),
+		col.editableText<PrepLine>("lotNumber", {
+			title: "N° Lot",
+			onCellEdit,
+			placeholder: "—",
+		}),
+		col.editableDate<PrepLine>("dlc", {
+			title: "DLC",
+			onCellEdit,
+		}),
+		col.editableSelect<PrepLine>("status", {
+			title: "Statut",
+			onCellEdit,
+			options: [
+				{ label: "En attente", value: "en_attente" },
+				{ label: "En cours", value: "en_cours" },
+				{ label: "Prepare", value: "prepare" },
+				{ label: "Anomalie", value: "anomalie" },
+			],
+		}),
+	]
+}
 
 export const Route = createFileRoute("/sandbox-datatable")({
 	component: SandboxDataTable,
@@ -50,35 +200,21 @@ function SandboxDataTable() {
 		[]
 	)
 
-	const [editableData, setEditableData] = React.useState<OrderLineRow[]>(
-		() => orderLines as OrderLineRow[]
-	)
+	// Preparation table state
+	const [prepData, setPrepData] = React.useState<PrepLine[]>(() => prepLines)
 
-	const handleCellEdit = React.useCallback(
+	const handlePrepCellEdit = React.useCallback(
 		(rowId: string, columnId: string, value: unknown, _previousValue?: unknown) => {
-			setEditableData((prev) =>
-				prev.map((row) => {
-					if (row.id !== rowId) return row
-					const updated = { ...row, [columnId]: value }
-					if (columnId === "quantity" || columnId === "unitPriceHT") {
-						const qty = columnId === "quantity" ? (value as number) : updated.quantity
-						const price = columnId === "unitPriceHT" ? (value as number) : updated.unitPriceHT
-						updated.totalHT = Math.round(qty * price * 100) / 100
-						updated.totalTTC = Math.round(updated.totalHT * (1 + updated.vatRate / 100) * 100) / 100
-					}
-					return updated
-				})
+			setPrepData((prev) =>
+				prev.map((row) => (row.id === rowId ? { ...row, [columnId]: value } : row))
 			)
 		},
 		[]
 	)
 
-	const editablePreset = React.useMemo(
-		() =>
-			createEditableOrderLinesPreset({
-				onCellEdit: handleCellEdit,
-			}),
-		[handleCellEdit]
+	const prepColumns = React.useMemo(
+		() => createPrepColumns(handlePrepCellEdit),
+		[handlePrepCellEdit]
 	)
 
 	return (
@@ -131,28 +267,35 @@ function SandboxDataTable() {
 					/>
 				</section>
 
-				{/* Editable table */}
+				{/* Editable table — Preparation de commande */}
 				<section>
 					<div className="flex items-center gap-3 px-6 py-3">
-						<h2 className="text-sm font-semibold text-fg">Editable — Lignes de commande</h2>
+						<h2 className="text-sm font-semibold text-fg">Preparation de commande</h2>
 						<span className="rounded-full bg-surface-3 px-2 py-0.5 text-xs text-fg-muted">
-							Qte &amp; PU HT editables
+							Qte Prep, N° Lot, DLC, Statut editables
 						</span>
 					</div>
 					<DataTable
-						data={editableData}
-						columns={editablePreset.columns}
+						data={prepData}
+						columns={prepColumns}
 						getRowId={(row) => row.id}
 						toolbarLayout="stacked"
 						enableSorting
 						enablePagination
-						enableGlobalSearch
 						enableCellEditing
-						onCellEdit={handleCellEdit}
-						searchPlaceholder="Rechercher un article..."
+						onCellEdit={handlePrepCellEdit}
+						rowActions={[
+							{ id: "split", label: "Eclater la ligne", icon: Scissors, handler: () => {} },
+							{
+								id: "swap",
+								label: "Substituer l'article",
+								icon: ArrowLeftRight,
+								handler: () => {},
+							},
+						]}
 						locale="fr"
 						variant="editable"
-						pagination={{ pageSize: 15, pageSizeOptions: [10, 15, 25, 50] }}
+						pagination={{ pageSize: 10 }}
 					/>
 				</section>
 			</div>
