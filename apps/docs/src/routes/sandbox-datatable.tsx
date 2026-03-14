@@ -1,11 +1,12 @@
 import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
+import type { BulkAction, RowAction } from "@blazz/ui/components/blocks/data-table/data-table.types"
 import {
 	createEditableOrderLinesPreset,
 	createOrderLinesPreset,
 	type OrderLineRow,
 } from "@blazz/ui/components/blocks/data-table/presets/order-lines"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Copy, Eye, Trash2 } from "lucide-react"
 import * as React from "react"
 import { ThemeToggle } from "~/components/theme-toggle"
 import { orderLines } from "~/lib/order-lines-data"
@@ -16,6 +17,38 @@ export const Route = createFileRoute("/sandbox-datatable")({
 
 function SandboxDataTable() {
 	const readOnlyPreset = React.useMemo(() => createOrderLinesPreset(), [])
+
+	const rowActions: RowAction<OrderLineRow>[] = React.useMemo(
+		() => [
+			{ id: "view", label: "Voir le detail", icon: Eye, handler: () => {} },
+			{ id: "duplicate", label: "Dupliquer", icon: Copy, handler: () => {} },
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				separator: true,
+				handler: () => {},
+			},
+		],
+		[]
+	)
+
+	const bulkActions: BulkAction<OrderLineRow>[] = React.useMemo(
+		() => [
+			{ id: "duplicate", label: "Dupliquer la selection", icon: Copy, handler: () => {} },
+			{
+				id: "delete",
+				label: "Supprimer la selection",
+				icon: Trash2,
+				variant: "destructive",
+				requireConfirmation: true,
+				confirmationMessage: (count: number) => `Supprimer ${count} ligne(s) ?`,
+				handler: () => {},
+			},
+		],
+		[]
+	)
 
 	const [editableData, setEditableData] = React.useState<OrderLineRow[]>(
 		() => orderLines as OrderLineRow[]
@@ -88,6 +121,8 @@ function SandboxDataTable() {
 						enableGlobalSearch
 						enableAdvancedFilters
 						enableCustomViews
+						rowActions={rowActions}
+						bulkActions={bulkActions}
 						searchPlaceholder="Rechercher un article, SKU, EAN..."
 						locale="fr"
 						variant="lined"
