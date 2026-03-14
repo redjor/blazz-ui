@@ -166,7 +166,7 @@ function QuotePreviewBase({
 
 			{/* Notes */}
 			{notes && (
-				<div className="mt-8 rounded-md bg-raised/50 p-4">
+				<div className="mt-8 rounded-md bg-surface-3/50 p-4">
 					<h3 className="text-xs font-semibold uppercase tracking-wide text-fg-muted">
 						Conditions
 					</h3>

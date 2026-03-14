@@ -51,7 +51,7 @@ export function DataTableBulkSelectionBar<TData>({
 		<div
 			className={cn(
 				"absolute top-0 left-0 right-0 h-[42px] border-b border-separator",
-				"bg-raised/95 backdrop-blur-sm animate-in fade-in-0 duration-200",
+				"bg-surface-3/95 backdrop-blur-sm animate-in fade-in-0 duration-200",
 				"animate-in fade-in-0 duration-200",
 				"flex items-center pl-3 pr-1.5 z-10",
 				className

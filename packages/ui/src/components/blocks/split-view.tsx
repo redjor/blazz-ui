@@ -68,7 +68,7 @@ function SplitViewBase({
 
 			{/* Resize handle */}
 			<div
-				className="flex w-1 shrink-0 cursor-col-resize items-center justify-center hover:bg-raised"
+				className="flex w-1 shrink-0 cursor-col-resize items-center justify-center hover:bg-surface-3"
 				onMouseDown={handleMouseDown}
 			>
 				<div className="h-8 w-0.5 rounded-full bg-border" />

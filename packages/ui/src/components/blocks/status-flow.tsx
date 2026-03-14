@@ -85,7 +85,7 @@ function StatusFlowBase({
 										? activeColorMap[status.color]
 										: isPast
 											? colorMap[status.color]
-											: "border-container bg-raised/50 text-fg-muted"
+											: "border-container bg-surface-3/50 text-fg-muted"
 								)}
 							>
 								{status.label}

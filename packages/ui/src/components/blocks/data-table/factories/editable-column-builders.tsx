@@ -158,7 +158,7 @@ function useEditableCell<T>({
  *  Padding is on the content (not the td) so the edit ring fills the entire cell. */
 export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent"
 
-const idleCell = `${cellShared} cursor-text text-left hover:bg-raised/40`
+const idleCell = `${cellShared} cursor-text text-left hover:bg-surface-3/40`
 
 const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-brand`
 

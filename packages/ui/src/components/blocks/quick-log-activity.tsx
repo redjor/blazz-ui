@@ -62,7 +62,7 @@ function QuickLogActivityBase({ onLog, trigger, className }: QuickLogActivityPro
 								onClick={() => setType(at.type)}
 								className={cn(
 									"flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs transition-colors",
-									type === at.type ? "border-fg bg-fg text-surface" : "border-field hover:bg-raised"
+									type === at.type ? "border-fg bg-fg text-surface" : "border-field hover:bg-surface-3"
 								)}
 							>
 								<at.icon className="size-4" />

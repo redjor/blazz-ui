@@ -73,7 +73,7 @@ function DealLinesEditorBase({
 			<div className="overflow-x-auto rounded-lg border">
 				<table className="w-full text-sm">
 					<thead>
-						<tr className="border-b bg-raised/50">
+						<tr className="border-b bg-surface-3/50">
 							<th className="px-3 py-2 text-left font-medium">Produit</th>
 							<th className="px-3 py-2 text-left font-medium">Description</th>
 							<th className="w-24 px-3 py-2 text-right font-medium">Qté</th>
@@ -163,7 +163,7 @@ function DealLinesEditorBase({
 						)}
 					</tbody>
 					<tfoot>
-						<tr className="border-t bg-raised/30">
+						<tr className="border-t bg-surface-3/30">
 							<td colSpan={readOnly ? 4 : 4} className="px-3 py-2 text-right text-sm font-semibold">
 								Sous-total
 							</td>

@@ -37,7 +37,7 @@ function formatYAxis(value: number) {
 }
 
 const tooltipStyle = {
-	backgroundColor: "var(--bg-surface)",
+	backgroundColor: "var(--surface-2)",
 	border: "1px solid var(--border-default)",
 	borderRadius: "8px",
 	fontSize: "12px",

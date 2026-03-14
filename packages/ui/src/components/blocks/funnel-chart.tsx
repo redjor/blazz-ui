@@ -54,7 +54,7 @@ function FunnelChartBase({
 								<span className="font-semibold tabular-nums">{formatValue(stage.value)}</span>
 							</div>
 						</div>
-						<div className="h-8 w-full rounded-md bg-raised/50">
+						<div className="h-8 w-full rounded-md bg-surface-3/50">
 							<div
 								className={cn(
 									"flex h-full items-center rounded-md transition-all",

@@ -611,7 +611,7 @@ export function createImageTextColumn<TData>(
 				<div className="flex items-center gap-3">
 					<div
 						className={cn(
-							"flex h-10 w-10 items-center justify-center rounded-md border border-edge bg-raised/50 text-xl",
+							"flex h-10 w-10 items-center justify-center rounded-md border border-edge bg-surface-3/50 text-xl",
 							imageClassName
 						)}
 					>

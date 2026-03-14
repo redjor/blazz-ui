@@ -830,7 +830,7 @@ export function DataTable<TData, TValue = unknown>({
 										return (
 											<React.Fragment key={row.id}>
 												<TableRow
-													className="bg-surface hover:bg-raised/50"
+													className="bg-surface hover:bg-surface-3/50"
 													style={
 														row.depth > 0
 															? { position: "relative", left: `${row.depth * 1.5}rem` }
@@ -907,7 +907,7 @@ export function DataTable<TData, TValue = unknown>({
 										<React.Fragment key={row.id}>
 											<TableRow
 												data-state={row.getIsSelected() && "selected"}
-												className={onRowClick ? "cursor-pointer hover:bg-raised/50" : ""}
+												className={onRowClick ? "cursor-pointer hover:bg-surface-3/50" : ""}
 												onClick={(e) => {
 													const target = e.target as HTMLElement
 													const isCheckbox = target.closest('[role="checkbox"]')

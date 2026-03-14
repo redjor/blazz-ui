@@ -20,7 +20,7 @@ function ViewConfigPanelBase({ className, width = 280, style, ...props }: ViewCo
 		<div
 			data-slot="view-config-panel"
 			className={cn(
-				"bg-panel ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
+				"bg-surface-4 ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
 				className
 			)}
 			style={{ width, ...style }}
@@ -50,7 +50,7 @@ function ViewConfigTabs({ tabs, value, onValueChange, className }: ViewConfigTab
 	return (
 		<div
 			data-slot="view-config-tabs"
-			className={cn("mx-3 mt-3 mb-1 flex items-center gap-0.5 rounded-lg bg-raised p-1", className)}
+			className={cn("mx-3 mt-3 mb-1 flex items-center gap-0.5 rounded-lg bg-surface-3 p-1", className)}
 		>
 			{tabs.map((tab) => {
 				const isActive = tab.value === value
@@ -166,7 +166,7 @@ function ViewConfigToggle({
 			htmlFor={id}
 			data-slot="view-config-toggle"
 			className={cn(
-				"flex cursor-pointer items-center justify-between gap-3 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-raised",
+				"flex cursor-pointer items-center justify-between gap-3 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-surface-3",
 				disabled && "cursor-not-allowed opacity-50",
 				className
 			)}
@@ -179,7 +179,7 @@ function ViewConfigToggle({
 				onCheckedChange={onCheckedChange}
 				disabled={disabled}
 				className={cn(
-					"bg-raised data-checked:bg-brand",
+					"bg-surface-3 data-checked:bg-brand",
 					"shrink-0 rounded-full border border-transparent",
 					"focus-visible:border-brand focus-visible:ring-brand/20 focus-visible:ring-[3px] outline-none",
 					"h-[18.4px] w-[32px]",
@@ -240,8 +240,8 @@ function ViewConfigPropertyToggles({
 						className={cn(
 							"rounded-md px-2 py-0.5 text-xs font-medium transition-colors duration-150 ease-out",
 							isActive
-								? "bg-raised text-fg ring-1 ring-edge/60"
-								: "text-fg-muted hover:text-fg hover:bg-raised/50"
+								? "bg-surface-3 text-fg ring-1 ring-edge/60"
+								: "text-fg-muted hover:text-fg hover:bg-surface-3/50"
 						)}
 					>
 						{property.label}

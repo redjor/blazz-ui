@@ -57,7 +57,7 @@ function OrgMenuBase({
 		<DropdownMenu>
 			<DropdownMenuTrigger
 				className={cn(
-					"flex w-full items-center gap-2 rounded-lg px-2 py-2 transition-colors duration-150 ease-out hover:bg-raised focus:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+					"flex w-full items-center gap-2 rounded-lg px-2 py-2 transition-colors duration-150 ease-out hover:bg-surface-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand",
 					className
 				)}
 			>

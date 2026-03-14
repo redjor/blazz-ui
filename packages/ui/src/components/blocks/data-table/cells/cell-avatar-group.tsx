@@ -75,7 +75,7 @@ export function CellAvatarGroup({ items, max = 4, size = "sm" }: CellAvatarGroup
 				<span
 					className={cn(
 						"inline-flex items-center justify-center rounded-full ring-2 ring-surface",
-						"bg-raised text-fg-muted font-medium",
+						"bg-surface-3 text-fg-muted font-medium",
 						sizeClasses[size],
 						overlapClasses[size]
 					)}
