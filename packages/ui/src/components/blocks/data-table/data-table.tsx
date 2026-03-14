@@ -145,6 +145,7 @@ export function DataTable<TData, TValue = unknown>({
 	hideToolbar = false,
 	hideHeaders = false,
 	combineSearchAndFilters = false,
+	toolbarLayout = "classic",
 	locale,
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
@@ -662,6 +663,7 @@ export function DataTable<TData, TValue = unknown>({
 							viewsHook.setShowInlineFilters(!viewsHook.showInlineFilters)
 						}
 						combineSearchAndFilters={combineSearchAndFilters}
+						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}
 						locale={finalLocale}
 					/>
