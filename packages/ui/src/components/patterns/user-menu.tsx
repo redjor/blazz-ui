@@ -25,6 +25,7 @@ export interface UserMenuProps {
 	onProfile?: () => void
 	onSettings?: () => void
 	onLogout?: () => void | Promise<void>
+	showEmail?: boolean
 	className?: string
 }
 
@@ -43,6 +44,7 @@ export function UserMenu({
 	onProfile,
 	onSettings,
 	onLogout,
+	showEmail = false,
 	className,
 }: UserMenuProps) {
 	const displayName = user?.name ?? "Jean Dupont"
@@ -66,7 +68,7 @@ export function UserMenu({
 					<AvatarImage src={user?.avatar} alt={displayName} />
 					<AvatarFallback>{initials}</AvatarFallback>
 				</Avatar>
-				<div className="flex flex-col text-left">
+				<div className="flex flex-1 flex-col text-left">
 					<div className="flex items-center gap-1.5">
 						<span className="text-sm font-semibold text-fg">{displayName}</span>
 						{badge && (
@@ -77,7 +79,7 @@ export function UserMenu({
 					</div>
 					{displayRole && <span className="text-xs text-fg-muted">{displayRole}</span>}
 				</div>
-				<ChevronDown className="size-3.5 shrink-0 text-fg-muted" />
+				<ChevronDown className="ml-auto size-3.5 shrink-0 text-fg-muted" />
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent className="w-56" align="end" sideOffset={8}>
@@ -93,7 +95,7 @@ export function UserMenu({
 						{displayRole && (
 							<span className="truncate text-xs text-fg-muted font-medium">{displayRole}</span>
 						)}
-						{user?.email && <span className="truncate text-xs text-fg-muted">{user.email}</span>}
+						{showEmail && user?.email && <span className="truncate text-xs text-fg-muted">{user.email}</span>}
 					</div>
 				</div>
 
