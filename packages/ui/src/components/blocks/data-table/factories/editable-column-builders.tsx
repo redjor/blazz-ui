@@ -277,6 +277,7 @@ function EditableTextCell({
 		<div className={cellWrapper}>
 			<input
 				ref={inputRef}
+				autoFocus
 				value={localValue}
 				onChange={(e) => setLocalValue(e.target.value)}
 				onBlur={handleBlur}
@@ -370,6 +371,7 @@ function EditableNumberCell({
 			<input
 				type="text"
 				inputMode="decimal"
+				autoFocus
 				value={localValue}
 				onChange={(e) => setLocalValue(e.target.value)}
 				onBlur={handleBlur}
@@ -461,6 +463,7 @@ function EditableCurrencyCell({
 			<input
 				type="text"
 				inputMode="decimal"
+				autoFocus
 				value={localValue}
 				onChange={(e) => setLocalValue(e.target.value)}
 				onBlur={handleBlur}
