@@ -9,7 +9,7 @@ const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
 
 export const metadata: Metadata = {
-	title: "Blazz Ops",
+	title: { default: "Blazz Ops", template: "%s — Blazz Ops" },
 	description: "Freelance time tracking & billing",
 	icons: {
 		icon: "/favicon.png",
