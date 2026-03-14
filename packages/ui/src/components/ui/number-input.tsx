@@ -51,7 +51,7 @@ function NumberInput({
 				className={cn(
 					"inline-flex size-8 items-center justify-center rounded-l-md",
 					"border border-r-0 border-edge bg-surface",
-					"text-fg-muted hover:bg-raised hover:text-fg",
+					"text-fg-muted hover:bg-surface-3 hover:text-fg",
 					"transition-colors outline-none",
 					"focus-visible:z-10 focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand/20",
 					"disabled:opacity-50 disabled:pointer-events-none"
@@ -80,7 +80,7 @@ function NumberInput({
 				className={cn(
 					"inline-flex size-8 items-center justify-center rounded-r-md",
 					"border border-l-0 border-edge bg-surface",
-					"text-fg-muted hover:bg-raised hover:text-fg",
+					"text-fg-muted hover:bg-surface-3 hover:text-fg",
 					"transition-colors outline-none",
 					"focus-visible:z-10 focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand/20",
 					"disabled:opacity-50 disabled:pointer-events-none"

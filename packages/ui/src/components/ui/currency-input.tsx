@@ -111,7 +111,7 @@ function CurrencyInput({
 				className={cn(
 					"w-full min-w-0 outline-none",
 					"bg-surface",
-					"hover:bg-raised",
+					"hover:bg-surface-3",
 					"border border-edge",
 					"hover:border-edge",
 					"focus:border-brand",

@@ -74,7 +74,7 @@ export function CascadingSelect({
 			<PopoverTrigger
 				id={id}
 				className={cn(
-					"focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-raised hover:text-fg aria-expanded:bg-raised aria-expanded:text-fg rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none gap-1.5 px-2.5 h-8 w-full",
+					"focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-surface-3 hover:text-fg aria-expanded:bg-surface-3 aria-expanded:text-fg rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none gap-1.5 px-2.5 h-8 w-full",
 					!selectedPath && "text-fg-muted",
 					className
 				)}
@@ -123,7 +123,7 @@ export function CascadingSelect({
 									type="button"
 									onClick={() => handleSelect(node)}
 									className={cn(
-										"flex-1 rounded-l-md px-3 py-1.5 text-left text-sm transition-colors hover:bg-raised",
+										"flex-1 rounded-l-md px-3 py-1.5 text-left text-sm transition-colors hover:bg-surface-3",
 										value === node.id && "font-medium text-brand"
 									)}
 								>
@@ -133,7 +133,7 @@ export function CascadingSelect({
 									<button
 										type="button"
 										onClick={(e) => handleDrillDown(e, node)}
-										className="rounded-r-md border-l border-edge/40 px-2.5 py-1.5 text-fg-muted transition-colors hover:bg-raised hover:text-fg"
+										className="rounded-r-md border-l border-edge/40 px-2.5 py-1.5 text-fg-muted transition-colors hover:bg-surface-3 hover:text-fg"
 										aria-label={`Expand ${node.label}`}
 									>
 										<ChevronRight className="h-4 w-4" />

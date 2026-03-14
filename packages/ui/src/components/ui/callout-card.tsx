@@ -58,7 +58,7 @@ export function CalloutCard({
 				<button
 					type="button"
 					onClick={onDismiss}
-					className="absolute right-2 top-2 rounded-md p-1 text-fg-muted hover:bg-raised hover:text-fg"
+					className="absolute right-2 top-2 rounded-md p-1 text-fg-muted hover:bg-surface-3 hover:text-fg"
 					aria-label="Dismiss"
 				>
 					<X className="h-4 w-4" />

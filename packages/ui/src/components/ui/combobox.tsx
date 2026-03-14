@@ -57,7 +57,7 @@ export function Combobox({
 			{iconTrigger ? (
 				<PopoverTrigger
 					className={cn(
-						"focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-raised hover:text-fg aria-expanded:bg-raised aria-expanded:text-fg rounded-lg border bg-clip-padding focus-visible:ring-[3px] inline-flex items-center justify-center transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none size-8",
+						"focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-surface-3 hover:text-fg aria-expanded:bg-surface-3 aria-expanded:text-fg rounded-lg border bg-clip-padding focus-visible:ring-[3px] inline-flex items-center justify-center transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none size-8",
 						className
 					)}
 					role="combobox"
@@ -69,7 +69,7 @@ export function Combobox({
 			) : (
 				<PopoverTrigger
 					className={cn(
-						"focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-raised hover:text-fg aria-expanded:bg-raised aria-expanded:text-fg rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none gap-1.5 px-2.5 w-full",
+						"focus-visible:border-brand focus-visible:ring-brand/20 border-field bg-surface hover:bg-surface-3 hover:text-fg aria-expanded:bg-surface-3 aria-expanded:text-fg rounded-lg border bg-clip-padding text-sm font-medium focus-visible:ring-[3px] inline-flex items-center justify-between whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none select-none gap-1.5 px-2.5 w-full",
 						hasRichOptions ? "h-10" : "h-8",
 						className
 					)}

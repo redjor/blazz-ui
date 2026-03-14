@@ -53,14 +53,14 @@ function ColorPicker({
 				disabled={disabled}
 				className={cn(
 					"inline-flex h-8 items-center gap-2 rounded-md border border-edge bg-surface px-2.5 text-sm",
-					"transition-colors hover:bg-raised outline-none",
+					"transition-colors hover:bg-surface-3 outline-none",
 					"focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand/20",
 					"disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
 					className
 				)}
 			>
 				<span
-					className={cn("size-4 shrink-0 rounded-sm border border-edge", !value && "bg-raised")}
+					className={cn("size-4 shrink-0 rounded-sm border border-edge", !value && "bg-surface-3")}
 					style={value ? { backgroundColor: value } : undefined}
 				/>
 				<span className={cn("text-sm", value ? "text-fg" : "text-fg-muted")}>

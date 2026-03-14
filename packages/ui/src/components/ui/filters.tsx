@@ -226,7 +226,7 @@ const filterInputVariants = cva(
 	{
 		variants: {
 			variant: {
-				solid: "border-0 bg-raised",
+				solid: "border-0 bg-surface-3",
 				outline: "bg-surface border border-edge",
 			},
 			size: {
@@ -255,8 +255,8 @@ const filterRemoveButtonVariants = cva(
 	{
 		variants: {
 			variant: {
-				solid: "bg-raised",
-				outline: "border border-edge border-s-0 hover:bg-raised",
+				solid: "bg-surface-3",
+				outline: "border border-edge border-s-0 hover:bg-surface-3",
 			},
 			size: {
 				lg: "h-10 w-10 [&_svg:not([class*=size-])]:size-4",
@@ -289,8 +289,8 @@ const filterAddButtonVariants = cva(
 	{
 		variants: {
 			variant: {
-				solid: "border border-edge hover:bg-raised/60",
-				outline: "border border-edge hover:bg-raised",
+				solid: "border border-edge hover:bg-surface-3/60",
+				outline: "border border-edge hover:bg-surface-3",
 			},
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
@@ -321,9 +321,9 @@ const filterOperatorVariants = cva(
 	{
 		variants: {
 			variant: {
-				solid: "bg-raised",
+				solid: "bg-surface-3",
 				outline:
-					"bg-surface border border-edge border-e-0 hover:bg-raised data-[state=open]:bg-raised [&+[data-slot=filters-remove]]:border-s",
+					"bg-surface border border-edge border-e-0 hover:bg-surface-3 data-[state=open]:bg-surface-3 [&+[data-slot=filters-remove]]:border-s",
 			},
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5",
@@ -351,7 +351,7 @@ const filterFieldLabelVariants = cva(
 	{
 		variants: {
 			variant: {
-				solid: "bg-raised",
+				solid: "bg-surface-3",
 				outline: "border border-edge border-e-0",
 			},
 			size: {
@@ -376,9 +376,9 @@ const filterFieldValueVariants = cva(
 	{
 		variants: {
 			variant: {
-				solid: "bg-raised",
+				solid: "bg-surface-3",
 				outline:
-					"bg-surface border border-edge hover:bg-raised has-[[data-slot=switch]]:hover:bg-transparent",
+					"bg-surface border border-edge hover:bg-surface-3 has-[[data-slot=switch]]:hover:bg-transparent",
 			},
 			size: {
 				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
@@ -419,7 +419,7 @@ const filterFieldAddonVariants = cva("text-fg shrink-0 flex items-center justify
 const filterFieldBetweenVariants = cva("text-fg-muted shrink-0 flex items-center", {
 	variants: {
 		variant: {
-			solid: "bg-raised",
+			solid: "bg-surface-3",
 			outline: "bg-surface border border-edge border-x-0",
 		},
 		size: {

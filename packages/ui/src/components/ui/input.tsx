@@ -11,7 +11,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 			className={cn(
 				"w-full min-w-0 outline-none",
 				"bg-surface",
-				"hover:bg-raised",
+				"hover:bg-surface-3",
 				"border border-field",
 				"hover:border-field",
 				"focus:border-brand",

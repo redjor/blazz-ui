@@ -30,19 +30,19 @@ function Calendar({
 				caption_label: "text-sm font-medium text-fg",
 				nav: "flex items-center gap-1",
 				button_previous:
-					"absolute left-1 top-0 z-10 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-raised transition-colors",
+					"absolute left-1 top-0 z-10 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-surface-3 transition-colors",
 				button_next:
-					"absolute right-1 top-0 z-10 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-raised transition-colors",
+					"absolute right-1 top-0 z-10 inline-flex size-7 items-center justify-center rounded-md border border-container bg-transparent text-fg-muted hover:bg-surface-3 transition-colors",
 				month_grid: "w-full border-collapse",
 				weekdays: "flex",
 				weekday: "w-9 text-center text-[0.8rem] font-normal text-fg-muted rounded-md",
 				week: "flex w-full mt-2",
 				day: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20",
 				day_button:
-					"inline-flex size-9 items-center justify-center rounded-md text-sm font-normal transition-colors hover:bg-raised hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 aria-selected:opacity-100",
+					"inline-flex size-9 items-center justify-center rounded-md text-sm font-normal transition-colors hover:bg-surface-3 hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 aria-selected:opacity-100",
 				selected:
 					"bg-brand text-brand-fg hover:bg-brand-hover hover:text-brand-fg focus:bg-brand focus:text-brand-fg rounded-md [&.rdp-today]:bg-brand [&.rdp-today]:text-brand-fg",
-				today: "bg-raised text-fg font-semibold",
+				today: "bg-surface-3 text-fg font-semibold",
 				outside:
 					"text-fg-muted opacity-50 aria-selected:bg-brand/50 aria-selected:text-brand-fg aria-selected:opacity-30",
 				disabled: "text-fg-muted opacity-50 pointer-events-none",
@@ -50,7 +50,7 @@ function Calendar({
 				range_start: "rounded-r-none",
 				range_end: "rounded-l-none",
 				range_middle:
-					"rounded-none bg-raised text-fg aria-selected:bg-raised aria-selected:text-fg",
+					"rounded-none bg-surface-3 text-fg aria-selected:bg-surface-3 aria-selected:text-fg",
 				...classNames,
 			}}
 			components={{

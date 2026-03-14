@@ -20,7 +20,7 @@ function FilterPanel({ className, width = 340, style, ...props }: FilterPanelPro
 		<div
 			data-slot="filter-panel"
 			className={cn(
-				"bg-panel ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
+				"bg-surface-4 ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
 				className
 			)}
 			style={{ width, ...style }}
@@ -63,7 +63,7 @@ function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelT
 	return (
 		<div
 			data-slot="filter-panel-tabs"
-			className={cn("flex items-center gap-0.5 rounded-md bg-raised p-0.5", className)}
+			className={cn("flex items-center gap-0.5 rounded-md bg-surface-3 p-0.5", className)}
 		>
 			{tabs.map((tab) => {
 				const isActive = tab === value
@@ -113,7 +113,7 @@ function FilterPanelAction({ className, ...props }: FilterPanelActionProps) {
 			type="button"
 			data-slot="filter-panel-action"
 			className={cn(
-				"flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-150 ease-out hover:bg-raised hover:text-fg",
+				"flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-150 ease-out hover:bg-surface-3 hover:text-fg",
 				className
 			)}
 			{...props}
@@ -180,7 +180,7 @@ function FilterPanelCheckboxItem({
 			htmlFor={id}
 			data-slot="filter-panel-checkbox-item"
 			className={cn(
-				"group flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-raised",
+				"group flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-surface-3",
 				disabled && "cursor-not-allowed opacity-50",
 				className
 			)}
@@ -254,7 +254,7 @@ function FilterPanelTreeItem({
 		>
 			<CollapsiblePrimitive.Trigger
 				className={cn(
-					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-raised"
+					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-surface-3"
 				)}
 			>
 				<ChevronRightIcon className="size-3 shrink-0 text-fg-muted transition-transform duration-150 ease-out group-data-[panel-open]/tree:rotate-90" />

@@ -18,7 +18,7 @@ function Toaster(props: ToasterProps) {
 			offset={16}
 			toastOptions={{
 				style: {
-					"--normal-bg": "var(--bg-overlay)",
+					"--normal-bg": "var(--surface-4)",
 					"--normal-border": "var(--border-default)",
 					"--normal-text": "var(--text-primary)",
 					"--normal-description": "var(--text-secondary)",
@@ -117,7 +117,7 @@ function ProgressToastContent({
 		<div
 			className="relative overflow-hidden rounded-[var(--toast-radius,10px)] border w-[356px]"
 			style={{
-				background: "var(--bg-overlay)",
+				background: "var(--surface-4)",
 				borderColor: "var(--border-default)",
 				boxShadow: "0 4px 12px rgb(0 0 0 / 0.08), 0 1px 3px rgb(0 0 0 / 0.05)",
 			}}

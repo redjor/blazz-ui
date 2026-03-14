@@ -38,7 +38,7 @@ const badgeVariants = cva(
 			},
 			// Secondary
 			{ variant: "secondary", fill: "solid", className: "bg-fg-muted text-surface" },
-			{ variant: "secondary", fill: "subtle", className: "bg-raised text-fg-muted" },
+			{ variant: "secondary", fill: "subtle", className: "bg-surface-3 text-fg-muted" },
 			// Info
 			{ variant: "info", fill: "solid", className: "bg-inform text-white" },
 			{

@@ -99,7 +99,7 @@ function FileUpload({
 					"flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-6",
 					"border-edge bg-surface text-center",
 					"transition-colors duration-150 cursor-pointer",
-					"hover:bg-raised hover:border-fg-muted",
+					"hover:bg-surface-3 hover:border-fg-muted",
 					"focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-brand/20 focus-visible:border-brand",
 					isDragging && "border-brand bg-brand/5",
 					disabled && "opacity-50 pointer-events-none cursor-not-allowed"

@@ -16,7 +16,7 @@ function Switch({
 			data-slot="switch"
 			data-size={size}
 			className={cn(
-				"bg-raised data-checked:bg-brand",
+				"bg-surface-3 data-checked:bg-brand",
 				"focus-visible:border-brand focus-visible:ring-brand/20",
 				"aria-invalid:ring-negative/20 aria-invalid:border-negative",
 				"shrink-0 rounded-full border border-transparent focus-visible:ring-[3px] aria-invalid:ring-[3px]",
