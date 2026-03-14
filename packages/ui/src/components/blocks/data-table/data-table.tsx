@@ -803,57 +803,56 @@ export function DataTable<TData, TValue = unknown>({
 				)}
 
 				{/* Inline Filters — classic layout: standalone bar */}
-				{enableAdvancedFilters &&
-					viewsHook.showInlineFilters &&
-					toolbarLayout !== "stacked" && (
-						<DataTableReUIFilters
-							columns={columns as DataTableColumnDef<TData, TValue>[]}
-							filterGroup={viewsHook.filterGroup}
-							onFilterChange={viewsHook.handleFilterGroupChange}
-							locale={finalLocale}
-							variant="outline"
-							size="sm"
-						/>
-					)}
+				{enableAdvancedFilters && viewsHook.showInlineFilters && toolbarLayout !== "stacked" && (
+					<DataTableReUIFilters
+						columns={columns as DataTableColumnDef<TData, TValue>[]}
+						filterGroup={viewsHook.filterGroup}
+						onFilterChange={viewsHook.handleFilterGroupChange}
+						locale={finalLocale}
+						variant="outline"
+						size="sm"
+					/>
+				)}
 
 				{/* Inline Filters — stacked layout: integrated row with filter icon + Clear/Save */}
-				{enableAdvancedFilters &&
-					viewsHook.showInlineFilters &&
-					toolbarLayout === "stacked" && (
-						<div className="flex items-center gap-1.5 border-b border-separator px-2 py-1.5">
-							<ListFilter className="h-3.5 w-3.5 shrink-0 text-fg-muted" />
-							<div className="flex-1 min-w-0">
-								<DataTableReUIFilters
-									columns={columns as DataTableColumnDef<TData, TValue>[]}
-									filterGroup={viewsHook.filterGroup}
-									onFilterChange={viewsHook.handleFilterGroupChange}
-									locale={finalLocale}
-									variant="outline"
-									size="sm"
-									bare
-								/>
-							</div>
-							<div className="flex shrink-0 items-center gap-1">
-								<button
-									type="button"
-									onClick={() => viewsHook.handleFilterGroupChange(null)}
-									className="px-2 py-0.5 text-xs text-fg-muted hover:text-fg transition-colors"
-								>
-									Clear
-								</button>
-								{enableCustomViews && (
-									<Button
-										variant="ghost"
-										size="sm"
-										onClick={() => viewsHook.setShowSaveViewDialog(true)}
-										className="h-6 px-2 text-xs"
-									>
-										Save
-									</Button>
-								)}
-							</div>
+				{enableAdvancedFilters && viewsHook.showInlineFilters && toolbarLayout === "stacked" && (
+					<div className="flex items-center gap-3 border-b border-separator px-3 py-1.5">
+						<ListFilter className="h-3.5 w-3.5 shrink-0 text-fg-muted" />
+						<div className="flex-1 min-w-0">
+							<DataTableReUIFilters
+								columns={columns as DataTableColumnDef<TData, TValue>[]}
+								filterGroup={viewsHook.filterGroup}
+								onFilterChange={viewsHook.handleFilterGroupChange}
+								locale={finalLocale}
+								variant="outline"
+								size="sm"
+								bare
+							/>
 						</div>
-					)}
+						<div className="flex shrink-0 items-center gap-1">
+							<button
+								type="button"
+								onClick={() => {
+									viewsHook.handleFilterGroupChange(null)
+									viewsHook.setShowInlineFilters(false)
+								}}
+								className="px-2 py-0.5 text-xs text-fg-muted hover:text-fg transition-colors"
+							>
+								Effacer
+							</button>
+							{enableCustomViews && (
+								<Button
+									variant="ghost"
+									size="sm"
+									onClick={() => viewsHook.setShowSaveViewDialog(true)}
+									className="h-6 px-2 text-xs"
+								>
+									Sauvegarder
+								</Button>
+							)}
+						</div>
+					</div>
+				)}
 
 				<div
 					className={cn(
