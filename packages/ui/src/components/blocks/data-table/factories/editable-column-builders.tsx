@@ -165,8 +165,8 @@ export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg
 /** Idle (read) state — subtle indicator that cell is editable */
 const idleCell = `${cellShared} cursor-text text-left border-b border-dashed border-transparent hover:border-edge hover:bg-surface-3/30`
 
-/** Active edit state — ring animates in */
-const editInput = `${cellShared} min-w-0 h-auto border-0 border-b border-transparent outline-none ring-2 ring-inset ring-brand animate-in fade-in duration-150`
+/** Active edit state */
+const editInput = `${cellShared} min-w-0 h-auto border-0 border-b border-transparent outline-none ring-2 ring-inset ring-brand`
 
 // ---------------------------------------------------------------------------
 // Validation feedback component
@@ -534,32 +534,34 @@ function EditableSelectCell({
 	}
 
 	return (
-		<Select
-			value={value ?? ""}
-			onValueChange={handleChange}
-			open
-			onOpenChange={(open) => {
-				if (!open) setEditing(false)
-			}}
-		>
-			<SelectTrigger
-				className={cn(
-					editInput,
-					"shadow-none",
-					validationResult && validationRingColor[validationResult.level],
-					className
-				)}
+		<div className={cellWrapper}>
+			<Select
+				value={value ?? ""}
+				onValueChange={handleChange}
+				open
+				onOpenChange={(open) => {
+					if (!open) setEditing(false)
+				}}
 			>
-				<SelectValue />
-			</SelectTrigger>
-			<SelectContent>
-				{options.map((opt) => (
-					<SelectItem key={opt.value} value={opt.value}>
-						{opt.label}
-					</SelectItem>
-				))}
-			</SelectContent>
-		</Select>
+				<SelectTrigger
+					className={cn(
+						editInput,
+						"!h-auto !rounded-none !border-0 !bg-transparent shadow-none",
+						validationResult && validationRingColor[validationResult.level],
+						className
+					)}
+				>
+					<SelectValue />
+				</SelectTrigger>
+				<SelectContent>
+					{options.map((opt) => (
+						<SelectItem key={opt.value} value={opt.value}>
+							{opt.label}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+		</div>
 	)
 }
 
