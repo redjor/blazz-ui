@@ -9,6 +9,8 @@ import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { ExternalLink, Package, RefreshCw } from "lucide-react"
 import { useState } from "react"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { api } from "@/convex/_generated/api"
 import { formatBytes } from "@/lib/format"
 
@@ -27,7 +29,7 @@ export default function PackagesPageClient() {
 	}
 
 	return (
-		<div className="p-6 space-y-6">
+		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title="Packages"
 				description="Suivi des packages npm publiés"
@@ -42,26 +44,26 @@ export default function PackagesPageClient() {
 			{packages === undefined ? (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{Array.from({ length: 1 }).map((_, i) => (
-						<div key={i} className="rounded-lg border border-edge p-5 space-y-3">
+						<BlockStack key={i} gap="300" className="rounded-lg border border-edge p-5">
 							<Skeleton className="h-5 w-32" />
 							<Skeleton className="h-4 w-48" />
 							<Skeleton className="h-4 w-24" />
-						</div>
+						</BlockStack>
 					))}
 				</div>
 			) : packages.length === 0 ? (
-				<div className="text-center py-12">
-					<Package className="mx-auto h-10 w-10 text-fg-muted mb-3" />
+				<BlockStack className="text-center py-12 items-center">
+					<Package className="h-10 w-10 text-fg-muted mb-3" />
 					<p className="text-sm text-fg-muted">Aucun package synchronisé.</p>
 					<Button variant="outline" size="sm" className="mt-3" onClick={handleSync}>
 						Synchroniser maintenant
 					</Button>
-				</div>
+				</BlockStack>
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{packages.map((pkg) => (
-						<div key={pkg._id} className="rounded-lg border border-edge bg-surface-3 p-5 space-y-3">
-							<div className="flex items-start justify-between gap-2">
+						<BlockStack key={pkg._id} gap="300" className="rounded-lg border border-edge bg-surface-3 p-5">
+							<InlineStack gap="200" align="space-between" blockAlign="start">
 								<div className="min-w-0">
 									<a
 										href={`https://www.npmjs.com/package/${pkg.name}`}
@@ -79,7 +81,7 @@ export default function PackagesPageClient() {
 								<Badge variant="secondary" className="shrink-0 font-mono text-xs">
 									v{pkg.latestVersion}
 								</Badge>
-							</div>
+							</InlineStack>
 
 							<div className="grid grid-cols-2 gap-y-1.5 text-xs">
 								<div className="text-fg-muted">Downloads/semaine</div>
@@ -125,10 +127,10 @@ export default function PackagesPageClient() {
 									})}
 								</p>
 							)}
-						</div>
+						</BlockStack>
 					))}
 				</div>
 			)}
-		</div>
+		</BlockStack>
 	)
 }

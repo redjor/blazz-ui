@@ -1,5 +1,6 @@
 "use client"
 
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { useAuthActions } from "@convex-dev/auth/react"
 import { useConvexAuth } from "convex/react"
@@ -19,8 +20,8 @@ export default function LoginPageClient() {
 	}, [isAuthenticated, isLoading, router])
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-surface">
-			<div className="flex flex-col items-center gap-10">
+		<BlockStack className="min-h-screen items-center justify-center bg-surface">
+			<BlockStack gap="1000" className="items-center">
 				<Image src="/logo_blazz_white.svg" alt="Blazz Ops" width={120} height={34} priority />
 				<Button
 					type="button"
@@ -49,7 +50,7 @@ export default function LoginPageClient() {
 					</svg>
 					Continuer avec Google
 				</Button>
-			</div>
-		</div>
+			</BlockStack>
+		</BlockStack>
 	)
 }

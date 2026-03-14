@@ -57,7 +57,7 @@ export default function ChatPageClient() {
 	// Empty state: Gemini-style centered layout
 	if (!hasMessages) {
 		return (
-			<div className="flex flex-col h-full items-center justify-center px-4">
+			<BlockStack className="h-full items-center justify-center px-4">
 				<BlockStack gap="600" className="w-full max-w-2xl">
 					<BlockStack gap="200" className="text-center">
 						<h1 className="text-3xl font-semibold text-fg tracking-tight">
@@ -78,13 +78,13 @@ export default function ChatPageClient() {
 
 					<ChatSuggestions onSelect={handleSuggestion} />
 				</BlockStack>
-			</div>
+			</BlockStack>
 		)
 	}
 
 	// Conversation state: messages + input pinned at bottom
 	return (
-		<div className="flex flex-col h-full">
+		<BlockStack className="h-full">
 			<InlineStack align="end" blockAlign="center" className="px-4 py-2 border-b border-edge">
 				<Button variant="outline" size="sm" onClick={handleClear}>
 					<RotateCcw className="size-3.5" />
@@ -135,6 +135,6 @@ export default function ChatPageClient() {
 					</PromptInput>
 				</div>
 			</div>
-		</div>
+		</BlockStack>
 	)
 }

@@ -1,8 +1,10 @@
 "use client"
 
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { ChevronRight, Plus, Users } from "lucide-react"
@@ -34,17 +36,17 @@ function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null
 
 function ClientListSkeleton() {
 	return (
-		<div className="space-y-1">
+		<BlockStack gap="100">
 			{Array.from({ length: 4 }).map((_, i) => (
-				<div key={i} className="flex items-center gap-3 px-3 py-2.5">
+				<InlineStack key={i} gap="300" blockAlign="center" className="px-3 py-2.5">
 					<Skeleton className="size-8 rounded shrink-0" />
-					<div className="flex-1 space-y-1.5">
+					<BlockStack gap="150" className="flex-1">
 						<Skeleton className="h-3.5 w-32" />
 						<Skeleton className="h-3 w-48" />
-					</div>
-				</div>
+					</BlockStack>
+				</InlineStack>
 			))}
-		</div>
+		</BlockStack>
 	)
 }
 
@@ -64,7 +66,7 @@ export default function ClientsPageClient() {
 	useOpsTopBar([{ label: "Clients" }], topBarActions)
 
 	return (
-		<div className="p-4 space-y-4">
+		<BlockStack gap="400" className="p-4">
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogContent>
 					<DialogHeader>
@@ -89,7 +91,7 @@ export default function ClientsPageClient() {
 
 			{/* List */}
 			{clients && clients.length > 0 && (
-				<div className="space-y-1">
+				<BlockStack gap="100">
 					{clients.map((client) => (
 						<Link
 							key={client._id}
@@ -104,8 +106,8 @@ export default function ClientsPageClient() {
 							<ChevronRight className="size-4 text-fg-muted shrink-0" />
 						</Link>
 					))}
-				</div>
+				</BlockStack>
 			)}
-		</div>
+		</BlockStack>
 	)
 }

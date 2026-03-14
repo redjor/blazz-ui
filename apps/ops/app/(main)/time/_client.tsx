@@ -14,6 +14,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
 import {
 	addDays,
@@ -317,15 +319,15 @@ export default function TimePageClient() {
 
 	return (
 		<>
-			<div className="p-6 space-y-6">
+			<BlockStack gap="600" className="p-6">
 				<PageHeader
 					title="Saisie des heures"
 					actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
 				/>
 
-				<div className="flex items-center gap-3">
+				<InlineStack gap="300" blockAlign="center">
 					{/* Toggle Semaine/Liste */}
-					<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-surface-3">
+					<InlineStack gap="100" blockAlign="center" className="rounded-lg border border-edge p-0.5 bg-surface-3">
 						<Button
 							type="button"
 							size="sm"
@@ -353,7 +355,7 @@ export default function TimePageClient() {
 						>
 							Liste
 						</Button>
-					</div>
+					</InlineStack>
 
 					{/* Navigation semaine */}
 					{view === "week" && (
@@ -426,7 +428,7 @@ export default function TimePageClient() {
 							</Button>
 						</>
 					)}
-				</div>
+				</InlineStack>
 
 				{view === "week" && (
 					<div
@@ -475,9 +477,9 @@ export default function TimePageClient() {
 				)}
 
 				{view === "list" && (
-					<div className="space-y-3">
+					<BlockStack gap="300">
 						{/* Filter bar */}
-						<div className="flex flex-wrap items-center gap-2">
+						<InlineStack gap="200" blockAlign="center" wrap>
 							{/* Project filter */}
 							<Select
 								value={filterProjectId ?? ""}
@@ -578,7 +580,7 @@ export default function TimePageClient() {
 									Réinitialiser
 								</Button>
 							)}
-						</div>
+						</InlineStack>
 
 						{/* DataTable */}
 						<DataTable
@@ -596,7 +598,7 @@ export default function TimePageClient() {
 
 						{/* Load more footer */}
 						{paginationStatus !== "LoadingFirstPage" && (
-							<div className="flex items-center justify-between pt-1 text-sm text-muted-fg">
+							<InlineStack align="space-between" blockAlign="center" className="pt-1 text-sm text-muted-fg">
 								<span>
 									{(allEntries ?? []).length} entrée{(allEntries ?? []).length !== 1 ? "s" : ""}{" "}
 									affichée{(allEntries ?? []).length !== 1 ? "s" : ""}
@@ -618,11 +620,11 @@ export default function TimePageClient() {
 								{paginationStatus === "LoadingMore" && (
 									<span className="text-xs text-muted-fg">Chargement…</span>
 								)}
-							</div>
+							</InlineStack>
 						)}
-					</div>
+					</BlockStack>
 				)}
-			</div>
+			</BlockStack>
 
 			<Dialog open={addOpen} onOpenChange={setAddOpen}>
 				<DialogContent>

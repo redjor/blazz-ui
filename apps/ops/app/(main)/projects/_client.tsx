@@ -1,6 +1,8 @@
 "use client"
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import Link from "next/link"
@@ -41,22 +43,22 @@ export default function ProjectsPageClient() {
 
 	if (projects === undefined) {
 		return (
-			<div className="p-6 space-y-6">
+			<BlockStack gap="600" className="p-6">
 				<Skeleton className="h-8 w-40" />
-				<div className="space-y-3">
+				<BlockStack gap="300">
 					{Array.from({ length: 6 }).map((_, i) => (
 						<Skeleton key={i} className="h-14 rounded-lg" />
 					))}
-				</div>
-			</div>
+				</BlockStack>
+			</BlockStack>
 		)
 	}
 
 	return (
-		<div className="p-6 space-y-6">
-			<div className="flex items-center justify-between">
+		<BlockStack gap="600" className="p-6">
+			<InlineStack align="space-between" blockAlign="center">
 				<PageHeader title="Projets" />
-				<div className="flex items-center gap-1.5">
+				<InlineStack gap="150" blockAlign="center">
 					{STATUS_FILTERS.map(({ key, label }) => (
 						<button
 							key={key}
@@ -71,17 +73,19 @@ export default function ProjectsPageClient() {
 							{label}
 						</button>
 					))}
-				</div>
-			</div>
+				</InlineStack>
+			</InlineStack>
 
 			{filtered?.length === 0 ? (
 				<p className="text-sm text-fg-muted py-4">Aucun projet trouvé.</p>
 			) : (
 				<div>
 					{filtered?.map((project) => (
-						<div
+						<InlineStack
 							key={project._id}
-							className="flex items-center justify-between py-3 border-b border-edge last:border-0"
+							align="space-between"
+							blockAlign="center"
+							className="py-3 border-b border-edge last:border-0"
 						>
 							<Link
 								href={`/clients/${project.clientId}/projects/${project._id}`}
@@ -92,7 +96,7 @@ export default function ProjectsPageClient() {
 									{clientMap.get(project.clientId) ?? "…"} · {project.tjm}€/j
 								</span>
 							</Link>
-							<div className="flex items-center gap-4 shrink-0 ml-4">
+							<InlineStack gap="400" blockAlign="center" className="shrink-0 ml-4">
 								{/* Budget progress or days billed */}
 								<span className="text-xs tabular-nums text-fg-muted text-right min-w-[120px]">
 									{project.budgetAmount && project.budgetPercent !== null ? (
@@ -136,17 +140,17 @@ export default function ProjectsPageClient() {
 										}`}
 									/>
 								)}
-								<span className="flex items-center gap-1.5 text-xs text-fg-muted">
+								<InlineStack gap="150" blockAlign="center" className="text-xs text-fg-muted">
 									<span
 										className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`}
 									/>
 									{statusLabel[project.status]}
-								</span>
-							</div>
-						</div>
+								</InlineStack>
+							</InlineStack>
+						</InlineStack>
 					))}
 				</div>
 			)}
-		</div>
+		</BlockStack>
 	)
 }

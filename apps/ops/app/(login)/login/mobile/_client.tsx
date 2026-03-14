@@ -1,5 +1,6 @@
 "use client"
 
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { useAuthActions, useAuthToken } from "@convex-dev/auth/react"
 import { useConvexAuth } from "convex/react"
@@ -20,8 +21,8 @@ export default function MobileLoginPageClient() {
 
 	if (!isLoading && isAuthenticated && token) {
 		return (
-			<div className="min-h-screen flex items-center justify-center bg-surface">
-				<div className="flex flex-col items-center gap-6">
+			<BlockStack className="min-h-screen items-center justify-center bg-surface">
+				<BlockStack gap="600" className="items-center">
 					<p className="text-fg text-lg font-medium">Connecté !</p>
 					<p className="text-fg-muted text-sm">Retour vers BlazzOS...</p>
 					<a
@@ -30,18 +31,18 @@ export default function MobileLoginPageClient() {
 					>
 						Ouvrir BlazzOS manuellement
 					</a>
-				</div>
-			</div>
+				</BlockStack>
+			</BlockStack>
 		)
 	}
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-surface">
-			<div className="flex flex-col items-center gap-10">
-				<div className="flex flex-col items-center gap-2">
+		<BlockStack className="min-h-screen items-center justify-center bg-surface">
+			<BlockStack gap="1000" className="items-center">
+				<BlockStack gap="200" className="items-center">
 					<p className="text-fg text-2xl font-bold">BlazzOS</p>
 					<p className="text-fg-muted text-sm">Connexion via l'app native</p>
-				</div>
+				</BlockStack>
 				<Button
 					type="button"
 					variant="outline"
@@ -70,7 +71,7 @@ export default function MobileLoginPageClient() {
 					</svg>
 					Continuer avec Google
 				</Button>
-			</div>
-		</div>
+			</BlockStack>
+		</BlockStack>
 	)
 }

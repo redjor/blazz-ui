@@ -1,10 +1,13 @@
 "use client"
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { format, parseISO } from "date-fns"
@@ -77,23 +80,23 @@ export default function ProjectDetailPageClient({ params }: Props) {
 	// Loading state
 	if (data === undefined) {
 		return (
-			<div className="p-6 space-y-6">
-				<div className="space-y-2">
+			<BlockStack gap="600" className="p-6">
+				<BlockStack gap="200">
 					<Skeleton className="h-4 w-32" />
 					<Skeleton className="h-6 w-56" />
-				</div>
-				<div className="grid grid-cols-4 gap-4">
+				</BlockStack>
+				<InlineGrid columns={4} gap="400">
 					{Array.from({ length: 4 }).map((_, i) => (
 						<Skeleton key={i} className="h-20 rounded-lg" />
 					))}
-				</div>
+				</InlineGrid>
 				<Skeleton className="h-48 rounded-lg" />
-				<div className="space-y-2">
+				<BlockStack gap="200">
 					{Array.from({ length: 5 }).map((_, i) => (
 						<Skeleton key={i} className="h-10 rounded" />
 					))}
-				</div>
-			</div>
+				</BlockStack>
+			</BlockStack>
 		)
 	}
 
@@ -199,8 +202,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 
 	return (
 		<>
-			<div className="p-6 space-y-8">
-				<div className="space-y-1.5">
+			<BlockStack gap="800" className="p-6">
+				<BlockStack gap="150">
 					<PageHeader
 						title={project.name}
 						actions={[
@@ -211,11 +214,11 @@ export default function ProjectDetailPageClient({ params }: Props) {
 							},
 						]}
 					/>
-					<span className="flex items-center gap-1.5 text-xs text-fg-muted">
+					<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted">
 						<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
 						{statusLabel[project.status]}
-					</span>
-				</div>
+					</InlineStack>
+				</BlockStack>
 
 				{/* KPI cards */}
 				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -279,22 +282,24 @@ export default function ProjectDetailPageClient({ params }: Props) {
 				)}
 
 				{/* Contract management */}
-				<div className="flex items-center justify-between">
+				<InlineStack align="space-between" blockAlign="center">
 					<h2 className="text-sm font-medium text-fg">Contrats</h2>
 					<Button size="sm" variant="outline" onClick={() => setContractOpen(true)}>
 						Nouveau contrat
 					</Button>
-				</div>
+				</InlineStack>
 
 				{/* Past contracts list */}
 				{allContracts && allContracts.filter((c) => c.status !== "active").length > 0 && (
-					<div className="space-y-1">
+					<BlockStack gap="100">
 						{allContracts
 							.filter((c) => c.status !== "active")
 							.map((c) => (
-								<div
+								<InlineStack
 									key={c._id}
-									className="flex items-center justify-between py-2 border-b border-edge last:border-0 text-xs text-fg-muted"
+									align="space-between"
+									blockAlign="center"
+									className="py-2 border-b border-edge last:border-0 text-xs text-fg-muted"
 								>
 									<span className="font-mono">
 										{c.startDate} → {c.endDate}
@@ -307,15 +312,15 @@ export default function ProjectDetailPageClient({ params }: Props) {
 												: "Forfait"}{" "}
 										· {c.status === "completed" ? "Terminé" : "Annulé"}
 									</span>
-								</div>
+								</InlineStack>
 							))}
-					</div>
+					</BlockStack>
 				)}
 
 				{/* Timeline of entries */}
-				<div className="space-y-4">
-					<div className="flex items-center justify-between">
-						<div className="flex items-center gap-3">
+				<BlockStack gap="400">
+					<InlineStack align="space-between" blockAlign="center">
+						<InlineStack gap="300" blockAlign="center">
 							{filteredEntries.length > 0 && (
 								<Checkbox checked={allSelected} onCheckedChange={toggleAll} />
 							)}
@@ -324,8 +329,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 								<Plus className="size-3.5 mr-1" />
 								Nouvelle entrée
 							</Button>
-						</div>
-						<div className="flex items-center gap-1.5 flex-wrap">
+						</InlineStack>
+						<InlineStack gap="150" blockAlign="center" wrap>
 							{STATUS_FILTERS.map(({ key, label }) => (
 								<button
 									key={key}
@@ -340,8 +345,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 									{label}
 								</button>
 							))}
-						</div>
-					</div>
+						</InlineStack>
+					</InlineStack>
 
 					{filteredEntries.length === 0 ? (
 						<p className="text-sm text-fg-muted py-4">Aucune entrée pour ce filtre.</p>
@@ -352,9 +357,12 @@ export default function ProjectDetailPageClient({ params }: Props) {
 								const effectiveStatus = getEffectiveStatus(entry)
 								const editable = effectiveStatus !== "invoiced" && effectiveStatus !== "paid"
 								return (
-									<div
+									<InlineStack
 										key={entry._id}
-										className={`group flex items-center gap-4 py-2.5 border-b border-edge last:border-0`}
+										gap="400"
+										blockAlign="center"
+										wrap={false}
+										className="group py-2.5 border-b border-edge last:border-0"
 									>
 										{editable ? (
 											<Checkbox
@@ -388,13 +396,13 @@ export default function ProjectDetailPageClient({ params }: Props) {
 												<Pencil className="size-3.5 text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity" />
 											</button>
 										)}
-									</div>
+									</InlineStack>
 								)
 							})}
 						</div>
 					)}
-				</div>
-			</div>
+				</BlockStack>
+			</BlockStack>
 
 			{/* Edit project dialog */}
 			<Dialog open={editOpen} onOpenChange={setEditOpen}>

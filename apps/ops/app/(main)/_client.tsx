@@ -1,5 +1,7 @@
 "use client"
 
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
 import { useQuery } from "convex/react"
@@ -29,7 +31,7 @@ export default function DashboardPageClient() {
 	const activeCount = activeProjects?.length ?? 0
 
 	return (
-		<div className="p-6 space-y-6">
+		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title={format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase())}
 				description="Vue d'ensemble du mois en cours"
@@ -59,47 +61,51 @@ export default function DashboardPageClient() {
 
 			{/* Active projects */}
 			{(activeProjects?.length ?? 0) > 0 && (
-				<div className="space-y-3">
+				<BlockStack gap="300">
 					<h2 className="text-sm font-medium text-fg">Projets actifs</h2>
-					<div className="space-y-1">
+					<BlockStack gap="100">
 						{activeProjects?.map((project) => (
-							<div
+							<InlineStack
 								key={project._id}
-								className="flex items-center justify-between py-2 border-b border-edge last:border-0"
+								blockAlign="center"
+								align="space-between"
+								className="py-2 border-b border-edge last:border-0"
 							>
 								<p className="text-sm font-medium text-fg">{project.name}</p>
 								<p className="text-xs text-fg-muted font-mono">
 									{project.tjm}€/j · {project.hoursPerDay}h/j
 								</p>
-							</div>
+							</InlineStack>
 						))}
-					</div>
-				</div>
+					</BlockStack>
+				</BlockStack>
 			)}
 
 			{/* Recent entries */}
 			{(recentEntries?.length ?? 0) > 0 && (
-				<div className="space-y-3">
+				<BlockStack gap="300">
 					<h2 className="text-sm font-medium text-fg">Entrées récentes</h2>
-					<div className="space-y-0">
+					<BlockStack gap="0">
 						{recentEntries?.map((entry) => (
-							<div
+							<InlineStack
 								key={entry._id}
-								className="flex items-center justify-between py-2.5 border-b border-edge last:border-0"
+								blockAlign="center"
+								align="space-between"
+								className="py-2.5 border-b border-edge last:border-0"
 							>
-								<div className="flex items-center gap-3">
+								<InlineStack gap="300" blockAlign="center">
 									<span className="text-xs text-fg-muted w-20 shrink-0 font-mono">
 										{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 									</span>
 									<span className="text-sm text-fg">{entry.description ?? "—"}</span>
-								</div>
+								</InlineStack>
 								<span className="text-sm font-mono text-fg-muted tabular-nums">
 									{formatMinutes(entry.minutes)}
 								</span>
-							</div>
+							</InlineStack>
 						))}
-					</div>
-				</div>
+					</BlockStack>
+				</BlockStack>
 			)}
 
 			{!isLoading && monthEntries?.length === 0 && activeProjects?.length === 0 && (
@@ -107,6 +113,6 @@ export default function DashboardPageClient() {
 					Pas encore de données. Créez un client et des projets pour commencer.
 				</p>
 			)}
-		</div>
+		</BlockStack>
 	)
 }

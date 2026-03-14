@@ -1,6 +1,8 @@
 "use client"
 
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import {
@@ -11,6 +13,7 @@ import {
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
@@ -168,12 +171,12 @@ export default function RecapPageClient() {
 
 	return (
 		<>
-			<div className="p-6 space-y-6">
+			<BlockStack gap="600" className="p-6">
 				<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
 				{/* Filters */}
-				<div className="flex flex-wrap gap-4 p-4 rounded-xl border border-edge bg-surface-3">
-					<div className="space-y-1.5">
+				<InlineStack gap="400" wrap className="p-4 rounded-xl border border-edge bg-surface-3">
+					<BlockStack gap="150">
 						<Label>Client</Label>
 						<Select
 							value={clientId || "_all"}
@@ -200,10 +203,10 @@ export default function RecapPageClient() {
 								))}
 							</SelectContent>
 						</Select>
-					</div>
+					</BlockStack>
 
 					{clientId && (
-						<div className="space-y-1.5">
+						<BlockStack gap="150">
 							<Label>Projet</Label>
 							<Select
 								value={projectId || "_all"}
@@ -227,10 +230,10 @@ export default function RecapPageClient() {
 									))}
 								</SelectContent>
 							</Select>
-						</div>
+						</BlockStack>
 					)}
 
-					<div className="space-y-1.5">
+					<BlockStack gap="150">
 						<Label>Période</Label>
 						<Select
 							value={period}
@@ -256,10 +259,10 @@ export default function RecapPageClient() {
 								</SelectItem>
 							</SelectContent>
 						</Select>
-					</div>
+					</BlockStack>
 
 					{period === "custom" && (
-						<div className="space-y-1.5">
+						<BlockStack gap="150">
 							<Label>Période</Label>
 							<DateRangeSelector
 								from={from ? parseISO(from) : undefined}
@@ -270,12 +273,12 @@ export default function RecapPageClient() {
 								}}
 								formatStr="dd/MM/yyyy"
 							/>
-						</div>
+						</BlockStack>
 					)}
-				</div>
+				</InlineStack>
 
 				{/* Status tabs */}
-				<div className="flex items-center gap-1 rounded-lg border border-edge p-0.5 bg-surface-3 w-fit">
+				<InlineStack gap="100" blockAlign="center" className="rounded-lg border border-edge p-0.5 bg-surface-3 w-fit">
 					{(["ready_to_invoice", "invoiced", "paid"] as const).map((s) => (
 						<button
 							key={s}
@@ -291,7 +294,7 @@ export default function RecapPageClient() {
 							<EntryStatusBadge status={s} />
 						</button>
 					))}
-				</div>
+				</InlineStack>
 
 				{/* Table */}
 				{filteredEntries === undefined ? (
@@ -305,7 +308,7 @@ export default function RecapPageClient() {
 					/>
 				) : (
 					<>
-						<div className="rounded-xl border border-edge overflow-hidden">
+						<Box className="rounded-xl overflow-hidden" border="default">
 							<table className="w-full text-sm">
 								<thead className="bg-surface-3 border-b border-edge">
 									<tr>
@@ -352,9 +355,9 @@ export default function RecapPageClient() {
 									</tr>
 								</tfoot>
 							</table>
-						</div>
+						</Box>
 
-						<div className="flex gap-3">
+						<InlineStack gap="300">
 							<Button variant="outline" onClick={handleExportCSV}>
 								<Download className="size-4 mr-1.5" />
 								Export CSV
@@ -371,15 +374,15 @@ export default function RecapPageClient() {
 									Marquer comme payé ({filteredEntries.length})
 								</Button>
 							)}
-						</div>
+						</InlineStack>
 
-						<div className="space-y-3 pt-2">
-							<div>
+						<BlockStack gap="300" className="pt-2">
+							<BlockStack>
 								<h2 className="text-sm font-medium text-fg">Journal de période</h2>
 								<p className="text-xs text-fg-muted">
 									Lecture compacte des dernières journées présentes dans ce récapitulatif.
 								</p>
-							</div>
+							</BlockStack>
 							<div className="grid gap-4 lg:grid-cols-2">
 								{journalDays.map((day) => (
 									<JournalDayCard
@@ -391,10 +394,10 @@ export default function RecapPageClient() {
 									/>
 								))}
 							</div>
-						</div>
+						</BlockStack>
 					</>
 				)}
-			</div>
+			</BlockStack>
 
 			<Dialog open={showConfirm} onOpenChange={setShowConfirm}>
 				<DialogContent>

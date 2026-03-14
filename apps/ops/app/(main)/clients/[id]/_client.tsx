@@ -11,6 +11,10 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@blazz/ui/components/ui/dialog"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Box } from "@blazz/ui/components/ui/box"
+import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Pencil, Plus } from "lucide-react"
@@ -53,23 +57,23 @@ export default function ClientDetailPageClient({ params }: Props) {
 
 	if (client === undefined) {
 		return (
-			<div className="p-6 space-y-6">
-				<div className="space-y-2">
+			<BlockStack gap="600" className="p-6">
+				<BlockStack gap="200">
 					<Skeleton className="h-4 w-24" />
 					<Skeleton className="h-6 w-48" />
-				</div>
-				<div className="flex items-start gap-4">
+				</BlockStack>
+				<InlineStack gap="400" blockAlign="start">
 					<Skeleton className="size-14 rounded-lg shrink-0" />
-					<div className="grid grid-cols-3 gap-x-6 gap-y-4 flex-1">
+					<InlineGrid columns={3} gap="400" className="flex-1">
 						{Array.from({ length: 6 }).map((_, i) => (
-							<div key={i} className="space-y-1.5">
+							<BlockStack key={i} gap="150">
 								<Skeleton className="h-3.5 w-20" />
 								<Skeleton className="h-4 w-32" />
-							</div>
+							</BlockStack>
 						))}
-					</div>
-				</div>
-			</div>
+					</InlineGrid>
+				</InlineStack>
+			</BlockStack>
 		)
 	}
 
@@ -81,7 +85,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 
 	return (
 		<>
-			<div className="p-6 space-y-8">
+			<BlockStack gap="800" className="p-6">
 				<PageHeader
 					title={client.name}
 					actions={[
@@ -94,8 +98,8 @@ export default function ClientDetailPageClient({ params }: Props) {
 				/>
 
 				{/* Avatar + coordonnées */}
-				<div className="flex items-start gap-4">
-					<div className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
+				<InlineStack gap="400" blockAlign="start">
+					<Box className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
 						{client.logoUrl ? (
 							<Image
 								src={client.logoUrl}
@@ -109,7 +113,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 								{client.name.slice(0, 2).toUpperCase()}
 							</span>
 						)}
-					</div>
+					</Box>
 					<FieldGrid columns={3} className="flex-1">
 						{client.email && <Field label="Email" value={client.email} />}
 						{client.phone && <Field label="Téléphone" value={client.phone} />}
@@ -118,7 +122,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 							<Field label="Informations" value="—" />
 						)}
 					</FieldGrid>
-				</div>
+				</InlineStack>
 
 				{/* Stats pipeline */}
 				<StatsStrip
@@ -136,8 +140,8 @@ export default function ClientDetailPageClient({ params }: Props) {
 				/>
 
 				{/* Projets */}
-				<div className="space-y-4">
-					<div className="flex items-center justify-between">
+				<BlockStack gap="400">
+					<InlineStack align="space-between" blockAlign="center">
 						<h2 className="text-sm font-medium text-fg">Projets</h2>
 						<Dialog open={projectOpen} onOpenChange={setProjectOpen}>
 							<DialogTrigger render={<Button size="sm" variant="outline" />}>
@@ -155,17 +159,19 @@ export default function ClientDetailPageClient({ params }: Props) {
 								/>
 							</DialogContent>
 						</Dialog>
-					</div>
+					</InlineStack>
 
 					{projects?.length === 0 && (
 						<p className="text-sm text-fg-muted">Aucun projet pour ce client.</p>
 					)}
 
-					<div className="space-y-2">
+					<BlockStack gap="200">
 						{projects?.map((project) => (
-							<div
+							<InlineStack
 								key={project._id}
-								className="flex items-center justify-between py-2.5 border-b border-edge last:border-0"
+								align="space-between"
+								blockAlign="center"
+								className="py-2.5 border-b border-edge last:border-0"
 							>
 								<Link
 									href={`/clients/${id}/projects/${project._id}`}
@@ -177,7 +183,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 										{project.startDate && ` · depuis ${project.startDate}`}
 									</span>
 								</Link>
-								<div className="flex items-center gap-3 shrink-0 ml-4">
+								<InlineStack gap="300" blockAlign="center" className="shrink-0 ml-4">
 									{project.budgetPercent !== null && (
 										<span
 											className={`inline-block size-2 rounded-full ${
@@ -204,12 +210,12 @@ export default function ClientDetailPageClient({ params }: Props) {
 									>
 										<Pencil className="size-3.5" />
 									</Button>
-								</div>
-							</div>
+								</InlineStack>
+							</InlineStack>
 						))}
-					</div>
-				</div>
-			</div>
+					</BlockStack>
+				</BlockStack>
+			</BlockStack>
 
 			{/* Edit client dialog */}
 			<Dialog open={editOpen} onOpenChange={setEditOpen}>

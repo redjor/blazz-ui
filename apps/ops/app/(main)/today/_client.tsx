@@ -5,14 +5,7 @@ import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
 import { Button } from "@blazz/ui/components/ui/button"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { Box } from "@blazz/ui/components/ui/box"
-import { Divider } from "@blazz/ui/components/ui/divider"
-import {
-	Card,
-	CardAction,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardAction, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { useQuery } from "convex/react"
 import { format } from "date-fns"
@@ -41,10 +34,7 @@ export default function TodayPageClient() {
 
 	const billableEntries = todayEntries?.filter((e) => e.billable) ?? []
 	const totalMinutesToday = billableEntries.reduce((s, e) => s + e.minutes, 0)
-	const totalAmountToday = billableEntries.reduce(
-		(s, e) => s + (e.minutes / 60) * e.hourlyRate,
-		0,
-	)
+	const totalAmountToday = billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
 
 	const activeTodos = todos?.filter((t) => t.status !== "done") ?? []
 	const projectList = activeProjects ?? []
@@ -62,11 +52,11 @@ export default function TodayPageClient() {
 	useOpsTopBar([{ label: "Aujourd'hui" }])
 
 	const dateTitle = format(new Date(), "EEEE d MMMM yyyy", { locale: fr }).replace(/^\w/, (c) =>
-		c.toUpperCase(),
+		c.toUpperCase()
 	)
 
 	return (
-		<BlockStack gap="600" className="p-6">
+		<BlockStack gap="600" className="p-4">
 			<PageHeader
 				title={dateTitle}
 				actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
@@ -95,12 +85,7 @@ export default function TodayPageClient() {
 					<CardHeader className="border-b border-separator">
 						<CardTitle>Entrées du jour</CardTitle>
 						<CardAction>
-							<Button
-								type="button"
-								variant="ghost"
-								size="sm"
-								onClick={() => setAddOpen(true)}
-							>
+							<Button type="button" variant="ghost" size="sm" onClick={() => setAddOpen(true)}>
 								<Plus className="size-3.5" />
 								Ajouter
 							</Button>
@@ -120,9 +105,7 @@ export default function TodayPageClient() {
 						) : (
 							<ul className="divide-y divide-separator">
 								{todayEntries.map((entry) => {
-									const project = projectList.find(
-										(p) => p._id === entry.projectId,
-									)
+									const project = projectList.find((p) => p._id === entry.projectId)
 									return (
 										<li key={entry._id}>
 											<button
@@ -165,9 +148,7 @@ export default function TodayPageClient() {
 						</CardHeader>
 						<div>
 							{projectList.length === 0 ? (
-								<p className="px-inset py-6 text-sm text-fg-muted">
-									Aucun projet actif.
-								</p>
+								<p className="px-inset py-6 text-sm text-fg-muted">Aucun projet actif.</p>
 							) : (
 								<ul className="divide-y divide-separator">
 									{projectList.map((project) => (
@@ -176,9 +157,7 @@ export default function TodayPageClient() {
 											className="flex items-center justify-between gap-3 px-inset py-2.5"
 										>
 											<BlockStack gap="050">
-												<span className="text-sm font-medium text-fg">
-													{project.name}
-												</span>
+												<span className="text-sm font-medium text-fg">{project.name}</span>
 												<span className="font-mono text-xs text-fg-muted">
 													{project.tjm}€/j · {project.hoursPerDay}h/j
 												</span>
@@ -193,10 +172,7 @@ export default function TodayPageClient() {
 														open: true,
 														projectId: project._id,
 														projectName: project.name,
-														hourlyRate: computeHourlyRate(
-															project.tjm,
-															project.hoursPerDay,
-														),
+														hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
 														hoursPerDay: project.hoursPerDay,
 													})
 												}
@@ -216,22 +192,14 @@ export default function TodayPageClient() {
 						<CardHeader className="border-b border-separator">
 							<CardTitle>Todos</CardTitle>
 							<CardAction>
-								<span className="text-xs tabular-nums text-fg-muted">
-									{activeTodos.length}
-								</span>
+								<span className="text-xs tabular-nums text-fg-muted">{activeTodos.length}</span>
 							</CardAction>
 						</CardHeader>
 						<div>
 							{todos === undefined ? (
-								<p className="px-inset py-6 text-sm text-fg-muted">
-									Chargement…
-								</p>
+								<p className="px-inset py-6 text-sm text-fg-muted">Chargement…</p>
 							) : activeTodos.length === 0 ? (
-								<InlineStack
-									gap="200"
-									blockAlign="center"
-									className="px-inset py-6"
-								>
+								<InlineStack gap="200" blockAlign="center" className="px-inset py-6">
 									<CheckCircle2 className="size-4 text-success" />
 									<span className="text-sm text-fg-muted">Tout est fait.</span>
 								</InlineStack>
@@ -245,9 +213,7 @@ export default function TodayPageClient() {
 												onClick={() => router.push(`/todos/${todo._id}`)}
 											>
 												<Circle className="size-3.5 shrink-0 text-fg-muted/50" />
-												<span className="min-w-0 flex-1 truncate text-sm text-fg">
-													{todo.text}
-												</span>
+												<span className="min-w-0 flex-1 truncate text-sm text-fg">{todo.text}</span>
 											</button>
 										</li>
 									))}
@@ -275,18 +241,12 @@ export default function TodayPageClient() {
 					<DialogHeader>
 						<DialogTitle>Nouvelle entrée</DialogTitle>
 					</DialogHeader>
-					<TimeEntryForm
-						onSuccess={() => setAddOpen(false)}
-						onCancel={() => setAddOpen(false)}
-					/>
+					<TimeEntryForm onSuccess={() => setAddOpen(false)} onCancel={() => setAddOpen(false)} />
 				</DialogContent>
 			</Dialog>
 
 			{/* Dialog édition entrée */}
-			<Dialog
-				open={!!editingEntry}
-				onOpenChange={(open) => !open && setEditingEntry(null)}
-			>
+			<Dialog open={!!editingEntry} onOpenChange={(open) => !open && setEditingEntry(null)}>
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>Modifier l'entrée</DialogTitle>
