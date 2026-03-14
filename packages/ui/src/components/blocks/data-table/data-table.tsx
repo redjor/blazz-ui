@@ -385,33 +385,74 @@ export function DataTable<TData, TValue = unknown>({
 			.filter((col) => col.id)
 	}, [columns])
 
-	// Quick filter handler: creates a single filter condition from the dropdown
-	const handleQuickFilter = React.useCallback(
-		(columnId: string, value: any, type: string) => {
-			const condition = {
-				id: `qf-${columnId}-${Date.now()}`,
-				column: columnId,
-				operator: "equals" as const,
-				value,
-				type: type as "text" | "number" | "date" | "boolean" | "select",
+	// Derive active filter values per column from the current filter group
+	const activeFilterValues = React.useMemo(() => {
+		const result: Record<string, any[]> = {}
+		if (!viewsHook.filterGroup) return result
+		for (const cond of viewsHook.filterGroup.conditions) {
+			if (cond.operator === "equals") {
+				if (!result[cond.column]) result[cond.column] = []
+				result[cond.column].push(cond.value)
+			} else if (cond.operator === "in" && Array.isArray(cond.value)) {
+				result[cond.column] = [...(result[cond.column] || []), ...cond.value]
 			}
-			const newGroup = viewsHook.filterGroup
-				? {
-						...viewsHook.filterGroup,
-						conditions: [...viewsHook.filterGroup.conditions, condition],
-					}
-				: {
-						id: "root",
-						operator: "AND" as const,
-						conditions: [condition],
-						groups: [],
-					}
-			viewsHook.handleFilterGroupChange(newGroup)
-			if (!viewsHook.showInlineFilters) {
+		}
+		return result
+	}, [viewsHook.filterGroup])
+
+	// Toggle a filter value on/off for a column (checkbox multi-select)
+	const handleToggleFilterValue = React.useCallback(
+		(columnId: string, value: any, type: string) => {
+			const currentValues = activeFilterValues[columnId] ?? []
+			const isActive = currentValues.some((v: any) => String(v) === String(value))
+			const newValues = isActive
+				? currentValues.filter((v: any) => String(v) !== String(value))
+				: [...currentValues, value]
+
+			// Remove existing conditions for this column
+			const existingConditions = (viewsHook.filterGroup?.conditions ?? []).filter(
+				(c) => c.column !== columnId
+			)
+
+			// Add new condition if values remain
+			const conditions =
+				newValues.length === 0
+					? existingConditions
+					: newValues.length === 1
+						? [
+								...existingConditions,
+								{
+									id: `qf-${columnId}`,
+									column: columnId,
+									operator: "equals" as const,
+									value: newValues[0],
+									type: type as "text" | "number" | "date" | "boolean" | "select",
+								},
+							]
+						: [
+								...existingConditions,
+								{
+									id: `qf-${columnId}`,
+									column: columnId,
+									operator: "in" as const,
+									value: newValues,
+									type: type as "text" | "number" | "date" | "boolean" | "select",
+								},
+							]
+
+			const newGroup = {
+				id: viewsHook.filterGroup?.id ?? "root",
+				operator: (viewsHook.filterGroup?.operator ?? "AND") as "AND" | "OR",
+				conditions,
+				groups: viewsHook.filterGroup?.groups ?? [],
+			}
+
+			viewsHook.handleFilterGroupChange(conditions.length === 0 ? null : newGroup)
+			if (!viewsHook.showInlineFilters && newValues.length > 0) {
 				viewsHook.setShowInlineFilters(true)
 			}
 		},
-		[viewsHook]
+		[viewsHook, activeFilterValues]
 	)
 
 	// Determine if we're doing server-side filtering
@@ -716,7 +757,8 @@ export function DataTable<TData, TValue = unknown>({
 							viewsHook.setShowInlineFilters(!viewsHook.showInlineFilters)
 						}
 						filterableColumns={filterableColumns}
-						onQuickFilter={handleQuickFilter}
+						activeFilterValues={activeFilterValues}
+						onToggleFilterValue={handleToggleFilterValue}
 						combineSearchAndFilters={combineSearchAndFilters}
 						toolbarLayout={toolbarLayout}
 						onSaveView={enableCustomViews ? () => viewsHook.setShowSaveViewDialog(true) : undefined}

@@ -27,6 +27,7 @@ import { Button } from "../../ui/button"
 import { ButtonGroup } from "../../ui/button-group"
 import {
 	DropdownMenu,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
@@ -84,8 +85,10 @@ interface DataTableActionsBarProps {
 		type: string
 		options?: Array<{ label: string; value: any }>
 	}>
-	/** Callback to apply a quick filter from the dropdown */
-	onQuickFilter?: (columnId: string, value: any, type: string) => void
+	/** Active filter values per column (for checkbox state in dropdown) */
+	activeFilterValues?: Record<string, any[]>
+	/** Toggle a filter value on/off for a column */
+	onToggleFilterValue?: (columnId: string, value: any, type: string) => void
 
 	/** When true, a single button toggles both search and inline filters */
 	combineSearchAndFilters?: boolean
@@ -199,7 +202,8 @@ export function DataTableActionsBar({
 	showInlineFilters = false,
 	onToggleInlineFilters,
 	filterableColumns = [],
-	onQuickFilter,
+	activeFilterValues = {},
+	onToggleFilterValue,
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
 	onExport,
@@ -466,23 +470,41 @@ export function DataTableActionsBar({
 														? ListFilter
 														: Type
 
-									// Columns with options → submenu
+									// Columns with options → submenu with checkboxes
 									if (col.options && col.options.length > 0) {
+										const activeValues = activeFilterValues[col.id] ?? []
 										return (
 											<DropdownMenuSub key={col.id}>
 												<DropdownMenuSubTrigger>
 													<FilterIcon className="h-4 w-4" />
 													<span>{col.label}</span>
+													{activeValues.length > 0 && (
+														<Badge
+															variant="secondary"
+															className="ml-auto h-4 min-w-4 rounded-full px-1 py-0 text-[10px] font-medium flex items-center justify-center"
+														>
+															{activeValues.length}
+														</Badge>
+													)}
 												</DropdownMenuSubTrigger>
 												<DropdownMenuSubContent>
-													{col.options.map((opt) => (
-														<DropdownMenuItem
-															key={String(opt.value)}
-															onClick={() => onQuickFilter?.(col.id, opt.value, col.type)}
-														>
-															<span>{opt.label}</span>
-														</DropdownMenuItem>
-													))}
+													{col.options.map((opt) => {
+														const isChecked = activeValues.some(
+															(v: any) => String(v) === String(opt.value)
+														)
+														return (
+															<DropdownMenuCheckboxItem
+																key={String(opt.value)}
+																checked={isChecked}
+																onClick={(e) => {
+																	e.preventDefault()
+																	onToggleFilterValue?.(col.id, opt.value, col.type)
+																}}
+															>
+																{opt.label}
+															</DropdownMenuCheckboxItem>
+														)
+													})}
 												</DropdownMenuSubContent>
 											</DropdownMenuSub>
 										)
