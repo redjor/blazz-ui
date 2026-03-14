@@ -203,6 +203,8 @@ export function DataTableReUIFilters<TData>({
 				radius={radius}
 				i18n={i18nConfig}
 				showAddButton={true}
+				addButtonPosition="after"
+				addButtonText=""
 				allowMultiple={true}
 				className={className}
 			/>

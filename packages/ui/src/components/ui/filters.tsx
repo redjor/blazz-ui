@@ -1790,6 +1790,8 @@ interface FiltersProps<T = unknown> {
 	onChange: (filters: Filter<T>[]) => void
 	className?: string
 	showAddButton?: boolean
+	/** Position of the add button relative to filter pills */
+	addButtonPosition?: "before" | "after"
 	addButtonText?: string
 	addButtonIcon?: React.ReactNode
 	addButtonClassName?: string
@@ -1811,6 +1813,7 @@ export function Filters<T = unknown>({
 	onChange,
 	className,
 	showAddButton = true,
+	addButtonPosition = "before",
 	addButtonText,
 	addButtonIcon,
 	addButtonClassName,
@@ -2004,7 +2007,7 @@ export function Filters<T = unknown>({
 			}}
 		>
 			<div className={cn(filtersContainerVariants({ variant, size }), className)}>
-				{showAddButton && selectableFields.length > 0 && (
+				{showAddButton && selectableFields.length > 0 && addButtonPosition === "before" && (
 					<Popover
 						open={addFilterOpen}
 						onOpenChange={(open) => {
@@ -2214,6 +2217,136 @@ export function Filters<T = unknown>({
 						</div>
 					)
 				})}
+
+				{showAddButton && selectableFields.length > 0 && addButtonPosition === "after" && (
+					<Popover
+						open={addFilterOpen}
+						onOpenChange={(open) => {
+							setAddFilterOpen(open)
+							if (!open) {
+								setSelectedFieldForOptions(null)
+								setTempSelectedValues([])
+							}
+						}}
+					>
+						{addButton ? (
+							<PopoverTrigger asChild>{addButton}</PopoverTrigger>
+						) : (
+							<PopoverTrigger
+								className={cn(
+									filterAddButtonVariants({
+										variant: variant,
+										size: size,
+										cursorPointer: cursorPointer,
+										radius: radius,
+									}),
+									addButtonClassName
+								)}
+								title={mergedI18n.addFilterTitle}
+							>
+								{addButtonIcon || <Plus />}
+								{addButtonText ?? mergedI18n.addFilter}
+							</PopoverTrigger>
+						)}
+
+						<PopoverContent className={cn("w-[200px] p-0", popoverContentClassName)} align="start">
+							<Command>
+								{selectedFieldForOptions ? (
+									<SelectOptionsPopover<T>
+										field={selectedFieldForOptions}
+										values={tempSelectedValues as T[]}
+										onChange={(values) => {
+											const shouldClosePopover = selectedFieldForOptions.type === "select"
+											addFilterWithOption(
+												selectedFieldForOptions,
+												values as unknown[],
+												shouldClosePopover
+											)
+										}}
+										onClose={() => setAddFilterOpen(false)}
+										inline={true}
+									/>
+								) : (
+									<>
+										{showSearchInput && (
+											<CommandInput placeholder={mergedI18n.searchFields} className="h-9" />
+										)}
+										<CommandList>
+											<CommandEmpty>{mergedI18n.noFieldsFound}</CommandEmpty>
+											{fields.map((item, index) => {
+												if (isFieldGroup(item)) {
+													const groupFields = item.fields.filter((field) => {
+														if (field.type === "separator") return true
+														if (allowMultiple) return true
+														return !filters.some((filter) => filter.field === field.key)
+													})
+													if (groupFields.length === 0) return null
+													return (
+														<CommandGroup key={`group-${index}`} heading={item.group || "Fields"}>
+															{groupFields.map((field, fieldIndex) => {
+																if (field.type === "separator") {
+																	return <CommandSeparator key={`separator-${fieldIndex}`} />
+																}
+																return (
+																	<CommandItem
+																		key={field.key}
+																		onSelect={() => field.key && addFilter(field.key)}
+																	>
+																		{field.icon}
+																		<span>{field.label}</span>
+																	</CommandItem>
+																)
+															})}
+														</CommandGroup>
+													)
+												}
+												if (isGroupLevelField(item)) {
+													const groupFields = item.fields!.filter((field) => {
+														if (field.type === "separator") return true
+														if (allowMultiple) return true
+														return !filters.some((filter) => filter.field === field.key)
+													})
+													if (groupFields.length === 0) return null
+													return (
+														<CommandGroup key={`group-${index}`} heading={item.group || "Fields"}>
+															{groupFields.map((field, fieldIndex) => {
+																if (field.type === "separator") {
+																	return <CommandSeparator key={`separator-${fieldIndex}`} />
+																}
+																return (
+																	<CommandItem
+																		key={field.key}
+																		onSelect={() => field.key && addFilter(field.key)}
+																	>
+																		{field.icon}
+																		<span>{field.label}</span>
+																	</CommandItem>
+																)
+															})}
+														</CommandGroup>
+													)
+												}
+												const field = item as FilterFieldConfig<T>
+												if (field.type === "separator") {
+													return <CommandSeparator key={`separator-${index}`} />
+												}
+												return (
+													<CommandItem
+														key={field.key}
+														onSelect={() => field.key && addFilter(field.key)}
+													>
+														{field.icon}
+														<span>{field.label}</span>
+													</CommandItem>
+												)
+											})}
+										</CommandList>
+									</>
+								)}
+							</Command>
+						</PopoverContent>
+					</Popover>
+				)}
 			</div>
 		</FilterContext.Provider>
 	)
