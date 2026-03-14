@@ -28,7 +28,7 @@ function DataTableV2Page() {
 	)
 
 	const handleCellEdit = React.useCallback(
-		(rowId: string, columnId: string, value: unknown, _previousValue: unknown) => {
+		(rowId: string, columnId: string, value: unknown, _previousValue?: unknown) => {
 			setEditableData((prev) =>
 				prev.map((row) => {
 					if (row.id !== rowId) return row
@@ -36,11 +36,9 @@ function DataTableV2Page() {
 					// Recalculate totals when quantity or unitPriceHT changes
 					if (columnId === "quantity" || columnId === "unitPriceHT") {
 						const qty = columnId === "quantity" ? (value as number) : updated.quantity
-						const price =
-							columnId === "unitPriceHT" ? (value as number) : updated.unitPriceHT
+						const price = columnId === "unitPriceHT" ? (value as number) : updated.unitPriceHT
 						updated.totalHT = Math.round(qty * price * 100) / 100
-						updated.totalTTC =
-							Math.round(updated.totalHT * (1 + updated.vatRate / 100) * 100) / 100
+						updated.totalTTC = Math.round(updated.totalHT * (1 + updated.vatRate / 100) * 100) / 100
 					}
 					return updated
 				})
@@ -67,8 +65,8 @@ function DataTableV2Page() {
 				<div className="w-full text-center">
 					<h1 className="text-3xl font-bold text-fg">Data Table v2</h1>
 					<p className="mt-2 text-fg-muted max-w-xl mx-auto">
-						A Linear-inspired stacked toolbar layout with tabs for views, global search,
-						advanced filters, and inline cell editing.
+						A Linear-inspired stacked toolbar layout with tabs for views, global search, advanced
+						filters, and inline cell editing.
 					</p>
 				</div>
 			</DocHero>
@@ -96,9 +94,8 @@ function DataTableV2Page() {
 
 			<DocSection id="editable" title="Editable — Lignes de commande">
 				<p className="text-fg-muted mb-4">
-					Les colonnes <strong>Qte</strong> et <strong>PU HT</strong> sont editables.
-					Les totaux HT et TTC se recalculent automatiquement. Navigation au clavier
-					entre les cellules.
+					Les colonnes <strong>Qte</strong> et <strong>PU HT</strong> sont editables. Les totaux HT
+					et TTC se recalculent automatiquement. Navigation au clavier entre les cellules.
 				</p>
 				<div className="rounded-lg border border-separator overflow-hidden">
 					<DataTable

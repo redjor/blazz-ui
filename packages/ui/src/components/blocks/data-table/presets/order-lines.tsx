@@ -53,7 +53,13 @@ const orderLinesViews: DataTableView[] = [
 			id: "in-stock-filter",
 			operator: "AND",
 			conditions: [
-				{ id: "in-stock-cond", column: "inStock", operator: "equals", value: true, type: "boolean" },
+				{
+					id: "in-stock-cond",
+					column: "inStock",
+					operator: "equals",
+					value: true,
+					type: "boolean",
+				},
 			],
 			groups: [],
 		},
@@ -217,9 +223,7 @@ export function createEditableOrderLinesPreset(
 	const columns = readOnlyColumns()
 
 	// Replace quantity with editable number
-	const qtyIndex = columns.findIndex(
-		(c) => "accessorKey" in c && c.accessorKey === "quantity"
-	)
+	const qtyIndex = columns.findIndex((c) => "accessorKey" in c && c.accessorKey === "quantity")
 	if (qtyIndex !== -1) {
 		columns.splice(
 			qtyIndex,
@@ -233,9 +237,7 @@ export function createEditableOrderLinesPreset(
 	}
 
 	// Replace unitPriceHT with editable currency
-	const priceIndex = columns.findIndex(
-		(c) => "accessorKey" in c && c.accessorKey === "unitPriceHT"
-	)
+	const priceIndex = columns.findIndex((c) => "accessorKey" in c && c.accessorKey === "unitPriceHT")
 	if (priceIndex !== -1) {
 		columns.splice(
 			priceIndex,
