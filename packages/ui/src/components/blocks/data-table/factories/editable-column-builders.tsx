@@ -163,10 +163,10 @@ export const cellWrapper = "relative -m-3"
 export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent transition-all duration-150"
 
 /** Idle (read) state — subtle indicator that cell is editable */
-const idleCell = `${cellShared} cursor-text text-left border-b border-dashed border-transparent hover:border-edge hover:bg-surface-3/30`
+const idleCell = `${cellShared} cursor-text text-left hover:bg-surface-3/30`
 
 /** Active edit state */
-const editInput = `${cellShared} min-w-0 h-auto border-0 border-b border-transparent outline-none ring-2 ring-inset ring-brand`
+const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-brand`
 
 // ---------------------------------------------------------------------------
 // Validation feedback component
@@ -613,7 +613,8 @@ function EditableDateCell({
 				placeholder="—"
 				formatStr="dd/MM/yyyy"
 				className={cn(
-					"w-full rounded-none border-0 shadow-none text-body-md",
+					editInput,
+					"!h-auto !rounded-none !border-0 !bg-transparent shadow-none",
 					validationResult && validationRingColor[validationResult.level],
 					className
 				)}
