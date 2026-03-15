@@ -1,4 +1,5 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router"
+import { ComponentTree } from "~/components/component-tree"
 import "~/styles/app.css"
 
 export const Route = createRootRoute({
@@ -17,7 +18,12 @@ function RootComponent() {
     <html lang="en" className="dark">
       <head />
       <body className="bg-surface text-fg antialiased">
-        <Outlet />
+        <div className="flex h-screen">
+          <ComponentTree />
+          <main className="flex-1 overflow-hidden">
+            <Outlet />
+          </main>
+        </div>
       </body>
     </html>
   )
