@@ -118,30 +118,26 @@ function KanbanBoardBase<T extends { id: string }>({
 						)}
 
 						{/* Cards */}
-						<div className="relative flex-1 min-h-0">
-							<div className="absolute inset-0 overflow-y-auto space-y-2 p-2">
-								{columnItems.map((item) => (
-									<div
-										key={item.id}
-										draggable={!!onMove}
-										onDragStart={(e) => handleDragStart(e, item)}
-										onDragEnd={handleDragEnd}
-										className={cn(
-											"transition-opacity",
-											onMove && "cursor-grab active:cursor-grabbing",
-											dragItemId === item.id && "opacity-40"
-										)}
-									>
-										{renderCard(item)}
-									</div>
-								))}
-								{columnItems.length === 0 && (
-									<p className="py-8 text-center text-xs text-fg-muted">Aucun élément</p>
-								)}
-								{renderAfterCards?.(column, columnItems)}
-							</div>
-							{/* Bottom fade */}
-							<div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 rounded-b-lg bg-gradient-to-t from-surface to-transparent" />
+						<div className="space-y-2 p-2 overflow-y-auto">
+							{columnItems.map((item) => (
+								<div
+									key={item.id}
+									draggable={!!onMove}
+									onDragStart={(e) => handleDragStart(e, item)}
+									onDragEnd={handleDragEnd}
+									className={cn(
+										"transition-opacity",
+										onMove && "cursor-grab active:cursor-grabbing",
+										dragItemId === item.id && "opacity-40"
+									)}
+								>
+									{renderCard(item)}
+								</div>
+							))}
+							{columnItems.length === 0 && (
+								<p className="py-8 text-center text-xs text-fg-muted">Aucun élément</p>
+							)}
+							{renderAfterCards?.(column, columnItems)}
 						</div>
 					</div>
 				)

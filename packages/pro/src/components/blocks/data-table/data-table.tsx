@@ -192,7 +192,8 @@ export function DataTable<TData, TValue = unknown>({
 	)
 	const finalVariant = variant ?? config.ui.defaultVariant
 	const finalDensity = density ?? config.ui.defaultDensity
-	const flatRowStyle = finalVariant === "flat" ? { borderWidth: 0 } as React.CSSProperties : undefined
+	const flatRowStyle =
+		finalVariant === "flat" ? ({ borderWidth: 0 } as React.CSSProperties) : undefined
 	const effectiveMode = mode === "kanban" ? "kanban" : finalVariant === "flat" ? "flat" : mode
 	const finalLocale = locale ?? config.i18n.defaultLocale
 	const t = useDataTableTranslations(finalLocale)
@@ -289,7 +290,15 @@ export function DataTable<TData, TValue = unknown>({
 			cols.push({
 				id: "select",
 				header: ({ table }) => <DataTableRowSelection table={table} type="header" />,
-				cell: ({ row, table }) => <DataTableRowSelection row={row} table={table} type="cell" rowIndex={row.index} shiftRef={shiftSelectionRef} />,
+				cell: ({ row, table }) => (
+					<DataTableRowSelection
+						row={row}
+						table={table}
+						type="cell"
+						rowIndex={row.index}
+						shiftRef={shiftSelectionRef}
+					/>
+				),
 				enableSorting: false,
 				enableHiding: false,
 				size: 40,
@@ -329,9 +338,12 @@ export function DataTable<TData, TValue = unknown>({
 			cols.push({
 				id: "actions",
 				header: () => null,
-				cell: ({ row }) => renderRowActions
-					? renderRowActions(row)
-					: <DataTableRowActions row={row} actions={rowActions!} />,
+				cell: ({ row }) =>
+					renderRowActions ? (
+						renderRowActions(row)
+					) : (
+						<DataTableRowActions row={row} actions={rowActions!} />
+					),
 				enableSorting: false,
 				enableHiding: false,
 				size: 50,
@@ -520,7 +532,8 @@ export function DataTable<TData, TValue = unknown>({
 		// Build accessor map from columns for accessorFn-based columns
 		const accessorMap = new Map<string, (item: TData) => unknown>()
 		for (const col of columns) {
-			const id = "id" in col ? col.id : "accessorKey" in col ? (col.accessorKey as string) : undefined
+			const id =
+				"id" in col ? col.id : "accessorKey" in col ? (col.accessorKey as string) : undefined
 			if (id && "accessorFn" in col && col.accessorFn) {
 				accessorMap.set(id, col.accessorFn as (item: TData) => unknown)
 			}
@@ -636,14 +649,18 @@ export function DataTable<TData, TValue = unknown>({
 
 	// Kanban: build columns and items from grouped data
 	type KanbanItem = { row: Row<TData>; groupValue: string; id: string }
-	const kanbanData = React.useMemo<{ columns: { id: string; label: string }[]; items: KanbanItem[]; groupColumnId: string } | null>(() => {
+	const kanbanData = React.useMemo<{
+		columns: { id: string; label: string }[]
+		items: KanbanItem[]
+		groupColumnId: string
+	} | null>(() => {
 		if (effectiveMode !== "kanban" || !enableGrouping || grouping.length === 0) return null
 
 		const groupColumnId = grouping[0]
 		const rows = table.getRowModel().rows
 
 		const groupValues: string[] = []
-		const flatRows: Array<{ row: typeof rows[0]; groupValue: string; id: string }> = []
+		const flatRows: Array<{ row: (typeof rows)[0]; groupValue: string; id: string }> = []
 
 		for (const row of rows) {
 			if (row.getIsGrouped()) {
@@ -758,7 +775,10 @@ export function DataTable<TData, TValue = unknown>({
 	}
 
 	return (
-		<div className={cn("w-full", className)} data-slot="data-table">
+		<div
+			className={cn("w-full", effectiveMode === "kanban" && "flex flex-col h-full", className)}
+			data-slot="data-table"
+		>
 			{/* Filter Builder Dialog */}
 			{enableAdvancedFilters && (
 				<DataTableFilterBuilder
@@ -932,22 +952,22 @@ export function DataTable<TData, TValue = unknown>({
 				)}
 
 				{/* Toolbar below slot */}
-				{toolbarBelowSlot && (
-					<div className="border-b border-separator">
-						{toolbarBelowSlot}
-					</div>
-				)}
+				{toolbarBelowSlot && <div className="border-b border-separator">{toolbarBelowSlot}</div>}
 
 				{effectiveMode === "kanban" && kanbanData && (
 					<KanbanBoard
 						columns={kanbanData.columns}
 						items={kanbanData.items}
 						getColumnId={(item) => (item as KanbanItem).groupValue}
-						className="flex-1 min-h-0 px-2"
+						className="flex-1 min-h-0 p-2"
 						columnClassName="!min-w-[300px] w-[300px]"
-						onMove={onKanbanMove ? async (itemId, from, to) => {
-							await onKanbanMove(itemId, from, to)
-						} : undefined}
+						onMove={
+							onKanbanMove
+								? async (itemId, from, to) => {
+										await onKanbanMove(itemId, from, to)
+									}
+								: undefined
+						}
 						renderCard={(item) => {
 							const kanbanItem = item as KanbanItem
 							if (renderCard) return renderCard(kanbanItem.row)
@@ -955,9 +975,12 @@ export function DataTable<TData, TValue = unknown>({
 							return <div className="p-2 text-xs text-fg-muted">No renderCard provided</div>
 						}}
 						renderColumnHeader={(column, colItems) => {
-							const groupedRow = table.getRowModel().rows.find(
-								(r) => r.getIsGrouped() && String(r.getValue(kanbanData.groupColumnId)) === column.id
-							)
+							const groupedRow = table
+								.getRowModel()
+								.rows.find(
+									(r) =>
+										r.getIsGrouped() && String(r.getValue(kanbanData.groupColumnId)) === column.id
+								)
 
 							const computedAggregations: Record<string, React.ReactNode> = {}
 							if (groupAggregations && groupedRow) {
@@ -971,11 +994,16 @@ export function DataTable<TData, TValue = unknown>({
 							return (
 								<div className="flex items-center justify-between px-3 py-2 border-b border-edge">
 									<div className="flex items-center gap-2">
-										{groupedRow ? (() => {
-											const cell = groupedRow.getAllCells().find((c) => c.getIsGrouped())
-											if (!cell) return <span className="text-xs font-medium">{column.label}</span>
-											return flexRender(cell.column.columnDef.cell, cell.getContext())
-										})() : <span className="text-xs font-medium">{column.label}</span>}
+										{groupedRow ? (
+											(() => {
+												const cell = groupedRow.getAllCells().find((c) => c.getIsGrouped())
+												if (!cell)
+													return <span className="text-xs font-medium">{column.label}</span>
+												return flexRender(cell.column.columnDef.cell, cell.getContext())
+											})()
+										) : (
+											<span className="text-xs font-medium">{column.label}</span>
+										)}
 										<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] tabular-nums text-fg-muted">
 											{colItems.length}
 										</span>
@@ -999,289 +1027,314 @@ export function DataTable<TData, TValue = unknown>({
 				)}
 
 				{effectiveMode !== "kanban" && (
-				<div
-					className={cn(
-						"relative grid w-full",
-						finalVariant === "editable" && "overflow-hidden rounded-lg border border-container",
-						enableCellEditing && "outline-none"
-					)}
-					tabIndex={enableCellEditing ? 0 : undefined}
-					onKeyDown={enableCellEditing ? handleTableKeyDown : undefined}
-				>
-					<Table
-						className={cn(dataTableVariants({ variant: finalVariant, density: finalDensity }))}
-						wrapperClassName={finalVariant === "flat" ? "p-2" : undefined}
-					>
-						{!hideHeaders && finalVariant !== "flat" && (
-							<TableHeader>
-								{table.getHeaderGroups().map((headerGroup) => (
-									<TableRow key={headerGroup.id}>
-										{headerGroup.headers.map((header) => {
-											return (
-												<TableHead
-													key={header.id}
-													style={{
-														width: header.getSize() !== 150 ? header.getSize() : undefined,
-														...getPinningStyles(header.column, true),
-													}}
-													className={cn(
-														header.column.getIsPinned() && "bg-surface",
-														header.column.getIsPinned() === "left" &&
-															header.column.getIsLastColumn("left") &&
-															"shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]",
-														header.column.getIsPinned() === "right" &&
-															header.column.getIsFirstColumn("right") &&
-															"shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]"
-													)}
-												>
-													{header.isPlaceholder
-														? null
-														: flexRender(header.column.columnDef.header, header.getContext())}
-												</TableHead>
-											)
-										})}
-									</TableRow>
-								))}
-							</TableHeader>
+					<div
+						className={cn(
+							"relative grid w-full",
+							finalVariant === "editable" && "overflow-hidden rounded-lg border border-container",
+							enableCellEditing && "outline-none"
 						)}
-						<TableBody ref={tableBodyRef}>
-							{table.getRowModel().rows?.length ? (
-								table.getRowModel().rows.map((row) => {
-									// Grouped row: render group header
-									if (row.getIsGrouped()) {
-										// Pre-compute aggregations (shared by all rendering paths)
-										const computedAggregations: Record<string, React.ReactNode> = {}
-										if (groupAggregations) {
-											for (const [colId, aggType] of Object.entries(groupAggregations)) {
-												if (colId === "_count") continue
-												const aggValue = computeAggregation(row.subRows, colId, aggType)
-												if (aggValue !== null) computedAggregations[colId] = aggValue
+						tabIndex={enableCellEditing ? 0 : undefined}
+						onKeyDown={enableCellEditing ? handleTableKeyDown : undefined}
+					>
+						<Table
+							className={cn(dataTableVariants({ variant: finalVariant, density: finalDensity }))}
+							wrapperClassName={finalVariant === "flat" ? "p-2" : undefined}
+						>
+							{!hideHeaders && finalVariant !== "flat" && (
+								<TableHeader>
+									{table.getHeaderGroups().map((headerGroup) => (
+										<TableRow key={headerGroup.id}>
+											{headerGroup.headers.map((header) => {
+												return (
+													<TableHead
+														key={header.id}
+														style={{
+															width: header.getSize() !== 150 ? header.getSize() : undefined,
+															...getPinningStyles(header.column, true),
+														}}
+														className={cn(
+															header.column.getIsPinned() && "bg-surface",
+															header.column.getIsPinned() === "left" &&
+																header.column.getIsLastColumn("left") &&
+																"shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]",
+															header.column.getIsPinned() === "right" &&
+																header.column.getIsFirstColumn("right") &&
+																"shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]"
+														)}
+													>
+														{header.isPlaceholder
+															? null
+															: flexRender(header.column.columnDef.header, header.getContext())}
+													</TableHead>
+												)
+											})}
+										</TableRow>
+									))}
+								</TableHeader>
+							)}
+							<TableBody ref={tableBodyRef}>
+								{table.getRowModel().rows?.length ? (
+									table.getRowModel().rows.map((row) => {
+										// Grouped row: render group header
+										if (row.getIsGrouped()) {
+											// Pre-compute aggregations (shared by all rendering paths)
+											const computedAggregations: Record<string, React.ReactNode> = {}
+											if (groupAggregations) {
+												for (const [colId, aggType] of Object.entries(groupAggregations)) {
+													if (colId === "_count") continue
+													const aggValue = computeAggregation(row.subRows, colId, aggType)
+													if (aggValue !== null) computedAggregations[colId] = aggValue
+												}
 											}
+
+											// Find the grouped cell value
+											const groupedCell = row.getAllCells().find((cell) => cell.getIsGrouped())
+											const groupValue = groupedCell
+												? row.getValue(groupedCell.column.id)
+												: undefined
+
+											// Build the central content (between chevron and aggregations)
+											const centralContent = renderGroupHeaderContent ? (
+												renderGroupHeaderContent({
+													row,
+													groupValue,
+													subRowCount: row.subRows.length,
+													aggregations: computedAggregations,
+												})
+											) : (
+												<>
+													{row.getAllCells().map((cell) => {
+														if (cell.getIsGrouped()) {
+															return (
+																<span key={cell.id} className="flex items-center gap-2">
+																	{flexRender(cell.column.columnDef.cell, cell.getContext())}
+																	<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
+																		{row.subRows.length}
+																	</span>
+																</span>
+															)
+														}
+														return null
+													})}
+													{Object.keys(computedAggregations).length > 0 && (
+														<span className="ml-auto flex items-center gap-4 text-body-sm font-normal text-fg-muted">
+															{Object.entries(computedAggregations).map(([colId, value]) => (
+																<span key={colId}>{value}</span>
+															))}
+														</span>
+													)}
+												</>
+											)
+
+											// Build the default group header content (checkbox + chevron + central + aggregations)
+											const defaultGroupContent = (
+												<div className="flex w-full items-center gap-2">
+													{enableRowSelection && (
+														<div
+															onClick={(e) => e.stopPropagation()}
+															onKeyDown={(e) => e.stopPropagation()}
+														>
+															<Checkbox
+																checked={row.getIsAllSubRowsSelected()}
+																indeterminate={
+																	row.getIsSomeSelected() && !row.getIsAllSubRowsSelected()
+																}
+																onCheckedChange={(value) => row.toggleSelected(!!value)}
+																aria-label={`Select group ${row.id}`}
+															/>
+														</div>
+													)}
+													<button
+														type="button"
+														onClick={row.getToggleExpandedHandler()}
+														className="flex flex-1 items-center gap-2 text-left font-medium"
+													>
+														<ChevronRight
+															className={cn(
+																"h-4 w-4 shrink-0 transition-transform duration-200",
+																row.getIsExpanded() && "rotate-90"
+															)}
+														/>
+														{centralContent}
+													</button>
+													{renderGroupHeaderEnd && (
+														<Bleed marginBlock="200">
+															<div
+																className="shrink-0 ml-auto"
+																onClick={(e) => e.stopPropagation()}
+																onKeyDown={(e) => e.stopPropagation()}
+															>
+																{renderGroupHeaderEnd(row)}
+															</div>
+														</Bleed>
+													)}
+												</div>
+											)
+
+											// Render with priority: renderGroupHeader > default (which may use renderGroupHeaderContent)
+											return (
+												<React.Fragment key={row.id}>
+													<TableRow
+														data-group-header=""
+														className={cn(
+															"bg-surface hover:bg-surface-3/50",
+															finalVariant === "flat" && "bg-transparent hover:bg-transparent"
+														)}
+														style={{
+															...(row.depth > 0
+																? { position: "relative" as const, left: `${row.depth * 1.5}rem` }
+																: {}),
+															...flatRowStyle,
+														}}
+													>
+														<TableCell
+															colSpan={row.getVisibleCells().length}
+															className={cn(
+																"py-2",
+																finalVariant === "flat" && "rounded-lg bg-surface-3/50"
+															)}
+															style={groupRowStyle?.(row)}
+														>
+															{renderGroupHeader
+																? renderGroupHeader(row, defaultGroupContent)
+																: defaultGroupContent}
+														</TableCell>
+													</TableRow>
+												</React.Fragment>
+											)
 										}
 
-										// Find the grouped cell value
-										const groupedCell = row.getAllCells().find((cell) => cell.getIsGrouped())
-										const groupValue = groupedCell ? row.getValue(groupedCell.column.id) : undefined
-
-										// Build the central content (between chevron and aggregations)
-										const centralContent = renderGroupHeaderContent ? (
-											renderGroupHeaderContent({
-												row,
-												groupValue,
-												subRowCount: row.subRows.length,
-												aggregations: computedAggregations,
-											})
-										) : (
-											<>
-												{row.getAllCells().map((cell) => {
-													if (cell.getIsGrouped()) {
-														return (
-															<span key={cell.id} className="flex items-center gap-2">
-																{flexRender(cell.column.columnDef.cell, cell.getContext())}
-																<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
-																	{row.subRows.length}
-																</span>
-															</span>
-														)
-													}
-													return null
-												})}
-												{Object.keys(computedAggregations).length > 0 && (
-													<span className="ml-auto flex items-center gap-4 text-body-sm font-normal text-fg-muted">
-														{Object.entries(computedAggregations).map(([colId, value]) => (
-															<span key={colId}>{value}</span>
-														))}
-													</span>
-												)}
-											</>
-										)
-
-										// Build the default group header content (checkbox + chevron + central + aggregations)
-										const defaultGroupContent = (
-											<div className="flex w-full items-center gap-2">
-												{enableRowSelection && (
-													<div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
-														<Checkbox
-															checked={row.getIsAllSubRowsSelected()}
-															indeterminate={
-																row.getIsSomeSelected() && !row.getIsAllSubRowsSelected()
+										// Custom row rendering (flat/Linear-style)
+										if (renderRow) {
+											return (
+												<React.Fragment key={row.id}>
+													<TableRow
+														data-state={row.getIsSelected() && "selected"}
+														className={onRowClick ? "cursor-pointer" : ""}
+														style={flatRowStyle}
+														onClick={(e) => {
+															const target = e.target as HTMLElement
+															if (
+																!target.closest(
+																	'[role="checkbox"], [data-slot="dropdown-menu-trigger"], button, a'
+																) &&
+																onRowClick
+															) {
+																onRowClick(row.original)
 															}
-															onCheckedChange={(value) => row.toggleSelected(!!value)}
-															aria-label={`Select group ${row.id}`}
-														/>
-													</div>
-												)}
-												<button
-													type="button"
-													onClick={row.getToggleExpandedHandler()}
-													className="flex flex-1 items-center gap-2 text-left font-medium"
-												>
-													<ChevronRight
-														className={cn(
-															"h-4 w-4 shrink-0 transition-transform duration-200",
-															row.getIsExpanded() && "rotate-90"
-														)}
-													/>
-													{centralContent}
-												</button>
-												{renderGroupHeaderEnd && (
-													<Bleed marginBlock="200">
-														<div className="shrink-0 ml-auto" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
-															{renderGroupHeaderEnd(row)}
-														</div>
-													</Bleed>
-												)}
-											</div>
-										)
-
-										// Render with priority: renderGroupHeader > default (which may use renderGroupHeaderContent)
-										return (
-											<React.Fragment key={row.id}>
-												<TableRow
-													data-group-header=""
-													className={cn(
-														"bg-surface hover:bg-surface-3/50",
-														finalVariant === "flat" && "bg-transparent hover:bg-transparent"
-													)}
-													style={{
-														...(row.depth > 0 ? { position: "relative" as const, left: `${row.depth * 1.5}rem` } : {}),
-														...flatRowStyle,
-													}}
-												>
-													<TableCell
-														colSpan={row.getVisibleCells().length}
-														className={cn("py-2", finalVariant === "flat" && "rounded-lg bg-surface-3/50")}
-														style={groupRowStyle?.(row)}
+														}}
 													>
-														{renderGroupHeader
-															? renderGroupHeader(row, defaultGroupContent)
-															: defaultGroupContent}
-													</TableCell>
-												</TableRow>
-											</React.Fragment>
-										)
-									}
+														<TableCell colSpan={row.getVisibleCells().length} className="!p-0">
+															<div className="flex items-center gap-3">
+																{enableRowSelection && (
+																	<div className="shrink-0">
+																		<DataTableRowSelection
+																			row={row}
+																			table={table}
+																			type="cell"
+																			rowIndex={row.index}
+																			shiftRef={shiftSelectionRef}
+																		/>
+																	</div>
+																)}
+																<div className="flex min-w-0 flex-1 items-center">
+																	{renderRow(row)}
+																</div>
+																{renderRowActions ? (
+																	<Bleed marginBlock="200">{renderRowActions(row)}</Bleed>
+																) : rowActions && rowActions.length > 0 ? (
+																	<Bleed marginBlock="200">
+																		<DataTableRowActions row={row} actions={rowActions} />
+																	</Bleed>
+																) : null}
+															</div>
+														</TableCell>
+													</TableRow>
+												</React.Fragment>
+											)
+										}
 
-									// Custom row rendering (flat/Linear-style)
-									if (renderRow) {
+										// Normal row rendering
 										return (
 											<React.Fragment key={row.id}>
 												<TableRow
 													data-state={row.getIsSelected() && "selected"}
-													className={onRowClick ? "cursor-pointer" : ""} style={flatRowStyle}
+													className={onRowClick ? "cursor-pointer hover:bg-surface-3/50" : ""}
+													style={flatRowStyle}
 													onClick={(e) => {
 														const target = e.target as HTMLElement
-														if (!target.closest('[role="checkbox"], [data-slot="dropdown-menu-trigger"], button, a') && onRowClick) {
+														const isCheckbox = target.closest('[role="checkbox"]')
+														const isActions = target.closest('[data-slot="dropdown-menu-trigger"]')
+														const isButton = target.closest("button")
+														const isLink = target.closest("a")
+
+														if (!isCheckbox && !isActions && !isButton && !isLink && onRowClick) {
 															onRowClick(row.original)
 														}
 													}}
 												>
-													<TableCell colSpan={row.getVisibleCells().length} className="!p-0">
-														<div className="flex items-center gap-3">
-															{enableRowSelection && (
-																<div className="shrink-0">
-																	<DataTableRowSelection row={row} table={table} type="cell" rowIndex={row.index} shiftRef={shiftSelectionRef} />
-																</div>
-															)}
-															<div className="flex min-w-0 flex-1 items-center">
-																{renderRow(row)}
-															</div>
-															{renderRowActions ? (
-																<Bleed marginBlock="200">
-																	{renderRowActions(row)}
-																</Bleed>
-															) : rowActions && rowActions.length > 0 ? (
-																<Bleed marginBlock="200">
-																	<DataTableRowActions row={row} actions={rowActions} />
-																</Bleed>
-															) : null}
-														</div>
-													</TableCell>
+													{row.getVisibleCells().map((cell) => {
+														const isCellActive =
+															enableCellEditing &&
+															cellNav.activeCell?.rowId === row.id &&
+															cellNav.activeCell?.columnId === cell.column.id
+
+														return (
+															<TableCell
+																key={cell.id}
+																data-row={enableCellEditing ? row.id : undefined}
+																data-col={enableCellEditing ? cell.column.id : undefined}
+																style={getPinningStyles(cell.column)}
+																onClick={
+																	enableCellEditing
+																		? () => cellNav.focusCell(row.id, cell.column.id)
+																		: undefined
+																}
+																className={cn(
+																	cell.column.getIsPinned() && "bg-surface",
+																	cell.column.getIsPinned() === "left" &&
+																		cell.column.getIsLastColumn("left") &&
+																		"shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]",
+																	cell.column.getIsPinned() === "right" &&
+																		cell.column.getIsFirstColumn("right") &&
+																		"shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]",
+																	isCellActive && "ring-2 ring-inset ring-brand"
+																)}
+															>
+																{flexRender(cell.column.columnDef.cell, cell.getContext())}
+															</TableCell>
+														)
+													})}
 												</TableRow>
+												{enableRowExpand && row.getIsExpanded() && renderExpandedRow && (
+													<TableRow data-state="expanded">
+														<TableCell
+															colSpan={row.getVisibleCells().length}
+															className="bg-muted/30 p-4"
+														>
+															{renderExpandedRow(row)}
+														</TableCell>
+													</TableRow>
+												)}
 											</React.Fragment>
 										)
-									}
-
-									// Normal row rendering
-									return (
-										<React.Fragment key={row.id}>
-											<TableRow
-												data-state={row.getIsSelected() && "selected"}
-												className={onRowClick ? "cursor-pointer hover:bg-surface-3/50" : ""} style={flatRowStyle}
-												onClick={(e) => {
-													const target = e.target as HTMLElement
-													const isCheckbox = target.closest('[role="checkbox"]')
-													const isActions = target.closest('[data-slot="dropdown-menu-trigger"]')
-													const isButton = target.closest("button")
-													const isLink = target.closest("a")
-
-													if (!isCheckbox && !isActions && !isButton && !isLink && onRowClick) {
-														onRowClick(row.original)
-													}
-												}}
-											>
-												{row.getVisibleCells().map((cell) => {
-													const isCellActive =
-														enableCellEditing &&
-														cellNav.activeCell?.rowId === row.id &&
-														cellNav.activeCell?.columnId === cell.column.id
-
-													return (
-														<TableCell
-															key={cell.id}
-															data-row={enableCellEditing ? row.id : undefined}
-															data-col={enableCellEditing ? cell.column.id : undefined}
-															style={getPinningStyles(cell.column)}
-															onClick={
-																enableCellEditing
-																	? () => cellNav.focusCell(row.id, cell.column.id)
-																	: undefined
-															}
-															className={cn(
-																cell.column.getIsPinned() && "bg-surface",
-																cell.column.getIsPinned() === "left" &&
-																	cell.column.getIsLastColumn("left") &&
-																	"shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]",
-																cell.column.getIsPinned() === "right" &&
-																	cell.column.getIsFirstColumn("right") &&
-																	"shadow-[inset_4px_0_4px_-4px_oklch(0_0_0/0.08)]",
-																isCellActive && "ring-2 ring-inset ring-brand"
-															)}
-														>
-															{flexRender(cell.column.columnDef.cell, cell.getContext())}
-														</TableCell>
-													)
-												})}
-											</TableRow>
-											{enableRowExpand && row.getIsExpanded() && renderExpandedRow && (
-												<TableRow data-state="expanded">
-													<TableCell
-														colSpan={row.getVisibleCells().length}
-														className="bg-muted/30 p-4"
-													>
-														{renderExpandedRow(row)}
-													</TableCell>
-												</TableRow>
-											)}
-										</React.Fragment>
-									)
-								})
-							) : (
-								<TableRow style={flatRowStyle}>
-									<TableCell colSpan={tableColumns.length} className="h-24 text-center">
-										{emptyComponent || <p className="text-sm text-fg-muted">{t.noResults}</p>}
-									</TableCell>
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
-
+									})
+								) : (
+									<TableRow style={flatRowStyle}>
+										<TableCell colSpan={tableColumns.length} className="h-24 text-center">
+											{emptyComponent || <p className="text-sm text-fg-muted">{t.noResults}</p>}
+										</TableCell>
+									</TableRow>
+								)}
+							</TableBody>
+						</Table>
 					</div>
 				)}
 
 				{/* Pagination */}
-				{effectiveMode !== "kanban" && enablePagination && (
-					renderPagination ? (
+				{effectiveMode !== "kanban" &&
+					enablePagination &&
+					(renderPagination ? (
 						renderPagination({
 							page: table.getState().pagination.pageIndex,
 							pageCount: table.getPageCount(),
@@ -1302,8 +1355,7 @@ export function DataTable<TData, TValue = unknown>({
 							pageSizeOptions={finalPagination.pageSizeOptions}
 							locale={finalLocale}
 						/>
-					)
-				)}
+					))}
 
 				{/* Footer slot */}
 				{effectiveMode !== "kanban" && footerSlot}
@@ -1311,11 +1363,7 @@ export function DataTable<TData, TValue = unknown>({
 
 			{/* Bulk Selection Bar */}
 			{effectiveMode !== "kanban" && bulkActions && bulkActions.length > 0 && (
-				<DataTableBulkSelectionBar
-					table={table}
-					bulkActions={bulkActions}
-					locale={finalLocale}
-				/>
+				<DataTableBulkSelectionBar table={table} bulkActions={bulkActions} locale={finalLocale} />
 			)}
 		</div>
 	)
