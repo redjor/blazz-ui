@@ -489,6 +489,16 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/components/patterns/layout-frame",
 							keywords: ["layout", "frame", "shell", "wrapper"],
 						},
+						{
+							title: "Navigation Tabs",
+							url: "/docs/components/patterns/navigation-tabs",
+							keywords: ["tabs", "browser tabs", "tab bar", "navigation tabs", "page tabs", "@blazz/tabs"],
+						},
+						{
+							title: "Nav Tabs",
+							url: "/docs/components/patterns/nav-tabs",
+							keywords: ["pills", "shopify tabs", "navbar tabs", "pill navigation"],
+						},
 					],
 				},
 				{

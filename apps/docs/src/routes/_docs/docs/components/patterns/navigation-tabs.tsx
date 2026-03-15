@@ -122,12 +122,12 @@ import { TabsBar, TabsItem } from "@blazz/tabs/ui"
 import { FileText, LayoutDashboard } from "lucide-react"
 
 const routeMap = [
-  { prefix: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { prefix: "/docs",      icon: FileText,        label: "Docs" },
+  { prefix: "/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
+  { prefix: "/docs",      icon: <FileText />,        label: "Docs" },
 ]
 
 function getIcon(url: string) {
-  return routeMap.find((r) => url.startsWith(r.prefix))?.icon ?? LayoutDashboard
+  return routeMap.find((r) => url.startsWith(r.prefix))?.icon ?? <LayoutDashboard />
 }
 
 export function CustomTabBar() {
@@ -148,7 +148,10 @@ export function CustomTabBar() {
   }
 
   return (
-    <TabsBar onAddTab={() => addTab({ url: "/dashboard", title: "Dashboard" })}>
+    <TabsBar
+      onAddTab={() => addTab({ url: "/dashboard", title: "Dashboard" })}
+      className="rounded-tr-lg"
+    >
       {tabs.map((tab) => (
         <TabsItem
           key={tab.id}
@@ -165,20 +168,27 @@ export function CustomTabBar() {
 	},
 	{
 		key: "storage",
-		code: `// Custom storage adapter — ex: Convex, IndexedDB, etc.
+		code: `// Custom storage adapter — ex: sessionStorage, IndexedDB wrapper, etc.
 import { TabsProvider, type TabsStorage } from "@blazz/tabs"
 
-const convexStorage: TabsStorage = {
-  load: async () => {
-    const data = await convex.query(api.tabs.get)
-    return data ?? { tabs: [], activeTabId: null }
+// TabsStorage implements the same API as Web Storage (getItem/setItem)
+const sessionAdapter: TabsStorage = {
+  getItem: (key) => sessionStorage.getItem(key),
+  setItem: (key, value) => sessionStorage.setItem(key, value),
+}
+
+// Or a custom backend wrapper (must be synchronous)
+const customStorage: TabsStorage = {
+  getItem: (key) => {
+    const cache = myCache.get(key)
+    return cache ?? null
   },
-  save: async (state) => {
-    await convex.mutation(api.tabs.set, state)
+  setItem: (key, value) => {
+    myCache.set(key, value)
   },
 }
 
-<TabsProvider storage={convexStorage}>
+<TabsProvider storageKey="app-tabs" storage={sessionAdapter}>
   {children}
 </TabsProvider>`,
 	},
@@ -212,14 +222,15 @@ const providerProps: DocProp[] = [
 	{
 		name: "storageKey",
 		type: "string",
+		required: true,
 		description:
-			"Cle localStorage pour la persistance des tabs entre rechargements. Chaque app ou section doit utiliser une cle unique. Ignore si storage est fourni.",
+			"Cle de persistance des tabs entre rechargements. Utilisee comme cle dans le storage (localStorage par defaut). Chaque app ou section doit utiliser une cle unique.",
 	},
 	{
 		name: "storage",
 		type: "TabsStorage",
 		description:
-			"Adaptateur de stockage personnalise (ex: Convex, IndexedDB). Si fourni, storageKey est ignore. Doit implementer load() et save().",
+			"Adaptateur de stockage personnalise. Doit implementer getItem(key) et setItem(key, value), meme API que Web Storage. Par defaut : localStorage.",
 	},
 	{
 		name: "defaultTab",
@@ -348,7 +359,12 @@ const barProps: DocProp[] = [
 	{
 		name: "className",
 		type: "string",
-		description: "Classes CSS supplementaires.",
+		description: "Classes CSS supplementaires sur le conteneur de la barre.",
+	},
+	{
+		name: "addButtonClassName",
+		type: "string",
+		description: "Classes CSS supplementaires sur le bouton + (add tab).",
 	},
 ]
 
@@ -361,8 +377,9 @@ const itemProps: DocProp[] = [
 	},
 	{
 		name: "icon",
-		type: "LucideIcon",
-		description: "Icone Lucide affichee a gauche du titre (3.5x3.5, opacity 60%).",
+		type: "React.ReactNode",
+		description:
+			"Icone affichee a gauche du titre. Accepte tout ReactNode (Lucide, SVG, emoji...). Les SVG enfants sont redimensionnes a 3.5x3.5 automatiquement.",
 	},
 	{
 		name: "isActive",
@@ -382,6 +399,21 @@ const itemProps: DocProp[] = [
 		required: true,
 		description:
 			"Handler de fermeture. Le bouton x est masque par defaut et apparait au hover (toujours visible sur le tab actif).",
+	},
+	{
+		name: "className",
+		type: "string",
+		description: "Classes CSS supplementaires sur le conteneur du tab.",
+	},
+	{
+		name: "activeClassName",
+		type: "string",
+		description: "Classes CSS supplementaires appliquees uniquement quand isActive est true. Fusionne avec les styles actifs par defaut.",
+	},
+	{
+		name: "closeButtonClassName",
+		type: "string",
+		description: "Classes CSS supplementaires sur le bouton de fermeture.",
 	},
 ]
 
@@ -679,7 +711,7 @@ function NavigationTabsPage() {
 			<DocSection id="storage" title="Storage">
 				<DocExampleClient
 					title="Adaptateur de stockage personnalise"
-					description="Par defaut, TabsProvider utilise localStorage. Passer un objet storage pour persister dans Convex, IndexedDB, ou tout autre backend."
+					description="Par defaut, TabsProvider utilise localStorage. Passer un objet TabsStorage (meme API que Web Storage : getItem/setItem) pour personnaliser la persistance."
 					code={examples[7].code}
 					highlightedCode={html("storage")}
 				>
@@ -688,9 +720,12 @@ function NavigationTabsPage() {
 							<code className="font-mono text-brand">TabsStorage</code> interface :
 						</p>
 						<div className="font-mono text-fg-secondary">
-							<div>{"load(): Promise<TabsState | null>"}</div>
-							<div>{"save(state: TabsState): Promise<void>"}</div>
+							<div>{"getItem(key: string): string | null"}</div>
+							<div>{"setItem(key: string, value: string): void"}</div>
 						</div>
+						<p className="text-fg-muted">
+							Meme API que Web Storage (localStorage/sessionStorage).
+						</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>
