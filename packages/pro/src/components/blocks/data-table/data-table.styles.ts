@@ -51,7 +51,7 @@ export const dataTableVariants = cva("w-full", {
 				// Compact rows
 				"[&_td]:!py-1.5 [&_td]:!px-3",
 				// Hide column headers — data speaks for itself
-				"[&_thead]:hidden",
+				"[&_thead]:!hidden",
 			].join(" "),
 			editable: `table-fixed [&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
 			spreadsheet: [

@@ -103,7 +103,7 @@
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.94 0 0);
-	--surface-top:  oklch(1.0 0 0);
+	--surface-top: oklch(1 0 0);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
 	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
@@ -174,7 +174,7 @@ html.dark {
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.145 0.005 285);
-	--surface-top:  oklch(0.28 0.005 285);
+	--surface-top: oklch(0.28 0.005 285);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
 	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
@@ -246,7 +246,7 @@ html[data-theme="corporate"] {
 	--text-secondary: oklch(0.4 0 0);
 	--text-muted: oklch(0.55 0 0);
 	--surface-base: oklch(0.94 0 0);
-	--surface-top: oklch(1.0 0 0);
+	--surface-top: oklch(1 0 0);
 }
 
 html[data-theme="corporate"].dark {
@@ -717,24 +717,15 @@ html[data-theme="warm"].dark {
 }
 
 .tiptap-notion h2 {
-	font-size: 1.25rem;
-	font-weight: 600;
-	margin-top: 1.5em;
-	margin-bottom: 0.25em;
-	color: var(--text-primary);
+	scroll-margin-top: 6rem;
 }
 
 .tiptap-notion h3 {
-	font-size: 1.05rem;
-	font-weight: 600;
-	margin-top: 1.25em;
-	margin-bottom: 0.2em;
-	color: var(--text-primary);
+	scroll-margin-top: 6rem;
 }
 
 .tiptap-notion p {
-	line-height: 1.65;
-	color: var(--text-primary);
+	margin-block: 0;
 }
 
 /* Task list (checkboxes) */

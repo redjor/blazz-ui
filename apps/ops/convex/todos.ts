@@ -17,6 +17,34 @@ const priorityValidator = v.union(
 	v.literal("low")
 )
 
+function applyTodoPatchField(
+	patch: Record<string, unknown>,
+	key:
+		| "text"
+		| "description"
+		| "descriptionJson"
+		| "priority"
+		| "dueDate"
+		| "projectId"
+		| "categoryId"
+		| "tags",
+	value: unknown
+) {
+	if (value === undefined) return
+	if (
+		key === "description" ||
+		key === "descriptionJson" ||
+		key === "dueDate" ||
+		key === "projectId" ||
+		key === "categoryId" ||
+		key === "tags"
+	) {
+		patch[key] = value ?? undefined
+		return
+	}
+	patch[key] = value
+}
+
 export const list = query({
 	args: {
 		status: v.optional(statusValidator),
@@ -88,6 +116,7 @@ export const create = mutation({
 	args: {
 		text: v.string(),
 		description: v.optional(v.string()),
+		descriptionJson: v.optional(v.any()),
 		status: v.optional(statusValidator),
 		source: v.optional(v.union(v.literal("app"), v.literal("telegram"))),
 		dueDate: v.optional(v.string()),
@@ -101,6 +130,7 @@ export const create = mutation({
 		{
 			text,
 			description,
+			descriptionJson,
 			status = "triage",
 			source = "app",
 			dueDate,
@@ -114,6 +144,7 @@ export const create = mutation({
 		return ctx.db.insert("todos", {
 			text,
 			description,
+			descriptionJson,
 			status,
 			source,
 			dueDate,
@@ -150,7 +181,8 @@ export const update = mutation({
 	args: {
 		id: v.id("todos"),
 		text: v.optional(v.string()),
-		description: v.optional(v.string()),
+		description: v.optional(v.union(v.string(), v.null())),
+		descriptionJson: v.optional(v.union(v.any(), v.null())),
 		priority: v.optional(priorityValidator),
 		dueDate: v.optional(v.union(v.string(), v.null())),
 		projectId: v.optional(v.union(v.id("projects"), v.null())),
@@ -159,19 +191,20 @@ export const update = mutation({
 	},
 	handler: async (
 		ctx,
-		{ id, text, description, priority, dueDate, projectId, categoryId, tags }
+		{ id, text, description, descriptionJson, priority, dueDate, projectId, categoryId, tags }
 	) => {
 		const { userId } = await requireAuth(ctx)
 		const todo = await ctx.db.get(id)
 		if (!todo || todo.userId !== userId) throw new ConvexError("Introuvable")
 		const patch: Record<string, unknown> = {}
-		if (text !== undefined) patch.text = text
-		if (description !== undefined) patch.description = description
-		if (priority !== undefined) patch.priority = priority
-		if (dueDate !== undefined) patch.dueDate = dueDate ?? undefined
-		if (projectId !== undefined) patch.projectId = projectId ?? undefined
-		if (categoryId !== undefined) patch.categoryId = categoryId ?? undefined
-		if (tags !== undefined) patch.tags = tags ?? undefined
+		applyTodoPatchField(patch, "text", text)
+		applyTodoPatchField(patch, "description", description)
+		applyTodoPatchField(patch, "descriptionJson", descriptionJson)
+		applyTodoPatchField(patch, "priority", priority)
+		applyTodoPatchField(patch, "dueDate", dueDate)
+		applyTodoPatchField(patch, "projectId", projectId)
+		applyTodoPatchField(patch, "categoryId", categoryId)
+		applyTodoPatchField(patch, "tags", tags)
 		return ctx.db.patch(id, patch)
 	},
 })

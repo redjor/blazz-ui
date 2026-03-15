@@ -96,7 +96,9 @@ export function EditTodoDialog({
 	const remove = useMutation(api.todos.remove)
 	const [text, setText] = useState(todo.text)
 	const [description, setDescription] = useState(todo.description ?? "")
-	const [priority, setPriority] = useState(todo.priority ?? "normal")
+	const [priority, setPriority] = useState<"urgent" | "high" | "normal" | "low">(
+		todo.priority ?? "normal"
+	)
 	const [projectId, setProjectId] = useState(todo.projectId ?? "")
 	const [categoryId, setCategoryId] = useState(todo.categoryId ?? "")
 	const [dueDate, setDueDate] = useState(todo.dueDate ?? "")
@@ -178,7 +180,7 @@ export function EditTodoDialog({
 					<DueDatePicker value={dueDate} onChange={setDueDate} />
 					<Select
 						value={projectId}
-						onValueChange={setProjectId}
+						onValueChange={(value) => setProjectId(value ?? "")}
 						items={[
 							{ value: "", label: "Aucun" },
 							...projects.map((p) => ({ value: p._id, label: p.name })),
@@ -198,7 +200,7 @@ export function EditTodoDialog({
 					</Select>
 					<Select
 						value={categoryId}
-						onValueChange={setCategoryId}
+						onValueChange={(value) => setCategoryId(value ?? "")}
 						items={[
 							{ value: "", label: "Aucune" },
 							...categories.map((c) => ({ value: c._id, label: c.name })),

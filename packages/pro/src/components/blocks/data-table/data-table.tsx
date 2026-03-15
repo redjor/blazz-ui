@@ -916,7 +916,7 @@ export function DataTable<TData, TValue = unknown>({
 						className={cn(dataTableVariants({ variant: finalVariant, density: finalDensity }))}
 						wrapperClassName={finalVariant === "flat" ? "p-2" : undefined}
 					>
-						{!hideHeaders && (
+						{!hideHeaders && finalVariant !== "flat" && (
 							<TableHeader>
 								{table.getHeaderGroups().map((headerGroup) => (
 									<TableRow key={headerGroup.id}>

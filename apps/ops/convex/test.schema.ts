@@ -73,6 +73,7 @@ export default defineSchema({
 		userId: v.string(),
 		text: v.string(),
 		description: v.optional(v.string()),
+		descriptionJson: v.optional(v.any()),
 		status: v.union(
 			v.literal("triage"),
 			v.literal("todo"),

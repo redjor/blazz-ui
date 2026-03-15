@@ -1,8 +1,10 @@
-import { ExpandedRowGrid } from "@blazz/pro/components/blocks/data-table/cells/expanded-row-grid"
-import { ExpandedRowTabs } from "@blazz/pro/components/blocks/data-table/cells/expanded-row-tabs"
-import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import {
+	col,
+	DataTable,
+	ExpandedRowGrid,
+	ExpandedRowTabs,
+} from "@blazz/pro/components/blocks/data-table"
 import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
-import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
 // Presets removed from @blazz/pro — using local stubs for now
 import {
 	createCompaniesPreset,

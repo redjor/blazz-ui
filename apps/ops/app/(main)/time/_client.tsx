@@ -1,6 +1,11 @@
 "use client"
 
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import type {
+	BulkAction,
+	DataTableColumnDef,
+	DataTableView,
+	RowAction,
+} from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -22,7 +27,18 @@ import {
 	subWeeks,
 } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Ban, CheckCircle2, ChevronLeft, ChevronRight, CircleDot, FileEdit, Pencil, Send, Trash2, Receipt } from "lucide-react"
+import {
+	Ban,
+	CheckCircle2,
+	ChevronLeft,
+	ChevronRight,
+	CircleDot,
+	FileEdit,
+	Pencil,
+	Send,
+	Trash2,
+	Receipt,
+} from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { DayEntriesDialog } from "@/components/day-entries-dialog"
@@ -46,7 +62,10 @@ function computeDateRange(date: string): string {
 	const now = new Date()
 	const ws = format(startOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd")
 	const prevWs = format(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), "yyyy-MM-dd")
-	const prevWe = format(addDays(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), 6), "yyyy-MM-dd")
+	const prevWe = format(
+		addDays(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), 6),
+		"yyyy-MM-dd"
+	)
 	const ms = format(startOfMonth(now), "yyyy-MM-dd")
 	const prevMs = format(startOfMonth(subMonths(now, 1)), "yyyy-MM-dd")
 	const prevMe = format(endOfMonth(subMonths(now, 1)), "yyyy-MM-dd")
@@ -87,11 +106,9 @@ export default function TimePageClient() {
 		results: rawEntries,
 		status: paginationStatus,
 		loadMore,
-	} = usePaginatedQuery(
-		api.timeEntries.listPaginated,
-		view === "list" ? {} : "skip",
-		{ initialNumItems: 100 }
-	)
+	} = usePaginatedQuery(api.timeEntries.listPaginated, view === "list" ? {} : "skip", {
+		initialNumItems: 100,
+	})
 
 	const allEntries = useMemo<TimeEntry[]>(
 		() => (rawEntries ?? []).map((e) => ({ ...e, dateRange: computeDateRange(e.date) })),
@@ -155,11 +172,38 @@ export default function TimePageClient() {
 	// Data Table V2 — flat layout columns
 	// ---------------------------------------------------------------------------
 
-	const statusConfig: Record<string, { dot: string; icon: typeof FileEdit; iconClass: string; tint: string; label: string }> = {
-		draft: { dot: "bg-violet-500", icon: FileEdit, iconClass: "text-violet-500", tint: "oklch(0.65 0.15 300 / 0.08)", label: "Brouillon" },
-		ready_to_invoice: { dot: "bg-amber-500", icon: Send, iconClass: "text-amber-500", tint: "oklch(0.75 0.15 85 / 0.08)", label: "Prêt à facturer" },
-		invoiced: { dot: "bg-blue-500", icon: CircleDot, iconClass: "text-blue-500", tint: "oklch(0.65 0.15 250 / 0.08)", label: "Facturé" },
-		paid: { dot: "bg-green-500", icon: CheckCircle2, iconClass: "text-green-500", tint: "oklch(0.70 0.15 150 / 0.08)", label: "Payé" },
+	const statusConfig: Record<
+		string,
+		{ dot: string; icon: typeof FileEdit; iconClass: string; tint: string; label: string }
+	> = {
+		draft: {
+			dot: "bg-violet-500",
+			icon: FileEdit,
+			iconClass: "text-violet-500",
+			tint: "oklch(0.65 0.15 300 / 0.08)",
+			label: "Brouillon",
+		},
+		ready_to_invoice: {
+			dot: "bg-amber-500",
+			icon: Send,
+			iconClass: "text-amber-500",
+			tint: "oklch(0.75 0.15 85 / 0.08)",
+			label: "Prêt à facturer",
+		},
+		invoiced: {
+			dot: "bg-blue-500",
+			icon: CircleDot,
+			iconClass: "text-blue-500",
+			tint: "oklch(0.65 0.15 250 / 0.08)",
+			label: "Facturé",
+		},
+		paid: {
+			dot: "bg-green-500",
+			icon: CheckCircle2,
+			iconClass: "text-green-500",
+			tint: "oklch(0.70 0.15 150 / 0.08)",
+			label: "Payé",
+		},
 	}
 
 	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
@@ -265,7 +309,7 @@ export default function TimePageClient() {
 				isDefault: true,
 				filters: { id: "root", operator: "AND", conditions: [] },
 				sorting: [{ id: "date", desc: true }],
-				},
+			},
 			{
 				id: "draft",
 				name: "Brouillons",
@@ -274,11 +318,17 @@ export default function TimePageClient() {
 					id: "draft-filter",
 					operator: "AND",
 					conditions: [
-						{ id: "draft-cond", column: "status", operator: "equals", value: "draft", type: "select" },
+						{
+							id: "draft-cond",
+							column: "status",
+							operator: "equals",
+							value: "draft",
+							type: "select",
+						},
 					],
 				},
 				sorting: [{ id: "date", desc: true }],
-				},
+			},
 			{
 				id: "ready",
 				name: "Prêt à facturer",
@@ -287,11 +337,17 @@ export default function TimePageClient() {
 					id: "ready-filter",
 					operator: "AND",
 					conditions: [
-						{ id: "ready-cond", column: "status", operator: "equals", value: "ready_to_invoice", type: "select" },
+						{
+							id: "ready-cond",
+							column: "status",
+							operator: "equals",
+							value: "ready_to_invoice",
+							type: "select",
+						},
 					],
 				},
 				sorting: [{ id: "date", desc: true }],
-				},
+			},
 			{
 				id: "invoiced",
 				name: "Facturé",
@@ -300,11 +356,17 @@ export default function TimePageClient() {
 					id: "invoiced-filter",
 					operator: "AND",
 					conditions: [
-						{ id: "invoiced-cond", column: "status", operator: "equals", value: "invoiced", type: "select" },
+						{
+							id: "invoiced-cond",
+							column: "status",
+							operator: "equals",
+							value: "invoiced",
+							type: "select",
+						},
 					],
 				},
 				sorting: [{ id: "date", desc: true }],
-				},
+			},
 			{
 				id: "paid",
 				name: "Payé",
@@ -313,11 +375,17 @@ export default function TimePageClient() {
 					id: "paid-filter",
 					operator: "AND",
 					conditions: [
-						{ id: "paid-cond", column: "status", operator: "equals", value: "paid", type: "select" },
+						{
+							id: "paid-cond",
+							column: "status",
+							operator: "equals",
+							value: "paid",
+							type: "select",
+						},
 					],
 				},
 				sorting: [{ id: "date", desc: true }],
-				},
+			},
 			{
 				id: "non-billable",
 				name: "Non facturable",
@@ -326,11 +394,17 @@ export default function TimePageClient() {
 					id: "non-billable-filter",
 					operator: "AND",
 					conditions: [
-						{ id: "non-billable-cond", column: "status", operator: "equals", value: null, type: "select" },
+						{
+							id: "non-billable-cond",
+							column: "status",
+							operator: "equals",
+							value: null,
+							type: "select",
+						},
 					],
 				},
 				sorting: [{ id: "date", desc: true }],
-				},
+			},
 		],
 		[]
 	)
@@ -481,7 +555,8 @@ export default function TimePageClient() {
 				icon: Trash2,
 				variant: "destructive",
 				requireConfirmation: true,
-				confirmationMessage: (count) => `Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
+				confirmationMessage: (count) =>
+					`Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
 				handler: async (rows) => {
 					try {
 						await Promise.all(rows.map((r) => remove({ id: r.original._id })))
@@ -515,7 +590,11 @@ export default function TimePageClient() {
 
 				<InlineStack gap="300" blockAlign="center">
 					{/* Toggle Semaine/Mois/Liste */}
-					<InlineStack gap="100" blockAlign="center" className="rounded-lg border border-edge p-0.5 bg-surface-3">
+					<InlineStack
+						gap="100"
+						blockAlign="center"
+						className="rounded-lg border border-edge p-0.5 bg-surface-3"
+					>
 						<Button
 							type="button"
 							size="sm"
@@ -627,34 +706,34 @@ export default function TimePageClient() {
 						}
 					>
 						<WeekGrid
-								weekStart={weekStart}
-								entries={weekEntries ?? []}
-								projects={activeProjects ?? []}
-								onCellClick={(projectId, date, dayEntries) => {
-									const project = activeProjects?.find((p) => p._id === projectId)
-									if (!project) return
-									if (dayEntries.length > 0) {
-										setDayDetail({
-											open: true,
-											projectId,
-											projectName: project.name,
-											date,
-										})
-										return
-									}
-									setQuickModal({
+							weekStart={weekStart}
+							entries={weekEntries ?? []}
+							projects={activeProjects ?? []}
+							onCellClick={(projectId, date, dayEntries) => {
+								const project = activeProjects?.find((p) => p._id === projectId)
+								if (!project) return
+								if (dayEntries.length > 0) {
+									setDayDetail({
 										open: true,
 										projectId,
 										projectName: project.name,
-										hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
-										hoursPerDay: project.hoursPerDay,
 										date,
 									})
-								}}
-								onCellDelete={(entryId) => {
-									setDeleteConfirm({ open: true, entryId })
-								}}
-							/>
+									return
+								}
+								setQuickModal({
+									open: true,
+									projectId,
+									projectName: project.name,
+									hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
+									hoursPerDay: project.hoursPerDay,
+									date,
+								})
+							}}
+							onCellDelete={(entryId) => {
+								setDeleteConfirm({ open: true, entryId })
+							}}
+						/>
 					</div>
 				)}
 
@@ -692,9 +771,7 @@ export default function TimePageClient() {
 									minutes: (values) => {
 										const total = (values as number[]).reduce((a, b) => a + b, 0)
 										return (
-											<span className="font-mono text-xs tabular-nums">
-												{formatMinutes(total)}
-											</span>
+											<span className="font-mono text-xs tabular-nums">{formatMinutes(total)}</span>
 										)
 									},
 								}}
@@ -715,7 +792,11 @@ export default function TimePageClient() {
 												</span>
 												{(() => {
 													const Icon = cfg?.icon ?? Ban
-													return <Icon className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`} />
+													return (
+														<Icon
+															className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`}
+														/>
+													)
 												})()}
 												<span className="truncate text-fg" style={{ fontSize: 13 }}>
 													{entry.description || "—"}

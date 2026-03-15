@@ -14,6 +14,7 @@ import { Route as SandboxDatatableRouteImport } from './routes/sandbox-datatable
 import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
+import { Route as DocsDocsIndexRouteImport } from './routes/_docs/docs/index'
 import { Route as DocsDocsSandboxRouteImport } from './routes/_docs/docs/sandbox'
 import { Route as DocsDocsMcpRouteImport } from './routes/_docs/docs/mcp'
 import { Route as DocsDocsGuideIndexRouteImport } from './routes/_docs/docs/guide/index'
@@ -21,6 +22,7 @@ import { Route as DocsDocsComponentsIndexRouteImport } from './routes/_docs/docs
 import { Route as DocsDocsBlocksIndexRouteImport } from './routes/_docs/docs/blocks/index'
 import { Route as DocsDocsAiIndexRouteImport } from './routes/_docs/docs/ai/index'
 import { Route as DocsDocsUtilsUnsavedChangesBarRouteImport } from './routes/_docs/docs/utils/unsaved-changes-bar'
+import { Route as DocsDocsUtilsReactDirtyGuardRouteImport } from './routes/_docs/docs/utils/react-dirty-guard'
 import { Route as DocsDocsUtilsQuickLoginRouteImport } from './routes/_docs/docs/utils/quick-login'
 import { Route as DocsDocsComponentsTypographyRouteImport } from './routes/_docs/docs/components/typography'
 import { Route as DocsDocsComponentsOverlaysRouteImport } from './routes/_docs/docs/components/overlays'
@@ -226,6 +228,11 @@ const ThumbnailSlugRoute = ThumbnailSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ThumbnailRoute,
 } as any)
+const DocsDocsIndexRoute = DocsDocsIndexRouteImport.update({
+  id: '/docs/',
+  path: '/docs/',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsSandboxRoute = DocsDocsSandboxRouteImport.update({
   id: '/docs/sandbox',
   path: '/docs/sandbox',
@@ -260,6 +267,12 @@ const DocsDocsUtilsUnsavedChangesBarRoute =
   DocsDocsUtilsUnsavedChangesBarRouteImport.update({
     id: '/docs/utils/unsaved-changes-bar',
     path: '/docs/utils/unsaved-changes-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsUtilsReactDirtyGuardRoute =
+  DocsDocsUtilsReactDirtyGuardRouteImport.update({
+    id: '/docs/utils/react-dirty-guard',
+    path: '/docs/utils/react-dirty-guard',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsUtilsQuickLoginRoute = DocsDocsUtilsQuickLoginRouteImport.update({
@@ -1326,6 +1339,7 @@ export interface FileRoutesByFullPath {
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/docs/mcp': typeof DocsDocsMcpRoute
   '/docs/sandbox': typeof DocsDocsSandboxRoute
+  '/docs/': typeof DocsDocsIndexRoute
   '/docs/ai/chain-of-thought': typeof DocsDocsAiChainOfThoughtRoute
   '/docs/ai/confirmation': typeof DocsDocsAiConfirmationRoute
   '/docs/ai/context': typeof DocsDocsAiContextRoute
@@ -1367,6 +1381,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/overlays': typeof DocsDocsComponentsOverlaysRoute
   '/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
   '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
+  '/docs/utils/react-dirty-guard': typeof DocsDocsUtilsReactDirtyGuardRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/docs/ai/': typeof DocsDocsAiIndexRoute
   '/docs/blocks/': typeof DocsDocsBlocksIndexRoute
@@ -1519,6 +1534,7 @@ export interface FileRoutesByTo {
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/docs/mcp': typeof DocsDocsMcpRoute
   '/docs/sandbox': typeof DocsDocsSandboxRoute
+  '/docs': typeof DocsDocsIndexRoute
   '/docs/ai/chain-of-thought': typeof DocsDocsAiChainOfThoughtRoute
   '/docs/ai/confirmation': typeof DocsDocsAiConfirmationRoute
   '/docs/ai/context': typeof DocsDocsAiContextRoute
@@ -1560,6 +1576,7 @@ export interface FileRoutesByTo {
   '/docs/components/overlays': typeof DocsDocsComponentsOverlaysRoute
   '/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
   '/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
+  '/docs/utils/react-dirty-guard': typeof DocsDocsUtilsReactDirtyGuardRoute
   '/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/docs/ai': typeof DocsDocsAiIndexRoute
   '/docs/blocks': typeof DocsDocsBlocksIndexRoute
@@ -1714,6 +1731,7 @@ export interface FileRoutesById {
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
   '/_docs/docs/mcp': typeof DocsDocsMcpRoute
   '/_docs/docs/sandbox': typeof DocsDocsSandboxRoute
+  '/_docs/docs/': typeof DocsDocsIndexRoute
   '/_docs/docs/ai/chain-of-thought': typeof DocsDocsAiChainOfThoughtRoute
   '/_docs/docs/ai/confirmation': typeof DocsDocsAiConfirmationRoute
   '/_docs/docs/ai/context': typeof DocsDocsAiContextRoute
@@ -1755,6 +1773,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/overlays': typeof DocsDocsComponentsOverlaysRoute
   '/_docs/docs/components/typography': typeof DocsDocsComponentsTypographyRoute
   '/_docs/docs/utils/quick-login': typeof DocsDocsUtilsQuickLoginRoute
+  '/_docs/docs/utils/react-dirty-guard': typeof DocsDocsUtilsReactDirtyGuardRoute
   '/_docs/docs/utils/unsaved-changes-bar': typeof DocsDocsUtilsUnsavedChangesBarRoute
   '/_docs/docs/ai/': typeof DocsDocsAiIndexRoute
   '/_docs/docs/blocks/': typeof DocsDocsBlocksIndexRoute
@@ -1909,6 +1928,7 @@ export interface FileRouteTypes {
     | '/thumbnail/$slug'
     | '/docs/mcp'
     | '/docs/sandbox'
+    | '/docs/'
     | '/docs/ai/chain-of-thought'
     | '/docs/ai/confirmation'
     | '/docs/ai/context'
@@ -1950,6 +1970,7 @@ export interface FileRouteTypes {
     | '/docs/components/overlays'
     | '/docs/components/typography'
     | '/docs/utils/quick-login'
+    | '/docs/utils/react-dirty-guard'
     | '/docs/utils/unsaved-changes-bar'
     | '/docs/ai/'
     | '/docs/blocks/'
@@ -2102,6 +2123,7 @@ export interface FileRouteTypes {
     | '/thumbnail/$slug'
     | '/docs/mcp'
     | '/docs/sandbox'
+    | '/docs'
     | '/docs/ai/chain-of-thought'
     | '/docs/ai/confirmation'
     | '/docs/ai/context'
@@ -2143,6 +2165,7 @@ export interface FileRouteTypes {
     | '/docs/components/overlays'
     | '/docs/components/typography'
     | '/docs/utils/quick-login'
+    | '/docs/utils/react-dirty-guard'
     | '/docs/utils/unsaved-changes-bar'
     | '/docs/ai'
     | '/docs/blocks'
@@ -2296,6 +2319,7 @@ export interface FileRouteTypes {
     | '/thumbnail/$slug'
     | '/_docs/docs/mcp'
     | '/_docs/docs/sandbox'
+    | '/_docs/docs/'
     | '/_docs/docs/ai/chain-of-thought'
     | '/_docs/docs/ai/confirmation'
     | '/_docs/docs/ai/context'
@@ -2337,6 +2361,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/overlays'
     | '/_docs/docs/components/typography'
     | '/_docs/docs/utils/quick-login'
+    | '/_docs/docs/utils/react-dirty-guard'
     | '/_docs/docs/utils/unsaved-changes-bar'
     | '/_docs/docs/ai/'
     | '/_docs/docs/blocks/'
@@ -2527,6 +2552,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThumbnailSlugRouteImport
       parentRoute: typeof ThumbnailRoute
     }
+    '/_docs/docs/': {
+      id: '/_docs/docs/'
+      path: '/docs'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsDocsIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/sandbox': {
       id: '/_docs/docs/sandbox'
       path: '/docs/sandbox'
@@ -2574,6 +2606,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/utils/unsaved-changes-bar'
       fullPath: '/docs/utils/unsaved-changes-bar'
       preLoaderRoute: typeof DocsDocsUtilsUnsavedChangesBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/utils/react-dirty-guard': {
+      id: '/_docs/docs/utils/react-dirty-guard'
+      path: '/docs/utils/react-dirty-guard'
+      fullPath: '/docs/utils/react-dirty-guard'
+      preLoaderRoute: typeof DocsDocsUtilsReactDirtyGuardRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/utils/quick-login': {
@@ -3842,6 +3881,7 @@ declare module '@tanstack/react-router' {
 interface DocsRouteChildren {
   DocsDocsMcpRoute: typeof DocsDocsMcpRoute
   DocsDocsSandboxRoute: typeof DocsDocsSandboxRoute
+  DocsDocsIndexRoute: typeof DocsDocsIndexRoute
   DocsDocsAiChainOfThoughtRoute: typeof DocsDocsAiChainOfThoughtRoute
   DocsDocsAiConfirmationRoute: typeof DocsDocsAiConfirmationRoute
   DocsDocsAiContextRoute: typeof DocsDocsAiContextRoute
@@ -3883,6 +3923,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsOverlaysRoute: typeof DocsDocsComponentsOverlaysRoute
   DocsDocsComponentsTypographyRoute: typeof DocsDocsComponentsTypographyRoute
   DocsDocsUtilsQuickLoginRoute: typeof DocsDocsUtilsQuickLoginRoute
+  DocsDocsUtilsReactDirtyGuardRoute: typeof DocsDocsUtilsReactDirtyGuardRoute
   DocsDocsUtilsUnsavedChangesBarRoute: typeof DocsDocsUtilsUnsavedChangesBarRoute
   DocsDocsAiIndexRoute: typeof DocsDocsAiIndexRoute
   DocsDocsBlocksIndexRoute: typeof DocsDocsBlocksIndexRoute
@@ -4032,6 +4073,7 @@ interface DocsRouteChildren {
 const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsMcpRoute: DocsDocsMcpRoute,
   DocsDocsSandboxRoute: DocsDocsSandboxRoute,
+  DocsDocsIndexRoute: DocsDocsIndexRoute,
   DocsDocsAiChainOfThoughtRoute: DocsDocsAiChainOfThoughtRoute,
   DocsDocsAiConfirmationRoute: DocsDocsAiConfirmationRoute,
   DocsDocsAiContextRoute: DocsDocsAiContextRoute,
@@ -4073,6 +4115,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsOverlaysRoute: DocsDocsComponentsOverlaysRoute,
   DocsDocsComponentsTypographyRoute: DocsDocsComponentsTypographyRoute,
   DocsDocsUtilsQuickLoginRoute: DocsDocsUtilsQuickLoginRoute,
+  DocsDocsUtilsReactDirtyGuardRoute: DocsDocsUtilsReactDirtyGuardRoute,
   DocsDocsUtilsUnsavedChangesBarRoute: DocsDocsUtilsUnsavedChangesBarRoute,
   DocsDocsAiIndexRoute: DocsDocsAiIndexRoute,
   DocsDocsBlocksIndexRoute: DocsDocsBlocksIndexRoute,

@@ -1,18 +1,20 @@
-import { CellAvatarGroup } from "@blazz/pro/components/blocks/data-table/cells/cell-avatar-group"
-import { CellBoolean } from "@blazz/pro/components/blocks/data-table/cells/cell-boolean"
-import { CellColorDot } from "@blazz/pro/components/blocks/data-table/cells/cell-color-dot"
-import { CellDuration } from "@blazz/pro/components/blocks/data-table/cells/cell-duration"
-import { CellImage } from "@blazz/pro/components/blocks/data-table/cells/cell-image"
-import { CellKeyValue } from "@blazz/pro/components/blocks/data-table/cells/cell-key-value"
-import { CellLink } from "@blazz/pro/components/blocks/data-table/cells/cell-link"
-import { CellProgress } from "@blazz/pro/components/blocks/data-table/cells/cell-progress"
-import { CellRating } from "@blazz/pro/components/blocks/data-table/cells/cell-rating"
-import { CellRelativeDate } from "@blazz/pro/components/blocks/data-table/cells/cell-relative-date"
-import { CellSparkline } from "@blazz/pro/components/blocks/data-table/cells/cell-sparkline"
-import { CellTags } from "@blazz/pro/components/blocks/data-table/cells/cell-tags"
-import { CellTwoLines } from "@blazz/pro/components/blocks/data-table/cells/cell-two-lines"
-import { CellUser } from "@blazz/pro/components/blocks/data-table/cells/cell-user"
-import { CellValidation } from "@blazz/pro/components/blocks/data-table/cells/cell-validation"
+import {
+	CellAvatarGroup,
+	CellBoolean,
+	CellColorDot,
+	CellDuration,
+	CellImage,
+	CellKeyValue,
+	CellLink,
+	CellProgress,
+	CellRating,
+	CellRelativeDate,
+	CellSparkline,
+	CellTags,
+	CellTwoLines,
+	CellUser,
+	CellValidation,
+} from "@blazz/pro/components/blocks/data-table"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

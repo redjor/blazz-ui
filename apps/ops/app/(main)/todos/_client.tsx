@@ -190,7 +190,7 @@ function AddTodoDialog({
 						<InlineStack gap="200">
 							<Select
 								value={priority}
-								onValueChange={setPriority}
+								onValueChange={(value) => setPriority(value ?? "normal")}
 								items={[
 									{ value: "urgent", label: "Urgent" },
 									{ value: "high", label: "High" },
@@ -210,7 +210,7 @@ function AddTodoDialog({
 							</Select>
 							<Select
 								value={projectId ?? ""}
-								onValueChange={(v) => setProjectId(v || undefined)}
+								onValueChange={(value) => setProjectId(value || undefined)}
 								items={[
 									{ value: "", label: "Aucun" },
 									...projects.map((p) => ({ value: p._id, label: p.name })),
@@ -232,7 +232,7 @@ function AddTodoDialog({
 						<DueDatePicker value={dueDate} onChange={setDueDate} />
 						<Select
 							value={categoryId}
-							onValueChange={setCategoryId}
+							onValueChange={(value) => setCategoryId(value ?? "")}
 							items={[
 								{ value: "", label: "Aucune" },
 								...categories.map((c) => ({ value: c._id, label: c.name })),
@@ -614,7 +614,7 @@ export default function TodosPageClient() {
 								action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
 							/>
 						) : (
-							<KanbanBoard
+							<KanbanBoard<TodoWithId>
 								columns={COLUMNS.map((col) => ({ id: col.status, label: col.label }))}
 								items={filteredItems}
 								className="flex-1 min-h-0"

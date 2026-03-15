@@ -1146,6 +1146,19 @@ export const sidebarConfig: SidebarConfig = {
 					icon: Save,
 					items: [
 						{
+							title: "react-dirty-guard",
+							url: "/docs/utils/react-dirty-guard",
+							keywords: [
+								"dirty guard",
+								"unsaved changes",
+								"form guard",
+								"navigation guard",
+								"beforeunload",
+								"popstate",
+								"npm package",
+							],
+						},
+						{
 							title: "Unsaved Changes Bar",
 							url: "/docs/utils/unsaved-changes-bar",
 							keywords: [

@@ -2,10 +2,6 @@
 
 > Read before generating any @blazz/ui code.
 
-> **Package split:** Blocks (data-table, charts, kanban...) and AI components have moved to `@blazz/pro`.
-> Import: `import { DataTable } from "@blazz/pro/components/blocks/data-table"`
-> Import: `import { ChatMessage } from "@blazz/pro/components/ai/chat"`
-
 ## Critical Patterns
 
 ### 1. Select — ALWAYS pass items

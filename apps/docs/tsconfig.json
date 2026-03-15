@@ -9,6 +9,8 @@
 			"~/*": ["./src/*"],
 			"@blazz/ui": ["../../packages/ui/src"],
 			"@blazz/ui/*": ["../../packages/ui/src/*"],
+			"@blazz/pro": ["../../packages/pro/src"],
+			"@blazz/pro/*": ["../../packages/pro/src/*"],
 			"@blazz/quick-login": ["../../packages/quick-login/src"],
 			"@blazz/quick-login/*": ["../../packages/quick-login/src/*"]
 		}

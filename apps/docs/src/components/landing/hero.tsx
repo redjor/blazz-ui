@@ -48,7 +48,7 @@ export function Hero() {
 									<ArrowRight className="size-4" />
 								</Button>
 							</a>
-							<Link to="/docs/blocks/data-table">
+							<Link to="/docs">
 								<Button variant="outline" size="lg">
 									Browse docs
 								</Button>

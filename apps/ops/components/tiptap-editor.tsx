@@ -4,7 +4,8 @@ import Image from "@tiptap/extension-image"
 import Placeholder from "@tiptap/extension-placeholder"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
-import { EditorContent, useEditor } from "@tiptap/react"
+import { TextSelection } from "@tiptap/pm/state"
+import { EditorContent, type JSONContent, useEditor } from "@tiptap/react"
 import { BubbleMenu } from "@tiptap/react/menus"
 import StarterKit from "@tiptap/starter-kit"
 import { useMutation } from "convex/react"
@@ -12,6 +13,7 @@ import {
 	Bold,
 	CheckSquare,
 	Code,
+	Heading1,
 	Heading2,
 	Heading3,
 	ImagePlus,
@@ -21,6 +23,7 @@ import {
 	Minus,
 	Quote,
 	Strikethrough,
+	Type,
 } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
@@ -58,6 +61,14 @@ function BubbleButton({
 const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"]
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024 // 5 MB
 const SLASH_LOOKBACK = 80
+type EditorValue = JSONContent | string
+
+export interface TiptapUpdatePayload {
+	html: string
+	json: JSONContent
+	text: string
+	isEmpty: boolean
+}
 
 function escapeRegExp(value: string) {
 	return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
@@ -124,6 +135,39 @@ function stripPendingUploadMarkup(html: string, pendingPreviewUrls: Iterable<str
 	return sanitized
 }
 
+function stripPendingUploadJson(
+	content: JSONContent,
+	pendingPreviewUrls: ReadonlySet<string>
+): JSONContent {
+	const sanitizedChildren =
+		content.content
+			?.map((node) => stripPendingUploadJson(node, pendingPreviewUrls))
+			.filter(
+				(node) => !(node.type === "image" && pendingPreviewUrls.has(String(node.attrs?.src ?? "")))
+			) ?? undefined
+
+	return sanitizedChildren
+		? { ...content, content: sanitizedChildren }
+		: { ...content, content: undefined }
+}
+
+function hasMeaningfulContent(content: JSONContent | undefined): boolean {
+	if (!content) return false
+	if (content.type === "image" || content.type === "horizontalRule") return true
+	if (typeof content.text === "string" && content.text.trim().length > 0) return true
+	return content.content?.some((node) => hasMeaningfulContent(node)) ?? false
+}
+
+function areEditorContentsEqual(
+	editor: NonNullable<ReturnType<typeof useEditor>>,
+	content: EditorValue
+) {
+	if (typeof content === "string") {
+		return content === editor.getHTML()
+	}
+	return JSON.stringify(editor.getJSON()) === JSON.stringify(content)
+}
+
 function getImageFileFromClipboard(event: ClipboardEvent) {
 	const items = event.clipboardData?.items
 	if (!items) return null
@@ -141,63 +185,75 @@ function getImageFileFromClipboard(event: ClipboardEvent) {
 
 interface SlashCommand {
 	label: string
-	description: string
 	icon: React.ReactNode
+	hint: string
 	command: string // editor chain command name
 }
 
 const SLASH_COMMANDS: SlashCommand[] = [
 	{
-		label: "Titre",
-		description: "Grande section",
+		label: "Texte",
+		hint: "T",
+		icon: <Type className="size-4" />,
+		command: "paragraph",
+	},
+	{
+		label: "Titre 1",
+		hint: "#",
+		icon: <Heading1 className="size-4" />,
+		command: "heading1",
+	},
+	{
+		label: "Titre 2",
+		hint: "##",
 		icon: <Heading2 className="size-4" />,
 		command: "heading2",
 	},
 	{
-		label: "Sous-titre",
-		description: "Petite section",
+		label: "Titre 3",
+		hint: "###",
 		icon: <Heading3 className="size-4" />,
 		command: "heading3",
 	},
 	{
-		label: "Liste",
-		description: "Liste à puces",
+		label: "Liste a puces",
+		hint: "-",
 		icon: <List className="size-4" />,
 		command: "bulletList",
 	},
 	{
 		label: "Liste numérotée",
-		description: "Liste ordonnée",
+		hint: "1.",
 		icon: <ListOrdered className="size-4" />,
 		command: "orderedList",
 	},
 	{
-		label: "Checklist",
-		description: "Cases à cocher",
+		label: "Liste de taches",
+		hint: "[]",
 		icon: <CheckSquare className="size-4" />,
 		command: "taskList",
 	},
 	{
 		label: "Citation",
-		description: "Bloc citation",
+		hint: '"',
 		icon: <Quote className="size-4" />,
 		command: "blockquote",
 	},
 	{
 		label: "Code",
-		description: "Bloc de code",
+		hint: "</>",
 		icon: <Code className="size-4" />,
 		command: "codeBlock",
 	},
 	{
 		label: "Séparateur",
-		description: "Ligne horizontale",
+		hint: "---",
 		icon: <Minus className="size-4" />,
 		command: "horizontalRule",
 	},
 	{
 		label: "Image",
-		description: "Insérer une image",
+		hint: "img",
 		icon: <ImagePlus className="size-4" />,
 		command: "image",
 	},
@@ -223,31 +279,34 @@ function SlashMenu({
 	}, [selectedIndex])
 
 	return (
-		<div
-			ref={listRef}
-			className="bg-surface border border-edge rounded-lg shadow-lg overflow-hidden overflow-y-auto max-h-72 py-1 w-64"
-		>
-			{commands.map((cmd, index) => (
-				<button
-					key={cmd.command}
-					type="button"
-					className={`flex items-center gap-3 w-full px-3 py-2 text-left transition-colors ${
-						index === selectedIndex
-							? "bg-surface-3 text-fg"
-							: "text-fg-muted hover:bg-surface-3 hover:text-fg"
-					}`}
-					onClick={() => onSelect(index)}
-					onMouseEnter={() => onHover(index)}
-				>
-					<span className="flex items-center justify-center size-8 rounded-md border border-edge bg-surface text-fg-muted shrink-0">
-						{cmd.icon}
-					</span>
-					<div className="min-w-0">
-						<p className="text-sm font-medium">{cmd.label}</p>
-						<p className="text-xs text-fg-muted">{cmd.description}</p>
-					</div>
-				</button>
-			))}
+		<div className="w-[280px] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.14)]">
+			<div ref={listRef} className="max-h-[360px] overflow-y-auto px-2 py-2">
+				{commands.map((cmd, index) => (
+					<button
+						key={cmd.command}
+						type="button"
+						className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors ${
+							index === selectedIndex
+								? "bg-zinc-100 text-zinc-950"
+								: "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950"
+						}`}
+						onClick={() => onSelect(index)}
+						onMouseEnter={() => onHover(index)}
+					>
+						<span className="flex size-5 shrink-0 items-center justify-center text-zinc-700">
+							{cmd.icon}
+						</span>
+						<span className="min-w-0 flex-1 text-[15px] leading-none">{cmd.label}</span>
+						<span className="shrink-0 text-xs font-medium text-zinc-400">{cmd.hint}</span>
+					</button>
+				))}
+			</div>
+			<div className="flex items-center justify-between border-t border-zinc-200 px-3 py-2 text-xs text-zinc-500">
+				<span>Fermer le menu</span>
+				<span className="rounded-md border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 font-medium text-zinc-400">
+					esc
+				</span>
+			</div>
 		</div>
 	)
 }
@@ -259,8 +318,8 @@ export function TiptapEditor({
 	onUpdate,
 	placeholder = "Tapez '/' pour les commandes…",
 }: {
-	content: string
-	onUpdate: (html: string) => void
+	content: EditorValue
+	onUpdate: (payload: TiptapUpdatePayload) => void
 	placeholder?: string
 }) {
 	// ── Image upload ────────────────────────────────────────────────
@@ -380,6 +439,12 @@ export function TiptapEditor({
 			}
 
 			switch (cmd.command) {
+				case "paragraph":
+					e.chain().focus().setParagraph().run()
+					break
+				case "heading1":
+					e.chain().focus().toggleHeading({ level: 1 }).run()
+					break
 				case "heading2":
 					e.chain().focus().toggleHeading({ level: 2 }).run()
 					break
@@ -422,9 +487,10 @@ export function TiptapEditor({
 
 	const editor = useEditor({
 		immediatelyRender: false,
+		shouldRerenderOnTransaction: false,
 		extensions: [
 			StarterKit.configure({
-				heading: { levels: [2, 3] },
+				heading: { levels: [1, 2, 3] },
 			}),
 			TaskList,
 			TaskItem.configure({ nested: true }),
@@ -435,7 +501,7 @@ export function TiptapEditor({
 			Placeholder.configure({
 				placeholder: ({ node }) => {
 					if (node.type.name === "heading") {
-						return `Titre ${node.attrs.level === 2 ? "2" : "3"}`
+						return `Titre ${node.attrs.level}`
 					}
 					return placeholder
 				},
@@ -486,6 +552,12 @@ export function TiptapEditor({
 				if (file && ACCEPTED_IMAGE_TYPES.includes(file.type)) {
 					event.preventDefault()
 					const e = editorRef.current
+					const position = _view.posAtCoords({ left: event.clientX, top: event.clientY })
+					if (position) {
+						_view.dispatch(
+							_view.state.tr.setSelection(TextSelection.create(_view.state.doc, position.pos))
+						)
+					}
 					if (e) uploadImage(file, e)
 					return true
 				}
@@ -502,7 +574,14 @@ export function TiptapEditor({
 		},
 		onUpdate: ({ editor: e }) => {
 			const html = stripPendingUploadMarkup(e.getHTML(), pendingPreviewUrlsRef.current)
-			onUpdate(html)
+			const json = stripPendingUploadJson(e.getJSON(), pendingPreviewUrlsRef.current)
+			const text = e.getText().trim()
+			onUpdate({
+				html,
+				json,
+				text,
+				isEmpty: !hasMeaningfulContent(json),
+			})
 
 			const slashRange = findSlashCommandRange(e)
 
@@ -535,8 +614,8 @@ export function TiptapEditor({
 
 	// Sync content when it changes externally
 	useEffect(() => {
-		if (editor && content !== editor.getHTML()) {
-			editor.commands.setContent(content, false)
+		if (editor && !areEditorContentsEqual(editor, content)) {
+			editor.commands.setContent(content, { emitUpdate: false })
 		}
 	}, [content, editor]) // eslint-disable-line react-hooks/exhaustive-deps
 

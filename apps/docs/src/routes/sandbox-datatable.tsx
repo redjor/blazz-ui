@@ -1,4 +1,13 @@
-import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import {
+	col,
+	DataTable,
+	DataTableColumnHeader,
+} from "@blazz/pro/components/blocks/data-table"
+import type {
+	BulkAction,
+	DataTableColumnDef,
+	RowAction,
+} from "@blazz/pro/components/blocks/data-table"
 import {
 	Table,
 	TableBody,
@@ -7,13 +16,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@blazz/ui/components/ui/table"
-import type {
-	BulkAction,
-	DataTableColumnDef,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
-import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table"
-import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
 import { createOrderLinesPreset } from "~/lib/preset-stubs"
 type OrderLineRow = Record<string, unknown>
 import { createFileRoute, Link } from "@tanstack/react-router"

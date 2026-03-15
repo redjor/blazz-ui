@@ -15,15 +15,16 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import type { JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { ArrowLeft, Flag, Trash2 } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { DueDatePicker } from "@/components/due-date-picker"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { TagInput } from "@/components/tag-input"
-import { TiptapEditor } from "@/components/tiptap-editor"
+import { TiptapEditor, type TiptapUpdatePayload } from "@/components/tiptap-editor"
 import { StatusIcon } from "@/components/todos-preset"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -57,6 +58,42 @@ const PRIORITY_OPTIONS: ComboboxOption[] = [
 
 type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
 type TodoPriority = "urgent" | "high" | "normal" | "low"
+type SaveState = "idle" | "pending" | "saving" | "saved" | "error"
+type SaveField = "title" | "description"
+type EditorValue = JSONContent | string
+
+const EMPTY_EDITOR_DOC: JSONContent = {
+	type: "doc",
+	content: [{ type: "paragraph" }],
+}
+
+function getLegacyDescriptionContent(description?: string | null): EditorValue {
+	if (!description) return EMPTY_EDITOR_DOC
+	return description.startsWith("<") ? description : `<p>${description}</p>`
+}
+
+function getCompositeSaveState(saveState: Record<SaveField, SaveState>): SaveState {
+	if (saveState.title === "error" || saveState.description === "error") return "error"
+	if (saveState.title === "saving" || saveState.description === "saving") return "saving"
+	if (saveState.title === "pending" || saveState.description === "pending") return "pending"
+	if (saveState.title === "saved" || saveState.description === "saved") return "saved"
+	return "idle"
+}
+
+function getSaveStateLabel(state: SaveState) {
+	switch (state) {
+		case "saving":
+			return "Enregistrement..."
+		case "pending":
+			return "Modifications en attente"
+		case "saved":
+			return "Enregistré"
+		case "error":
+			return "Erreur d'enregistrement"
+		default:
+			return null
+	}
+}
 
 export default function TodoDetailPageClient() {
 	const params = useParams()
@@ -76,61 +113,118 @@ export default function TodoDetailPageClient() {
 	const categoryList = categories ?? []
 	const allTagsList = allTags ?? []
 
-	// Local state for title (debounced save)
 	const [title, setTitle] = useState("")
-	const [description, setDescription] = useState("")
+	const [descriptionContent, setDescriptionContent] = useState<EditorValue>(EMPTY_EDITOR_DOC)
+	const [saveState, setSaveState] = useState<Record<SaveField, SaveState>>({
+		title: "idle",
+		description: "idle",
+	})
 	const titleInitialized = useRef(false)
 	const descInitialized = useRef(false)
-	const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const saveTimeouts = useRef<Record<SaveField, ReturnType<typeof setTimeout> | null>>({
+		title: null,
+		description: null,
+	})
+	const saveSequence = useRef<Record<SaveField, number>>({
+		title: 0,
+		description: 0,
+	})
 
-	// Initialize state from fetched todo
 	useEffect(() => {
 		if (todo && !titleInitialized.current) {
 			setTitle(todo.text)
+			setSaveState((current) => ({ ...current, title: "idle" }))
 			titleInitialized.current = true
 		}
 	}, [todo])
 
 	useEffect(() => {
 		if (todo && !descInitialized.current) {
-			// Wrap plain text in <p> for Tiptap compatibility
-			const desc = todo.description ?? ""
-			setDescription(desc.startsWith("<") ? desc : desc ? `<p>${desc}</p>` : "")
+			setDescriptionContent(
+				(todo.descriptionJson as JSONContent | undefined) ??
+					getLegacyDescriptionContent(todo.description)
+			)
+			setSaveState((current) => ({ ...current, description: "idle" }))
 			descInitialized.current = true
 		}
 	}, [todo])
 
+	useEffect(() => {
+		return () => {
+			for (const timeout of Object.values(saveTimeouts.current)) {
+				if (timeout) clearTimeout(timeout)
+			}
+		}
+	}, [])
+
 	useOpsTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }])
 
-	// Auto-save with debounce
-	const saveField = useCallback(
-		(field: "text" | "description", value: string) => {
-			if (!todo) return
-			if (saveTimeout.current) clearTimeout(saveTimeout.current)
-			saveTimeout.current = setTimeout(async () => {
-				await updateTodo({
-					id: todo._id,
-					...(field === "text" ? { text: value } : { description: value || undefined }),
-				})
-			}, 800)
-		},
-		[todo, updateTodo]
+	function scheduleSave(field: SaveField, callback: () => Promise<void>, delay = 800) {
+		if (!todo) return
+
+		const timeout = saveTimeouts.current[field]
+		if (timeout) clearTimeout(timeout)
+
+		const sequence = ++saveSequence.current[field]
+		setSaveState((current) => ({
+			...current,
+			[field]: current[field] === "saving" ? "saving" : "pending",
+		}))
+
+		saveTimeouts.current[field] = setTimeout(async () => {
+			setSaveState((current) => ({ ...current, [field]: "saving" }))
+			try {
+				await callback()
+				if (saveSequence.current[field] !== sequence) return
+				setSaveState((current) => ({ ...current, [field]: "saved" }))
+			} catch (error) {
+				console.error(`Failed to save ${field}`, error)
+				if (saveSequence.current[field] !== sequence) return
+				setSaveState((current) => ({ ...current, [field]: "error" }))
+			}
+		}, delay)
+	}
+
+	const saveStateLabel = useMemo(
+		() => getSaveStateLabel(getCompositeSaveState(saveState)),
+		[saveState]
 	)
 
 	function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-		const v = e.target.value
-		setTitle(v)
-		if (v.trim()) saveField("text", v.trim())
+		const nextTitle = e.target.value
+		setTitle(nextTitle)
+
+		if (!todo || !titleInitialized.current) return
+
+		const trimmedTitle = nextTitle.trim()
+		if (!trimmedTitle) {
+			const timeout = saveTimeouts.current.title
+			if (timeout) clearTimeout(timeout)
+			setSaveState((current) => ({ ...current, title: "idle" }))
+			return
+		}
+
+		scheduleSave("title", async () => {
+			await updateTodo({ id: todo._id, text: trimmedTitle })
+		})
 	}
 
-	function handleDescriptionChange(html: string) {
-		setDescription(html)
-		saveField("description", html)
+	function handleDescriptionChange(payload: TiptapUpdatePayload) {
+		setDescriptionContent(payload.json)
+		if (!todo || !descInitialized.current) return
+
+		scheduleSave("description", async () => {
+			await updateTodo({
+				id: todo._id,
+				description: payload.text || null,
+				descriptionJson: payload.isEmpty ? null : payload.json,
+			})
+		})
 	}
 
-	async function handleStatusChange(status: string) {
-		if (!todo) return
-		await updateStatus({ id: todo._id, status: status as TodoStatus })
+	async function updateTodoStatusValue(status: TodoStatus | null) {
+		if (!status || !todo) return
+		await updateStatus({ id: todo._id, status })
 	}
 
 	async function handlePriorityChange(priority: string) {
@@ -143,12 +237,12 @@ export default function TodoDetailPageClient() {
 		await updateTodo({ id: todo._id, dueDate: date || null })
 	}
 
-	async function handleProjectChange(projectId: string) {
+	async function updateProjectValue(projectId: string | null) {
 		if (!todo) return
 		await updateTodo({ id: todo._id, projectId: (projectId || null) as Id<"projects"> | null })
 	}
 
-	async function handleCategoryChange(categoryId: string) {
+	async function updateCategoryValue(categoryId: string | null) {
 		if (!todo) return
 		await updateTodo({ id: todo._id, categoryId: (categoryId || null) as Id<"categories"> | null })
 	}
@@ -164,7 +258,6 @@ export default function TodoDetailPageClient() {
 		router.push("/todos")
 	}
 
-	// Loading state
 	if (todo === undefined) {
 		return (
 			<Box padding="6">
@@ -186,7 +279,6 @@ export default function TodoDetailPageClient() {
 		)
 	}
 
-	// Not found
 	if (todo === null) {
 		return (
 			<Box padding="6">
@@ -204,7 +296,6 @@ export default function TodoDetailPageClient() {
 	return (
 		<Box padding="6">
 			<BlockStack gap="600">
-				{/* Header */}
 				<InlineStack gap="300" blockAlign="center">
 					<Button variant="ghost" size="icon-sm" onClick={() => router.push("/todos")}>
 						<ArrowLeft className="size-4" />
@@ -212,39 +303,41 @@ export default function TodoDetailPageClient() {
 					<InlineStack gap="200" blockAlign="center">
 						<StatusIcon status={todo.status} />
 						<span className="text-sm text-fg-muted">
-							{STATUS_OPTIONS.find((s) => s.value === todo.status)?.label ?? todo.status}
+							{STATUS_OPTIONS.find((option) => option.value === todo.status)?.label ?? todo.status}
 						</span>
 					</InlineStack>
+					{saveStateLabel ? <span className="text-xs text-fg-muted">{saveStateLabel}</span> : null}
 				</InlineStack>
 
-				{/* 2-column layout */}
 				<div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-					{/* Main column */}
 					<BlockStack gap="400" className="min-w-0 max-w-3xl justify-self-center w-full">
 						<input
 							type="text"
 							value={title}
 							onChange={handleTitleChange}
-							className="w-full text-2xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted"
+							className="w-full text-3xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted"
 							placeholder="Titre du todo"
 						/>
-						<TiptapEditor content={description} onUpdate={handleDescriptionChange} />
+						<TiptapEditor content={descriptionContent} onUpdate={handleDescriptionChange} />
 					</BlockStack>
 
-					{/* Sidebar */}
 					<BlockStack gap="500">
 						<BlockStack gap="150">
 							<Label className="text-xs text-fg-muted">Status</Label>
-							<Select value={todo.status} onValueChange={handleStatusChange} items={STATUS_OPTIONS}>
+							<Select
+								value={todo.status}
+								onValueChange={(value) => void updateTodoStatusValue(value)}
+								items={STATUS_OPTIONS}
+							>
 								<SelectTrigger className="w-full">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
-									{STATUS_OPTIONS.map((s) => (
-										<SelectItem key={s.value} value={s.value}>
+									{STATUS_OPTIONS.map((option) => (
+										<SelectItem key={option.value} value={option.value}>
 											<InlineStack gap="200" blockAlign="center">
-												<StatusIcon status={s.value} />
-												{s.label}
+												<StatusIcon status={option.value} />
+												{option.label}
 											</InlineStack>
 										</SelectItem>
 									))}
@@ -273,10 +366,10 @@ export default function TodoDetailPageClient() {
 							<Label className="text-xs text-fg-muted">Projet</Label>
 							<Select
 								value={todo.projectId ?? ""}
-								onValueChange={handleProjectChange}
+								onValueChange={(value) => void updateProjectValue(value)}
 								items={[
 									{ value: "", label: "Aucun" },
-									...projectList.map((p) => ({ value: p._id, label: p.name })),
+									...projectList.map((project) => ({ value: project._id, label: project.name })),
 								]}
 							>
 								<SelectTrigger className="w-full">
@@ -284,9 +377,9 @@ export default function TodoDetailPageClient() {
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="">Aucun</SelectItem>
-									{projectList.map((p) => (
-										<SelectItem key={p._id} value={p._id}>
-											{p.name}
+									{projectList.map((project) => (
+										<SelectItem key={project._id} value={project._id}>
+											{project.name}
 										</SelectItem>
 									))}
 								</SelectContent>
@@ -297,10 +390,13 @@ export default function TodoDetailPageClient() {
 							<Label className="text-xs text-fg-muted">Catégorie</Label>
 							<Select
 								value={todo.categoryId ?? ""}
-								onValueChange={handleCategoryChange}
+								onValueChange={(value) => void updateCategoryValue(value)}
 								items={[
 									{ value: "", label: "Aucune" },
-									...categoryList.map((c) => ({ value: c._id, label: c.name })),
+									...categoryList.map((category) => ({
+										value: category._id,
+										label: category.name,
+									})),
 								]}
 							>
 								<SelectTrigger className="w-full">
@@ -308,9 +404,9 @@ export default function TodoDetailPageClient() {
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="">Aucune</SelectItem>
-									{categoryList.map((c) => (
-										<SelectItem key={c._id} value={c._id}>
-											<CategoryBadge name={c.name} color={c.color} />
+									{categoryList.map((category) => (
+										<SelectItem key={category._id} value={category._id}>
+											<CategoryBadge name={category.name} color={category.color} />
 										</SelectItem>
 									))}
 								</SelectContent>

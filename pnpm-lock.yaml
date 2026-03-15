@@ -132,6 +132,9 @@ importers:
       react-day-picker:
         specifier: ^9.14.0
         version: 9.14.0(react@19.2.4)
+      react-dirty-guard:
+        specifier: workspace:^
+        version: link:../../packages/react-dirty-guard
       react-dom:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)

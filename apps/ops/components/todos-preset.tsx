@@ -6,13 +6,13 @@ import type {
 	DataTableView,
 	RowAction,
 } from "@blazz/pro/components/blocks/data-table"
-import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table/data-table-column-header"
 import {
+	col,
 	createBulkActions,
 	createCRUDActions,
-} from "@blazz/pro/components/blocks/data-table/factories/action-builders"
-import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
-import { createStatusViews } from "@blazz/pro/components/blocks/data-table/factories/view-builders"
+	createStatusViews,
+	DataTableColumnHeader,
+} from "@blazz/pro/components/blocks/data-table"
 import { format, isPast, isThisWeek, isToday, isTomorrow, parseISO } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { Id } from "@/convex/_generated/dataModel"
