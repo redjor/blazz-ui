@@ -284,6 +284,11 @@ export interface DataTableProps<TData, TValue = unknown> {
 	 * Ideal for flat/Linear-style layouts where rows are flex divs, not table cells. */
 	renderRow?: (row: import("@tanstack/react-table").Row<TData>) => React.ReactNode
 
+	// Persistence
+	/** When provided, persists the active view ID to localStorage under this key.
+	 * On mount, restores the last active view. Use a unique key per table instance. */
+	storageKey?: string
+
 	// Internationalization
 	locale?: "fr" | "en"
 }

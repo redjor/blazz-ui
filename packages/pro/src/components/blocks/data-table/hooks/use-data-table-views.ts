@@ -22,6 +22,8 @@ export interface UseDataTableViewsOptions {
 	setColumnVisibility: (vis: VisibilityState) => void
 	setColumnPinning?: (pinning: ColumnPinningState) => void
 	setGrouping?: (grouping: GroupingState) => void
+	/** localStorage key to persist active view ID */
+	storageKey?: string
 }
 
 export interface UseDataTableViewsReturn {
@@ -66,6 +68,7 @@ export function useDataTableViews(
 		setColumnVisibility,
 		setColumnPinning,
 		setGrouping,
+		storageKey,
 	} = options
 
 	// Advanced filter state
@@ -76,10 +79,20 @@ export function useDataTableViews(
 	const [showInlineFilters, setShowInlineFilters] = React.useState(false)
 
 	// Internal active view state (if not controlled externally)
-	const [internalActiveView, setInternalActiveView] = React.useState<DataTableView | null>(
-		externalActiveView ||
-			(views && views.length > 0 ? views.find((v) => v.isDefault) || views[0] : null)
-	)
+	const [internalActiveView, setInternalActiveView] = React.useState<DataTableView | null>(() => {
+		if (externalActiveView) return externalActiveView
+		// Restore from localStorage if storageKey is set
+		if (storageKey && views && views.length > 0) {
+			try {
+				const savedId = typeof window !== "undefined" ? localStorage.getItem(`dt-view:${storageKey}`) : null
+				if (savedId) {
+					const found = views.find((v) => v.id === savedId)
+					if (found) return found
+				}
+			} catch {}
+		}
+		return views && views.length > 0 ? views.find((v) => v.isDefault) || views[0] : null
+	})
 
 	// Use external activeView if provided, otherwise use internal state
 	const activeView = externalActiveView !== undefined ? externalActiveView : internalActiveView
@@ -136,8 +149,12 @@ export function useDataTableViews(
 			} else {
 				setInternalActiveView(view)
 			}
+			// Persist to localStorage
+			if (storageKey) {
+				try { localStorage.setItem(`dt-view:${storageKey}`, view.id) } catch {}
+			}
 		},
-		[onViewChange]
+		[onViewChange, storageKey]
 	)
 
 	// Handle filter group changes

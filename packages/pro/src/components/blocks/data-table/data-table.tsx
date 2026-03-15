@@ -165,6 +165,7 @@ export function DataTable<TData, TValue = unknown>({
 	toolbarBelowSlot,
 	renderPagination,
 	footerSlot,
+	storageKey,
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
 	// Get configuration from context (with overrides from props)
@@ -200,7 +201,7 @@ export function DataTable<TData, TValue = unknown>({
 	const debounceMs = config.performance.searchDebounceMs
 
 	// Shift-click range selection
-	const shiftSelectionRef = React.useRef<ShiftSelectionRef>({ lastClickedIndex: null })
+	const shiftSelectionRef = React.useRef<ShiftSelectionRef>({ lastClickedId: null })
 
 	// Core table state
 	const [sorting, setSorting] = React.useState<SortingState>(defaultSorting)
@@ -257,6 +258,7 @@ export function DataTable<TData, TValue = unknown>({
 			setColumnVisibility,
 			setColumnPinning,
 			setGrouping: enableGrouping ? setGrouping : undefined,
+			storageKey,
 		},
 		sorting,
 		columnVisibility,
@@ -295,7 +297,6 @@ export function DataTable<TData, TValue = unknown>({
 						row={row}
 						table={table}
 						type="cell"
-						rowIndex={row.index}
 						shiftRef={shiftSelectionRef}
 					/>
 				),
@@ -693,6 +694,19 @@ export function DataTable<TData, TValue = unknown>({
 
 	// ---------------------------------------------------------------------------
 	// Cell navigation & edit history
+	// Escape key to deselect all rows
+	React.useEffect(() => {
+		if (!enableRowSelection) return
+		function handleEscape(e: KeyboardEvent) {
+			if (e.key === "Escape" && table.getFilteredSelectedRowModel().rows.length > 0) {
+				table.resetRowSelection()
+				shiftSelectionRef.current.lastClickedId = null
+			}
+		}
+		document.addEventListener("keydown", handleEscape)
+		return () => document.removeEventListener("keydown", handleEscape)
+	}, [enableRowSelection, table])
+
 	// ---------------------------------------------------------------------------
 
 	const visibleRowIds = React.useMemo(() => {
@@ -1232,7 +1246,6 @@ export function DataTable<TData, TValue = unknown>({
 																			row={row}
 																			table={table}
 																			type="cell"
-																			rowIndex={row.index}
 																			shiftRef={shiftSelectionRef}
 																		/>
 																	</div>

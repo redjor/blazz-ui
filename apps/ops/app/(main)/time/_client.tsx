@@ -779,6 +779,7 @@ export default function TimePageClient() {
 								searchPlaceholder="Rechercher une entrée…"
 								locale="fr"
 								variant="flat"
+								storageKey="ops-time-entries"
 								defaultSorting={[{ id: "date", desc: true }]}
 								renderRow={(row) => {
 									const entry = row.original

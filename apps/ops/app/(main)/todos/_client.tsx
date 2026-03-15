@@ -277,7 +277,19 @@ export default function TodosPageClient() {
 	const updateStatus = useMutation(api.todos.updateStatus)
 
 	const remove = useMutation(api.todos.remove)
-	const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
+	const [viewMode, setViewMode] = useState<"kanban" | "list">(() => {
+		try {
+			const saved = typeof window !== "undefined" ? localStorage.getItem("ops-todos-mode") : null
+			if (saved === "list" || saved === "kanban") return saved
+		} catch {}
+		return "kanban"
+	})
+
+	// Persist view mode
+	const handleSetViewMode = (mode: "kanban" | "list") => {
+		setViewMode(mode)
+		try { localStorage.setItem("ops-todos-mode", mode) } catch {}
+	}
 
 	// Build rows with resolved names for the list view
 	const todoRows = useMemo<Todo[]>(() => {
@@ -541,11 +553,11 @@ export default function TodosPageClient() {
 										</Button>
 									} />
 									<DropdownMenuContent align="end">
-										<DropdownMenuItem onClick={() => setViewMode("list")}>
+										<DropdownMenuItem onClick={() => handleSetViewMode("list")}>
 											<LayoutList className="size-3.5" />
 											Liste
 										</DropdownMenuItem>
-										<DropdownMenuItem onClick={() => setViewMode("kanban")}>
+										<DropdownMenuItem onClick={() => handleSetViewMode("kanban")}>
 											<Columns3 className="size-3.5" />
 											Kanban
 										</DropdownMenuItem>
@@ -581,6 +593,7 @@ export default function TodosPageClient() {
 							searchPlaceholder="Rechercher un todo…"
 							locale="fr"
 							variant="flat"
+							storageKey="ops-todos"
 							getRowId={(row) => row._id}
 							onRowClick={viewMode === "list" ? (row) => router.push(`/todos/${row._id}`) : undefined}
 							renderRow={(row) => {

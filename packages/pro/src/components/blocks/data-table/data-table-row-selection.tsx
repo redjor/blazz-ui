@@ -6,16 +6,14 @@ import * as React from "react"
 
 // Shared ref for shift-click range selection across all rows in a table
 export interface ShiftSelectionRef {
-	lastClickedIndex: number | null
+	lastClickedId: string | null
 }
 
 interface DataTableRowSelectionProps<TData> {
 	row?: Row<TData>
 	table?: Table<TData>
 	type?: "header" | "cell"
-	/** Row index in the current row model (for shift-click range selection) */
-	rowIndex?: number
-	/** Shared ref for tracking last clicked index */
+	/** Shared ref for tracking last clicked row */
 	shiftRef?: React.MutableRefObject<ShiftSelectionRef>
 }
 
@@ -23,7 +21,6 @@ export function DataTableRowSelection<TData>({
 	row,
 	table,
 	type = "cell",
-	rowIndex,
 	shiftRef,
 }: DataTableRowSelectionProps<TData>) {
 	if (type === "header" && table) {
@@ -55,7 +52,6 @@ export function DataTableRowSelection<TData>({
 				className="flex items-center"
 				data-slot="data-table-row-selection-cell"
 				onMouseDown={(e) => {
-					// Prevent text selection when shift-clicking
 					if (e.shiftKey) {
 						e.preventDefault()
 					}
@@ -63,29 +59,34 @@ export function DataTableRowSelection<TData>({
 				onClick={(e) => {
 					e.stopPropagation()
 
-					if (e.shiftKey && shiftRef?.current && table && rowIndex !== undefined) {
-						// Clear any accidental text selection
+					if (e.shiftKey && shiftRef?.current && table) {
 						window.getSelection()?.removeAllRanges()
 
-						const lastIndex = shiftRef.current.lastClickedIndex
-						if (lastIndex !== null && lastIndex !== rowIndex) {
+						const lastId = shiftRef.current.lastClickedId
+						if (lastId !== null && lastId !== row.id) {
 							const rows = table.getRowModel().rows
-							const start = Math.min(lastIndex, rowIndex)
-							const end = Math.max(lastIndex, rowIndex)
-							for (let i = start; i <= end; i++) {
-								const r = rows[i]
-								if (r && !r.getIsGrouped()) {
-									r.toggleSelected(true)
+							// Find indices in the row model (not row.index which is data-source index)
+							const lastIdx = rows.findIndex((r) => r.id === lastId)
+							const currentIdx = rows.findIndex((r) => r.id === row.id)
+
+							if (lastIdx !== -1 && currentIdx !== -1) {
+								const start = Math.min(lastIdx, currentIdx)
+								const end = Math.max(lastIdx, currentIdx)
+								for (let i = start; i <= end; i++) {
+									const r = rows[i]
+									if (r && !r.getIsGrouped()) {
+										r.toggleSelected(true)
+									}
 								}
+								shiftRef.current.lastClickedId = row.id
+								return
 							}
-							shiftRef.current.lastClickedIndex = rowIndex
-							return
 						}
 					}
 
 					row.toggleSelected(!row.getIsSelected())
-					if (shiftRef?.current && rowIndex !== undefined) {
-						shiftRef.current.lastClickedIndex = rowIndex
+					if (shiftRef?.current) {
+						shiftRef.current.lastClickedId = row.id
 					}
 				}}
 				onKeyDown={(e) => e.stopPropagation()}
