@@ -1,1 +1,2 @@
-// UI component exports — populated in Task 3
+export { TabsBar } from "./tabs-bar"
+export { TabsItem } from "./tabs-item"
