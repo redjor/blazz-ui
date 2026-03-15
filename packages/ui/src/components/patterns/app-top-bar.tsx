@@ -2,7 +2,6 @@ import { Menu, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "../../lib/utils"
-import { NotificationSheet } from "./notification-sheet"
 import { ThemePaletteSwitcher } from "./theme-palette-switcher"
 import { ThemeToggle } from "./theme-toggle"
 import { UserMenu } from "./user-menu"
@@ -23,6 +22,8 @@ export interface AppTopBarProps {
 	sections?: TopBarSection[]
 	/** Hide notifications and user menu (used in docs mode) */
 	minimal?: boolean
+	/** Optional notification slot (e.g. NotificationSheet from @blazz/pro) */
+	notificationSlot?: React.ReactNode
 	user?: {
 		name: string
 		email: string
@@ -46,6 +47,7 @@ export function AppTopBar({
 	activeSection,
 	sections = [],
 	minimal,
+	notificationSlot,
 	user,
 }: AppTopBarProps) {
 	return (
@@ -118,7 +120,7 @@ export function AppTopBar({
 				{!minimal && (
 					<>
 						<ThemePaletteSwitcher />
-						<NotificationSheet />
+						{notificationSlot}
 						<UserMenu user={user} />
 					</>
 				)}

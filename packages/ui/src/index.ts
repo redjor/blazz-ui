@@ -1,35 +1,4 @@
 // ── UI Primitives ──────────────────────────────
-
-// ── Block Components ───────────────────────────
-export * from "./components/blocks/activity-timeline"
-export * from "./components/blocks/area-chart-block"
-export * from "./components/blocks/bar-chart-block"
-export * from "./components/blocks/bulk-action-bar"
-export * from "./components/blocks/category-select"
-export * from "./components/blocks/chart-card"
-export * from "./components/blocks/deal-lines-editor"
-export * from "./components/blocks/detail-panel"
-export * from "./components/blocks/filter-bar"
-export * from "./components/blocks/forecast-chart"
-export * from "./components/blocks/funnel-chart"
-export * from "./components/blocks/inbox"
-export * from "./components/blocks/inline-edit"
-export * from "./components/blocks/kanban-board"
-export * from "./components/blocks/line-chart-block"
-export * from "./components/blocks/multi-step-form"
-export * from "./components/blocks/notification-center"
-export * from "./components/blocks/org-menu"
-export * from "./components/blocks/page-header"
-export * from "./components/blocks/pie-chart-block"
-export * from "./components/blocks/property-card"
-export * from "./components/blocks/quick-log-activity"
-export * from "./components/blocks/quote-preview"
-export * from "./components/blocks/radar-chart-block"
-export * from "./components/blocks/split-view"
-export * from "./components/blocks/stats-grid"
-export * from "./components/blocks/stats-strip"
-export * from "./components/blocks/status-flow"
-export * from "./components/blocks/view-config-panel"
 export * from "./components/ui/alert"
 export * from "./components/ui/avatar"
 export * from "./components/ui/badge"
@@ -107,29 +76,20 @@ export * from "./components/ui/toast"
 export * from "./components/ui/tooltip"
 export * from "./components/ui/tree-view"
 
-// ── AI Components ──────────────────────────────
-// Barrel has naming conflicts (Timeline, StatItem…)
-// Import AI components from "@blazz/ui/components/ai"
-
 // ── Patterns ───────────────────────────────────
 export * from "./components/patterns"
-
-// ── Utils ───────────────────────────────────────
 export * from "./components/patterns/unsaved-changes-bar"
 
 // ── Hooks ──────────────────────────────────────
-export * from "./hooks/use-block-navigation"
 export * from "./hooks/use-command-palette"
-export * from "./hooks/use-data-table-url-state"
-export * from "./hooks/use-data-table-views"
 export * from "./hooks/use-debounced"
 export * from "./hooks/use-navigation-with-params"
-export type { LicenseInfo, LicensePlan } from "./lib/license"
-// ── License ──────────────────────────────────
-export { BlazzProvider, useLicense } from "./lib/license-context"
+
+// ── Lib ────────────────────────────────────────
 export * from "./lib/tab-utils"
 export * from "./lib/theme-context"
 export * from "./lib/use-frame-layout"
+
 // ── Utilities ──────────────────────────────────
 export { cn } from "./lib/utils"
 export * from "./lib/utils/index"

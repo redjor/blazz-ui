@@ -27,7 +27,6 @@ export * from "./mobile-sidebar-sheet"
 export * from "./nav-tabs"
 export * from "./navbar"
 export * from "./navigation-tabs"
-export * from "./notification-sheet"
 // ── Page Header Shell ──────────────────────────
 export {
 	type BreadcrumbItemType,

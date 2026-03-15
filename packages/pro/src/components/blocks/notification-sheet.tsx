@@ -2,14 +2,14 @@
 
 import { AlertCircle, DollarSign, MessageSquare, UserPlus } from "lucide-react"
 import { useState } from "react"
-import type { Notification } from "../blocks/notification-center"
+import type { Notification } from "./notification-center"
 import {
 	NotificationCenter,
 	NotificationItem,
 	NotificationList,
 	NotificationTrigger,
-} from "../blocks/notification-center"
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
+} from "./notification-center"
+import { Sheet, SheetContent, SheetTrigger } from "@blazz/ui"
 
 const mockNotifications: Notification[] = [
 	{
