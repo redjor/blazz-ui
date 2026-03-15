@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { Link, useParams } from "@tanstack/react-router"
 import { Input } from "@blazz/ui/components/ui/input"
 import { ChevronRight, ChevronDown, Search, Clock } from "lucide-react"
@@ -9,6 +9,7 @@ import {
 } from "~/lib/registry"
 import type { ComponentEntry } from "~/lib/registry"
 import { getRecents } from "~/lib/recents"
+import { hasPersistedState } from "~/lib/persistence"
 
 const CATEGORIES = ["ui", "patterns", "blocks", "ai"] as const
 
@@ -148,17 +149,24 @@ function ComponentLink({
 	entry,
 	active,
 }: { entry: ComponentEntry; active: boolean }) {
+	const [modified, setModified] = useState(false)
+
+	useEffect(() => {
+		setModified(hasPersistedState(entry.slug))
+	}, [entry.slug])
+
 	return (
 		<Link
 			to="/$category/$component"
 			params={{ category: entry.category, component: entry.slug }}
-			className={`block px-3 py-1.5 text-sm rounded-md cursor-pointer transition-colors ${
+			className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md cursor-pointer transition-colors ${
 				active
 					? "bg-brand/10 text-brand"
 					: "text-fg hover:bg-raised"
 			}`}
 		>
 			{entry.name}
+			{modified && <span className="size-1.5 rounded-full bg-brand" />}
 		</Link>
 	)
 }

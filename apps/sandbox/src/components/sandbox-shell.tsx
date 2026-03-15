@@ -87,6 +87,45 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 		setCallbackEvents([])
 	}, [entry])
 
+	// ── Keyboard shortcuts ───────────────────────
+	useEffect(() => {
+		function handleKeyDown(e: KeyboardEvent) {
+			// Cmd+S or Ctrl+S → prevent browser save (state auto-saves)
+			if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+				e.preventDefault()
+			}
+
+			// Cmd+Shift+C → copy current code to clipboard
+			if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "C") {
+				e.preventDefault()
+				navigator.clipboard.writeText(code)
+			}
+
+			// Cmd+Shift+R → reset to defaults
+			if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "R") {
+				e.preventDefault()
+				handleReset()
+			}
+
+			// Cmd+1/2/3 → switch tabs
+			if ((e.metaKey || e.ctrlKey) && e.key === "1") {
+				e.preventDefault()
+				setActiveTab("controls")
+			}
+			if ((e.metaKey || e.ctrlKey) && e.key === "2") {
+				e.preventDefault()
+				setActiveTab("code")
+			}
+			if ((e.metaKey || e.ctrlKey) && e.key === "3") {
+				e.preventDefault()
+				setActiveTab("examples")
+			}
+		}
+
+		window.addEventListener("keydown", handleKeyDown)
+		return () => window.removeEventListener("keydown", handleKeyDown)
+	}, [code, handleReset])
+
 	// ── Example select handler ───────────────────
 	const handleExampleSelect = useCallback(
 		(code: string) => {
