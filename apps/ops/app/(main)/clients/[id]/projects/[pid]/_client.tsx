@@ -1,24 +1,40 @@
 "use client"
 
+import type {
+	BulkAction,
+	DataTableColumnDef,
+	DataTableView,
+	RowAction,
+} from "@blazz/pro/components/blocks/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
-import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
-import { format, parseISO } from "date-fns"
-import { Pencil, Plus } from "lucide-react"
-import { use, useEffect, useState } from "react"
+import { format } from "date-fns"
+import { fr } from "date-fns/locale"
+import {
+	Ban,
+	CheckCircle2,
+	CircleDot,
+	FileEdit,
+	Pencil,
+	Plus,
+	Receipt,
+	Send,
+	Trash2,
+} from "lucide-react"
+import { use, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
-import { BulkActionBar } from "@/components/bulk-action-bar"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
-import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -28,19 +44,15 @@ import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { computeBudgetMetrics } from "@/lib/budget"
 import { computeContractMetrics } from "@/lib/contracts"
 import { formatMinutes } from "@/lib/format"
-import { ENTRY_STATUS_LABELS, type EntryStatus, getEffectiveStatus } from "@/lib/time-entry-status"
+import {
+	type EntryStatus,
+	getAllowedTransitions,
+	getEffectiveStatus,
+} from "@/lib/time-entry-status"
 
 interface Props {
 	params: Promise<{ id: string; pid: string }>
 }
-
-const STATUS_FILTERS: Array<{ key: EntryStatus | "all"; label: string }> = [
-	{ key: "all", label: "Tout" },
-	{ key: "draft", label: ENTRY_STATUS_LABELS.draft },
-	{ key: "ready_to_invoice", label: ENTRY_STATUS_LABELS.ready_to_invoice },
-	{ key: "invoiced", label: ENTRY_STATUS_LABELS.invoiced },
-	{ key: "paid", label: ENTRY_STATUS_LABELS.paid },
-]
 
 export default function ProjectDetailPageClient({ params }: Props) {
 	const { id, pid } = use(params)
@@ -56,16 +68,9 @@ export default function ProjectDetailPageClient({ params }: Props) {
 		projectId: pid as Id<"projects">,
 	})
 	const completeContract = useMutation(api.contracts.complete)
-	const bulkSetStatus = useMutation(api.timeEntries.setStatus)
-	const bulkRemove = useMutation(api.timeEntries.removeBatch)
-	const bulkSetBillable = useMutation(api.timeEntries.setBillable)
-	const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all")
+	const setStatus = useMutation(api.timeEntries.setStatus)
+	const remove = useMutation(api.timeEntries.remove)
 	const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
-	const [selection, setSelection] = useState<Set<string>>(new Set())
-
-	useEffect(() => {
-		setSelection(new Set())
-	}, [])
 
 	useOpsTopBar(
 		data != null
@@ -75,6 +80,370 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					{ label: data.project.name },
 				]
 			: null
+	)
+
+	// ---------------------------------------------------------------------------
+	// DataTable config — time entries (hooks must be before early returns)
+	// ---------------------------------------------------------------------------
+
+	const statusConfig: Record<
+		string,
+		{ icon: typeof FileEdit; iconClass: string; tint: string; label: string }
+	> = {
+		draft: {
+			icon: FileEdit,
+			iconClass: "text-violet-500",
+			tint: "oklch(0.65 0.15 300 / 0.08)",
+			label: "Brouillon",
+		},
+		ready_to_invoice: {
+			icon: Send,
+			iconClass: "text-amber-500",
+			tint: "oklch(0.75 0.15 85 / 0.08)",
+			label: "Prêt à facturer",
+		},
+		invoiced: {
+			icon: CircleDot,
+			iconClass: "text-blue-500",
+			tint: "oklch(0.65 0.15 250 / 0.08)",
+			label: "Facturé",
+		},
+		paid: {
+			icon: CheckCircle2,
+			iconClass: "text-green-500",
+			tint: "oklch(0.70 0.15 150 / 0.08)",
+			label: "Payé",
+		},
+	}
+
+	const entryColumns = useMemo<DataTableColumnDef<Doc<"timeEntries">>[]>(
+		() => [
+			{
+				id: "status",
+				accessorFn: (row) => getEffectiveStatus(row),
+				header: "Statut",
+				cell: ({ row }) => {
+					if (!row.getIsGrouped()) return null
+					const s = getEffectiveStatus(row.original)
+					const cfg = s ? statusConfig[s] : null
+					const Icon = cfg?.icon ?? Ban
+					return (
+						<span className="flex items-center gap-1.5 text-xs font-medium text-fg">
+							<Icon className={`size-3.5 ${cfg?.iconClass ?? "text-fg-muted"}`} />
+							{cfg ? cfg.label : "Non facturable"}
+						</span>
+					)
+				},
+				enableSorting: false,
+				filterConfig: {
+					type: "select",
+					options: [
+						{ label: "Non facturable", value: null },
+						{ label: "Brouillon", value: "draft" },
+						{ label: "Prêt à facturer", value: "ready_to_invoice" },
+						{ label: "Facturé", value: "invoiced" },
+						{ label: "Payé", value: "paid" },
+					],
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Statut",
+				},
+			},
+			{
+				accessorKey: "date",
+				header: "Date",
+				enableSorting: true,
+				filterConfig: {
+					type: "date",
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Date",
+				},
+			},
+			{
+				accessorKey: "description",
+				header: "Description",
+				filterConfig: {
+					type: "text",
+					placeholder: "Rechercher…",
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Description",
+				},
+			},
+			{
+				accessorKey: "minutes",
+				header: "Durée",
+				enableSorting: true,
+			},
+		],
+		[]
+	)
+
+	const entryViews = useMemo<DataTableView[]>(
+		() => [
+			{
+				id: "all",
+				name: "Tout",
+				isSystem: true,
+				isDefault: true,
+				filters: { id: "root", operator: "AND", conditions: [] },
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "draft",
+				name: "Brouillons",
+				isSystem: true,
+				filters: {
+					id: "draft-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "draft-cond",
+							column: "status",
+							operator: "equals",
+							value: "draft",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "ready",
+				name: "Prêt à facturer",
+				isSystem: true,
+				filters: {
+					id: "ready-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "ready-cond",
+							column: "status",
+							operator: "equals",
+							value: "ready_to_invoice",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "invoiced",
+				name: "Facturé",
+				isSystem: true,
+				filters: {
+					id: "invoiced-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "invoiced-cond",
+							column: "status",
+							operator: "equals",
+							value: "invoiced",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "paid",
+				name: "Payé",
+				isSystem: true,
+				filters: {
+					id: "paid-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "paid-cond",
+							column: "status",
+							operator: "equals",
+							value: "paid",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "non-billable",
+				name: "Non facturable",
+				isSystem: true,
+				filters: {
+					id: "non-billable-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "non-billable-cond",
+							column: "status",
+							operator: "equals",
+							value: null,
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+		],
+		[]
+	)
+
+	const entryRowActions = useMemo<RowAction<Doc<"timeEntries">>[]>(
+		() => [
+			{
+				id: "edit",
+				label: "Modifier",
+				icon: Pencil,
+				handler: (row) => setEditing(row.original),
+			},
+			{
+				id: "mark-ready",
+				label: "Prêt à facturer",
+				hidden: (row) => getEffectiveStatus(row.original) !== "draft",
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
+						toast.success("Marqué prêt à facturer")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "revert-to-draft",
+				label: "Revenir en brouillon",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("draft"),
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "draft" })
+						toast.success("Remis en brouillon")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-invoiced",
+				label: "Marquer facturé",
+				hidden: (row) =>
+					!getAllowedTransitions(getEffectiveStatus(row.original)).includes("invoiced"),
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "invoiced" })
+						toast.success("Marqué facturé")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "revert-to-ready",
+				label: "Revenir à prêt à facturer",
+				hidden: (row) => getEffectiveStatus(row.original) !== "invoiced",
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "ready_to_invoice" })
+						toast.success("Revenu à prêt à facturer")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-paid",
+				label: "Marquer payé",
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("paid"),
+				handler: async (row) => {
+					try {
+						await setStatus({ ids: [row.original._id], status: "paid" })
+						toast.success("Marqué payé")
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				separator: true,
+				requireConfirmation: true,
+				confirmationMessage: () => "Supprimer cette entrée ? Cette action est irréversible.",
+				handler: async (row) => {
+					try {
+						await remove({ id: row.original._id })
+						toast.success("Entrée supprimée")
+					} catch {
+						toast.error("Erreur lors de la suppression")
+					}
+				},
+			},
+		],
+		[remove, setStatus]
+	)
+
+	const entryBulkActions = useMemo<BulkAction<Doc<"timeEntries">>[]>(
+		() => [
+			{
+				id: "mark-ready",
+				label: "Prêt à facturer",
+				icon: Send,
+				handler: async (rows) => {
+					try {
+						await setStatus({ ids: rows.map((r) => r.original._id), status: "ready_to_invoice" })
+						toast.success(`${rows.length} entrée(s) marquée(s) prêt à facturer`)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-invoiced",
+				label: "Facturé",
+				icon: Receipt,
+				handler: async (rows) => {
+					try {
+						await setStatus({ ids: rows.map((r) => r.original._id), status: "invoiced" })
+						toast.success(`${rows.length} entrée(s) marquée(s) facturée(s)`)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-paid",
+				label: "Payé",
+				icon: CheckCircle2,
+				handler: async (rows) => {
+					try {
+						await setStatus({ ids: rows.map((r) => r.original._id), status: "paid" })
+						toast.success(`${rows.length} entrée(s) marquée(s) payée(s)`)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				requireConfirmation: true,
+				confirmationMessage: (count) =>
+					`Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
+				handler: async (rows) => {
+					try {
+						await Promise.all(rows.map((r) => remove({ id: r.original._id })))
+						toast.success(`${rows.length} entrée(s) supprimée(s)`)
+					} catch {
+						toast.error("Erreur lors de la suppression")
+					}
+				},
+			},
+		],
+		[remove, setStatus]
 	)
 
 	// Loading state
@@ -130,64 +499,6 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					})),
 				})
 			: null
-
-	const filteredEntries =
-		statusFilter === "all" ? entries : entries.filter((e) => getEffectiveStatus(e) === statusFilter)
-
-	const toggleEntry = (id: string) => {
-		setSelection((prev) => {
-			const next = new Set(prev)
-			if (next.has(id)) next.delete(id)
-			else next.add(id)
-			return next
-		})
-	}
-
-	const editableEntries = filteredEntries.filter((e) => {
-		const s = getEffectiveStatus(e)
-		return s !== "invoiced" && s !== "paid"
-	})
-
-	const allSelected =
-		editableEntries.length > 0 && editableEntries.every((e) => selection.has(e._id))
-
-	const toggleAll = () => {
-		if (allSelected) {
-			setSelection(new Set())
-		} else {
-			setSelection(new Set(editableEntries.map((e) => e._id)))
-		}
-	}
-
-	const handleBulkStatus = async (ids: string[], status: EntryStatus) => {
-		try {
-			await bulkSetStatus({ ids: ids as Id<"timeEntries">[], status })
-			toast.success(`${ids.length} entrée(s) → ${ENTRY_STATUS_LABELS[status]}`)
-			setSelection(new Set())
-		} catch (e) {
-			toast.error(e instanceof Error ? e.message : "Erreur")
-		}
-	}
-
-	const handleBulkBillable = async (ids: string[], billable: boolean) => {
-		try {
-			await bulkSetBillable({ ids: ids as Id<"timeEntries">[], billable })
-			toast.success(`${ids.length} entrée(s) → ${billable ? "Facturable" : "Non facturable"}`)
-			setSelection(new Set())
-		} catch (e) {
-			toast.error(e instanceof Error ? e.message : "Erreur")
-		}
-	}
-
-	const handleBulkDelete = async (ids: string[]) => {
-		try {
-			await bulkRemove({ ids: ids as Id<"timeEntries">[] })
-			toast.success(`${ids.length} entrée(s) supprimée(s)`)
-			setSelection(new Set())
-		} catch (e) {
-			toast.error(e instanceof Error ? e.message : "Erreur")
-		}
-	}
 
 	const statusDot: Record<string, string> = {
 		active: "bg-green-500",
@@ -317,92 +628,81 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					</BlockStack>
 				)}
 
-				{/* Timeline of entries */}
-				<BlockStack gap="400">
-					<InlineStack align="space-between" blockAlign="center">
-						<InlineStack gap="300" blockAlign="center">
-							{filteredEntries.length > 0 && (
-								<Checkbox checked={allSelected} onCheckedChange={toggleAll} />
-							)}
-							<h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
-							<Button size="sm" variant="outline" onClick={() => setQuickEntryOpen(true)}>
-								<Plus className="size-3.5 mr-1" />
-								Nouvelle entrée
-							</Button>
-						</InlineStack>
-						<InlineStack gap="150" blockAlign="center" wrap>
-							{STATUS_FILTERS.map(({ key, label }) => (
-								<button
-									key={key}
-									type="button"
-									onClick={() => setStatusFilter(key)}
-									className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
-										statusFilter === key
-											? "bg-brand text-white"
-											: "bg-surface border border-edge text-fg-muted hover:text-fg"
-									}`}
-								>
-									{label}
-								</button>
-							))}
-						</InlineStack>
-					</InlineStack>
-
-					{filteredEntries.length === 0 ? (
-						<p className="text-sm text-fg-muted py-4">Aucune entrée pour ce filtre.</p>
-					) : (
-						<div>
-							{filteredEntries.map((entry) => {
-								const revenue = Math.round((entry.minutes / 60) * entry.hourlyRate)
-								const effectiveStatus = getEffectiveStatus(entry)
-								const editable = effectiveStatus !== "invoiced" && effectiveStatus !== "paid"
-								return (
-									<InlineStack
-										key={entry._id}
-										gap="400"
-										blockAlign="center"
-										wrap={false}
-										className="group py-2.5 border-b border-edge last:border-0"
-									>
-										{editable ? (
-											<Checkbox
-												checked={selection.has(entry._id)}
-												onCheckedChange={() => toggleEntry(entry._id)}
-											/>
-										) : (
-											<span className="w-4" />
-										)}
-										<span className="text-xs font-mono text-fg-muted w-20 shrink-0">
-											{format(parseISO(entry.date), "dd/MM/yyyy")}
-										</span>
-										<span className="text-xs font-mono text-fg w-12 shrink-0">
-											{formatMinutes(entry.minutes)}
-										</span>
-										<span className="text-xs text-fg-muted flex-1 min-w-0 truncate">
-											{entry.description || "—"}
-										</span>
-										<span className="text-xs font-mono text-fg shrink-0">
-											{entry.billable ? `${revenue.toLocaleString("fr-FR")} €` : "—"}
-										</span>
-										<div className="shrink-0 w-28">
-											<EntryStatusBadge status={effectiveStatus} />
-										</div>
-										{editable && (
-											<button
-												type="button"
-												onClick={() => setEditing(entry)}
-												className="shrink-0 p-1 rounded hover:bg-surface-3 transition-colors cursor-pointer"
-											>
-												<Pencil className="size-3.5 text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity" />
-											</button>
-										)}
-									</InlineStack>
-								)
-							})}
-						</div>
-					)}
-				</BlockStack>
+				{/* Time entries DataTable */}
+				<InlineStack align="space-between" blockAlign="center">
+					<h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
+					<Button size="sm" variant="outline" onClick={() => setQuickEntryOpen(true)}>
+						<Plus className="size-3.5 mr-1" />
+						Nouvelle entrée
+					</Button>
+				</InlineStack>
 			</BlockStack>
+			<DataTable
+				data={entries}
+				columns={entryColumns}
+				views={entryViews}
+				rowActions={entryRowActions}
+				bulkActions={entryBulkActions}
+				toolbarLayout="stacked"
+				enableSorting
+				enableGlobalSearch
+				enableAdvancedFilters
+				enableCustomViews
+				enableRowSelection
+				enableGrouping
+				defaultGrouping={["status"]}
+				defaultExpanded
+				groupRowStyle={(row) => {
+					const s = row.getValue("status") as string | null
+					const cfg = s ? statusConfig[s] : null
+					return cfg ? { background: cfg.tint } : undefined
+				}}
+				groupAggregations={{
+					minutes: (values) => {
+						const total = (values as number[]).reduce((a, b) => a + b, 0)
+						return <span className="font-mono text-xs tabular-nums">{formatMinutes(total)}</span>
+					},
+				}}
+				enablePagination={false}
+				searchPlaceholder="Rechercher une entrée…"
+				locale="fr"
+				variant="flat"
+				defaultSorting={[{ id: "date", desc: true }]}
+				getRowId={(row) => row._id}
+				renderRow={(row) => {
+					const entry = row.original
+					const s = getEffectiveStatus(entry)
+					const cfg = s ? statusConfig[s] : null
+					const Icon = cfg?.icon ?? Ban
+					const revenue = Math.round((entry.minutes / 60) * entry.hourlyRate)
+					return (
+						<>
+							<div className="flex min-w-0 flex-1 items-center gap-3">
+								<span
+									className="text-fg-muted whitespace-nowrap"
+									style={{ fontSize: 13, minWidth: 52 }}
+								>
+									{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
+								</span>
+								<Icon className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`} />
+								<span className="truncate text-fg" style={{ fontSize: 13 }}>
+									{entry.description || "—"}
+								</span>
+							</div>
+							<div className="flex shrink-0 items-center gap-3">
+								<span className="font-mono text-xs tabular-nums text-fg-muted whitespace-nowrap">
+									{formatMinutes(entry.minutes)}
+								</span>
+								{entry.billable && (
+									<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
+										{revenue.toLocaleString("fr-FR")} €
+									</span>
+								)}
+							</div>
+						</>
+					)
+				}}
+			/>
 
 			{/* Edit project dialog */}
 			<Dialog open={editOpen} onOpenChange={setEditOpen}>
@@ -467,15 +767,6 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					/>
 				</DialogContent>
 			</Dialog>
-
-			<BulkActionBar
-				selectedIds={selection}
-				entries={filteredEntries}
-				onClear={() => setSelection(new Set())}
-				onStatusChange={handleBulkStatus}
-				onBillableChange={handleBulkBillable}
-				onDelete={handleBulkDelete}
-			/>
 		</>
 	)
 }
