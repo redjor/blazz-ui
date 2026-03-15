@@ -67,6 +67,22 @@ const EMPTY_EDITOR_DOC: JSONContent = {
 	content: [{ type: "paragraph" }],
 }
 
+function getStoredDescriptionJsonContent(value: unknown): JSONContent | null {
+	if (!value) return null
+	if (typeof value === "string") {
+		try {
+			return JSON.parse(value) as JSONContent
+		} catch (error) {
+			console.error("Failed to parse stored todo description JSON", error)
+			return null
+		}
+	}
+	if (typeof value === "object") {
+		return value as JSONContent
+	}
+	return null
+}
+
 function getLegacyDescriptionContent(description?: string | null): EditorValue {
 	if (!description) return EMPTY_EDITOR_DOC
 	return description.startsWith("<") ? description : `<p>${description}</p>`
@@ -141,7 +157,7 @@ export default function TodoDetailPageClient() {
 	useEffect(() => {
 		if (todo && !descInitialized.current) {
 			setDescriptionContent(
-				(todo.descriptionJson as JSONContent | undefined) ??
+				getStoredDescriptionJsonContent(todo.descriptionJson) ??
 					getLegacyDescriptionContent(todo.description)
 			)
 			setSaveState((current) => ({ ...current, description: "idle" }))
@@ -217,7 +233,7 @@ export default function TodoDetailPageClient() {
 			await updateTodo({
 				id: todo._id,
 				description: payload.text || null,
-				descriptionJson: payload.isEmpty ? null : payload.json,
+				descriptionJson: payload.isEmpty ? null : JSON.stringify(payload.json),
 			})
 		})
 	}
