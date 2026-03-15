@@ -15,6 +15,7 @@ import { PreviewPanel, createCallbackProxy } from "~/components/preview-panel"
 import type { CallbackEvent } from "~/components/callback-toast"
 import { PropsPanel } from "~/components/props-panel"
 import { CodeEditor } from "~/components/code-editor"
+import { ExamplesPanel } from "~/components/examples-panel"
 
 // ── Helpers ─────────────────────────────────────
 
@@ -43,7 +44,9 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 	const [propValues, setPropValues] = useState<Record<string, unknown>>(
 		() => persisted?.props ?? getDefaultProps(entry),
 	)
-	const [activeTab, setActiveTab] = useState<"controls" | "code">("controls")
+	const [activeTab, setActiveTab] = useState<
+		"controls" | "code" | "examples"
+	>("controls")
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
 	const [splitRatio, setSplitRatio] = useState(0.6)
 
@@ -81,6 +84,15 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 		setPropValues(getDefaultProps(entry))
 		setCallbackEvents([])
 	}, [entry])
+
+	// ── Example select handler ───────────────────
+	const handleExampleSelect = useCallback(
+		(code: string) => {
+			setCode(code)
+			setPropValues(getDefaultProps(entry))
+		},
+		[entry],
+	)
 
 	// ── Prop change handler ───────────────────────
 	const handlePropChange = useCallback(
@@ -152,7 +164,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 				<Tabs
 					value={activeTab}
 					onValueChange={(v) =>
-						setActiveTab(v as "controls" | "code")
+						setActiveTab(v as "controls" | "code" | "examples")
 					}
 					className="flex flex-col h-full"
 				>
@@ -163,6 +175,9 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 							</TabsTrigger>
 							<TabsTrigger value="code" className="text-xs">
 								Code
+							</TabsTrigger>
+							<TabsTrigger value="examples" className="text-xs">
+								Examples
 							</TabsTrigger>
 						</TabsList>
 						<div className="flex-1" />
@@ -188,6 +203,13 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 
 					<TabsContent value="code" className="flex-1 min-h-0 m-0">
 						<CodeEditor value={code} onChange={setCode} />
+					</TabsContent>
+
+					<TabsContent value="examples" className="flex-1 min-h-0 m-0">
+						<ExamplesPanel
+							examples={entry.examples ?? []}
+							onSelect={handleExampleSelect}
+						/>
 					</TabsContent>
 				</Tabs>
 			</div>

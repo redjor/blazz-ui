@@ -69,6 +69,32 @@ export const registry: Registry = [
 			},
 		],
 		defaultCode: `<Button variant="default" size="default">Click me</Button>`,
+		examples: [
+			{
+				name: "All variants",
+				code: `<div className="flex flex-wrap gap-2">
+  <Button variant="default">Default</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="destructive">Destructive</Button>
+  <Button variant="link">Link</Button>
+</div>`,
+			},
+			{
+				name: "With icon",
+				code: `<Button><Plus className="size-4 mr-1" /> Add item</Button>`,
+			},
+			{
+				name: "All sizes",
+				code: `<div className="flex flex-wrap items-center gap-2">
+  <Button size="xs">Extra Small</Button>
+  <Button size="sm">Small</Button>
+  <Button size="default">Default</Button>
+  <Button size="lg">Large</Button>
+</div>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -139,6 +165,19 @@ export const registry: Registry = [
 			},
 		],
 		defaultCode: `<Badge variant="default">Badge</Badge>`,
+		examples: [
+			{
+				name: "All variants",
+				code: `<div className="flex flex-wrap gap-2">
+  <Badge variant="default">Default</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="outline">Outline</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+  <Badge variant="critical">Critical</Badge>
+</div>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -186,6 +225,19 @@ export const registry: Registry = [
 			},
 		],
 		defaultCode: `<Input placeholder="Type something..." />`,
+		examples: [
+			{
+				name: "With label",
+				code: `<div className="w-64 space-y-1">
+  <label className="text-sm font-medium">Email</label>
+  <Input type="email" placeholder="you@example.com" />
+</div>`,
+			},
+			{
+				name: "Disabled",
+				code: `<Input disabled placeholder="Disabled input" />`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -227,6 +279,15 @@ export const registry: Registry = [
 			},
 		],
 		defaultCode: `<Switch />`,
+		examples: [
+			{
+				name: "With label",
+				code: `<div className="flex items-center gap-2">
+  <Switch id="airplane" />
+  <label htmlFor="airplane" className="text-sm">Airplane Mode</label>
+</div>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -263,6 +324,15 @@ export const registry: Registry = [
   <Checkbox id="terms" />
   <label htmlFor="terms" className="text-sm">Accept terms</label>
 </div>`,
+		examples: [
+			{
+				name: "Disabled",
+				code: `<div className="flex items-center gap-2">
+  <Checkbox id="disabled" disabled />
+  <label htmlFor="disabled" className="text-sm text-fg-muted">Disabled option</label>
+</div>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -324,6 +394,12 @@ export const registry: Registry = [
 			},
 		],
 		defaultCode: `<Slider defaultValue={50} max={100} step={1} />`,
+		examples: [
+			{
+				name: "With value label",
+				code: `<Slider defaultValue={75} max={100} step={5} showValue />`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -365,6 +441,20 @@ export const registry: Registry = [
     <p className="text-sm text-fg-muted">Card content area.</p>
   </CardContent>
 </Card>`,
+		examples: [
+			{
+				name: "Simple card",
+				code: `<Card className="w-80">
+  <CardHeader>
+    <CardTitle>Notifications</CardTitle>
+    <CardDescription>You have 3 unread messages.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p className="text-sm text-fg-muted">Check your inbox for details.</p>
+  </CardContent>
+</Card>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -395,6 +485,14 @@ export const registry: Registry = [
   <AvatarImage src="https://github.com/shadcn.png" alt="User" />
   <AvatarFallback>JR</AvatarFallback>
 </Avatar>`,
+		examples: [
+			{
+				name: "Fallback only",
+				code: `<Avatar>
+  <AvatarFallback>AB</AvatarFallback>
+</Avatar>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -444,6 +542,23 @@ export const registry: Registry = [
     <p className="text-sm text-fg-muted p-2">General settings here.</p>
   </TabsContent>
 </Tabs>`,
+		examples: [
+			{
+				name: "Two tabs",
+				code: `<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="details">Details</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">
+    <p className="text-sm text-fg-muted p-2">Overview content.</p>
+  </TabsContent>
+  <TabsContent value="details">
+    <p className="text-sm text-fg-muted p-2">Detailed information.</p>
+  </TabsContent>
+</Tabs>`,
+			},
+		],
 	},
 
 	// -----------------------------------------------------------------------
@@ -506,5 +621,26 @@ export const registry: Registry = [
     <SelectItem value="cherry">Cherry</SelectItem>
   </SelectContent>
 </Select>`,
+		examples: [
+			{
+				name: "Disabled",
+				code: `<Select
+  disabled
+  defaultValue="apple"
+  items={[
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+  ]}
+>
+  <SelectTrigger>
+    <SelectValue placeholder="Pick a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">Apple</SelectItem>
+    <SelectItem value="banana">Banana</SelectItem>
+  </SelectContent>
+</Select>`,
+			},
+		],
 	},
 ]
