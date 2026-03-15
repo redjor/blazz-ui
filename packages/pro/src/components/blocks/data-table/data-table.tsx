@@ -33,6 +33,7 @@ import { dataTableVariants } from "./data-table.styles"
 import type { DataTableColumnDef, DataTableProps } from "./data-table.types"
 import { countActiveFilters, createDataFilterFn } from "./data-table.utils"
 import { useDataTableTranslations } from "./data-table.i18n"
+import { KanbanBoard } from "../kanban-board"
 import { DataTableActionsBar } from "./data-table-actions-bar"
 import { DataTableBulkSelectionBar } from "./data-table-bulk-selection-bar"
 import { DataTableFilterBuilder } from "./data-table-filter-builder"
@@ -150,10 +151,14 @@ export function DataTable<TData, TValue = unknown>({
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
 	groupRowStyle,
+	mode = "table",
+	renderCard,
+	onKanbanMove,
 	renderRow,
 	renderRowActions,
 	renderGroupHeader,
 	renderGroupHeaderContent,
+	renderGroupHeaderEnd,
 	locale,
 	toolbarLeadingSlot,
 	toolbarTrailingSlot,
@@ -188,6 +193,7 @@ export function DataTable<TData, TValue = unknown>({
 	const finalVariant = variant ?? config.ui.defaultVariant
 	const finalDensity = density ?? config.ui.defaultDensity
 	const flatRowStyle = finalVariant === "flat" ? { borderWidth: 0 } as React.CSSProperties : undefined
+	const effectiveMode = mode === "kanban" ? "kanban" : finalVariant === "flat" ? "flat" : mode
 	const finalLocale = locale ?? config.i18n.defaultLocale
 	const t = useDataTableTranslations(finalLocale)
 	const debounceMs = config.performance.searchDebounceMs
@@ -628,6 +634,39 @@ export function DataTable<TData, TValue = unknown>({
 		pageCount: finalPagination.pageCount ?? -1,
 	})
 
+	// Kanban: build columns and items from grouped data
+	type KanbanItem = { row: Row<TData>; groupValue: string; id: string }
+	const kanbanData = React.useMemo<{ columns: { id: string; label: string }[]; items: KanbanItem[]; groupColumnId: string } | null>(() => {
+		if (effectiveMode !== "kanban" || !enableGrouping || grouping.length === 0) return null
+
+		const groupColumnId = grouping[0]
+		const rows = table.getRowModel().rows
+
+		const groupValues: string[] = []
+		const flatRows: Array<{ row: typeof rows[0]; groupValue: string; id: string }> = []
+
+		for (const row of rows) {
+			if (row.getIsGrouped()) {
+				const value = String(row.getValue(groupColumnId) ?? "")
+				groupValues.push(value)
+				for (const subRow of row.subRows) {
+					flatRows.push({
+						row: subRow,
+						groupValue: value,
+						id: getRowId ? getRowId(subRow.original) : subRow.id,
+					})
+				}
+			}
+		}
+
+		const kanbanColumns = groupValues.map((value) => ({
+			id: value,
+			label: value,
+		}))
+
+		return { columns: kanbanColumns, items: flatRows, groupColumnId }
+	}, [effectiveMode, enableGrouping, grouping, table, getRowId])
+
 	// Sync external pageSize changes to internal state
 	React.useEffect(() => {
 		if (enablePagination && finalPagination.pageSize !== paginationState.pageSize) {
@@ -899,6 +938,67 @@ export function DataTable<TData, TValue = unknown>({
 					</div>
 				)}
 
+				{effectiveMode === "kanban" && kanbanData && (
+					<KanbanBoard
+						columns={kanbanData.columns}
+						items={kanbanData.items}
+						getColumnId={(item) => (item as KanbanItem).groupValue}
+						className="flex-1 min-h-0 px-2"
+						columnClassName="!min-w-[300px] w-[300px]"
+						onMove={onKanbanMove ? async (itemId, from, to) => {
+							await onKanbanMove(itemId, from, to)
+						} : undefined}
+						renderCard={(item) => {
+							const kanbanItem = item as KanbanItem
+							if (renderCard) return renderCard(kanbanItem.row)
+							if (renderRow) return renderRow(kanbanItem.row)
+							return <div className="p-2 text-xs text-fg-muted">No renderCard provided</div>
+						}}
+						renderColumnHeader={(column, colItems) => {
+							const groupedRow = table.getRowModel().rows.find(
+								(r) => r.getIsGrouped() && String(r.getValue(kanbanData.groupColumnId)) === column.id
+							)
+
+							const computedAggregations: Record<string, React.ReactNode> = {}
+							if (groupAggregations && groupedRow) {
+								for (const [colId, aggType] of Object.entries(groupAggregations)) {
+									if (colId === "_count") continue
+									const aggValue = computeAggregation(groupedRow.subRows, colId, aggType)
+									if (aggValue !== null) computedAggregations[colId] = aggValue
+								}
+							}
+
+							return (
+								<div className="flex items-center justify-between px-3 py-2 border-b border-edge">
+									<div className="flex items-center gap-2">
+										{groupedRow ? (() => {
+											const cell = groupedRow.getAllCells().find((c) => c.getIsGrouped())
+											if (!cell) return <span className="text-xs font-medium">{column.label}</span>
+											return flexRender(cell.column.columnDef.cell, cell.getContext())
+										})() : <span className="text-xs font-medium">{column.label}</span>}
+										<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] tabular-nums text-fg-muted">
+											{colItems.length}
+										</span>
+										{Object.keys(computedAggregations).length > 0 && (
+											<span className="flex items-center gap-2 text-xs text-fg-muted">
+												{Object.entries(computedAggregations).map(([colId, value]) => (
+													<span key={colId}>{value}</span>
+												))}
+											</span>
+										)}
+									</div>
+									{renderGroupHeaderEnd && groupedRow && (
+										<div onClick={(e) => e.stopPropagation()}>
+											{renderGroupHeaderEnd(groupedRow)}
+										</div>
+									)}
+								</div>
+							)
+						}}
+					/>
+				)}
+
+				{effectiveMode !== "kanban" && (
 				<div
 					className={cn(
 						"relative grid w-full",
@@ -1024,6 +1124,13 @@ export function DataTable<TData, TValue = unknown>({
 													/>
 													{centralContent}
 												</button>
+												{renderGroupHeaderEnd && (
+													<Bleed marginBlock="200">
+														<div className="shrink-0 ml-auto" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+															{renderGroupHeaderEnd(row)}
+														</div>
+													</Bleed>
+												)}
 											</div>
 										)
 
@@ -1170,9 +1277,10 @@ export function DataTable<TData, TValue = unknown>({
 					</Table>
 
 					</div>
+				)}
 
 				{/* Pagination */}
-				{enablePagination && (
+				{effectiveMode !== "kanban" && enablePagination && (
 					renderPagination ? (
 						renderPagination({
 							page: table.getState().pagination.pageIndex,
@@ -1198,11 +1306,11 @@ export function DataTable<TData, TValue = unknown>({
 				)}
 
 				{/* Footer slot */}
-				{footerSlot}
+				{effectiveMode !== "kanban" && footerSlot}
 			</div>
 
 			{/* Bulk Selection Bar */}
-			{bulkActions && bulkActions.length > 0 && (
+			{effectiveMode !== "kanban" && bulkActions && bulkActions.length > 0 && (
 				<DataTableBulkSelectionBar
 					table={table}
 					bulkActions={bulkActions}
