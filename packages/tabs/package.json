@@ -1,0 +1,40 @@
+{
+  "name": "@blazz/tabs",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*",
+    "./ui": "./src/ui/index.ts",
+    "./adapters/next": "./src/adapters/next/index.ts"
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": { "optional": true }
+  },
+  "dependencies": {
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19",
+    "lucide-react": "^0.562.0",
+    "next": "^16.1.6",
+    "tsup": "^8",
+    "typescript": "^5"
+  }
+}
