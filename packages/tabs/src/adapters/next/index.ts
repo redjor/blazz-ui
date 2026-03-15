@@ -1,1 +1,2 @@
-// Next.js adapter exports — populated in Task 4
+export { NextTabsInterceptor } from "./next-tabs-interceptor"
+export { useNextTabSync } from "./use-next-tab-sync"
