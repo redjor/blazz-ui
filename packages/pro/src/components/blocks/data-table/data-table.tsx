@@ -40,7 +40,7 @@ import { DataTablePagination } from "./data-table-pagination"
 import { DataTableRenameViewDialog } from "./data-table-rename-view-dialog"
 import { DataTableReUIFilters } from "./data-table-reui-filters"
 import { DataTableRowActions } from "./data-table-row-actions"
-import { DataTableRowSelection } from "./data-table-row-selection"
+import { DataTableRowSelection, type ShiftSelectionRef } from "./data-table-row-selection"
 import { DataTableSaveViewDialog } from "./data-table-save-view-dialog"
 import { DataTableSkeleton } from "./data-table-skeleton"
 import type { AggregationType } from "./data-table-view.types"
@@ -192,6 +192,9 @@ export function DataTable<TData, TValue = unknown>({
 	const t = useDataTableTranslations(finalLocale)
 	const debounceMs = config.performance.searchDebounceMs
 
+	// Shift-click range selection
+	const shiftSelectionRef = React.useRef<ShiftSelectionRef>({ lastClickedIndex: null })
+
 	// Core table state
 	const [sorting, setSorting] = React.useState<SortingState>(defaultSorting)
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -280,7 +283,7 @@ export function DataTable<TData, TValue = unknown>({
 			cols.push({
 				id: "select",
 				header: ({ table }) => <DataTableRowSelection table={table} type="header" />,
-				cell: ({ row }) => <DataTableRowSelection row={row} type="cell" />,
+				cell: ({ row, table }) => <DataTableRowSelection row={row} table={table} type="cell" rowIndex={row.index} shiftRef={shiftSelectionRef} />,
 				enableSorting: false,
 				enableHiding: false,
 				size: 40,
@@ -1067,14 +1070,10 @@ export function DataTable<TData, TValue = unknown>({
 													}}
 												>
 													<TableCell colSpan={row.getVisibleCells().length} className="!p-0">
-														<div className="flex items-center gap-2">
+														<div className="flex items-center gap-3">
 															{enableRowSelection && (
-																<div
-																	className="shrink-0"
-																	onClick={(e) => e.stopPropagation()}
-																	onKeyDown={(e) => e.stopPropagation()}
-																>
-																	<DataTableRowSelection row={row} type="cell" />
+																<div className="shrink-0">
+																	<DataTableRowSelection row={row} table={table} type="cell" rowIndex={row.index} shiftRef={shiftSelectionRef} />
 																</div>
 															)}
 															<div className="flex min-w-0 flex-1 items-center">
