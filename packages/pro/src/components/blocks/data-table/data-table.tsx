@@ -32,6 +32,7 @@ import { useDataTableConfig } from "./config/data-table-config"
 import { dataTableVariants } from "./data-table.styles"
 import type { DataTableColumnDef, DataTableProps } from "./data-table.types"
 import { countActiveFilters, createDataFilterFn } from "./data-table.utils"
+import { useDataTableTranslations } from "./data-table.i18n"
 import { DataTableActionsBar } from "./data-table-actions-bar"
 import { DataTableBulkSelectionBar } from "./data-table-bulk-selection-bar"
 import { DataTableFilterBuilder } from "./data-table-filter-builder"
@@ -188,6 +189,7 @@ export function DataTable<TData, TValue = unknown>({
 	const finalDensity = density ?? config.ui.defaultDensity
 	const flatRowStyle = finalVariant === "flat" ? { borderWidth: 0 } as React.CSSProperties : undefined
 	const finalLocale = locale ?? config.i18n.defaultLocale
+	const t = useDataTableTranslations(finalLocale)
 	const debounceMs = config.performance.searchDebounceMs
 
 	// Core table state
@@ -708,7 +710,7 @@ export function DataTable<TData, TValue = unknown>({
 	if (!isLoading && data.length === 0 && !showToolbarWithEmptyData) {
 		return (
 			<div className="flex h-100 flex-col items-center justify-center space-y-2">
-				{emptyComponent || <p className="text-sm text-fg-muted">No data available</p>}
+				{emptyComponent || <p className="text-sm text-fg-muted">{t.noData}</p>}
 			</div>
 		)
 	}
@@ -871,7 +873,7 @@ export function DataTable<TData, TValue = unknown>({
 								}}
 								className="px-2 py-0.5 text-xs text-fg-muted hover:text-fg transition-colors"
 							>
-								Effacer
+								{t.clearAll}
 							</button>
 							{enableCustomViews && (
 								<Button
@@ -880,7 +882,7 @@ export function DataTable<TData, TValue = unknown>({
 									onClick={() => viewsHook.setShowSaveViewDialog(true)}
 									className="h-6 px-2 text-xs"
 								>
-									Sauvegarder
+									{t.saveView}
 								</Button>
 							)}
 						</div>
@@ -1161,7 +1163,7 @@ export function DataTable<TData, TValue = unknown>({
 							) : (
 								<TableRow style={flatRowStyle}>
 									<TableCell colSpan={tableColumns.length} className="h-24 text-center">
-										{emptyComponent || <p className="text-sm text-fg-muted">No results.</p>}
+										{emptyComponent || <p className="text-sm text-fg-muted">{t.noResults}</p>}
 									</TableCell>
 								</TableRow>
 							)}
