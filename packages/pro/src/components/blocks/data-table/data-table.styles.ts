@@ -51,6 +51,12 @@ export const dataTableVariants = cva("w-full", {
 				"[&_td]:py-1.5! [&_td]:px-3!",
 				// Hide column headers — data speaks for itself
 				"[&_thead]:hidden!",
+				// Checkboxes: hidden by default, visible on row hover or when checked
+				"[&_[data-slot=data-table-row-selection-cell]]:opacity-0",
+				"[&_[data-slot=data-table-row-selection-header]]:opacity-0",
+				"[&_tr:hover_[data-slot=data-table-row-selection-cell]]:opacity-100",
+				"[&_tr:hover_[data-slot=data-table-row-selection-header]]:opacity-100",
+				"[&_tr[data-state=selected]_[data-slot=data-table-row-selection-cell]]:opacity-100",
 			].join(" "),
 			editable: `table-fixed [&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
 			spreadsheet: [

@@ -629,15 +629,14 @@ export function DataTable<TData, TValue = unknown>({
 			})
 		},
 		onGlobalFilterChange: setGlobalFilter,
-		onPaginationChange: (updater) => {
-			setPaginationState((prev) => {
-				const next = typeof updater === "function" ? updater(prev) : updater
-				if (enablePagination) {
-					onPaginationChange?.(next)
+		onPaginationChange: enablePagination
+			? (updater) => {
+					setPaginationState((prev) => {
+						const next = typeof updater === "function" ? updater(prev) : updater
+						return next
+					})
 				}
-				return next
-			})
-		},
+			: undefined,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: isServerSideFiltering ? undefined : getFilteredRowModel(),
 		getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
@@ -691,6 +690,13 @@ export function DataTable<TData, TValue = unknown>({
 			setPaginationState((prev) => ({ ...prev, pageSize: finalPagination.pageSize }))
 		}
 	}, [finalPagination.pageSize, enablePagination, paginationState.pageSize])
+
+	// Notify parent of pagination changes (after mount, not during render)
+	React.useEffect(() => {
+		if (enablePagination && onPaginationChange) {
+			onPaginationChange(paginationState)
+		}
+	}, [paginationState, enablePagination, onPaginationChange])
 
 	// ---------------------------------------------------------------------------
 	// Cell navigation & edit history
@@ -1145,6 +1151,7 @@ export function DataTable<TData, TValue = unknown>({
 												<div className="flex w-full items-center gap-2">
 													{enableRowSelection && (
 														<div
+															data-slot="data-table-row-selection-header"
 															onClick={(e) => e.stopPropagation()}
 															onKeyDown={(e) => e.stopPropagation()}
 														>
@@ -1165,7 +1172,7 @@ export function DataTable<TData, TValue = unknown>({
 													>
 														<ChevronRight
 															className={cn(
-																"h-4 w-4 shrink-0 transition-transform duration-200",
+																"h-3.5 w-3.5 shrink-0 opacity-50 transition-all duration-200",
 																row.getIsExpanded() && "rotate-90"
 															)}
 														/>
