@@ -9,6 +9,7 @@ import {
 	Moon,
 	Copy,
 	Maximize2,
+	MousePointer2,
 } from "lucide-react"
 
 export type Viewport = "desktop" | "tablet" | "mobile"
@@ -21,6 +22,8 @@ interface PreviewToolbarProps {
 	onThemeChange: (t: Theme) => void
 	onCopy: () => void
 	onFullscreen: () => void
+	inspectMode?: boolean
+	onInspectModeChange?: (v: boolean) => void
 }
 
 const viewportOptions: { value: Viewport; icon: typeof Monitor; label: string }[] = [
@@ -36,6 +39,8 @@ export function PreviewToolbar({
 	onThemeChange,
 	onCopy,
 	onFullscreen,
+	inspectMode,
+	onInspectModeChange,
 }: PreviewToolbarProps) {
 	return (
 		<div className="flex items-center gap-1 px-2 py-1 border-b border-edge">
@@ -52,6 +57,22 @@ export function PreviewToolbar({
 					<Icon className="size-3.5" />
 				</Button>
 			))}
+
+			{/* Inspect mode toggle */}
+			{onInspectModeChange && (
+				<>
+					<div className="w-px h-4 bg-edge mx-1" />
+					<Button
+						variant="ghost"
+						size="icon-sm"
+						onClick={() => onInspectModeChange(!inspectMode)}
+						className={inspectMode ? "bg-brand/10 text-brand" : ""}
+						aria-label="Inspect elements"
+					>
+						<MousePointer2 className="size-3.5" />
+					</Button>
+				</>
+			)}
 
 			<div className="flex-1" />
 

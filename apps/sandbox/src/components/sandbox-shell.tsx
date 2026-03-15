@@ -17,6 +17,8 @@ import { PropsPanel } from "~/components/props-panel"
 import { CodeEditor } from "~/components/code-editor"
 import { ExamplesPanel } from "~/components/examples-panel"
 import { VariantsGrid } from "~/components/variants-grid"
+import { ElementPanel } from "~/components/element-panel"
+import type { InspectedElement } from "~/components/preview-panel"
 
 // ── Helpers ─────────────────────────────────────
 
@@ -46,11 +48,23 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 		() => persisted?.props ?? getDefaultProps(entry),
 	)
 	const [activeTab, setActiveTab] = useState<
-		"controls" | "code" | "examples"
+		"controls" | "code" | "examples" | "element"
 	>("controls")
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
 	const [showVariants, setShowVariants] = useState(false)
 	const [splitRatio, setSplitRatio] = useState(0.6)
+	const [inspectMode, setInspectMode] = useState(false)
+	const [selectedElement, setSelectedElement] =
+		useState<InspectedElement | null>(null)
+
+	// When an element is selected in inspect mode, switch to Element tab
+	const handleElementSelect = useCallback(
+		(el: InspectedElement | null) => {
+			setSelectedElement(el)
+			if (el) setActiveTab("element")
+		},
+		[],
+	)
 
 	// ── Callback proxies ──────────────────────────
 	const callbackProxies = useMemo(() => {
@@ -199,7 +213,13 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 				{showVariants ? (
 					<VariantsGrid entry={entry} extraScope={callbackProxies} />
 				) : (
-					<PreviewPanel code={code} extraScope={extraScope} />
+					<PreviewPanel
+						code={code}
+						extraScope={extraScope}
+						inspectMode={inspectMode}
+						onInspectModeChange={setInspectMode}
+						onElementSelect={handleElementSelect}
+					/>
 				)}
 			</div>
 
@@ -234,6 +254,11 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 							<TabsTrigger value="examples" className="text-xs">
 								Examples
 							</TabsTrigger>
+							{selectedElement && (
+								<TabsTrigger value="element" className="text-xs">
+									Element
+								</TabsTrigger>
+							)}
 						</TabsList>
 						<div className="flex-1" />
 						<Button
@@ -266,6 +291,20 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 							onSelect={handleExampleSelect}
 						/>
 					</TabsContent>
+
+					{selectedElement && (
+						<TabsContent value="element" className="flex-1 min-h-0 m-0">
+							<ElementPanel
+								element={selectedElement}
+								code={code}
+								onCodeChange={setCode}
+								onDeselect={() => {
+									setSelectedElement(null)
+									setActiveTab("controls")
+								}}
+							/>
+						</TabsContent>
+					)}
 				</Tabs>
 			</div>
 		</div>

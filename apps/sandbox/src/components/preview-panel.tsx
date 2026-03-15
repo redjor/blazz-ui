@@ -20,6 +20,11 @@ import {
 	type Viewport,
 	type Theme,
 } from "~/components/preview-toolbar"
+import {
+	useElementInspector,
+	InspectorOverlay,
+	type InspectedElement,
+} from "~/components/element-inspector"
 
 // ── Error Boundary ──────────────────────────────
 
@@ -72,13 +77,34 @@ const VIEWPORT_MAX_WIDTH: Record<Viewport, string> = {
 interface PreviewPanelProps {
 	code: string
 	extraScope?: Record<string, unknown>
+	inspectMode?: boolean
+	onInspectModeChange?: (v: boolean) => void
+	onElementSelect?: (el: InspectedElement | null) => void
 }
 
-export function PreviewPanel({ code, extraScope }: PreviewPanelProps) {
+export type { InspectedElement }
+
+export function PreviewPanel({
+	code,
+	extraScope,
+	inspectMode = false,
+	onInspectModeChange,
+	onElementSelect,
+}: PreviewPanelProps) {
 	const [viewport, setViewport] = useState<Viewport>("desktop")
 	const [theme, setTheme] = useState<Theme>("light")
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
 	const [renderError, setRenderError] = useState<string | null>(null)
+	const previewAreaRef = useRef<HTMLDivElement>(null)
+	const { hovered, selected, setSelected } = useElementInspector(
+		previewAreaRef,
+		inspectMode,
+	)
+
+	// Notify parent when selection changes
+	useEffect(() => {
+		onElementSelect?.(selected)
+	}, [selected, onElementSelect])
 
 	// Debounced code to avoid constant re-renders
 	const [debouncedCode, setDebouncedCode] = useState(code)
@@ -139,10 +165,15 @@ export function PreviewPanel({ code, extraScope }: PreviewPanelProps) {
 				onThemeChange={setTheme}
 				onCopy={handleCopy}
 				onFullscreen={handleFullscreen}
+				inspectMode={inspectMode}
+				onInspectModeChange={onInspectModeChange}
 			/>
 
 			{/* Preview area */}
-			<div className="flex-1 relative overflow-auto bg-[radial-gradient(circle,_var(--color-edge)_1px,_transparent_1px)] bg-[length:16px_16px]">
+			<div
+				ref={previewAreaRef}
+				className={`flex-1 relative overflow-auto bg-[radial-gradient(circle,_var(--color-edge)_1px,_transparent_1px)] bg-[length:16px_16px] ${inspectMode ? "cursor-crosshair" : ""}`}
+			>
 				<div
 					className="mx-auto h-full transition-[max-width] duration-200"
 					style={{ maxWidth: VIEWPORT_MAX_WIDTH[viewport] }}
@@ -158,6 +189,10 @@ export function PreviewPanel({ code, extraScope }: PreviewPanelProps) {
 						</div>
 					</div>
 				</div>
+
+				{inspectMode && (
+					<InspectorOverlay hovered={hovered} selected={selected} />
+				)}
 
 				<CallbackToast
 					events={callbackEvents}
