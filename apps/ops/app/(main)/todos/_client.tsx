@@ -517,29 +517,7 @@ export default function TodosPageClient() {
 
 	useOpsTopBar(
 		[{ label: "Todos" }],
-		<InlineStack gap="200" blockAlign="center">
-			<ManageCategoriesSheet />
-			<InlineStack gap="100" blockAlign="center" className="rounded-md border border-edge p-0.5">
-				<Button
-					variant="ghost"
-					size="icon-sm"
-					onClick={() => setViewMode("kanban")}
-					className={viewMode === "kanban" ? "bg-surface-3" : ""}
-					aria-label="Vue kanban"
-				>
-					<Columns3 className="size-3.5" />
-				</Button>
-				<Button
-					variant="ghost"
-					size="icon-sm"
-					onClick={() => setViewMode("list")}
-					className={viewMode === "list" ? "bg-surface-3" : ""}
-					aria-label="Vue liste"
-				>
-					<LayoutList className="size-3.5" />
-				</Button>
-			</InlineStack>
-		</InlineStack>
+		<ManageCategoriesSheet />
 	)
 
 	return (
