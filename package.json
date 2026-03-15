@@ -5,6 +5,7 @@
 		"dev": "turbo dev",
 		"dev:docs": "turbo dev --filter=docs",
 		"dev:ops": "turbo dev --filter=ops",
+		"dev:sandbox": "turbo dev --filter=sandbox",
 		"build": "turbo build",
 		"lint": "turbo lint",
 		"test": "turbo test",
