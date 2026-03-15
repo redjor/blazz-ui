@@ -86,7 +86,7 @@ function KanbanBoardBase<T extends { id: string }>({
 	}, [])
 
 	return (
-		<div className={cn("flex gap-4 overflow-x-auto pb-4", className)}>
+		<div className={cn("flex gap-4 overflow-x-auto pb-4 h-full", className)}>
 			{columns.map((column) => {
 				const columnItems = items.filter((item) => getColumnId(item) === column.id)
 				const isOver = dragOverColumn === column.id

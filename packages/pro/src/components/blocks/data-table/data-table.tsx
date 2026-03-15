@@ -826,7 +826,7 @@ export function DataTable<TData, TValue = unknown>({
 			)}
 
 			{/* Table */}
-			<div>
+			<div className={effectiveMode === "kanban" ? "flex flex-col flex-1 min-h-0" : undefined}>
 				{/* Actions Bar */}
 				{!hideToolbar && (
 					<DataTableActionsBar

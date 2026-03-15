@@ -524,7 +524,7 @@ export default function TodosPageClient() {
 		<>
 			<BlockStack gap="0" className="p-6 h-full">
 				{viewMode === "list" || viewMode === "kanban" ? (
-					<Bleed marginInline="600" marginBlock="600">
+					<Bleed marginInline="600" marginBlock="600" className="flex flex-col h-full min-h-0">
 						<DataTable
 							data={todoRows}
 							columns={columns}
