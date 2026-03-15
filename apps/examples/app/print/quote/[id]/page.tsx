@@ -1,4 +1,4 @@
-import { QuotePreview } from "@blazz/ui/components/blocks/quote-preview"
+import { QuotePreview } from "@blazz/pro/components/blocks/quote-preview"
 import { notFound } from "next/navigation"
 import { getCompanyById, getQuoteById, getQuoteLines } from "@/lib/sample-data"
 

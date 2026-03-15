@@ -1,8 +1,8 @@
 "use client"
 
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import { ChartCard } from "@blazz/pro/components/blocks/chart-card"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { AlertTriangle, ArrowLeftRight, Package, TrendingUp } from "lucide-react"
 import {
 	movementsByCategoryChartData,

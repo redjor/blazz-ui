@@ -1,7 +1,7 @@
 "use client"
 
-import { createCompaniesPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { createCompaniesPreset, DataTable } from "@blazz/pro/components/blocks/data-table"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"

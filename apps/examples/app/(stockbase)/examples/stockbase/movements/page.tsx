@@ -1,7 +1,7 @@
 "use client"
 
-import { createMovementsPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { createMovementsPreset, DataTable } from "@blazz/pro/components/blocks/data-table"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Box } from "@blazz/ui/components/ui/box"
 import { useMemo } from "react"
 import { toast } from "sonner"

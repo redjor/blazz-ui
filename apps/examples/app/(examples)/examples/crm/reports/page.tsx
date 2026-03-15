@@ -1,10 +1,10 @@
 "use client"
 
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
-import { ForecastChart } from "@blazz/ui/components/blocks/forecast-chart"
-import { FunnelChart } from "@blazz/ui/components/blocks/funnel-chart"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import { ChartCard } from "@blazz/pro/components/blocks/chart-card"
+import { ForecastChart } from "@blazz/pro/components/blocks/forecast-chart"
+import { FunnelChart } from "@blazz/pro/components/blocks/funnel-chart"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
 import { Building2, FileText, Handshake, TrendingUp } from "lucide-react"
 import {

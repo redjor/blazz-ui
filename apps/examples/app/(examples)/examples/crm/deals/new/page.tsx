@@ -1,6 +1,6 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { FieldGrid } from "@blazz/ui/components/patterns/field-grid"
 import { FormField } from "@blazz/ui/components/patterns/form-field"
 import { FormSection } from "@blazz/ui/components/patterns/form-section"

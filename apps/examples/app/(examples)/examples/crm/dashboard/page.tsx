@@ -1,9 +1,9 @@
 "use client"
 
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { ChartCard } from "@blazz/ui/components/blocks/chart-card"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
+import { ChartCard } from "@blazz/pro/components/blocks/chart-card"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { BarChart3, Building2, Handshake, TrendingUp } from "lucide-react"
 import {

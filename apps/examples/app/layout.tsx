@@ -1,5 +1,5 @@
 import "./globals.css"
-import { BlazzProvider } from "@blazz/ui"
+import { BlazzProvider } from "@blazz/pro"
 import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
