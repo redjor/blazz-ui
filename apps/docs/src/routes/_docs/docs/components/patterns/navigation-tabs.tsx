@@ -9,38 +9,35 @@ import { highlightCode } from "~/lib/highlight-code"
 const examples = [
 	{
 		key: "provider-setup",
-		code: `// Layout racine — envelopper avec NavigationTabsProvider
-import {
-  NavigationTabsProvider,
-  NavigationTabsInterceptor,
-} from "@blazz/ui/components/patterns/navigation-tabs"
-import { TabBar } from "@blazz/ui/components/patterns/tab-bar"
+		code: `// Layout racine — envelopper avec TabsProvider
+import { TabsProvider } from "@blazz/tabs"
+import { NextTabsInterceptor } from "@blazz/tabs/adapters/next"
+import { TabsBar, TabsItem } from "@blazz/tabs/ui"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <NavigationTabsProvider storageKey="app-tabs">
+    <TabsProvider storageKey="app-tabs">
       {/* Intercepte Cmd/Ctrl+clic pour ouvrir un nouveau tab */}
-      <NavigationTabsInterceptor
+      <NextTabsInterceptor
         titleResolver={(url) => url.split("/").pop() ?? "Tab"}
       />
       <div className="flex flex-col h-screen">
         <Navbar />
-        <TabBar />
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
-    </NavigationTabsProvider>
+    </TabsProvider>
   )
 }`,
 	},
 	{
-		key: "use-navigation-tabs",
-		code: `// Accéder au contexte dans n'importe quel composant enfant
+		key: "use-tabs",
+		code: `// Acceder au contexte dans n'importe quel composant enfant
 "use client"
-import { useNavigationTabs } from "@blazz/ui/components/patterns/navigation-tabs"
+import { useTabs } from "@blazz/tabs"
 import { useRouter } from "next/navigation"
 
 export function OpenTabButton({ href, title }: { href: string; title: string }) {
-  const { addTab } = useNavigationTabs()
+  const { addTab } = useTabs()
   const router = useRouter()
 
   function handleOpen() {
@@ -52,67 +49,76 @@ export function OpenTabButton({ href, title }: { href: string; title: string }) 
 }`,
 	},
 	{
-		key: "url-sync",
-		code: `// Synchroniser le titre du tab actif avec la page courante
+		key: "url-sync-next",
+		code: `// Next.js adapter — sync automatique avec useNextTabSync
 "use client"
-import { useNavigationTabUrlSync } from "@blazz/ui/components/patterns/navigation-tabs"
+import { useNextTabSync } from "@blazz/tabs/adapters/next"
 
-// Placer dans le layout ou la page, à l'intérieur du Provider
+// Placer dans le layout, a l'interieur du Provider
 export function TabTitleSync() {
-  useNavigationTabUrlSync({
-    titleResolver: (pathname) => {
-      // Retourner le titre souhaité à partir du pathname
-      if (pathname.startsWith("/contacts/")) return "Contact"
-      if (pathname.startsWith("/companies/")) return "Entreprise"
-      return pathname.split("/").pop() ?? "Page"
-    },
+  useNextTabSync((pathname) => {
+    if (pathname.startsWith("/contacts/")) return "Contact"
+    if (pathname.startsWith("/companies/")) return "Entreprise"
+    return pathname.split("/").pop() ?? "Page"
   })
   return null
 }`,
 	},
 	{
-		key: "update-title",
-		code: `// Mettre à jour le titre du tab actif depuis une page
+		key: "url-sync-generic",
+		code: `// Framework-agnostic — passer le pathname manuellement
 "use client"
-import { useNavigationTabTitle } from "@blazz/ui/components/patterns/navigation-tabs"
+import { useTabUrlSync } from "@blazz/tabs"
+
+// Pass pathname from your router
+export function TabTitleSync({ pathname }: { pathname: string }) {
+  useTabUrlSync(pathname, (p) => p.split("/").pop() ?? "Page")
+  return null
+}`,
+	},
+	{
+		key: "update-title",
+		code: `// Mettre a jour le titre du tab actif depuis une page
+"use client"
+import { useTabTitle } from "@blazz/tabs"
 
 export function ContactDetailPage({ contact }: { contact: Contact }) {
-  // Met à jour le titre du tab actif dès que contact.name change
-  useNavigationTabTitle(contact.name)
+  // Met a jour le titre du tab actif des que contact.name change
+  useTabTitle(contact.name)
 
   return <div>{contact.name}</div>
 }`,
 	},
 	{
 		key: "interceptor",
-		code: `// NavigationTabsInterceptor — comportements clavier
-//
-// Cmd/Ctrl+Clic sur un lien → ouvre dans un nouveau tab
-// Cmd/Ctrl+W               → ferme le tab actif (si ≥ 2 tabs ouverts)
-//
-// excludePaths : chemins ignorés par l'interception
-// titleResolver : détermine le titre du tab créé
+		code: `// Framework-agnostic — TabsInterceptor
+import { TabsInterceptor } from "@blazz/tabs"
 
-import { NavigationTabsInterceptor } from "@blazz/ui/components/patterns/navigation-tabs"
-
-<NavigationTabsInterceptor
+<TabsInterceptor
+  pathname={pathname}
+  onNavigate={(url) => router.push(url)}
   excludePaths={["/api", "/auth"]}
   titleResolver={(url) => {
     const segment = url.split("/").pop() ?? "Tab"
     return segment.charAt(0).toUpperCase() + segment.slice(1)
   }}
+/>
+
+// Next.js adapter (simpler — auto-reads pathname + uses next/navigation)
+import { NextTabsInterceptor } from "@blazz/tabs/adapters/next"
+
+<NextTabsInterceptor
+  excludePaths={["/api", "/auth"]}
+  titleResolver={(url) => url.split("/").pop() ?? "Tab"}
 />`,
 	},
 	{
 		key: "custom-tab-bar",
-		code: `// Construire un TabBar personnalisé avec les primitives
+		code: `// Construire un TabBar personnalise avec les primitives
 "use client"
 import { useRouter } from "next/navigation"
-import {
-  NavigationTabsBar,
-  NavigationTabsItem,
-  useNavigationTabs,
-} from "@blazz/ui/components/patterns/navigation-tabs"
+import { useTabs } from "@blazz/tabs"
+import { TabsBar, TabsItem } from "@blazz/tabs/ui"
 import { FileText, LayoutDashboard } from "lucide-react"
 
 const routeMap = [
@@ -125,7 +131,7 @@ function getIcon(url: string) {
 }
 
 export function CustomTabBar() {
-  const { tabs, activeTabId, activateTab, closeTab, addTab } = useNavigationTabs()
+  const { tabs, activeTabId, activateTab, closeTab, addTab } = useTabs()
   const router = useRouter()
 
   function handleActivate(id: string, url: string) {
@@ -142,9 +148,9 @@ export function CustomTabBar() {
   }
 
   return (
-    <NavigationTabsBar onAddTab={() => addTab({ url: "/dashboard", title: "Dashboard" })}>
+    <TabsBar onAddTab={() => addTab({ url: "/dashboard", title: "Dashboard" })}>
       {tabs.map((tab) => (
-        <NavigationTabsItem
+        <TabsItem
           key={tab.id}
           title={tab.title}
           icon={getIcon(tab.url)}
@@ -153,9 +159,28 @@ export function CustomTabBar() {
           onClose={() => handleClose(tab.id)}
         />
       ))}
-    </NavigationTabsBar>
+    </TabsBar>
   )
 }`,
+	},
+	{
+		key: "storage",
+		code: `// Custom storage adapter — ex: Convex, IndexedDB, etc.
+import { TabsProvider, type TabsStorage } from "@blazz/tabs"
+
+const convexStorage: TabsStorage = {
+  load: async () => {
+    const data = await convex.query(api.tabs.get)
+    return data ?? { tabs: [], activeTabId: null }
+  },
+  save: async (state) => {
+    await convex.mutation(api.tabs.set, state)
+  },
+}
+
+<TabsProvider storage={convexStorage}>
+  {children}
+</TabsProvider>`,
 	},
 ] as const
 
@@ -177,7 +202,8 @@ const toc = [
 	{ id: "provider", title: "Provider" },
 	{ id: "hooks", title: "Hooks" },
 	{ id: "interceptor", title: "Interceptor" },
-	{ id: "custom-tab-bar", title: "TabBar personnalisé" },
+	{ id: "custom-tab-bar", title: "TabBar personnalise" },
+	{ id: "storage", title: "Storage" },
 	{ id: "props", title: "Props" },
 	{ id: "related", title: "Related" },
 ]
@@ -186,23 +212,34 @@ const providerProps: DocProp[] = [
 	{
 		name: "storageKey",
 		type: "string",
-		required: true,
 		description:
-			"Clé localStorage pour la persistance des tabs entre rechargements. Chaque app ou section doit utiliser une clé unique.",
+			"Cle localStorage pour la persistance des tabs entre rechargements. Chaque app ou section doit utiliser une cle unique. Ignore si storage est fourni.",
+	},
+	{
+		name: "storage",
+		type: "TabsStorage",
+		description:
+			"Adaptateur de stockage personnalise (ex: Convex, IndexedDB). Si fourni, storageKey est ignore. Doit implementer load() et save().",
+	},
+	{
+		name: "defaultTab",
+		type: "{ url: string; title: string }",
+		description:
+			"Tab ouvert par defaut quand le store est vide (premier chargement). Si omis, aucun tab n'est cree automatiquement.",
 	},
 	{
 		name: "children",
 		type: "React.ReactNode",
 		required: true,
 		description:
-			"Arbre React enfant. Tous les composants et hooks navigation-tabs doivent être dans cet arbre.",
+			"Arbre React enfant. Tous les composants et hooks @blazz/tabs doivent etre dans cet arbre.",
 	},
 ]
 
 const contextValueProps: DocProp[] = [
 	{
 		name: "tabs",
-		type: "NavigationTab[]",
+		type: "Tab[]",
 		description: "Liste des tabs ouverts. Chaque tab : { id, url, title, icon? }.",
 	},
 	{
@@ -213,61 +250,79 @@ const contextValueProps: DocProp[] = [
 	{
 		name: "showTabBar",
 		type: "boolean",
-		description: "true si ≥ 2 tabs sont ouverts. Utiliser pour conditionner l'affichage de TabBar.",
+		description: "true si >= 2 tabs sont ouverts. Utiliser pour conditionner l'affichage de TabsBar.",
 	},
 	{
 		name: "addTab",
 		type: "(payload: { url: string; title: string; icon?: string }) => void",
 		description:
-			"Ouvre un tab sur l'URL donnée. Si un tab avec la même URL existe déjà, l'active simplement.",
+			"Ouvre un tab sur l'URL donnee. Si un tab avec la meme URL existe deja, l'active simplement.",
 	},
 	{
 		name: "closeTab",
 		type: "(id: string) => void",
 		description:
-			"Ferme un tab. Si c'est le tab actif, active automatiquement le tab précédent ou suivant.",
+			"Ferme un tab. Si c'est le tab actif, active automatiquement le tab precedent ou suivant.",
 	},
 	{
 		name: "activateTab",
 		type: "(id: string) => void",
 		description:
-			"Active un tab existant sans naviguer (la navigation doit être faite séparément via router.push).",
+			"Active un tab existant sans naviguer (la navigation doit etre faite separement via router.push).",
 	},
 	{
 		name: "updateActiveTabUrl",
 		type: "(url: string) => void",
 		description:
-			"Met à jour l'URL enregistrée du tab actif (appelé automatiquement par useNavigationTabUrlSync).",
+			"Met a jour l'URL enregistree du tab actif (appele automatiquement par useTabUrlSync).",
 	},
 	{
 		name: "updateTabTitle",
 		type: "(id: string, title: string) => void",
-		description: "Met à jour le titre d'un tab spécifique.",
+		description: "Met a jour le titre d'un tab specifique.",
 	},
 ]
 
 const interceptorProps: DocProp[] = [
 	{
+		name: "pathname",
+		type: "string",
+		description:
+			"Pathname courant du router (requis pour TabsInterceptor generique). Non requis pour NextTabsInterceptor qui le lit automatiquement.",
+	},
+	{
+		name: "onNavigate",
+		type: "(url: string) => void",
+		description:
+			"Callback de navigation (requis pour TabsInterceptor generique). Non requis pour NextTabsInterceptor qui utilise next/navigation.",
+	},
+	{
 		name: "excludePaths",
 		type: "string[]",
 		default: "[]",
 		description:
-			'Chemins exclus de l\'interception Cmd+clic. Les liens dont le href commence par un de ces chemins sont ignorés (ex: ["/api", "/auth"]).',
+			'Chemins exclus de l\'interception Cmd+clic. Les liens dont le href commence par un de ces chemins sont ignores (ex: ["/api", "/auth"]).',
 	},
 	{
 		name: "titleResolver",
 		type: "(url: string) => string",
 		description:
-			"Fonction pour déterminer le titre d'un tab créé via Cmd+clic. Par défaut, utilise le dernier segment du chemin ou le texte du lien.",
+			"Fonction pour determiner le titre d'un tab cree via Cmd+clic. Par defaut, utilise le dernier segment du chemin ou le texte du lien.",
 	},
 ]
 
 const urlSyncProps: DocProp[] = [
 	{
+		name: "pathname",
+		type: "string",
+		description:
+			"Pathname courant (requis pour useTabUrlSync). Non requis pour useNextTabSync qui le lit automatiquement via usePathname().",
+	},
+	{
 		name: "titleResolver",
 		type: "(pathname: string) => string",
 		description:
-			"Fonction appelée à chaque changement de pathname pour déterminer le titre du tab actif. Si omis, le titre n'est pas mis à jour automatiquement.",
+			"Fonction appelee a chaque changement de pathname pour determiner le titre du tab actif. Si omis, le titre n'est pas mis a jour automatiquement.",
 	},
 ]
 
@@ -276,24 +331,24 @@ const barProps: DocProp[] = [
 		name: "children",
 		type: "React.ReactNode",
 		required: true,
-		description: "Les NavigationTabsItem à afficher dans la barre.",
+		description: "Les TabsItem a afficher dans la barre.",
 	},
 	{
 		name: "onAddTab",
 		type: "() => void",
 		description:
-			'Si fourni, affiche le bouton "+" à droite de la barre pour ouvrir un nouvel onglet.',
+			'Si fourni, affiche le bouton "+" a droite de la barre pour ouvrir un nouvel onglet.',
 	},
 	{
 		name: "addButtonLabel",
 		type: "string",
 		default: '"Open new tab"',
-		description: "aria-label du bouton + (pour l'accessibilité).",
+		description: "aria-label du bouton + (pour l'accessibilite).",
 	},
 	{
 		name: "className",
 		type: "string",
-		description: "Classes CSS supplémentaires.",
+		description: "Classes CSS supplementaires.",
 	},
 ]
 
@@ -302,12 +357,12 @@ const itemProps: DocProp[] = [
 		name: "title",
 		type: "string",
 		required: true,
-		description: "Texte du tab. Tronqué avec ellipsis si trop long.",
+		description: "Texte du tab. Tronque avec ellipsis si trop long.",
 	},
 	{
 		name: "icon",
 		type: "LucideIcon",
-		description: "Icône Lucide affichée à gauche du titre (3.5×3.5, opacity 60%).",
+		description: "Icone Lucide affichee a gauche du titre (3.5x3.5, opacity 60%).",
 	},
 	{
 		name: "isActive",
@@ -326,7 +381,7 @@ const itemProps: DocProp[] = [
 		type: "() => void",
 		required: true,
 		description:
-			"Handler de fermeture. Le bouton × est masqué par défaut et apparaît au hover (toujours visible sur le tab actif).",
+			"Handler de fermeture. Le bouton x est masque par defaut et apparait au hover (toujours visible sur le tab actif).",
 	},
 ]
 
@@ -470,45 +525,59 @@ function NavigationTabsPage() {
 	return (
 		<DocPage
 			title="Navigation Tabs"
-			subtitle="Système complet de tabs navigateur (browser-like) avec persistance localStorage, interception Cmd/Ctrl+clic, et synchronisation URL. Composé de NavigationTabsProvider, NavigationTabsBar, NavigationTabsItem, NavigationTabsInterceptor et 3 hooks."
+			subtitle="Standalone package @blazz/tabs — systeme complet de tabs navigateur (browser-like) avec persistance, interception Cmd/Ctrl+clic, synchronisation URL, et adaptateurs framework (Next.js). Compose de TabsProvider, TabsBar, TabsItem, TabsInterceptor et hooks."
 			toc={toc}
 		>
 			<DocSection id="overview" title="Overview">
 				<div className="rounded border border-edge-subtle bg-surface p-4 text-sm text-fg-secondary space-y-3">
-					<p className="font-medium text-fg">Architecture du système</p>
+					<p className="font-medium text-fg">Architecture du systeme</p>
+					<p className="text-xs text-fg-muted">
+						Package standalone <code className="font-mono text-brand">@blazz/tabs</code> avec 3
+						entry points : <code className="font-mono">@blazz/tabs</code> (core),{" "}
+						<code className="font-mono">@blazz/tabs/ui</code> (styled components),{" "}
+						<code className="font-mono">@blazz/tabs/adapters/next</code> (Next.js adapter).
+					</p>
 					<div className="grid grid-cols-1 gap-2 text-xs">
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">NavigationTabsProvider</span>
+							<span className="font-mono text-brand shrink-0">TabsProvider</span>
 							<span className="text-fg-muted">
-								— Context React + reducer + persistance localStorage
+								— Context React + reducer + persistance (localStorage ou custom)
 							</span>
 						</div>
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">NavigationTabsBar</span>
+							<span className="font-mono text-brand shrink-0">TabsBar</span>
 							<span className="text-fg-muted">— Conteneur de tabs avec bouton "+"</span>
 						</div>
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">NavigationTabsItem</span>
+							<span className="font-mono text-brand shrink-0">TabsItem</span>
 							<span className="text-fg-muted">
-								— Tab individuel avec icône, titre tronqué, bouton ×
+								— Tab individuel avec icone, titre tronque, bouton x
 							</span>
 						</div>
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">NavigationTabsInterceptor</span>
-							<span className="text-fg-muted">— Intercepte Cmd+clic et Cmd+W (renderless)</span>
+							<span className="font-mono text-brand shrink-0">TabsInterceptor</span>
+							<span className="text-fg-muted">— Intercepte Cmd+clic et Cmd+W (renderless, framework-agnostic)</span>
 						</div>
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">useNavigationTabs()</span>
-							<span className="text-fg-muted">— Hook d'accès au contexte complet</span>
+							<span className="font-mono text-brand shrink-0">NextTabsInterceptor</span>
+							<span className="text-fg-muted">— Interceptor pre-cable pour Next.js (auto pathname + navigation)</span>
 						</div>
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">useNavigationTabUrlSync()</span>
-							<span className="text-fg-muted">— Sync pathname → titre + URL du tab actif</span>
+							<span className="font-mono text-brand shrink-0">useTabs()</span>
+							<span className="text-fg-muted">— Hook d'acces au contexte complet</span>
 						</div>
 						<div className="flex gap-3">
-							<span className="font-mono text-brand shrink-0">useNavigationTabTitle()</span>
+							<span className="font-mono text-brand shrink-0">useTabUrlSync()</span>
+							<span className="text-fg-muted">— Sync pathname + titre du tab actif (framework-agnostic)</span>
+						</div>
+						<div className="flex gap-3">
+							<span className="font-mono text-brand shrink-0">useNextTabSync()</span>
+							<span className="text-fg-muted">— Sync auto pour Next.js (lit usePathname())</span>
+						</div>
+						<div className="flex gap-3">
+							<span className="font-mono text-brand shrink-0">useTabTitle()</span>
 							<span className="text-fg-muted">
-								— Met à jour le titre du tab actif depuis une page
+								— Met a jour le titre du tab actif depuis une page
 							</span>
 						</div>
 					</div>
@@ -517,7 +586,7 @@ function NavigationTabsPage() {
 			<DocSection id="provider" title="Provider">
 				<DocExampleClient
 					title="Setup dans le layout racine"
-					description="NavigationTabsProvider gère l'état global des tabs et persiste dans localStorage. NavigationTabsInterceptor (renderless) écoute les événements clavier/clic sur tout le document."
+					description="TabsProvider gere l'etat global des tabs et persiste dans localStorage (par defaut). NextTabsInterceptor (renderless) ecoute les evenements clavier/clic sur tout le document."
 					code={examples[0].code}
 					highlightedCode={html("provider-setup")}
 				>
@@ -526,10 +595,10 @@ function NavigationTabsPage() {
 			</DocSection>
 			<DocSection id="hooks" title="Hooks">
 				<DocExampleClient
-					title="useNavigationTabs — ouvrir un tab manuellement"
+					title="useTabs — ouvrir un tab manuellement"
 					description="Utiliser addTab pour ouvrir programmatiquement un nouveau tab depuis n'importe quel composant enfant du Provider."
 					code={examples[1].code}
-					highlightedCode={html("use-navigation-tabs")}
+					highlightedCode={html("use-tabs")}
 				>
 					<div className="flex items-center gap-2 p-4 rounded border border-dashed border-edge-subtle text-sm text-fg-muted">
 						<svg
@@ -550,17 +619,25 @@ function NavigationTabsPage() {
 					</div>
 				</DocExampleClient>
 				<DocExampleClient
-					title="useNavigationTabUrlSync — sync automatique du titre"
-					description="Placer ce hook dans le layout pour que le titre du tab actif se mette à jour automatiquement à chaque navigation."
+					title="useNextTabSync — sync automatique (Next.js)"
+					description="Adaptateur Next.js : lit usePathname() automatiquement et met a jour le titre du tab actif a chaque navigation."
 					code={examples[2].code}
-					highlightedCode={html("url-sync")}
+					highlightedCode={html("url-sync-next")}
 				>
 					<TabBarPreview />
 				</DocExampleClient>
 				<DocExampleClient
-					title="useNavigationTabTitle — titre depuis une page de détail"
-					description="Quand le nom de la ressource est chargé depuis l'API, utiliser ce hook pour mettre à jour le titre du tab actif."
+					title="useTabUrlSync — sync framework-agnostic"
+					description="Version generique : passer le pathname manuellement depuis votre router."
 					code={examples[3].code}
+					highlightedCode={html("url-sync-generic")}
+				>
+					<TabBarPreview />
+				</DocExampleClient>
+				<DocExampleClient
+					title="useTabTitle — titre depuis une page de detail"
+					description="Quand le nom de la ressource est charge depuis l'API, utiliser ce hook pour mettre a jour le titre du tab actif."
+					code={examples[4].code}
 					highlightedCode={html("update-title")}
 				>
 					<TabBarPreview />
@@ -568,67 +645,80 @@ function NavigationTabsPage() {
 			</DocSection>
 			<DocSection id="interceptor" title="Interceptor">
 				<DocExampleClient
-					title="NavigationTabsInterceptor — raccourcis clavier"
-					description="Composant renderless qui intercepte Cmd/Ctrl+Clic pour ouvrir les liens dans un nouveau tab, et Cmd/Ctrl+W pour fermer le tab actif."
-					code={examples[4].code}
+					title="TabsInterceptor + NextTabsInterceptor"
+					description="TabsInterceptor (generique) necessite pathname et onNavigate. NextTabsInterceptor (Next.js) les resout automatiquement. Les deux interceptent Cmd/Ctrl+Clic et Cmd/Ctrl+W."
+					code={examples[5].code}
 					highlightedCode={html("interceptor")}
 				>
 					<div className="grid grid-cols-2 gap-3 text-xs">
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
 							<kbd className="rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 font-mono text-fg">
-								⌘ Clic
+								Cmd Clic
 							</kbd>
 							<span className="text-fg-muted">Ouvre dans un nouveau tab</span>
 						</div>
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
 							<kbd className="rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 font-mono text-fg">
-								⌘ W
+								Cmd W
 							</kbd>
 							<span className="text-fg-muted">Ferme le tab actif</span>
 						</div>
 					</div>
 				</DocExampleClient>
 			</DocSection>
-			<DocSection id="custom-tab-bar" title="TabBar personnalisé">
+			<DocSection id="custom-tab-bar" title="TabBar personnalise">
 				<DocExampleClient
-					title="Construire avec NavigationTabsBar + NavigationTabsItem"
-					description="Pour un contexte non-CRM, composer manuellement avec les primitives Bar et Item et le hook useNavigationTabs. Le preset TabBar utilise cette même approche en interne."
-					code={examples[5].code}
+					title="Construire avec TabsBar + TabsItem"
+					description="Composer manuellement avec les primitives TabsBar et TabsItem depuis @blazz/tabs/ui et le hook useTabs."
+					code={examples[6].code}
 					highlightedCode={html("custom-tab-bar")}
 				>
 					<TabBarPreview />
 				</DocExampleClient>
 			</DocSection>
-			<DocSection id="props" title="Props — NavigationTabsProvider">
+			<DocSection id="storage" title="Storage">
+				<DocExampleClient
+					title="Adaptateur de stockage personnalise"
+					description="Par defaut, TabsProvider utilise localStorage. Passer un objet storage pour persister dans Convex, IndexedDB, ou tout autre backend."
+					code={examples[7].code}
+					highlightedCode={html("storage")}
+				>
+					<div className="rounded border border-edge-subtle bg-surface p-4 text-xs text-fg-muted space-y-2">
+						<p>
+							<code className="font-mono text-brand">TabsStorage</code> interface :
+						</p>
+						<div className="font-mono text-fg-secondary">
+							<div>{"load(): Promise<TabsState | null>"}</div>
+							<div>{"save(state: TabsState): Promise<void>"}</div>
+						</div>
+					</div>
+				</DocExampleClient>
+			</DocSection>
+			<DocSection id="props" title="Props — TabsProvider">
 				<DocPropsTable props={providerProps} />
 			</DocSection>
-			<DocSection id="context-value" title="Context value — useNavigationTabs()">
+			<DocSection id="context-value" title="Context value — useTabs()">
 				<DocPropsTable props={contextValueProps} />
 			</DocSection>
-			<DocSection id="interceptor-props" title="Props — NavigationTabsInterceptor">
+			<DocSection id="interceptor-props" title="Props — TabsInterceptor / NextTabsInterceptor">
 				<DocPropsTable props={interceptorProps} />
 			</DocSection>
-			<DocSection id="url-sync-props" title="Props — useNavigationTabUrlSync()">
+			<DocSection id="url-sync-props" title="Props — useTabUrlSync() / useNextTabSync()">
 				<DocPropsTable props={urlSyncProps} />
 			</DocSection>
-			<DocSection id="bar-props" title="Props — NavigationTabsBar">
+			<DocSection id="bar-props" title="Props — TabsBar">
 				<DocPropsTable props={barProps} />
 			</DocSection>
-			<DocSection id="item-props" title="Props — NavigationTabsItem">
+			<DocSection id="item-props" title="Props — TabsItem">
 				<DocPropsTable props={itemProps} />
 			</DocSection>
 			<DocSection id="related" title="Related">
 				<DocRelated
 					items={[
 						{
-							title: "Tab Bar",
-							href: "/docs/components/patterns/tab-bar",
-							description: "TabBar pré-configuré pour le CRM, construit sur ce système.",
-						},
-						{
 							title: "Navbar",
 							href: "/docs/components/patterns/navbar",
-							description: "Navbar globale complémentaire au TabBar.",
+							description: "Navbar globale complementaire au TabsBar.",
 						},
 						{
 							title: "Nav Tabs",

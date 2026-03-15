@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThumbnailRouteImport } from './routes/thumbnail'
 import { Route as SandboxDatatableRouteImport } from './routes/sandbox-datatable'
+import { Route as LicenseRouteImport } from './routes/license'
 import { Route as DocsRouteImport } from './routes/_docs'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ThumbnailSlugRouteImport } from './routes/thumbnail/$slug'
@@ -127,7 +128,6 @@ import { Route as DocsDocsComponentsUiAlertRouteImport } from './routes/_docs/do
 import { Route as DocsDocsComponentsPatternsUserMenuRouteImport } from './routes/_docs/docs/components/patterns/user-menu'
 import { Route as DocsDocsComponentsPatternsTopBarRouteImport } from './routes/_docs/docs/components/patterns/top-bar'
 import { Route as DocsDocsComponentsPatternsThemeToggleRouteImport } from './routes/_docs/docs/components/patterns/theme-toggle'
-import { Route as DocsDocsComponentsPatternsTabBarRouteImport } from './routes/_docs/docs/components/patterns/tab-bar'
 import { Route as DocsDocsComponentsPatternsPageHeaderShellRouteImport } from './routes/_docs/docs/components/patterns/page-header-shell'
 import { Route as DocsDocsComponentsPatternsNavigationTabsRouteImport } from './routes/_docs/docs/components/patterns/navigation-tabs'
 import { Route as DocsDocsComponentsPatternsNavbarRouteImport } from './routes/_docs/docs/components/patterns/navbar'
@@ -220,6 +220,11 @@ const ThumbnailRoute = ThumbnailRouteImport.update({
 const SandboxDatatableRoute = SandboxDatatableRouteImport.update({
   id: '/sandbox-datatable',
   path: '/sandbox-datatable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicenseRoute = LicenseRouteImport.update({
+  id: '/license',
+  path: '/license',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsRoute = DocsRouteImport.update({
@@ -891,12 +896,6 @@ const DocsDocsComponentsPatternsThemeToggleRoute =
     path: '/docs/components/patterns/theme-toggle',
     getParentRoute: () => DocsRoute,
   } as any)
-const DocsDocsComponentsPatternsTabBarRoute =
-  DocsDocsComponentsPatternsTabBarRouteImport.update({
-    id: '/docs/components/patterns/tab-bar',
-    path: '/docs/components/patterns/tab-bar',
-    getParentRoute: () => DocsRoute,
-  } as any)
 const DocsDocsComponentsPatternsPageHeaderShellRoute =
   DocsDocsComponentsPatternsPageHeaderShellRouteImport.update({
     id: '/docs/components/patterns/page-header-shell',
@@ -1391,6 +1390,7 @@ const DocsDocsAiChatAttachmentsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/license': typeof LicenseRoute
   '/sandbox-datatable': typeof SandboxDatatableRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
@@ -1525,7 +1525,6 @@ export interface FileRoutesByFullPath {
   '/docs/components/patterns/navbar': typeof DocsDocsComponentsPatternsNavbarRoute
   '/docs/components/patterns/navigation-tabs': typeof DocsDocsComponentsPatternsNavigationTabsRoute
   '/docs/components/patterns/page-header-shell': typeof DocsDocsComponentsPatternsPageHeaderShellRoute
-  '/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
   '/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
   '/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
   '/docs/components/patterns/user-menu': typeof DocsDocsComponentsPatternsUserMenuRoute
@@ -1594,6 +1593,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/license': typeof LicenseRoute
   '/sandbox-datatable': typeof SandboxDatatableRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
@@ -1728,7 +1728,6 @@ export interface FileRoutesByTo {
   '/docs/components/patterns/navbar': typeof DocsDocsComponentsPatternsNavbarRoute
   '/docs/components/patterns/navigation-tabs': typeof DocsDocsComponentsPatternsNavigationTabsRoute
   '/docs/components/patterns/page-header-shell': typeof DocsDocsComponentsPatternsPageHeaderShellRoute
-  '/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
   '/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
   '/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
   '/docs/components/patterns/user-menu': typeof DocsDocsComponentsPatternsUserMenuRoute
@@ -1799,6 +1798,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_docs': typeof DocsRouteWithChildren
+  '/license': typeof LicenseRoute
   '/sandbox-datatable': typeof SandboxDatatableRoute
   '/thumbnail': typeof ThumbnailRouteWithChildren
   '/thumbnail/$slug': typeof ThumbnailSlugRoute
@@ -1933,7 +1933,6 @@ export interface FileRoutesById {
   '/_docs/docs/components/patterns/navbar': typeof DocsDocsComponentsPatternsNavbarRoute
   '/_docs/docs/components/patterns/navigation-tabs': typeof DocsDocsComponentsPatternsNavigationTabsRoute
   '/_docs/docs/components/patterns/page-header-shell': typeof DocsDocsComponentsPatternsPageHeaderShellRoute
-  '/_docs/docs/components/patterns/tab-bar': typeof DocsDocsComponentsPatternsTabBarRoute
   '/_docs/docs/components/patterns/theme-toggle': typeof DocsDocsComponentsPatternsThemeToggleRoute
   '/_docs/docs/components/patterns/top-bar': typeof DocsDocsComponentsPatternsTopBarRoute
   '/_docs/docs/components/patterns/user-menu': typeof DocsDocsComponentsPatternsUserMenuRoute
@@ -2004,6 +2003,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/license'
     | '/sandbox-datatable'
     | '/thumbnail'
     | '/thumbnail/$slug'
@@ -2138,7 +2138,6 @@ export interface FileRouteTypes {
     | '/docs/components/patterns/navbar'
     | '/docs/components/patterns/navigation-tabs'
     | '/docs/components/patterns/page-header-shell'
-    | '/docs/components/patterns/tab-bar'
     | '/docs/components/patterns/theme-toggle'
     | '/docs/components/patterns/top-bar'
     | '/docs/components/patterns/user-menu'
@@ -2207,6 +2206,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/license'
     | '/sandbox-datatable'
     | '/thumbnail'
     | '/thumbnail/$slug'
@@ -2341,7 +2341,6 @@ export interface FileRouteTypes {
     | '/docs/components/patterns/navbar'
     | '/docs/components/patterns/navigation-tabs'
     | '/docs/components/patterns/page-header-shell'
-    | '/docs/components/patterns/tab-bar'
     | '/docs/components/patterns/theme-toggle'
     | '/docs/components/patterns/top-bar'
     | '/docs/components/patterns/user-menu'
@@ -2411,6 +2410,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_docs'
+    | '/license'
     | '/sandbox-datatable'
     | '/thumbnail'
     | '/thumbnail/$slug'
@@ -2545,7 +2545,6 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/patterns/navbar'
     | '/_docs/docs/components/patterns/navigation-tabs'
     | '/_docs/docs/components/patterns/page-header-shell'
-    | '/_docs/docs/components/patterns/tab-bar'
     | '/_docs/docs/components/patterns/theme-toggle'
     | '/_docs/docs/components/patterns/top-bar'
     | '/_docs/docs/components/patterns/user-menu'
@@ -2616,6 +2615,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DocsRoute: typeof DocsRouteWithChildren
+  LicenseRoute: typeof LicenseRoute
   SandboxDatatableRoute: typeof SandboxDatatableRoute
   ThumbnailRoute: typeof ThumbnailRouteWithChildren
 }
@@ -2634,6 +2634,13 @@ declare module '@tanstack/react-router' {
       path: '/sandbox-datatable'
       fullPath: '/sandbox-datatable'
       preLoaderRoute: typeof SandboxDatatableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/license': {
+      id: '/license'
+      path: '/license'
+      fullPath: '/license'
+      preLoaderRoute: typeof LicenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_docs': {
@@ -3448,13 +3455,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsPatternsThemeToggleRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/_docs/docs/components/patterns/tab-bar': {
-      id: '/_docs/docs/components/patterns/tab-bar'
-      path: '/docs/components/patterns/tab-bar'
-      fullPath: '/docs/components/patterns/tab-bar'
-      preLoaderRoute: typeof DocsDocsComponentsPatternsTabBarRouteImport
-      parentRoute: typeof DocsRoute
-    }
     '/_docs/docs/components/patterns/page-header-shell': {
       id: '/_docs/docs/components/patterns/page-header-shell'
       path: '/docs/components/patterns/page-header-shell'
@@ -4171,7 +4171,6 @@ interface DocsRouteChildren {
   DocsDocsComponentsPatternsNavbarRoute: typeof DocsDocsComponentsPatternsNavbarRoute
   DocsDocsComponentsPatternsNavigationTabsRoute: typeof DocsDocsComponentsPatternsNavigationTabsRoute
   DocsDocsComponentsPatternsPageHeaderShellRoute: typeof DocsDocsComponentsPatternsPageHeaderShellRoute
-  DocsDocsComponentsPatternsTabBarRoute: typeof DocsDocsComponentsPatternsTabBarRoute
   DocsDocsComponentsPatternsThemeToggleRoute: typeof DocsDocsComponentsPatternsThemeToggleRoute
   DocsDocsComponentsPatternsTopBarRoute: typeof DocsDocsComponentsPatternsTopBarRoute
   DocsDocsComponentsPatternsUserMenuRoute: typeof DocsDocsComponentsPatternsUserMenuRoute
@@ -4394,7 +4393,6 @@ const DocsRouteChildren: DocsRouteChildren = {
     DocsDocsComponentsPatternsNavigationTabsRoute,
   DocsDocsComponentsPatternsPageHeaderShellRoute:
     DocsDocsComponentsPatternsPageHeaderShellRoute,
-  DocsDocsComponentsPatternsTabBarRoute: DocsDocsComponentsPatternsTabBarRoute,
   DocsDocsComponentsPatternsThemeToggleRoute:
     DocsDocsComponentsPatternsThemeToggleRoute,
   DocsDocsComponentsPatternsTopBarRoute: DocsDocsComponentsPatternsTopBarRoute,
@@ -4485,6 +4483,7 @@ const ThumbnailRouteWithChildren = ThumbnailRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DocsRoute: DocsRouteWithChildren,
+  LicenseRoute: LicenseRoute,
   SandboxDatatableRoute: SandboxDatatableRoute,
   ThumbnailRoute: ThumbnailRouteWithChildren,
 }
