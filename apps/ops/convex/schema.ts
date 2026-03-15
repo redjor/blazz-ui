@@ -7,13 +7,16 @@ export default defineSchema({
 	clients: defineTable({
 		userId: v.string(),
 		name: v.string(),
+		type: v.optional(v.union(v.literal("freelance"), v.literal("product"), v.literal("both"))),
 		email: v.optional(v.string()),
 		phone: v.optional(v.string()),
 		address: v.optional(v.string()),
 		notes: v.optional(v.string()),
 		logoStorageId: v.optional(v.id("_storage")),
 		createdAt: v.number(),
-	}).index("by_user", ["userId"]),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_type", ["userId", "type"]),
 
 	projects: defineTable({
 		userId: v.string(),
@@ -121,6 +124,22 @@ export default defineSchema({
 		.index("by_user", ["userId"])
 		.index("by_user_status", ["userId", "status"])
 		.index("by_user_category", ["userId", "categoryId"]),
+
+	licenseKeys: defineTable({
+		userId: v.string(),
+		key: v.string(),
+		plan: v.union(v.literal("PRO"), v.literal("TEAM"), v.literal("ENTERPRISE")),
+		orgId: v.string(),
+		clientId: v.optional(v.id("clients")),
+		clientName: v.optional(v.string()),
+		email: v.optional(v.string()),
+		expiresAt: v.string(),
+		revokedAt: v.optional(v.number()),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_key", ["key"])
+		.index("by_client", ["clientId"]),
 
 	packages: defineTable({
 		name: v.string(),

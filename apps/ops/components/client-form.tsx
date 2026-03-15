@@ -4,12 +4,19 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "convex/react"
 import { Loader2, Upload } from "lucide-react"
 import { useRef, useState } from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { api } from "@/convex/_generated/api"
@@ -17,6 +24,7 @@ import type { Id } from "@/convex/_generated/dataModel"
 
 const schema = z.object({
 	name: z.string().min(1, "Nom requis"),
+	type: z.enum(["freelance", "product", "both"]).optional(),
 	email: z.string().email().optional().or(z.literal("")),
 	phone: z.string().optional(),
 	address: z.string().optional(),
@@ -50,6 +58,7 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 	const {
 		register,
 		handleSubmit,
+		control,
 		formState: { errors, isSubmitting },
 	} = useForm<FormValues>({
 		resolver: zodResolver(schema),
@@ -131,6 +140,33 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 				<Label htmlFor="name">Nom *</Label>
 				<Input id="name" {...register("name")} />
 				{errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
+			</div>
+			<div className="space-y-1.5">
+				<Label>Type</Label>
+				<Controller
+					control={control}
+					name="type"
+					render={({ field }) => (
+						<Select
+							value={field.value ?? "freelance"}
+							onValueChange={field.onChange}
+							items={[
+								{ value: "freelance", label: "Freelance" },
+								{ value: "product", label: "Produit" },
+								{ value: "both", label: "Les deux" },
+							]}
+						>
+							<SelectTrigger>
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="freelance">Freelance</SelectItem>
+								<SelectItem value="product">Produit</SelectItem>
+								<SelectItem value="both">Les deux</SelectItem>
+							</SelectContent>
+						</Select>
+					)}
+				/>
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="email">Email</Label>

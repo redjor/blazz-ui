@@ -44,6 +44,7 @@ export const generateUploadUrl = mutation({
 export const create = mutation({
 	args: {
 		name: v.string(),
+		type: v.optional(v.union(v.literal("freelance"), v.literal("product"), v.literal("both"))),
 		email: v.optional(v.string()),
 		phone: v.optional(v.string()),
 		address: v.optional(v.string()),
@@ -60,6 +61,7 @@ export const update = mutation({
 	args: {
 		id: v.id("clients"),
 		name: v.string(),
+		type: v.optional(v.union(v.literal("freelance"), v.literal("product"), v.literal("both"))),
 		email: v.optional(v.string()),
 		phone: v.optional(v.string()),
 		address: v.optional(v.string()),

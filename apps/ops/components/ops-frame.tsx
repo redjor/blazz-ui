@@ -28,6 +28,7 @@ import {
 	CheckSquare,
 	Clock,
 	FolderOpen,
+	Key,
 	LayoutDashboard,
 	MessageSquare,
 	Package,
@@ -63,6 +64,7 @@ const navItems: Array<{
 	{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
 	{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
 	{ title: "Packages", url: "/packages", icon: Package, flag: "packages" },
+	{ title: "Licences", url: "/licenses", icon: Key, flag: "licenses" },
 ]
 
 function OpsSidebar() {

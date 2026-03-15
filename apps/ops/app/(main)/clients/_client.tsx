@@ -1,5 +1,6 @@
 "use client"
 
+import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
@@ -9,11 +10,17 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { ChevronRight, Plus, Users } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useMemo, useState } from "react"
 import { ClientForm } from "@/components/client-form"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
-import Image from "next/image"
+
+const typeLabels = {
+	freelance: "Freelance",
+	product: "Produit",
+	both: "Les deux",
+} as const
 
 function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
 	const initials = name.slice(0, 2).toUpperCase()
@@ -53,6 +60,7 @@ function ClientListSkeleton() {
 export default function ClientsPageClient() {
 	const clients = useQuery(api.clients.list)
 	const [open, setOpen] = useState(false)
+	const [filter, setFilter] = useState<"all" | "freelance" | "product" | "both">("all")
 
 	const topBarActions = useMemo(
 		() => (
@@ -65,6 +73,15 @@ export default function ClientsPageClient() {
 
 	useOpsTopBar([{ label: "Clients" }], topBarActions)
 
+	const filtered = useMemo(() => {
+		if (!clients) return undefined
+		if (filter === "all") return clients
+		return clients.filter((c) => {
+			const type = c.type ?? "freelance"
+			return type === filter || type === "both"
+		})
+	}, [clients, filter])
+
 	return (
 		<BlockStack gap="400" className="p-4">
 			<Dialog open={open} onOpenChange={setOpen}>
@@ -75,6 +92,22 @@ export default function ClientsPageClient() {
 					<ClientForm onSuccess={() => setOpen(false)} onCancel={() => setOpen(false)} />
 				</DialogContent>
 			</Dialog>
+
+			{/* Filters */}
+			{clients && clients.length > 0 && (
+				<InlineStack gap="200">
+					{(["all", "freelance", "product", "both"] as const).map((f) => (
+						<Button
+							key={f}
+							size="sm"
+							variant={filter === f ? "default" : "outline"}
+							onClick={() => setFilter(f)}
+						>
+							{f === "all" ? "Tous" : typeLabels[f]}
+						</Button>
+					))}
+				</InlineStack>
+			)}
 
 			{/* Loading */}
 			{clients === undefined && <ClientListSkeleton />}
@@ -90,9 +123,9 @@ export default function ClientsPageClient() {
 			)}
 
 			{/* List */}
-			{clients && clients.length > 0 && (
+			{filtered && filtered.length > 0 && (
 				<BlockStack gap="100">
-					{clients.map((client) => (
+					{filtered.map((client) => (
 						<Link
 							key={client._id}
 							href={`/clients/${client._id}`}
@@ -100,7 +133,12 @@ export default function ClientsPageClient() {
 						>
 							<ClientAvatar name={client.name} logoUrl={client.logoUrl} />
 							<div className="flex-1 min-w-0">
-								<p className="text-sm font-medium text-fg truncate">{client.name}</p>
+								<InlineStack gap="200" blockAlign="center">
+									<p className="text-sm font-medium text-fg truncate">{client.name}</p>
+									<Badge variant="outline" className="text-[10px] shrink-0">
+										{typeLabels[client.type ?? "freelance"]}
+									</Badge>
+								</InlineStack>
 								{client.email && <p className="text-xs text-fg-muted truncate">{client.email}</p>}
 							</div>
 							<ChevronRight className="size-4 text-fg-muted shrink-0" />
