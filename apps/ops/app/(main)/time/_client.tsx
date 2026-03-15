@@ -787,7 +787,7 @@ export default function TimePageClient() {
 									return (
 										<>
 											<div className="flex min-w-0 flex-1 items-center gap-3">
-												<span className="text-fg-muted whitespace-nowrap" style={{ fontSize: 13 }}>
+												<span className="text-fg-muted whitespace-nowrap" style={{ fontSize: 13, minWidth: 52 }}>
 													{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 												</span>
 												{(() => {
