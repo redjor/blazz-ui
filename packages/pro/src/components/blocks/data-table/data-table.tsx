@@ -150,6 +150,8 @@ export function DataTable<TData, TValue = unknown>({
 	toolbarLayout = "classic",
 	groupRowStyle,
 	renderRow,
+	renderGroupHeader,
+	renderGroupHeaderContent,
 	locale,
 	toolbarLeadingSlot,
 	toolbarTrailingSlot,
@@ -946,6 +948,85 @@ export function DataTable<TData, TValue = unknown>({
 								table.getRowModel().rows.map((row) => {
 									// Grouped row: render group header
 									if (row.getIsGrouped()) {
+										// Pre-compute aggregations (shared by all rendering paths)
+										const computedAggregations: Record<string, React.ReactNode> = {}
+										if (groupAggregations) {
+											for (const [colId, aggType] of Object.entries(groupAggregations)) {
+												if (colId === "_count") continue
+												const aggValue = computeAggregation(row.subRows, colId, aggType)
+												if (aggValue !== null) computedAggregations[colId] = aggValue
+											}
+										}
+
+										// Find the grouped cell value
+										const groupedCell = row.getAllCells().find((cell) => cell.getIsGrouped())
+										const groupValue = groupedCell ? row.getValue(groupedCell.column.id) : undefined
+
+										// Build the central content (between chevron and aggregations)
+										const centralContent = renderGroupHeaderContent ? (
+											renderGroupHeaderContent({
+												row,
+												groupValue,
+												subRowCount: row.subRows.length,
+												aggregations: computedAggregations,
+											})
+										) : (
+											<>
+												{row.getAllCells().map((cell) => {
+													if (cell.getIsGrouped()) {
+														return (
+															<span key={cell.id} className="flex items-center gap-2">
+																{flexRender(cell.column.columnDef.cell, cell.getContext())}
+																<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
+																	{row.subRows.length}
+																</span>
+															</span>
+														)
+													}
+													return null
+												})}
+												{Object.keys(computedAggregations).length > 0 && (
+													<span className="ml-auto flex items-center gap-4 text-body-sm font-normal text-fg-muted">
+														{Object.entries(computedAggregations).map(([colId, value]) => (
+															<span key={colId}>{value}</span>
+														))}
+													</span>
+												)}
+											</>
+										)
+
+										// Build the default group header content (checkbox + chevron + central + aggregations)
+										const defaultGroupContent = (
+											<div className="flex w-full items-center gap-2">
+												{enableRowSelection && (
+													<div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+														<Checkbox
+															checked={row.getIsAllSubRowsSelected()}
+															indeterminate={
+																row.getIsSomeSelected() && !row.getIsAllSubRowsSelected()
+															}
+															onCheckedChange={(value) => row.toggleSelected(!!value)}
+															aria-label={`Select group ${row.id}`}
+														/>
+													</div>
+												)}
+												<button
+													type="button"
+													onClick={row.getToggleExpandedHandler()}
+													className="flex flex-1 items-center gap-2 text-left font-medium"
+												>
+													<ChevronRight
+														className={cn(
+															"h-4 w-4 shrink-0 transition-transform duration-200",
+															row.getIsExpanded() && "rotate-90"
+														)}
+													/>
+													{centralContent}
+												</button>
+											</div>
+										)
+
+										// Render with priority: renderGroupHeader > default (which may use renderGroupHeaderContent)
 										return (
 											<React.Fragment key={row.id}>
 												<TableRow
@@ -954,75 +1035,16 @@ export function DataTable<TData, TValue = unknown>({
 														"bg-surface hover:bg-surface-3/50",
 														finalVariant === "flat" && "bg-transparent hover:bg-transparent"
 													)}
-													style={
-														row.depth > 0
-															? { position: "relative", left: `${row.depth * 1.5}rem` }
-															: undefined
-													}
+													style={row.depth > 0 ? { position: "relative", left: `${row.depth * 1.5}rem` } : undefined}
 												>
 													<TableCell
 														colSpan={row.getVisibleCells().length}
 														className={cn("py-2", finalVariant === "flat" && "rounded-lg")}
 														style={groupRowStyle?.(row)}
 													>
-														<div className="flex w-full items-center gap-2">
-															{enableRowSelection && (
-																<div
-																	onClick={(e) => e.stopPropagation()}
-																	onKeyDown={(e) => e.stopPropagation()}
-																>
-																	<Checkbox
-																		checked={row.getIsAllSubRowsSelected()}
-																		indeterminate={
-																			row.getIsSomeSelected() && !row.getIsAllSubRowsSelected()
-																		}
-																		onCheckedChange={(value) => row.toggleSelected(!!value)}
-																		aria-label={`Select group ${row.id}`}
-																	/>
-																</div>
-															)}
-															<button
-																type="button"
-																onClick={row.getToggleExpandedHandler()}
-																className="flex flex-1 items-center gap-2 text-left font-medium"
-															>
-																<ChevronRight
-																	className={cn(
-																		"h-4 w-4 shrink-0 transition-transform duration-200",
-																		row.getIsExpanded() && "rotate-90"
-																	)}
-																/>
-																{/* Render group value — search ALL cells so hidden grouping columns still render */}
-																{row.getAllCells().map((cell) => {
-																	if (cell.getIsGrouped()) {
-																		return (
-																			<span key={cell.id} className="flex items-center gap-2">
-																				{flexRender(cell.column.columnDef.cell, cell.getContext())}
-																				<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
-																					{row.subRows.length}
-																				</span>
-																			</span>
-																		)
-																	}
-																	return null
-																})}
-																{/* Render aggregations */}
-																{groupAggregations && (
-																	<span className="ml-auto flex items-center gap-4 text-body-sm font-normal text-fg-muted">
-																		{Object.entries(groupAggregations).map(([colId, aggType]) => {
-																			if (colId === "_count") return null
-																			const aggValue = computeAggregation(
-																				row.subRows,
-																				colId,
-																				aggType
-																			)
-																			if (aggValue === null) return null
-																			return <span key={colId}>{aggValue}</span>
-																		})}
-																	</span>
-																)}
-															</button>
-														</div>
+														{renderGroupHeader
+															? renderGroupHeader(row, defaultGroupContent)
+															: defaultGroupContent}
 													</TableCell>
 												</TableRow>
 											</React.Fragment>
