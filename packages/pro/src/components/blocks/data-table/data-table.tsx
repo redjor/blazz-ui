@@ -506,10 +506,19 @@ export function DataTable<TData, TValue = unknown>({
 			return data
 		}
 
-		const filterFn = createDataFilterFn<TData>(viewsHook.filterGroup)
+		// Build accessor map from columns for accessorFn-based columns
+		const accessorMap = new Map<string, (item: TData) => unknown>()
+		for (const col of columns) {
+			const id = "id" in col ? col.id : "accessorKey" in col ? (col.accessorKey as string) : undefined
+			if (id && "accessorFn" in col && col.accessorFn) {
+				accessorMap.set(id, col.accessorFn as (item: TData) => unknown)
+			}
+		}
+
+		const filterFn = createDataFilterFn<TData>(viewsHook.filterGroup, accessorMap)
 
 		return data.filter(filterFn)
-	}, [data, enableAdvancedFilters, viewsHook.filterGroup, isServerSideFiltering])
+	}, [data, enableAdvancedFilters, viewsHook.filterGroup, isServerSideFiltering, columns])
 
 	// Create table instance
 	const table = useReactTable({

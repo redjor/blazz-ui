@@ -182,8 +182,13 @@ export function createFilterFn<TData>(filterGroup: FilterGroup | null) {
  * Reuses the same comparison logic as evaluateCondition but reads values
  * from the plain data object instead of a TanStack Row instance.
  */
-function evaluateConditionOnData<TData>(item: TData, condition: FilterCondition): boolean {
-	const value = (item as any)[condition.column]
+function evaluateConditionOnData<TData>(
+	item: TData,
+	condition: FilterCondition,
+	accessorMap?: Map<string, (item: TData) => unknown>
+): boolean {
+	const accessor = accessorMap?.get(condition.column)
+	const value = accessor ? accessor(item) : (item as any)[condition.column]
 	const filterValue = condition.value
 	const filterValue2 = condition.value2
 
@@ -320,15 +325,19 @@ function evaluateConditionOnData<TData>(item: TData, condition: FilterCondition)
  * Evaluate a filter group (with AND/OR logic and nested groups) directly
  * against a data item without requiring a TanStack Row instance.
  */
-function evaluateFilterGroupOnData<TData>(item: TData, group: FilterGroup): boolean {
+function evaluateFilterGroupOnData<TData>(
+	item: TData,
+	group: FilterGroup,
+	accessorMap?: Map<string, (item: TData) => unknown>
+): boolean {
 	// Evaluate all conditions in this group
 	const conditionResults = group.conditions.map((condition) =>
-		evaluateConditionOnData(item, condition)
+		evaluateConditionOnData(item, condition, accessorMap)
 	)
 
 	// Recursively evaluate nested groups
 	const nestedResults =
-		group.groups?.map((nestedGroup) => evaluateFilterGroupOnData(item, nestedGroup)) || []
+		group.groups?.map((nestedGroup) => evaluateFilterGroupOnData(item, nestedGroup, accessorMap)) || []
 
 	// Combine all results
 	const allResults = [...conditionResults, ...nestedResults]
@@ -351,11 +360,12 @@ function evaluateFilterGroupOnData<TData>(item: TData, group: FilterGroup): bool
  * @returns A predicate function `(item: TData) => boolean`
  */
 export function createDataFilterFn<TData>(
-	filterGroup: FilterGroup | null
+	filterGroup: FilterGroup | null,
+	accessorMap?: Map<string, (item: TData) => unknown>
 ): (item: TData) => boolean {
 	return (item: TData) => {
 		if (!filterGroup) return true
-		return evaluateFilterGroupOnData(item, filterGroup)
+		return evaluateFilterGroupOnData(item, filterGroup, accessorMap)
 	}
 }
 
