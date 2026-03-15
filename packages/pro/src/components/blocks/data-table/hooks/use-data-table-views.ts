@@ -108,8 +108,10 @@ export function useDataTableViews(
 		// Always apply sorting (default to empty)
 		setSorting(activeView.sorting ?? [])
 
-		// Always apply column visibility (default to empty = all visible)
-		setColumnVisibility(activeView.columnVisibility ?? {})
+		// Apply column visibility only if the view specifies it (preserve defaultColumnVisibility otherwise)
+		if (activeView.columnVisibility !== undefined) {
+			setColumnVisibility(activeView.columnVisibility)
+		}
 
 		// Always apply column pinning (default to none)
 		if (setColumnPinning) {
@@ -120,9 +122,9 @@ export function useDataTableViews(
 			)
 		}
 
-		// Always apply grouping (default to none)
-		if (setGrouping) {
-			setGrouping(activeView.grouping ?? [])
+		// Apply grouping only if the view specifies it (preserve defaultGrouping otherwise)
+		if (setGrouping && activeView.grouping !== undefined) {
+			setGrouping(activeView.grouping)
 		}
 	}, [activeView, setSorting, setColumnVisibility, setColumnPinning, setGrouping])
 

@@ -44,14 +44,12 @@ export const dataTableVariants = cva("w-full", {
 			flat: [
 				// Spaced rows — border-separate + vertical spacing
 				"border-separate border-spacing-y-0.5",
-				// Kill all row borders (override Table/TableRow defaults)
-				"[&_tr]:!border-0",
 				// Subtle hover on data rows only (not group headers)
 				"[&_tbody_tr:not([data-group-header])]:hover:bg-surface-3/30",
 				// Compact rows
-				"[&_td]:!py-1.5 [&_td]:!px-3",
+				"[&_td]:py-1.5! [&_td]:px-3!",
 				// Hide column headers — data speaks for itself
-				"[&_thead]:!hidden",
+				"[&_thead]:hidden!",
 			].join(" "),
 			editable: `table-fixed [&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
 			spreadsheet: [

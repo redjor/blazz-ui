@@ -3,6 +3,7 @@
 @source "../app/**/*.{js,ts,jsx,tsx}";
 @source "../components/**/*.{js,ts,jsx,tsx}";
 @source "../../../packages/ui/src/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/pro/src/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -716,11 +717,30 @@ html[data-theme="warm"].dark {
 	margin-top: 0.5em;
 }
 
+.tiptap-notion h1 {
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -0.03em;
+	color: var(--text-primary);
+	scroll-margin-top: 6rem;
+}
+
 .tiptap-notion h2 {
+	font-size: 1.5rem;
+	font-weight: 650;
+	line-height: 1.2;
+	letter-spacing: -0.025em;
+	color: var(--text-primary);
 	scroll-margin-top: 6rem;
 }
 
 .tiptap-notion h3 {
+	font-size: 1.2rem;
+	font-weight: 600;
+	line-height: 1.25;
+	letter-spacing: -0.02em;
+	color: var(--text-primary);
 	scroll-margin-top: 6rem;
 }
 

@@ -3,9 +3,11 @@
 import type { Table } from "@tanstack/react-table"
 import { cn } from "@blazz/ui"
 import { Button } from "@blazz/ui"
+import { X } from "lucide-react"
+import * as React from "react"
+import { createPortal } from "react-dom"
 import { useDataTableTranslations } from "./data-table.i18n"
 import type { BulkAction } from "./data-table.types"
-import { DataTableRowSelection } from "./data-table-row-selection"
 
 interface DataTableBulkSelectionBarProps<TData> {
 	table: Table<TData>
@@ -15,23 +17,10 @@ interface DataTableBulkSelectionBarProps<TData> {
 }
 
 /**
- * DataTableBulkSelectionBar - Improved bulk selection overlay
+ * DataTableBulkSelectionBar - Floating bottom bar for bulk actions
  *
- * Appears over the table header when rows are selected.
- * Displays selection count, deselect button, and bulk action buttons.
- *
- * Layout:
- * - Left: Selection count + Deselect all button
- * - Center: Bulk action buttons
- *
- * @example
- * ```tsx
- * <DataTableBulkSelectionBar
- *   table={table}
- *   bulkActions={bulkActions}
- *   locale="fr"
- * />
- * ```
+ * Appears as a fixed pill at the bottom of the viewport when rows are selected.
+ * Uses a portal to render on document.body (avoids transform containment issues).
  */
 export function DataTableBulkSelectionBar<TData>({
 	table,
@@ -41,52 +30,59 @@ export function DataTableBulkSelectionBar<TData>({
 }: DataTableBulkSelectionBarProps<TData>) {
 	const t = useDataTableTranslations(locale)
 	const selectedCount = table.getFilteredSelectedRowModel().rows.length
+	const [mounted, setMounted] = React.useState(false)
 
-	// Don't render if no rows are selected
-	if (selectedCount === 0) {
+	React.useEffect(() => {
+		setMounted(true)
+	}, [])
+
+	if (selectedCount === 0 || !mounted) {
 		return null
 	}
 
-	return (
-		<div
-			className={cn(
-				"absolute top-0 left-0 right-0 h-[42px] border-b border-separator",
-				"bg-surface-3/95 backdrop-blur-sm animate-in fade-in-0 duration-200",
-				"animate-in fade-in-0 duration-200",
-				"flex items-center pl-3 pr-1.5 z-10",
-				className
-			)}
-		>
-			<div className="flex items-center justify-between gap-2 w-full">
-				{/* Left: Checkbox + Selection count + Deselect all */}
-				<div className="flex items-center gap-3">
-					<DataTableRowSelection table={table} type="header" />
-					<span className="text-xs font-medium">{t.selectedCount(selectedCount)}</span>
-					<button
-						type="button"
-						onClick={() => table.resetRowSelection()}
-						className="text-xs text-fg-muted hover:text-fg transition-colors"
-					>
-						{t.deselectAll}
-					</button>
-				</div>
+	return createPortal(
+		<div className="fixed bottom-6 left-1/2 z-50" style={{ transform: "translateX(-50%)" }}>
+			<div
+				className={cn(
+					"flex items-center gap-3 rounded-xl border border-edge bg-surface px-4 py-2.5 shadow-lg",
+					className
+				)}
+			>
+				{/* Selection count */}
+				<span className="text-sm font-medium text-fg tabular-nums">
+					{t.selectedCount(selectedCount)}
+				</span>
 
-				{/* Center: Bulk action buttons */}
-				<div className="flex items-center gap-2">
-					{bulkActions.map((action) => (
-						<Button
-							key={action.id}
-							variant={action.variant || "outline"}
-							size="xs"
-							onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
-							disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
-							className="h-7"
-						>
-							{action.label}
-						</Button>
-					))}
-				</div>
+				{/* Separator */}
+				<div className="h-4 w-px bg-edge" />
+
+				{/* Bulk action buttons */}
+				{bulkActions.map((action) => (
+					<Button
+						key={action.id}
+						variant={action.variant || "outline"}
+						size="sm"
+						onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
+						disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
+					>
+						{action.icon && <action.icon className="size-3.5" />}
+						{action.label}
+					</Button>
+				))}
+
+				{/* Separator */}
+				<div className="h-4 w-px bg-edge" />
+
+				{/* Deselect */}
+				<button
+					type="button"
+					onClick={() => table.resetRowSelection()}
+					className="flex items-center gap-1 text-xs text-fg-muted hover:text-fg transition-colors"
+				>
+					<X className="size-3.5" />
+				</button>
 			</div>
-		</div>
+		</div>,
+		document.body
 	)
 }

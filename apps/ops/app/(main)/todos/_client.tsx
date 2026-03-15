@@ -339,7 +339,7 @@ export default function TodosPageClient() {
 					if (!row.getIsGrouped()) return null
 					const s = row.original.status
 					return (
-						<span className="flex items-center gap-2 text-sm font-medium text-fg">
+						<span className="flex items-center gap-1.5 text-xs font-medium text-fg">
 							<StatusIcon status={s} />
 							{statusLabel[s] ?? s}
 						</span>

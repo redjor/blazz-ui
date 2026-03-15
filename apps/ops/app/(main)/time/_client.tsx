@@ -219,8 +219,8 @@ export default function TimePageClient() {
 					const cfg = s ? statusConfig[s] : null
 					const Icon = cfg?.icon ?? Ban
 					return (
-						<span className="flex items-center gap-2 text-sm font-medium text-fg">
-							<Icon className={`size-4 ${cfg?.iconClass ?? "text-fg-muted"}`} />
+						<span className="flex items-center gap-1.5 text-xs font-medium text-fg">
+							<Icon className={`size-3.5 ${cfg?.iconClass ?? "text-fg-muted"}`} />
 							{cfg ? cfg.label : "Non facturable"}
 						</span>
 					)
