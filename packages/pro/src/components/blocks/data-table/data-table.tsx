@@ -186,15 +186,9 @@ export function DataTable<TData, TValue = unknown>({
 	)
 	const finalVariant = variant ?? config.ui.defaultVariant
 	const finalDensity = density ?? config.ui.defaultDensity
+	const flatRowStyle = finalVariant === "flat" ? { borderWidth: 0 } as React.CSSProperties : undefined
 	const finalLocale = locale ?? config.i18n.defaultLocale
 	const debounceMs = config.performance.searchDebounceMs
-
-	// Prevent hydration mismatch by only rendering after mount
-	const [isMounted, setIsMounted] = React.useState(false)
-
-	React.useEffect(() => {
-		setIsMounted(true)
-	}, [])
 
 	// Core table state
 	const [sorting, setSorting] = React.useState<SortingState>(defaultSorting)
@@ -678,24 +672,10 @@ export function DataTable<TData, TValue = unknown>({
 		[enableCellEditing, editHistory, onCellEdit, cellNav]
 	)
 
-	// Wait for mount to prevent hydration mismatch
-	if (!isMounted) {
-		return (
-			<div className="flex h-100 flex-col items-center justify-center space-y-2">
-				{loadingComponent || (
-					<>
-						<div className="h-8 w-8 animate-spin rounded-full border-4 border-raised border-t-brand" />
-						<p className="text-sm text-fg-muted">Loading...</p>
-					</>
-				)}
-			</div>
-		)
-	}
-
 	// Loading state
 	if (isLoading) {
 		return (
-			<div className={cn(className)} data-slot="data-table">
+			<div className={cn("w-full", className)} data-slot="data-table">
 				{loadingComponent || (
 					<DataTableSkeleton
 						columns={tableColumns.length}
@@ -723,7 +703,7 @@ export function DataTable<TData, TValue = unknown>({
 	}
 
 	return (
-		<div className={cn(className)} data-slot="data-table">
+		<div className={cn("w-full", className)} data-slot="data-table">
 			{/* Filter Builder Dialog */}
 			{enableAdvancedFilters && (
 				<DataTableFilterBuilder
@@ -1040,7 +1020,10 @@ export function DataTable<TData, TValue = unknown>({
 														"bg-surface hover:bg-surface-3/50",
 														finalVariant === "flat" && "bg-transparent hover:bg-transparent"
 													)}
-													style={row.depth > 0 ? { position: "relative", left: `${row.depth * 1.5}rem` } : undefined}
+													style={{
+														...(row.depth > 0 ? { position: "relative" as const, left: `${row.depth * 1.5}rem` } : {}),
+														...flatRowStyle,
+													}}
 												>
 													<TableCell
 														colSpan={row.getVisibleCells().length}
@@ -1062,7 +1045,7 @@ export function DataTable<TData, TValue = unknown>({
 											<React.Fragment key={row.id}>
 												<TableRow
 													data-state={row.getIsSelected() && "selected"}
-													className={onRowClick ? "cursor-pointer" : ""}
+													className={onRowClick ? "cursor-pointer" : ""} style={flatRowStyle}
 													onClick={(e) => {
 														const target = e.target as HTMLElement
 														if (!target.closest('[role="checkbox"], [data-slot="dropdown-menu-trigger"], button, a') && onRowClick) {
@@ -1105,7 +1088,7 @@ export function DataTable<TData, TValue = unknown>({
 										<React.Fragment key={row.id}>
 											<TableRow
 												data-state={row.getIsSelected() && "selected"}
-												className={onRowClick ? "cursor-pointer hover:bg-surface-3/50" : ""}
+												className={onRowClick ? "cursor-pointer hover:bg-surface-3/50" : ""} style={flatRowStyle}
 												onClick={(e) => {
 													const target = e.target as HTMLElement
 													const isCheckbox = target.closest('[role="checkbox"]')
@@ -1165,7 +1148,7 @@ export function DataTable<TData, TValue = unknown>({
 									)
 								})
 							) : (
-								<TableRow>
+								<TableRow style={flatRowStyle}>
 									<TableCell colSpan={tableColumns.length} className="h-24 text-center">
 										{emptyComponent || <p className="text-sm text-fg-muted">No results.</p>}
 									</TableCell>
