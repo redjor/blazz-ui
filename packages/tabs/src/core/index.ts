@@ -1,0 +1,6 @@
+export * from "./tabs.types"
+export { TabsProvider, type TabsContextValue } from "./tabs-provider"
+export { TabsInterceptor } from "./tabs-interceptor"
+export { useTabs } from "./use-tabs"
+export { useTabTitle } from "./use-tab-title"
+export { useTabUrlSync } from "./use-tab-url-sync"
