@@ -44,8 +44,9 @@ export const dataTableVariants = cva("w-full", {
 			flat: [
 				// Spaced rows — border-separate + vertical spacing
 				"border-separate border-spacing-y-0.5",
-				// Subtle hover on data rows only (not group headers)
-				"[&_tbody_tr:not([data-group-header])]:hover:bg-surface-3/30",
+				// Rounded hover on data rows — applied on td (tr doesn't support border-radius)
+				"[&_tbody_tr:not([data-group-header])>td]:rounded-lg",
+				"[&_tbody_tr:not([data-group-header]):hover>td]:bg-surface-3/30",
 				// Compact rows
 				"[&_td]:py-1.5! [&_td]:px-3!",
 				// Hide column headers — data speaks for itself
