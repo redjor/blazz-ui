@@ -14,6 +14,7 @@
 	},
 	"dependencies": {
 		"@blazz/quick-login": "workspace:*",
+		"@blazz/pro": "workspace:*",
 		"@blazz/ui": "workspace:*",
 		"@hookform/resolvers": "^5.2.2",
 		"@streamdown/cjk": "^1.0.2",

@@ -81,6 +81,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@blazz/pro':
+        specifier: workspace:*
+        version: link:../../packages/pro
       '@blazz/quick-login':
         specifier: workspace:*
         version: link:../../packages/quick-login
@@ -190,6 +193,9 @@ importers:
 
   apps/examples:
     dependencies:
+      '@blazz/pro':
+        specifier: workspace:*
+        version: link:../../packages/pro
       '@blazz/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -275,6 +281,9 @@ importers:
       '@auth/core':
         specifier: ^0.37.4
         version: 0.37.4
+      '@blazz/pro':
+        specifier: workspace:*
+        version: link:../../packages/pro
       '@blazz/ui':
         specifier: workspace:*
         version: link:../../packages/ui
