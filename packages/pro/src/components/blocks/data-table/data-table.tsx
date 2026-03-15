@@ -1043,7 +1043,7 @@ export function DataTable<TData, TValue = unknown>({
 												>
 													<TableCell
 														colSpan={row.getVisibleCells().length}
-														className={cn("py-2", finalVariant === "flat" && "rounded-lg")}
+														className={cn("py-2", finalVariant === "flat" && "rounded-lg bg-surface-3/50")}
 														style={groupRowStyle?.(row)}
 													>
 														{renderGroupHeader
