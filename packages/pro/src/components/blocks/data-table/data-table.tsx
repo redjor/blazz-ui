@@ -151,6 +151,9 @@ export function DataTable<TData, TValue = unknown>({
 	groupRowStyle,
 	renderRow,
 	locale,
+	toolbarLeadingSlot,
+	toolbarTrailingSlot,
+	toolbarBelowSlot,
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
 	// Get configuration from context (with overrides from props)
@@ -828,6 +831,8 @@ export function DataTable<TData, TValue = unknown>({
 									}
 								: undefined
 						}
+						toolbarLeadingSlot={toolbarLeadingSlot}
+						toolbarTrailingSlot={toolbarTrailingSlot}
 						locale={finalLocale}
 					/>
 				)}
@@ -881,6 +886,13 @@ export function DataTable<TData, TValue = unknown>({
 								</Button>
 							)}
 						</div>
+					</div>
+				)}
+
+				{/* Toolbar below slot */}
+				{toolbarBelowSlot && (
+					<div className="border-b border-separator">
+						{toolbarBelowSlot}
 					</div>
 				)}
 
