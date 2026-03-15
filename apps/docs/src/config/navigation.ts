@@ -426,6 +426,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["collapse", "expand", "toggle", "disclosure", "show hide", "accordion"],
 						},
 						{
+							title: "Item",
+							url: "/docs/components/ui/item",
+							keywords: ["list item", "row", "entry", "record", "item group", "item list"],
+						},
+						{
 							title: "Property",
 							url: "/docs/components/ui/property",
 							keywords: ["key value", "detail", "metadata", "attribute", "property list"],
@@ -616,22 +621,6 @@ export const sidebarConfig: SidebarConfig = {
 					icon: Table2,
 					items: [
 						{
-							title: "Data Table",
-							url: "/docs/blocks/data-table",
-							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
-							items: [
-								{ title: "Getting Started", url: "/docs/blocks/data-table/getting-started" },
-								{ title: "Flat Mode", url: "/docs/blocks/data-table/flat-mode" },
-								{ title: "Toolbar & Views", url: "/docs/blocks/data-table/toolbar" },
-								{ title: "Filtering", url: "/docs/blocks/data-table/filtering" },
-								{ title: "Columns", url: "/docs/blocks/data-table/columns" },
-								{ title: "Inline Editing", url: "/docs/blocks/data-table/editing" },
-								{ title: "Composition & Slots", url: "/docs/blocks/data-table/composition" },
-								{ title: "Grouping & Expansion", url: "/docs/blocks/data-table/grouping" },
-								{ title: "API Reference", url: "/docs/blocks/data-table/api" },
-							],
-						},
-						{
 							title: "Filter Bar",
 							url: "/docs/blocks/filter-bar",
 							keywords: ["filter", "search filters", "facets", "query bar"],
@@ -741,6 +730,29 @@ export const sidebarConfig: SidebarConfig = {
 							url: "/docs/blocks/status-flow",
 							keywords: ["workflow", "status pipeline", "state machine", "flow"],
 						},
+					],
+				},
+			],
+		},
+		{
+			id: "data-table",
+			title: "Data Table",
+			items: [
+				{
+					id: "dt-overview",
+					title: "Overview",
+					url: "/docs/blocks/data-table",
+					icon: Table2,
+					items: [
+						{ title: "Getting Started", url: "/docs/blocks/data-table/getting-started" },
+						{ title: "Columns", url: "/docs/blocks/data-table/columns" },
+						{ title: "Toolbar & Views", url: "/docs/blocks/data-table/toolbar" },
+						{ title: "Filtering", url: "/docs/blocks/data-table/filtering" },
+						{ title: "Grouping & Expansion", url: "/docs/blocks/data-table/grouping" },
+						{ title: "Flat Mode", url: "/docs/blocks/data-table/flat-mode" },
+						{ title: "Inline Editing", url: "/docs/blocks/data-table/editing" },
+						{ title: "Composition & Slots", url: "/docs/blocks/data-table/composition" },
+						{ title: "API Reference", url: "/docs/blocks/data-table/api" },
 					],
 				},
 			],
@@ -1198,17 +1210,19 @@ export const sidebarConfig: SidebarConfig = {
 // Backward compatibility - export navigationConfig as before
 export const navigationConfig = sidebarConfig.navigation
 
-export type SectionId = "components" | "blocks" | "ai" | "guide"
+export type SectionId = "components" | "blocks" | "data-table" | "ai" | "guide"
 
 export const sectionTabs: { id: SectionId; label: string; defaultUrl: string }[] = [
 	{ id: "components", label: "Composants", defaultUrl: "/docs/components" },
 	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/blocks" },
+	{ id: "data-table", label: "Data Table", defaultUrl: "/docs/blocks/data-table" },
 	{ id: "ai", label: "AI", defaultUrl: "/docs/ai" },
 	{ id: "guide", label: "Guide", defaultUrl: "/docs/guide" },
 ]
 
 export function getSectionForPathname(pathname: string): SectionId {
 	if (pathname === "/docs/ai" || pathname.startsWith("/docs/ai/")) return "ai"
+	if (pathname.startsWith("/docs/blocks/data-table")) return "data-table"
 	if (pathname === "/docs/blocks" || pathname.startsWith("/docs/blocks/")) return "blocks"
 	if (pathname.startsWith("/docs/guide")) return "guide"
 	if (
