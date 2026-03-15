@@ -1170,15 +1170,7 @@ export function DataTable<TData, TValue = unknown>({
 						</TableBody>
 					</Table>
 
-					{/* Bulk Selection Bar */}
-					{bulkActions && bulkActions.length > 0 && (
-						<DataTableBulkSelectionBar
-							table={table}
-							bulkActions={bulkActions}
-							locale={finalLocale}
-						/>
-					)}
-				</div>
+					</div>
 
 				{/* Pagination */}
 				{enablePagination && (
@@ -1209,6 +1201,15 @@ export function DataTable<TData, TValue = unknown>({
 				{/* Footer slot */}
 				{footerSlot}
 			</div>
+
+			{/* Bulk Selection Bar */}
+			{bulkActions && bulkActions.length > 0 && (
+				<DataTableBulkSelectionBar
+					table={table}
+					bulkActions={bulkActions}
+					locale={finalLocale}
+				/>
+			)}
 		</div>
 	)
 }

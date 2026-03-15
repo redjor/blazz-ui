@@ -5,7 +5,6 @@ import { cn } from "@blazz/ui"
 import { Button } from "@blazz/ui"
 import { X } from "lucide-react"
 import * as React from "react"
-import { createPortal } from "react-dom"
 import { useDataTableTranslations } from "./data-table.i18n"
 import type { BulkAction } from "./data-table.types"
 
@@ -19,8 +18,8 @@ interface DataTableBulkSelectionBarProps<TData> {
 /**
  * DataTableBulkSelectionBar - Floating bottom bar for bulk actions
  *
- * Appears as a fixed pill at the bottom of the viewport when rows are selected.
- * Uses a portal to render on document.body (avoids transform containment issues).
+ * Measures the scroll container's bottom edge and positions the bar
+ * with JS (fixed position relative to the visible scroll area).
  */
 export function DataTableBulkSelectionBar<TData>({
 	table,
@@ -30,59 +29,103 @@ export function DataTableBulkSelectionBar<TData>({
 }: DataTableBulkSelectionBarProps<TData>) {
 	const t = useDataTableTranslations(locale)
 	const selectedCount = table.getFilteredSelectedRowModel().rows.length
-	const [mounted, setMounted] = React.useState(false)
+	const anchorRef = React.useRef<HTMLDivElement>(null)
+	const [style, setStyle] = React.useState<React.CSSProperties>({ opacity: 0 })
 
 	React.useEffect(() => {
-		setMounted(true)
-	}, [])
+		if (selectedCount === 0 || !anchorRef.current) {
+			setStyle({ opacity: 0 })
+			return
+		}
 
-	if (selectedCount === 0 || !mounted) {
-		return null
-	}
+		function update() {
+			const el = anchorRef.current
+			if (!el) return
 
-	return createPortal(
-		<div className="fixed bottom-6 left-1/2 z-50" style={{ transform: "translateX(-50%)" }}>
-			<div
-				className={cn(
-					"flex items-center gap-3 rounded-xl border border-edge bg-surface px-4 py-2.5 shadow-lg",
-					className
-				)}
-			>
-				{/* Selection count */}
-				<span className="text-sm font-medium text-fg tabular-nums">
-					{t.selectedCount(selectedCount)}
-				</span>
+			// Find the scroll container (scroll-area-viewport or nearest overflow parent)
+			let scrollParent: HTMLElement | null = el.parentElement
+			while (scrollParent) {
+				const overflow = getComputedStyle(scrollParent).overflowY
+				if (overflow === "auto" || overflow === "scroll") break
+				scrollParent = scrollParent.parentElement
+			}
 
-				{/* Separator */}
-				<div className="h-4 w-px bg-edge" />
+			if (!scrollParent) {
+				// Fallback to window
+				setStyle({
+					position: "fixed",
+					bottom: 24,
+					left: "50%",
+					transform: "translateX(-50%)",
+					zIndex: 9999,
+					opacity: 1,
+				})
+				return
+			}
 
-				{/* Bulk action buttons */}
-				{bulkActions.map((action) => (
-					<Button
-						key={action.id}
-						variant={action.variant || "outline"}
-						size="sm"
-						onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
-						disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
+			const rect = scrollParent.getBoundingClientRect()
+			setStyle({
+				position: "fixed",
+				bottom: window.innerHeight - rect.bottom + 16,
+				left: rect.left + rect.width / 2,
+				transform: "translateX(-50%)",
+				zIndex: 9999,
+				opacity: 1,
+			})
+		}
+
+		update()
+		window.addEventListener("resize", update)
+		window.addEventListener("scroll", update, true)
+
+		return () => {
+			window.removeEventListener("resize", update)
+			window.removeEventListener("scroll", update, true)
+		}
+	}, [selectedCount])
+
+	return (
+		<>
+			<div ref={anchorRef} className="h-0 w-0 overflow-hidden" />
+			{selectedCount > 0 && (
+				<div style={style}>
+					<div
+						className={cn(
+							"flex items-center gap-3 rounded-xl border border-edge bg-surface px-4 py-2.5 shadow-lg",
+							className
+						)}
 					>
-						{action.icon && <action.icon className="size-3.5" />}
-						{action.label}
-					</Button>
-				))}
+						<span className="text-sm font-medium text-fg tabular-nums">
+							{t.selectedCount(selectedCount)}
+						</span>
 
-				{/* Separator */}
-				<div className="h-4 w-px bg-edge" />
+						<div className="h-4 w-px bg-edge" />
 
-				{/* Deselect */}
-				<button
-					type="button"
-					onClick={() => table.resetRowSelection()}
-					className="flex items-center gap-1 text-xs text-fg-muted hover:text-fg transition-colors"
-				>
-					<X className="size-3.5" />
-				</button>
-			</div>
-		</div>,
-		document.body
+						{bulkActions.map((action) => (
+							<Button
+								key={action.id}
+								variant={action.variant || "outline"}
+								size="sm"
+								onClick={() => action.handler(table.getFilteredSelectedRowModel().rows)}
+								disabled={action.disabled?.(table.getFilteredSelectedRowModel().rows)}
+							>
+								{action.icon && <action.icon className="size-3.5" />}
+								{action.label}
+							</Button>
+						))}
+
+						<div className="h-4 w-px bg-edge" />
+
+						<button
+							type="button"
+							onClick={() => table.resetRowSelection()}
+							className="flex items-center gap-1 text-xs text-fg-muted hover:text-fg transition-colors"
+						>
+							<X className="size-3.5" />
+						</button>
+					</div>
+				</div>
+			)}
+		</>
 	)
 }
