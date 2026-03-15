@@ -29,7 +29,7 @@ export interface DirtyGuardState {
   /** Is save in progress? */
   isSaving: boolean
   /** Trigger save */
-  save: () => void
+  save: () => void | Promise<void>
   /** Trigger discard + unlock navigation */
   discard: () => void
   /** One-shot bypass for next navigation event (call after save before redirect) */

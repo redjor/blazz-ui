@@ -9,16 +9,19 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./bar": {
+      "types": "./dist/dirty-guard-bar.d.ts",
       "import": "./dist/dirty-guard-bar.js",
-      "types": "./dist/dirty-guard-bar.d.ts"
+      "require": "./dist/dirty-guard-bar.cjs"
     },
     "./adapters/react-hook-form": {
+      "types": "./dist/adapters/react-hook-form.d.ts",
       "import": "./dist/adapters/react-hook-form.js",
-      "types": "./dist/adapters/react-hook-form.d.ts"
+      "require": "./dist/adapters/react-hook-form.cjs"
     }
   },
   "files": [
@@ -34,7 +37,6 @@
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
     "react-hook-form": ">=7.0.0",
     "tailwindcss": ">=3.0.0"
   },
