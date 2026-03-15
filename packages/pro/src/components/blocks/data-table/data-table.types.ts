@@ -214,6 +214,55 @@ export interface DataTableProps<TData, TValue = unknown> {
 	 * Useful for tinting group headers with a status color in flat variant. */
 	groupRowStyle?: (row: import("@tanstack/react-table").Row<TData>) => React.CSSProperties | undefined
 
+	// Toolbar slots
+	/** ReactNode injected before view pills in the toolbar */
+	toolbarLeadingSlot?: React.ReactNode
+	/** ReactNode injected after icon actions in the toolbar */
+	toolbarTrailingSlot?: React.ReactNode
+	/** ReactNode injected between toolbar and table */
+	toolbarBelowSlot?: React.ReactNode
+
+	// Group header customization
+	/** Full replacement of group header row — receives row and default content as fallback */
+	renderGroupHeader?: (
+		row: import("@tanstack/react-table").Row<TData>,
+		defaultContent: React.ReactNode
+	) => React.ReactNode
+	/** Replaces only the central content of group header (between chevron and aggregations).
+	 * Priority: renderGroupHeader > renderGroupHeaderContent > default cell renderer */
+	renderGroupHeaderContent?: (info: {
+		row: import("@tanstack/react-table").Row<TData>
+		groupValue: unknown
+		subRowCount: number
+		aggregations: Record<string, React.ReactNode>
+	}) => React.ReactNode
+
+	// Row actions customization
+	/** Replaces the default ⋯ dropdown menu with custom row actions UI.
+	 * Priority: renderRowActions > rowActions[]. Also used inside renderRow wrapper. */
+	renderRowActions?: (row: import("@tanstack/react-table").Row<TData>) => React.ReactNode
+
+	// Pagination customization
+	/** Replaces the default pagination component with custom UI */
+	renderPagination?: (info: {
+		page: number
+		pageCount: number
+		pageSize: number
+		pageSizeOptions: number[]
+		totalRows: number
+		onNextPage: () => void
+		onPrevPage: () => void
+		onFirstPage: () => void
+		onLastPage: () => void
+		onPageSizeChange: (size: number) => void
+		canNextPage: boolean
+		canPrevPage: boolean
+	}) => React.ReactNode
+
+	// Footer
+	/** ReactNode injected after the table (and after pagination) */
+	footerSlot?: React.ReactNode
+
 	/** Custom row renderer — replaces default cell-based rendering with a free-form layout.
 	 * When provided, each data row renders a single cell spanning all columns with your component.
 	 * Selection checkbox and row actions menu are automatically injected around your content.
