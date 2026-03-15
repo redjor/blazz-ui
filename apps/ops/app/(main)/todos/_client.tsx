@@ -1,9 +1,9 @@
 "use client"
 
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/ui/components/blocks/data-table"
-import { DataTable } from "@blazz/ui/components/blocks/data-table"
-import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"

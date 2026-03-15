@@ -1,6 +1,6 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"

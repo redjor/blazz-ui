@@ -2,8 +2,8 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { useQuery } from "convex/react"
 import { endOfMonth, format, startOfMonth } from "date-fns"
 import { fr } from "date-fns/locale"

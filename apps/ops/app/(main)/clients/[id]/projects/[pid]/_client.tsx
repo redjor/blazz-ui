@@ -1,6 +1,6 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"

@@ -1,6 +1,6 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"

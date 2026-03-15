@@ -5,14 +5,14 @@ import {
 	Conversation,
 	ConversationContent,
 	ConversationScrollButton,
-} from "@blazz/ui/components/ai/chat/conversation"
-import { Message, MessageContent, MessageResponse } from "@blazz/ui/components/ai/chat/message"
+} from "@blazz/pro/components/ai/chat/conversation"
+import { Message, MessageContent, MessageResponse } from "@blazz/pro/components/ai/chat/message"
 import {
 	PromptInput,
 	PromptInputFooter,
 	PromptInputSubmit,
 	PromptInputTextarea,
-} from "@blazz/ui/components/ai/chat/prompt-input"
+} from "@blazz/pro/components/ai/chat/prompt-input"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
