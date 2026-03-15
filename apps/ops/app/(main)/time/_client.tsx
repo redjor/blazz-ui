@@ -1,19 +1,12 @@
 "use client"
 
-import type { DataTableColumnDef, RowAction } from "@blazz/ui/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/ui/components/blocks/data-table"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
@@ -29,11 +22,10 @@ import {
 	subWeeks,
 } from "date-fns"
 import { fr } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react"
+import { Ban, CheckCircle2, ChevronLeft, ChevronRight, CircleDot, FileEdit, Pencil, Send, Trash2, Receipt } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { DayEntriesDialog } from "@/components/day-entries-dialog"
-import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { MonthCalendar } from "@/components/month-calendar"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -41,13 +33,29 @@ import { TimeEntryForm } from "@/components/time-entry-form"
 import { WeekGrid } from "@/components/week-grid"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
-import { formatCurrency, formatMinutes } from "@/lib/format"
+import { formatMinutes } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
 import { getAllowedTransitions, getEffectiveStatus } from "@/lib/time-entry-status"
 
-type TimeEntry = Doc<"timeEntries">
+type TimeEntryRaw = Doc<"timeEntries">
+type TimeEntry = TimeEntryRaw & { dateRange: string }
 
 type View = "list" | "week" | "totals"
+
+function computeDateRange(date: string): string {
+	const now = new Date()
+	const ws = format(startOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd")
+	const prevWs = format(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), "yyyy-MM-dd")
+	const prevWe = format(addDays(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), 6), "yyyy-MM-dd")
+	const ms = format(startOfMonth(now), "yyyy-MM-dd")
+	const prevMs = format(startOfMonth(subMonths(now, 1)), "yyyy-MM-dd")
+	const prevMe = format(endOfMonth(subMonths(now, 1)), "yyyy-MM-dd")
+	if (date >= ws) return "this_week"
+	if (date >= prevWs && date <= prevWe) return "last_week"
+	if (date >= ms) return "this_month"
+	if (date >= prevMs && date <= prevMe) return "last_month"
+	return "older"
+}
 
 function getWeekStart(date: Date): Date {
 	return startOfWeek(date, { weekStartsOn: 1 })
@@ -75,37 +83,25 @@ export default function TimePageClient() {
 	)
 	const allProjects = useQuery(api.projects.listAll)
 
-	// Filter state for list view
-	const [filterProjectId, setFilterProjectId] = useState<Id<"projects"> | undefined>(undefined)
-	const [filterStatus, setFilterStatus] = useState<
-		"draft" | "ready_to_invoice" | "invoiced" | "paid" | undefined
-	>(undefined)
-	const [filterBillable, setFilterBillable] = useState<boolean | undefined>(undefined)
-	const [filterFrom, setFilterFrom] = useState<string | undefined>(undefined)
-	const [filterTo, setFilterTo] = useState<string | undefined>(undefined)
-
 	const {
-		results: allEntries,
+		results: rawEntries,
 		status: paginationStatus,
 		loadMore,
 	} = usePaginatedQuery(
 		api.timeEntries.listPaginated,
-		view === "list"
-			? {
-					projectId: filterProjectId,
-					status: filterStatus,
-					billable: filterBillable,
-					from: filterFrom,
-					to: filterTo,
-				}
-			: "skip",
-		{ initialNumItems: 25 }
+		view === "list" ? {} : "skip",
+		{ initialNumItems: 100 }
+	)
+
+	const allEntries = useMemo<TimeEntry[]>(
+		() => (rawEntries ?? []).map((e) => ({ ...e, dateRange: computeDateRange(e.date) })),
+		[rawEntries]
 	)
 
 	const remove = useMutation(api.timeEntries.remove)
 	const setStatus = useMutation(api.timeEntries.setStatus)
 
-	const [editing, setEditing] = useState<TimeEntry | null>(null)
+	const [editing, setEditing] = useState<TimeEntryRaw | null>(null)
 	const [addOpen, setAddOpen] = useState(false)
 
 	const [quickModal, setQuickModal] = useState<{
@@ -149,55 +145,199 @@ export default function TimePageClient() {
 		[allProjects]
 	)
 
+	// Derive project options for filters
+	const projectOptions = useMemo(
+		() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })),
+		[allProjects]
+	)
+
+	// ---------------------------------------------------------------------------
+	// Data Table V2 — flat layout columns
+	// ---------------------------------------------------------------------------
+
+	const statusConfig: Record<string, { dot: string; icon: typeof FileEdit; iconClass: string; tint: string; label: string }> = {
+		draft: { dot: "bg-violet-500", icon: FileEdit, iconClass: "text-violet-500", tint: "oklch(0.65 0.15 300 / 0.08)", label: "Brouillon" },
+		ready_to_invoice: { dot: "bg-amber-500", icon: Send, iconClass: "text-amber-500", tint: "oklch(0.75 0.15 85 / 0.08)", label: "Prêt à facturer" },
+		invoiced: { dot: "bg-blue-500", icon: CircleDot, iconClass: "text-blue-500", tint: "oklch(0.65 0.15 250 / 0.08)", label: "Facturé" },
+		paid: { dot: "bg-green-500", icon: CheckCircle2, iconClass: "text-green-500", tint: "oklch(0.70 0.15 150 / 0.08)", label: "Payé" },
+	}
+
 	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
 		() => [
 			{
-				accessorKey: "date",
-				header: "Date",
-				cell: ({ row }) =>
-					format(new Date(`${row.original.date}T00:00:00`), "dd MMM yyyy", { locale: fr }),
-				enableSorting: true,
+				id: "status",
+				accessorFn: (row) => getEffectiveStatus(row),
+				header: "Statut",
+				cell: ({ row }) => {
+					// Only used for group header rendering
+					if (!row.getIsGrouped()) return null
+					const s = getEffectiveStatus(row.original)
+					const cfg = s ? statusConfig[s] : null
+					const Icon = cfg?.icon ?? Ban
+					return (
+						<span className="flex items-center gap-2 text-sm font-medium text-fg">
+							<Icon className={`size-4 ${cfg?.iconClass ?? "text-fg-muted"}`} />
+							{cfg ? cfg.label : "Non facturable"}
+						</span>
+					)
+				},
+				enableSorting: false,
+				filterConfig: {
+					type: "select",
+					options: [
+						{ label: "Non facturable", value: null },
+						{ label: "Brouillon", value: "draft" },
+						{ label: "Prêt à facturer", value: "ready_to_invoice" },
+						{ label: "Facturé", value: "invoiced" },
+						{ label: "Payé", value: "paid" },
+					],
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Statut",
+				},
 			},
 			{
-				id: "project",
-				header: "Projet",
-				cell: ({ row }) => projectMap.get(row.original.projectId) ?? "—",
+				accessorKey: "date",
+				header: "Date",
+				enableSorting: true,
+				filterConfig: {
+					type: "date",
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Date",
+				},
+			},
+			{
+				accessorKey: "dateRange",
+				header: "Période",
+				filterConfig: {
+					type: "select",
+					options: [
+						{ label: "Cette semaine", value: "this_week" },
+						{ label: "Semaine dernière", value: "last_week" },
+						{ label: "Ce mois", value: "this_month" },
+						{ label: "Mois dernier", value: "last_month" },
+					],
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Période",
+				},
 			},
 			{
 				accessorKey: "description",
 				header: "Description",
-				cell: ({ row }) => row.original.description ?? "—",
+				filterConfig: {
+					type: "text",
+					placeholder: "Rechercher…",
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Description",
+				},
 			},
 			{
 				accessorKey: "minutes",
 				header: "Durée",
-				cell: ({ row }) => <span className="font-mono">{formatMinutes(row.original.minutes)}</span>,
 				enableSorting: true,
 			},
 			{
-				accessorKey: "hourlyRate",
-				header: "Taux",
-				cell: ({ row }) => (
-					<span className="font-mono">{Math.round(row.original.hourlyRate)}€/h</span>
-				),
+				id: "project",
+				accessorFn: (row) => projectMap.get(row.projectId) ?? "",
+				header: "Projet",
 				enableSorting: true,
-			},
-			{
-				id: "amount",
-				header: "Montant",
-				cell: ({ row }) => {
-					const amount = (row.original.minutes / 60) * row.original.hourlyRate
-					return <span className="font-mono">{formatCurrency(amount)}</span>
+				filterConfig: {
+					type: "select",
+					options: projectOptions,
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Projet",
 				},
 			},
-			{
-				id: "status",
-				header: "Statut",
-				cell: ({ row }) => <EntryStatusBadge status={getEffectiveStatus(row.original)} />,
-			},
 		],
-		[projectMap.get]
+		[projectMap, projectOptions]
 	)
+
+	const views = useMemo<DataTableView[]>(
+		() => [
+			{
+				id: "all",
+				name: "Tout",
+				isSystem: true,
+				isDefault: true,
+				filters: { id: "root", operator: "AND", conditions: [] },
+				sorting: [{ id: "date", desc: true }],
+				},
+			{
+				id: "draft",
+				name: "Brouillons",
+				isSystem: true,
+				filters: {
+					id: "draft-filter",
+					operator: "AND",
+					conditions: [
+						{ id: "draft-cond", column: "status", operator: "equals", value: "draft", type: "select" },
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+				},
+			{
+				id: "ready",
+				name: "Prêt à facturer",
+				isSystem: true,
+				filters: {
+					id: "ready-filter",
+					operator: "AND",
+					conditions: [
+						{ id: "ready-cond", column: "status", operator: "equals", value: "ready_to_invoice", type: "select" },
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+				},
+			{
+				id: "invoiced",
+				name: "Facturé",
+				isSystem: true,
+				filters: {
+					id: "invoiced-filter",
+					operator: "AND",
+					conditions: [
+						{ id: "invoiced-cond", column: "status", operator: "equals", value: "invoiced", type: "select" },
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+				},
+			{
+				id: "paid",
+				name: "Payé",
+				isSystem: true,
+				filters: {
+					id: "paid-filter",
+					operator: "AND",
+					conditions: [
+						{ id: "paid-cond", column: "status", operator: "equals", value: "paid", type: "select" },
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+				},
+			{
+				id: "non-billable",
+				name: "Non facturable",
+				isSystem: true,
+				filters: {
+					id: "non-billable-filter",
+					operator: "AND",
+					conditions: [
+						{ id: "non-billable-cond", column: "status", operator: "equals", value: null, type: "select" },
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+				},
+		],
+		[]
+	)
+
+	// ---------------------------------------------------------------------------
+	// Row actions
+	// ---------------------------------------------------------------------------
 
 	const rowActions = useMemo<RowAction<TimeEntry>[]>(
 		() => [
@@ -294,6 +434,67 @@ export default function TimePageClient() {
 		[remove, setStatus]
 	)
 
+	const bulkActions = useMemo<BulkAction<TimeEntry>[]>(
+		() => [
+			{
+				id: "mark-ready",
+				label: "Prêt à facturer",
+				icon: Send,
+				handler: async (rows) => {
+					try {
+						await setStatus({ ids: rows.map((r) => r.original._id), status: "ready_to_invoice" })
+						toast.success(`${rows.length} entrée(s) marquée(s) prêt à facturer`)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-invoiced",
+				label: "Facturé",
+				icon: Receipt,
+				handler: async (rows) => {
+					try {
+						await setStatus({ ids: rows.map((r) => r.original._id), status: "invoiced" })
+						toast.success(`${rows.length} entrée(s) marquée(s) facturée(s)`)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-paid",
+				label: "Payé",
+				icon: CheckCircle2,
+				handler: async (rows) => {
+					try {
+						await setStatus({ ids: rows.map((r) => r.original._id), status: "paid" })
+						toast.success(`${rows.length} entrée(s) marquée(s) payée(s)`)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				requireConfirmation: true,
+				confirmationMessage: (count) => `Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
+				handler: async (rows) => {
+					try {
+						await Promise.all(rows.map((r) => remove({ id: r.original._id })))
+						toast.success(`${rows.length} entrée(s) supprimée(s)`)
+					} catch {
+						toast.error("Erreur lors de la suppression")
+					}
+				},
+			},
+		],
+		[remove, setStatus]
+	)
+
 	const weekLabel = useMemo(() => {
 		const end = addDays(weekStart, 6)
 		const sameMonth = weekStart.getMonth() === end.getMonth()
@@ -301,19 +502,6 @@ export default function TimePageClient() {
 		const endStr = format(end, "d MMM yyyy", { locale: fr })
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
-	function resetFilters() {
-		setFilterProjectId(undefined)
-		setFilterStatus(undefined)
-		setFilterBillable(undefined)
-		setFilterFrom(undefined)
-		setFilterTo(undefined)
-	}
-	const hasActiveFilters =
-		filterProjectId !== undefined ||
-		filterStatus !== undefined ||
-		filterBillable !== undefined ||
-		filterFrom !== undefined ||
-		filterTo !== undefined
 
 	useOpsTopBar([{ label: "Suivi de temps" }])
 
@@ -326,7 +514,7 @@ export default function TimePageClient() {
 				/>
 
 				<InlineStack gap="300" blockAlign="center">
-					{/* Toggle Semaine/Liste */}
+					{/* Toggle Semaine/Mois/Liste */}
 					<InlineStack gap="100" blockAlign="center" className="rounded-lg border border-edge p-0.5 bg-surface-3">
 						<Button
 							type="button"
@@ -477,152 +665,89 @@ export default function TimePageClient() {
 				)}
 
 				{view === "list" && (
-					<BlockStack gap="300">
-						{/* Filter bar */}
-						<InlineStack gap="200" blockAlign="center" wrap>
-							{/* Project filter */}
-							<Select
-								value={filterProjectId ?? ""}
-								onValueChange={(val) =>
-									setFilterProjectId(val === "" ? undefined : (val as Id<"projects">))
-								}
-								items={[
-									{ value: "", label: "Tous les projets" },
-									...(allProjects ?? []).map((p) => ({ value: p._id, label: p.name })),
-								]}
-							>
-								<SelectTrigger className="h-8 w-[180px] text-xs">
-									<SelectValue placeholder="Tous les projets" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="">Tous les projets</SelectItem>
-									{(allProjects ?? []).map((p) => (
-										<SelectItem key={p._id} value={p._id}>
-											{p.name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-
-							{/* Status filter */}
-							<Select
-								value={filterStatus ?? ""}
-								onValueChange={(val) =>
-									setFilterStatus(
-										val === ""
-											? undefined
-											: (val as "draft" | "ready_to_invoice" | "invoiced" | "paid")
+					<>
+						<Bleed marginInline="600">
+							<DataTable
+								data={allEntries}
+								columns={columns}
+								views={views}
+								rowActions={rowActions}
+								bulkActions={bulkActions}
+								isLoading={paginationStatus === "LoadingFirstPage"}
+								toolbarLayout="stacked"
+								enableSorting
+								enableGlobalSearch
+								enableAdvancedFilters
+								enableCustomViews
+								enableRowSelection
+								enableGrouping
+								defaultGrouping={["status"]}
+								defaultExpanded
+								groupRowStyle={(row) => {
+									const s = row.getValue("status") as string | null
+									const cfg = s ? statusConfig[s] : null
+									return cfg ? { background: cfg.tint } : undefined
+								}}
+								groupAggregations={{
+									minutes: (values) => {
+										const total = (values as number[]).reduce((a, b) => a + b, 0)
+										return (
+											<span className="font-mono text-xs tabular-nums">
+												{formatMinutes(total)}
+											</span>
+										)
+									},
+								}}
+								enablePagination={false}
+								searchPlaceholder="Rechercher une entrée…"
+								locale="fr"
+								variant="flat"
+								defaultSorting={[{ id: "date", desc: true }]}
+								renderRow={(row) => {
+									const entry = row.original
+									const s = getEffectiveStatus(entry)
+									const cfg = s ? statusConfig[s] : null
+									return (
+										<>
+											<div className="flex min-w-0 flex-1 items-center gap-3">
+												<span className="text-fg-muted whitespace-nowrap" style={{ fontSize: 13 }}>
+													{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
+												</span>
+												{(() => {
+													const Icon = cfg?.icon ?? Ban
+													return <Icon className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`} />
+												})()}
+												<span className="truncate text-fg" style={{ fontSize: 13 }}>
+													{entry.description || "—"}
+												</span>
+											</div>
+											<div className="flex shrink-0 items-center gap-3">
+												<span className="font-mono text-xs tabular-nums text-fg-muted whitespace-nowrap">
+													{formatMinutes(entry.minutes)}
+												</span>
+												<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
+													{projectMap.get(entry.projectId) ?? "—"}
+												</span>
+											</div>
+										</>
 									)
-								}
-								items={[
-									{ value: "", label: "Tous les statuts" },
-									{ value: "draft", label: "Brouillon" },
-									{ value: "ready_to_invoice", label: "Prêt à facturer" },
-									{ value: "invoiced", label: "Facturé" },
-									{ value: "paid", label: "Payé" },
-								]}
-							>
-								<SelectTrigger className="h-8 w-[180px] text-xs">
-									<SelectValue placeholder="Tous les statuts" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="">Tous les statuts</SelectItem>
-									<SelectItem value="draft">Brouillon</SelectItem>
-									<SelectItem value="ready_to_invoice">Prêt à facturer</SelectItem>
-									<SelectItem value="invoiced">Facturé</SelectItem>
-									<SelectItem value="paid">Payé</SelectItem>
-								</SelectContent>
-							</Select>
-
-							{/* Billable filter */}
-							<Select
-								value={filterBillable === undefined ? "" : filterBillable ? "true" : "false"}
-								onValueChange={(val) => setFilterBillable(val === "" ? undefined : val === "true")}
-								items={[
-									{ value: "", label: "Facturable / Non" },
-									{ value: "true", label: "Facturable" },
-									{ value: "false", label: "Non facturable" },
-								]}
-							>
-								<SelectTrigger className="h-8 w-[160px] text-xs">
-									<SelectValue placeholder="Facturable / Non" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="">Facturable / Non</SelectItem>
-									<SelectItem value="true">Facturable</SelectItem>
-									<SelectItem value="false">Non facturable</SelectItem>
-								</SelectContent>
-							</Select>
-
-							{/* Date range */}
-							<Input
-								type="date"
-								className="h-8 w-[140px] text-xs"
-								value={filterFrom ?? ""}
-								onChange={(e) => setFilterFrom(e.target.value === "" ? undefined : e.target.value)}
+								}}
 							/>
-							<Input
-								type="date"
-								className="h-8 w-[140px] text-xs"
-								value={filterTo ?? ""}
-								onChange={(e) => setFilterTo(e.target.value === "" ? undefined : e.target.value)}
-							/>
-
-							{/* Reset */}
-							{hasActiveFilters && (
+						</Bleed>
+						{paginationStatus === "CanLoadMore" && (
+							<InlineStack align="center" className="pt-1">
 								<Button
 									type="button"
-									variant="ghost"
+									variant="outline"
 									size="sm"
-									className="h-8 px-2 text-xs text-muted-fg"
-									onClick={resetFilters}
+									className="h-7 px-3 text-xs"
+									onClick={() => loadMore(100)}
 								>
-									Réinitialiser
+									Charger plus d'entrées
 								</Button>
-							)}
-						</InlineStack>
-
-						{/* DataTable */}
-						<DataTable
-							data={allEntries ?? []}
-							columns={columns}
-							rowActions={rowActions}
-							isLoading={paginationStatus === "LoadingFirstPage"}
-							enableSorting
-							enableGlobalSearch
-							enablePagination={false}
-							searchPlaceholder="Rechercher…"
-							locale="fr"
-							defaultSorting={[{ id: "date", desc: true }]}
-						/>
-
-						{/* Load more footer */}
-						{paginationStatus !== "LoadingFirstPage" && (
-							<InlineStack align="space-between" blockAlign="center" className="pt-1 text-sm text-muted-fg">
-								<span>
-									{(allEntries ?? []).length} entrée{(allEntries ?? []).length !== 1 ? "s" : ""}{" "}
-									affichée{(allEntries ?? []).length !== 1 ? "s" : ""}
-								</span>
-								{paginationStatus === "CanLoadMore" && (
-									<Button
-										type="button"
-										variant="outline"
-										size="sm"
-										className="h-7 px-3 text-xs"
-										onClick={() => loadMore(25)}
-									>
-										Charger 25 de plus
-									</Button>
-								)}
-								{paginationStatus === "Exhausted" && (
-									<span className="text-xs">Toutes les entrées affichées</span>
-								)}
-								{paginationStatus === "LoadingMore" && (
-									<span className="text-xs text-muted-fg">Chargement…</span>
-								)}
 							</InlineStack>
 						)}
-					</BlockStack>
+					</>
 				)}
 			</BlockStack>
 

@@ -22,6 +22,7 @@ import {
 } from "@tanstack/react-table"
 import type { VariantProps } from "class-variance-authority"
 import { ChevronRight, ListFilter } from "lucide-react"
+import { Bleed } from "../../ui/bleed"
 import { Button } from "../../ui/button"
 import * as React from "react"
 import { cn } from "../../../lib/utils"
@@ -147,6 +148,8 @@ export function DataTable<TData, TValue = unknown>({
 	hideHeaders = false,
 	combineSearchAndFilters = false,
 	toolbarLayout = "classic",
+	groupRowStyle,
+	renderRow,
 	locale,
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
@@ -522,6 +525,7 @@ export function DataTable<TData, TValue = unknown>({
 		},
 		enableGrouping,
 		groupedColumnMode: false,
+		autoResetExpanded: false,
 		enableColumnPinning,
 		enableRowSelection,
 		onGroupingChange: enableGrouping
@@ -891,6 +895,7 @@ export function DataTable<TData, TValue = unknown>({
 				>
 					<Table
 						className={cn(dataTableVariants({ variant: finalVariant, density: finalDensity }))}
+						wrapperClassName={finalVariant === "flat" ? "p-2" : undefined}
 					>
 						{!hideHeaders && (
 							<TableHeader>
@@ -932,14 +937,22 @@ export function DataTable<TData, TValue = unknown>({
 										return (
 											<React.Fragment key={row.id}>
 												<TableRow
-													className="bg-surface hover:bg-surface-3/50"
+													data-group-header=""
+													className={cn(
+														"bg-surface hover:bg-surface-3/50",
+														finalVariant === "flat" && "bg-transparent hover:bg-transparent"
+													)}
 													style={
 														row.depth > 0
 															? { position: "relative", left: `${row.depth * 1.5}rem` }
 															: undefined
 													}
 												>
-													<TableCell colSpan={row.getVisibleCells().length} className="py-2">
+													<TableCell
+														colSpan={row.getVisibleCells().length}
+														className={cn("py-2", finalVariant === "flat" && "rounded-lg")}
+														style={groupRowStyle?.(row)}
+													>
 														<div className="flex w-full items-center gap-2">
 															{enableRowSelection && (
 																<div
@@ -967,14 +980,14 @@ export function DataTable<TData, TValue = unknown>({
 																		row.getIsExpanded() && "rotate-90"
 																	)}
 																/>
-																{/* Render group value using the grouped column's cell renderer */}
-																{row.getVisibleCells().map((cell) => {
+																{/* Render group value — search ALL cells so hidden grouping columns still render */}
+																{row.getAllCells().map((cell) => {
 																	if (cell.getIsGrouped()) {
 																		return (
 																			<span key={cell.id} className="flex items-center gap-2">
 																				{flexRender(cell.column.columnDef.cell, cell.getContext())}
-																				<span className="text-body-sm font-normal text-fg-muted">
-																					({row.subRows.length})
+																				<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
+																					{row.subRows.length}
 																				</span>
 																			</span>
 																		)
@@ -997,6 +1010,46 @@ export function DataTable<TData, TValue = unknown>({
 																	</span>
 																)}
 															</button>
+														</div>
+													</TableCell>
+												</TableRow>
+											</React.Fragment>
+										)
+									}
+
+									// Custom row rendering (flat/Linear-style)
+									if (renderRow) {
+										return (
+											<React.Fragment key={row.id}>
+												<TableRow
+													data-state={row.getIsSelected() && "selected"}
+													className={onRowClick ? "cursor-pointer" : ""}
+													onClick={(e) => {
+														const target = e.target as HTMLElement
+														if (!target.closest('[role="checkbox"], [data-slot="dropdown-menu-trigger"], button, a') && onRowClick) {
+															onRowClick(row.original)
+														}
+													}}
+												>
+													<TableCell colSpan={row.getVisibleCells().length} className="!p-0">
+														<div className="flex items-center gap-2">
+															{enableRowSelection && (
+																<div
+																	className="shrink-0"
+																	onClick={(e) => e.stopPropagation()}
+																	onKeyDown={(e) => e.stopPropagation()}
+																>
+																	<DataTableRowSelection row={row} type="cell" />
+																</div>
+															)}
+															<div className="flex min-w-0 flex-1 items-center">
+																{renderRow(row)}
+															</div>
+															{rowActions && rowActions.length > 0 && (
+																<Bleed marginBlock="200">
+																	<DataTableRowActions row={row} actions={rowActions} />
+																</Bleed>
+															)}
 														</div>
 													</TableCell>
 												</TableRow>

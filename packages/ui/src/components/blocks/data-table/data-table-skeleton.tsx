@@ -9,7 +9,7 @@ export interface DataTableSkeletonProps {
 	/** Number of columns to display. Default: 3 */
 	columns?: number
 	/** Visual variant. Default: 'lined' */
-	variant?: "default" | "lined" | "striped" | "editable" | "spreadsheet"
+	variant?: "default" | "lined" | "striped" | "flat" | "editable" | "spreadsheet"
 	/** Row density. Default: 'default' */
 	density?: "compact" | "default" | "comfortable"
 	/** Show table header. Default: true */

@@ -182,7 +182,7 @@ export interface DataTableProps<TData, TValue = unknown> {
 	onSearchChange?: (search: string) => void
 
 	// Styling
-	variant?: "default" | "lined" | "striped" | "editable" | "spreadsheet"
+	variant?: "default" | "lined" | "striped" | "flat" | "editable" | "spreadsheet"
 	density?: "compact" | "default" | "comfortable"
 	className?: string
 
@@ -208,6 +208,17 @@ export interface DataTableProps<TData, TValue = unknown> {
 	onCellEdit?: (rowId: string, columnId: string, value: unknown, previousValue: unknown) => void
 	/** Max entries in the undo/redo history stack (default 50) */
 	editHistorySize?: number
+
+	// Custom row rendering
+	/** Style callback for group header rows — receives the grouped row and returns inline styles.
+	 * Useful for tinting group headers with a status color in flat variant. */
+	groupRowStyle?: (row: import("@tanstack/react-table").Row<TData>) => React.CSSProperties | undefined
+
+	/** Custom row renderer — replaces default cell-based rendering with a free-form layout.
+	 * When provided, each data row renders a single cell spanning all columns with your component.
+	 * Selection checkbox and row actions menu are automatically injected around your content.
+	 * Ideal for flat/Linear-style layouts where rows are flex divs, not table cells. */
+	renderRow?: (row: import("@tanstack/react-table").Row<TData>) => React.ReactNode
 
 	// Internationalization
 	locale?: "fr" | "en"

@@ -41,6 +41,18 @@ export const dataTableVariants = cva("w-full", {
 			default: "border-collapse",
 			lined: "[&_tr]:border-b [&_tr]:border-separator",
 			striped: "[&_tbody_tr:nth-child(even)]:bg-surface-3/50",
+			flat: [
+				// Spaced rows — border-separate + vertical spacing
+				"border-separate border-spacing-y-0.5",
+				// Kill all row borders (override Table/TableRow defaults)
+				"[&_tr]:!border-0",
+				// Subtle hover on data rows only (not group headers)
+				"[&_tbody_tr:not([data-group-header])]:hover:bg-surface-3/30",
+				// Compact rows
+				"[&_td]:!py-1.5 [&_td]:!px-3",
+				// Hide column headers — data speaks for itself
+				"[&_thead]:hidden",
+			].join(" "),
 			editable: `table-fixed [&_tr]:border-b [&_tr]:border-separator ${editableTableStyles}`,
 			spreadsheet: [
 				"table-fixed",

@@ -5,9 +5,9 @@ type TableDensity = "compact" | "default" | "comfortable"
 
 const Table = React.forwardRef<
 	HTMLTableElement,
-	React.HTMLAttributes<HTMLTableElement> & { density?: TableDensity }
->(({ className, density = "default", ...props }, ref) => (
-	<div className="relative w-full overflow-auto">
+	React.HTMLAttributes<HTMLTableElement> & { density?: TableDensity; wrapperClassName?: string }
+>(({ className, density = "default", wrapperClassName, ...props }, ref) => (
+	<div className={cn("relative w-full overflow-auto", wrapperClassName)}>
 		<table
 			ref={ref}
 			data-slot="table"
