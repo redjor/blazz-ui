@@ -1,6 +1,8 @@
 import type { Registry } from "./registry"
+import { generatedRegistry } from "./registry-data.generated"
 
-export const registry: Registry = [
+// Manual seed data (takes priority over generated)
+const manualRegistry: Registry = [
 	// -----------------------------------------------------------------------
 	// 1. Button
 	// -----------------------------------------------------------------------
@@ -643,4 +645,11 @@ export const registry: Registry = [
 			},
 		],
 	},
+]
+
+// Merge: manual overrides generated (manual entries take priority)
+const manualSlugs = new Set(manualRegistry.map((c) => c.slug))
+export const registry: Registry = [
+	...manualRegistry,
+	...generatedRegistry.filter((c) => !manualSlugs.has(c.slug)),
 ]
