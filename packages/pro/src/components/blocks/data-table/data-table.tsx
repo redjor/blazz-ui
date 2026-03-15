@@ -577,39 +577,41 @@ export function DataTable<TData, TValue = unknown>({
 		getRowCanExpand: enableRowExpand ? () => true : undefined,
 		onColumnPinningChange: enableColumnPinning
 			? (updater) => {
-					setColumnPinning(updater)
-					if (onColumnPinningChange) {
-						const newPinning = typeof updater === "function" ? updater(columnPinning) : updater
-						onColumnPinningChange({
-							left: newPinning.left ?? [],
-							right: newPinning.right ?? [],
+					setColumnPinning((prev) => {
+						const next = typeof updater === "function" ? updater(prev) : updater
+						onColumnPinningChange?.({
+							left: next.left ?? [],
+							right: next.right ?? [],
 						})
-					}
+						return next
+					})
 				}
 			: undefined,
 		onSortingChange: (updater) => {
-			setSorting(updater)
-			if (onSortingChange) {
-				const newSorting = typeof updater === "function" ? updater(sorting) : updater
-				onSortingChange(newSorting)
-			}
+			setSorting((prev) => {
+				const next = typeof updater === "function" ? updater(prev) : updater
+				onSortingChange?.(next)
+				return next
+			})
 		},
 		onColumnFiltersChange: setColumnFilters,
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: (updater) => {
-			setRowSelection(updater)
-			if (onRowSelectionChange) {
-				const newSelection = typeof updater === "function" ? updater(rowSelection) : updater
-				onRowSelectionChange(newSelection)
-			}
+			setRowSelection((prev) => {
+				const next = typeof updater === "function" ? updater(prev) : updater
+				onRowSelectionChange?.(next)
+				return next
+			})
 		},
 		onGlobalFilterChange: setGlobalFilter,
 		onPaginationChange: (updater) => {
-			setPaginationState(updater)
-			if (onPaginationChange && enablePagination) {
-				const newPagination = typeof updater === "function" ? updater(paginationState) : updater
-				onPaginationChange(newPagination)
-			}
+			setPaginationState((prev) => {
+				const next = typeof updater === "function" ? updater(prev) : updater
+				if (enablePagination) {
+					onPaginationChange?.(next)
+				}
+				return next
+			})
 		},
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: isServerSideFiltering ? undefined : getFilteredRowModel(),
