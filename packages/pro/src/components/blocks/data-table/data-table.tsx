@@ -150,12 +150,15 @@ export function DataTable<TData, TValue = unknown>({
 	toolbarLayout = "classic",
 	groupRowStyle,
 	renderRow,
+	renderRowActions,
 	renderGroupHeader,
 	renderGroupHeaderContent,
 	locale,
 	toolbarLeadingSlot,
 	toolbarTrailingSlot,
 	toolbarBelowSlot,
+	renderPagination,
+	footerSlot,
 	...props
 }: DataTableProps<TData, TValue> & VariantProps<typeof dataTableVariants>) {
 	// Get configuration from context (with overrides from props)
@@ -317,11 +320,13 @@ export function DataTable<TData, TValue = unknown>({
 
 		cols.push(...columns)
 
-		if (rowActions && rowActions.length > 0) {
+		if ((rowActions && rowActions.length > 0) || renderRowActions) {
 			cols.push({
 				id: "actions",
 				header: () => null,
-				cell: ({ row }) => <DataTableRowActions row={row} actions={rowActions} />,
+				cell: ({ row }) => renderRowActions
+					? renderRowActions(row)
+					: <DataTableRowActions row={row} actions={rowActions!} />,
 				enableSorting: false,
 				enableHiding: false,
 				size: 50,
@@ -329,7 +334,7 @@ export function DataTable<TData, TValue = unknown>({
 		}
 
 		return cols
-	}, [columns, enableRowSelection, enableRowExpand, rowActions])
+	}, [columns, enableRowSelection, enableRowExpand, rowActions, renderRowActions])
 
 	// Extract sortable columns for sort menu
 	const sortableColumns = React.useMemo(() => {
@@ -1079,11 +1084,15 @@ export function DataTable<TData, TValue = unknown>({
 															<div className="flex min-w-0 flex-1 items-center">
 																{renderRow(row)}
 															</div>
-															{rowActions && rowActions.length > 0 && (
+															{renderRowActions ? (
+																<Bleed marginBlock="200">
+																	{renderRowActions(row)}
+																</Bleed>
+															) : rowActions && rowActions.length > 0 ? (
 																<Bleed marginBlock="200">
 																	<DataTableRowActions row={row} actions={rowActions} />
 																</Bleed>
-															)}
+															) : null}
 														</div>
 													</TableCell>
 												</TableRow>
@@ -1177,12 +1186,32 @@ export function DataTable<TData, TValue = unknown>({
 
 				{/* Pagination */}
 				{enablePagination && (
-					<DataTablePagination
-						table={table}
-						pageSizeOptions={finalPagination.pageSizeOptions}
-						locale={finalLocale}
-					/>
+					renderPagination ? (
+						renderPagination({
+							page: table.getState().pagination.pageIndex,
+							pageCount: table.getPageCount(),
+							pageSize: table.getState().pagination.pageSize,
+							pageSizeOptions: finalPagination.pageSizeOptions ?? [10, 25, 50, 100],
+							totalRows: table.getFilteredRowModel().rows.length,
+							onNextPage: () => table.nextPage(),
+							onPrevPage: () => table.previousPage(),
+							onFirstPage: () => table.setPageIndex(0),
+							onLastPage: () => table.setPageIndex(table.getPageCount() - 1),
+							onPageSizeChange: (size: number) => table.setPageSize(size),
+							canNextPage: table.getCanNextPage(),
+							canPrevPage: table.getCanPreviousPage(),
+						})
+					) : (
+						<DataTablePagination
+							table={table}
+							pageSizeOptions={finalPagination.pageSizeOptions}
+							locale={finalLocale}
+						/>
+					)
 				)}
+
+				{/* Footer slot */}
+				{footerSlot}
 			</div>
 		</div>
 	)
