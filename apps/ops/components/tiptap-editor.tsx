@@ -1,5 +1,6 @@
 "use client"
 
+import { Card, CardFooter } from "@blazz/ui/components/ui/card"
 import Image from "@tiptap/extension-image"
 import Placeholder from "@tiptap/extension-placeholder"
 import TaskItem from "@tiptap/extension-task-item"
@@ -279,35 +280,40 @@ function SlashMenu({
 	}, [selectedIndex])
 
 	return (
-		<div className="w-[280px] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.14)]">
-			<div ref={listRef} className="max-h-[360px] overflow-y-auto px-2 py-2">
+		<Card
+			size="sm"
+			className="w-[280px] border-container bg-surface p-0 data-[size=sm]:p-0 shadow-[0_18px_50px_rgba(15,23,42,0.14)]"
+		>
+			<div ref={listRef} className="max-h-[360px] overflow-y-auto px-1 py-1">
 				{commands.map((cmd, index) => (
 					<button
 						key={cmd.command}
 						type="button"
-						className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors ${
+						className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[15px] transition-colors ${
 							index === selectedIndex
-								? "bg-zinc-100 text-zinc-950"
-								: "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950"
+								? "bg-surface-3 text-fg"
+								: "text-fg-muted hover:bg-surface-2 hover:text-fg"
 						}`}
 						onClick={() => onSelect(index)}
 						onMouseEnter={() => onHover(index)}
 					>
-						<span className="flex size-5 shrink-0 items-center justify-center text-zinc-700">
+						<span className="flex size-5 shrink-0 items-center justify-center text-fg">
 							{cmd.icon}
 						</span>
-						<span className="min-w-0 flex-1 text-[15px] leading-none">{cmd.label}</span>
-						<span className="shrink-0 text-xs font-medium text-zinc-400">{cmd.hint}</span>
+						<span className="min-w-0 flex-1 text-left leading-none">{cmd.label}</span>
+						<span className="ml-auto text-[11px] font-medium tracking-normal text-fg-muted">
+							{cmd.hint}
+						</span>
 					</button>
 				))}
 			</div>
-			<div className="flex items-center justify-between border-t border-zinc-200 px-3 py-2 text-xs text-zinc-500">
+			<CardFooter className="justify-between border-t border-separator bg-surface px-3 py-2 text-xs text-fg-muted">
 				<span>Fermer le menu</span>
-				<span className="rounded-md border border-zinc-200 bg-zinc-50 px-1.5 py-0.5 font-medium text-zinc-400">
+				<span className="rounded-md border border-container bg-surface-2 px-1.5 py-0.5 font-medium text-fg-muted">
 					esc
 				</span>
-			</div>
-		</div>
+			</CardFooter>
+		</Card>
 	)
 }
 
