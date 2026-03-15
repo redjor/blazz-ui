@@ -1,4 +1,4 @@
-import { InlineEdit } from "@blazz/ui/components/blocks/inline-edit"
+import { InlineEdit } from "@blazz/pro/components/blocks/inline-edit"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -58,7 +58,7 @@ const inlineEditProps: DocProp[] = [
 const examples = [
 	{
 		key: "basic",
-		code: `import { InlineEdit } from "@blazz/ui/components/blocks/inline-edit"
+		code: `import { InlineEdit } from "@blazz/pro/components/blocks/inline-edit"
 
 function BasicExample() {
   const [name, setName] = useState("Acme Corporation")
@@ -73,7 +73,7 @@ function BasicExample() {
 	},
 	{
 		key: "number",
-		code: `import { InlineEdit } from "@blazz/ui/components/blocks/inline-edit"
+		code: `import { InlineEdit } from "@blazz/pro/components/blocks/inline-edit"
 
 function NumberExample() {
   const [amount, setAmount] = useState("45000")
@@ -93,7 +93,7 @@ function NumberExample() {
 	},
 	{
 		key: "custom-render",
-		code: `import { InlineEdit } from "@blazz/ui/components/blocks/inline-edit"
+		code: `import { InlineEdit } from "@blazz/pro/components/blocks/inline-edit"
 
 function CustomRenderExample() {
   const [status, setStatus] = useState("En cours")

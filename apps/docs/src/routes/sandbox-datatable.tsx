@@ -1,4 +1,4 @@
-import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table/data-table"
 import {
 	Table,
 	TableBody,
@@ -11,13 +11,13 @@ import type {
 	BulkAction,
 	DataTableColumnDef,
 	RowAction,
-} from "@blazz/ui/components/blocks/data-table/data-table.types"
-import { DataTableColumnHeader } from "@blazz/ui/components/blocks/data-table/data-table-column-header"
-import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
+} from "@blazz/pro/components/blocks/data-table/data-table.types"
+import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table/data-table-column-header"
+import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
 import {
 	createOrderLinesPreset,
 	type OrderLineRow,
-} from "@blazz/ui/components/blocks/data-table/presets/order-lines"
+} from "@blazz/pro/components/blocks/data-table/presets/order-lines"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { ArrowLeft, ArrowLeftRight, Copy, Eye, Scissors, Trash2 } from "lucide-react"
 import * as React from "react"

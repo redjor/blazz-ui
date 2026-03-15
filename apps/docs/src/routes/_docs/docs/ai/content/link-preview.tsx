@@ -1,4 +1,4 @@
-import { LinkPreview } from "@blazz/ui/components/ai/generative/content/link-preview"
+import { LinkPreview } from "@blazz/pro/components/ai/generative/content/link-preview"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

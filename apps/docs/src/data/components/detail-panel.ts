@@ -8,7 +8,7 @@ export const detailPanelData: ComponentData = {
 		"Panneau de détail d'une entité composé via sous-composants Header et Section. Architecture compound component.",
 	docPath: "/docs/blocks/detail-panel",
 	imports: {
-		path: "@blazz/ui/components/blocks/detail-panel",
+		path: "@blazz/pro/components/blocks/detail-panel",
 		named: ["DetailPanel"],
 	},
 	props: [

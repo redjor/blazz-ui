@@ -1,4 +1,4 @@
-import { ProgressCard } from "@blazz/ui/components/ai/generative/data/progress-card"
+import { ProgressCard } from "@blazz/pro/components/ai/generative/data/progress-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

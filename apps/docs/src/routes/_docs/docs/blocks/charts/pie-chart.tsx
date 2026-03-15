@@ -1,6 +1,6 @@
 "use client"
 
-import { PieChartBlock } from "@blazz/ui/components/blocks/pie-chart-block"
+import { PieChartBlock } from "@blazz/pro/components/blocks/pie-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleSync } from "~/components/docs/doc-example-client"

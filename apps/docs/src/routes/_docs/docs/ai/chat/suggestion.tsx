@@ -1,4 +1,4 @@
-import { Suggestion, Suggestions } from "@blazz/ui/components/ai/chat/suggestion"
+import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

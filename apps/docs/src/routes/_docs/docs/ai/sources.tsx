@@ -3,7 +3,7 @@ import {
 	Sources,
 	SourcesContent,
 	SourcesTrigger,
-} from "@blazz/ui/components/ai/reasoning/sources"
+} from "@blazz/pro/components/ai/reasoning/sources"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

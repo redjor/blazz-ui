@@ -1,4 +1,4 @@
-import { PricingTable } from "@blazz/ui/components/ai/generative/commerce/pricing-table"
+import { PricingTable } from "@blazz/pro/components/ai/generative/commerce/pricing-table"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

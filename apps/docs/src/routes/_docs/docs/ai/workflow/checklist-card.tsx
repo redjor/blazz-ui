@@ -1,4 +1,4 @@
-import { ChecklistCard } from "@blazz/ui/components/ai/generative/workflow/checklist-card"
+import { ChecklistCard } from "@blazz/pro/components/ai/generative/workflow/checklist-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

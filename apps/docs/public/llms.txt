@@ -650,13 +650,13 @@ Props: title (string, required), description (string), actions (React.ReactNode)
 
 ## DataTable
 
-Import: `@blazz/ui/components/blocks/data-table`
+Import: `@blazz/pro/components/blocks/data-table`
 Named: `DataTable, col`
 Docs: https://blazz.io/docs/blocks/data-table
 
 Table de données avancée avec tri, filtrage, pagination, sélection et actions bulk.
 
-⚠️ Import from @blazz/ui/components/blocks/data-table — not from @blazz/ui
+⚠️ Import from @blazz/pro/components/blocks/data-table — not from @blazz/ui
 ⚠️ Use col() factory for column definitions — not raw ColumnDef from TanStack Table
 ⚠️ For preset tables (CRM, StockBase) use createCompaniesPreset/createContactsPreset etc.
 ⚠️ getRowId is required for row selection to work correctly
@@ -664,7 +664,7 @@ Table de données avancée avec tri, filtrage, pagination, sélection et actions
 Props: data (T[], required), columns (DataTableColumnDef<T>[], required), onRowClick ((row: T) => void), getRowId ((row: T) => string), loading (boolean, default: false)
 
 ```tsx
-import { DataTable, col } from "@blazz/ui/components/blocks/data-table"
+import { DataTable, col } from "@blazz/pro/components/blocks/data-table"
 
 const columns = [
   col.text("name", { header: "Name", cell: (row) => row.name }),
@@ -687,7 +687,7 @@ const columns = [
 
 ## StatsGrid
 
-Import: `@blazz/ui/components/blocks/stats-grid`
+Import: `@blazz/pro/components/blocks/stats-grid`
 Named: `StatsGrid`
 Docs: https://blazz.io/docs/blocks/stats-grid
 
@@ -718,7 +718,7 @@ import { DollarSign, Users, Briefcase, TrendingUp } from "lucide-react"
 
 ## FilterBar
 
-Import: `@blazz/ui/components/blocks/filter-bar`
+Import: `@blazz/pro/components/blocks/filter-bar`
 Named: `FilterBar`
 Docs: https://blazz.io/docs/blocks/filter-bar
 
@@ -747,7 +747,7 @@ Props: search (string), onSearchChange ((value: string) => void), filters (Filte
 
 ## DetailPanel
 
-Import: `@blazz/ui/components/blocks/detail-panel`
+Import: `@blazz/pro/components/blocks/detail-panel`
 Named: `DetailPanel`
 Docs: https://blazz.io/docs/blocks/detail-panel
 
@@ -795,7 +795,7 @@ import { Pencil, Trash2 } from "lucide-react"
 
 ## ActivityTimeline
 
-Import: `@blazz/ui/components/blocks/activity-timeline`
+Import: `@blazz/pro/components/blocks/activity-timeline`
 Named: `ActivityTimeline`
 Docs: https://blazz.io/docs/blocks/activity-timeline
 

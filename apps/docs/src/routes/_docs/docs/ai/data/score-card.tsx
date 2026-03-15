@@ -1,4 +1,4 @@
-import { ScoreCard } from "@blazz/ui/components/ai/generative/data/score-card"
+import { ScoreCard } from "@blazz/pro/components/ai/generative/data/score-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

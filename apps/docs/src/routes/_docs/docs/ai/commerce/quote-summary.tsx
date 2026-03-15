@@ -1,4 +1,4 @@
-import { QuoteSummary } from "@blazz/ui/components/ai/generative/commerce/quote-summary"
+import { QuoteSummary } from "@blazz/pro/components/ai/generative/commerce/quote-summary"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

@@ -1,4 +1,4 @@
-import { CandidateCard } from "@blazz/ui/components/ai/generative/entities/candidate-card"
+import { CandidateCard } from "@blazz/pro/components/ai/generative/entities/candidate-card"
 import { Button } from "@blazz/ui/components/ui/button"
 import { createFileRoute } from "@tanstack/react-router"
 import { CalendarPlus, ExternalLink, MessageCircle } from "lucide-react"

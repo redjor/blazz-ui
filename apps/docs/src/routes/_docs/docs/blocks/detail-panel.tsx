@@ -1,4 +1,4 @@
-import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { createFileRoute } from "@tanstack/react-router"
 import { Pencil, Trash2 } from "lucide-react"
@@ -17,7 +17,7 @@ import { highlightCode } from "~/lib/highlight-code"
 const examples = [
 	{
 		key: "basic",
-		code: `import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+		code: `import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 
 <DetailPanel>
   <DetailPanel.Header
@@ -46,7 +46,7 @@ const examples = [
 	},
 	{
 		key: "actions",
-		code: `import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+		code: `import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 import { Pencil, Trash2 } from "lucide-react"
 
 <DetailPanel>
@@ -75,7 +75,7 @@ import { Pencil, Trash2 } from "lucide-react"
 	},
 	{
 		key: "status",
-		code: `import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
+		code: `import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 import { Badge } from "@blazz/ui/components/ui/badge"
 
 <DetailPanel>

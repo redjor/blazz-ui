@@ -1,4 +1,4 @@
-import { SplitView } from "@blazz/ui/components/blocks/split-view"
+import { SplitView } from "@blazz/pro/components/blocks/split-view"
 import { createFileRoute } from "@tanstack/react-router"
 import { Building2, Mail, MapPin, Phone } from "lucide-react"
 import { useState } from "react"

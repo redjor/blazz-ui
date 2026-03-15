@@ -10,7 +10,7 @@ import {
 	ModelSelectorLogoGroup,
 	ModelSelectorName,
 	ModelSelectorTrigger,
-} from "@blazz/ui/components/ai/tools/model-selector"
+} from "@blazz/pro/components/ai/tools/model-selector"
 import { Button } from "@blazz/ui/components/ui/button"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"

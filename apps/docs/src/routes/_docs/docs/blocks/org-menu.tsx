@@ -1,5 +1,5 @@
-import type { Organization } from "@blazz/ui/components/blocks/org-menu"
-import { OrgMenu } from "@blazz/ui/components/blocks/org-menu"
+import type { Organization } from "@blazz/pro/components/blocks/org-menu"
+import { OrgMenu } from "@blazz/pro/components/blocks/org-menu"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

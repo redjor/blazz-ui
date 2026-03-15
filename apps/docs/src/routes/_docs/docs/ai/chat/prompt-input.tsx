@@ -5,8 +5,8 @@ import {
 	PromptInputSubmit,
 	PromptInputTextarea,
 	PromptInputTools,
-} from "@blazz/ui/components/ai/chat/prompt-input"
-import { Suggestion, Suggestions } from "@blazz/ui/components/ai/chat/suggestion"
+} from "@blazz/pro/components/ai/chat/prompt-input"
+import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 import { createFileRoute } from "@tanstack/react-router"
 import { PaperclipIcon } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

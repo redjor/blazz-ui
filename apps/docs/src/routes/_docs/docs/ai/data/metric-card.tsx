@@ -1,4 +1,4 @@
-import { MetricCard } from "@blazz/ui/components/ai/generative/data/metric-card"
+import { MetricCard } from "@blazz/pro/components/ai/generative/data/metric-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DollarSign, Users } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

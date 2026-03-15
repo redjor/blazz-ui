@@ -1,4 +1,4 @@
-import { InsightCard } from "@blazz/ui/components/ai/generative/content/insight-card"
+import { InsightCard } from "@blazz/pro/components/ai/generative/content/insight-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

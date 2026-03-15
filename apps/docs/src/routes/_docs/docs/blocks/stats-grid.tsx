@@ -1,5 +1,5 @@
-import type { StatItem } from "@blazz/ui/components/blocks/stats-grid"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import type { StatItem } from "@blazz/pro/components/blocks/stats-grid"
+import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { createFileRoute } from "@tanstack/react-router"
 import {
 	Clock,
@@ -109,8 +109,8 @@ const invertedStats: StatItem[] = [
 const examples = [
 	{
 		key: "basic",
-		code: `import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import type { StatItem } from "@blazz/ui/components/blocks/stats-grid"
+		code: `import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
+import type { StatItem } from "@blazz/pro/components/blocks/stats-grid"
 import { DollarSign, Handshake, Users, TrendingUp } from "lucide-react"
 
 const stats: StatItem[] = [
@@ -144,8 +144,8 @@ const stats: StatItem[] = [
 	},
 	{
 		key: "three-columns",
-		code: `import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import type { StatItem } from "@blazz/ui/components/blocks/stats-grid"
+		code: `import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
+import type { StatItem } from "@blazz/pro/components/blocks/stats-grid"
 import { ShoppingCart, CreditCard, Clock } from "lucide-react"
 
 const stats: StatItem[] = [
@@ -174,8 +174,8 @@ const stats: StatItem[] = [
 	},
 	{
 		key: "inverted",
-		code: `import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
-import type { StatItem } from "@blazz/ui/components/blocks/stats-grid"
+		code: `import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
+import type { StatItem } from "@blazz/pro/components/blocks/stats-grid"
 import { DollarSign, Users, Clock, Handshake } from "lucide-react"
 
 const stats: StatItem[] = [
@@ -214,7 +214,7 @@ const stats: StatItem[] = [
 	},
 	{
 		key: "loading",
-		code: `import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+		code: `import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 
 <StatsGrid stats={[]} loading />`,
 	},

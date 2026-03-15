@@ -3,7 +3,7 @@ import {
 	MessageAction,
 	MessageActions,
 	MessageContent,
-} from "@blazz/ui/components/ai/chat/message"
+} from "@blazz/pro/components/ai/chat/message"
 import { createFileRoute } from "@tanstack/react-router"
 import { CopyIcon, RefreshCwIcon, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

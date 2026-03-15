@@ -1,4 +1,4 @@
-import { PropertyCard } from "@blazz/ui/components/blocks/property-card"
+import { PropertyCard } from "@blazz/pro/components/blocks/property-card"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { createFileRoute } from "@tanstack/react-router"

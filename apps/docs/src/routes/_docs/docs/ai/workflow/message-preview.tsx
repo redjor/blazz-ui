@@ -1,4 +1,4 @@
-import { MessagePreview } from "@blazz/ui/components/ai/generative/workflow/message-preview"
+import { MessagePreview } from "@blazz/pro/components/ai/generative/workflow/message-preview"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

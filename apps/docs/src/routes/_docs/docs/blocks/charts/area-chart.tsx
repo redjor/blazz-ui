@@ -1,6 +1,6 @@
 "use client"
 
-import { AreaChartBlock } from "@blazz/ui/components/blocks/area-chart-block"
+import { AreaChartBlock } from "@blazz/pro/components/blocks/area-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleSync } from "~/components/docs/doc-example-client"

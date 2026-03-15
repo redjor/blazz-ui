@@ -7,7 +7,7 @@ import {
 	ContextInputUsage,
 	ContextOutputUsage,
 	ContextTrigger,
-} from "@blazz/ui/components/ai/tools/context"
+} from "@blazz/pro/components/ai/tools/context"
 import { createFileRoute } from "@tanstack/react-router"
 import type { LanguageModelUsage } from "ai"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

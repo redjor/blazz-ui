@@ -10,7 +10,7 @@ import {
 	ViewConfigSection,
 	ViewConfigTabs,
 	ViewConfigToggle,
-} from "@blazz/ui/components/blocks/view-config-panel"
+} from "@blazz/pro/components/blocks/view-config-panel"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Select,
@@ -50,7 +50,7 @@ const codeBasic = `import {
   ViewConfigPanel, ViewConfigTabs, ViewConfigSection,
   ViewConfigDivider, ViewConfigFilterRow, ViewConfigToggle,
   ViewConfigPropertyToggles, ViewConfigFooter, ViewConfigFooterAction,
-} from "@blazz/ui/components/blocks/view-config-panel"
+} from "@blazz/pro/components/blocks/view-config-panel"
 import { List, LayoutGrid, Columns3, Rows3, ArrowUpDown } from "lucide-react"
 
 const [view, setView] = useState("list")

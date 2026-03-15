@@ -1,5 +1,5 @@
-import type { QuoteLineItem } from "@blazz/ui/components/blocks/quote-preview"
-import { QuotePreview } from "@blazz/ui/components/blocks/quote-preview"
+import type { QuoteLineItem } from "@blazz/pro/components/blocks/quote-preview"
+import { QuotePreview } from "@blazz/pro/components/blocks/quote-preview"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

@@ -1,4 +1,4 @@
-import { Timeline } from "@blazz/ui/components/ai/generative/planning/timeline"
+import { Timeline } from "@blazz/pro/components/ai/generative/planning/timeline"
 import { createFileRoute } from "@tanstack/react-router"
 import { Calendar, FileText, Mail, Phone } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

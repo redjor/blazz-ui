@@ -1,9 +1,9 @@
-import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table/data-table"
 import {
 	createEditableOrderLinesPreset,
 	createOrderLinesPreset,
 	type OrderLineRow,
-} from "@blazz/ui/components/blocks/data-table/presets/order-lines"
+} from "@blazz/pro/components/blocks/data-table/presets/order-lines"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
 import { DocHero } from "~/components/docs/doc-hero"

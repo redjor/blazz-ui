@@ -1,4 +1,4 @@
-import { Shimmer } from "@blazz/ui/components/ai/chat/shimmer"
+import { Shimmer } from "@blazz/pro/components/ai/chat/shimmer"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

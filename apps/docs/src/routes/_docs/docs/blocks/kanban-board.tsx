@@ -1,5 +1,5 @@
-import type { KanbanColumn } from "@blazz/ui/components/blocks/kanban-board"
-import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
+import type { KanbanColumn } from "@blazz/pro/components/blocks/kanban-board"
+import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { createFileRoute } from "@tanstack/react-router"
 import { useCallback, useState } from "react"
@@ -134,8 +134,8 @@ const examples = [
 	{
 		key: "basic",
 		code: `import { useState } from "react"
-import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
-import type { KanbanColumn } from "@blazz/ui/components/blocks/kanban-board"
+import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
+import type { KanbanColumn } from "@blazz/pro/components/blocks/kanban-board"
 
 interface Deal {
   id: string
@@ -184,7 +184,7 @@ function BasicPipeline() {
 	},
 	{
 		key: "custom-card",
-		code: `import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
+		code: `import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
 import { Badge } from "@blazz/ui/components/ui/badge"
 
 function CustomCardExample() {
@@ -220,7 +220,7 @@ function CustomCardExample() {
 	},
 	{
 		key: "read-only",
-		code: `import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
+		code: `import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
 
 function ReadOnlyBoard() {
   return (

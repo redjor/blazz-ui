@@ -1,11 +1,11 @@
-import type { Notification } from "@blazz/ui/components/blocks/notification-center"
+import type { Notification } from "@blazz/pro/components/blocks/notification-center"
 import {
 	NotificationCenter,
 	NotificationGroup,
 	NotificationItem,
 	NotificationList,
 	NotificationTrigger,
-} from "@blazz/ui/components/blocks/notification-center"
+} from "@blazz/pro/components/blocks/notification-center"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@blazz/ui/components/ui/sheet"
 import { createFileRoute } from "@tanstack/react-router"

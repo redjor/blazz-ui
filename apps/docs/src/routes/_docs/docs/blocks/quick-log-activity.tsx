@@ -1,5 +1,5 @@
-import type { ActivityType } from "@blazz/ui/components/blocks/quick-log-activity"
-import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
+import type { ActivityType } from "@blazz/pro/components/blocks/quick-log-activity"
+import { QuickLogActivity } from "@blazz/pro/components/blocks/quick-log-activity"
 import { Button } from "@blazz/ui/components/ui/button"
 import { createFileRoute } from "@tanstack/react-router"
 import { StickyNote } from "lucide-react"

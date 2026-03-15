@@ -1,4 +1,4 @@
-import { UserCard } from "@blazz/ui/components/ai/generative/entities/user-card"
+import { UserCard } from "@blazz/pro/components/ai/generative/entities/user-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

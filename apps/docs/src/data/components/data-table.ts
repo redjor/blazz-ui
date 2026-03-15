@@ -8,7 +8,7 @@ export const dataTableData: ComponentData = {
 		"Table de données avancée avec tri, filtrage, pagination, sélection et actions bulk.",
 	docPath: "/docs/blocks/data-table",
 	imports: {
-		path: "@blazz/ui/components/blocks/data-table",
+		path: "@blazz/pro/components/blocks/data-table",
 		named: ["DataTable", "col"],
 	},
 	props: [
@@ -38,12 +38,12 @@ export const dataTableData: ComponentData = {
 		},
 	],
 	gotchas: [
-		"Import from @blazz/ui/components/blocks/data-table — not from @blazz/ui",
+		"Import from @blazz/pro/components/blocks/data-table — not from @blazz/ui",
 		"Use col() factory for column definitions — not raw ColumnDef from TanStack Table",
 		"For preset tables (CRM, StockBase) use createCompaniesPreset/createContactsPreset etc.",
 		"getRowId is required for row selection to work correctly",
 	],
-	canonicalExample: `import { DataTable, col } from "@blazz/ui/components/blocks/data-table"
+	canonicalExample: `import { DataTable, col } from "@blazz/pro/components/blocks/data-table"
 
 const columns = [
   col.text("name", { header: "Name", cell: (row) => row.name }),

@@ -1,11 +1,11 @@
-import type { AttachmentData } from "@blazz/ui/components/ai/chat/attachments"
+import type { AttachmentData } from "@blazz/pro/components/ai/chat/attachments"
 import {
 	Attachment,
 	AttachmentInfo,
 	AttachmentPreview,
 	AttachmentRemove,
 	Attachments,
-} from "@blazz/ui/components/ai/chat/attachments"
+} from "@blazz/pro/components/ai/chat/attachments"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
