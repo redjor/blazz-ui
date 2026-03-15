@@ -1,4 +1,4 @@
-import { PollCard } from "@blazz/ui/components/ai/generative/workflow/poll-card"
+import { PollCard } from "@blazz/pro/components/ai/generative/workflow/poll-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

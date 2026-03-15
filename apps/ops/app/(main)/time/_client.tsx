@@ -1,8 +1,8 @@
 "use client"
 
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/ui/components/blocks/data-table"
-import { DataTable } from "@blazz/ui/components/blocks/data-table"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"

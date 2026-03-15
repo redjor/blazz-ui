@@ -1,7 +1,7 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { StatsStrip } from "@blazz/ui/components/blocks/stats-strip"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
 import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
 import { Button } from "@blazz/ui/components/ui/button"
 import {

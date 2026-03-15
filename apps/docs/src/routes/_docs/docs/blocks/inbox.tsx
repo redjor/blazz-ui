@@ -1,4 +1,4 @@
-import type { InboxFilters, InboxNotification } from "@blazz/ui/components/blocks/inbox"
+import type { InboxFilters, InboxNotification } from "@blazz/pro/components/blocks/inbox"
 import {
 	filterInboxItems,
 	Inbox,
@@ -9,7 +9,7 @@ import {
 	InboxList,
 	InboxPanel,
 	InboxSidebar,
-} from "@blazz/ui/components/blocks/inbox"
+} from "@blazz/pro/components/blocks/inbox"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

@@ -287,7 +287,7 @@ function CascadingSelectPage() {
 					</li>
 					<li>
 						For react-hook-form integration, use the CategorySelect block from
-						@blazz/ui/components/blocks/category-select
+						@blazz/pro/components/blocks/category-select
 					</li>
 				</ul>
 			</DocSection>

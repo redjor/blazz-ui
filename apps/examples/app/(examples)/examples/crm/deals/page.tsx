@@ -1,8 +1,9 @@
 "use client"
 
-import { createDealsPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
-import { KanbanBoard, type KanbanColumn } from "@blazz/ui/components/blocks/kanban-board"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import { createDealsPreset } from "@/components/data-table-presets"
+import { KanbanBoard, type KanbanColumn } from "@blazz/pro/components/blocks/kanban-board"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"

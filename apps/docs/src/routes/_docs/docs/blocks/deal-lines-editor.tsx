@@ -1,5 +1,5 @@
-import type { DealLine } from "@blazz/ui/components/blocks/deal-lines-editor"
-import { DealLinesEditor } from "@blazz/ui/components/blocks/deal-lines-editor"
+import type { DealLine } from "@blazz/pro/components/blocks/deal-lines-editor"
+import { DealLinesEditor } from "@blazz/pro/components/blocks/deal-lines-editor"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -87,8 +87,8 @@ const examples = [
 	{
 		key: "basic",
 		code: `import { useState } from "react"
-import { DealLinesEditor } from "@blazz/ui/components/blocks/deal-lines-editor"
-import type { DealLine } from "@blazz/ui/components/blocks/deal-lines-editor"
+import { DealLinesEditor } from "@blazz/pro/components/blocks/deal-lines-editor"
+import type { DealLine } from "@blazz/pro/components/blocks/deal-lines-editor"
 
 const initialLines: DealLine[] = [
   {

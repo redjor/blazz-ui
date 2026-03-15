@@ -1,4 +1,4 @@
-import { ApprovalCard } from "@blazz/ui/components/ai/generative/workflow/approval-card"
+import { ApprovalCard } from "@blazz/pro/components/ai/generative/workflow/approval-card"
 import { Button } from "@blazz/ui/components/ui/button"
 import { createFileRoute } from "@tanstack/react-router"
 import { Check, X } from "lucide-react"

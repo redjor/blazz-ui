@@ -1,7 +1,7 @@
 "use client"
 
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { StatsGrid } from "@blazz/ui/components/blocks/stats-grid"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { Button } from "@blazz/ui/components/ui/button"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"

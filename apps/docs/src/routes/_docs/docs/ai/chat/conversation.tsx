@@ -1,23 +1,23 @@
-import { Conversation, ConversationContent } from "@blazz/ui/components/ai/chat/conversation"
-import { Message, MessageContent } from "@blazz/ui/components/ai/chat/message"
+import { Conversation, ConversationContent } from "@blazz/pro/components/ai/chat/conversation"
+import { Message, MessageContent } from "@blazz/pro/components/ai/chat/message"
 import {
 	PromptInput,
 	PromptInputFooter,
 	PromptInputSubmit,
 	PromptInputTextarea,
-} from "@blazz/ui/components/ai/chat/prompt-input"
-import { Suggestion, Suggestions } from "@blazz/ui/components/ai/chat/suggestion"
+} from "@blazz/pro/components/ai/chat/prompt-input"
+import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 import {
 	Reasoning,
 	ReasoningContent,
 	ReasoningTrigger,
-} from "@blazz/ui/components/ai/reasoning/reasoning"
+} from "@blazz/pro/components/ai/reasoning/reasoning"
 import {
 	Source,
 	Sources,
 	SourcesContent,
 	SourcesTrigger,
-} from "@blazz/ui/components/ai/reasoning/sources"
+} from "@blazz/pro/components/ai/reasoning/sources"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"

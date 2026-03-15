@@ -1,7 +1,8 @@
 "use client"
 
-import { createContactsPreset, DataTable } from "@blazz/ui/components/blocks/data-table"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import { createContactsPreset } from "@/components/data-table-presets"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Plus, Upload } from "lucide-react"
 import { useRouter } from "next/navigation"

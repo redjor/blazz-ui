@@ -1,15 +1,18 @@
-import { ExpandedRowGrid } from "@blazz/ui/components/blocks/data-table/cells/expanded-row-grid"
-import { ExpandedRowTabs } from "@blazz/ui/components/blocks/data-table/cells/expanded-row-tabs"
-import { DataTable } from "@blazz/ui/components/blocks/data-table/data-table"
-import type { DataTableColumnDef } from "@blazz/ui/components/blocks/data-table/data-table.types"
-import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
-import { createCompaniesPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-companies"
-import { createContactsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-contacts"
-import { createDealsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-deals"
-import { createEditableDealsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-deals-editable"
-import { createProductsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-products"
-import { createQuotesPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-quotes"
-import { createLinearIssuesPreset } from "@blazz/ui/components/blocks/data-table/presets/linear-issues"
+import { ExpandedRowGrid } from "@blazz/pro/components/blocks/data-table/cells/expanded-row-grid"
+import { ExpandedRowTabs } from "@blazz/pro/components/blocks/data-table/cells/expanded-row-tabs"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
+import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
+// Presets removed from @blazz/pro — using local stubs for now
+import {
+	createCompaniesPreset,
+	createContactsPreset,
+	createDealsPreset,
+	createEditableDealsPreset,
+	createLinearIssuesPreset,
+	createProductsPreset,
+	createQuotesPreset,
+} from "~/lib/preset-stubs"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
@@ -39,7 +42,7 @@ col.status<Deal>("stage", { statusMap: { ... } })`,
 	},
 	{
 		key: "col-complete",
-		code: `import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
+		code: `import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
 
 const columns: DataTableColumnDef<Deal>[] = [
   col.text<Deal>("title", { title: "Opportunité", showInlineFilter: true }),
@@ -54,8 +57,8 @@ const columns: DataTableColumnDef<Deal>[] = [
 	},
 	{
 		key: "define-preset",
-		code: `import { definePreset } from "@blazz/ui/components/blocks/data-table/factories/preset-builder"
-import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
+		code: `import { definePreset } from "@blazz/pro/components/blocks/data-table/factories/preset-builder"
+import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
 
 const dealsPreset = definePreset<Deal>({
   columns: [
@@ -85,7 +88,7 @@ const dealsPreset = definePreset<Deal>({
 	},
 	{
 		key: "row-expand-grid",
-		code: `import { ExpandedRowGrid } from "@blazz/ui/components/blocks/data-table/cells/expanded-row-grid"
+		code: `import { ExpandedRowGrid } from "@blazz/pro/components/blocks/data-table/cells/expanded-row-grid"
 
 <DataTable
   data={deals}
@@ -109,7 +112,7 @@ const dealsPreset = definePreset<Deal>({
 	},
 	{
 		key: "row-expand-tabs",
-		code: `import { ExpandedRowTabs } from "@blazz/ui/components/blocks/data-table/cells/expanded-row-tabs"
+		code: `import { ExpandedRowTabs } from "@blazz/pro/components/blocks/data-table/cells/expanded-row-tabs"
 
 <DataTable
   data={deals}
@@ -139,7 +142,7 @@ const dealsPreset = definePreset<Deal>({
 	},
 	{
 		key: "inline-editing",
-		code: `import { createEditableDealsPreset } from "@blazz/ui/components/blocks/data-table/presets/crm-deals-editable"
+		code: `import { createEditableDealsPreset } from "@blazz/pro/components/blocks/data-table/presets/crm-deals-editable"
 
 const [editableDeals, setEditableDeals] = useState(deals)
 
@@ -163,7 +166,7 @@ const preset = useMemo(
 	},
 	{
 		key: "linear-preset",
-		code: `import { createLinearIssuesPreset } from "@blazz/ui/components/blocks/data-table/presets/linear-issues"
+		code: `import { createLinearIssuesPreset } from "@blazz/pro/components/blocks/data-table/presets/linear-issues"
 import { linearIssues } from "@/lib/linear-data"
 
 const preset = createLinearIssuesPreset({

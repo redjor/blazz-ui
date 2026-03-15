@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import { BlazzProvider } from "@blazz/ui/lib/license-context"
+import { BlazzProvider } from "@blazz/pro"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import appCss from "~/styles/globals.css?url"

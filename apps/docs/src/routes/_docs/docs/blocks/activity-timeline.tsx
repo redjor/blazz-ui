@@ -1,5 +1,5 @@
-import type { TimelineEvent } from "@blazz/ui/components/blocks/activity-timeline"
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
+import type { TimelineEvent } from "@blazz/pro/components/blocks/activity-timeline"
+import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -95,8 +95,8 @@ const detailEvents: TimelineEvent[] = [
 const examples = [
 	{
 		key: "basic",
-		code: `import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import type { TimelineEvent } from "@blazz/ui/components/blocks/activity-timeline"
+		code: `import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
+import type { TimelineEvent } from "@blazz/pro/components/blocks/activity-timeline"
 
 const events: TimelineEvent[] = [
   {

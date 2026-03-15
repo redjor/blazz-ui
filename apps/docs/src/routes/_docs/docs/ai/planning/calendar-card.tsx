@@ -1,4 +1,4 @@
-import { CalendarCard } from "@blazz/ui/components/ai/generative/planning/calendar-card"
+import { CalendarCard } from "@blazz/pro/components/ai/generative/planning/calendar-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

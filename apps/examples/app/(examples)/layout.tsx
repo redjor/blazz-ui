@@ -1,6 +1,6 @@
 "use client"
 
-import { type Organization, OrgMenu } from "@blazz/ui/components/blocks/org-menu"
+import { type Organization, OrgMenu } from "@blazz/pro/components/blocks/org-menu"
 import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
 import { CommandPalette } from "@blazz/ui/components/patterns/command-palette/command-palette"
 import { FrameProvider, useFrame } from "@blazz/ui/components/patterns/frame-context"

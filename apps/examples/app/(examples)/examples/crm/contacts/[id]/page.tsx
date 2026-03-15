@@ -1,9 +1,9 @@
 "use client"
 
-import { ActivityTimeline } from "@blazz/ui/components/blocks/activity-timeline"
-import { DetailPanel } from "@blazz/ui/components/blocks/detail-panel"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
-import { QuickLogActivity } from "@blazz/ui/components/blocks/quick-log-activity"
+import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
+import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { QuickLogActivity } from "@blazz/pro/components/blocks/quick-log-activity"
 import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"

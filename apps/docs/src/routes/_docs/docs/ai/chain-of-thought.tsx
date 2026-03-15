@@ -5,7 +5,7 @@ import {
 	ChainOfThoughtSearchResult,
 	ChainOfThoughtSearchResults,
 	ChainOfThoughtStep,
-} from "@blazz/ui/components/ai/reasoning/chain-of-thought"
+} from "@blazz/pro/components/ai/reasoning/chain-of-thought"
 import { createFileRoute } from "@tanstack/react-router"
 import { CheckCircleIcon, CodeIcon, DatabaseIcon, SearchIcon } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

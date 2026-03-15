@@ -1,7 +1,7 @@
 "use client"
 
-import { MultiStepForm, type StepComponentProps } from "@blazz/ui/components/blocks/multi-step-form"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { MultiStepForm, type StepComponentProps } from "@blazz/pro/components/blocks/multi-step-form"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { useRouter } from "next/navigation"

@@ -1,5 +1,5 @@
-import type { FormStep, StepComponentProps } from "@blazz/ui/components/blocks/multi-step-form"
-import { MultiStepForm } from "@blazz/ui/components/blocks/multi-step-form"
+import type { FormStep, StepComponentProps } from "@blazz/pro/components/blocks/multi-step-form"
+import { MultiStepForm } from "@blazz/pro/components/blocks/multi-step-form"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { createFileRoute } from "@tanstack/react-router"
@@ -218,8 +218,8 @@ const heroSteps: FormStep[] = [
 const examples = [
 	{
 		key: "basic",
-		code: `import { MultiStepForm } from "@blazz/ui/components/blocks/multi-step-form"
-import type { FormStep, StepComponentProps } from "@blazz/ui/components/blocks/multi-step-form"
+		code: `import { MultiStepForm } from "@blazz/pro/components/blocks/multi-step-form"
+import type { FormStep, StepComponentProps } from "@blazz/pro/components/blocks/multi-step-form"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 
@@ -321,8 +321,8 @@ function BasicMultiStep() {
 	},
 	{
 		key: "with-draft",
-		code: `import { MultiStepForm } from "@blazz/ui/components/blocks/multi-step-form"
-import type { FormStep, StepComponentProps } from "@blazz/ui/components/blocks/multi-step-form"
+		code: `import { MultiStepForm } from "@blazz/pro/components/blocks/multi-step-form"
+import type { FormStep, StepComponentProps } from "@blazz/pro/components/blocks/multi-step-form"
 
 // Re-use the same step components from the basic example
 

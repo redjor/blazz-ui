@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChartBlock } from "@blazz/ui/components/blocks/bar-chart-block"
+import { BarChartBlock } from "@blazz/pro/components/blocks/bar-chart-block"
 import type { ChartConfig } from "@blazz/ui/components/ui/chart"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleSync } from "~/components/docs/doc-example-client"

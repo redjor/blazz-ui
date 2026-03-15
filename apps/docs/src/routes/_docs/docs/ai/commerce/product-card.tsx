@@ -1,4 +1,4 @@
-import { ProductCard } from "@blazz/ui/components/ai/generative/commerce/product-card"
+import { ProductCard } from "@blazz/pro/components/ai/generative/commerce/product-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

@@ -1,5 +1,5 @@
-import type { StatusDefinition, StatusTransition } from "@blazz/ui/components/blocks/status-flow"
-import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
+import type { StatusDefinition, StatusTransition } from "@blazz/pro/components/blocks/status-flow"
+import { StatusFlow } from "@blazz/pro/components/blocks/status-flow"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -57,8 +57,8 @@ const examples = [
 	{
 		key: "basic",
 		code: `import { useState } from "react"
-import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
-import type { StatusDefinition } from "@blazz/ui/components/blocks/status-flow"
+import { StatusFlow } from "@blazz/pro/components/blocks/status-flow"
+import type { StatusDefinition } from "@blazz/pro/components/blocks/status-flow"
 
 const statuses: StatusDefinition[] = [
   { id: "nouveau", label: "Nouveau", color: "gray" },
@@ -83,11 +83,11 @@ function DealPipeline() {
 	{
 		key: "transitions",
 		code: `import { useState } from "react"
-import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
+import { StatusFlow } from "@blazz/pro/components/blocks/status-flow"
 import type {
   StatusDefinition,
   StatusTransition,
-} from "@blazz/ui/components/blocks/status-flow"
+} from "@blazz/pro/components/blocks/status-flow"
 
 const statuses: StatusDefinition[] = [
   { id: "nouveau", label: "Nouveau", color: "gray" },
@@ -121,11 +121,11 @@ function DealPipelineWithActions() {
 	{
 		key: "order",
 		code: `import { useState } from "react"
-import { StatusFlow } from "@blazz/ui/components/blocks/status-flow"
+import { StatusFlow } from "@blazz/pro/components/blocks/status-flow"
 import type {
   StatusDefinition,
   StatusTransition,
-} from "@blazz/ui/components/blocks/status-flow"
+} from "@blazz/pro/components/blocks/status-flow"
 
 const statuses: StatusDefinition[] = [
   { id: "brouillon", label: "Brouillon", color: "gray" },

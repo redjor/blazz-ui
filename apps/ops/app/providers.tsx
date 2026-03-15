@@ -1,6 +1,6 @@
 "use client"
 
-import { BlazzProvider } from "@blazz/ui"
+import { BlazzProvider } from "@blazz/pro"
 import { ThemePaletteProvider } from "@blazz/ui/lib/theme-context"
 import { ConvexAuthNextjsProvider } from "@convex-dev/auth/nextjs"
 import { ConvexReactClient } from "convex/react"

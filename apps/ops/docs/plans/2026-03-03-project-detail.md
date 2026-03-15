@@ -198,8 +198,8 @@ mkdir -p apps/ops/app/clients/[id]/projects/[pid]
 ```tsx
 "use client"
 
-import { BarChartBlock } from "@blazz/ui/components/blocks/bar-chart-block"
-import { PageHeader } from "@blazz/ui/components/blocks/page-header"
+import { BarChartBlock } from "@blazz/pro/components/blocks/bar-chart-block"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"

@@ -1,6 +1,6 @@
 "use client"
 
-import { Suggestion, Suggestions } from "@blazz/ui/components/ai/chat/suggestion"
+import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 
 const suggestions = [
 	"Mes todos du jour",

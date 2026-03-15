@@ -1,4 +1,4 @@
-import { DataList } from "@blazz/ui/components/ai/generative/data/data-list"
+import { DataList } from "@blazz/pro/components/ai/generative/data/data-list"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

@@ -1,4 +1,4 @@
-import { StatusUpdate } from "@blazz/ui/components/ai/generative/planning/status-update"
+import { StatusUpdate } from "@blazz/pro/components/ai/generative/planning/status-update"
 import { createFileRoute } from "@tanstack/react-router"
 import { ArrowRightLeft } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"

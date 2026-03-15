@@ -1,4 +1,4 @@
-import { StatsStrip } from "@blazz/ui/components/blocks/stats-strip"
+import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

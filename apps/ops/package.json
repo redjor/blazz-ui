@@ -17,6 +17,7 @@
 		"@ai-sdk/openai": "^3.0.41",
 		"@ai-sdk/react": "^3.0.118",
 		"@auth/core": "^0.37.4",
+		"@blazz/pro": "workspace:*",
 		"@blazz/ui": "workspace:*",
 		"@convex-dev/auth": "^0.0.91",
 		"@hookform/resolvers": "^5.2.2",

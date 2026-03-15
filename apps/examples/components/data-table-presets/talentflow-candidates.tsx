@@ -2,11 +2,11 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import type { Candidate } from "@/lib/talentflow-data"
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "../data-table.types"
-import { DataTableColumnHeader } from "../data-table-column-header"
-import { createBulkActions, createCRUDActions } from "../factories/action-builders"
-import { createStatusColumn, createTextColumn } from "../factories/column-builders"
-import { createStatusViews } from "../factories/view-builders"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table"
+import { createBulkActions, createCRUDActions } from "@blazz/pro/components/blocks/data-table"
+import { createStatusColumn, createTextColumn } from "@blazz/pro/components/blocks/data-table"
+import { createStatusViews } from "@blazz/pro/components/blocks/data-table"
 
 export interface CandidatesPresetConfig {
 	onView?: (candidate: Candidate) => void | Promise<void>

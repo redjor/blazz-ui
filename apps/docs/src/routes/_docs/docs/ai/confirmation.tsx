@@ -6,7 +6,7 @@ import {
 	ConfirmationRejected,
 	ConfirmationRequest,
 	ConfirmationTitle,
-} from "@blazz/ui/components/ai/tools/confirmation"
+} from "@blazz/pro/components/ai/tools/confirmation"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

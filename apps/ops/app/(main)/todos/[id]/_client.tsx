@@ -218,9 +218,9 @@ export default function TodoDetailPageClient() {
 				</InlineStack>
 
 				{/* 2-column layout */}
-				<div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+				<div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
 					{/* Main column */}
-					<BlockStack gap="400" className="min-w-0">
+					<BlockStack gap="400" className="min-w-0 max-w-3xl justify-self-center w-full">
 						<input
 							type="text"
 							value={title}

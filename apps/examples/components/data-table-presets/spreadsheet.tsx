@@ -1,10 +1,10 @@
 "use client"
 
-import { cn } from "@blazz/ui/lib/utils"
-import type { DataTableColumnDef } from "../data-table.types"
-import { DataTableColumnHeader } from "../data-table-column-header"
-import { col } from "../factories/col"
-import { cellShared } from "../factories/editable-column-builders"
+import { cn } from "@blazz/ui"
+import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
+import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table"
+import { col } from "@blazz/pro/components/blocks/data-table"
+import { cellShared } from "@blazz/pro/components/blocks/data-table"
 
 // ---------------------------------------------------------------------------
 // Types

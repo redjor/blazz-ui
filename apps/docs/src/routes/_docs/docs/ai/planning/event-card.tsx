@@ -1,4 +1,4 @@
-import { EventCard } from "@blazz/ui/components/ai/generative/planning/event-card"
+import { EventCard } from "@blazz/pro/components/ai/generative/planning/event-card"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"

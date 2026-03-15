@@ -5,14 +5,14 @@ import type {
 	DataTableColumnDef,
 	DataTableView,
 	RowAction,
-} from "@blazz/ui/components/blocks/data-table"
-import { DataTableColumnHeader } from "@blazz/ui/components/blocks/data-table/data-table-column-header"
+} from "@blazz/pro/components/blocks/data-table"
+import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table/data-table-column-header"
 import {
 	createBulkActions,
 	createCRUDActions,
-} from "@blazz/ui/components/blocks/data-table/factories/action-builders"
-import { col } from "@blazz/ui/components/blocks/data-table/factories/col"
-import { createStatusViews } from "@blazz/ui/components/blocks/data-table/factories/view-builders"
+} from "@blazz/pro/components/blocks/data-table/factories/action-builders"
+import { col } from "@blazz/pro/components/blocks/data-table/factories/col"
+import { createStatusViews } from "@blazz/pro/components/blocks/data-table/factories/view-builders"
 import { format, isPast, isThisWeek, isToday, isTomorrow, parseISO } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { Id } from "@/convex/_generated/dataModel"

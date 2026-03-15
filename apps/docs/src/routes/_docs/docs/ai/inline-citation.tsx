@@ -12,7 +12,7 @@ import {
 	InlineCitationCarouselPrev,
 	InlineCitationSource,
 	InlineCitationText,
-} from "@blazz/ui/components/ai/reasoning/inline-citation"
+} from "@blazz/pro/components/ai/reasoning/inline-citation"
 import { createFileRoute } from "@tanstack/react-router"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
