@@ -36,7 +36,6 @@ export {
 export * from "./sidebar-exports"
 export * from "./sidebar-search"
 export * from "./sidebar-user"
-export * from "./tab-bar"
 export * from "./theme-palette-switcher"
 export * from "./theme-toggle"
 export * from "./top-bar"
