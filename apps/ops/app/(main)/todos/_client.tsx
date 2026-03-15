@@ -1,10 +1,11 @@
 "use client"
 
-import type { DataTableView } from "@blazz/ui/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/ui/components/blocks/data-table"
 import { DataTable } from "@blazz/ui/components/blocks/data-table"
 import { KanbanBoard } from "@blazz/ui/components/blocks/kanban-board"
 import { PageHeader } from "@blazz/ui/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
@@ -21,9 +22,10 @@ import {
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import { Calendar, CheckSquare, Columns3, LayoutList, Plus } from "lucide-react"
+import { Calendar, CheckSquare, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
+import { toast } from "sonner"
 import { DueDatePicker } from "@/components/due-date-picker"
 import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
@@ -35,7 +37,7 @@ import {
 import { useOpsTopBar } from "@/components/ops-frame"
 import { TagInput } from "@/components/tag-input"
 import type { Todo } from "@/components/todos-preset"
-import { createTodosPreset, formatDueDate, StatusIcon } from "@/components/todos-preset"
+import { formatDueDate, StatusIcon } from "@/components/todos-preset"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 
@@ -308,19 +310,160 @@ export default function TodosPageClient() {
 		})
 	}, [todos, projectList, categoryList])
 
-	// Build preset — stable reference, does not depend on todos data
-	const preset = useMemo(
-		() =>
-			createTodosPreset({
-				onEdit: (todo) => router.push(`/todos/${todo._id}`),
-				onDelete: async (todo) => {
-					await remove({ id: todo._id as Id<"todos"> })
+	// ---------------------------------------------------------------------------
+	// Flat DataTable — columns (data only, for filtering/sorting/grouping)
+	// ---------------------------------------------------------------------------
+
+	const statusTint: Record<string, string> = {
+		triage: "oklch(0.55 0.02 270 / 0.06)",
+		todo: "oklch(0.55 0.02 270 / 0.06)",
+		blocked: "oklch(0.65 0.15 25 / 0.08)",
+		in_progress: "oklch(0.75 0.15 85 / 0.08)",
+		done: "oklch(0.70 0.15 150 / 0.08)",
+	}
+
+	const statusLabel: Record<string, string> = {
+		triage: "Triage",
+		todo: "Todo",
+		blocked: "Bloqué",
+		in_progress: "En cours",
+		done: "Fait",
+	}
+
+	const columns = useMemo<DataTableColumnDef<Todo>[]>(
+		() => [
+			{
+				accessorKey: "status",
+				header: "Statut",
+				cell: ({ row }) => {
+					if (!row.getIsGrouped()) return null
+					const s = row.original.status
+					return (
+						<span className="flex items-center gap-2 text-sm font-medium text-fg">
+							<StatusIcon status={s} />
+							{statusLabel[s] ?? s}
+						</span>
+					)
 				},
-				onBulkDelete: async (items) => {
-					await Promise.all(items.map((t) => remove({ id: t._id as Id<"todos"> })))
+				enableSorting: true,
+				filterConfig: {
+					type: "select",
+					options: [
+						{ label: "Triage", value: "triage" },
+						{ label: "Todo", value: "todo" },
+						{ label: "Bloqué", value: "blocked" },
+						{ label: "En cours", value: "in_progress" },
+						{ label: "Fait", value: "done" },
+					],
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Statut",
 				},
-			}),
+			},
+			{
+				accessorKey: "priority",
+				header: "Priorité",
+				enableSorting: true,
+				filterConfig: {
+					type: "select",
+					options: [
+						{ label: "Urgent", value: "urgent" },
+						{ label: "High", value: "high" },
+						{ label: "Normal", value: "normal" },
+						{ label: "Low", value: "low" },
+					],
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Priorité",
+				},
+			},
+			{
+				accessorKey: "text",
+				header: "Tâche",
+				filterConfig: {
+					type: "text",
+					placeholder: "Rechercher…",
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Tâche",
+				},
+			},
+			{
+				accessorKey: "projectName",
+				header: "Projet",
+				filterConfig: {
+					type: "select",
+					options: projectList.map((p) => ({ label: p.name, value: p.name })),
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Projet",
+				},
+			},
+			{
+				accessorKey: "categoryName",
+				header: "Catégorie",
+				filterConfig: {
+					type: "select",
+					options: categoryList.map((c) => ({ label: c.name, value: c.name })),
+					showInlineFilter: true,
+					defaultInlineFilter: false,
+					filterLabel: "Catégorie",
+				},
+			},
+			{ accessorKey: "dueDate", header: "Échéance", enableSorting: true },
+			{ accessorKey: "createdAt", header: "Créé", enableSorting: true },
+		],
+		[projectList, categoryList]
+	)
+
+	const views = useMemo<DataTableView[]>(
+		() => [
+			{ id: "all", name: "Tous", isSystem: true, isDefault: true, filters: { id: "root", operator: "AND", conditions: [] } },
+			{ id: "triage", name: "Triage", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "triage", type: "select" }] } },
+			{ id: "todo", name: "Todo", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "todo", type: "select" }] } },
+			{ id: "blocked", name: "Bloqué", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "blocked", type: "select" }] } },
+			{ id: "in_progress", name: "En cours", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "in_progress", type: "select" }] } },
+			{ id: "done", name: "Fait", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "done", type: "select" }] } },
+		],
+		[]
+	)
+
+	const rowActions = useMemo<RowAction<Todo>[]>(
+		() => [
+			{ id: "edit", label: "Modifier", icon: Pencil, handler: (row) => router.push(`/todos/${row.original._id}`) },
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				separator: true,
+				requireConfirmation: true,
+				confirmationMessage: (row) => `Supprimer "${row.original.text}" ?`,
+				handler: async (row) => {
+					await remove({ id: row.original._id as Id<"todos"> })
+					toast.success("Todo supprimé")
+				},
+			},
+		],
 		[remove, router]
+	)
+
+	const bulkActions = useMemo<BulkAction<Todo>[]>(
+		() => [
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				requireConfirmation: true,
+				confirmationMessage: (count) => `Supprimer ${count} todo(s) ?`,
+				handler: async (rows) => {
+					await Promise.all(rows.map((r) => remove({ id: r.original._id as Id<"todos"> })))
+					toast.success(`${rows.length} todo(s) supprimé(s)`)
+				},
+			},
+		],
+		[remove]
 	)
 
 	useOpsTopBar([{ label: "Todos" }])
@@ -359,19 +502,63 @@ export default function TodosPageClient() {
 				/>
 
 				{viewMode === "list" ? (
-					<DataTable
-						data={todoRows}
-						columns={preset.columns}
-						views={preset.views}
-						activeView={activeView}
-						onViewChange={(view) => setActiveView(view)}
-						rowActions={preset.rowActions}
-						bulkActions={preset.bulkActions}
-						enableRowSelection
-						enableSorting
-						enableAdvancedFilters
-						getRowId={(row) => row._id}
-					/>
+					<Bleed marginInline="600">
+						<DataTable
+							data={todoRows}
+							columns={columns}
+							views={views}
+							rowActions={rowActions}
+							bulkActions={bulkActions}
+							toolbarLayout="stacked"
+							enableSorting
+							enableGlobalSearch
+							enableAdvancedFilters
+							enableCustomViews
+							enableRowSelection
+							enableGrouping
+							defaultGrouping={["status"]}
+							defaultExpanded
+							groupRowStyle={(row) => {
+								const s = row.getValue("status") as string
+								return s ? { background: statusTint[s] ?? "transparent" } : undefined
+							}}
+							enablePagination={false}
+							searchPlaceholder="Rechercher un todo…"
+							locale="fr"
+							variant="flat"
+							getRowId={(row) => row._id}
+							onRowClick={(row) => router.push(`/todos/${row._id}`)}
+							renderRow={(row) => {
+								const todo = row.original
+								const isDone = todo.status === "done"
+								const cat = categoryList.find((c) => c._id === todo.categoryId)
+								const dueInfo = todo.dueDate && !isDone ? formatDueDate(todo.dueDate) : null
+								return (
+									<>
+										<div className={`flex min-w-0 flex-1 items-center gap-3 ${isDone ? "opacity-50" : ""}`}>
+											<StatusIcon status={todo.status} />
+											<span className={`truncate text-fg ${isDone ? "line-through" : ""}`} style={{ fontSize: 13 }}>
+												{todo.text}
+											</span>
+										</div>
+										<div className="flex shrink-0 items-center gap-2">
+											{dueInfo && (
+												<span className={`text-xs whitespace-nowrap ${dueInfo.className}`}>
+													{dueInfo.label}
+												</span>
+											)}
+											{cat && <CategoryBadge name={cat.name} color={cat.color} />}
+											{todo.projectName && (
+												<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
+													{todo.projectName}
+												</span>
+											)}
+										</div>
+									</>
+								)
+							}}
+						/>
+					</Bleed>
 				) : (
 					<BlockStack gap="600" className="flex-1 min-h-0">
 						{/* Category filter bar */}
