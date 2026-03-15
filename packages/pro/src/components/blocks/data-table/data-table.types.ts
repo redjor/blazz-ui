@@ -237,6 +237,10 @@ export interface DataTableProps<TData, TValue = unknown> {
 		aggregations: Record<string, React.ReactNode>
 	}) => React.ReactNode
 
+	/** Render prop for the end (right side) of each group header row.
+	 * Receives the grouped row — useful for "add" buttons per group. */
+	renderGroupHeaderEnd?: (row: import("@tanstack/react-table").Row<TData>) => React.ReactNode
+
 	// Row actions customization
 	/** Replaces the default ⋯ dropdown menu with custom row actions UI.
 	 * Priority: renderRowActions > rowActions[]. Also used inside renderRow wrapper. */
@@ -262,6 +266,17 @@ export interface DataTableProps<TData, TValue = unknown> {
 	// Footer
 	/** ReactNode injected after the table (and after pagination) */
 	footerSlot?: React.ReactNode
+
+	// View mode
+	/** Rendering mode: "table" (default cells), "flat" (renderRow), or "kanban" (KanbanBoard) */
+	mode?: "table" | "flat" | "kanban"
+
+	/** Custom kanban card renderer. Falls back to renderRow, then auto-generated from visible columns. */
+	renderCard?: (row: import("@tanstack/react-table").Row<TData>) => React.ReactNode
+
+	/** Drag & drop callback when a card moves between kanban columns.
+	 * Receives the row ID (from getRowId), source column value, and target column value. */
+	onKanbanMove?: (rowId: string, fromValue: string, toValue: string) => void | Promise<void>
 
 	/** Custom row renderer — replaces default cell-based rendering with a free-form layout.
 	 * When provided, each data row renders a single cell spanning all columns with your component.
