@@ -12,14 +12,14 @@
 import { Copy, Printer, Trash } from "lucide-react"
 import Link from "next/link"
 import type { Quote } from "@/lib/sample-data"
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "../data-table.types"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
 import {
 	createBulkActions,
 	createCRUDActions,
 	createCustomRowAction,
-} from "../factories/action-builders"
-import { col } from "../factories/col"
-import { createStatusViews } from "../factories/view-builders"
+} from "@blazz/pro/components/blocks/data-table"
+import { col } from "@blazz/pro/components/blocks/data-table"
+import { createStatusViews } from "@blazz/pro/components/blocks/data-table"
 
 /**
  * Configuration options for Quotes preset

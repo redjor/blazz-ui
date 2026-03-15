@@ -9,12 +9,88 @@
 			"types": "./dist/index.d.ts"
 		},
 		"./components/blocks/*": {
-			"import": "./dist/components/blocks/*/index.js",
-			"types": "./dist/components/blocks/*/index.d.ts"
+			"import": "./src/components/blocks/*.tsx",
+			"types": "./src/components/blocks/*.tsx"
+		},
+		"./components/blocks/page-header": {
+			"import": "./src/components/blocks/page-header.tsx",
+			"types": "./src/components/blocks/page-header.tsx"
+		},
+		"./components/blocks/stats-grid": {
+			"import": "./src/components/blocks/stats-grid.tsx",
+			"types": "./src/components/blocks/stats-grid.tsx"
+		},
+		"./components/blocks/stats-strip": {
+			"import": "./src/components/blocks/stats-strip.tsx",
+			"types": "./src/components/blocks/stats-strip.tsx"
+		},
+		"./components/blocks/kanban-board": {
+			"import": "./src/components/blocks/kanban-board.tsx",
+			"types": "./src/components/blocks/kanban-board.tsx"
+		},
+		"./components/blocks/data-table": {
+			"import": "./dist/components/blocks/data-table/index.js",
+			"types": "./dist/components/blocks/data-table/index.d.ts"
+		},
+		"./components/blocks/data-table/*": {
+			"import": "./src/components/blocks/data-table/*.tsx",
+			"types": "./src/components/blocks/data-table/*.tsx"
+		},
+		"./components/blocks/data-table/cells/*": {
+			"import": "./src/components/blocks/data-table/cells/*.tsx",
+			"types": "./src/components/blocks/data-table/cells/*.tsx"
+		},
+		"./components/blocks/data-table/factories/*": {
+			"import": "./src/components/blocks/data-table/factories/*.tsx",
+			"types": "./src/components/blocks/data-table/factories/*.tsx"
+		},
+		"./components/ai": {
+			"import": "./src/components/ai/index.ts",
+			"types": "./src/components/ai/index.ts"
 		},
 		"./components/ai/*": {
-			"import": "./dist/components/ai/*/index.js",
-			"types": "./dist/components/ai/*/index.d.ts"
+			"import": "./src/components/ai/*.tsx",
+			"types": "./src/components/ai/*.tsx"
+		},
+		"./components/ai/chat/*": {
+			"import": "./src/components/ai/chat/*.tsx",
+			"types": "./src/components/ai/chat/*.tsx"
+		},
+		"./components/ai/reasoning/*": {
+			"import": "./src/components/ai/reasoning/*.tsx",
+			"types": "./src/components/ai/reasoning/*.tsx"
+		},
+		"./components/ai/tools/*": {
+			"import": "./src/components/ai/tools/*.tsx",
+			"types": "./src/components/ai/tools/*.tsx"
+		},
+		"./components/ai/generative/*": {
+			"import": "./src/components/ai/generative/*.tsx",
+			"types": "./src/components/ai/generative/*.tsx"
+		},
+		"./components/ai/generative/entities/*": {
+			"import": "./src/components/ai/generative/entities/*.tsx",
+			"types": "./src/components/ai/generative/entities/*.tsx"
+		},
+		"./components/ai/generative/data/*": {
+			"import": "./src/components/ai/generative/data/*.tsx",
+			"types": "./src/components/ai/generative/data/*.tsx"
+		},
+		"./components/ai/generative/content/*": {
+			"import": "./src/components/ai/generative/content/*.tsx",
+			"types": "./src/components/ai/generative/content/*.tsx"
+		},
+		"./components/ai/generative/workflow/*": {
+			"import": "./src/components/ai/generative/workflow/*.tsx",
+			"types": "./src/components/ai/generative/workflow/*.tsx"
+		},
+		"./components/ai/generative/planning/*": {
+			"import": "./src/components/ai/generative/planning/*.tsx",
+			"types": "./src/components/ai/generative/planning/*.tsx"
+		},
+		"./components/ai/generative/commerce/*": {
+			"import": "./src/components/ai/generative/commerce/*.tsx",
+			"types": "./src/components/ai/generative/commerce/*.tsx"
 		}
 	},
 	"files": ["dist", "src"],

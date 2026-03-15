@@ -1,6 +1,7 @@
 "use client"
 
-import { createCandidatesPreset, DataTable } from "@blazz/pro/components/blocks/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import { createCandidatesPreset } from "@/components/data-table-presets"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Box } from "@blazz/ui/components/ui/box"
 import { useMemo } from "react"

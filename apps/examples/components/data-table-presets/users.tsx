@@ -8,10 +8,10 @@
 
 import { Avatar, AvatarFallback } from "@blazz/ui/components/ui/avatar"
 import type { User } from "@/types/user-management"
-import type { DataTableDefaultConfig } from "../config/data-table-config"
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "../data-table.types"
-import { col } from "../factories/col"
-import { createStatusViews } from "../factories/view-builders"
+import type { DataTableDefaultConfig } from "@blazz/pro/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import { col } from "@blazz/pro/components/blocks/data-table"
+import { createStatusViews } from "@blazz/pro/components/blocks/data-table"
 
 export interface UserManagementPresetConfig {
 	onView?: (user: User) => void | Promise<void>

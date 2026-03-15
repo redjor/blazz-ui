@@ -62,7 +62,7 @@ import {
 	TransactionCard,
 	UserCard,
 	VideoCard,
-} from "@blazz/ui/components/ai"
+} from "@blazz/pro/components/ai"
 import { BrainIcon, CheckIcon, CornerDownLeft, DollarSign, XIcon } from "lucide-react"
 
 // ============================================================================

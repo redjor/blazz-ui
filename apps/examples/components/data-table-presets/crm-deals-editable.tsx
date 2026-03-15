@@ -1,8 +1,8 @@
 "use client"
 
 import type { Deal } from "@/lib/sample-data"
-import type { DataTableColumnDef } from "../data-table.types"
-import { col } from "../factories/col"
+import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
+import { col } from "@blazz/pro/components/blocks/data-table"
 
 export interface EditableDealsPresetConfig {
 	onCellEdit: (rowId: string, columnId: string, value: unknown) => void

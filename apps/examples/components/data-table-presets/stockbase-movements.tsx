@@ -2,11 +2,11 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import type { StockMovement } from "@/lib/stockbase-data"
-import type { DataTableColumnDef, DataTableView, RowAction } from "../data-table.types"
-import { DataTableColumnHeader } from "../data-table-column-header"
-import { createCRUDActions } from "../factories/action-builders"
-import { col } from "../factories/col"
-import { createStatusViews } from "../factories/view-builders"
+import type { DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import { DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table"
+import { createCRUDActions } from "@blazz/pro/components/blocks/data-table"
+import { col } from "@blazz/pro/components/blocks/data-table"
+import { createStatusViews } from "@blazz/pro/components/blocks/data-table"
 
 export interface MovementsPresetConfig {
 	onView?: (movement: StockMovement) => void | Promise<void>

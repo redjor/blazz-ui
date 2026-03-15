@@ -1,9 +1,8 @@
-import { DataTable } from "@blazz/pro/components/blocks/data-table/data-table"
-import {
-	createEditableOrderLinesPreset,
-	createOrderLinesPreset,
-	type OrderLineRow,
-} from "@blazz/pro/components/blocks/data-table/presets/order-lines"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
+import { createOrderLinesPreset } from "~/lib/preset-stubs"
+// biome-ignore lint/suspicious/noExplicitAny: stub
+const createEditableOrderLinesPreset = (_opts?: any) => ({ columns: [], data: [] })
+type OrderLineRow = Record<string, unknown>
 import { createFileRoute } from "@tanstack/react-router"
 import * as React from "react"
 import { DocHero } from "~/components/docs/doc-hero"
