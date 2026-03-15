@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { AppShowcase } from "~/components/landing/app-showcase"
 import { Faq } from "~/components/landing/faq"
 import { FeaturesGrid } from "~/components/landing/features-grid"
 import { Footer } from "~/components/landing/footer"
@@ -18,7 +17,6 @@ function Home() {
 		<div className="min-h-screen bg-app">
 			<Navbar />
 			<Hero />
-			<AppShowcase />
 			<StatsBar />
 			<FeaturesGrid />
 			<RoiCalculator />

@@ -4,7 +4,6 @@
 	"scripts": {
 		"dev": "turbo dev",
 		"dev:docs": "turbo dev --filter=docs",
-		"dev:examples": "turbo dev --filter=examples",
 		"dev:ops": "turbo dev --filter=ops",
 		"build": "turbo build",
 		"lint": "turbo lint",

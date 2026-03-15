@@ -2,9 +2,7 @@
 
 import { Link } from "@tanstack/react-router"
 
-const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
 const githubUrl = "https://github.com/redjor/blazz-ui"
-const examplesHref = examplesUrl ? `${examplesUrl}/examples/crm/dashboard` : "/docs/components"
 
 const linkGroups = [
 	{
@@ -19,7 +17,7 @@ const linkGroups = [
 	{
 		title: "Resources",
 		links: [
-			{ label: "Documentation", href: "/docs/components" },
+			{ label: "Documentation", href: "/docs" },
 			{ label: "GitHub", href: githubUrl },
 			{ label: "Changelog", href: `${githubUrl}/blob/main/CHANGELOG.md` },
 		],
@@ -27,7 +25,6 @@ const linkGroups = [
 	{
 		title: "Company",
 		links: [
-			{ label: "Examples", href: examplesHref },
 			{ label: "Contact", href: `${githubUrl}/issues/new` },
 			{ label: "Docs", href: "/docs/components" },
 		],

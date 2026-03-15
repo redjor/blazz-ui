@@ -21,7 +21,7 @@ export function RoiCalculator() {
 			icon: Blocks,
 			title: "Copy code once, scale it across products",
 			description:
-				"Fork a demo, adapt the domain language, and keep the same design tokens and interaction patterns.",
+				"Drop in components, adapt the domain language, and keep the same design tokens and interaction patterns.",
 		},
 	]
 

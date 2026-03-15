@@ -5,9 +5,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Check } from "lucide-react"
 import { motion } from "motion/react"
 
-const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
 const githubUrl = "https://github.com/redjor/blazz-ui"
-const proHref = examplesUrl ? `${examplesUrl}/examples/crm/dashboard` : "/docs/components"
 
 const tiers = [
 	{
@@ -24,17 +22,16 @@ const tiers = [
 		name: "Pro",
 		price: "149€",
 		period: "one-time",
-		description: "Full kit + demos + commercial usage",
+		description: "Full kit + commercial usage",
 		features: [
 			"Everything in Starter",
 			"150+ blocks & patterns",
 			"52 AI components",
-			"3 complete demo apps",
 			"MCP server for AI coding",
 			"Priority support",
 		],
-		cta: "Open live demos",
-		href: proHref,
+		cta: "Browse Pro docs",
+		href: "/docs/blocks",
 		highlighted: true,
 	},
 	{
@@ -72,8 +69,8 @@ export function Pricing() {
 							One-time pricing, code ownership included
 						</h2>
 						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							Use the free layer when you need primitives. Upgrade when you want the full system,
-							demos, and commercial acceleration.
+							Use the free layer when you need primitives. Upgrade when you want the full system
+							and commercial acceleration.
 						</p>
 					</motion.div>
 

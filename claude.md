@@ -27,13 +27,6 @@ blazz/
 │   ├── src/routes/_docs/     ← component doc pages
 │   ├── src/components/       ← docs-specific (thumbnails, playground, landing)
 │   └── src/config/           ← navigation, components-navigation
-├── apps/examples/            ← CRM, StockBase, TalentFlow demos
-│   ├── app/(examples)/       ← CRM routes
-│   ├── app/(stockbase)/      ← StockBase routes
-│   ├── app/(talentflow)/     ← TalentFlow routes
-│   ├── components/           ← data-table presets, user-management
-│   ├── prisma/               ← DB schema + client
-│   └── lib/                  ← actions, schemas, mock data
 ├── apps/ops/                 ← Personal freelance app (time tracking, invoicing)
 ├── turbo.json
 ├── pnpm-workspace.yaml
@@ -79,7 +72,6 @@ tsup (ESM build), Changesets (versioning)
 ## Key Commands
 - `pnpm dev` → Start all apps
 - `pnpm dev:docs` → Docs app only (port 3100)
-- `pnpm dev:examples` → Examples app only (port 3110)
 - `pnpm build` → Build all
 - `pnpm lint` → Lint all
 
@@ -94,7 +86,7 @@ tsup (ESM build), Changesets (versioning)
 - `packages/ui/AI.md` — composants @blazz/ui + @blazz/pro avec gotchas et exemples canoniques. A lire avant de generer du code UI.
 
 ## Regle critique — Ne pas toucher aux packages
-**Si la tache concerne une app specifique** (`apps/ops`, `apps/examples`, `apps/docs`, etc.),
+**Si la tache concerne une app specifique** (`apps/ops`, `apps/docs`, etc.),
 **ne jamais modifier `packages/ui/` ou `packages/pro/`** sauf si explicitement demande.
 Travailler uniquement dans le repertoire de l'app concernee.
 Les modifications des packages impactent toutes les apps et les packages npm publies.

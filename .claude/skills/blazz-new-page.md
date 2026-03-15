@@ -1,6 +1,6 @@
 ---
 name: blazz-new-page
-description: Créer une nouvelle page avec composants Blazz UI (Turborepo monorepo — apps/docs ou apps/examples)
+description: Créer une nouvelle page avec composants Blazz UI (Turborepo monorepo — apps/docs)
 user-invocable: true
 ---
 
@@ -9,7 +9,7 @@ user-invocable: true
 ## Ce que fait ce skill
 
 1. Explore l'app cible pour comprendre sa structure réelle avant de générer quoi que ce soit
-2. Crée un fichier de page dans le bon dossier selon l'app cible (apps/docs ou apps/examples)
+2. Crée un fichier de page dans le bon dossier (apps/docs)
 3. Utilise le layout approprié découvert à l'étape d'exploration
 4. Ajoute le contenu UI avec les composants Blazz UI et les design tokens oklch
 5. Met à jour la navigation si demandé
@@ -18,7 +18,6 @@ user-invocable: true
 ## Input Attendu
 
 Le user doit spécifier:
-- **App cible** (apps/docs ou apps/examples — demander si non précisé)
 - **Path de la page** (ex: `/analytics`, `/products/categories`)
 - **Titre de la page**
 - **Description** (optionnel)
@@ -34,13 +33,8 @@ Cette phase doit être complétée avant toute génération de code. Ne pas saut
 
 1. **Lire `ai/rules.md`** — conventions du projet, règles de code, patterns à suivre
 
-2. **Identifier l'app cible** — si le user n'a pas précisé, demander:
-   - `apps/docs/` — app de documentation (TanStack Start / TanStack Router)
-   - `apps/examples/` — app de démos CRM/StockBase/TalentFlow (Next.js)
-
-3. **Explorer la structure de l'app cible** — lire le dossier de routes pour comprendre les conventions:
-   - Pour apps/docs: `apps/docs/src/routes/`
-   - Pour apps/examples: `apps/examples/app/`
+2. **Explorer la structure de l'app** — lire le dossier de routes pour comprendre les conventions:
+   - `apps/docs/src/routes/`
 
 4. **Trouver et lire une page existante similaire** dans l'app cible pour comprendre:
    - Le système de layout utilisé (layout parent, wrapper local, aucun wrapper ?)
@@ -49,8 +43,7 @@ Cette phase doit être complétée avant toute génération de code. Ne pas saut
 
 5. **Lire `apps/docs/src/styles/globals.css`** — identifier les design tokens disponibles (bg-surface, text-fg, border-container, etc.)
 
-6. **Lire les composants de layout réels de l'app cible** — ne jamais importer un chemin sans avoir vérifié son existence. Explorer par exemple:
-   - `apps/examples/components/layout/` ou `apps/examples/components/`
+6. **Lire les composants de layout réels** — ne jamais importer un chemin sans avoir vérifié son existence. Explorer:
    - `apps/docs/src/components/` pour les composants docs-spécifiques
 
 ### Phase 1 — Identifier le type de page
@@ -68,9 +61,6 @@ Cette phase doit être complétée avant toute génération de code. Ne pas saut
 ```tsx
 // IMPORTANT: Avant d'importer le layout, explorer l'app cible pour trouver
 // le bon composant de layout. Le chemin varie selon l'app :
-//
-// Pour apps/examples/ : vérifier l'existence de quelque chose comme
-//   import { DashboardLayout } from "@/components/layout/dashboard-layout"
 //
 // Pour apps/docs/ : le layout est souvent géré par le fichier de route parent
 //   (_layout.tsx ou _docs.tsx) — dans ce cas pas de wrapper local nécessaire
@@ -93,8 +83,7 @@ export default function [Name]Page() {
 }
 ```
 
-Convention selon l'app cible:
-- **apps/examples/** (Next.js): fichier `page.tsx` dans `app/(groupe)/[path]/`
+Convention:
 - **apps/docs/** (TanStack Router): fichier `route.tsx` ou `index.tsx` dans `src/routes/`
 
 ### Phase 3 — Ajouter le contenu
@@ -113,9 +102,7 @@ Toujours implémenter les 4 états si la page fetch des données:
 
 ### Phase 4 — Mettre à jour la navigation (si demandé)
 
-Le fichier de navigation diffère selon l'app cible (découvert en Phase 0):
-- **apps/docs/**: la config de navigation est dans `apps/docs/src/` — explorer pour trouver le bon fichier
-- **apps/examples/**: la config peut être dans `apps/examples/config/` ou `apps/examples/lib/` — explorer avant d'éditer
+Le fichier de navigation est dans `apps/docs/src/` — explorer pour trouver le bon fichier.
 
 Structure générale d'une entrée de navigation:
 
@@ -133,7 +120,6 @@ Structure générale d'une entrée de navigation:
 Avant de reporter comme terminé, vérifier chaque point:
 
 ```
-✅/❌ App cible identifiée (apps/docs ou apps/examples)
 ✅/❌ Layout exploré avant import (pas d'import aveugle d'un chemin inexistant)
 ✅/❌ Server Component par défaut ('use client' justifié si présent)
 ✅/❌ Imports depuis @blazz/ui/components/... pour les primitives UI
@@ -150,10 +136,8 @@ Ces templates montrent la structure attendue. **Les imports de layout sont indic
 ### Dashboard Page
 
 ```tsx
-// IMPORTANT: Avant d'importer le layout, explorer l'app cible (Phase 0) pour trouver
-// le bon composant de layout. Exemple pour apps/examples/ :
-// import { DashboardLayout } from "@/components/layout/dashboard-layout"
-// Exemple pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
+// IMPORTANT: Explorer l'app (Phase 0) pour trouver le bon composant de layout.
+// Pour apps/docs/ : le layout est souvent dans le fichier de route parent (_layout.tsx)
 // → Remplacer MyLayout ci-dessous par le layout réel découvert.
 
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
@@ -317,8 +301,8 @@ export default function DetailPage() {
 
 ## Best Practices
 
-1. **Explorer avant d'importer** — ne jamais supposer un chemin de layout, toujours vérifier qu'il existe dans l'app cible
-2. **Monorepo awareness** — apps/docs (TanStack Router) et apps/examples (Next.js) ont des conventions différentes
+1. **Explorer avant d'importer** — ne jamais supposer un chemin de layout, toujours vérifier qu'il existe
+2. **Monorepo awareness** — apps/docs utilise TanStack Router
 3. **Primitives UI depuis @blazz/ui** — `@blazz/ui/components/ui/button`, `@blazz/ui/components/blocks/data-table`, etc.
 4. **Composants app-spécifiques depuis @/** — layout wrappers, composants locaux
 5. **Server Components par défaut** — `'use client'` seulement si hooks React ou event handlers
@@ -339,8 +323,7 @@ import { DashboardLayout } from '@/components/layout/dashboard-layout'
 
 ✅ **Correct**: Explorer l'app cible en Phase 0, lire une page existante, puis importer le chemin confirmé
 ```tsx
-// Exemple après avoir lu apps/examples/app/(crm)/contacts/page.tsx
-// et confirmé que ce chemin existe :
+// Exemple après avoir lu une page existante et confirmé que ce chemin existe :
 import { AppLayout } from '@/components/layout/app-layout'
 ```
 
@@ -390,7 +373,6 @@ export default function StaticPage() {
 
 Avant de considérer la page complète:
 
-- [ ] App cible identifiée (apps/docs ou apps/examples)
 - [ ] `ai/rules.md` lu en Phase 0
 - [ ] Page existante similaire lue pour comprendre les conventions réelles
 - [ ] Layout exploré et chemin vérifié avant import (pas d'import aveugle)

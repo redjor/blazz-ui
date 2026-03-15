@@ -5,7 +5,7 @@ import { motion } from "motion/react"
 const stats = [
 	{ value: "200+", label: "Production-ready components" },
 	{ value: "150+", label: "Blocks and workflow patterns" },
-	{ value: "3", label: "Full demo apps to fork" },
+	{ value: "52", label: "AI-native components" },
 	{ value: "0", label: "Runtime lock-in" },
 ]
 

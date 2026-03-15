@@ -6,9 +6,7 @@ import { Link } from "@tanstack/react-router"
 import { ArrowRight, Github, Sparkles } from "lucide-react"
 import { motion } from "motion/react"
 
-const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
 const githubUrl = "https://github.com/redjor/blazz-ui"
-const crmDemoHref = examplesUrl ? `${examplesUrl}/examples/crm/dashboard` : "/docs/components"
 
 export function Hero() {
 	return (
@@ -38,23 +36,18 @@ export function Hero() {
 
 						<p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
 							Blazz UI bundles the parts teams usually assemble by hand: editable tables, app
-							shells, forms, dashboards, AI blocks, and complete demo apps you can actually fork.
+							shells, forms, dashboards, and AI blocks — ready to drop into your project.
 						</p>
 
 						<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-							<a href={crmDemoHref}>
-								<Button size="lg" className="gap-2">
-									Open live demo
-									<ArrowRight className="size-4" />
-								</Button>
-							</a>
 							<Link to="/docs">
-								<Button variant="outline" size="lg">
+								<Button size="lg" className="gap-2">
 									Browse docs
+									<ArrowRight className="size-4" />
 								</Button>
 							</Link>
 							<a href={githubUrl} target="_blank" rel="noreferrer">
-								<Button variant="ghost" size="lg" className="gap-2">
+								<Button variant="outline" size="lg" className="gap-2">
 									<Github className="size-4" />
 									GitHub
 								</Button>
@@ -64,9 +57,6 @@ export function Hero() {
 						<div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs text-fg-subtle">
 							<Badge variant="outline" size="xs">
 								200+ components
-							</Badge>
-							<Badge variant="outline" size="xs">
-								3 demo apps
 							</Badge>
 							<Badge variant="outline" size="xs">
 								One-time pricing
@@ -83,7 +73,7 @@ export function Hero() {
 									<span className="size-2 rounded-full bg-fg-subtle/40" />
 									<span className="size-2 rounded-full bg-fg-subtle/40" />
 								</div>
-								<div className="text-xs text-fg-muted">Forge CRM dashboard</div>
+								<div className="text-xs text-fg-muted">Component preview</div>
 								<Badge variant="success" fill="subtle" size="xs">
 									Real component preview
 								</Badge>

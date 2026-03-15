@@ -7,9 +7,6 @@ import { Search } from "lucide-react"
 import { useEffect, useState } from "react"
 import { ThemeToggle } from "~/components/theme-toggle"
 
-const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
-const demoHref = examplesUrl ? `${examplesUrl}/examples/crm/dashboard` : "/docs/components"
-
 const navLinks = [
 	{ label: "Components", href: "/docs/components" },
 	{ label: "Blocks", href: "/docs/blocks" },
@@ -69,9 +66,9 @@ export function Navbar() {
 							<Kbd>K</Kbd>
 						</KbdGroup>
 					</Link>
-					<a href={demoHref}>
-						<Button size="sm">Open demo</Button>
-					</a>
+					<Link to="/docs">
+						<Button size="sm">Browse docs</Button>
+					</Link>
 				</div>
 			</div>
 		</header>
