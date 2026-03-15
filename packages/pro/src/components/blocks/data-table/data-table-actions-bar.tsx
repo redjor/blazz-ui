@@ -109,6 +109,11 @@ interface DataTableActionsBarProps {
 	/** Called when inline view editing starts/stops (to show filters) */
 	onViewEditingChange?: (editing: boolean) => void
 
+	/** ReactNode before view pills */
+	toolbarLeadingSlot?: React.ReactNode
+	/** ReactNode after icon actions */
+	toolbarTrailingSlot?: React.ReactNode
+
 	// Locale
 	locale?: "fr" | "en"
 }
@@ -218,6 +223,8 @@ export function DataTableActionsBar({
 	onSaveView,
 	onSaveViewInline,
 	onViewEditingChange,
+	toolbarLeadingSlot,
+	toolbarTrailingSlot,
 	locale = "fr",
 }: DataTableActionsBarProps) {
 	const t = useDataTableTranslations(locale)
@@ -381,6 +388,7 @@ export function DataTableActionsBar({
 				{/* ROW 1: Views (left) + icon actions (right) */}
 				<div ref={barRef} className="flex items-center justify-between px-2 py-1.5">
 					{/* Left: View pills */}
+					{toolbarLeadingSlot}
 					<div ref={containerRef} className="flex items-center gap-1 overflow-x-clip">
 						{views && views.length > 0 ? (
 							<>
@@ -617,6 +625,7 @@ export function DataTableActionsBar({
 								<Download className="h-3.5 w-3.5" />
 							</Button>
 						)}
+						{toolbarTrailingSlot}
 					</div>
 				</div>
 
@@ -739,6 +748,7 @@ export function DataTableActionsBar({
 			{/* Main Actions Bar */}
 			<div ref={barRef} className="flex items-center justify-between p-2">
 				{/* Left: Views or Search Bar */}
+				{toolbarLeadingSlot}
 				{searchOpen ? (
 					/* Search Bar - Replaces views when open */
 					<div className="flex flex-1 items-center gap-2 mr-2">
@@ -1023,6 +1033,7 @@ export function DataTableActionsBar({
 							</MenuPositioner>
 						</MenuPortal>
 					</Menu>
+					{toolbarTrailingSlot}
 				</div>
 			</div>
 		</div>
