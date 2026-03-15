@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@blazz/ui/styles/tokens.css";
+@import "../../../../packages/ui/styles/tokens.css";
 
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../../packages/pro/src/**/*.{ts,tsx}";
