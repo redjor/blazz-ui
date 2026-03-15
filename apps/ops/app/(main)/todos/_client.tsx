@@ -7,13 +7,16 @@ import type {
 	RowAction,
 } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
-import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
-import { Badge } from "@blazz/ui/components/ui/badge"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@blazz/ui/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import {
@@ -23,10 +26,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import { Calendar, CheckSquare, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { Calendar, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -35,7 +37,6 @@ import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
 import {
 	CategoryBadge,
-	getCategoryColorClasses,
 	ManageCategoriesSheet,
 } from "@/components/manage-categories-sheet"
 import { useOpsTopBar } from "@/components/ops-frame"
@@ -46,15 +47,6 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 
 type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
-type TodoWithId = Doc<"todos"> & { id: string }
-
-const COLUMNS: { status: TodoStatus; label: string }[] = [
-	{ status: "triage", label: "Triage" },
-	{ status: "todo", label: "Todo" },
-	{ status: "blocked", label: "Bloqué" },
-	{ status: "in_progress", label: "En cours" },
-	{ status: "done", label: "Fait" },
-]
 
 function TodoCard({
 	todo,
@@ -284,20 +276,8 @@ export default function TodosPageClient() {
 
 	const updateStatus = useMutation(api.todos.updateStatus)
 
-	const todoItems = useMemo<TodoWithId[]>(
-		() => (todos ?? []).map((t) => ({ ...t, id: t._id })),
-		[todos]
-	)
-
 	const remove = useMutation(api.todos.remove)
 	const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
-	const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null)
-
-	// Filtered items for kanban view
-	const filteredItems = useMemo<TodoWithId[]>(() => {
-		if (!activeCategoryId) return todoItems
-		return todoItems.filter((t) => t.categoryId === activeCategoryId)
-	}, [todoItems, activeCategoryId])
 
 	// Build rows with resolved names for the list view
 	const todoRows = useMemo<Todo[]>(() => {
@@ -565,33 +545,66 @@ export default function TodosPageClient() {
 	return (
 		<>
 			<BlockStack gap="0" className="p-6 h-full">
-				{viewMode === "list" ? (
+				{viewMode === "list" || viewMode === "kanban" ? (
 					<Bleed marginInline="600" marginBlock="600">
 						<DataTable
 							data={todoRows}
 							columns={columns}
 							views={views}
-							rowActions={rowActions}
-							bulkActions={bulkActions}
+							rowActions={viewMode === "list" ? rowActions : undefined}
+							bulkActions={viewMode === "list" ? bulkActions : undefined}
+							mode={viewMode === "kanban" ? "kanban" : undefined}
 							toolbarLayout="stacked"
+							toolbarTrailingSlot={
+								<DropdownMenu>
+									<DropdownMenuTrigger render={
+										<Button variant="ghost" size="icon-sm" className="h-7 w-7">
+											{viewMode === "list" ? <LayoutList className="size-3.5" /> : <Columns3 className="size-3.5" />}
+										</Button>
+									} />
+									<DropdownMenuContent align="end">
+										<DropdownMenuItem onClick={() => setViewMode("list")}>
+											<LayoutList className="size-3.5" />
+											Liste
+										</DropdownMenuItem>
+										<DropdownMenuItem onClick={() => setViewMode("kanban")}>
+											<Columns3 className="size-3.5" />
+											Kanban
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
+							}
 							enableSorting
 							enableGlobalSearch
 							enableAdvancedFilters
 							enableCustomViews
-							enableRowSelection
+							enableRowSelection={viewMode === "list"}
 							enableGrouping
 							defaultGrouping={["status"]}
 							defaultExpanded
+							renderGroupHeaderEnd={(row) => (
+								<Button
+									variant="ghost"
+									size="icon-sm"
+									onClick={() => setAddFor(row.getValue("status") as TodoStatus ?? "triage")}
+									className="text-fg-muted hover:text-fg"
+								>
+									<Plus className="size-3.5" />
+								</Button>
+							)}
 							groupRowStyle={(row) => {
 								const s = row.getValue("status") as string
 								return s ? { background: statusTint[s] ?? "transparent" } : undefined
+							}}
+							onKanbanMove={async (id, _from, to) => {
+								await updateStatus({ id: id as Id<"todos">, status: to as TodoStatus })
 							}}
 							enablePagination={false}
 							searchPlaceholder="Rechercher un todo…"
 							locale="fr"
 							variant="flat"
 							getRowId={(row) => row._id}
-							onRowClick={(row) => router.push(`/todos/${row._id}`)}
+							onRowClick={viewMode === "list" ? (row) => router.push(`/todos/${row._id}`) : undefined}
 							renderRow={(row) => {
 								const todo = row.original
 								const isDone = todo.status === "done"
@@ -626,114 +639,13 @@ export default function TodosPageClient() {
 									</>
 								)
 							}}
+							renderCard={(row) => {
+								const todo = row.original
+								return <TodoCard todo={todo as unknown as Doc<"todos">} projects={projectList} categories={categoryList} />
+							}}
 						/>
 					</Bleed>
-				) : (
-					<BlockStack gap="600" className="flex-1 min-h-0">
-						{/* Category filter bar */}
-						{categoryList.length > 0 && (
-							<InlineStack gap="150" wrap>
-								<button
-									type="button"
-									onClick={() => setActiveCategoryId(null)}
-									className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-										activeCategoryId === null
-											? "bg-brand text-white"
-											: "bg-surface-3 border border-edge text-fg-muted hover:text-fg"
-									}`}
-								>
-									Tous
-								</button>
-								{categoryList.map((cat) => {
-									const isActive = activeCategoryId === cat._id
-									const cls = getCategoryColorClasses(cat.color)
-									return (
-										<button
-											key={cat._id}
-											type="button"
-											onClick={() => setActiveCategoryId(isActive ? null : cat._id)}
-											className={`px-3 py-1 rounded-full text-xs font-medium transition-colors border ${
-												isActive
-													? `${cls.bg} ${cls.text} border-transparent`
-													: "bg-surface-3 border-edge text-fg-muted hover:text-fg"
-											}`}
-										>
-											{cat.name}
-										</button>
-									)
-								})}
-							</InlineStack>
-						)}
-
-						{todos === undefined ? (
-							<InlineStack gap="400" wrap={false} className="overflow-x-auto pb-4">
-								{COLUMNS.map((col) => (
-									<BlockStack key={col.status} gap="300" className="w-[330px] min-w-[330px]">
-										<Skeleton className="h-5 w-24" />
-										<Skeleton className="h-20 w-full rounded-md" />
-										<Skeleton className="h-20 w-full rounded-md" />
-									</BlockStack>
-								))}
-							</InlineStack>
-						) : todos.length === 0 ? (
-							<Empty
-								icon={CheckSquare}
-								title="Aucun todo"
-								description="Créez un todo depuis l'app ou envoyez un message à votre bot Telegram"
-								action={{ label: "Nouveau todo", onClick: () => setAddFor("triage"), icon: Plus }}
-							/>
-						) : (
-							<KanbanBoard<TodoWithId>
-								columns={COLUMNS.map((col) => ({ id: col.status, label: col.label }))}
-								items={filteredItems}
-								className="flex-1 min-h-0"
-								columnClassName="!min-w-[330px] w-[330px] group"
-								getColumnId={(t) => t.status}
-								onMove={async (id, _from, to) => {
-									await updateStatus({ id: id as Id<"todos">, status: to as TodoStatus })
-								}}
-								renderColumnHeader={(col, colItems) => (
-									<InlineStack
-										align="space-between"
-										blockAlign="center"
-										className="px-3 py-1.5 border-b border-edge"
-									>
-										<InlineStack gap="200" blockAlign="center">
-											<StatusIcon status={col.id} />
-											<span className="text-sm font-medium text-fg">{col.label}</span>
-											{colItems.length > 0 && (
-												<Badge variant="secondary" fill="subtle" size="xs" className="tabular-nums">
-													{colItems.length}
-												</Badge>
-											)}
-										</InlineStack>
-										<Button
-											variant="ghost"
-											size="icon-sm"
-											onClick={() => setAddFor(col.id as TodoStatus)}
-											aria-label={`Ajouter dans ${col.label}`}
-											className="opacity-0 group-hover:opacity-100 transition-opacity"
-										>
-											<Plus className="size-3.5" />
-										</Button>
-									</InlineStack>
-								)}
-								renderCard={(todo) => (
-									<TodoCard todo={todo} projects={projectList} categories={categoryList} />
-								)}
-								renderAfterCards={(col) => (
-									<button
-										type="button"
-										onClick={() => setAddFor(col.id as TodoStatus)}
-										className="flex items-center justify-center w-full p-3 rounded-md border border-dashed border-edge text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity hover:text-fg"
-									>
-										<Plus className="size-4" />
-									</button>
-								)}
-							/>
-						)}
-					</BlockStack>
-				)}
+				) : null}
 			</BlockStack>
 
 			{addFor && (
