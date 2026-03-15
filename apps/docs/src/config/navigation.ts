@@ -619,11 +619,17 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Data Table",
 							url: "/docs/blocks/data-table",
 							keywords: ["grid", "datagrid", "spreadsheet", "tanstack", "sorting", "filtering"],
-						},
-						{
-							title: "Data Table v2",
-							url: "/docs/blocks/data-table-v2",
-							keywords: ["linear", "stacked toolbar", "editable", "order lines"],
+							items: [
+								{ title: "Getting Started", url: "/docs/blocks/data-table/getting-started" },
+								{ title: "Flat Mode", url: "/docs/blocks/data-table/flat-mode" },
+								{ title: "Toolbar & Views", url: "/docs/blocks/data-table/toolbar" },
+								{ title: "Filtering", url: "/docs/blocks/data-table/filtering" },
+								{ title: "Columns", url: "/docs/blocks/data-table/columns" },
+								{ title: "Inline Editing", url: "/docs/blocks/data-table/editing" },
+								{ title: "Composition & Slots", url: "/docs/blocks/data-table/composition" },
+								{ title: "Grouping & Expansion", url: "/docs/blocks/data-table/grouping" },
+								{ title: "API Reference", url: "/docs/blocks/data-table/api" },
+							],
 						},
 						{
 							title: "Filter Bar",
