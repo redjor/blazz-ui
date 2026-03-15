@@ -8,7 +8,7 @@ import {
 	TabsContent,
 } from "@blazz/ui/components/ui/tabs"
 import { Button } from "@blazz/ui/components/ui/button"
-import { RotateCcw } from "lucide-react"
+import { RotateCcw, LayoutGrid } from "lucide-react"
 import type { ComponentEntry } from "~/lib/registry"
 import { loadState, saveState, clearState } from "~/lib/persistence"
 import { PreviewPanel, createCallbackProxy } from "~/components/preview-panel"
@@ -16,6 +16,7 @@ import type { CallbackEvent } from "~/components/callback-toast"
 import { PropsPanel } from "~/components/props-panel"
 import { CodeEditor } from "~/components/code-editor"
 import { ExamplesPanel } from "~/components/examples-panel"
+import { VariantsGrid } from "~/components/variants-grid"
 
 // ── Helpers ─────────────────────────────────────
 
@@ -48,6 +49,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 		"controls" | "code" | "examples"
 	>("controls")
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
+	const [showVariants, setShowVariants] = useState(false)
 	const [splitRatio, setSplitRatio] = useState(0.6)
 
 	// ── Callback proxies ──────────────────────────
@@ -141,11 +143,25 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 						{entry.category}
 					</span>
 				</div>
+				<Button
+					variant="ghost"
+					size="xs"
+					onClick={() => setShowVariants((v) => !v)}
+					title="Toggle variants grid"
+					className={showVariants ? "bg-raised" : ""}
+				>
+					<LayoutGrid className="size-3 mr-1" />
+					<span className="text-xs">Variants</span>
+				</Button>
 			</div>
 
 			{/* Preview panel (top) */}
 			<div style={{ flex: splitRatio }} className="min-h-0 overflow-hidden">
-				<PreviewPanel code={code} extraScope={extraScope} />
+				{showVariants ? (
+					<VariantsGrid entry={entry} extraScope={callbackProxies} />
+				) : (
+					<PreviewPanel code={code} extraScope={extraScope} />
+				)}
 			</div>
 
 			{/* Drag handle */}
