@@ -115,7 +115,7 @@ export function StatusIcon({ status, className = "" }: { status: string; classNa
 						stroke="currentColor"
 						strokeWidth="1.5"
 						strokeDasharray="3 2"
-						className="text-zinc-400"
+						className="text-orange-400"
 					/>
 				</svg>
 			)

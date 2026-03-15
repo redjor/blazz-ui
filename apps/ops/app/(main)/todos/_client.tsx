@@ -1,9 +1,13 @@
 "use client"
 
-import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import type {
+	BulkAction,
+	DataTableColumnDef,
+	DataTableView,
+	RowAction,
+} from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { KanbanBoard } from "@blazz/pro/components/blocks/kanban-board"
-import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
@@ -287,7 +291,6 @@ export default function TodosPageClient() {
 
 	const remove = useMutation(api.todos.remove)
 	const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
-	const [activeView, setActiveView] = useState<DataTableView | null>(null)
 	const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null)
 
 	// Filtered items for kanban view
@@ -315,7 +318,7 @@ export default function TodosPageClient() {
 	// ---------------------------------------------------------------------------
 
 	const statusTint: Record<string, string> = {
-		triage: "oklch(0.55 0.02 270 / 0.06)",
+		triage: "oklch(0.75 0.15 55 / 0.08)",
 		todo: "oklch(0.55 0.02 270 / 0.06)",
 		blocked: "oklch(0.65 0.15 25 / 0.08)",
 		in_progress: "oklch(0.75 0.15 85 / 0.08)",
@@ -418,19 +421,85 @@ export default function TodosPageClient() {
 
 	const views = useMemo<DataTableView[]>(
 		() => [
-			{ id: "all", name: "Tous", isSystem: true, isDefault: true, filters: { id: "root", operator: "AND", conditions: [] } },
-			{ id: "triage", name: "Triage", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "triage", type: "select" }] } },
-			{ id: "todo", name: "Todo", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "todo", type: "select" }] } },
-			{ id: "blocked", name: "Bloqué", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "blocked", type: "select" }] } },
-			{ id: "in_progress", name: "En cours", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "in_progress", type: "select" }] } },
-			{ id: "done", name: "Fait", isSystem: true, filters: { id: "f", operator: "AND", conditions: [{ id: "c", column: "status", operator: "equals", value: "done", type: "select" }] } },
+			{
+				id: "all",
+				name: "Tous",
+				isSystem: true,
+				isDefault: true,
+				filters: { id: "root", operator: "AND", conditions: [] },
+			},
+			{
+				id: "triage",
+				name: "Triage",
+				isSystem: true,
+				filters: {
+					id: "f",
+					operator: "AND",
+					conditions: [
+						{ id: "c", column: "status", operator: "equals", value: "triage", type: "select" },
+					],
+				},
+			},
+			{
+				id: "todo",
+				name: "Todo",
+				isSystem: true,
+				filters: {
+					id: "f",
+					operator: "AND",
+					conditions: [
+						{ id: "c", column: "status", operator: "equals", value: "todo", type: "select" },
+					],
+				},
+			},
+			{
+				id: "blocked",
+				name: "Bloqué",
+				isSystem: true,
+				filters: {
+					id: "f",
+					operator: "AND",
+					conditions: [
+						{ id: "c", column: "status", operator: "equals", value: "blocked", type: "select" },
+					],
+				},
+			},
+			{
+				id: "in_progress",
+				name: "En cours",
+				isSystem: true,
+				filters: {
+					id: "f",
+					operator: "AND",
+					conditions: [
+						{ id: "c", column: "status", operator: "equals", value: "in_progress", type: "select" },
+					],
+				},
+			},
+			{
+				id: "done",
+				name: "Fait",
+				isSystem: true,
+				filters: {
+					id: "f",
+					operator: "AND",
+					conditions: [
+						{ id: "c", column: "status", operator: "equals", value: "done", type: "select" },
+					],
+				},
+			},
 		],
 		[]
 	)
 
 	const rowActions = useMemo<RowAction<Todo>[]>(
 		() => [
-			{ id: "edit", label: "Modifier", icon: Pencil, handler: (row) => router.push(`/todos/${row.original._id}`) },
+			{
+				id: "edit",
+				label: "Modifier",
+				icon: Pencil,
+				handler: (row) => router.push(`/todos/${row.original._id}`),
+			},
 			{
 				id: "delete",
 				label: "Supprimer",
@@ -466,43 +535,38 @@ export default function TodosPageClient() {
 		[remove]
 	)
 
-	useOpsTopBar([{ label: "Todos" }])
+	useOpsTopBar(
+		[{ label: "Todos" }],
+		<InlineStack gap="200" blockAlign="center">
+			<ManageCategoriesSheet />
+			<InlineStack gap="100" blockAlign="center" className="rounded-md border border-edge p-0.5">
+				<Button
+					variant="ghost"
+					size="icon-sm"
+					onClick={() => setViewMode("kanban")}
+					className={viewMode === "kanban" ? "bg-surface-3" : ""}
+					aria-label="Vue kanban"
+				>
+					<Columns3 className="size-3.5" />
+				</Button>
+				<Button
+					variant="ghost"
+					size="icon-sm"
+					onClick={() => setViewMode("list")}
+					className={viewMode === "list" ? "bg-surface-3" : ""}
+					aria-label="Vue liste"
+				>
+					<LayoutList className="size-3.5" />
+				</Button>
+			</InlineStack>
+		</InlineStack>
+	)
 
 	return (
 		<>
-			<BlockStack gap="600" className="p-6 h-full">
-				<PageHeader
-					title="Todos"
-					description="Capturez et organisez vos tâches"
-					actionsSlot={
-						<InlineStack gap="200" blockAlign="center">
-							<ManageCategoriesSheet />
-							<InlineStack gap="100" blockAlign="center" className="rounded-md border border-edge p-0.5">
-								<Button
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => setViewMode("kanban")}
-									className={viewMode === "kanban" ? "bg-surface-3" : ""}
-									aria-label="Vue kanban"
-								>
-									<Columns3 className="size-3.5" />
-								</Button>
-								<Button
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => setViewMode("list")}
-									className={viewMode === "list" ? "bg-surface-3" : ""}
-									aria-label="Vue liste"
-								>
-									<LayoutList className="size-3.5" />
-								</Button>
-							</InlineStack>
-						</InlineStack>
-					}
-				/>
-
+			<BlockStack gap="0" className="p-6 h-full">
 				{viewMode === "list" ? (
-					<Bleed marginInline="600">
+					<Bleed marginInline="600" marginBlock="600">
 						<DataTable
 							data={todoRows}
 							columns={columns}
@@ -535,9 +599,14 @@ export default function TodosPageClient() {
 								const dueInfo = todo.dueDate && !isDone ? formatDueDate(todo.dueDate) : null
 								return (
 									<>
-										<div className={`flex min-w-0 flex-1 items-center gap-3 ${isDone ? "opacity-50" : ""}`}>
+										<div
+											className={`flex min-w-0 flex-1 items-center gap-3 ${isDone ? "opacity-50" : ""}`}
+										>
 											<StatusIcon status={todo.status} />
-											<span className={`truncate text-fg ${isDone ? "line-through" : ""}`} style={{ fontSize: 13 }}>
+											<span
+												className={`truncate text-fg ${isDone ? "line-through" : ""}`}
+												style={{ fontSize: 13 }}
+											>
 												{todo.text}
 											</span>
 										</div>
@@ -624,7 +693,11 @@ export default function TodosPageClient() {
 									await updateStatus({ id: id as Id<"todos">, status: to as TodoStatus })
 								}}
 								renderColumnHeader={(col, colItems) => (
-									<InlineStack align="space-between" blockAlign="center" className="px-3 py-1.5 border-b border-edge">
+									<InlineStack
+										align="space-between"
+										blockAlign="center"
+										className="px-3 py-1.5 border-b border-edge"
+									>
 										<InlineStack gap="200" blockAlign="center">
 											<StatusIcon status={col.id} />
 											<span className="text-sm font-medium text-fg">{col.label}</span>
