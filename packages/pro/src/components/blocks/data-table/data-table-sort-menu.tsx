@@ -9,7 +9,7 @@ import {
 	MenuRadioGroup,
 	MenuRadioItem,
 	MenuSeparator,
-} from "@blazz/ui/components/ui/menu"
+} from "@blazz/ui"
 import { useDataTableTranslations } from "./data-table.i18n"
 
 interface DataTableSortMenuProps {

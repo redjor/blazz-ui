@@ -3,7 +3,7 @@
 import type * as React from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui"
 
 // ---------------------------------------------------------------------------
 // PropertyCard

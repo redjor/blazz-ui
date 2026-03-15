@@ -3,7 +3,7 @@
 import { Building2, Check, ChevronsUpDown, Plus, Settings } from "lucide-react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
+} from "@blazz/ui"
 
 export interface Organization {
 	id: string

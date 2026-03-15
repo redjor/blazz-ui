@@ -4,8 +4,8 @@ import type { LucideIcon } from "lucide-react"
 import { TrendingDown, TrendingUp } from "lucide-react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Card, CardContent } from "@blazz/ui/components/ui/card"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { Card, CardContent } from "@blazz/ui"
+import { Skeleton } from "@blazz/ui"
 
 export interface StatItem {
 	label: string

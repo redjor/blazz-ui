@@ -2,10 +2,10 @@
 
 import { Plus, X } from "lucide-react"
 import * as React from "react"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { Input } from "@blazz/ui/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
+import { Button } from "@blazz/ui"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@blazz/ui"
+import { Input } from "@blazz/ui"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui"
 import { type DataTableLocale, useDataTableTranslations } from "./data-table.i18n"
 import type {
 	DataTableColumnDef,

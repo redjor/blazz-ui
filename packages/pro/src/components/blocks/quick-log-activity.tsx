@@ -4,9 +4,9 @@ import { Calendar, Mail, Phone, Send, StickyNote } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Label } from "@blazz/ui/components/ui/label"
-import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui/popover"
+import { Button } from "@blazz/ui"
+import { Label } from "@blazz/ui"
+import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui"
 
 export type ActivityType = "call" | "email" | "note" | "meeting"
 

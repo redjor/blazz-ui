@@ -1,6 +1,6 @@
 import { cn } from "@blazz/ui"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@blazz/ui/components/ui/table"
+import { Skeleton } from "@blazz/ui"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@blazz/ui"
 import { dataTableVariants } from "./data-table.styles"
 
 export interface DataTableSkeletonProps {

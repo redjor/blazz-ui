@@ -2,8 +2,8 @@
 
 import type { Table } from "@tanstack/react-table"
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
+import { Button } from "@blazz/ui"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui"
 import { type DataTableLocale, useDataTableTranslations } from "./data-table.i18n"
 
 interface DataTablePaginationProps<TData> {

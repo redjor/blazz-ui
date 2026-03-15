@@ -3,8 +3,8 @@
 import Link from "next/link"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../../lib/with-pro-guard"
-import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
-import { Badge } from "@blazz/ui/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui"
+import { Badge } from "@blazz/ui"
 
 export interface UserCardProps {
 	name: string

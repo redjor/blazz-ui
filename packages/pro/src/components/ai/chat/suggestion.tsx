@@ -4,8 +4,8 @@ import type { ComponentProps } from "react"
 import { useCallback } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
-import { ScrollArea, ScrollBar } from "@blazz/ui/components/ui/scroll-area"
+import { Button } from "@blazz/ui"
+import { ScrollArea, ScrollBar } from "@blazz/ui"
 
 export type SuggestionsProps = ComponentProps<typeof ScrollArea>
 

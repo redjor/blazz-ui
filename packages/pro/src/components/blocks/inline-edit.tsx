@@ -4,7 +4,7 @@ import { Check, Pencil, X } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Input } from "@blazz/ui/components/ui/input"
+import { Input } from "@blazz/ui"
 
 export interface InlineEditProps {
 	value: string

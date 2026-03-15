@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { cn } from "@blazz/ui"
-import { Badge } from "@blazz/ui/components/ui/badge"
+import { Badge } from "@blazz/ui"
 import { type AvatarItem, CellAvatarGroup } from "../cells/cell-avatar-group"
 import { CellBoolean } from "../cells/cell-boolean"
 import { CellColorDot } from "../cells/cell-color-dot"

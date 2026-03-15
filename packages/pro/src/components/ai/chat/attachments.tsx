@@ -14,8 +14,8 @@ import type { ComponentProps, HTMLAttributes, ReactNode } from "react"
 import { createContext, useCallback, useContext, useMemo } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui/components/ui/hover-card"
+import { Button } from "@blazz/ui"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui"
 
 // ============================================================================
 // Types

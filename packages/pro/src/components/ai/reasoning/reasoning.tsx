@@ -20,7 +20,7 @@ import {
 import { Streamdown } from "streamdown"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@blazz/ui/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@blazz/ui"
 
 import { Shimmer } from "../chat/shimmer"
 

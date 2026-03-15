@@ -5,7 +5,7 @@ import { type ComponentType, useState } from "react"
 import type { ZodSchema } from "zod"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
+import { Button } from "@blazz/ui"
 
 /* ─── Types ─── */
 

@@ -4,8 +4,8 @@ import type { Control, FieldPath, FieldValues } from "react-hook-form"
 import { Controller } from "react-hook-form"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { CascadingSelect, type CascadingSelectNode } from "@blazz/ui/components/ui/cascading-select"
-import { Label } from "@blazz/ui/components/ui/label"
+import { CascadingSelect, type CascadingSelectNode } from "@blazz/ui"
+import { Label } from "@blazz/ui"
 
 export interface CategorySelectProps<TFieldValues extends FieldValues = FieldValues> {
 	name: FieldPath<TFieldValues>

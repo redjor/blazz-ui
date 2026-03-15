@@ -5,8 +5,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Input } from "@blazz/ui/components/ui/input"
+import { Button } from "@blazz/ui"
+import { Input } from "@blazz/ui"
 
 /* ─── Filter Config ─── */
 

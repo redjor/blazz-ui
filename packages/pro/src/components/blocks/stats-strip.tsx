@@ -4,8 +4,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Card } from "@blazz/ui/components/ui/card"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { Card } from "@blazz/ui"
+import { Skeleton } from "@blazz/ui"
 
 // ---------------------------------------------------------------------------
 // Types

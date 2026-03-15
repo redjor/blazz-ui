@@ -15,16 +15,16 @@ import {
 import { useState } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { ErrorState } from "../patterns/error-state"
-import { Button } from "@blazz/ui/components/ui/button"
+import { ErrorState } from "@blazz/ui"
+import { Button } from "@blazz/ui"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
-import { Empty } from "@blazz/ui/components/ui/empty"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+} from "@blazz/ui"
+import { Empty } from "@blazz/ui"
+import { Skeleton } from "@blazz/ui"
 
 // ---------------------------------------------------------------------------
 // Types

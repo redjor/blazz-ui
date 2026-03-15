@@ -6,9 +6,9 @@ import { createContext, useContext, useMemo } from "react"
 import { getUsage } from "tokenlens"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui/components/ui/hover-card"
-import { Progress } from "@blazz/ui/components/ui/progress"
+import { Button } from "@blazz/ui"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui"
+import { Progress } from "@blazz/ui"
 
 const PERCENT_MAX = 100
 const ICON_RADIUS = 10

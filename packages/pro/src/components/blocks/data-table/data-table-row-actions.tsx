@@ -3,7 +3,7 @@
 import type { Row } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import * as React from "react"
-import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
+import { ConfirmationDialog } from "@blazz/ui"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
+} from "@blazz/ui"
 import type { RowAction } from "./data-table.types"
 
 interface DataTableRowActionsProps<TData> {

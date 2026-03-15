@@ -12,8 +12,8 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-} from "@blazz/ui/components/ui/breadcrumb"
-import { Button, buttonVariants } from "@blazz/ui/components/ui/button"
+} from "@blazz/ui"
+import { Button, buttonVariants } from "@blazz/ui"
 
 export interface PageHeaderBreadcrumb {
 	label: string

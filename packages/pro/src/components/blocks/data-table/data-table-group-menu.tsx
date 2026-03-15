@@ -1,14 +1,14 @@
 "use client"
 
 import { Layers, X } from "lucide-react"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Button } from "@blazz/ui/components/ui/button"
+import { Badge } from "@blazz/ui"
+import { Button } from "@blazz/ui"
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
+} from "@blazz/ui"
 
 interface DataTableGroupMenuProps {
 	groupableColumns: Array<{ id: string; label: string }>

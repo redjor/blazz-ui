@@ -3,9 +3,9 @@
 import { AlertTriangle, Info, XCircle } from "lucide-react"
 import { useCallback, useRef, useState } from "react"
 import { cn } from "@blazz/ui"
-import { DateSelector } from "@blazz/ui/components/ui/date-selector"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+import { DateSelector } from "@blazz/ui"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui"
 import type { DataTableColumnDef } from "../data-table.types"
 import { DataTableColumnHeader } from "../data-table-column-header"
 

@@ -2,7 +2,7 @@
 
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { Skeleton } from "@blazz/ui"
 
 export interface TimelineEvent {
 	date: string

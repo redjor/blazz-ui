@@ -3,7 +3,7 @@
 import { Check } from "lucide-react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../../lib/with-pro-guard"
-import { Badge } from "@blazz/ui/components/ui/badge"
+import { Badge } from "@blazz/ui"
 
 export interface PricingTier {
 	name: string

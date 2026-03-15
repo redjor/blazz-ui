@@ -5,7 +5,7 @@
  * to work with the existing FilterGroup-based filtering logic.
  */
 
-import type { Filter } from "@blazz/ui/components/ui/filters"
+import type { Filter } from "@blazz/ui"
 import type {
 	FilterCondition,
 	FilterGroup,

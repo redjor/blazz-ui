@@ -1,8 +1,8 @@
 // Block components — high-level, opinionated components for CRM/backoffice pages
 // Imported as @/components/blocks/[component-name]
 
-export type { EmptyAction } from "@blazz/ui/components/ui/empty"
-export { Empty } from "@blazz/ui/components/ui/empty"
+export type { EmptyAction } from "@blazz/ui"
+export { Empty } from "@blazz/ui"
 export type { ActivityTimelineProps, TimelineEvent } from "./activity-timeline"
 export { ActivityTimeline } from "./activity-timeline"
 export type { AreaChartBlockProps } from "./area-chart-block"

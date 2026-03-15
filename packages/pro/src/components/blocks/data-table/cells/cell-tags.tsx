@@ -1,8 +1,8 @@
 "use client"
 
 import { cn } from "@blazz/ui"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui/popover"
+import { Badge } from "@blazz/ui"
+import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui"
 
 export interface CellTagsProps {
 	/** List of tag strings to display */

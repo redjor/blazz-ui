@@ -36,23 +36,23 @@ import {
 	CommandItem,
 	CommandList,
 	CommandSeparator,
-} from "@blazz/ui/components/ui/command"
+} from "@blazz/ui"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui/components/ui/hover-card"
+} from "@blazz/ui"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui"
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupButton,
 	InputGroupTextarea,
-} from "@blazz/ui/components/ui/input-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
-import { Spinner } from "@blazz/ui/components/ui/spinner"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+} from "@blazz/ui"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui"
+import { Spinner } from "@blazz/ui"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui"
 
 // ============================================================================
 // Helpers

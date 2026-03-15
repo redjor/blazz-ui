@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@blazz/ui"
-import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui"
 
 export interface CellUserProps {
 	/** User display name */

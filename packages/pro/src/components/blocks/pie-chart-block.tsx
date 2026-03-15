@@ -3,7 +3,7 @@
 import { Label, Pie, PieChart } from "recharts"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui"
 import {
 	type ChartConfig,
 	ChartContainer,
@@ -11,7 +11,7 @@ import {
 	ChartLegendContent,
 	ChartTooltip,
 	ChartTooltipContent,
-} from "@blazz/ui/components/ui/chart"
+} from "@blazz/ui"
 
 const defaultData = [
 	{ browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },

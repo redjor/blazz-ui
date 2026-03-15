@@ -1,8 +1,8 @@
 "use client"
 
 import { cn } from "@blazz/ui"
-import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui"
 
 export interface AvatarItem {
 	name: string

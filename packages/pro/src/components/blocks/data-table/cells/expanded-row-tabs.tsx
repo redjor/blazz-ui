@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@blazz/ui"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui"
 
 interface ExpandedRowTabsProps {
 	tabs: Array<{ label: string; value: string; content: React.ReactNode }>

@@ -1,6 +1,6 @@
 "use client"
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui"
 
 export interface CellRelativeDateProps {
 	/** Date value as string or Date object */

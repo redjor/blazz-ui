@@ -11,9 +11,9 @@ import { createContext, memo, useCallback, useContext, useEffect, useMemo, useSt
 import { Streamdown } from "streamdown"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
-import { ButtonGroup, ButtonGroupText } from "@blazz/ui/components/ui/button-group"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+import { Button } from "@blazz/ui"
+import { ButtonGroup, ButtonGroupText } from "@blazz/ui"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui"
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
 	from: UIMessage["role"]

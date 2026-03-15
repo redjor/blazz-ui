@@ -22,9 +22,9 @@ import {
 } from "lucide-react"
 import * as React from "react"
 import { cn } from "@blazz/ui"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import { Button } from "@blazz/ui/components/ui/button"
-import { ButtonGroup } from "@blazz/ui/components/ui/button-group"
+import { Badge } from "@blazz/ui"
+import { Button } from "@blazz/ui"
+import { ButtonGroup } from "@blazz/ui"
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -35,9 +35,9 @@ import {
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
-import { Input } from "@blazz/ui/components/ui/input"
-import { Menu, MenuPopup, MenuPortal, MenuPositioner, MenuTrigger } from "@blazz/ui/components/ui/menu"
+} from "@blazz/ui"
+import { Input } from "@blazz/ui"
+import { Menu, MenuPopup, MenuPortal, MenuPositioner, MenuTrigger } from "@blazz/ui"
 import { useDataTableTranslations } from "./data-table.i18n"
 import type { DataTableView } from "./data-table.types"
 import { DataTableGroupMenu } from "./data-table-group-menu"

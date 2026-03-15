@@ -12,7 +12,7 @@ import {
 } from "recharts"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui"
 
 export interface ForecastDataPoint {
 	period: string

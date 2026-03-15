@@ -4,7 +4,7 @@ import type { LucideIcon } from "lucide-react"
 import type * as React from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Button } from "@blazz/ui/components/ui/button"
+import { Button } from "@blazz/ui"
 
 /* ─── DetailPanel.Header ─── */
 

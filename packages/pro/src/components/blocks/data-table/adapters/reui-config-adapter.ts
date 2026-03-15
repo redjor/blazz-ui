@@ -5,7 +5,7 @@
  * to the format expected by the ReUI Filters component.
  */
 
-import type { FilterFieldConfig, FilterOperator as ReuiFilterOperator } from "@blazz/ui/components/ui/filters"
+import type { FilterFieldConfig, FilterOperator as ReuiFilterOperator } from "@blazz/ui"
 import type { DataTableColumnDef } from "../data-table.types"
 import type { FilterOperator, FilterType } from "../data-table-filter.types"
 import { mapOperatorToReui } from "./reui-filters-adapter"

@@ -4,7 +4,7 @@ import { BookIcon, ChevronDownIcon } from "lucide-react"
 import type { ComponentProps } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@blazz/ui/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@blazz/ui"
 
 export type SourcesProps = ComponentProps<typeof Collapsible>
 

@@ -2,7 +2,7 @@
 
 import { AlertTriangle, CheckCircle2, Info, XCircle } from "lucide-react"
 import { cn } from "@blazz/ui"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui"
 
 export interface CellValidationProps {
 	/** Validation severity level */

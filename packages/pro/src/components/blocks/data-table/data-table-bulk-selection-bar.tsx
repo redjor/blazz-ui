@@ -2,7 +2,7 @@
 
 import type { Table } from "@tanstack/react-table"
 import { cn } from "@blazz/ui"
-import { Button } from "@blazz/ui/components/ui/button"
+import { Button } from "@blazz/ui"
 import { useDataTableTranslations } from "./data-table.i18n"
 import type { BulkAction } from "./data-table.types"
 import { DataTableRowSelection } from "./data-table-row-selection"

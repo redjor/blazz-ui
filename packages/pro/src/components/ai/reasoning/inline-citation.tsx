@@ -5,10 +5,10 @@ import type { ComponentProps } from "react"
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import type { CarouselApi } from "@blazz/ui/components/ui/carousel"
-import { Carousel, CarouselContent, CarouselItem } from "@blazz/ui/components/ui/carousel"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui/components/ui/hover-card"
+import { Badge } from "@blazz/ui"
+import type { CarouselApi } from "@blazz/ui"
+import { Carousel, CarouselContent, CarouselItem } from "@blazz/ui"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@blazz/ui"
 
 export type InlineCitationProps = ComponentProps<"span">
 

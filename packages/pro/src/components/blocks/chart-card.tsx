@@ -17,7 +17,7 @@ import {
 } from "recharts"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
-import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui"
 
 const CHART_COLORS = ["#2563eb", "#16a34a", "#eab308", "#dc2626", "#9333ea"]
 

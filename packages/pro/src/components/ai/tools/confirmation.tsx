@@ -5,8 +5,8 @@ import type { ComponentProps, ReactNode } from "react"
 import { createContext, useContext } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../lib/with-pro-guard"
-import { Alert, AlertDescription } from "@blazz/ui/components/ui/alert"
-import { Button } from "@blazz/ui/components/ui/button"
+import { Alert, AlertDescription } from "@blazz/ui"
+import { Button } from "@blazz/ui"
 
 type ToolUIPartApproval =
 	| {

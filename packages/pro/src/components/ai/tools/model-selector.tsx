@@ -13,8 +13,8 @@ import {
 	CommandList,
 	CommandSeparator,
 	CommandShortcut,
-} from "@blazz/ui/components/ui/command"
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
+} from "@blazz/ui"
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@blazz/ui"
 
 export type ModelSelectorProps = ComponentProps<typeof Dialog>
 

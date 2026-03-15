@@ -1,7 +1,7 @@
 "use client"
 
 import { type ComponentType, useEffect } from "react"
-import { LicenseBanner } from "@blazz/ui/components/ui/license-banner"
+import { LicenseBanner } from "./license-banner"
 import { useLicense } from "./license-context"
 
 const warnedComponents = new Set<string>()

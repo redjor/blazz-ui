@@ -11,8 +11,8 @@ import {
 	AvatarGroup,
 	AvatarGroupCount,
 	AvatarImage,
-} from "@blazz/ui/components/ui/avatar"
-import { Badge } from "@blazz/ui/components/ui/badge"
+} from "@blazz/ui"
+import { Badge } from "@blazz/ui"
 
 export interface EventParticipant {
 	name: string

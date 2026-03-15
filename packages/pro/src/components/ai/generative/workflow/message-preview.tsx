@@ -4,7 +4,7 @@ import { Hash, Mail, MessageSquare, Phone } from "lucide-react"
 import type { ReactNode } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../../lib/with-pro-guard"
-import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui"
 
 export type MessagePlatform = "sms" | "whatsapp" | "slack" | "email"
 

@@ -4,7 +4,7 @@ import { AlertTriangle, Info, Lightbulb, TrendingUp } from "lucide-react"
 import type { ReactNode } from "react"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../../../lib/with-pro-guard"
-import { Badge } from "@blazz/ui/components/ui/badge"
+import { Badge } from "@blazz/ui"
 
 export type InsightType = "recommendation" | "opportunity" | "warning" | "info"
 
