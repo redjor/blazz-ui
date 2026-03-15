@@ -96,6 +96,7 @@ import { Route as DocsDocsComponentsUiNavMenuRouteImport } from './routes/_docs/
 import { Route as DocsDocsComponentsUiMenubarRouteImport } from './routes/_docs/docs/components/ui/menubar'
 import { Route as DocsDocsComponentsUiMenuRouteImport } from './routes/_docs/docs/components/ui/menu'
 import { Route as DocsDocsComponentsUiLabelRouteImport } from './routes/_docs/docs/components/ui/label'
+import { Route as DocsDocsComponentsUiItemRouteImport } from './routes/_docs/docs/components/ui/item'
 import { Route as DocsDocsComponentsUiInputRouteImport } from './routes/_docs/docs/components/ui/input'
 import { Route as DocsDocsComponentsUiFramePanelRouteImport } from './routes/_docs/docs/components/ui/frame-panel'
 import { Route as DocsDocsComponentsUiFilterPanelRouteImport } from './routes/_docs/docs/components/ui/filter-panel'
@@ -153,9 +154,13 @@ import { Route as DocsDocsComponentsLayoutCalloutCardRouteImport } from './route
 import { Route as DocsDocsComponentsLayoutBoxRouteImport } from './routes/_docs/docs/components/layout/box'
 import { Route as DocsDocsComponentsLayoutBlockStackRouteImport } from './routes/_docs/docs/components/layout/block-stack'
 import { Route as DocsDocsComponentsLayoutBleedRouteImport } from './routes/_docs/docs/components/layout/bleed'
+import { Route as DocsDocsBlocksDataTableToolbarRouteImport } from './routes/_docs/docs/blocks/data-table/toolbar'
+import { Route as DocsDocsBlocksDataTableGroupingRouteImport } from './routes/_docs/docs/blocks/data-table/grouping'
 import { Route as DocsDocsBlocksDataTableGettingStartedRouteImport } from './routes/_docs/docs/blocks/data-table/getting-started'
 import { Route as DocsDocsBlocksDataTableFlatModeRouteImport } from './routes/_docs/docs/blocks/data-table/flat-mode'
+import { Route as DocsDocsBlocksDataTableFilteringRouteImport } from './routes/_docs/docs/blocks/data-table/filtering'
 import { Route as DocsDocsBlocksDataTableCompositionRouteImport } from './routes/_docs/docs/blocks/data-table/composition'
+import { Route as DocsDocsBlocksDataTableColumnsRouteImport } from './routes/_docs/docs/blocks/data-table/columns'
 import { Route as DocsDocsBlocksDataTableApiRouteImport } from './routes/_docs/docs/blocks/data-table/api'
 import { Route as DocsDocsBlocksChartsRadarChartRouteImport } from './routes/_docs/docs/blocks/charts/radar-chart'
 import { Route as DocsDocsBlocksChartsPieChartRouteImport } from './routes/_docs/docs/blocks/charts/pie-chart'
@@ -700,6 +705,12 @@ const DocsDocsComponentsUiLabelRoute =
     path: '/docs/components/ui/label',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsComponentsUiItemRoute =
+  DocsDocsComponentsUiItemRouteImport.update({
+    id: '/docs/components/ui/item',
+    path: '/docs/components/ui/item',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsComponentsUiInputRoute =
   DocsDocsComponentsUiInputRouteImport.update({
     id: '/docs/components/ui/input',
@@ -1042,6 +1053,18 @@ const DocsDocsComponentsLayoutBleedRoute =
     path: '/docs/components/layout/bleed',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksDataTableToolbarRoute =
+  DocsDocsBlocksDataTableToolbarRouteImport.update({
+    id: '/docs/blocks/data-table/toolbar',
+    path: '/docs/blocks/data-table/toolbar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksDataTableGroupingRoute =
+  DocsDocsBlocksDataTableGroupingRouteImport.update({
+    id: '/docs/blocks/data-table/grouping',
+    path: '/docs/blocks/data-table/grouping',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsBlocksDataTableGettingStartedRoute =
   DocsDocsBlocksDataTableGettingStartedRouteImport.update({
     id: '/docs/blocks/data-table/getting-started',
@@ -1054,10 +1077,22 @@ const DocsDocsBlocksDataTableFlatModeRoute =
     path: '/docs/blocks/data-table/flat-mode',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksDataTableFilteringRoute =
+  DocsDocsBlocksDataTableFilteringRouteImport.update({
+    id: '/docs/blocks/data-table/filtering',
+    path: '/docs/blocks/data-table/filtering',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsBlocksDataTableCompositionRoute =
   DocsDocsBlocksDataTableCompositionRouteImport.update({
     id: '/docs/blocks/data-table/composition',
     path: '/docs/blocks/data-table/composition',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksDataTableColumnsRoute =
+  DocsDocsBlocksDataTableColumnsRouteImport.update({
+    id: '/docs/blocks/data-table/columns',
+    path: '/docs/blocks/data-table/columns',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsBlocksDataTableApiRoute =
@@ -1457,9 +1492,13 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/charts/pie-chart': typeof DocsDocsBlocksChartsPieChartRoute
   '/docs/blocks/charts/radar-chart': typeof DocsDocsBlocksChartsRadarChartRoute
   '/docs/blocks/data-table/api': typeof DocsDocsBlocksDataTableApiRoute
+  '/docs/blocks/data-table/columns': typeof DocsDocsBlocksDataTableColumnsRoute
   '/docs/blocks/data-table/composition': typeof DocsDocsBlocksDataTableCompositionRoute
+  '/docs/blocks/data-table/filtering': typeof DocsDocsBlocksDataTableFilteringRoute
   '/docs/blocks/data-table/flat-mode': typeof DocsDocsBlocksDataTableFlatModeRoute
   '/docs/blocks/data-table/getting-started': typeof DocsDocsBlocksDataTableGettingStartedRoute
+  '/docs/blocks/data-table/grouping': typeof DocsDocsBlocksDataTableGroupingRoute
+  '/docs/blocks/data-table/toolbar': typeof DocsDocsBlocksDataTableToolbarRoute
   '/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1517,6 +1556,7 @@ export interface FileRoutesByFullPath {
   '/docs/components/ui/filter-panel': typeof DocsDocsComponentsUiFilterPanelRoute
   '/docs/components/ui/frame-panel': typeof DocsDocsComponentsUiFramePanelRoute
   '/docs/components/ui/input': typeof DocsDocsComponentsUiInputRoute
+  '/docs/components/ui/item': typeof DocsDocsComponentsUiItemRoute
   '/docs/components/ui/label': typeof DocsDocsComponentsUiLabelRoute
   '/docs/components/ui/menu': typeof DocsDocsComponentsUiMenuRoute
   '/docs/components/ui/menubar': typeof DocsDocsComponentsUiMenubarRoute
@@ -1655,9 +1695,13 @@ export interface FileRoutesByTo {
   '/docs/blocks/charts/pie-chart': typeof DocsDocsBlocksChartsPieChartRoute
   '/docs/blocks/charts/radar-chart': typeof DocsDocsBlocksChartsRadarChartRoute
   '/docs/blocks/data-table/api': typeof DocsDocsBlocksDataTableApiRoute
+  '/docs/blocks/data-table/columns': typeof DocsDocsBlocksDataTableColumnsRoute
   '/docs/blocks/data-table/composition': typeof DocsDocsBlocksDataTableCompositionRoute
+  '/docs/blocks/data-table/filtering': typeof DocsDocsBlocksDataTableFilteringRoute
   '/docs/blocks/data-table/flat-mode': typeof DocsDocsBlocksDataTableFlatModeRoute
   '/docs/blocks/data-table/getting-started': typeof DocsDocsBlocksDataTableGettingStartedRoute
+  '/docs/blocks/data-table/grouping': typeof DocsDocsBlocksDataTableGroupingRoute
+  '/docs/blocks/data-table/toolbar': typeof DocsDocsBlocksDataTableToolbarRoute
   '/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1715,6 +1759,7 @@ export interface FileRoutesByTo {
   '/docs/components/ui/filter-panel': typeof DocsDocsComponentsUiFilterPanelRoute
   '/docs/components/ui/frame-panel': typeof DocsDocsComponentsUiFramePanelRoute
   '/docs/components/ui/input': typeof DocsDocsComponentsUiInputRoute
+  '/docs/components/ui/item': typeof DocsDocsComponentsUiItemRoute
   '/docs/components/ui/label': typeof DocsDocsComponentsUiLabelRoute
   '/docs/components/ui/menu': typeof DocsDocsComponentsUiMenuRoute
   '/docs/components/ui/menubar': typeof DocsDocsComponentsUiMenubarRoute
@@ -1855,9 +1900,13 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/charts/pie-chart': typeof DocsDocsBlocksChartsPieChartRoute
   '/_docs/docs/blocks/charts/radar-chart': typeof DocsDocsBlocksChartsRadarChartRoute
   '/_docs/docs/blocks/data-table/api': typeof DocsDocsBlocksDataTableApiRoute
+  '/_docs/docs/blocks/data-table/columns': typeof DocsDocsBlocksDataTableColumnsRoute
   '/_docs/docs/blocks/data-table/composition': typeof DocsDocsBlocksDataTableCompositionRoute
+  '/_docs/docs/blocks/data-table/filtering': typeof DocsDocsBlocksDataTableFilteringRoute
   '/_docs/docs/blocks/data-table/flat-mode': typeof DocsDocsBlocksDataTableFlatModeRoute
   '/_docs/docs/blocks/data-table/getting-started': typeof DocsDocsBlocksDataTableGettingStartedRoute
+  '/_docs/docs/blocks/data-table/grouping': typeof DocsDocsBlocksDataTableGroupingRoute
+  '/_docs/docs/blocks/data-table/toolbar': typeof DocsDocsBlocksDataTableToolbarRoute
   '/_docs/docs/components/layout/bleed': typeof DocsDocsComponentsLayoutBleedRoute
   '/_docs/docs/components/layout/block-stack': typeof DocsDocsComponentsLayoutBlockStackRoute
   '/_docs/docs/components/layout/box': typeof DocsDocsComponentsLayoutBoxRoute
@@ -1915,6 +1964,7 @@ export interface FileRoutesById {
   '/_docs/docs/components/ui/filter-panel': typeof DocsDocsComponentsUiFilterPanelRoute
   '/_docs/docs/components/ui/frame-panel': typeof DocsDocsComponentsUiFramePanelRoute
   '/_docs/docs/components/ui/input': typeof DocsDocsComponentsUiInputRoute
+  '/_docs/docs/components/ui/item': typeof DocsDocsComponentsUiItemRoute
   '/_docs/docs/components/ui/label': typeof DocsDocsComponentsUiLabelRoute
   '/_docs/docs/components/ui/menu': typeof DocsDocsComponentsUiMenuRoute
   '/_docs/docs/components/ui/menubar': typeof DocsDocsComponentsUiMenubarRoute
@@ -2055,9 +2105,13 @@ export interface FileRouteTypes {
     | '/docs/blocks/charts/pie-chart'
     | '/docs/blocks/charts/radar-chart'
     | '/docs/blocks/data-table/api'
+    | '/docs/blocks/data-table/columns'
     | '/docs/blocks/data-table/composition'
+    | '/docs/blocks/data-table/filtering'
     | '/docs/blocks/data-table/flat-mode'
     | '/docs/blocks/data-table/getting-started'
+    | '/docs/blocks/data-table/grouping'
+    | '/docs/blocks/data-table/toolbar'
     | '/docs/components/layout/bleed'
     | '/docs/components/layout/block-stack'
     | '/docs/components/layout/box'
@@ -2115,6 +2169,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/filter-panel'
     | '/docs/components/ui/frame-panel'
     | '/docs/components/ui/input'
+    | '/docs/components/ui/item'
     | '/docs/components/ui/label'
     | '/docs/components/ui/menu'
     | '/docs/components/ui/menubar'
@@ -2253,9 +2308,13 @@ export interface FileRouteTypes {
     | '/docs/blocks/charts/pie-chart'
     | '/docs/blocks/charts/radar-chart'
     | '/docs/blocks/data-table/api'
+    | '/docs/blocks/data-table/columns'
     | '/docs/blocks/data-table/composition'
+    | '/docs/blocks/data-table/filtering'
     | '/docs/blocks/data-table/flat-mode'
     | '/docs/blocks/data-table/getting-started'
+    | '/docs/blocks/data-table/grouping'
+    | '/docs/blocks/data-table/toolbar'
     | '/docs/components/layout/bleed'
     | '/docs/components/layout/block-stack'
     | '/docs/components/layout/box'
@@ -2313,6 +2372,7 @@ export interface FileRouteTypes {
     | '/docs/components/ui/filter-panel'
     | '/docs/components/ui/frame-panel'
     | '/docs/components/ui/input'
+    | '/docs/components/ui/item'
     | '/docs/components/ui/label'
     | '/docs/components/ui/menu'
     | '/docs/components/ui/menubar'
@@ -2452,9 +2512,13 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/charts/pie-chart'
     | '/_docs/docs/blocks/charts/radar-chart'
     | '/_docs/docs/blocks/data-table/api'
+    | '/_docs/docs/blocks/data-table/columns'
     | '/_docs/docs/blocks/data-table/composition'
+    | '/_docs/docs/blocks/data-table/filtering'
     | '/_docs/docs/blocks/data-table/flat-mode'
     | '/_docs/docs/blocks/data-table/getting-started'
+    | '/_docs/docs/blocks/data-table/grouping'
+    | '/_docs/docs/blocks/data-table/toolbar'
     | '/_docs/docs/components/layout/bleed'
     | '/_docs/docs/components/layout/block-stack'
     | '/_docs/docs/components/layout/box'
@@ -2512,6 +2576,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/components/ui/filter-panel'
     | '/_docs/docs/components/ui/frame-panel'
     | '/_docs/docs/components/ui/input'
+    | '/_docs/docs/components/ui/item'
     | '/_docs/docs/components/ui/label'
     | '/_docs/docs/components/ui/menu'
     | '/_docs/docs/components/ui/menubar'
@@ -3166,6 +3231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsUiLabelRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/components/ui/item': {
+      id: '/_docs/docs/components/ui/item'
+      path: '/docs/components/ui/item'
+      fullPath: '/docs/components/ui/item'
+      preLoaderRoute: typeof DocsDocsComponentsUiItemRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/components/ui/input': {
       id: '/_docs/docs/components/ui/input'
       path: '/docs/components/ui/input'
@@ -3565,6 +3637,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsLayoutBleedRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/data-table/toolbar': {
+      id: '/_docs/docs/blocks/data-table/toolbar'
+      path: '/docs/blocks/data-table/toolbar'
+      fullPath: '/docs/blocks/data-table/toolbar'
+      preLoaderRoute: typeof DocsDocsBlocksDataTableToolbarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/data-table/grouping': {
+      id: '/_docs/docs/blocks/data-table/grouping'
+      path: '/docs/blocks/data-table/grouping'
+      fullPath: '/docs/blocks/data-table/grouping'
+      preLoaderRoute: typeof DocsDocsBlocksDataTableGroupingRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/data-table/getting-started': {
       id: '/_docs/docs/blocks/data-table/getting-started'
       path: '/docs/blocks/data-table/getting-started'
@@ -3579,11 +3665,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsBlocksDataTableFlatModeRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/data-table/filtering': {
+      id: '/_docs/docs/blocks/data-table/filtering'
+      path: '/docs/blocks/data-table/filtering'
+      fullPath: '/docs/blocks/data-table/filtering'
+      preLoaderRoute: typeof DocsDocsBlocksDataTableFilteringRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/data-table/composition': {
       id: '/_docs/docs/blocks/data-table/composition'
       path: '/docs/blocks/data-table/composition'
       fullPath: '/docs/blocks/data-table/composition'
       preLoaderRoute: typeof DocsDocsBlocksDataTableCompositionRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/data-table/columns': {
+      id: '/_docs/docs/blocks/data-table/columns'
+      path: '/docs/blocks/data-table/columns'
+      fullPath: '/docs/blocks/data-table/columns'
+      preLoaderRoute: typeof DocsDocsBlocksDataTableColumnsRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/data-table/api': {
@@ -4038,9 +4138,13 @@ interface DocsRouteChildren {
   DocsDocsBlocksChartsPieChartRoute: typeof DocsDocsBlocksChartsPieChartRoute
   DocsDocsBlocksChartsRadarChartRoute: typeof DocsDocsBlocksChartsRadarChartRoute
   DocsDocsBlocksDataTableApiRoute: typeof DocsDocsBlocksDataTableApiRoute
+  DocsDocsBlocksDataTableColumnsRoute: typeof DocsDocsBlocksDataTableColumnsRoute
   DocsDocsBlocksDataTableCompositionRoute: typeof DocsDocsBlocksDataTableCompositionRoute
+  DocsDocsBlocksDataTableFilteringRoute: typeof DocsDocsBlocksDataTableFilteringRoute
   DocsDocsBlocksDataTableFlatModeRoute: typeof DocsDocsBlocksDataTableFlatModeRoute
   DocsDocsBlocksDataTableGettingStartedRoute: typeof DocsDocsBlocksDataTableGettingStartedRoute
+  DocsDocsBlocksDataTableGroupingRoute: typeof DocsDocsBlocksDataTableGroupingRoute
+  DocsDocsBlocksDataTableToolbarRoute: typeof DocsDocsBlocksDataTableToolbarRoute
   DocsDocsComponentsLayoutBleedRoute: typeof DocsDocsComponentsLayoutBleedRoute
   DocsDocsComponentsLayoutBlockStackRoute: typeof DocsDocsComponentsLayoutBlockStackRoute
   DocsDocsComponentsLayoutBoxRoute: typeof DocsDocsComponentsLayoutBoxRoute
@@ -4098,6 +4202,7 @@ interface DocsRouteChildren {
   DocsDocsComponentsUiFilterPanelRoute: typeof DocsDocsComponentsUiFilterPanelRoute
   DocsDocsComponentsUiFramePanelRoute: typeof DocsDocsComponentsUiFramePanelRoute
   DocsDocsComponentsUiInputRoute: typeof DocsDocsComponentsUiInputRoute
+  DocsDocsComponentsUiItemRoute: typeof DocsDocsComponentsUiItemRoute
   DocsDocsComponentsUiLabelRoute: typeof DocsDocsComponentsUiLabelRoute
   DocsDocsComponentsUiMenuRoute: typeof DocsDocsComponentsUiMenuRoute
   DocsDocsComponentsUiMenubarRoute: typeof DocsDocsComponentsUiMenubarRoute
@@ -4235,11 +4340,15 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksChartsPieChartRoute: DocsDocsBlocksChartsPieChartRoute,
   DocsDocsBlocksChartsRadarChartRoute: DocsDocsBlocksChartsRadarChartRoute,
   DocsDocsBlocksDataTableApiRoute: DocsDocsBlocksDataTableApiRoute,
+  DocsDocsBlocksDataTableColumnsRoute: DocsDocsBlocksDataTableColumnsRoute,
   DocsDocsBlocksDataTableCompositionRoute:
     DocsDocsBlocksDataTableCompositionRoute,
+  DocsDocsBlocksDataTableFilteringRoute: DocsDocsBlocksDataTableFilteringRoute,
   DocsDocsBlocksDataTableFlatModeRoute: DocsDocsBlocksDataTableFlatModeRoute,
   DocsDocsBlocksDataTableGettingStartedRoute:
     DocsDocsBlocksDataTableGettingStartedRoute,
+  DocsDocsBlocksDataTableGroupingRoute: DocsDocsBlocksDataTableGroupingRoute,
+  DocsDocsBlocksDataTableToolbarRoute: DocsDocsBlocksDataTableToolbarRoute,
   DocsDocsComponentsLayoutBleedRoute: DocsDocsComponentsLayoutBleedRoute,
   DocsDocsComponentsLayoutBlockStackRoute:
     DocsDocsComponentsLayoutBlockStackRoute,
@@ -4321,6 +4430,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsComponentsUiFilterPanelRoute: DocsDocsComponentsUiFilterPanelRoute,
   DocsDocsComponentsUiFramePanelRoute: DocsDocsComponentsUiFramePanelRoute,
   DocsDocsComponentsUiInputRoute: DocsDocsComponentsUiInputRoute,
+  DocsDocsComponentsUiItemRoute: DocsDocsComponentsUiItemRoute,
   DocsDocsComponentsUiLabelRoute: DocsDocsComponentsUiLabelRoute,
   DocsDocsComponentsUiMenuRoute: DocsDocsComponentsUiMenuRoute,
   DocsDocsComponentsUiMenubarRoute: DocsDocsComponentsUiMenubarRoute,

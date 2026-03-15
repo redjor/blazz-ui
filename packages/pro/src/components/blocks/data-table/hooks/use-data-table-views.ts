@@ -91,41 +91,38 @@ export function useDataTableViews(
 	const [showRenameViewDialog, setShowRenameViewDialog] = React.useState(false)
 	const [viewToRename, setViewToRename] = React.useState<DataTableView | null>(null)
 
-	// Apply view when it changes
+	// Apply view when it changes — always reset ALL state to defaults for missing properties
 	React.useEffect(() => {
 		if (!activeView) return
 
-		// Apply filters from view
-		if (activeView.filters) {
-			setFilterGroup(activeView.filters)
+		// Always apply filters (default to empty)
+		setFilterGroup(activeView.filters ?? { id: "root", operator: "AND", conditions: [] })
 
-			// Auto-open inline filters when view has active conditions
-			if (activeView.filters.conditions && activeView.filters.conditions.length > 0) {
-				setShowInlineFilters(true)
-			}
+		// Auto-open/close inline filters based on whether the view has active conditions
+		if (activeView.filters?.conditions?.length && activeView.filters.conditions.length > 0) {
+			setShowInlineFilters(true)
+		} else {
+			setShowInlineFilters(false)
 		}
 
-		// Apply sorting from view
-		if (activeView.sorting) {
-			setSorting(activeView.sorting)
+		// Always apply sorting (default to empty)
+		setSorting(activeView.sorting ?? [])
+
+		// Always apply column visibility (default to empty = all visible)
+		setColumnVisibility(activeView.columnVisibility ?? {})
+
+		// Always apply column pinning (default to none)
+		if (setColumnPinning) {
+			setColumnPinning(
+				activeView.pinnedColumns
+					? { left: activeView.pinnedColumns.left ?? [], right: activeView.pinnedColumns.right ?? [] }
+					: { left: [], right: [] }
+			)
 		}
 
-		// Apply column visibility from view
-		if (activeView.columnVisibility) {
-			setColumnVisibility(activeView.columnVisibility)
-		}
-
-		// Apply column pinning from view
-		if (activeView.pinnedColumns && setColumnPinning) {
-			setColumnPinning({
-				left: activeView.pinnedColumns.left ?? [],
-				right: activeView.pinnedColumns.right ?? [],
-			})
-		}
-
-		// Apply grouping from view
-		if (activeView.grouping && setGrouping) {
-			setGrouping(activeView.grouping)
+		// Always apply grouping (default to none)
+		if (setGrouping) {
+			setGrouping(activeView.grouping ?? [])
 		}
 	}, [activeView, setSorting, setColumnVisibility, setColumnPinning, setGrouping])
 
