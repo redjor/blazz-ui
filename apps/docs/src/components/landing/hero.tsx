@@ -25,18 +25,18 @@ export function Hero() {
 							className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-edge/60 bg-surface px-3 py-1 text-xs text-fg-muted"
 						>
 							<Sparkles className="size-3 text-brand" />
-							For CRM, ATS, inventory, and internal tools
+							Built for high-density enterprise workflows
 						</motion.div>
 
 						<h1 className="text-balance text-4xl font-semibold tracking-tight text-fg leading-[0.98] sm:text-5xl lg:text-7xl">
-							A React kit for
+							Enterprise UI,
 							<br />
-							shipping serious business apps.
+							ready to ship.
 						</h1>
 
 						<p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
-							Blazz UI bundles the parts teams usually assemble by hand: editable tables, app
-							shells, forms, dashboards, and AI blocks — ready to drop into your project.
+							Dense tables, structured layouts, fast workflows, and polished visuals for serious
+							business software.
 						</p>
 
 						<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -59,7 +59,7 @@ export function Hero() {
 								200+ components
 							</Badge>
 							<Badge variant="outline" size="xs">
-								One-time pricing
+								One-time purchase
 							</Badge>
 						</div>
 					</div>

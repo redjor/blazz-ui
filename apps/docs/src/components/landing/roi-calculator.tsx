@@ -7,21 +7,21 @@ export function RoiCalculator() {
 	const reasons = [
 		{
 			icon: LayoutPanelTop,
-			title: "One app shell instead of ad hoc pages",
+			title: "A complete UI foundation",
 			description:
-				"Navigation, breadcrumbs, tabs, empty states, drawers, and page headers already match each other.",
+				"Layouts, navigation, forms, tables, and dashboards already work together as one system.",
 		},
 		{
 			icon: DatabaseZap,
-			title: "Data-heavy screens without custom glue",
+			title: "Made for data-heavy products",
 			description:
-				"Tables, filters, stats, charts, and forms are designed to work together in CRUD-heavy products.",
+				"Built for dense workflows where users scan, compare, edit, and move quickly.",
 		},
 		{
 			icon: Blocks,
-			title: "Copy code once, scale it across products",
+			title: "Reusable across projects",
 			description:
-				"Drop in components, adapt the domain language, and keep the same design tokens and interaction patterns.",
+				"Use the same patterns across products and clients without rebuilding your UI stack each time.",
 		},
 	]
 
@@ -38,11 +38,11 @@ export function RoiCalculator() {
 					>
 						<p className="text-sm font-medium text-brand mb-1.5">Why teams buy</p>
 						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
-							Spend time on product logic, not UI assembly
+							Build faster with a system made for business software.
 						</h2>
 						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							Blazz UI is valuable when your bottleneck is shipping coherent business screens fast,
-							not drawing another button set.
+							Ship dense, coherent, and visually credible enterprise screens without rebuilding the
+							same patterns from scratch.
 						</p>
 					</motion.div>
 
@@ -78,21 +78,22 @@ export function RoiCalculator() {
 								<div>
 									<p className="text-sm font-semibold text-fg">You are building</p>
 									<p className="mt-1 text-[13px] text-fg-muted">
-										CRM, ATS, inventory, admin, or other operator-facing products with dense
-										workflows.
+										CRM, ATS, admin, operations, or internal tools with dense workflows and
+										serious information needs.
 									</p>
 								</div>
 								<div>
 									<p className="text-sm font-semibold text-fg">You want</p>
 									<p className="mt-1 text-[13px] text-fg-muted">
-										Reusable screens and patterns, not only primitives and a design board.
+										A reusable UI package, not just primitives and another set of disconnected
+										components.
 									</p>
 								</div>
 								<div>
 									<p className="text-sm font-semibold text-fg">You avoid</p>
 									<p className="mt-1 text-[13px] text-fg-muted">
-										Paying per seat, rebuilding tables and forms in every client project, or mixing
-										multiple UI kits.
+										Paying per seat, rebuilding dense screens from scratch, or mixing multiple UI
+										kits that never feel coherent.
 									</p>
 								</div>
 							</div>

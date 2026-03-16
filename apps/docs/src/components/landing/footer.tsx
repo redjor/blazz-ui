@@ -18,6 +18,7 @@ const linkGroups = [
 		title: "Resources",
 		links: [
 			{ label: "Documentation", href: "/docs" },
+			{ label: "Licensing", href: "/license" },
 			{ label: "GitHub", href: githubUrl },
 			{ label: "Changelog", href: `${githubUrl}/blob/main/CHANGELOG.md` },
 		],

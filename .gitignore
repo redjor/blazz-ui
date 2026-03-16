@@ -60,4 +60,5 @@ packages/ui/AI.md
 
 apps/examples/lib/generated/prisma
 
+.output/
 .output.worktrees/

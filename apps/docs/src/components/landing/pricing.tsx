@@ -20,15 +20,16 @@ const tiers = [
 	},
 	{
 		name: "Pro",
-		price: "149€",
+		price: "249€",
 		period: "one-time",
-		description: "Full kit + commercial usage",
+		description: "Full enterprise UI package",
 		features: [
 			"Everything in Starter",
 			"150+ blocks & patterns",
 			"52 AI components",
 			"MCP server for AI coding",
-			"Priority support",
+			"Unlimited projects",
+			"Free updates",
 		],
 		cta: "Browse Pro docs",
 		href: "/docs/blocks",
@@ -66,11 +67,10 @@ export function Pricing() {
 					>
 						<p className="text-sm font-medium text-brand mb-1.5">Pricing</p>
 						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
-							One-time pricing, code ownership included
+							Get everything, forever.
 						</h2>
 						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							Use the free layer when you need primitives. Upgrade when you want the full system
-							and commercial acceleration.
+							One-time purchase, unlimited projects, free updates, and full code ownership.
 						</p>
 					</motion.div>
 

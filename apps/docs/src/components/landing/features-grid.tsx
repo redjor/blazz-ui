@@ -8,37 +8,37 @@ const features = [
 		icon: Table2,
 		title: "Advanced DataTable",
 		description:
-			"TanStack Table with 8 presets, inline editing, column pinning, sorting, and multi-faceted filters.",
+			"Editable, filterable, high-density tables built for real business workflows.",
 	},
 	{
 		icon: Palette,
-		title: "25 Design Tokens",
+		title: "Enterprise Visual System",
 		description:
-			"oklch color space, 3 themes, consistent density system. Change the entire look with CSS variables.",
+			"A consistent design language with density, themes, and polished defaults for serious products.",
 	},
 	{
 		icon: PanelLeft,
 		title: "App Shell & Navigation",
 		description:
-			"Sidebar, tabbed nav, breadcrumbs, command palette. Everything for complex multi-page apps.",
+			"Structured layouts for multi-page apps with tabs, breadcrumbs, sidebars, and command flows.",
 	},
 	{
 		icon: FileCheck,
 		title: "Forms & Validation",
 		description:
-			"react-hook-form + Zod, multi-step forms, inline editing, date pickers, and 15+ input types.",
+			"Production-ready form patterns for CRUD-heavy products and operator-facing workflows.",
 	},
 	{
 		icon: BarChart3,
 		title: "Charts & Dashboards",
 		description:
-			"Recharts integration with StatsGrid, KPI cards, funnel charts, and forecast visualizations.",
+			"KPI and reporting building blocks that fit naturally into business software.",
 	},
 	{
 		icon: Bot,
 		title: "52 AI Components",
 		description:
-			"Chat, reasoning traces, tool confirmations, metric cards. Build AI-native interfaces from day one.",
+			"Components for AI-native workflows inside serious software, not just chat demos.",
 	},
 ]
 
@@ -56,10 +56,11 @@ export function FeaturesGrid() {
 					>
 						<p className="text-sm font-medium text-brand mb-1.5">Features</p>
 						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
-							The missing middle between primitives and full products
+							The full package for operator-facing software
 						</h2>
 						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							Enough structure to ship quickly, enough ownership to keep your product flexible.
+							Components, blocks, and workflows designed for products where users manage data and
+							move fast.
 						</p>
 					</motion.div>
 
