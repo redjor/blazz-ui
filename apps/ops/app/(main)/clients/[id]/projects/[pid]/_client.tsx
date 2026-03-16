@@ -653,6 +653,27 @@ export default function ProjectDetailPageClient({ params }: Props) {
 				)}
 
 				{/* Invoices section */}
+				<InlineStack align="space-between" blockAlign="center">
+					<h2 className="text-sm font-medium text-fg">Factures</h2>
+					{(() => {
+						const readyEntries = entries.filter(
+							(e) => e.billable && (e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt))
+						)
+						return readyEntries.length > 0 ? (
+							<Button
+								size="sm"
+								variant="outline"
+								onClick={() => {
+									setInvoiceEntries(readyEntries)
+									setInvoiceDialogOpen(true)
+								}}
+							>
+								<FileText className="size-3.5 mr-1" />
+								Facturer ({readyEntries.length} entrée{readyEntries.length > 1 ? "s" : ""})
+							</Button>
+						) : null
+					})()}
+				</InlineStack>
 				<InvoiceSection projectId={pid as Id<"projects">} />
 
 				{/* Time entries DataTable */}
