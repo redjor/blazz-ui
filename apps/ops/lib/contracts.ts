@@ -30,6 +30,7 @@ export interface ContractMetrics {
 export function computeContractMetrics(opts: {
 	daysPerMonth: number
 	carryOver: boolean
+	prestationStartDate?: string // ISO — if set, entries before startDate are counted in first month
 	startDate: string // ISO "2026-01-01"
 	endDate: string // ISO "2026-12-31"
 	hoursPerDay: number
@@ -53,11 +54,17 @@ export function computeContractMetrics(opts: {
 	}
 	if (months.length === 0) return null
 
+	const firstMonth = months[0]
+
 	// Group billable entries by month
+	// If prestationStartDate is set, entries before startDate are bucketed into the first contract month
 	const minutesByMonth: Record<string, number> = {}
 	for (const e of opts.entries) {
 		if (!e.billable) continue
-		const m = e.date.slice(0, 7)
+		let m = e.date.slice(0, 7)
+		if (opts.prestationStartDate && e.date >= opts.prestationStartDate && e.date < opts.startDate) {
+			m = firstMonth
+		}
 		minutesByMonth[m] = (minutesByMonth[m] ?? 0) + e.minutes
 	}
 

@@ -490,6 +490,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 			? computeContractMetrics({
 					daysPerMonth: activeContract.daysPerMonth,
 					carryOver: activeContract.carryOver,
+					prestationStartDate: activeContract.prestationStartDate,
 					startDate: activeContract.startDate,
 					endDate: activeContract.endDate,
 					hoursPerDay: project.hoursPerDay,
@@ -784,6 +785,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 								type: editingContract.type,
 								daysPerMonth: editingContract.daysPerMonth,
 								carryOver: editingContract.carryOver,
+								prestationStartDate: editingContract.prestationStartDate,
 								startDate: editingContract.startDate,
 								endDate: editingContract.endDate,
 								status: editingContract.status,

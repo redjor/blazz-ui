@@ -45,6 +45,9 @@ export function ContractSection({ contract, metrics, onComplete, onEdit }: Contr
 								: "Contrat Forfait"}
 					</h3>
 					<span className="text-xs text-fg-muted">
+						{contract.prestationStartDate && (
+							<span className="opacity-60">{contract.prestationStartDate} → </span>
+						)}
 						{contract.startDate} &rarr; {contract.endDate}
 					</span>
 				</div>

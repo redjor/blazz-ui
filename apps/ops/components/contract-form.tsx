@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
+import { DateRangeSelector, DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -32,6 +32,7 @@ const schema = z
 			z.number().positive("Requis pour TMA").optional()
 		),
 		carryOver: z.boolean(),
+		prestationStartDate: z.string().optional(),
 		startDate: z.string().min(1, "Date de début requise"),
 		endDate: z.string().min(1, "Date de fin requise"),
 		status: z.enum(["active", "completed", "cancelled"]),
@@ -45,6 +46,13 @@ const schema = z
 		message: "La date de fin doit être après la date de début",
 		path: ["endDate"],
 	})
+	.refine(
+		(d) => !d.prestationStartDate || !d.startDate || d.prestationStartDate < d.startDate,
+		{
+			message: "Le début de prestation doit être avant la date de début du contrat",
+			path: ["prestationStartDate"],
+		}
+	)
 
 type FormValues = z.infer<typeof schema>
 
@@ -122,6 +130,7 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 					type: values.type,
 					daysPerMonth: values.type === "tma" ? values.daysPerMonth : undefined,
 					carryOver: values.carryOver,
+					prestationStartDate: values.type === "tma" ? values.prestationStartDate : undefined,
 					startDate: values.startDate,
 					endDate: values.endDate,
 					status: values.status,
@@ -201,6 +210,36 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 						checked={watch("carryOver")}
 						onCheckedChange={(v) => setValue("carryOver", v)}
 					/>
+				</div>
+			)}
+
+			{/* Prestation start date — TMA only */}
+			{contractType === "tma" && (
+				<div className="space-y-1.5">
+					<Label>Début de prestation</Label>
+					<p className="text-xs text-fg-muted">
+						Si la prestation commence avant le contrat, les jours seront comptés sur le premier mois.
+					</p>
+					<DateSelector
+						value={
+							watch("prestationStartDate")
+								? parseISO(watch("prestationStartDate")!)
+								: undefined
+						}
+						onChange={(date) =>
+							setValue(
+								"prestationStartDate",
+								date ? format(date, "yyyy-MM-dd") : undefined
+							)
+						}
+						placeholder="Optionnel…"
+						className="w-full"
+					/>
+					{errors.prestationStartDate && (
+						<p className="text-xs text-red-500">
+							{errors.prestationStartDate.message}
+						</p>
+					)}
 				</div>
 			)}
 

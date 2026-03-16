@@ -44,6 +44,7 @@ export default defineSchema({
 		type: v.union(v.literal("tma"), v.literal("forfait"), v.literal("regie")),
 		daysPerMonth: v.optional(v.number()),
 		carryOver: v.boolean(),
+		prestationStartDate: v.optional(v.string()),
 		startDate: v.string(),
 		endDate: v.string(),
 		status: v.union(v.literal("active"), v.literal("completed"), v.literal("cancelled")),
