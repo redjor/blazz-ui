@@ -6,7 +6,7 @@ export const features = {
 	time: true,
 	recap: true,
 	todos: true,
-	chat: true,
+	chat: false,
 	packages: true,
 	licenses: true,
 	invoicing: false,
