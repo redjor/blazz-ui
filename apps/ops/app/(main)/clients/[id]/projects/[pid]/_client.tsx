@@ -657,7 +657,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					<h2 className="text-sm font-medium text-fg">Factures</h2>
 					{(() => {
 						const readyEntries = entries.filter(
-							(e) => e.billable && (e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt))
+							(e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
 						)
 						return readyEntries.length > 0 ? (
 							<Button
