@@ -29,6 +29,7 @@ const schema = z.object({
 	phone: z.string().optional(),
 	address: z.string().optional(),
 	notes: z.string().optional(),
+	qontoClientId: z.string().optional(),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -183,6 +184,14 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 			<div className="space-y-1.5">
 				<Label htmlFor="notes">Notes</Label>
 				<Textarea id="notes" rows={3} {...register("notes")} />
+			</div>
+			<div className="space-y-1.5">
+				<Label htmlFor="qontoClientId">ID Client Qonto</Label>
+				<Input
+					id="qontoClientId"
+					placeholder="Visible dans Qonto > Clients"
+					{...register("qontoClientId")}
+				/>
 			</div>
 			<DialogFooter>
 				{onCancel && (
