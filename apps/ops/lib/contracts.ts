@@ -44,10 +44,16 @@ export function computeContractMetrics(opts: {
 	const now = new Date()
 	const effectiveEnd = end < now ? end : now
 
+	// If we're in the prestation window (before contract start), show first contract month
+	const inPrestationWindow =
+		opts.prestationStartDate && now < start && now >= new Date(opts.prestationStartDate)
+
 	// Build list of months: "2026-01", "2026-02", ...
 	const months: string[] = []
 	const cursor = new Date(start.getFullYear(), start.getMonth(), 1)
-	const lastMonth = new Date(effectiveEnd.getFullYear(), effectiveEnd.getMonth(), 1)
+	const lastMonth = inPrestationWindow
+		? new Date(start.getFullYear(), start.getMonth(), 1) // force first contract month
+		: new Date(effectiveEnd.getFullYear(), effectiveEnd.getMonth(), 1)
 	while (cursor <= lastMonth) {
 		months.push(`${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}`)
 		cursor.setMonth(cursor.getMonth() + 1)
