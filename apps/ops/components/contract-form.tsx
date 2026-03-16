@@ -119,7 +119,12 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 			if (defaultValues?.id) {
 				await update({
 					id: defaultValues.id,
+					type: values.type,
+					daysPerMonth: values.type === "tma" ? values.daysPerMonth : undefined,
+					carryOver: values.carryOver,
+					startDate: values.startDate,
 					endDate: values.endDate,
+					status: values.status,
 					notes: values.notes,
 				})
 				if (pendingFiles.length > 0) {

@@ -13,6 +13,7 @@ interface ContractSectionProps {
 	contract: Doc<"contracts">
 	metrics: ContractMetrics | null
 	onComplete?: () => void
+	onEdit?: () => void
 }
 
 const CONTRACT_STATUS_LABEL: Record<string, string> = {
@@ -21,7 +22,7 @@ const CONTRACT_STATUS_LABEL: Record<string, string> = {
 	cancelled: "Annulé",
 }
 
-export function ContractSection({ contract, metrics, onComplete }: ContractSectionProps) {
+export function ContractSection({ contract, metrics, onComplete, onEdit }: ContractSectionProps) {
 	const files = useQuery(api.contractFiles.listByContract, { contractId: contract._id })
 	const removeFile = useMutation(api.contractFiles.remove)
 	const colors = metrics ? healthColor(metrics.contractHealth) : null
@@ -48,6 +49,11 @@ export function ContractSection({ contract, metrics, onComplete }: ContractSecti
 					</span>
 				</div>
 				<div className="flex items-center gap-2">
+					{contract.status === "active" && onEdit && (
+						<Button size="sm" variant="ghost" onClick={onEdit}>
+							Modifier
+						</Button>
+					)}
 					{contract.status === "active" && onComplete && (
 						<Button size="sm" variant="outline" onClick={onComplete}>
 							Clôturer

@@ -84,13 +84,25 @@ export const create = mutation({
 export const update = mutation({
 	args: {
 		id: v.id("contracts"),
+		type: v.optional(contractTypeValidator),
+		daysPerMonth: v.optional(v.number()),
+		carryOver: v.optional(v.boolean()),
+		startDate: v.optional(v.string()),
 		endDate: v.optional(v.string()),
+		status: v.optional(contractStatusValidator),
 		notes: v.optional(v.string()),
 	},
 	handler: async (ctx, { id, ...fields }) => {
 		const { userId } = await requireAuth(ctx)
 		const contract = await ctx.db.get(id)
 		if (!contract || contract.userId !== userId) throw new ConvexError("Introuvable")
+
+		const newType = fields.type ?? contract.type
+		const newDays = fields.daysPerMonth ?? contract.daysPerMonth
+		if (newType === "tma" && (!newDays || newDays <= 0)) {
+			throw new Error("Le nombre de jours/mois est requis pour un contrat TMA.")
+		}
+
 		return ctx.db.patch(id, fields)
 	},
 })

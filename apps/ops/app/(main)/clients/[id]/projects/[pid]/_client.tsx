@@ -61,6 +61,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 	const [editOpen, setEditOpen] = useState(false)
 	const [quickEntryOpen, setQuickEntryOpen] = useState(false)
 	const [contractOpen, setContractOpen] = useState(false)
+	const [editingContract, setEditingContract] = useState<Doc<"contracts"> | null>(null)
 	const activeContract = useQuery(api.contracts.getActiveByProject, {
 		projectId: pid as Id<"projects">,
 	})
@@ -581,6 +582,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					<ContractSection
 						contract={activeContract}
 						metrics={contractMetrics}
+						onEdit={() => setEditingContract(activeContract)}
 						onComplete={async () => {
 							try {
 								await completeContract({ id: activeContract._id })
@@ -765,6 +767,32 @@ export default function ProjectDetailPageClient({ params }: Props) {
 						onSuccess={() => setContractOpen(false)}
 						onCancel={() => setContractOpen(false)}
 					/>
+				</DialogContent>
+			</Dialog>
+
+			{/* Edit contract dialog */}
+			<Dialog open={!!editingContract} onOpenChange={(open) => !open && setEditingContract(null)}>
+				<DialogContent size="lg" className="max-h-[85vh] overflow-y-auto">
+					<DialogHeader>
+						<DialogTitle>Modifier le contrat</DialogTitle>
+					</DialogHeader>
+					{editingContract && (
+						<ContractForm
+							projectId={pid as Id<"projects">}
+							defaultValues={{
+								id: editingContract._id,
+								type: editingContract.type,
+								daysPerMonth: editingContract.daysPerMonth,
+								carryOver: editingContract.carryOver,
+								startDate: editingContract.startDate,
+								endDate: editingContract.endDate,
+								status: editingContract.status,
+								notes: editingContract.notes,
+							}}
+							onSuccess={() => setEditingContract(null)}
+							onCancel={() => setEditingContract(null)}
+						/>
+					)}
 				</DialogContent>
 			</Dialog>
 		</>
