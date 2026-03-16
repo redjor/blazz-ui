@@ -14,9 +14,14 @@ import { cn } from "../../lib/utils"
  *     description="Manage your account preferences"
  *   />
  *   <SettingsSection title="General">
- *     <SettingsItem label="Language" description="Choose your preferred language">
- *       <Select>...</Select>
- *     </SettingsItem>
+ *     <Item>
+ *       <ItemMedia variant="icon"><Globe /></ItemMedia>
+ *       <ItemContent>
+ *         <ItemTitle>Language</ItemTitle>
+ *         <ItemDescription>Choose your preferred language</ItemDescription>
+ *       </ItemContent>
+ *       <ItemActions><Select>...</Select></ItemActions>
+ *     </Item>
  *   </SettingsSection>
  * </SettingsPage>
  * ```
@@ -57,7 +62,20 @@ function SettingsHeader({
 
 /**
  * SettingsSection — A group of related settings with a title and optional description.
- * Renders items inside a bordered card-like container.
+ * Renders children (use Item components) inside a bordered card with dividers.
+ *
+ * @example
+ * ```tsx
+ * <SettingsSection title="Notifications" description="Configure how you receive alerts">
+ *   <Item>
+ *     <ItemContent>
+ *       <ItemTitle>Email notifications</ItemTitle>
+ *       <ItemDescription>Receive updates via email</ItemDescription>
+ *     </ItemContent>
+ *     <ItemActions><Switch /></ItemActions>
+ *   </Item>
+ * </SettingsSection>
+ * ```
  */
 function SettingsSection({
 	className,
@@ -75,7 +93,7 @@ function SettingsSection({
 				<h2 className="text-sm font-semibold text-fg">{title}</h2>
 				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
-			<div className="divide-y divide-separator rounded-lg border border-container bg-surface">
+			<div className="divide-y divide-separator rounded-lg border border-container bg-surface [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
 				{children}
 			</div>
 		</section>
@@ -83,72 +101,20 @@ function SettingsSection({
 }
 
 /**
- * SettingsItem — A single settings row with label, description, and a trailing control.
- *
- * Children are rendered on the right side (e.g., Switch, Select, Button).
- *
- * @example
- * ```tsx
- * <SettingsItem label="Dark mode" description="Toggle dark appearance">
- *   <Switch />
- * </SettingsItem>
- * ```
- */
-function SettingsItem({
-	className,
-	label,
-	description,
-	icon,
-	children,
-	...props
-}: React.ComponentProps<"div"> & {
-	label: string
-	description?: string
-	icon?: React.ReactNode
-}) {
-	return (
-		<div
-			data-slot="settings-item"
-			className={cn(
-				"flex items-center justify-between gap-4 px-4 py-3",
-				"first:rounded-t-lg last:rounded-b-lg",
-				className
-			)}
-			{...props}
-		>
-			<div className="flex items-center gap-3 min-w-0">
-				{icon && (
-					<div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-surface-3 text-fg-muted [&_svg]:size-4">
-						{icon}
-					</div>
-				)}
-				<div className="min-w-0 space-y-0.5">
-					<div className="text-sm font-medium text-fg">{label}</div>
-					{description && (
-						<div className="text-xs text-fg-muted leading-snug">{description}</div>
-					)}
-				</div>
-			</div>
-			{children && (
-				<div className="flex shrink-0 items-center gap-2">{children}</div>
-			)}
-		</div>
-	)
-}
-
-/**
  * SettingsDanger — A danger zone section with red-tinted styling.
  * Use for destructive actions like account deletion.
+ * Children should be Item components.
  *
  * @example
  * ```tsx
- * <SettingsDanger
- *   title="Danger zone"
- *   description="Irreversible actions"
- * >
- *   <SettingsItem label="Delete account" description="Permanently delete your account and data">
- *     <Button variant="danger" size="sm">Delete</Button>
- *   </SettingsItem>
+ * <SettingsDanger title="Danger zone" description="Irreversible actions">
+ *   <Item>
+ *     <ItemContent>
+ *       <ItemTitle>Delete account</ItemTitle>
+ *       <ItemDescription>Permanently delete your account and data</ItemDescription>
+ *     </ItemContent>
+ *     <ItemActions><Button variant="danger" size="sm">Delete</Button></ItemActions>
+ *   </Item>
  * </SettingsDanger>
  * ```
  */
@@ -168,11 +134,11 @@ function SettingsDanger({
 				<h2 className="text-sm font-semibold text-negative">{title}</h2>
 				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
-			<div className="divide-y divide-separator rounded-lg border border-negative/25 bg-negative/5">
+			<div className="divide-y divide-separator rounded-lg border border-negative/25 bg-negative/5 [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
 				{children}
 			</div>
 		</section>
 	)
 }
 
-export { SettingsPage, SettingsHeader, SettingsSection, SettingsItem, SettingsDanger }
+export { SettingsPage, SettingsHeader, SettingsSection, SettingsDanger }
