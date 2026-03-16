@@ -33,6 +33,8 @@ export {
 	PageHeader as PageHeaderShell,
 	type PageHeaderProps as PageHeaderShellProps,
 } from "./page-header-shell"
+// ── Settings ──────────────────────────────────
+export * from "./settings-block"
 export * from "./sidebar-exports"
 export * from "./sidebar-search"
 export * from "./sidebar-user"
