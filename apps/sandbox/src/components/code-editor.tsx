@@ -5,22 +5,25 @@ import Editor, { type OnMount } from "@monaco-editor/react"
 interface CodeEditorProps {
 	value: string
 	onChange: (value: string) => void
+	language?: string
 }
 
-export function CodeEditor({ value, onChange }: CodeEditorProps) {
+export function CodeEditor({ value, onChange, language = "typescript" }: CodeEditorProps) {
 	const handleMount: OnMount = (_editor, monaco) => {
-		monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-			jsx: monaco.languages.typescript.JsxEmit.React,
-			jsxFactory: "React.createElement",
-			esModuleInterop: true,
-			allowJs: true,
-			allowNonTsExtensions: true,
-		})
+		if (language === "typescript") {
+			monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+				jsx: monaco.languages.typescript.JsxEmit.React,
+				jsxFactory: "React.createElement",
+				esModuleInterop: true,
+				allowJs: true,
+				allowNonTsExtensions: true,
+			})
 
-		monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-			noSemanticValidation: true,
-			noSyntaxValidation: false,
-		})
+			monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+				noSemanticValidation: true,
+				noSyntaxValidation: false,
+			})
+		}
 	}
 
 	return (
@@ -28,9 +31,9 @@ export function CodeEditor({ value, onChange }: CodeEditorProps) {
 			<Editor
 				height="100%"
 				width="100%"
-				language="typescript"
+				language={language}
 				theme="vs-dark"
-				path="sandbox.tsx"
+				path={language === "css" ? "theme.css" : "sandbox.tsx"}
 				value={value}
 				onChange={(val) => val !== undefined && onChange(val)}
 				onMount={handleMount}

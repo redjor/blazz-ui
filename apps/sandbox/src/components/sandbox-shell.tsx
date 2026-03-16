@@ -18,6 +18,7 @@ import { CodeEditor } from "~/components/code-editor"
 import { ExamplesPanel } from "~/components/examples-panel"
 import { VariantsGrid } from "~/components/variants-grid"
 import { ElementPanel } from "~/components/element-panel"
+import { ThemeEditor, DEFAULT_THEME_CSS } from "~/components/theme-editor"
 import type { InspectedElement } from "~/components/preview-panel"
 
 // ── Helpers ─────────────────────────────────────
@@ -48,8 +49,9 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 		() => persisted?.props ?? getDefaultProps(entry),
 	)
 	const [activeTab, setActiveTab] = useState<
-		"controls" | "code" | "examples" | "element"
+		"controls" | "code" | "examples" | "element" | "theme"
 	>("controls")
+	const [themeCss, setThemeCss] = useState(DEFAULT_THEME_CSS)
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
 	const [showVariants, setShowVariants] = useState(false)
 	const [splitRatio, setSplitRatio] = useState(0.6)
@@ -254,6 +256,9 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 							<TabsTrigger value="examples" className="text-xs">
 								Examples
 							</TabsTrigger>
+							<TabsTrigger value="theme" className="text-xs">
+								Theme
+							</TabsTrigger>
 							{selectedElement && (
 								<TabsTrigger value="element" className="text-xs">
 									Element
@@ -290,6 +295,10 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 							examples={entry.examples ?? []}
 							onSelect={handleExampleSelect}
 						/>
+					</TabsContent>
+
+					<TabsContent value="theme" className="flex-1 min-h-0 m-0">
+						<ThemeEditor value={themeCss} onChange={setThemeCss} />
 					</TabsContent>
 
 					{selectedElement && (
