@@ -226,7 +226,7 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 								? parseISO(watch("prestationStartDate")!)
 								: undefined
 						}
-						onChange={(date) =>
+						onValueChange={(date) =>
 							setValue(
 								"prestationStartDate",
 								date ? format(date, "yyyy-MM-dd") : undefined
