@@ -86,7 +86,13 @@ export function tabsReducer(state: TabsState, action: TabsAction): TabsState {
       }
     }
     case "RESTORE": {
-      return action.payload
+      const { tabs, activeTabId } = action.payload
+      // Ensure activeTabId actually exists in tabs
+      const validActiveId =
+        activeTabId && tabs.some((t) => t.id === activeTabId)
+          ? activeTabId
+          : tabs.length > 0 ? tabs[0].id : null
+      return { tabs, activeTabId: validActiveId }
     }
     default:
       return state
@@ -98,7 +104,7 @@ export function isValidTabsState(data: unknown): data is TabsState {
   const obj = data as Record<string, unknown>
   if (!Array.isArray(obj.tabs)) return false
   if (obj.activeTabId !== null && typeof obj.activeTabId !== "string") return false
-  return obj.tabs.every(
+  const tabsValid = obj.tabs.every(
     (t: unknown) =>
       t &&
       typeof t === "object" &&
@@ -106,6 +112,11 @@ export function isValidTabsState(data: unknown): data is TabsState {
       typeof (t as Record<string, unknown>).url === "string" &&
       typeof (t as Record<string, unknown>).title === "string"
   )
+  if (!tabsValid) return false
+  // Verify all tab ids are unique
+  const ids = (obj.tabs as Tab[]).map((t) => t.id)
+  if (new Set(ids).size !== ids.length) return false
+  return true
 }
 
 export const initialTabsState: TabsState = { tabs: [], activeTabId: null }

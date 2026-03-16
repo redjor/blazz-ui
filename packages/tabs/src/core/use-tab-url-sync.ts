@@ -21,8 +21,16 @@ export function useTabUrlSync(pathname: string, titleResolver: (pathname: string
     if (isInitialMount.current) {
       isInitialMount.current = false
       const existing = currentTabs.find((t) => t.url === pathname)
-      if (existing && existing.id !== currentActiveTabId) {
-        activateTab(existing.id)
+      if (existing) {
+        if (existing.id !== currentActiveTabId) {
+          activateTab(existing.id)
+        }
+        return
+      }
+      // Deep-link: URL not in any tab — update active tab to match
+      if (currentActiveTabId) {
+        updateActiveTabUrl(pathname)
+        updateTabTitle(currentActiveTabId, titleResolver(pathname))
       }
       return
     }

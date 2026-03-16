@@ -26,9 +26,16 @@ export function TabsInterceptor({
   const handleClick = useCallback(
     (e: MouseEvent) => {
       if (!e.metaKey && !e.ctrlKey) return
+      // Ignore non-primary clicks (middle, right)
+      if (e.button !== 0) return
+      if (e.defaultPrevented) return
 
       const anchor = (e.target as HTMLElement).closest("a")
       if (!anchor) return
+
+      // Respect download links and external targets
+      if (anchor.hasAttribute("download")) return
+      if (anchor.target === "_blank" || anchor.target === "_external") return
 
       const href = anchor.getAttribute("href")
       if (!href || !href.startsWith("/")) return
@@ -55,6 +62,16 @@ export function TabsInterceptor({
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "w") {
+        // Don't intercept when focus is in an editable element
+        const active = document.activeElement
+        if (
+          active instanceof HTMLInputElement ||
+          active instanceof HTMLTextAreaElement ||
+          (active instanceof HTMLElement && active.isContentEditable)
+        ) {
+          return
+        }
+
         if (activeTabId && tabs.length >= 2) {
           e.preventDefault()
           const index = tabsRef.current.findIndex((t) => t.id === activeTabId)

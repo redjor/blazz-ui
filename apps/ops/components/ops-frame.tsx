@@ -225,7 +225,7 @@ function OpsTabBar() {
 						activateTab(tab.id)
 						router.push(tab.url)
 					}}
-					onClose={() => {
+					onClose={tabs.length > 1 ? () => {
 						const index = tabs.findIndex((t) => t.id === tab.id)
 						const remaining = tabs.filter((t) => t.id !== tab.id)
 						closeTab(tab.id)
@@ -234,8 +234,8 @@ function OpsTabBar() {
 							tabClickNavRef.current = true
 							router.push(next.url)
 						}
-					}}
-					className="bg-surface-1 text-fg-secondary"
+					} : undefined}
+					className="bg-surface-1 text-fg-secondary hover:bg-surface-2 hover:text-fg"
 					activeClassName="bg-surface-2 text-fg"
 				/>
 			))}
@@ -329,9 +329,11 @@ function OpsFrameInner({ children }: { children: ReactNode }) {
 		// Only update if pathname actually changed (not just a re-render)
 		if (pathname !== prevPathnameRef.current) {
 			updateActiveTabUrl(pathname)
+			// Set title from pathname immediately — breadcrumbs will override if the page sets them
+			updateTabTitle(activeTabId, titleFromPathname(pathname))
 		}
 		prevPathnameRef.current = pathname
-	}, [pathname, activeTabId, updateActiveTabUrl])
+	}, [pathname, activeTabId, updateActiveTabUrl, updateTabTitle])
 
 	// --- Title sync: only fire when breadcrumbs change, NOT when active tab changes ---
 	// Reading activeTabId from a ref prevents the effect from firing on tab switch,

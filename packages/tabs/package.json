@@ -8,10 +8,25 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*",
-    "./ui": "./src/ui/index.ts",
-    "./adapters/next": "./src/adapters/next/index.ts"
+    ".": {
+      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+      "development": "./src/index.ts"
+    },
+    "./ui": {
+      "import": { "types": "./dist/ui/index.d.ts", "default": "./dist/ui/index.js" },
+      "development": "./src/ui/index.ts"
+    },
+    "./adapters/next": {
+      "import": { "types": "./dist/adapters/next/index.d.ts", "default": "./dist/adapters/next/index.js" },
+      "development": "./src/adapters/next/index.ts"
+    }
+  },
+  "publishConfig": {
+    "exports": {
+      ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+      "./ui": { "types": "./dist/ui/index.d.ts", "import": "./dist/ui/index.js" },
+      "./adapters/next": { "types": "./dist/adapters/next/index.d.ts", "import": "./dist/adapters/next/index.js" }
+    }
   },
   "files": ["dist", "src"],
   "scripts": {

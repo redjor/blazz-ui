@@ -28,20 +28,20 @@ export function TabsBar({
     >
       <div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto px-1">
         {children}
+        {onAddTab && (
+          <button
+            type="button"
+            onClick={onAddTab}
+            className={twMerge(
+              "flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+              addButtonClassName
+            )}
+            aria-label={addButtonLabel}
+          >
+            <Plus className="h-3.5 w-3.5" />
+          </button>
+        )}
       </div>
-      {onAddTab && (
-        <button
-          type="button"
-          onClick={onAddTab}
-          className={twMerge(
-            "flex h-9 w-9 shrink-0 items-center justify-center border-l border-zinc-200 text-zinc-500 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900",
-            addButtonClassName
-          )}
-          aria-label={addButtonLabel}
-        >
-          <Plus className="h-4 w-4" />
-        </button>
-      )}
     </div>
   )
 }
