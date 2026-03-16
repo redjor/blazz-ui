@@ -13,6 +13,7 @@ export default defineSchema({
 		address: v.optional(v.string()),
 		notes: v.optional(v.string()),
 		logoStorageId: v.optional(v.id("_storage")),
+		qontoClientId: v.optional(v.string()),
 		createdAt: v.number(),
 	})
 		.index("by_user", ["userId"])
@@ -66,6 +67,27 @@ export default defineSchema({
 		.index("by_contract", ["contractId"])
 		.index("by_user", ["userId"]),
 
+	invoices: defineTable({
+		userId: v.string(),
+		projectId: v.id("projects"),
+		clientId: v.id("clients"),
+		qontoInvoiceId: v.optional(v.string()),
+		qontoNumber: v.optional(v.string()),
+		label: v.string(),
+		totalAmount: v.number(),
+		vatRate: v.number(),
+		currency: v.union(v.literal("EUR")),
+		periodStart: v.string(),
+		periodEnd: v.string(),
+		status: v.union(v.literal("draft"), v.literal("sent"), v.literal("paid")),
+		pdfStorageId: v.optional(v.id("_storage")),
+		paidAt: v.optional(v.number()),
+		createdAt: v.number(),
+	})
+		.index("by_project", ["projectId"])
+		.index("by_user", ["userId"])
+		.index("by_status", ["status"]),
+
 	timeEntries: defineTable({
 		userId: v.string(),
 		projectId: v.id("projects"),
@@ -74,6 +96,7 @@ export default defineSchema({
 		hourlyRate: v.number(),
 		description: v.optional(v.string()),
 		billable: v.boolean(),
+		invoiceId: v.optional(v.id("invoices")),
 		invoicedAt: v.optional(v.number()),
 		status: v.optional(
 			v.union(
@@ -89,7 +112,8 @@ export default defineSchema({
 		.index("by_date", ["date"])
 		.index("by_user", ["userId"])
 		.index("by_user_project", ["userId", "projectId"])
-		.index("by_user_date", ["userId", "date"]),
+		.index("by_user_date", ["userId", "date"])
+		.index("by_invoice", ["invoiceId"]),
 
 	categories: defineTable({
 		userId: v.optional(v.string()),
