@@ -28,6 +28,7 @@ import {
 	SidebarTrigger,
 } from "@blazz/ui/components/ui/sidebar"
 import {
+	Banknote,
 	CheckSquare,
 	Clock,
 	FolderOpen,
@@ -64,6 +65,7 @@ const navItems: Array<{
 		flag: "time",
 		items: [{ title: "Récapitulatif", url: "/recap", flag: "recap" }],
 	},
+	{ title: "Finances", url: "/finances", icon: Banknote, flag: "finances" },
 	{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
 	{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
 	{ title: "Packages", url: "/packages", icon: Package, flag: "packages" },

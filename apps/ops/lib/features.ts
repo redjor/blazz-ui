@@ -10,6 +10,7 @@ export const features = {
 	packages: true,
 	licenses: true,
 	invoicing: false,
+	finances: true,
 } as const satisfies Record<string, boolean>
 
 export type FeatureFlag = keyof typeof features
@@ -29,6 +30,7 @@ const routeMap: Record<string, FeatureFlag> = {
 	"/chat": "chat",
 	"/packages": "packages",
 	"/licenses": "licenses",
+	"/finances": "finances",
 }
 
 export function routeToFlag(pathname: string): FeatureFlag | null {
