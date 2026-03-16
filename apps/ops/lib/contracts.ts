@@ -21,6 +21,10 @@ export interface ContractMetrics {
 	totalDaysAllocated: number
 	totalDaysConsumed: number
 	monthlyBreakdown: MonthRow[]
+	/** True when we're consuming next month's budget early (prestation window) */
+	isAnticipated: boolean
+	/** The label for the target month, e.g. "2026-04" */
+	targetMonth: string
 }
 
 /**
@@ -113,5 +117,7 @@ export function computeContractMetrics(opts: {
 		totalDaysAllocated,
 		totalDaysConsumed: Math.round(totalDaysConsumed * 10) / 10,
 		monthlyBreakdown: rows,
+		isAnticipated: !!inPrestationWindow,
+		targetMonth: currentRow.month,
 	}
 }

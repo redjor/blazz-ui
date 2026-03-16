@@ -3,6 +3,8 @@
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { useMutation, useQuery } from "convex/react"
+import { format, parse } from "date-fns"
+import { fr } from "date-fns/locale"
 import { Download, FileText, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
@@ -20,6 +22,11 @@ const CONTRACT_STATUS_LABEL: Record<string, string> = {
 	active: "Actif",
 	completed: "Terminé",
 	cancelled: "Annulé",
+}
+
+function formatMonth(ym: string): string {
+	const date = parse(ym, "yyyy-MM", new Date())
+	return format(date, "MMMM", { locale: fr })
 }
 
 export function ContractSection({ contract, metrics, onComplete, onEdit }: ContractSectionProps) {
@@ -85,11 +92,22 @@ export function ContractSection({ contract, metrics, onComplete, onEdit }: Contr
 						</div>
 					)}
 
+					{/* Anticipated banner */}
+					{metrics.isAnticipated && (
+						<div className="px-4 py-2.5 rounded-lg text-sm font-medium bg-blue-500/10 text-blue-600 dark:text-blue-400">
+							Prestation anticipée — consommation imputée sur {formatMonth(metrics.targetMonth)}
+						</div>
+					)}
+
 					{/* KPI cards */}
 					<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
 						<Card>
 							<CardContent className="p-4">
-								<p className="text-xs text-fg-muted mb-1">Ce mois</p>
+								<p className="text-xs text-fg-muted mb-1">
+									{metrics.isAnticipated
+										? `${formatMonth(metrics.targetMonth)} (anticipé)`
+										: "Ce mois"}
+								</p>
 								<p className="text-xl font-semibold font-mono">
 									{metrics.daysConsumedThisMonth}
 									<span className="text-sm text-fg-muted font-normal">
@@ -100,7 +118,11 @@ export function ContractSection({ contract, metrics, onComplete, onEdit }: Contr
 						</Card>
 						<Card>
 							<CardContent className="p-4">
-								<p className="text-xs text-fg-muted mb-1">Restant ce mois</p>
+								<p className="text-xs text-fg-muted mb-1">
+									{metrics.isAnticipated
+										? `Restant ${formatMonth(metrics.targetMonth)}`
+										: "Restant ce mois"}
+								</p>
 								<p
 									className={`text-xl font-semibold font-mono ${
 										metrics.daysRemainingThisMonth < 0
@@ -136,7 +158,11 @@ export function ContractSection({ contract, metrics, onComplete, onEdit }: Contr
 					{/* Progress bar — this month */}
 					<div className="space-y-2">
 						<div className="flex items-center justify-between text-xs">
-							<span className="text-fg-muted">Consommation du mois</span>
+							<span className="text-fg-muted">
+								{metrics.isAnticipated
+									? `Consommation ${formatMonth(metrics.targetMonth)}`
+									: "Consommation du mois"}
+							</span>
 							<span className="text-fg font-mono font-medium">
 								{metrics.daysConsumedThisMonth} / {metrics.daysAllocatedThisMonth}j (
 								{percentThisMonth}%)
