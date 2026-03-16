@@ -1,5 +1,14 @@
 {
 	"$schema": "https://v2-8-11.turborepo.dev/schema.json",
+	"globalPassThroughEnv": [
+		"CONVEX_DEPLOYMENT",
+		"CONVEX_DEPLOY_KEY",
+		"CONVEX_SITE_URL",
+		"OPENAI_API_KEY",
+		"NEXT_PUBLIC_CONVEX_URL",
+		"NEXT_PUBLIC_CONVEX_SITE_URL",
+		"NEXT_PUBLIC_BLAZZ_LICENSE_KEY"
+	],
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
