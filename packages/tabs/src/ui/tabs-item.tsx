@@ -28,7 +28,7 @@ export function TabsItem({
   return (
     <div
       className={twMerge(
-        "group relative flex shrink-0 items-center rounded-lg text-xs transition-colors",
+        "group relative flex items-center rounded-lg text-xs transition-colors",
         isActive
           ? twMerge("bg-zinc-100 font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100", activeClassName)
           : "text-zinc-500 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-900",
@@ -38,10 +38,10 @@ export function TabsItem({
       <button
         type="button"
         onClick={onClick}
-        className="flex h-7 cursor-pointer items-center gap-1.5 truncate pl-2 pr-1"
+        className="flex h-7 min-w-0 cursor-pointer items-center gap-1.5 truncate pl-2 pr-1"
       >
         {icon && <span className="shrink-0 opacity-60 [&>svg]:h-3.5 [&>svg]:w-3.5">{icon}</span>}
-        <span className="truncate">{title}</span>
+        <span className="block truncate" style={{ maxWidth: 120 }}>{title}</span>
       </button>
       <button
         type="button"

@@ -8,7 +8,7 @@ export interface TabsContextValue {
   tabs: Tab[]
   activeTabId: string | null
   showTabBar: boolean
-  addTab: (payload: { url: string; title: string; icon?: string }) => void
+  addTab: (payload: { url: string; title: string; icon?: string; deduplicate?: boolean }) => void
   closeTab: (id: string) => void
   activateTab: (id: string) => void
   updateActiveTabUrl: (url: string) => void
@@ -29,6 +29,8 @@ interface TabsProviderProps {
   storageKey: string
   storage?: TabsStorage
   defaultTab?: { url: string; title: string; icon?: string }
+  /** Show the tab bar even when only one tab is open (default: false) */
+  alwaysShowTabBar?: boolean
   children: React.ReactNode
 }
 
@@ -36,11 +38,14 @@ export function TabsProvider({
   storageKey,
   storage = defaultStorage,
   defaultTab,
+  alwaysShowTabBar = false,
   children,
 }: TabsProviderProps) {
   const [state, dispatch] = React.useReducer(tabsReducer, initialTabsState)
   const [hydrated, setHydrated] = React.useState(false)
 
+  // Hydrate once on mount — never re-run when defaultTab reference changes
+  const defaultTabRef = React.useRef(defaultTab)
   React.useEffect(() => {
     try {
       const raw = storage.getItem(storageKey)
@@ -55,11 +60,12 @@ export function TabsProvider({
     } catch {
       // ignore corrupt storage
     }
-    if (defaultTab) {
-      dispatch({ type: "ADD_TAB", payload: defaultTab })
+    if (defaultTabRef.current) {
+      dispatch({ type: "ADD_TAB", payload: defaultTabRef.current })
     }
     setHydrated(true)
-  }, [storageKey, storage, defaultTab])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey, storage])
 
   React.useEffect(() => {
     if (!hydrated) return
@@ -74,7 +80,7 @@ export function TabsProvider({
   }, [state, hydrated, storageKey, storage])
 
   const addTab = React.useCallback(
-    (payload: { url: string; title: string; icon?: string }) => {
+    (payload: { url: string; title: string; icon?: string; deduplicate?: boolean }) => {
       dispatch({ type: "ADD_TAB", payload })
     },
     []
@@ -100,14 +106,14 @@ export function TabsProvider({
     () => ({
       tabs: state.tabs,
       activeTabId: state.activeTabId,
-      showTabBar: state.tabs.length >= 2,
+      showTabBar: alwaysShowTabBar ? state.tabs.length >= 1 : state.tabs.length >= 2,
       addTab,
       closeTab,
       activateTab,
       updateActiveTabUrl,
       updateTabTitle,
     }),
-    [state, addTab, closeTab, activateTab, updateActiveTabUrl, updateTabTitle]
+    [state, alwaysShowTabBar, addTab, closeTab, activateTab, updateActiveTabUrl, updateTabTitle]
   )
 
   return <TabsContext.Provider value={value}>{children}</TabsContext.Provider>

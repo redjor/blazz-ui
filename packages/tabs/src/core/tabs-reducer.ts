@@ -6,7 +6,7 @@ export interface TabsState {
 }
 
 export type TabsAction =
-  | { type: "ADD_TAB"; payload: { url: string; title: string; icon?: string } }
+  | { type: "ADD_TAB"; payload: { url: string; title: string; icon?: string; deduplicate?: boolean } }
   | { type: "CLOSE_TAB"; payload: { id: string } }
   | { type: "ACTIVATE_TAB"; payload: { id: string } }
   | { type: "UPDATE_ACTIVE_URL"; payload: { url: string } }
@@ -32,9 +32,12 @@ function resolveActiveTabAfterClose(
 export function tabsReducer(state: TabsState, action: TabsAction): TabsState {
   switch (action.type) {
     case "ADD_TAB": {
-      const existing = state.tabs.find((t) => t.url === action.payload.url)
-      if (existing) {
-        return { ...state, activeTabId: existing.id }
+      const deduplicate = action.payload.deduplicate ?? true
+      if (deduplicate) {
+        const existing = state.tabs.find((t) => t.url === action.payload.url)
+        if (existing) {
+          return { ...state, activeTabId: existing.id }
+        }
       }
       const newTab: Tab = {
         id: generateId(),

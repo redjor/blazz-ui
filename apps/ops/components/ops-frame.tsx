@@ -1,6 +1,9 @@
 "use client"
 
 import { type FeatureFlag, isEnabled } from "@/lib/features"
+import { TabsProvider, useTabs } from "@blazz/tabs"
+import { NextTabsInterceptor } from "@blazz/tabs/adapters/next"
+import { TabsBar, TabsItem } from "@blazz/tabs/ui"
 import { Frame } from "@blazz/ui/components/patterns/frame"
 import { TopBar } from "@blazz/ui/components/patterns/top-bar"
 import {
@@ -37,9 +40,9 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import type { Dispatch, ReactNode, SetStateAction } from "react"
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react"
 import type { BreadcrumbItem } from "./ops-breadcrumb"
 import { OpsUserMenu } from "./ops-user-menu"
 
@@ -156,6 +159,10 @@ function OpsSidebar() {
 	)
 }
 
+// ---------------------------------------------------------------------------
+// Top bar state (breadcrumbs + actions) — set by each page via useOpsTopBar
+// ---------------------------------------------------------------------------
+
 interface OpsTopBarState {
 	breadcrumbs: BreadcrumbItem[] | null
 	actions: ReactNode
@@ -172,6 +179,74 @@ export function useOpsTopBar(items: BreadcrumbItem[] | null, actions?: ReactNode
 	}, [set, items, actions])
 }
 
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+const titleFromPathname = (pathname: string) => {
+	const flat = navItems.flatMap((item) => [item, ...(item.items ?? [])])
+	const match = flat.find((item) => {
+		if (item.url === "/") return pathname === "/"
+		return pathname.startsWith(item.url)
+	})
+	if (match) return match.title
+	const last = pathname.split("/").filter(Boolean).pop()
+	return last ? last.charAt(0).toUpperCase() + last.slice(1) : "Dashboard"
+}
+
+/** Set to true when a tab click triggers navigation — prevents URL sync from interfering */
+const tabClickNavRef = { current: false }
+
+// ---------------------------------------------------------------------------
+// Tab bar UI
+// ---------------------------------------------------------------------------
+
+function OpsTabBar() {
+	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab } = useTabs()
+	const router = useRouter()
+
+	if (!showTabBar) return null
+
+	return (
+		<TabsBar
+			className="border-t-0 border-b border-edge-subtle bg-surface-0"
+			onAddTab={() => {
+				addTab({ url: "/", title: "Dashboard", deduplicate: false })
+				router.push("/")
+			}}
+		>
+			{tabs.map((tab) => (
+				<TabsItem
+					key={tab.id}
+					title={tab.title}
+					isActive={tab.id === activeTabId}
+					onClick={() => {
+						tabClickNavRef.current = true
+						activateTab(tab.id)
+						router.push(tab.url)
+					}}
+					onClose={() => {
+						const index = tabs.findIndex((t) => t.id === tab.id)
+						const remaining = tabs.filter((t) => t.id !== tab.id)
+						closeTab(tab.id)
+						if (tab.id === activeTabId && remaining.length > 0) {
+							const next = index > 0 ? remaining[index - 1] : remaining[0]
+							tabClickNavRef.current = true
+							router.push(next.url)
+						}
+					}}
+					className="bg-surface-1 text-fg-secondary"
+					activeClassName="bg-surface-2 text-fg"
+				/>
+			))}
+		</TabsBar>
+	)
+}
+
+// ---------------------------------------------------------------------------
+// Mobile header
+// ---------------------------------------------------------------------------
+
 function MobileHeader() {
 	return (
 		<div className="flex md:hidden h-10 items-center gap-2 border-b border-edge-subtle bg-surface-3 px-3">
@@ -182,6 +257,10 @@ function MobileHeader() {
 		</div>
 	)
 }
+
+// ---------------------------------------------------------------------------
+// Top bar content (breadcrumbs + actions)
+// ---------------------------------------------------------------------------
 
 function OpsTopBarContent({ state }: { state: OpsTopBarState }) {
 	const sidebar = useSidebar()
@@ -210,23 +289,79 @@ function OpsTopBarContent({ state }: { state: OpsTopBarState }) {
 	)
 }
 
+// ---------------------------------------------------------------------------
+// OpsFrame — outer shell wraps TabsProvider, inner shell has tabs + breadcrumbs
+// ---------------------------------------------------------------------------
+
 export function OpsFrame({ children }: { children: ReactNode }) {
-	const [state, setState] = useState<OpsTopBarState>({
+	const pathname = usePathname()
+	// Stable ref — only captures the pathname at first mount
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const defaultTab = useMemo(() => ({ url: pathname, title: titleFromPathname(pathname) }), [])
+	return (
+		<TabsProvider storageKey="ops-tabs" alwaysShowTabBar defaultTab={defaultTab}>
+			<OpsFrameInner>{children}</OpsFrameInner>
+		</TabsProvider>
+	)
+}
+
+function OpsFrameInner({ children }: { children: ReactNode }) {
+	const pathname = usePathname()
+	const { activeTabId, updateActiveTabUrl, updateTabTitle } = useTabs()
+	const [topBar, setTopBar] = useState<OpsTopBarState>({
 		breadcrumbs: null,
 		actions: null,
 	})
+
+	// Track previous pathname to detect navigation
+	const prevPathnameRef = useRef(pathname)
+
+	// --- URL sync: sidebar navigation updates the active tab's URL ---
+	useEffect(() => {
+		if (!pathname || !activeTabId) return
+
+		// Tab click already handled activation — skip
+		if (tabClickNavRef.current) {
+			tabClickNavRef.current = false
+			return
+		}
+
+		// Only update if pathname actually changed (not just a re-render)
+		if (pathname !== prevPathnameRef.current) {
+			updateActiveTabUrl(pathname)
+		}
+		prevPathnameRef.current = pathname
+	}, [pathname, activeTabId, updateActiveTabUrl])
+
+	// --- Title sync: only fire when breadcrumbs change, NOT when active tab changes ---
+	// Reading activeTabId from a ref prevents the effect from firing on tab switch,
+	// which would apply stale breadcrumbs (from the previous page) to the newly active tab.
+	const activeTabIdRef = useRef(activeTabId)
+	activeTabIdRef.current = activeTabId
+
+	useEffect(() => {
+		const tabId = activeTabIdRef.current
+		if (!tabId || !topBar.breadcrumbs || topBar.breadcrumbs.length === 0) return
+		const last = topBar.breadcrumbs[topBar.breadcrumbs.length - 1]
+		if (last.label) {
+			updateTabTitle(tabId, last.label)
+		}
+	}, [topBar.breadcrumbs, updateTabTitle])
+
 	return (
-		<OpsTopBarCtx.Provider value={setState}>
+		<OpsTopBarCtx.Provider value={setTopBar}>
 			<SidebarProvider>
 				<Frame
 					navigation={<OpsSidebar />}
 					tabBar={
 						<>
 							<MobileHeader />
-							<OpsTopBarContent state={state} />
+							<OpsTabBar />
+							<OpsTopBarContent state={topBar} />
 						</>
 					}
 				>
+					<NextTabsInterceptor titleResolver={titleFromPathname} />
 					{children}
 				</Frame>
 			</SidebarProvider>
