@@ -24,6 +24,7 @@ import {
 	CheckCircle2,
 	CircleDot,
 	FileEdit,
+	FileText,
 	Pencil,
 	Plus,
 	Receipt,
@@ -35,6 +36,8 @@ import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
+import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
+import { InvoiceSection } from "@/components/invoice-section"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -72,6 +75,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 	const setStatus = useMutation(api.timeEntries.setStatus)
 	const remove = useMutation(api.timeEntries.remove)
 	const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
+	const [invoiceEntries, setInvoiceEntries] = useState<Doc<"timeEntries">[]>([])
+	const [invoiceDialogOpen, setInvoiceDialogOpen] = useState(false)
 
 	useOpsTopBar(
 		data != null
@@ -427,6 +432,22 @@ export default function ProjectDetailPageClient({ params }: Props) {
 				},
 			},
 			{
+				id: "create-invoice",
+				label: "Facturer",
+				icon: FileText,
+				handler: async (rows) => {
+					const readyEntries = rows
+						.map((r) => r.original)
+						.filter((e) => e.billable && (e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt)))
+					if (readyEntries.length === 0) {
+						toast.error("Aucune entrée prête à facturer dans la sélection")
+						return
+					}
+					setInvoiceEntries(readyEntries)
+					setInvoiceDialogOpen(true)
+				},
+			},
+			{
 				id: "delete",
 				label: "Supprimer",
 				icon: Trash2,
@@ -631,6 +652,9 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					</BlockStack>
 				)}
 
+				{/* Invoices section */}
+				<InvoiceSection projectId={pid as Id<"projects">} />
+
 				{/* Time entries DataTable */}
 				<InlineStack align="space-between" blockAlign="center">
 					<h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
@@ -797,6 +821,18 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					)}
 				</DialogContent>
 			</Dialog>
+
+			{/* Invoice preview dialog */}
+			<InvoicePreviewDialog
+				open={invoiceDialogOpen}
+				onOpenChange={setInvoiceDialogOpen}
+				projectId={pid as Id<"projects">}
+				projectName={project.name}
+				clientId={project.clientId}
+				qontoClientId={client?.qontoClientId}
+				entries={invoiceEntries}
+				contractType={activeContract?.type}
+			/>
 		</>
 	)
 }
