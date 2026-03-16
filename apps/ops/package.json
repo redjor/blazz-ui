@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "next dev --turbopack -p 3120",
 		"dev:convex": "convex dev",
+		"vercel-build": "cd ../.. && pnpm turbo run build --filter=ops",
 		"build": "npx convex deploy --yes --cmd 'next build'",
 		"start": "next start",
 		"lint": "biome check .",
