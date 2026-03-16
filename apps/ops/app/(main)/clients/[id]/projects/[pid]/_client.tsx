@@ -38,6 +38,7 @@ import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
 import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
 import { InvoiceSection } from "@/components/invoice-section"
+import { isEnabled } from "@/lib/features"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -431,22 +432,30 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					}
 				},
 			},
-			{
-				id: "create-invoice",
-				label: "Facturer",
-				icon: FileText,
-				handler: async (rows) => {
-					const readyEntries = rows
-						.map((r) => r.original)
-						.filter((e) => e.billable && (e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt)))
-					if (readyEntries.length === 0) {
-						toast.error("Aucune entrée prête à facturer dans la sélection")
-						return
-					}
-					setInvoiceEntries(readyEntries)
-					setInvoiceDialogOpen(true)
-				},
-			},
+			...(isEnabled("invoicing")
+				? [
+						{
+							id: "create-invoice",
+							label: "Facturer",
+							icon: FileText,
+							handler: async (rows: Array<{ original: Doc<"timeEntries"> }>) => {
+								const readyEntries = rows
+									.map((r) => r.original)
+									.filter(
+										(e) =>
+											e.billable &&
+											(e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt))
+									)
+								if (readyEntries.length === 0) {
+									toast.error("Aucune entrée prête à facturer dans la sélection")
+									return
+								}
+								setInvoiceEntries(readyEntries)
+								setInvoiceDialogOpen(true)
+							},
+						},
+					]
+				: []),
 			{
 				id: "delete",
 				label: "Supprimer",
@@ -653,28 +662,32 @@ export default function ProjectDetailPageClient({ params }: Props) {
 				)}
 
 				{/* Invoices section */}
-				<InlineStack align="space-between" blockAlign="center">
-					<h2 className="text-sm font-medium text-fg">Factures</h2>
-					{(() => {
-						const readyEntries = entries.filter(
-							(e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
-						)
-						return readyEntries.length > 0 ? (
-							<Button
-								size="sm"
-								variant="outline"
-								onClick={() => {
-									setInvoiceEntries(readyEntries)
-									setInvoiceDialogOpen(true)
-								}}
-							>
-								<FileText className="size-3.5 mr-1" />
-								Facturer ({readyEntries.length} entrée{readyEntries.length > 1 ? "s" : ""})
-							</Button>
-						) : null
-					})()}
-				</InlineStack>
-				<InvoiceSection projectId={pid as Id<"projects">} />
+				{isEnabled("invoicing") && (
+					<>
+						<InlineStack align="space-between" blockAlign="center">
+							<h2 className="text-sm font-medium text-fg">Factures</h2>
+							{(() => {
+								const readyEntries = entries.filter(
+									(e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
+								)
+								return readyEntries.length > 0 ? (
+									<Button
+										size="sm"
+										variant="outline"
+										onClick={() => {
+											setInvoiceEntries(readyEntries)
+											setInvoiceDialogOpen(true)
+										}}
+									>
+										<FileText className="size-3.5 mr-1" />
+										Facturer ({readyEntries.length} entrée{readyEntries.length > 1 ? "s" : ""})
+									</Button>
+								) : null
+							})()}
+						</InlineStack>
+						<InvoiceSection projectId={pid as Id<"projects">} />
+					</>
+				)}
 
 				{/* Time entries DataTable */}
 				<InlineStack align="space-between" blockAlign="center">
@@ -844,16 +857,18 @@ export default function ProjectDetailPageClient({ params }: Props) {
 			</Dialog>
 
 			{/* Invoice preview dialog */}
-			<InvoicePreviewDialog
-				open={invoiceDialogOpen}
-				onOpenChange={setInvoiceDialogOpen}
-				projectId={pid as Id<"projects">}
-				projectName={project.name}
-				clientId={project.clientId}
-				qontoClientId={client?.qontoClientId}
-				entries={invoiceEntries}
-				contractType={activeContract?.type}
-			/>
+			{isEnabled("invoicing") && (
+				<InvoicePreviewDialog
+					open={invoiceDialogOpen}
+					onOpenChange={setInvoiceDialogOpen}
+					projectId={pid as Id<"projects">}
+					projectName={project.name}
+					clientId={project.clientId}
+					qontoClientId={client?.qontoClientId}
+					entries={invoiceEntries}
+					contractType={activeContract?.type}
+				/>
+			)}
 		</>
 	)
 }

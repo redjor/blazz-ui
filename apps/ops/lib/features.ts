@@ -9,6 +9,7 @@ export const features = {
 	chat: true,
 	packages: true,
 	licenses: true,
+	invoicing: false,
 } as const satisfies Record<string, boolean>
 
 export type FeatureFlag = keyof typeof features
