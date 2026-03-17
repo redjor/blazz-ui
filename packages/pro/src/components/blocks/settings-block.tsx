@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@blazz/ui"
-import { ItemGroup, ItemSeparator } from "@blazz/ui/components/ui/item"
+import { ItemGroup, ItemSeparator } from "@blazz/ui"
 import type * as React from "react"
 import { Children, type ReactNode } from "react"
 
