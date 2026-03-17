@@ -133,7 +133,7 @@ export default function FinancesPageClient() {
 									</div>
 									<span
 										className={`text-sm font-medium tabular-nums ${
-											tx.side === "credit" ? "text-success" : "text-danger"
+											tx.side === "credit" ? "text-success" : "text-destructive"
 										}`}
 									>
 										{tx.side === "credit" ? "+" : "−"}
@@ -148,7 +148,7 @@ export default function FinancesPageClient() {
 
 			{error && (
 				<Card>
-					<div className="px-inset py-6 text-sm text-danger">{error}</div>
+					<div className="px-inset py-6 text-sm text-destructive">{error}</div>
 				</Card>
 			)}
 
