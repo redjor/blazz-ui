@@ -29,6 +29,7 @@ const SIDEBAR_DEFAULT_WIDTH = 240;
 const SIDEBAR_MIN_WIDTH = 180;
 const SIDEBAR_MAX_WIDTH = 240;
 const SIDEBAR_COLLAPSE_THRESHOLD = 100;
+const SIDEBAR_PEEK_OPEN_DELAY = 700;
 const SIDEBAR_PEEK_CLOSE_DELAY = 300;
 
 type SidebarContext = {
@@ -81,7 +82,12 @@ const SidebarProvider = React.forwardRef<
     ref,
   ) => {
     const [openMobile, setOpenMobile] = React.useState(false);
-    const [_open, _setOpen] = React.useState(defaultOpen);
+    const [_open, _setOpen] = React.useState(() => {
+      if (typeof document === "undefined") return defaultOpen;
+      const match = document.cookie.match(new RegExp(`(?:^|; )${SIDEBAR_COOKIE_NAME}=([^;]*)`));
+      if (match) return match[1] === "true";
+      return defaultOpen;
+    });
     const open = openProp ?? _open;
     const [width, _setWidth] = React.useState(SIDEBAR_DEFAULT_WIDTH);
     const [isPeeking, setIsPeeking] = React.useState(false);
@@ -121,10 +127,15 @@ const SidebarProvider = React.forwardRef<
 
     const startPeek = React.useCallback(() => {
       if (peekTimeoutRef.current) clearTimeout(peekTimeoutRef.current);
-      if (!open && !isMobile) setIsPeeking(true);
+      if (!open && !isMobile) {
+        peekTimeoutRef.current = setTimeout(() => {
+          setIsPeeking(true);
+        }, SIDEBAR_PEEK_OPEN_DELAY);
+      }
     }, [open, isMobile]);
 
     const stopPeek = React.useCallback(() => {
+      if (peekTimeoutRef.current) clearTimeout(peekTimeoutRef.current);
       peekTimeoutRef.current = setTimeout(() => {
         setIsPeeking(false);
       }, SIDEBAR_PEEK_CLOSE_DELAY);
@@ -330,6 +341,17 @@ const Sidebar = React.forwardRef<
             {children}
           </div>
         </div>
+
+        {/* Peek trigger — thin hotspot on the edge, above content (z-30) */}
+        {state === "collapsed" && collapsible === "offcanvas" && (
+          <div
+            className={cn(
+              "fixed inset-y-0 z-30 hidden w-2 md:block",
+              side === "left" ? "left-0" : "right-0",
+            )}
+            onMouseEnter={startPeek}
+          />
+        )}
 
         {/* Sidebar — peek overlay (floating sheet) */}
         {state === "collapsed" && (
