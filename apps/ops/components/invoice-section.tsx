@@ -12,7 +12,7 @@ interface Props {
 }
 
 const STATUS_LABEL: Record<string, string> = {
-  draft: "Brouillon",
+  draft: "À valider",
   sent: "Envoyée",
   paid: "Payée",
 }

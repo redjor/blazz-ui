@@ -28,7 +28,7 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import { Calendar, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { Calendar, CircleCheck, CircleDashed, CircleDot, CircleSlash, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -39,6 +39,7 @@ import {
 	CategoryBadge,
 	ManageCategoriesSheet,
 } from "@/components/manage-categories-sheet"
+import { Empty, EmptyActions, EmptyDescription, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { TagInput } from "@/components/tag-input"
 import type { Todo } from "@/components/todos-preset"
@@ -535,7 +536,28 @@ export default function TodosPageClient() {
 	return (
 		<>
 			<BlockStack gap="0" className="p-6 h-full">
-				{viewMode === "list" || viewMode === "kanban" ? (
+				{todos !== undefined && todos.length === 0 ? (
+					<div className="flex flex-1 items-center justify-center h-full">
+						<Empty size="lg">
+							<div className="grid grid-cols-2 gap-2 mb-1">
+								<CircleDashed className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+								<CircleDot className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+								<CircleSlash className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+								<CircleCheck className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+							</div>
+							<EmptyTitle>Todos</EmptyTitle>
+							<EmptyDescription>
+								Les todos représentent le travail en cours ou à faire. Il n'y a aucun todo pour le moment. Crée ton premier todo pour commencer.
+							</EmptyDescription>
+							<EmptyActions>
+								<Button size="sm" onClick={() => setAddFor("triage")}>
+									<Plus className="size-4" />
+									Créer un todo
+								</Button>
+							</EmptyActions>
+						</Empty>
+					</div>
+				) : (viewMode === "list" || viewMode === "kanban") ? (
 					<Bleed marginInline="600" marginBlock="600" className="flex flex-col h-full min-h-0">
 						<DataTable
 							data={todoRows}
