@@ -21,6 +21,8 @@ import { useState } from "react"
 interface DueDatePickerProps {
 	value: string
 	onChange: (value: string) => void
+	/** Compact inline pill style (no border, smaller) */
+	compact?: boolean
 }
 
 interface Shortcut {
@@ -69,7 +71,7 @@ function formatCurrentValue(value: string): string {
 	return format(date, "d MMM yyyy", { locale: fr })
 }
 
-export function DueDatePicker({ value, onChange }: DueDatePickerProps) {
+export function DueDatePicker({ value, onChange, compact }: DueDatePickerProps) {
 	const [open, setOpen] = useState(false)
 	const shortcuts = getShortcuts()
 	const displayLabel = value ? formatCurrentValue(value) : null
@@ -90,16 +92,21 @@ export function DueDatePicker({ value, onChange }: DueDatePickerProps) {
 				render={
 					<Button
 						type="button"
-						variant="outline"
-						className="w-full justify-start text-left font-normal"
+						variant={compact ? "ghost" : "outline"}
+						size={compact ? "sm" : "default"}
+						className={
+							compact
+								? "h-7 px-2 text-xs text-fg-muted font-normal"
+								: "w-full justify-start text-left font-normal"
+						}
 					/>
 				}
 			>
-				<Calendar className="size-4 text-fg-muted mr-2" />
+				<Calendar className={compact ? "size-3.5 text-fg-muted" : "size-4 text-fg-muted mr-2"} />
 				{displayLabel ? (
-					<span className="text-sm">{displayLabel}</span>
+					<span className={compact ? "text-xs" : "text-sm"}>{displayLabel}</span>
 				) : (
-					<span className="text-sm text-fg-muted">Échéance</span>
+					<span className={compact ? "text-xs text-fg-muted" : "text-sm text-fg-muted"}>Échéance</span>
 				)}
 			</PopoverTrigger>
 			<PopoverContent className="w-auto !p-1" align="start">

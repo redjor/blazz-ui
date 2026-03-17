@@ -136,7 +136,7 @@ export function getCategoryIcon(iconId?: string): LucideIcon | null {
 	return CATEGORY_ICONS.find((i) => i.id === iconId)?.icon ?? null
 }
 
-const DOT_COLOR_MAP: Record<string, string> = {
+export const DOT_COLOR_MAP: Record<string, string> = {
 	indigo: "bg-indigo-500",
 	violet: "bg-violet-500",
 	rose: "bg-rose-500",
@@ -147,7 +147,7 @@ const DOT_COLOR_MAP: Record<string, string> = {
 	zinc: "bg-zinc-400",
 }
 
-const ICON_COLOR_MAP: Record<string, string> = {
+export const ICON_COLOR_MAP: Record<string, string> = {
 	indigo: "text-indigo-500",
 	violet: "text-violet-500",
 	rose: "text-rose-500",

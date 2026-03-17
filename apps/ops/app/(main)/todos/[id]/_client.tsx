@@ -3,7 +3,14 @@
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Combobox, type ComboboxOption } from "@blazz/ui/components/ui/combobox"
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@blazz/ui/components/ui/dialog"
 import { Divider } from "@blazz/ui/components/ui/divider"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui/popover"
@@ -37,32 +44,27 @@ import { StatusIcon } from "@/components/todos-preset"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
-const STATUS_OPTIONS: ComboboxOption[] = [
-	{ value: "triage", label: "Triage", icon: <StatusIcon status="triage" /> },
-	{ value: "todo", label: "Todo", icon: <StatusIcon status="todo" /> },
-	{ value: "blocked", label: "Bloqué", icon: <StatusIcon status="blocked" /> },
-	{ value: "in_progress", label: "En cours", icon: <StatusIcon status="in_progress" /> },
-	{ value: "done", label: "Fait", icon: <StatusIcon status="done" /> },
+const STATUS_OPTIONS = [
+	{ value: "triage", label: "Triage" },
+	{ value: "todo", label: "Todo" },
+	{ value: "blocked", label: "Bloqué" },
+	{ value: "in_progress", label: "En cours" },
+	{ value: "done", label: "Fait" },
 ]
 
-const PRIORITY_OPTIONS: ComboboxOption[] = [
-	{
-		value: "urgent",
-		label: "Urgent",
-		icon: <Flag fill="currentColor" className="size-3 shrink-0 text-destructive" />,
-	},
-	{
-		value: "high",
-		label: "High",
-		icon: <Flag fill="currentColor" className="size-3 shrink-0 text-orange-500" />,
-	},
-	{ value: "normal", label: "Normal", icon: <Flag className="size-3 shrink-0 text-fg-muted" /> },
-	{
-		value: "low",
-		label: "Low",
-		icon: <Flag className="size-3 shrink-0 text-fg-muted opacity-40" />,
-	},
+const PRIORITY_OPTIONS = [
+	{ value: "urgent", label: "Urgent" },
+	{ value: "high", label: "High" },
+	{ value: "normal", label: "Normal" },
+	{ value: "low", label: "Low" },
 ]
+
+const PRIORITY_ICON: Record<string, React.ReactNode> = {
+	urgent: <Flag fill="currentColor" className="size-3 shrink-0 text-destructive" />,
+	high: <Flag fill="currentColor" className="size-3 shrink-0 text-orange-500" />,
+	normal: <Flag className="size-3 shrink-0 text-fg-muted" />,
+	low: <Flag className="size-3 shrink-0 text-fg-muted opacity-40" />,
+}
 
 type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
 type TodoPriority = "urgent" | "high" | "normal" | "low"
@@ -137,6 +139,8 @@ export default function TodoDetailPageClient() {
 	const categoryList = categories ?? []
 	const allTagsList = allTags ?? []
 
+	const [deleteOpen, setDeleteOpen] = useState(false)
+	const [isDeleting, setIsDeleting] = useState(false)
 	const [title, setTitle] = useState("")
 	const [descriptionContent, setDescriptionContent] = useState<EditorValue>(EMPTY_EDITOR_DOC)
 	const [saveState, setSaveState] = useState<Record<SaveField, SaveState>>({
@@ -181,7 +185,43 @@ export default function TodoDetailPageClient() {
 		}
 	}, [])
 
-	useAppTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }])
+	const topBarActions = todo ? (
+		<DropdownMenu>
+			<DropdownMenuTrigger
+				render={
+					<Button type="button" variant="ghost" size="icon-sm" className="text-fg-muted" />
+				}
+			>
+				<MoreHorizontal className="size-4" />
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="end">
+				<DropdownMenuItem
+					onClick={() => {
+						void navigator.clipboard.writeText(window.location.href)
+					}}
+				>
+					<Link className="size-4" />
+					Copier le lien
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={() => {
+						void navigator.clipboard.writeText(todo.text)
+					}}
+				>
+					<Copy className="size-4" />
+					Copier le titre
+				</DropdownMenuItem>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem variant="destructive" onClick={() => setDeleteOpen(true)}>
+					<Trash2 className="size-4" />
+					Supprimer
+					<DropdownMenuShortcut>⌫</DropdownMenuShortcut>
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	) : null
+
+	useAppTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }], topBarActions)
 
 	function scheduleSave(field: SaveField, callback: () => Promise<void>, delay = 800) {
 		if (!todo) return
@@ -278,8 +318,13 @@ export default function TodoDetailPageClient() {
 
 	async function handleDelete() {
 		if (!todo) return
-		await removeTodo({ id: todo._id })
-		router.push("/todos")
+		setIsDeleting(true)
+		try {
+			await removeTodo({ id: todo._id })
+			router.push("/todos")
+		} finally {
+			setIsDeleting(false)
+		}
 	}
 
 	if (todo === undefined) {
@@ -314,6 +359,7 @@ export default function TodoDetailPageClient() {
 	const currentCategory = categoryList.find((c) => c._id === todo.categoryId)
 
 	return (
+		<>
 		<Box padding="6">
 			<BlockStack gap="600">
 				{/* Content — single column, centered */}
@@ -333,13 +379,26 @@ export default function TodoDetailPageClient() {
 					{/* Inline property bar */}
 					<InlineStack gap="050" blockAlign="center" wrap>
 						{/* Status */}
-						<Combobox
+						<Select
 							value={todo.status}
-							onValueChange={(value) => void updateTodoStatusValue(value as TodoStatus)}
-							options={STATUS_OPTIONS}
-							placeholder="Status"
-							className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 !text-xs !shadow-none !px-2 !w-auto !rounded-md"
-						/>
+							onValueChange={(value) => void updateTodoStatusValue(value)}
+							items={STATUS_OPTIONS}
+						>
+							<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
+								<StatusIcon status={todo.status} />
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent alignItemWithTrigger={false}>
+								{STATUS_OPTIONS.map((option) => (
+									<SelectItem key={option.value} value={option.value}>
+										<InlineStack gap="200" blockAlign="center">
+											<StatusIcon status={option.value} />
+											{option.label}
+										</InlineStack>
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 
 						<span className="text-fg-muted/20 text-xs select-none">|</span>
 
@@ -349,15 +408,26 @@ export default function TodoDetailPageClient() {
 						<span className="text-fg-muted/20 text-xs select-none">|</span>
 
 						{/* Priority */}
-						<Combobox
+						<Select
 							value={todo.priority ?? "normal"}
 							onValueChange={handlePriorityChange}
-							options={PRIORITY_OPTIONS}
-							placeholder="Priorité"
-							searchPlaceholder="Rechercher…"
-							emptyMessage="Aucun résultat"
-							className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 !text-xs !shadow-none !px-2 !w-auto !rounded-md"
-						/>
+							items={PRIORITY_OPTIONS}
+						>
+							<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
+								{PRIORITY_ICON[todo.priority ?? "normal"]}
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent alignItemWithTrigger={false}>
+								{PRIORITY_OPTIONS.map((option) => (
+									<SelectItem key={option.value} value={option.value}>
+										<InlineStack gap="200" blockAlign="center">
+											{PRIORITY_ICON[option.value]}
+											{option.label}
+										</InlineStack>
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 
 						<span className="text-fg-muted/20 text-xs select-none">|</span>
 
@@ -418,11 +488,21 @@ export default function TodoDetailPageClient() {
 							</SelectTrigger>
 							<SelectContent alignItemWithTrigger={false}>
 								<SelectItem value="">Aucune</SelectItem>
-								{categoryList.map((category) => (
-									<SelectItem key={category._id} value={category._id}>
-										<CategoryBadge name={category.name} color={category.color} icon={category.icon} />
-									</SelectItem>
-								))}
+								{categoryList.map((category) => {
+									const CatIcon = getCategoryIcon(category.icon)
+									const catIconColor = ICON_COLOR_MAP[category.color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
+									const catDotColor = DOT_COLOR_MAP[category.color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
+									return (
+										<SelectItem key={category._id} value={category._id}>
+											{CatIcon ? (
+												<CatIcon className={`size-3 shrink-0 ${catIconColor}`} />
+											) : (
+												<span className={`size-2 shrink-0 rounded-full ${catDotColor}`} />
+											)}
+											{category.name}
+										</SelectItem>
+									)
+								})}
 							</SelectContent>
 						</Select>
 
@@ -450,43 +530,6 @@ export default function TodoDetailPageClient() {
 							</PopoverContent>
 						</Popover>
 
-						{/* More actions */}
-						<span className="text-fg-muted/20 text-xs select-none">|</span>
-						<DropdownMenu>
-							<DropdownMenuTrigger
-								render={
-									<Button type="button" variant="ghost" size="sm" className="h-7 w-7 px-0 text-fg-muted" />
-								}
-							>
-								<MoreHorizontal className="size-4" />
-							</DropdownMenuTrigger>
-							<DropdownMenuContent align="end">
-								<DropdownMenuItem
-									onClick={() => {
-										if (!todo) return
-										void navigator.clipboard.writeText(window.location.href)
-									}}
-								>
-									<Link className="size-4" />
-									Copier le lien
-								</DropdownMenuItem>
-								<DropdownMenuItem
-									onClick={() => {
-										if (!todo) return
-										void navigator.clipboard.writeText(todo.text)
-									}}
-								>
-									<Copy className="size-4" />
-									Copier le titre
-								</DropdownMenuItem>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem variant="destructive" onClick={handleDelete}>
-									<Trash2 className="size-4" />
-									Supprimer
-									<DropdownMenuShortcut>⌫</DropdownMenuShortcut>
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
 					</InlineStack>
 
 					<Divider />
@@ -497,5 +540,26 @@ export default function TodoDetailPageClient() {
 				</BlockStack>
 			</BlockStack>
 		</Box>
+
+			{/* Delete confirmation dialog */}
+			<Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Supprimer ce todo ?</DialogTitle>
+						<DialogDescription>
+							Cette action est irréversible. Le todo « {todo.text} » sera définitivement supprimé.
+						</DialogDescription>
+					</DialogHeader>
+					<DialogFooter>
+						<Button type="button" variant="outline" onClick={() => setDeleteOpen(false)} disabled={isDeleting}>
+							Annuler
+						</Button>
+						<Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+							{isDeleting ? "Suppression…" : "Supprimer"}
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+		</>
 	)
 }
