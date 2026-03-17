@@ -28,17 +28,15 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import { Calendar, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { Calendar, CircleCheck, CircleDashed, CircleDot, CircleSlash, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { DueDatePicker } from "@/components/due-date-picker"
 import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
-import {
-	CategoryBadge,
-	ManageCategoriesSheet,
-} from "@/components/manage-categories-sheet"
+import { CategoryBadge } from "@/components/manage-categories-sheet"
+import { Empty, EmptyActions, EmptyDescription, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { TagInput } from "@/components/tag-input"
 import type { Todo } from "@/components/todos-preset"
@@ -85,7 +83,7 @@ function TodoCard({
 							)
 						})()}
 					<ProjectBadge projectId={todo.projectId} projects={projects} />
-					{cat && <CategoryBadge name={cat.name} color={cat.color} />}
+					{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
 				</InlineStack>
 				{tags.length > 0 && (
 					<InlineStack gap="100" wrap>
@@ -241,7 +239,7 @@ function AddTodoDialog({
 								<SelectItem value="">Aucune</SelectItem>
 								{categories.map((c) => (
 									<SelectItem key={c._id} value={c._id}>
-										<CategoryBadge name={c.name} color={c.color} />
+										<CategoryBadge name={c.name} color={c.color} icon={c.icon} />
 									</SelectItem>
 								))}
 							</SelectContent>
@@ -527,15 +525,33 @@ export default function TodosPageClient() {
 		[remove]
 	)
 
-	useOpsTopBar(
-		[{ label: "Todos" }],
-		<ManageCategoriesSheet />
-	)
+	useOpsTopBar([{ label: "Todos" }])
 
 	return (
 		<>
 			<BlockStack gap="0" className="p-6 h-full">
-				{viewMode === "list" || viewMode === "kanban" ? (
+				{todos !== undefined && todos.length === 0 ? (
+					<div className="flex flex-1 items-center justify-center h-full">
+						<Empty size="lg">
+							<div className="grid grid-cols-2 gap-2 mb-1">
+								<CircleDashed className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+								<CircleDot className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+								<CircleSlash className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+								<CircleCheck className="size-8 text-fg-muted/40" strokeWidth={1.5} />
+							</div>
+							<EmptyTitle>Todos</EmptyTitle>
+							<EmptyDescription>
+								Les todos représentent le travail en cours ou à faire. Il n'y a aucun todo pour le moment. Crée ton premier todo pour commencer.
+							</EmptyDescription>
+							<EmptyActions>
+								<Button size="sm" onClick={() => setAddFor("triage")}>
+									<Plus className="size-4" />
+									Créer un todo
+								</Button>
+							</EmptyActions>
+						</Empty>
+					</div>
+				) : (viewMode === "list" || viewMode === "kanban") ? (
 					<Bleed marginInline="600" marginBlock="600" className="flex flex-col h-full min-h-0">
 						<DataTable
 							data={todoRows}
@@ -620,7 +636,7 @@ export default function TodosPageClient() {
 													{dueInfo.label}
 												</span>
 											)}
-											{cat && <CategoryBadge name={cat.name} color={cat.color} />}
+											{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
 											{todo.projectName && (
 												<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
 													{todo.projectName}

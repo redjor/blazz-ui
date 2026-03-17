@@ -3,7 +3,7 @@
 export type EntryStatus = "draft" | "ready_to_invoice" | "invoiced" | "paid"
 
 export const ENTRY_STATUS_LABELS: Record<EntryStatus, string> = {
-	draft: "Brouillon",
+	draft: "À valider",
 	ready_to_invoice: "Prêt à facturer",
 	invoiced: "Facturé",
 	paid: "Payé",

@@ -49,6 +49,7 @@ export const create = mutation({
 		phone: v.optional(v.string()),
 		address: v.optional(v.string()),
 		notes: v.optional(v.string()),
+		qontoClientId: v.optional(v.string()),
 		logoStorageId: v.optional(v.id("_storage")),
 	},
 	handler: async (ctx, args) => {
@@ -66,6 +67,7 @@ export const update = mutation({
 		phone: v.optional(v.string()),
 		address: v.optional(v.string()),
 		notes: v.optional(v.string()),
+		qontoClientId: v.optional(v.string()),
 		logoStorageId: v.optional(v.id("_storage")),
 	},
 	handler: async (ctx, { id, ...fields }) => {

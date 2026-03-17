@@ -38,6 +38,7 @@ import { Route as DocsDocsBlocksStatusFlowRouteImport } from './routes/_docs/doc
 import { Route as DocsDocsBlocksStatsStripRouteImport } from './routes/_docs/docs/blocks/stats-strip'
 import { Route as DocsDocsBlocksStatsGridRouteImport } from './routes/_docs/docs/blocks/stats-grid'
 import { Route as DocsDocsBlocksSplitViewRouteImport } from './routes/_docs/docs/blocks/split-view'
+import { Route as DocsDocsBlocksSettingsBlockRouteImport } from './routes/_docs/docs/blocks/settings-block'
 import { Route as DocsDocsBlocksQuotePreviewRouteImport } from './routes/_docs/docs/blocks/quote-preview'
 import { Route as DocsDocsBlocksQuickLogActivityRouteImport } from './routes/_docs/docs/blocks/quick-log-activity'
 import { Route as DocsDocsBlocksPropertyCardRouteImport } from './routes/_docs/docs/blocks/property-card'
@@ -368,6 +369,12 @@ const DocsDocsBlocksSplitViewRoute = DocsDocsBlocksSplitViewRouteImport.update({
   path: '/docs/blocks/split-view',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsDocsBlocksSettingsBlockRoute =
+  DocsDocsBlocksSettingsBlockRouteImport.update({
+    id: '/docs/blocks/settings-block',
+    path: '/docs/blocks/settings-block',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsBlocksQuotePreviewRoute =
   DocsDocsBlocksQuotePreviewRouteImport.update({
     id: '/docs/blocks/quote-preview',
@@ -1422,6 +1429,7 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
   '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
@@ -1625,6 +1633,7 @@ export interface FileRoutesByTo {
   '/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
   '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
@@ -1830,6 +1839,7 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
   '/_docs/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/_docs/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/_docs/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/_docs/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/_docs/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/_docs/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
@@ -2035,6 +2045,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/property-card'
     | '/docs/blocks/quick-log-activity'
     | '/docs/blocks/quote-preview'
+    | '/docs/blocks/settings-block'
     | '/docs/blocks/split-view'
     | '/docs/blocks/stats-grid'
     | '/docs/blocks/stats-strip'
@@ -2238,6 +2249,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/property-card'
     | '/docs/blocks/quick-log-activity'
     | '/docs/blocks/quote-preview'
+    | '/docs/blocks/settings-block'
     | '/docs/blocks/split-view'
     | '/docs/blocks/stats-grid'
     | '/docs/blocks/stats-strip'
@@ -2442,6 +2454,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/property-card'
     | '/_docs/docs/blocks/quick-log-activity'
     | '/_docs/docs/blocks/quote-preview'
+    | '/_docs/docs/blocks/settings-block'
     | '/_docs/docs/blocks/split-view'
     | '/_docs/docs/blocks/stats-grid'
     | '/_docs/docs/blocks/stats-strip'
@@ -2823,6 +2836,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/blocks/split-view'
       fullPath: '/docs/blocks/split-view'
       preLoaderRoute: typeof DocsDocsBlocksSplitViewRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/settings-block': {
+      id: '/_docs/docs/blocks/settings-block'
+      path: '/docs/blocks/settings-block'
+      fullPath: '/docs/blocks/settings-block'
+      preLoaderRoute: typeof DocsDocsBlocksSettingsBlockRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/quote-preview': {
@@ -4068,6 +4088,7 @@ interface DocsRouteChildren {
   DocsDocsBlocksPropertyCardRoute: typeof DocsDocsBlocksPropertyCardRoute
   DocsDocsBlocksQuickLogActivityRoute: typeof DocsDocsBlocksQuickLogActivityRoute
   DocsDocsBlocksQuotePreviewRoute: typeof DocsDocsBlocksQuotePreviewRoute
+  DocsDocsBlocksSettingsBlockRoute: typeof DocsDocsBlocksSettingsBlockRoute
   DocsDocsBlocksSplitViewRoute: typeof DocsDocsBlocksSplitViewRoute
   DocsDocsBlocksStatsGridRoute: typeof DocsDocsBlocksStatsGridRoute
   DocsDocsBlocksStatsStripRoute: typeof DocsDocsBlocksStatsStripRoute
@@ -4267,6 +4288,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksPropertyCardRoute: DocsDocsBlocksPropertyCardRoute,
   DocsDocsBlocksQuickLogActivityRoute: DocsDocsBlocksQuickLogActivityRoute,
   DocsDocsBlocksQuotePreviewRoute: DocsDocsBlocksQuotePreviewRoute,
+  DocsDocsBlocksSettingsBlockRoute: DocsDocsBlocksSettingsBlockRoute,
   DocsDocsBlocksSplitViewRoute: DocsDocsBlocksSplitViewRoute,
   DocsDocsBlocksStatsGridRoute: DocsDocsBlocksStatsGridRoute,
   DocsDocsBlocksStatsStripRoute: DocsDocsBlocksStatsStripRoute,

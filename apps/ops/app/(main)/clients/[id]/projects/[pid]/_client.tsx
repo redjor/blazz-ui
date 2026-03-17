@@ -22,8 +22,11 @@ import { fr } from "date-fns/locale"
 import {
 	Ban,
 	CheckCircle2,
+	CircleDollarSign,
 	CircleDot,
-	FileEdit,
+	CircleDashed,
+	CircleFadingArrowUp,
+	FileText,
 	Pencil,
 	Plus,
 	Receipt,
@@ -35,6 +38,9 @@ import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
+import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
+import { InvoiceSection } from "@/components/invoice-section"
+import { isEnabled } from "@/lib/features"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { ProjectForm } from "@/components/project-form"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -72,6 +78,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 	const setStatus = useMutation(api.timeEntries.setStatus)
 	const remove = useMutation(api.timeEntries.remove)
 	const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
+	const [invoiceEntries, setInvoiceEntries] = useState<Doc<"timeEntries">[]>([])
+	const [invoiceDialogOpen, setInvoiceDialogOpen] = useState(false)
 
 	useOpsTopBar(
 		data != null
@@ -89,22 +97,22 @@ export default function ProjectDetailPageClient({ params }: Props) {
 
 	const statusConfig: Record<
 		string,
-		{ icon: typeof FileEdit; iconClass: string; tint: string; label: string }
+		{ icon: typeof CircleDashed; iconClass: string; tint: string; label: string }
 	> = {
 		draft: {
-			icon: FileEdit,
+			icon: CircleDashed,
 			iconClass: "text-violet-500",
 			tint: "oklch(0.65 0.15 300 / 0.08)",
-			label: "Brouillon",
+			label: "À valider",
 		},
 		ready_to_invoice: {
-			icon: Send,
+			icon: CircleFadingArrowUp,
 			iconClass: "text-amber-500",
 			tint: "oklch(0.75 0.15 85 / 0.08)",
 			label: "Prêt à facturer",
 		},
 		invoiced: {
-			icon: CircleDot,
+			icon: CircleDollarSign,
 			iconClass: "text-blue-500",
 			tint: "oklch(0.65 0.15 250 / 0.08)",
 			label: "Facturé",
@@ -140,7 +148,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					type: "select",
 					options: [
 						{ label: "Non facturable", value: null },
-						{ label: "Brouillon", value: "draft" },
+						{ label: "À valider", value: "draft" },
 						{ label: "Prêt à facturer", value: "ready_to_invoice" },
 						{ label: "Facturé", value: "invoiced" },
 						{ label: "Payé", value: "paid" },
@@ -193,7 +201,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 			},
 			{
 				id: "draft",
-				name: "Brouillons",
+				name: "À valider",
 				isSystem: true,
 				filters: {
 					id: "draft-filter",
@@ -313,12 +321,12 @@ export default function ProjectDetailPageClient({ params }: Props) {
 			},
 			{
 				id: "revert-to-draft",
-				label: "Revenir en brouillon",
+				label: "Remettre à valider",
 				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("draft"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "draft" })
-						toast.success("Remis en brouillon")
+						toast.success("Remis à valider")
 					} catch {
 						toast.error("Erreur")
 					}
@@ -426,6 +434,30 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					}
 				},
 			},
+			...(isEnabled("invoicing")
+				? [
+						{
+							id: "create-invoice",
+							label: "Facturer",
+							icon: FileText,
+							handler: async (rows: Array<{ original: Doc<"timeEntries"> }>) => {
+								const readyEntries = rows
+									.map((r) => r.original)
+									.filter(
+										(e) =>
+											e.billable &&
+											(e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt))
+									)
+								if (readyEntries.length === 0) {
+									toast.error("Aucune entrée prête à facturer dans la sélection")
+									return
+								}
+								setInvoiceEntries(readyEntries)
+								setInvoiceDialogOpen(true)
+							},
+						},
+					]
+				: []),
 			{
 				id: "delete",
 				label: "Supprimer",
@@ -631,6 +663,34 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					</BlockStack>
 				)}
 
+				{/* Invoices section */}
+				{isEnabled("invoicing") && (
+					<>
+						<InlineStack align="space-between" blockAlign="center">
+							<h2 className="text-sm font-medium text-fg">Factures</h2>
+							{(() => {
+								const readyEntries = entries.filter(
+									(e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
+								)
+								return readyEntries.length > 0 ? (
+									<Button
+										size="sm"
+										variant="outline"
+										onClick={() => {
+											setInvoiceEntries(readyEntries)
+											setInvoiceDialogOpen(true)
+										}}
+									>
+										<FileText className="size-3.5 mr-1" />
+										Facturer ({readyEntries.length} entrée{readyEntries.length > 1 ? "s" : ""})
+									</Button>
+								) : null
+							})()}
+						</InlineStack>
+						<InvoiceSection projectId={pid as Id<"projects">} />
+					</>
+				)}
+
 				{/* Time entries DataTable */}
 				<InlineStack align="space-between" blockAlign="center">
 					<h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
@@ -688,14 +748,14 @@ export default function ProjectDetailPageClient({ params }: Props) {
 									{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 								</span>
 								<Icon className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`} />
-								<span className="truncate text-fg" style={{ fontSize: 13 }}>
-									{entry.description || "—"}
+								<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
+									{formatMinutes(entry.minutes)}
+								</span>
+								<span className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`} style={{ fontSize: 13 }}>
+									{entry.description || "Pas de description"}
 								</span>
 							</div>
 							<div className="flex shrink-0 items-center gap-3">
-								<span className="font-mono text-xs tabular-nums text-fg-muted whitespace-nowrap">
-									{formatMinutes(entry.minutes)}
-								</span>
 								{entry.billable && (
 									<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
 										{revenue.toLocaleString("fr-FR")} €
@@ -797,6 +857,20 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					)}
 				</DialogContent>
 			</Dialog>
+
+			{/* Invoice preview dialog */}
+			{isEnabled("invoicing") && (
+				<InvoicePreviewDialog
+					open={invoiceDialogOpen}
+					onOpenChange={setInvoiceDialogOpen}
+					projectId={pid as Id<"projects">}
+					projectName={project.name}
+					clientId={project.clientId}
+					qontoClientId={client?.qontoClientId}
+					entries={invoiceEntries}
+					contractType={activeContract?.type}
+				/>
+			)}
 		</>
 	)
 }

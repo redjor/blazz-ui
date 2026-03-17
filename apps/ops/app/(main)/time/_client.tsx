@@ -32,8 +32,10 @@ import {
 	CheckCircle2,
 	ChevronLeft,
 	ChevronRight,
+	CircleDollarSign,
 	CircleDot,
-	FileEdit,
+	CircleDashed,
+	CircleFadingArrowUp,
 	Pencil,
 	Send,
 	Trash2,
@@ -174,25 +176,25 @@ export default function TimePageClient() {
 
 	const statusConfig: Record<
 		string,
-		{ dot: string; icon: typeof FileEdit; iconClass: string; tint: string; label: string }
+		{ dot: string; icon: typeof CircleDashed; iconClass: string; tint: string; label: string }
 	> = {
 		draft: {
 			dot: "bg-violet-500",
-			icon: FileEdit,
+			icon: CircleDashed,
 			iconClass: "text-violet-500",
 			tint: "oklch(0.65 0.15 300 / 0.08)",
-			label: "Brouillon",
+			label: "À valider",
 		},
 		ready_to_invoice: {
 			dot: "bg-amber-500",
-			icon: Send,
+			icon: CircleFadingArrowUp,
 			iconClass: "text-amber-500",
 			tint: "oklch(0.75 0.15 85 / 0.08)",
 			label: "Prêt à facturer",
 		},
 		invoiced: {
 			dot: "bg-blue-500",
-			icon: CircleDot,
+			icon: CircleDollarSign,
 			iconClass: "text-blue-500",
 			tint: "oklch(0.65 0.15 250 / 0.08)",
 			label: "Facturé",
@@ -230,7 +232,7 @@ export default function TimePageClient() {
 					type: "select",
 					options: [
 						{ label: "Non facturable", value: null },
-						{ label: "Brouillon", value: "draft" },
+						{ label: "À valider", value: "draft" },
 						{ label: "Prêt à facturer", value: "ready_to_invoice" },
 						{ label: "Facturé", value: "invoiced" },
 						{ label: "Payé", value: "paid" },
@@ -312,7 +314,7 @@ export default function TimePageClient() {
 			},
 			{
 				id: "draft",
-				name: "Brouillons",
+				name: "À valider",
 				isSystem: true,
 				filters: {
 					id: "draft-filter",
@@ -436,12 +438,12 @@ export default function TimePageClient() {
 			},
 			{
 				id: "revert-to-draft",
-				label: "Revenir en brouillon",
+				label: "Remettre à valider",
 				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("draft"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "draft" })
-						toast.success("Remis en brouillon")
+						toast.success("Remis à valider")
 					} catch {
 						toast.error("Erreur")
 					}
@@ -799,14 +801,14 @@ export default function TimePageClient() {
 														/>
 													)
 												})()}
-												<span className="truncate text-fg" style={{ fontSize: 13 }}>
-													{entry.description || "—"}
+												<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
+													{formatMinutes(entry.minutes)}
+												</span>
+												<span className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`} style={{ fontSize: 13 }}>
+													{entry.description || "Pas de description"}
 												</span>
 											</div>
 											<div className="flex shrink-0 items-center gap-3">
-												<span className="font-mono text-xs tabular-nums text-fg-muted whitespace-nowrap">
-													{formatMinutes(entry.minutes)}
-												</span>
 												<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
 													{projectMap.get(entry.projectId) ?? "—"}
 												</span>

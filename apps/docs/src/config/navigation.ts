@@ -18,6 +18,7 @@ import {
 	Navigation,
 	Palette,
 	PanelLeft,
+	PanelsTopLeft,
 	Puzzle,
 	Save,
 	Table2,
@@ -492,7 +493,14 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "Navigation Tabs",
 							url: "/docs/components/patterns/navigation-tabs",
-							keywords: ["tabs", "browser tabs", "tab bar", "navigation tabs", "page tabs", "@blazz/tabs"],
+							keywords: [
+								"tabs",
+								"browser tabs",
+								"tab bar",
+								"navigation tabs",
+								"page tabs",
+								"@blazz/tabs",
+							],
 						},
 						{
 							title: "Nav Tabs",
@@ -739,6 +747,19 @@ export const sidebarConfig: SidebarConfig = {
 							title: "Status Flow",
 							url: "/docs/blocks/status-flow",
 							keywords: ["workflow", "status pipeline", "state machine", "flow"],
+						},
+					],
+				},
+				{
+					id: "block-pages",
+					title: "Pages",
+					url: "/docs/blocks/settings-block",
+					icon: PanelsTopLeft,
+					items: [
+						{
+							title: "Settings Block",
+							url: "/docs/blocks/settings-block",
+							keywords: ["settings", "preferences", "config", "settings page", "danger zone"],
 						},
 					],
 				},

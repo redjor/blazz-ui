@@ -231,7 +231,7 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 						value={watch("status") ?? "draft"}
 						onValueChange={(v) => setValue("status", v as "draft" | "ready_to_invoice")}
 						items={[
-							{ value: "draft", label: "Brouillon" },
+							{ value: "draft", label: "À valider" },
 							{ value: "ready_to_invoice", label: "Prêt à facturer" },
 						]}
 					>
@@ -239,8 +239,8 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="draft" label="Brouillon">
-								Brouillon
+							<SelectItem value="draft" label="À valider">
+								À valider
 							</SelectItem>
 							<SelectItem value="ready_to_invoice" label="Prêt à facturer">
 								Prêt à facturer

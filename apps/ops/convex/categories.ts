@@ -18,10 +18,11 @@ export const create = mutation({
 	args: {
 		name: v.string(),
 		color: v.optional(v.string()),
+		icon: v.optional(v.string()),
 	},
-	handler: async (ctx, { name, color }) => {
+	handler: async (ctx, { name, color, icon }) => {
 		const { userId } = await requireAuth(ctx)
-		return ctx.db.insert("categories", { name, color, userId, createdAt: Date.now() })
+		return ctx.db.insert("categories", { name, color, icon, userId, createdAt: Date.now() })
 	},
 })
 
@@ -30,14 +31,16 @@ export const update = mutation({
 		id: v.id("categories"),
 		name: v.optional(v.string()),
 		color: v.optional(v.string()),
+		icon: v.optional(v.string()),
 	},
-	handler: async (ctx, { id, name, color }) => {
+	handler: async (ctx, { id, name, color, icon }) => {
 		const { userId } = await requireAuth(ctx)
 		const category = await ctx.db.get(id)
 		if (!category || category.userId !== userId) throw new ConvexError("Introuvable")
 		const patch: Record<string, unknown> = {}
 		if (name !== undefined) patch.name = name
 		if (color !== undefined) patch.color = color
+		if (icon !== undefined) patch.icon = icon
 		return ctx.db.patch(id, patch)
 	},
 })
