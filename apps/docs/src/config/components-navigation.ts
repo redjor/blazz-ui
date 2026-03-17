@@ -32,6 +32,7 @@ const categoryDescriptions: Record<string, string> = {
 	"block-charts": "Chart card, area, bar, line, pie and radar chart blocks.",
 	"block-data": "Data table, data grid, filter bar and bulk action bar.",
 	"block-business": "CRM and domain-specific business blocks.",
+	"block-pages": "Full-page layout blocks for settings, onboarding and more.",
 	"ai-chat": "Conversation, messages and prompt input components.",
 	"ai-reasoning": "Reasoning, chain-of-thought and source components.",
 	"ai-tools": "Confirmation, model selection and context components.",
