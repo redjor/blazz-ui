@@ -95,6 +95,7 @@ export type { StatsStripItem, StatsStripProps } from "./stats-strip"
 export { StatsStrip } from "./stats-strip"
 export type { StatusDefinition, StatusFlowProps, StatusTransition } from "./status-flow"
 export { StatusFlow } from "./status-flow"
+export { SettingsPage, SettingsHeader, SettingsSection, SettingsDanger } from "./settings-block"
 
 // ── Data Table ─────────────────────────────────
 // DataTable barrel has naming conflicts (BulkAction, RowAction, FilterGroup, FilterOperator)

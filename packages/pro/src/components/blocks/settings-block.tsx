@@ -1,6 +1,17 @@
-import type * as React from "react"
+"use client"
 
-import { cn } from "../../lib/utils"
+import { cn } from "@blazz/ui"
+import { ItemGroup, ItemSeparator } from "@blazz/ui/components/ui/item"
+import type * as React from "react"
+import { Children, type ReactNode } from "react"
+
+/** Insert an ItemSeparator between each child. */
+function interleaveWithSeparators(children: ReactNode) {
+	const items = Children.toArray(children).filter(Boolean)
+	return items.flatMap((child, i) =>
+		i < items.length - 1 ? [child, <ItemSeparator key={`sep-${i}`} className="my-0" />] : [child]
+	)
+}
 
 /**
  * SettingsPage — Top-level wrapper for a settings page.
@@ -93,9 +104,9 @@ function SettingsSection({
 				<h2 className="text-sm font-semibold text-fg">{title}</h2>
 				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
-			<div className="divide-y divide-separator rounded-lg border border-container bg-surface [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
-				{children}
-			</div>
+			<ItemGroup className="gap-0 rounded-lg border border-container bg-surface [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
+				{interleaveWithSeparators(children)}
+			</ItemGroup>
 		</section>
 	)
 }
@@ -134,9 +145,9 @@ function SettingsDanger({
 				<h2 className="text-sm font-semibold text-negative">{title}</h2>
 				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
-			<div className="divide-y divide-separator rounded-lg border border-negative/25 bg-negative/5 [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
-				{children}
-			</div>
+			<ItemGroup className="gap-0 rounded-lg border border-negative/25 bg-negative/5 [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
+				{interleaveWithSeparators(children)}
+			</ItemGroup>
 		</section>
 	)
 }
