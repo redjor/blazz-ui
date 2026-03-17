@@ -47,7 +47,7 @@ function TabsItemInner({
       {...(sortableAttributes ?? {})}
       {...(sortableListeners ?? {})}
       className={twMerge(
-        "group relative flex w-36 items-center rounded-lg text-xs",
+        "group relative flex w-44 items-center rounded-lg text-xs",
         isDragging && "opacity-0",
         isActive
           ? twMerge("bg-zinc-100 font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100", activeClassName)
@@ -61,7 +61,7 @@ function TabsItemInner({
         className={twMerge("flex h-7 min-w-0 flex-1 cursor-pointer items-center gap-1.5 truncate pl-2", onClose ? "pr-1" : "pr-2")}
       >
         {icon && <span className="shrink-0 opacity-60 [&>svg]:h-3.5 [&>svg]:w-3.5">{icon}</span>}
-        <span className="block truncate" style={{ maxWidth: 120 }}>{title}</span>
+        <span className="block truncate" style={{ maxWidth: 152 }}>{title}</span>
       </button>
       {onClose && (
         <button
@@ -131,7 +131,7 @@ export function TabsItemOverlay({
   return (
     <div
       className={twMerge(
-        "pointer-events-none flex w-36 items-center rounded-lg text-xs shadow-lg",
+        "pointer-events-none flex w-44 items-center rounded-lg text-xs shadow-lg",
         isActive
           ? twMerge("bg-zinc-100 font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100", activeClassName)
           : twMerge("bg-zinc-50 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400", className),
@@ -140,7 +140,7 @@ export function TabsItemOverlay({
     >
       <div className="flex h-7 min-w-0 flex-1 items-center gap-1.5 truncate px-2">
         {icon && <span className="shrink-0 opacity-60 [&>svg]:h-3.5 [&>svg]:w-3.5">{icon}</span>}
-        <span className="block truncate" style={{ maxWidth: 120 }}>{title}</span>
+        <span className="block truncate" style={{ maxWidth: 152 }}>{title}</span>
       </div>
     </div>
   )
