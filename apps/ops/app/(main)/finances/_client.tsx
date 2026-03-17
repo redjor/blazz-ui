@@ -5,8 +5,8 @@ import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { useAction } from "convex/react"
-import { Banknote, Building2, CreditCard, Landmark } from "lucide-react"
+import { useAction, useQuery } from "convex/react"
+import { Banknote, Building2, Clock, FileText, TrendingUp } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
@@ -27,6 +27,17 @@ interface Organization {
 	bankAccounts: BankAccount[]
 }
 
+interface Transaction {
+	id: string
+	amount: number
+	amountCents: number
+	currency: string
+	side: string
+	label: string
+	settledAt: string
+	status: string
+}
+
 function formatIban(iban: string) {
 	return iban.replace(/(.{4})/g, "$1 ").trim()
 }
@@ -40,7 +51,10 @@ function formatAmount(amount: number, currency = "EUR") {
 
 export default function FinancesPageClient() {
 	const getOrganization = useAction(api.qonto.getOrganization)
+	const listTransactions = useAction(api.qonto.listTransactions)
+	const forecast = useQuery(api.finances.forecast)
 	const [org, setOrg] = useState<Organization | null>(null)
+	const [transactions, setTransactions] = useState<Transaction[]>([])
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(true)
 
@@ -52,12 +66,16 @@ export default function FinancesPageClient() {
 		try {
 			const data = await getOrganization()
 			setOrg(data)
+			if (data.bankAccounts.length > 0) {
+				const txns = await listTransactions({ bankAccountSlug: data.bankAccounts[0].slug })
+				setTransactions(txns)
+			}
 		} catch (e) {
 			setError(e instanceof Error ? e.message : "Erreur lors du chargement")
 		} finally {
 			setLoading(false)
 		}
-	}, [getOrganization])
+	}, [getOrganization, listTransactions])
 
 	useEffect(() => {
 		fetchData()
@@ -70,28 +88,63 @@ export default function FinancesPageClient() {
 			<PageHeader title="Finances" subtitle="Compte Qonto" />
 
 			<StatsGrid
-				columns={3}
-				loading={loading}
+				columns={4}
+				loading={loading || forecast === undefined}
 				stats={[
 					{
-						label: "Solde",
+						label: "Solde Qonto",
 						value: mainAccount ? formatAmount(mainAccount.balance, mainAccount.currency) : "—",
 						icon: Banknote,
 					},
 					{
-						label: "Solde autorisé",
-						value: mainAccount
-							? formatAmount(mainAccount.authorizedBalance, mainAccount.currency)
-							: "—",
-						icon: CreditCard,
+						label: "Non facturé",
+						value: forecast ? formatAmount(forecast.unbilledCents / 100) : "—",
+						description: forecast ? `${forecast.unbilledCount} entrées` : undefined,
+						icon: Clock,
 					},
 					{
-						label: "Devise",
-						value: mainAccount?.currency ?? "—",
-						icon: Landmark,
+						label: "En attente",
+						value: forecast ? formatAmount(forecast.unpaidCents / 100) : "—",
+						description: forecast ? `${forecast.unpaidCount} factures` : undefined,
+						icon: FileText,
+					},
+					{
+						label: "Total à encaisser",
+						value: forecast ? formatAmount(forecast.totalCents / 100) : "—",
+						icon: TrendingUp,
 					},
 				]}
 			/>
+
+			{!loading && transactions.length > 0 && (
+				<BlockStack gap="400">
+					<h2 className="text-sm font-medium text-fg-muted">
+						Dernières transactions
+					</h2>
+					<Card>
+						<div className="divide-y divide-separator">
+							{transactions.map((tx) => (
+								<div key={tx.id} className="flex items-center justify-between px-inset py-3">
+									<div className="flex flex-col gap-0.5">
+										<span className="text-sm text-fg">{tx.label || "—"}</span>
+										<span className="text-xs text-fg-muted">
+											{new Date(tx.settledAt).toLocaleDateString("fr-FR")}
+										</span>
+									</div>
+									<span
+										className={`text-sm font-medium tabular-nums ${
+											tx.side === "credit" ? "text-success" : "text-danger"
+										}`}
+									>
+										{tx.side === "credit" ? "+" : "−"}
+										{formatAmount(tx.amount, tx.currency)}
+									</span>
+								</div>
+							))}
+						</div>
+					</Card>
+				</BlockStack>
+			)}
 
 			{error && (
 				<Card>
