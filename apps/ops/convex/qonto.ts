@@ -70,6 +70,26 @@ export const listClients = action({
 	},
 })
 
+/** Fetch the 10 most recent transactions from the main bank account */
+export const listTransactions = action({
+	args: { bankAccountSlug: v.string() },
+	handler: async (_ctx, { bankAccountSlug }) => {
+		const data = await qontoFetch(
+			`/transactions?slug=${bankAccountSlug}&sort_by=settled_at:desc&per_page=10`
+		)
+		return (data.transactions ?? []).map((t: Record<string, unknown>) => ({
+			id: t.id as string,
+			amount: t.amount as number,
+			amountCents: t.amount_cents as number,
+			currency: t.currency as string,
+			side: t.side as string,
+			label: t.label as string,
+			settledAt: t.settled_at as string,
+			status: t.status as string,
+		}))
+	},
+})
+
 /** Create an invoice on Qonto, then update local state */
 export const createInvoice = action({
 	args: {
