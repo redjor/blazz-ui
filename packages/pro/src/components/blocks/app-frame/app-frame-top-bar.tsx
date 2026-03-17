@@ -9,8 +9,12 @@ export function AppFrameTopBar({ state }: { state: AppTopBarState }) {
 	return (
 		<TopBar
 			className="bg-surface-1 border-b border-edge-subtle"
-			left={<TopBar.Breadcrumbs items={state.breadcrumbs} />}
-			right={state.actions}
+			left={
+				<>
+					<TopBar.Breadcrumbs items={state.breadcrumbs} />
+					{state.actions}
+				</>
+			}
 		/>
 	)
 }

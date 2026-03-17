@@ -32,9 +32,9 @@ import {
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
-import { ArrowLeft, Copy, Flag, Link, MoreHorizontal, Tag, Trash2 } from "lucide-react"
+import { ArrowLeft, Copy, Flag, Loader2, Link, MoreHorizontal, Tag, Trash2 } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { DueDatePicker } from "@/components/due-date-picker"
 import { CategoryBadge, getCategoryIcon, ICON_COLOR_MAP, DOT_COLOR_MAP } from "@/components/manage-categories-sheet"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
@@ -185,45 +185,57 @@ export default function TodoDetailPageClient() {
 		}
 	}, [])
 
+	const compositeState = getCompositeSaveState(saveState)
+
 	const topBarActions = todo ? (
-		<DropdownMenu>
-			<DropdownMenuTrigger
-				render={
-					<Button type="button" variant="ghost" size="icon-sm" className="text-fg-muted" />
-				}
-			>
-				<MoreHorizontal className="size-4" />
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuItem
-					onClick={() => {
-						void navigator.clipboard.writeText(window.location.href)
-					}}
+		<>
+			<DropdownMenu>
+				<DropdownMenuTrigger
+					render={
+						<Button type="button" variant="ghost" size="icon-sm" className="text-fg-muted" />
+					}
 				>
-					<Link className="size-4" />
-					Copier le lien
-				</DropdownMenuItem>
-				<DropdownMenuItem
-					onClick={() => {
-						void navigator.clipboard.writeText(todo.text)
-					}}
-				>
-					<Copy className="size-4" />
-					Copier le titre
-				</DropdownMenuItem>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem variant="destructive" onClick={() => setDeleteOpen(true)}>
-					<Trash2 className="size-4" />
-					Supprimer
-					<DropdownMenuShortcut>⌫</DropdownMenuShortcut>
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+					<MoreHorizontal className="size-4" />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuItem
+						onClick={() => {
+							void navigator.clipboard.writeText(window.location.href)
+						}}
+					>
+						<Link className="size-4" />
+						Copier le lien
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						onClick={() => {
+							void navigator.clipboard.writeText(todo.text)
+						}}
+					>
+						<Copy className="size-4" />
+						Copier le titre
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem variant="destructive" onClick={() => setDeleteOpen(true)}>
+						<Trash2 className="size-4" />
+						Supprimer
+						<DropdownMenuShortcut>⌫</DropdownMenuShortcut>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+			{compositeState !== "idle" && (
+				<span className="flex items-center gap-1.5 text-xs text-fg-muted">
+					{(compositeState === "saving" || compositeState === "pending") && (
+						<Loader2 className="size-3 animate-spin" />
+					)}
+					{getSaveStateLabel(compositeState)}
+				</span>
+			)}
+		</>
 	) : null
 
 	useAppTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }], topBarActions)
 
-	function scheduleSave(field: SaveField, callback: () => Promise<void>, delay = 800) {
+	function scheduleSave(field: SaveField, callback: () => Promise<void>, delay = 1500) {
 		if (!todo) return
 
 		const timeout = saveTimeouts.current[field]
@@ -249,10 +261,6 @@ export default function TodoDetailPageClient() {
 		}, delay)
 	}
 
-	const saveStateLabel = useMemo(
-		() => getSaveStateLabel(getCompositeSaveState(saveState)),
-		[saveState]
-	)
 
 	function handleTitleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
 		const nextTitle = e.target.value
@@ -365,7 +373,7 @@ export default function TodoDetailPageClient() {
 				{/* Content — single column, centered */}
 				<BlockStack gap="400" className="min-w-0 max-w-3xl mx-auto w-full">
 					{/* Title */}
-					<BlockStack gap="100">
+					<BlockStack gap="100" className="pt-4">
 						<textarea
 							value={title}
 							onChange={handleTitleChange}
@@ -373,11 +381,10 @@ export default function TodoDetailPageClient() {
 							className="w-full resize-none overflow-hidden text-3xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted field-sizing-content"
 							placeholder="Titre du todo"
 						/>
-						{saveStateLabel ? <span className="text-xs text-fg-muted">{saveStateLabel}</span> : null}
 					</BlockStack>
 
 					{/* Inline property bar */}
-					<InlineStack gap="050" blockAlign="center" wrap>
+					<InlineStack gap="050" blockAlign="center" wrap className="rounded-lg border border-edge px-1.5 py-1 w-fit">
 						{/* Status */}
 						<Select
 							value={todo.status}
