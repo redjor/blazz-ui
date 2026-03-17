@@ -1,6 +1,10 @@
 "use client"
 
-import { CATEGORY_COLORS } from "@/components/manage-categories-sheet"
+import {
+	CATEGORY_COLORS,
+	CATEGORY_ICONS,
+	getCategoryIcon,
+} from "@/components/manage-categories-sheet"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
@@ -36,78 +40,11 @@ import {
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
 import { useMutation, useQuery } from "convex/react"
-import {
-	Briefcase,
-	Building2,
-	Calculator,
-	Calendar,
-	Clock,
-	Code,
-	CreditCard,
-	FileText,
-	FolderOpen,
-	Globe,
-	Hash,
-	Heart,
-	Home,
-	Layers,
-	Mail,
-	type LucideIcon,
-	MessageSquare,
-	MoreHorizontal,
-	Package,
-	Pencil,
-	Plus,
-	Receipt,
-	Settings,
-	ShoppingCart,
-	Star,
-	Tag,
-	Trash2,
-	Users,
-	Wallet,
-	Zap,
-} from "lucide-react"
+import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 
-// ---------------------------------------------------------------------------
-// Icon registry — curated set for a freelance/project management context
-// ---------------------------------------------------------------------------
-
-const CATEGORY_ICONS: { id: string; label: string; icon: LucideIcon }[] = [
-	{ id: "folder", label: "Dossier", icon: FolderOpen },
-	{ id: "briefcase", label: "Travail", icon: Briefcase },
-	{ id: "users", label: "Personnes", icon: Users },
-	{ id: "building", label: "Entreprise", icon: Building2 },
-	{ id: "receipt", label: "Facture", icon: Receipt },
-	{ id: "wallet", label: "Finances", icon: Wallet },
-	{ id: "credit-card", label: "Paiement", icon: CreditCard },
-	{ id: "calculator", label: "Calcul", icon: Calculator },
-	{ id: "calendar", label: "Calendrier", icon: Calendar },
-	{ id: "clock", label: "Temps", icon: Clock },
-	{ id: "file-text", label: "Document", icon: FileText },
-	{ id: "mail", label: "Email", icon: Mail },
-	{ id: "message", label: "Message", icon: MessageSquare },
-	{ id: "code", label: "Code", icon: Code },
-	{ id: "globe", label: "Web", icon: Globe },
-	{ id: "package", label: "Package", icon: Package },
-	{ id: "layers", label: "Couches", icon: Layers },
-	{ id: "tag", label: "Label", icon: Tag },
-	{ id: "hash", label: "Hash", icon: Hash },
-	{ id: "star", label: "Favori", icon: Star },
-	{ id: "heart", label: "Important", icon: Heart },
-	{ id: "zap", label: "Urgent", icon: Zap },
-	{ id: "shopping-cart", label: "Achat", icon: ShoppingCart },
-	{ id: "home", label: "Maison", icon: Home },
-	{ id: "settings", label: "Config", icon: Settings },
-]
-
-function getCategoryIcon(iconId?: string): LucideIcon | null {
-	if (!iconId) return null
-	return CATEGORY_ICONS.find((i) => i.id === iconId)?.icon ?? null
-}
 
 // ---------------------------------------------------------------------------
 // Sub-components

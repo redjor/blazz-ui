@@ -422,7 +422,7 @@ export default function TodoDetailPageClient() {
 									<SelectItem value="">Aucune</SelectItem>
 									{categoryList.map((category) => (
 										<SelectItem key={category._id} value={category._id}>
-											<CategoryBadge name={category.name} color={category.color} />
+											<CategoryBadge name={category.name} color={category.color} icon={category.icon} />
 										</SelectItem>
 									))}
 								</SelectContent>

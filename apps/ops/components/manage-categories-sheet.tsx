@@ -10,7 +10,36 @@ import {
 	SheetTrigger,
 } from "@blazz/ui/components/ui/sheet"
 import { useMutation, useQuery } from "convex/react"
-import { Settings2, Trash2 } from "lucide-react"
+import {
+	Briefcase,
+	Building2,
+	Calculator,
+	Calendar,
+	Clock,
+	Code,
+	CreditCard,
+	FileText,
+	FolderOpen,
+	Globe,
+	Hash,
+	Heart,
+	Home,
+	Layers,
+	type LucideIcon,
+	Mail,
+	MessageSquare,
+	Package,
+	Receipt,
+	Settings,
+	Settings2,
+	ShoppingCart,
+	Star,
+	Tag,
+	Trash2,
+	Users,
+	Wallet,
+	Zap,
+} from "lucide-react"
 import { useState } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -70,12 +99,81 @@ export function getCategoryColorClasses(color?: string) {
 	return CATEGORY_COLORS.find((c) => c.id === color) ?? CATEGORY_COLORS[7]
 }
 
-export function CategoryBadge({ name, color }: { name: string; color?: string }) {
-	const cls = getCategoryColorClasses(color)
+// ---------------------------------------------------------------------------
+// Icon registry — curated set for freelance/project management context
+// ---------------------------------------------------------------------------
+
+export const CATEGORY_ICONS: { id: string; label: string; icon: LucideIcon }[] = [
+	{ id: "folder", label: "Dossier", icon: FolderOpen },
+	{ id: "briefcase", label: "Travail", icon: Briefcase },
+	{ id: "users", label: "Personnes", icon: Users },
+	{ id: "building", label: "Entreprise", icon: Building2 },
+	{ id: "receipt", label: "Facture", icon: Receipt },
+	{ id: "wallet", label: "Finances", icon: Wallet },
+	{ id: "credit-card", label: "Paiement", icon: CreditCard },
+	{ id: "calculator", label: "Calcul", icon: Calculator },
+	{ id: "calendar", label: "Calendrier", icon: Calendar },
+	{ id: "clock", label: "Temps", icon: Clock },
+	{ id: "file-text", label: "Document", icon: FileText },
+	{ id: "mail", label: "Email", icon: Mail },
+	{ id: "message", label: "Message", icon: MessageSquare },
+	{ id: "code", label: "Code", icon: Code },
+	{ id: "globe", label: "Web", icon: Globe },
+	{ id: "package", label: "Package", icon: Package },
+	{ id: "layers", label: "Couches", icon: Layers },
+	{ id: "tag", label: "Label", icon: Tag },
+	{ id: "hash", label: "Hash", icon: Hash },
+	{ id: "star", label: "Favori", icon: Star },
+	{ id: "heart", label: "Important", icon: Heart },
+	{ id: "zap", label: "Urgent", icon: Zap },
+	{ id: "shopping-cart", label: "Achat", icon: ShoppingCart },
+	{ id: "home", label: "Maison", icon: Home },
+	{ id: "settings", label: "Config", icon: Settings },
+]
+
+export function getCategoryIcon(iconId?: string): LucideIcon | null {
+	if (!iconId) return null
+	return CATEGORY_ICONS.find((i) => i.id === iconId)?.icon ?? null
+}
+
+const DOT_COLOR_MAP: Record<string, string> = {
+	indigo: "bg-indigo-500",
+	violet: "bg-violet-500",
+	rose: "bg-rose-500",
+	orange: "bg-orange-500",
+	amber: "bg-amber-500",
+	emerald: "bg-emerald-500",
+	sky: "bg-sky-500",
+	zinc: "bg-zinc-400",
+}
+
+const ICON_COLOR_MAP: Record<string, string> = {
+	indigo: "text-indigo-500",
+	violet: "text-violet-500",
+	rose: "text-rose-500",
+	orange: "text-orange-500",
+	amber: "text-amber-500",
+	emerald: "text-emerald-500",
+	sky: "text-sky-500",
+	zinc: "text-zinc-400",
+}
+
+export function CategoryBadge({
+	name,
+	color,
+	icon,
+}: { name: string; color?: string; icon?: string }) {
+	const Icon = getCategoryIcon(icon)
+	const iconColor = ICON_COLOR_MAP[color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
+	const dotColor = DOT_COLOR_MAP[color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
+
 	return (
-		<span
-			className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls.bg} ${cls.text}`}
-		>
+		<span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2 py-0.5 text-xs font-medium text-fg-secondary">
+			{Icon ? (
+				<Icon className={`size-3 shrink-0 ${iconColor}`} />
+			) : (
+				<span className={`size-2 shrink-0 rounded-full ${dotColor}`} />
+			)}
 			{name}
 		</span>
 	)
@@ -114,7 +212,7 @@ export function ManageCategoriesSheet() {
 						) : (
 							(categories ?? []).map((cat) => (
 								<div key={cat._id} className="flex items-center justify-between gap-2 py-1">
-									<CategoryBadge name={cat.name} color={cat.color} />
+									<CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />
 									<Button
 										variant="ghost"
 										size="icon-sm"

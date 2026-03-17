@@ -213,7 +213,7 @@ export function EditTodoDialog({
 							<SelectItem value="">Aucune</SelectItem>
 							{categories.map((c) => (
 								<SelectItem key={c._id} value={c._id}>
-									<CategoryBadge name={c.name} color={c.color} />
+									<CategoryBadge name={c.name} color={c.color} icon={c.icon} />
 								</SelectItem>
 							))}
 						</SelectContent>

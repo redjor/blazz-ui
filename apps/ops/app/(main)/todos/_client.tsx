@@ -83,7 +83,7 @@ function TodoCard({
 							)
 						})()}
 					<ProjectBadge projectId={todo.projectId} projects={projects} />
-					{cat && <CategoryBadge name={cat.name} color={cat.color} />}
+					{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
 				</InlineStack>
 				{tags.length > 0 && (
 					<InlineStack gap="100" wrap>
@@ -239,7 +239,7 @@ function AddTodoDialog({
 								<SelectItem value="">Aucune</SelectItem>
 								{categories.map((c) => (
 									<SelectItem key={c._id} value={c._id}>
-										<CategoryBadge name={c.name} color={c.color} />
+										<CategoryBadge name={c.name} color={c.color} icon={c.icon} />
 									</SelectItem>
 								))}
 							</SelectContent>
@@ -636,7 +636,7 @@ export default function TodosPageClient() {
 													{dueInfo.label}
 												</span>
 											)}
-											{cat && <CategoryBadge name={cat.name} color={cat.color} />}
+											{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
 											{todo.projectName && (
 												<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
 													{todo.projectName}
