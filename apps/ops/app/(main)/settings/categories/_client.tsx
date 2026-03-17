@@ -4,6 +4,7 @@ import { CATEGORY_COLORS } from "@/components/manage-categories-sheet"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
