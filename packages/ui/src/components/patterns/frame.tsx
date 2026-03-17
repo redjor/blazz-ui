@@ -8,6 +8,7 @@ export interface FrameProps {
 	topBar?: React.ReactNode
 	navigation: React.ReactNode
 	tabBar?: React.ReactNode
+	header?: React.ReactNode
 	children: React.ReactNode
 	className?: string
 }
@@ -27,7 +28,7 @@ export interface FrameProps {
  *   <YourPageContent />
  * </Frame>
  */
-export function Frame({ topBar, navigation, tabBar, children, className }: FrameProps) {
+export function Frame({ topBar, navigation, tabBar, header, children, className }: FrameProps) {
 	const hasTopBar = Boolean(topBar)
 
 	return (
@@ -39,12 +40,13 @@ export function Frame({ topBar, navigation, tabBar, children, className }: Frame
 			<div className={cn("flex h-screen overflow-hidden", hasTopBar && "pt-(--topbar-height)")}>
 				{navigation}
 
-				<main className="flex-1 min-w-0">
-					<div className="flex h-full flex-col">
-						{tabBar}
+				<div className="flex-1 min-w-0 flex flex-col">
+					{tabBar}
+					<main className="flex-1 min-w-0 rounded-tl-xl border-l border-t border-edge-subtle overflow-hidden flex flex-col">
+						{header}
 						<ScrollArea className={cn("min-h-0 w-full flex-1 bg-surface-1")}>{children}</ScrollArea>
-					</div>
-				</main>
+					</main>
+				</div>
 			</div>
 		</div>
 	)

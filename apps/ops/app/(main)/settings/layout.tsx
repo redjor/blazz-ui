@@ -41,7 +41,7 @@ function SettingsNav() {
 	}
 
 	return (
-		<aside className="w-52 shrink-0 border-r border-edge-subtle p-2">
+		<aside className="w-52 shrink-0 p-2">
 			<NavMenu>
 				{settingsNav.map((group) => (
 					<NavMenuGroup key={group.group} label={group.group}>

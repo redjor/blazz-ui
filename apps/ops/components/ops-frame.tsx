@@ -3,7 +3,7 @@
 import { type FeatureFlag, isEnabled } from "@/lib/features"
 import { TabsProvider, useTabs } from "@blazz/tabs"
 import { NextTabsInterceptor } from "@blazz/tabs/adapters/next"
-import { TabsBar, TabsItem } from "@blazz/tabs/ui"
+import { TabsBar, TabsItem, TabsItemOverlay } from "@blazz/tabs/ui"
 import { Frame } from "@blazz/ui/components/patterns/frame"
 import { TopBar } from "@blazz/ui/components/patterns/top-bar"
 import {
@@ -40,7 +40,7 @@ import {
 	Sun,
 	Users,
 } from "lucide-react"
-import Image from "next/image"
+import { BlazzLogo } from "@/components/blazz-logo"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import type { Dispatch, ReactNode, SetStateAction } from "react"
@@ -87,10 +87,10 @@ function OpsSidebar() {
 		items?.some((sub) => isActive(sub.url)) ?? false
 
 	return (
-		<Sidebar collapsible="offcanvas" className="border-r border-edge-subtle gap-2">
+		<Sidebar collapsible="offcanvas" className="gap-2">
 			<SidebarHeader className="h-12 justify-center px-5">
 				<Link href="/" className="flex items-center">
-					<Image src="/logo_blazz_white.svg" alt="Blazz" width={64} height={24} />
+					<BlazzLogo className="text-fg" />
 				</Link>
 			</SidebarHeader>
 			<SidebarContent>
@@ -206,7 +206,7 @@ const tabClickNavRef = { current: false }
 // ---------------------------------------------------------------------------
 
 function OpsTabBar() {
-	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab } = useTabs()
+	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab, reorderTabs } = useTabs()
 	const sidebar = useSidebar()
 	const router = useRouter()
 
@@ -214,7 +214,21 @@ function OpsTabBar() {
 
 	return (
 		<TabsBar
-			className="border-t-0 border-b border-edge-subtle bg-surface-0"
+			className="border-t-0 bg-surface-0"
+			tabIds={tabs.map((t) => t.id)}
+			onReorder={reorderTabs}
+			renderDragOverlay={(dragId) => {
+				const tab = tabs.find((t) => t.id === dragId)
+				if (!tab) return null
+				return (
+					<TabsItemOverlay
+						title={tab.title}
+						isActive={tab.id === activeTabId}
+						className="bg-surface-1 text-fg-secondary"
+						activeClassName="bg-surface-2 text-fg"
+					/>
+				)
+			}}
 			onAddTab={() => {
 				addTab({ url: "/", title: "Dashboard", deduplicate: false })
 				router.push("/")
@@ -226,6 +240,7 @@ function OpsTabBar() {
 			{tabs.map((tab) => (
 				<TabsItem
 					key={tab.id}
+					id={tab.id}
 					title={tab.title}
 					isActive={tab.id === activeTabId}
 					onClick={() => {
@@ -260,7 +275,7 @@ function MobileHeader() {
 		<div className="flex md:hidden h-10 items-center gap-2 border-b border-edge-subtle bg-surface-3 px-3">
 			<SidebarTrigger />
 			<Link href="/">
-				<Image src="/logo_blazz_white.svg" alt="Blazz" width={64} height={24} />
+				<BlazzLogo className="text-fg" />
 			</Link>
 		</div>
 	)
@@ -352,9 +367,9 @@ function OpsFrameInner({ children }: { children: ReactNode }) {
 						<>
 							<MobileHeader />
 							<OpsTabBar />
-							<OpsTopBarContent state={topBar} />
 						</>
 					}
+					header={<OpsTopBarContent state={topBar} />}
 				>
 					<NextTabsInterceptor titleResolver={titleFromPathname} />
 					{children}
