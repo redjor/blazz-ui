@@ -309,29 +309,27 @@ const Sidebar = React.forwardRef<
               : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
           )}
         />
-        {/* Sidebar — normal (only when expanded) */}
-        {state === "expanded" && (
+        {/* Sidebar — always rendered, content slides over it on collapse */}
+        <div
+          className={cn(
+            "fixed inset-y-0 h-svh hidden w-(--sidebar-width) md:flex z-10",
+            side === "left"
+              ? "left-0"
+              : "right-0",
+            variant === "floating" || variant === "inset"
+              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+              : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=right]:border-l",
+            className,
+          )}
+          {...props}
+        >
           <div
-            className={cn(
-              "fixed inset-y-0 h-svh hidden w-(--sidebar-width) md:flex z-10",
-              side === "left"
-                ? "left-0"
-                : "right-0",
-              variant === "floating" || variant === "inset"
-                ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-                : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=right]:border-l",
-              className,
-            )}
-            {...props}
+            data-sidebar="sidebar"
+            className="flex h-full w-full flex-col bg-(--surface-0) group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-container group-data-[variant=floating]:shadow"
           >
-            <div
-              data-sidebar="sidebar"
-              className="flex h-full w-full flex-col bg-(--surface-0) group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-container group-data-[variant=floating]:shadow"
-            >
-              {children}
-            </div>
+            {children}
           </div>
-        )}
+        </div>
 
         {/* Sidebar — peek overlay (floating sheet) */}
         {state === "collapsed" && (
@@ -440,9 +438,6 @@ const SidebarHeader = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
-  const sidebar = useSidebarSafe();
-  if (sidebar?.state === "collapsed") return null;
-
   return (
     <div
       ref={ref}

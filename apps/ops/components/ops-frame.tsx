@@ -213,30 +213,31 @@ function OpsTabBar() {
 	if (!showTabBar) return null
 
 	return (
-		<TabsBar
-			className="border-t-0 bg-surface-0"
-			tabIds={tabs.map((t) => t.id)}
-			onReorder={reorderTabs}
-			renderDragOverlay={(dragId) => {
-				const tab = tabs.find((t) => t.id === dragId)
-				if (!tab) return null
-				return (
-					<TabsItemOverlay
-						title={tab.title}
-						isActive={tab.id === activeTabId}
-						className="bg-surface-1 text-fg-secondary"
-						activeClassName="bg-surface-2 text-fg"
-					/>
-				)
-			}}
-			onAddTab={() => {
-				addTab({ url: "/", title: "Dashboard", deduplicate: false })
-				router.push("/")
-			}}
-		>
+		<div className="flex items-center bg-surface-0">
 			{sidebar.state === "collapsed" && (
-				<SidebarTrigger className="ml-1 shrink-0" />
+				<SidebarTrigger className="ml-1 mr-1 shrink-0" />
 			)}
+			<TabsBar
+				className="flex-1 border-t-0 bg-surface-0"
+				tabIds={tabs.map((t) => t.id)}
+				onReorder={reorderTabs}
+				renderDragOverlay={(dragId) => {
+					const tab = tabs.find((t) => t.id === dragId)
+					if (!tab) return null
+					return (
+						<TabsItemOverlay
+							title={tab.title}
+							isActive={tab.id === activeTabId}
+							className="bg-surface-1 text-fg-secondary"
+							activeClassName="bg-surface-2 text-fg"
+						/>
+					)
+				}}
+				onAddTab={() => {
+					addTab({ url: "/", title: "Dashboard", deduplicate: false })
+					router.push("/")
+				}}
+			>
 			{tabs.map((tab) => (
 				<TabsItem
 					key={tab.id}
@@ -263,6 +264,7 @@ function OpsTabBar() {
 				/>
 			))}
 		</TabsBar>
+		</div>
 	)
 }
 
