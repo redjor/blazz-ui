@@ -207,6 +207,7 @@ const tabClickNavRef = { current: false }
 
 function OpsTabBar() {
 	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab } = useTabs()
+	const sidebar = useSidebar()
 	const router = useRouter()
 
 	if (!showTabBar) return null
@@ -219,6 +220,9 @@ function OpsTabBar() {
 				router.push("/")
 			}}
 		>
+			{sidebar.state === "collapsed" && (
+				<SidebarTrigger className="ml-1 shrink-0" />
+			)}
 			{tabs.map((tab) => (
 				<TabsItem
 					key={tab.id}
@@ -267,27 +271,12 @@ function MobileHeader() {
 // ---------------------------------------------------------------------------
 
 function OpsTopBarContent({ state }: { state: OpsTopBarState }) {
-	const sidebar = useSidebar()
-	const sidebarCollapsed = sidebar.state === "collapsed"
-
-	if (!state.breadcrumbs) {
-		if (!sidebarCollapsed) return null
-		return (
-			<div className="flex h-10 items-center px-3">
-				<TopBar.SidebarToggle />
-			</div>
-		)
-	}
+	if (!state.breadcrumbs) return null
 
 	return (
 		<TopBar
 			className="bg-surface-1 border-b border-edge-subtle"
-			left={
-				<>
-					<TopBar.SidebarToggle />
-					<TopBar.Breadcrumbs items={state.breadcrumbs} />
-				</>
-			}
+			left={<TopBar.Breadcrumbs items={state.breadcrumbs} />}
 			right={state.actions}
 		/>
 	)
