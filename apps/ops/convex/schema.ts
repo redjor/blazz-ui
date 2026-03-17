@@ -119,6 +119,7 @@ export default defineSchema({
 		userId: v.optional(v.string()),
 		name: v.string(),
 		color: v.optional(v.string()),
+		icon: v.optional(v.string()),
 		createdAt: v.number(),
 	}).index("by_user", ["userId"]),
 

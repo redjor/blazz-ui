@@ -36,6 +36,7 @@ import {
 	LayoutDashboard,
 	MessageSquare,
 	Package,
+	Settings,
 	Sun,
 	Users,
 } from "lucide-react"
@@ -70,6 +71,7 @@ const navItems: Array<{
 	{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
 	{ title: "Packages", url: "/packages", icon: Package, flag: "packages" },
 	{ title: "Licences", url: "/licenses", icon: Key, flag: "licenses" },
+	{ title: "Paramètres", url: "/settings", icon: Settings, flag: "settings" },
 ]
 
 function OpsSidebar() {
