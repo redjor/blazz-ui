@@ -35,10 +35,7 @@ import { toast } from "sonner"
 import { DueDatePicker } from "@/components/due-date-picker"
 import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
-import {
-	CategoryBadge,
-	ManageCategoriesSheet,
-} from "@/components/manage-categories-sheet"
+import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { Empty, EmptyActions, EmptyDescription, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { TagInput } from "@/components/tag-input"
@@ -528,10 +525,7 @@ export default function TodosPageClient() {
 		[remove]
 	)
 
-	useOpsTopBar(
-		[{ label: "Todos" }],
-		<ManageCategoriesSheet />
-	)
+	useOpsTopBar([{ label: "Todos" }])
 
 	return (
 		<>
