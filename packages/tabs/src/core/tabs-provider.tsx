@@ -13,6 +13,7 @@ export interface TabsContextValue {
   activateTab: (id: string) => void
   updateActiveTabUrl: (url: string) => void
   updateTabTitle: (id: string, title: string) => void
+  reorderTabs: (activeId: string, overId: string) => void
 }
 
 export const TabsContext = React.createContext<TabsContextValue | undefined>(undefined)
@@ -102,6 +103,10 @@ export function TabsProvider({
     dispatch({ type: "UPDATE_TAB_TITLE", payload: { id, title } })
   }, [])
 
+  const reorderTabs = React.useCallback((activeId: string, overId: string) => {
+    dispatch({ type: "REORDER_TABS", payload: { activeId, overId } })
+  }, [])
+
   const value = React.useMemo<TabsContextValue>(
     () => ({
       tabs: state.tabs,
@@ -112,8 +117,9 @@ export function TabsProvider({
       activateTab,
       updateActiveTabUrl,
       updateTabTitle,
+      reorderTabs,
     }),
-    [state, alwaysShowTabBar, addTab, closeTab, activateTab, updateActiveTabUrl, updateTabTitle]
+    [state, alwaysShowTabBar, addTab, closeTab, activateTab, updateActiveTabUrl, updateTabTitle, reorderTabs]
   )
 
   return <TabsContext.Provider value={value}>{children}</TabsContext.Provider>

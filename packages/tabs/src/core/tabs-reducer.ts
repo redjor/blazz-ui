@@ -11,6 +11,7 @@ export type TabsAction =
   | { type: "ACTIVATE_TAB"; payload: { id: string } }
   | { type: "UPDATE_ACTIVE_URL"; payload: { url: string } }
   | { type: "UPDATE_TAB_TITLE"; payload: { id: string; title: string } }
+  | { type: "REORDER_TABS"; payload: { activeId: string; overId: string } }
   | { type: "RESTORE"; payload: TabsState }
 
 function generateId(): string {
@@ -84,6 +85,17 @@ export function tabsReducer(state: TabsState, action: TabsAction): TabsState {
           t.id === action.payload.id ? { ...t, title: action.payload.title } : t
         ),
       }
+    }
+    case "REORDER_TABS": {
+      const { activeId, overId } = action.payload
+      if (activeId === overId) return state
+      const oldIndex = state.tabs.findIndex((t) => t.id === activeId)
+      const newIndex = state.tabs.findIndex((t) => t.id === overId)
+      if (oldIndex === -1 || newIndex === -1) return state
+      const newTabs = [...state.tabs]
+      const [moved] = newTabs.splice(oldIndex, 1)
+      newTabs.splice(newIndex, 0, moved)
+      return { ...state, tabs: newTabs }
     }
     case "RESTORE": {
       const { tabs, activeTabId } = action.payload
