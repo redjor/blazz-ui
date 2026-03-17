@@ -10,7 +10,6 @@ import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { Label } from "@blazz/ui/components/ui/label"
 import {
 	Select,
 	SelectContent,
@@ -443,106 +442,94 @@ export default function RecapPageClient() {
 		<BlockStack gap="600" className="p-6">
 			<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
-			{/* Period & scope filters — these drive the Convex query */}
-			<InlineStack gap="400" wrap className="rounded-xl border border-edge bg-surface-3 p-4">
-				<BlockStack gap="150">
-					<Label>Client</Label>
+			{/* Scope filters — compact inline bar, no labels */}
+			<InlineStack gap="200" blockAlign="center" wrap>
+				<Select
+					value={clientId || "_all"}
+					onValueChange={(v) => {
+						setClientId(v === "_all" ? "" : v)
+						setProjectId("")
+					}}
+					items={[
+						{ value: "_all", label: "Tous les clients" },
+						...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
+					]}
+				>
+					<SelectTrigger className="h-8 w-40 text-xs">
+						<SelectValue placeholder="Client" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="_all" label="Tous les clients">
+							Tous les clients
+						</SelectItem>
+						{clients?.map((c) => (
+							<SelectItem key={c._id} value={c._id} label={c.name}>
+								{c.name}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+
+				{clientId && (
 					<Select
-						value={clientId || "_all"}
-						onValueChange={(v) => {
-							setClientId(v === "_all" ? "" : v)
-							setProjectId("")
-						}}
+						value={projectId || "_all"}
+						onValueChange={(v) => setProjectId(v === "_all" ? "" : v)}
 						items={[
-							{ value: "_all", label: "Tous les clients" },
-							...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
+							{ value: "_all", label: "Tous les projets" },
+							...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? []),
 						]}
 					>
-						<SelectTrigger className="w-44">
-							<SelectValue placeholder="Tous" />
+						<SelectTrigger className="h-8 w-40 text-xs">
+							<SelectValue placeholder="Projet" />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="_all" label="Tous les clients">
-								Tous les clients
+							<SelectItem value="_all" label="Tous les projets">
+								Tous les projets
 							</SelectItem>
-							{clients?.map((c) => (
-								<SelectItem key={c._id} value={c._id} label={c.name}>
-									{c.name}
+							{clientProjects?.map((p) => (
+								<SelectItem key={p._id} value={p._id} label={p.name}>
+									{p.name}
 								</SelectItem>
 							))}
 						</SelectContent>
 					</Select>
-				</BlockStack>
-
-				{clientId && (
-					<BlockStack gap="150">
-						<Label>Projet</Label>
-						<Select
-							value={projectId || "_all"}
-							onValueChange={(v) => setProjectId(v === "_all" ? "" : v)}
-							items={[
-								{ value: "_all", label: "Tous les projets" },
-								...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? []),
-							]}
-						>
-							<SelectTrigger className="w-44">
-								<SelectValue placeholder="Tous" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="_all" label="Tous les projets">
-									Tous les projets
-								</SelectItem>
-								{clientProjects?.map((p) => (
-									<SelectItem key={p._id} value={p._id} label={p.name}>
-										{p.name}
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</BlockStack>
 				)}
 
-				<BlockStack gap="150">
-					<Label>Période</Label>
-					<Select
-						value={period}
-						onValueChange={setPeriod}
-						items={[
-							{ value: "current", label: "Mois en cours" },
-							{ value: "last", label: "Mois précédent" },
-							{ value: "custom", label: "Personnalisée" },
-						]}
-					>
-						<SelectTrigger className="w-44">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="current" label="Mois en cours">
-								Mois en cours
-							</SelectItem>
-							<SelectItem value="last" label="Mois précédent">
-								Mois précédent
-							</SelectItem>
-							<SelectItem value="custom" label="Personnalisée">
-								Personnalisée
-							</SelectItem>
-						</SelectContent>
-					</Select>
-				</BlockStack>
+				<Select
+					value={period}
+					onValueChange={setPeriod}
+					items={[
+						{ value: "current", label: "Mois en cours" },
+						{ value: "last", label: "Mois précédent" },
+						{ value: "custom", label: "Personnalisée" },
+					]}
+				>
+					<SelectTrigger className="h-8 w-40 text-xs">
+						<SelectValue />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="current" label="Mois en cours">
+							Mois en cours
+						</SelectItem>
+						<SelectItem value="last" label="Mois précédent">
+							Mois précédent
+						</SelectItem>
+						<SelectItem value="custom" label="Personnalisée">
+							Personnalisée
+						</SelectItem>
+					</SelectContent>
+				</Select>
 
 				{period === "custom" && (
-					<BlockStack gap="150">
-						<Label>Période</Label>
-						<DateRangeSelector
-							from={from ? parseISO(from) : undefined}
-							to={to ? parseISO(to) : undefined}
-							onRangeChange={(r) => {
-								setFrom(r.from ? format(r.from, "yyyy-MM-dd") : "")
-								setTo(r.to ? format(r.to, "yyyy-MM-dd") : "")
-							}}
-							formatStr="dd/MM/yyyy"
-						/>
-					</BlockStack>
+					<DateRangeSelector
+						from={from ? parseISO(from) : undefined}
+						to={to ? parseISO(to) : undefined}
+						onRangeChange={(r) => {
+							setFrom(r.from ? format(r.from, "yyyy-MM-dd") : "")
+							setTo(r.to ? format(r.to, "yyyy-MM-dd") : "")
+						}}
+						formatStr="dd/MM/yyyy"
+					/>
 				)}
 			</InlineStack>
 

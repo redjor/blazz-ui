@@ -11,7 +11,7 @@ async function qontoFetch(path: string, options: RequestInit = {}) {
 	const res = await fetch(`${QONTO_BASE}${path}`, {
 		...options,
 		headers: {
-			Authorization: `Bearer ${apiKey}`,
+			Authorization: `${process.env.QONTO_ORG_SLUG}:${apiKey}`,
 			"Content-Type": "application/json",
 			...options.headers,
 		},
@@ -24,6 +24,38 @@ async function qontoFetch(path: string, options: RequestInit = {}) {
 
 	return res.json()
 }
+
+/** Fetch organization & bank account details from Qonto */
+export const getOrganization = action({
+	args: {},
+	handler: async () => {
+		const apiKey = process.env.QONTO_API_KEY
+		if (!apiKey) throw new Error("QONTO_API_KEY not configured")
+
+		// The API key format is "org_slug:secret" — extract slug
+		const slug = process.env.QONTO_ORG_SLUG
+		if (!slug) throw new Error("QONTO_ORG_SLUG not configured")
+
+		const data = await qontoFetch(`/organizations/${slug}`)
+		const org = data.organization
+
+		return {
+			slug: org.slug as string,
+			bankAccounts: (org.bank_accounts ?? []).map(
+				(a: Record<string, unknown>) => ({
+					slug: a.slug as string,
+					iban: a.iban as string,
+					bic: a.bic as string,
+					currency: a.currency as string,
+					balance: a.balance as number,
+					balanceCents: a.balance_cents as number,
+					authorizedBalance: a.authorized_balance as number,
+					authorizedBalanceCents: a.authorized_balance_cents as number,
+				})
+			),
+		}
+	},
+})
 
 /** List clients from Qonto for mapping dropdown */
 export const listClients = action({

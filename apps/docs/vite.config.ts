@@ -7,7 +7,12 @@ import { defineConfig } from "vite"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
-	server: { port: 3100 },
+	server: {
+		port: 3100,
+		watch: {
+			ignored: ["**/routeTree.gen.ts"],
+		},
+	},
 	resolve: {
 		alias: [
 			{ find: "next/link", replacement: path.resolve(__dirname, "src/compat/next-link.tsx") },
