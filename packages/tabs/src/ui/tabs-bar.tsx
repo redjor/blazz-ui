@@ -100,7 +100,7 @@ export function TabsBar({
                 {children}
               </div>
             </SortableContext>
-            <DragOverlay dropAnimation={null}>
+            <DragOverlay dropAnimation={{ duration: 150, easing: "ease-out" }}>
               {activeDragId && renderDragOverlay ? renderDragOverlay(activeDragId) : null}
             </DragOverlay>
           </DndContext>
