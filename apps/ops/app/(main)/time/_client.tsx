@@ -45,7 +45,7 @@ import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { MonthCalendar } from "@/components/month-calendar"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { WeekGrid } from "@/components/week-grid"
@@ -580,7 +580,7 @@ export default function TimePageClient() {
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
 
-	useOpsTopBar([{ label: "Suivi de temps" }])
+	useAppTopBar([{ label: "Suivi de temps" }])
 
 	return (
 		<>

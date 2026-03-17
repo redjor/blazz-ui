@@ -1,6 +1,6 @@
 "use client"
 
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import {
 	NavMenu,
 	NavMenuGroup,
@@ -67,7 +67,7 @@ function SettingsNav() {
 export default function SettingsLayout({
 	children,
 }: { children: ReactNode }) {
-	useOpsTopBar([{ label: "Paramètres", href: "/settings" }])
+	useAppTopBar([{ label: "Paramètres", href: "/settings" }])
 
 	return (
 		<div className="flex h-full">

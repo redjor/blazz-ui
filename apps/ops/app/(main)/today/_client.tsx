@@ -13,7 +13,7 @@ import { fr } from "date-fns/locale"
 import { Banknote, CheckCircle2, Circle, Clock, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { api } from "@/convex/_generated/api"
@@ -49,7 +49,7 @@ export default function TodayPageClient() {
 		hoursPerDay: number | null
 	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, hoursPerDay: null })
 
-	useOpsTopBar([{ label: "Aujourd'hui" }])
+	useAppTopBar([{ label: "Aujourd'hui" }])
 
 	const dateTitle = format(new Date(), "EEEE d MMMM yyyy", { locale: fr }).replace(/^\w/, (c) =>
 		c.toUpperCase()

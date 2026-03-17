@@ -8,7 +8,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useAction, useQuery } from "convex/react"
 import { Banknote, Building2, Clock, FileText, TrendingUp } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 
 interface BankAccount {
@@ -58,7 +58,7 @@ export default function FinancesPageClient() {
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(true)
 
-	useOpsTopBar([{ label: "Finances" }])
+	useAppTopBar([{ label: "Finances" }])
 
 	const fetchData = useCallback(async () => {
 		setLoading(true)

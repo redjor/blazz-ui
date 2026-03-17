@@ -37,7 +37,7 @@ import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { Empty, EmptyActions, EmptyDescription, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { TagInput } from "@/components/tag-input"
 import type { Todo } from "@/components/todos-preset"
 import { formatDueDate, StatusIcon } from "@/components/todos-preset"
@@ -525,7 +525,7 @@ export default function TodosPageClient() {
 		[remove]
 	)
 
-	useOpsTopBar([{ label: "Todos" }])
+	useAppTopBar([{ label: "Todos" }])
 
 	return (
 		<>

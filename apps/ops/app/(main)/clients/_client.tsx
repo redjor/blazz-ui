@@ -13,7 +13,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useMemo, useState } from "react"
 import { ClientForm } from "@/components/client-form"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 
 const typeLabels = {
@@ -71,7 +71,7 @@ export default function ClientsPageClient() {
 		[]
 	)
 
-	useOpsTopBar([{ label: "Clients" }], topBarActions)
+	useAppTopBar([{ label: "Clients" }], topBarActions)
 
 	const filtered = useMemo(() => {
 		if (!clients) return undefined

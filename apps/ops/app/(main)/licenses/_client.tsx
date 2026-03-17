@@ -18,7 +18,7 @@ import { Check, Copy, Key, Plus, Trash2, XCircle } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { LicenseKeyForm } from "@/components/license-key-form"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -90,7 +90,7 @@ export default function LicensesPageClient() {
 		[]
 	)
 
-	useOpsTopBar([{ label: "Licences" }], topBarActions)
+	useAppTopBar([{ label: "Licences" }], topBarActions)
 
 	const filtered = useMemo(() => {
 		if (!keys) return undefined

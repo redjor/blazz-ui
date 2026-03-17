@@ -7,7 +7,7 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import Link from "next/link"
 import { useState } from "react"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 
 type StatusFilter = "active" | "all"
@@ -33,7 +33,7 @@ export default function ProjectsPageClient() {
 	const clients = useQuery(api.clients.list)
 	const [filter, setFilter] = useState<StatusFilter>("active")
 
-	useOpsTopBar([{ label: "Projets" }])
+	useAppTopBar([{ label: "Projets" }])
 
 	const clientMap = new Map(clients?.map((c) => [c._id, c.name]))
 

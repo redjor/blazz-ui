@@ -6,7 +6,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Combobox, type ComboboxOption } from "@blazz/ui/components/ui/combobox"
 import { Divider } from "@blazz/ui/components/ui/divider"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { Label } from "@blazz/ui/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui/popover"
 import {
 	Select,
 	SelectContent,
@@ -17,24 +17,32 @@ import {
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import type { JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
-import { ArrowLeft, Flag, Trash2 } from "lucide-react"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuShortcut,
+	DropdownMenuTrigger,
+} from "@blazz/ui/components/ui/dropdown-menu"
+import { ArrowLeft, Copy, Flag, Link, MoreHorizontal, Tag, Trash2 } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { DueDatePicker } from "@/components/due-date-picker"
-import { CategoryBadge } from "@/components/manage-categories-sheet"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { CategoryBadge, getCategoryIcon, ICON_COLOR_MAP, DOT_COLOR_MAP } from "@/components/manage-categories-sheet"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { TagInput } from "@/components/tag-input"
 import { TiptapEditor, type TiptapUpdatePayload } from "@/components/tiptap-editor"
 import { StatusIcon } from "@/components/todos-preset"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
-const STATUS_OPTIONS = [
-	{ value: "triage", label: "Triage" },
-	{ value: "todo", label: "Todo" },
-	{ value: "blocked", label: "Bloqué" },
-	{ value: "in_progress", label: "En cours" },
-	{ value: "done", label: "Fait" },
+const STATUS_OPTIONS: ComboboxOption[] = [
+	{ value: "triage", label: "Triage", icon: <StatusIcon status="triage" /> },
+	{ value: "todo", label: "Todo", icon: <StatusIcon status="todo" /> },
+	{ value: "blocked", label: "Bloqué", icon: <StatusIcon status="blocked" /> },
+	{ value: "in_progress", label: "En cours", icon: <StatusIcon status="in_progress" /> },
+	{ value: "done", label: "Fait", icon: <StatusIcon status="done" /> },
 ]
 
 const PRIORITY_OPTIONS: ComboboxOption[] = [
@@ -173,7 +181,7 @@ export default function TodoDetailPageClient() {
 		}
 	}, [])
 
-	useOpsTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }])
+	useAppTopBar([{ label: "Todos", href: "/todos" }, { label: todo?.text ?? "…" }])
 
 	function scheduleSave(field: SaveField, callback: () => Promise<void>, delay = 800) {
 		if (!todo) return
@@ -279,17 +287,11 @@ export default function TodoDetailPageClient() {
 			<Box padding="6">
 				<BlockStack gap="600">
 					<Skeleton className="h-8 w-48" />
-					<div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-						<BlockStack gap="400">
-							<Skeleton className="h-10 w-full" />
-							<Skeleton className="h-64 w-full" />
-						</BlockStack>
-						<BlockStack gap="400">
-							<Skeleton className="h-10 w-full" />
-							<Skeleton className="h-10 w-full" />
-							<Skeleton className="h-10 w-full" />
-						</BlockStack>
-					</div>
+					<BlockStack gap="400" className="max-w-3xl mx-auto w-full">
+						<Skeleton className="h-10 w-full" />
+						<Skeleton className="h-7 w-96" />
+						<Skeleton className="h-64 w-full" />
+					</BlockStack>
 				</BlockStack>
 			</Box>
 		)
@@ -309,24 +311,15 @@ export default function TodoDetailPageClient() {
 		)
 	}
 
+	const currentCategory = categoryList.find((c) => c._id === todo.categoryId)
+
 	return (
 		<Box padding="6">
 			<BlockStack gap="600">
-				<InlineStack gap="300" blockAlign="center">
-					<Button variant="ghost" size="icon-sm" onClick={() => router.push("/todos")}>
-						<ArrowLeft className="size-4" />
-					</Button>
-					<InlineStack gap="200" blockAlign="center">
-						<StatusIcon status={todo.status} />
-						<span className="text-sm text-fg-muted">
-							{STATUS_OPTIONS.find((option) => option.value === todo.status)?.label ?? todo.status}
-						</span>
-					</InlineStack>
-					{saveStateLabel ? <span className="text-xs text-fg-muted">{saveStateLabel}</span> : null}
-				</InlineStack>
-
-				<div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
-					<BlockStack gap="400" className="min-w-0 max-w-3xl justify-self-center w-full">
+				{/* Content — single column, centered */}
+				<BlockStack gap="400" className="min-w-0 max-w-3xl mx-auto w-full">
+					{/* Title */}
+					<BlockStack gap="100">
 						<textarea
 							value={title}
 							onChange={handleTitleChange}
@@ -334,123 +327,174 @@ export default function TodoDetailPageClient() {
 							className="w-full resize-none overflow-hidden text-3xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted field-sizing-content"
 							placeholder="Titre du todo"
 						/>
-						<TiptapEditor content={descriptionContent} onUpdate={handleDescriptionChange} />
+						{saveStateLabel ? <span className="text-xs text-fg-muted">{saveStateLabel}</span> : null}
 					</BlockStack>
 
-					<BlockStack gap="500">
-						<BlockStack gap="150">
-							<Label className="text-xs text-fg-muted">Status</Label>
-							<Select
-								value={todo.status}
-								onValueChange={(value) => void updateTodoStatusValue(value)}
-								items={STATUS_OPTIONS}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue />
-								</SelectTrigger>
-								<SelectContent>
-									{STATUS_OPTIONS.map((option) => (
-										<SelectItem key={option.value} value={option.value}>
-											<InlineStack gap="200" blockAlign="center">
-												<StatusIcon status={option.value} />
-												{option.label}
-											</InlineStack>
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</BlockStack>
+					{/* Inline property bar */}
+					<InlineStack gap="050" blockAlign="center" wrap>
+						{/* Status */}
+						<Combobox
+							value={todo.status}
+							onValueChange={(value) => void updateTodoStatusValue(value as TodoStatus)}
+							options={STATUS_OPTIONS}
+							placeholder="Status"
+							className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 !text-xs !shadow-none !px-2 !w-auto !rounded-md"
+						/>
 
-						<BlockStack gap="150">
-							<Label className="text-xs text-fg-muted">Priorité</Label>
-							<Combobox
-								value={todo.priority ?? "normal"}
-								onValueChange={handlePriorityChange}
-								options={PRIORITY_OPTIONS}
-								placeholder="Priorité"
-								searchPlaceholder="Rechercher…"
-								emptyMessage="Aucun résultat"
-							/>
-						</BlockStack>
+						<span className="text-fg-muted/20 text-xs select-none">|</span>
 
-						<BlockStack gap="150">
-							<Label className="text-xs text-fg-muted">Échéance</Label>
-							<DueDatePicker value={todo.dueDate ?? ""} onChange={handleDueDateChange} />
-						</BlockStack>
+						{/* Due date */}
+						<DueDatePicker value={todo.dueDate ?? ""} onChange={handleDueDateChange} compact />
 
-						<BlockStack gap="150">
-							<Label className="text-xs text-fg-muted">Projet</Label>
-							<Select
-								value={todo.projectId ?? ""}
-								onValueChange={(value) => void updateProjectValue(value)}
-								items={[
-									{ value: "", label: "Aucun" },
-									...projectList.map((project) => ({ value: project._id, label: project.name })),
-								]}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Aucun" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="">Aucun</SelectItem>
-									{projectList.map((project) => (
-										<SelectItem key={project._id} value={project._id}>
-											{project.name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</BlockStack>
+						<span className="text-fg-muted/20 text-xs select-none">|</span>
 
-						<BlockStack gap="150">
-							<Label className="text-xs text-fg-muted">Catégorie</Label>
-							<Select
-								value={todo.categoryId ?? ""}
-								onValueChange={(value) => void updateCategoryValue(value)}
-								items={[
-									{ value: "", label: "Aucune" },
-									...categoryList.map((category) => ({
-										value: category._id,
-										label: category.name,
-									})),
-								]}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Aucune" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="">Aucune</SelectItem>
-									{categoryList.map((category) => (
-										<SelectItem key={category._id} value={category._id}>
-											<CategoryBadge name={category.name} color={category.color} icon={category.icon} />
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</BlockStack>
+						{/* Priority */}
+						<Combobox
+							value={todo.priority ?? "normal"}
+							onValueChange={handlePriorityChange}
+							options={PRIORITY_OPTIONS}
+							placeholder="Priorité"
+							searchPlaceholder="Rechercher…"
+							emptyMessage="Aucun résultat"
+							className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 !text-xs !shadow-none !px-2 !w-auto !rounded-md"
+						/>
 
-						<BlockStack gap="150">
-							<Label className="text-xs text-fg-muted">Tags</Label>
-							<TagInput
-								value={todo.tags ?? []}
-								onChange={handleTagsChange}
-								suggestions={allTagsList}
-							/>
-						</BlockStack>
+						<span className="text-fg-muted/20 text-xs select-none">|</span>
 
-						<Divider />
-
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={handleDelete}
-							className="text-fg-muted hover:text-destructive w-full justify-start"
+						{/* Project */}
+						<Select
+							value={todo.projectId ?? ""}
+							onValueChange={(value) => void updateProjectValue(value)}
+							items={[
+								{ value: "", label: "Aucun" },
+								...projectList.map((project) => ({ value: project._id, label: project.name })),
+							]}
 						>
-							<Trash2 className="size-4 mr-2" />
-							Supprimer ce todo
-						</Button>
-					</BlockStack>
-				</div>
+							<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
+								<SelectValue placeholder="Projet" />
+							</SelectTrigger>
+							<SelectContent alignItemWithTrigger={false}>
+								<SelectItem value="">Aucun</SelectItem>
+								{projectList.map((project) => (
+									<SelectItem key={project._id} value={project._id}>
+										{project.name}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+
+						<span className="text-fg-muted/20 text-xs select-none">|</span>
+
+						{/* Category */}
+						<Select
+							value={todo.categoryId ?? ""}
+							onValueChange={(value) => void updateCategoryValue(value)}
+							items={[
+								{ value: "", label: "Aucune" },
+								...categoryList.map((category) => ({
+									value: category._id,
+									label: category.name,
+								})),
+							]}
+						>
+							<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
+								{currentCategory ? (
+									<>
+										{(() => {
+											const Icon = getCategoryIcon(currentCategory.icon)
+											const iconColor = ICON_COLOR_MAP[currentCategory.color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
+											const dotColor = DOT_COLOR_MAP[currentCategory.color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
+											return Icon ? (
+												<Icon className={`size-3 shrink-0 ${iconColor}`} />
+											) : (
+												<span className={`size-2 shrink-0 rounded-full ${dotColor}`} />
+											)
+										})()}
+										<span className="text-xs">{currentCategory.name}</span>
+									</>
+								) : (
+									<span className="text-xs text-fg-muted">Catégorie</span>
+								)}
+							</SelectTrigger>
+							<SelectContent alignItemWithTrigger={false}>
+								<SelectItem value="">Aucune</SelectItem>
+								{categoryList.map((category) => (
+									<SelectItem key={category._id} value={category._id}>
+										<CategoryBadge name={category.name} color={category.color} icon={category.icon} />
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+
+						{/* Tags */}
+						<span className="text-fg-muted/20 text-xs select-none">|</span>
+						<Popover>
+							<PopoverTrigger
+								render={
+									<Button type="button" variant="ghost" size="sm" className="h-7 px-2 text-xs text-fg-muted gap-1.5" />
+								}
+							>
+								<Tag className="size-3" />
+								{(todo.tags ?? []).length > 0 ? (
+									<span className="text-xs">{(todo.tags ?? []).join(", ")}</span>
+								) : (
+									<span className="text-xs text-fg-muted">Tags</span>
+								)}
+							</PopoverTrigger>
+							<PopoverContent className="w-72 p-3" align="start">
+								<TagInput
+									value={todo.tags ?? []}
+									onChange={handleTagsChange}
+									suggestions={allTagsList}
+								/>
+							</PopoverContent>
+						</Popover>
+
+						{/* More actions */}
+						<span className="text-fg-muted/20 text-xs select-none">|</span>
+						<DropdownMenu>
+							<DropdownMenuTrigger
+								render={
+									<Button type="button" variant="ghost" size="sm" className="h-7 w-7 px-0 text-fg-muted" />
+								}
+							>
+								<MoreHorizontal className="size-4" />
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuItem
+									onClick={() => {
+										if (!todo) return
+										void navigator.clipboard.writeText(window.location.href)
+									}}
+								>
+									<Link className="size-4" />
+									Copier le lien
+								</DropdownMenuItem>
+								<DropdownMenuItem
+									onClick={() => {
+										if (!todo) return
+										void navigator.clipboard.writeText(todo.text)
+									}}
+								>
+									<Copy className="size-4" />
+									Copier le titre
+								</DropdownMenuItem>
+								<DropdownMenuSeparator />
+								<DropdownMenuItem variant="destructive" onClick={handleDelete}>
+									<Trash2 className="size-4" />
+									Supprimer
+									<DropdownMenuShortcut>⌫</DropdownMenuShortcut>
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</InlineStack>
+
+					<Divider />
+
+					{/* Editor */}
+					<TiptapEditor content={descriptionContent} onUpdate={handleDescriptionChange} />
+
+				</BlockStack>
 			</BlockStack>
 		</Box>
 	)

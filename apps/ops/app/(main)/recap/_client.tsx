@@ -24,7 +24,7 @@ import { CheckCircle2, Download, FileText, Receipt } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { JournalDayCard } from "@/components/journal-day-card"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -436,7 +436,7 @@ export default function RecapPageClient() {
 		) ?? 0
 	const totalDays = totalMinutes / 60 / 8
 
-	useOpsTopBar([{ label: "Récapitulatif" }])
+	useAppTopBar([{ label: "Récapitulatif" }])
 
 	return (
 		<BlockStack gap="600" className="p-6">

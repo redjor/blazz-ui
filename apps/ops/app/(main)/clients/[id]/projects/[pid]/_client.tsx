@@ -41,7 +41,7 @@ import { ContractSection } from "@/components/contract-section"
 import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
 import { InvoiceSection } from "@/components/invoice-section"
 import { isEnabled } from "@/lib/features"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { ProjectForm } from "@/components/project-form"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
@@ -81,7 +81,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 	const [invoiceEntries, setInvoiceEntries] = useState<Doc<"timeEntries">[]>([])
 	const [invoiceDialogOpen, setInvoiceDialogOpen] = useState(false)
 
-	useOpsTopBar(
+	useAppTopBar(
 		data != null
 			? [
 					{ label: "Clients", href: "/clients" },

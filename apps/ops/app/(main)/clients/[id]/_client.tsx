@@ -22,7 +22,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
-import { useOpsTopBar } from "@/components/ops-frame"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
@@ -51,7 +51,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 	const [projectOpen, setProjectOpen] = useState(false)
 	const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
 
-	useOpsTopBar(
+	useAppTopBar(
 		client != null ? [{ label: "Clients", href: "/clients" }, { label: client.name }] : null
 	)
 
