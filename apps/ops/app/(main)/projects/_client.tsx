@@ -2,13 +2,25 @@
 
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Button } from "@blazz/ui/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
+import { Plus } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
+import type { Id } from "@/convex/_generated/dataModel"
+import { ProjectForm } from "@/components/project-form"
 
 type StatusFilter = "active" | "all"
 
@@ -32,10 +44,26 @@ export default function ProjectsPageClient() {
 	const projects = useQuery(api.projects.listAllWithBudget)
 	const clients = useQuery(api.clients.list)
 	const [filter, setFilter] = useState<StatusFilter>("active")
+	const [open, setOpen] = useState(false)
+	const [selectedClientId, setSelectedClientId] = useState<Id<"clients"> | "">("")
 
-	useAppTopBar([{ label: "Projets" }])
+	const topBarActions = useMemo(
+		() => (
+			<Button size="icon-sm" variant="ghost" onClick={() => setOpen(true)}>
+				<Plus className="size-4" />
+			</Button>
+		),
+		[]
+	)
+
+	useAppTopBar([{ label: "Projets" }], topBarActions)
 
 	const clientMap = new Map(clients?.map((c) => [c._id, c.name]))
+
+	const clientItems = useMemo(
+		() => (clients ?? []).map((c) => ({ value: c._id, label: c.name })),
+		[clients]
+	)
 
 	const filtered = projects
 		?.filter((p) => (filter === "active" ? p.status === "active" : true))
@@ -56,6 +84,53 @@ export default function ProjectsPageClient() {
 
 	return (
 		<BlockStack gap="600" className="p-6">
+			<Dialog
+				open={open}
+				onOpenChange={(v) => {
+					setOpen(v)
+					if (!v) setSelectedClientId("")
+				}}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Nouveau projet</DialogTitle>
+					</DialogHeader>
+					{!selectedClientId ? (
+						<div className="space-y-3">
+							<p className="text-sm text-fg-muted">Sélectionnez un client</p>
+							<Select
+								value=""
+								onValueChange={(v) => setSelectedClientId(v as Id<"clients">)}
+								items={clientItems}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Choisir un client…" />
+								</SelectTrigger>
+								<SelectContent>
+									{clientItems.map((c) => (
+										<SelectItem key={c.value} value={c.value} label={c.label}>
+											{c.label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</div>
+					) : (
+						<ProjectForm
+							clientId={selectedClientId}
+							onSuccess={() => {
+								setOpen(false)
+								setSelectedClientId("")
+							}}
+							onCancel={() => {
+								setOpen(false)
+								setSelectedClientId("")
+							}}
+						/>
+					)}
+				</DialogContent>
+			</Dialog>
+
 			<InlineStack align="space-between" blockAlign="center">
 				<PageHeader title="Projets" />
 				<InlineStack gap="150" blockAlign="center">

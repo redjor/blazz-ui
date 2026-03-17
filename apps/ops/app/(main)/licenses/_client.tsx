@@ -82,9 +82,8 @@ export default function LicensesPageClient() {
 
 	const topBarActions = useMemo(
 		() => (
-			<Button size="sm" onClick={() => setCreateOpen(true)}>
-				<Plus className="size-3.5" />
-				Nouvelle clé
+			<Button size="icon-sm" variant="ghost" onClick={() => setCreateOpen(true)}>
+				<Plus className="size-4" />
 			</Button>
 		),
 		[]

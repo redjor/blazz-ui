@@ -5,7 +5,11 @@
 		"paths": {
 			"@/*": ["./*"],
 			"@blazz/ui": ["../../packages/ui/src"],
-			"@blazz/ui/*": ["../../packages/ui/src/*"]
+			"@blazz/ui/*": ["../../packages/ui/src/*"],
+			"@blazz/pro": ["../../packages/pro/src"],
+			"@blazz/pro/*": ["../../packages/pro/src/*"],
+			"@blazz/tabs": ["../../packages/tabs/src"],
+			"@blazz/tabs/*": ["../../packages/tabs/src/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

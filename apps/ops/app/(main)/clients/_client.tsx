@@ -64,8 +64,8 @@ export default function ClientsPageClient() {
 
 	const topBarActions = useMemo(
 		() => (
-			<Button size="sm" onClick={() => setOpen(true)}>
-				Nouveau client
+			<Button size="icon-sm" variant="ghost" onClick={() => setOpen(true)}>
+				<Plus className="size-4" />
 			</Button>
 		),
 		[]

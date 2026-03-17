@@ -1,9 +1,13 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"incremental": false
+		"incremental": false,
+		"paths": {
+			"@blazz/ui": ["../ui/src"],
+			"@blazz/ui/*": ["../ui/src/*"],
+			"@blazz/tabs": ["../tabs/src"],
+			"@blazz/tabs/*": ["../tabs/src/*"]
+		}
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist"]

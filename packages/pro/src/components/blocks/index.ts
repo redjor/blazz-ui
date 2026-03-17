@@ -2,7 +2,7 @@
 // Imported as @/components/blocks/[component-name]
 
 export type { AppFrameProps, BreadcrumbItem, NavItem, TabsConfig } from "./app-frame"
-export { AppFrame, useAppTopBar, makeTitleResolver } from "./app-frame"
+export { AppFrame, useAppTopBar } from "./app-frame"
 export type { EmptyAction } from "@blazz/ui"
 export { Empty } from "@blazz/ui"
 export type { ActivityTimelineProps, TimelineEvent } from "./activity-timeline"

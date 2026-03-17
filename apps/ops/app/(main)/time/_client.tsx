@@ -37,6 +37,7 @@ import {
 	CircleDashed,
 	CircleFadingArrowUp,
 	Pencil,
+	Plus,
 	Send,
 	Trash2,
 	Receipt,
@@ -580,7 +581,16 @@ export default function TimePageClient() {
 		return `${startStr} – ${endStr}`
 	}, [weekStart])
 
-	useAppTopBar([{ label: "Suivi de temps" }])
+	const topBarActions = useMemo(
+		() => (
+			<Button size="icon-sm" variant="ghost" onClick={() => setAddOpen(true)}>
+				<Plus className="size-4" />
+			</Button>
+		),
+		[]
+	)
+
+	useAppTopBar([{ label: "Suivi de temps" }], topBarActions)
 
 	return (
 		<>
