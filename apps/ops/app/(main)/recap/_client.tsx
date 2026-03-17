@@ -1,18 +1,14 @@
 "use client"
 
+import type {
+	BulkAction,
+	DataTableColumnDef,
+	DataTableView,
+} from "@blazz/pro/components/blocks/data-table"
+import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { Box } from "@blazz/ui/components/ui/box"
-import { Button } from "@blazz/ui/components/ui/button"
 import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
-import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
@@ -22,20 +18,21 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
-import { cn } from "@blazz/ui/lib/utils"
 import { useMutation, useQuery } from "convex/react"
 import { endOfMonth, format, parseISO, startOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
-import { CheckCheck, Download, FileText } from "lucide-react"
+import { CheckCircle2, Download, FileText, Receipt } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
-import { EntryStatusBadge } from "@/components/entry-status-badge"
 import { JournalDayCard } from "@/components/journal-day-card"
 import { useOpsTopBar } from "@/components/ops-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
 import { type EntryStatus, getEffectiveStatus } from "@/lib/time-entry-status"
+
+// biome-ignore lint/suspicious/noExplicitAny: convex doc type
+type TimeEntry = any
 
 function getPeriodDates(preset: string): { from: string; to: string } | null {
 	const now = new Date()
@@ -55,22 +52,47 @@ function getPeriodDates(preset: string): { from: string; to: string } | null {
 	return null
 }
 
+const statusConfig: Record<
+	EntryStatus,
+	{ dot: string; tint: string; label: string }
+> = {
+	draft: {
+		dot: "bg-fg-muted",
+		tint: "oklch(0.55 0 0 / 0.06)",
+		label: "Brouillon",
+	},
+	ready_to_invoice: {
+		dot: "bg-amber-500",
+		tint: "oklch(0.75 0.15 80 / 0.08)",
+		label: "Prêt à facturer",
+	},
+	invoiced: {
+		dot: "bg-blue-500",
+		tint: "oklch(0.65 0.15 260 / 0.08)",
+		label: "Facturé",
+	},
+	paid: {
+		dot: "bg-green-500",
+		tint: "oklch(0.70 0.15 150 / 0.08)",
+		label: "Payé",
+	},
+}
+
 export default function RecapPageClient() {
 	const [clientId, setClientId] = useState<string>("")
 	const [projectId, setProjectId] = useState<string>("")
 	const [period, setPeriod] = useState("current")
-	const [showConfirm, setShowConfirm] = useState(false)
 	const [from, setFrom] = useState(format(startOfMonth(new Date()), "yyyy-MM-dd"))
 	const [to, setTo] = useState(format(endOfMonth(new Date()), "yyyy-MM-dd"))
-	const [statusFilter, setStatusFilter] = useState<EntryStatus>("ready_to_invoice")
-	const [showMarkPaid, setShowMarkPaid] = useState(false)
+
 	const setStatus = useMutation(api.timeEntries.setStatus)
 
 	const clients = useQuery(api.clients.list)
 	const clientProjects = useQuery(
 		api.projects.listByClient,
-		clientId ? { clientId: clientId as Id<"clients"> } : "skip"
+		clientId ? { clientId: clientId as Id<"clients"> } : "skip",
 	)
+	const allProjects = useQuery(api.projects.listAll)
 
 	const periodDates = period !== "custom" ? getPeriodDates(period) : { from, to }
 
@@ -82,19 +104,298 @@ export default function RecapPageClient() {
 	})
 
 	// Filter by client client-side if client selected but no project selected
-	const filteredByClient =
-		!projectId && clientId && clientProjects
-			? entries?.filter((e) => clientProjects.some((p) => p._id === e.projectId))
-			: entries
+	const filteredByClient = useMemo(() => {
+		if (!projectId && clientId && clientProjects) {
+			return entries?.filter((e: TimeEntry) =>
+				clientProjects.some((p) => p._id === e.projectId),
+			)
+		}
+		return entries
+	}, [entries, projectId, clientId, clientProjects])
 
-	const filteredEntries = filteredByClient?.filter((e) => getEffectiveStatus(e) === statusFilter)
+	// Project name map
+	const projectMap = useMemo(() => {
+		const map = new Map<string, string>()
+		for (const p of allProjects ?? []) {
+			map.set(p._id, p.name)
+		}
+		return map
+	}, [allProjects])
 
-	const totalMinutes = filteredEntries?.reduce((s, e) => s + e.minutes, 0) ?? 0
-	const totalAmount = filteredEntries?.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0) ?? 0
-	const totalDays = totalMinutes / 60 / 8
+	const projectOptions = useMemo(
+		() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })),
+		[allProjects],
+	)
+
+	// ---------------------------------------------------------------------------
+	// Columns
+	// ---------------------------------------------------------------------------
+
+	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
+		() => [
+			{
+				id: "status",
+				accessorFn: (row: TimeEntry) => getEffectiveStatus(row),
+				header: "Statut",
+				cell: ({ row }) => {
+					if (!row.getIsGrouped()) return null
+					const s = getEffectiveStatus(row.original) as EntryStatus | null
+					const cfg = s ? statusConfig[s] : null
+					return (
+						<span className="flex items-center gap-1.5 text-xs font-medium text-fg">
+							<span
+								className={`inline-block size-2 rounded-full ${cfg?.dot ?? "bg-fg-muted"}`}
+							/>
+							{cfg ? cfg.label : "Non facturable"}
+						</span>
+					)
+				},
+				enableSorting: false,
+				filterConfig: {
+					type: "select",
+					options: [
+						{ label: "Prêt à facturer", value: "ready_to_invoice" },
+						{ label: "Facturé", value: "invoiced" },
+						{ label: "Payé", value: "paid" },
+					],
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Statut",
+				},
+			},
+			{
+				accessorKey: "date",
+				header: "Date",
+				enableSorting: true,
+				cell: ({ row }) =>
+					format(new Date(`${row.original.date}T00:00:00`), "dd MMM yyyy", {
+						locale: fr,
+					}),
+			},
+			{
+				id: "project",
+				accessorFn: (row: TimeEntry) => projectMap.get(row.projectId) ?? "—",
+				header: "Projet",
+				enableSorting: true,
+				filterConfig: {
+					type: "select",
+					options: projectOptions,
+					showInlineFilter: true,
+					defaultInlineFilter: true,
+					filterLabel: "Projet",
+				},
+			},
+			{
+				accessorKey: "description",
+				header: "Description",
+				cell: ({ row }) => (
+					<span className="truncate max-w-[300px] inline-block">
+						{row.original.description ?? "—"}
+					</span>
+				),
+			},
+			{
+				accessorKey: "minutes",
+				header: "Durée",
+				enableSorting: true,
+				cell: ({ row }) => (
+					<span className="font-mono tabular-nums">
+						{formatMinutes(row.original.minutes)}
+					</span>
+				),
+				meta: { align: "right" },
+			},
+			{
+				accessorKey: "hourlyRate",
+				header: "Taux",
+				cell: ({ row }) => (
+					<span className="font-mono tabular-nums text-fg-muted">
+						{Math.round(row.original.hourlyRate)}€/h
+					</span>
+				),
+				meta: { align: "right" },
+			},
+			{
+				id: "amount",
+				accessorFn: (row: TimeEntry) => (row.minutes / 60) * row.hourlyRate,
+				header: "Montant",
+				enableSorting: true,
+				cell: ({ row }) => {
+					const amount = (row.original.minutes / 60) * row.original.hourlyRate
+					return (
+						<span className="font-mono font-medium tabular-nums">
+							{formatCurrency(amount)}
+						</span>
+					)
+				},
+				meta: { align: "right" },
+			},
+		],
+		[projectMap, projectOptions],
+	)
+
+	// ---------------------------------------------------------------------------
+	// Views
+	// ---------------------------------------------------------------------------
+
+	const views = useMemo<DataTableView[]>(
+		() => [
+			{
+				id: "ready",
+				name: "Prêt à facturer",
+				isSystem: true,
+				isDefault: true,
+				filters: {
+					id: "ready-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "ready-cond",
+							column: "status",
+							operator: "equals",
+							value: "ready_to_invoice",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "invoiced",
+				name: "Facturé",
+				isSystem: true,
+				filters: {
+					id: "invoiced-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "invoiced-cond",
+							column: "status",
+							operator: "equals",
+							value: "invoiced",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+			{
+				id: "paid",
+				name: "Payé",
+				isSystem: true,
+				filters: {
+					id: "paid-filter",
+					operator: "AND",
+					conditions: [
+						{
+							id: "paid-cond",
+							column: "status",
+							operator: "equals",
+							value: "paid",
+							type: "select",
+						},
+					],
+				},
+				sorting: [{ id: "date", desc: true }],
+			},
+		],
+		[],
+	)
+
+	// ---------------------------------------------------------------------------
+	// Bulk actions
+	// ---------------------------------------------------------------------------
+
+	const bulkActions = useMemo<BulkAction<TimeEntry>[]>(
+		() => [
+			{
+				id: "mark-invoiced",
+				label: "Marquer facturé",
+				icon: Receipt,
+				handler: async (rows) => {
+					try {
+						await setStatus({
+							ids: rows.map((r) => r.original._id),
+							status: "invoiced",
+						})
+						toast.success(
+							`${rows.length} entrée(s) marquée(s) facturée(s)`,
+						)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "mark-paid",
+				label: "Marquer payé",
+				icon: CheckCircle2,
+				handler: async (rows) => {
+					try {
+						await setStatus({
+							ids: rows.map((r) => r.original._id),
+							status: "paid",
+						})
+						toast.success(
+							`${rows.length} entrée(s) marquée(s) payée(s)`,
+						)
+					} catch {
+						toast.error("Erreur")
+					}
+				},
+			},
+			{
+				id: "export-csv",
+				label: "Export CSV",
+				icon: Download,
+				handler: (rows) => {
+					const data = rows.map((r) => r.original)
+					const csvRows = [
+						["Date", "Projet", "Description", "Durée", "Taux (€/h)", "Montant (€)"],
+						...data.map((e: TimeEntry) => [
+							e.date,
+							projectMap.get(e.projectId) ?? "",
+							e.description ?? "",
+							formatMinutes(e.minutes),
+							e.hourlyRate.toString(),
+							((e.minutes / 60) * e.hourlyRate).toFixed(2),
+						]),
+						[
+							"",
+							"",
+							"TOTAL",
+							formatMinutes(data.reduce((s: number, e: TimeEntry) => s + e.minutes, 0)),
+							"",
+							data
+								.reduce(
+									(s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate,
+									0,
+								)
+								.toFixed(2),
+						],
+					]
+					const csv = csvRows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n")
+					const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+					const url = URL.createObjectURL(blob)
+					const a = document.createElement("a")
+					a.href = url
+					a.download = `recap-${periodDates?.from ?? "custom"}-${periodDates?.to ?? "custom"}.csv`
+					a.click()
+					URL.revokeObjectURL(url)
+					toast.success("Export CSV téléchargé")
+				},
+			},
+		],
+		[setStatus, projectMap, periodDates],
+	)
+
+	// ---------------------------------------------------------------------------
+	// Journal (period summary cards)
+	// ---------------------------------------------------------------------------
+
 	const journalDays = useMemo(() => {
-		const groups = new Map<string, typeof filteredEntries>()
-		for (const entry of filteredEntries ?? []) {
+		const groups = new Map<string, TimeEntry[]>()
+		for (const entry of filteredByClient ?? []) {
 			const existing = groups.get(entry.date) ?? []
 			groups.set(entry.date, [...existing, entry])
 		}
@@ -102,338 +403,239 @@ export default function RecapPageClient() {
 		return Array.from(groups.entries())
 			.sort((a, b) => b[0].localeCompare(a[0]))
 			.slice(0, 6)
-			.map(([date, entries]) => {
-				const total = entries.reduce((sum, entry) => sum + entry.minutes, 0)
-				const lead = entries[0]?.description || "Bloc sans description"
+			.map(([date, dayEntries]) => {
+				const total = dayEntries.reduce(
+					(sum: number, entry: TimeEntry) => sum + entry.minutes,
+					0,
+				)
+				const lead = dayEntries[0]?.description || "Bloc sans description"
 				return {
-					dateLabel: format(new Date(`${date}T00:00:00`), "EEEE d MMMM", { locale: fr }),
+					dateLabel: format(new Date(`${date}T00:00:00`), "EEEE d MMMM", {
+						locale: fr,
+					}),
 					summary:
-						entries.length > 1
-							? `${entries.length} entrées regroupées. ${lead} ouvre la journée.`
+						dayEntries.length > 1
+							? `${dayEntries.length} entrées regroupées. ${lead} ouvre la journée.`
 							: lead,
-					topActivities: entries
+					topActivities: dayEntries
 						.slice(0, 3)
-						.map((entry) => entry.description || "Sans description"),
+						.map((entry: TimeEntry) => entry.description || "Sans description"),
 					note: `${formatMinutes(total)} sur cette journée.`,
 				}
 			})
-	}, [filteredEntries])
+	}, [filteredByClient])
 
-	const handleMarkInvoiced = async () => {
-		if (!filteredEntries?.length) return
-		const ids = filteredEntries.map((e) => e._id)
-		try {
-			await setStatus({ ids, status: "invoiced" })
-			toast.success(`${ids.length} entrée(s) marquées comme facturées`)
-			setShowConfirm(false)
-		} catch {
-			toast.error("Erreur")
-		}
-	}
+	// ---------------------------------------------------------------------------
+	// Totals for footer
+	// ---------------------------------------------------------------------------
 
-	const handleMarkPaid = async () => {
-		if (!filteredEntries?.length) return
-		const ids = filteredEntries.map((e) => e._id)
-		try {
-			await setStatus({ ids, status: "paid" })
-			toast.success(`${ids.length} entrée(s) marquées comme payées`)
-			setShowMarkPaid(false)
-		} catch {
-			toast.error("Erreur")
-		}
-	}
-
-	const handleExportCSV = () => {
-		if (!filteredEntries?.length) return
-		const rows = [
-			["Date", "Description", "Durée", "Taux (€/h)", "Montant (€)"],
-			...filteredEntries.map((e) => [
-				e.date,
-				e.description ?? "",
-				formatMinutes(e.minutes),
-				e.hourlyRate.toString(),
-				((e.minutes / 60) * e.hourlyRate).toFixed(2),
-			]),
-			["", "TOTAL", formatMinutes(totalMinutes), "", totalAmount.toFixed(2)],
-		]
-		const csv = rows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n")
-		const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
-		const url = URL.createObjectURL(blob)
-		const a = document.createElement("a")
-		a.href = url
-		a.download = `recap-${statusFilter}-${periodDates?.from ?? "custom"}-${periodDates?.to ?? "custom"}.csv`
-		a.click()
-		URL.revokeObjectURL(url)
-		toast.success("Export CSV téléchargé")
-	}
+	const totalMinutes = filteredByClient?.reduce((s: number, e: TimeEntry) => s + e.minutes, 0) ?? 0
+	const totalAmount =
+		filteredByClient?.reduce(
+			(s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate,
+			0,
+		) ?? 0
+	const totalDays = totalMinutes / 60 / 8
 
 	useOpsTopBar([{ label: "Récapitulatif" }])
 
 	return (
-		<>
-			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Récapitulatif" description="Export et facturation par période" />
+		<BlockStack gap="600" className="p-6">
+			<PageHeader title="Récapitulatif" description="Export et facturation par période" />
 
-				{/* Filters */}
-				<InlineStack gap="400" wrap className="p-4 rounded-xl border border-edge bg-surface-3">
+			{/* Period & scope filters — these drive the Convex query */}
+			<InlineStack gap="400" wrap className="rounded-xl border border-edge bg-surface-3 p-4">
+				<BlockStack gap="150">
+					<Label>Client</Label>
+					<Select
+						value={clientId || "_all"}
+						onValueChange={(v) => {
+							setClientId(v === "_all" ? "" : v)
+							setProjectId("")
+						}}
+						items={[
+							{ value: "_all", label: "Tous les clients" },
+							...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
+						]}
+					>
+						<SelectTrigger className="w-44">
+							<SelectValue placeholder="Tous" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="_all" label="Tous les clients">
+								Tous les clients
+							</SelectItem>
+							{clients?.map((c) => (
+								<SelectItem key={c._id} value={c._id} label={c.name}>
+									{c.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				</BlockStack>
+
+				{clientId && (
 					<BlockStack gap="150">
-						<Label>Client</Label>
+						<Label>Projet</Label>
 						<Select
-							value={clientId || "_all"}
-							onValueChange={(v) => {
-								setClientId(v === "_all" ? "" : v)
-								setProjectId("")
-							}}
+							value={projectId || "_all"}
+							onValueChange={(v) => setProjectId(v === "_all" ? "" : v)}
 							items={[
-								{ value: "_all", label: "Tous les clients" },
-								...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
+								{ value: "_all", label: "Tous les projets" },
+								...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? []),
 							]}
 						>
 							<SelectTrigger className="w-44">
 								<SelectValue placeholder="Tous" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="_all" label="Tous les clients">
-									Tous les clients
+								<SelectItem value="_all" label="Tous les projets">
+									Tous les projets
 								</SelectItem>
-								{clients?.map((c) => (
-									<SelectItem key={c._id} value={c._id} label={c.name}>
-										{c.name}
+								{clientProjects?.map((p) => (
+									<SelectItem key={p._id} value={p._id} label={p.name}>
+										{p.name}
 									</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
 					</BlockStack>
+				)}
 
-					{clientId && (
-						<BlockStack gap="150">
-							<Label>Projet</Label>
-							<Select
-								value={projectId || "_all"}
-								onValueChange={(v) => setProjectId(v === "_all" ? "" : v)}
-								items={[
-									{ value: "_all", label: "Tous les projets" },
-									...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? []),
-								]}
-							>
-								<SelectTrigger className="w-44">
-									<SelectValue placeholder="Tous" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value="_all" label="Tous les projets">
-										Tous les projets
-									</SelectItem>
-									{clientProjects?.map((p) => (
-										<SelectItem key={p._id} value={p._id} label={p.name}>
-											{p.name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</BlockStack>
-					)}
+				<BlockStack gap="150">
+					<Label>Période</Label>
+					<Select
+						value={period}
+						onValueChange={setPeriod}
+						items={[
+							{ value: "current", label: "Mois en cours" },
+							{ value: "last", label: "Mois précédent" },
+							{ value: "custom", label: "Personnalisée" },
+						]}
+					>
+						<SelectTrigger className="w-44">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="current" label="Mois en cours">
+								Mois en cours
+							</SelectItem>
+							<SelectItem value="last" label="Mois précédent">
+								Mois précédent
+							</SelectItem>
+							<SelectItem value="custom" label="Personnalisée">
+								Personnalisée
+							</SelectItem>
+						</SelectContent>
+					</Select>
+				</BlockStack>
 
+				{period === "custom" && (
 					<BlockStack gap="150">
 						<Label>Période</Label>
-						<Select
-							value={period}
-							onValueChange={setPeriod}
-							items={[
-								{ value: "current", label: "Mois en cours" },
-								{ value: "last", label: "Mois précédent" },
-								{ value: "custom", label: "Personnalisée" },
-							]}
-						>
-							<SelectTrigger className="w-44">
-								<SelectValue />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="current" label="Mois en cours">
-									Mois en cours
-								</SelectItem>
-								<SelectItem value="last" label="Mois précédent">
-									Mois précédent
-								</SelectItem>
-								<SelectItem value="custom" label="Personnalisée">
-									Personnalisée
-								</SelectItem>
-							</SelectContent>
-						</Select>
+						<DateRangeSelector
+							from={from ? parseISO(from) : undefined}
+							to={to ? parseISO(to) : undefined}
+							onRangeChange={(r) => {
+								setFrom(r.from ? format(r.from, "yyyy-MM-dd") : "")
+								setTo(r.to ? format(r.to, "yyyy-MM-dd") : "")
+							}}
+							formatStr="dd/MM/yyyy"
+						/>
 					</BlockStack>
-
-					{period === "custom" && (
-						<BlockStack gap="150">
-							<Label>Période</Label>
-							<DateRangeSelector
-								from={from ? parseISO(from) : undefined}
-								to={to ? parseISO(to) : undefined}
-								onRangeChange={(r) => {
-									setFrom(r.from ? format(r.from, "yyyy-MM-dd") : "")
-									setTo(r.to ? format(r.to, "yyyy-MM-dd") : "")
-								}}
-								formatStr="dd/MM/yyyy"
-							/>
-						</BlockStack>
-					)}
-				</InlineStack>
-
-				{/* Status tabs */}
-				<InlineStack gap="100" blockAlign="center" className="rounded-lg border border-edge p-0.5 bg-surface-3 w-fit">
-					{(["ready_to_invoice", "invoiced", "paid"] as const).map((s) => (
-						<button
-							key={s}
-							type="button"
-							onClick={() => setStatusFilter(s)}
-							className={cn(
-								"h-7 px-3 rounded-md transition-colors",
-								statusFilter === s
-									? "bg-surface shadow-sm font-medium text-fg"
-									: "text-fg-muted hover:text-fg"
-							)}
-						>
-							<EntryStatusBadge status={s} />
-						</button>
-					))}
-				</InlineStack>
-
-				{/* Table */}
-				{filteredEntries === undefined ? (
-					<Empty size="sm" title="Chargement…" />
-				) : filteredEntries.length === 0 ? (
-					<Empty
-						icon={FileText}
-						size="sm"
-						title="Aucune entrée"
-						description="Aucune entrée sur cette période pour ce statut."
-					/>
-				) : (
-					<>
-						<Box className="rounded-xl overflow-hidden" border="default">
-							<table className="w-full text-sm">
-								<thead className="bg-surface-3 border-b border-edge">
-									<tr>
-										<th className="text-left p-3 font-medium text-fg-muted">Date</th>
-										<th className="text-left p-3 font-medium text-fg-muted">Description</th>
-										<th className="text-right p-3 font-medium text-fg-muted">Durée</th>
-										<th className="text-right p-3 font-medium text-fg-muted">Taux</th>
-										<th className="text-right p-3 font-medium text-fg-muted">Montant</th>
-									</tr>
-								</thead>
-								<tbody>
-									{filteredEntries.map((entry) => (
-										<tr key={entry._id} className="border-b border-edge last:border-0">
-											<td className="p-3 text-fg-muted">
-												{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
-											</td>
-											<td className="p-3 text-fg">{entry.description ?? "—"}</td>
-											<td className="p-3 text-right font-mono text-fg">
-												{formatMinutes(entry.minutes)}
-											</td>
-											<td className="p-3 text-right text-fg-muted font-mono">
-												{Math.round(entry.hourlyRate)}€/h
-											</td>
-											<td className="p-3 text-right font-medium text-fg font-mono">
-												{formatCurrency((entry.minutes / 60) * entry.hourlyRate)}
-											</td>
-										</tr>
-									))}
-								</tbody>
-								<tfoot className="bg-surface-3 border-t border-edge">
-									<tr>
-										<td colSpan={2} className="p-3 font-medium text-fg">
-											Total
-										</td>
-										<td className="p-3 text-right font-mono font-medium text-fg">
-											{formatMinutes(totalMinutes)}
-										</td>
-										<td className="p-3 text-right text-fg-muted font-mono">
-											{totalDays.toFixed(1)}j
-										</td>
-										<td className="p-3 text-right font-semibold text-fg font-mono">
-											{formatCurrency(totalAmount)}
-										</td>
-									</tr>
-								</tfoot>
-							</table>
-						</Box>
-
-						<InlineStack gap="300">
-							<Button variant="outline" onClick={handleExportCSV}>
-								<Download className="size-4 mr-1.5" />
-								Export CSV
-							</Button>
-							{statusFilter === "ready_to_invoice" && (
-								<Button onClick={() => setShowConfirm(true)}>
-									<CheckCheck className="size-4 mr-1.5" />
-									Marquer comme facturé ({filteredEntries.length})
-								</Button>
-							)}
-							{statusFilter === "invoiced" && (
-								<Button onClick={() => setShowMarkPaid(true)}>
-									<CheckCheck className="size-4 mr-1.5" />
-									Marquer comme payé ({filteredEntries.length})
-								</Button>
-							)}
-						</InlineStack>
-
-						<BlockStack gap="300" className="pt-2">
-							<BlockStack>
-								<h2 className="text-sm font-medium text-fg">Journal de période</h2>
-								<p className="text-xs text-fg-muted">
-									Lecture compacte des dernières journées présentes dans ce récapitulatif.
-								</p>
-							</BlockStack>
-							<div className="grid gap-4 lg:grid-cols-2">
-								{journalDays.map((day) => (
-									<JournalDayCard
-										key={day.dateLabel}
-										dateLabel={day.dateLabel}
-										summary={day.summary}
-										topActivities={day.topActivities}
-										note={day.note}
-									/>
-								))}
-							</div>
-						</BlockStack>
-					</>
 				)}
-			</BlockStack>
+			</InlineStack>
 
-			<Dialog open={showConfirm} onOpenChange={setShowConfirm}>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Marquer comme facturé ?</DialogTitle>
-					</DialogHeader>
-					<p className="text-sm text-fg-muted">
-						{filteredEntries?.length ?? 0} entrée(s) seront marquées comme facturées et déplacées
-						dans l'onglet Facturé. Cette action peut être annulée depuis la page Temps.
-					</p>
-					<DialogFooter>
-						<Button type="button" variant="outline" onClick={() => setShowConfirm(false)}>
-							Annuler
-						</Button>
-						<Button onClick={handleMarkInvoiced}>Confirmer</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
+			{/* Summary stats */}
+			<InlineStack gap="600" blockAlign="baseline">
+				<BlockStack gap="050">
+					<span className="text-xs text-fg-muted uppercase tracking-wide">Heures</span>
+					<span className="text-lg font-semibold tabular-nums">{formatMinutes(totalMinutes)}</span>
+				</BlockStack>
+				<BlockStack gap="050">
+					<span className="text-xs text-fg-muted uppercase tracking-wide">Jours</span>
+					<span className="text-lg font-semibold tabular-nums">{totalDays.toFixed(1)}j</span>
+				</BlockStack>
+				<BlockStack gap="050">
+					<span className="text-xs text-fg-muted uppercase tracking-wide">Montant</span>
+					<span className="text-lg font-semibold tabular-nums">{formatCurrency(totalAmount)}</span>
+				</BlockStack>
+			</InlineStack>
 
-			<Dialog open={showMarkPaid} onOpenChange={setShowMarkPaid}>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Marquer comme payé ?</DialogTitle>
-					</DialogHeader>
-					<p className="text-sm text-fg-muted">
-						{filteredEntries?.length ?? 0} entrée(s) seront marquées comme payées. Cette action peut
-						être annulée depuis la page Temps.
-					</p>
-					<DialogFooter>
-						<Button type="button" variant="outline" onClick={() => setShowMarkPaid(false)}>
-							Annuler
-						</Button>
-						<Button onClick={handleMarkPaid}>Confirmer</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
-		</>
+			{/* DataTable */}
+			<DataTable
+				data={filteredByClient ?? []}
+				columns={columns}
+				views={views}
+				bulkActions={bulkActions}
+				isLoading={entries === undefined}
+				enableSorting
+				enableRowSelection
+				enableGrouping
+				enableGlobalSearch
+				enableAdvancedFilters
+				enablePagination={false}
+				defaultSorting={[{ id: "date", desc: true }]}
+				groupAggregations={{
+					minutes: (values) => {
+						const total = (values as number[]).reduce((a, b) => a + b, 0)
+						return (
+							<span className="font-mono text-xs tabular-nums">
+								{formatMinutes(total)}
+							</span>
+						)
+					},
+					amount: (values) => {
+						const total = (values as number[]).reduce((a, b) => a + b, 0)
+						return (
+							<span className="font-mono text-xs font-medium tabular-nums">
+								{formatCurrency(total)}
+							</span>
+						)
+					},
+				}}
+				groupRowStyle={(row) => {
+					const s = row.getValue("status") as string | null
+					const cfg = s ? statusConfig[s as EntryStatus] : null
+					return cfg ? { background: cfg.tint } : undefined
+				}}
+				searchPlaceholder="Rechercher une entrée…"
+				locale="fr"
+				variant="default"
+				storageKey="ops-recap"
+				emptyComponent={
+					<div className="flex flex-col items-center gap-3 py-12">
+						<FileText className="size-10 text-fg-muted" />
+						<p className="text-sm font-medium text-fg">Aucune entrée</p>
+						<p className="text-xs text-fg-muted">
+							Aucune entrée sur cette période pour ce statut.
+						</p>
+					</div>
+				}
+			/>
+
+			{/* Journal de période */}
+			{journalDays.length > 0 && (
+				<BlockStack gap="300" className="pt-2">
+					<BlockStack>
+						<h2 className="text-sm font-medium text-fg">Journal de période</h2>
+						<p className="text-xs text-fg-muted">
+							Lecture compacte des dernières journées présentes dans ce récapitulatif.
+						</p>
+					</BlockStack>
+					<div className="grid gap-4 lg:grid-cols-2">
+						{journalDays.map((day) => (
+							<JournalDayCard
+								key={day.dateLabel}
+								dateLabel={day.dateLabel}
+								summary={day.summary}
+								topActivities={day.topActivities}
+								note={day.note}
+							/>
+						))}
+					</div>
+				</BlockStack>
+			)}
+		</BlockStack>
 	)
 }

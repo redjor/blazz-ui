@@ -206,7 +206,7 @@ export default function TodoDetailPageClient() {
 		[saveState]
 	)
 
-	function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+	function handleTitleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
 		const nextTitle = e.target.value
 		setTitle(nextTitle)
 
@@ -327,11 +327,11 @@ export default function TodoDetailPageClient() {
 
 				<div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
 					<BlockStack gap="400" className="min-w-0 max-w-3xl justify-self-center w-full">
-						<input
-							type="text"
+						<textarea
 							value={title}
 							onChange={handleTitleChange}
-							className="w-full text-3xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted"
+							rows={1}
+							className="w-full resize-none overflow-hidden text-3xl font-semibold text-fg bg-transparent border-none outline-none placeholder:text-fg-muted field-sizing-content"
 							placeholder="Titre du todo"
 						/>
 						<TiptapEditor content={descriptionContent} onUpdate={handleDescriptionChange} />

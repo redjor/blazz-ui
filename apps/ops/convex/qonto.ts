@@ -49,6 +49,17 @@ export const createInvoice = action({
 	},
 	handler: async (ctx, args) => {
 		try {
+			// Demo mode: simulate Qonto when API key is not set
+			if (!process.env.QONTO_API_KEY) {
+				const demoNumber = `F${String(Date.now()).slice(-4)}`
+				await ctx.runMutation(api.invoices.markSent, {
+					id: args.invoiceId,
+					qontoInvoiceId: `demo_${Date.now()}`,
+					qontoNumber: demoNumber,
+				})
+				return { success: true, qontoNumber: demoNumber }
+			}
+
 			const unitPrice = (args.totalAmount / 100).toFixed(2)
 
 			const data = await qontoFetch("/client_invoices", {
