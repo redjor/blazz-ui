@@ -11,7 +11,7 @@ async function qontoFetch(path: string, options: RequestInit = {}) {
 	const res = await fetch(`${QONTO_BASE}${path}`, {
 		...options,
 		headers: {
-			Authorization: `Bearer ${apiKey}`,
+			Authorization: `${process.env.QONTO_ORG_SLUG}:${apiKey}`,
 			"Content-Type": "application/json",
 			...options.headers,
 		},
