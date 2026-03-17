@@ -534,19 +534,19 @@ export default function RecapPageClient() {
 			</InlineStack>
 
 			{/* Summary stats */}
-			<InlineStack gap="600" blockAlign="baseline">
-				<BlockStack gap="050">
-					<span className="text-xs text-fg-muted uppercase tracking-wide">Heures</span>
-					<span className="text-lg font-semibold tabular-nums">{formatMinutes(totalMinutes)}</span>
-				</BlockStack>
-				<BlockStack gap="050">
-					<span className="text-xs text-fg-muted uppercase tracking-wide">Jours</span>
-					<span className="text-lg font-semibold tabular-nums">{totalDays.toFixed(1)}j</span>
-				</BlockStack>
-				<BlockStack gap="050">
-					<span className="text-xs text-fg-muted uppercase tracking-wide">Montant</span>
-					<span className="text-lg font-semibold tabular-nums">{formatCurrency(totalAmount)}</span>
-				</BlockStack>
+			<InlineStack gap="600" blockAlign="start">
+				<div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Heures</div>
+					<div className="text-lg font-semibold tabular-nums">{formatMinutes(totalMinutes)}</div>
+				</div>
+				<div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Jours</div>
+					<div className="text-lg font-semibold tabular-nums">{totalDays.toFixed(1)}j</div>
+				</div>
+				<div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Montant</div>
+					<div className="text-lg font-semibold tabular-nums">{formatCurrency(totalAmount)}</div>
+				</div>
 			</InlineStack>
 
 			{/* DataTable */}
