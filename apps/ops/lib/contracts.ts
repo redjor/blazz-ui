@@ -121,3 +121,42 @@ export function computeContractMetrics(opts: {
 		targetMonth: currentRow.month,
 	}
 }
+
+export interface ForfaitMetrics {
+	budgetTotal: number
+	consumed: number
+	remaining: number
+	percentUsed: number
+	health: ContractHealth
+}
+
+/**
+ * Compute forfait contract metrics.
+ * Consumption = sum of (minutes / 60 * hourlyRate) for billable entries within contract period.
+ */
+export function computeForfaitMetrics(opts: {
+	budgetAmount: number
+	entries: Array<{ date: string; minutes: number; hourlyRate: number; billable: boolean }>
+	startDate: string
+	endDate: string
+}): ForfaitMetrics {
+	const consumed = opts.entries
+		.filter((e) => e.billable && e.date >= opts.startDate && e.date <= opts.endDate)
+		.reduce((sum, e) => sum + (e.minutes / 60) * e.hourlyRate, 0)
+
+	const remaining = opts.budgetAmount - consumed
+	const percentUsed = opts.budgetAmount > 0 ? (consumed / opts.budgetAmount) * 100 : 0
+
+	let health: ContractHealth = "ok"
+	if (percentUsed >= 100) health = "over"
+	else if (percentUsed >= 90) health = "danger"
+	else if (percentUsed >= 70) health = "warning"
+
+	return {
+		budgetTotal: opts.budgetAmount,
+		consumed: Math.round(consumed),
+		remaining: Math.round(remaining),
+		percentUsed: Math.round(percentUsed * 10) / 10,
+		health,
+	}
+}
