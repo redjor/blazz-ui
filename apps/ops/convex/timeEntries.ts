@@ -96,6 +96,7 @@ export const create = mutation({
 				v.literal("paid")
 			)
 		),
+		tags: v.optional(v.array(v.string())),
 	},
 	handler: async (ctx, args) => {
 		const { userId } = await requireAuth(ctx)
@@ -122,6 +123,7 @@ export const update = mutation({
 				v.literal("paid")
 			)
 		),
+		tags: v.optional(v.array(v.string())),
 	},
 	handler: async (ctx, { id, ...fields }) => {
 		const { userId } = await requireAuth(ctx)
