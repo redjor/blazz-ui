@@ -39,7 +39,7 @@ export const remove = mutation({
 		if (!tag || tag.userId !== userId) throw new ConvexError("Introuvable")
 
 		// Remove tag from all entities that reference it
-		const tables = ["notes", "projects", "timeEntries", "licenseKeys"] as const
+		const tables = ["notes", "projects", "timeEntries", "licenseKeys", "bookmarks"] as const
 		for (const table of tables) {
 			const rows = await ctx.db
 				.query(table)
