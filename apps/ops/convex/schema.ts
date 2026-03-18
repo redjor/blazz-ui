@@ -31,6 +31,7 @@ export default defineSchema({
 		status: v.union(v.literal("active"), v.literal("paused"), v.literal("closed")),
 		startDate: v.optional(v.string()),
 		endDate: v.optional(v.string()),
+		tags: v.optional(v.array(v.id("tags"))),
 		createdAt: v.number(),
 	})
 		.index("by_client", ["clientId"])
@@ -137,7 +138,7 @@ export default defineSchema({
 				v.literal("paid")
 			)
 		),
-		tags: v.optional(v.array(v.string())),
+		tags: v.optional(v.array(v.id("tags"))),
 		createdAt: v.number(),
 	})
 		.index("by_project", ["projectId"])
@@ -193,6 +194,7 @@ export default defineSchema({
 		email: v.optional(v.string()),
 		expiresAt: v.string(),
 		revokedAt: v.optional(v.number()),
+		tags: v.optional(v.array(v.id("tags"))),
 		createdAt: v.number(),
 	})
 		.index("by_user", ["userId"])

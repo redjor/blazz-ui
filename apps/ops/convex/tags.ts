@@ -38,16 +38,19 @@ export const remove = mutation({
 		const tag = await ctx.db.get(id)
 		if (!tag || tag.userId !== userId) throw new ConvexError("Introuvable")
 
-		// Remove tag from all notes that reference it
-		const notes = await ctx.db
-			.query("notes")
-			.withIndex("by_user", (q) => q.eq("userId", userId))
-			.collect()
-		for (const note of notes) {
-			if (note.tags?.includes(id)) {
-				await ctx.db.patch(note._id, {
-					tags: note.tags.filter((t) => t !== id),
-				})
+		// Remove tag from all entities that reference it
+		const tables = ["notes", "projects", "timeEntries", "licenseKeys"] as const
+		for (const table of tables) {
+			const rows = await ctx.db
+				.query(table)
+				.withIndex("by_user", (q) => q.eq("userId", userId))
+				.collect()
+			for (const row of rows) {
+				if ((row as any).tags?.includes(id)) {
+					await ctx.db.patch(row._id, {
+						tags: (row as any).tags.filter((t: any) => t !== id),
+					})
+				}
 			}
 		}
 
