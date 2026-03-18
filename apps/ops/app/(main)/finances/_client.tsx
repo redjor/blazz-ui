@@ -6,7 +6,15 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useAction, useQuery } from "convex/react"
-import { Banknote, Building2, Clock, FileText, TrendingUp } from "lucide-react"
+import {
+	Banknote,
+	Building2,
+	Clock,
+	FileCheck,
+	FileText,
+	TrendingUp,
+	Wallet,
+} from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
@@ -82,36 +90,79 @@ export default function FinancesPageClient() {
 	}, [fetchData])
 
 	const mainAccount = org?.bankAccounts[0] ?? null
+	const balanceCents = mainAccount ? Math.round(mainAccount.balance * 100) : 0
+	const projectedCents = balanceCents + (forecast?.totalCents ?? 0)
 
 	return (
 		<BlockStack gap="600" className="p-4">
-			<PageHeader title="Finances" subtitle="Compte Qonto" />
+			<PageHeader title="Finances" subtitle="Trésorerie & projection CA" />
 
 			<StatsGrid
-				columns={4}
+				columns={3}
 				loading={loading || forecast === undefined}
 				stats={[
 					{
 						label: "Solde Qonto",
-						value: mainAccount ? formatAmount(mainAccount.balance, mainAccount.currency) : "—",
+						value: mainAccount
+							? formatAmount(mainAccount.balance, mainAccount.currency)
+							: "—",
 						icon: Banknote,
 					},
 					{
-						label: "Non facturé",
-						value: forecast ? formatAmount(forecast.unbilledCents / 100) : "—",
-						description: forecast ? `${forecast.unbilledCount} entrées` : undefined,
+						label: "Total à encaisser",
+						value: forecast
+							? formatAmount(forecast.totalCents / 100)
+							: "—",
+						description: forecast
+							? `${forecast.readyToInvoiceCount + forecast.unpaidCount} éléments`
+							: undefined,
+						icon: TrendingUp,
+					},
+					{
+						label: "Trésorerie projetée",
+						value:
+							mainAccount && forecast
+								? formatAmount(projectedCents / 100)
+								: "—",
+						description: "Solde + à encaisser",
+						icon: Wallet,
+					},
+				]}
+			/>
+
+			<StatsGrid
+				columns={3}
+				loading={loading || forecast === undefined}
+				stats={[
+					{
+						label: "Brouillon",
+						value: forecast
+							? formatAmount(forecast.draftCents / 100)
+							: "—",
+						description: forecast
+							? `${forecast.draftCount} entrées`
+							: undefined,
 						icon: Clock,
 					},
 					{
-						label: "En attente",
-						value: forecast ? formatAmount(forecast.unpaidCents / 100) : "—",
-						description: forecast ? `${forecast.unpaidCount} factures` : undefined,
-						icon: FileText,
+						label: "Prêt à facturer",
+						value: forecast
+							? formatAmount(forecast.readyToInvoiceCents / 100)
+							: "—",
+						description: forecast
+							? `${forecast.readyToInvoiceCount} entrées`
+							: undefined,
+						icon: FileCheck,
 					},
 					{
-						label: "Total à encaisser",
-						value: forecast ? formatAmount(forecast.totalCents / 100) : "—",
-						icon: TrendingUp,
+						label: "Facturé · non payé",
+						value: forecast
+							? formatAmount(forecast.unpaidCents / 100)
+							: "—",
+						description: forecast
+							? `${forecast.unpaidCount} factures`
+							: undefined,
+						icon: FileText,
 					},
 				]}
 			/>
