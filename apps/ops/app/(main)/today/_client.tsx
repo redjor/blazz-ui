@@ -65,7 +65,7 @@ export default function TodayPageClient() {
 		<BlockStack gap="600" className="p-4">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-3">
-					<span className="text-5xl font-bold tabular-nums leading-none text-fg">{dayNumber}</span>
+					<span className="font-pixel text-5xl tabular-nums leading-none text-fg">{dayNumber}</span>
 					<BlockStack gap="050">
 						<span className="text-sm font-medium capitalize text-fg">{dayName}</span>
 						<span className="text-sm capitalize text-fg-muted">{monthYear}</span>
