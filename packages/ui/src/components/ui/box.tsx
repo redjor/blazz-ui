@@ -35,6 +35,8 @@ const boxVariants = cva("", {
 			sm: "shadow-sm",
 			md: "shadow-md",
 			lg: "shadow-lg",
+			card: "shadow-card",
+			"card-elevated": "shadow-card-elevated",
 		},
 	},
 	defaultVariants: {

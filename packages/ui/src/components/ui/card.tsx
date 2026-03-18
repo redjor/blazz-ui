@@ -5,15 +5,16 @@ import { cn } from "../../lib/utils"
 function Card({
 	className,
 	size = "default",
+	elevated = false,
 	...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: React.ComponentProps<"div"> & { size?: "default" | "sm"; elevated?: boolean }) {
 	return (
 		<div
 			data-slot="card"
 			data-size={size}
 			className={cn(
 				"bg-surface text-fg",
-				"border border-container",
+				elevated ? "shadow-card-elevated" : "shadow-card",
 				"rounded-lg",
 				"overflow-hidden",
 				"has-data-[slot=card-footer]:pb-0",

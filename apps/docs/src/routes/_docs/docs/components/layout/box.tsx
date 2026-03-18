@@ -39,6 +39,12 @@ const examples = [
 </Box>`,
 	},
 	{
+		key: "shadow-card",
+		code: `<Box shadow="card" padding="4" background="surface" borderRadius="lg">
+  Card shadow
+</Box>`,
+	},
+	{
 		key: "polymorphic",
 		code: `<Box as="section" background="raised" padding="4" borderRadius="md">
   <p>Rendered as a section element</p>
@@ -99,9 +105,9 @@ const boxProps: DocProp[] = [
 	},
 	{
 		name: "shadow",
-		type: '"none" | "sm" | "md" | "lg"',
+		type: '"none" | "sm" | "md" | "lg" | "card" | "card-elevated"',
 		default: '"none"',
-		description: "Shadow applied to the box.",
+		description: "Shadow applied to the box. 'card' and 'card-elevated' use theme-aware shadows with inner glow in dark mode.",
 	},
 ]
 
@@ -213,9 +219,25 @@ function BoxPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
+					title="Card Shadow"
+					description="Theme-aware card shadows with inner glow in dark mode. Use 'card' for flat cards and 'card-elevated' for raised panels."
+					code={examples[5].code}
+					highlightedCode={html("shadow-card")}
+				>
+					<div className="flex items-start gap-4 p-4">
+						<Box shadow="card" padding="4" background="surface" borderRadius="lg">
+							<p className="text-sm">card</p>
+						</Box>
+						<Box shadow="card-elevated" padding="4" background="surface" borderRadius="lg">
+							<p className="text-sm">card-elevated</p>
+						</Box>
+					</div>
+				</DocExampleClient>
+
+				<DocExampleClient
 					title="Polymorphic"
 					description="Render as different HTML elements using the 'as' prop."
-					code={examples[5].code}
+					code={examples[6].code}
 					highlightedCode={html("polymorphic")}
 				>
 					<Box as="section" background="raised" padding="4" borderRadius="md">
