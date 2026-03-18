@@ -39,6 +39,7 @@ import { Route as DocsDocsBlocksStatsStripRouteImport } from './routes/_docs/doc
 import { Route as DocsDocsBlocksStatsGridRouteImport } from './routes/_docs/docs/blocks/stats-grid'
 import { Route as DocsDocsBlocksSplitViewRouteImport } from './routes/_docs/docs/blocks/split-view'
 import { Route as DocsDocsBlocksSettingsBlockRouteImport } from './routes/_docs/docs/blocks/settings-block'
+import { Route as DocsDocsBlocksSegmentedProgressRouteImport } from './routes/_docs/docs/blocks/segmented-progress'
 import { Route as DocsDocsBlocksQuotePreviewRouteImport } from './routes/_docs/docs/blocks/quote-preview'
 import { Route as DocsDocsBlocksQuickLogActivityRouteImport } from './routes/_docs/docs/blocks/quick-log-activity'
 import { Route as DocsDocsBlocksPropertyCardRouteImport } from './routes/_docs/docs/blocks/property-card'
@@ -55,6 +56,7 @@ import { Route as DocsDocsBlocksDataRouteImport } from './routes/_docs/docs/bloc
 import { Route as DocsDocsBlocksChartCardRouteImport } from './routes/_docs/docs/blocks/chart-card'
 import { Route as DocsDocsBlocksBusinessRouteImport } from './routes/_docs/docs/blocks/business'
 import { Route as DocsDocsBlocksBulkActionBarRouteImport } from './routes/_docs/docs/blocks/bulk-action-bar'
+import { Route as DocsDocsBlocksBudgetCardRouteImport } from './routes/_docs/docs/blocks/budget-card'
 import { Route as DocsDocsBlocksActivityTimelineRouteImport } from './routes/_docs/docs/blocks/activity-timeline'
 import { Route as DocsDocsAiSourcesRouteImport } from './routes/_docs/docs/ai/sources'
 import { Route as DocsDocsAiReasoningRouteImport } from './routes/_docs/docs/ai/reasoning'
@@ -375,6 +377,12 @@ const DocsDocsBlocksSettingsBlockRoute =
     path: '/docs/blocks/settings-block',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksSegmentedProgressRoute =
+  DocsDocsBlocksSegmentedProgressRouteImport.update({
+    id: '/docs/blocks/segmented-progress',
+    path: '/docs/blocks/segmented-progress',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsBlocksQuotePreviewRoute =
   DocsDocsBlocksQuotePreviewRouteImport.update({
     id: '/docs/blocks/quote-preview',
@@ -463,6 +471,12 @@ const DocsDocsBlocksBulkActionBarRoute =
   DocsDocsBlocksBulkActionBarRouteImport.update({
     id: '/docs/blocks/bulk-action-bar',
     path: '/docs/blocks/bulk-action-bar',
+    getParentRoute: () => DocsRoute,
+  } as any)
+const DocsDocsBlocksBudgetCardRoute =
+  DocsDocsBlocksBudgetCardRouteImport.update({
+    id: '/docs/blocks/budget-card',
+    path: '/docs/blocks/budget-card',
     getParentRoute: () => DocsRoute,
   } as any)
 const DocsDocsBlocksActivityTimelineRoute =
@@ -1413,6 +1427,7 @@ export interface FileRoutesByFullPath {
   '/docs/ai/reasoning': typeof DocsDocsAiReasoningRoute
   '/docs/ai/sources': typeof DocsDocsAiSourcesRoute
   '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
+  '/docs/blocks/budget-card': typeof DocsDocsBlocksBudgetCardRoute
   '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
   '/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
@@ -1429,6 +1444,7 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
   '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/docs/blocks/segmented-progress': typeof DocsDocsBlocksSegmentedProgressRoute
   '/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
@@ -1617,6 +1633,7 @@ export interface FileRoutesByTo {
   '/docs/ai/reasoning': typeof DocsDocsAiReasoningRoute
   '/docs/ai/sources': typeof DocsDocsAiSourcesRoute
   '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
+  '/docs/blocks/budget-card': typeof DocsDocsBlocksBudgetCardRoute
   '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
   '/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
@@ -1633,6 +1650,7 @@ export interface FileRoutesByTo {
   '/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
   '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/docs/blocks/segmented-progress': typeof DocsDocsBlocksSegmentedProgressRoute
   '/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
@@ -1823,6 +1841,7 @@ export interface FileRoutesById {
   '/_docs/docs/ai/reasoning': typeof DocsDocsAiReasoningRoute
   '/_docs/docs/ai/sources': typeof DocsDocsAiSourcesRoute
   '/_docs/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
+  '/_docs/docs/blocks/budget-card': typeof DocsDocsBlocksBudgetCardRoute
   '/_docs/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
   '/_docs/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/_docs/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
@@ -1839,6 +1858,7 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/property-card': typeof DocsDocsBlocksPropertyCardRoute
   '/_docs/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/_docs/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
+  '/_docs/docs/blocks/segmented-progress': typeof DocsDocsBlocksSegmentedProgressRoute
   '/_docs/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/_docs/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/_docs/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
@@ -2029,6 +2049,7 @@ export interface FileRouteTypes {
     | '/docs/ai/reasoning'
     | '/docs/ai/sources'
     | '/docs/blocks/activity-timeline'
+    | '/docs/blocks/budget-card'
     | '/docs/blocks/bulk-action-bar'
     | '/docs/blocks/business'
     | '/docs/blocks/chart-card'
@@ -2045,6 +2066,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/property-card'
     | '/docs/blocks/quick-log-activity'
     | '/docs/blocks/quote-preview'
+    | '/docs/blocks/segmented-progress'
     | '/docs/blocks/settings-block'
     | '/docs/blocks/split-view'
     | '/docs/blocks/stats-grid'
@@ -2233,6 +2255,7 @@ export interface FileRouteTypes {
     | '/docs/ai/reasoning'
     | '/docs/ai/sources'
     | '/docs/blocks/activity-timeline'
+    | '/docs/blocks/budget-card'
     | '/docs/blocks/bulk-action-bar'
     | '/docs/blocks/business'
     | '/docs/blocks/chart-card'
@@ -2249,6 +2272,7 @@ export interface FileRouteTypes {
     | '/docs/blocks/property-card'
     | '/docs/blocks/quick-log-activity'
     | '/docs/blocks/quote-preview'
+    | '/docs/blocks/segmented-progress'
     | '/docs/blocks/settings-block'
     | '/docs/blocks/split-view'
     | '/docs/blocks/stats-grid'
@@ -2438,6 +2462,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/ai/reasoning'
     | '/_docs/docs/ai/sources'
     | '/_docs/docs/blocks/activity-timeline'
+    | '/_docs/docs/blocks/budget-card'
     | '/_docs/docs/blocks/bulk-action-bar'
     | '/_docs/docs/blocks/business'
     | '/_docs/docs/blocks/chart-card'
@@ -2454,6 +2479,7 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/property-card'
     | '/_docs/docs/blocks/quick-log-activity'
     | '/_docs/docs/blocks/quote-preview'
+    | '/_docs/docs/blocks/segmented-progress'
     | '/_docs/docs/blocks/settings-block'
     | '/_docs/docs/blocks/split-view'
     | '/_docs/docs/blocks/stats-grid'
@@ -2845,6 +2871,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsBlocksSettingsBlockRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/segmented-progress': {
+      id: '/_docs/docs/blocks/segmented-progress'
+      path: '/docs/blocks/segmented-progress'
+      fullPath: '/docs/blocks/segmented-progress'
+      preLoaderRoute: typeof DocsDocsBlocksSegmentedProgressRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/quote-preview': {
       id: '/_docs/docs/blocks/quote-preview'
       path: '/docs/blocks/quote-preview'
@@ -2955,6 +2988,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/blocks/bulk-action-bar'
       fullPath: '/docs/blocks/bulk-action-bar'
       preLoaderRoute: typeof DocsDocsBlocksBulkActionBarRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/budget-card': {
+      id: '/_docs/docs/blocks/budget-card'
+      path: '/docs/blocks/budget-card'
+      fullPath: '/docs/blocks/budget-card'
+      preLoaderRoute: typeof DocsDocsBlocksBudgetCardRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/activity-timeline': {
@@ -4072,6 +4112,7 @@ interface DocsRouteChildren {
   DocsDocsAiReasoningRoute: typeof DocsDocsAiReasoningRoute
   DocsDocsAiSourcesRoute: typeof DocsDocsAiSourcesRoute
   DocsDocsBlocksActivityTimelineRoute: typeof DocsDocsBlocksActivityTimelineRoute
+  DocsDocsBlocksBudgetCardRoute: typeof DocsDocsBlocksBudgetCardRoute
   DocsDocsBlocksBulkActionBarRoute: typeof DocsDocsBlocksBulkActionBarRoute
   DocsDocsBlocksBusinessRoute: typeof DocsDocsBlocksBusinessRoute
   DocsDocsBlocksChartCardRoute: typeof DocsDocsBlocksChartCardRoute
@@ -4088,6 +4129,7 @@ interface DocsRouteChildren {
   DocsDocsBlocksPropertyCardRoute: typeof DocsDocsBlocksPropertyCardRoute
   DocsDocsBlocksQuickLogActivityRoute: typeof DocsDocsBlocksQuickLogActivityRoute
   DocsDocsBlocksQuotePreviewRoute: typeof DocsDocsBlocksQuotePreviewRoute
+  DocsDocsBlocksSegmentedProgressRoute: typeof DocsDocsBlocksSegmentedProgressRoute
   DocsDocsBlocksSettingsBlockRoute: typeof DocsDocsBlocksSettingsBlockRoute
   DocsDocsBlocksSplitViewRoute: typeof DocsDocsBlocksSplitViewRoute
   DocsDocsBlocksStatsGridRoute: typeof DocsDocsBlocksStatsGridRoute
@@ -4272,6 +4314,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsAiReasoningRoute: DocsDocsAiReasoningRoute,
   DocsDocsAiSourcesRoute: DocsDocsAiSourcesRoute,
   DocsDocsBlocksActivityTimelineRoute: DocsDocsBlocksActivityTimelineRoute,
+  DocsDocsBlocksBudgetCardRoute: DocsDocsBlocksBudgetCardRoute,
   DocsDocsBlocksBulkActionBarRoute: DocsDocsBlocksBulkActionBarRoute,
   DocsDocsBlocksBusinessRoute: DocsDocsBlocksBusinessRoute,
   DocsDocsBlocksChartCardRoute: DocsDocsBlocksChartCardRoute,
@@ -4288,6 +4331,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksPropertyCardRoute: DocsDocsBlocksPropertyCardRoute,
   DocsDocsBlocksQuickLogActivityRoute: DocsDocsBlocksQuickLogActivityRoute,
   DocsDocsBlocksQuotePreviewRoute: DocsDocsBlocksQuotePreviewRoute,
+  DocsDocsBlocksSegmentedProgressRoute: DocsDocsBlocksSegmentedProgressRoute,
   DocsDocsBlocksSettingsBlockRoute: DocsDocsBlocksSettingsBlockRoute,
   DocsDocsBlocksSplitViewRoute: DocsDocsBlocksSplitViewRoute,
   DocsDocsBlocksStatsGridRoute: DocsDocsBlocksStatsGridRoute,

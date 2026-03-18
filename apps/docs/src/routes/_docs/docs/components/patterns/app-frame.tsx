@@ -48,6 +48,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   )
 }`,
 	},
+	{
+		key: "no-topbar",
+		code: `import { AppFrame } from "@blazz/ui/components/patterns/app-frame"
+import { sidebarConfig } from "@/config/navigation"
+
+// Sans top bar — layout simplifié (sidebar pleine hauteur)
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <AppFrame
+      sidebarConfig={sidebarConfig}
+      noTopBar
+    >
+      {children}
+    </AppFrame>
+  )
+}`,
+	},
 ] as const
 
 export const Route = createFileRoute("/_docs/docs/components/patterns/app-frame")({
@@ -65,6 +82,7 @@ export const Route = createFileRoute("/_docs/docs/components/patterns/app-frame"
 
 const toc = [
 	{ id: "usage", title: "Usage" },
+	{ id: "layout", title: "Layout" },
 	{ id: "props", title: "Props" },
 	{ id: "related", title: "Related" },
 ]
@@ -120,6 +138,17 @@ const appFrameProps: DocProp[] = [
 		default: "false",
 		description: "Masque les notifications et le user menu dans la top bar.",
 	},
+	{
+		name: "noTopBar",
+		type: "boolean",
+		default: "false",
+		description: "Supprime complètement la top bar. La sidebar commence à top-0.",
+	},
+	{
+		name: "sidebarFooter",
+		type: "React.ReactNode",
+		description: "Slot rendu en bas de la sidebar, après la navigation.",
+	},
 ]
 
 function LayoutPlaceholder() {
@@ -160,6 +189,63 @@ function AppFramePage() {
 				>
 					<LayoutPlaceholder />
 				</DocExampleClient>
+				<DocExampleClient
+					title="Sans top bar"
+					description="La sidebar occupe toute la hauteur. Utile pour les apps avec sidebar navigation uniquement."
+					code={examples[2].code}
+					highlightedCode={html("no-topbar")}
+				>
+					<LayoutPlaceholder />
+				</DocExampleClient>
+			</DocSection>
+			<DocSection id="layout" title="Layout">
+				<div className="space-y-4">
+					<p className="text-sm text-fg-muted">Deux patterns de layout sont supportés selon que vous passez ou non une top bar globale.</p>
+					<div className="grid gap-4 md:grid-cols-2">
+						<div className="rounded-lg border border-edge-subtle bg-surface p-4">
+							<p className="text-xs font-medium text-fg mb-2">Sans top bar globale (recommandé)</p>
+							<div className="text-xs text-fg-muted font-mono whitespace-pre leading-relaxed">
+{`┌──────────┬───────────────────┐
+│ Logo     │ Tab bar (opt.)    │
+│          ├───────────────────┤
+│ Sidebar  │ Header (TopBar)   │
+│ (240px)  ├───────────────────┤
+│          │ Content (scroll)  │
+│          │ rounded-tl-xl     │
+└──────────┴───────────────────┘
+La sidebar occupe toute la hauteur.
+Le logo est dans SidebarHeader.
+SidebarTrigger dans le tab bar
+quand la sidebar est collapsed.`}
+							</div>
+						</div>
+						<div className="rounded-lg border border-edge-subtle bg-surface p-4">
+							<p className="text-xs font-medium text-fg mb-2">Avec top bar globale</p>
+							<div className="text-xs text-fg-muted font-mono whitespace-pre leading-relaxed">
+{`┌─────────────────────────────┐
+│ AppTopBar (fixed, z-20)     │
+├──────────┬──────────────────┤
+│          │ Header (TopBar)  │
+│ Sidebar  ├──────────────────┤
+│ (240px)  │ Content (scroll) │
+│          │ rounded-tl-xl    │
+└──────────┴──────────────────┘
+La top bar est pleine largeur.
+La sidebar commence sous la
+top bar (top: --topbar-height).`}
+							</div>
+						</div>
+					</div>
+					<div className="rounded-lg border border-edge-subtle bg-surface p-3 text-xs text-fg-muted">
+						<p className="font-medium text-fg mb-1">Sidebar features :</p>
+						<ul className="list-disc list-inside space-y-0.5">
+							<li>Collapse/expand via <code className="text-fg">⌘B</code> ou SidebarRail drag</li>
+							<li>Peek on hover quand collapsed (700ms delay)</li>
+							<li><code className="text-fg">TopBar.SidebarToggle</code> ou <code className="text-fg">SidebarTrigger</code> pour réafficher</li>
+							<li>Cookie persistence de l'état (7 jours)</li>
+						</ul>
+					</div>
+				</div>
 			</DocSection>
 			<DocSection id="props" title="Props">
 				<DocPropsTable props={appFrameProps} />
@@ -178,9 +264,14 @@ function AppFramePage() {
 							description: "Header global utilisé en interne par AppFrame.",
 						},
 						{
-							title: "Layout Frame",
+							title: "Frame",
 							href: "/docs/components/patterns/layout-frame",
 							description: "Brique flexbox bas niveau si vous avez besoin d'un layout custom.",
+						},
+						{
+							title: "Top Bar",
+							href: "/docs/components/patterns/top-bar",
+							description: "Header composable de zone de contenu avec SidebarToggle et breadcrumbs.",
 						},
 					]}
 				/>

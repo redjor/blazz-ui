@@ -13,12 +13,10 @@ import { AlertTriangle, Banknote, CheckCircle2, Circle, Clock, Droplets, Plus, W
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
-import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { api } from "@/convex/_generated/api"
-import type { Doc, Id } from "@/convex/_generated/dataModel"
+import type { Doc } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
-import { computeHourlyRate } from "@/lib/rate"
 import { useMissingDays } from "@/lib/use-missing-days"
 import { getWeatherInfo, useWeather } from "@/lib/use-weather"
 
@@ -46,14 +44,6 @@ export default function TodayPageClient() {
 	const [addOpen, setAddOpen] = useState(false)
 	const [addDate, setAddDate] = useState<string | null>(null)
 	const [editingEntry, setEditingEntry] = useState<Doc<"timeEntries"> | null>(null)
-	const [quickModal, setQuickModal] = useState<{
-		open: boolean
-		projectId: Id<"projects"> | null
-		projectName: string | null
-		hourlyRate: number | null
-		hoursPerDay: number | null
-	}>({ open: false, projectId: null, projectName: null, hourlyRate: null, hoursPerDay: null })
-
 	useAppTopBar([{ label: "Aujourd'hui" }])
 
 	const now = new Date()
@@ -62,7 +52,7 @@ export default function TodayPageClient() {
 	const monthYear = format(now, "MMMM yyyy", { locale: fr })
 
 	return (
-		<BlockStack gap="600" className="p-4">
+		<BlockStack gap="600" className="mx-auto w-full max-w-3xl px-4 py-6">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-3">
 					<span className="font-pixel text-5xl tabular-nums leading-none text-fg">{dayNumber}</span>
@@ -144,9 +134,54 @@ export default function TodayPageClient() {
 				</InlineStack>
 			)}
 
-			<div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-				{/* --- Entrées du jour --- */}
-				<Card>
+			{/* --- Todos --- */}
+			<Card>
+				<CardHeader className="border-b border-separator">
+					<CardTitle>Todos</CardTitle>
+					<CardAction>
+						<span className="text-xs tabular-nums text-fg-muted">{activeTodos.length}</span>
+					</CardAction>
+				</CardHeader>
+				<div>
+					{todos === undefined ? (
+						<p className="px-inset py-6 text-sm text-fg-muted">Chargement…</p>
+					) : activeTodos.length === 0 ? (
+						<InlineStack gap="200" blockAlign="center" className="px-inset py-6">
+							<CheckCircle2 className="size-4 text-success" />
+							<span className="text-sm text-fg-muted">Tout est fait.</span>
+						</InlineStack>
+					) : (
+						<ul className="divide-y divide-separator">
+							{activeTodos.slice(0, 6).map((todo) => (
+								<li key={todo._id}>
+									<button
+										type="button"
+										className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-surface-3/50"
+										onClick={() => router.push(`/todos/${todo._id}`)}
+									>
+										<Circle className="size-3.5 shrink-0 text-fg-muted/50" />
+										<span className="min-w-0 flex-1 truncate text-sm text-fg">{todo.text}</span>
+									</button>
+								</li>
+							))}
+							{activeTodos.length > 6 && (
+								<li>
+									<button
+										type="button"
+										className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-surface-3/50"
+										onClick={() => router.push("/todos")}
+									>
+										Voir les {activeTodos.length - 6} autres…
+									</button>
+								</li>
+							)}
+						</ul>
+					)}
+				</div>
+			</Card>
+
+			{/* --- Entrées du jour --- */}
+			<Card>
 					<CardHeader className="border-b border-separator">
 						<CardTitle>Entrées du jour</CardTitle>
 						<CardAction>
@@ -216,103 +251,7 @@ export default function TodayPageClient() {
 							</ul>
 						)}
 					</div>
-				</Card>
-
-				{/* --- Sidebar droite --- */}
-				<BlockStack gap="400">
-					{/* Projets actifs */}
-					<Card>
-						<CardHeader className="border-b border-separator">
-							<CardTitle>Projets actifs</CardTitle>
-						</CardHeader>
-						<div>
-							{projectList.length === 0 ? (
-								<p className="px-inset py-6 text-sm text-fg-muted">Aucun projet actif.</p>
-							) : (
-								<ul className="divide-y divide-separator">
-									{projectList.map((project) => (
-										<li
-											key={project._id}
-											className="flex items-center justify-between gap-3 px-inset py-2.5"
-										>
-											<BlockStack gap="050">
-												<span className="text-sm font-medium text-fg">{project.name}</span>
-												<span className="font-mono text-xs text-fg-muted">
-													{project.tjm}€/j · {project.hoursPerDay}h/j
-												</span>
-											</BlockStack>
-											<Button
-												type="button"
-												variant="outline"
-												size="sm"
-												className="h-7 shrink-0 gap-1 px-2.5 text-xs"
-												onClick={() =>
-													setQuickModal({
-														open: true,
-														projectId: project._id,
-														projectName: project.name,
-														hourlyRate: computeHourlyRate(project.tjm, project.hoursPerDay),
-														hoursPerDay: project.hoursPerDay,
-													})
-												}
-											>
-												<Plus className="size-3" />
-												Log
-											</Button>
-										</li>
-									))}
-								</ul>
-							)}
-						</div>
-					</Card>
-
-					{/* Todos actifs */}
-					<Card>
-						<CardHeader className="border-b border-separator">
-							<CardTitle>Todos</CardTitle>
-							<CardAction>
-								<span className="text-xs tabular-nums text-fg-muted">{activeTodos.length}</span>
-							</CardAction>
-						</CardHeader>
-						<div>
-							{todos === undefined ? (
-								<p className="px-inset py-6 text-sm text-fg-muted">Chargement…</p>
-							) : activeTodos.length === 0 ? (
-								<InlineStack gap="200" blockAlign="center" className="px-inset py-6">
-									<CheckCircle2 className="size-4 text-success" />
-									<span className="text-sm text-fg-muted">Tout est fait.</span>
-								</InlineStack>
-							) : (
-								<ul className="divide-y divide-separator">
-									{activeTodos.slice(0, 6).map((todo) => (
-										<li key={todo._id}>
-											<button
-												type="button"
-												className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-surface-3/50"
-												onClick={() => router.push(`/todos/${todo._id}`)}
-											>
-												<Circle className="size-3.5 shrink-0 text-fg-muted/50" />
-												<span className="min-w-0 flex-1 truncate text-sm text-fg">{todo.text}</span>
-											</button>
-										</li>
-									))}
-									{activeTodos.length > 6 && (
-										<li>
-											<button
-												type="button"
-												className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-surface-3/50"
-												onClick={() => router.push("/todos")}
-											>
-												Voir les {activeTodos.length - 6} autres…
-											</button>
-										</li>
-									)}
-								</ul>
-							)}
-						</div>
-					</Card>
-				</BlockStack>
-			</div>
+			</Card>
 
 			{/* Dialog nouvelle entrée */}
 			<Dialog open={addOpen} onOpenChange={(open) => { setAddOpen(open); if (!open) setAddDate(null) }}>
@@ -354,16 +293,6 @@ export default function TodayPageClient() {
 				</DialogContent>
 			</Dialog>
 
-			{/* Quick log modal */}
-			<QuickTimeEntryModal
-				open={quickModal.open}
-				onOpenChange={(open) => setQuickModal((s) => ({ ...s, open }))}
-				projectId={quickModal.projectId}
-				projectName={quickModal.projectName}
-				hourlyRate={quickModal.hourlyRate}
-				hoursPerDay={quickModal.hoursPerDay}
-				date={today}
-			/>
 		</BlockStack>
 	)
 }

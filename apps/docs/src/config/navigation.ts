@@ -734,6 +734,16 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["split", "master detail", "two panel", "side by side"],
 						},
 						{
+							title: "Budget Card",
+							url: "/docs/blocks/budget-card",
+							keywords: ["budget", "project card", "consumption", "revenue", "days"],
+						},
+						{
+							title: "Segmented Progress",
+							url: "/docs/blocks/segmented-progress",
+							keywords: ["progress", "dots", "waffle", "budget bar", "segmented"],
+						},
+						{
 							title: "Stats Grid",
 							url: "/docs/blocks/stats-grid",
 							keywords: ["kpi grid", "metrics grid", "stats cards", "dashboard grid"],

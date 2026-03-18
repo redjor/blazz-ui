@@ -98,6 +98,11 @@ const appTopBarProps: DocProp[] = [
 		description: "Masque notifications et user menu. Conserve uniquement logo, sections et thème.",
 	},
 	{
+		name: "notificationSlot",
+		type: "React.ReactNode",
+		description: "Slot pour les notifications (ex: NotificationSheet). Rendu entre le palette switcher et le user menu.",
+	},
+	{
 		name: "user",
 		type: "{ name: string; email: string; avatar?: string; role?: string }",
 		description: "Données utilisateur affichées dans le user menu.",
