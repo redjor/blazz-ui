@@ -9,11 +9,12 @@ import { Download, FileText, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
-import { type ContractMetrics, healthColor } from "@/lib/contracts"
+import { type ContractMetrics, type ForfaitMetrics, healthColor } from "@/lib/contracts"
 
 interface ContractSectionProps {
 	contract: Doc<"contracts">
 	metrics: ContractMetrics | null
+	forfaitMetrics: ForfaitMetrics | null
 	onComplete?: () => void
 	onEdit?: () => void
 }
@@ -29,7 +30,13 @@ function formatMonth(ym: string): string {
 	return format(date, "MMMM", { locale: fr })
 }
 
-export function ContractSection({ contract, metrics, onComplete, onEdit }: ContractSectionProps) {
+export function ContractSection({
+	contract,
+	metrics,
+	forfaitMetrics,
+	onComplete,
+	onEdit,
+}: ContractSectionProps) {
 	const files = useQuery(api.contractFiles.listByContract, { contractId: contract._id })
 	const removeFile = useMutation(api.contractFiles.remove)
 	const colors = metrics ? healthColor(metrics.contractHealth) : null
@@ -225,6 +232,47 @@ export function ContractSection({ contract, metrics, onComplete, onEdit }: Contr
 					)}
 				</>
 			)}
+
+			{/* Forfait metrics */}
+			{forfaitMetrics &&
+				(() => {
+					const fColors = healthColor(forfaitMetrics.health)
+					const clampedForfait = Math.min(forfaitMetrics.percentUsed, 100)
+					return (
+						<div className="space-y-3">
+							{forfaitMetrics.health === "over" && (
+								<div
+									className={`px-4 py-2.5 rounded-lg text-sm font-medium ${fColors.bg} ${fColors.text}`}
+								>
+									Dépassement de {Math.abs(forfaitMetrics.remaining).toLocaleString("fr-FR")}€
+								</div>
+							)}
+							{(forfaitMetrics.health === "danger" || forfaitMetrics.health === "warning") && (
+								<div
+									className={`px-4 py-2.5 rounded-lg text-sm font-medium ${fColors.bg} ${fColors.text}`}
+								>
+									{forfaitMetrics.percentUsed}% du budget consommé
+								</div>
+							)}
+							<div className="space-y-2">
+								<div className="flex items-center justify-between text-xs">
+									<span className="text-fg-muted">Budget consommé</span>
+									<span className="text-fg font-mono font-medium">
+										{forfaitMetrics.consumed.toLocaleString("fr-FR")}€ /{" "}
+										{forfaitMetrics.budgetTotal.toLocaleString("fr-FR")}€ (
+										{forfaitMetrics.percentUsed}%)
+									</span>
+								</div>
+								<div className="h-2.5 bg-surface-3 rounded-full overflow-hidden border border-edge">
+									<div
+										className={`h-full rounded-full transition-all ${fColors.bar}`}
+										style={{ width: `${clampedForfait}%` }}
+									/>
+								</div>
+							</div>
+						</div>
+					)
+				})()}
 
 			{/* Attached files */}
 			{files && files.length > 0 && (

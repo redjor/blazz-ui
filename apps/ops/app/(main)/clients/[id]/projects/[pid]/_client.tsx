@@ -48,7 +48,7 @@ import { TimeEntryForm } from "@/components/time-entry-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { computeBudgetMetrics } from "@/lib/budget"
-import { computeContractMetrics } from "@/lib/contracts"
+import { computeContractMetrics, computeForfaitMetrics } from "@/lib/contracts"
 import { formatMinutes } from "@/lib/format"
 import {
 	type EntryStatus,
@@ -534,6 +534,21 @@ export default function ProjectDetailPageClient({ params }: Props) {
 				})
 			: null
 
+	const forfaitMetrics =
+		activeContract && activeContract.type === "forfait" && activeContract.budgetAmount
+			? computeForfaitMetrics({
+					budgetAmount: activeContract.budgetAmount,
+					entries: entries.map((e) => ({
+						date: e.date,
+						minutes: e.minutes,
+						hourlyRate: e.hourlyRate,
+						billable: e.billable,
+					})),
+					startDate: activeContract.startDate,
+					endDate: activeContract.endDate,
+				})
+			: null
+
 	const statusDot: Record<string, string> = {
 		active: "bg-green-500",
 		paused: "bg-amber-500",
@@ -618,6 +633,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					<ContractSection
 						contract={activeContract}
 						metrics={contractMetrics}
+						forfaitMetrics={forfaitMetrics}
 						onEdit={() => setEditingContract(activeContract)}
 						onComplete={async () => {
 							try {
