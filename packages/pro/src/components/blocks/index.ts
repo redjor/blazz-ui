@@ -98,6 +98,10 @@ export { StatsStrip } from "./stats-strip"
 export type { StatusDefinition, StatusFlowProps, StatusTransition } from "./status-flow"
 export { StatusFlow } from "./status-flow"
 export { SettingsPage, SettingsHeader, SettingsSection, SettingsDanger } from "./settings-block"
+export type { SegmentedProgressProps } from "./segmented-progress"
+export { SegmentedProgress } from "./segmented-progress"
+export type { BudgetCardProps } from "./budget-card"
+export { BudgetCard } from "./budget-card"
 
 // ── Data Table ─────────────────────────────────
 // DataTable barrel has naming conflicts (BulkAction, RowAction, FilterGroup, FilterOperator)

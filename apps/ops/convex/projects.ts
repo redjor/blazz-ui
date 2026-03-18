@@ -76,6 +76,11 @@ export const listAllWithBudget = query({
 			.withIndex("by_user", (q) => q.eq("userId", userId))
 			.collect()
 
+		// Current month boundaries for contract-based budget calc
+		const now = new Date()
+		const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10)
+		const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10)
+
 		// Group by project in memory
 		const entriesByProject = new Map<string, typeof allEntries>()
 		for (const e of allEntries) {
@@ -103,10 +108,13 @@ export const listAllWithBudget = query({
 			const contracts = contractsByProject.get(project._id as string) ?? []
 			const activeContract = contracts.find((c) => c.status === "active")
 
-			if (!project.budgetAmount) {
+			// 1) Project has its own budgetAmount → global budget progress
+			if (project.budgetAmount) {
+				const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
+				const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
 				return {
 					...project,
-					budgetPercent: null,
+					budgetPercent: Math.round(percentUsed * 10) / 10,
 					billableRevenue,
 					daysConsumed: Math.round(daysConsumed * 10) / 10,
 					hasActiveContract: !!activeContract,
@@ -115,11 +123,49 @@ export const listAllWithBudget = query({
 				}
 			}
 
-			const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
-			const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
+			// 2) Active contract with daysPerMonth (TMA/régie) → monthly consumption
+			if (activeContract?.daysPerMonth) {
+				const monthBillable = billableEntries.filter(
+					(e) => e.date >= monthStart && e.date <= monthEnd
+				)
+				const monthMinutes = monthBillable.reduce((s, e) => s + e.minutes, 0)
+				const monthDays =
+					project.hoursPerDay > 0 ? monthMinutes / (project.hoursPerDay * 60) : 0
+				const percentUsed = (monthDays / activeContract.daysPerMonth) * 100
+				return {
+					...project,
+					budgetPercent: Math.round(percentUsed * 10) / 10,
+					billableRevenue,
+					daysConsumed: Math.round(monthDays * 10) / 10,
+					budgetAmount: activeContract.daysPerMonth * project.tjm,
+					hasActiveContract: true,
+					contractType: activeContract.type,
+					contractDaysPerMonth: activeContract.daysPerMonth,
+				}
+			}
+
+			// 3) Active contract with budgetAmount (forfait) → global budget progress
+			if (activeContract?.budgetAmount) {
+				const percentUsed =
+					activeContract.budgetAmount > 0
+						? (billableRevenue / activeContract.budgetAmount) * 100
+						: 0
+				return {
+					...project,
+					budgetPercent: Math.round(percentUsed * 10) / 10,
+					billableRevenue,
+					daysConsumed: Math.round(daysConsumed * 10) / 10,
+					budgetAmount: activeContract.budgetAmount,
+					hasActiveContract: true,
+					contractType: activeContract.type,
+					contractDaysPerMonth: null,
+				}
+			}
+
+			// 4) No budget info at all
 			return {
 				...project,
-				budgetPercent: Math.round(percentUsed * 10) / 10,
+				budgetPercent: null,
 				billableRevenue,
 				daysConsumed: Math.round(daysConsumed * 10) / 10,
 				hasActiveContract: !!activeContract,

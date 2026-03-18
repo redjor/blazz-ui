@@ -5,10 +5,10 @@ import { Box } from "@blazz/ui/components/ui/box"
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
-import { Progress, ProgressTrack, ProgressIndicator } from "@blazz/ui/components/ui/progress"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
+import { BudgetCard } from "@blazz/pro/components/blocks/budget-card"
 import { useQuery } from "convex/react"
 import {
 	endOfMonth,
@@ -29,6 +29,7 @@ import {
 import type { LucideIcon } from "lucide-react"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency, formatMinutes } from "@/lib/format"
+import Link from "next/link"
 
 // ─── Helpers ──────────────────────────────────────────────────
 
@@ -87,94 +88,6 @@ function PipelineSkeleton() {
 		</Card>
 	)
 }
-
-// ─── Project Budget Card ──────────────────────────────────────
-
-function ProjectBudgetCard({
-	name,
-	budgetPercent,
-	daysConsumed,
-	billableRevenue,
-	budgetAmount,
-}: {
-	name: string
-	budgetPercent: number | null
-	daysConsumed: number
-	billableRevenue: number
-	budgetAmount: number | null | undefined
-}) {
-	const hasBudget = budgetAmount != null && budgetAmount > 0
-	const percent = budgetPercent ?? 0
-	const clamped = Math.min(percent, 100)
-	const isWarning = percent > 75 && percent <= 90
-	const isDanger = percent > 90
-
-	const barColor = isDanger
-		? "bg-negative"
-		: isWarning
-			? "bg-caution"
-			: "bg-brand"
-
-	return (
-		<Card>
-			<CardContent className="p-4">
-				<BlockStack gap="300">
-					<span className="text-sm font-medium truncate">{name}</span>
-
-					<div className="flex items-baseline justify-between gap-2">
-						<span className="text-lg font-semibold tabular-nums tracking-tight">
-							{formatCurrency(billableRevenue)}
-						</span>
-						<span className="text-xs text-fg-muted tabular-nums">
-							{daysConsumed}j
-						</span>
-					</div>
-
-					{hasBudget ? (
-						<BlockStack gap="100">
-							<Progress value={clamped}>
-								<ProgressTrack className="h-1 rounded-full">
-									<ProgressIndicator className={`rounded-full transition-all duration-300 ${barColor}`} />
-								</ProgressTrack>
-							</Progress>
-							<div className="flex items-center justify-between">
-								<span className="text-2xs text-fg-muted tabular-nums">
-									budget {formatCurrency(budgetAmount)}
-								</span>
-								<span className={`text-2xs font-medium tabular-nums ${isDanger ? "text-negative" : isWarning ? "text-caution" : "text-fg-muted"}`}>
-									{Math.round(percent)}%
-								</span>
-							</div>
-						</BlockStack>
-					) : (
-						<div className="h-1 rounded-full bg-surface-3" />
-					)}
-				</BlockStack>
-			</CardContent>
-		</Card>
-	)
-}
-
-function ProjectBudgetCardSkeleton() {
-	return (
-		<Card>
-			<CardContent className="p-4">
-				<BlockStack gap="300">
-					<div className="flex items-center justify-between">
-						<Skeleton className="h-4 w-28" />
-						<Skeleton className="h-3 w-12" />
-					</div>
-					<div className="flex items-baseline justify-between">
-						<Skeleton className="h-6 w-20" />
-						<Skeleton className="h-3 w-8" />
-					</div>
-					<Skeleton className="h-1 w-full rounded-full" />
-				</BlockStack>
-			</CardContent>
-		</Card>
-	)
-}
-
 
 // ─── Main Dashboard ───────────────────────────────────────────
 
@@ -305,17 +218,29 @@ export default function DashboardPageClient() {
 						</span>
 					</div>
 					<Grid>
-						{activeProjects.map((project) => (
-							<Grid.Cell key={project._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<ProjectBudgetCard
-									name={project.name}
-									budgetPercent={project.budgetPercent}
-									daysConsumed={project.daysConsumed}
-									billableRevenue={project.billableRevenue}
-									budgetAmount={project.budgetAmount}
-								/>
-							</Grid.Cell>
-						))}
+						{activeProjects.map((project) => {
+							const percent = project.budgetPercent ?? 0
+							const budgetLabel = project.contractDaysPerMonth
+								? `${project.daysConsumed} / ${project.contractDaysPerMonth}j`
+								: project.budgetAmount
+									? `budget ${formatCurrency(project.budgetAmount)}`
+									: `${project.daysConsumed}j consommés`
+							return (
+								<Grid.Cell key={project._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
+									<Link href={`/clients/${project.clientId}/projects/${project._id}`} className="block">
+										<BudgetCard
+											name={project.name}
+											revenue={project.billableRevenue}
+											daysConsumed={project.daysConsumed}
+											percent={percent}
+											budgetLabel={budgetLabel}
+											autoColor
+											formatCurrency={formatCurrency}
+										/>
+									</Link>
+								</Grid.Cell>
+							)
+						})}
 					</Grid>
 				</BlockStack>
 			)}
@@ -326,7 +251,7 @@ export default function DashboardPageClient() {
 					<Grid>
 						{[1, 2, 3].map((i) => (
 							<Grid.Cell key={i} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<ProjectBudgetCardSkeleton />
+								<BudgetCard name="" revenue={0} daysConsumed={0} percent={0} loading />
 							</Grid.Cell>
 						))}
 					</Grid>
