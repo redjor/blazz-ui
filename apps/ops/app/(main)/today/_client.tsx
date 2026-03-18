@@ -1,6 +1,5 @@
 "use client"
 
-import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { Button } from "@blazz/ui/components/ui/button"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
@@ -10,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/comp
 import { useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { AlertTriangle, Banknote, CheckCircle2, Circle, Clock, Plus } from "lucide-react"
+import { AlertTriangle, Banknote, CheckCircle2, Circle, Clock, Droplets, Plus, Wind } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
@@ -21,6 +20,7 @@ import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
 import { computeHourlyRate } from "@/lib/rate"
 import { useMissingDays } from "@/lib/use-missing-days"
+import { getWeatherInfo, useWeather } from "@/lib/use-weather"
 
 export default function TodayPageClient() {
 	const router = useRouter()
@@ -41,6 +41,7 @@ export default function TodayPageClient() {
 	const projectList = activeProjects ?? []
 
 	const { missingDays } = useMissingDays()
+	const weather = useWeather()
 
 	const [addOpen, setAddOpen] = useState(false)
 	const [addDate, setAddDate] = useState<string | null>(null)
@@ -55,16 +56,50 @@ export default function TodayPageClient() {
 
 	useAppTopBar([{ label: "Aujourd'hui" }])
 
-	const dateTitle = format(new Date(), "EEEE d MMMM yyyy", { locale: fr }).replace(/^\w/, (c) =>
-		c.toUpperCase()
-	)
+	const now = new Date()
+	const dayNumber = format(now, "d")
+	const dayName = format(now, "EEEE", { locale: fr })
+	const monthYear = format(now, "MMMM yyyy", { locale: fr })
 
 	return (
 		<BlockStack gap="600" className="p-4">
-			<PageHeader
-				title={dateTitle}
-				actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
-			/>
+			<div className="flex items-center justify-between">
+				<div className="flex items-center gap-3">
+					<span className="text-5xl font-bold tabular-nums leading-none text-fg">{dayNumber}</span>
+					<BlockStack gap="050">
+						<span className="text-sm font-medium capitalize text-fg">{dayName}</span>
+						<span className="text-sm capitalize text-fg-muted">{monthYear}</span>
+					</BlockStack>
+				</div>
+				{!weather.loading && weather.data && (() => {
+					const info = getWeatherInfo(weather.data.weatherCode)
+					return (
+						<div className="flex items-center gap-3">
+							<span className="text-3xl leading-none">{info.icon}</span>
+							<BlockStack gap="050" className="items-end">
+								<div className="flex items-baseline gap-1.5">
+									<span className="text-2xl font-semibold tabular-nums text-fg">
+										{weather.data.temperature}°
+									</span>
+									<span className="text-xs text-fg-muted">
+										{weather.data.tempMax}° / {weather.data.tempMin}°
+									</span>
+								</div>
+								<div className="flex items-center gap-3">
+									<div className="flex items-center gap-1">
+										<Droplets className="size-3 text-fg-muted/60" />
+										<span className="text-xs tabular-nums text-fg-muted">{weather.data.humidity}%</span>
+									</div>
+									<div className="flex items-center gap-1">
+										<Wind className="size-3 text-fg-muted/60" />
+										<span className="text-xs tabular-nums text-fg-muted">{weather.data.windSpeed} km/h</span>
+									</div>
+								</div>
+							</BlockStack>
+						</div>
+					)
+				})()}
+			</div>
 
 			<StatsGrid
 				columns={2}
