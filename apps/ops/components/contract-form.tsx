@@ -31,6 +31,10 @@ const schema = z
 			(v) => (v === "" || v === undefined ? undefined : Number(v)),
 			z.number().positive("Requis pour TMA").optional()
 		),
+		budgetAmount: z.preprocess(
+			(v) => (v === "" || v === undefined ? undefined : Number(v)),
+			z.number().positive("Requis pour un forfait").optional()
+		),
 		carryOver: z.boolean(),
 		prestationStartDate: z.string().optional(),
 		startDate: z.string().min(1, "Date de début requise"),
@@ -46,13 +50,14 @@ const schema = z
 		message: "La date de fin doit être après la date de début",
 		path: ["endDate"],
 	})
-	.refine(
-		(d) => !d.prestationStartDate || !d.startDate || d.prestationStartDate < d.startDate,
-		{
-			message: "Le début de prestation doit être avant la date de début du contrat",
-			path: ["prestationStartDate"],
-		}
-	)
+	.refine((d) => !d.prestationStartDate || !d.startDate || d.prestationStartDate < d.startDate, {
+		message: "Le début de prestation doit être avant la date de début du contrat",
+		path: ["prestationStartDate"],
+	})
+	.refine((d) => d.type !== "forfait" || (d.budgetAmount && d.budgetAmount > 0), {
+		message: "Budget requis pour un contrat forfait",
+		path: ["budgetAmount"],
+	})
 
 type FormValues = z.infer<typeof schema>
 
@@ -129,6 +134,7 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 					id: defaultValues.id,
 					type: values.type,
 					daysPerMonth: values.type === "tma" ? values.daysPerMonth : undefined,
+					budgetAmount: values.type === "forfait" ? values.budgetAmount : undefined,
 					carryOver: values.carryOver,
 					prestationStartDate: values.type === "tma" ? values.prestationStartDate : undefined,
 					startDate: values.startDate,
@@ -201,6 +207,23 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 				</div>
 			)}
 
+			{/* Budget amount — only for Forfait */}
+			{contractType === "forfait" && (
+				<div className="space-y-1.5">
+					<Label htmlFor="budgetAmount">Budget forfait (€) *</Label>
+					<Input
+						id="budgetAmount"
+						type="number"
+						step="100"
+						placeholder="Ex: 15000"
+						{...register("budgetAmount")}
+					/>
+					{errors.budgetAmount && (
+						<p className="text-xs text-red-500">{errors.budgetAmount.message}</p>
+					)}
+				</div>
+			)}
+
 			{/* Carry-over switch */}
 			{contractType === "tma" && (
 				<div className="flex items-center justify-between">
@@ -218,27 +241,21 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 				<div className="space-y-1.5">
 					<Label>Début de prestation</Label>
 					<p className="text-xs text-fg-muted">
-						Si la prestation commence avant le contrat, les jours seront comptés sur le premier mois.
+						Si la prestation commence avant le contrat, les jours seront comptés sur le premier
+						mois.
 					</p>
 					<DateSelector
 						value={
-							watch("prestationStartDate")
-								? parseISO(watch("prestationStartDate")!)
-								: undefined
+							watch("prestationStartDate") ? parseISO(watch("prestationStartDate")!) : undefined
 						}
 						onValueChange={(date) =>
-							setValue(
-								"prestationStartDate",
-								date ? format(date, "yyyy-MM-dd") : undefined
-							)
+							setValue("prestationStartDate", date ? format(date, "yyyy-MM-dd") : undefined)
 						}
 						placeholder="Optionnel…"
 						className="w-full"
 					/>
 					{errors.prestationStartDate && (
-						<p className="text-xs text-red-500">
-							{errors.prestationStartDate.message}
-						</p>
+						<p className="text-xs text-red-500">{errors.prestationStartDate.message}</p>
 					)}
 				</div>
 			)}
