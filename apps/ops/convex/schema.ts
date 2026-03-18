@@ -212,6 +212,14 @@ export default defineSchema({
 		lastSyncedAt: v.number(),
 	}).index("by_name", ["name"]),
 
+	settings: defineTable({
+		userId: v.string(),
+		key: v.string(),
+		value: v.string(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_key", ["userId", "key"]),
+
 	bookmarkCollections: defineTable({
 		userId: v.string(),
 		name: v.string(),

@@ -74,6 +74,10 @@ export default function BookmarksPageClient() {
 	// Tags query (lifted from BookmarkCard to avoid N+1)
 	const allTags = useQuery(api.tags.list)
 
+	// Read Later setting
+	const readLaterCollectionId = useQuery(api.settings.get, { key: "readLaterCollectionId" })
+	const moveBookmark = useMutation(api.bookmarks.move)
+
 	// Mutations
 	const archiveBookmark = useMutation(api.bookmarks.archive)
 	const removeBookmark = useMutation(api.bookmarks.remove)
@@ -133,6 +137,16 @@ export default function BookmarksPageClient() {
 		try {
 			await updateBookmark({ id: bookmark._id, pinned: !bookmark.pinned })
 			toast.success(bookmark.pinned ? "Désépinglé" : "Épinglé")
+		} catch {
+			toast.error("Erreur")
+		}
+	}
+
+	const handleReadLater = async (id: Id<"bookmarks">) => {
+		if (!readLaterCollectionId) return
+		try {
+			await moveBookmark({ ids: [id], collectionId: readLaterCollectionId as Id<"bookmarkCollections"> })
+			toast.success("Ajouté à Read Later")
 		} catch {
 			toast.error("Erreur")
 		}
@@ -248,6 +262,7 @@ export default function BookmarksPageClient() {
 									onArchive={() => handleArchive(bk._id)}
 									onDelete={() => handleDelete(bk._id)}
 									onPin={() => handlePin(bk)}
+									onReadLater={readLaterCollectionId ? () => handleReadLater(bk._id) : undefined}
 								/>
 							))}
 						</div>

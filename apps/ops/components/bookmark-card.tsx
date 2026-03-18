@@ -18,6 +18,7 @@ import {
 } from "@blazz/ui/components/ui/dropdown-menu"
 import {
 	Archive,
+	BookmarkPlus,
 	Globe,
 	Image,
 	MoreVertical,
@@ -49,6 +50,7 @@ interface BookmarkCardProps {
 	onArchive: () => void
 	onDelete: () => void
 	onPin: () => void
+	onReadLater?: () => void
 }
 
 function YouTubePlayerDialog({
@@ -185,6 +187,7 @@ export function BookmarkCard({
 	onArchive,
 	onDelete,
 	onPin,
+	onReadLater,
 }: BookmarkCardProps) {
 	const config = TYPE_CONFIG[bookmark.type] ?? TYPE_CONFIG.link
 	const [playerOpen, setPlayerOpen] = useState(false)
@@ -247,6 +250,12 @@ export function BookmarkCard({
 							)}
 							{bookmark.pinned ? "Désépingler" : "Épingler"}
 						</DropdownMenuItem>
+						{onReadLater && (
+							<DropdownMenuItem onClick={onReadLater}>
+								<BookmarkPlus className="size-4 mr-2" />
+								Read Later
+							</DropdownMenuItem>
+						)}
 						<DropdownMenuItem onClick={onEdit}>
 							<Pencil className="size-4 mr-2" />
 							Modifier
