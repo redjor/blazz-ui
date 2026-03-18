@@ -151,8 +151,22 @@ export default function TodayPageClient() {
 															: "var(--color-fg-muted)",
 													}}
 												/>
-												<span className="min-w-0 flex-1 truncate text-sm text-fg">
-													{entry.description || project?.name || "—"}
+												<span className="min-w-0 flex-1">
+													<span className="truncate text-sm text-fg block">
+														{entry.description || project?.name || "—"}
+													</span>
+													{entry.tags && entry.tags.length > 0 && (
+														<span className="flex gap-1 mt-0.5">
+															{entry.tags.map((tag) => (
+																<span
+																	key={tag}
+																	className="inline-block rounded-full bg-surface-3 px-1.5 py-0 text-[11px] text-fg-muted"
+																>
+																	{tag}
+																</span>
+															))}
+														</span>
+													)}
 												</span>
 												<span className="shrink-0 text-xs text-fg-muted">
 													{project?.name ?? "—"}
@@ -296,6 +310,7 @@ export default function TodayPageClient() {
 								description: editingEntry.description,
 								billable: editingEntry.billable,
 								status: editingEntry.status,
+								tags: editingEntry.tags,
 							}}
 							onSuccess={() => setEditingEntry(null)}
 							onCancel={() => setEditingEntry(null)}
