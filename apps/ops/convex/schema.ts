@@ -211,4 +211,45 @@ export default defineSchema({
 		unpackedSize: v.optional(v.number()),
 		lastSyncedAt: v.number(),
 	}).index("by_name", ["name"]),
+
+	bookmarkCollections: defineTable({
+		userId: v.string(),
+		name: v.string(),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
+		parentId: v.optional(v.id("bookmarkCollections")),
+		order: v.number(),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_parent", ["parentId"]),
+
+	bookmarks: defineTable({
+		userId: v.string(),
+		url: v.string(),
+		type: v.union(
+			v.literal("tweet"),
+			v.literal("youtube"),
+			v.literal("image"),
+			v.literal("video"),
+			v.literal("link")
+		),
+		title: v.optional(v.string()),
+		description: v.optional(v.string()),
+		thumbnailUrl: v.optional(v.string()),
+		thumbnailStorageId: v.optional(v.id("_storage")),
+		author: v.optional(v.string()),
+		siteName: v.optional(v.string()),
+		embedUrl: v.optional(v.string()),
+		collectionId: v.optional(v.id("bookmarkCollections")),
+		tags: v.optional(v.array(v.id("tags"))),
+		notes: v.optional(v.string()),
+		pinned: v.boolean(),
+		archivedAt: v.optional(v.number()),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_collection", ["userId", "collectionId"])
+		.index("by_user_type", ["userId", "type"])
+		.index("by_user_archived", ["userId", "archivedAt"]),
 })
