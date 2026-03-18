@@ -593,9 +593,12 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					</Card>
 					<Card>
 						<CardContent className="p-4">
-							<p className="text-xs text-fg-muted mb-1">Heures</p>
+							<p className="text-xs text-fg-muted mb-1">Temps passé</p>
 							<p className="text-xl font-semibold font-pixel">
 								{formatMinutes(stats.totalMinutes)}
+							</p>
+							<p className="text-xs text-fg-muted mt-1 tabular-nums">
+								{(stats.totalMinutes / (project.hoursPerDay * 60)).toFixed(1).replace(".", ",")} jours
 							</p>
 						</CardContent>
 					</Card>
