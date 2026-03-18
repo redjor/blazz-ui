@@ -191,15 +191,23 @@ export function BookmarkFormDialog({
 		[fetchMetadata],
 	)
 
+	const createTag = useMutation(api.tags.create)
+
 	// Convert tag names to IDs, creating missing tags
 	const resolveTagIds = async (names: string[]): Promise<Id<"tags">[]> => {
 		if (!allTags) return []
-		return names
-			.map((name) => {
-				const found = allTags.find((t) => t.name === name.toLowerCase())
-				return found?._id
-			})
-			.filter(Boolean) as Id<"tags">[]
+		const ids: Id<"tags">[] = []
+		for (const name of names) {
+			const normalized = name.trim().toLowerCase()
+			const found = allTags.find((t) => t.name === normalized)
+			if (found) {
+				ids.push(found._id)
+			} else {
+				const newId = await createTag({ name: normalized, color: "#6b7280" })
+				ids.push(newId)
+			}
+		}
+		return ids
 	}
 
 	const onSubmit = async (values: FormValues) => {
@@ -271,6 +279,11 @@ export function BookmarkFormDialog({
 								disabled={isEdit}
 								{...register("url")}
 								onPaste={handlePaste}
+								onBlur={(e) => {
+									if (!isEdit && e.target.value) {
+										fetchMetadata(e.target.value)
+									}
+								}}
 							/>
 							{fetchingMetadata && (
 								<div className="absolute right-2 top-1/2 -translate-y-1/2">

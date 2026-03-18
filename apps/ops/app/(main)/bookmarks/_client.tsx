@@ -4,6 +4,13 @@ import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { Input } from "@blazz/ui/components/ui/input"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { Bookmark, Plus, Search } from "lucide-react"
@@ -51,6 +58,7 @@ export default function BookmarksPageClient() {
 	const [typeFilter, setTypeFilter] = useState<
 		"tweet" | "youtube" | "image" | "video" | "link" | undefined
 	>(undefined)
+	const [tagFilter, setTagFilter] = useState<Id<"tags"> | undefined>(undefined)
 	const [searchQuery, setSearchQuery] = useState("")
 	const [debouncedSearch, setDebouncedSearch] = useState("")
 	const searchTimer = useRef<ReturnType<typeof setTimeout>>(null)
@@ -63,6 +71,9 @@ export default function BookmarksPageClient() {
 		undefined,
 	)
 
+	// Tags query (lifted from BookmarkCard to avoid N+1)
+	const allTags = useQuery(api.tags.list)
+
 	// Mutations
 	const archiveBookmark = useMutation(api.bookmarks.archive)
 	const removeBookmark = useMutation(api.bookmarks.remove)
@@ -73,6 +84,7 @@ export default function BookmarksPageClient() {
 		collectionId:
 			activeFilter.type === "collection" ? activeFilter.collectionId : undefined,
 		type: typeFilter,
+		tag: tagFilter,
 		archived: activeFilter.type === "archived" ? true : undefined,
 		search: debouncedSearch || undefined,
 	})
@@ -148,6 +160,32 @@ export default function BookmarksPageClient() {
 					))}
 				</div>
 
+				{/* Tag filter */}
+				{allTags && allTags.length > 0 && (
+					<Select
+						value={tagFilter ?? ""}
+						onValueChange={(val) =>
+							setTagFilter(val ? (val as Id<"tags">) : undefined)
+						}
+						items={[
+							{ value: "", label: "Tous les tags" },
+							...allTags.map((t) => ({ value: t._id, label: t.name })),
+						]}
+					>
+						<SelectTrigger className="w-40 h-8">
+							<SelectValue placeholder="Tous les tags" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="">Tous les tags</SelectItem>
+							{allTags.map((t) => (
+								<SelectItem key={t._id} value={t._id}>
+									{t.name}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				)}
+
 				{/* Search */}
 				<div className="relative ml-auto w-56">
 					<Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-fg-muted" />
@@ -204,6 +242,7 @@ export default function BookmarksPageClient() {
 								<BookmarkCard
 									key={bk._id}
 									bookmark={bk}
+									tags={allTags}
 									onEdit={() => setEditBookmark(bk)}
 									onArchive={() => handleArchive(bk._id)}
 									onDelete={() => handleDelete(bk._id)}

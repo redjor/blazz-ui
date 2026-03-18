@@ -12,7 +12,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
-import { useQuery } from "convex/react"
 import {
 	Archive,
 	Globe,
@@ -24,7 +23,6 @@ import {
 	Play,
 	Trash2,
 } from "lucide-react"
-import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
 
 const TYPE_CONFIG: Record<
@@ -40,6 +38,7 @@ const TYPE_CONFIG: Record<
 
 interface BookmarkCardProps {
 	bookmark: Doc<"bookmarks">
+	tags?: { _id: string; name: string; color: string }[]
 	onEdit: () => void
 	onArchive: () => void
 	onDelete: () => void
@@ -135,17 +134,17 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 
 export function BookmarkCard({
 	bookmark,
+	tags: allTags,
 	onEdit,
 	onArchive,
 	onDelete,
 	onPin,
 }: BookmarkCardProps) {
-	const allTags = useQuery(api.tags.list)
 	const config = TYPE_CONFIG[bookmark.type] ?? TYPE_CONFIG.link
 
 	const tagDocs = bookmark.tags
 		?.map((id) => allTags?.find((t) => t._id === id))
-		.filter(Boolean) as Doc<"tags">[] | undefined
+		.filter(Boolean) as { _id: string; name: string; color: string }[] | undefined
 
 	return (
 		<Card className="group relative overflow-hidden transition-shadow hover:shadow-md">
@@ -229,7 +228,28 @@ export function BookmarkCard({
 					</p>
 				</a>
 
-				{(bookmark.author || bookmark.siteName) && (
+				{bookmark.type === "link" && bookmark.description && (
+					<p className="text-xs text-fg-muted line-clamp-2">
+						{bookmark.description}
+					</p>
+				)}
+
+				{bookmark.type === "tweet" && (
+					<>
+						{(bookmark.author || bookmark.siteName) && (
+							<p className="text-xs text-fg-muted truncate">
+								{bookmark.author || bookmark.siteName}
+							</p>
+						)}
+						{bookmark.description && (
+							<p className="text-xs text-fg-muted line-clamp-2">
+								{bookmark.description}
+							</p>
+						)}
+					</>
+				)}
+
+				{bookmark.type !== "tweet" && (bookmark.author || bookmark.siteName) && (
 					<p className="text-xs text-fg-muted truncate">
 						{bookmark.author || bookmark.siteName}
 					</p>
