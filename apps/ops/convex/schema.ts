@@ -45,6 +45,7 @@ export default defineSchema({
 		type: v.union(v.literal("tma"), v.literal("forfait"), v.literal("regie")),
 		daysPerMonth: v.optional(v.number()),
 		carryOver: v.boolean(),
+		budgetAmount: v.optional(v.number()),
 		prestationStartDate: v.optional(v.string()),
 		startDate: v.string(),
 		endDate: v.string(),
