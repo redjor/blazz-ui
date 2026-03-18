@@ -16,9 +16,10 @@ export const list = query({
 		type: v.optional(bookmarkTypeValidator),
 		tag: v.optional(v.id("tags")),
 		archived: v.optional(v.boolean()),
+		uncategorized: v.optional(v.boolean()),
 		search: v.optional(v.string()),
 	},
-	handler: async (ctx, { collectionId, type, tag, archived, search }) => {
+	handler: async (ctx, { collectionId, type, tag, archived, uncategorized, search }) => {
 		const { userId } = await requireAuth(ctx)
 
 		let results
@@ -43,6 +44,10 @@ export const list = query({
 			results = results.filter((b) => b.archivedAt != null)
 		} else {
 			results = results.filter((b) => b.archivedAt == null)
+		}
+
+		if (uncategorized) {
+			results = results.filter((b) => !b.collectionId)
 		}
 
 		if (tag) {

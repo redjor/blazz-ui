@@ -86,6 +86,7 @@ export default function BookmarksPageClient() {
 		type: typeFilter,
 		tag: tagFilter,
 		archived: activeFilter.type === "archived" ? true : undefined,
+		uncategorized: activeFilter.type === "uncategorized" ? true : undefined,
 		search: debouncedSearch || undefined,
 	})
 

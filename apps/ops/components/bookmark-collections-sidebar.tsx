@@ -13,6 +13,7 @@ import {
 	Bookmark,
 	ChevronRight,
 	FolderOpen,
+	Inbox,
 	MoreHorizontal,
 	Pencil,
 	Plus,
@@ -24,7 +25,7 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 
 export interface CollectionFilter {
-	type: "all" | "collection" | "archived"
+	type: "all" | "collection" | "uncategorized" | "archived"
 	collectionId?: Id<"bookmarkCollections">
 }
 
@@ -92,6 +93,16 @@ export function BookmarkCollectionsSidebar({
 				<span className="truncate">Tous les bookmarks</span>
 			</button>
 
+			{/* Uncategorized */}
+			<button
+				type="button"
+				onClick={() => onSelect({ type: "uncategorized" })}
+				className={itemClass(activeFilter.type === "uncategorized")}
+			>
+				<Inbox className="size-4 shrink-0" />
+				<span className="truncate">Non trié</span>
+			</button>
+
 			{/* Collections header */}
 			<div className="flex items-center justify-between pt-3 pb-1 px-2">
 				<span className="text-xs font-medium uppercase tracking-wider text-fg-muted">
@@ -118,21 +129,6 @@ export function BookmarkCollectionsSidebar({
 				return (
 					<div key={col._id}>
 						<div className="group flex items-center">
-							{/* Expand toggle */}
-							<button
-								type="button"
-								onClick={() => hasChildren && toggleExpand(col._id)}
-								className={`flex size-5 shrink-0 items-center justify-center rounded ${
-									hasChildren ? "hover:bg-surface cursor-pointer" : "opacity-0"
-								}`}
-							>
-								<ChevronRight
-									className={`size-3 text-fg-muted transition-transform ${
-										isExpanded ? "rotate-90" : ""
-									}`}
-								/>
-							</button>
-
 							{/* Collection name */}
 							<button
 								type="button"
@@ -143,6 +139,17 @@ export function BookmarkCollectionsSidebar({
 									{col.icon || <FolderOpen className="size-4" />}
 								</span>
 								<span className="truncate">{col.name}</span>
+								{hasChildren && (
+									<ChevronRight
+										className={`size-3 ml-auto text-fg-muted transition-transform shrink-0 ${
+											isExpanded ? "rotate-90" : ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation()
+											toggleExpand(col._id)
+										}}
+									/>
+								)}
 							</button>
 
 							{/* Context menu */}

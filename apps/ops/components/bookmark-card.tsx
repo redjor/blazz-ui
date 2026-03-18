@@ -7,6 +7,10 @@ import {
 	CardContent,
 } from "@blazz/ui/components/ui/card"
 import {
+	Dialog,
+	DialogContent,
+} from "@blazz/ui/components/ui/dialog"
+import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -22,7 +26,9 @@ import {
 	PinOff,
 	Play,
 	Trash2,
+	X,
 } from "lucide-react"
+import { useState } from "react"
 import type { Doc } from "@/convex/_generated/dataModel"
 
 const TYPE_CONFIG: Record<
@@ -43,6 +49,46 @@ interface BookmarkCardProps {
 	onArchive: () => void
 	onDelete: () => void
 	onPin: () => void
+}
+
+function YouTubePlayerDialog({
+	open,
+	onOpenChange,
+	embedUrl,
+	title,
+}: {
+	open: boolean
+	onOpenChange: (open: boolean) => void
+	embedUrl: string
+	title?: string
+}) {
+	return (
+		<Dialog open={open} onOpenChange={onOpenChange}>
+			<DialogContent size="full" showCloseButton={false} className="!max-w-[90vw] p-0 overflow-hidden bg-black border-none ring-0">
+				<div className="relative">
+					<Button
+						size="icon-sm"
+						variant="ghost"
+						className="absolute top-2 right-2 z-10 text-white hover:bg-white/20"
+						onClick={() => onOpenChange(false)}
+					>
+						<X className="size-4" />
+					</Button>
+					<div className="aspect-video w-full">
+						{open && (
+							<iframe
+								src={`${embedUrl}?autoplay=1`}
+								title={title ?? "YouTube video"}
+								className="size-full"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowFullScreen
+							/>
+						)}
+					</div>
+				</div>
+			</DialogContent>
+		</Dialog>
+	)
 }
 
 function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
@@ -141,10 +187,20 @@ export function BookmarkCard({
 	onPin,
 }: BookmarkCardProps) {
 	const config = TYPE_CONFIG[bookmark.type] ?? TYPE_CONFIG.link
+	const [playerOpen, setPlayerOpen] = useState(false)
 
 	const tagDocs = bookmark.tags
 		?.map((id) => allTags?.find((t) => t._id === id))
 		.filter(Boolean) as { _id: string; name: string; color: string }[] | undefined
+
+	const isYouTubePlayable = bookmark.type === "youtube" && bookmark.embedUrl
+
+	const handleThumbnailClick = (e: React.MouseEvent) => {
+		if (isYouTubePlayable) {
+			e.preventDefault()
+			setPlayerOpen(true)
+		}
+	}
 
 	return (
 		<Card className="group relative overflow-hidden transition-shadow hover:shadow-md">
@@ -152,10 +208,21 @@ export function BookmarkCard({
 				href={bookmark.url}
 				target="_blank"
 				rel="noopener noreferrer"
-				className="block"
+				className="block cursor-pointer"
+				onClick={handleThumbnailClick}
 			>
 				<ThumbnailArea bookmark={bookmark} />
 			</a>
+
+			{/* YouTube player modal */}
+			{isYouTubePlayable && (
+				<YouTubePlayerDialog
+					open={playerOpen}
+					onOpenChange={setPlayerOpen}
+					embedUrl={bookmark.embedUrl!}
+					title={bookmark.title ?? undefined}
+				/>
+			)}
 
 			{/* 3-dot menu */}
 			<div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
