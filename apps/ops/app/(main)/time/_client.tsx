@@ -282,6 +282,28 @@ export default function TimePageClient() {
 				},
 			},
 			{
+				id: "tags",
+				accessorFn: (row) => (row.tags ?? []).join(", "),
+				header: "Tags",
+				cell: ({ row }) => {
+					const tags = row.original.tags
+					if (!tags || tags.length === 0) return <span className="text-fg-muted">—</span>
+					return (
+						<span className="flex gap-1 flex-wrap">
+							{tags.map((tag) => (
+								<span
+									key={tag}
+									className="inline-block rounded-full bg-surface-3 px-1.5 py-0 text-[11px] text-fg-muted"
+								>
+									{tag}
+								</span>
+							))}
+						</span>
+					)
+				},
+				enableSorting: false,
+			},
+			{
 				accessorKey: "minutes",
 				header: "Durée",
 				enableSorting: true,
@@ -869,6 +891,7 @@ export default function TimePageClient() {
 								description: editing.description,
 								billable: editing.billable,
 								status: editing.status,
+								tags: editing.tags,
 							}}
 							onSuccess={() => setEditing(null)}
 							onCancel={() => setEditing(null)}
