@@ -46,11 +46,13 @@ interface EditDefaults {
 
 interface Props {
 	defaultValues?: EditDefaults
+	/** Pre-fill date for new entries (yyyy-MM-dd) */
+	defaultDate?: string
 	onSuccess?: () => void
 	onCancel?: () => void
 }
 
-export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
+export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel }: Props) {
 	const isEdit = !!defaultValues
 	const activeProjects = useQuery(api.projects.listActive)
 	const allProjects = useQuery(isEdit ? api.projects.listAll : api.projects.listActive)
@@ -78,7 +80,7 @@ export function TimeEntryForm({ defaultValues, onSuccess, onCancel }: Props) {
 					status: defaultValues.status === "ready_to_invoice" ? "ready_to_invoice" : "draft",
 				}
 			: {
-					date: format(new Date(), "yyyy-MM-dd"),
+					date: defaultDate ?? format(new Date(), "yyyy-MM-dd"),
 					hours: 1,
 					billable: true,
 					status: "draft",
