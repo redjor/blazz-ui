@@ -14,6 +14,7 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
+import { TagInput } from "@/components/tag-input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
 import { format, parseISO } from "date-fns"
@@ -30,6 +31,7 @@ const schema = z.object({
 	description: z.string().optional(),
 	billable: z.boolean(),
 	status: z.enum(["draft", "ready_to_invoice"]).optional(),
+	tags: z.array(z.string()).optional().default([]),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -42,6 +44,7 @@ interface EditDefaults {
 	description?: string
 	billable: boolean
 	status?: "draft" | "ready_to_invoice" | "invoiced" | "paid" | null
+	tags?: string[]
 }
 
 interface Props {
@@ -56,6 +59,7 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 	const isEdit = !!defaultValues
 	const activeProjects = useQuery(api.projects.listActive)
 	const allProjects = useQuery(isEdit ? api.projects.listAll : api.projects.listActive)
+	const allTags = useQuery(api.timeEntries.distinctTags)
 	const projects = isEdit ? allProjects : activeProjects
 	const create = useMutation(api.timeEntries.create)
 	const update = useMutation(api.timeEntries.update)
@@ -78,12 +82,14 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 					billable: defaultValues.billable,
 					// Clamp to form-allowed values (invoiced/paid → show as "draft" in form)
 					status: defaultValues.status === "ready_to_invoice" ? "ready_to_invoice" : "draft",
+					tags: defaultValues.tags ?? [],
 				}
 			: {
 					date: defaultDate ?? format(new Date(), "yyyy-MM-dd"),
 					hours: 1,
 					billable: true,
 					status: "draft",
+					tags: [],
 				},
 	})
 
@@ -108,6 +114,7 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 					description: values.description,
 					billable: values.billable,
 					status: values.billable ? (values.status ?? "draft") : undefined,
+					tags: values.tags?.length ? values.tags : undefined,
 				})
 				toast.success("Entrée mise à jour")
 			} else {
@@ -119,6 +126,7 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 					description: values.description,
 					billable: values.billable,
 					status: values.billable ? (values.status ?? "draft") : undefined,
+					tags: values.tags?.length ? values.tags : undefined,
 				})
 				toast.success("Entrée ajoutée")
 				reset({
@@ -127,6 +135,7 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 					projectId: values.projectId,
 					billable: true,
 					status: "draft",
+					tags: [],
 				})
 			}
 			onSuccess?.()
@@ -213,6 +222,15 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 			<div className="space-y-1.5">
 				<Label>Description</Label>
 				<Textarea placeholder="Ce qui a été fait…" rows={3} {...register("description")} />
+			</div>
+
+			<div className="space-y-1.5">
+				<Label>Tags</Label>
+				<TagInput
+					value={watch("tags") ?? []}
+					onChange={(tags) => setValue("tags", tags)}
+					suggestions={allTags ?? []}
+				/>
 			</div>
 
 			<div className="flex items-center gap-2">
