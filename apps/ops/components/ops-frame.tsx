@@ -1,7 +1,7 @@
 "use client"
 
 import { type FeatureFlag, isEnabled } from "@/lib/features"
-import { AppFrame, type NavItem } from "@blazz/pro/components/blocks/app-frame"
+import { AppFrame, type NavGroup, type NavItem } from "@blazz/pro/components/blocks/app-frame"
 import {
 	Banknote,
 	CheckSquare,
@@ -26,47 +26,80 @@ interface NavItemWithFlag extends NavItem {
 	children?: NavItemWithFlag[]
 }
 
-const allNavItems: NavItemWithFlag[] = [
-	{ title: "Dashboard", url: "/", icon: LayoutDashboard, flag: "dashboard" },
-	{ title: "Aujourd'hui", url: "/today", icon: Sun, flag: "today" },
-	{ title: "Projets", url: "/projects", icon: FolderOpen, flag: "projects" },
-	{ title: "Clients", url: "/clients", icon: Users, flag: "clients" },
+interface NavGroupWithFlag {
+	label?: string
+	items: NavItemWithFlag[]
+}
+
+const allNavGroups: NavGroupWithFlag[] = [
 	{
-		title: "Suivi de temps",
-		url: "/time",
-		icon: Clock,
-		flag: "time",
-		children: [{ title: "Récapitulatif", url: "/recap", flag: "recap" }],
+		items: [
+			{ title: "Dashboard", url: "/", icon: LayoutDashboard, flag: "dashboard" },
+			{ title: "Aujourd'hui", url: "/today", icon: Sun, flag: "today" },
+		],
 	},
-	{ title: "Finances", url: "/finances", icon: Banknote, flag: "finances" },
-	{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
-	{ title: "Notes", url: "/notes", icon: FileText },
-	{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
-	{ title: "Packages", url: "/packages", icon: Package, flag: "packages" },
-	{ title: "Licences", url: "/licenses", icon: Key, flag: "licenses" },
-	{ title: "Paramètres", url: "/settings", icon: Settings, flag: "settings" },
+	{
+		label: "Activité",
+		items: [
+			{ title: "Clients", url: "/clients", icon: Users, flag: "clients" },
+			{ title: "Projets", url: "/projects", icon: FolderOpen, flag: "projects" },
+			{
+				title: "Suivi de temps",
+				url: "/time",
+				icon: Clock,
+				flag: "time",
+				children: [{ title: "Récapitulatif", url: "/recap", flag: "recap" }],
+			},
+			{ title: "Finances", url: "/finances", icon: Banknote, flag: "finances" },
+			{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
+		],
+	},
+	{
+		label: "Outils",
+		items: [
+			{ title: "Notes", url: "/notes", icon: FileText },
+			{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
+		],
+	},
+	{
+		label: "Admin",
+		items: [
+			{ title: "Packages", url: "/packages", icon: Package, flag: "packages" },
+			{ title: "Licences", url: "/licenses", icon: Key, flag: "licenses" },
+			{ title: "Paramètres", url: "/settings", icon: Settings, flag: "settings" },
+		],
+	},
 ]
 
-function filterByFlag(items: NavItemWithFlag[]): NavItem[] {
+function filterItems(items: NavItemWithFlag[]): NavItem[] {
 	return items
 		.filter((item) => !item.flag || isEnabled(item.flag))
 		.map((item) => {
 			const { flag, children, ...rest } = item
 			if (children?.length) {
-				const filtered = filterByFlag(children)
+				const filtered = filterItems(children)
 				return filtered.length > 0 ? { ...rest, children: filtered } : rest
 			}
 			return rest
 		})
 }
 
+function filterGroups(groups: NavGroupWithFlag[]): NavGroup[] {
+	return groups
+		.map((group) => ({
+			label: group.label,
+			items: filterItems(group.items),
+		}))
+		.filter((group) => group.items.length > 0)
+}
+
 export function OpsFrame({ children }: { children: ReactNode }) {
-	const navItems = useMemo(() => filterByFlag(allNavItems), [])
+	const navGroups = useMemo(() => filterGroups(allNavGroups), [])
 
 	return (
 		<AppFrame
 			logo={<BlazzLogo className="text-fg" />}
-			navItems={navItems}
+			navItems={navGroups}
 			sidebarFooter={<OpsUserMenu />}
 			tabs={{
 				storageKey: "ops-tabs",

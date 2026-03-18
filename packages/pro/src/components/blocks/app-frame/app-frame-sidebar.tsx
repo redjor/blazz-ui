@@ -8,6 +8,7 @@ import {
 	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
+	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
@@ -21,18 +22,18 @@ import {
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
-import type { NavItem } from "./types"
+import type { NavGroup, NavItem } from "./types"
 
 interface AppFrameSidebarProps {
 	logo?: ReactNode
-	navItems: NavItem[]
+	navGroups: NavGroup[]
 	footer?: ReactNode
 	collapsible?: "offcanvas" | "icon" | "none"
 }
 
 export function AppFrameSidebar({
 	logo,
-	navItems,
+	navGroups,
 	footer,
 	collapsible = "offcanvas",
 }: AppFrameSidebarProps) {
@@ -47,6 +48,59 @@ export function AppFrameSidebar({
 	const hasActiveChild = (items?: { url?: string }[]) =>
 		items?.some((sub) => isActive(sub.url)) ?? false
 
+	const renderItem = (item: NavItem) => {
+		if (item.children?.length) {
+			const isParentActive =
+				isActive(item.url) && !hasActiveChild(item.children)
+			return (
+				<SidebarCollapsible
+					key={item.url}
+					open={isActive(item.url) || hasActiveChild(item.children)}
+				>
+					<SidebarMenuItem>
+						<SidebarMenuCollapsibleTrigger
+							spacing="compact"
+							asChild
+							isActive={isParentActive}
+						>
+							<Link href={item.url}>
+								{item.icon && <item.icon />}
+								<span>{item.title}</span>
+							</Link>
+						</SidebarMenuCollapsibleTrigger>
+						<SidebarCollapsibleContent>
+							<SidebarMenuSub>
+								{item.children.map((sub) => (
+									<SidebarMenuSubItem
+										key={sub.url}
+										isActive={isActive(sub.url)}
+									>
+										<SidebarMenuSubButton
+											asChild
+											isActive={isActive(sub.url)}
+										>
+											<Link href={sub.url}>{sub.title}</Link>
+										</SidebarMenuSubButton>
+									</SidebarMenuSubItem>
+								))}
+							</SidebarMenuSub>
+						</SidebarCollapsibleContent>
+					</SidebarMenuItem>
+				</SidebarCollapsible>
+			)
+		}
+		return (
+			<SidebarMenuItem key={item.url}>
+				<SidebarMenuButton asChild isActive={isActive(item.url)}>
+					<Link href={item.url}>
+						{item.icon && <item.icon />}
+						<span>{item.title}</span>
+					</Link>
+				</SidebarMenuButton>
+			</SidebarMenuItem>
+		)
+	}
+
 	return (
 		<Sidebar collapsible={collapsible} className="gap-2">
 			{logo && (
@@ -57,64 +111,16 @@ export function AppFrameSidebar({
 				</SidebarHeader>
 			)}
 			<SidebarContent>
-				<SidebarGroup>
-					<SidebarGroupContent>
-						<SidebarMenu>
-							{navItems.map((item) => {
-								if (item.children?.length) {
-									const isParentActive =
-										isActive(item.url) && !hasActiveChild(item.children)
-									return (
-										<SidebarCollapsible
-											key={item.url}
-											open={isActive(item.url) || hasActiveChild(item.children)}
-										>
-											<SidebarMenuItem>
-												<SidebarMenuCollapsibleTrigger
-													spacing="compact"
-													asChild
-													isActive={isParentActive}
-												>
-													<Link href={item.url}>
-														{item.icon && <item.icon />}
-														<span>{item.title}</span>
-													</Link>
-												</SidebarMenuCollapsibleTrigger>
-												<SidebarCollapsibleContent>
-													<SidebarMenuSub>
-														{item.children.map((sub) => (
-															<SidebarMenuSubItem
-																key={sub.url}
-																isActive={isActive(sub.url)}
-															>
-																<SidebarMenuSubButton
-																	asChild
-																	isActive={isActive(sub.url)}
-																>
-																	<Link href={sub.url}>{sub.title}</Link>
-																</SidebarMenuSubButton>
-															</SidebarMenuSubItem>
-														))}
-													</SidebarMenuSub>
-												</SidebarCollapsibleContent>
-											</SidebarMenuItem>
-										</SidebarCollapsible>
-									)
-								}
-								return (
-									<SidebarMenuItem key={item.url}>
-										<SidebarMenuButton asChild isActive={isActive(item.url)}>
-											<Link href={item.url}>
-												{item.icon && <item.icon />}
-												<span>{item.title}</span>
-											</Link>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								)
-							})}
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
+				{navGroups.map((group, i) => (
+					<SidebarGroup key={group.label ?? `group-${i}`}>
+						{group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
+						<SidebarGroupContent>
+							<SidebarMenu>
+								{group.items.map(renderItem)}
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				))}
 			</SidebarContent>
 			{footer && <SidebarFooter>{footer}</SidebarFooter>}
 			<SidebarResizeHandle />

@@ -10,7 +10,8 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import { AppFrameSidebar } from "./app-frame-sidebar"
 import { AppFrameTabBar, tabClickNavRef } from "./app-frame-tab-bar"
 import { AppFrameTopBar } from "./app-frame-top-bar"
-import type { AppFrameProps, AppTopBarState, BreadcrumbItem, NavItem } from "./types"
+import type { AppFrameProps, AppTopBarState, BreadcrumbItem, NavGroup, NavItem } from "./types"
+import { flattenNavGroups, toNavGroups } from "./types"
 
 // ---------------------------------------------------------------------------
 // Top bar context — pages set breadcrumbs + actions via useAppTopBar
@@ -58,13 +59,14 @@ export function AppFrame({
 	className,
 	children,
 }: AppFrameProps) {
-	const titleResolver = useMemo(() => makeTitleResolver(navItems), [navItems])
+	const groups = useMemo(() => toNavGroups(navItems), [navItems])
+	const titleResolver = useMemo(() => makeTitleResolver(flattenNavGroups(groups)), [groups])
 
 	if (tabs) {
 		return (
 			<AppFrameWithTabs
 				logo={logo}
-				navItems={navItems}
+				navGroups={groups}
 				sidebarFooter={sidebarFooter}
 				sidebarCollapsible={sidebarCollapsible}
 				tabs={tabs}
@@ -79,7 +81,7 @@ export function AppFrame({
 	return (
 		<AppFrameNoTabs
 			logo={logo}
-			navItems={navItems}
+			navGroups={groups}
 			sidebarFooter={sidebarFooter}
 			sidebarCollapsible={sidebarCollapsible}
 			className={className}
@@ -93,14 +95,15 @@ export function AppFrame({
 // With tabs — wraps in TabsProvider + uses tabs hooks
 // ---------------------------------------------------------------------------
 
-interface AppFrameWithTabsProps extends Omit<AppFrameProps, "tabs" | "rounded"> {
+interface AppFrameWithTabsProps extends Omit<AppFrameProps, "tabs" | "rounded" | "navItems"> {
+	navGroups: NavGroup[]
 	tabs: NonNullable<AppFrameProps["tabs"]>
 	titleResolver: (pathname: string) => string
 }
 
 function AppFrameWithTabs({
 	logo,
-	navItems,
+	navGroups,
 	sidebarFooter,
 	sidebarCollapsible,
 	tabs,
@@ -121,7 +124,7 @@ function AppFrameWithTabs({
 		>
 			<AppFrameWithTabsInner
 				logo={logo}
-				navItems={navItems}
+				navGroups={navGroups}
 				sidebarFooter={sidebarFooter}
 				sidebarCollapsible={sidebarCollapsible}
 				className={className}
@@ -135,7 +138,7 @@ function AppFrameWithTabs({
 
 interface AppFrameWithTabsInnerProps {
 	logo?: ReactNode
-	navItems: NavItem[]
+	navGroups: NavGroup[]
 	sidebarFooter?: ReactNode
 	sidebarCollapsible?: "offcanvas" | "icon" | "none"
 	className?: string
@@ -145,7 +148,7 @@ interface AppFrameWithTabsInnerProps {
 
 function AppFrameWithTabsInner({
 	logo,
-	navItems,
+	navGroups,
 	sidebarFooter,
 	sidebarCollapsible,
 	className,
@@ -200,7 +203,7 @@ function AppFrameWithTabsInner({
 					navigation={
 						<AppFrameSidebar
 							logo={logo}
-							navItems={navItems}
+							navGroups={navGroups}
 							footer={sidebarFooter}
 							collapsible={sidebarCollapsible}
 						/>
@@ -229,7 +232,7 @@ function AppFrameWithTabsInner({
 
 interface AppFrameNoTabsProps {
 	logo?: ReactNode
-	navItems: NavItem[]
+	navGroups: NavGroup[]
 	sidebarFooter?: ReactNode
 	sidebarCollapsible?: "offcanvas" | "icon" | "none"
 	className?: string
@@ -238,7 +241,7 @@ interface AppFrameNoTabsProps {
 
 function AppFrameNoTabs({
 	logo,
-	navItems,
+	navGroups,
 	sidebarFooter,
 	sidebarCollapsible,
 	className,
@@ -256,7 +259,7 @@ function AppFrameNoTabs({
 					navigation={
 						<AppFrameSidebar
 							logo={logo}
-							navItems={navItems}
+							navGroups={navGroups}
 							footer={sidebarFooter}
 							collapsible={sidebarCollapsible}
 						/>
