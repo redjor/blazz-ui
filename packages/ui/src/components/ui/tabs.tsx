@@ -51,7 +51,7 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
 		<TabsPrimitive.Tab
 			data-slot="tabs-trigger"
 			className={cn(
-				"gap-1.5 rounded-md border border-transparent px-1.5 py-0.5 text-sm font-medium",
+				"gap-1.5 rounded-md border border-transparent pl-2.5 pr-1.5 py-0.5 text-sm font-medium h-8",
 				"[&_svg:not([class*='size-'])]:size-4",
 				"text-fg-muted hover:text-fg",
 				"relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center whitespace-nowrap transition-all",
