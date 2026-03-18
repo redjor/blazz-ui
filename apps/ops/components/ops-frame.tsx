@@ -4,6 +4,7 @@ import { type FeatureFlag, isEnabled } from "@/lib/features"
 import { AppFrame, type NavGroup, type NavItem } from "@blazz/pro/components/blocks/app-frame"
 import {
 	Banknote,
+	Bookmark,
 	CheckSquare,
 	Clock,
 	FolderOpen,
@@ -58,6 +59,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 		label: "Outils",
 		items: [
 			{ title: "Notes", url: "/notes", icon: FileText },
+			{ title: "Bookmarks", url: "/bookmarks", icon: Bookmark, flag: "bookmarks" },
 			{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
 		],
 	},
