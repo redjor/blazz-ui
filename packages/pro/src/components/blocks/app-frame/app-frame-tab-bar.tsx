@@ -60,8 +60,11 @@ export function AppFrameTabBar({
 							)
 						}}
 						onAddTab={() => {
-							addTab({ url: defaultNewTabUrl, title: defaultNewTabTitle, deduplicate: false })
-							router.push(defaultNewTabUrl)
+							const activeTab = tabs.find((t) => t.id === activeTabId)
+							const url = activeTab?.url ?? defaultNewTabUrl
+							const title = activeTab?.title ?? defaultNewTabTitle
+							addTab({ url, title, deduplicate: false })
+							router.push(url)
 						}}
 					>
 						{tabs.map((tab) => (
