@@ -289,3 +289,23 @@ export const listPaginated = query({
 		return filtered.paginate(paginationOpts)
 	},
 })
+
+export const distinctTags = query({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const entries = await ctx.db
+			.query("timeEntries")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const tagSet = new Set<string>()
+		for (const entry of entries) {
+			if (entry.tags) {
+				for (const tag of entry.tags) {
+					tagSet.add(tag)
+				}
+			}
+		}
+		return [...tagSet].sort()
+	},
+})
