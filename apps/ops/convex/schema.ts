@@ -107,6 +107,7 @@ export default defineSchema({
 				v.literal("paid")
 			)
 		),
+		tags: v.optional(v.array(v.string())),
 		createdAt: v.number(),
 	})
 		.index("by_project", ["projectId"])
