@@ -10,6 +10,7 @@ import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { JSONContent } from "@tiptap/react"
 import { FileText, FolderOpen, Loader2, Pin, Plus, Trash2 } from "lucide-react"
+import { useTabTitle } from "@blazz/tabs"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { ChangeEvent } from "react"
@@ -196,6 +197,13 @@ export function EntityNotesPanel({
 	)
 
 	const treeData = useMemo(() => buildTreeData(noteList, scope), [noteList, scope])
+
+	// Update browser tab title with selected note
+	useTabTitle(
+		scope === "all" && selectedNote
+			? `Notes · ${getDisplayTitle(selectedNote)}`
+			: "Notes"
+	)
 
 	// Auto-expand all groups on first load
 	useEffect(() => {

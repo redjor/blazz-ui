@@ -40,6 +40,28 @@ export default defineSchema({
 		.index("by_user_client", ["userId", "clientId"])
 		.index("by_user_status", ["userId", "status"]),
 
+	notes: defineTable({
+		userId: v.string(),
+		entityType: v.union(
+			v.literal("client"),
+			v.literal("project"),
+			v.literal("contract"),
+			v.literal("invoice"),
+			v.literal("todo"),
+			v.literal("general")
+		),
+		entityId: v.optional(v.string()),
+		title: v.string(),
+		contentJson: v.optional(v.any()),
+		contentText: v.optional(v.string()),
+		pinned: v.boolean(),
+		createdAt: v.number(),
+		updatedAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_entity_updated", ["userId", "entityType", "entityId", "updatedAt"])
+		.index("by_user_updated", ["userId", "updatedAt"]),
+
 	timeEntries: defineTable({
 		userId: v.string(),
 		projectId: v.id("projects"),
