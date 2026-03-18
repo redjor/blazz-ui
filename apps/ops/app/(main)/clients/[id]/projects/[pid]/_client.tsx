@@ -38,7 +38,7 @@ import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
-import { EntityNotesPanel } from "@/components/entity-notes-panel"
+import { ProjectNotesList } from "@/components/project-notes-list"
 import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
 import { InvoiceSection } from "@/components/invoice-section"
 import { isEnabled } from "@/lib/features"
@@ -711,15 +711,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					</>
 				)}
 
-				<InlineStack align="space-between" blockAlign="center">
-					<h2 className="text-sm font-medium text-fg">Notes</h2>
-				</InlineStack>
-				<EntityNotesPanel
-					entityType="project"
-					entityId={pid}
-					emptyTitle="Aucune note projet"
-					emptyDescription="Centralise ici tes décisions, pistes, comptes-rendus et idées liées à ce projet."
-				/>
+				<ProjectNotesList projectId={pid} />
 
 				{/* Time entries DataTable */}
 				<InlineStack align="space-between" blockAlign="center">
