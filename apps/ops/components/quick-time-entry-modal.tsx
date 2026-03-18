@@ -12,13 +12,14 @@ import {
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "convex/react"
+import { useMutation, useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { useEffect } from "react"
 import { type Resolver, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import { TagInput } from "@/components/tag-input"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -26,6 +27,7 @@ const schema = z.object({
 	hours: z.coerce.number().min(0.25, "Minimum 15min").max(24),
 	description: z.string().optional(),
 	billable: z.boolean(),
+	tags: z.array(z.string()).optional().default([]),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -50,6 +52,7 @@ export function QuickTimeEntryModal({
 	date,
 }: Props) {
 	const create = useMutation(api.timeEntries.create)
+	const allTags = useQuery(api.timeEntries.distinctTags)
 
 	const {
 		register,
@@ -60,11 +63,11 @@ export function QuickTimeEntryModal({
 		formState: { errors, isSubmitting },
 	} = useForm<FormValues>({
 		resolver: zodResolver(schema) as Resolver<FormValues>,
-		defaultValues: { hours: 1, billable: true, description: "" },
+		defaultValues: { hours: 1, billable: true, description: "", tags: [] },
 	})
 
 	useEffect(() => {
-		if (open) reset({ hours: 1, billable: true, description: "" })
+		if (open) reset({ hours: 1, billable: true, description: "", tags: [] })
 	}, [open, reset])
 
 	const onSubmit = async (values: FormValues): Promise<void> => {
@@ -80,9 +83,10 @@ export function QuickTimeEntryModal({
 				hourlyRate,
 				description: values.description || undefined,
 				billable: values.billable,
+				tags: values.tags?.length ? values.tags : undefined,
 			})
 			toast.success("Entrée ajoutée")
-			reset({ hours: 1, billable: true, description: "" })
+			reset({ hours: 1, billable: true, description: "", tags: [] })
 			onOpenChange(false)
 		} catch {
 			toast.error("Une erreur est survenue")
@@ -155,6 +159,15 @@ export function QuickTimeEntryModal({
 						/>
 					</div>
 
+					<div className="space-y-1.5">
+						<Label>Tags</Label>
+						<TagInput
+							value={watch("tags") ?? []}
+							onChange={(tags) => setValue("tags", tags)}
+							suggestions={allTags ?? []}
+						/>
+					</div>
+
 					<div className="flex items-center gap-2">
 						<Checkbox
 							id="quick-billable"
@@ -171,7 +184,7 @@ export function QuickTimeEntryModal({
 							type="button"
 							variant="outline"
 							onClick={() => {
-								reset({ hours: 1, billable: true, description: "" })
+								reset({ hours: 1, billable: true, description: "", tags: [] })
 								onOpenChange(false)
 							}}
 							disabled={isSubmitting}
