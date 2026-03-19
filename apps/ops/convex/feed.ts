@@ -358,3 +358,34 @@ export const fetchNow = action({
 		await ctx.scheduler.runAfter(0, internal.feed.fetchAllFeeds)
 	},
 })
+
+export const resolveYouTubeHandle = action({
+	args: { handle: v.string() },
+	handler: async (ctx, { handle }) => {
+		await requireAuth(ctx)
+		const apiKey = process.env.YOUTUBE_API_KEY
+		if (!apiKey) throw new Error("YOUTUBE_API_KEY not configured")
+
+		// Clean handle: accept "@melvynxdev", "melvynxdev", or full URL
+		let cleanHandle = handle.trim()
+		// Extract from URL like youtube.com/@melvynxdev
+		const urlMatch = cleanHandle.match(/@([\w.-]+)/)
+		if (urlMatch) cleanHandle = urlMatch[1]
+		// Remove leading @ if present
+		cleanHandle = cleanHandle.replace(/^@/, "")
+
+		const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${cleanHandle}&key=${apiKey}`
+		const res = await fetch(url)
+		if (!res.ok) throw new Error(`YouTube API error: ${res.status}`)
+
+		const data = await res.json()
+		const channel = data.items?.[0]
+		if (!channel) return null
+
+		return {
+			channelId: channel.id as string,
+			name: channel.snippet?.title as string,
+			avatarUrl: (channel.snippet?.thumbnails?.default?.url ?? "") as string,
+		}
+	},
+})

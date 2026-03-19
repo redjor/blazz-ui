@@ -9,6 +9,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import {
@@ -19,9 +20,9 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "convex/react"
-import { Loader2 } from "lucide-react"
-import { useEffect } from "react"
+import { useAction, useMutation } from "convex/react"
+import { Check, Loader2, Search } from "lucide-react"
+import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -50,8 +51,13 @@ const TYPE_ITEMS = [
 export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialogProps) {
 	const create = useMutation(api.feedSources.create)
 	const update = useMutation(api.feedSources.update)
+	const resolveHandle = useAction(api.feed.resolveYouTubeHandle)
 
 	const isEdit = !!source
+
+	const [handleInput, setHandleInput] = useState("")
+	const [resolving, setResolving] = useState(false)
+	const [resolved, setResolved] = useState(false)
 
 	const {
 		register,
@@ -59,6 +65,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 		control,
 		reset,
 		watch,
+		setValue,
 		formState: { errors, isSubmitting },
 	} = useForm<FormValues>({
 		resolver: zodResolver(schema),
@@ -71,6 +78,8 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 
 	useEffect(() => {
 		if (open) {
+			setHandleInput("")
+			setResolved(false)
 			if (source) {
 				reset({ name: source.name, type: source.type, externalId: source.externalId })
 			} else {
@@ -78,6 +87,28 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 			}
 		}
 	}, [open, source, reset])
+
+	const handleResolve = async () => {
+		if (!handleInput.trim()) return
+		setResolving(true)
+		try {
+			const result = await resolveHandle({ handle: handleInput })
+			if (result) {
+				setValue("externalId", result.channelId)
+				if (!watch("name")) {
+					setValue("name", result.name)
+				}
+				setResolved(true)
+				toast.success(`Chaîne trouvée : ${result.name}`)
+			} else {
+				toast.error("Chaîne introuvable")
+			}
+		} catch {
+			toast.error("Erreur lors de la recherche")
+		} finally {
+			setResolving(false)
+		}
+	}
 
 	const onSubmit = async (values: FormValues) => {
 		try {
@@ -102,8 +133,6 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 		}
 	}
 
-	const externalIdLabel = selectedType === "youtube" ? "Channel ID" : "URL du flux RSS"
-
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-md">
@@ -112,19 +141,6 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 				</DialogHeader>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<BlockStack gap="400">
-						{/* Name */}
-						<BlockStack gap="150">
-							<Label htmlFor="source-name">Nom</Label>
-							<Input
-								id="source-name"
-								placeholder="Ex: Fireship, TechCrunch..."
-								{...register("name")}
-							/>
-							{errors.name && (
-								<p className="text-xs text-red-500">{errors.name.message}</p>
-							)}
-						</BlockStack>
-
 						{/* Type */}
 						<BlockStack gap="150">
 							<Label>Type</Label>
@@ -150,9 +166,67 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 							/>
 						</BlockStack>
 
+						{/* YouTube handle resolver */}
+						{selectedType === "youtube" && !isEdit && (
+							<BlockStack gap="150">
+								<Label>Handle YouTube</Label>
+								<InlineStack gap="200">
+									<Input
+										placeholder="@melvynxdev"
+										value={handleInput}
+										onChange={(e) => {
+											setHandleInput(e.target.value)
+											setResolved(false)
+										}}
+										onKeyDown={(e) => {
+											if (e.key === "Enter") {
+												e.preventDefault()
+												handleResolve()
+											}
+										}}
+										className="flex-1"
+									/>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={handleResolve}
+										disabled={resolving || !handleInput.trim()}
+										className="shrink-0"
+									>
+										{resolving ? (
+											<Loader2 className="size-3.5 animate-spin" />
+										) : resolved ? (
+											<Check className="size-3.5 text-green-500" />
+										) : (
+											<Search className="size-3.5" />
+										)}
+									</Button>
+								</InlineStack>
+								<p className="text-[11px] text-fg-muted">
+									Collez un handle (@melvynxdev) ou une URL YouTube — le Channel ID sera résolu automatiquement
+								</p>
+							</BlockStack>
+						)}
+
+						{/* Name */}
+						<BlockStack gap="150">
+							<Label htmlFor="source-name">Nom</Label>
+							<Input
+								id="source-name"
+								placeholder="Ex: Fireship, TechCrunch..."
+								{...register("name")}
+							/>
+							{errors.name && (
+								<p className="text-xs text-red-500">{errors.name.message}</p>
+							)}
+						</BlockStack>
+
 						{/* External ID */}
 						<BlockStack gap="150">
-							<Label htmlFor="source-external-id">{externalIdLabel}</Label>
+							<Label htmlFor="source-external-id">
+								{selectedType === "youtube" ? "Channel ID" : "URL du flux RSS"}
+							</Label>
 							<Input
 								id="source-external-id"
 								placeholder={
@@ -162,9 +236,9 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 								}
 								{...register("externalId")}
 							/>
-							{selectedType === "youtube" && (
+							{selectedType === "youtube" && !resolved && (
 								<p className="text-[11px] text-fg-muted">
-									Trouvable dans l'URL de la chaine : youtube.com/channel/[CHANNEL_ID]
+									Rempli automatiquement si vous utilisez le champ Handle ci-dessus
 								</p>
 							)}
 							{errors.externalId && (
