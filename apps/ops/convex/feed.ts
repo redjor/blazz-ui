@@ -72,6 +72,22 @@ export const markSourceFetched = internalMutation({
 	},
 })
 
+export const purgeOldItems = internalMutation({
+	args: { maxAgeDays: v.number() },
+	handler: async (ctx, { maxAgeDays }) => {
+		const cutoff = Date.now() - maxAgeDays * 24 * 60 * 60 * 1000
+		const all = await ctx.db.query("feedItems").collect()
+		let deleted = 0
+		for (const item of all) {
+			if (item.publishedAt < cutoff) {
+				await ctx.db.delete(item._id)
+				deleted++
+			}
+		}
+		return deleted
+	},
+})
+
 export const deleteSourceInternal = internalMutation({
 	args: { sourceId: v.id("feedSources") },
 	handler: async (ctx, { sourceId }) => {
