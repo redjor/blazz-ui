@@ -10,6 +10,7 @@ import {
 	FolderOpen,
 	Key,
 	LayoutDashboard,
+	Bell,
 	MessageSquare,
 	Package,
 	Receipt,
@@ -67,6 +68,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 			{ title: "Bookmarks", url: "/bookmarks", icon: Bookmark, flag: "bookmarks" },
 			{ title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
 			{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
+			{ title: "Notifications", url: "/notifications", icon: Bell, flag: "notifications" },
 		],
 	},
 	{
