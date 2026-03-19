@@ -218,7 +218,7 @@ http.route({
 		await ctx.runMutation(internal.notifications.internalCreate, {
 			userId,
 			source: "vercel",
-			externalId: `vercel-${deployment.id ?? Date.now()}`,
+			externalId: `vercel-${deployment.id ?? Date.now()}-${eventType}`,
 			title: `${projectName}: ${branch}`,
 			description: commitMessage.slice(0, 200) || eventType,
 			actionType: "added",
@@ -227,7 +227,7 @@ http.route({
 			authorName: "Vercel",
 			authorInitials: "VC",
 			authorColor: "#000000",
-			url: deployment.inspectorUrl ?? deployment.url ? `https://${deployment.url}` : undefined,
+			url: deployment.inspectorUrl ?? (deployment.url ? `https://${deployment.url}` : undefined),
 		})
 
 		return new Response("OK", { status: 200 })

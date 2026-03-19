@@ -12,7 +12,6 @@ type ConvexNotification = {
 	authorInitials: string
 	authorColor?: string
 	authorAvatar?: string
-	time?: string
 	read?: boolean
 	createdAt: number
 }
