@@ -97,7 +97,7 @@ export function AppFrameSidebar({
 						{item.icon && <item.icon />}
 						<span className="flex-1">{item.title}</span>
 						{item.badge != null && (
-							<Badge variant="default" className="ml-auto h-5 min-w-5 justify-center rounded-full px-1.5 text-[10px]">
+							<Badge variant="default" className="ml-auto text-[10px]">
 								{item.badge}
 							</Badge>
 						)}

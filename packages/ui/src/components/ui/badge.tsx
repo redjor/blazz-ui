@@ -19,9 +19,9 @@ const badgeVariants = cva(
 				outline: "border border-container text-fg",
 			},
 			size: {
-				xs: "h-4 px-1 gap-0.5 text-[10px] [&>svg]:size-2.5!",
-				sm: "h-5 px-1.5 gap-1 text-xs [&>svg]:size-3!",
-				md: "h-6 px-2 gap-1 text-xs [&>svg]:size-3.5!",
+				xs: "h-4 min-w-4 px-1 gap-0.5 text-[10px] [&>svg]:size-2.5!",
+				sm: "h-5 min-w-5 px-1.5 gap-1 text-xs [&>svg]:size-3!",
+				md: "h-6 min-w-6 px-2 gap-1 text-xs [&>svg]:size-3.5!",
 			},
 			fill: {
 				subtle: "",
