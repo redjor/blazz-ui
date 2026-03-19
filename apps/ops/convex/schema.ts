@@ -321,4 +321,27 @@ export default defineSchema({
 		.index("by_user_collection", ["userId", "collectionId"])
 		.index("by_user_type", ["userId", "type"])
 		.index("by_user_archived", ["userId", "archivedAt"]),
+
+	notifications: defineTable({
+		userId: v.string(),
+		source: v.union(v.literal("github"), v.literal("vercel"), v.literal("convex")),
+		externalId: v.string(),
+		title: v.string(),
+		description: v.string(),
+		actionType: v.string(),
+		status: v.optional(v.string()),
+		priority: v.optional(v.string()),
+		authorName: v.string(),
+		authorInitials: v.string(),
+		authorColor: v.optional(v.string()),
+		authorAvatar: v.optional(v.string()),
+		url: v.optional(v.string()),
+		read: v.boolean(),
+		archivedAt: v.optional(v.number()),
+		createdAt: v.number(),
+	})
+		.index("by_user_date", ["userId", "createdAt"])
+		.index("by_user_read", ["userId", "read"])
+		.index("by_user_source", ["userId", "source"])
+		.index("by_source_external", ["source", "externalId"]),
 })
