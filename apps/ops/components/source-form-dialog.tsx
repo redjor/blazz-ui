@@ -113,7 +113,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<BlockStack gap="4">
 						{/* Name */}
-						<div className="space-y-1.5">
+						<BlockStack gap="1.5">
 							<Label htmlFor="source-name">Nom</Label>
 							<Input
 								id="source-name"
@@ -123,10 +123,10 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 							{errors.name && (
 								<p className="text-xs text-red-500">{errors.name.message}</p>
 							)}
-						</div>
+						</BlockStack>
 
 						{/* Type */}
-						<div className="space-y-1.5">
+						<BlockStack gap="1.5">
 							<Label>Type</Label>
 							<Controller
 								control={control}
@@ -148,10 +148,10 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 									</Select>
 								)}
 							/>
-						</div>
+						</BlockStack>
 
 						{/* External ID */}
-						<div className="space-y-1.5">
+						<BlockStack gap="1.5">
 							<Label htmlFor="source-external-id">{externalIdLabel}</Label>
 							<Input
 								id="source-external-id"
@@ -170,7 +170,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 							{errors.externalId && (
 								<p className="text-xs text-red-500">{errors.externalId.message}</p>
 							)}
-						</div>
+						</BlockStack>
 
 						<DialogFooter>
 							<Button

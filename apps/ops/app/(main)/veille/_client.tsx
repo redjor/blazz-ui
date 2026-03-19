@@ -2,6 +2,7 @@
 
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
@@ -20,21 +21,20 @@ function FeedSkeleton() {
 	return (
 		<BlockStack gap="3">
 			{Array.from({ length: 5 }).map((_, i) => (
-				<div
-					key={i}
-					className="rounded-lg border border-edge bg-surface p-4 space-y-3"
-				>
-					<div className="flex items-center gap-2">
-						<Skeleton className="size-3.5 rounded" />
-						<Skeleton className="h-3 w-24" />
-						<Skeleton className="h-3 w-16" />
-					</div>
-					<Skeleton className="h-4 w-3/4" />
-					<div className="space-y-1.5">
-						<Skeleton className="h-3 w-full" />
-						<Skeleton className="h-3 w-2/3" />
-					</div>
-				</div>
+				<Box key={i} padding="4" background="surface" borderWidth="1" borderColor="edge" borderRadius="lg">
+					<BlockStack gap="3">
+						<InlineStack gap="2">
+							<Skeleton className="size-3.5 rounded" />
+							<Skeleton className="h-3 w-24" />
+							<Skeleton className="h-3 w-16" />
+						</InlineStack>
+						<Skeleton className="h-4 w-3/4" />
+						<BlockStack gap="1.5">
+							<Skeleton className="h-3 w-full" />
+							<Skeleton className="h-3 w-2/3" />
+						</BlockStack>
+					</BlockStack>
+				</Box>
 			))}
 		</BlockStack>
 	)
