@@ -20,8 +20,10 @@ import {
 	Sun,
 	Users,
 } from "lucide-react"
+import { useQuery } from "convex/react"
 import type { ReactNode } from "react"
 import { useMemo } from "react"
+import { api } from "@/convex/_generated/api"
 import { BlazzLogo } from "@/components/blazz-logo"
 import type { FeatureFlag } from "@/lib/features"
 import { useFeatureFlags } from "@/lib/feature-flags-context"
@@ -106,7 +108,20 @@ function filterGroups(groups: NavGroupWithFlag[], isEnabled: (flag: FeatureFlag)
 
 export function OpsFrame({ children }: { children: ReactNode }) {
 	const { isEnabled } = useFeatureFlags()
-	const navGroups = useMemo(() => filterGroups(allNavGroups, isEnabled), [isEnabled])
+	const unreadCount = useQuery(api.notifications.unreadCount)
+
+	const navGroups = useMemo(() => {
+		const filtered = filterGroups(allNavGroups, isEnabled)
+		if (!unreadCount) return filtered
+		return filtered.map((group) => ({
+			...group,
+			items: group.items.map((item) =>
+				item.url === "/notifications"
+					? { ...item, title: `Notifications (${unreadCount})` }
+					: item,
+			),
+		}))
+	}, [isEnabled, unreadCount])
 
 	return (
 		<AppFrame
