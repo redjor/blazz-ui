@@ -66,7 +66,7 @@ http.route({
 		const { verifyGitHubSignature, initialsFrom } = await import("./lib/webhooks")
 		const signature = request.headers.get("x-hub-signature-256")
 
-		if (!verifyGitHubSignature(body, signature, secret)) {
+		if (!(await verifyGitHubSignature(body, signature, secret))) {
 			return new Response("Invalid signature", { status: 401 })
 		}
 
@@ -185,7 +185,7 @@ http.route({
 		const { verifyVercelSignature } = await import("./lib/webhooks")
 		const signature = request.headers.get("x-vercel-signature")
 
-		if (!verifyVercelSignature(body, signature, secret)) {
+		if (!(await verifyVercelSignature(body, signature, secret))) {
 			return new Response("Invalid signature", { status: 401 })
 		}
 
