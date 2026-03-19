@@ -2,8 +2,7 @@ name: Release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,7 +13,7 @@ permissions:
 
 jobs:
   release:
-    name: Release @blazz/ui
+    name: Release Packages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +30,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build --filter=@blazz/ui
+      - run: pnpm lint
+
+      - run: pnpm type-check
+
+      - run: pnpm build
 
       - name: Create Release PR or Publish
         id: changesets
@@ -39,8 +42,8 @@ jobs:
         with:
           publish: pnpm release
           version: pnpm version-packages
-          title: "chore: release @blazz/ui"
-          commit: "chore: release @blazz/ui"
+          title: "chore: release packages"
+          commit: "chore: release packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
