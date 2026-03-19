@@ -28,24 +28,20 @@ export async function GET() {
 	if (!token || !projectId) {
 		return NextResponse.json(
 			{ error: "VERCEL_TOKEN ou VERCEL_PROJECT_ID manquant" },
-			{ status: 500 },
+			{ status: 500 }
 		)
 	}
 
 	const headers = { Authorization: `Bearer ${token}` }
 
 	// Fetch recent deployments
-	const res = await fetch(
-		`https://api.vercel.com/v6/deployments?projectId=${projectId}&limit=50`,
-		{ headers },
-	)
+	const res = await fetch(`https://api.vercel.com/v6/deployments?projectId=${projectId}&limit=50`, {
+		headers,
+	})
 
 	if (!res.ok) {
 		const body = await res.text()
-		return NextResponse.json(
-			{ error: `Vercel API ${res.status}: ${body}` },
-			{ status: res.status },
-		)
+		return NextResponse.json({ error: `Vercel API ${res.status}: ${body}` }, { status: res.status })
 	}
 
 	const data = await res.json()
@@ -63,10 +59,9 @@ export async function GET() {
 	// Fetch production domains from project
 	let domains: string[] = []
 	try {
-		const domainsRes = await fetch(
-			`https://api.vercel.com/v9/projects/${projectId}/domains`,
-			{ headers },
-		)
+		const domainsRes = await fetch(`https://api.vercel.com/v9/projects/${projectId}/domains`, {
+			headers,
+		})
 		if (domainsRes.ok) {
 			const domainsData = await domainsRes.json()
 			domains = (domainsData.domains ?? []).map((d: { name: string }) => d.name)

@@ -257,8 +257,8 @@ export default function DeploymentsPageClient() {
 										{formatDistanceToNow(new Date(d.created), { addSuffix: true, locale: fr })}
 										{author && (
 											<>
-												{" "}par{" "}
-												<span className="text-fg font-medium">{author}</span>
+												{" "}
+												par <span className="text-fg font-medium">{author}</span>
 											</>
 										)}
 									</span>
@@ -269,9 +269,7 @@ export default function DeploymentsPageClient() {
 									<InfoRow label="Source">
 										<InlineStack gap="100" blockAlign="center">
 											<GitCommitHorizontal className="h-3.5 w-3.5 text-fg-muted shrink-0" />
-											{sha && (
-												<span className="text-sm font-mono text-fg-muted">{sha}</span>
-											)}
+											{sha && <span className="text-sm font-mono text-fg-muted">{sha}</span>}
 											{commitMsg && (
 												<span className="text-sm text-fg line-clamp-1">{commitMsg}</span>
 											)}
