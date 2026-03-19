@@ -13,7 +13,7 @@ import { format } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Banknote, CheckCircle2, Circle, Clock, Droplets, Plus, Wind } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
@@ -32,11 +32,15 @@ export default function TodayPageClient() {
 	const isLoading =
 		todayEntries === undefined || activeProjects === undefined || todos === undefined
 
-	const billableEntries = todayEntries?.filter((e) => e.billable) ?? []
-	const totalMinutesToday = billableEntries.reduce((s, e) => s + e.minutes, 0)
-	const totalAmountToday = billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+	const { totalMinutesToday, totalAmountToday } = useMemo(() => {
+		const billable = todayEntries?.filter((e) => e.billable) ?? []
+		return {
+			totalMinutesToday: billable.reduce((s, e) => s + e.minutes, 0),
+			totalAmountToday: billable.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0),
+		}
+	}, [todayEntries])
 
-	const activeTodos = todos?.filter((t) => t.status !== "done") ?? []
+	const activeTodos = useMemo(() => todos?.filter((t) => t.status !== "done") ?? [], [todos])
 	const projectList = activeProjects ?? []
 
 	const { missingDays } = useMissingDays()

@@ -15,6 +15,7 @@ import { fr } from "date-fns/locale"
 import type { LucideIcon } from "lucide-react"
 import { Banknote, CheckSquare, Clock, CreditCard, FileText, FolderOpen, Send } from "lucide-react"
 import Link from "next/link"
+import { useMemo } from "react"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency, formatMinutes } from "@/lib/format"
 
@@ -79,13 +80,16 @@ function PipelineSkeleton() {
 // ─── Main Dashboard ───────────────────────────────────────────
 
 export default function DashboardPageClient() {
-	const now = new Date()
-	const from = format(startOfMonth(now), "yyyy-MM-dd")
-	const to = format(endOfMonth(now), "yyyy-MM-dd")
-
-	const prevMonth = subMonths(now, 1)
-	const prevStart = format(startOfMonth(prevMonth), "yyyy-MM-dd")
-	const prevEnd = format(endOfMonth(prevMonth), "yyyy-MM-dd")
+	const now = useMemo(() => new Date(), [])
+	const { from, to, prevStart, prevEnd } = useMemo(() => {
+		const prevMonth = subMonths(now, 1)
+		return {
+			from: format(startOfMonth(now), "yyyy-MM-dd"),
+			to: format(endOfMonth(now), "yyyy-MM-dd"),
+			prevStart: format(startOfMonth(prevMonth), "yyyy-MM-dd"),
+			prevEnd: format(endOfMonth(prevMonth), "yyyy-MM-dd"),
+		}
+	}, [now])
 
 	const monthEntries = useQuery(api.timeEntries.list, { from, to })
 	const prevMonthEntries = useQuery(api.timeEntries.list, { from: prevStart, to: prevEnd })
@@ -96,23 +100,39 @@ export default function DashboardPageClient() {
 	const isLoading =
 		monthEntries === undefined || prevMonthEntries === undefined || projectsWithBudget === undefined
 
-	// Current month
-	const billable = monthEntries?.filter((e) => e.billable) ?? []
-	const totalMinutes = billable.reduce((s, e) => s + e.minutes, 0)
-	const totalAmount = billable.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+	// Current month — memoized
+	const { totalMinutes, totalAmount } = useMemo(() => {
+		const billable = monthEntries?.filter((e) => e.billable) ?? []
+		return {
+			totalMinutes: billable.reduce((s, e) => s + e.minutes, 0),
+			totalAmount: billable.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0),
+		}
+	}, [monthEntries])
 
-	// Previous month (trends)
-	const prevBillable = prevMonthEntries?.filter((e) => e.billable) ?? []
-	const prevMinutes = prevBillable.reduce((s, e) => s + e.minutes, 0)
-	const prevAmount = prevBillable.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+	// Previous month (trends) — memoized
+	const { hoursTrend, revenueTrend } = useMemo(() => {
+		const prevBillable = prevMonthEntries?.filter((e) => e.billable) ?? []
+		const prevMinutes = prevBillable.reduce((s, e) => s + e.minutes, 0)
+		const prevAmount = prevBillable.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+		return {
+			hoursTrend: trendPercent(totalMinutes, prevMinutes),
+			revenueTrend: trendPercent(totalAmount, prevAmount),
+		}
+	}, [prevMonthEntries, totalMinutes, totalAmount])
 
-	const hoursTrend = trendPercent(totalMinutes, prevMinutes)
-	const revenueTrend = trendPercent(totalAmount, prevAmount)
+	const activeProjects = useMemo(
+		() => projectsWithBudget?.filter((p) => p.status === "active") ?? [],
+		[projectsWithBudget]
+	)
+	const openTodos = useMemo(
+		() => todos?.filter((t) => t.status !== "done")?.length ?? 0,
+		[todos]
+	)
 
-	const activeProjects = projectsWithBudget?.filter((p) => p.status === "active") ?? []
-	const openTodos = todos?.filter((t) => t.status !== "done")?.length ?? 0
-
-	const monthTitle = format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase())
+	const monthTitle = useMemo(
+		() => format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase()),
+		[now]
+	)
 
 	return (
 		<BlockStack gap="600" className="p-6">

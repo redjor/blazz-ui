@@ -111,12 +111,16 @@ export const getStats = query({
 			.withIndex("by_user_client", (q) => q.eq("userId", userId).eq("clientId", clientId))
 			.collect()
 
-		const projectIds = new Set(projects.map((p) => p._id))
-		const allUserEntries = await ctx.db
-			.query("timeEntries")
-			.withIndex("by_user", (q) => q.eq("userId", userId))
-			.collect()
-		const allEntries = allUserEntries.filter((e) => projectIds.has(e.projectId) && e.billable)
+		// Fetch entries per project using index (eliminates loading all user entries)
+		const entryBatches = await Promise.all(
+			projects.map((p) =>
+				ctx.db
+					.query("timeEntries")
+					.withIndex("by_user_project", (q) => q.eq("userId", userId).eq("projectId", p._id))
+					.collect()
+			)
+		)
+		const allEntries = entryBatches.flat().filter((e) => e.billable)
 
 		const calc = (filter: (e: (typeof allEntries)[number]) => boolean) =>
 			Math.round(allEntries.filter(filter).reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0))

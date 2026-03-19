@@ -10,7 +10,7 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { CheckCircle, FileText, Plus, Send } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency } from "@/lib/format"
@@ -61,17 +61,22 @@ export default function InvoicesPageClient() {
 		)
 	}
 
-	const draftTotal = invoices
-		.filter((i) => i.status === "draft")
-		.reduce((s, i) => s + i.totalAmount, 0)
-	const sentTotal = invoices
-		.filter((i) => i.status === "sent")
-		.reduce((s, i) => s + i.totalAmount, 0)
-	const paidTotal = invoices
-		.filter((i) => i.status === "paid")
-		.reduce((s, i) => s + i.totalAmount, 0)
+	const { draftTotal, draftCount, sentTotal, sentCount, paidTotal, paidCount } = useMemo(() => {
+		let draftTotal = 0, draftCount = 0
+		let sentTotal = 0, sentCount = 0
+		let paidTotal = 0, paidCount = 0
+		for (const i of invoices) {
+			if (i.status === "draft") { draftTotal += i.totalAmount; draftCount++ }
+			else if (i.status === "sent") { sentTotal += i.totalAmount; sentCount++ }
+			else if (i.status === "paid") { paidTotal += i.totalAmount; paidCount++ }
+		}
+		return { draftTotal, draftCount, sentTotal, sentCount, paidTotal, paidCount }
+	}, [invoices])
 
-	const filtered = filter === "all" ? invoices : invoices.filter((i) => i.status === filter)
+	const filtered = useMemo(
+		() => filter === "all" ? invoices : invoices.filter((i) => i.status === filter),
+		[invoices, filter]
+	)
 
 	return (
 		<BlockStack gap="600" className="p-6">
@@ -82,19 +87,19 @@ export default function InvoicesPageClient() {
 					{
 						label: "Brouillons",
 						value: formatCurrency(draftTotal / 100),
-						description: `${invoices.filter((i) => i.status === "draft").length} facture(s)`,
+						description: `${draftCount} facture(s)`,
 						icon: FileText,
 					},
 					{
 						label: "Envoyees",
 						value: formatCurrency(sentTotal / 100),
-						description: `${invoices.filter((i) => i.status === "sent").length} facture(s)`,
+						description: `${sentCount} facture(s)`,
 						icon: Send,
 					},
 					{
 						label: "Payees",
 						value: formatCurrency(paidTotal / 100),
-						description: `${invoices.filter((i) => i.status === "paid").length} facture(s)`,
+						description: `${paidCount} facture(s)`,
 						icon: CheckCircle,
 					},
 				]}

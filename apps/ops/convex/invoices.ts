@@ -46,17 +46,25 @@ export const listAll = query({
 
 		const sorted = invoices.sort((a, b) => b.createdAt - a.createdAt)
 
+		// Batch fetch all referenced clients and projects (eliminates N+1)
+		const clientIds = [...new Set(sorted.map((i) => i.clientId))]
+		const projectIds = [...new Set(sorted.filter((i) => i.projectId).map((i) => i.projectId!))]
+
+		const [clients, projects] = await Promise.all([
+			Promise.all(clientIds.map((id) => ctx.db.get(id))),
+			Promise.all(projectIds.map((id) => ctx.db.get(id))),
+		])
+
+		const clientMap = new Map(clients.filter(Boolean).map((c) => [c!._id, c!.name]))
+		const projectMap = new Map(projects.filter(Boolean).map((p) => [p!._id, p!.name]))
+
 		return Promise.all(
-			sorted.map(async (invoice) => {
-				const client = await ctx.db.get(invoice.clientId)
-				const project = await ctx.db.get(invoice.projectId)
-				return {
-					...invoice,
-					clientName: client?.name ?? "—",
-					projectName: project?.name ?? "—",
-					pdfUrl: invoice.pdfStorageId ? await ctx.storage.getUrl(invoice.pdfStorageId) : null,
-				}
-			})
+			sorted.map(async (invoice) => ({
+				...invoice,
+				clientName: clientMap.get(invoice.clientId) ?? "—",
+				projectName: invoice.projectId ? (projectMap.get(invoice.projectId) ?? "—") : "—",
+				pdfUrl: invoice.pdfStorageId ? await ctx.storage.getUrl(invoice.pdfStorageId) : null,
+			}))
 		)
 	},
 })

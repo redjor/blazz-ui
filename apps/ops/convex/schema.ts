@@ -86,7 +86,8 @@ export default defineSchema({
 	})
 		.index("by_project", ["projectId"])
 		.index("by_status", ["status"])
-		.index("by_user", ["userId"]),
+		.index("by_user", ["userId"])
+		.index("by_user_status", ["userId", "status"]),
 
 	contractFiles: defineTable({
 		userId: v.string(),
@@ -144,7 +145,9 @@ export default defineSchema({
 	})
 		.index("by_project", ["projectId"])
 		.index("by_user", ["userId"])
-		.index("by_status", ["status"]),
+		.index("by_status", ["status"])
+		.index("by_user_status", ["userId", "status"])
+		.index("by_client", ["clientId"]),
 
 	timeEntries: defineTable({
 		userId: v.string(),
@@ -291,7 +294,8 @@ export default defineSchema({
 		.index("by_user", ["userId"])
 		.index("by_user_type", ["userId", "type"])
 		.index("by_source", ["sourceId"])
-		.index("by_external", ["externalId"]),
+		.index("by_external", ["externalId"])
+		.index("by_user_published", ["userId", "publishedAt"]),
 
 	bookmarks: defineTable({
 		userId: v.string(),
@@ -343,5 +347,6 @@ export default defineSchema({
 		.index("by_user_date", ["userId", "createdAt"])
 		.index("by_user_read", ["userId", "read"])
 		.index("by_user_source", ["userId", "source"])
-		.index("by_source_external", ["source", "externalId"]),
+		.index("by_source_external", ["source", "externalId"])
+		.index("by_user_archived", ["userId", "archivedAt"]),
 })

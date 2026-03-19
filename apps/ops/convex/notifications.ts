@@ -14,17 +14,34 @@ export const list = query({
 	},
 	handler: async (ctx, { source, read, limit = 50 }) => {
 		const { userId } = await requireAuth(ctx)
-		const rows = await ctx.db
-			.query("notifications")
-			.withIndex("by_user_date", (q) => q.eq("userId", userId))
-			.order("desc")
-			.collect()
 
-		return rows
-			.filter((n) => n.archivedAt === undefined)
-			.filter((n) => (source !== undefined ? n.source === source : true))
-			.filter((n) => (read !== undefined ? n.read === read : true))
-			.slice(0, limit)
+		// Use more specific index when filtering by read or source
+		let query
+		if (read !== undefined) {
+			query = ctx.db
+				.query("notifications")
+				.withIndex("by_user_read", (q) => q.eq("userId", userId).eq("read", read))
+		} else if (source !== undefined) {
+			query = ctx.db
+				.query("notifications")
+				.withIndex("by_user_source", (q) => q.eq("userId", userId).eq("source", source))
+		} else {
+			query = ctx.db
+				.query("notifications")
+				.withIndex("by_user_date", (q) => q.eq("userId", userId))
+				.order("desc")
+		}
+
+		const rows = await query.collect()
+
+		// Apply remaining in-memory filters
+		const filtered = rows.filter((n) => {
+			if (n.archivedAt !== undefined) return false
+			if (source !== undefined && read !== undefined && n.source !== source) return false
+			return true
+		})
+
+		return filtered.slice(0, limit)
 	},
 })
 
@@ -143,16 +160,19 @@ export const cleanupOld = internalMutation({
 	handler: async (ctx) => {
 		const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
 
-		// Scan all notifications that have been archived
-		// We use a broad query since there's no index on archivedAt
-		const allNotifications = await ctx.db.query("notifications").collect()
+		// Use by_user_date index to iterate per user instead of full table scan
+		const users = await ctx.db.query("users").collect()
+		for (const user of users) {
+			const notifications = await ctx.db
+				.query("notifications")
+				.withIndex("by_user_date", (q) => q.eq("userId", user._id))
+				.collect()
 
-		const toDelete = allNotifications.filter(
-			(n) => n.archivedAt !== undefined && n.archivedAt < thirtyDaysAgo
-		)
-
-		for (const n of toDelete) {
-			await ctx.db.delete(n._id)
+			for (const n of notifications) {
+				if (n.archivedAt !== undefined && n.archivedAt < thirtyDaysAgo) {
+					await ctx.db.delete(n._id)
+				}
+			}
 		}
 	},
 })

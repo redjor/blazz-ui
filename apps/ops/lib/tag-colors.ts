@@ -66,6 +66,8 @@ export const TAG_COLORS = [
 
 export type TagColorKey = (typeof TAG_COLORS)[number]["key"]
 
+const TAG_COLOR_MAP = new Map<string, (typeof TAG_COLORS)[number]>(TAG_COLORS.map((c) => [c.key, c]))
+
 export function getTagColor(key: string) {
-	return TAG_COLORS.find((c) => c.key === key) ?? TAG_COLORS[0]
+	return TAG_COLOR_MAP.get(key) ?? TAG_COLORS[0]
 }

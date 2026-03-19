@@ -15,18 +15,34 @@ export const getItemInternal = internalQuery({
 export const listUnenrichedItems = internalQuery({
 	args: {},
 	handler: async (ctx) => {
-		const all = await ctx.db.query("feedItems").collect()
-		return all.filter((i) => !i.aiSummary)
+		// Use index-based iteration per user instead of full table scan
+		const users = await ctx.db.query("users").collect()
+		const results = []
+		for (const user of users) {
+			const items = await ctx.db
+				.query("feedItems")
+				.withIndex("by_user", (q) => q.eq("userId", user._id))
+				.collect()
+			results.push(...items.filter((i) => !i.aiSummary))
+		}
+		return results
 	},
 })
 
 export const listActiveSources = internalQuery({
 	args: {},
 	handler: async (ctx) => {
-		return ctx.db
-			.query("feedSources")
-			.filter((q) => q.eq(q.field("isActive"), true))
-			.collect()
+		// Collect all active sources across all users
+		const users = await ctx.db.query("users").collect()
+		const results = []
+		for (const user of users) {
+			const sources = await ctx.db
+				.query("feedSources")
+				.withIndex("by_user_active", (q) => q.eq("userId", user._id).eq("isActive", true))
+				.collect()
+			results.push(...sources)
+		}
+		return results
 	},
 })
 
@@ -76,10 +92,18 @@ export const purgeOldItems = internalMutation({
 	args: { maxAgeDays: v.number() },
 	handler: async (ctx, { maxAgeDays }) => {
 		const cutoff = Date.now() - maxAgeDays * 24 * 60 * 60 * 1000
-		const all = await ctx.db.query("feedItems").collect()
+
+		// Process users in batches to avoid full table scan
+		const users = await ctx.db.query("users").collect()
 		let deleted = 0
-		for (const item of all) {
-			if (item.publishedAt < cutoff) {
+		for (const user of users) {
+			const oldItems = await ctx.db
+				.query("feedItems")
+				.withIndex("by_user_published", (q) =>
+					q.eq("userId", user._id).lt("publishedAt", cutoff)
+				)
+				.collect()
+			for (const item of oldItems) {
 				await ctx.db.delete(item._id)
 				deleted++
 			}
@@ -450,14 +474,16 @@ export const seedRSSSources = internalMutation({
 			{ name: "AI Snake Oil", url: "https://www.aisnakeoil.com/feed" },
 		]
 
+		// Fetch existing sources ONCE (not per iteration)
+		const existing = await ctx.db
+			.query("feedSources")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const existingUrls = new Set(existing.map((e) => e.externalId))
+
 		let added = 0
 		for (const s of sources) {
-			// Skip if already exists
-			const existing = await ctx.db
-				.query("feedSources")
-				.withIndex("by_user", (q) => q.eq("userId", userId))
-				.collect()
-			if (existing.some((e) => e.externalId === s.url)) continue
+			if (existingUrls.has(s.url)) continue
 
 			await ctx.db.insert("feedSources", {
 				userId,
