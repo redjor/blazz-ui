@@ -32,16 +32,15 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 			as="article"
 			padding="4"
 			background="surface"
-			borderWidth="1"
-			borderColor="edge"
+			border="default"
 			borderRadius="lg"
 			className="cursor-pointer transition-colors hover:bg-raised"
 			onClick={handleClick}
 		>
-			<BlockStack gap="3">
+			<BlockStack gap="300">
 				{/* Header: source + time + favorite */}
 				<InlineStack align="space-between" blockAlign="center">
-					<InlineStack gap="2" blockAlign="center">
+					<InlineStack gap="200" blockAlign="center">
 						<SourceIcon className="size-3.5 text-fg-muted shrink-0" />
 						{sourceName && (
 							<span className="text-[13px] text-fg-muted font-medium">{sourceName}</span>
@@ -91,7 +90,7 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 						{item.aiSummary}
 					</p>
 				) : (
-					<BlockStack gap="1.5">
+					<BlockStack gap="150">
 						<Skeleton className="h-3 w-full" />
 						<Skeleton className="h-3 w-3/4" />
 					</BlockStack>
@@ -99,7 +98,7 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 
 				{/* AI tags */}
 				{item.aiTags && item.aiTags.length > 0 && (
-					<InlineStack gap="1.5" wrap>
+					<InlineStack gap="150" wrap>
 						{item.aiTags.map((tag) => (
 							<Badge key={tag} variant="secondary" className="text-[11px] px-1.5 py-0">
 								{tag}

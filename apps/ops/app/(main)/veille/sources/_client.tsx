@@ -21,12 +21,12 @@ import type { Doc } from "@/convex/_generated/dataModel"
 
 function SourcesSkeleton() {
 	return (
-		<BlockStack gap="3">
+		<BlockStack gap="300">
 			{Array.from({ length: 3 }).map((_, i) => (
-				<Box key={i} padding="4" background="surface" borderWidth="1" borderColor="edge" borderRadius="lg">
-					<InlineStack gap="3" blockAlign="center">
+				<Box key={i} padding="4" background="surface" border="default" borderRadius="lg">
+					<InlineStack gap="300" blockAlign="center">
 						<Skeleton className="size-8 rounded" />
-						<BlockStack gap="2" className="flex-1">
+						<BlockStack gap="200" className="flex-1">
 							<Skeleton className="h-4 w-40" />
 							<Skeleton className="h-3 w-24" />
 						</BlockStack>
@@ -110,7 +110,7 @@ export default function SourcesClient() {
 
 					{/* Source list */}
 					{sources && sources.length > 0 && (
-						<BlockStack gap="3">
+						<BlockStack gap="300">
 							{sources.map((source) => {
 								const Icon = source.type === "youtube" ? Youtube : Rss
 								return (
@@ -118,14 +118,13 @@ export default function SourcesClient() {
 										key={source._id}
 										padding="4"
 										background="surface"
-										borderWidth="1"
-										borderColor="edge"
+										border="default"
 										borderRadius="lg"
 									>
 										<InlineStack align="space-between" blockAlign="center">
-											<InlineStack gap="3" blockAlign="center">
+											<InlineStack gap="300" blockAlign="center">
 												<Icon className="size-5 text-fg-muted shrink-0" />
-												<BlockStack gap="1">
+												<BlockStack gap="100">
 													<button
 														type="button"
 														className="text-sm font-medium text-fg hover:text-brand text-left transition-colors"
@@ -133,7 +132,7 @@ export default function SourcesClient() {
 													>
 														{source.name}
 													</button>
-													<InlineStack gap="2" blockAlign="center">
+													<InlineStack gap="200" blockAlign="center">
 														<Badge variant="secondary" className="text-[11px]">
 															{source.type === "youtube" ? "YouTube" : "RSS"}
 														</Badge>
@@ -150,7 +149,7 @@ export default function SourcesClient() {
 												</BlockStack>
 											</InlineStack>
 
-											<InlineStack gap="2" blockAlign="center">
+											<InlineStack gap="200" blockAlign="center">
 												<Switch
 													checked={source.isActive}
 													onCheckedChange={() => handleToggleActive(source)}

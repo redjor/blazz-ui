@@ -19,17 +19,17 @@ type TypeFilter = "all" | "youtube" | "rss"
 
 function FeedSkeleton() {
 	return (
-		<BlockStack gap="3">
+		<BlockStack gap="300">
 			{Array.from({ length: 5 }).map((_, i) => (
-				<Box key={i} padding="4" background="surface" borderWidth="1" borderColor="edge" borderRadius="lg">
-					<BlockStack gap="3">
-						<InlineStack gap="2">
+				<Box key={i} padding="4" background="surface" border="default" borderRadius="lg">
+					<BlockStack gap="300">
+						<InlineStack gap="200">
 							<Skeleton className="size-3.5 rounded" />
 							<Skeleton className="h-3 w-24" />
 							<Skeleton className="h-3 w-16" />
 						</InlineStack>
 						<Skeleton className="h-4 w-3/4" />
-						<BlockStack gap="1.5">
+						<BlockStack gap="150">
 							<Skeleton className="h-3 w-full" />
 							<Skeleton className="h-3 w-2/3" />
 						</BlockStack>
@@ -133,7 +133,7 @@ export default function VeilleClient() {
 				</Button>
 
 				{/* Type filter pills */}
-				<InlineStack gap="1">
+				<InlineStack gap="100">
 					{TYPE_FILTERS.map((f) => (
 						<Button
 							key={f.value}
@@ -179,7 +179,7 @@ export default function VeilleClient() {
 
 					{/* Feed items */}
 					{items && items.length > 0 && (
-						<BlockStack gap="3">
+						<BlockStack gap="300">
 							{items.map((item) => (
 								<FeedItemCard
 									key={item._id}

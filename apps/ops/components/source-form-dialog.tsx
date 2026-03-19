@@ -111,9 +111,9 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 					<DialogTitle>{isEdit ? "Modifier la source" : "Ajouter une source"}</DialogTitle>
 				</DialogHeader>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<BlockStack gap="4">
+					<BlockStack gap="400">
 						{/* Name */}
-						<BlockStack gap="1.5">
+						<BlockStack gap="150">
 							<Label htmlFor="source-name">Nom</Label>
 							<Input
 								id="source-name"
@@ -126,7 +126,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 						</BlockStack>
 
 						{/* Type */}
-						<BlockStack gap="1.5">
+						<BlockStack gap="150">
 							<Label>Type</Label>
 							<Controller
 								control={control}
@@ -151,7 +151,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 						</BlockStack>
 
 						{/* External ID */}
-						<BlockStack gap="1.5">
+						<BlockStack gap="150">
 							<Label htmlFor="source-external-id">{externalIdLabel}</Label>
 							<Input
 								id="source-external-id"
