@@ -9,7 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/comp
 import { useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { AlertTriangle, Banknote, CheckCircle2, Circle, Clock, Droplets, Plus, Wind } from "lucide-react"
+import { Banner } from "@blazz/ui/components/ui/banner"
+import { Banknote, CheckCircle2, Circle, Clock, Droplets, Plus, Wind } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
@@ -109,29 +110,26 @@ export default function TodayPageClient() {
 			/>
 
 			{missingDays && missingDays.length > 0 && (
-				<InlineStack gap="300" blockAlign="center" className="rounded-lg border border-warning/30 bg-warning/5 px-4 py-3">
-					<AlertTriangle className="size-4 shrink-0 text-warning" />
-					<BlockStack gap="200" className="min-w-0 flex-1">
-						<span className="text-sm font-medium text-fg">
-							{missingDays.length} jour{missingDays.length > 1 ? "s" : ""} sans saisie
-						</span>
-						<InlineStack gap="150" wrap>
-							{missingDays.map((day) => (
-								<button
-									key={day.date}
-									type="button"
-									className="rounded-md border border-separator bg-surface px-2.5 py-1 text-xs font-medium text-fg-muted transition-colors hover:border-brand hover:text-brand"
-									onClick={() => {
-										setAddDate(day.date)
-										setAddOpen(true)
-									}}
-								>
-									{day.label}
-								</button>
-							))}
-						</InlineStack>
-					</BlockStack>
-				</InlineStack>
+				<Banner
+					tone="warning"
+					title={`${missingDays.length} jour${missingDays.length > 1 ? "s" : ""} sans saisie`}
+				>
+					<InlineStack gap="150" wrap>
+						{missingDays.map((day) => (
+							<button
+								key={day.date}
+								type="button"
+								className="rounded-md border border-separator bg-surface px-2.5 py-1 text-xs font-medium text-fg-muted transition-colors hover:border-brand hover:text-brand"
+								onClick={() => {
+									setAddDate(day.date)
+									setAddOpen(true)
+								}}
+							>
+								{day.label}
+							</button>
+						))}
+					</InlineStack>
+				</Banner>
 			)}
 
 			{/* --- Todos --- */}
