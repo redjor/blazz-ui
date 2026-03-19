@@ -49,7 +49,7 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { computeBudgetMetrics } from "@/lib/budget"
 import { computeContractMetrics, computeForfaitMetrics } from "@/lib/contracts"
-import { isEnabled } from "@/lib/features"
+import { useFeatureFlags } from "@/lib/feature-flags-context"
 import { formatMinutes } from "@/lib/format"
 import {
 	type EntryStatus,
@@ -62,6 +62,7 @@ interface Props {
 }
 
 export default function ProjectDetailPageClient({ params }: Props) {
+	const { isEnabled } = useFeatureFlags()
 	const { id, pid } = use(params)
 	const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
 	const client = useQuery(api.clients.get, { id: id as Id<"clients"> })

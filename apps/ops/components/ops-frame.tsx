@@ -21,7 +21,8 @@ import {
 import type { ReactNode } from "react"
 import { useMemo } from "react"
 import { BlazzLogo } from "@/components/blazz-logo"
-import { type FeatureFlag, isEnabled } from "@/lib/features"
+import type { FeatureFlag } from "@/lib/features"
+import { useFeatureFlags } from "@/lib/feature-flags-context"
 import { OpsUserMenu } from "./ops-user-menu"
 
 interface NavItemWithFlag extends NavItem {
@@ -77,30 +78,31 @@ const allNavGroups: NavGroupWithFlag[] = [
 	},
 ]
 
-function filterItems(items: NavItemWithFlag[]): NavItem[] {
+function filterItems(items: NavItemWithFlag[], isEnabled: (flag: FeatureFlag) => boolean): NavItem[] {
 	return items
 		.filter((item) => !item.flag || isEnabled(item.flag))
 		.map((item) => {
 			const { flag, children, ...rest } = item
 			if (children?.length) {
-				const filtered = filterItems(children)
+				const filtered = filterItems(children, isEnabled)
 				return filtered.length > 0 ? { ...rest, children: filtered } : rest
 			}
 			return rest
 		})
 }
 
-function filterGroups(groups: NavGroupWithFlag[]): NavGroup[] {
+function filterGroups(groups: NavGroupWithFlag[], isEnabled: (flag: FeatureFlag) => boolean): NavGroup[] {
 	return groups
 		.map((group) => ({
 			label: group.label,
-			items: filterItems(group.items),
+			items: filterItems(group.items, isEnabled),
 		}))
 		.filter((group) => group.items.length > 0)
 }
 
 export function OpsFrame({ children }: { children: ReactNode }) {
-	const navGroups = useMemo(() => filterGroups(allNavGroups), [])
+	const { isEnabled } = useFeatureFlags()
+	const navGroups = useMemo(() => filterGroups(allNavGroups, isEnabled), [isEnabled])
 
 	return (
 		<AppFrame

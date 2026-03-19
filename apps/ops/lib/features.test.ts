@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest"
-import { type FeatureFlag, features, isEnabled, routeToFlag } from "./features"
+import { type FeatureFlag, defaults, isEnabled, routeToFlag } from "./features"
 
 describe("isEnabled", () => {
-	it("returns true for enabled flags", () => {
-		for (const key of Object.keys(features) as FeatureFlag[]) {
-			expect(isEnabled(key)).toBe(true)
+	it("returns the default value for each flag", () => {
+		for (const key of Object.keys(defaults) as FeatureFlag[]) {
+			expect(isEnabled(key)).toBe(defaults[key])
 		}
 	})
 })

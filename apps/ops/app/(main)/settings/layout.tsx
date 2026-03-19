@@ -7,7 +7,7 @@ import {
 	NavMenuItem,
 	NavMenuSeparator,
 } from "@blazz/ui/components/ui/nav-menu"
-import { Settings, Tag } from "lucide-react"
+import { Settings, Tag, ToggleRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
@@ -22,7 +22,10 @@ const settingsNav: {
 }[] = [
 	{
 		group: "Général",
-		items: [{ label: "Préférences", href: "/settings", icon: Settings }],
+		items: [
+			{ label: "Préférences", href: "/settings", icon: Settings },
+			{ label: "Fonctionnalités", href: "/settings/features", icon: ToggleRight },
+		],
 	},
 	{
 		group: "Données",

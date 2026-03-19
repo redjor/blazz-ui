@@ -1,4 +1,4 @@
-export const features = {
+export const defaults = {
 	dashboard: true,
 	today: true,
 	projects: true,
@@ -17,10 +17,11 @@ export const features = {
 	bookmarks: true,
 } as const satisfies Record<string, boolean>
 
-export type FeatureFlag = keyof typeof features
+export type FeatureFlag = keyof typeof defaults
 
+/** @deprecated Use useFeatureFlags().isEnabled instead */
 export function isEnabled(flag: FeatureFlag): boolean {
-	return features[flag]
+	return defaults[flag]
 }
 
 const routeMap: Record<string, FeatureFlag> = {
