@@ -1,7 +1,6 @@
 "use client"
 
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
-import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
@@ -10,11 +9,11 @@ import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import {
 	AlertCircle,
-	Clock,
+	Circle,
 	ExternalLink,
 	GitBranch,
+	GitCommitHorizontal,
 	RefreshCw,
-	Rocket,
 } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 
@@ -25,52 +24,39 @@ interface VercelDeployment {
 	created: number
 	ready?: number
 	state: "BUILDING" | "ERROR" | "INITIALIZING" | "QUEUED" | "READY" | "CANCELED"
+	target?: string | null
 	meta?: {
 		githubCommitMessage?: string
 		githubCommitRef?: string
+		githubCommitSha?: string
+		githubCommitAuthorName?: string
 	}
+	creator?: { username?: string }
 }
 
-const STATUS_CONFIG: Record<
-	VercelDeployment["state"],
-	{ label: string; variant: "default" | "critical" | "secondary" | "outline" }
-> = {
-	READY: { label: "Ready", variant: "default" },
-	ERROR: { label: "Error", variant: "critical" },
-	BUILDING: { label: "Building", variant: "secondary" },
-	INITIALIZING: { label: "Init", variant: "secondary" },
-	QUEUED: { label: "Queued", variant: "outline" },
-	CANCELED: { label: "Canceled", variant: "outline" },
+const STATUS_COLOR: Record<string, string> = {
+	READY: "text-success",
+	ERROR: "text-destructive",
+	BUILDING: "text-warning",
+	INITIALIZING: "text-warning",
+	QUEUED: "text-fg-muted",
+	CANCELED: "text-fg-muted",
 }
 
-function formatDuration(created: number, ready?: number): string | null {
-	if (!ready) return null
-	const seconds = Math.round((ready - created) / 1000)
-	if (seconds < 60) return `${seconds}s`
-	const minutes = Math.floor(seconds / 60)
-	const remaining = seconds % 60
-	return `${minutes}m ${remaining}s`
+const STATUS_LABEL: Record<string, string> = {
+	READY: "Ready",
+	ERROR: "Error",
+	BUILDING: "Building…",
+	INITIALIZING: "Initializing…",
+	QUEUED: "Queued",
+	CANCELED: "Canceled",
 }
 
-function DeploymentsSkeleton() {
-	return (
-		<BlockStack gap="300">
-			{Array.from({ length: 5 }).map((_, i) => (
-				<BlockStack key={i} gap="200" className="rounded-lg border border-edge p-4">
-					<InlineStack gap="200" blockAlign="center">
-						<Skeleton className="h-5 w-16" />
-						<Skeleton className="h-4 w-40" />
-					</InlineStack>
-					<Skeleton className="h-4 w-64" />
-					<Skeleton className="h-3 w-24" />
-				</BlockStack>
-			))}
-		</BlockStack>
-	)
-}
+const BRANCHES = ["main", "develop"] as const
 
 export default function DeploymentsPageClient() {
-	const [deployments, setDeployments] = useState<VercelDeployment[] | null>(null)
+	const [branches, setBranches] = useState<Record<string, VercelDeployment> | null>(null)
+	const [domains, setDomains] = useState<string[]>([])
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
@@ -80,10 +66,9 @@ export default function DeploymentsPageClient() {
 		try {
 			const res = await fetch("/api/deployments")
 			const data = await res.json()
-			if (!res.ok) {
-				throw new Error(data.error ?? `Erreur ${res.status}`)
-			}
-			setDeployments(data.deployments ?? [])
+			if (!res.ok) throw new Error(data.error ?? `Erreur ${res.status}`)
+			setBranches(data.branches ?? {})
+			setDomains(data.domains ?? [])
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Erreur inconnue")
 		} finally {
@@ -95,12 +80,21 @@ export default function DeploymentsPageClient() {
 		fetchDeployments()
 	}, [fetchDeployments])
 
-	// Loading: fetching deployments
-	if (loading || deployments === null) {
+	// Loading
+	if (loading && !branches) {
 		return (
 			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
-				<DeploymentsSkeleton />
+				<PageHeader title="Deployments" />
+				<BlockStack gap="400">
+					{BRANCHES.map((b) => (
+						<BlockStack key={b} gap="300" className="rounded-lg border border-edge p-5">
+							<Skeleton className="h-4 w-64" />
+							<Skeleton className="h-4 w-48" />
+							<Skeleton className="h-4 w-32" />
+							<Skeleton className="h-4 w-56" />
+						</BlockStack>
+					))}
+				</BlockStack>
 			</BlockStack>
 		)
 	}
@@ -109,7 +103,7 @@ export default function DeploymentsPageClient() {
 	if (error) {
 		return (
 			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
+				<PageHeader title="Deployments" />
 				<BlockStack className="text-center py-12 items-center">
 					<AlertCircle className="h-10 w-10 text-destructive mb-3" />
 					<p className="text-sm text-fg font-medium">Erreur de chargement</p>
@@ -122,12 +116,10 @@ export default function DeploymentsPageClient() {
 		)
 	}
 
-	// Success
 	return (
 		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title="Deployments"
-				description={`${deployments.length} derniers déploiements`}
 				actionsSlot={
 					<Button variant="outline" size="sm" onClick={fetchDeployments} disabled={loading}>
 						<RefreshCw className={loading ? "animate-spin" : ""} />
@@ -136,72 +128,127 @@ export default function DeploymentsPageClient() {
 				}
 			/>
 
-			{deployments.length === 0 ? (
-				<BlockStack className="text-center py-12 items-center">
-					<Rocket className="h-10 w-10 text-fg-muted mb-3" />
-					<p className="text-sm text-fg-muted">Aucun déploiement trouvé.</p>
-				</BlockStack>
-			) : (
-				<BlockStack gap="300">
-					{deployments.map((d) => {
-						const config = STATUS_CONFIG[d.state]
-						const duration = formatDuration(d.created, d.ready)
-						const branch = d.meta?.githubCommitRef
-						const commitMsg = d.meta?.githubCommitMessage
+			<BlockStack gap="400">
+				{BRANCHES.map((branch) => {
+					const d = branches?.[branch]
+					const isProduction = branch === "main"
 
+					if (!d) {
 						return (
 							<BlockStack
-								key={d.uid}
+								key={branch}
 								gap="200"
-								className="rounded-lg border border-edge bg-surface-3 p-4"
+								className="rounded-lg border border-edge bg-surface-3 p-5"
 							>
-								<InlineStack gap="300" align="space-between" blockAlign="center">
-									<InlineStack gap="200" blockAlign="center">
-										<Badge variant={config.variant}>{config.label}</Badge>
-										{branch && (
-											<InlineStack gap="100" blockAlign="center">
-												<GitBranch className="h-3 w-3 text-fg-muted" />
-												<span className="text-xs font-mono text-fg-muted">
-													{branch}
-												</span>
-											</InlineStack>
-										)}
-									</InlineStack>
-									<InlineStack gap="200" blockAlign="center">
-										{duration && (
-											<InlineStack gap="100" blockAlign="center">
-												<Clock className="h-3 w-3 text-fg-muted" />
-												<span className="text-xs font-mono text-fg-muted tabular-nums">
-													{duration}
-												</span>
-											</InlineStack>
-										)}
-										<a
-											href={`https://${d.url}`}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="text-fg-muted hover:text-fg transition-colors"
-										>
-											<ExternalLink className="h-3.5 w-3.5" />
-										</a>
-									</InlineStack>
+								<InlineStack gap="100" blockAlign="center">
+									<GitBranch className="h-3.5 w-3.5 text-fg-muted" />
+									<span className="text-sm font-mono font-medium text-fg">{branch}</span>
 								</InlineStack>
-
-								{commitMsg && (
-									<p className="text-sm text-fg line-clamp-1">{commitMsg}</p>
-								)}
-
-								<p className="text-xs text-fg-muted">
-									{formatDistanceToNow(new Date(d.created), {
-										addSuffix: true,
-										locale: fr,
-									})}
-								</p>
+								<p className="text-xs text-fg-muted">Aucun déploiement trouvé</p>
 							</BlockStack>
 						)
-					})}
-				</BlockStack>
-			)}
+					}
+
+					const colorClass = STATUS_COLOR[d.state] ?? "text-fg-muted"
+					const statusLabel = STATUS_LABEL[d.state] ?? d.state
+					const sha = d.meta?.githubCommitSha?.slice(0, 7)
+					const commitMsg = d.meta?.githubCommitMessage
+					const author = d.creator?.username ?? d.meta?.githubCommitAuthorName
+
+					return (
+						<BlockStack
+							key={branch}
+							gap="400"
+							className="rounded-lg border border-edge bg-surface-3 p-5"
+						>
+							{/* Deployment URL */}
+							<BlockStack gap="100">
+								<span className="text-xs text-fg-muted uppercase tracking-wide font-medium">
+									Deployment
+								</span>
+								<a
+									href={`https://${d.url}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-sm text-fg-muted hover:text-fg transition-colors inline-flex items-center gap-1 w-fit"
+								>
+									{d.url}
+									<ExternalLink className="h-3 w-3" />
+								</a>
+							</BlockStack>
+
+							{/* Domains (production only) */}
+							{isProduction && domains.length > 0 && (
+								<BlockStack gap="100">
+									<span className="text-xs text-fg-muted uppercase tracking-wide font-medium">
+										Domains
+									</span>
+									<BlockStack gap="050">
+										{domains.map((domain) => (
+											<a
+												key={domain}
+												href={`https://${domain}`}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-sm text-fg-muted hover:text-fg transition-colors inline-flex items-center gap-1 w-fit"
+											>
+												{domain}
+												<ExternalLink className="h-3 w-3" />
+											</a>
+										))}
+									</BlockStack>
+								</BlockStack>
+							)}
+
+							{/* Status */}
+							<BlockStack gap="100">
+								<InlineStack gap="300">
+									<span className="text-xs text-fg-muted uppercase tracking-wide font-medium">
+										Status
+									</span>
+									<span className="text-xs text-fg-muted uppercase tracking-wide font-medium">
+										Created
+									</span>
+								</InlineStack>
+								<InlineStack gap="300" blockAlign="center">
+									<InlineStack gap="100" blockAlign="center">
+										<Circle className={`h-2.5 w-2.5 fill-current ${colorClass}`} />
+										<span className={`text-sm ${colorClass}`}>{statusLabel}</span>
+									</InlineStack>
+									<span className="text-sm text-fg-muted">
+										{formatDistanceToNow(new Date(d.created), { addSuffix: true, locale: fr })}
+										{author && ` by ${author}`}
+									</span>
+								</InlineStack>
+							</BlockStack>
+
+							{/* Source */}
+							<BlockStack gap="100">
+								<span className="text-xs text-fg-muted uppercase tracking-wide font-medium">
+									Source
+								</span>
+								<BlockStack gap="050">
+									<InlineStack gap="100" blockAlign="center">
+										<GitBranch className="h-3.5 w-3.5 text-fg-muted" />
+										<span className="text-sm font-mono text-fg">{branch}</span>
+									</InlineStack>
+									{(sha || commitMsg) && (
+										<InlineStack gap="100" blockAlign="center" className="ml-0.5">
+											<GitCommitHorizontal className="h-3.5 w-3.5 text-fg-muted" />
+											{sha && (
+												<span className="text-sm font-mono text-fg-muted">{sha}</span>
+											)}
+											{commitMsg && (
+												<span className="text-sm text-fg-muted line-clamp-1">{commitMsg}</span>
+											)}
+										</InlineStack>
+									)}
+								</BlockStack>
+							</BlockStack>
+						</BlockStack>
+					)
+				})}
+			</BlockStack>
 		</BlockStack>
 	)
 }
