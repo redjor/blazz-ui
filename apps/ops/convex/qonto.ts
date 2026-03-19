@@ -94,7 +94,14 @@ export const createInvoice = action({
 		invoiceId: v.id("invoices"),
 		qontoClientId: v.string(),
 		label: v.string(),
-		totalAmount: v.number(),
+		lines: v.array(
+			v.object({
+				label: v.string(),
+				quantity: v.number(),
+				unitPrice: v.number(), // cents
+				discountPercent: v.optional(v.number()),
+			})
+		),
 		vatRate: v.number(),
 	},
 	handler: async (ctx, args) => {
@@ -110,22 +117,26 @@ export const createInvoice = action({
 				return { success: true, qontoNumber: demoNumber }
 			}
 
-			const unitPrice = (args.totalAmount / 100).toFixed(2)
+			const items = args.lines.map((line) => {
+				const unitPriceEur = (line.unitPrice / 100).toFixed(2)
+				return {
+					title: line.label.slice(0, 40),
+					description: line.label,
+					quantity: String(line.quantity),
+					unit_price: { value: unitPriceEur, currency: "EUR" },
+					vat_rate: String(args.vatRate),
+					...(line.discountPercent
+						? { discount: { type: "percentage", value: String(line.discountPercent) } }
+						: {}),
+				}
+			})
 
 			const data = await qontoFetch("/client_invoices", {
 				method: "POST",
 				body: JSON.stringify({
 					client_id: args.qontoClientId,
 					currency: "EUR",
-					items: [
-						{
-							title: args.label.slice(0, 40),
-							description: args.label,
-							quantity: "1",
-							unit_price: { value: unitPrice, currency: "EUR" },
-							vat_rate: String(args.vatRate),
-						},
-					],
+					items,
 				}),
 			})
 
@@ -133,7 +144,6 @@ export const createInvoice = action({
 			const qontoInvoiceId = invoice.id
 			const qontoNumber = invoice.number ?? invoice.invoice_number ?? ""
 
-			// Mark invoice as sent locally
 			await ctx.runMutation(api.invoices.markSent, {
 				id: args.invoiceId,
 				qontoInvoiceId,
@@ -142,7 +152,6 @@ export const createInvoice = action({
 
 			return { success: true, qontoNumber }
 		} catch (e) {
-			// Rollback: delete the draft invoice
 			await ctx.runMutation(api.invoices.deleteDraft, { id: args.invoiceId })
 			throw e
 		}

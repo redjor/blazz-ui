@@ -34,12 +34,12 @@ import {
 	Send,
 	Trash2,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { use, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
-import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
 import { InvoiceSection } from "@/components/invoice-section"
 import { ProjectForm } from "@/components/project-form"
 import { ProjectNotesList } from "@/components/project-notes-list"
@@ -79,8 +79,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 	const setStatus = useMutation(api.timeEntries.setStatus)
 	const remove = useMutation(api.timeEntries.remove)
 	const [editing, setEditing] = useState<Doc<"timeEntries"> | null>(null)
-	const [invoiceEntries, setInvoiceEntries] = useState<Doc<"timeEntries">[]>([])
-	const [invoiceDialogOpen, setInvoiceDialogOpen] = useState(false)
+	const router = useRouter()
 
 	useAppTopBar(
 		data != null
@@ -441,20 +440,9 @@ export default function ProjectDetailPageClient({ params }: Props) {
 							id: "create-invoice",
 							label: "Facturer",
 							icon: FileText,
-							handler: async (rows: Array<{ original: Doc<"timeEntries"> }>) => {
-								const readyEntries = rows
-									.map((r) => r.original)
-									.filter(
-										(e) =>
-											e.billable &&
-											(e.status === "ready_to_invoice" || (!e.status && !e.invoicedAt))
-									)
-								if (readyEntries.length === 0) {
-									toast.error("Aucune entrée prête à facturer dans la sélection")
-									return
-								}
-								setInvoiceEntries(readyEntries)
-								setInvoiceDialogOpen(true)
+							handler: async (_rows: Array<{ original: Doc<"timeEntries"> }>) => {
+								if (!data) return
+								router.push(`/invoices/new?clientId=${data.project.clientId}&projectId=${pid}`)
 							},
 						},
 					]
@@ -477,7 +465,7 @@ export default function ProjectDetailPageClient({ params }: Props) {
 				},
 			},
 		],
-		[remove, setStatus]
+		[remove, setStatus, router, pid, data]
 	)
 
 	// Loading state
@@ -698,10 +686,9 @@ export default function ProjectDetailPageClient({ params }: Props) {
 									<Button
 										size="sm"
 										variant="outline"
-										onClick={() => {
-											setInvoiceEntries(readyEntries)
-											setInvoiceDialogOpen(true)
-										}}
+										onClick={() =>
+											router.push(`/invoices/new?clientId=${project.clientId}&projectId=${pid}`)
+										}
 									>
 										<FileText className="size-3.5 mr-1" />
 										Facturer ({readyEntries.length} entrée{readyEntries.length > 1 ? "s" : ""})
@@ -884,20 +871,6 @@ export default function ProjectDetailPageClient({ params }: Props) {
 					)}
 				</DialogContent>
 			</Dialog>
-
-			{/* Invoice preview dialog */}
-			{isEnabled("invoicing") && (
-				<InvoicePreviewDialog
-					open={invoiceDialogOpen}
-					onOpenChange={setInvoiceDialogOpen}
-					projectId={pid as Id<"projects">}
-					projectName={project.name}
-					clientId={project.clientId}
-					qontoClientId={client?.qontoClientId}
-					entries={invoiceEntries}
-					contractType={activeContract?.type}
-				/>
-			)}
 		</>
 	)
 }

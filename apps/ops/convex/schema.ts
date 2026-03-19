@@ -101,7 +101,7 @@ export default defineSchema({
 
 	invoices: defineTable({
 		userId: v.string(),
-		projectId: v.id("projects"),
+		projectId: v.optional(v.id("projects")),
 		clientId: v.id("clients"),
 		qontoInvoiceId: v.optional(v.string()),
 		qontoNumber: v.optional(v.string()),
@@ -115,6 +115,32 @@ export default defineSchema({
 		pdfStorageId: v.optional(v.id("_storage")),
 		paidAt: v.optional(v.number()),
 		createdAt: v.number(),
+		// ── New fields ──
+		invoiceType: v.optional(
+			v.union(v.literal("unique"), v.literal("acompte"), v.literal("situation"))
+		),
+		lines: v.optional(
+			v.array(
+				v.object({
+					id: v.string(),
+					type: v.union(v.literal("project"), v.literal("custom")),
+					projectId: v.optional(v.id("projects")),
+					label: v.string(),
+					quantity: v.number(),
+					unitPrice: v.number(),
+					discountPercent: v.optional(v.number()),
+					sortOrder: v.number(),
+				})
+			)
+		),
+		globalDiscount: v.optional(
+			v.object({
+				type: v.union(v.literal("percent"), v.literal("fixed")),
+				value: v.number(),
+			})
+		),
+		notes: v.optional(v.string()),
+		internalNotes: v.optional(v.string()),
 	})
 		.index("by_project", ["projectId"])
 		.index("by_user", ["userId"])
