@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { internal } from "./_generated/api"
 import { action, internalAction, internalMutation, internalQuery } from "./_generated/server"
+import { requireAuth } from "./lib/auth"
 
 // ── Internal queries ──────────────────────────────────────────────
 
@@ -353,6 +354,7 @@ export const fetchAllFeeds = internalAction({
 export const fetchNow = action({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx)
 		await ctx.scheduler.runAfter(0, internal.feed.fetchAllFeeds)
 	},
 })
