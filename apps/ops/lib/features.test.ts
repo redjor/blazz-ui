@@ -24,7 +24,10 @@ describe("routeToFlag", () => {
 
 	it("returns null for unknown routes", () => {
 		expect(routeToFlag("/unknown")).toBeNull()
-		expect(routeToFlag("/settings")).toBeNull()
+	})
+
+	it("maps /settings to settings flag", () => {
+		expect(routeToFlag("/settings")).toBe("settings")
 	})
 
 	it("returns dashboard for root", () => {
