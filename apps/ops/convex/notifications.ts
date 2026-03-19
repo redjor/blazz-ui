@@ -156,3 +156,139 @@ export const cleanupOld = internalMutation({
 		}
 	},
 })
+
+// ---------------------------------------------------------------------------
+// Seed (temporary — remove after testing)
+// ---------------------------------------------------------------------------
+
+export const seed = internalMutation({
+	args: {},
+	handler: async (ctx) => {
+		// Grab first user from the users table
+		const user = await ctx.db.query("users").first()
+		if (!user) throw new Error("No users found — log in first")
+		const userId = user._id
+		const now = Date.now()
+
+		const samples = [
+			{
+				source: "github" as const,
+				externalId: `seed-gh-1`,
+				title: "PR #142 merged on blazz-ui-app",
+				description: "feat: add inbox block component",
+				actionType: "comment",
+				status: "done",
+				authorName: "jonathanruas",
+				authorInitials: "JR",
+				authorAvatar: "https://avatars.githubusercontent.com/u/12345?v=4",
+				url: "https://github.com/blazz/blazz-ui-app/pull/142",
+				read: false,
+				createdAt: now - 5 * 60 * 1000, // 5 min ago
+			},
+			{
+				source: "github" as const,
+				externalId: `seed-gh-2`,
+				title: "Review requested on PR #143",
+				description: "refactor: migrate auth middleware to new compliance model",
+				actionType: "mention",
+				status: "in-progress",
+				priority: "high",
+				authorName: "dependabot[bot]",
+				authorInitials: "DE",
+				url: "https://github.com/blazz/blazz-ui-app/pull/143",
+				read: false,
+				createdAt: now - 15 * 60 * 1000, // 15 min ago
+			},
+			{
+				source: "vercel" as const,
+				externalId: `seed-vercel-1`,
+				title: "Deploy succeeded on main",
+				description: "feat: add notifications inbox page",
+				actionType: "added",
+				status: "done",
+				authorName: "Vercel",
+				authorInitials: "VC",
+				authorColor: "#000000",
+				read: true,
+				createdAt: now - 30 * 60 * 1000, // 30 min ago
+			},
+			{
+				source: "vercel" as const,
+				externalId: `seed-vercel-2`,
+				title: "Deploy failed on develop",
+				description: "fix: resolve type errors in webhook handlers",
+				actionType: "added",
+				status: "urgent",
+				priority: "high",
+				authorName: "Vercel",
+				authorInitials: "VC",
+				authorColor: "#000000",
+				read: false,
+				createdAt: now - 45 * 60 * 1000, // 45 min ago
+			},
+			{
+				source: "github" as const,
+				externalId: `seed-gh-3`,
+				title: "CI failed: typecheck",
+				description: "Type error in convex/http.ts — Property 'source' does not exist",
+				actionType: "mention",
+				status: "urgent",
+				priority: "high",
+				authorName: "github-actions",
+				authorInitials: "GA",
+				url: "https://github.com/blazz/blazz-ui-app/actions/runs/123",
+				read: false,
+				createdAt: now - 2 * 60 * 60 * 1000, // 2h ago
+			},
+			{
+				source: "github" as const,
+				externalId: `seed-gh-4`,
+				title: "Comment on #138",
+				description: "Looks good! Just one nit: the error message should be more descriptive.",
+				actionType: "reply",
+				authorName: "sarah-dev",
+				authorInitials: "SD",
+				authorColor: "#8b5cf6",
+				url: "https://github.com/blazz/blazz-ui-app/pull/138#comment-456",
+				read: true,
+				createdAt: now - 3 * 60 * 60 * 1000, // 3h ago
+			},
+			{
+				source: "convex" as const,
+				externalId: `seed-convex-1`,
+				title: "Rate limit approaching",
+				description: "Database reads at 85% of quota for current billing period",
+				actionType: "mention",
+				status: "in-progress",
+				priority: "high",
+				authorName: "Convex",
+				authorInitials: "CX",
+				authorColor: "#f97316",
+				url: "https://dashboard.convex.dev",
+				read: false,
+				createdAt: now - 6 * 60 * 60 * 1000, // 6h ago
+			},
+			{
+				source: "github" as const,
+				externalId: `seed-gh-5`,
+				title: "Push to develop",
+				description: "chore: update dependencies",
+				actionType: "added",
+				authorName: "jonathanruas",
+				authorInitials: "JR",
+				authorAvatar: "https://avatars.githubusercontent.com/u/12345?v=4",
+				read: true,
+				createdAt: now - 24 * 60 * 60 * 1000, // 1 day ago
+			},
+		]
+
+		for (const s of samples) {
+			await ctx.db.insert("notifications", {
+				userId,
+				...s,
+			})
+		}
+
+		return { inserted: samples.length }
+	},
+})

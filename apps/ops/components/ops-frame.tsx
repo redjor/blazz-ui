@@ -44,6 +44,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 		items: [
 			{ title: "Dashboard", url: "/", icon: LayoutDashboard, flag: "dashboard" },
 			{ title: "Aujourd'hui", url: "/today", icon: Sun, flag: "today" },
+			{ title: "Inbox", url: "/notifications", icon: Bell, flag: "notifications" },
 		],
 	},
 	{
@@ -70,7 +71,6 @@ const allNavGroups: NavGroupWithFlag[] = [
 			{ title: "Bookmarks", url: "/bookmarks", icon: Bookmark, flag: "bookmarks" },
 			{ title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
 			{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
-			{ title: "Notifications", url: "/notifications", icon: Bell, flag: "notifications" },
 		],
 	},
 	{
@@ -117,7 +117,7 @@ export function OpsFrame({ children }: { children: ReactNode }) {
 			...group,
 			items: group.items.map((item) =>
 				item.url === "/notifications"
-					? { ...item, title: `Notifications (${unreadCount})` }
+					? { ...item, badge: unreadCount }
 					: item,
 			),
 		}))

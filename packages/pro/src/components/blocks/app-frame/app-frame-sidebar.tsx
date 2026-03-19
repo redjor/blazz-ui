@@ -19,6 +19,7 @@ import {
 	SidebarMenuSubItem,
 	SidebarResizeHandle,
 } from "@blazz/ui/components/ui/sidebar"
+import { Badge } from "@blazz/ui"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
@@ -94,7 +95,12 @@ export function AppFrameSidebar({
 				<SidebarMenuButton asChild isActive={isActive(item.url)}>
 					<Link href={item.url}>
 						{item.icon && <item.icon />}
-						<span>{item.title}</span>
+						<span className="flex-1">{item.title}</span>
+						{item.badge != null && (
+							<Badge variant="default" className="ml-auto h-5 min-w-5 justify-center rounded-full px-1.5 text-[10px]">
+								{item.badge}
+							</Badge>
+						)}
 					</Link>
 				</SidebarMenuButton>
 			</SidebarMenuItem>
