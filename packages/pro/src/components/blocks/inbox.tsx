@@ -25,6 +25,10 @@ import {
 } from "@blazz/ui"
 import { Empty } from "@blazz/ui"
 import { Skeleton } from "@blazz/ui"
+import { Card, CardContent, CardFooter } from "@blazz/ui/components/ui/card"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Divider } from "@blazz/ui/components/ui/divider"
 
 // ---------------------------------------------------------------------------
 // Types
@@ -214,7 +218,11 @@ export function InboxItem({ item, selected = false, onClick, className }: InboxI
 			className={cn(
 				"group relative flex items-start gap-3 px-3 py-2.5 transition-colors",
 				onClick && "cursor-pointer",
-				selected ? "bg-white/[0.04]" : "hover:bg-white/[0.02]",
+				selected
+				? "bg-white/[0.04]"
+				: isUnread
+					? "bg-white/[0.02] hover:bg-white/[0.04]"
+					: "hover:bg-white/[0.02]",
 				className
 			)}
 		>
@@ -646,5 +654,113 @@ export interface InboxDetailProps {
 export function InboxDetail({ children, className }: InboxDetailProps) {
 	return (
 		<div className={cn("flex flex-1 flex-col", className)}>{children ?? <InboxDetailEmpty />}</div>
+	)
+}
+
+// ---------------------------------------------------------------------------
+// InboxDetailCard (styled notification detail card)
+// ---------------------------------------------------------------------------
+
+export interface InboxDetailCardSource {
+	name: string
+	logo?: string
+	initials?: string
+}
+
+export interface InboxDetailCardAuthor {
+	name: string
+	avatar?: string
+	initials?: string
+	color?: string
+	label?: string
+}
+
+export interface InboxDetailCardProps {
+	title: string
+	description?: string
+	source?: InboxDetailCardSource
+	time?: string
+	author?: InboxDetailCardAuthor
+	actions?: React.ReactNode
+	className?: string
+}
+
+export function InboxDetailCard({
+	title,
+	description,
+	source,
+	time,
+	author,
+	actions,
+	className,
+}: InboxDetailCardProps) {
+	const showAuthor = author && source && author.name.toLowerCase() !== source.name.toLowerCase()
+
+	return (
+		<div className={cn("flex h-full items-center justify-center p-8", className)}>
+			<Card
+				elevated
+				className="w-full max-w-[520px] animate-in fade-in slide-in-from-bottom-2 duration-200"
+			>
+				<CardContent>
+					{/* Source strip */}
+					{source && (
+						<InlineStack gap="200" align="space-between" blockAlign="center">
+							<InlineStack gap="200" blockAlign="center">
+								{source.logo ? (
+									<img src={source.logo} alt={source.name} className="size-5" />
+								) : source.initials ? (
+									<span className="text-[9px] font-semibold uppercase text-fg-muted">
+										{source.initials}
+									</span>
+								) : null}
+								<span className="text-xs font-medium text-fg">{source.name}</span>
+							</InlineStack>
+							{time && <span className="text-2xs text-fg-subtle">{time}</span>}
+						</InlineStack>
+					)}
+
+					{/* Body */}
+					<BlockStack gap="400" className={source ? "pt-5" : undefined}>
+						<BlockStack gap="100">
+							<h2 className="text-lg font-semibold tracking-tight text-fg leading-snug">
+								{title}
+							</h2>
+							{description && (
+								<p className="text-sm text-fg-muted leading-relaxed">{description}</p>
+							)}
+						</BlockStack>
+
+						{/* Author — hidden when same as source */}
+						{showAuthor && (
+							<>
+								<Divider />
+								<InlineStack gap="200" blockAlign="center">
+									{author.avatar ? (
+										<img
+											src={author.avatar}
+											alt={author.name}
+											className="size-7 rounded-full"
+										/>
+									) : (
+										<div
+											className="flex size-7 items-center justify-center rounded-full text-[10px] font-semibold text-white"
+											style={{ backgroundColor: author.color ?? "#6b7280" }}
+										>
+											{author.initials}
+										</div>
+									)}
+									<span className="text-xs font-medium text-fg">{author.name}</span>
+									<span className="text-2xs text-fg-subtle">{author.label ?? "Author"}</span>
+								</InlineStack>
+							</>
+						)}
+					</BlockStack>
+				</CardContent>
+
+				{/* Actions */}
+				{actions && <CardFooter className="gap-2">{actions}</CardFooter>}
+			</Card>
+		</div>
 	)
 }

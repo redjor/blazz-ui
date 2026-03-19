@@ -3,6 +3,7 @@ import {
 	filterInboxItems,
 	Inbox,
 	InboxDetail,
+	InboxDetailCard,
 	InboxDetailEmpty,
 	InboxHeader,
 	InboxItem,
@@ -10,6 +11,8 @@ import {
 	InboxPanel,
 	InboxSidebar,
 } from "@blazz/pro/components/blocks/inbox"
+import { Button } from "@blazz/ui"
+import { Archive, ExternalLink } from "lucide-react"
 import { createFileRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -27,99 +30,99 @@ import { highlightCode } from "~/lib/highlight-code"
 const heroItems: InboxNotification[] = [
 	{
 		id: "1",
-		title: "CEN-206 Impossible d'enregistrer un nouveau...",
-		description: "Saif Warradi commented: Oui je vois, ce qui es...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
+		title: "PR #142 merged on blazz-ui-app",
+		description: "feat: add inbox block component",
+		author: { name: "Jonathan Ruas", initials: "JR", color: "#24292f" },
 		actionType: "comment",
-		status: "cancelled",
-		priority: "urgent",
-		time: "19h",
+		status: "done",
+		time: "4h",
 		read: false,
 	},
 	{
 		id: "2",
-		title: "CEN-205 Impossible d'enregistrer un nouvel a...",
-		description: "Saif Warradi replied: Oui j'ai vu que tu as test...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
-		actionType: "reply",
-		status: "cancelled",
+		title: "Review requested on PR #143",
+		description: "refactor: migrate auth middleware to new co...",
+		author: { name: "Sarah Kim", initials: "SK", color: "#ec4899" },
+		actionType: "mention",
+		status: "in-progress",
 		priority: "urgent",
-		time: "19h",
+		time: "5h",
 		read: false,
 	},
 	{
 		id: "3",
-		title: "CEN-57 Créer article avec code auto et hiérar...",
-		description: "Saif Warradi reacted to: fait un ticket en me disant...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
-		actionType: "reaction",
+		title: "Deploy succeeded on main",
+		description: "feat: add notifications inbox page",
+		author: { name: "Vercel", initials: "VC", color: "#000000" },
+		actionType: "comment",
 		status: "done",
-		time: "24h",
+		time: "5h",
 		read: false,
 	},
 	{
 		id: "4",
-		title: "CEN-115 US-CLI-013: Filtrer automatiquemen...",
-		description: "Saif Warradi replied: On n'a pas vu ça, super ...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
-		actionType: "reply",
-		status: "done",
+		title: "Deploy failed on develop",
+		description: "fix: resolve type errors in webhook handlers",
+		author: { name: "Vercel", initials: "VC", color: "#000000" },
+		actionType: "comment",
+		status: "urgent",
 		priority: "urgent",
-		time: "29d",
+		time: "5h",
 		read: false,
 	},
 	{
 		id: "5",
-		title: "CEN-61 Associer article-fournisseur avec con...",
-		description: "Saif Warradi replied: Oui il s'agit bien du prix ...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
-		actionType: "reply",
-		status: "done",
+		title: "CI failed: typecheck",
+		description: "Type error in convex/http.ts — Property 'sour...",
+		author: { name: "GitHub Actions", initials: "GA", color: "#6e7781" },
+		actionType: "comment",
+		status: "urgent",
 		priority: "urgent",
-		time: "30d",
+		time: "6h",
 		read: false,
 	},
 	{
 		id: "6",
-		title: "CEN-82 Gérer paramètres de préparation (lieu...",
-		description: "Saif Warradi replied: Oui dans le module logistiqu...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
-		actionType: "reply",
-		status: "in-progress",
-		time: "30d",
+		title: "Comment on #138",
+		description: "Looks good! Just one nit: the error message sho...",
+		author: { name: "Sarah Dayan", initials: "SD", color: "#f59e0b" },
+		actionType: "comment",
+		time: "7h",
 		read: true,
 	},
 	{
 		id: "7",
-		title: "CEN-104 US-CLI-002: Créer client Particulier ...",
-		description: "Saif Warradi mentioned you: @Jonathan RUAS ye...",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
+		title: "Rate limit approaching",
+		description: "Database reads at 85% of quota for current...",
+		author: { name: "Convex", initials: "CX", color: "#f97316" },
 		actionType: "mention",
 		status: "in-progress",
-		time: "30d",
+		priority: "urgent",
+		time: "10h",
 		read: true,
 	},
 	{
 		id: "8",
-		title: "CEN-91 Historiser modifications prix fourniss...",
-		description: "Saif Warradi reacted to: @jeremy.ruas@adservio....",
-		author: { name: "Saif Warradi", initials: "SW", color: "#4a8c5c" },
-		actionType: "reaction",
-		status: "done",
-		time: "30d",
-		read: true,
-	},
-	{
-		id: "9",
-		title: "Module 2 - Articles/Clients/Fournisseurs",
-		description: "Added as a project member by jeremy.ruas@adser...",
-		author: { name: "Jeremy Ruas", initials: "JR", color: "#3b82f6" },
+		title: "Push to develop",
+		description: "chore: update dependencies",
+		author: { name: "Alex Chen", initials: "AC", color: "#6366f1" },
 		actionType: "added",
-		status: "in-progress",
-		time: "5w",
+		time: "1d",
 		read: true,
 	},
 ]
+
+/** Detail card data keyed by notification id */
+const heroDetailData: Record<string, { source: string; sourceInitials: string }> = {
+	"1": { source: "GitHub", sourceInitials: "GH" },
+	"2": { source: "GitHub", sourceInitials: "GH" },
+	"3": { source: "Vercel", sourceInitials: "VC" },
+	"4": { source: "Vercel", sourceInitials: "VC" },
+	"5": { source: "GitHub Actions", sourceInitials: "GA" },
+	"6": { source: "GitHub", sourceInitials: "GH" },
+	"7": { source: "Convex", sourceInitials: "CX" },
+	"8": { source: "GitHub", sourceInitials: "GH" },
+}
 
 const basicItems: InboxNotification[] = [
 	{
@@ -183,17 +186,13 @@ const filtered = filterInboxItems(items, filters)
 	},
 	{
 		key: "split",
-		code: `const [filters, setFilters] = useState<InboxFilters>({})
-const filtered = filterInboxItems(items, filters)
-
-<Inbox>
+		code: `<Inbox>
   <InboxSidebar>
     <InboxHeader
       filters={filters}
       onFiltersChange={setFilters}
       menuActions={[
         { label: "Mark all read", onClick: () => {} },
-        { label: "Clear all", onClick: () => {}, variant: "destructive" },
       ]}
     />
     <InboxList>
@@ -208,13 +207,50 @@ const filtered = filterInboxItems(items, filters)
     </InboxList>
   </InboxSidebar>
   <InboxDetail>
-    {selectedId ? (
-      <div>{/* detail content */}</div>
+    {selected ? (
+      <InboxDetailCard
+        title={selected.title}
+        description={selected.description}
+        source={{ name: "Vercel", initials: "VC" }}
+        time={selected.time}
+        actions={
+          <Button variant="outline" size="sm">
+            <Archive className="mr-1.5 size-3.5" />
+            Archive
+          </Button>
+        }
+      />
     ) : (
       <InboxDetailEmpty />
     )}
   </InboxDetail>
 </Inbox>`,
+	},
+	{
+		key: "detail-card",
+		code: `<InboxDetailCard
+  title="Deploy succeeded on main"
+  description="feat: add notifications inbox page"
+  source={{ name: "Vercel", initials: "VC" }}
+  time="5 hours ago"
+  author={{
+    name: "Jonathan Ruas",
+    initials: "JR",
+    color: "#6366f1",
+  }}
+  actions={
+    <>
+      <Button size="sm">
+        <ExternalLink className="mr-1.5 size-3.5" />
+        Open in Vercel
+      </Button>
+      <Button variant="outline" size="sm">
+        <Archive className="mr-1.5 size-3.5" />
+        Archive
+      </Button>
+    </>
+  }
+/>`,
 	},
 	{
 		key: "loading",
@@ -359,12 +395,46 @@ const inboxPanelComponentProps: DocProp[] = [
 // TOC
 // ---------------------------------------------------------------------------
 
+const inboxDetailCardComponentProps: DocProp[] = [
+	{
+		name: "title",
+		type: "string",
+		description: "Primary heading text.",
+	},
+	{
+		name: "description",
+		type: "string",
+		description: "Secondary body text below the title.",
+	},
+	{
+		name: "source",
+		type: "{ name: string; logo?: string; initials?: string }",
+		description: "Source service displayed in the header strip (e.g. Vercel, GitHub).",
+	},
+	{
+		name: "time",
+		type: "string",
+		description: "Relative time shown in the header strip.",
+	},
+	{
+		name: "author",
+		type: "{ name: string; avatar?: string; initials?: string; color?: string; label?: string }",
+		description: 'Author section with avatar. Hidden when author name matches source name. Defaults label to "Author".',
+	},
+	{
+		name: "actions",
+		type: "React.ReactNode",
+		description: "Action buttons rendered in the card footer.",
+	},
+]
+
 const toc = [
 	{ id: "examples", title: "Examples" },
 	{ id: "inbox-notification-type", title: "InboxNotification Type" },
 	{ id: "inbox-item-props", title: "InboxItem Props" },
 	{ id: "inbox-header-props", title: "InboxHeader Props" },
 	{ id: "inbox-panel-props", title: "InboxPanel Props" },
+	{ id: "inbox-detail-card-props", title: "InboxDetailCard Props" },
 	{ id: "related", title: "Related" },
 ]
 
@@ -390,9 +460,10 @@ export const Route = createFileRoute("/_docs/docs/blocks/inbox")({
 // ---------------------------------------------------------------------------
 
 function InboxHeroDemo() {
-	const [selectedId, setSelectedId] = useState<string | null>(null)
+	const [selectedId, setSelectedId] = useState<string | null>("3")
 	const [filters, setFilters] = useState<InboxFilters>({})
 	const filtered = filterInboxItems(heroItems, filters)
+	const selected = filtered.find((i) => i.id === selectedId)
 
 	return (
 		<div
@@ -402,6 +473,7 @@ function InboxHeroDemo() {
 			<Inbox>
 				<InboxSidebar>
 					<InboxHeader
+						title="Notifications"
 						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
 						filters={filters}
 						onFiltersChange={setFilters}
@@ -418,7 +490,40 @@ function InboxHeroDemo() {
 					</InboxList>
 				</InboxSidebar>
 				<InboxDetail>
-					<InboxDetailEmpty />
+					{selected ? (
+						<InboxDetailCard
+							title={selected.title}
+							description={selected.description}
+							source={{
+								name: heroDetailData[selected.id]?.source ?? selected.author.name,
+								initials: heroDetailData[selected.id]?.sourceInitials ?? selected.author.initials,
+							}}
+							time={selected.time}
+							author={
+								selected.author.name !== heroDetailData[selected.id]?.source
+									? {
+											name: selected.author.name,
+											initials: selected.author.initials,
+											color: selected.author.color,
+										}
+									: undefined
+							}
+							actions={
+								<>
+									<Button size="sm">
+										<ExternalLink className="mr-1.5 size-3.5" />
+										Open
+									</Button>
+									<Button variant="outline" size="sm">
+										<Archive className="mr-1.5 size-3.5" />
+										Archive
+									</Button>
+								</>
+							}
+						/>
+					) : (
+						<InboxDetailEmpty />
+					)}
 				</InboxDetail>
 			</Inbox>
 		</div>
@@ -436,7 +541,7 @@ function InboxPage() {
 	return (
 		<DocPage
 			title="Inbox"
-			subtitle="A Linear-style inbox with split-view layout, action type indicators, status dots, and priority badges."
+			subtitle="A Linear-style inbox with split-view layout, styled detail cards, action type indicators, status dots, and priority badges."
 			toc={toc}
 		>
 			{/* Hero */}
@@ -493,6 +598,42 @@ function InboxPage() {
 						</InboxPanel>
 					</div>
 				</DocExampleClient>
+
+				<DocExampleClient
+					title="Detail Card"
+					description="A styled notification detail card with source header, title, description, optional author section, and action buttons. Use inside InboxDetail for the split-view pattern."
+					code={examples[4].code}
+					highlightedCode={html("detail-card")}
+				>
+					<div
+						className="w-full max-w-xl rounded-lg border border-edge bg-surface overflow-hidden"
+						style={{ height: 320 }}
+					>
+						<InboxDetailCard
+							title="Deploy succeeded on main"
+							description="feat: add notifications inbox page"
+							source={{ name: "Vercel", initials: "VC" }}
+							time="5 hours ago"
+							author={{
+								name: "Jonathan Ruas",
+								initials: "JR",
+								color: "#6366f1",
+							}}
+							actions={
+								<>
+									<Button size="sm">
+										<ExternalLink className="mr-1.5 size-3.5" />
+										Open in Vercel
+									</Button>
+									<Button variant="outline" size="sm">
+										<Archive className="mr-1.5 size-3.5" />
+										Archive
+									</Button>
+								</>
+							}
+						/>
+					</div>
+				</DocExampleClient>
 			</DocSection>
 
 			{/* InboxNotification Type */}
@@ -513,6 +654,11 @@ function InboxPage() {
 			{/* InboxPanel Props */}
 			<DocSection id="inbox-panel-props" title="InboxPanel Props">
 				<DocPropsTable props={inboxPanelComponentProps} />
+			</DocSection>
+
+			{/* InboxDetailCard Props */}
+			<DocSection id="inbox-detail-card-props" title="InboxDetailCard Props">
+				<DocPropsTable props={inboxDetailCardComponentProps} />
 			</DocSection>
 
 			{/* Related */}
@@ -575,7 +721,7 @@ function SplitViewDemo() {
 	return (
 		<div
 			className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
-			style={{ height: 320 }}
+			style={{ height: 380 }}
 		>
 			<Inbox>
 				<InboxSidebar width={300}>
@@ -597,21 +743,21 @@ function SplitViewDemo() {
 				</InboxSidebar>
 				<InboxDetail>
 					{selected ? (
-						<div className="flex flex-col gap-3 p-6">
-							<h3 className="text-sm font-semibold text-fg">{selected.title}</h3>
-							<p className="text-sm text-fg-muted">{selected.description}</p>
-							<div className="flex items-center gap-2 text-xs text-fg-muted">
-								<div
-									className="flex size-5 items-center justify-center rounded-full text-[8px] font-semibold text-white"
-									style={{ backgroundColor: selected.author.color }}
-								>
-									{selected.author.initials}
-								</div>
-								<span>{selected.author.name}</span>
-								<span>·</span>
-								<span>{selected.time}</span>
-							</div>
-						</div>
+						<InboxDetailCard
+							title={selected.title}
+							description={selected.description}
+							source={{
+								name: selected.author.name,
+								initials: selected.author.initials,
+							}}
+							time={selected.time}
+							actions={
+								<Button variant="outline" size="sm">
+									<Archive className="mr-1.5 size-3.5" />
+									Archive
+								</Button>
+							}
+						/>
 					) : (
 						<InboxDetailEmpty />
 					)}
