@@ -15,7 +15,6 @@ import {
 	GitBranch,
 	RefreshCw,
 	Rocket,
-	Settings,
 } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 
@@ -70,62 +69,31 @@ function DeploymentsSkeleton() {
 	)
 }
 
-const VERCEL_TOKEN = process.env.NEXT_PUBLIC_VERCEL_TOKEN
-const VERCEL_PROJECT_ID = process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID
-
 export default function DeploymentsPageClient() {
 	const [deployments, setDeployments] = useState<VercelDeployment[] | null>(null)
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
-	const token = VERCEL_TOKEN
-	const projectId = VERCEL_PROJECT_ID
-
 	const fetchDeployments = useCallback(async () => {
-		if (!token || !projectId) return
 		setLoading(true)
 		setError(null)
 		try {
-			const res = await fetch(
-				`https://api.vercel.com/v6/deployments?projectId=${projectId}&limit=20`,
-				{ headers: { Authorization: `Bearer ${token}` } },
-			)
-			if (!res.ok) {
-				const body = await res.text()
-				throw new Error(`Vercel API ${res.status}: ${body}`)
-			}
+			const res = await fetch("/api/deployments")
 			const data = await res.json()
+			if (!res.ok) {
+				throw new Error(data.error ?? `Erreur ${res.status}`)
+			}
 			setDeployments(data.deployments ?? [])
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Erreur inconnue")
 		} finally {
 			setLoading(false)
 		}
-	}, [token, projectId])
+	}, [])
 
 	useEffect(() => {
 		fetchDeployments()
 	}, [fetchDeployments])
-
-	// Config missing
-	if (!token || !projectId) {
-		return (
-			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
-				<BlockStack className="text-center py-12 items-center">
-					<Settings className="h-10 w-10 text-fg-muted mb-3" />
-					<p className="text-sm text-fg-muted">
-						Variables d'environnement manquantes.
-					</p>
-					<p className="text-xs text-fg-muted mt-1">
-						Ajoutez <code className="font-mono text-xs">NEXT_PUBLIC_VERCEL_TOKEN</code> et{" "}
-						<code className="font-mono text-xs">NEXT_PUBLIC_VERCEL_PROJECT_ID</code> dans{" "}
-						<code className="font-mono text-xs">.env.local</code>
-					</p>
-				</BlockStack>
-			</BlockStack>
-		)
-	}
 
 	// Loading: fetching deployments
 	if (loading || deployments === null) {
