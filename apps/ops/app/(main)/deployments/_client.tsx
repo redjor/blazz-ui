@@ -6,7 +6,6 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import {
@@ -18,9 +17,7 @@ import {
 	Rocket,
 	Settings,
 } from "lucide-react"
-import Link from "next/link"
 import { useCallback, useEffect, useState } from "react"
-import { api } from "@/convex/_generated/api"
 
 interface VercelDeployment {
 	uid: string
@@ -73,14 +70,16 @@ function DeploymentsSkeleton() {
 	)
 }
 
+const VERCEL_TOKEN = process.env.NEXT_PUBLIC_VERCEL_TOKEN
+const VERCEL_PROJECT_ID = process.env.NEXT_PUBLIC_VERCEL_PROJECT_ID
+
 export default function DeploymentsPageClient() {
-	const settings = useQuery(api.settings.list)
 	const [deployments, setDeployments] = useState<VercelDeployment[] | null>(null)
 	const [error, setError] = useState<string | null>(null)
 	const [loading, setLoading] = useState(false)
 
-	const token = settings?.vercel_token
-	const projectId = settings?.vercel_project_id
+	const token = VERCEL_TOKEN
+	const projectId = VERCEL_PROJECT_ID
 
 	const fetchDeployments = useCallback(async () => {
 		if (!token || !projectId) return
@@ -108,16 +107,6 @@ export default function DeploymentsPageClient() {
 		fetchDeployments()
 	}, [fetchDeployments])
 
-	// Loading: settings not yet loaded
-	if (settings === undefined) {
-		return (
-			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
-				<DeploymentsSkeleton />
-			</BlockStack>
-		)
-	}
-
 	// Config missing
 	if (!token || !projectId) {
 		return (
@@ -126,18 +115,13 @@ export default function DeploymentsPageClient() {
 				<BlockStack className="text-center py-12 items-center">
 					<Settings className="h-10 w-10 text-fg-muted mb-3" />
 					<p className="text-sm text-fg-muted">
-						Token Vercel ou Project ID manquant.
+						Variables d'environnement manquantes.
 					</p>
 					<p className="text-xs text-fg-muted mt-1">
-						Ajoutez <code className="font-mono text-xs">vercel_token</code> et{" "}
-						<code className="font-mono text-xs">vercel_project_id</code> dans les
-						paramètres.
+						Ajoutez <code className="font-mono text-xs">NEXT_PUBLIC_VERCEL_TOKEN</code> et{" "}
+						<code className="font-mono text-xs">NEXT_PUBLIC_VERCEL_PROJECT_ID</code> dans{" "}
+						<code className="font-mono text-xs">.env.local</code>
 					</p>
-					<Link href="/settings">
-						<Button variant="outline" size="sm" className="mt-3">
-							Paramètres
-						</Button>
-					</Link>
 				</BlockStack>
 			</BlockStack>
 		)
