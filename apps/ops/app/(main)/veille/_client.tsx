@@ -8,7 +8,7 @@ import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useAction, useMutation, useQuery } from "convex/react"
-import { CheckCheck, Loader2, RefreshCw, Rss, Settings2 } from "lucide-react"
+import { CheckCheck, Loader2, RefreshCw, Rss, Settings2, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -56,6 +56,7 @@ export default function VeilleClient() {
 	const toggleFavorite = useMutation(api.feedItems.toggleFavorite)
 	const markAllRead = useMutation(api.feedItems.markAllRead)
 	const fetchNow = useAction(api.feed.fetchNow)
+	const enrichMissing = useAction(api.feed.enrichMissing)
 
 	// Source map for display names
 	const sourceMap = useMemo(() => {
@@ -73,6 +74,15 @@ export default function VeilleClient() {
 			toast.error("Erreur lors de la synchronisation")
 		} finally {
 			setFetching(false)
+		}
+	}
+
+	const handleEnrichMissing = async () => {
+		try {
+			const count = await enrichMissing()
+			toast.success(count > 0 ? `${count} articles en cours d'enrichissement` : "Tous les articles sont déjà enrichis")
+		} catch {
+			toast.error("Erreur")
 		}
 	}
 
@@ -131,6 +141,13 @@ export default function VeilleClient() {
 						</span>
 					)}
 				</Button>
+
+				{items && items.some((i) => !i.aiSummary) && (
+					<Button size="sm" variant="outline" onClick={handleEnrichMissing}>
+						<Sparkles className="size-4 mr-1.5" />
+						Enrichir
+					</Button>
+				)}
 
 				{/* Type filter pills */}
 				<InlineStack gap="100">

@@ -12,6 +12,14 @@ export const getItemInternal = internalQuery({
 	},
 })
 
+export const listUnenrichedItems = internalQuery({
+	args: {},
+	handler: async (ctx) => {
+		const all = await ctx.db.query("feedItems").collect()
+		return all.filter((i) => !i.aiSummary)
+	},
+})
+
 export const listActiveSources = internalQuery({
 	args: {},
 	handler: async (ctx) => {
@@ -57,6 +65,13 @@ export const markSourceFetched = internalMutation({
 	args: { sourceId: v.id("feedSources") },
 	handler: async (ctx, { sourceId }) => {
 		await ctx.db.patch(sourceId, { lastFetchedAt: Date.now() })
+	},
+})
+
+export const updateSourceExternalId = internalMutation({
+	args: { sourceId: v.id("feedSources"), externalId: v.string() },
+	handler: async (ctx, { sourceId, externalId }) => {
+		await ctx.db.patch(sourceId, { externalId })
 	},
 })
 
@@ -170,11 +185,38 @@ export const fetchYouTubeChannel = internalAction({
 			return
 		}
 
+		// Auto-resolve handle to channel ID if needed
+		let resolvedChannelId = channelId
+		if (!channelId.startsWith("UC")) {
+			const handle = channelId.replace(/^@/, "")
+			const resolveUrl = `https://www.googleapis.com/youtube/v3/channels?part=snippet&forHandle=${encodeURIComponent(handle)}&key=${apiKey}`
+			const resolveRes = await fetch(resolveUrl)
+			if (resolveRes.ok) {
+				const resolveData = await resolveRes.json()
+				const channel = resolveData.items?.[0]
+				if (channel) {
+					resolvedChannelId = channel.id
+					// Update the source with the resolved channel ID
+					await ctx.runMutation(internal.feed.updateSourceExternalId, {
+						sourceId,
+						externalId: resolvedChannelId,
+					})
+				} else {
+					console.error(`Could not resolve YouTube handle: ${handle}`)
+					return
+				}
+			} else {
+				console.error(`YouTube resolve error: ${resolveRes.status}`)
+				return
+			}
+		}
+
 		try {
-			const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${encodeURIComponent(channelId)}&maxResults=20&order=date&type=video&key=${apiKey}`
+			const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${encodeURIComponent(resolvedChannelId)}&maxResults=10&order=date&type=video&key=${apiKey}`
 			const res = await fetch(url)
 			if (!res.ok) {
-				console.error(`YouTube API error: ${res.status} ${res.statusText}`)
+				const errorBody = await res.text()
+				console.error(`YouTube API error: ${res.status} ${res.statusText}`, errorBody)
 				return
 			}
 
@@ -356,6 +398,18 @@ export const fetchNow = action({
 	handler: async (ctx) => {
 		await requireAuth(ctx)
 		await ctx.scheduler.runAfter(0, internal.feed.fetchAllFeeds)
+	},
+})
+
+export const enrichMissing = action({
+	args: {},
+	handler: async (ctx): Promise<number> => {
+		await requireAuth(ctx)
+		const items: Array<{ _id: string }> = await ctx.runQuery(internal.feed.listUnenrichedItems)
+		for (const item of items) {
+			await ctx.scheduler.runAfter(0, internal.feed.enrichItem, { itemId: item._id as any })
+		}
+		return items.length
 	},
 })
 
