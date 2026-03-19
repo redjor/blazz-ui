@@ -112,7 +112,7 @@ export default function DeploymentsPageClient() {
 	if (settings === undefined) {
 		return (
 			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers d\u00e9ploiements Vercel" />
+				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
 				<DeploymentsSkeleton />
 			</BlockStack>
 		)
@@ -122,7 +122,7 @@ export default function DeploymentsPageClient() {
 	if (!token || !projectId) {
 		return (
 			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers d\u00e9ploiements Vercel" />
+				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
 				<BlockStack className="text-center py-12 items-center">
 					<Settings className="h-10 w-10 text-fg-muted mb-3" />
 					<p className="text-sm text-fg-muted">
@@ -131,11 +131,11 @@ export default function DeploymentsPageClient() {
 					<p className="text-xs text-fg-muted mt-1">
 						Ajoutez <code className="font-mono text-xs">vercel_token</code> et{" "}
 						<code className="font-mono text-xs">vercel_project_id</code> dans les
-						param\u00e8tres.
+						paramètres.
 					</p>
 					<Link href="/settings">
 						<Button variant="outline" size="sm" className="mt-3">
-							Param\u00e8tres
+							Paramètres
 						</Button>
 					</Link>
 				</BlockStack>
@@ -147,7 +147,7 @@ export default function DeploymentsPageClient() {
 	if (loading || deployments === null) {
 		return (
 			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers d\u00e9ploiements Vercel" />
+				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
 				<DeploymentsSkeleton />
 			</BlockStack>
 		)
@@ -157,7 +157,7 @@ export default function DeploymentsPageClient() {
 	if (error) {
 		return (
 			<BlockStack gap="600" className="p-6">
-				<PageHeader title="Deployments" description="Derniers d\u00e9ploiements Vercel" />
+				<PageHeader title="Deployments" description="Derniers déploiements Vercel" />
 				<BlockStack className="text-center py-12 items-center">
 					<AlertCircle className="h-10 w-10 text-destructive mb-3" />
 					<p className="text-sm text-fg font-medium">Erreur de chargement</p>
@@ -175,7 +175,7 @@ export default function DeploymentsPageClient() {
 		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title="Deployments"
-				description={`${deployments.length} derniers d\u00e9ploiements`}
+				description={`${deployments.length} derniers déploiements`}
 				actionsSlot={
 					<Button variant="outline" size="sm" onClick={fetchDeployments} disabled={loading}>
 						<RefreshCw className={loading ? "animate-spin" : ""} />
@@ -187,7 +187,7 @@ export default function DeploymentsPageClient() {
 			{deployments.length === 0 ? (
 				<BlockStack className="text-center py-12 items-center">
 					<Rocket className="h-10 w-10 text-fg-muted mb-3" />
-					<p className="text-sm text-fg-muted">Aucun d\u00e9ploiement trouv\u00e9.</p>
+					<p className="text-sm text-fg-muted">Aucun déploiement trouvé.</p>
 				</BlockStack>
 			) : (
 				<BlockStack gap="300">
