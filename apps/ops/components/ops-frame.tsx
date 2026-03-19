@@ -14,6 +14,7 @@ import {
 	Package,
 	Receipt,
 	Rocket,
+	Rss,
 	Settings,
 	Sun,
 	Users,
@@ -64,6 +65,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 		items: [
 			{ title: "Notes", url: "/notes", icon: FileText },
 			{ title: "Bookmarks", url: "/bookmarks", icon: Bookmark, flag: "bookmarks" },
+			{ title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
 			{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
 		],
 	},
