@@ -108,21 +108,21 @@ export default function DeploymentsPageClient() {
 		return (
 			<BlockStack gap="600" className="p-6">
 				<PageHeader title="Deployments" />
-				<BlockStack gap="400">
+				<InlineStack gap="400" wrap={false} className="items-stretch">
 					{BRANCHES.map((b) => (
-						<BlockStack key={b} gap="300" className="rounded-lg border border-edge p-5">
+						<BlockStack key={b} gap="300" className="flex-1 rounded-lg border border-edge p-5">
 							<InlineStack gap="200" blockAlign="center">
 								<Skeleton className="h-5 w-5 rounded" />
 								<Skeleton className="h-5 w-24" />
 								<Skeleton className="h-5 w-16 rounded-full" />
 							</InlineStack>
 							<Skeleton className="h-px w-full" />
-							<Skeleton className="h-4 w-64" />
-							<Skeleton className="h-4 w-48" />
-							<Skeleton className="h-4 w-56" />
+							<Skeleton className="h-4 w-3/4" />
+							<Skeleton className="h-4 w-1/2" />
+							<Skeleton className="h-4 w-2/3" />
 						</BlockStack>
 					))}
-				</BlockStack>
+				</InlineStack>
 			</BlockStack>
 		)
 	}
@@ -156,7 +156,7 @@ export default function DeploymentsPageClient() {
 				}
 			/>
 
-			<BlockStack gap="400">
+			<InlineStack gap="400" wrap={false} className="items-stretch">
 				{BRANCHES.map((branch) => {
 					const d = branches?.[branch]
 					const config = BRANCH_CONFIG[branch]
@@ -167,7 +167,7 @@ export default function DeploymentsPageClient() {
 						return (
 							<BlockStack
 								key={branch}
-								className={`rounded-lg border-l-[3px] ${config.accent} border border-edge bg-surface-3 p-5`}
+								className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-surface-3 p-5`}
 								gap="200"
 							>
 								<InlineStack gap="200" blockAlign="center">
@@ -191,7 +191,7 @@ export default function DeploymentsPageClient() {
 					return (
 						<BlockStack
 							key={branch}
-							className={`rounded-lg border-l-[3px] ${config.accent} border border-edge bg-surface-3`}
+							className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-surface-3`}
 						>
 							{/* Header */}
 							<InlineStack
@@ -282,7 +282,7 @@ export default function DeploymentsPageClient() {
 						</BlockStack>
 					)
 				})}
-			</BlockStack>
+			</InlineStack>
 		</BlockStack>
 	)
 }
