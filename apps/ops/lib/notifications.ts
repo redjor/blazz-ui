@@ -5,6 +5,7 @@ type ConvexNotification = {
 	_id: string
 	title: string
 	description: string
+	source: string
 	actionType: string
 	status?: string
 	priority?: string
@@ -14,6 +15,12 @@ type ConvexNotification = {
 	authorAvatar?: string
 	read?: boolean
 	createdAt: number
+}
+
+const sourceLogos: Record<string, string> = {
+	github: "/logos/github.svg",
+	vercel: "/logos/vercel.svg",
+	convex: "/logos/convex.svg",
 }
 
 const actionTypeMap: Record<string, InboxNotification["actionType"]> = {
