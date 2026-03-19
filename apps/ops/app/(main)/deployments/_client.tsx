@@ -37,10 +37,10 @@ interface VercelDeployment {
 
 const STATUS_CONFIG: Record<
 	VercelDeployment["state"],
-	{ label: string; variant: "default" | "destructive" | "secondary" | "outline" }
+	{ label: string; variant: "default" | "critical" | "secondary" | "outline" }
 > = {
 	READY: { label: "Ready", variant: "default" },
-	ERROR: { label: "Error", variant: "destructive" },
+	ERROR: { label: "Error", variant: "critical" },
 	BUILDING: { label: "Building", variant: "secondary" },
 	INITIALIZING: { label: "Init", variant: "secondary" },
 	QUEUED: { label: "Queued", variant: "outline" },
@@ -176,7 +176,7 @@ export default function DeploymentsPageClient() {
 			<PageHeader
 				title="Deployments"
 				description={`${deployments.length} derniers d\u00e9ploiements`}
-				actions={
+				actionsSlot={
 					<Button variant="outline" size="sm" onClick={fetchDeployments} disabled={loading}>
 						<RefreshCw className={loading ? "animate-spin" : ""} />
 						Refresh
