@@ -258,6 +258,41 @@ export default defineSchema({
 		.index("by_user", ["userId"])
 		.index("by_parent", ["parentId"]),
 
+	feedSources: defineTable({
+		userId: v.id("users"),
+		name: v.string(),
+		type: v.union(v.literal("youtube"), v.literal("rss")),
+		externalId: v.string(),
+		avatarUrl: v.optional(v.string()),
+		lastFetchedAt: v.optional(v.number()),
+		isActive: v.boolean(),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_type", ["userId", "type"])
+		.index("by_user_active", ["userId", "isActive"]),
+
+	feedItems: defineTable({
+		userId: v.id("users"),
+		sourceId: v.id("feedSources"),
+		externalId: v.string(),
+		type: v.union(v.literal("youtube"), v.literal("rss")),
+		title: v.string(),
+		content: v.string(),
+		url: v.string(),
+		thumbnailUrl: v.optional(v.string()),
+		publishedAt: v.number(),
+		aiSummary: v.optional(v.string()),
+		aiTags: v.optional(v.array(v.string())),
+		isRead: v.boolean(),
+		isFavorite: v.boolean(),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_type", ["userId", "type"])
+		.index("by_source", ["sourceId"])
+		.index("by_external", ["externalId"]),
+
 	bookmarks: defineTable({
 		userId: v.string(),
 		url: v.string(),
