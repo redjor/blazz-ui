@@ -7,8 +7,8 @@ import { Check, Plus, Tag } from "lucide-react"
 import { useState } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import { TAG_COLORS, getTagColor } from "@/lib/tag-colors"
 import type { TagColorKey } from "@/lib/tag-colors"
+import { getTagColor, TAG_COLORS } from "@/lib/tag-colors"
 
 interface NoteTagPickerProps {
 	noteId: Id<"notes">
@@ -24,13 +24,9 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 	const [newColor, setNewColor] = useState<TagColorKey>("blue")
 	const [open, setOpen] = useState(false)
 
-	const filtered = allTags.filter((t) =>
-		t.name.toLowerCase().includes(search.toLowerCase())
-	)
+	const filtered = allTags.filter((t) => t.name.toLowerCase().includes(search.toLowerCase()))
 
-	const exactMatch = allTags.some(
-		(t) => t.name.toLowerCase() === search.trim().toLowerCase()
-	)
+	const exactMatch = allTags.some((t) => t.name.toLowerCase() === search.trim().toLowerCase())
 
 	async function toggleTag(tagId: Id<"tags">) {
 		const current = noteTagIds
@@ -50,9 +46,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger
-				className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg"
-			>
+			<PopoverTrigger className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg">
 				<Tag className="size-3" />
 				<span>Tags</span>
 			</PopoverTrigger>
@@ -92,7 +86,9 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-fg transition-colors hover:bg-surface-2"
 								>
 									<Plus className="size-3.5 shrink-0 text-fg-muted" />
-									<span>Créer <strong>{search.trim()}</strong></span>
+									<span>
+										Créer <strong>{search.trim()}</strong>
+									</span>
 								</button>
 								<div className="flex items-center gap-1.5 px-2.5 py-2">
 									{TAG_COLORS.map((c) => (

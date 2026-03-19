@@ -1,13 +1,9 @@
-import {
-	col,
-	DataTable,
-	DataTableColumnHeader,
-} from "@blazz/pro/components/blocks/data-table"
 import type {
 	BulkAction,
 	DataTableColumnDef,
 	RowAction,
 } from "@blazz/pro/components/blocks/data-table"
+import { col, DataTable, DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table"
 import {
 	Table,
 	TableBody,
@@ -17,7 +13,9 @@ import {
 	TableRow,
 } from "@blazz/ui/components/ui/table"
 import { createOrderLinesPreset } from "~/lib/preset-stubs"
+
 type OrderLineRow = Record<string, unknown>
+
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { ArrowLeft, ArrowLeftRight, Copy, Eye, Scissors, Trash2 } from "lucide-react"
 import * as React from "react"

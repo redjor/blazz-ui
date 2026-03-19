@@ -2,15 +2,15 @@
 
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useAction, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { ExternalLink, Package, RefreshCw } from "lucide-react"
 import { useState } from "react"
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { api } from "@/convex/_generated/api"
 import { formatBytes } from "@/lib/format"
 
@@ -62,7 +62,11 @@ export default function PackagesPageClient() {
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{packages.map((pkg) => (
-						<BlockStack key={pkg._id} gap="300" className="rounded-lg border border-edge bg-surface-3 p-5">
+						<BlockStack
+							key={pkg._id}
+							gap="300"
+							className="rounded-lg border border-edge bg-surface-3 p-5"
+						>
 							<InlineStack gap="200" align="space-between" blockAlign="start">
 								<div className="min-w-0">
 									<a

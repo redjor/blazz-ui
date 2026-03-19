@@ -68,8 +68,7 @@ export function ThemeEditor({ value, onChange }: ThemeEditorProps) {
 
 		// Scope the CSS to the preview container
 		// Replace `:root` with `#sandbox-preview-container` so it only affects the preview
-		const scopedCss = value
-			.replace(/:root\s*\{/g, "#sandbox-preview-container {")
+		const scopedCss = value.replace(/:root\s*\{/g, "#sandbox-preview-container {")
 
 		styleRef.current.textContent = scopedCss
 

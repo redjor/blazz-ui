@@ -1,35 +1,22 @@
 "use client"
 
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { Box } from "@blazz/ui/components/ui/box"
-import { Grid } from "@blazz/ui/components/ui/grid"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { Card, CardContent } from "@blazz/ui/components/ui/card"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { BudgetCard } from "@blazz/pro/components/blocks/budget-card"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
-import { BudgetCard } from "@blazz/pro/components/blocks/budget-card"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Box } from "@blazz/ui/components/ui/box"
+import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { Grid } from "@blazz/ui/components/ui/grid"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
-import {
-	endOfMonth,
-	format,
-	startOfMonth,
-	subMonths,
-} from "date-fns"
+import { endOfMonth, format, startOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
-import {
-	Clock,
-	Banknote,
-	FolderOpen,
-	CheckSquare,
-	FileText,
-	Send,
-	CreditCard,
-} from "lucide-react"
 import type { LucideIcon } from "lucide-react"
+import { Banknote, CheckSquare, Clock, CreditCard, FileText, FolderOpen, Send } from "lucide-react"
+import Link from "next/link"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency, formatMinutes } from "@/lib/format"
-import Link from "next/link"
 
 // ─── Helpers ──────────────────────────────────────────────────
 
@@ -107,9 +94,7 @@ export default function DashboardPageClient() {
 	const todos = useQuery(api.todos.list, {})
 
 	const isLoading =
-		monthEntries === undefined ||
-		prevMonthEntries === undefined ||
-		projectsWithBudget === undefined
+		monthEntries === undefined || prevMonthEntries === undefined || projectsWithBudget === undefined
 
 	// Current month
 	const billable = monthEntries?.filter((e) => e.billable) ?? []
@@ -127,9 +112,7 @@ export default function DashboardPageClient() {
 	const activeProjects = projectsWithBudget?.filter((p) => p.status === "active") ?? []
 	const openTodos = todos?.filter((t) => t.status !== "done")?.length ?? 0
 
-	const monthTitle = format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) =>
-		c.toUpperCase()
-	)
+	const monthTitle = format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase())
 
 	return (
 		<BlockStack gap="600" className="p-6">
@@ -227,7 +210,10 @@ export default function DashboardPageClient() {
 									: `${project.daysConsumed}j consommés`
 							return (
 								<Grid.Cell key={project._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-									<Link href={`/clients/${project.clientId}/projects/${project._id}`} className="block">
+									<Link
+										href={`/clients/${project.clientId}/projects/${project._id}`}
+										className="block"
+									>
 										<BudgetCard
 											name={project.name}
 											revenue={project.billableRevenue}

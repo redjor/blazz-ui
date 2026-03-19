@@ -100,7 +100,8 @@ const appTopBarProps: DocProp[] = [
 	{
 		name: "notificationSlot",
 		type: "React.ReactNode",
-		description: "Slot pour les notifications (ex: NotificationSheet). Rendu entre le palette switcher et le user menu.",
+		description:
+			"Slot pour les notifications (ex: NotificationSheet). Rendu entre le palette switcher et le user menu.",
 	},
 	{
 		name: "user",

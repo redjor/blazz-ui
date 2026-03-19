@@ -68,7 +68,7 @@ export default function BookmarksPageClient() {
 	const [editBookmark, setEditBookmark] = useState<Doc<"bookmarks"> | undefined>(undefined)
 	const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
 	const [editCollection, setEditCollection] = useState<Doc<"bookmarkCollections"> | undefined>(
-		undefined,
+		undefined
 	)
 
 	// Tags query (lifted from BookmarkCard to avoid N+1)
@@ -85,8 +85,7 @@ export default function BookmarksPageClient() {
 
 	// Query
 	const bookmarks = useQuery(api.bookmarks.list, {
-		collectionId:
-			activeFilter.type === "collection" ? activeFilter.collectionId : undefined,
+		collectionId: activeFilter.type === "collection" ? activeFilter.collectionId : undefined,
 		type: typeFilter,
 		tag: tagFilter,
 		archived: activeFilter.type === "archived" ? true : undefined,
@@ -101,7 +100,7 @@ export default function BookmarksPageClient() {
 				<Plus className="size-4" />
 			</Button>
 		),
-		[],
+		[]
 	)
 	useAppTopBar([{ label: "Bookmarks" }], topBarActions)
 
@@ -145,7 +144,10 @@ export default function BookmarksPageClient() {
 	const handleReadLater = async (id: Id<"bookmarks">) => {
 		if (!readLaterCollectionId) return
 		try {
-			await moveBookmark({ ids: [id], collectionId: readLaterCollectionId as Id<"bookmarkCollections"> })
+			await moveBookmark({
+				ids: [id],
+				collectionId: readLaterCollectionId as Id<"bookmarkCollections">,
+			})
 			toast.success("Ajouté à Read Later")
 		} catch {
 			toast.error("Erreur")
@@ -179,9 +181,7 @@ export default function BookmarksPageClient() {
 				{allTags && allTags.length > 0 && (
 					<Select
 						value={tagFilter ?? ""}
-						onValueChange={(val) =>
-							setTagFilter(val ? (val as Id<"tags">) : undefined)
-						}
+						onValueChange={(val) => setTagFilter(val ? (val as Id<"tags">) : undefined)}
 						items={[
 							{ value: "", label: "Tous les tags" },
 							...allTags.map((t) => ({ value: t._id, label: t.name })),

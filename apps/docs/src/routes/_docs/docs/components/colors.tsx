@@ -122,10 +122,7 @@ function SurfaceStack() {
 			</div>
 			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--surface-0)" }}>
 				<p className="text-xs font-mono text-fg-subtle mb-3">surface-0 — nav shell</p>
-				<div
-					className="rounded-lg p-5"
-					style={{ backgroundColor: "var(--surface-1)" }}
-				>
+				<div className="rounded-lg p-5" style={{ backgroundColor: "var(--surface-1)" }}>
 					<p className="text-xs font-mono text-fg-subtle mb-3">surface-1 — main area</p>
 					<div
 						className="rounded-lg p-5 border border-edge"
@@ -288,12 +285,13 @@ function ColorsPage() {
 						The surface scale is generated from just 2 values per theme using{" "}
 						<code className="font-mono text-fg-subtle">color-mix(in oklch)</code>. To create a
 						custom theme, override <code className="font-mono text-fg-subtle">--surface-base</code>{" "}
-						(most recessive) and{" "}
-						<code className="font-mono text-fg-subtle">--surface-top</code> (most prominent). The 3
-						intermediate levels are computed automatically.
+						(most recessive) and <code className="font-mono text-fg-subtle">--surface-top</code>{" "}
+						(most prominent). The 3 intermediate levels are computed automatically.
 					</p>
 					<div className="rounded-lg border border-edge bg-surface-3 p-6 space-y-4">
-						<p className="text-xs font-mono text-fg-subtle">/* Custom theme — 2 values only */</p>
+						<p className="text-xs font-mono text-fg-subtle">
+							{"/* Custom theme — 2 values only */"}
+						</p>
 						<pre className="text-sm font-mono text-fg whitespace-pre overflow-x-auto">
 							{`html[data-theme="ocean"] {
   --surface-base: oklch(0.93 0.02 230);

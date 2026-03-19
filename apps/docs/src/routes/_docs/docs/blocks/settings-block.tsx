@@ -517,7 +517,8 @@ function SettingsBlockPage() {
 						{
 							title: "Item Group",
 							href: "/docs/components/ui/item",
-							description: "The grouping primitive used internally by SettingsSection and SettingsDanger.",
+							description:
+								"The grouping primitive used internally by SettingsSection and SettingsDanger.",
 						},
 						{
 							title: "Detail Panel",

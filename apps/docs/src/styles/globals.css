@@ -100,7 +100,7 @@
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.94 0 0);
-	--surface-top:  oklch(1.0 0 0);
+	--surface-top: oklch(1 0 0);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
 	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
@@ -132,7 +132,8 @@
 
 	/* Card shadows */
 	--card-shadow: 0 0 0 1px var(--border-container);
-	--card-shadow-elevated: 0 0 0 1px var(--border-container), 0 1px 3px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+	--card-shadow-elevated:
+		0 0 0 1px var(--border-container), 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
 
 	/* Density */
 	--row-height: 40px;
@@ -175,7 +176,7 @@ html.dark {
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.145 0.005 285);
-	--surface-top:  oklch(0.28 0.005 285);
+	--surface-top: oklch(0.28 0.005 285);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
 	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
@@ -190,8 +191,21 @@ html.dark {
 	--border-separator: var(--border-default);
 
 	/* Card shadows */
-	--card-shadow: inset 0 1px 0 0 rgba(255,255,255,0.02), inset 0 0 0 1px rgba(255,255,255,0.02), 0 0 0 1px rgba(0,0,0,0.25);
-	--card-shadow-elevated: inset 0 1px 0 0 rgba(255,255,255,0.03), inset 0 0 0 1px rgba(255,255,255,0.03), 0 0 0 1px rgba(0,0,0,0.10), 0 2px 2px 0 rgba(0,0,0,0.10), 0 4px 4px 0 rgba(0,0,0,0.10), 0 8px 8px 0 rgba(0,0,0,0.10);
+	--card-shadow:
+		inset 0 1px 0 0 rgba(255, 255, 255, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+		0 0 0 1px rgba(0, 0, 0, 0.25);
+	--card-shadow-elevated:
+		inset 0 1px 0 0 rgba(255, 255, 255, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 0 1px rgba(
+			0,
+			0,
+			0,
+			0.1
+		), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 8px 0 rgba(
+			0,
+			0,
+			0,
+			0.1
+		);
 
 	/* Text */
 	--text-primary: oklch(0.985 0 0);
@@ -617,8 +631,8 @@ html.dark {
 /* Shiki dual-theme: switch to dark colors when .dark is active */
 html.dark .shiki,
 html.dark .shiki span {
-	color: var(--shiki-dark) !important;
-	background-color: var(--shiki-dark-bg) !important;
+	color: var(--shiki-dark);
+	background-color: var(--shiki-dark-bg);
 	font-style: var(--shiki-dark-font-style);
 	font-weight: var(--shiki-dark-font-weight);
 	text-decoration: var(--shiki-dark-text-decoration);

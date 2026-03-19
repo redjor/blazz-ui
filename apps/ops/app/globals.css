@@ -11,7 +11,6 @@
 	--font-mono: var(--font-geist-mono);
 	--font-pixel: var(--font-geist-pixel-square);
 
-
 	/* Border radius scale */
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
@@ -137,7 +136,8 @@
 
 	/* Card shadows */
 	--card-shadow: 0 0 0 1px var(--border-container);
-	--card-shadow-elevated: 0 0 0 1px var(--border-container), 0 1px 3px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+	--card-shadow-elevated:
+		0 0 0 1px var(--border-container), 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
 
 	/* Density */
 	--row-height: 40px;
@@ -195,8 +195,21 @@ html.dark {
 	--border-separator: var(--border-subtle);
 
 	/* Card shadows */
-	--card-shadow: inset 0 1px 0 0 rgba(255,255,255,0.02), inset 0 0 0 1px rgba(255,255,255,0.02), 0 0 0 1px rgba(0,0,0,0.25);
-	--card-shadow-elevated: inset 0 1px 0 0 rgba(255,255,255,0.03), inset 0 0 0 1px rgba(255,255,255,0.03), 0 0 0 1px rgba(0,0,0,0.10), 0 2px 2px 0 rgba(0,0,0,0.10), 0 4px 4px 0 rgba(0,0,0,0.10), 0 8px 8px 0 rgba(0,0,0,0.10);
+	--card-shadow:
+		inset 0 1px 0 0 rgba(255, 255, 255, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+		0 0 0 1px rgba(0, 0, 0, 0.25);
+	--card-shadow-elevated:
+		inset 0 1px 0 0 rgba(255, 255, 255, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 0 1px rgba(
+			0,
+			0,
+			0,
+			0.1
+		), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 8px 0 rgba(
+			0,
+			0,
+			0,
+			0.1
+		);
 
 	/* Text */
 	--text-primary: oklch(0.985 0 0);

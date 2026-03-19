@@ -1,5 +1,9 @@
-import { DataTable, col, createStatusViews } from "@blazz/pro/components/blocks/data-table"
-import type { DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import type {
+	DataTableColumnDef,
+	DataTableView,
+	RowAction,
+} from "@blazz/pro/components/blocks/data-table"
+import { col, createStatusViews, DataTable } from "@blazz/pro/components/blocks/data-table"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import {
 	ArrowRight,
@@ -37,21 +41,85 @@ interface Deal {
 }
 
 const deals: Deal[] = [
-	{ id: "1", company: "Acme Corp", contact: "Jean Dupont", amount: 45000, stage: "negotiation", probability: 80, createdAt: Date.now() - 2 * 86400000 },
-	{ id: "2", company: "Globex Inc", contact: "Marie Martin", amount: 28000, stage: "proposal", probability: 60, createdAt: Date.now() - 5 * 86400000 },
-	{ id: "3", company: "Initech", contact: "Pierre Durand", amount: 92000, stage: "won", probability: 100, createdAt: Date.now() - 10 * 86400000 },
-	{ id: "4", company: "Umbrella Ltd", contact: "Sophie Moreau", amount: 15000, stage: "lead", probability: 20, createdAt: Date.now() - 1 * 86400000 },
-	{ id: "5", company: "Stark Industries", contact: "Lucas Bernard", amount: 67000, stage: "qualified", probability: 40, createdAt: Date.now() - 3 * 86400000 },
-	{ id: "6", company: "Wayne Enterprises", contact: "Emma Petit", amount: 120000, stage: "negotiation", probability: 75, createdAt: Date.now() - 7 * 86400000 },
-	{ id: "7", company: "Cyberdyne", contact: "Thomas Leroy", amount: 8500, stage: "lost", probability: 0, createdAt: Date.now() - 14 * 86400000 },
-	{ id: "8", company: "Oscorp", contact: "Camille Roux", amount: 34000, stage: "proposal", probability: 50, createdAt: Date.now() - 4 * 86400000 },
+	{
+		id: "1",
+		company: "Acme Corp",
+		contact: "Jean Dupont",
+		amount: 45000,
+		stage: "negotiation",
+		probability: 80,
+		createdAt: Date.now() - 2 * 86400000,
+	},
+	{
+		id: "2",
+		company: "Globex Inc",
+		contact: "Marie Martin",
+		amount: 28000,
+		stage: "proposal",
+		probability: 60,
+		createdAt: Date.now() - 5 * 86400000,
+	},
+	{
+		id: "3",
+		company: "Initech",
+		contact: "Pierre Durand",
+		amount: 92000,
+		stage: "won",
+		probability: 100,
+		createdAt: Date.now() - 10 * 86400000,
+	},
+	{
+		id: "4",
+		company: "Umbrella Ltd",
+		contact: "Sophie Moreau",
+		amount: 15000,
+		stage: "lead",
+		probability: 20,
+		createdAt: Date.now() - 1 * 86400000,
+	},
+	{
+		id: "5",
+		company: "Stark Industries",
+		contact: "Lucas Bernard",
+		amount: 67000,
+		stage: "qualified",
+		probability: 40,
+		createdAt: Date.now() - 3 * 86400000,
+	},
+	{
+		id: "6",
+		company: "Wayne Enterprises",
+		contact: "Emma Petit",
+		amount: 120000,
+		stage: "negotiation",
+		probability: 75,
+		createdAt: Date.now() - 7 * 86400000,
+	},
+	{
+		id: "7",
+		company: "Cyberdyne",
+		contact: "Thomas Leroy",
+		amount: 8500,
+		stage: "lost",
+		probability: 0,
+		createdAt: Date.now() - 14 * 86400000,
+	},
+	{
+		id: "8",
+		company: "Oscorp",
+		contact: "Camille Roux",
+		amount: 34000,
+		stage: "proposal",
+		probability: 50,
+		createdAt: Date.now() - 4 * 86400000,
+	},
 ]
 
 // ---------------------------------------------------------------------------
 // Stage config for flat mode
 // ---------------------------------------------------------------------------
 
-const stageLabels: Record<string, string> = {
+const _stageLabels: Record<string, string> = {
 	lead: "Lead",
 	qualified: "Qualifie",
 	proposal: "Proposition",
@@ -126,7 +194,8 @@ const subPages = [
 	{
 		title: "Composition & Slots",
 		href: "/docs/blocks/data-table/composition",
-		description: "renderGroupHeader, renderRowActions, renderPagination, toolbar slots, footerSlot.",
+		description:
+			"renderGroupHeader, renderRowActions, renderPagination, toolbar slots, footerSlot.",
 		icon: Puzzle,
 	},
 	{
@@ -308,7 +377,14 @@ function DataTableIndexPage() {
 	const rowActions = React.useMemo<RowAction<Deal>[]>(
 		() => [
 			{ id: "edit", label: "Modifier", icon: Pencil, handler: () => {} },
-			{ id: "delete", label: "Supprimer", icon: Trash2, variant: "destructive", separator: true, handler: () => {} },
+			{
+				id: "delete",
+				label: "Supprimer",
+				icon: Trash2,
+				variant: "destructive",
+				separator: true,
+				handler: () => {},
+			},
 		],
 		[]
 	)
@@ -500,7 +576,10 @@ function DataTableIndexPage() {
 					{[
 						{ title: "6 variants", desc: "default, lined, striped, flat, editable, spreadsheet" },
 						{ title: "col.* factories", desc: "28 factories pour creer des colonnes en une ligne" },
-						{ title: "Stacked toolbar", desc: "Toolbar Linear-style avec vues en tabs, search, filtres" },
+						{
+							title: "Stacked toolbar",
+							desc: "Toolbar Linear-style avec vues en tabs, search, filtres",
+						},
 						{ title: "Views", desc: "Vues prefaites + vues custom sauvegardables" },
 						{ title: "Advanced filters", desc: "Filter builder AND/OR avec 15 operateurs" },
 						{ title: "Grouping", desc: "Grouping par colonne avec agregations (sum, avg, count)" },

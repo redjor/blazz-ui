@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 // ── Types ───────────────────────────────────────
 
@@ -15,7 +15,7 @@ export interface InspectedElement {
 
 export function useElementInspector(
 	containerRef: React.RefObject<HTMLElement | null>,
-	enabled: boolean,
+	enabled: boolean
 ) {
 	const [hovered, setHovered] = useState<InspectedElement | null>(null)
 	const [selected, setSelected] = useState<InspectedElement | null>(null)
@@ -31,7 +31,7 @@ export function useElementInspector(
 			}
 			return null
 		},
-		[containerRef],
+		[containerRef]
 	)
 
 	const getElementInfo = useCallback(
@@ -43,7 +43,7 @@ export function useElementInspector(
 				elRect.x - (containerRect?.x ?? 0),
 				elRect.y - (containerRect?.y ?? 0),
 				elRect.width,
-				elRect.height,
+				elRect.height
 			)
 			return {
 				slot: el.getAttribute("data-slot") ?? "",
@@ -52,7 +52,7 @@ export function useElementInspector(
 				element: el,
 			}
 		},
-		[containerRef],
+		[containerRef]
 	)
 
 	useEffect(() => {

@@ -1,13 +1,13 @@
 import { useQuery } from "convex/react"
 import {
-	startOfWeek,
-	endOfWeek,
-	subWeeks,
 	eachDayOfInterval,
+	endOfWeek,
 	format,
+	getDay,
 	isAfter,
 	startOfDay,
-	getDay,
+	startOfWeek,
+	subWeeks,
 } from "date-fns"
 import { fr } from "date-fns/locale"
 import { useMemo } from "react"
@@ -34,9 +34,7 @@ export function useMissingDays() {
 		if (entries === undefined) return undefined
 
 		// Collect all days that have at least 1 billable entry
-		const coveredDates = new Set(
-			entries.filter((e) => e.billable).map((e) => e.date),
-		)
+		const coveredDates = new Set(entries.filter((e) => e.billable).map((e) => e.date))
 
 		// Build list of all workdays in range
 		const allDays = [

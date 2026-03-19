@@ -26,9 +26,7 @@ const settingsNav: {
 	},
 	{
 		group: "Données",
-		items: [
-			{ label: "Catégories", href: "/settings/categories", icon: Tag },
-		],
+		items: [{ label: "Catégories", href: "/settings/categories", icon: Tag }],
 	},
 ]
 
@@ -46,11 +44,7 @@ function SettingsNav() {
 				{settingsNav.map((group) => (
 					<NavMenuGroup key={group.group} label={group.group}>
 						{group.items.map((item) => (
-							<NavMenuItem
-								key={item.href}
-								active={isActive(item.href)}
-								asChild
-							>
+							<NavMenuItem key={item.href} active={isActive(item.href)} asChild>
 								<Link href={item.href}>
 									<item.icon />
 									<span>{item.label}</span>
@@ -64,9 +58,7 @@ function SettingsNav() {
 	)
 }
 
-export default function SettingsLayout({
-	children,
-}: { children: ReactNode }) {
+export default function SettingsLayout({ children }: { children: ReactNode }) {
 	useAppTopBar([{ label: "Paramètres", href: "/settings" }])
 
 	return (

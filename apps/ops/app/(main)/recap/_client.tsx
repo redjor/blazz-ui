@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import type {
 	BulkAction,
 	DataTableColumnDef,
@@ -24,7 +25,6 @@ import { CheckCircle2, Download, FileText, Receipt } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { JournalDayCard } from "@/components/journal-day-card"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -51,10 +51,7 @@ function getPeriodDates(preset: string): { from: string; to: string } | null {
 	return null
 }
 
-const statusConfig: Record<
-	EntryStatus,
-	{ dot: string; tint: string; label: string }
-> = {
+const statusConfig: Record<EntryStatus, { dot: string; tint: string; label: string }> = {
 	draft: {
 		dot: "bg-fg-muted",
 		tint: "oklch(0.55 0 0 / 0.06)",
@@ -89,7 +86,7 @@ export default function RecapPageClient() {
 	const clients = useQuery(api.clients.list)
 	const clientProjects = useQuery(
 		api.projects.listByClient,
-		clientId ? { clientId: clientId as Id<"clients"> } : "skip",
+		clientId ? { clientId: clientId as Id<"clients"> } : "skip"
 	)
 	const allProjects = useQuery(api.projects.listAll)
 
@@ -105,9 +102,7 @@ export default function RecapPageClient() {
 	// Filter by client client-side if client selected but no project selected
 	const filteredByClient = useMemo(() => {
 		if (!projectId && clientId && clientProjects) {
-			return entries?.filter((e: TimeEntry) =>
-				clientProjects.some((p) => p._id === e.projectId),
-			)
+			return entries?.filter((e: TimeEntry) => clientProjects.some((p) => p._id === e.projectId))
 		}
 		return entries
 	}, [entries, projectId, clientId, clientProjects])
@@ -123,7 +118,7 @@ export default function RecapPageClient() {
 
 	const projectOptions = useMemo(
 		() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })),
-		[allProjects],
+		[allProjects]
 	)
 
 	// ---------------------------------------------------------------------------
@@ -142,9 +137,7 @@ export default function RecapPageClient() {
 					const cfg = s ? statusConfig[s] : null
 					return (
 						<span className="flex items-center gap-1.5 text-xs font-medium text-fg">
-							<span
-								className={`inline-block size-2 rounded-full ${cfg?.dot ?? "bg-fg-muted"}`}
-							/>
+							<span className={`inline-block size-2 rounded-full ${cfg?.dot ?? "bg-fg-muted"}`} />
 							{cfg ? cfg.label : "Non facturable"}
 						</span>
 					)
@@ -198,9 +191,7 @@ export default function RecapPageClient() {
 				header: "Durée",
 				enableSorting: true,
 				cell: ({ row }) => (
-					<span className="font-mono tabular-nums">
-						{formatMinutes(row.original.minutes)}
-					</span>
+					<span className="font-mono tabular-nums">{formatMinutes(row.original.minutes)}</span>
 				),
 				meta: { align: "right" },
 			},
@@ -222,15 +213,13 @@ export default function RecapPageClient() {
 				cell: ({ row }) => {
 					const amount = (row.original.minutes / 60) * row.original.hourlyRate
 					return (
-						<span className="font-mono font-medium tabular-nums">
-							{formatCurrency(amount)}
-						</span>
+						<span className="font-mono font-medium tabular-nums">{formatCurrency(amount)}</span>
 					)
 				},
 				meta: { align: "right" },
 			},
 		],
-		[projectMap, projectOptions],
+		[projectMap, projectOptions]
 	)
 
 	// ---------------------------------------------------------------------------
@@ -298,7 +287,7 @@ export default function RecapPageClient() {
 				sorting: [{ id: "date", desc: true }],
 			},
 		],
-		[],
+		[]
 	)
 
 	// ---------------------------------------------------------------------------
@@ -317,9 +306,7 @@ export default function RecapPageClient() {
 							ids: rows.map((r) => r.original._id),
 							status: "invoiced",
 						})
-						toast.success(
-							`${rows.length} entrée(s) marquée(s) facturée(s)`,
-						)
+						toast.success(`${rows.length} entrée(s) marquée(s) facturée(s)`)
 					} catch {
 						toast.error("Erreur")
 					}
@@ -335,9 +322,7 @@ export default function RecapPageClient() {
 							ids: rows.map((r) => r.original._id),
 							status: "paid",
 						})
-						toast.success(
-							`${rows.length} entrée(s) marquée(s) payée(s)`,
-						)
+						toast.success(`${rows.length} entrée(s) marquée(s) payée(s)`)
 					} catch {
 						toast.error("Erreur")
 					}
@@ -366,10 +351,7 @@ export default function RecapPageClient() {
 							formatMinutes(data.reduce((s: number, e: TimeEntry) => s + e.minutes, 0)),
 							"",
 							data
-								.reduce(
-									(s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate,
-									0,
-								)
+								.reduce((s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate, 0)
 								.toFixed(2),
 						],
 					]
@@ -385,7 +367,7 @@ export default function RecapPageClient() {
 				},
 			},
 		],
-		[setStatus, projectMap, periodDates],
+		[setStatus, projectMap, periodDates]
 	)
 
 	// ---------------------------------------------------------------------------
@@ -403,10 +385,7 @@ export default function RecapPageClient() {
 			.sort((a, b) => b[0].localeCompare(a[0]))
 			.slice(0, 6)
 			.map(([date, dayEntries]) => {
-				const total = dayEntries.reduce(
-					(sum: number, entry: TimeEntry) => sum + entry.minutes,
-					0,
-				)
+				const total = dayEntries.reduce((sum: number, entry: TimeEntry) => sum + entry.minutes, 0)
 				const lead = dayEntries[0]?.description || "Bloc sans description"
 				return {
 					dateLabel: format(new Date(`${date}T00:00:00`), "EEEE d MMMM", {
@@ -430,10 +409,8 @@ export default function RecapPageClient() {
 
 	const totalMinutes = filteredByClient?.reduce((s: number, e: TimeEntry) => s + e.minutes, 0) ?? 0
 	const totalAmount =
-		filteredByClient?.reduce(
-			(s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate,
-			0,
-		) ?? 0
+		filteredByClient?.reduce((s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate, 0) ??
+		0
 	const totalDays = totalMinutes / 60 / 8
 
 	useAppTopBar([{ label: "Récapitulatif" }])
@@ -536,7 +513,9 @@ export default function RecapPageClient() {
 			{/* Summary stats */}
 			<InlineStack gap="600" blockAlign="start">
 				<div>
-					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Heures</div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">
+						Heures
+					</div>
 					<div className="text-lg font-semibold tabular-nums">{formatMinutes(totalMinutes)}</div>
 				</div>
 				<div>
@@ -544,7 +523,9 @@ export default function RecapPageClient() {
 					<div className="text-lg font-semibold tabular-nums">{totalDays.toFixed(1)}j</div>
 				</div>
 				<div>
-					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Montant</div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">
+						Montant
+					</div>
 					<div className="text-lg font-semibold tabular-nums">{formatCurrency(totalAmount)}</div>
 				</div>
 			</InlineStack>
@@ -566,11 +547,7 @@ export default function RecapPageClient() {
 				groupAggregations={{
 					minutes: (values) => {
 						const total = (values as number[]).reduce((a, b) => a + b, 0)
-						return (
-							<span className="font-mono text-xs tabular-nums">
-								{formatMinutes(total)}
-							</span>
-						)
+						return <span className="font-mono text-xs tabular-nums">{formatMinutes(total)}</span>
 					},
 					amount: (values) => {
 						const total = (values as number[]).reduce((a, b) => a + b, 0)
@@ -594,9 +571,7 @@ export default function RecapPageClient() {
 					<div className="flex flex-col items-center gap-3 py-12">
 						<FileText className="size-10 text-fg-muted" />
 						<p className="text-sm font-medium text-fg">Aucune entrée</p>
-						<p className="text-xs text-fg-muted">
-							Aucune entrée sur cette période pour ce statut.
-						</p>
+						<p className="text-xs text-fg-muted">Aucune entrée sur cette période pour ce statut.</p>
 					</div>
 				}
 			/>

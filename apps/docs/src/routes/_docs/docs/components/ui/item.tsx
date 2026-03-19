@@ -26,7 +26,6 @@ import {
 	Archive,
 	Bell,
 	Building2,
-	Calendar,
 	ChevronRight,
 	CreditCard,
 	FileSpreadsheet,
@@ -37,10 +36,8 @@ import {
 	Inbox,
 	Mail,
 	MoreHorizontal,
-	Phone,
 	Send,
 	Shield,
-	Star,
 	Trash2,
 	User,
 } from "lucide-react"
@@ -348,7 +345,8 @@ const itemProps: DocProp[] = [
 		name: "variant",
 		type: '"default" | "outline" | "muted"',
 		default: '"default"',
-		description: "Visual style variant. Default is transparent, outline adds a border, muted adds a background tint.",
+		description:
+			"Visual style variant. Default is transparent, outline adds a border, muted adds a background tint.",
 	},
 	{
 		name: "size",
@@ -359,7 +357,8 @@ const itemProps: DocProp[] = [
 	{
 		name: "render",
 		type: "React.ReactElement",
-		description: "Render as a custom element (e.g. <a> or <Link>) using Base UI's render prop pattern.",
+		description:
+			"Render as a custom element (e.g. <a> or <Link>) using Base UI's render prop pattern.",
 	},
 ]
 
@@ -636,7 +635,7 @@ function ItemPage() {
 				>
 					<div className="max-w-md">
 						<ItemGroup className="gap-0">
-							<Item render={<a href="#navigation" />} size="xs">
+							<Item render={<a href="#navigation" aria-label="Profile" />} size="xs">
 								<ItemMedia variant="icon">
 									<User />
 								</ItemMedia>
@@ -649,7 +648,7 @@ function ItemPage() {
 								</ItemActions>
 							</Item>
 							<ItemSeparator />
-							<Item render={<a href="#navigation" />} size="xs">
+							<Item render={<a href="#navigation" aria-label="Security" />} size="xs">
 								<ItemMedia variant="icon">
 									<Shield />
 								</ItemMedia>
@@ -662,7 +661,7 @@ function ItemPage() {
 								</ItemActions>
 							</Item>
 							<ItemSeparator />
-							<Item render={<a href="#navigation" />} size="xs">
+							<Item render={<a href="#navigation" aria-label="Billing" />} size="xs">
 								<ItemMedia variant="icon">
 									<CreditCard />
 								</ItemMedia>
@@ -822,7 +821,11 @@ function ItemPage() {
 				>
 					<div className="max-w-64 flex flex-col gap-0.5">
 						{mailboxItems.map((item) => (
-							<Item key={item.label} size="xs" render={<a href="#mailbox" />}>
+							<Item
+								key={item.label}
+								size="xs"
+								render={<a href="#mailbox" aria-label={item.label} />}
+							>
 								<ItemMedia variant="icon">{item.icon}</ItemMedia>
 								<ItemContent>
 									<ItemTitle>{item.label}</ItemTitle>
@@ -911,8 +914,8 @@ function ItemPage() {
 							<ItemContent>
 								<ItemTitle>Website Redesign</ItemTitle>
 								<ItemDescription>
-									Complete overhaul of the marketing site with a focus on conversion optimization and
-									modern design patterns.
+									Complete overhaul of the marketing site with a focus on conversion optimization
+									and modern design patterns.
 								</ItemDescription>
 							</ItemContent>
 							<ItemActions>
@@ -1055,9 +1058,12 @@ function ItemPage() {
 					<div>
 						<h3 className="mb-3 text-sm font-semibold text-fg">Sub-components</h3>
 						<p className="text-sm text-fg-muted">
-							<code className="text-xs">ItemContent</code>, <code className="text-xs">ItemTitle</code>,{" "}
-							<code className="text-xs">ItemDescription</code>, <code className="text-xs">ItemActions</code>,{" "}
-							<code className="text-xs">ItemHeader</code>, <code className="text-xs">ItemFooter</code>, and{" "}
+							<code className="text-xs">ItemContent</code>,{" "}
+							<code className="text-xs">ItemTitle</code>,{" "}
+							<code className="text-xs">ItemDescription</code>,{" "}
+							<code className="text-xs">ItemActions</code>,{" "}
+							<code className="text-xs">ItemHeader</code>,{" "}
+							<code className="text-xs">ItemFooter</code>, and{" "}
 							<code className="text-xs">ItemSeparator</code> accept standard div/p props including{" "}
 							<code className="text-xs">className</code> for customization.
 						</p>
@@ -1073,7 +1079,8 @@ function ItemPage() {
 						<code className="text-xs">role="list"</code> for accessibility.
 					</li>
 					<li>
-						Use <strong>variant="outline"</strong> when items need clear visual boundaries (e.g. cards in a list).
+						Use <strong>variant="outline"</strong> when items need clear visual boundaries (e.g.
+						cards in a list).
 					</li>
 					<li>
 						Use <strong>variant="muted"</strong> for highlighted or selected items.
@@ -1083,23 +1090,24 @@ function ItemPage() {
 					</li>
 					<li>
 						Use <strong>ItemMedia variant="icon"</strong> for icons and{" "}
-						<strong>variant="image"</strong> for avatars/thumbnails. Use default variant (no sizing) when
-						combining with Avatar directly.
+						<strong>variant="image"</strong> for avatars/thumbnails. Use default variant (no sizing)
+						when combining with Avatar directly.
 					</li>
 					<li>
-						Use the <strong>render</strong> prop to make items clickable links -- never wrap Item in an anchor.
+						Use the <strong>render</strong> prop to make items clickable links -- never wrap Item in
+						an anchor.
 					</li>
 					<li>
-						<strong>ItemHeader</strong> and <strong>ItemFooter</strong> span the full width and are ideal for
-						metadata rows with badges, progress bars, or avatar groups.
+						<strong>ItemHeader</strong> and <strong>ItemFooter</strong> span the full width and are
+						ideal for metadata rows with badges, progress bars, or avatar groups.
 					</li>
 					<li>
-						Combine with <strong>Badge</strong> in ItemActions for status indicators, role labels, or count
-						badges.
+						Combine with <strong>Badge</strong> in ItemActions for status indicators, role labels,
+						or count badges.
 					</li>
 					<li>
-						Use <strong>DropdownMenu</strong> in ItemActions for secondary actions on team member or resource
-						lists.
+						Use <strong>DropdownMenu</strong> in ItemActions for secondary actions on team member or
+						resource lists.
 					</li>
 					<li>Keep ItemDescription to 2 lines max (line-clamp-2 is built in).</li>
 				</ul>
@@ -1112,7 +1120,8 @@ function ItemPage() {
 						{
 							title: "Card",
 							href: "/docs/components/layout/card",
-							description: "Container for grouped content. Use Item inside cards for structured lists.",
+							description:
+								"Container for grouped content. Use Item inside cards for structured lists.",
 						},
 						{
 							title: "Property",
@@ -1132,7 +1141,8 @@ function ItemPage() {
 						{
 							title: "Timeline",
 							href: "/docs/components/ui/timeline",
-							description: "For chronological event display. Item is better for non-chronological lists.",
+							description:
+								"For chronological event display. Item is better for non-chronological lists.",
 						},
 					]}
 				/>

@@ -1,4 +1,8 @@
 // ── UI Primitives ──────────────────────────────
+
+// ── Patterns ───────────────────────────────────
+export * from "./components/patterns"
+export * from "./components/patterns/unsaved-changes-bar"
 export * from "./components/ui/alert"
 export * from "./components/ui/avatar"
 export * from "./components/ui/badge"
@@ -38,8 +42,8 @@ export * from "./components/ui/hover-card"
 export * from "./components/ui/inline-grid"
 export * from "./components/ui/inline-stack"
 export * from "./components/ui/input"
-export * from "./components/ui/item"
 export * from "./components/ui/input-group"
+export * from "./components/ui/item"
 export * from "./components/ui/label"
 export * from "./components/ui/menu"
 export * from "./components/ui/menubar"
@@ -76,10 +80,6 @@ export * from "./components/ui/timeline"
 export * from "./components/ui/toast"
 export * from "./components/ui/tooltip"
 export * from "./components/ui/tree-view"
-
-// ── Patterns ───────────────────────────────────
-export * from "./components/patterns"
-export * from "./components/patterns/unsaved-changes-bar"
 
 // ── Hooks ──────────────────────────────────────
 export * from "./hooks/use-command-palette"

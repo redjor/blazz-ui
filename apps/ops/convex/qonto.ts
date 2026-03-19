@@ -1,6 +1,6 @@
 import { v } from "convex/values"
-import { action } from "./_generated/server"
 import { api } from "./_generated/api"
+import { action } from "./_generated/server"
 
 const QONTO_BASE = "https://thirdparty.qonto.com/v2"
 
@@ -41,18 +41,16 @@ export const getOrganization = action({
 
 		return {
 			slug: org.slug as string,
-			bankAccounts: (org.bank_accounts ?? []).map(
-				(a: Record<string, unknown>) => ({
-					slug: a.slug as string,
-					iban: a.iban as string,
-					bic: a.bic as string,
-					currency: a.currency as string,
-					balance: a.balance as number,
-					balanceCents: a.balance_cents as number,
-					authorizedBalance: a.authorized_balance as number,
-					authorizedBalanceCents: a.authorized_balance_cents as number,
-				})
-			),
+			bankAccounts: (org.bank_accounts ?? []).map((a: Record<string, unknown>) => ({
+				slug: a.slug as string,
+				iban: a.iban as string,
+				bic: a.bic as string,
+				currency: a.currency as string,
+				balance: a.balance as number,
+				balanceCents: a.balance_cents as number,
+				authorizedBalance: a.authorized_balance as number,
+				authorizedBalanceCents: a.authorized_balance_cents as number,
+			})),
 		}
 	},
 })

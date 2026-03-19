@@ -1,22 +1,14 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useAction, useQuery } from "convex/react"
-import {
-	Banknote,
-	Building2,
-	Clock,
-	FileCheck,
-	FileText,
-	TrendingUp,
-	Wallet,
-} from "lucide-react"
+import { Banknote, Building2, Clock, FileCheck, FileText, TrendingUp, Wallet } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 
 interface BankAccount {
@@ -103,16 +95,12 @@ export default function FinancesPageClient() {
 				stats={[
 					{
 						label: "Solde Qonto",
-						value: mainAccount
-							? formatAmount(mainAccount.balance, mainAccount.currency)
-							: "—",
+						value: mainAccount ? formatAmount(mainAccount.balance, mainAccount.currency) : "—",
 						icon: Banknote,
 					},
 					{
 						label: "Total à encaisser",
-						value: forecast
-							? formatAmount(forecast.totalCents / 100)
-							: "—",
+						value: forecast ? formatAmount(forecast.totalCents / 100) : "—",
 						description: forecast
 							? `${forecast.readyToInvoiceCount + forecast.unpaidCount} éléments`
 							: undefined,
@@ -120,10 +108,7 @@ export default function FinancesPageClient() {
 					},
 					{
 						label: "Trésorerie projetée",
-						value:
-							mainAccount && forecast
-								? formatAmount(projectedCents / 100)
-								: "—",
+						value: mainAccount && forecast ? formatAmount(projectedCents / 100) : "—",
 						description: "Solde + à encaisser",
 						icon: Wallet,
 					},
@@ -136,32 +121,20 @@ export default function FinancesPageClient() {
 				stats={[
 					{
 						label: "Brouillon",
-						value: forecast
-							? formatAmount(forecast.draftCents / 100)
-							: "—",
-						description: forecast
-							? `${forecast.draftCount} entrées`
-							: undefined,
+						value: forecast ? formatAmount(forecast.draftCents / 100) : "—",
+						description: forecast ? `${forecast.draftCount} entrées` : undefined,
 						icon: Clock,
 					},
 					{
 						label: "Prêt à facturer",
-						value: forecast
-							? formatAmount(forecast.readyToInvoiceCents / 100)
-							: "—",
-						description: forecast
-							? `${forecast.readyToInvoiceCount} entrées`
-							: undefined,
+						value: forecast ? formatAmount(forecast.readyToInvoiceCents / 100) : "—",
+						description: forecast ? `${forecast.readyToInvoiceCount} entrées` : undefined,
 						icon: FileCheck,
 					},
 					{
 						label: "Facturé · non payé",
-						value: forecast
-							? formatAmount(forecast.unpaidCents / 100)
-							: "—",
-						description: forecast
-							? `${forecast.unpaidCount} factures`
-							: undefined,
+						value: forecast ? formatAmount(forecast.unpaidCents / 100) : "—",
+						description: forecast ? `${forecast.unpaidCount} factures` : undefined,
 						icon: FileText,
 					},
 				]}
@@ -169,9 +142,7 @@ export default function FinancesPageClient() {
 
 			{!loading && transactions.length > 0 && (
 				<BlockStack gap="400">
-					<h2 className="text-sm font-medium text-fg-muted">
-						Dernières transactions
-					</h2>
+					<h2 className="text-sm font-medium text-fg-muted">Dernières transactions</h2>
 					<Card>
 						<div className="divide-y divide-separator">
 							{transactions.map((tx) => (

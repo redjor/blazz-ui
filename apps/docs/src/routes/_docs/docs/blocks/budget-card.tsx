@@ -250,13 +250,31 @@ function BudgetCardPage() {
 					<div className="w-full max-w-2xl">
 						<Grid>
 							<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-								<BudgetCard name="Dashboard Analytics" revenue={12550} daysConsumed={17.9} percent={45} budgetLabel="budget \u20ac28 000" />
+								<BudgetCard
+									name="Dashboard Analytics"
+									revenue={12550}
+									daysConsumed={17.9}
+									percent={45}
+									budgetLabel="budget \u20ac28 000"
+								/>
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-								<BudgetCard name="ML Platform" revenue={8550} daysConsumed={10.7} percent={82} budgetLabel="budget \u20ac10 500" />
+								<BudgetCard
+									name="ML Platform"
+									revenue={8550}
+									daysConsumed={10.7}
+									percent={82}
+									budgetLabel="budget \u20ac10 500"
+								/>
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-								<BudgetCard name="Legacy Migration" revenue={4200} daysConsumed={6} percent={95} budgetLabel="budget \u20ac4 400" />
+								<BudgetCard
+									name="Legacy Migration"
+									revenue={4200}
+									daysConsumed={6}
+									percent={95}
+									budgetLabel="budget \u20ac4 400"
+								/>
 							</Grid.Cell>
 						</Grid>
 					</div>
@@ -271,13 +289,31 @@ function BudgetCardPage() {
 					<div className="w-full max-w-2xl">
 						<Grid>
 							<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<BudgetCard name="Dashboard Analytics" revenue={12550} daysConsumed={17.9} percent={45} budgetLabel="budget \u20ac28 000" />
+								<BudgetCard
+									name="Dashboard Analytics"
+									revenue={12550}
+									daysConsumed={17.9}
+									percent={45}
+									budgetLabel="budget \u20ac28 000"
+								/>
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<BudgetCard name="API Gateway v2" revenue={8400} daysConsumed={9.8} percent={9} budgetLabel="0.9 / 10j" />
+								<BudgetCard
+									name="API Gateway v2"
+									revenue={8400}
+									daysConsumed={9.8}
+									percent={9}
+									budgetLabel="0.9 / 10j"
+								/>
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<BudgetCard name="Site Vitrine" revenue={4773} daysConsumed={7.9} percent={66} budgetLabel="budget \u20ac7 200" />
+								<BudgetCard
+									name="Site Vitrine"
+									revenue={4773}
+									daysConsumed={7.9}
+									percent={66}
+									budgetLabel="budget \u20ac7 200"
+								/>
 							</Grid.Cell>
 						</Grid>
 					</div>
@@ -323,8 +359,7 @@ function BudgetCardPage() {
 						{
 							title: "Segmented Progress",
 							href: "/docs/blocks/segmented-progress",
-							description:
-								"Standalone responsive dot-based progress bar used inside BudgetCard.",
+							description: "Standalone responsive dot-based progress bar used inside BudgetCard.",
 						},
 						{
 							title: "Stats Grid",
@@ -334,8 +369,7 @@ function BudgetCardPage() {
 						{
 							title: "Stats Strip",
 							href: "/docs/blocks/stats-strip",
-							description:
-								"Horizontal row of key metrics with sparklines and trend indicators.",
+							description: "Horizontal row of key metrics with sparklines and trend indicators.",
 						},
 					]}
 				/>

@@ -47,6 +47,11 @@ export function useFrame() {
 	return context
 }
 
+/** Safe version that returns undefined when outside FrameProvider */
+export function useFrameSafe() {
+	return React.useContext(FrameContext)
+}
+
 export function useBreadcrumbs(breadcrumbs: Breadcrumb[]) {
 	const { setBreadcrumbs } = useFrame()
 	const _breadcrumbsStr = JSON.stringify(breadcrumbs)

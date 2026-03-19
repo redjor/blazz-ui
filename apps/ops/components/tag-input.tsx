@@ -25,9 +25,7 @@ export function TagInput({
 
 	const filtered = suggestions
 		.filter(
-			(s) =>
-				s.toLowerCase().includes(input.toLowerCase()) &&
-				!value.includes(s.toLowerCase()),
+			(s) => s.toLowerCase().includes(input.toLowerCase()) && !value.includes(s.toLowerCase())
 		)
 		.slice(0, 8)
 
@@ -40,7 +38,7 @@ export function TagInput({
 			setShowSuggestions(false)
 			setHighlightedIndex(-1)
 		},
-		[value, onChange],
+		[value, onChange]
 	)
 
 	function removeTag(tag: string) {
@@ -63,14 +61,10 @@ export function TagInput({
 			if (!showSuggestions && filtered.length > 0) {
 				setShowSuggestions(true)
 			}
-			setHighlightedIndex((prev) =>
-				prev < filtered.length - 1 ? prev + 1 : 0,
-			)
+			setHighlightedIndex((prev) => (prev < filtered.length - 1 ? prev + 1 : 0))
 		} else if (e.key === "ArrowUp") {
 			e.preventDefault()
-			setHighlightedIndex((prev) =>
-				prev > 0 ? prev - 1 : filtered.length - 1,
-			)
+			setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : filtered.length - 1))
 		} else if (e.key === "Escape") {
 			setShowSuggestions(false)
 			setHighlightedIndex(-1)
@@ -80,10 +74,7 @@ export function TagInput({
 	// Click outside to close suggestions
 	useEffect(() => {
 		function handleClickOutside(e: MouseEvent) {
-			if (
-				containerRef.current &&
-				!containerRef.current.contains(e.target as Node)
-			) {
+			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
 				setShowSuggestions(false)
 				setHighlightedIndex(-1)
 			}

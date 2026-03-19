@@ -1,5 +1,7 @@
 "use client"
 
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -9,7 +11,6 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@blazz/ui/components/ui/command"
-import { Kbd } from "@blazz/ui/components/ui/kbd"
 import {
 	Dialog,
 	DialogContent,
@@ -17,16 +18,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
-import { ClientForm } from "@/components/client-form"
+import { Kbd } from "@blazz/ui/components/ui/kbd"
 import { useMutation } from "convex/react"
-import { api } from "@/convex/_generated/api"
-import { useRouter } from "next/navigation"
-import { useTheme } from "next-themes"
-import { toast } from "sonner"
-import { useCallback, useEffect, useState } from "react"
 import {
 	Banknote,
 	Bookmark,
@@ -45,6 +39,12 @@ import {
 	Sun,
 	Users,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useTheme } from "next-themes"
+import { useCallback, useEffect, useState } from "react"
+import { toast } from "sonner"
+import { ClientForm } from "@/components/client-form"
+import { api } from "@/convex/_generated/api"
 
 // ---------------------------------------------------------------------------
 // Inline CreateTodoDialog
@@ -102,17 +102,10 @@ function CreateTodoDialog({
 					/>
 				</BlockStack>
 				<DialogFooter>
-					<Button
-						variant="outline"
-						onClick={() => onOpenChange(false)}
-						disabled={submitting}
-					>
+					<Button variant="outline" onClick={() => onOpenChange(false)} disabled={submitting}>
 						Annuler
 					</Button>
-					<Button
-						onClick={handleSubmit}
-						disabled={!title.trim() || submitting}
-					>
+					<Button onClick={handleSubmit} disabled={!title.trim() || submitting}>
 						Créer
 					</Button>
 				</DialogFooter>
@@ -126,20 +119,62 @@ function CreateTodoDialog({
 // ---------------------------------------------------------------------------
 
 const NAV_ITEMS = [
-	{ label: "Dashboard", href: "/", icon: LayoutDashboard, keywords: ["home", "accueil"], shortcut: "D" },
+	{
+		label: "Dashboard",
+		href: "/",
+		icon: LayoutDashboard,
+		keywords: ["home", "accueil"],
+		shortcut: "D",
+	},
 	{ label: "Aujourd'hui", href: "/today", icon: Sun, keywords: ["today", "jour"], shortcut: "A" },
-	{ label: "Clients", href: "/clients", icon: Users, keywords: ["client", "customer"], shortcut: "C" },
-	{ label: "Projets", href: "/projects", icon: FolderOpen, keywords: ["project", "projet"], shortcut: "P" },
-	{ label: "Suivi de temps", href: "/time", icon: Clock, keywords: ["temps", "time", "tracking"], shortcut: "T" },
+	{
+		label: "Clients",
+		href: "/clients",
+		icon: Users,
+		keywords: ["client", "customer"],
+		shortcut: "C",
+	},
+	{
+		label: "Projets",
+		href: "/projects",
+		icon: FolderOpen,
+		keywords: ["project", "projet"],
+		shortcut: "P",
+	},
+	{
+		label: "Suivi de temps",
+		href: "/time",
+		icon: Clock,
+		keywords: ["temps", "time", "tracking"],
+		shortcut: "T",
+	},
 	{ label: "Récapitulatif", href: "/recap", icon: FileText, keywords: ["recap", "summary", "csv"] },
-	{ label: "Finances", href: "/finances", icon: Banknote, keywords: ["finance", "argent", "money"], shortcut: "F" },
+	{
+		label: "Finances",
+		href: "/finances",
+		icon: Banknote,
+		keywords: ["finance", "argent", "money"],
+		shortcut: "F",
+	},
 	{ label: "Todos", href: "/todos", icon: CheckSquare, keywords: ["todo", "tache", "task"] },
 	{ label: "Notes", href: "/notes", icon: FileText, keywords: ["note", "markdown"], shortcut: "N" },
-	{ label: "Bookmarks", href: "/bookmarks", icon: Bookmark, keywords: ["bookmark", "lien", "link"], shortcut: "B" },
+	{
+		label: "Bookmarks",
+		href: "/bookmarks",
+		icon: Bookmark,
+		keywords: ["bookmark", "lien", "link"],
+		shortcut: "B",
+	},
 	{ label: "Chat", href: "/chat", icon: MessageSquare, keywords: ["chat", "message", "ai"] },
 	{ label: "Packages", href: "/packages", icon: Package, keywords: ["package", "npm"] },
 	{ label: "Licences", href: "/licenses", icon: Key, keywords: ["licence", "license", "key"] },
-	{ label: "Paramètres", href: "/settings", icon: Settings, keywords: ["settings", "config", "param"], shortcut: "S" },
+	{
+		label: "Paramètres",
+		href: "/settings",
+		icon: Settings,
+		keywords: ["settings", "config", "param"],
+		shortcut: "S",
+	},
 ] as const
 
 // Build shortcut map for keyboard handling
@@ -191,13 +226,10 @@ export function OpsCommandPalette() {
 		return () => document.removeEventListener("keydown", handler)
 	}, [open, search, router])
 
-	const closeAndRun = useCallback(
-		(fn: () => void) => {
-			setOpen(false)
-			setTimeout(fn, 150)
-		},
-		[]
-	)
+	const closeAndRun = useCallback((fn: () => void) => {
+		setOpen(false)
+		setTimeout(fn, 150)
+	}, [])
 
 	const handleNavigation = useCallback(
 		(href: string) => {
@@ -211,7 +243,11 @@ export function OpsCommandPalette() {
 		<>
 			{/* Command palette */}
 			<CommandDialog open={open} onOpenChange={setOpen} size="lg">
-				<CommandInput placeholder="Rechercher une commande..." value={search} onValueChange={setSearch} />
+				<CommandInput
+					placeholder="Rechercher une commande..."
+					value={search}
+					onValueChange={setSearch}
+				/>
 				<CommandList>
 					<CommandEmpty>
 						<BlockStack gap="200" inlineAlign="center" align="center">
@@ -222,15 +258,11 @@ export function OpsCommandPalette() {
 
 					{/* Créer */}
 					<CommandGroup heading="Créer">
-						<CommandItem
-							onSelect={() => closeAndRun(() => setClientDialogOpen(true))}
-						>
+						<CommandItem onSelect={() => closeAndRun(() => setClientDialogOpen(true))}>
 							<Plus className="mr-2 size-4" />
 							Nouveau client
 						</CommandItem>
-						<CommandItem
-							onSelect={() => closeAndRun(() => setTodoDialogOpen(true))}
-						>
+						<CommandItem onSelect={() => closeAndRun(() => setTodoDialogOpen(true))}>
 							<Plus className="mr-2 size-4" />
 							Nouveau todo
 						</CommandItem>
@@ -299,10 +331,7 @@ export function OpsCommandPalette() {
 			</Dialog>
 
 			{/* Todo creation dialog (outside CommandDialog) */}
-			<CreateTodoDialog
-				open={todoDialogOpen}
-				onOpenChange={setTodoDialogOpen}
-			/>
+			<CreateTodoDialog open={todoDialogOpen} onOpenChange={setTodoDialogOpen} />
 		</>
 	)
 }

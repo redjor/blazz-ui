@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import type {
 	BulkAction,
 	DataTableColumnDef,
@@ -10,13 +11,20 @@ import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import {
+	Empty,
+	EmptyActions,
+	EmptyDescription,
+	EmptyIcon,
+	EmptyTitle,
+} from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import {
@@ -28,7 +36,18 @@ import {
 } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import { Calendar, CircleCheck, CircleDashed, CircleDot, CircleSlash, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import {
+	Calendar,
+	CircleCheck,
+	CircleDashed,
+	CircleDot,
+	CircleSlash,
+	Columns3,
+	LayoutList,
+	Pencil,
+	Plus,
+	Trash2,
+} from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -36,8 +55,6 @@ import { DueDatePicker } from "@/components/due-date-picker"
 import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
-import { Empty, EmptyActions, EmptyDescription, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { TagInput } from "@/components/tag-input"
 import type { Todo } from "@/components/todos-preset"
 import { formatDueDate, StatusIcon } from "@/components/todos-preset"
@@ -286,7 +303,9 @@ export default function TodosPageClient() {
 	// Persist view mode
 	const handleSetViewMode = (mode: "kanban" | "list") => {
 		setViewMode(mode)
-		try { localStorage.setItem("ops-todos-mode", mode) } catch {}
+		try {
+			localStorage.setItem("ops-todos-mode", mode)
+		} catch {}
 	}
 
 	// Build rows with resolved names for the list view
@@ -541,7 +560,8 @@ export default function TodosPageClient() {
 							</div>
 							<EmptyTitle>Todos</EmptyTitle>
 							<EmptyDescription>
-								Les todos représentent le travail en cours ou à faire. Il n'y a aucun todo pour le moment. Crée ton premier todo pour commencer.
+								Les todos représentent le travail en cours ou à faire. Il n'y a aucun todo pour le
+								moment. Crée ton premier todo pour commencer.
 							</EmptyDescription>
 							<EmptyActions>
 								<Button size="sm" onClick={() => setAddFor("triage")}>
@@ -551,7 +571,7 @@ export default function TodosPageClient() {
 							</EmptyActions>
 						</Empty>
 					</div>
-				) : (viewMode === "list" || viewMode === "kanban") ? (
+				) : viewMode === "list" || viewMode === "kanban" ? (
 					<Bleed marginInline="600" marginBlock="600" className="flex flex-col h-full min-h-0">
 						<DataTable
 							data={todoRows}
@@ -563,11 +583,17 @@ export default function TodosPageClient() {
 							toolbarLayout="stacked"
 							toolbarTrailingSlot={
 								<DropdownMenu>
-									<DropdownMenuTrigger render={
-										<Button variant="ghost" size="icon-sm" className="h-7 w-7">
-											{viewMode === "list" ? <LayoutList className="size-3.5" /> : <Columns3 className="size-3.5" />}
-										</Button>
-									} />
+									<DropdownMenuTrigger
+										render={
+											<Button variant="ghost" size="icon-sm" className="h-7 w-7">
+												{viewMode === "list" ? (
+													<LayoutList className="size-3.5" />
+												) : (
+													<Columns3 className="size-3.5" />
+												)}
+											</Button>
+										}
+									/>
 									<DropdownMenuContent align="end">
 										<DropdownMenuItem onClick={() => handleSetViewMode("list")}>
 											<LayoutList className="size-3.5" />
@@ -592,7 +618,7 @@ export default function TodosPageClient() {
 								<Button
 									variant="ghost"
 									size="icon-sm"
-									onClick={() => setAddFor(row.getValue("status") as TodoStatus ?? "triage")}
+									onClick={() => setAddFor((row.getValue("status") as TodoStatus) ?? "triage")}
 									className="text-fg-muted hover:text-fg"
 								>
 									<Plus className="size-3.5" />
@@ -611,7 +637,9 @@ export default function TodosPageClient() {
 							variant="flat"
 							storageKey="ops-todos"
 							getRowId={(row) => row._id}
-							onRowClick={viewMode === "list" ? (row) => router.push(`/todos/${row._id}`) : undefined}
+							onRowClick={
+								viewMode === "list" ? (row) => router.push(`/todos/${row._id}`) : undefined
+							}
 							renderRow={(row) => {
 								const todo = row.original
 								const isDone = todo.status === "done"
@@ -648,7 +676,13 @@ export default function TodosPageClient() {
 							}}
 							renderCard={(row) => {
 								const todo = row.original
-								return <TodoCard todo={todo as unknown as Doc<"todos">} projects={projectList} categories={categoryList} />
+								return (
+									<TodoCard
+										todo={todo as unknown as Doc<"todos">}
+										projects={projectList}
+										categories={categoryList}
+									/>
+								)
 							}}
 						/>
 					</Bleed>

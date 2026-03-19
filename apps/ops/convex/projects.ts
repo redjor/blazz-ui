@@ -129,8 +129,7 @@ export const listAllWithBudget = query({
 					(e) => e.date >= monthStart && e.date <= monthEnd
 				)
 				const monthMinutes = monthBillable.reduce((s, e) => s + e.minutes, 0)
-				const monthDays =
-					project.hoursPerDay > 0 ? monthMinutes / (project.hoursPerDay * 60) : 0
+				const monthDays = project.hoursPerDay > 0 ? monthMinutes / (project.hoursPerDay * 60) : 0
 				const percentUsed = (monthDays / activeContract.daysPerMonth) * 100
 				return {
 					...project,

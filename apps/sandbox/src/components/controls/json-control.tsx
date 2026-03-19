@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
+import { useState } from "react"
 import type { PropDescriptor } from "~/lib/registry"
 
 interface JsonControlProps {
@@ -11,12 +11,7 @@ interface JsonControlProps {
 	descriptor: PropDescriptor
 }
 
-export function JsonControl({
-	name,
-	value,
-	onChange,
-	descriptor,
-}: JsonControlProps) {
+export function JsonControl({ name, value, onChange, descriptor }: JsonControlProps) {
 	const [raw, setRaw] = useState(() => JSON.stringify(value, null, 2))
 	const [isValid, setIsValid] = useState(true)
 

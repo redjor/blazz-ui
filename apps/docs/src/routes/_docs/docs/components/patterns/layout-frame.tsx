@@ -84,18 +84,21 @@ const layoutFrameProps: DocProp[] = [
 	{
 		name: "topBar",
 		type: "React.ReactNode",
-		description: "Header fixe pleine largeur en haut (position fixed, z-20). Optionnel — si omis, la sidebar occupe toute la hauteur.",
+		description:
+			"Header fixe pleine largeur en haut (position fixed, z-20). Optionnel — si omis, la sidebar occupe toute la hauteur.",
 	},
 	{
 		name: "navigation",
 		type: "React.ReactNode",
 		required: true,
-		description: "Sidebar placée dans le flex container. La sidebar gère sa propre largeur (240px) et son collapse/peek.",
+		description:
+			"Sidebar placée dans le flex container. La sidebar gère sa propre largeur (240px) et son collapse/peek.",
 	},
 	{
 		name: "header",
 		type: "React.ReactNode",
-		description: "Slot rendu au-dessus du contenu scrollable, dans la zone main. Typiquement un TopBar avec breadcrumbs et actions.",
+		description:
+			"Slot rendu au-dessus du contenu scrollable, dans la zone main. Typiquement un TopBar avec breadcrumbs et actions.",
 	},
 	{
 		name: "tabBar",
@@ -116,13 +119,13 @@ function LayoutPlaceholder() {
 				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle flex items-center px-3 font-medium">
 					Logo
 				</div>
-				<div className="flex-1 flex items-center justify-center">
-					Nav items
-				</div>
+				<div className="flex-1 flex items-center justify-center">Nav items</div>
 			</div>
 			<div className="flex-1 flex flex-col">
 				<div className="h-8 shrink-0 border-l border-t border-dashed border-edge-subtle bg-surface flex items-center px-3 gap-2 rounded-tl-lg">
-					<span className="size-4 rounded border border-dashed border-edge-subtle flex items-center justify-center text-[8px]">&#9776;</span>
+					<span className="size-4 rounded border border-dashed border-edge-subtle flex items-center justify-center text-[8px]">
+						&#9776;
+					</span>
 					<span>Header (TopBar + SidebarToggle)</span>
 				</div>
 				<div className="flex-1 border-l border-dashed border-edge-subtle bg-surface flex items-center justify-center">
@@ -175,7 +178,8 @@ function LayoutFramePage() {
 						{
 							title: "Top Bar",
 							href: "/docs/components/patterns/top-bar",
-							description: "Header composable pour le header slot — avec SidebarToggle et breadcrumbs.",
+							description:
+								"Header composable pour le header slot — avec SidebarToggle et breadcrumbs.",
 						},
 						{
 							title: "App Sidebar",

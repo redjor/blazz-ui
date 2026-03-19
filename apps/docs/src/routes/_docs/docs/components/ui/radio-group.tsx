@@ -348,7 +348,9 @@ function ButtonGroupRadioDemo() {
 					key={option.value}
 					className={cn(
 						"cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
-						value === option.value ? "bg-surface-3 text-fg shadow-sm" : "text-fg-muted hover:text-fg"
+						value === option.value
+							? "bg-surface-3 text-fg shadow-sm"
+							: "text-fg-muted hover:text-fg"
 					)}
 				>
 					<RadioGroupItem value={option.value} className="sr-only" />

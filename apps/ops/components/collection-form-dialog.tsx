@@ -140,9 +140,7 @@ export function CollectionFormDialog({
 					name: values.name,
 					icon: values.icon || undefined,
 					color: values.color || undefined,
-					parentId: values.parentId
-						? (values.parentId as Id<"bookmarkCollections">)
-						: undefined,
+					parentId: values.parentId ? (values.parentId as Id<"bookmarkCollections">) : undefined,
 				})
 				toast.success("Collection créée")
 			}
@@ -156,29 +154,20 @@ export function CollectionFormDialog({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-sm">
 				<DialogHeader>
-					<DialogTitle>
-						{isEdit ? "Modifier la collection" : "Nouvelle collection"}
-					</DialogTitle>
+					<DialogTitle>{isEdit ? "Modifier la collection" : "Nouvelle collection"}</DialogTitle>
 				</DialogHeader>
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					{/* Name */}
 					<div className="space-y-1.5">
 						<Label htmlFor="col-name">Nom *</Label>
 						<Input id="col-name" placeholder="Ma collection" {...register("name")} />
-						{errors.name && (
-							<p className="text-xs text-red-500">{errors.name.message}</p>
-						)}
+						{errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
 					</div>
 
 					{/* Icon */}
 					<div className="space-y-1.5">
 						<Label htmlFor="col-icon">Icône</Label>
-						<Input
-							id="col-icon"
-							placeholder="Emoji..."
-							className="w-20"
-							{...register("icon")}
-						/>
+						<Input id="col-icon" placeholder="Emoji..." className="w-20" {...register("icon")} />
 					</div>
 
 					{/* Color picker */}

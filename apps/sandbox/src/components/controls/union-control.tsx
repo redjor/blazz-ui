@@ -16,12 +16,7 @@ interface UnionControlProps {
 	descriptor: PropDescriptor
 }
 
-export function UnionControl({
-	name,
-	value,
-	onChange,
-	descriptor,
-}: UnionControlProps) {
+export function UnionControl({ name, value, onChange, descriptor }: UnionControlProps) {
 	const items = descriptor.options?.map((o) => ({ value: o, label: o })) ?? []
 
 	return (
@@ -29,11 +24,7 @@ export function UnionControl({
 			<label className="min-w-[100px] text-xs text-fg-muted" title={descriptor.description}>
 				{name}
 			</label>
-			<Select
-				value={String(value ?? "")}
-				onValueChange={(v) => onChange(v)}
-				items={items}
-			>
+			<Select value={String(value ?? "")} onValueChange={(v) => onChange(v)} items={items}>
 				<SelectTrigger size="sm" className="h-7 text-xs min-w-[120px]">
 					<SelectValue placeholder="Select..." />
 				</SelectTrigger>

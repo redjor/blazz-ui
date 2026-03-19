@@ -106,7 +106,9 @@ export function DueDatePicker({ value, onChange, compact }: DueDatePickerProps) 
 				{displayLabel ? (
 					<span className={compact ? "text-xs" : "text-sm"}>{displayLabel}</span>
 				) : (
-					<span className={compact ? "text-xs text-fg-muted" : "text-sm text-fg-muted"}>Échéance</span>
+					<span className={compact ? "text-xs text-fg-muted" : "text-sm text-fg-muted"}>
+						Échéance
+					</span>
 				)}
 			</PopoverTrigger>
 			<PopoverContent className="w-auto !p-1" align="start">

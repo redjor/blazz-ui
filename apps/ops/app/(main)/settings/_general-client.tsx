@@ -1,11 +1,16 @@
 "use client"
 
 import {
+	SettingsHeader,
+	SettingsPage,
+	SettingsSection,
+} from "@blazz/pro/components/blocks/settings-block"
+import {
 	Item,
-	ItemContent,
-	ItemTitle,
-	ItemDescription,
 	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemTitle,
 } from "@blazz/ui/components/ui/item"
 import {
 	Select,
@@ -15,11 +20,6 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import { Switch } from "@blazz/ui/components/ui/switch"
-import {
-	SettingsPage,
-	SettingsHeader,
-	SettingsSection,
-} from "@blazz/pro/components/blocks/settings-block"
 import { useMutation, useQuery } from "convex/react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
@@ -49,41 +49,31 @@ export default function SettingsGeneralClient() {
 
 	const collectionItems = [
 		{ value: "__none__", label: "Aucune" },
-		...(collections?.map((c) => ({ value: c._id, label: `${c.icon ? `${c.icon} ` : ""}${c.name}` })) ?? []),
+		...(collections?.map((c) => ({
+			value: c._id,
+			label: `${c.icon ? `${c.icon} ` : ""}${c.name}`,
+		})) ?? []),
 	]
 
 	return (
 		<SettingsPage>
-			<SettingsHeader
-				title="Préférences"
-				description="Gérez les préférences de votre espace."
-			/>
-			<SettingsSection
-				title="Apparence"
-				description="Personnalisez l'apparence de l'application."
-			>
+			<SettingsHeader title="Préférences" description="Gérez les préférences de votre espace." />
+			<SettingsSection title="Apparence" description="Personnalisez l'apparence de l'application.">
 				<Item>
 					<ItemContent>
 						<ItemTitle>Mode sombre</ItemTitle>
-						<ItemDescription>
-							Basculer entre le thème clair et sombre.
-						</ItemDescription>
+						<ItemDescription>Basculer entre le thème clair et sombre.</ItemDescription>
 					</ItemContent>
 					<ItemActions>
 						<Switch
 							checked={theme === "dark"}
-							onCheckedChange={(checked) =>
-								setTheme(checked ? "dark" : "light")
-							}
+							onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
 						/>
 					</ItemActions>
 				</Item>
 			</SettingsSection>
 
-			<SettingsSection
-				title="Bookmarks"
-				description="Configurez le comportement des bookmarks."
-			>
+			<SettingsSection title="Bookmarks" description="Configurez le comportement des bookmarks.">
 				<Item>
 					<ItemContent>
 						<ItemTitle>Collection Read Later</ItemTitle>

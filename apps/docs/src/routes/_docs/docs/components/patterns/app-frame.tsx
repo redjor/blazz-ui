@@ -200,12 +200,14 @@ function AppFramePage() {
 			</DocSection>
 			<DocSection id="layout" title="Layout">
 				<div className="space-y-4">
-					<p className="text-sm text-fg-muted">Deux patterns de layout sont supportés selon que vous passez ou non une top bar globale.</p>
+					<p className="text-sm text-fg-muted">
+						Deux patterns de layout sont supportés selon que vous passez ou non une top bar globale.
+					</p>
 					<div className="grid gap-4 md:grid-cols-2">
 						<div className="rounded-lg border border-edge-subtle bg-surface p-4">
 							<p className="text-xs font-medium text-fg mb-2">Sans top bar globale (recommandé)</p>
 							<div className="text-xs text-fg-muted font-mono whitespace-pre leading-relaxed">
-{`┌──────────┬───────────────────┐
+								{`┌──────────┬───────────────────┐
 │ Logo     │ Tab bar (opt.)    │
 │          ├───────────────────┤
 │ Sidebar  │ Header (TopBar)   │
@@ -222,7 +224,7 @@ quand la sidebar est collapsed.`}
 						<div className="rounded-lg border border-edge-subtle bg-surface p-4">
 							<p className="text-xs font-medium text-fg mb-2">Avec top bar globale</p>
 							<div className="text-xs text-fg-muted font-mono whitespace-pre leading-relaxed">
-{`┌─────────────────────────────┐
+								{`┌─────────────────────────────┐
 │ AppTopBar (fixed, z-20)     │
 ├──────────┬──────────────────┤
 │          │ Header (TopBar)  │
@@ -239,9 +241,14 @@ top bar (top: --topbar-height).`}
 					<div className="rounded-lg border border-edge-subtle bg-surface p-3 text-xs text-fg-muted">
 						<p className="font-medium text-fg mb-1">Sidebar features :</p>
 						<ul className="list-disc list-inside space-y-0.5">
-							<li>Collapse/expand via <code className="text-fg">⌘B</code> ou SidebarRail drag</li>
+							<li>
+								Collapse/expand via <code className="text-fg">⌘B</code> ou SidebarRail drag
+							</li>
 							<li>Peek on hover quand collapsed (700ms delay)</li>
-							<li><code className="text-fg">TopBar.SidebarToggle</code> ou <code className="text-fg">SidebarTrigger</code> pour réafficher</li>
+							<li>
+								<code className="text-fg">TopBar.SidebarToggle</code> ou{" "}
+								<code className="text-fg">SidebarTrigger</code> pour réafficher
+							</li>
 							<li>Cookie persistence de l'état (7 jours)</li>
 						</ul>
 					</div>
@@ -271,7 +278,8 @@ top bar (top: --topbar-height).`}
 						{
 							title: "Top Bar",
 							href: "/docs/components/patterns/top-bar",
-							description: "Header composable de zone de contenu avec SidebarToggle et breadcrumbs.",
+							description:
+								"Header composable de zone de contenu avec SidebarToggle et breadcrumbs.",
 						},
 					]}
 				/>

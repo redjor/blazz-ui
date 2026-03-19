@@ -94,7 +94,7 @@
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.94 0 0);
-	--surface-top:  oklch(1.0 0 0);
+	--surface-top: oklch(1 0 0);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
 	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
@@ -126,7 +126,8 @@
 
 	/* Card shadows */
 	--card-shadow: 0 0 0 1px var(--border-container);
-	--card-shadow-elevated: 0 0 0 1px var(--border-container), 0 1px 3px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+	--card-shadow-elevated:
+		0 0 0 1px var(--border-container), 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
 
 	/* Density */
 	--row-height: 40px;
@@ -169,7 +170,7 @@ html.dark {
 
 	/* Surface layer scale */
 	--surface-base: oklch(0.145 0.005 285);
-	--surface-top:  oklch(0.28 0.005 285);
+	--surface-top: oklch(0.28 0.005 285);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
 	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
@@ -200,8 +201,21 @@ html.dark {
 	--info: oklch(0.55 0.2 265);
 
 	/* Card shadows */
-	--card-shadow: inset 0 1px 0 0 rgba(255,255,255,0.02), inset 0 0 0 1px rgba(255,255,255,0.02), 0 0 0 1px rgba(0,0,0,0.25);
-	--card-shadow-elevated: inset 0 1px 0 0 rgba(255,255,255,0.03), inset 0 0 0 1px rgba(255,255,255,0.03), 0 0 0 1px rgba(0,0,0,0.10), 0 2px 2px 0 rgba(0,0,0,0.10), 0 4px 4px 0 rgba(0,0,0,0.10), 0 8px 8px 0 rgba(0,0,0,0.10);
+	--card-shadow:
+		inset 0 1px 0 0 rgba(255, 255, 255, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+		0 0 0 1px rgba(0, 0, 0, 0.25);
+	--card-shadow-elevated:
+		inset 0 1px 0 0 rgba(255, 255, 255, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 0 1px rgba(
+			0,
+			0,
+			0,
+			0.1
+		), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.1), 0 8px 8px 0 rgba(
+			0,
+			0,
+			0,
+			0.1
+		);
 
 	/* Density */
 	--row-height: 40px;
@@ -237,7 +251,7 @@ html[data-theme="corporate"] {
 	--accent-hover: oklch(0.35 0.18 250);
 	--accent-foreground: oklch(0.985 0 0);
 	--surface-base: oklch(0.94 0 0);
-	--surface-top:  oklch(1.0 0 0);
+	--surface-top: oklch(1 0 0);
 	--border-default: oklch(0.88 0 0);
 	--border-subtle: oklch(0.93 0 0);
 	--border-container: var(--border-default);
@@ -253,7 +267,7 @@ html[data-theme="corporate"].dark {
 	--accent-hover: oklch(0.48 0.18 250);
 	--accent-foreground: oklch(0.985 0 0);
 	--surface-base: oklch(0.145 0 0);
-	--surface-top:  oklch(0.28 0 0);
+	--surface-top: oklch(0.28 0 0);
 	--border-default: oklch(0.35 0 0 / 0.6);
 	--border-subtle: oklch(0.35 0 0 / 0.3);
 	--border-container: var(--border-default);
@@ -273,7 +287,7 @@ html[data-theme="warm"] {
 	--accent-hover: oklch(0.48 0.17 70);
 	--accent-foreground: oklch(0.985 0 0);
 	--surface-base: oklch(0.93 0.01 75);
-	--surface-top:  oklch(0.995 0.005 75);
+	--surface-top: oklch(0.995 0.005 75);
 	--border-default: oklch(0.86 0.01 75);
 	--border-subtle: oklch(0.91 0.008 75);
 	--border-container: var(--border-default);
@@ -289,7 +303,7 @@ html[data-theme="warm"].dark {
 	--accent-hover: oklch(0.63 0.15 70);
 	--accent-foreground: oklch(0.15 0 0);
 	--surface-base: oklch(0.155 0.01 60);
-	--surface-top:  oklch(0.28 0.01 60);
+	--surface-top: oklch(0.28 0.01 60);
 	--border-default: oklch(0.35 0.01 60 / 0.6);
 	--border-subtle: oklch(0.35 0.01 60 / 0.3);
 	--border-container: var(--border-default);

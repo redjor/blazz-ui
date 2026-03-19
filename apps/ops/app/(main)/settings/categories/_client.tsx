@@ -1,14 +1,11 @@
 "use client"
 
 import {
-	CATEGORY_COLORS,
-	CATEGORY_ICONS,
-	getCategoryIcon,
-} from "@/components/manage-categories-sheet"
-import { api } from "@/convex/_generated/api"
-import type { Id } from "@/convex/_generated/dataModel"
+	SettingsHeader,
+	SettingsPage,
+	SettingsSection,
+} from "@blazz/pro/components/blocks/settings-block"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
@@ -18,20 +15,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@blazz/ui/components/ui/dialog"
-import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemMedia,
-	ItemTitle,
-	ItemDescription,
-} from "@blazz/ui/components/ui/item"
-import {
-	SettingsPage,
-	SettingsHeader,
-	SettingsSection,
-} from "@blazz/pro/components/blocks/settings-block"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -39,12 +22,28 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Input } from "@blazz/ui/components/ui/input"
+import {
+	Item,
+	ItemActions,
+	ItemContent,
+	ItemDescription,
+	ItemMedia,
+	ItemTitle,
+} from "@blazz/ui/components/ui/item"
 import { useMutation, useQuery } from "convex/react"
-import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react"
-import { useState } from "react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-
+import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react"
+import { useState } from "react"
+import {
+	CATEGORY_COLORS,
+	CATEGORY_ICONS,
+	getCategoryIcon,
+} from "@/components/manage-categories-sheet"
+import { api } from "@/convex/_generated/api"
+import type { Id } from "@/convex/_generated/dataModel"
 
 // ---------------------------------------------------------------------------
 // Sub-components
@@ -68,10 +67,7 @@ function CategoryDot({ color }: { color?: string }) {
 	)
 }
 
-function CategoryIcon({
-	iconId,
-	color,
-}: { iconId?: string; color?: string }) {
+function CategoryIcon({ iconId, color }: { iconId?: string; color?: string }) {
 	const Icon = getCategoryIcon(iconId)
 	if (!Icon) return <CategoryDot color={color} />
 
@@ -87,16 +83,11 @@ function CategoryIcon({
 	}
 
 	return (
-		<Icon
-			className={`size-4 shrink-0 ${textColorMap[color ?? "zinc"] ?? textColorMap.zinc}`}
-		/>
+		<Icon className={`size-4 shrink-0 ${textColorMap[color ?? "zinc"] ?? textColorMap.zinc}`} />
 	)
 }
 
-function ColorPicker({
-	value,
-	onChange,
-}: { value: string; onChange: (color: string) => void }) {
+function ColorPicker({ value, onChange }: { value: string; onChange: (color: string) => void }) {
 	return (
 		<InlineStack gap="100" wrap>
 			{CATEGORY_COLORS.map((c) => (
@@ -116,7 +107,11 @@ function IconPicker({
 	value,
 	onChange,
 	color,
-}: { value: string; onChange: (icon: string) => void; color: string }) {
+}: {
+	value: string
+	onChange: (icon: string) => void
+	color: string
+}) {
 	const textColorMap: Record<string, string> = {
 		indigo: "text-indigo-500",
 		violet: "text-violet-500",
@@ -205,11 +200,7 @@ function CreateCategoryDialog() {
 						</BlockStack>
 					</BlockStack>
 					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => setOpen(false)}
-						>
+						<Button type="button" variant="outline" onClick={() => setOpen(false)}>
 							Annuler
 						</Button>
 						<Button type="submit" disabled={!name.trim()}>
@@ -263,11 +254,7 @@ function EditCategoryDialog({
 					<BlockStack gap="400" className="py-4">
 						<BlockStack gap="200">
 							<label className="text-sm font-medium text-fg">Nom</label>
-							<Input
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								autoFocus
-							/>
+							<Input value={name} onChange={(e) => setName(e.target.value)} autoFocus />
 						</BlockStack>
 						<BlockStack gap="200">
 							<label className="text-sm font-medium text-fg">Couleur</label>
@@ -279,11 +266,7 @@ function EditCategoryDialog({
 						</BlockStack>
 					</BlockStack>
 					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => onOpenChange(false)}
-						>
+						<Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
 							Annuler
 						</Button>
 						<Button type="submit" disabled={!name.trim()}>
@@ -332,9 +315,7 @@ function CategoryItem({
 				</ItemContent>
 				<ItemActions>
 					<DropdownMenu>
-						<DropdownMenuTrigger
-							render={<Button variant="ghost" size="icon-sm" />}
-						>
+						<DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>
 							<MoreHorizontal className="size-4" />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
@@ -354,11 +335,7 @@ function CategoryItem({
 					</DropdownMenu>
 				</ItemActions>
 			</Item>
-			<EditCategoryDialog
-				category={category}
-				open={editOpen}
-				onOpenChange={setEditOpen}
-			/>
+			<EditCategoryDialog category={category} open={editOpen} onOpenChange={setEditOpen} />
 		</>
 	)
 }
@@ -397,9 +374,7 @@ export default function CategoriesPageClient() {
 						</ItemActions>
 					</Item>
 				) : (
-					categories.map((cat) => (
-						<CategoryItem key={cat._id} category={cat} />
-					))
+					categories.map((cat) => <CategoryItem key={cat._id} category={cat} />)
 				)}
 			</SettingsSection>
 		</SettingsPage>

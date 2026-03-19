@@ -18,14 +18,14 @@ export const Route = createFileRoute("/_docs")({
 const examplesUrl = import.meta.env.VITE_EXAMPLES_URL ?? ""
 
 function useSyncDocTitle() {
-	const location = useLocation()
+	const _location = useLocation()
 	useEffect(() => {
 		const frame = requestAnimationFrame(() => {
 			const h1 = document.querySelector("h1")
 			document.title = h1?.textContent ? `${h1.textContent} — Blazz UI` : "Blazz UI"
 		})
 		return () => cancelAnimationFrame(frame)
-	}, [location.pathname])
+	}, [])
 }
 
 function DocsLayout() {

@@ -1,6 +1,6 @@
-import * as React from "react"
 import * as BlazzUI from "@blazz/ui"
 import * as LucideIcons from "lucide-react"
+import * as React from "react"
 
 export const scope: Record<string, unknown> = {
 	React,

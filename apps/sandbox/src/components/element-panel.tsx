@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
-import { Input } from "@blazz/ui/components/ui/input"
-import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { Button } from "@blazz/ui/components/ui/button"
-import { X, Plus, RotateCcw } from "lucide-react"
+import { Input } from "@blazz/ui/components/ui/input"
+import { Plus, RotateCcw, X } from "lucide-react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import type { InspectedElement } from "./element-inspector"
 
 // ── Slot name → component display name ──────────
@@ -25,12 +24,7 @@ interface ElementPanelProps {
 	onDeselect: () => void
 }
 
-export function ElementPanel({
-	element,
-	code,
-	onCodeChange,
-	onDeselect,
-}: ElementPanelProps) {
+export function ElementPanel({ element, code, onCodeChange, onDeselect }: ElementPanelProps) {
 	const componentName = slotToComponentName(element.slot)
 	const [textValue, setTextValue] = useState(element.textContent)
 	const [classInput, setClassInput] = useState("")
@@ -52,7 +46,7 @@ export function ElementPanel({
 				}
 			}
 		},
-		[code, element.textContent, onCodeChange],
+		[code, element.textContent, onCodeChange]
 	)
 
 	// ── Class manipulation (live on the DOM element) ──
@@ -68,7 +62,7 @@ export function ElementPanel({
 			}
 			setClassInput("")
 		},
-		[element.element],
+		[element.element]
 	)
 
 	const removeClass = useCallback(
@@ -77,7 +71,7 @@ export function ElementPanel({
 			// Force re-render by updating a dummy state
 			setClassInput((prev) => prev)
 		},
-		[element.element],
+		[element.element]
 	)
 
 	const resetClasses = useCallback(() => {
@@ -86,14 +80,10 @@ export function ElementPanel({
 	}, [element.element])
 
 	// Current classes (read from live DOM)
-	const currentClasses = element.element.className
-		.split(" ")
-		.filter(Boolean)
+	const currentClasses = element.element.className.split(" ").filter(Boolean)
 
 	// Detect added/removed vs original
-	const originalSet = new Set(
-		originalClassesRef.current.split(" ").filter(Boolean),
-	)
+	const originalSet = new Set(originalClassesRef.current.split(" ").filter(Boolean))
 
 	return (
 		<div className="p-3 space-y-3 overflow-y-auto h-full">
@@ -105,12 +95,7 @@ export function ElementPanel({
 					</span>
 					<span className="text-sm font-medium">{componentName}</span>
 				</div>
-				<Button
-					variant="ghost"
-					size="icon-xs"
-					onClick={onDeselect}
-					aria-label="Deselect"
-				>
+				<Button variant="ghost" size="icon-xs" onClick={onDeselect} aria-label="Deselect">
 					<X className="size-3" />
 				</Button>
 			</div>
@@ -121,9 +106,7 @@ export function ElementPanel({
 					<label className="text-xs text-fg-muted">Text content</label>
 					<Input
 						value={textValue}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							handleTextChange(e.target.value)
-						}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTextChange(e.target.value)}
 					/>
 				</div>
 			)}
@@ -132,12 +115,7 @@ export function ElementPanel({
 			<div className="space-y-1.5">
 				<div className="flex items-center justify-between">
 					<label className="text-xs text-fg-muted font-medium">Classes</label>
-					<Button
-						variant="ghost"
-						size="icon-xs"
-						onClick={resetClasses}
-						aria-label="Reset classes"
-					>
+					<Button variant="ghost" size="icon-xs" onClick={resetClasses} aria-label="Reset classes">
 						<RotateCcw className="size-2.5" />
 					</Button>
 				</div>
@@ -146,9 +124,7 @@ export function ElementPanel({
 				<div className="flex gap-1">
 					<Input
 						value={classInput}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setClassInput(e.target.value)
-						}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setClassInput(e.target.value)}
 						onKeyDown={(e: React.KeyboardEvent) => {
 							if (e.key === "Enter") {
 								e.preventDefault()
@@ -198,15 +174,12 @@ export function ElementPanel({
 				<div className="text-xs space-y-1 text-fg-muted">
 					<div className="flex justify-between">
 						<span>Tag</span>
-						<span className="font-mono">
-							{element.element.tagName.toLowerCase()}
-						</span>
+						<span className="font-mono">{element.element.tagName.toLowerCase()}</span>
 					</div>
 					<div className="flex justify-between">
 						<span>Size</span>
 						<span className="font-mono">
-							{Math.round(element.rect.width)} x{" "}
-							{Math.round(element.rect.height)}
+							{Math.round(element.rect.width)} x {Math.round(element.rect.height)}
 						</span>
 					</div>
 				</div>

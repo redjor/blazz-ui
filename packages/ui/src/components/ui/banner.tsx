@@ -7,30 +7,33 @@ import type * as React from "react"
 import { cn } from "../../lib/utils"
 import { Button, buttonVariants } from "./button"
 
-const bannerVariants = cva("relative flex gap-2 rounded-md border border-container bg-surface-3 p-3", {
-	variants: {
-		variant: {
-			default: "border-l-2",
-			outline: "",
+const bannerVariants = cva(
+	"relative flex gap-2 rounded-md border border-container bg-surface-3 p-3",
+	{
+		variants: {
+			variant: {
+				default: "border-l-2",
+				outline: "",
+			},
+			tone: {
+				info: "",
+				success: "",
+				warning: "",
+				critical: "",
+			},
 		},
-		tone: {
-			info: "",
-			success: "",
-			warning: "",
-			critical: "",
+		compoundVariants: [
+			{ variant: "default", tone: "info", className: "border-l-inform" },
+			{ variant: "default", tone: "success", className: "border-l-positive" },
+			{ variant: "default", tone: "warning", className: "border-l-caution" },
+			{ variant: "default", tone: "critical", className: "border-l-negative" },
+		],
+		defaultVariants: {
+			variant: "default",
+			tone: "info",
 		},
-	},
-	compoundVariants: [
-		{ variant: "default", tone: "info", className: "border-l-inform" },
-		{ variant: "default", tone: "success", className: "border-l-positive" },
-		{ variant: "default", tone: "warning", className: "border-l-caution" },
-		{ variant: "default", tone: "critical", className: "border-l-negative" },
-	],
-	defaultVariants: {
-		variant: "default",
-		tone: "info",
-	},
-})
+	}
+)
 
 const iconVariants = cva("mt-0.5 size-4 shrink-0", {
 	variants: {

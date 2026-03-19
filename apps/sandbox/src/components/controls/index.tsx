@@ -2,16 +2,16 @@
 
 import type { PropDescriptor } from "~/lib/registry"
 import { BooleanControl } from "./boolean-control"
-import { StringControl } from "./string-control"
-import { NumberControl } from "./number-control"
-import { UnionControl } from "./union-control"
 import { JsonControl } from "./json-control"
+import { NumberControl } from "./number-control"
+import { StringControl } from "./string-control"
+import { UnionControl } from "./union-control"
 
 export { BooleanControl } from "./boolean-control"
-export { StringControl } from "./string-control"
-export { NumberControl } from "./number-control"
-export { UnionControl } from "./union-control"
 export { JsonControl } from "./json-control"
+export { NumberControl } from "./number-control"
+export { StringControl } from "./string-control"
+export { UnionControl } from "./union-control"
 
 interface ControlRendererProps {
 	descriptor: PropDescriptor
@@ -19,11 +19,7 @@ interface ControlRendererProps {
 	onChange: (value: unknown) => void
 }
 
-export function ControlRenderer({
-	descriptor,
-	value,
-	onChange,
-}: ControlRendererProps) {
+export function ControlRenderer({ descriptor, value, onChange }: ControlRendererProps) {
 	const { name, type } = descriptor
 
 	// Slot type — edited in Code tab
@@ -48,62 +44,27 @@ export function ControlRenderer({
 
 	// Boolean
 	if (type === "boolean") {
-		return (
-			<BooleanControl
-				name={name}
-				value={value}
-				onChange={onChange}
-				descriptor={descriptor}
-			/>
-		)
+		return <BooleanControl name={name} value={value} onChange={onChange} descriptor={descriptor} />
 	}
 
 	// String
 	if (type === "string") {
-		return (
-			<StringControl
-				name={name}
-				value={value}
-				onChange={onChange}
-				descriptor={descriptor}
-			/>
-		)
+		return <StringControl name={name} value={value} onChange={onChange} descriptor={descriptor} />
 	}
 
 	// Number
 	if (type === "number") {
-		return (
-			<NumberControl
-				name={name}
-				value={value}
-				onChange={onChange}
-				descriptor={descriptor}
-			/>
-		)
+		return <NumberControl name={name} value={value} onChange={onChange} descriptor={descriptor} />
 	}
 
 	// Union or Enum — both use select
 	if (type === "union" || type === "enum") {
-		return (
-			<UnionControl
-				name={name}
-				value={value}
-				onChange={onChange}
-				descriptor={descriptor}
-			/>
-		)
+		return <UnionControl name={name} value={value} onChange={onChange} descriptor={descriptor} />
 	}
 
 	// Object or Array — JSON editor
 	if (type === "object" || type === "array") {
-		return (
-			<JsonControl
-				name={name}
-				value={value}
-				onChange={onChange}
-				descriptor={descriptor}
-			/>
-		)
+		return <JsonControl name={name} value={value} onChange={onChange} descriptor={descriptor} />
 	}
 
 	// Fallback: unknown type

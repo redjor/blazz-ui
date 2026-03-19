@@ -23,13 +23,8 @@ export const forecast = query({
 		const draftCents = draft.reduce((sum, e) => sum + entryCents(e), 0)
 
 		// Ready to invoice: billable, status ready_to_invoice
-		const readyToInvoice = allEntries.filter(
-			(e) => e.billable && e.status === "ready_to_invoice"
-		)
-		const readyToInvoiceCents = readyToInvoice.reduce(
-			(sum, e) => sum + entryCents(e),
-			0
-		)
+		const readyToInvoice = allEntries.filter((e) => e.billable && e.status === "ready_to_invoice")
+		const readyToInvoiceCents = readyToInvoice.reduce((sum, e) => sum + entryCents(e), 0)
 
 		// All unbilled combined (backward compat)
 		const unbilledCents = draftCents + readyToInvoiceCents

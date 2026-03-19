@@ -1,19 +1,19 @@
 "use client"
 
+import { useTabTitle } from "@blazz/tabs"
 import { Empty } from "@blazz/ui/components/ui/empty"
-import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { TreeView, type TreeNode } from "@blazz/ui/components/ui/tree-view"
-import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
+import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { type TreeNode, TreeView } from "@blazz/ui/components/ui/tree-view"
+import type { JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import type { JSONContent } from "@tiptap/react"
 import { FileText, FolderOpen, Loader2, Pin, Plus, Trash2 } from "lucide-react"
-import { useTabTitle } from "@blazz/tabs"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { ChangeEvent } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { NoteTagPicker } from "@/components/note-tag-picker"
 import { TiptapEditor, type TiptapUpdatePayload } from "@/components/tiptap-editor"
 import { api } from "@/convex/_generated/api"
@@ -200,9 +200,7 @@ export function EntityNotesPanel({
 
 	// Update browser tab title with selected note
 	useTabTitle(
-		scope === "all" && selectedNote
-			? `Notes · ${getDisplayTitle(selectedNote)}`
-			: "Notes"
+		scope === "all" && selectedNote ? `Notes · ${getDisplayTitle(selectedNote)}` : "Notes"
 	)
 
 	// Auto-expand all groups on first load
@@ -251,7 +249,8 @@ export function EntityNotesPanel({
 		try {
 			const id = await createNote({
 				entityType: defaultCreateEntityType ?? entityType,
-				entityId: defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
+				entityId:
+					defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
 				title: "Nouvelle note",
 			})
 			setSelectedNoteId(id)
@@ -374,7 +373,11 @@ export function EntityNotesPanel({
 						disabled={isCreating}
 						className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-50"
 					>
-						{isCreating ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
+						{isCreating ? (
+							<Loader2 className="size-3.5 animate-spin" />
+						) : (
+							<Plus className="size-3.5" />
+						)}
 					</button>
 				</div>
 				<ScrollArea className="min-h-0 flex-1">
@@ -422,13 +425,10 @@ export function EntityNotesPanel({
 									<Pin className={`size-3 ${selectedNote.pinned ? "fill-current" : ""}`} />
 									<span>{selectedNote.pinned ? "Épinglée" : "Épingler"}</span>
 								</button>
-								<NoteTagPicker
-									noteId={selectedNote._id}
-									noteTagIds={selectedNote.tags ?? []}
-								/>
+								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
 								{compositeState !== "idle" ? (
 									<span className="flex items-center gap-1.5">
-										{(compositeState === "saving" || compositeState === "pending") ? (
+										{compositeState === "saving" || compositeState === "pending" ? (
 											<Loader2 className="size-3 animate-spin" />
 										) : null}
 										{getSaveStateLabel(compositeState)}
@@ -487,9 +487,7 @@ export function EntityNotesPanel({
 									{scope === "all" && selectedNote.entityType !== "general" ? (
 										<>
 											{" · "}
-											<span className="uppercase tracking-wide">
-												{selectedNote.entityType}
-											</span>
+											<span className="uppercase tracking-wide">{selectedNote.entityType}</span>
 										</>
 									) : null}
 								</p>

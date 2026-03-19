@@ -94,7 +94,8 @@ const topBarProps: DocProp[] = [
 	{
 		name: "left",
 		type: "React.ReactNode",
-		description: "Contenu aligné à gauche (typiquement SidebarToggle + Breadcrumbs). Occupe flex-1.",
+		description:
+			"Contenu aligné à gauche (typiquement SidebarToggle + Breadcrumbs). Occupe flex-1.",
 	},
 	{
 		name: "right",
@@ -117,12 +118,14 @@ const compoundComponents: DocProp[] = [
 	{
 		name: "TopBar.SidebarToggle",
 		type: "compound",
-		description: "Bouton PanelLeft qui toggle la sidebar. S'affiche uniquement quand la sidebar est collapsed (utilise useSidebarSafe). Supporte le peek au hover. Alternative : SidebarTrigger de @blazz/ui/components/ui/sidebar (toujours visible).",
+		description:
+			"Bouton PanelLeft qui toggle la sidebar. S'affiche uniquement quand la sidebar est collapsed (utilise useSidebarSafe). Supporte le peek au hover. Alternative : SidebarTrigger de @blazz/ui/components/ui/sidebar (toujours visible).",
 	},
 	{
 		name: "TopBar.Breadcrumbs",
 		type: "compound",
-		description: "Fil d'Ariane. Accepte items en prop ou lit automatiquement les breadcrumbs du FrameContext. Le dernier item est rendu sans lien.",
+		description:
+			"Fil d'Ariane. Accepte items en prop ou lit automatiquement les breadcrumbs du FrameContext. Le dernier item est rendu sans lien.",
 	},
 ]
 
@@ -205,7 +208,8 @@ function TopBarPage() {
 						{
 							title: "Frame",
 							href: "/docs/components/patterns/layout-frame",
-							description: "Brique flexbox bas niveau — le header slot est l'emplacement du TopBar.",
+							description:
+								"Brique flexbox bas niveau — le header slot est l'emplacement du TopBar.",
 						},
 					]}
 				/>

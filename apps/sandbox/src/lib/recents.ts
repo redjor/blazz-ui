@@ -12,8 +12,5 @@ export function getRecents(): string[] {
 export function addRecent(slug: string): void {
 	const recents = getRecents().filter((s) => s !== slug)
 	recents.unshift(slug)
-	localStorage.setItem(
-		STORAGE_KEY,
-		JSON.stringify(recents.slice(0, MAX_RECENTS)),
-	)
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(recents.slice(0, MAX_RECENTS)))
 }

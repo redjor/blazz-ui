@@ -261,7 +261,8 @@ const contextValueProps: DocProp[] = [
 	{
 		name: "showTabBar",
 		type: "boolean",
-		description: "true si >= 2 tabs sont ouverts. Utiliser pour conditionner l'affichage de TabsBar.",
+		description:
+			"true si >= 2 tabs sont ouverts. Utiliser pour conditionner l'affichage de TabsBar.",
 	},
 	{
 		name: "addTab",
@@ -408,7 +409,8 @@ const itemProps: DocProp[] = [
 	{
 		name: "activeClassName",
 		type: "string",
-		description: "Classes CSS supplementaires appliquees uniquement quand isActive est true. Fusionne avec les styles actifs par defaut.",
+		description:
+			"Classes CSS supplementaires appliquees uniquement quand isActive est true. Fusionne avec les styles actifs par defaut.",
 	},
 	{
 		name: "closeButtonClassName",
@@ -588,11 +590,15 @@ function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">TabsInterceptor</span>
-							<span className="text-fg-muted">— Intercepte Cmd+clic et Cmd+W (renderless, framework-agnostic)</span>
+							<span className="text-fg-muted">
+								— Intercepte Cmd+clic et Cmd+W (renderless, framework-agnostic)
+							</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">NextTabsInterceptor</span>
-							<span className="text-fg-muted">— Interceptor pre-cable pour Next.js (auto pathname + navigation)</span>
+							<span className="text-fg-muted">
+								— Interceptor pre-cable pour Next.js (auto pathname + navigation)
+							</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useTabs()</span>
@@ -600,7 +606,9 @@ function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useTabUrlSync()</span>
-							<span className="text-fg-muted">— Sync pathname + titre du tab actif (framework-agnostic)</span>
+							<span className="text-fg-muted">
+								— Sync pathname + titre du tab actif (framework-agnostic)
+							</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useNextTabSync()</span>
@@ -723,9 +731,7 @@ function NavigationTabsPage() {
 							<div>{"getItem(key: string): string | null"}</div>
 							<div>{"setItem(key: string, value: string): void"}</div>
 						</div>
-						<p className="text-fg-muted">
-							Meme API que Web Storage (localStorage/sessionStorage).
-						</p>
+						<p className="text-fg-muted">Meme API que Web Storage (localStorage/sessionStorage).</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>

@@ -1,8 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
-import {
-	registry,
-	getComponentsByCategory,
-} from "~/lib/registry"
+import { getComponentsByCategory, registry } from "~/lib/registry"
 
 export const Route = createFileRoute("/")({
 	component: HomePage,
@@ -28,18 +25,13 @@ function HomePage() {
 		<div className="flex h-screen flex-col items-center justify-center gap-8">
 			<div className="text-center">
 				<h1 className="text-2xl font-semibold">Blazz Sandbox</h1>
-				<p className="text-fg-muted mt-1">
-					Explore {registry.length} components
-				</p>
+				<p className="text-fg-muted mt-1">Explore {registry.length} components</p>
 			</div>
 
 			{/* Category counts */}
 			<div className="flex gap-4">
 				{categoryCounts.map(({ label, count }) => (
-					<div
-						key={label}
-						className="text-center px-4 py-2 rounded-lg bg-raised"
-					>
+					<div key={label} className="text-center px-4 py-2 rounded-lg bg-raised">
 						<div className="text-lg font-semibold tabular-nums">{count}</div>
 						<div className="text-xs text-fg-muted">{label}</div>
 					</div>

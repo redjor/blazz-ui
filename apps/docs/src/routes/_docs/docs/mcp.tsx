@@ -379,7 +379,9 @@ function McpPage() {
 					<p>
 						Retourne la liste complète des composants disponibles. L'IA utilise cette tool pour
 						savoir quel composant chercher avant d'appeler{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">get_component</code>
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+							get_component
+						</code>
 						.
 					</p>
 				</div>
@@ -484,7 +486,10 @@ function McpPage() {
 						Retourne les conventions de code non négociables : architecture (Server Components par
 						défaut), formulaires (react-hook-form + zod), les 4 états obligatoires, et les
 						conventions d'import. Source :{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">ai/rules.md</code>.
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+							ai/rules.md
+						</code>
+						.
 					</p>
 				</div>
 
@@ -521,7 +526,10 @@ function McpPage() {
 					<p>
 						Retourne les principes de design du kit : ratio data-ink de Tufte, lois de Gestalt,
 						densité enterprise, échelle de 4px, typographie Inter, couleurs sémantiques. Source :{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">ai/design.md</code>.
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+							ai/design.md
+						</code>
+						.
 					</p>
 				</div>
 

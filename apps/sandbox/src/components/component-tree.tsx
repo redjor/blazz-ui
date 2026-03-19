@@ -1,15 +1,11 @@
-import { useState, useMemo, useEffect } from "react"
-import { Link, useParams } from "@tanstack/react-router"
 import { Input } from "@blazz/ui/components/ui/input"
-import { ChevronRight, ChevronDown, Search, Clock } from "lucide-react"
-import {
-	registry,
-	getComponentsByCategory,
-	searchComponents,
-} from "~/lib/registry"
-import type { ComponentEntry } from "~/lib/registry"
-import { getRecents } from "~/lib/recents"
+import { Link, useParams } from "@tanstack/react-router"
+import { ChevronDown, ChevronRight, Clock, Search } from "lucide-react"
+import { useEffect, useMemo, useState } from "react"
 import { hasPersistedState } from "~/lib/persistence"
+import { getRecents } from "~/lib/recents"
+import type { ComponentEntry } from "~/lib/registry"
+import { getComponentsByCategory, registry, searchComponents } from "~/lib/registry"
 
 const CATEGORIES = ["ui", "patterns", "blocks", "ai"] as const
 
@@ -41,9 +37,7 @@ export function ComponentTree() {
 	}
 
 	function isActive(entry: ComponentEntry) {
-		return (
-			params.category === entry.category && params.component === entry.slug
-		)
+		return params.category === entry.category && params.component === entry.slug
 	}
 
 	return (
@@ -67,16 +61,10 @@ export function ComponentTree() {
 					/* Flat search results */
 					<div className="px-1">
 						{results.length === 0 ? (
-							<p className="px-3 py-2 text-xs text-fg-muted">
-								No results found.
-							</p>
+							<p className="px-3 py-2 text-xs text-fg-muted">No results found.</p>
 						) : (
 							results.map((entry) => (
-								<ComponentLink
-									key={entry.slug}
-									entry={entry}
-									active={isActive(entry)}
-								/>
+								<ComponentLink key={entry.slug} entry={entry} active={isActive(entry)} />
 							))
 						)}
 					</div>
@@ -127,11 +115,7 @@ export function ComponentTree() {
 									{!isCollapsed && (
 										<div className="px-1">
 											{items.map((entry) => (
-												<ComponentLink
-													key={entry.slug}
-													entry={entry}
-													active={isActive(entry)}
-												/>
+												<ComponentLink key={entry.slug} entry={entry} active={isActive(entry)} />
 											))}
 										</div>
 									)}
@@ -145,10 +129,7 @@ export function ComponentTree() {
 	)
 }
 
-function ComponentLink({
-	entry,
-	active,
-}: { entry: ComponentEntry; active: boolean }) {
+function ComponentLink({ entry, active }: { entry: ComponentEntry; active: boolean }) {
 	const [modified, setModified] = useState(false)
 
 	useEffect(() => {
@@ -160,9 +141,7 @@ function ComponentLink({
 			to="/$category/$component"
 			params={{ category: entry.category, component: entry.slug }}
 			className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md cursor-pointer transition-colors ${
-				active
-					? "bg-brand/10 text-brand"
-					: "text-fg hover:bg-raised"
+				active ? "bg-brand/10 text-brand" : "text-fg hover:bg-raised"
 			}`}
 		>
 			{entry.name}

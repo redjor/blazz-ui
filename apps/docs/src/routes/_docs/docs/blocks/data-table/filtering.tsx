@@ -1,7 +1,6 @@
-import { DataTable, col } from "@blazz/pro/components/blocks/data-table"
 import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
+import { col, DataTable } from "@blazz/pro/components/blocks/data-table"
 import { createFileRoute } from "@tanstack/react-router"
-import * as React from "react"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
@@ -18,14 +17,86 @@ interface Product {
 }
 
 const products: Product[] = [
-	{ id: "1", name: "Widget Pro", category: "Hardware", price: 299, stock: 42, status: "active", inStock: true, createdAt: "2026-01-15" },
-	{ id: "2", name: "Gadget X", category: "Electronics", price: 149, stock: 18, status: "active", inStock: true, createdAt: "2026-02-20" },
-	{ id: "3", name: "Tool Kit", category: "Hardware", price: 89, stock: 7, status: "draft", inStock: true, createdAt: "2026-03-01" },
-	{ id: "4", name: "Sensor V2", category: "Electronics", price: 459, stock: 0, status: "archived", inStock: false, createdAt: "2025-11-10" },
-	{ id: "5", name: "Cable Pack", category: "Accessories", price: 29, stock: 156, status: "active", inStock: true, createdAt: "2026-02-05" },
-	{ id: "6", name: "Mount Bracket", category: "Hardware", price: 45, stock: 23, status: "active", inStock: true, createdAt: "2026-01-28" },
-	{ id: "7", name: "Adapter USB-C", category: "Accessories", price: 19, stock: 89, status: "draft", inStock: true, createdAt: "2026-03-10" },
-	{ id: "8", name: "Display 4K", category: "Electronics", price: 599, stock: 3, status: "active", inStock: true, createdAt: "2025-12-15" },
+	{
+		id: "1",
+		name: "Widget Pro",
+		category: "Hardware",
+		price: 299,
+		stock: 42,
+		status: "active",
+		inStock: true,
+		createdAt: "2026-01-15",
+	},
+	{
+		id: "2",
+		name: "Gadget X",
+		category: "Electronics",
+		price: 149,
+		stock: 18,
+		status: "active",
+		inStock: true,
+		createdAt: "2026-02-20",
+	},
+	{
+		id: "3",
+		name: "Tool Kit",
+		category: "Hardware",
+		price: 89,
+		stock: 7,
+		status: "draft",
+		inStock: true,
+		createdAt: "2026-03-01",
+	},
+	{
+		id: "4",
+		name: "Sensor V2",
+		category: "Electronics",
+		price: 459,
+		stock: 0,
+		status: "archived",
+		inStock: false,
+		createdAt: "2025-11-10",
+	},
+	{
+		id: "5",
+		name: "Cable Pack",
+		category: "Accessories",
+		price: 29,
+		stock: 156,
+		status: "active",
+		inStock: true,
+		createdAt: "2026-02-05",
+	},
+	{
+		id: "6",
+		name: "Mount Bracket",
+		category: "Hardware",
+		price: 45,
+		stock: 23,
+		status: "active",
+		inStock: true,
+		createdAt: "2026-01-28",
+	},
+	{
+		id: "7",
+		name: "Adapter USB-C",
+		category: "Accessories",
+		price: 19,
+		stock: 89,
+		status: "draft",
+		inStock: true,
+		createdAt: "2026-03-10",
+	},
+	{
+		id: "8",
+		name: "Display 4K",
+		category: "Electronics",
+		price: 599,
+		stock: 3,
+		status: "active",
+		inStock: true,
+		createdAt: "2025-12-15",
+	},
 ]
 
 const toc = [
@@ -72,7 +143,11 @@ function FilteringPage() {
 	]
 
 	return (
-		<DocPage title="Filtering" subtitle="Configuration des filtres par colonne, filtres avances et operateurs disponibles." toc={toc}>
+		<DocPage
+			title="Filtering"
+			subtitle="Configuration des filtres par colonne, filtres avances et operateurs disponibles."
+			toc={toc}
+		>
 			<DocHero>
 				<div className="rounded-lg border border-separator overflow-hidden">
 					<DataTable
@@ -100,7 +175,7 @@ function FilteringPage() {
 					<code>boolean</code>, <code>select</code>.
 				</p>
 				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
-{`// Text — recherche par contenu
+					{`// Text — recherche par contenu
 col.text<Product>("name", {
   title: "Produit",
   showInlineFilter: true,     // Disponible dans les filtres inline
@@ -140,11 +215,11 @@ col.select<Product>("category", {
 
 			<DocSection id="advanced-filters" title="Advanced Filters">
 				<p className="text-fg-muted mb-4">
-					Activez <code>enableAdvancedFilters</code> pour afficher le filtre builder.
-					Il permet de creer des conditions complexes avec logique AND/OR.
+					Activez <code>enableAdvancedFilters</code> pour afficher le filtre builder. Il permet de
+					creer des conditions complexes avec logique AND/OR.
 				</p>
 				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
-{`<DataTable
+					{`<DataTable
   enableAdvancedFilters
   onFilterGroupChange={(filterGroup) => {
     // Pour le server-side filtering
@@ -153,11 +228,12 @@ col.select<Product>("category", {
 />`}
 				</pre>
 				<p className="text-fg-muted mt-4 mb-4">
-					Le filtre est represente par un <code>FilterGroup</code> qui contient des <code>FilterCondition</code>
+					Le filtre est represente par un <code>FilterGroup</code> qui contient des{" "}
+					<code>FilterCondition</code>
 					et potentiellement des sous-groupes imbriques :
 				</p>
 				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
-{`// (status = "active" OR status = "draft") AND price > 100
+					{`// (status = "active" OR status = "draft") AND price > 100
 const filterGroup: FilterGroup = {
   id: "root",
   operator: "AND",
@@ -185,11 +261,11 @@ const filterGroup: FilterGroup = {
 					<code>showInlineFilter: true</code> dans son <code>filterConfig</code>.
 				</p>
 				<p className="text-fg-muted mb-4">
-					Par defaut, les filtres inline sont caches derriere un bouton "Ajouter un filtre".
-					Pour qu'un filtre soit visible immediatement, ajoutez <code>defaultInlineFilter: true</code>.
+					Par defaut, les filtres inline sont caches derriere un bouton "Ajouter un filtre". Pour
+					qu'un filtre soit visible immediatement, ajoutez <code>defaultInlineFilter: true</code>.
 				</p>
 				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
-{`col.text<Product>("name", {
+					{`col.text<Product>("name", {
   showInlineFilter: true,     // Disponible dans le dropdown "Ajouter un filtre"
   defaultInlineFilter: true,  // Affiche directement sans cliquer
 })
@@ -201,8 +277,10 @@ col.select<Product>("status", {
 })`}
 				</pre>
 				<p className="text-fg-muted mt-4 text-sm">
-					Le dropdown "Ajouter un filtre" liste toutes les colonnes avec <code>showInlineFilter: true</code>
-					qui ne sont pas deja affichees. Chaque sous-menu montre les operateurs disponibles pour le type de la colonne.
+					Le dropdown "Ajouter un filtre" liste toutes les colonnes avec{" "}
+					<code>showInlineFilter: true</code>
+					qui ne sont pas deja affichees. Chaque sous-menu montre les operateurs disponibles pour le
+					type de la colonne.
 				</p>
 			</DocSection>
 
@@ -215,21 +293,29 @@ col.select<Product>("status", {
 					<div>
 						<p className="text-sm font-medium mb-2">Text</p>
 						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
-							<p>contains, notContains, equals, notEquals, startsWith, endsWith, isEmpty, isNotEmpty</p>
+							<p>
+								contains, notContains, equals, notEquals, startsWith, endsWith, isEmpty, isNotEmpty
+							</p>
 						</div>
 					</div>
 
 					<div>
 						<p className="text-sm font-medium mb-2">Number</p>
 						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
-							<p>equals, notEquals, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, between, isEmpty, isNotEmpty</p>
+							<p>
+								equals, notEquals, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual,
+								between, isEmpty, isNotEmpty
+							</p>
 						</div>
 					</div>
 
 					<div>
 						<p className="text-sm font-medium mb-2">Date</p>
 						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
-							<p>equals, notEquals, greaterThan (after), greaterThanOrEqual (on or after), lessThan (before), lessThanOrEqual (on or before), between, isEmpty, isNotEmpty</p>
+							<p>
+								equals, notEquals, greaterThan (after), greaterThanOrEqual (on or after), lessThan
+								(before), lessThanOrEqual (on or before), between, isEmpty, isNotEmpty
+							</p>
 						</div>
 					</div>
 
@@ -249,10 +335,11 @@ col.select<Product>("status", {
 				</div>
 
 				<p className="text-fg-muted mt-6 text-sm">
-					Vous pouvez restreindre les operateurs disponibles via la prop <code>operators</code> dans le <code>filterConfig</code> :
+					Vous pouvez restreindre les operateurs disponibles via la prop <code>operators</code> dans
+					le <code>filterConfig</code> :
 				</p>
 				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto mt-2">
-{`filterConfig: {
+					{`filterConfig: {
   type: "text",
   operators: ["contains", "equals"],  // Seuls ces 2 operateurs seront proposes
 }`}

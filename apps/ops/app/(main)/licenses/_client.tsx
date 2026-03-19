@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -18,7 +19,6 @@ import { Check, Copy, Key, Plus, Trash2, XCircle } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { LicenseKeyForm } from "@/components/license-key-form"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -168,7 +168,13 @@ export default function LicensesPageClient() {
 							variant={filter === f ? "default" : "outline"}
 							onClick={() => setFilter(f)}
 						>
-							{f === "all" ? "Toutes" : f === "active" ? "Actives" : f === "expired" ? "Expirées" : "Révoquées"}
+							{f === "all"
+								? "Toutes"
+								: f === "active"
+									? "Actives"
+									: f === "expired"
+										? "Expirées"
+										: "Révoquées"}
 						</Button>
 					))}
 				</InlineStack>
@@ -193,10 +199,7 @@ export default function LicensesPageClient() {
 					{filtered.map((entry) => {
 						const status = getStatus(entry)
 						return (
-							<div
-								key={entry._id}
-								className="rounded-lg border border-edge bg-surface-3 p-4"
-							>
+							<div key={entry._id} className="rounded-lg border border-edge bg-surface-3 p-4">
 								<InlineStack gap="300" blockAlign="center" className="justify-between">
 									<InlineStack gap="300" blockAlign="center" className="min-w-0 flex-1">
 										<code className="text-sm font-mono text-fg truncate">
@@ -224,10 +227,7 @@ export default function LicensesPageClient() {
 									{entry.clientName && <span>Client: {entry.clientName}</span>}
 									{entry.email && <span>{entry.email}</span>}
 									<span>Expire: {entry.expiresAt}</span>
-									<span>
-										Créée:{" "}
-										{new Date(entry.createdAt).toLocaleDateString("fr-FR")}
-									</span>
+									<span>Créée: {new Date(entry.createdAt).toLocaleDateString("fr-FR")}</span>
 								</div>
 							</div>
 						)

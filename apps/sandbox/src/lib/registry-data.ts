@@ -15,14 +15,7 @@ const manualRegistry: Registry = [
 			{
 				name: "variant",
 				type: "enum",
-				options: [
-					"default",
-					"outline",
-					"secondary",
-					"ghost",
-					"destructive",
-					"link",
-				],
+				options: ["default", "outline", "secondary", "ghost", "destructive", "link"],
 				default: "default",
 				group: "main",
 				description: "Visual style of the button",
@@ -30,16 +23,7 @@ const manualRegistry: Registry = [
 			{
 				name: "size",
 				type: "enum",
-				options: [
-					"default",
-					"xs",
-					"sm",
-					"lg",
-					"icon",
-					"icon-xs",
-					"icon-sm",
-					"icon-lg",
-				],
+				options: ["default", "xs", "sm", "lg", "icon", "icon-xs", "icon-sm", "icon-lg"],
 				default: "default",
 				group: "main",
 				description: "Size of the button",
@@ -111,15 +95,7 @@ const manualRegistry: Registry = [
 			{
 				name: "variant",
 				type: "enum",
-				options: [
-					"default",
-					"secondary",
-					"info",
-					"success",
-					"warning",
-					"critical",
-					"outline",
-				],
+				options: ["default", "secondary", "info", "success", "warning", "critical", "outline"],
 				default: "default",
 				group: "main",
 				description: "Visual style of the badge",
@@ -596,8 +572,7 @@ const manualRegistry: Registry = [
 				name: "children",
 				type: "slot",
 				group: "slots",
-				description:
-					"SelectTrigger + SelectContent + SelectItem children",
+				description: "SelectTrigger + SelectContent + SelectItem children",
 			},
 			{
 				name: "onValueChange",

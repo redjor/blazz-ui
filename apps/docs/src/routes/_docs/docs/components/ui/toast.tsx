@@ -324,8 +324,8 @@ function ToastPage() {
 					highlightedCode={html("setup")}
 				>
 					<p className="text-sm text-fg-muted">
-						Le composant <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">Toaster</code> est
-						déjà présent dans ce layout — essaie les boutons ci-dessous.
+						Le composant <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">Toaster</code>{" "}
+						est déjà présent dans ce layout — essaie les boutons ci-dessous.
 					</p>
 				</DocExampleClient>
 			</DocSection>
@@ -538,8 +538,8 @@ function ToastPage() {
 			<DocSection id="props" title="Toaster Props">
 				<p className="text-sm text-fg-muted mb-4">
 					Le composant <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">Toaster</code> de{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">@blazz/ui</code> pre-configure les
-					valeurs optimales pour le design system. Toutes les props peuvent être surchargées.
+					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">@blazz/ui</code> pre-configure
+					les valeurs optimales pour le design system. Toutes les props peuvent être surchargées.
 				</p>
 				<DocPropsTable props={toasterProps} />
 			</DocSection>
@@ -551,8 +551,8 @@ function ToastPage() {
 			<DocSection id="progress-api" title="toastProgress Options">
 				<p className="text-sm text-fg-muted mb-4">
 					Options passées en second argument de{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">toastProgress.success()</code> et
-					ses variantes. Les méthodes disponibles sont{" "}
+					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">toastProgress.success()</code>{" "}
+					et ses variantes. Les méthodes disponibles sont{" "}
 					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.success()</code>,{" "}
 					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.error()</code>,{" "}
 					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.warning()</code>,{" "}

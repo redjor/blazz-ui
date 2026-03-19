@@ -27,7 +27,10 @@
 				"useFocusableInteractive": "warn",
 				"noLabelWithoutControl": "warn",
 				"useValidAnchor": "warn",
-				"useButtonType": "warn"
+				"useButtonType": "warn",
+				"useAnchorContent": "warn",
+				"useAriaPropsForRole": "warn",
+				"useAriaPropsSupportedByRole": "warn"
 			},
 			"performance": {
 				"noImgElement": "warn",

@@ -177,7 +177,7 @@ export function BookmarkFormDialog({
 				setFetchingMetadata(false)
 			}
 		},
-		[setValue],
+		[setValue]
 	)
 
 	const handlePaste = useCallback(
@@ -188,7 +188,7 @@ export function BookmarkFormDialog({
 				setTimeout(() => fetchMetadata(pasted), 50)
 			}
 		},
-		[fetchMetadata],
+		[fetchMetadata]
 	)
 
 	const createTag = useMutation(api.tags.create)
@@ -264,9 +264,7 @@ export function BookmarkFormDialog({
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-w-lg">
 				<DialogHeader>
-					<DialogTitle>
-						{isEdit ? "Modifier le bookmark" : "Ajouter un bookmark"}
-					</DialogTitle>
+					<DialogTitle>{isEdit ? "Modifier le bookmark" : "Ajouter un bookmark"}</DialogTitle>
 				</DialogHeader>
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					{/* URL */}
@@ -291,31 +289,17 @@ export function BookmarkFormDialog({
 								</div>
 							)}
 						</div>
-						{errors.url && (
-							<p className="text-xs text-red-500">{errors.url.message}</p>
-						)}
+						{errors.url && <p className="text-xs text-red-500">{errors.url.message}</p>}
 					</div>
 
 					{/* Metadata preview */}
 					{(thumbnailUrl || title) && (
 						<div className="rounded-lg border border-edge bg-surface p-3 space-y-2">
 							{thumbnailUrl && (
-								<img
-									src={thumbnailUrl}
-									alt=""
-									className="w-full h-32 object-cover rounded-md"
-								/>
+								<img src={thumbnailUrl} alt="" className="w-full h-32 object-cover rounded-md" />
 							)}
-							{title && (
-								<p className="text-sm font-medium text-fg line-clamp-2">
-									{title}
-								</p>
-							)}
-							{description && (
-								<p className="text-xs text-fg-muted line-clamp-3">
-									{description}
-								</p>
-							)}
+							{title && <p className="text-sm font-medium text-fg line-clamp-2">{title}</p>}
+							{description && <p className="text-xs text-fg-muted line-clamp-3">{description}</p>}
 						</div>
 					)}
 

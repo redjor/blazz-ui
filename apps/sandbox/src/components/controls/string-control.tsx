@@ -10,12 +10,7 @@ interface StringControlProps {
 	descriptor: PropDescriptor
 }
 
-export function StringControl({
-	name,
-	value,
-	onChange,
-	descriptor,
-}: StringControlProps) {
+export function StringControl({ name, value, onChange, descriptor }: StringControlProps) {
 	return (
 		<div className="flex justify-between items-center gap-2">
 			<label className="min-w-[100px] text-xs text-fg-muted" title={descriptor.description}>

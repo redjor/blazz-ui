@@ -14,8 +14,7 @@ export function RoiCalculator() {
 		{
 			icon: DatabaseZap,
 			title: "Made for data-heavy products",
-			description:
-				"Built for dense workflows where users scan, compare, edit, and move quickly.",
+			description: "Built for dense workflows where users scan, compare, edit, and move quickly.",
 		},
 		{
 			icon: Blocks,
@@ -78,8 +77,8 @@ export function RoiCalculator() {
 								<div>
 									<p className="text-sm font-semibold text-fg">You are building</p>
 									<p className="mt-1 text-[13px] text-fg-muted">
-										CRM, ATS, admin, operations, or internal tools with dense workflows and
-										serious information needs.
+										CRM, ATS, admin, operations, or internal tools with dense workflows and serious
+										information needs.
 									</p>
 								</div>
 								<div>

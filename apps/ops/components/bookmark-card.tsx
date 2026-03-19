@@ -2,14 +2,8 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Card,
-	CardContent,
-} from "@blazz/ui/components/ui/card"
-import {
-	Dialog,
-	DialogContent,
-} from "@blazz/ui/components/ui/dialog"
+import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { Dialog, DialogContent } from "@blazz/ui/components/ui/dialog"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -32,10 +26,7 @@ import {
 import { useState } from "react"
 import type { Doc } from "@/convex/_generated/dataModel"
 
-const TYPE_CONFIG: Record<
-	string,
-	{ label: string; color: string }
-> = {
+const TYPE_CONFIG: Record<string, { label: string; color: string }> = {
 	tweet: { label: "Tweet", color: "bg-sky-500/10 text-sky-600 dark:text-sky-400" },
 	youtube: { label: "YouTube", color: "bg-red-500/10 text-red-600 dark:text-red-400" },
 	image: { label: "Image", color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
@@ -66,7 +57,11 @@ function YouTubePlayerDialog({
 }) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent size="full" showCloseButton={false} className="!max-w-[90vw] p-0 overflow-hidden bg-black border-none ring-0">
+			<DialogContent
+				size="full"
+				showCloseButton={false}
+				className="!max-w-[90vw] p-0 overflow-hidden bg-black border-none ring-0"
+			>
 				<div className="relative">
 					<Button
 						size="icon-sm"
@@ -99,11 +94,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 	if (type === "youtube" && thumbnailUrl) {
 		return (
 			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
-				<img
-					src={thumbnailUrl}
-					alt=""
-					className="size-full object-cover"
-				/>
+				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 				<div className="absolute inset-0 flex items-center justify-center bg-black/20">
 					<div className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white">
 						<Play className="size-5 ml-0.5" />
@@ -116,11 +107,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 	if (type === "image" && thumbnailUrl) {
 		return (
 			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
-				<img
-					src={thumbnailUrl}
-					alt=""
-					className="size-full object-cover"
-				/>
+				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 			</div>
 		)
 	}
@@ -128,11 +115,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 	if (type === "video" && thumbnailUrl) {
 		return (
 			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
-				<img
-					src={thumbnailUrl}
-					alt=""
-					className="size-full object-cover"
-				/>
+				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 				<div className="absolute inset-0 flex items-center justify-center bg-black/20">
 					<div className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white">
 						<Play className="size-5 ml-0.5" />
@@ -146,11 +129,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 		return (
 			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-gradient-to-br from-sky-500/20 to-blue-600/20 flex items-center justify-center">
 				{thumbnailUrl ? (
-					<img
-						src={thumbnailUrl}
-						alt=""
-						className="size-full object-cover"
-					/>
+					<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 				) : (
 					<svg className="size-8 text-sky-500/60" viewBox="0 0 24 24" fill="currentColor">
 						<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -164,11 +143,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 	if (thumbnailUrl) {
 		return (
 			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
-				<img
-					src={thumbnailUrl}
-					alt=""
-					className="size-full object-cover"
-				/>
+				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 			</div>
 		)
 	}
@@ -192,9 +167,9 @@ export function BookmarkCard({
 	const config = TYPE_CONFIG[bookmark.type] ?? TYPE_CONFIG.link
 	const [playerOpen, setPlayerOpen] = useState(false)
 
-	const tagDocs = bookmark.tags
-		?.map((id) => allTags?.find((t) => t._id === id))
-		.filter(Boolean) as { _id: string; name: string; color: string }[] | undefined
+	const tagDocs = bookmark.tags?.map((id) => allTags?.find((t) => t._id === id)).filter(Boolean) as
+		| { _id: string; name: string; color: string }[]
+		| undefined
 
 	const isYouTubePlayable = bookmark.type === "youtube" && bookmark.embedUrl
 
@@ -231,13 +206,7 @@ export function BookmarkCard({
 			<div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
 				<DropdownMenu>
 					<DropdownMenuTrigger
-						render={
-							<Button
-								size="icon-sm"
-								variant="secondary"
-								className="size-7 shadow-sm"
-							/>
-						}
+						render={<Button size="icon-sm" variant="secondary" className="size-7 shadow-sm" />}
 					>
 						<MoreVertical className="size-3.5" />
 					</DropdownMenuTrigger>
@@ -264,10 +233,7 @@ export function BookmarkCard({
 							<Archive className="size-4 mr-2" />
 							Archiver
 						</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={onDelete}
-							className="text-red-600 dark:text-red-400"
-						>
+						<DropdownMenuItem onClick={onDelete} className="text-red-600 dark:text-red-400">
 							<Trash2 className="size-4 mr-2" />
 							Supprimer
 						</DropdownMenuItem>
@@ -293,21 +259,14 @@ export function BookmarkCard({
 					</span>
 				</div>
 
-				<a
-					href={bookmark.url}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="block"
-				>
+				<a href={bookmark.url} target="_blank" rel="noopener noreferrer" className="block">
 					<p className="text-sm font-medium text-fg line-clamp-2 hover:underline">
 						{bookmark.title || bookmark.url}
 					</p>
 				</a>
 
 				{bookmark.type === "link" && bookmark.description && (
-					<p className="text-xs text-fg-muted line-clamp-2">
-						{bookmark.description}
-					</p>
+					<p className="text-xs text-fg-muted line-clamp-2">{bookmark.description}</p>
 				)}
 
 				{bookmark.type === "tweet" && (
@@ -318,28 +277,19 @@ export function BookmarkCard({
 							</p>
 						)}
 						{bookmark.description && (
-							<p className="text-xs text-fg-muted line-clamp-2">
-								{bookmark.description}
-							</p>
+							<p className="text-xs text-fg-muted line-clamp-2">{bookmark.description}</p>
 						)}
 					</>
 				)}
 
 				{bookmark.type !== "tweet" && (bookmark.author || bookmark.siteName) && (
-					<p className="text-xs text-fg-muted truncate">
-						{bookmark.author || bookmark.siteName}
-					</p>
+					<p className="text-xs text-fg-muted truncate">{bookmark.author || bookmark.siteName}</p>
 				)}
 
 				{tagDocs && tagDocs.length > 0 && (
 					<div className="flex flex-wrap gap-1 pt-0.5">
 						{tagDocs.map((tag) => (
-							<Badge
-								key={tag._id}
-								variant="secondary"
-								size="xs"
-								fill="subtle"
-							>
+							<Badge key={tag._id} variant="secondary" size="xs" fill="subtle">
 								{tag.name}
 							</Badge>
 						))}

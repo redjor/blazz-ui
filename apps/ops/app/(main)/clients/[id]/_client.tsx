@@ -1,8 +1,11 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
 import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
@@ -11,8 +14,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@blazz/ui/components/ui/dialog"
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { Box } from "@blazz/ui/components/ui/box"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
@@ -22,7 +23,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"

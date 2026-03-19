@@ -162,7 +162,11 @@ export function CategoryBadge({
 	name,
 	color,
 	icon,
-}: { name: string; color?: string; icon?: string }) {
+}: {
+	name: string
+	color?: string
+	icon?: string
+}) {
 	const Icon = getCategoryIcon(icon)
 	const iconColor = ICON_COLOR_MAP[color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
 	const dotColor = DOT_COLOR_MAP[color ?? "zinc"] ?? DOT_COLOR_MAP.zinc

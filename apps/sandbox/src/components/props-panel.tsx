@@ -1,9 +1,9 @@
 "use client"
 
-import { RotateCcw } from "lucide-react"
 import { Button } from "@blazz/ui/components/ui/button"
-import type { PropDescriptor, PropGroup } from "~/lib/registry"
+import { RotateCcw } from "lucide-react"
 import { ControlRenderer } from "~/components/controls"
+import type { PropDescriptor, PropGroup } from "~/lib/registry"
 
 interface PropsPanelProps {
 	props: PropDescriptor[]
@@ -30,7 +30,7 @@ export function PropsPanel({ props, values, onChange, onReset }: PropsPanelProps
 			acc[group].push(prop)
 			return acc
 		},
-		{ main: [], style: [], slots: [], callbacks: [] },
+		{ main: [], style: [], slots: [], callbacks: [] }
 	)
 
 	return (
@@ -67,9 +67,7 @@ export function PropsPanel({ props, values, onChange, onReset }: PropsPanelProps
 
 			{/* Empty state */}
 			{props.length === 0 && (
-				<p className="text-xs text-fg-muted text-center py-4">
-					No configurable props
-				</p>
+				<p className="text-xs text-fg-muted text-center py-4">No configurable props</p>
 			)}
 		</div>
 	)

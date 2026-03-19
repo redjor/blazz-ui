@@ -22,9 +22,7 @@ function detectType(url: string): BookmarkType {
 }
 
 function extractYouTubeId(url: string): string | null {
-	const match = url.match(
-		/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/
-	)
+	const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/)
 	return match?.[1] ?? null
 }
 
@@ -85,9 +83,14 @@ export async function POST(request: Request) {
 				})
 				if (response.ok) {
 					const html = await response.text()
-					metadata.title = metadata.title ?? getMetaContent(html, "og:title") ?? getTitle(html) ?? undefined
-					metadata.description = getMetaContent(html, "og:description") ?? getMetaContent(html, "description") ?? undefined
-					metadata.thumbnailUrl = metadata.thumbnailUrl ?? getMetaContent(html, "og:image") ?? undefined
+					metadata.title =
+						metadata.title ?? getMetaContent(html, "og:title") ?? getTitle(html) ?? undefined
+					metadata.description =
+						getMetaContent(html, "og:description") ??
+						getMetaContent(html, "description") ??
+						undefined
+					metadata.thumbnailUrl =
+						metadata.thumbnailUrl ?? getMetaContent(html, "og:image") ?? undefined
 					metadata.siteName = metadata.siteName ?? getMetaContent(html, "og:site_name") ?? undefined
 					metadata.author = metadata.author ?? getMetaContent(html, "article:author") ?? undefined
 				}

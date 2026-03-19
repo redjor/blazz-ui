@@ -11,12 +11,7 @@ interface NumberControlProps {
 	descriptor: PropDescriptor
 }
 
-export function NumberControl({
-	name,
-	value,
-	onChange,
-	descriptor,
-}: NumberControlProps) {
+export function NumberControl({ name, value, onChange, descriptor }: NumberControlProps) {
 	const numValue = Number(value ?? 0)
 	const min = descriptor.options?.[0] != null ? Number(descriptor.options[0]) : 0
 	const max = descriptor.options?.[1] != null ? Number(descriptor.options[1]) : 100

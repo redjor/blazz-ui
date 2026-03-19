@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import type {
 	BulkAction,
 	DataTableColumnDef,
@@ -22,9 +23,9 @@ import { fr } from "date-fns/locale"
 import {
 	Ban,
 	CheckCircle2,
+	CircleDashed,
 	CircleDollarSign,
 	CircleDot,
-	CircleDashed,
 	CircleFadingArrowUp,
 	FileText,
 	Pencil,
@@ -38,18 +39,17 @@ import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
-import { ProjectNotesList } from "@/components/project-notes-list"
 import { InvoicePreviewDialog } from "@/components/invoice-preview-dialog"
 import { InvoiceSection } from "@/components/invoice-section"
-import { isEnabled } from "@/lib/features"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { ProjectForm } from "@/components/project-form"
+import { ProjectNotesList } from "@/components/project-notes-list"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { computeBudgetMetrics } from "@/lib/budget"
 import { computeContractMetrics, computeForfaitMetrics } from "@/lib/contracts"
+import { isEnabled } from "@/lib/features"
 import { formatMinutes } from "@/lib/format"
 import {
 	type EntryStatus,
@@ -614,7 +614,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 								{formatMinutes(stats.totalMinutes)}
 							</p>
 							<p className="text-xs text-fg-muted mt-1 tabular-nums">
-								{(stats.totalMinutes / (project.hoursPerDay * 60)).toFixed(1).replace(".", ",")} jours
+								{(stats.totalMinutes / (project.hoursPerDay * 60)).toFixed(1).replace(".", ",")}{" "}
+								jours
 							</p>
 						</CardContent>
 					</Card>
@@ -690,7 +691,8 @@ export default function ProjectDetailPageClient({ params }: Props) {
 							<h2 className="text-sm font-medium text-fg">Factures</h2>
 							{(() => {
 								const readyEntries = entries.filter(
-									(e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
+									(e) =>
+										e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
 								)
 								return readyEntries.length > 0 ? (
 									<Button
@@ -773,7 +775,10 @@ export default function ProjectDetailPageClient({ params }: Props) {
 								<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
 									{formatMinutes(entry.minutes)}
 								</span>
-								<span className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`} style={{ fontSize: 13 }}>
+								<span
+									className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`}
+									style={{ fontSize: 13 }}
+								>
 									{entry.description || "Pas de description"}
 								</span>
 							</div>

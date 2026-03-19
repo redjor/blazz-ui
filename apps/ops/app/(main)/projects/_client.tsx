@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -17,10 +18,9 @@ import { useQuery } from "convex/react"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
+import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import { ProjectForm } from "@/components/project-form"
 
 type StatusFilter = "active" | "all"
 

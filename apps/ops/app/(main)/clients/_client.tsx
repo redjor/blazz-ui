@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -9,11 +10,10 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { ChevronRight, Plus, Users } from "lucide-react"
-import Link from "next/link"
 import Image from "next/image"
+import Link from "next/link"
 import { useMemo, useState } from "react"
 import { ClientForm } from "@/components/client-form"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { api } from "@/convex/_generated/api"
 
 const typeLabels = {

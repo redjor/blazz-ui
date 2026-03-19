@@ -22,11 +22,14 @@ export const list = query({
 	handler: async (ctx, { collectionId, type, tag, archived, uncategorized, search }) => {
 		const { userId } = await requireAuth(ctx)
 
+		// biome-ignore lint/suspicious/noImplicitAnyLet: type inferred from first assignment
 		let results
 		if (collectionId) {
 			results = await ctx.db
 				.query("bookmarks")
-				.withIndex("by_user_collection", (q) => q.eq("userId", userId).eq("collectionId", collectionId))
+				.withIndex("by_user_collection", (q) =>
+					q.eq("userId", userId).eq("collectionId", collectionId)
+				)
 				.collect()
 		} else if (type) {
 			results = await ctx.db

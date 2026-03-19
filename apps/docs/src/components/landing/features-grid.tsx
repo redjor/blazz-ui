@@ -7,8 +7,7 @@ const features = [
 	{
 		icon: Table2,
 		title: "Advanced DataTable",
-		description:
-			"Editable, filterable, high-density tables built for real business workflows.",
+		description: "Editable, filterable, high-density tables built for real business workflows.",
 	},
 	{
 		icon: Palette,
@@ -31,14 +30,12 @@ const features = [
 	{
 		icon: BarChart3,
 		title: "Charts & Dashboards",
-		description:
-			"KPI and reporting building blocks that fit naturally into business software.",
+		description: "KPI and reporting building blocks that fit naturally into business software.",
 	},
 	{
 		icon: Bot,
 		title: "52 AI Components",
-		description:
-			"Components for AI-native workflows inside serious software, not just chat demos.",
+		description: "Components for AI-native workflows inside serious software, not just chat demos.",
 	},
 ]
 

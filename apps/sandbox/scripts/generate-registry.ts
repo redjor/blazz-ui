@@ -38,7 +38,16 @@ function isPascalCase(name: string): boolean {
 	return /^[A-Z][a-zA-Z0-9]*$/.test(name)
 }
 
-type PropType = "boolean" | "string" | "number" | "union" | "enum" | "slot" | "function" | "object" | "array"
+type PropType =
+	| "boolean"
+	| "string"
+	| "number"
+	| "union"
+	| "enum"
+	| "slot"
+	| "function"
+	| "object"
+	| "array"
 type PropGroup = "main" | "style" | "slots" | "callbacks"
 
 interface PropDescriptor {
@@ -178,7 +187,7 @@ const HTML_ATTRS = new Set([
 
 function mapType(
 	type: ts.Type,
-	checker: ts.TypeChecker,
+	checker: ts.TypeChecker
 ): { propType: PropType; options?: string[] } {
 	// boolean
 	if (type.flags & ts.TypeFlags.Boolean || type.flags & ts.TypeFlags.BooleanLiteral) {
@@ -199,15 +208,11 @@ function mapType(
 	if (type.isUnion()) {
 		// Filter out undefined/null from optional unions
 		const realTypes = type.types.filter(
-			(t) =>
-				!(t.flags & ts.TypeFlags.Undefined) &&
-				!(t.flags & ts.TypeFlags.Null),
+			(t) => !(t.flags & ts.TypeFlags.Undefined) && !(t.flags & ts.TypeFlags.Null)
 		)
 
 		// Check for boolean (union of true|false)
-		const hasBoolLiterals = realTypes.every(
-			(t) => t.flags & ts.TypeFlags.BooleanLiteral,
-		)
+		const hasBoolLiterals = realTypes.every((t) => t.flags & ts.TypeFlags.BooleanLiteral)
 		if (hasBoolLiterals && realTypes.length === 2) {
 			return { propType: "boolean" }
 		}
@@ -221,7 +226,9 @@ function mapType(
 		}
 
 		// If any sub-type is boolean
-		if (realTypes.some((t) => t.flags & ts.TypeFlags.Boolean || t.flags & ts.TypeFlags.BooleanLiteral)) {
+		if (
+			realTypes.some((t) => t.flags & ts.TypeFlags.Boolean || t.flags & ts.TypeFlags.BooleanLiteral)
+		) {
 			return { propType: "boolean" }
 		}
 
@@ -307,7 +314,7 @@ function getSourceFilePath(symbol: ts.Symbol): string | undefined {
 // Check if a prop is declared in the component's own source (not inherited)
 // ---------------------------------------------------------------------------
 
-function isDeclaredInUserSource(prop: ts.Symbol, checker: ts.TypeChecker): boolean {
+function isDeclaredInUserSource(prop: ts.Symbol, _checker: ts.TypeChecker): boolean {
 	const decl = prop.getDeclarations()?.[0]
 	if (!decl) return false
 	const filePath = decl.getSourceFile().fileName
@@ -320,10 +327,7 @@ function isDeclaredInUserSource(prop: ts.Symbol, checker: ts.TypeChecker): boole
 // Extract props from a component type
 // ---------------------------------------------------------------------------
 
-function extractProps(
-	type: ts.Type,
-	checker: ts.TypeChecker,
-): PropDescriptor[] {
+function extractProps(type: ts.Type, checker: ts.TypeChecker): PropDescriptor[] {
 	const allProps = type.getProperties()
 
 	// Heuristic: if > 25 props, many are likely inherited HTML attrs
@@ -423,10 +427,7 @@ function isReactComponent(symbol: ts.Symbol, checker: ts.TypeChecker): boolean {
 // Get the first parameter type of a component function (= its props)
 // ---------------------------------------------------------------------------
 
-function getPropsType(
-	symbol: ts.Symbol,
-	checker: ts.TypeChecker,
-): ts.Type | undefined {
+function getPropsType(symbol: ts.Symbol, checker: ts.TypeChecker): ts.Type | undefined {
 	const resolved = resolveSymbol(symbol, checker)
 	const type = checker.getTypeOfSymbol(resolved)
 	const signatures = type.getCallSignatures()
@@ -452,7 +453,7 @@ function main() {
 	const parsedConfig = ts.parseJsonConfigFileContent(
 		configFile.config,
 		ts.sys,
-		path.dirname(UI_TSCONFIG),
+		path.dirname(UI_TSCONFIG)
 	)
 
 	// Create program from the UI index
@@ -551,10 +552,7 @@ function main() {
 		// Props
 		lines.push("\t\tprops: [")
 		for (const prop of entry.props) {
-			const parts = [
-				`name: ${JSON.stringify(prop.name)}`,
-				`type: ${JSON.stringify(prop.type)}`,
-			]
+			const parts = [`name: ${JSON.stringify(prop.name)}`, `type: ${JSON.stringify(prop.type)}`]
 			if (prop.options) {
 				parts.push(`options: ${JSON.stringify(prop.options)}`)
 			}
@@ -589,7 +587,7 @@ function main() {
 			acc[e.category] = (acc[e.category] || 0) + 1
 			return acc
 		},
-		{} as Record<string, number>,
+		{} as Record<string, number>
 	)
 	console.log("\nBy category:")
 	for (const [cat, count] of Object.entries(byCategory)) {

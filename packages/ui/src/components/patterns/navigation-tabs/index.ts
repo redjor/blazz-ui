@@ -1,14 +1,12 @@
 // Re-export from @blazz/tabs for backwards compatibility
 export {
-	TabsProvider as NavigationTabsProvider,
+	type Tab as NavigationTab,
+	type TabsConfig as NavigationTabsConfig,
+	type TabsContextValue as NavigationTabsContextValue,
 	TabsInterceptor as NavigationTabsInterceptor,
+	TabsProvider as NavigationTabsProvider,
 	useTabs as useNavigationTabs,
 	useTabTitle as useNavigationTabTitle,
 	useTabUrlSync as useNavigationTabUrlSync,
-	type Tab as NavigationTab,
-	type TabsContextValue as NavigationTabsContextValue,
-	type TabsConfig as NavigationTabsConfig,
 } from "@blazz/tabs"
-
-export { TabsBar as NavigationTabsBar } from "@blazz/tabs/ui"
-export { TabsItem as NavigationTabsItem } from "@blazz/tabs/ui"
+export { TabsBar as NavigationTabsBar, TabsItem as NavigationTabsItem } from "@blazz/tabs/ui"

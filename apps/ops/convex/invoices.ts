@@ -21,9 +21,7 @@ export const listByProject = query({
 		return Promise.all(
 			sorted.map(async (invoice) => ({
 				...invoice,
-				pdfUrl: invoice.pdfStorageId
-					? await ctx.storage.getUrl(invoice.pdfStorageId)
-					: null,
+				pdfUrl: invoice.pdfStorageId ? await ctx.storage.getUrl(invoice.pdfStorageId) : null,
 			}))
 		)
 	},
@@ -38,9 +36,7 @@ export const get = query({
 
 		return {
 			...invoice,
-			pdfUrl: invoice.pdfStorageId
-				? await ctx.storage.getUrl(invoice.pdfStorageId)
-				: null,
+			pdfUrl: invoice.pdfStorageId ? await ctx.storage.getUrl(invoice.pdfStorageId) : null,
 		}
 	},
 })

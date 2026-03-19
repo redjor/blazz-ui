@@ -32,9 +32,9 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "config", type: "object", group: "main" },
 			{ name: "header", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["inset","sidebar","floating"], group: "main" },
-			{ name: "side", type: "enum", options: ["left","right"], group: "main" },
-			{ name: "collapsible", type: "enum", options: ["none","icon","offcanvas"], group: "main" },
+			{ name: "variant", type: "enum", options: ["inset", "sidebar", "floating"], group: "main" },
+			{ name: "side", type: "enum", options: ["left", "right"], group: "main" },
+			{ name: "collapsible", type: "enum", options: ["none", "icon", "offcanvas"], group: "main" },
 		],
 		defaultCode: "<AppSidebar />",
 	},
@@ -113,7 +113,12 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "name", type: "string", group: "main" },
 			{ name: "label", type: "string", group: "main" },
 			{ name: "control", type: "object", group: "main" },
-			{ name: "type", type: "enum", options: ["number","select","textarea","text","tel","email","password"], group: "main" },
+			{
+				name: "type",
+				type: "enum",
+				options: ["number", "select", "textarea", "text", "tel", "email", "password"],
+				group: "main",
+			},
 			{ name: "placeholder", type: "string", group: "main" },
 			{ name: "description", type: "string", group: "main" },
 			{ name: "required", type: "boolean", group: "main" },
@@ -141,9 +146,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "frame-provider",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/frame-context",
-		props: [
-			{ name: "children", type: "boolean", group: "main" },
-		],
+		props: [{ name: "children", type: "boolean", group: "main" }],
 		defaultCode: "<FrameProvider />",
 	},
 	{
@@ -187,9 +190,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "layout-top-bar",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/layout-top-bar",
-		props: [
-			{ name: "onOpenCommandPalette", type: "string", group: "callbacks" },
-		],
+		props: [{ name: "onOpenCommandPalette", type: "string", group: "callbacks" }],
 		defaultCode: "<LayoutTopBar />",
 	},
 	{
@@ -278,8 +279,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-toggle",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/top-bar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarToggle />",
 	},
 	{
@@ -287,9 +287,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-user-menu",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/sidebar-user",
-		props: [
-			{ name: "user", type: "object", group: "main" },
-		],
+		props: [{ name: "user", type: "object", group: "main" }],
 		defaultCode: "<SidebarUserMenu />",
 	},
 	{
@@ -297,8 +295,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "theme-palette-switcher",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/theme-palette-switcher",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ThemePaletteSwitcher />",
 	},
 	{
@@ -306,8 +303,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "theme-toggle",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/theme-toggle",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ThemeToggle />",
 	},
 	{
@@ -327,9 +323,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "top-bar-breadcrumbs",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/top-bar",
-		props: [
-			{ name: "items", type: "string", group: "main" },
-		],
+		props: [{ name: "items", type: "string", group: "main" }],
 		defaultCode: "<TopBarBreadcrumbs />",
 	},
 	{
@@ -338,7 +332,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/unsaved-changes-bar/bar",
 		props: [
-			{ name: "side", type: "enum", options: ["bottom","top"], group: "main" },
+			{ name: "side", type: "enum", options: ["bottom", "top"], group: "main" },
 			{ name: "blockNavigation", type: "boolean", group: "main" },
 		],
 		defaultCode: "<UnsavedChangesBar />",
@@ -348,9 +342,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "unsaved-changes-provider",
 		category: "patterns",
 		importPath: "@blazz/ui/components/patterns/unsaved-changes-bar/context",
-		props: [
-			{ name: "children", type: "boolean", group: "main" },
-		],
+		props: [{ name: "children", type: "boolean", group: "main" }],
 		defaultCode: "<UnsavedChangesProvider />",
 	},
 	{
@@ -373,9 +365,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "alert",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/alert",
-		props: [
-			{ name: "variant", type: "enum", options: ["default","destructive"], group: "main" },
-		],
+		props: [{ name: "variant", type: "enum", options: ["default", "destructive"], group: "main" }],
 		defaultCode: "<Alert />",
 	},
 	{
@@ -383,8 +373,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "alert-action",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/alert",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AlertAction />",
 	},
 	{
@@ -392,8 +381,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "alert-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/alert",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AlertDescription />",
 	},
 	{
@@ -401,8 +389,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "alert-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/alert",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AlertTitle />",
 	},
 	{
@@ -410,9 +397,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "avatar",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/avatar",
-		props: [
-			{ name: "size", type: "enum", options: ["default","sm","lg"], group: "main" },
-		],
+		props: [{ name: "size", type: "enum", options: ["default", "sm", "lg"], group: "main" }],
 		defaultCode: "<Avatar />",
 	},
 	{
@@ -420,8 +405,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "avatar-badge",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/avatar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AvatarBadge />",
 	},
 	{
@@ -429,8 +413,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "avatar-fallback",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/avatar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AvatarFallback />",
 	},
 	{
@@ -438,8 +421,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "avatar-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/avatar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AvatarGroup />",
 	},
 	{
@@ -447,8 +429,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "avatar-group-count",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/avatar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AvatarGroupCount />",
 	},
 	{
@@ -456,8 +437,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "avatar-image",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/avatar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<AvatarImage />",
 	},
 	{
@@ -468,9 +448,14 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "dot", type: "boolean", group: "main" },
 			{ name: "onDismiss", type: "string", group: "callbacks" },
-			{ name: "variant", type: "enum", options: ["default","secondary","info","success","warning","critical","outline"], group: "main" },
-			{ name: "size", type: "enum", options: ["sm","xs","md"], group: "main" },
-			{ name: "fill", type: "enum", options: ["subtle","solid"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["default", "secondary", "info", "success", "warning", "critical", "outline"],
+				group: "main",
+			},
+			{ name: "size", type: "enum", options: ["sm", "xs", "md"], group: "main" },
+			{ name: "fill", type: "enum", options: ["subtle", "solid"], group: "main" },
 		],
 		defaultCode: "<Badge />",
 	},
@@ -486,8 +471,13 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "secondaryAction", type: "string", group: "main" },
 			{ name: "onDismiss", type: "string", group: "callbacks" },
 			{ name: "stopAnnouncements", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["default","outline"], group: "main" },
-			{ name: "tone", type: "enum", options: ["info","success","warning","critical"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "outline"], group: "main" },
+			{
+				name: "tone",
+				type: "enum",
+				options: ["info", "success", "warning", "critical"],
+				group: "main",
+			},
 		],
 		defaultCode: "<Banner />",
 	},
@@ -498,12 +488,126 @@ export const generatedRegistry: ComponentEntry[] = [
 		importPath: "@blazz/ui/components/ui/bleed",
 		props: [
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "marginInline", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "marginBlock", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "marginBlockStart", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "marginBlockEnd", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "marginInlineStart", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "marginInlineEnd", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
+			{
+				name: "marginInline",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{
+				name: "marginBlock",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{
+				name: "marginBlockStart",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{
+				name: "marginBlockEnd",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{
+				name: "marginInlineStart",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{
+				name: "marginInlineEnd",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
 		],
 		defaultCode: "<Bleed />",
 	},
@@ -513,14 +617,48 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/block-stack",
 		props: [
-			{ name: "as", type: "enum", options: ["div","fieldset","li","ol","span","ul"], group: "main" },
+			{
+				name: "as",
+				type: "enum",
+				options: ["div", "fieldset", "li", "ol", "span", "ul"],
+				group: "main",
+			},
 			{ name: "reverseOrder", type: "boolean", group: "main" },
 			{ name: "children", type: "boolean", group: "main" },
 			{ name: "id", type: "string", group: "main" },
 			{ name: "role", type: "string", group: "main" },
-			{ name: "gap", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "align", type: "enum", options: ["center","end","start","space-around","space-between","space-evenly"], group: "main" },
-			{ name: "inlineAlign", type: "enum", options: ["center","end","start","baseline","stretch"], group: "main" },
+			{
+				name: "gap",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{
+				name: "align",
+				type: "enum",
+				options: ["center", "end", "start", "space-around", "space-between", "space-evenly"],
+				group: "main",
+			},
+			{
+				name: "inlineAlign",
+				type: "enum",
+				options: ["center", "end", "start", "baseline", "stretch"],
+				group: "main",
+			},
 		],
 		defaultCode: "<BlockStack />",
 	},
@@ -532,11 +670,21 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "as", type: "string", group: "main" },
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "shadow", type: "enum", options: ["sm","lg","md","none"], group: "main" },
-			{ name: "padding", type: "enum", options: ["0","2","4","6","8"], group: "main" },
-			{ name: "background", type: "enum", options: ["accent","transparent","app","surface","raised","overlay"], group: "main" },
-			{ name: "border", type: "enum", options: ["default","none"], group: "main" },
-			{ name: "borderRadius", type: "enum", options: ["sm","lg","md","none","xl"], group: "main" },
+			{ name: "shadow", type: "enum", options: ["sm", "lg", "md", "none"], group: "main" },
+			{ name: "padding", type: "enum", options: ["0", "2", "4", "6", "8"], group: "main" },
+			{
+				name: "background",
+				type: "enum",
+				options: ["accent", "transparent", "app", "surface", "raised", "overlay"],
+				group: "main",
+			},
+			{ name: "border", type: "enum", options: ["default", "none"], group: "main" },
+			{
+				name: "borderRadius",
+				type: "enum",
+				options: ["sm", "lg", "md", "none", "xl"],
+				group: "main",
+			},
 		],
 		defaultCode: "<Box />",
 	},
@@ -545,9 +693,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-			{ name: "separator", type: "boolean", group: "main" },
-		],
+		props: [{ name: "separator", type: "boolean", group: "main" }],
 		defaultCode: "<Breadcrumb />",
 	},
 	{
@@ -555,9 +701,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-back-link",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-			{ name: "icon", type: "string", group: "main" },
-		],
+		props: [{ name: "icon", type: "string", group: "main" }],
 		defaultCode: "<BreadcrumbBackLink />",
 	},
 	{
@@ -565,8 +709,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-ellipsis",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-		],
+		props: [],
 		defaultCode: "<BreadcrumbEllipsis />",
 	},
 	{
@@ -574,8 +717,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-		],
+		props: [],
 		defaultCode: "<BreadcrumbItem />",
 	},
 	{
@@ -583,8 +725,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-link",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-		],
+		props: [],
 		defaultCode: "<BreadcrumbLink />",
 	},
 	{
@@ -592,8 +733,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-list",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-		],
+		props: [],
 		defaultCode: "<BreadcrumbList />",
 	},
 	{
@@ -601,8 +741,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-page",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-		],
+		props: [],
 		defaultCode: "<BreadcrumbPage />",
 	},
 	{
@@ -610,8 +749,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "breadcrumb-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/breadcrumb",
-		props: [
-		],
+		props: [],
 		defaultCode: "<BreadcrumbSeparator />",
 	},
 	{
@@ -620,8 +758,18 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/button",
 		props: [
-			{ name: "variant", type: "enum", options: ["link","default","destructive","secondary","outline","ghost"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg","xs","icon","icon-xs","icon-sm","icon-lg"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["link", "default", "destructive", "secondary", "outline", "ghost"],
+				group: "main",
+			},
+			{
+				name: "size",
+				type: "enum",
+				options: ["default", "sm", "lg", "xs", "icon", "icon-xs", "icon-sm", "icon-lg"],
+				group: "main",
+			},
 		],
 		defaultCode: "<Button />",
 	},
@@ -631,7 +779,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/button-group",
 		props: [
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 		],
 		defaultCode: "<ButtonGroup />",
 	},
@@ -640,8 +788,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "button-group-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/button-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ButtonGroupSeparator />",
 	},
 	{
@@ -649,8 +796,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "button-group-text",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/button-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ButtonGroupText />",
 	},
 	{
@@ -658,8 +804,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "calendar",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/calendar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Calendar />",
 	},
 	{
@@ -682,9 +827,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-			{ name: "size", type: "enum", options: ["default","sm"], group: "main" },
-		],
+		props: [{ name: "size", type: "enum", options: ["default", "sm"], group: "main" }],
 		defaultCode: "<Card />",
 	},
 	{
@@ -692,8 +835,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card-action",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CardAction />",
 	},
 	{
@@ -701,8 +843,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CardContent />",
 	},
 	{
@@ -710,8 +851,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CardDescription />",
 	},
 	{
@@ -719,8 +859,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CardFooter />",
 	},
 	{
@@ -728,8 +867,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CardHeader />",
 	},
 	{
@@ -737,8 +875,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "card-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CardTitle />",
 	},
 	{
@@ -749,7 +886,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "opts", type: "string", group: "main" },
 			{ name: "plugins", type: "string", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "setApi", type: "string", group: "main" },
 		],
 		defaultCode: "<Carousel />",
@@ -759,8 +896,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "carousel-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/carousel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CarouselContent />",
 	},
 	{
@@ -768,8 +904,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "carousel-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/carousel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CarouselItem />",
 	},
 	{
@@ -778,8 +913,18 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/carousel",
 		props: [
-			{ name: "variant", type: "enum", options: ["link","default","destructive","secondary","outline","ghost"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg","xs","icon","icon-xs","icon-sm","icon-lg"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["link", "default", "destructive", "secondary", "outline", "ghost"],
+				group: "main",
+			},
+			{
+				name: "size",
+				type: "enum",
+				options: ["default", "sm", "lg", "xs", "icon", "icon-xs", "icon-sm", "icon-lg"],
+				group: "main",
+			},
 		],
 		defaultCode: "<CarouselNext />",
 	},
@@ -789,8 +934,18 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/carousel",
 		props: [
-			{ name: "variant", type: "enum", options: ["link","default","destructive","secondary","outline","ghost"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg","xs","icon","icon-xs","icon-sm","icon-lg"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["link", "default", "destructive", "secondary", "outline", "ghost"],
+				group: "main",
+			},
+			{
+				name: "size",
+				type: "enum",
+				options: ["default", "sm", "lg", "xs", "icon", "icon-xs", "icon-sm", "icon-lg"],
+				group: "main",
+			},
 		],
 		defaultCode: "<CarouselPrevious />",
 	},
@@ -813,9 +968,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "chart-container",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/chart",
-		props: [
-			{ name: "config", type: "object", group: "main" },
-		],
+		props: [{ name: "config", type: "object", group: "main" }],
 		defaultCode: "<ChartContainer />",
 	},
 	{
@@ -848,7 +1001,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "hideLabel", type: "boolean", group: "main" },
 			{ name: "hideIndicator", type: "boolean", group: "main" },
-			{ name: "indicator", type: "enum", options: ["line","dot","dashed"], group: "main" },
+			{ name: "indicator", type: "enum", options: ["line", "dot", "dashed"], group: "main" },
 			{ name: "nameKey", type: "string", group: "main" },
 			{ name: "labelKey", type: "string", group: "main" },
 		],
@@ -859,8 +1012,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "checkbox",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/checkbox",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Checkbox />",
 	},
 	{
@@ -876,7 +1028,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "defaultValue", type: "string", group: "main" },
 			{ name: "onValueChange", type: "string", group: "callbacks" },
 			{ name: "disabled", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 		],
 		defaultCode: "<CheckboxGroup />",
 	},
@@ -885,8 +1037,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "collapsible",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/collapsible",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Collapsible />",
 	},
 	{
@@ -894,8 +1045,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "collapsible-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/collapsible",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CollapsibleContent />",
 	},
 	{
@@ -903,8 +1053,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "collapsible-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/collapsible",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CollapsibleTrigger />",
 	},
 	{
@@ -944,8 +1093,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Command />",
 	},
 	{
@@ -955,7 +1103,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		importPath: "@blazz/ui/components/ui/command",
 		props: [
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "size", type: "enum", options: ["sm","lg","md","xl","full"], group: "main" },
+			{ name: "size", type: "enum", options: ["sm", "lg", "md", "xl", "full"], group: "main" },
 			{ name: "open", type: "boolean", group: "main" },
 			{ name: "defaultOpen", type: "boolean", group: "main" },
 			{ name: "modal", type: "enum", options: ["trap-focus"], group: "main" },
@@ -974,8 +1122,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-empty",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandEmpty />",
 	},
 	{
@@ -983,8 +1130,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandGroup />",
 	},
 	{
@@ -992,8 +1138,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-input",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandInput />",
 	},
 	{
@@ -1001,8 +1146,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandItem />",
 	},
 	{
@@ -1010,8 +1154,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-list",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandList />",
 	},
 	{
@@ -1019,8 +1162,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandSeparator />",
 	},
 	{
@@ -1028,8 +1170,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "command-shortcut",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/command",
-		props: [
-		],
+		props: [],
 		defaultCode: "<CommandShortcut />",
 	},
 	{
@@ -1045,7 +1186,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "confirmLabel", type: "string", group: "main" },
 			{ name: "cancelLabel", type: "string", group: "main" },
 			{ name: "onConfirm", type: "function", group: "callbacks" },
-			{ name: "variant", type: "enum", options: ["default","destructive"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "destructive"], group: "main" },
 		],
 		defaultCode: "<ConfirmationDialog />",
 	},
@@ -1057,7 +1198,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "open", type: "boolean", group: "main" },
 			{ name: "defaultOpen", type: "boolean", group: "main" },
@@ -1077,9 +1218,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-checkbox-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<ContextMenuCheckboxItem />",
 	},
 	{
@@ -1087,8 +1226,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuContent />",
 	},
 	{
@@ -1096,8 +1234,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuGroup />",
 	},
 	{
@@ -1107,7 +1244,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		importPath: "@blazz/ui/components/ui/context-menu",
 		props: [
 			{ name: "inset", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["default","destructive"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "destructive"], group: "main" },
 		],
 		defaultCode: "<ContextMenuItem />",
 	},
@@ -1116,9 +1253,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<ContextMenuLabel />",
 	},
 	{
@@ -1126,8 +1261,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-portal",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuPortal />",
 	},
 	{
@@ -1135,8 +1269,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-radio-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuRadioGroup />",
 	},
 	{
@@ -1144,9 +1277,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-radio-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<ContextMenuRadioItem />",
 	},
 	{
@@ -1154,8 +1285,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuSeparator />",
 	},
 	{
@@ -1163,8 +1293,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-shortcut",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuShortcut />",
 	},
 	{
@@ -1176,7 +1305,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "closeParentOnEsc", type: "boolean", group: "main" },
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "open", type: "boolean", group: "main" },
 			{ name: "defaultOpen", type: "boolean", group: "main" },
@@ -1195,8 +1324,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-sub-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuSubContent />",
 	},
 	{
@@ -1204,9 +1332,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-sub-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<ContextMenuSubTrigger />",
 	},
 	{
@@ -1214,8 +1340,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "context-menu-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/context-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ContextMenuTrigger />",
 	},
 	{
@@ -1229,7 +1354,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "currency", type: "string", group: "main" },
 			{ name: "locale", type: "string", group: "main" },
 			{ name: "decimals", type: "number", group: "main" },
-			{ name: "symbolPosition", type: "enum", options: ["left","right"], group: "main" },
+			{ name: "symbolPosition", type: "enum", options: ["left", "right"], group: "main" },
 		],
 		defaultCode: "<CurrencyInput />",
 	},
@@ -1289,8 +1414,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-close",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DialogClose />",
 	},
 	{
@@ -1299,7 +1423,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
 		props: [
-			{ name: "size", type: "enum", options: ["sm","lg","md","xl","full"], group: "main" },
+			{ name: "size", type: "enum", options: ["sm", "lg", "md", "xl", "full"], group: "main" },
 			{ name: "showCloseButton", type: "boolean", group: "main" },
 		],
 		defaultCode: "<DialogContent />",
@@ -1309,8 +1433,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DialogDescription />",
 	},
 	{
@@ -1318,9 +1441,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-			{ name: "showCloseButton", type: "boolean", group: "main" },
-		],
+		props: [{ name: "showCloseButton", type: "boolean", group: "main" }],
 		defaultCode: "<DialogFooter />",
 	},
 	{
@@ -1328,9 +1449,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-			{ name: "separator", type: "boolean", group: "main" },
-		],
+		props: [{ name: "separator", type: "boolean", group: "main" }],
 		defaultCode: "<DialogHeader />",
 	},
 	{
@@ -1338,8 +1457,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-overlay",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DialogOverlay />",
 	},
 	{
@@ -1347,8 +1465,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-portal",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DialogPortal />",
 	},
 	{
@@ -1356,8 +1473,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DialogTitle />",
 	},
 	{
@@ -1365,8 +1481,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dialog-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dialog",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DialogTrigger />",
 	},
 	{
@@ -1375,8 +1490,13 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/divider",
 		props: [
-			{ name: "borderColor", type: "enum", options: ["default","secondary","transparent","inverse"], group: "main" },
-			{ name: "borderWidth", type: "enum", options: ["050","100","025"], group: "main" },
+			{
+				name: "borderColor",
+				type: "enum",
+				options: ["default", "secondary", "transparent", "inverse"],
+				group: "main",
+			},
+			{ name: "borderWidth", type: "enum", options: ["050", "100", "025"], group: "main" },
 		],
 		defaultCode: "<Divider />",
 	},
@@ -1393,7 +1513,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "onOpenChangeComplete", type: "string", group: "callbacks" },
 			{ name: "open", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "closeParentOnEsc", type: "boolean", group: "main" },
 			{ name: "actionsRef", type: "string", group: "main" },
@@ -1409,8 +1529,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-checkbox-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuCheckboxItem />",
 	},
 	{
@@ -1418,8 +1537,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuContent />",
 	},
 	{
@@ -1427,8 +1545,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuGroup />",
 	},
 	{
@@ -1438,7 +1555,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
 		props: [
 			{ name: "inset", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["default","destructive"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "destructive"], group: "main" },
 		],
 		defaultCode: "<DropdownMenuItem />",
 	},
@@ -1447,9 +1564,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<DropdownMenuLabel />",
 	},
 	{
@@ -1457,8 +1572,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-portal",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuPortal />",
 	},
 	{
@@ -1466,8 +1580,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-radio-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuRadioGroup />",
 	},
 	{
@@ -1475,8 +1588,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-radio-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuRadioItem />",
 	},
 	{
@@ -1484,8 +1596,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuSeparator />",
 	},
 	{
@@ -1493,8 +1604,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-shortcut",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuShortcut />",
 	},
 	{
@@ -1506,7 +1616,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "closeParentOnEsc", type: "boolean", group: "main" },
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "open", type: "boolean", group: "main" },
 			{ name: "defaultOpen", type: "boolean", group: "main" },
@@ -1525,8 +1635,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-sub-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<DropdownMenuSubContent />",
 	},
 	{
@@ -1534,9 +1643,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-sub-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<DropdownMenuSubTrigger />",
 	},
 	{
@@ -1544,9 +1651,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "dropdown-menu-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/dropdown-menu",
-		props: [
-			{ name: "asChild", type: "boolean", group: "main" },
-		],
+		props: [{ name: "asChild", type: "boolean", group: "main" }],
 		defaultCode: "<DropdownMenuTrigger />",
 	},
 	{
@@ -1559,7 +1664,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "description", type: "string", group: "main" },
 			{ name: "action", type: "string", group: "main" },
 			{ name: "secondaryAction", type: "string", group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg"], group: "main" },
+			{ name: "size", type: "enum", options: ["default", "sm", "lg"], group: "main" },
 		],
 		defaultCode: "<Empty />",
 	},
@@ -1568,8 +1673,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "empty-actions",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/empty",
-		props: [
-		],
+		props: [],
 		defaultCode: "<EmptyActions />",
 	},
 	{
@@ -1577,8 +1681,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "empty-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/empty",
-		props: [
-		],
+		props: [],
 		defaultCode: "<EmptyDescription />",
 	},
 	{
@@ -1586,9 +1689,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "empty-icon",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/empty",
-		props: [
-			{ name: "size", type: "enum", options: ["default","sm","lg"], group: "main" },
-		],
+		props: [{ name: "size", type: "enum", options: ["default", "sm", "lg"], group: "main" }],
 		defaultCode: "<EmptyIcon />",
 	},
 	{
@@ -1596,8 +1697,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "empty-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/empty",
-		props: [
-		],
+		props: [],
 		defaultCode: "<EmptyTitle />",
 	},
 	{
@@ -1606,7 +1706,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
 		props: [
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 		],
 		defaultCode: "<Field />",
 	},
@@ -1615,8 +1715,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FieldContent />",
 	},
 	{
@@ -1624,9 +1723,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-control",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-			{ name: "children", type: "slot", group: "slots" },
-		],
+		props: [{ name: "children", type: "slot", group: "slots" }],
 		defaultCode: "<FieldControl />",
 	},
 	{
@@ -1634,8 +1731,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FieldDescription />",
 	},
 	{
@@ -1643,9 +1739,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-error",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-			{ name: "errors", type: "string", group: "main" },
-		],
+		props: [{ name: "errors", type: "string", group: "main" }],
 		defaultCode: "<FieldError />",
 	},
 	{
@@ -1653,8 +1747,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FieldGroup />",
 	},
 	{
@@ -1662,8 +1755,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FieldLabel />",
 	},
 	{
@@ -1671,8 +1763,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "field-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/field",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FieldTitle />",
 	},
 	{
@@ -1698,9 +1789,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "filter-panel",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/filter-panel",
-		props: [
-			{ name: "width", type: "number", group: "main" },
-		],
+		props: [{ name: "width", type: "number", group: "main" }],
 		defaultCode: "<FilterPanel />",
 	},
 	{
@@ -1708,8 +1797,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "filter-panel-action",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/filter-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FilterPanelAction />",
 	},
 	{
@@ -1717,8 +1805,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "filter-panel-actions",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/filter-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FilterPanelActions />",
 	},
 	{
@@ -1743,8 +1830,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "filter-panel-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/filter-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FilterPanelHeader />",
 	},
 	{
@@ -1752,9 +1838,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "filter-panel-section",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/filter-panel",
-		props: [
-			{ name: "label", type: "string", group: "main" },
-		],
+		props: [{ name: "label", type: "string", group: "main" }],
 		defaultCode: "<FilterPanelSection />",
 	},
 	{
@@ -1794,14 +1878,14 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "filters", type: "array", group: "main" },
 			{ name: "fields", type: "string", group: "main" },
 			{ name: "showAddButton", type: "boolean", group: "main" },
-			{ name: "addButtonPosition", type: "enum", options: ["before","after"], group: "main" },
+			{ name: "addButtonPosition", type: "enum", options: ["before", "after"], group: "main" },
 			{ name: "addButtonText", type: "string", group: "main" },
 			{ name: "addButtonIcon", type: "boolean", group: "main" },
 			{ name: "addButtonClassName", type: "string", group: "main" },
 			{ name: "addButton", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["outline","solid"], group: "main" },
-			{ name: "size", type: "enum", options: ["sm","lg","md"], group: "main" },
-			{ name: "radius", type: "enum", options: ["md","full"], group: "main" },
+			{ name: "variant", type: "enum", options: ["outline", "solid"], group: "main" },
+			{ name: "size", type: "enum", options: ["sm", "lg", "md"], group: "main" },
+			{ name: "radius", type: "enum", options: ["md", "full"], group: "main" },
 			{ name: "i18n", type: "string", group: "main" },
 			{ name: "showSearchInput", type: "boolean", group: "main" },
 			{ name: "cursorPointer", type: "boolean", group: "main" },
@@ -1828,8 +1912,8 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/frame-panel",
 		props: [
-			{ name: "variant", type: "enum", options: ["default","ghost"], group: "main" },
-			{ name: "spacing", type: "enum", options: ["default","sm","lg","xs"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "ghost"], group: "main" },
+			{ name: "spacing", type: "enum", options: ["default", "sm", "lg", "xs"], group: "main" },
 			{ name: "stacked", type: "boolean", group: "main" },
 			{ name: "dense", type: "boolean", group: "main" },
 		],
@@ -1840,8 +1924,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "frame-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/frame-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FrameDescription />",
 	},
 	{
@@ -1849,8 +1932,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "frame-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/frame-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FrameFooter />",
 	},
 	{
@@ -1858,8 +1940,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "frame-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/frame-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FrameHeader />",
 	},
 	{
@@ -1867,8 +1948,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "frame-panel",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/frame-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FramePanel />",
 	},
 	{
@@ -1876,8 +1956,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "frame-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/frame-panel",
-		props: [
-		],
+		props: [],
 		defaultCode: "<FrameTitle />",
 	},
 	{
@@ -1915,8 +1994,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "hover-card-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/hover-card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<HoverCardContent />",
 	},
 	{
@@ -1924,8 +2002,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "hover-card-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/hover-card",
-		props: [
-		],
+		props: [],
 		defaultCode: "<HoverCardTrigger />",
 	},
 	{
@@ -1936,8 +2013,27 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "children", type: "boolean", group: "main" },
 			{ name: "columns", type: "number", group: "main" },
-			{ name: "gap", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
-			{ name: "alignItems", type: "enum", options: ["center","end","start"], group: "main" },
+			{
+				name: "gap",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
+			{ name: "alignItems", type: "enum", options: ["center", "end", "start"], group: "main" },
 		],
 		defaultCode: "<InlineGrid />",
 	},
@@ -1947,15 +2043,44 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/inline-stack",
 		props: [
-			{ name: "as", type: "enum", options: ["div","li","ol","span","ul"], group: "main" },
+			{ name: "as", type: "enum", options: ["div", "li", "ol", "span", "ul"], group: "main" },
 			{ name: "children", type: "boolean", group: "main" },
 			{ name: "id", type: "string", group: "main" },
 			{ name: "role", type: "string", group: "main" },
-			{ name: "gap", type: "enum", options: ["0","050","100","150","200","300","400","500","600","800","1000","1200","1600"], group: "main" },
+			{
+				name: "gap",
+				type: "enum",
+				options: [
+					"0",
+					"050",
+					"100",
+					"150",
+					"200",
+					"300",
+					"400",
+					"500",
+					"600",
+					"800",
+					"1000",
+					"1200",
+					"1600",
+				],
+				group: "main",
+			},
 			{ name: "wrap", type: "boolean", group: "main" },
-			{ name: "direction", type: "enum", options: ["row","row-reverse"], group: "main" },
-			{ name: "align", type: "enum", options: ["center","end","start","space-around","space-between","space-evenly"], group: "main" },
-			{ name: "blockAlign", type: "enum", options: ["center","end","start","baseline","stretch"], group: "main" },
+			{ name: "direction", type: "enum", options: ["row", "row-reverse"], group: "main" },
+			{
+				name: "align",
+				type: "enum",
+				options: ["center", "end", "start", "space-around", "space-between", "space-evenly"],
+				group: "main",
+			},
+			{
+				name: "blockAlign",
+				type: "enum",
+				options: ["center", "end", "start", "baseline", "stretch"],
+				group: "main",
+			},
 		],
 		defaultCode: "<InlineStack />",
 	},
@@ -1964,8 +2089,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "input",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Input />",
 	},
 	{
@@ -1973,8 +2097,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "input-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<InputGroup />",
 	},
 	{
@@ -1983,7 +2106,12 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input-group",
 		props: [
-			{ name: "align", type: "enum", options: ["inline-start","inline-end","block-start","block-end"], group: "main" },
+			{
+				name: "align",
+				type: "enum",
+				options: ["inline-start", "inline-end", "block-start", "block-end"],
+				group: "main",
+			},
 		],
 		defaultCode: "<InputGroupAddon />",
 	},
@@ -1993,9 +2121,14 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input-group",
 		props: [
-			{ name: "variant", type: "enum", options: ["link","default","destructive","secondary","outline","ghost"], group: "main" },
-			{ name: "size", type: "enum", options: ["sm","xs","icon-xs","icon-sm"], group: "main" },
-			{ name: "type", type: "enum", options: ["button","submit","reset"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["link", "default", "destructive", "secondary", "outline", "ghost"],
+				group: "main",
+			},
+			{ name: "size", type: "enum", options: ["sm", "xs", "icon-xs", "icon-sm"], group: "main" },
+			{ name: "type", type: "enum", options: ["button", "submit", "reset"], group: "main" },
 		],
 		defaultCode: "<InputGroupButton />",
 	},
@@ -2004,8 +2137,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "input-group-input",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<InputGroupInput />",
 	},
 	{
@@ -2013,8 +2145,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "input-group-text",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<InputGroupText />",
 	},
 	{
@@ -2022,8 +2153,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "input-group-textarea",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/input-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<InputGroupTextarea />",
 	},
 	{
@@ -2032,8 +2162,8 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
 		props: [
-			{ name: "variant", type: "enum", options: ["default","outline","muted"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","xs"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "outline", "muted"], group: "main" },
+			{ name: "size", type: "enum", options: ["default", "sm", "xs"], group: "main" },
 		],
 		defaultCode: "<Item />",
 	},
@@ -2042,8 +2172,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-actions",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemActions />",
 	},
 	{
@@ -2051,8 +2180,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemContent />",
 	},
 	{
@@ -2060,8 +2188,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemDescription />",
 	},
 	{
@@ -2069,8 +2196,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemFooter />",
 	},
 	{
@@ -2078,8 +2204,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemGroup />",
 	},
 	{
@@ -2087,8 +2212,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemHeader />",
 	},
 	{
@@ -2097,7 +2221,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
 		props: [
-			{ name: "variant", type: "enum", options: ["image","default","icon"], group: "main" },
+			{ name: "variant", type: "enum", options: ["image", "default", "icon"], group: "main" },
 		],
 		defaultCode: "<ItemMedia />",
 	},
@@ -2106,8 +2230,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemSeparator />",
 	},
 	{
@@ -2115,8 +2238,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "item-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/item",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ItemTitle />",
 	},
 	{
@@ -2124,8 +2246,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/label",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Label />",
 	},
 	{
@@ -2141,7 +2262,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "onOpenChangeComplete", type: "string", group: "callbacks" },
 			{ name: "open", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "closeParentOnEsc", type: "boolean", group: "main" },
 			{ name: "actionsRef", type: "string", group: "main" },
@@ -2157,8 +2278,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Menubar />",
 	},
 	{
@@ -2166,9 +2286,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-checkbox-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<MenubarCheckboxItem />",
 	},
 	{
@@ -2176,8 +2294,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarContent />",
 	},
 	{
@@ -2185,8 +2302,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarGroup />",
 	},
 	{
@@ -2196,7 +2312,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		importPath: "@blazz/ui/components/ui/menubar",
 		props: [
 			{ name: "inset", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["default","destructive"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "destructive"], group: "main" },
 		],
 		defaultCode: "<MenubarItem />",
 	},
@@ -2205,9 +2321,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<MenubarLabel />",
 	},
 	{
@@ -2223,7 +2337,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "onOpenChangeComplete", type: "string", group: "callbacks" },
 			{ name: "open", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "closeParentOnEsc", type: "boolean", group: "main" },
 			{ name: "actionsRef", type: "string", group: "main" },
@@ -2239,8 +2353,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-portal",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarPortal />",
 	},
 	{
@@ -2248,8 +2361,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-radio-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarRadioGroup />",
 	},
 	{
@@ -2257,9 +2369,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-radio-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<MenubarRadioItem />",
 	},
 	{
@@ -2267,8 +2377,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarSeparator />",
 	},
 	{
@@ -2276,8 +2385,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-shortcut",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarShortcut />",
 	},
 	{
@@ -2289,7 +2397,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "closeParentOnEsc", type: "boolean", group: "main" },
 			{ name: "children", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "open", type: "boolean", group: "main" },
 			{ name: "defaultOpen", type: "boolean", group: "main" },
@@ -2308,8 +2416,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-sub-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenubarSubContent />",
 	},
 	{
@@ -2317,9 +2424,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-sub-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-			{ name: "inset", type: "boolean", group: "main" },
-		],
+		props: [{ name: "inset", type: "boolean", group: "main" }],
 		defaultCode: "<MenubarSubTrigger />",
 	},
 	{
@@ -2327,9 +2432,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menubar-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menubar",
-		props: [
-			{ name: "asChild", type: "boolean", group: "main" },
-		],
+		props: [{ name: "asChild", type: "boolean", group: "main" }],
 		defaultCode: "<MenubarTrigger />",
 	},
 	{
@@ -2337,8 +2440,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-checkbox-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuCheckboxItem />",
 	},
 	{
@@ -2346,8 +2448,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuGroup />",
 	},
 	{
@@ -2355,8 +2456,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-group-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuGroupLabel />",
 	},
 	{
@@ -2364,8 +2464,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuItem />",
 	},
 	{
@@ -2373,8 +2472,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-popup",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuPopup />",
 	},
 	{
@@ -2382,8 +2480,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-portal",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuPortal />",
 	},
 	{
@@ -2391,8 +2488,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-positioner",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuPositioner />",
 	},
 	{
@@ -2400,8 +2496,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-radio-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuRadioGroup />",
 	},
 	{
@@ -2409,8 +2504,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-radio-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuRadioItem />",
 	},
 	{
@@ -2418,8 +2512,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuSeparator />",
 	},
 	{
@@ -2427,8 +2520,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "menu-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<MenuTrigger />",
 	},
 	{
@@ -2463,7 +2555,8 @@ export const generatedRegistry: ComponentEntry[] = [
 		name: "NavigationTabsProvider",
 		slug: "navigation-tabs-provider",
 		category: "ui",
-		importPath: "/Users/jonathanruas/Development/blazz-ui-app/packages/tabs/src/core/tabs-provider.tsx",
+		importPath:
+			"/Users/jonathanruas/Development/blazz-ui-app/packages/tabs/src/core/tabs-provider.tsx",
 		props: [
 			{ name: "storageKey", type: "string", group: "main" },
 			{ name: "storage", type: "string", group: "main" },
@@ -2477,8 +2570,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "nav-menu",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/nav-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<NavMenu />",
 	},
 	{
@@ -2486,9 +2578,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "nav-menu-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/nav-menu",
-		props: [
-			{ name: "label", type: "string", group: "main" },
-		],
+		props: [{ name: "label", type: "string", group: "main" }],
 		defaultCode: "<NavMenuGroup />",
 	},
 	{
@@ -2507,8 +2597,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "nav-menu-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/nav-menu",
-		props: [
-		],
+		props: [],
 		defaultCode: "<NavMenuSeparator />",
 	},
 	{
@@ -2569,9 +2658,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "page-section",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/page",
-		props: [
-			{ name: "description", type: "string", group: "main" },
-		],
+		props: [{ name: "description", type: "string", group: "main" }],
 		defaultCode: "<PageSection />",
 	},
 	{
@@ -2579,8 +2666,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Pagination />",
 	},
 	{
@@ -2588,8 +2674,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PaginationContent />",
 	},
 	{
@@ -2597,8 +2682,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination-ellipsis",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PaginationEllipsis />",
 	},
 	{
@@ -2606,8 +2690,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PaginationItem />",
 	},
 	{
@@ -2615,9 +2698,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination-link",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-			{ name: "isActive", type: "boolean", group: "main" },
-		],
+		props: [{ name: "isActive", type: "boolean", group: "main" }],
 		defaultCode: "<PaginationLink />",
 	},
 	{
@@ -2625,8 +2706,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination-next",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PaginationNext />",
 	},
 	{
@@ -2634,8 +2714,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "pagination-previous",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/pagination",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PaginationPrevious />",
 	},
 	{
@@ -2643,9 +2722,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "password-input",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/password-input",
-		props: [
-			{ name: "showToggle", type: "boolean", group: "main" },
-		],
+		props: [{ name: "showToggle", type: "boolean", group: "main" }],
 		defaultCode: "<PasswordInput />",
 	},
 	{
@@ -2653,9 +2730,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "phone-input",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/phone-input",
-		props: [
-			{ name: "variant", type: "enum", options: ["default","sm","lg"], group: "main" },
-		],
+		props: [{ name: "variant", type: "enum", options: ["default", "sm", "lg"], group: "main" }],
 		defaultCode: "<PhoneInput />",
 	},
 	{
@@ -2682,8 +2757,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "popover-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/popover",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PopoverContent />",
 	},
 	{
@@ -2691,8 +2765,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "popover-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/popover",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PopoverDescription />",
 	},
 	{
@@ -2700,8 +2773,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "popover-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/popover",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PopoverHeader />",
 	},
 	{
@@ -2709,8 +2781,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "popover-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/popover",
-		props: [
-		],
+		props: [],
 		defaultCode: "<PopoverTitle />",
 	},
 	{
@@ -2718,9 +2789,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "popover-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/popover",
-		props: [
-			{ name: "asChild", type: "boolean", group: "main" },
-		],
+		props: [{ name: "asChild", type: "boolean", group: "main" }],
 		defaultCode: "<PopoverTrigger />",
 	},
 	{
@@ -2728,8 +2797,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "progress",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/progress",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Progress />",
 	},
 	{
@@ -2737,8 +2805,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "progress-indicator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/progress",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ProgressIndicator />",
 	},
 	{
@@ -2746,8 +2813,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "progress-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/progress",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ProgressLabel />",
 	},
 	{
@@ -2755,8 +2821,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "progress-track",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/progress",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ProgressTrack />",
 	},
 	{
@@ -2764,8 +2829,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "progress-value",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/progress",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ProgressValue />",
 	},
 	{
@@ -2784,8 +2848,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "radio",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/radio-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Radio />",
 	},
 	{
@@ -2802,7 +2865,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "defaultValue", type: "string", group: "main" },
 			{ name: "onValueChange", type: "string", group: "callbacks" },
 			{ name: "disabled", type: "boolean", group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 		],
 		defaultCode: "<RadioGroup />",
 	},
@@ -2811,8 +2874,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "radio-group-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/radio-group",
-		props: [
-		],
+		props: [],
 		defaultCode: "<RadioGroupItem />",
 	},
 	{
@@ -2828,7 +2890,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "allowHalf", type: "boolean", group: "main" },
 			{ name: "readOnly", type: "boolean", group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg"], group: "main" },
+			{ name: "size", type: "enum", options: ["default", "sm", "lg"], group: "main" },
 		],
 		defaultCode: "<Rating />",
 	},
@@ -2837,8 +2899,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "scroll-area",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/scroll-area",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ScrollArea />",
 	},
 	{
@@ -2846,8 +2907,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "scroll-bar",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/scroll-area",
-		props: [
-		],
+		props: [],
 		defaultCode: "<ScrollBar />",
 	},
 	{
@@ -2855,9 +2915,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "search-input",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/search-input",
-		props: [
-			{ name: "onClear", type: "string", group: "callbacks" },
-		],
+		props: [{ name: "onClear", type: "string", group: "callbacks" }],
 		defaultCode: "<SearchInput />",
 	},
 	{
@@ -2897,8 +2955,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectContent />",
 	},
 	{
@@ -2906,8 +2963,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectGroup />",
 	},
 	{
@@ -2915,8 +2971,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectItem />",
 	},
 	{
@@ -2924,8 +2979,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectLabel />",
 	},
 	{
@@ -2933,8 +2987,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-scroll-down-button",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectScrollDownButton />",
 	},
 	{
@@ -2942,8 +2995,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-scroll-up-button",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectScrollUpButton />",
 	},
 	{
@@ -2951,8 +3003,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectSeparator />",
 	},
 	{
@@ -2960,9 +3011,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-			{ name: "size", type: "enum", options: ["default","sm"], group: "main" },
-		],
+		props: [{ name: "size", type: "enum", options: ["default", "sm"], group: "main" }],
 		defaultCode: "<SelectTrigger />",
 	},
 	{
@@ -2970,8 +3019,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "select-value",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/select",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SelectValue />",
 	},
 	{
@@ -2979,8 +3027,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/separator",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Separator />",
 	},
 	{
@@ -3008,8 +3055,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-close",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SheetClose />",
 	},
 	{
@@ -3018,8 +3064,8 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
 		props: [
-			{ name: "side", type: "enum", options: ["bottom","left","right","top"], group: "main" },
-			{ name: "size", type: "enum", options: ["sm","lg","md","xl","full"], group: "main" },
+			{ name: "side", type: "enum", options: ["bottom", "left", "right", "top"], group: "main" },
+			{ name: "size", type: "enum", options: ["sm", "lg", "md", "xl", "full"], group: "main" },
 			{ name: "topOffset", type: "string", group: "main" },
 		],
 		defaultCode: "<SheetContent />",
@@ -3029,8 +3075,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SheetDescription />",
 	},
 	{
@@ -3038,8 +3083,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SheetFooter />",
 	},
 	{
@@ -3047,9 +3091,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-			{ name: "showCloseButton", type: "boolean", group: "main" },
-		],
+		props: [{ name: "showCloseButton", type: "boolean", group: "main" }],
 		defaultCode: "<SheetHeader />",
 	},
 	{
@@ -3057,9 +3099,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-overlay",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-			{ name: "topOffset", type: "string", group: "main" },
-		],
+		props: [{ name: "topOffset", type: "string", group: "main" }],
 		defaultCode: "<SheetOverlay />",
 	},
 	{
@@ -3067,8 +3107,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-portal",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SheetPortal />",
 	},
 	{
@@ -3076,8 +3115,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SheetTitle />",
 	},
 	{
@@ -3085,8 +3123,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sheet-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sheet",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SheetTrigger />",
 	},
 	{
@@ -3095,9 +3132,9 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
 		props: [
-			{ name: "variant", type: "enum", options: ["inset","sidebar","floating"], group: "main" },
-			{ name: "side", type: "enum", options: ["left","right"], group: "main" },
-			{ name: "collapsible", type: "enum", options: ["none","icon","offcanvas"], group: "main" },
+			{ name: "variant", type: "enum", options: ["inset", "sidebar", "floating"], group: "main" },
+			{ name: "side", type: "enum", options: ["left", "right"], group: "main" },
+			{ name: "collapsible", type: "enum", options: ["none", "icon", "offcanvas"], group: "main" },
 		],
 		defaultCode: "<Sidebar />",
 	},
@@ -3106,8 +3143,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-collapsible",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarCollapsible />",
 	},
 	{
@@ -3115,8 +3151,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-collapsible-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarCollapsibleContent />",
 	},
 	{
@@ -3124,8 +3159,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarContent />",
 	},
 	{
@@ -3133,8 +3167,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarFooter />",
 	},
 	{
@@ -3142,8 +3175,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-group",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarGroup />",
 	},
 	{
@@ -3151,9 +3183,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-group-action",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-			{ name: "asChild", type: "boolean", group: "main" },
-		],
+		props: [{ name: "asChild", type: "boolean", group: "main" }],
 		defaultCode: "<SidebarGroupAction />",
 	},
 	{
@@ -3161,8 +3191,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-group-collapsible-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarGroupCollapsibleTrigger />",
 	},
 	{
@@ -3170,8 +3199,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-group-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarGroupContent />",
 	},
 	{
@@ -3179,9 +3207,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-group-label",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-			{ name: "asChild", type: "boolean", group: "main" },
-		],
+		props: [{ name: "asChild", type: "boolean", group: "main" }],
 		defaultCode: "<SidebarGroupLabel />",
 	},
 	{
@@ -3189,8 +3215,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarHeader />",
 	},
 	{
@@ -3198,8 +3223,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-inset",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarInset />",
 	},
 	{
@@ -3207,8 +3231,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-menu",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarMenu />",
 	},
 	{
@@ -3227,8 +3250,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-menu-badge",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarMenuBadge />",
 	},
 	{
@@ -3237,10 +3259,10 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
 		props: [
-			{ name: "variant", type: "enum", options: ["default","outline"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg"], group: "main" },
-			{ name: "radius", type: "enum", options: ["default","sm","md","none"], group: "main" },
-			{ name: "spacing", type: "enum", options: ["default","compact","tight"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "outline"], group: "main" },
+			{ name: "size", type: "enum", options: ["default", "sm", "lg"], group: "main" },
+			{ name: "radius", type: "enum", options: ["default", "sm", "md", "none"], group: "main" },
+			{ name: "spacing", type: "enum", options: ["default", "compact", "tight"], group: "main" },
 			{ name: "tooltip", type: "string", group: "main" },
 			{ name: "asChild", type: "boolean", group: "main" },
 			{ name: "isActive", type: "boolean", group: "main" },
@@ -3253,10 +3275,10 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
 		props: [
-			{ name: "variant", type: "enum", options: ["default","outline"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg"], group: "main" },
-			{ name: "radius", type: "enum", options: ["default","sm","md","none"], group: "main" },
-			{ name: "spacing", type: "enum", options: ["default","compact","tight"], group: "main" },
+			{ name: "variant", type: "enum", options: ["default", "outline"], group: "main" },
+			{ name: "size", type: "enum", options: ["default", "sm", "lg"], group: "main" },
+			{ name: "radius", type: "enum", options: ["default", "sm", "md", "none"], group: "main" },
+			{ name: "spacing", type: "enum", options: ["default", "compact", "tight"], group: "main" },
 			{ name: "asChild", type: "boolean", group: "main" },
 			{ name: "isActive", type: "boolean", group: "main" },
 		],
@@ -3267,8 +3289,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-menu-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarMenuItem />",
 	},
 	{
@@ -3276,9 +3297,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-menu-skeleton",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-			{ name: "showIcon", type: "boolean", group: "main" },
-		],
+		props: [{ name: "showIcon", type: "boolean", group: "main" }],
 		defaultCode: "<SidebarMenuSkeleton />",
 	},
 	{
@@ -3286,8 +3305,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-menu-sub",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarMenuSub />",
 	},
 	{
@@ -3296,7 +3314,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
 		props: [
-			{ name: "size", type: "enum", options: ["sm","md"], group: "main" },
+			{ name: "size", type: "enum", options: ["sm", "md"], group: "main" },
 			{ name: "asChild", type: "boolean", group: "main" },
 			{ name: "isActive", type: "boolean", group: "main" },
 		],
@@ -3307,9 +3325,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-menu-sub-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-			{ name: "isActive", type: "boolean", group: "main" },
-		],
+		props: [{ name: "isActive", type: "boolean", group: "main" }],
 		defaultCode: "<SidebarMenuSubItem />",
 	},
 	{
@@ -3329,8 +3345,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-rail",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarRail />",
 	},
 	{
@@ -3338,8 +3353,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-resize-handle",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarResizeHandle />",
 	},
 	{
@@ -3347,8 +3361,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "sidebar-separator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
-		props: [
-		],
+		props: [],
 		defaultCode: "<SidebarSeparator />",
 	},
 	{
@@ -3357,8 +3370,18 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/sidebar",
 		props: [
-			{ name: "variant", type: "enum", options: ["link","default","destructive","secondary","outline","ghost"], group: "main" },
-			{ name: "size", type: "enum", options: ["default","sm","lg","xs","icon","icon-xs","icon-sm","icon-lg"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["link", "default", "destructive", "secondary", "outline", "ghost"],
+				group: "main",
+			},
+			{
+				name: "size",
+				type: "enum",
+				options: ["default", "sm", "lg", "xs", "icon", "icon-xs", "icon-sm", "icon-lg"],
+				group: "main",
+			},
 		],
 		defaultCode: "<SidebarTrigger />",
 	},
@@ -3367,8 +3390,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "skeleton",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/skeleton",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Skeleton />",
 	},
 	{
@@ -3394,8 +3416,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "spinner",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/spinner",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Spinner />",
 	},
 	{
@@ -3406,8 +3427,13 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "steps", type: "array", group: "main" },
 			{ name: "activeStep", type: "number", group: "main" },
-			{ name: "variant", type: "enum", options: ["default","progress-bar","segmented"], group: "main" },
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: ["default", "progress-bar", "segmented"],
+				group: "main",
+			},
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 		],
 		defaultCode: "<Stepper />",
 	},
@@ -3416,9 +3442,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "switch",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/switch",
-		props: [
-			{ name: "size", type: "enum", options: ["default","sm"], group: "main" },
-		],
+		props: [{ name: "size", type: "enum", options: ["default", "sm"], group: "main" }],
 		defaultCode: "<Switch />",
 	},
 	{
@@ -3427,7 +3451,12 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
 		props: [
-			{ name: "density", type: "enum", options: ["default","compact","comfortable"], group: "main" },
+			{
+				name: "density",
+				type: "enum",
+				options: ["default", "compact", "comfortable"],
+				group: "main",
+			},
 			{ name: "wrapperClassName", type: "string", group: "main" },
 		],
 		defaultCode: "<Table />",
@@ -3437,8 +3466,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-body",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableBody />",
 	},
 	{
@@ -3446,8 +3474,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-caption",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableCaption />",
 	},
 	{
@@ -3455,8 +3482,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-cell",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableCell />",
 	},
 	{
@@ -3464,8 +3490,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-footer",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableFooter />",
 	},
 	{
@@ -3473,8 +3498,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-head",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableHead />",
 	},
 	{
@@ -3482,8 +3506,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableHeader />",
 	},
 	{
@@ -3491,8 +3514,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "table-row",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/table",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TableRow />",
 	},
 	{
@@ -3500,8 +3522,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "tabs",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/tabs",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Tabs />",
 	},
 	{
@@ -3509,8 +3530,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "tabs-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/tabs",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TabsContent />",
 	},
 	{
@@ -3518,9 +3538,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "tabs-list",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/tabs",
-		props: [
-			{ name: "variant", type: "enum", options: ["line","default"], group: "main" },
-		],
+		props: [{ name: "variant", type: "enum", options: ["line", "default"], group: "main" }],
 		defaultCode: "<TabsList />",
 	},
 	{
@@ -3528,8 +3546,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "tabs-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/tabs",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TabsTrigger />",
 	},
 	{
@@ -3556,8 +3573,30 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "children", type: "boolean", group: "main" },
 			{ name: "truncate", type: "boolean", group: "main" },
 			{ name: "numeric", type: "boolean", group: "main" },
-			{ name: "variant", type: "enum", options: ["heading-3xl","heading-2xl","heading-xl","heading-lg","heading-md","heading-sm","heading-xs","body-lg","body-md","body-sm","body-xs"], group: "main" },
-			{ name: "tone", type: "enum", options: ["default","info","success","warning","subtle","inherit","muted","danger"], group: "main" },
+			{
+				name: "variant",
+				type: "enum",
+				options: [
+					"heading-3xl",
+					"heading-2xl",
+					"heading-xl",
+					"heading-lg",
+					"heading-md",
+					"heading-sm",
+					"heading-xs",
+					"body-lg",
+					"body-md",
+					"body-sm",
+					"body-xs",
+				],
+				group: "main",
+			},
+			{
+				name: "tone",
+				type: "enum",
+				options: ["default", "info", "success", "warning", "subtle", "inherit", "muted", "danger"],
+				group: "main",
+			},
 		],
 		defaultCode: "<Text />",
 	},
@@ -3566,8 +3605,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "textarea",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/textarea",
-		props: [
-		],
+		props: [],
 		defaultCode: "<Textarea />",
 	},
 	{
@@ -3575,9 +3613,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "theme-palette-provider",
 		category: "ui",
 		importPath: "@blazz/ui/lib/theme-context",
-		props: [
-			{ name: "children", type: "boolean", group: "main" },
-		],
+		props: [{ name: "children", type: "boolean", group: "main" }],
 		defaultCode: "<ThemePaletteProvider />",
 	},
 	{
@@ -3586,7 +3622,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
 		props: [
-			{ name: "orientation", type: "enum", options: ["horizontal","vertical"], group: "main" },
+			{ name: "orientation", type: "enum", options: ["horizontal", "vertical"], group: "main" },
 		],
 		defaultCode: "<Timeline />",
 	},
@@ -3595,8 +3631,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineContent />",
 	},
 	{
@@ -3604,8 +3639,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-date",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineDate />",
 	},
 	{
@@ -3613,8 +3647,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-description",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineDescription />",
 	},
 	{
@@ -3622,8 +3655,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-header",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineHeader />",
 	},
 	{
@@ -3631,8 +3663,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-indicator",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineIndicator />",
 	},
 	{
@@ -3640,9 +3671,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-item",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-			{ name: "showLine", type: "boolean", group: "main" },
-		],
+		props: [{ name: "showLine", type: "boolean", group: "main" }],
 		defaultCode: "<TimelineItem />",
 	},
 	{
@@ -3650,8 +3679,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-time",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineTime />",
 	},
 	{
@@ -3659,8 +3687,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "timeline-title",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/timeline",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TimelineTitle />",
 	},
 	{
@@ -3687,8 +3714,20 @@ export const generatedRegistry: ComponentEntry[] = [
 		props: [
 			{ name: "id", type: "string", group: "main" },
 			{ name: "invert", type: "boolean", group: "main" },
-			{ name: "theme", type: "enum", options: ["light","dark","system"], group: "main" },
-			{ name: "position", type: "enum", options: ["top-left","top-right","bottom-left","bottom-right","top-center","bottom-center"], group: "main" },
+			{ name: "theme", type: "enum", options: ["light", "dark", "system"], group: "main" },
+			{
+				name: "position",
+				type: "enum",
+				options: [
+					"top-left",
+					"top-right",
+					"bottom-left",
+					"bottom-right",
+					"top-center",
+					"bottom-center",
+				],
+				group: "main",
+			},
 			{ name: "hotkey", type: "string", group: "main" },
 			{ name: "richColors", type: "boolean", group: "main" },
 			{ name: "expand", type: "boolean", group: "main" },
@@ -3699,7 +3738,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "toastOptions", type: "string", group: "main" },
 			{ name: "offset", type: "number", group: "main" },
 			{ name: "mobileOffset", type: "number", group: "main" },
-			{ name: "dir", type: "enum", options: ["auto","rtl","ltr"], group: "main" },
+			{ name: "dir", type: "enum", options: ["auto", "rtl", "ltr"], group: "main" },
 			{ name: "swipeDirections", type: "string", group: "main" },
 			{ name: "icons", type: "string", group: "main" },
 			{ name: "containerAriaLabel", type: "string", group: "main" },
@@ -3717,7 +3756,7 @@ export const generatedRegistry: ComponentEntry[] = [
 			{ name: "onOpenChange", type: "string", group: "callbacks" },
 			{ name: "onOpenChangeComplete", type: "string", group: "callbacks" },
 			{ name: "disableHoverablePopup", type: "boolean", group: "main" },
-			{ name: "trackCursorAxis", type: "enum", options: ["none","both","x","y"], group: "main" },
+			{ name: "trackCursorAxis", type: "enum", options: ["none", "both", "x", "y"], group: "main" },
 			{ name: "actionsRef", type: "string", group: "main" },
 			{ name: "disabled", type: "boolean", group: "main" },
 			{ name: "handle", type: "string", group: "main" },
@@ -3732,8 +3771,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "tooltip-content",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/tooltip",
-		props: [
-		],
+		props: [],
 		defaultCode: "<TooltipContent />",
 	},
 	{
@@ -3754,9 +3792,7 @@ export const generatedRegistry: ComponentEntry[] = [
 		slug: "tooltip-trigger",
 		category: "ui",
 		importPath: "@blazz/ui/components/ui/tooltip",
-		props: [
-			{ name: "asChild", type: "boolean", group: "main" },
-		],
+		props: [{ name: "asChild", type: "boolean", group: "main" }],
 		defaultCode: "<TooltipTrigger />",
 	},
 	{

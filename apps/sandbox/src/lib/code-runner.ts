@@ -7,10 +7,7 @@ export interface RunResult {
 	error: string | null
 }
 
-export function runCode(
-	code: string,
-	extraScope?: Record<string, unknown>,
-): RunResult {
+export function runCode(code: string, extraScope?: Record<string, unknown>): RunResult {
 	try {
 		const wrappedCode = `return (${code})`
 		const transformed = transform(wrappedCode, {

@@ -95,7 +95,9 @@ export function UserMenu({
 						{displayRole && (
 							<span className="truncate text-xs text-fg-muted font-medium">{displayRole}</span>
 						)}
-						{showEmail && user?.email && <span className="truncate text-xs text-fg-muted">{user.email}</span>}
+						{showEmail && user?.email && (
+							<span className="truncate text-xs text-fg-muted">{user.email}</span>
+						)}
 					</div>
 				</div>
 

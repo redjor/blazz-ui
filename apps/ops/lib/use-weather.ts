@@ -79,7 +79,7 @@ export function useWeather() {
 			navigator.geolocation.getCurrentPosition(
 				(pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
 				() => fetchWeather(DEFAULT_LAT, DEFAULT_LON),
-				{ timeout: 3000 },
+				{ timeout: 3000 }
 			)
 		} else {
 			fetchWeather(DEFAULT_LAT, DEFAULT_LON)

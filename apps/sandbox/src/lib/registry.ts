@@ -51,9 +51,7 @@ export function getComponent(slug: string): ComponentEntry | undefined {
 	return registry.find((c) => c.slug === slug)
 }
 
-export function getComponentsByCategory(
-	category: ComponentEntry["category"],
-): ComponentEntry[] {
+export function getComponentsByCategory(category: ComponentEntry["category"]): ComponentEntry[] {
 	return registry.filter((c) => c.category === category)
 }
 
@@ -63,7 +61,7 @@ export function searchComponents(query: string): ComponentEntry[] {
 		(c) =>
 			c.name.toLowerCase().includes(q) ||
 			c.slug.toLowerCase().includes(q) ||
-			c.category.toLowerCase().includes(q),
+			c.category.toLowerCase().includes(q)
 	)
 }
 

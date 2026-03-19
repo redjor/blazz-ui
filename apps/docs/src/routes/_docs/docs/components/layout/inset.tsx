@@ -213,8 +213,8 @@ function InsetPage() {
 					</div>
 					<p>
 						L'avantage : changer{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> à un
-						endroit ajuste <strong className="text-fg">tous les paddings simultanément</strong> —
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> à
+						un endroit ajuste <strong className="text-fg">tous les paddings simultanément</strong> —
 						containers et wrappers — sans toucher un seul composant.
 					</p>
 				</div>
@@ -256,8 +256,8 @@ function InsetPage() {
 						Le <strong className="text-fg">container inset</strong> est le padding géré par les
 						composants surfaciques eux-mêmes. Quand tu utilises une Card, un Dialog ou un Sheet, le
 						padding est déjà câblé sur{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> — tu
-						n'as rien à faire.
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> —
+						tu n'as rien à faire.
 					</p>
 				</div>
 
@@ -288,10 +288,10 @@ function InsetPage() {
 					<p>
 						Le <strong className="text-fg">wrapper inset</strong> est le même token appliqué aux
 						wrappers de page ou de section. En utilisant{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">px-inset</code> ou{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">p-inset</code> sur
-						un wrapper, tu garantis que ses marges internes s'alignent parfaitement avec le padding
-						des containers enfants.
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">px-inset</code>{" "}
+						ou <code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">p-inset</code>{" "}
+						sur un wrapper, tu garantis que ses marges internes s'alignent parfaitement avec le
+						padding des containers enfants.
 					</p>
 					<p>
 						Le pattern bleed (marges négatives) fonctionne aussi dans ce contexte : un enfant peut
@@ -412,9 +412,9 @@ function InsetPage() {
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
 						Puisque{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code> est
-						une variable CSS, n'importe quel parent peut la redéfinir. Tous les enfants — containers
-						et wrappers — héritent automatiquement de la nouvelle valeur.
+						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">--inset</code>{" "}
+						est une variable CSS, n'importe quel parent peut la redéfinir. Tous les enfants —
+						containers et wrappers — héritent automatiquement de la nouvelle valeur.
 					</p>
 				</div>
 

@@ -1,5 +1,6 @@
 "use client"
 
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import type {
 	BulkAction,
 	DataTableColumnDef,
@@ -8,11 +9,11 @@ import type {
 } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { Bleed } from "@blazz/ui/components/ui/bleed"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { Bleed } from "@blazz/ui/components/ui/bleed"
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
 import {
@@ -32,21 +33,20 @@ import {
 	CheckCircle2,
 	ChevronLeft,
 	ChevronRight,
+	CircleDashed,
 	CircleDollarSign,
 	CircleDot,
-	CircleDashed,
 	CircleFadingArrowUp,
 	Pencil,
 	Plus,
+	Receipt,
 	Send,
 	Trash2,
-	Receipt,
 } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { MonthCalendar } from "@/components/month-calendar"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
 import { TimeEntryForm } from "@/components/time-entry-form"
 import { WeekGrid } from "@/components/week-grid"
@@ -822,7 +822,10 @@ export default function TimePageClient() {
 									return (
 										<>
 											<div className="flex min-w-0 flex-1 items-center gap-3">
-												<span className="text-fg-muted whitespace-nowrap" style={{ fontSize: 13, minWidth: 52 }}>
+												<span
+													className="text-fg-muted whitespace-nowrap"
+													style={{ fontSize: 13, minWidth: 52 }}
+												>
 													{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 												</span>
 												{(() => {
@@ -836,7 +839,10 @@ export default function TimePageClient() {
 												<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
 													{formatMinutes(entry.minutes)}
 												</span>
-												<span className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`} style={{ fontSize: 13 }}>
+												<span
+													className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`}
+													style={{ fontSize: 13 }}
+												>
 													{entry.description || "Pas de description"}
 												</span>
 											</div>

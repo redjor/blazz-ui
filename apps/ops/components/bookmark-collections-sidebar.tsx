@@ -76,9 +76,7 @@ export function BookmarkCollectionsSidebar({
 
 	const itemClass = (active: boolean) =>
 		`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
-			active
-				? "bg-brand/10 text-brand font-medium"
-				: "text-fg-muted hover:bg-surface hover:text-fg"
+			active ? "bg-brand/10 text-brand font-medium" : "text-fg-muted hover:bg-surface hover:text-fg"
 		}`
 
 	return (
@@ -108,12 +106,7 @@ export function BookmarkCollectionsSidebar({
 				<span className="text-xs font-medium uppercase tracking-wider text-fg-muted">
 					Collections
 				</span>
-				<Button
-					size="icon-sm"
-					variant="ghost"
-					className="size-5"
-					onClick={onCreateCollection}
-				>
+				<Button size="icon-sm" variant="ghost" className="size-5" onClick={onCreateCollection}>
 					<Plus className="size-3" />
 				</Button>
 			</div>
@@ -123,8 +116,7 @@ export function BookmarkCollectionsSidebar({
 				const children = getChildren(col._id)
 				const hasChildren = children.length > 0
 				const isExpanded = expandedIds.has(col._id)
-				const isActive =
-					activeFilter.type === "collection" && activeFilter.collectionId === col._id
+				const isActive = activeFilter.type === "collection" && activeFilter.collectionId === col._id
 
 				return (
 					<div key={col._id}>
@@ -135,9 +127,7 @@ export function BookmarkCollectionsSidebar({
 								onClick={() => onSelect({ type: "collection", collectionId: col._id })}
 								className={`${itemClass(isActive)} flex-1 min-w-0`}
 							>
-								<span className="shrink-0">
-									{col.icon || <FolderOpen className="size-4" />}
-								</span>
+								<span className="shrink-0">{col.icon || <FolderOpen className="size-4" />}</span>
 								<span className="truncate">{col.name}</span>
 								{hasChildren && (
 									<ChevronRight
@@ -156,13 +146,7 @@ export function BookmarkCollectionsSidebar({
 							<div className="opacity-0 group-hover:opacity-100 transition-opacity">
 								<DropdownMenu>
 									<DropdownMenuTrigger
-										render={
-											<Button
-												size="icon-sm"
-												variant="ghost"
-												className="size-5"
-											/>
-										}
+										render={<Button size="icon-sm" variant="ghost" className="size-5" />}
 									>
 										<MoreHorizontal className="size-3" />
 									</DropdownMenuTrigger>
@@ -190,8 +174,7 @@ export function BookmarkCollectionsSidebar({
 							<div className="ml-5 space-y-0.5">
 								{children.map((child) => {
 									const isChildActive =
-										activeFilter.type === "collection" &&
-										activeFilter.collectionId === child._id
+										activeFilter.type === "collection" && activeFilter.collectionId === child._id
 									return (
 										<div key={child._id} className="group flex items-center">
 											<button
@@ -213,21 +196,13 @@ export function BookmarkCollectionsSidebar({
 											<div className="opacity-0 group-hover:opacity-100 transition-opacity">
 												<DropdownMenu>
 													<DropdownMenuTrigger
-														render={
-															<Button
-																size="icon-sm"
-																variant="ghost"
-																className="size-5"
-															/>
-														}
+														render={<Button size="icon-sm" variant="ghost" className="size-5" />}
 													>
 														<MoreHorizontal className="size-3" />
 													</DropdownMenuTrigger>
 													<DropdownMenuContent align="end">
 														{onEditCollection && (
-															<DropdownMenuItem
-																onClick={() => onEditCollection(child)}
-															>
+															<DropdownMenuItem onClick={() => onEditCollection(child)}>
 																<Pencil className="size-4 mr-2" />
 																Modifier
 															</DropdownMenuItem>

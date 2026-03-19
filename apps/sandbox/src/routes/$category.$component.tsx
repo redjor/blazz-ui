@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useEffect } from "react"
-import { getComponent } from "~/lib/registry"
 import { SandboxShell } from "~/components/sandbox-shell"
 import { addRecent } from "~/lib/recents"
+import { getComponent } from "~/lib/registry"
 
 export const Route = createFileRoute("/$category/$component")({
 	component: ComponentPage,

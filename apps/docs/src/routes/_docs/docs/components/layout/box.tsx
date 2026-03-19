@@ -107,7 +107,8 @@ const boxProps: DocProp[] = [
 		name: "shadow",
 		type: '"none" | "sm" | "md" | "lg" | "card" | "card-elevated"',
 		default: '"none"',
-		description: "Shadow applied to the box. 'card' and 'card-elevated' use theme-aware shadows with inner glow in dark mode.",
+		description:
+			"Shadow applied to the box. 'card' and 'card-elevated' use theme-aware shadows with inner glow in dark mode.",
 	},
 ]
 

@@ -16,13 +16,15 @@ const tiers = [
 		name: "Pro",
 		price: "249€",
 		badge: "One-time purchase",
-		description: "Full enterprise UI package with commercial usage, unlimited projects, and code ownership.",
+		description:
+			"Full enterprise UI package with commercial usage, unlimited projects, and code ownership.",
 	},
 	{
 		name: "Enterprise",
 		price: "Custom",
 		badge: "Custom terms",
-		description: "For teams that need onboarding, SLAs, custom theming, or negotiated licensing terms.",
+		description:
+			"For teams that need onboarding, SLAs, custom theming, or negotiated licensing terms.",
 	},
 ]
 
@@ -73,9 +75,7 @@ function LicensePage() {
 							<div className="flex items-start justify-between gap-3">
 								<div>
 									<h2 className="text-lg font-semibold text-fg">{tier.name}</h2>
-									<p className="mt-1 text-2xl font-semibold tracking-tight text-fg">
-										{tier.price}
-									</p>
+									<p className="mt-1 text-2xl font-semibold tracking-tight text-fg">{tier.price}</p>
 								</div>
 								<Badge variant="outline" size="xs">
 									{tier.badge}
@@ -91,7 +91,10 @@ function LicensePage() {
 						<h2 className="text-lg font-semibold text-fg">What you can do</h2>
 						<ul className="mt-5 space-y-3">
 							{allowed.map((item) => (
-								<li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted">
+								<li
+									key={item}
+									className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted"
+								>
 									<Check className="mt-0.5 size-4 shrink-0 text-positive" />
 									<span>{item}</span>
 								</li>
@@ -103,7 +106,10 @@ function LicensePage() {
 						<h2 className="text-lg font-semibold text-fg">What you cannot do</h2>
 						<ul className="mt-5 space-y-3">
 							{restricted.map((item) => (
-								<li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted">
+								<li
+									key={item}
+									className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted"
+								>
 									<X className="mt-0.5 size-4 shrink-0 text-negative" />
 									<span>{item}</span>
 								</li>
@@ -116,9 +122,7 @@ function LicensePage() {
 					<div className="rounded-xl border border-container bg-surface p-6">
 						<h2 className="text-lg font-semibold text-fg">Plain-English summary</h2>
 						<div className="mt-5 space-y-4 text-sm leading-relaxed text-fg-muted">
-							<p>
-								Starter is free and MIT licensed. It covers the open source primitive layer.
-							</p>
+							<p>Starter is free and MIT licensed. It covers the open source primitive layer.</p>
 							<p>
 								Pro is the paid package. It is a one-time purchase for the full Blazz UI system,
 								including blocks, patterns, and premium components. You can use it in unlimited
@@ -144,7 +148,9 @@ function LicensePage() {
 							</div>
 							<div>
 								<p className="font-medium text-fg">Do I own the code?</p>
-								<p className="mt-1">Yes. You keep the source in your repository and modify it freely.</p>
+								<p className="mt-1">
+									Yes. You keep the source in your repository and modify it freely.
+								</p>
 							</div>
 							<div>
 								<p className="font-medium text-fg">Is there any per-seat pricing?</p>
@@ -152,7 +158,9 @@ function LicensePage() {
 							</div>
 							<div>
 								<p className="font-medium text-fg">Can I redistribute it as my own kit?</p>
-								<p className="mt-1">No. The paid package cannot be repackaged or resold as a competing UI product.</p>
+								<p className="mt-1">
+									No. The paid package cannot be repackaged or resold as a competing UI product.
+								</p>
 							</div>
 						</div>
 					</div>

@@ -107,7 +107,11 @@ export const update = mutation({
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
 
 		const patch: Record<string, unknown> = { updatedAt: Date.now() }
-		applyNotePatchField(patch, "title", title?.trim() || (title === "" ? "Nouvelle note" : undefined))
+		applyNotePatchField(
+			patch,
+			"title",
+			title?.trim() || (title === "" ? "Nouvelle note" : undefined)
+		)
 		applyNotePatchField(patch, "contentJson", contentJson)
 		applyNotePatchField(patch, "contentText", contentText)
 		applyNotePatchField(patch, "pinned", pinned)

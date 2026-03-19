@@ -2,14 +2,14 @@
 
 import { Button } from "@blazz/ui/components/ui/button"
 import {
-	Monitor,
-	Tablet,
-	Smartphone,
-	Sun,
-	Moon,
 	Copy,
 	Maximize2,
+	Monitor,
+	Moon,
 	MousePointer2,
+	Smartphone,
+	Sun,
+	Tablet,
 } from "lucide-react"
 
 export type Viewport = "desktop" | "tablet" | "mobile"
@@ -83,30 +83,16 @@ export function PreviewToolbar({
 				onClick={() => onThemeChange(theme === "light" ? "dark" : "light")}
 				aria-label="Toggle theme"
 			>
-				{theme === "light" ? (
-					<Sun className="size-3.5" />
-				) : (
-					<Moon className="size-3.5" />
-				)}
+				{theme === "light" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
 			</Button>
 
 			{/* Copy code */}
-			<Button
-				variant="ghost"
-				size="icon-sm"
-				onClick={onCopy}
-				aria-label="Copy code"
-			>
+			<Button variant="ghost" size="icon-sm" onClick={onCopy} aria-label="Copy code">
 				<Copy className="size-3.5" />
 			</Button>
 
 			{/* Fullscreen */}
-			<Button
-				variant="ghost"
-				size="icon-sm"
-				onClick={onFullscreen}
-				aria-label="Fullscreen"
-			>
+			<Button variant="ghost" size="icon-sm" onClick={onFullscreen} aria-label="Fullscreen">
 				<Maximize2 className="size-3.5" />
 			</Button>
 		</div>

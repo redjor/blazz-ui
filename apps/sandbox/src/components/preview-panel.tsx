@@ -1,30 +1,23 @@
 "use client"
 
 import {
-	useState,
-	useMemo,
-	useEffect,
-	useCallback,
-	useRef,
 	Component,
-	type ReactNode,
 	type ErrorInfo,
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
 } from "react"
-import { runCode } from "~/lib/code-runner"
+import { type CallbackEvent, CallbackToast } from "~/components/callback-toast"
 import {
-	CallbackToast,
-	type CallbackEvent,
-} from "~/components/callback-toast"
-import {
-	PreviewToolbar,
-	type Viewport,
-	type Theme,
-} from "~/components/preview-toolbar"
-import {
-	useElementInspector,
-	InspectorOverlay,
 	type InspectedElement,
+	InspectorOverlay,
+	useElementInspector,
 } from "~/components/element-inspector"
+import { PreviewToolbar, type Theme, type Viewport } from "~/components/preview-toolbar"
+import { runCode } from "~/lib/code-runner"
 
 // ── Error Boundary ──────────────────────────────
 
@@ -38,10 +31,7 @@ interface ErrorBoundaryState {
 	error: string | null
 }
 
-class PreviewErrorBoundary extends Component<
-	ErrorBoundaryProps,
-	ErrorBoundaryState
-> {
+class PreviewErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 	state: ErrorBoundaryState = { error: null }
 
 	static getDerivedStateFromError(error: Error) {
@@ -96,10 +86,7 @@ export function PreviewPanel({
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
 	const [renderError, setRenderError] = useState<string | null>(null)
 	const previewAreaRef = useRef<HTMLDivElement>(null)
-	const { hovered, selected, setSelected } = useElementInspector(
-		previewAreaRef,
-		inspectMode,
-	)
+	const { hovered, selected } = useElementInspector(previewAreaRef, inspectMode)
 
 	// Notify parent when selection changes
 	useEffect(() => {
@@ -121,11 +108,11 @@ export function PreviewPanel({
 	// Clear render error when code changes
 	useEffect(() => {
 		setRenderError(null)
-	}, [debouncedCode])
+	}, [])
 
 	const { element, error } = useMemo(
 		() => runCode(debouncedCode, extraScope),
-		[debouncedCode, extraScope],
+		[debouncedCode, extraScope]
 	)
 
 	const displayError = renderError || error
@@ -154,10 +141,7 @@ export function PreviewPanel({
 	}, [])
 
 	return (
-		<div
-			id="sandbox-preview-container"
-			className="flex flex-col h-full bg-surface"
-		>
+		<div id="sandbox-preview-container" className="flex flex-col h-full bg-surface">
 			<PreviewToolbar
 				viewport={viewport}
 				onViewportChange={setViewport}
@@ -180,24 +164,16 @@ export function PreviewPanel({
 				>
 					<div className={theme === "dark" ? "dark" : ""}>
 						<div className="p-6">
-							<PreviewErrorBoundary
-								resetKey={debouncedCode}
-								onError={handleRenderError}
-							>
+							<PreviewErrorBoundary resetKey={debouncedCode} onError={handleRenderError}>
 								{element}
 							</PreviewErrorBoundary>
 						</div>
 					</div>
 				</div>
 
-				{inspectMode && (
-					<InspectorOverlay hovered={hovered} selected={selected} />
-				)}
+				{inspectMode && <InspectorOverlay hovered={hovered} selected={selected} />}
 
-				<CallbackToast
-					events={callbackEvents}
-					onDismiss={handleDismissToast}
-				/>
+				<CallbackToast events={callbackEvents} onDismiss={handleDismissToast} />
 			</div>
 
 			{/* Error bar */}
@@ -216,7 +192,7 @@ let eventCounter = 0
 
 export function createCallbackProxy(
 	name: string,
-	addEvent: (event: CallbackEvent) => void,
+	addEvent: (event: CallbackEvent) => void
 ): (...args: unknown[]) => void {
 	return (..._args: unknown[]) => {
 		eventCounter++

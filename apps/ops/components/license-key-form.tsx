@@ -14,7 +14,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
 import { Loader2 } from "lucide-react"
-import { useForm, Controller } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 import { api } from "@/convex/_generated/api"
@@ -22,7 +22,10 @@ import { generateLicenseKey } from "@/lib/license-keygen"
 
 const schema = z.object({
 	plan: z.enum(["PRO", "TEAM", "ENTERPRISE"]),
-	orgId: z.string().min(1, "Org ID requis").regex(/^[a-z0-9-]+$/, "Minuscules, chiffres et tirets uniquement"),
+	orgId: z
+		.string()
+		.min(1, "Org ID requis")
+		.regex(/^[a-z0-9-]+$/, "Minuscules, chiffres et tirets uniquement"),
 	expiresAt: z.string().min(1, "Date d'expiration requise"),
 	clientId: z.string().optional(),
 	clientName: z.string().optional(),
@@ -171,7 +174,12 @@ export function LicenseKeyForm({ onSuccess, onCancel }: Props) {
 					</div>
 					<div className="space-y-1.5">
 						<Label htmlFor="email">Email</Label>
-						<Input id="email" type="email" placeholder="client@example.com" {...register("email")} />
+						<Input
+							id="email"
+							type="email"
+							placeholder="client@example.com"
+							{...register("email")}
+						/>
 					</div>
 				</>
 			)}
