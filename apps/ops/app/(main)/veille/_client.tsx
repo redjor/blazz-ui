@@ -17,6 +17,8 @@ import { api } from "@/convex/_generated/api"
 
 type TypeFilter = "all" | "youtube" | "rss"
 
+const PAGE_SIZE = 20
+
 function FeedSkeleton() {
 	return (
 		<BlockStack gap="300">
@@ -43,13 +45,19 @@ function FeedSkeleton() {
 export default function VeilleClient() {
 	const [typeFilter, setTypeFilter] = useState<TypeFilter>("all")
 	const [fetching, setFetching] = useState(false)
+	const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
-	// Queries
-	const items = useQuery(api.feedItems.list, {
+	// Queries — fetch all up to visibleCount
+	const data = useQuery(api.feedItems.list, {
 		type: typeFilter === "all" ? undefined : typeFilter,
+		limit: visibleCount,
 	})
 	const unreadCount = useQuery(api.feedItems.unreadCount)
 	const sources = useQuery(api.feedSources.list)
+
+	const items = data?.items
+	const hasMore = data?.hasMore ?? false
+	const totalCount = data?.totalCount ?? 0
 
 	// Mutations & actions
 	const markRead = useMutation(api.feedItems.markRead)
@@ -61,8 +69,14 @@ export default function VeilleClient() {
 	// Source map for display names
 	const sourceMap = useMemo(() => {
 		if (!sources) return new Map<string, string>()
-		return new Map(sources.map((s) => [s._id, s.name]))
+		return new Map(sources.map((s: any) => [s._id, s.name]))
 	}, [sources])
+
+	// Reset pagination on filter change
+	const handleFilterChange = (filter: TypeFilter) => {
+		setTypeFilter(filter)
+		setVisibleCount(PAGE_SIZE)
+	}
 
 	// Handlers
 	const handleFetchNow = async () => {
@@ -142,7 +156,7 @@ export default function VeilleClient() {
 					)}
 				</Button>
 
-				{items && items.some((i) => !i.aiSummary) && (
+				{items && items.some((i: any) => !i.aiSummary) && (
 					<Button size="sm" variant="outline" onClick={handleEnrichMissing}>
 						<Sparkles className="size-4 mr-1.5" />
 						Enrichir
@@ -150,13 +164,13 @@ export default function VeilleClient() {
 				)}
 
 				{/* Type filter pills */}
-				<InlineStack gap="100">
+				<InlineStack gap="100" className="ml-auto">
 					{TYPE_FILTERS.map((f) => (
 						<Button
 							key={f.value}
 							size="sm"
 							variant={typeFilter === f.value ? "default" : "outline"}
-							onClick={() => setTypeFilter(f.value)}
+							onClick={() => handleFilterChange(f.value)}
 						>
 							{f.label}
 						</Button>
@@ -168,7 +182,7 @@ export default function VeilleClient() {
 			<div className="flex-1 overflow-y-auto p-4">
 				<div className="mx-auto max-w-2xl">
 					{/* Loading */}
-					{items === undefined && <FeedSkeleton />}
+					{data === undefined && <FeedSkeleton />}
 
 					{/* Empty */}
 					{items?.length === 0 && (
@@ -197,7 +211,7 @@ export default function VeilleClient() {
 					{/* Feed items */}
 					{items && items.length > 0 && (
 						<BlockStack gap="300">
-							{items.map((item) => (
+							{items.map((item: any) => (
 								<FeedItemCard
 									key={item._id}
 									item={item}
@@ -206,6 +220,17 @@ export default function VeilleClient() {
 									onMarkRead={() => markRead({ id: item._id })}
 								/>
 							))}
+
+							{/* Load more */}
+							{hasMore && (
+								<Button
+									variant="outline"
+									className="w-full"
+									onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+								>
+									Charger plus ({totalCount - items.length} restants)
+								</Button>
+							)}
 						</BlockStack>
 					)}
 				</div>

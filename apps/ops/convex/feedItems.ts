@@ -2,14 +2,18 @@ import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
+const PAGE_SIZE = 20
+
 export const list = query({
 	args: {
 		type: v.optional(v.union(v.literal("youtube"), v.literal("rss"))),
 		unreadOnly: v.optional(v.boolean()),
 		favoritesOnly: v.optional(v.boolean()),
+		limit: v.optional(v.number()),
 	},
-	handler: async (ctx, { type, unreadOnly, favoritesOnly }) => {
+	handler: async (ctx, { type, unreadOnly, favoritesOnly, limit }) => {
 		const { userId } = await requireAuth(ctx)
+		const take = limit ?? PAGE_SIZE
 
 		// biome-ignore lint/suspicious/noImplicitAnyLet: type inferred from first assignment
 		let results
@@ -33,7 +37,12 @@ export const list = query({
 			results = results.filter((item) => item.isFavorite)
 		}
 
-		return results.sort((a, b) => b.publishedAt - a.publishedAt)
+		const sorted = results.sort((a, b) => b.publishedAt - a.publishedAt)
+		return {
+			items: sorted.slice(0, take),
+			totalCount: sorted.length,
+			hasMore: sorted.length > take,
+		}
 	},
 })
 
