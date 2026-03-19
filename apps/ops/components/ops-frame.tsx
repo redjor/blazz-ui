@@ -1,18 +1,18 @@
 "use client"
 
-import { type FeatureFlag, isEnabled } from "@/lib/features"
 import { AppFrame, type NavGroup, type NavItem } from "@blazz/pro/components/blocks/app-frame"
 import {
 	Banknote,
 	Bookmark,
 	CheckSquare,
 	Clock,
-	FolderOpen,
 	FileText,
+	FolderOpen,
 	Key,
 	LayoutDashboard,
 	MessageSquare,
 	Package,
+	Rocket,
 	Settings,
 	Sun,
 	Users,
@@ -20,6 +20,7 @@ import {
 import type { ReactNode } from "react"
 import { useMemo } from "react"
 import { BlazzLogo } from "@/components/blazz-logo"
+import { type FeatureFlag, isEnabled } from "@/lib/features"
 import { OpsUserMenu } from "./ops-user-menu"
 
 interface NavItemWithFlag extends NavItem {
@@ -66,6 +67,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 	{
 		label: "Admin",
 		items: [
+			{ title: "Deployments", url: "/deployments", icon: Rocket, flag: "deployments" },
 			{ title: "Packages", url: "/packages", icon: Package, flag: "packages" },
 			{ title: "Licences", url: "/licenses", icon: Key, flag: "licenses" },
 			{ title: "Paramètres", url: "/settings", icon: Settings, flag: "settings" },
