@@ -2,12 +2,15 @@
 
 import type { NavigationSection, SidebarConfig } from "@blazz/ui/types/navigation"
 import {
+	Activity,
 	Brain,
 	Calendar,
 	ChartLine,
+	Columns3,
 	CreditCard,
 	FileText,
 	FormInput,
+	Gauge,
 	Layers,
 	Layers2,
 	LayoutGrid,
@@ -18,9 +21,10 @@ import {
 	Navigation,
 	Palette,
 	PanelLeft,
-	PanelsTopLeft,
-	Puzzle,
+	PanelRight,
+	Receipt,
 	Save,
+	Settings2,
 	Table2,
 	Users,
 	Wrench,
@@ -663,86 +667,11 @@ export const sidebarConfig: SidebarConfig = {
 					],
 				},
 				{
-					id: "block-business",
-					title: "Business",
-					url: "/docs/blocks/business",
-					icon: Puzzle,
+					id: "block-metrics",
+					title: "Metrics",
+					url: "/docs/blocks/metrics",
+					icon: Gauge,
 					items: [
-						{
-							title: "Activity Timeline",
-							url: "/docs/blocks/activity-timeline",
-							keywords: ["timeline", "activity feed", "history", "events log"],
-						},
-						{
-							title: "Detail Panel",
-							url: "/docs/blocks/detail-panel",
-							keywords: ["detail", "sidebar panel", "record detail", "side panel"],
-						},
-						{
-							title: "Deal Lines Editor",
-							url: "/docs/blocks/deal-lines-editor",
-							keywords: ["line items", "quote lines", "deal items", "product lines"],
-						},
-						{
-							title: "Inbox",
-							url: "/docs/blocks/inbox",
-							keywords: ["inbox", "notifications", "linear", "messages", "feed"],
-						},
-						{
-							title: "Inline Edit",
-							url: "/docs/blocks/inline-edit",
-							keywords: ["inline editing", "in-place edit", "click to edit"],
-						},
-						{
-							title: "Kanban Board",
-							url: "/docs/blocks/kanban-board",
-							keywords: ["kanban", "board", "drag drop", "pipeline", "swimlanes"],
-						},
-						{
-							title: "Multi Step Form",
-							url: "/docs/blocks/multi-step-form",
-							keywords: ["wizard", "stepper", "multi step", "form wizard"],
-						},
-						{
-							title: "Notification Center",
-							url: "/docs/blocks/notification-center",
-							keywords: ["notifications", "alerts", "inbox", "messages"],
-						},
-						{
-							title: "Org Menu",
-							url: "/docs/blocks/org-menu",
-							keywords: ["organization", "workspace", "team switcher", "org switcher"],
-						},
-						{
-							title: "Property Card",
-							url: "/docs/blocks/property-card",
-							keywords: ["detail card", "info card", "attribute card"],
-						},
-						{
-							title: "Quick Log Activity",
-							url: "/docs/blocks/quick-log-activity",
-							keywords: ["log", "activity", "crm", "note", "call log"],
-						},
-						{
-							title: "Quote Preview",
-							url: "/docs/blocks/quote-preview",
-							keywords: ["quote", "proposal", "estimate", "pricing preview"],
-						},
-						{
-							title: "Split View",
-							url: "/docs/blocks/split-view",
-							keywords: ["split", "master detail", "two panel", "side by side"],
-						},
-						{
-							title: "Budget Card",
-							url: "/docs/blocks/budget-card",
-							keywords: ["budget", "project card", "consumption", "revenue", "days"],
-						},
-						{
-							title: "Segmented Progress",
-							url: "/docs/blocks/segmented-progress",
-							keywords: ["progress", "dots", "waffle", "budget bar", "segmented"],
-						},
 						{
 							title: "Stats Grid",
 							url: "/docs/blocks/stats-grid",
@@ -754,18 +683,125 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["metrics", "kpi", "numbers", "statistics", "summary bar"],
 						},
 						{
-							title: "Status Flow",
-							url: "/docs/blocks/status-flow",
-							keywords: ["workflow", "status pipeline", "state machine", "flow"],
+							title: "Budget Card",
+							url: "/docs/blocks/budget-card",
+							keywords: ["budget", "project card", "consumption", "revenue", "days"],
+						},
+						{
+							title: "Segmented Progress",
+							url: "/docs/blocks/segmented-progress",
+							keywords: ["progress", "dots", "waffle", "budget bar", "segmented"],
 						},
 					],
 				},
 				{
-					id: "block-pages",
-					title: "Pages",
-					url: "/docs/blocks/settings-block",
-					icon: PanelsTopLeft,
+					id: "block-detail-views",
+					title: "Detail Views",
+					url: "/docs/blocks/detail-views",
+					icon: PanelRight,
 					items: [
+						{
+							title: "Detail Panel",
+							url: "/docs/blocks/detail-panel",
+							keywords: ["detail", "sidebar panel", "record detail", "side panel"],
+						},
+						{
+							title: "Property Card",
+							url: "/docs/blocks/property-card",
+							keywords: ["detail card", "info card", "attribute card"],
+						},
+						{
+							title: "Inline Edit",
+							url: "/docs/blocks/inline-edit",
+							keywords: ["inline editing", "in-place edit", "click to edit"],
+						},
+						{
+							title: "Split View",
+							url: "/docs/blocks/split-view",
+							keywords: ["split", "master detail", "two panel", "side by side"],
+						},
+					],
+				},
+				{
+					id: "block-workflow",
+					title: "Workflow",
+					url: "/docs/blocks/workflow",
+					icon: Columns3,
+					items: [
+						{
+							title: "Kanban Board",
+							url: "/docs/blocks/kanban-board",
+							keywords: ["kanban", "board", "drag drop", "pipeline", "swimlanes"],
+						},
+						{
+							title: "Status Flow",
+							url: "/docs/blocks/status-flow",
+							keywords: ["workflow", "status pipeline", "state machine", "flow"],
+						},
+						{
+							title: "Multi Step Form",
+							url: "/docs/blocks/multi-step-form",
+							keywords: ["wizard", "stepper", "multi step", "form wizard"],
+						},
+					],
+				},
+				{
+					id: "block-feeds",
+					title: "Feeds",
+					url: "/docs/blocks/feeds",
+					icon: Activity,
+					items: [
+						{
+							title: "Activity Timeline",
+							url: "/docs/blocks/activity-timeline",
+							keywords: ["timeline", "activity feed", "history", "events log"],
+						},
+						{
+							title: "Inbox",
+							url: "/docs/blocks/inbox",
+							keywords: ["inbox", "notifications", "linear", "messages", "feed"],
+						},
+						{
+							title: "Notification Center",
+							url: "/docs/blocks/notification-center",
+							keywords: ["notifications", "alerts", "inbox", "messages"],
+						},
+						{
+							title: "Quick Log Activity",
+							url: "/docs/blocks/quick-log-activity",
+							keywords: ["log", "activity", "crm", "note", "call log"],
+						},
+					],
+				},
+				{
+					id: "block-commerce",
+					title: "Commerce",
+					url: "/docs/blocks/commerce",
+					icon: Receipt,
+					items: [
+						{
+							title: "Deal Lines Editor",
+							url: "/docs/blocks/deal-lines-editor",
+							keywords: ["line items", "quote lines", "deal items", "product lines"],
+						},
+						{
+							title: "Quote Preview",
+							url: "/docs/blocks/quote-preview",
+							keywords: ["quote", "proposal", "estimate", "pricing preview"],
+						},
+					],
+				},
+				{
+					id: "block-settings",
+					title: "Settings",
+					url: "/docs/blocks/settings",
+					icon: Settings2,
+					items: [
+						{
+							title: "Org Menu",
+							url: "/docs/blocks/org-menu",
+							keywords: ["organization", "workspace", "team switcher", "org switcher"],
+						},
 						{
 							title: "Settings Block",
 							url: "/docs/blocks/settings-block",

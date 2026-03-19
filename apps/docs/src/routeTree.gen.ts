@@ -33,12 +33,14 @@ import { Route as DocsDocsComponentsFeedbackRouteImport } from './routes/_docs/d
 import { Route as DocsDocsComponentsDataDisplayRouteImport } from './routes/_docs/docs/components/data-display'
 import { Route as DocsDocsComponentsColorsRouteImport } from './routes/_docs/docs/components/colors'
 import { Route as DocsDocsComponentsActionsRouteImport } from './routes/_docs/docs/components/actions'
+import { Route as DocsDocsBlocksWorkflowRouteImport } from './routes/_docs/docs/blocks/workflow'
 import { Route as DocsDocsBlocksViewConfigPanelRouteImport } from './routes/_docs/docs/blocks/view-config-panel'
 import { Route as DocsDocsBlocksStatusFlowRouteImport } from './routes/_docs/docs/blocks/status-flow'
 import { Route as DocsDocsBlocksStatsStripRouteImport } from './routes/_docs/docs/blocks/stats-strip'
 import { Route as DocsDocsBlocksStatsGridRouteImport } from './routes/_docs/docs/blocks/stats-grid'
 import { Route as DocsDocsBlocksSplitViewRouteImport } from './routes/_docs/docs/blocks/split-view'
 import { Route as DocsDocsBlocksSettingsBlockRouteImport } from './routes/_docs/docs/blocks/settings-block'
+import { Route as DocsDocsBlocksSettingsRouteImport } from './routes/_docs/docs/blocks/settings'
 import { Route as DocsDocsBlocksSegmentedProgressRouteImport } from './routes/_docs/docs/blocks/segmented-progress'
 import { Route as DocsDocsBlocksQuotePreviewRouteImport } from './routes/_docs/docs/blocks/quote-preview'
 import { Route as DocsDocsBlocksQuickLogActivityRouteImport } from './routes/_docs/docs/blocks/quick-log-activity'
@@ -46,15 +48,18 @@ import { Route as DocsDocsBlocksPropertyCardRouteImport } from './routes/_docs/d
 import { Route as DocsDocsBlocksOrgMenuRouteImport } from './routes/_docs/docs/blocks/org-menu'
 import { Route as DocsDocsBlocksNotificationCenterRouteImport } from './routes/_docs/docs/blocks/notification-center'
 import { Route as DocsDocsBlocksMultiStepFormRouteImport } from './routes/_docs/docs/blocks/multi-step-form'
+import { Route as DocsDocsBlocksMetricsRouteImport } from './routes/_docs/docs/blocks/metrics'
 import { Route as DocsDocsBlocksKanbanBoardRouteImport } from './routes/_docs/docs/blocks/kanban-board'
 import { Route as DocsDocsBlocksInlineEditRouteImport } from './routes/_docs/docs/blocks/inline-edit'
 import { Route as DocsDocsBlocksInboxRouteImport } from './routes/_docs/docs/blocks/inbox'
 import { Route as DocsDocsBlocksFilterBarRouteImport } from './routes/_docs/docs/blocks/filter-bar'
+import { Route as DocsDocsBlocksFeedsRouteImport } from './routes/_docs/docs/blocks/feeds'
+import { Route as DocsDocsBlocksDetailViewsRouteImport } from './routes/_docs/docs/blocks/detail-views'
 import { Route as DocsDocsBlocksDetailPanelRouteImport } from './routes/_docs/docs/blocks/detail-panel'
 import { Route as DocsDocsBlocksDealLinesEditorRouteImport } from './routes/_docs/docs/blocks/deal-lines-editor'
 import { Route as DocsDocsBlocksDataRouteImport } from './routes/_docs/docs/blocks/data'
+import { Route as DocsDocsBlocksCommerceRouteImport } from './routes/_docs/docs/blocks/commerce'
 import { Route as DocsDocsBlocksChartCardRouteImport } from './routes/_docs/docs/blocks/chart-card'
-import { Route as DocsDocsBlocksBusinessRouteImport } from './routes/_docs/docs/blocks/business'
 import { Route as DocsDocsBlocksBulkActionBarRouteImport } from './routes/_docs/docs/blocks/bulk-action-bar'
 import { Route as DocsDocsBlocksBudgetCardRouteImport } from './routes/_docs/docs/blocks/budget-card'
 import { Route as DocsDocsBlocksActivityTimelineRouteImport } from './routes/_docs/docs/blocks/activity-timeline'
@@ -343,6 +348,11 @@ const DocsDocsComponentsActionsRoute =
     path: '/docs/components/actions',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksWorkflowRoute = DocsDocsBlocksWorkflowRouteImport.update({
+  id: '/docs/blocks/workflow',
+  path: '/docs/blocks/workflow',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsBlocksViewConfigPanelRoute =
   DocsDocsBlocksViewConfigPanelRouteImport.update({
     id: '/docs/blocks/view-config-panel',
@@ -377,6 +387,11 @@ const DocsDocsBlocksSettingsBlockRoute =
     path: '/docs/blocks/settings-block',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksSettingsRoute = DocsDocsBlocksSettingsRouteImport.update({
+  id: '/docs/blocks/settings',
+  path: '/docs/blocks/settings',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsBlocksSegmentedProgressRoute =
   DocsDocsBlocksSegmentedProgressRouteImport.update({
     id: '/docs/blocks/segmented-progress',
@@ -418,6 +433,11 @@ const DocsDocsBlocksMultiStepFormRoute =
     path: '/docs/blocks/multi-step-form',
     getParentRoute: () => DocsRoute,
   } as any)
+const DocsDocsBlocksMetricsRoute = DocsDocsBlocksMetricsRouteImport.update({
+  id: '/docs/blocks/metrics',
+  path: '/docs/blocks/metrics',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsBlocksKanbanBoardRoute =
   DocsDocsBlocksKanbanBoardRouteImport.update({
     id: '/docs/blocks/kanban-board',
@@ -440,6 +460,17 @@ const DocsDocsBlocksFilterBarRoute = DocsDocsBlocksFilterBarRouteImport.update({
   path: '/docs/blocks/filter-bar',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsDocsBlocksFeedsRoute = DocsDocsBlocksFeedsRouteImport.update({
+  id: '/docs/blocks/feeds',
+  path: '/docs/blocks/feeds',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsDocsBlocksDetailViewsRoute =
+  DocsDocsBlocksDetailViewsRouteImport.update({
+    id: '/docs/blocks/detail-views',
+    path: '/docs/blocks/detail-views',
+    getParentRoute: () => DocsRoute,
+  } as any)
 const DocsDocsBlocksDetailPanelRoute =
   DocsDocsBlocksDetailPanelRouteImport.update({
     id: '/docs/blocks/detail-panel',
@@ -457,14 +488,14 @@ const DocsDocsBlocksDataRoute = DocsDocsBlocksDataRouteImport.update({
   path: '/docs/blocks/data',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsDocsBlocksCommerceRoute = DocsDocsBlocksCommerceRouteImport.update({
+  id: '/docs/blocks/commerce',
+  path: '/docs/blocks/commerce',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsDocsBlocksChartCardRoute = DocsDocsBlocksChartCardRouteImport.update({
   id: '/docs/blocks/chart-card',
   path: '/docs/blocks/chart-card',
-  getParentRoute: () => DocsRoute,
-} as any)
-const DocsDocsBlocksBusinessRoute = DocsDocsBlocksBusinessRouteImport.update({
-  id: '/docs/blocks/business',
-  path: '/docs/blocks/business',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsDocsBlocksBulkActionBarRoute =
@@ -1429,15 +1460,18 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
   '/docs/blocks/budget-card': typeof DocsDocsBlocksBudgetCardRoute
   '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
-  '/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/docs/blocks/commerce': typeof DocsDocsBlocksCommerceRoute
   '/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
+  '/docs/blocks/detail-views': typeof DocsDocsBlocksDetailViewsRoute
+  '/docs/blocks/feeds': typeof DocsDocsBlocksFeedsRoute
   '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
   '/docs/blocks/inbox': typeof DocsDocsBlocksInboxRoute
   '/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
   '/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
+  '/docs/blocks/metrics': typeof DocsDocsBlocksMetricsRoute
   '/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
   '/docs/blocks/notification-center': typeof DocsDocsBlocksNotificationCenterRoute
   '/docs/blocks/org-menu': typeof DocsDocsBlocksOrgMenuRoute
@@ -1445,12 +1479,14 @@ export interface FileRoutesByFullPath {
   '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
   '/docs/blocks/segmented-progress': typeof DocsDocsBlocksSegmentedProgressRoute
+  '/docs/blocks/settings': typeof DocsDocsBlocksSettingsRoute
   '/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
   '/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
   '/docs/blocks/view-config-panel': typeof DocsDocsBlocksViewConfigPanelRoute
+  '/docs/blocks/workflow': typeof DocsDocsBlocksWorkflowRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1635,15 +1671,18 @@ export interface FileRoutesByTo {
   '/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
   '/docs/blocks/budget-card': typeof DocsDocsBlocksBudgetCardRoute
   '/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
-  '/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/docs/blocks/commerce': typeof DocsDocsBlocksCommerceRoute
   '/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
+  '/docs/blocks/detail-views': typeof DocsDocsBlocksDetailViewsRoute
+  '/docs/blocks/feeds': typeof DocsDocsBlocksFeedsRoute
   '/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
   '/docs/blocks/inbox': typeof DocsDocsBlocksInboxRoute
   '/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
   '/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
+  '/docs/blocks/metrics': typeof DocsDocsBlocksMetricsRoute
   '/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
   '/docs/blocks/notification-center': typeof DocsDocsBlocksNotificationCenterRoute
   '/docs/blocks/org-menu': typeof DocsDocsBlocksOrgMenuRoute
@@ -1651,12 +1690,14 @@ export interface FileRoutesByTo {
   '/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
   '/docs/blocks/segmented-progress': typeof DocsDocsBlocksSegmentedProgressRoute
+  '/docs/blocks/settings': typeof DocsDocsBlocksSettingsRoute
   '/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
   '/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
   '/docs/blocks/view-config-panel': typeof DocsDocsBlocksViewConfigPanelRoute
+  '/docs/blocks/workflow': typeof DocsDocsBlocksWorkflowRoute
   '/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -1843,15 +1884,18 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/activity-timeline': typeof DocsDocsBlocksActivityTimelineRoute
   '/_docs/docs/blocks/budget-card': typeof DocsDocsBlocksBudgetCardRoute
   '/_docs/docs/blocks/bulk-action-bar': typeof DocsDocsBlocksBulkActionBarRoute
-  '/_docs/docs/blocks/business': typeof DocsDocsBlocksBusinessRoute
   '/_docs/docs/blocks/chart-card': typeof DocsDocsBlocksChartCardRoute
+  '/_docs/docs/blocks/commerce': typeof DocsDocsBlocksCommerceRoute
   '/_docs/docs/blocks/data': typeof DocsDocsBlocksDataRoute
   '/_docs/docs/blocks/deal-lines-editor': typeof DocsDocsBlocksDealLinesEditorRoute
   '/_docs/docs/blocks/detail-panel': typeof DocsDocsBlocksDetailPanelRoute
+  '/_docs/docs/blocks/detail-views': typeof DocsDocsBlocksDetailViewsRoute
+  '/_docs/docs/blocks/feeds': typeof DocsDocsBlocksFeedsRoute
   '/_docs/docs/blocks/filter-bar': typeof DocsDocsBlocksFilterBarRoute
   '/_docs/docs/blocks/inbox': typeof DocsDocsBlocksInboxRoute
   '/_docs/docs/blocks/inline-edit': typeof DocsDocsBlocksInlineEditRoute
   '/_docs/docs/blocks/kanban-board': typeof DocsDocsBlocksKanbanBoardRoute
+  '/_docs/docs/blocks/metrics': typeof DocsDocsBlocksMetricsRoute
   '/_docs/docs/blocks/multi-step-form': typeof DocsDocsBlocksMultiStepFormRoute
   '/_docs/docs/blocks/notification-center': typeof DocsDocsBlocksNotificationCenterRoute
   '/_docs/docs/blocks/org-menu': typeof DocsDocsBlocksOrgMenuRoute
@@ -1859,12 +1903,14 @@ export interface FileRoutesById {
   '/_docs/docs/blocks/quick-log-activity': typeof DocsDocsBlocksQuickLogActivityRoute
   '/_docs/docs/blocks/quote-preview': typeof DocsDocsBlocksQuotePreviewRoute
   '/_docs/docs/blocks/segmented-progress': typeof DocsDocsBlocksSegmentedProgressRoute
+  '/_docs/docs/blocks/settings': typeof DocsDocsBlocksSettingsRoute
   '/_docs/docs/blocks/settings-block': typeof DocsDocsBlocksSettingsBlockRoute
   '/_docs/docs/blocks/split-view': typeof DocsDocsBlocksSplitViewRoute
   '/_docs/docs/blocks/stats-grid': typeof DocsDocsBlocksStatsGridRoute
   '/_docs/docs/blocks/stats-strip': typeof DocsDocsBlocksStatsStripRoute
   '/_docs/docs/blocks/status-flow': typeof DocsDocsBlocksStatusFlowRoute
   '/_docs/docs/blocks/view-config-panel': typeof DocsDocsBlocksViewConfigPanelRoute
+  '/_docs/docs/blocks/workflow': typeof DocsDocsBlocksWorkflowRoute
   '/_docs/docs/components/actions': typeof DocsDocsComponentsActionsRoute
   '/_docs/docs/components/colors': typeof DocsDocsComponentsColorsRoute
   '/_docs/docs/components/data-display': typeof DocsDocsComponentsDataDisplayRoute
@@ -2051,15 +2097,18 @@ export interface FileRouteTypes {
     | '/docs/blocks/activity-timeline'
     | '/docs/blocks/budget-card'
     | '/docs/blocks/bulk-action-bar'
-    | '/docs/blocks/business'
     | '/docs/blocks/chart-card'
+    | '/docs/blocks/commerce'
     | '/docs/blocks/data'
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
+    | '/docs/blocks/detail-views'
+    | '/docs/blocks/feeds'
     | '/docs/blocks/filter-bar'
     | '/docs/blocks/inbox'
     | '/docs/blocks/inline-edit'
     | '/docs/blocks/kanban-board'
+    | '/docs/blocks/metrics'
     | '/docs/blocks/multi-step-form'
     | '/docs/blocks/notification-center'
     | '/docs/blocks/org-menu'
@@ -2067,12 +2116,14 @@ export interface FileRouteTypes {
     | '/docs/blocks/quick-log-activity'
     | '/docs/blocks/quote-preview'
     | '/docs/blocks/segmented-progress'
+    | '/docs/blocks/settings'
     | '/docs/blocks/settings-block'
     | '/docs/blocks/split-view'
     | '/docs/blocks/stats-grid'
     | '/docs/blocks/stats-strip'
     | '/docs/blocks/status-flow'
     | '/docs/blocks/view-config-panel'
+    | '/docs/blocks/workflow'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -2257,15 +2308,18 @@ export interface FileRouteTypes {
     | '/docs/blocks/activity-timeline'
     | '/docs/blocks/budget-card'
     | '/docs/blocks/bulk-action-bar'
-    | '/docs/blocks/business'
     | '/docs/blocks/chart-card'
+    | '/docs/blocks/commerce'
     | '/docs/blocks/data'
     | '/docs/blocks/deal-lines-editor'
     | '/docs/blocks/detail-panel'
+    | '/docs/blocks/detail-views'
+    | '/docs/blocks/feeds'
     | '/docs/blocks/filter-bar'
     | '/docs/blocks/inbox'
     | '/docs/blocks/inline-edit'
     | '/docs/blocks/kanban-board'
+    | '/docs/blocks/metrics'
     | '/docs/blocks/multi-step-form'
     | '/docs/blocks/notification-center'
     | '/docs/blocks/org-menu'
@@ -2273,12 +2327,14 @@ export interface FileRouteTypes {
     | '/docs/blocks/quick-log-activity'
     | '/docs/blocks/quote-preview'
     | '/docs/blocks/segmented-progress'
+    | '/docs/blocks/settings'
     | '/docs/blocks/settings-block'
     | '/docs/blocks/split-view'
     | '/docs/blocks/stats-grid'
     | '/docs/blocks/stats-strip'
     | '/docs/blocks/status-flow'
     | '/docs/blocks/view-config-panel'
+    | '/docs/blocks/workflow'
     | '/docs/components/actions'
     | '/docs/components/colors'
     | '/docs/components/data-display'
@@ -2464,15 +2520,18 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/activity-timeline'
     | '/_docs/docs/blocks/budget-card'
     | '/_docs/docs/blocks/bulk-action-bar'
-    | '/_docs/docs/blocks/business'
     | '/_docs/docs/blocks/chart-card'
+    | '/_docs/docs/blocks/commerce'
     | '/_docs/docs/blocks/data'
     | '/_docs/docs/blocks/deal-lines-editor'
     | '/_docs/docs/blocks/detail-panel'
+    | '/_docs/docs/blocks/detail-views'
+    | '/_docs/docs/blocks/feeds'
     | '/_docs/docs/blocks/filter-bar'
     | '/_docs/docs/blocks/inbox'
     | '/_docs/docs/blocks/inline-edit'
     | '/_docs/docs/blocks/kanban-board'
+    | '/_docs/docs/blocks/metrics'
     | '/_docs/docs/blocks/multi-step-form'
     | '/_docs/docs/blocks/notification-center'
     | '/_docs/docs/blocks/org-menu'
@@ -2480,12 +2539,14 @@ export interface FileRouteTypes {
     | '/_docs/docs/blocks/quick-log-activity'
     | '/_docs/docs/blocks/quote-preview'
     | '/_docs/docs/blocks/segmented-progress'
+    | '/_docs/docs/blocks/settings'
     | '/_docs/docs/blocks/settings-block'
     | '/_docs/docs/blocks/split-view'
     | '/_docs/docs/blocks/stats-grid'
     | '/_docs/docs/blocks/stats-strip'
     | '/_docs/docs/blocks/status-flow'
     | '/_docs/docs/blocks/view-config-panel'
+    | '/_docs/docs/blocks/workflow'
     | '/_docs/docs/components/actions'
     | '/_docs/docs/components/colors'
     | '/_docs/docs/components/data-display'
@@ -2829,6 +2890,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsComponentsActionsRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/workflow': {
+      id: '/_docs/docs/blocks/workflow'
+      path: '/docs/blocks/workflow'
+      fullPath: '/docs/blocks/workflow'
+      preLoaderRoute: typeof DocsDocsBlocksWorkflowRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/view-config-panel': {
       id: '/_docs/docs/blocks/view-config-panel'
       path: '/docs/blocks/view-config-panel'
@@ -2869,6 +2937,13 @@ declare module '@tanstack/react-router' {
       path: '/docs/blocks/settings-block'
       fullPath: '/docs/blocks/settings-block'
       preLoaderRoute: typeof DocsDocsBlocksSettingsBlockRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/settings': {
+      id: '/_docs/docs/blocks/settings'
+      path: '/docs/blocks/settings'
+      fullPath: '/docs/blocks/settings'
+      preLoaderRoute: typeof DocsDocsBlocksSettingsRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/segmented-progress': {
@@ -2920,6 +2995,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsBlocksMultiStepFormRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/metrics': {
+      id: '/_docs/docs/blocks/metrics'
+      path: '/docs/blocks/metrics'
+      fullPath: '/docs/blocks/metrics'
+      preLoaderRoute: typeof DocsDocsBlocksMetricsRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/kanban-board': {
       id: '/_docs/docs/blocks/kanban-board'
       path: '/docs/blocks/kanban-board'
@@ -2948,6 +3030,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsBlocksFilterBarRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/feeds': {
+      id: '/_docs/docs/blocks/feeds'
+      path: '/docs/blocks/feeds'
+      fullPath: '/docs/blocks/feeds'
+      preLoaderRoute: typeof DocsDocsBlocksFeedsRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/_docs/docs/blocks/detail-views': {
+      id: '/_docs/docs/blocks/detail-views'
+      path: '/docs/blocks/detail-views'
+      fullPath: '/docs/blocks/detail-views'
+      preLoaderRoute: typeof DocsDocsBlocksDetailViewsRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/detail-panel': {
       id: '/_docs/docs/blocks/detail-panel'
       path: '/docs/blocks/detail-panel'
@@ -2969,18 +3065,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsDocsBlocksDataRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/_docs/docs/blocks/commerce': {
+      id: '/_docs/docs/blocks/commerce'
+      path: '/docs/blocks/commerce'
+      fullPath: '/docs/blocks/commerce'
+      preLoaderRoute: typeof DocsDocsBlocksCommerceRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/_docs/docs/blocks/chart-card': {
       id: '/_docs/docs/blocks/chart-card'
       path: '/docs/blocks/chart-card'
       fullPath: '/docs/blocks/chart-card'
       preLoaderRoute: typeof DocsDocsBlocksChartCardRouteImport
-      parentRoute: typeof DocsRoute
-    }
-    '/_docs/docs/blocks/business': {
-      id: '/_docs/docs/blocks/business'
-      path: '/docs/blocks/business'
-      fullPath: '/docs/blocks/business'
-      preLoaderRoute: typeof DocsDocsBlocksBusinessRouteImport
       parentRoute: typeof DocsRoute
     }
     '/_docs/docs/blocks/bulk-action-bar': {
@@ -4114,15 +4210,18 @@ interface DocsRouteChildren {
   DocsDocsBlocksActivityTimelineRoute: typeof DocsDocsBlocksActivityTimelineRoute
   DocsDocsBlocksBudgetCardRoute: typeof DocsDocsBlocksBudgetCardRoute
   DocsDocsBlocksBulkActionBarRoute: typeof DocsDocsBlocksBulkActionBarRoute
-  DocsDocsBlocksBusinessRoute: typeof DocsDocsBlocksBusinessRoute
   DocsDocsBlocksChartCardRoute: typeof DocsDocsBlocksChartCardRoute
+  DocsDocsBlocksCommerceRoute: typeof DocsDocsBlocksCommerceRoute
   DocsDocsBlocksDataRoute: typeof DocsDocsBlocksDataRoute
   DocsDocsBlocksDealLinesEditorRoute: typeof DocsDocsBlocksDealLinesEditorRoute
   DocsDocsBlocksDetailPanelRoute: typeof DocsDocsBlocksDetailPanelRoute
+  DocsDocsBlocksDetailViewsRoute: typeof DocsDocsBlocksDetailViewsRoute
+  DocsDocsBlocksFeedsRoute: typeof DocsDocsBlocksFeedsRoute
   DocsDocsBlocksFilterBarRoute: typeof DocsDocsBlocksFilterBarRoute
   DocsDocsBlocksInboxRoute: typeof DocsDocsBlocksInboxRoute
   DocsDocsBlocksInlineEditRoute: typeof DocsDocsBlocksInlineEditRoute
   DocsDocsBlocksKanbanBoardRoute: typeof DocsDocsBlocksKanbanBoardRoute
+  DocsDocsBlocksMetricsRoute: typeof DocsDocsBlocksMetricsRoute
   DocsDocsBlocksMultiStepFormRoute: typeof DocsDocsBlocksMultiStepFormRoute
   DocsDocsBlocksNotificationCenterRoute: typeof DocsDocsBlocksNotificationCenterRoute
   DocsDocsBlocksOrgMenuRoute: typeof DocsDocsBlocksOrgMenuRoute
@@ -4130,12 +4229,14 @@ interface DocsRouteChildren {
   DocsDocsBlocksQuickLogActivityRoute: typeof DocsDocsBlocksQuickLogActivityRoute
   DocsDocsBlocksQuotePreviewRoute: typeof DocsDocsBlocksQuotePreviewRoute
   DocsDocsBlocksSegmentedProgressRoute: typeof DocsDocsBlocksSegmentedProgressRoute
+  DocsDocsBlocksSettingsRoute: typeof DocsDocsBlocksSettingsRoute
   DocsDocsBlocksSettingsBlockRoute: typeof DocsDocsBlocksSettingsBlockRoute
   DocsDocsBlocksSplitViewRoute: typeof DocsDocsBlocksSplitViewRoute
   DocsDocsBlocksStatsGridRoute: typeof DocsDocsBlocksStatsGridRoute
   DocsDocsBlocksStatsStripRoute: typeof DocsDocsBlocksStatsStripRoute
   DocsDocsBlocksStatusFlowRoute: typeof DocsDocsBlocksStatusFlowRoute
   DocsDocsBlocksViewConfigPanelRoute: typeof DocsDocsBlocksViewConfigPanelRoute
+  DocsDocsBlocksWorkflowRoute: typeof DocsDocsBlocksWorkflowRoute
   DocsDocsComponentsActionsRoute: typeof DocsDocsComponentsActionsRoute
   DocsDocsComponentsColorsRoute: typeof DocsDocsComponentsColorsRoute
   DocsDocsComponentsDataDisplayRoute: typeof DocsDocsComponentsDataDisplayRoute
@@ -4316,15 +4417,18 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksActivityTimelineRoute: DocsDocsBlocksActivityTimelineRoute,
   DocsDocsBlocksBudgetCardRoute: DocsDocsBlocksBudgetCardRoute,
   DocsDocsBlocksBulkActionBarRoute: DocsDocsBlocksBulkActionBarRoute,
-  DocsDocsBlocksBusinessRoute: DocsDocsBlocksBusinessRoute,
   DocsDocsBlocksChartCardRoute: DocsDocsBlocksChartCardRoute,
+  DocsDocsBlocksCommerceRoute: DocsDocsBlocksCommerceRoute,
   DocsDocsBlocksDataRoute: DocsDocsBlocksDataRoute,
   DocsDocsBlocksDealLinesEditorRoute: DocsDocsBlocksDealLinesEditorRoute,
   DocsDocsBlocksDetailPanelRoute: DocsDocsBlocksDetailPanelRoute,
+  DocsDocsBlocksDetailViewsRoute: DocsDocsBlocksDetailViewsRoute,
+  DocsDocsBlocksFeedsRoute: DocsDocsBlocksFeedsRoute,
   DocsDocsBlocksFilterBarRoute: DocsDocsBlocksFilterBarRoute,
   DocsDocsBlocksInboxRoute: DocsDocsBlocksInboxRoute,
   DocsDocsBlocksInlineEditRoute: DocsDocsBlocksInlineEditRoute,
   DocsDocsBlocksKanbanBoardRoute: DocsDocsBlocksKanbanBoardRoute,
+  DocsDocsBlocksMetricsRoute: DocsDocsBlocksMetricsRoute,
   DocsDocsBlocksMultiStepFormRoute: DocsDocsBlocksMultiStepFormRoute,
   DocsDocsBlocksNotificationCenterRoute: DocsDocsBlocksNotificationCenterRoute,
   DocsDocsBlocksOrgMenuRoute: DocsDocsBlocksOrgMenuRoute,
@@ -4332,12 +4436,14 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsDocsBlocksQuickLogActivityRoute: DocsDocsBlocksQuickLogActivityRoute,
   DocsDocsBlocksQuotePreviewRoute: DocsDocsBlocksQuotePreviewRoute,
   DocsDocsBlocksSegmentedProgressRoute: DocsDocsBlocksSegmentedProgressRoute,
+  DocsDocsBlocksSettingsRoute: DocsDocsBlocksSettingsRoute,
   DocsDocsBlocksSettingsBlockRoute: DocsDocsBlocksSettingsBlockRoute,
   DocsDocsBlocksSplitViewRoute: DocsDocsBlocksSplitViewRoute,
   DocsDocsBlocksStatsGridRoute: DocsDocsBlocksStatsGridRoute,
   DocsDocsBlocksStatsStripRoute: DocsDocsBlocksStatsStripRoute,
   DocsDocsBlocksStatusFlowRoute: DocsDocsBlocksStatusFlowRoute,
   DocsDocsBlocksViewConfigPanelRoute: DocsDocsBlocksViewConfigPanelRoute,
+  DocsDocsBlocksWorkflowRoute: DocsDocsBlocksWorkflowRoute,
   DocsDocsComponentsActionsRoute: DocsDocsComponentsActionsRoute,
   DocsDocsComponentsColorsRoute: DocsDocsComponentsColorsRoute,
   DocsDocsComponentsDataDisplayRoute: DocsDocsComponentsDataDisplayRoute,
