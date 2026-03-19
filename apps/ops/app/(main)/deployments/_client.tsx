@@ -14,11 +14,12 @@ import {
 	Clock,
 	ExternalLink,
 	GitBranch,
+	RefreshCw,
 	Rocket,
 	Settings,
 } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { api } from "@/convex/_generated/api"
 
 interface VercelDeployment {
@@ -55,6 +56,23 @@ function formatDuration(created: number, ready?: number): string | null {
 	return `${minutes}m ${remaining}s`
 }
 
+function DeploymentsSkeleton() {
+	return (
+		<BlockStack gap="300">
+			{Array.from({ length: 5 }).map((_, i) => (
+				<BlockStack key={i} gap="200" className="rounded-lg border border-edge p-4">
+					<InlineStack gap="200" blockAlign="center">
+						<Skeleton className="h-5 w-16" />
+						<Skeleton className="h-4 w-40" />
+					</InlineStack>
+					<Skeleton className="h-4 w-64" />
+					<Skeleton className="h-3 w-24" />
+				</BlockStack>
+			))}
+		</BlockStack>
+	)
+}
+
 export default function DeploymentsPageClient() {
 	const settings = useQuery(api.settings.list)
 	const [deployments, setDeployments] = useState<VercelDeployment[] | null>(null)
@@ -64,50 +82,38 @@ export default function DeploymentsPageClient() {
 	const token = settings?.vercel_token
 	const projectId = settings?.vercel_project_id
 
-	useEffect(() => {
+	const fetchDeployments = useCallback(async () => {
 		if (!token || !projectId) return
-
 		setLoading(true)
 		setError(null)
-
-		fetch(`https://api.vercel.com/v6/deployments?projectId=${projectId}&limit=20`, {
-			headers: { Authorization: `Bearer ${token}` },
-		})
-			.then(async (res) => {
-				if (!res.ok) {
-					const body = await res.text()
-					throw new Error(`Vercel API ${res.status}: ${body}`)
-				}
-				return res.json()
-			})
-			.then((data) => {
-				setDeployments(data.deployments ?? [])
-			})
-			.catch((err) => {
-				setError(err instanceof Error ? err.message : "Erreur inconnue")
-			})
-			.finally(() => {
-				setLoading(false)
-			})
+		try {
+			const res = await fetch(
+				`https://api.vercel.com/v6/deployments?projectId=${projectId}&limit=20`,
+				{ headers: { Authorization: `Bearer ${token}` } },
+			)
+			if (!res.ok) {
+				const body = await res.text()
+				throw new Error(`Vercel API ${res.status}: ${body}`)
+			}
+			const data = await res.json()
+			setDeployments(data.deployments ?? [])
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Erreur inconnue")
+		} finally {
+			setLoading(false)
+		}
 	}, [token, projectId])
+
+	useEffect(() => {
+		fetchDeployments()
+	}, [fetchDeployments])
 
 	// Loading: settings not yet loaded
 	if (settings === undefined) {
 		return (
 			<BlockStack gap="600" className="p-6">
 				<PageHeader title="Deployments" description="Derniers d\u00e9ploiements Vercel" />
-				<BlockStack gap="300">
-					{Array.from({ length: 5 }).map((_, i) => (
-						<BlockStack key={i} gap="200" className="rounded-lg border border-edge p-4">
-							<InlineStack gap="200" blockAlign="center">
-								<Skeleton className="h-5 w-16" />
-								<Skeleton className="h-4 w-40" />
-							</InlineStack>
-							<Skeleton className="h-4 w-64" />
-							<Skeleton className="h-3 w-24" />
-						</BlockStack>
-					))}
-				</BlockStack>
+				<DeploymentsSkeleton />
 			</BlockStack>
 		)
 	}
@@ -142,18 +148,7 @@ export default function DeploymentsPageClient() {
 		return (
 			<BlockStack gap="600" className="p-6">
 				<PageHeader title="Deployments" description="Derniers d\u00e9ploiements Vercel" />
-				<BlockStack gap="300">
-					{Array.from({ length: 5 }).map((_, i) => (
-						<BlockStack key={i} gap="200" className="rounded-lg border border-edge p-4">
-							<InlineStack gap="200" blockAlign="center">
-								<Skeleton className="h-5 w-16" />
-								<Skeleton className="h-4 w-40" />
-							</InlineStack>
-							<Skeleton className="h-4 w-64" />
-							<Skeleton className="h-3 w-24" />
-						</BlockStack>
-					))}
-				</BlockStack>
+				<DeploymentsSkeleton />
 			</BlockStack>
 		)
 	}
@@ -167,6 +162,9 @@ export default function DeploymentsPageClient() {
 					<AlertCircle className="h-10 w-10 text-destructive mb-3" />
 					<p className="text-sm text-fg font-medium">Erreur de chargement</p>
 					<p className="text-xs text-fg-muted mt-1 max-w-md">{error}</p>
+					<Button variant="outline" size="sm" className="mt-3" onClick={fetchDeployments}>
+						Réessayer
+					</Button>
 				</BlockStack>
 			</BlockStack>
 		)
@@ -178,6 +176,12 @@ export default function DeploymentsPageClient() {
 			<PageHeader
 				title="Deployments"
 				description={`${deployments.length} derniers d\u00e9ploiements`}
+				actions={
+					<Button variant="outline" size="sm" onClick={fetchDeployments} disabled={loading}>
+						<RefreshCw className={loading ? "animate-spin" : ""} />
+						Refresh
+					</Button>
+				}
 			/>
 
 			{deployments.length === 0 ? (
