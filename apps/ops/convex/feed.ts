@@ -45,6 +45,10 @@ export const insertItemIfNew = internalMutation({
 		publishedAt: v.number(),
 	},
 	handler: async (ctx, args) => {
+		// Skip articles older than 30 days
+		const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+		if (args.publishedAt < thirtyDaysAgo) return null
+
 		// Dedup by externalId
 		const existing = await ctx.db
 			.query("feedItems")
@@ -65,6 +69,20 @@ export const markSourceFetched = internalMutation({
 	args: { sourceId: v.id("feedSources") },
 	handler: async (ctx, { sourceId }) => {
 		await ctx.db.patch(sourceId, { lastFetchedAt: Date.now() })
+	},
+})
+
+export const deleteSourceInternal = internalMutation({
+	args: { sourceId: v.id("feedSources") },
+	handler: async (ctx, { sourceId }) => {
+		const items = await ctx.db
+			.query("feedItems")
+			.withIndex("by_source", (q) => q.eq("sourceId", sourceId))
+			.collect()
+		for (const item of items) {
+			await ctx.db.delete(item._id)
+		}
+		await ctx.db.delete(sourceId)
 	},
 })
 
@@ -391,6 +409,54 @@ export const fetchAllFeeds = internalAction({
 	},
 })
 
+export const seedRSSSources = internalMutation({
+	args: { userId: v.id("users") },
+	handler: async (ctx, { userId }) => {
+		const sources = [
+			// AI / LLM
+			{ name: "Anthropic Blog", url: "https://www.anthropic.com/rss.xml" },
+			{ name: "OpenAI Blog", url: "https://openai.com/blog/rss.xml" },
+			{ name: "Simon Willison", url: "https://simonwillison.net/atom/everything/" },
+			{ name: "The Batch (Andrew Ng)", url: "https://www.deeplearning.ai/the-batch/feed/" },
+			{ name: "Hugging Face Blog", url: "https://huggingface.co/blog/feed.xml" },
+			// Dev / Web / React
+			{ name: "Vercel Blog", url: "https://vercel.com/atom" },
+			{ name: "Kent C. Dodds", url: "https://kentcdodds.com/blog/rss.xml" },
+			{ name: "Josh Comeau", url: "https://www.joshwcomeau.com/rss.xml" },
+			{ name: "Tailwind Blog", url: "https://tailwindcss.com/feeds/feed.xml" },
+			{ name: "TkDodo (TanStack)", url: "https://tkdodo.eu/blog/rss.xml" },
+			// Agrégateurs
+			{ name: "Hacker News", url: "https://hnrss.org/frontpage" },
+			{ name: "TLDR Newsletter", url: "https://tldr.tech/api/rss/tech" },
+			{ name: "Lobsters", url: "https://lobste.rs/rss" },
+			// AI Eng
+			{ name: "Latent Space", url: "https://www.latent.space/feed" },
+			{ name: "AI Snake Oil", url: "https://www.aisnakeoil.com/feed" },
+		]
+
+		let added = 0
+		for (const s of sources) {
+			// Skip if already exists
+			const existing = await ctx.db
+				.query("feedSources")
+				.withIndex("by_user", (q) => q.eq("userId", userId))
+				.collect()
+			if (existing.some((e) => e.externalId === s.url)) continue
+
+			await ctx.db.insert("feedSources", {
+				userId,
+				name: s.name,
+				type: "rss",
+				externalId: s.url,
+				isActive: true,
+				createdAt: Date.now(),
+			})
+			added++
+		}
+		return added
+	},
+})
+
 // ── Public action ─────────────────────────────────────────────────
 
 export const fetchNow = action({
@@ -398,6 +464,15 @@ export const fetchNow = action({
 	handler: async (ctx) => {
 		await requireAuth(ctx)
 		await ctx.scheduler.runAfter(0, internal.feed.fetchAllFeeds)
+	},
+})
+
+export const seedDefaultSources = action({
+	args: {},
+	handler: async (ctx): Promise<number> => {
+		const { userId } = await requireAuth(ctx)
+		const added: number = await ctx.runMutation(internal.feed.seedRSSSources, { userId })
+		return added
 	},
 })
 
