@@ -1,5 +1,6 @@
 "use client"
 
+import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -15,6 +16,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
 import { format, parse } from "date-fns"
 import { fr } from "date-fns/locale"
+import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
 import { Download, FileText, MoreHorizontal, Pencil, Trash2, XCircle } from "lucide-react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
@@ -155,27 +157,29 @@ export function ContractSection({
 							</div>
 						)}
 
-						{/* KPIs — no inner borders, just bg for grouping */}
-						<div className="grid grid-cols-3 gap-3">
-							<KpiCell
-								label={metrics.isAnticipated ? formatMonth(metrics.targetMonth) : "Ce mois"}
-								value={metrics.daysConsumedThisMonth}
-								suffix={`/${metrics.daysAllocatedThisMonth}j`}
+						{/* KPIs */}
+						<Bleed marginInline="400">
+							<StatsStrip
+								stats={[
+									{
+										label: metrics.isAnticipated ? formatMonth(metrics.targetMonth) : "Ce mois",
+										value: `${metrics.daysConsumedThisMonth}/${metrics.daysAllocatedThisMonth}j`,
+									},
+									{
+										label: "Restant",
+										value: `${metrics.daysRemainingThisMonth}j`,
+									},
+									...(contract.carryOver && metrics.carryInThisMonth > 0
+										? [{ label: "Report entrant", value: `+${metrics.carryInThisMonth}j` }]
+										: []),
+									{
+										label: "Total contrat",
+										value: `${metrics.totalDaysConsumed}/${metrics.totalDaysAllocated}j`,
+									},
+								]}
+								className="border-0 rounded-none shadow-none"
 							/>
-							<KpiCell
-								label="Restant"
-								value={`${metrics.daysRemainingThisMonth}j`}
-								valueClass={metrics.daysRemainingThisMonth < 0
-									? "text-red-600 dark:text-red-400"
-									: "text-green-600 dark:text-green-400"
-								}
-							/>
-							<KpiCell
-								label="Total contrat"
-								value={metrics.totalDaysConsumed}
-								suffix={`/${metrics.totalDaysAllocated}j`}
-							/>
-						</div>
+						</Bleed>
 
 						{/* Progress bar — minimal */}
 						<BlockStack gap="100">
@@ -343,24 +347,3 @@ export function ContractSection({
 	)
 }
 
-function KpiCell({
-	label,
-	value,
-	suffix,
-	valueClass,
-}: {
-	label: string
-	value: React.ReactNode
-	suffix?: string
-	valueClass?: string
-}) {
-	return (
-		<BlockStack gap="050" className="rounded-md bg-app p-3">
-			<span className="text-[11px] text-fg-muted">{label}</span>
-			<span className={`text-lg font-semibold font-mono tabular-nums ${valueClass ?? ""}`}>
-				{value}
-				{suffix && <span className="text-xs text-fg-muted font-normal">{suffix}</span>}
-			</span>
-		</BlockStack>
-	)
-}
