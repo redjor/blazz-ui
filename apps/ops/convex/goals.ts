@@ -62,17 +62,17 @@ export const dashboard = query({
 
 		if (!plan) return null
 
-		// Fetch all billable time entries for the year
+		// Fetch billable time entries for the year (using date index for performance)
 		const startDate = `${year}-01-01`
 		const endDate = `${year}-12-31`
-		const allEntries = await ctx.db
-			.query("timeEntries")
-			.withIndex("by_user", (q) => q.eq("userId", userId))
-			.collect()
-
-		const yearEntries = allEntries.filter(
-			(e) => e.billable && e.date >= startDate && e.date <= endDate
-		)
+		const yearEntries = (
+			await ctx.db
+				.query("timeEntries")
+				.withIndex("by_user_date", (q) =>
+					q.eq("userId", userId).gte("date", startDate).lte("date", endDate)
+				)
+				.collect()
+		).filter((e) => e.billable)
 
 		// Aggregate actuals per month
 		const monthlyRevenue = new Array(12).fill(0) as number[]

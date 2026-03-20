@@ -166,7 +166,7 @@ function GoalsSummaryCard() {
 
 						<ProgressRow
 							label="Revenu"
-							detail={`${formatCurrency(revenue.month.actual / 100)} / ${formatCurrency(revenue.month.target / 100)}`}
+							detail={`${formatCurrency(revenue.month.actual)} / ${formatCurrency(revenue.month.target)}`}
 							percent={revenue.month.percent}
 						/>
 						<ProgressRow
@@ -176,13 +176,13 @@ function GoalsSummaryCard() {
 						/>
 						<ProgressRow
 							label="TJM moyen"
-							detail={`${formatCurrency(tjm.actual / 100)} (cible ${formatCurrency(tjm.target / 100)})`}
-							percent={tjm.trend}
+							detail={`${formatCurrency(tjm.actual)} (cible ${formatCurrency(tjm.target)})`}
+							percent={tjm.target > 0 ? Math.round((tjm.actual / tjm.target) * 100) : 0}
 						/>
 
 						<InlineStack align="space-between" wrap={false}>
 							<span className="text-xs text-fg-muted tabular-nums">
-								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual / 100)} / {formatCurrency(revenue.quarter.target / 100)} ({revenue.quarter.percent}%)
+								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual)} / {formatCurrency(revenue.quarter.target)} ({revenue.quarter.percent}%)
 							</span>
 							<span className="text-xs text-fg-muted tabular-nums">
 								{goals.year} : {revenue.annual.percent}%
