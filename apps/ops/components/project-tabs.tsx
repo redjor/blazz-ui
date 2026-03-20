@@ -1,6 +1,6 @@
 "use client"
 
-import { RouteTabs } from "@blazz/ui/components/patterns/route-tabs"
+import { NavTabs } from "@blazz/ui/components/patterns/nav-tabs"
 import {
 	CheckSquare,
 	Clock,
@@ -20,5 +20,5 @@ const tabs = [
 ]
 
 export function ProjectTabs({ basePath }: { basePath: string }) {
-	return <RouteTabs tabs={tabs} basePath={basePath} />
+	return <NavTabs tabs={tabs} basePath={basePath} />
 }

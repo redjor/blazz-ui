@@ -25,7 +25,6 @@ export * from "./layout-top-bar"
 export * from "./mobile-sidebar-sheet"
 // ── Navigation ─────────────────────────────────
 export * from "./nav-tabs"
-export * from "./route-tabs"
 export * from "./navbar"
 export * from "./navigation-tabs"
 // ── Page Header Shell ──────────────────────────
