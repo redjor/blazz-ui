@@ -4,7 +4,7 @@ import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { use } from "react"
-import { ProjectSidebar } from "@/components/project-sidebar"
+import { ProjectTabs } from "@/components/project-tabs"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -31,12 +31,9 @@ export default function ProjectLayout({ params, children }: Props) {
 
 	if (project === undefined) {
 		return (
-			<div className="flex h-[calc(100vh-3.5rem)]">
-				<div className="w-[200px] shrink-0 border-r border-edge p-4">
-					<Skeleton className="h-4 w-24 mb-3" />
-					<Skeleton className="h-4 w-20 mb-2" />
-					<Skeleton className="h-4 w-28 mb-2" />
-					<Skeleton className="h-4 w-20 mb-2" />
+			<div className="flex flex-col h-[calc(100vh-3.5rem)]">
+				<div className="border-b border-edge px-6 py-2.5">
+					<Skeleton className="h-4 w-64" />
 				</div>
 				<div className="flex-1 p-6">
 					<Skeleton className="h-6 w-48 mb-4" />
@@ -51,8 +48,8 @@ export default function ProjectLayout({ params, children }: Props) {
 	}
 
 	return (
-		<div className="flex h-[calc(100vh-3.5rem)]">
-			<ProjectSidebar basePath={basePath} />
+		<div className="flex flex-col h-[calc(100vh-3.5rem)]">
+			<ProjectTabs basePath={basePath} />
 			<div className="flex-1 min-w-0 overflow-y-auto">
 				{children}
 			</div>

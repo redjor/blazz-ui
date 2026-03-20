@@ -1,6 +1,6 @@
 "use client"
 
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import {
 	CheckSquare,
 	Clock,
@@ -12,11 +12,11 @@ import {
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-interface ProjectSidebarProps {
+interface ProjectTabsProps {
 	basePath: string
 }
 
-const navItems = [
+const tabs = [
 	{ label: "Vue d'ensemble", href: "", icon: LayoutDashboard },
 	{ label: "Temps", href: "/time", icon: Clock },
 	{ label: "Todos", href: "/todos", icon: CheckSquare },
@@ -25,7 +25,7 @@ const navItems = [
 	{ label: "Contrats", href: "/contracts", icon: FileStack },
 ]
 
-export function ProjectSidebar({ basePath }: ProjectSidebarProps) {
+export function ProjectTabs({ basePath }: ProjectTabsProps) {
 	const pathname = usePathname()
 
 	function isActive(href: string) {
@@ -37,27 +37,30 @@ export function ProjectSidebar({ basePath }: ProjectSidebarProps) {
 	}
 
 	return (
-		<nav className="w-[200px] shrink-0 border-r border-edge py-2">
-			<BlockStack gap="050">
-				{navItems.map((item) => {
+		<nav className="border-b border-edge px-6">
+			<InlineStack gap="0" wrap={false}>
+				{tabs.map((item) => {
 					const active = isActive(item.href)
 					const Icon = item.icon
 					return (
 						<Link
 							key={item.href}
 							href={basePath + item.href}
-							className={`flex items-center gap-2 px-3 py-1.5 text-[13px] mx-1 rounded-md transition-colors ${
+							className={`relative flex items-center gap-1.5 px-3 py-2.5 text-[13px] transition-colors whitespace-nowrap ${
 								active
-									? "bg-surface-2 text-fg font-medium"
-									: "text-fg-muted hover:text-fg hover:bg-surface-2/50"
+									? "text-fg font-medium"
+									: "text-fg-muted hover:text-fg"
 							}`}
 						>
-							<Icon className="size-4 shrink-0" />
+							<Icon className="size-3.5 shrink-0" />
 							{item.label}
+							{active && (
+								<span className="absolute inset-x-0 bottom-0 h-[2px] bg-brand rounded-full" />
+							)}
 						</Link>
 					)
 				})}
-			</BlockStack>
+			</InlineStack>
 		</nav>
 	)
 }
