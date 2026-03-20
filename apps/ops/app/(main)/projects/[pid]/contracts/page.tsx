@@ -84,26 +84,26 @@ export default function ProjectContractsPage({
 	return (
 		<>
 			<BlockStack gap="600" className="p-6">
-				{/* Active contract */}
-				{activeContract && (
-					<ContractSection
-						contract={activeContract}
-						metrics={contractMetrics}
-						forfaitMetrics={forfaitMetrics}
-						onEdit={() => setEditingContract(activeContract)}
-						onComplete={async () => {
-							try {
-								await completeContract({ id: activeContract._id })
-								toast.success("Contrat clôturé")
-							} catch (e) {
-								toast.error(e instanceof Error ? e.message : "Erreur")
-							}
-						}}
-					/>
-				)}
-
-				{/* All contracts grid */}
 				<Grid>
+					{/* Active contract — full width */}
+					{activeContract && (
+						<Grid.Cell columnSpan={{ xs: 12 }}>
+							<ContractSection
+								contract={activeContract}
+								metrics={contractMetrics}
+								forfaitMetrics={forfaitMetrics}
+								onEdit={() => setEditingContract(activeContract)}
+								onComplete={async () => {
+									try {
+										await completeContract({ id: activeContract._id })
+										toast.success("Contrat clôturé")
+									} catch (e) {
+										toast.error(e instanceof Error ? e.message : "Erreur")
+									}
+								}}
+							/>
+						</Grid.Cell>
+					)}
 					{/* Add new contract card */}
 					<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
 						<button
