@@ -79,7 +79,7 @@ tsup (ESM build), Changesets (versioning)
 - UI primitives: `@blazz/ui/components/ui/button`
 - Blocks/AI: `@blazz/pro/components/blocks/data-table`
 - App-local imports: `@/` (maps to each app root)
-- Lire ai/rules.md avant de coder
+- Avant de coder du UI, utiliser le CLI `blazz` (ex: `blazz rules`, `blazz show button`, `blazz pattern resource-list`)
 - Server Components par défaut, Client uniquement pour interactivité
 - Formulaires = react-hook-form + zod TOUJOURS
 - 4 états obligatoires : loading (Skeleton), empty, error, success
