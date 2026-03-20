@@ -5,9 +5,6 @@ import { useState } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import {
-	Inbox,
-	InboxSidebar,
-	InboxDetail,
 	InboxHeader,
 	InboxPanel,
 	InboxList,
@@ -17,6 +14,7 @@ import {
 	type InboxFilters,
 	type InboxNotification,
 } from "@blazz/pro/components/blocks/inbox"
+import { SplitView } from "@blazz/pro/components/blocks/split-view"
 import { toInboxNotification } from "@/lib/notifications"
 import { NotificationDetail } from "@/components/notification-detail"
 
@@ -53,8 +51,8 @@ export default function NotificationsPageClient() {
 	}
 
 	return (
-		<Inbox className="h-[calc(100vh-3.5rem)]">
-			<InboxSidebar width={380}>
+		<SplitView defaultRatio={0.35} className="h-[calc(100vh-3.5rem)]">
+			<SplitView.Master className="flex flex-col">
 				<InboxHeader
 					title="Notifications"
 					filters={filters}
@@ -76,14 +74,14 @@ export default function NotificationsPageClient() {
 						))}
 					</InboxList>
 				</InboxPanel>
-			</InboxSidebar>
-			<InboxDetail>
+			</SplitView.Master>
+			<SplitView.Detail>
 				{selectedNotification ? (
 					<NotificationDetail notification={selectedNotification} />
 				) : (
 					<InboxDetailEmpty />
 				)}
-			</InboxDetail>
-		</Inbox>
+			</SplitView.Detail>
+		</SplitView>
 	)
 }
