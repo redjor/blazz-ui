@@ -16,6 +16,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
 import { format, parse } from "date-fns"
 import { fr } from "date-fns/locale"
+import { SegmentedProgress } from "@blazz/pro/components/blocks/segmented-progress"
 import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
 import { Download, FileText, MoreHorizontal, Pencil, Trash2, XCircle } from "lucide-react"
 import { toast } from "sonner"
@@ -181,7 +182,7 @@ export function ContractSection({
 							/>
 						</Bleed>
 
-						{/* Progress bar — minimal */}
+						{/* Progress */}
 						<BlockStack gap="100">
 							<InlineStack align="space-between" blockAlign="center">
 								<span className="text-xs text-fg-muted">
@@ -193,12 +194,7 @@ export function ContractSection({
 									{metrics.daysConsumedThisMonth} / {metrics.daysAllocatedThisMonth}j ({percentThisMonth}%)
 								</span>
 							</InlineStack>
-							<div className="h-1.5 bg-surface-3 rounded-full overflow-hidden">
-								<div
-									className={`h-full rounded-full transition-all ${colors.bar}`}
-									style={{ width: `${clampedPercent}%` }}
-								/>
-							</div>
+							<SegmentedProgress percent={percentThisMonth} autoColor />
 						</BlockStack>
 
 						{/* Monthly breakdown */}
@@ -269,12 +265,7 @@ export function ContractSection({
 											{forfaitMetrics.consumed.toLocaleString("fr-FR")}€ / {forfaitMetrics.budgetTotal.toLocaleString("fr-FR")}€ ({forfaitMetrics.percentUsed}%)
 										</span>
 									</InlineStack>
-									<div className="h-1.5 bg-surface-3 rounded-full overflow-hidden">
-										<div
-											className={`h-full rounded-full transition-all ${fColors.bar}`}
-											style={{ width: `${clampedForfait}%` }}
-										/>
-									</div>
+									<SegmentedProgress percent={forfaitMetrics.percentUsed} autoColor />
 								</BlockStack>
 							</>
 						)
