@@ -88,7 +88,7 @@ export default function ProjectContractsPage({
 				<Grid>
 					{/* Active contract */}
 					{activeContract && (
-						<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
+						<Grid.Cell columnSpan={{ xs: 12, sm: 6 }}>
 							<ContractSection
 								contract={activeContract}
 								metrics={contractMetrics}
@@ -106,7 +106,7 @@ export default function ProjectContractsPage({
 						</Grid.Cell>
 					)}
 					{/* Add new contract card */}
-					<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
+					<Grid.Cell columnSpan={{ xs: 12, sm: 6 }}>
 						<button
 							type="button"
 							onClick={() => setContractOpen(true)}
@@ -136,7 +136,7 @@ export default function ProjectContractsPage({
 										endFormatted = c.endDate
 									}
 									return (
-										<Grid.Cell key={c._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
+										<Grid.Cell key={c._id} columnSpan={{ xs: 12, sm: 6 }}>
 											<Box background="surface" border="default" borderRadius="lg">
 												<BlockStack gap="050">
 													<InlineStack gap="200" blockAlign="center">
