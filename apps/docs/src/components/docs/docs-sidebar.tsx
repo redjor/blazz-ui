@@ -17,7 +17,8 @@ import {
 	SidebarMenuSubItem,
 } from "@blazz/ui/components/ui/sidebar"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
-import { Link, useLocation } from "@tanstack/react-router"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import * as React from "react"
 import type { SectionId } from "~/config/navigation"
 import { getSectionNavigation } from "~/config/navigation"
@@ -41,7 +42,7 @@ function findActiveParentItemId(navigation: NavigationSection[], pathname: strin
 }
 
 export function DocsSidebar({ sectionId }: { sectionId: SectionId }) {
-	const { pathname } = useLocation()
+	const pathname = usePathname()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 	const section = getSectionNavigation(sectionId)
 
@@ -134,7 +135,7 @@ function NavItem({
 			>
 				<SidebarMenuItem>
 					<SidebarMenuCollapsibleTrigger spacing="compact" asChild isActive={isParentActive}>
-						<Link to={item.url ?? "/"}>
+						<Link href={item.url ?? "/"}>
 							{item.icon && <item.icon />}
 							<span>{item.title}</span>
 						</Link>
@@ -147,7 +148,7 @@ function NavItem({
 									isActive={isActive(sub.url)}
 								>
 									<SidebarMenuSubButton asChild isActive={isActive(sub.url)}>
-										<Link to={sub.url ?? "/"}>
+										<Link href={sub.url ?? "/"}>
 											{sub.icon && <sub.icon />}
 											<span>{sub.title}</span>
 										</Link>
@@ -164,7 +165,7 @@ function NavItem({
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild isActive={isActive(item.url)}>
-				<Link to={item.url ?? "/"}>
+				<Link href={item.url ?? "/"}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
 				</Link>

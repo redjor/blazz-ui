@@ -1,8 +1,11 @@
-import { useSearch } from "@tanstack/react-router"
+"use client"
+
+import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 
 export function ThumbnailShell({ children }: { children: React.ReactNode }) {
-	const { theme } = useSearch({ strict: false }) as { theme?: string }
+	const searchParams = useSearchParams()
+	const theme = searchParams.get("theme")
 
 	useEffect(() => {
 		if (theme === "light") {

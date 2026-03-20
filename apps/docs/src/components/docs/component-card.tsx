@@ -1,6 +1,6 @@
 import { Card } from "@blazz/ui/components/ui/card"
 import { cn } from "@blazz/ui/lib/utils"
-import { Link } from "@tanstack/react-router"
+import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
 import { useId } from "react"
 import { ComponentCardThumbnail } from "./component-card-thumbnail"
@@ -43,7 +43,7 @@ export function ComponentCard({
 	const descId = `${id}-desc`
 
 	return (
-		<Link to={href} className="group" aria-describedby={descId}>
+		<Link href={href} className="group" aria-describedby={descId}>
 			<Card
 				className={cn(
 					"h-full transition-colors hover:bg-surface-3/50",

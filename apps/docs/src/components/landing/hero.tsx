@@ -2,7 +2,7 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Link } from "@tanstack/react-router"
+import Link from "next/link"
 import { ArrowRight, Github, Sparkles } from "lucide-react"
 import { motion } from "motion/react"
 
@@ -40,7 +40,7 @@ export function Hero() {
 						</p>
 
 						<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-							<Link to="/docs">
+							<Link href="/docs">
 								<Button size="lg" className="gap-2">
 									Browse docs
 									<ArrowRight className="size-4" />

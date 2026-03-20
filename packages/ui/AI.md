@@ -420,6 +420,7 @@ Named: `AppFrame`
 - ⚠️ Import from @blazz/ui/components/patterns/app-frame — not from @blazz/ui directly
 - ⚠️ AppFrame wraps the entire app layout — use in root layout file, not per-page
 - ⚠️ navigation prop is shorthand — use sidebarConfig for full control (user info, avatar, etc.)
+- ⚠️ NavItem.badge renders a SidebarMenuBadge at the end of the menu item — accepts string or number
 
 ```tsx
 // In root layout (layout.tsx)

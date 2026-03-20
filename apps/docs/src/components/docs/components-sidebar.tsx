@@ -2,13 +2,14 @@
 
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
 import { cn } from "@blazz/ui/lib/utils"
-import { Link, useLocation } from "@tanstack/react-router"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import * as React from "react"
 import { type ComponentNavCategory, componentsNavigation } from "~/config/components-navigation"
 
 export function ComponentsSidebar() {
-	const { pathname } = useLocation()
+	const pathname = usePathname()
 	const [openCategories, setOpenCategories] = React.useState<string[]>([])
 
 	// Auto-open category containing active item
@@ -38,7 +39,7 @@ export function ComponentsSidebar() {
 			<ScrollArea className="h-full py-6">
 				<div className="px-4 pb-4">
 					<Link
-						to="/docs/components"
+						href="/docs/components"
 						className={cn(
 							"text-sm font-semibold hover:text-fg",
 							pathname === "/docs/components" || pathname === "/docs/components/"
@@ -102,7 +103,7 @@ function CategoryItem({
 					{category.items.map((item) => (
 						<Link
 							key={item.href}
-							to={item.href}
+							href={item.href}
 							className={cn(
 								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-3",
 								isItemActive(item.href)
@@ -121,7 +122,7 @@ function CategoryItem({
 
 // Mobile version for smaller screens
 export function ComponentsSidebarMobile() {
-	const { pathname } = useLocation()
+	const pathname = usePathname()
 	const [open, setOpen] = React.useState(false)
 	const [openCategories, setOpenCategories] = React.useState<string[]>([])
 
@@ -187,7 +188,7 @@ export function ComponentsSidebarMobile() {
 										{category.items.map((item) => (
 											<Link
 												key={item.href}
-												to={item.href}
+												href={item.href}
 												onClick={() => setOpen(false)}
 												className={cn(
 													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-3",

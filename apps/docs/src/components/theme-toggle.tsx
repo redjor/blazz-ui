@@ -1,18 +1,15 @@
+"use client"
+
 import { Moon, Sun } from "lucide-react"
-import { setThemeCookie, type Theme } from "~/lib/theme"
+import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
-	const toggle = () => {
-		const isDark = document.documentElement.classList.contains("dark")
-		const next: Theme = isDark ? "light" : "dark"
-		document.documentElement.classList.toggle("dark", next === "dark")
-		setThemeCookie({ data: next })
-	}
+	const { setTheme, resolvedTheme } = useTheme()
 
 	return (
 		<button
 			type="button"
-			onClick={toggle}
+			onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
 			className="inline-flex items-center justify-center rounded-md p-2 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors"
 			aria-label="Toggle theme"
 		>

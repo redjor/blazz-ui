@@ -1,6 +1,6 @@
 "use client"
 
-import { Link } from "@tanstack/react-router"
+import Link from "next/link"
 
 const githubUrl = "https://github.com/redjor/blazz-ui"
 
@@ -39,7 +39,7 @@ export function Footer() {
 				<div className="flex flex-col md:flex-row gap-10">
 					{/* Brand */}
 					<div className="md:w-1/3">
-						<Link to="/" className="flex items-center gap-2 mb-3">
+						<Link href="/" className="flex items-center gap-2 mb-3">
 							<img src="/logo_blazz_white.svg" alt="Blazz" className="hidden h-4 dark:block" />
 							<img src="/logo_blazz_black.svg" alt="Blazz" className="block h-4 dark:hidden" />
 						</Link>

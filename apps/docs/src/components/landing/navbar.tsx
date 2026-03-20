@@ -2,7 +2,7 @@
 
 import { Button } from "@blazz/ui/components/ui/button"
 import { Kbd, KbdGroup } from "@blazz/ui/components/ui/kbd"
-import { Link } from "@tanstack/react-router"
+import Link from "next/link"
 import { Search } from "lucide-react"
 import { useEffect, useState } from "react"
 import { ThemeToggle } from "~/components/theme-toggle"
@@ -32,7 +32,7 @@ export function Navbar() {
 		>
 			<div className="mx-auto flex h-full max-w-6xl items-center gap-6 px-6">
 				{/* Logo */}
-				<Link to="/" className="flex items-center gap-2.5 shrink-0">
+				<Link href="/" className="flex items-center gap-2.5 shrink-0">
 					<img src="/logo_blazz_white.svg" alt="Blazz UI" className="hidden h-5 dark:block" />
 					<img src="/logo_blazz_black.svg" alt="Blazz UI" className="block h-5 dark:hidden" />
 				</Link>
@@ -42,7 +42,7 @@ export function Navbar() {
 					{navLinks.map((link) => (
 						<Link
 							key={link.href}
-							to={link.href}
+							href={link.href}
 							className="rounded-md px-3 py-1.5 text-[13px] text-fg-muted transition-colors hover:text-fg hover:bg-surface-3"
 						>
 							{link.label}
@@ -57,7 +57,7 @@ export function Navbar() {
 				<div className="flex items-center gap-1">
 					<ThemeToggle />
 					<Link
-						to="/docs/components"
+						href="/docs/components"
 						className="inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[13px] text-fg-muted transition-colors hover:text-fg hover:bg-surface-3"
 					>
 						<Search className="size-3.5" />
@@ -66,7 +66,7 @@ export function Navbar() {
 							<Kbd>K</Kbd>
 						</KbdGroup>
 					</Link>
-					<Link to="/docs">
+					<Link href="/docs">
 						<Button size="sm">Browse docs</Button>
 					</Link>
 				</div>

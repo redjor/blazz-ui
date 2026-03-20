@@ -1,3 +1,5 @@
+"use client"
+
 import { Alert, AlertDescription, AlertTitle } from "@blazz/ui/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarGroup } from "@blazz/ui/components/ui/avatar"
 import { Badge } from "@blazz/ui/components/ui/badge"

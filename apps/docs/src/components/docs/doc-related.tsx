@@ -1,5 +1,5 @@
 import { cn } from "@blazz/ui/lib/utils"
-import { Link } from "@tanstack/react-router"
+import Link from "next/link"
 
 export interface DocRelatedItem {
 	title: string
@@ -18,7 +18,7 @@ export function DocRelated({ items, className }: DocRelatedProps) {
 			{items.map((item) => (
 				<Link
 					key={item.href}
-					to={item.href}
+					href={item.href}
 					className="group rounded-lg border border-container px-4 py-3 transition-colors hover:bg-surface-3/50"
 				>
 					<p className="text-sm font-medium text-fg group-hover:text-brand transition-colors">
