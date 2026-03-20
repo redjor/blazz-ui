@@ -1,19 +1,21 @@
-# @blazz/ui
+# Blazz UI Kit
 
-> AI-native React component kit for data-heavy pro apps. Base UI (not Radix).
+> AI-native React component kit for data-heavy pro apps. Two packages: @blazz/ui (open-source) and @blazz/pro (paid).
 
 ## Critical Rules
 
 - ALL trigger components use `render={<Component />}` NOT `asChild` (Base UI, not Radix)
 - DateSelector NOT `<input type="date">` — import from @blazz/ui/components/ui/date-selector
 - Select/Combobox: `items`/`options` prop ALWAYS required to show labels instead of raw values
-- Import paths: `@blazz/ui/components/{category}/{name}` — not from barrel `@blazz/ui`
+- @blazz/ui imports: `@blazz/ui/components/{category}/{name}` — not from barrel
+- @blazz/pro blocks: `@blazz/pro/components/blocks/{name}` — not from barrel
+- @blazz/pro AI: `@blazz/pro/components/ai/{domain}` — direct import, NO barrel export
 - Forms: ALWAYS use react-hook-form + zod. Never local useState for form state.
 - All 4 states required: loading (Skeleton), empty (Empty component), error, success
 
 ---
 
-# UI Primitives
+# @blazz/ui — UI Primitives
 
 ## Select
 
@@ -485,7 +487,7 @@ Props: className (string)
 
 ---
 
-# Patterns
+# @blazz/ui — Patterns
 
 ## AppFrame
 
@@ -498,6 +500,7 @@ Shell principal d'application avec sidebar, top bar et zone de contenu.
 ⚠️ Import from @blazz/ui/components/patterns/app-frame — not from @blazz/ui directly
 ⚠️ AppFrame wraps the entire app layout — use in root layout file, not per-page
 ⚠️ navigation prop is shorthand — use sidebarConfig for full control (user info, avatar, etc.)
+⚠️ NavItem.badge renders a SidebarMenuBadge at the end of the menu item — accepts string or number
 
 Props: sidebarConfig (SidebarConfig), navigation (NavigationSection[]), children (React.ReactNode, required), sidebarHeader (React.ReactNode), topBarContent (React.ReactNode)
 
@@ -646,7 +649,7 @@ Props: title (string, required), description (string), actions (React.ReactNode)
 
 ---
 
-# Business Blocks
+# @blazz/pro — Business Blocks
 
 ## DataTable
 
@@ -816,6 +819,848 @@ const events = [
 ]
 
 <ActivityTimeline events={events} loading={false} />
+```
+
+---
+
+# @blazz/pro — AI Components
+
+## Message
+
+Import: `@blazz/pro/components/ai/chat`
+Named: `Message, MessageContent, MessageActions, MessageAction, MessageResponse, MessageToolbar, MessageBranch, MessageBranchContent, MessageBranchSelector`
+Docs: https://blazz.io/docs/ai/chat/message
+
+Message bubble for AI chat interfaces. Compound component with content, actions, branching, and streaming response support.
+
+⚠️ from prop is required — without it, no message styling is applied
+⚠️ MessageResponse only accepts string children (markdown) — it's memoized with custom equality check
+⚠️ MessageAction needs tooltip prop for accessibility — renders icon-only button by default
+⚠️ MessageBranchContent requires array of ReactElements as children — not strings
+
+Props: from ("user" | "assistant" | "system" | "data" | "tool", required)
+
+```tsx
+<Message from="assistant">
+  <MessageContent>
+    <MessageResponse>
+      # Response\nMarkdown content here
+    </MessageResponse>
+  </MessageContent>
+  <MessageActions>
+    <MessageAction tooltip="Copy"><CopyIcon /></MessageAction>
+  </MessageActions>
+</Message>
+```
+
+---
+
+## Conversation
+
+Import: `@blazz/pro/components/ai/chat`
+Named: `Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton, ConversationDownload`
+Docs: https://blazz.io/docs/ai/chat/conversation
+
+Scrollable chat container with sticky-to-bottom behavior, empty state, and download support.
+
+⚠️ ConversationScrollButton must be inside Conversation — uses StickToBottom context, throws otherwise
+⚠️ ConversationDownload creates markdown blob — pass messages array and optional filename (default: conversation.md)
+⚠️ ConversationEmptyState renders centered when no messages — customize with title, description, icon props
+
+Props: children (React.ReactNode, required)
+
+```tsx
+<Conversation>
+  <ConversationContent>
+    {messages.map((msg) => (
+      <Message key={msg.id} from={msg.role}>
+        <MessageContent><MessageResponse>{msg.content}</MessageResponse></MessageContent>
+      </Message>
+    ))}
+  </ConversationContent>
+  <ConversationScrollButton />
+</Conversation>
+```
+
+---
+
+## PromptInput
+
+Import: `@blazz/pro/components/ai/chat`
+Named: `PromptInput, PromptInputProvider, PromptInputBody, PromptInputTextarea, PromptInputHeader, PromptInputFooter, PromptInputTools, PromptInputSubmit, PromptInputActionMenu, PromptInputActionMenuTrigger, PromptInputActionMenuContent`
+Docs: https://blazz.io/docs/ai/chat/prompt-input
+
+Chat input form with file attachments, drag-and-drop, paste support, and composable toolbar.
+
+⚠️ Without PromptInputProvider, state is local to PromptInput — use Provider to lift state across components
+⚠️ onSubmit receives { text, files } — not just a string. Handle both fields
+⚠️ Enter submits, Shift+Enter for newline — paste image support is built-in
+⚠️ PromptInputSubmit responds to status prop: 'submitted' | 'streaming' shows spinner/stop, 'error' shows X
+
+Props: onSubmit ((message: { text: string; files: FileUIPart[] }, event: FormEvent) => void | Promise<void>, required), accept (string), maxFiles (number), maxFileSize (number), globalDrop (boolean, default: false), onError ((err: { code: "max_files" | "max_file_size" | "accept"; message: string }) => void)
+
+```tsx
+<PromptInput
+  accept="image/*"
+  maxFiles={5}
+  maxFileSize={5 * 1024 * 1024}
+  onError={(err) => toast.error(err.message)}
+  onSubmit={async (msg) => {
+    await sendMessage(msg.text, msg.files)
+  }}
+>
+  <PromptInputBody>
+    <PromptInputTextarea />
+  </PromptInputBody>
+  <PromptInputFooter>
+    <PromptInputTools>
+      <PromptInputActionMenu>
+        <PromptInputActionMenuTrigger />
+        <PromptInputActionMenuContent />
+      </PromptInputActionMenu>
+    </PromptInputTools>
+    <PromptInputSubmit status={status} onStop={handleStop} />
+  </PromptInputFooter>
+</PromptInput>
+```
+
+---
+
+## Attachments
+
+Import: `@blazz/pro/components/ai/chat`
+Named: `Attachments, Attachment, AttachmentPreview, AttachmentInfo, AttachmentRemove`
+Docs: https://blazz.io/docs/ai/chat/attachments
+
+File attachment display with grid, inline, and list variants. Supports image/video preview, info, and remove actions.
+
+⚠️ variant controls layout: grid (96px squares), inline (h-8 chips), list (full-width rows)
+⚠️ Attachment data prop requires id field — type is FileUIPart & { id: string }
+⚠️ AttachmentInfo is hidden in grid variant — only visible in inline and list
+⚠️ AttachmentPreview only renders images/videos if data has url field
+
+Props: variant ("grid" | "inline" | "list", default: "grid")
+
+```tsx
+<Attachments variant="grid">
+  {files.map((file) => (
+    <Attachment key={file.id} data={file} onRemove={() => removeFile(file.id)}>
+      <AttachmentPreview />
+      <AttachmentRemove />
+    </Attachment>
+  ))}
+</Attachments>
+```
+
+---
+
+## Shimmer
+
+Import: `@blazz/pro/components/ai/chat`
+Named: `Shimmer`
+Docs: https://blazz.io/docs/ai/chat/shimmer
+
+Animated text shimmer effect for AI thinking/loading states.
+
+⚠️ Only accepts string children — not ReactNode. Passing JSX will break
+⚠️ Infinite animation — no way to stop it, unmount the component instead
+⚠️ Uses framer-motion internally — component is memoized
+
+Props: children (string, required), duration (number, default: 2), spread (number, default: 2), as (ElementType, default: "p")
+
+```tsx
+<Shimmer duration={2}>Thinking...</Shimmer>
+```
+
+---
+
+## Suggestions
+
+Import: `@blazz/pro/components/ai/chat`
+Named: `Suggestions, Suggestion`
+Docs: https://blazz.io/docs/ai/chat/suggestions
+
+Horizontal scrollable list of suggested prompts for AI chat.
+
+⚠️ onClick receives the suggestion string — not a click event
+⚠️ Suggestions wraps ScrollArea — horizontal scroll, hidden scrollbar
+⚠️ Children of Suggestion override displayed text but onClick still receives the suggestion prop value
+
+Props: suggestion (string, required), onClick ((suggestion: string) => void)
+
+```tsx
+<Suggestions>
+  <Suggestion suggestion="How does it work?" onClick={handleSuggestion}>
+    How does it work?
+  </Suggestion>
+  <Suggestion suggestion="Tell me more" onClick={handleSuggestion} />
+</Suggestions>
+```
+
+---
+
+## ChainOfThought
+
+Import: `@blazz/pro/components/ai/reasoning`
+Named: `ChainOfThought, ChainOfThoughtHeader, ChainOfThoughtContent, ChainOfThoughtStep, ChainOfThoughtSearchResults, ChainOfThoughtSearchResult, ChainOfThoughtImage`
+Docs: https://blazz.io/docs/ai/reasoning/chain-of-thought
+
+Collapsible chain-of-thought reasoning display with step-by-step progress, search results, and images.
+
+⚠️ All child components require ChainOfThought context — throws if used standalone
+⚠️ ChainOfThoughtStep status controls styling: 'complete' (muted), 'active' (foreground), 'pending' (muted/50)
+⚠️ Vertical connector line assumes steps are in DOM order — don't reorder dynamically
+⚠️ ChainOfThoughtStep icon defaults to DotIcon — pass LucideIcon component reference (not JSX)
+
+Props: open (boolean), defaultOpen (boolean), onOpenChange ((open: boolean) => void)
+
+```tsx
+<ChainOfThought defaultOpen>
+  <ChainOfThoughtHeader>Reasoning Steps</ChainOfThoughtHeader>
+  <ChainOfThoughtContent>
+    <ChainOfThoughtStep icon={SearchIcon} label="Searching" status="complete" />
+    <ChainOfThoughtStep label="Analyzing" status="active">
+      <ChainOfThoughtSearchResults>
+        <ChainOfThoughtSearchResult>Source 1</ChainOfThoughtSearchResult>
+      </ChainOfThoughtSearchResults>
+    </ChainOfThoughtStep>
+  </ChainOfThoughtContent>
+</ChainOfThought>
+```
+
+---
+
+## Reasoning
+
+Import: `@blazz/pro/components/ai/reasoning`
+Named: `Reasoning, ReasoningTrigger, ReasoningContent`
+Docs: https://blazz.io/docs/ai/reasoning/reasoning
+
+Collapsible reasoning block that auto-expands during streaming and shows thinking duration.
+
+⚠️ Auto-opens when isStreaming=true — set defaultOpen={false} to prevent this behavior
+⚠️ Auto-closes 1 second after streaming ends — one-time behavior, won't auto-close again
+⚠️ ReasoningContent requires string children (markdown rendered via Streamdown) — not React nodes
+⚠️ ReasoningTrigger shows Shimmer animation while streaming, then 'Thought for Ns' after
+
+Props: isStreaming (boolean), duration (number), open (boolean), defaultOpen (boolean)
+
+```tsx
+<Reasoning isStreaming={isStreaming}>
+  <ReasoningTrigger />
+  <ReasoningContent>
+    # Analysis\n\nThe data suggests...
+  </ReasoningContent>
+</Reasoning>
+```
+
+---
+
+## InlineCitation
+
+Import: `@blazz/pro/components/ai/reasoning`
+Named: `InlineCitation, InlineCitationText, InlineCitationCard, InlineCitationCardTrigger, InlineCitationCardBody, InlineCitationSource`
+Docs: https://blazz.io/docs/ai/reasoning/inline-citation
+
+Inline citation badge with hover card showing source details in a carousel.
+
+⚠️ sources prop on InlineCitationCardTrigger is array of URLs — parses first URL for domain display
+⚠️ Carousel components need InlineCitationCarousel context — wrap items in the carousel
+⚠️ Badge shows '{domain} +{N}' format — falls back to 'unknown' if URL parsing fails
+
+Props: sources (string[], required)
+
+```tsx
+<InlineCitation>
+  <InlineCitationText>Referenced text</InlineCitationText>
+  <InlineCitationCard>
+    <InlineCitationCardTrigger sources={["https://example.com"]} />
+    <InlineCitationCardBody>
+      <InlineCitationSource title="Example" url="https://example.com" description="Source details" />
+    </InlineCitationCardBody>
+  </InlineCitationCard>
+</InlineCitation>
+```
+
+---
+
+## Sources
+
+Import: `@blazz/pro/components/ai/reasoning`
+Named: `Sources, SourcesTrigger, SourcesContent, Source`
+Docs: https://blazz.io/docs/ai/reasoning/sources
+
+Collapsible list of reference sources with count badge.
+
+⚠️ All links open in new tab by default (target='_blank')
+⚠️ count prop on SourcesTrigger is manual — not auto-counted from children
+⚠️ Source is an anchor element — pass href and title props
+
+Props: count (number, required)
+
+```tsx
+<Sources>
+  <SourcesTrigger count={2} />
+  <SourcesContent>
+    <Source href="https://example.com" title="Example Article" />
+    <Source href="https://other.com" title="Other Source" />
+  </SourcesContent>
+</Sources>
+```
+
+---
+
+## Confirmation
+
+Import: `@blazz/pro/components/ai/tools`
+Named: `Confirmation, ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected, ConfirmationActions, ConfirmationAction`
+Docs: https://blazz.io/docs/ai/tools/confirmation
+
+Tool execution confirmation UI with approval states: requested, accepted, rejected.
+
+⚠️ Complex conditional rendering — ConfirmationRequest only shows when state='approval-requested'
+⚠️ ConfirmationAccepted/Rejected only render when approval matches AND state is approval-responded/output-*
+⚠️ No built-in approval state management — you must handle approve/reject externally
+⚠️ Returns null when no approval or state is input-streaming/input-available
+
+Props: state (ToolUIPart["state"], required), approval (ToolUIPartApproval)
+
+```tsx
+<Confirmation approval={approval} state={toolState}>
+  <ConfirmationTitle>Execute database query?</ConfirmationTitle>
+  <ConfirmationRequest>This will run a SELECT query on the users table.</ConfirmationRequest>
+  <ConfirmationAccepted>Query approved</ConfirmationAccepted>
+  <ConfirmationRejected>Query rejected</ConfirmationRejected>
+  <ConfirmationActions>
+    <ConfirmationAction variant="default" onClick={approve}>Approve</ConfirmationAction>
+    <ConfirmationAction variant="outline" onClick={reject}>Reject</ConfirmationAction>
+  </ConfirmationActions>
+</Confirmation>
+```
+
+---
+
+## Context
+
+Import: `@blazz/pro/components/ai/tools`
+Named: `Context, ContextTrigger, ContextContent, ContextContentHeader, ContextContentBody, ContextContentFooter, ContextInputUsage, ContextOutputUsage`
+Docs: https://blazz.io/docs/ai/tools/context
+
+Token usage and cost visualization with pie chart trigger and detailed breakdown hover card.
+
+⚠️ Cost calculation requires modelId — without it, footer shows no cost
+⚠️ ContextTrigger renders SVG pie chart showing usage percentage — hoverable
+⚠️ Tokens formatted with compact notation ('1.2K') — not raw numbers
+⚠️ Usage sub-components auto-hide when their token count is 0
+
+Props: usedTokens (number, required), maxTokens (number, required), usage (LanguageModelUsage), modelId (string)
+
+```tsx
+<Context usedTokens={1250} maxTokens={4096} usage={{ inputTokens: 800, outputTokens: 450 }} modelId="gpt-4">
+  <ContextTrigger />
+  <ContextContent>
+    <ContextContentHeader />
+    <ContextContentBody>
+      <ContextInputUsage />
+      <ContextOutputUsage />
+    </ContextContentBody>
+    <ContextContentFooter />
+  </ContextContent>
+</Context>
+```
+
+---
+
+## ModelSelector
+
+Import: `@blazz/pro/components/ai/tools`
+Named: `ModelSelector, ModelSelectorTrigger, ModelSelectorContent, ModelSelectorInput, ModelSelectorList, ModelSelectorGroup, ModelSelectorItem, ModelSelectorLogo, ModelSelectorName`
+Docs: https://blazz.io/docs/ai/tools/model-selector
+
+Command palette-style model picker with provider logos and search.
+
+⚠️ ModelSelectorLogo provider prop supports 100+ providers — fetches SVG from models.dev (requires internet)
+⚠️ provider is a TypeScript union type with autocomplete — 'openai' | 'anthropic' | 'google' | etc.
+⚠️ Can use ModelSelectorDialog (CommandDialog) as alternative to Dialog-based selector for keyboard shortcuts
+⚠️ Logo images use dark:invert — designed for both light and dark themes
+
+Props: open (boolean), onOpenChange ((open: boolean) => void)
+
+```tsx
+<ModelSelector open={open} onOpenChange={setOpen}>
+  <ModelSelectorTrigger>Select Model</ModelSelectorTrigger>
+  <ModelSelectorContent>
+    <ModelSelectorInput placeholder="Search models..." />
+    <ModelSelectorList>
+      <ModelSelectorGroup heading="Popular">
+        <ModelSelectorItem value="gpt-4">
+          <ModelSelectorLogo provider="openai" />
+          <ModelSelectorName>GPT-4</ModelSelectorName>
+        </ModelSelectorItem>
+      </ModelSelectorGroup>
+    </ModelSelectorList>
+  </ModelSelectorContent>
+</ModelSelector>
+```
+
+---
+
+## Generative UI Components (38)
+
+### InvoiceCard
+
+Import: `@blazz/pro/components/ai/generative/commerce/invoice-card`
+Named: `InvoiceCard`
+
+Invoice card with number, client, amount, status badge, dates, and line items.
+Use case: Display invoice details in AI chat responses.
+
+```tsx
+<InvoiceCard number="INV-001" client="Acme Corp" amount={1200} status="paid" date="2026-01-15" />
+```
+
+### PricingTable
+
+Import: `@blazz/pro/components/ai/generative/commerce/pricing-table`
+Named: `PricingTable`
+
+Pricing tiers comparison with features, price, description, and recommended badge.
+Use case: Show pricing plans or subscription options in AI responses.
+
+```tsx
+<PricingTable tiers={[{ name: "Free", price: 0, features: ["5 users"] }, { name: "Pro", price: 29, features: ["Unlimited"], recommended: true }]} />
+```
+
+### ProductCard
+
+Import: `@blazz/pro/components/ai/generative/commerce/product-card`
+Named: `ProductCard`
+
+Product card with name, price, category, status badge, and image.
+Use case: Display product information in AI commerce responses.
+
+```tsx
+<ProductCard name="Widget Pro" price={49.99} category="Electronics" status="in-stock" />
+```
+
+### QuoteSummary
+
+Import: `@blazz/pro/components/ai/generative/commerce/quote-summary`
+Named: `QuoteSummary`
+
+Quote summary with number, client, total, status, validity date, and item count.
+Use case: Show quote details in AI sales responses.
+
+```tsx
+<QuoteSummary number="Q-2026-042" client="Acme" total={5400} status="pending" validUntil="2026-04-01" items={3} />
+```
+
+### TransactionCard
+
+Import: `@blazz/pro/components/ai/generative/commerce/transaction-card`
+Named: `TransactionCard`
+
+Transaction card with title, amount, type (incoming/outgoing), status, method, and reference.
+Use case: Display financial transaction details in AI responses.
+
+```tsx
+<TransactionCard title="Payment received" amount={500} type="incoming" status="completed" method="card" />
+```
+
+### FileCard
+
+Import: `@blazz/pro/components/ai/generative/content/file-card`
+Named: `FileCard`
+
+File card with icon, name, type, size, and download link.
+Use case: Display file information with download action in AI responses.
+
+```tsx
+<FileCard name="report.pdf" type="application/pdf" size={2048000} href="/files/report.pdf" />
+```
+
+### ImageGallery
+
+Import: `@blazz/pro/components/ai/generative/content/image-gallery`
+Named: `ImageGallery`
+
+Image carousel with navigation arrows, dots, and captions.
+Use case: Display multiple images in AI responses.
+
+```tsx
+<ImageGallery images={[{ src: "/img1.jpg", alt: "Photo 1", caption: "First image" }]} />
+```
+
+### InsightCard
+
+Import: `@blazz/pro/components/ai/generative/content/insight-card`
+Named: `InsightCard`
+
+Insight card with icon, title, description, type badge, confidence bar, and source.
+Use case: Present AI-generated insights and analysis findings.
+
+```tsx
+<InsightCard title="Revenue Trend" description="Revenue increased 12% QoQ" type="positive" confidence={0.85} />
+```
+
+### LinkPreview
+
+Import: `@blazz/pro/components/ai/generative/content/link-preview`
+Named: `LinkPreview`
+
+Link preview card with domain, thumbnail, title, and description.
+Use case: Show rich link previews when AI references URLs.
+
+```tsx
+<LinkPreview url="https://example.com" title="Example Site" description="A sample website" />
+```
+
+### LocationCard
+
+Import: `@blazz/pro/components/ai/generative/content/location-card`
+Named: `LocationCard`
+
+Location card with address, city, country, and Google Maps link.
+Use case: Display location information in AI responses.
+
+```tsx
+<LocationCard address="123 Main St" city="Paris" country="France" />
+```
+
+### SummaryCard
+
+Import: `@blazz/pro/components/ai/generative/content/summary-card`
+Named: `SummaryCard`
+
+Summary card with title, bullet points, conclusion, and source.
+Use case: Present summarized content or key takeaways in AI responses.
+
+```tsx
+<SummaryCard title="Meeting Summary" points={["Discussed Q1 results", "Set Q2 goals"]} conclusion="Next review in April" />
+```
+
+### VideoCard
+
+Import: `@blazz/pro/components/ai/generative/content/video-card`
+Named: `VideoCard`
+
+Video card with thumbnail, play button, duration, title, and channel.
+Use case: Display video information in AI responses.
+
+```tsx
+<VideoCard title="Introduction" thumbnail="/thumb.jpg" duration="5:32" channel="Blazz" />
+```
+
+### ComparisonTable
+
+Import: `@blazz/pro/components/ai/generative/data/comparison-table`
+Named: `ComparisonTable`
+
+Simple comparison table with labeled columns and rows.
+Use case: Compare items side-by-side in AI responses.
+
+```tsx
+<ComparisonTable columns={["Feature", "Plan A", "Plan B"]} rows={[["Users", "5", "Unlimited"]]} />
+```
+
+### DataGrid
+
+Import: `@blazz/pro/components/ai/generative/data/data-grid`
+Named: `DataGrid`
+
+Data grid with typed cells (text, badge, avatar, trend), sortable columns, and clickable rows.
+Use case: Display structured tabular data in AI responses.
+
+```tsx
+<DataGrid columns={[{ key: "name", label: "Name" }]} rows={[{ name: "Alice" }]} />
+```
+
+### DataList
+
+Import: `@blazz/pro/components/ai/generative/data/data-list`
+Named: `DataList`
+
+Labeled key-value list with optional status badges.
+Use case: Display structured key-value data in AI responses.
+
+```tsx
+<DataList items={[{ label: "Status", value: "Active", badge: "success" }]} />
+```
+
+### MetricCard
+
+Import: `@blazz/pro/components/ai/generative/data/metric-card`
+Named: `MetricCard`
+
+Metric card with label, value, trend indicator, icon, and percentage change.
+Use case: Display single KPI metrics in AI responses.
+
+```tsx
+<MetricCard label="Revenue" value="€1.2M" trend={8.2} />
+```
+
+### MiniChart
+
+Import: `@blazz/pro/components/ai/generative/data/mini-chart`
+Named: `MiniChart`
+
+Mini area chart with label, sparkline data, and current value.
+Use case: Show trend visualization in AI responses.
+
+```tsx
+<MiniChart label="Users" value="2.4K" data={[10, 15, 12, 18, 22]} />
+```
+
+### ProgressCard
+
+Import: `@blazz/pro/components/ai/generative/data/progress-card`
+Named: `ProgressCard`
+
+Progress bar card with label, percentage, and optional description.
+Use case: Show progress toward goals in AI responses.
+
+```tsx
+<ProgressCard label="Project Alpha" progress={72} description="On track for Q2" />
+```
+
+### RatingCard
+
+Import: `@blazz/pro/components/ai/generative/data/rating-card`
+Named: `RatingCard`
+
+Rating display in stars, numeric, or NPS format with review count.
+Use case: Display ratings and reviews in AI responses.
+
+```tsx
+<RatingCard rating={4.5} format="stars" reviews={128} />
+```
+
+### ScoreCard
+
+Import: `@blazz/pro/components/ai/generative/data/score-card`
+Named: `ScoreCard`
+
+Circular progress score with breakdown bars.
+Use case: Display composite scores with breakdowns in AI responses.
+
+```tsx
+<ScoreCard score={85} breakdown={[{ label: "Speed", value: 90 }, { label: "Quality", value: 80 }]} />
+```
+
+### StatsRow
+
+Import: `@blazz/pro/components/ai/generative/data/stats-row`
+Named: `StatsRow`
+
+Horizontal stats row with label, value, and optional trend.
+Use case: Display inline statistics in AI responses.
+
+```tsx
+<StatsRow stats={[{ label: "Users", value: "2.8K" }, { label: "Revenue", value: "€45K", trend: 5.2 }]} />
+```
+
+### CandidateCard
+
+Import: `@blazz/pro/components/ai/generative/entities/candidate-card`
+Named: `CandidateCard`
+
+Candidate profile card with avatar, role, status badge, skills, experience, and match score.
+Use case: Display candidate profiles in AI recruitment responses.
+
+```tsx
+<CandidateCard name="Alice Martin" role="Senior Developer" skills={["React", "TypeScript"]} matchScore={92} />
+```
+
+### CompanyCard
+
+Import: `@blazz/pro/components/ai/generative/entities/company-card`
+Named: `CompanyCard`
+
+Company profile card with logo, industry, size, revenue, location, website, and status.
+Use case: Display company information in AI CRM responses.
+
+```tsx
+<CompanyCard name="Acme Corp" industry="Technology" size="50-200" location="Paris" />
+```
+
+### ContactCard
+
+Import: `@blazz/pro/components/ai/generative/entities/contact-card`
+Named: `ContactCard`
+
+Contact card with avatar, name, role, company, email, phone, last contact, and tags.
+Use case: Display contact information in AI CRM responses.
+
+```tsx
+<ContactCard name="Bob Smith" role="CTO" company="Acme" email="bob@acme.com" />
+```
+
+### DealCard
+
+Import: `@blazz/pro/components/ai/generative/entities/deal-card`
+Named: `DealCard`
+
+Deal card with title, amount, stage badge, probability, company, close date, and owner.
+Use case: Display deal pipeline information in AI sales responses.
+
+```tsx
+<DealCard title="Enterprise License" amount={50000} stage="negotiation" probability={60} company="Acme" />
+```
+
+### UserCard
+
+Import: `@blazz/pro/components/ai/generative/entities/user-card`
+Named: `UserCard`
+
+User card with avatar, name, role, department, and online status badge.
+Use case: Display user profiles in AI team responses.
+
+```tsx
+<UserCard name="Alice" role="Designer" department="Product" status="online" />
+```
+
+### AvailabilityCard
+
+Import: `@blazz/pro/components/ai/generative/planning/availability-card`
+Named: `AvailabilityCard`
+
+Time slot availability calendar with selectable slots (available, busy, tentative).
+Use case: Show scheduling availability in AI responses.
+
+```tsx
+<AvailabilityCard date="2026-03-20" slots={[{ time: "09:00", status: "available" }, { time: "10:00", status: "busy" }]} />
+```
+
+### CalendarCard
+
+Import: `@blazz/pro/components/ai/generative/planning/calendar-card`
+Named: `CalendarCard`
+
+Mini calendar view with events per day and status indicators.
+Use case: Display calendar overview in AI scheduling responses.
+
+```tsx
+<CalendarCard month={3} year={2026} events={[{ date: "2026-03-20", title: "Meeting", status: "confirmed" }]} />
+```
+
+### EventCard
+
+Import: `@blazz/pro/components/ai/generative/planning/event-card`
+Named: `EventCard`
+
+Event card with type badge, date, time, location, and participant avatars.
+Use case: Display event details in AI scheduling responses.
+
+```tsx
+<EventCard title="Team Standup" type="meeting" date="2026-03-20" time="09:00" location="Room A" />
+```
+
+### StatusUpdate
+
+Import: `@blazz/pro/components/ai/generative/planning/status-update`
+Named: `StatusUpdate`
+
+Status change card showing before/after state with badges.
+Use case: Display status transitions in AI workflow responses.
+
+```tsx
+<StatusUpdate entity="Deal #42" from="negotiation" to="won" updatedBy="Alice" />
+```
+
+### Timeline
+
+Import: `@blazz/pro/components/ai/generative/planning/timeline`
+Named: `Timeline`
+
+Vertical timeline with items, icons, descriptions, and timestamps.
+Use case: Display chronological events in AI responses.
+
+```tsx
+<Timeline items={[{ title: "Created", description: "Project started", date: "2026-01-01" }]} />
+```
+
+### ActionList
+
+Import: `@blazz/pro/components/ai/generative/workflow/action-list`
+Named: `ActionList`
+
+Clickable list of actions with icons, labels, and descriptions.
+Use case: Present actionable options in AI responses.
+
+```tsx
+<ActionList actions={[{ label: "Send email", description: "Draft and send", icon: "mail" }]} />
+```
+
+### ApprovalCard
+
+Import: `@blazz/pro/components/ai/generative/workflow/approval-card`
+Named: `ApprovalCard`
+
+Approval request card with status badge, description, and detail rows.
+Use case: Display approval requests in AI workflow responses.
+
+```tsx
+<ApprovalCard title="Budget Approval" status="pending" amount={5000} requestedBy="Alice" />
+```
+
+### ChecklistCard
+
+Import: `@blazz/pro/components/ai/generative/workflow/checklist-card`
+Named: `ChecklistCard`
+
+Interactive checklist with progress bar and toggleable items.
+Use case: Display task checklists in AI responses.
+
+```tsx
+<ChecklistCard title="Launch Checklist" items={[{ label: "Tests passing", checked: true }, { label: "Deploy", checked: false }]} />
+```
+
+### EmailPreview
+
+Import: `@blazz/pro/components/ai/generative/workflow/email-preview`
+Named: `EmailPreview`
+
+Email preview with subject, from/to info, body excerpt, and attachment count.
+Use case: Preview email content in AI communication responses.
+
+```tsx
+<EmailPreview subject="Q1 Report" from="alice@acme.com" to="team@acme.com" body="Please find attached..." />
+```
+
+### MessagePreview
+
+Import: `@blazz/pro/components/ai/generative/workflow/message-preview`
+Named: `MessagePreview`
+
+Message preview for SMS, WhatsApp, Slack, or Email with platform icon.
+Use case: Preview messages across platforms in AI responses.
+
+```tsx
+<MessagePreview platform="slack" from="Alice" message="Hey team, the deploy is done!" />
+```
+
+### PollCard
+
+Import: `@blazz/pro/components/ai/generative/workflow/poll-card`
+Named: `PollCard`
+
+Poll/survey with voteable options, results percentage, and vote count.
+Use case: Display polls or surveys in AI responses.
+
+```tsx
+<PollCard question="Preferred stack?" options={[{ label: "React", votes: 12 }, { label: "Vue", votes: 5 }]} />
+```
+
+### TaskCard
+
+Import: `@blazz/pro/components/ai/generative/workflow/task-card`
+Named: `TaskCard`
+
+Task card with status icon, priority badge, due date, subtasks, and assignee avatar.
+Use case: Display task information in AI project management responses.
+
+```tsx
+<TaskCard title="Fix login bug" priority="high" status="in-progress" dueDate="2026-03-25" assignee="Bob" />
 ```
 
 ---
