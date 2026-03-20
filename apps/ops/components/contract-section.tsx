@@ -86,7 +86,7 @@ export function ContractSection({
 			<BlockStack gap="500">
 				{/* ── Header ── */}
 				<InlineStack align="space-between" blockAlign="center">
-					<BlockStack gap="050" className="min-w-0">
+					<BlockStack gap="050" className="!w-auto min-w-0">
 						<InlineStack gap="200" blockAlign="center">
 							<span className="text-sm font-semibold text-fg">
 								{CONTRACT_TYPE_LABEL[contract.type] ?? contract.type}
