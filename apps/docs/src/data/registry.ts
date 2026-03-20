@@ -34,9 +34,17 @@ import { switchData } from "./components/switch"
 import { tabsData } from "./components/tabs"
 import { textareaData } from "./components/textarea"
 import { tooltipData } from "./components/tooltip"
-import type { ComponentData } from "./types"
+// AI — Chat
+import { messageData, conversationData, promptInputData, attachmentsData, shimmerData, suggestionsData } from "./components/ai/chat"
+// AI — Reasoning
+import { chainOfThoughtData, reasoningData, inlineCitationData, sourcesData } from "./components/ai/reasoning"
+// AI — Tools
+import { confirmationData, contextData, modelSelectorData } from "./components/ai/tools"
+// AI — Generative UI
+import { generativeAiData } from "./components/ai/generative"
+import type { RegistryEntry } from "./types"
 
-export const registry: ComponentData[] = [
+export const registry: RegistryEntry[] = [
 	// UI — Forms
 	selectData,
 	buttonData,
@@ -71,4 +79,20 @@ export const registry: ComponentData[] = [
 	filterBarData,
 	detailPanelData,
 	activityTimelineData,
+	// AI — Core
+	messageData,
+	conversationData,
+	promptInputData,
+	attachmentsData,
+	shimmerData,
+	suggestionsData,
+	chainOfThoughtData,
+	reasoningData,
+	inlineCitationData,
+	sourcesData,
+	confirmationData,
+	contextData,
+	modelSelectorData,
+	// AI — Generative UI
+	...generativeAiData,
 ]
