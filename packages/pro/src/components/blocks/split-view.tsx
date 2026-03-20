@@ -113,7 +113,7 @@ function SplitViewBase({
 				{/* Resize handle — desktop only */}
 				<div
 					className={cn(
-						"hidden w-1 shrink-0 cursor-col-resize items-center justify-center transition-colors duration-150 ease-out md:flex",
+						"hidden w-1 shrink-0 cursor-col-resize items-center justify-center border-x border-edge transition-colors duration-150 ease-out md:flex",
 						dragging ? "bg-surface-3" : "hover:bg-surface-3"
 					)}
 					onPointerDown={handlePointerDown}
