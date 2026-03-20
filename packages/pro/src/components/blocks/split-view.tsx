@@ -1,5 +1,6 @@
 "use client"
 
+import { cn } from "@blazz/ui"
 import {
 	Children,
 	createContext,
@@ -10,7 +11,6 @@ import {
 	useRef,
 	useState,
 } from "react"
-import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
 
 // ── Context ──────────────────────────────────────────────────────────────────
@@ -67,7 +67,7 @@ function SplitViewBase({
 			const newRatio = (e.clientX - rect.left) / rect.width
 			setRatio(Math.max(minRatio, Math.min(maxRatio, newRatio)))
 		},
-		[minRatio, maxRatio],
+		[minRatio, maxRatio]
 	)
 
 	const handlePointerUp = useCallback(() => {
@@ -114,7 +114,7 @@ function SplitViewBase({
 				<div
 					className={cn(
 						"hidden w-1 shrink-0 cursor-col-resize items-center justify-center transition-colors duration-150 ease-out md:flex",
-						dragging ? "bg-surface-3" : "hover:bg-surface-3",
+						dragging ? "bg-surface-3" : "hover:bg-surface-3"
 					)}
 					onPointerDown={handlePointerDown}
 				>
@@ -148,11 +148,7 @@ Master.displayName = "SplitView.Master"
 // ── Detail ───────────────────────────────────────────────────────────────────
 
 function Detail({ className, children }: SplitViewPanelProps) {
-	return (
-		<div className={cn("min-h-0 min-w-0 flex-1 overflow-y-auto", className)}>
-			{children}
-		</div>
-	)
+	return <div className={cn("min-h-0 min-w-0 flex-1 overflow-y-auto", className)}>{children}</div>
 }
 Detail.displayName = "SplitView.Detail"
 
