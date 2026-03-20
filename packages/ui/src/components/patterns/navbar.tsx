@@ -56,7 +56,7 @@ export function NavbarTabs({ value, children, className }: NavbarTabsProps) {
 
 	useEffect(() => {
 		updateIndicator()
-	}, [updateIndicator])
+	}, [updateIndicator, value])
 
 	return (
 		<NavbarTabsContext.Provider value={value}>

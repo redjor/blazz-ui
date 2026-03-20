@@ -225,6 +225,10 @@ export function DataTable<TData, TValue = unknown>({
 		pageIndex: finalPagination.pageIndex,
 		pageSize: finalPagination.pageSize,
 	})
+	const mountedRef = React.useRef(false)
+	React.useEffect(() => {
+		mountedRef.current = true
+	}, [])
 
 	// Sync pageIndex when it changes externally (e.g., URL navigation)
 	React.useEffect(() => {
@@ -631,6 +635,7 @@ export function DataTable<TData, TValue = unknown>({
 		onGlobalFilterChange: setGlobalFilter,
 		onPaginationChange: enablePagination
 			? (updater) => {
+					if (!mountedRef.current) return
 					setPaginationState((prev) => {
 						const next = typeof updater === "function" ? updater(prev) : updater
 						return next
