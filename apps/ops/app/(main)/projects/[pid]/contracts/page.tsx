@@ -9,6 +9,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
+import { Empty, EmptyActions, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
@@ -106,14 +107,21 @@ export default function ProjectContractsPage({
 					)}
 					{/* Add new contract card */}
 					<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-						<button
-							type="button"
+						<Box
+							padding="0"
+							background="transparent"
+							borderRadius="lg"
+							className="h-full border border-dashed border-edge hover:border-fg-muted hover:bg-surface transition-colors cursor-pointer"
+							as="button"
 							onClick={() => setContractOpen(true)}
-							className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-edge py-8 text-fg-muted transition-colors hover:border-fg-muted hover:text-fg hover:bg-surface cursor-pointer"
 						>
-							<Plus className="size-5" />
-							<span className="text-xs font-medium">Nouveau contrat</span>
-						</button>
+							<Empty size="sm" className="py-6">
+								<EmptyIcon size="sm">
+									<Plus />
+								</EmptyIcon>
+								<EmptyTitle>Nouveau contrat</EmptyTitle>
+							</Empty>
+						</Box>
 					</Grid.Cell>
 
 					{/* Past contracts */}
