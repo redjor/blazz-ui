@@ -148,7 +148,11 @@ Master.displayName = "SplitView.Master"
 // ── Detail ───────────────────────────────────────────────────────────────────
 
 function Detail({ className, children }: SplitViewPanelProps) {
-	return <div className={cn("min-h-0 min-w-0 flex-1 overflow-y-auto", className)}>{children}</div>
+	return (
+		<div className={cn("flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto", className)}>
+			{children}
+		</div>
+	)
 }
 Detail.displayName = "SplitView.Detail"
 
