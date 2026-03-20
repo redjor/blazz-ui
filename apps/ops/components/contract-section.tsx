@@ -85,28 +85,27 @@ export function ContractSection({
 		<Box padding="6" background="surface" border="default" borderRadius="lg">
 			<BlockStack gap="500">
 				{/* ── Header ── */}
-				<BlockStack gap="200">
-					<InlineStack align="space-between" blockAlign="start">
-						<BlockStack gap="100">
-							<InlineStack gap="200" blockAlign="center">
-								<span className="text-sm font-semibold text-fg">
-									{CONTRACT_TYPE_LABEL[contract.type] ?? contract.type}
-								</span>
-								<InlineStack gap="100" blockAlign="center">
-									<StatusDot status={contract.status} />
-									<span className="text-xs text-fg-muted">
-										{CONTRACT_STATUS_LABEL[contract.status]}
-									</span>
-								</InlineStack>
-							</InlineStack>
-							<span className="text-xs text-fg-muted">
-								{formatDate(contract.startDate)} → {formatDate(contract.endDate)}
-								{contract.daysPerMonth && (
-									<> · {contract.daysPerMonth}j/mois</>
-								)}
+				<InlineStack align="space-between" blockAlign="center">
+					<BlockStack gap="050">
+						<InlineStack gap="200" blockAlign="center">
+							<span className="text-sm font-semibold text-fg">
+								{CONTRACT_TYPE_LABEL[contract.type] ?? contract.type}
 							</span>
-						</BlockStack>
-						{contract.status === "active" && (onEdit || onComplete) && (
+							<InlineStack gap="100" blockAlign="center">
+								<StatusDot status={contract.status} />
+								<span className="text-xs text-fg-muted">
+									{CONTRACT_STATUS_LABEL[contract.status]}
+								</span>
+							</InlineStack>
+						</InlineStack>
+						<span className="text-xs text-fg-muted">
+							{formatDate(contract.startDate)} → {formatDate(contract.endDate)}
+							{contract.daysPerMonth && (
+								<> · {contract.daysPerMonth}j/mois</>
+							)}
+						</span>
+					</BlockStack>
+					{contract.status === "active" && (onEdit || onComplete) && (
 							<DropdownMenu>
 								<DropdownMenuTrigger
 									render={
@@ -134,8 +133,7 @@ export function ContractSection({
 								</DropdownMenuContent>
 							</DropdownMenu>
 						)}
-					</InlineStack>
-				</BlockStack>
+				</InlineStack>
 
 				{/* ── TMA metrics ── */}
 				{metrics && colors && (
