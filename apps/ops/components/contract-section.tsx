@@ -4,11 +4,18 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Divider } from "@blazz/ui/components/ui/divider"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@blazz/ui/components/ui/dropdown-menu"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
 import { format, parse } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Download, FileText, Trash2 } from "lucide-react"
+import { Download, FileText, MoreHorizontal, Pencil, Trash2, XCircle } from "lucide-react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
@@ -99,19 +106,33 @@ export function ContractSection({
 								)}
 							</span>
 						</BlockStack>
-						{contract.status === "active" && (
-							<InlineStack gap="100">
-								{onEdit && (
-									<Button size="sm" variant="ghost" onClick={onEdit}>
-										Modifier
-									</Button>
-								)}
-								{onComplete && (
-									<Button size="sm" variant="ghost" onClick={onComplete}>
-										Clôturer
-									</Button>
-								)}
-							</InlineStack>
+						{contract.status === "active" && (onEdit || onComplete) && (
+							<DropdownMenu>
+								<DropdownMenuTrigger
+									render={
+										<Button size="icon-sm" variant="ghost" className="size-7 text-fg-muted">
+											<MoreHorizontal className="size-4" />
+										</Button>
+									}
+								/>
+								<DropdownMenuContent align="end">
+									{onEdit && (
+										<DropdownMenuItem onClick={onEdit}>
+											<Pencil className="size-3.5" />
+											Modifier
+										</DropdownMenuItem>
+									)}
+									{onComplete && (
+										<>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem onClick={onComplete} className="text-destructive">
+												<XCircle className="size-3.5" />
+												Clôturer
+											</DropdownMenuItem>
+										</>
+									)}
+								</DropdownMenuContent>
+							</DropdownMenu>
 						)}
 					</InlineStack>
 				</BlockStack>
