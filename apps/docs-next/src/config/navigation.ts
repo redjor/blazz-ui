@@ -1,0 +1,1323 @@
+"use client"
+
+import type { NavigationSection, SidebarConfig } from "@blazz/ui/types/navigation"
+import {
+	Activity,
+	Brain,
+	Calendar,
+	ChartLine,
+	Columns3,
+	CreditCard,
+	FileText,
+	FormInput,
+	Gauge,
+	Layers,
+	Layers2,
+	LayoutGrid,
+	ListChecks,
+	MessageCircle,
+	MessageSquare,
+	MousePointerClick,
+	Navigation,
+	Palette,
+	PanelLeft,
+	PanelRight,
+	Receipt,
+	Save,
+	Settings2,
+	Table2,
+	Users,
+	Wrench,
+} from "lucide-react"
+
+export const sidebarConfig: SidebarConfig = {
+	user: {
+		name: "Jean Dupont",
+		email: "",
+		role: "Administrateur",
+	},
+	navigation: [
+		{
+			id: "components",
+			title: "Composants",
+			items: [
+				{
+					id: "comp-layout",
+					title: "Layout and Structure",
+					url: "/docs/components/layout",
+					icon: LayoutGrid,
+					items: [
+						{
+							title: "Bleed",
+							url: "/docs/components/layout/bleed",
+							keywords: ["edge-to-edge", "full-width", "breakout", "overflow"],
+						},
+						{
+							title: "Block Stack",
+							url: "/docs/components/layout/block-stack",
+							keywords: ["vertical", "vstack", "column", "stack"],
+						},
+						{
+							title: "Box",
+							url: "/docs/components/layout/box",
+							keywords: ["container", "wrapper", "div", "spacing"],
+						},
+						{
+							title: "Callout Card",
+							url: "/docs/components/layout/callout-card",
+							keywords: ["info", "warning", "tip", "note", "highlight"],
+						},
+						{
+							title: "Card",
+							url: "/docs/components/layout/card",
+							keywords: ["container", "panel", "surface", "tile"],
+						},
+						{
+							title: "Divider",
+							url: "/docs/components/layout/divider",
+							keywords: ["separator", "line", "hr", "horizontal rule"],
+						},
+						{
+							title: "Frame Panel",
+							url: "/docs/components/ui/frame-panel",
+							keywords: ["shell", "wrapper", "app frame", "layout shell"],
+						},
+						{
+							title: "Grid",
+							url: "/docs/components/layout/grid",
+							keywords: ["columns", "responsive", "layout grid", "css grid"],
+						},
+						{
+							title: "Inline Grid",
+							url: "/docs/components/layout/inline-grid",
+							keywords: ["horizontal grid", "row grid"],
+						},
+						{
+							title: "Inline Stack",
+							url: "/docs/components/layout/inline-stack",
+							keywords: ["horizontal", "hstack", "row", "flex row"],
+						},
+						{
+							title: "Page",
+							url: "/docs/components/layout/page-component",
+							keywords: ["page layout", "page wrapper", "page shell"],
+						},
+					],
+				},
+				{
+					id: "comp-actions",
+					title: "Actions",
+					url: "/docs/components/actions",
+					icon: MousePointerClick,
+					items: [
+						{
+							title: "Button",
+							url: "/docs/components/ui/button",
+							keywords: ["btn", "action", "click", "submit", "cta", "press"],
+						},
+						{
+							title: "Button Group",
+							url: "/docs/components/ui/button-group",
+							keywords: ["toolbar", "action bar", "button bar", "segmented"],
+						},
+						{
+							title: "Context Menu",
+							url: "/docs/components/ui/context-menu",
+							keywords: ["right-click", "right click menu", "secondary actions"],
+						},
+						{
+							title: "Dropdown Menu",
+							url: "/docs/components/ui/dropdown-menu",
+							keywords: ["context menu", "actions menu", "menu", "popover menu"],
+						},
+					],
+				},
+				{
+					id: "comp-forms",
+					title: "Selection and Input",
+					url: "/docs/components/forms",
+					icon: FormInput,
+					items: [
+						{
+							title: "Calendar",
+							url: "/docs/components/ui/calendar",
+							keywords: ["date picker", "datepicker", "month", "day"],
+						},
+						{
+							title: "Checkbox",
+							url: "/docs/components/ui/checkbox",
+							keywords: ["check", "tick", "toggle", "boolean", "form"],
+						},
+						{
+							title: "Color Picker",
+							url: "/docs/components/ui/color-picker",
+							keywords: ["color chooser", "palette", "hex", "rgb", "color input"],
+						},
+						{
+							title: "Combobox",
+							url: "/docs/components/ui/combobox",
+							keywords: [
+								"autocomplete",
+								"typeahead",
+								"searchable select",
+								"search select",
+								"filterable",
+							],
+						},
+						{
+							title: "Cascading Select",
+							url: "/docs/components/ui/cascading-select",
+							keywords: [
+								"hierarchy",
+								"drill-down",
+								"nested select",
+								"cascading",
+								"tree select",
+								"category picker",
+							],
+						},
+						{
+							title: "Currency Input",
+							url: "/docs/components/ui/currency-input",
+							keywords: ["money", "price", "dollar", "euro", "amount", "financial"],
+						},
+						{
+							title: "Date Selector",
+							url: "/docs/components/ui/date-selector",
+							keywords: ["date picker", "datepicker", "date range", "date input"],
+						},
+						{
+							title: "Field",
+							url: "/docs/components/ui/field",
+							keywords: [
+								"form field",
+								"input wrapper",
+								"label input",
+								"form group",
+								"field wrapper",
+							],
+						},
+						{
+							title: "File Upload",
+							url: "/docs/components/ui/file-upload",
+							keywords: ["file input", "dropzone", "upload", "drag and drop", "attachment"],
+						},
+						{
+							title: "Input",
+							url: "/docs/components/ui/input",
+							keywords: ["text field", "text input", "form input", "textbox"],
+						},
+						{
+							title: "Label",
+							url: "/docs/components/ui/label",
+							keywords: ["form label", "field label", "input label"],
+						},
+						{
+							title: "Number Input",
+							url: "/docs/components/ui/number-input",
+							keywords: ["numeric", "spinner", "counter", "stepper input", "quantity"],
+						},
+						{
+							title: "OTP Input",
+							url: "/docs/components/ui/otp-input",
+							keywords: ["verification", "2fa", "code", "pin", "one-time password"],
+						},
+						{
+							title: "Password Input",
+							url: "/docs/components/ui/password-input",
+							keywords: ["secret", "password field", "hide show", "visibility toggle"],
+						},
+						{
+							title: "Phone Input",
+							url: "/docs/components/ui/phone-input",
+							keywords: ["telephone", "phone number", "international", "country code"],
+						},
+						{
+							title: "Radio Group",
+							url: "/docs/components/ui/radio-group",
+							keywords: ["radio button", "single select", "option group", "choice"],
+						},
+						{
+							title: "Rating",
+							url: "/docs/components/ui/rating",
+							keywords: ["stars", "score", "review", "rate", "feedback"],
+						},
+						{
+							title: "Search Input",
+							url: "/docs/components/ui/search-input",
+							keywords: ["search bar", "search field", "filter", "find"],
+						},
+						{
+							title: "Select",
+							url: "/docs/components/ui/select",
+							keywords: ["dropdown", "picker", "chooser", "option list", "single select"],
+						},
+						{
+							title: "Slider",
+							url: "/docs/components/ui/slider",
+							keywords: ["range", "scrubber", "track", "value slider"],
+						},
+						{
+							title: "Switch",
+							url: "/docs/components/ui/switch",
+							keywords: ["toggle", "on off", "boolean", "flip"],
+						},
+						{
+							title: "Tags Input",
+							url: "/docs/components/ui/tags-input",
+							keywords: ["chips", "tokens", "multi-select", "tag", "pill input"],
+						},
+						{
+							title: "Textarea",
+							url: "/docs/components/ui/textarea",
+							keywords: ["multiline", "text area", "long text", "rich input", "paragraph"],
+						},
+						{
+							title: "Time Picker",
+							url: "/docs/components/ui/time-picker",
+							keywords: ["time input", "clock", "hour", "minute", "time select"],
+						},
+					],
+				},
+				{
+					id: "comp-feedback",
+					title: "Feedback Indicators",
+					url: "/docs/components/feedback",
+					icon: MessageSquare,
+					items: [
+						{
+							title: "Alert",
+							url: "/docs/components/ui/alert",
+							keywords: ["warning", "info", "error", "success", "message"],
+						},
+						{
+							title: "Badge",
+							url: "/docs/components/ui/badge",
+							keywords: ["tag", "chip", "label", "pill", "status"],
+						},
+						{
+							title: "Banner",
+							url: "/docs/components/ui/banner",
+							keywords: ["announcement", "notice", "strip", "bar", "info bar"],
+						},
+						{
+							title: "Empty",
+							url: "/docs/components/ui/empty",
+							keywords: ["no data", "placeholder", "zero state", "blank", "empty state"],
+						},
+						{
+							title: "Skeleton",
+							url: "/docs/components/ui/skeleton",
+							keywords: ["loading", "placeholder", "shimmer", "ghost", "pulse"],
+						},
+						{
+							title: "Toast",
+							url: "/docs/components/ui/toast",
+							keywords: ["notification", "snackbar", "sonner", "feedback", "message", "toaster"],
+						},
+					],
+				},
+				{
+					id: "comp-overlays",
+					title: "Overlays",
+					url: "/docs/components/overlays",
+					icon: Layers,
+					items: [
+						{
+							title: "Confirmation Dialog",
+							url: "/docs/components/ui/confirmation-dialog",
+							keywords: ["confirm", "delete confirm", "action confirm", "are you sure"],
+						},
+						{
+							title: "Dialog",
+							url: "/docs/components/ui/dialog",
+							keywords: ["modal", "popup", "overlay", "lightbox", "window"],
+						},
+						{
+							title: "Filter Panel",
+							url: "/docs/components/ui/filter-panel",
+							keywords: [
+								"filter dropdown",
+								"filter popover",
+								"checkbox filter",
+								"faceted filter",
+								"market filter",
+							],
+						},
+						{
+							title: "Popover",
+							url: "/docs/components/ui/popover",
+							keywords: ["dropdown", "popup", "floating", "bubble", "fly-out"],
+						},
+						{
+							title: "Sheet",
+							url: "/docs/components/ui/sheet",
+							keywords: ["drawer", "slide panel", "side panel", "bottom sheet", "sliding"],
+						},
+						{
+							title: "Tooltip",
+							url: "/docs/components/ui/tooltip",
+							keywords: ["hint", "help", "hover text", "info tip", "help text"],
+						},
+					],
+				},
+				{
+					id: "comp-navigation",
+					title: "Navigation",
+					url: "/docs/components/navigation",
+					icon: Navigation,
+					items: [
+						{
+							title: "Breadcrumb",
+							url: "/docs/components/ui/breadcrumb",
+							keywords: ["path", "crumbs", "trail", "navigation path"],
+						},
+						{
+							title: "Command",
+							url: "/docs/components/ui/command",
+							keywords: ["search", "cmd", "cmdk", "command palette", "spotlight"],
+						},
+						{
+							title: "Menu",
+							url: "/docs/components/ui/menu",
+							keywords: ["navigation menu", "nav", "sidebar menu", "link list"],
+						},
+						{
+							title: "Menubar",
+							url: "/docs/components/ui/menubar",
+							keywords: ["menu bar", "app menu", "top menu", "header menu"],
+						},
+						{
+							title: "Nav Menu",
+							url: "/docs/components/ui/nav-menu",
+							keywords: ["navigation", "nav bar", "site nav", "header nav"],
+						},
+						{
+							title: "Pagination",
+							url: "/docs/components/ui/pagination",
+							keywords: ["pager", "page numbers", "next previous", "page navigation"],
+						},
+						{
+							title: "Stepper",
+							url: "/docs/components/ui/stepper",
+							keywords: ["wizard", "multi-step", "steps", "progress steps", "workflow"],
+						},
+						{
+							title: "Tabs",
+							url: "/docs/components/ui/tabs",
+							keywords: ["tab bar", "tab navigation", "panel tabs", "tabbed"],
+						},
+					],
+				},
+				{
+					id: "comp-data-display",
+					title: "Data Display",
+					url: "/docs/components/data-display",
+					icon: Table2,
+					items: [
+						{
+							title: "Avatar",
+							url: "/docs/components/ui/avatar",
+							keywords: ["profile picture", "user image", "photo", "initials"],
+						},
+						{
+							title: "Cell Types",
+							url: "/docs/components/ui/cells",
+							keywords: ["table cell", "grid cell", "data cell", "column type"],
+						},
+						{
+							title: "Collapsible",
+							url: "/docs/components/ui/collapsible",
+							keywords: ["collapse", "expand", "toggle", "disclosure", "show hide", "accordion"],
+						},
+						{
+							title: "Item",
+							url: "/docs/components/ui/item",
+							keywords: ["list item", "row", "entry", "record", "item group", "item list"],
+						},
+						{
+							title: "Property",
+							url: "/docs/components/ui/property",
+							keywords: ["key value", "detail", "metadata", "attribute", "property list"],
+						},
+						{
+							title: "Table",
+							url: "/docs/components/ui/table",
+							keywords: ["html table", "data table", "grid", "rows columns"],
+						},
+						{
+							title: "Timeline",
+							url: "/docs/components/ui/timeline",
+							keywords: ["activity", "history", "feed", "events", "log"],
+						},
+						{
+							title: "Tree View",
+							url: "/docs/components/ui/tree-view",
+							keywords: ["file tree", "hierarchy", "directory", "nested list", "expandable"],
+						},
+					],
+				},
+				// --- Patterns (merged from former "patterns" section) ---
+				{
+					id: "pat-app-shell",
+					title: "App Shell",
+					url: "/docs/components/patterns/app-frame",
+					icon: PanelLeft,
+					items: [
+						{
+							title: "App Frame",
+							url: "/docs/components/patterns/app-frame",
+							keywords: ["app shell", "layout wrapper", "frame", "application frame"],
+						},
+						{
+							title: "Dashboard Layout",
+							url: "/docs/components/patterns/dashboard-layout",
+							keywords: ["dashboard", "layout", "admin layout", "dashboard shell"],
+						},
+						{
+							title: "App Sidebar",
+							url: "/docs/components/patterns/app-sidebar",
+							keywords: ["sidebar", "nav sidebar", "app nav", "side navigation"],
+						},
+						{
+							title: "App Top Bar",
+							url: "/docs/components/patterns/app-top-bar",
+							keywords: ["top bar", "header", "app header", "navbar"],
+						},
+						{
+							title: "Top Bar",
+							url: "/docs/components/patterns/top-bar",
+							keywords: ["top bar", "header bar", "site header"],
+						},
+						{
+							title: "Layout Frame",
+							url: "/docs/components/patterns/layout-frame",
+							keywords: ["layout", "frame", "shell", "wrapper"],
+						},
+						{
+							title: "Navigation Tabs",
+							url: "/docs/components/patterns/navigation-tabs",
+							keywords: [
+								"tabs",
+								"browser tabs",
+								"tab bar",
+								"navigation tabs",
+								"page tabs",
+								"@blazz/tabs",
+							],
+						},
+						{
+							title: "Nav Tabs",
+							url: "/docs/components/patterns/nav-tabs",
+							keywords: ["pills", "shopify tabs", "navbar tabs", "pill navigation"],
+						},
+					],
+				},
+				{
+					id: "pat-forms",
+					title: "Forms",
+					url: "/docs/components/patterns/form-field",
+					icon: FormInput,
+					items: [
+						{
+							title: "Form Field",
+							url: "/docs/components/patterns/form-field",
+							keywords: ["field", "form input", "form group", "label input"],
+						},
+						{
+							title: "Form Section",
+							url: "/docs/components/patterns/form-section",
+							keywords: ["form group", "form section", "fieldset", "form block"],
+						},
+						{
+							title: "Field Grid",
+							url: "/docs/components/patterns/field-grid",
+							keywords: ["form grid", "field layout", "form columns", "input grid"],
+						},
+					],
+				},
+				{
+					id: "pat-media",
+					title: "Media",
+					url: "/docs/components/patterns/image-upload",
+					icon: FileText,
+					items: [
+						{
+							title: "Image Upload",
+							url: "/docs/components/patterns/image-upload",
+							keywords: ["upload", "image", "photo", "file upload", "dropzone"],
+						},
+					],
+				},
+				{
+					id: "pat-utilities",
+					title: "Utilities",
+					url: "/docs/components/patterns/command-palette",
+					icon: Wrench,
+					items: [
+						{
+							title: "Command Palette",
+							url: "/docs/components/patterns/command-palette",
+							keywords: ["search", "cmd", "cmdk", "spotlight", "quick launch"],
+						},
+						{
+							title: "Error State",
+							url: "/docs/components/patterns/error-state",
+							keywords: ["error", "404", "500", "not found", "error page"],
+						},
+						{
+							title: "Theme Toggle",
+							url: "/docs/components/patterns/theme-toggle",
+							keywords: ["dark mode", "light mode", "color scheme", "theme switcher"],
+						},
+						{
+							title: "Page Header Shell",
+							url: "/docs/components/patterns/page-header-shell",
+							keywords: ["page header", "hero", "page title", "header shell"],
+						},
+						{
+							title: "User Menu",
+							url: "/docs/components/patterns/user-menu",
+							keywords: ["user", "account", "profile", "logout", "avatar menu", "user dropdown"],
+						},
+					],
+				},
+			],
+		},
+		{
+			id: "blocks",
+			title: "Blocks",
+			items: [
+				{
+					id: "block-charts",
+					title: "Charts",
+					url: "/docs/blocks/charts",
+					icon: ChartLine,
+					items: [
+						{
+							title: "Chart Card",
+							url: "/docs/blocks/chart-card",
+							keywords: ["chart wrapper", "chart container", "chart block"],
+						},
+						{
+							title: "Area Chart",
+							url: "/docs/blocks/charts/area-chart",
+							keywords: ["graph", "area", "visualization", "stacked area"],
+						},
+						{
+							title: "Bar Chart",
+							url: "/docs/blocks/charts/bar-chart",
+							keywords: ["graph", "bar", "histogram", "column chart"],
+						},
+						{
+							title: "Line Chart",
+							url: "/docs/blocks/charts/line-chart",
+							keywords: ["graph", "line", "trend", "time series"],
+						},
+						{
+							title: "Pie Chart",
+							url: "/docs/blocks/charts/pie-chart",
+							keywords: ["graph", "pie", "donut", "circle chart"],
+						},
+						{
+							title: "Radar Chart",
+							url: "/docs/blocks/charts/radar-chart",
+							keywords: ["graph", "spider", "web chart", "polar"],
+						},
+						{
+							title: "Funnel Chart",
+							url: "/docs/blocks/chart-card",
+							keywords: ["funnel", "conversion", "pipeline chart", "stages"],
+						},
+						{
+							title: "Forecast Chart",
+							url: "/docs/blocks/chart-card",
+							keywords: ["forecast", "prediction", "trend", "projection"],
+						},
+					],
+				},
+				{
+					id: "block-data",
+					title: "Data",
+					url: "/docs/blocks/data",
+					icon: Table2,
+					items: [
+						{
+							title: "Filter Bar",
+							url: "/docs/blocks/filter-bar",
+							keywords: ["filter", "search filters", "facets", "query bar"],
+						},
+						{
+							title: "Bulk Action Bar",
+							url: "/docs/blocks/bulk-action-bar",
+							keywords: ["bulk", "multi-select", "batch actions", "selection bar"],
+						},
+						{
+							title: "View Config Panel",
+							url: "/docs/blocks/view-config-panel",
+							keywords: [
+								"view config",
+								"table view",
+								"filter panel",
+								"display properties",
+								"board config",
+								"linear",
+							],
+						},
+					],
+				},
+				{
+					id: "block-metrics",
+					title: "Metrics",
+					url: "/docs/blocks/metrics",
+					icon: Gauge,
+					items: [
+						{
+							title: "Stats Grid",
+							url: "/docs/blocks/stats-grid",
+							keywords: ["kpi grid", "metrics grid", "stats cards", "dashboard grid"],
+						},
+						{
+							title: "Stats Strip",
+							url: "/docs/blocks/stats-strip",
+							keywords: ["metrics", "kpi", "numbers", "statistics", "summary bar"],
+						},
+						{
+							title: "Budget Card",
+							url: "/docs/blocks/budget-card",
+							keywords: ["budget", "project card", "consumption", "revenue", "days"],
+						},
+						{
+							title: "Segmented Progress",
+							url: "/docs/blocks/segmented-progress",
+							keywords: ["progress", "dots", "waffle", "budget bar", "segmented"],
+						},
+					],
+				},
+				{
+					id: "block-detail-views",
+					title: "Detail Views",
+					url: "/docs/blocks/detail-views",
+					icon: PanelRight,
+					items: [
+						{
+							title: "Detail Panel",
+							url: "/docs/blocks/detail-panel",
+							keywords: ["detail", "sidebar panel", "record detail", "side panel"],
+						},
+						{
+							title: "Property Card",
+							url: "/docs/blocks/property-card",
+							keywords: ["detail card", "info card", "attribute card"],
+						},
+						{
+							title: "Inline Edit",
+							url: "/docs/blocks/inline-edit",
+							keywords: ["inline editing", "in-place edit", "click to edit"],
+						},
+						{
+							title: "Split View",
+							url: "/docs/blocks/split-view",
+							keywords: ["split", "master detail", "two panel", "side by side"],
+						},
+					],
+				},
+				{
+					id: "block-workflow",
+					title: "Workflow",
+					url: "/docs/blocks/workflow",
+					icon: Columns3,
+					items: [
+						{
+							title: "Kanban Board",
+							url: "/docs/blocks/kanban-board",
+							keywords: ["kanban", "board", "drag drop", "pipeline", "swimlanes"],
+						},
+						{
+							title: "Status Flow",
+							url: "/docs/blocks/status-flow",
+							keywords: ["workflow", "status pipeline", "state machine", "flow"],
+						},
+						{
+							title: "Multi Step Form",
+							url: "/docs/blocks/multi-step-form",
+							keywords: ["wizard", "stepper", "multi step", "form wizard"],
+						},
+					],
+				},
+				{
+					id: "block-feeds",
+					title: "Feeds",
+					url: "/docs/blocks/feeds",
+					icon: Activity,
+					items: [
+						{
+							title: "Activity Timeline",
+							url: "/docs/blocks/activity-timeline",
+							keywords: ["timeline", "activity feed", "history", "events log"],
+						},
+						{
+							title: "Inbox",
+							url: "/docs/blocks/inbox",
+							keywords: ["inbox", "notifications", "linear", "messages", "feed"],
+						},
+						{
+							title: "Notification Center",
+							url: "/docs/blocks/notification-center",
+							keywords: ["notifications", "alerts", "inbox", "messages"],
+						},
+						{
+							title: "Quick Log Activity",
+							url: "/docs/blocks/quick-log-activity",
+							keywords: ["log", "activity", "crm", "note", "call log"],
+						},
+					],
+				},
+				{
+					id: "block-commerce",
+					title: "Commerce",
+					url: "/docs/blocks/commerce",
+					icon: Receipt,
+					items: [
+						{
+							title: "Deal Lines Editor",
+							url: "/docs/blocks/deal-lines-editor",
+							keywords: ["line items", "quote lines", "deal items", "product lines"],
+						},
+						{
+							title: "Quote Preview",
+							url: "/docs/blocks/quote-preview",
+							keywords: ["quote", "proposal", "estimate", "pricing preview"],
+						},
+					],
+				},
+				{
+					id: "block-settings",
+					title: "Settings",
+					url: "/docs/blocks/settings",
+					icon: Settings2,
+					items: [
+						{
+							title: "Org Menu",
+							url: "/docs/blocks/org-menu",
+							keywords: ["organization", "workspace", "team switcher", "org switcher"],
+						},
+						{
+							title: "Settings Block",
+							url: "/docs/blocks/settings-block",
+							keywords: ["settings", "preferences", "config", "settings page", "danger zone"],
+						},
+					],
+				},
+			],
+		},
+		{
+			id: "data-table",
+			title: "Data Table",
+			items: [
+				{
+					id: "dt-overview",
+					title: "Overview",
+					url: "/docs/blocks/data-table",
+					icon: Table2,
+					items: [
+						{ title: "Getting Started", url: "/docs/blocks/data-table/getting-started" },
+						{ title: "Columns", url: "/docs/blocks/data-table/columns" },
+						{ title: "Toolbar & Views", url: "/docs/blocks/data-table/toolbar" },
+						{ title: "Filtering", url: "/docs/blocks/data-table/filtering" },
+						{ title: "Grouping & Expansion", url: "/docs/blocks/data-table/grouping" },
+						{ title: "Flat Mode", url: "/docs/blocks/data-table/flat-mode" },
+						{ title: "Inline Editing", url: "/docs/blocks/data-table/editing" },
+						{ title: "Composition & Slots", url: "/docs/blocks/data-table/composition" },
+						{ title: "API Reference", url: "/docs/blocks/data-table/api" },
+					],
+				},
+			],
+		},
+		{
+			id: "ai",
+			title: "AI",
+			items: [
+				{
+					id: "ai-chat",
+					title: "Chat",
+					url: "/docs/ai/chat/conversation",
+					icon: MessageCircle,
+					items: [
+						{
+							title: "Conversation",
+							url: "/docs/ai/chat/conversation",
+							keywords: ["chat", "messages", "thread", "dialogue"],
+						},
+						{
+							title: "Message",
+							url: "/docs/ai/chat/message",
+							keywords: ["chat bubble", "message bubble", "chat message"],
+						},
+						{
+							title: "Prompt Input",
+							url: "/docs/ai/chat/prompt-input",
+							keywords: ["chat input", "message input", "send message", "compose"],
+						},
+						{
+							title: "Suggestion",
+							url: "/docs/ai/chat/suggestion",
+							keywords: ["quick reply", "suggested response", "prompt suggestion"],
+						},
+						{
+							title: "Attachments",
+							url: "/docs/ai/chat/attachments",
+							keywords: ["files", "upload", "media", "chat files"],
+						},
+						{
+							title: "Shimmer",
+							url: "/docs/ai/chat/shimmer",
+							keywords: ["typing", "loading", "thinking", "streaming", "animation"],
+						},
+					],
+				},
+				{
+					id: "ai-reasoning",
+					title: "Reasoning",
+					url: "/docs/ai/reasoning",
+					icon: Brain,
+					items: [
+						{
+							title: "Reasoning",
+							url: "/docs/ai/reasoning",
+							keywords: ["thinking", "logic", "analysis", "ai thinking"],
+						},
+						{
+							title: "Chain of Thought",
+							url: "/docs/ai/chain-of-thought",
+							keywords: ["cot", "step by step", "reasoning chain", "thought process"],
+						},
+						{
+							title: "Sources",
+							url: "/docs/ai/sources",
+							keywords: ["references", "citations", "links", "bibliography"],
+						},
+						{
+							title: "Inline Citation",
+							url: "/docs/ai/inline-citation",
+							keywords: ["reference", "footnote", "source link", "cite"],
+						},
+					],
+				},
+				{
+					id: "ai-tools",
+					title: "Tools",
+					url: "/docs/ai/confirmation",
+					icon: Wrench,
+					items: [
+						{
+							title: "Confirmation",
+							url: "/docs/ai/confirmation",
+							keywords: ["approve", "confirm action", "tool approval", "permission"],
+						},
+						{
+							title: "Model Selector",
+							url: "/docs/ai/model-selector",
+							keywords: ["model picker", "llm", "gpt", "claude", "ai model"],
+						},
+						{
+							title: "Context",
+							url: "/docs/ai/context",
+							keywords: ["context window", "system prompt", "instructions", "ai context"],
+						},
+					],
+				},
+				{
+					id: "ai-data",
+					title: "Data",
+					url: "/docs/ai/data/metric-card",
+					icon: ChartLine,
+					items: [
+						{
+							title: "Metric Card",
+							url: "/docs/ai/data/metric-card",
+							keywords: ["kpi", "number card", "statistic", "value card"],
+						},
+						{
+							title: "Stats Row",
+							url: "/docs/ai/data/stats-row",
+							keywords: ["metrics row", "numbers", "statistics", "summary"],
+						},
+						{
+							title: "Mini Chart",
+							url: "/docs/ai/data/mini-chart",
+							keywords: ["sparkline", "small chart", "inline chart", "trend"],
+						},
+						{
+							title: "Comparison Table",
+							url: "/docs/ai/data/comparison-table",
+							keywords: ["compare", "versus", "side by side", "diff"],
+						},
+						{
+							title: "Progress Card",
+							url: "/docs/ai/data/progress-card",
+							keywords: ["progress bar", "completion", "percentage", "status"],
+						},
+						{
+							title: "Data List",
+							url: "/docs/ai/data/data-list",
+							keywords: ["list", "items", "records", "entries"],
+						},
+						{
+							title: "Data Grid",
+							url: "/docs/ai/data/data-grid",
+							keywords: ["grid", "cards", "tile view", "gallery"],
+						},
+						{
+							title: "Rating Card",
+							url: "/docs/ai/data/rating-card",
+							keywords: ["stars", "score", "review", "rating"],
+						},
+						{
+							title: "Score Card",
+							url: "/docs/ai/data/score-card",
+							keywords: ["score", "points", "grade", "evaluation"],
+						},
+					],
+				},
+				{
+					id: "ai-entities",
+					title: "Entities",
+					url: "/docs/ai/entities/candidate-card",
+					icon: Users,
+					items: [
+						{
+							title: "Candidate Card",
+							url: "/docs/ai/entities/candidate-card",
+							keywords: ["applicant", "recruit", "talent", "person card"],
+						},
+						{
+							title: "Contact Card",
+							url: "/docs/ai/entities/contact-card",
+							keywords: ["person", "profile", "contact info", "vcard"],
+						},
+						{
+							title: "Company Card",
+							url: "/docs/ai/entities/company-card",
+							keywords: ["organization", "business", "firm", "account"],
+						},
+						{
+							title: "Deal Card",
+							url: "/docs/ai/entities/deal-card",
+							keywords: ["opportunity", "sale", "pipeline", "crm"],
+						},
+						{
+							title: "User Card",
+							url: "/docs/ai/entities/user-card",
+							keywords: ["profile", "member", "account", "person"],
+						},
+					],
+				},
+				{
+					id: "ai-workflow",
+					title: "Workflow",
+					url: "/docs/ai/workflow/task-card",
+					icon: ListChecks,
+					items: [
+						{
+							title: "Task Card",
+							url: "/docs/ai/workflow/task-card",
+							keywords: ["todo", "task", "action item", "work item"],
+						},
+						{
+							title: "Checklist Card",
+							url: "/docs/ai/workflow/checklist-card",
+							keywords: ["todo list", "check list", "steps", "tasks"],
+						},
+						{
+							title: "Approval Card",
+							url: "/docs/ai/workflow/approval-card",
+							keywords: ["approve", "reject", "review", "sign off"],
+						},
+						{
+							title: "Action List",
+							url: "/docs/ai/workflow/action-list",
+							keywords: ["actions", "operations", "commands", "steps"],
+						},
+						{
+							title: "Poll Card",
+							url: "/docs/ai/workflow/poll-card",
+							keywords: ["vote", "survey", "poll", "question"],
+						},
+						{
+							title: "Email Preview",
+							url: "/docs/ai/workflow/email-preview",
+							keywords: ["email", "mail", "message preview", "newsletter"],
+						},
+						{
+							title: "Message Preview",
+							url: "/docs/ai/workflow/message-preview",
+							keywords: ["sms", "text", "chat preview", "notification"],
+						},
+					],
+				},
+				{
+					id: "ai-planning",
+					title: "Planning",
+					url: "/docs/ai/planning/timeline",
+					icon: Calendar,
+					items: [
+						{
+							title: "Timeline",
+							url: "/docs/ai/planning/timeline",
+							keywords: ["schedule", "gantt", "roadmap", "milestones"],
+						},
+						{
+							title: "Event Card",
+							url: "/docs/ai/planning/event-card",
+							keywords: ["meeting", "appointment", "event", "calendar event"],
+						},
+						{
+							title: "Status Update",
+							url: "/docs/ai/planning/status-update",
+							keywords: ["progress", "update", "report", "standup"],
+						},
+						{
+							title: "Calendar Card",
+							url: "/docs/ai/planning/calendar-card",
+							keywords: ["date", "schedule", "planner", "agenda"],
+						},
+						{
+							title: "Availability Card",
+							url: "/docs/ai/planning/availability-card",
+							keywords: ["schedule", "free busy", "time slots", "booking"],
+						},
+					],
+				},
+				{
+					id: "ai-commerce",
+					title: "Commerce",
+					url: "/docs/ai/commerce/invoice-card",
+					icon: CreditCard,
+					items: [
+						{
+							title: "Invoice Card",
+							url: "/docs/ai/commerce/invoice-card",
+							keywords: ["bill", "receipt", "payment", "invoice"],
+						},
+						{
+							title: "Quote Summary",
+							url: "/docs/ai/commerce/quote-summary",
+							keywords: ["estimate", "proposal", "pricing", "offer"],
+						},
+						{
+							title: "Pricing Table",
+							url: "/docs/ai/commerce/pricing-table",
+							keywords: ["plans", "tiers", "subscription", "price comparison"],
+						},
+						{
+							title: "Transaction Card",
+							url: "/docs/ai/commerce/transaction-card",
+							keywords: ["payment", "transfer", "purchase", "order"],
+						},
+						{
+							title: "Product Card",
+							url: "/docs/ai/commerce/product-card",
+							keywords: ["item", "merchandise", "product", "listing"],
+						},
+					],
+				},
+				{
+					id: "ai-content",
+					title: "Content",
+					url: "/docs/ai/content/insight-card",
+					icon: FileText,
+					items: [
+						{
+							title: "Insight Card",
+							url: "/docs/ai/content/insight-card",
+							keywords: ["analytics", "finding", "discovery", "highlight"],
+						},
+						{
+							title: "Summary Card",
+							url: "/docs/ai/content/summary-card",
+							keywords: ["overview", "tldr", "abstract", "recap"],
+						},
+						{
+							title: "File Card",
+							url: "/docs/ai/content/file-card",
+							keywords: ["document", "attachment", "file preview", "download"],
+						},
+						{
+							title: "Link Preview",
+							url: "/docs/ai/content/link-preview",
+							keywords: ["url preview", "og card", "embed", "unfurl"],
+						},
+						{
+							title: "Image Gallery",
+							url: "/docs/ai/content/image-gallery",
+							keywords: ["photos", "pictures", "carousel", "lightbox"],
+						},
+						{
+							title: "Location Card",
+							url: "/docs/ai/content/location-card",
+							keywords: ["map", "address", "place", "geo", "coordinates"],
+						},
+						{
+							title: "Video Card",
+							url: "/docs/ai/content/video-card",
+							keywords: ["player", "youtube", "video preview", "media"],
+						},
+					],
+				},
+			],
+		},
+		{
+			id: "guide",
+			title: "Guide",
+			items: [
+				{
+					id: "guide-foundations",
+					title: "Foundations",
+					url: "/docs/components/colors",
+					icon: Palette,
+					items: [
+						{
+							title: "Colors",
+							url: "/docs/components/colors",
+							keywords: ["palette", "theme", "tokens", "design tokens", "oklch"],
+						},
+						{
+							title: "Typography",
+							url: "/docs/components/typography",
+							keywords: ["fonts", "text styles", "headings", "font size", "typeface"],
+						},
+						{
+							title: "Text",
+							url: "/docs/components/ui/text",
+							keywords: ["paragraph", "prose", "body text", "text component"],
+						},
+					],
+				},
+				{
+					id: "guide-concepts",
+					title: "Concepts",
+					url: "/docs/components/layout/inset",
+					icon: Layers2,
+					items: [
+						{
+							title: "Inset",
+							url: "/docs/components/layout/inset",
+							keywords: ["padding", "container", "wrapper", "density", "spacing", "token", "inset"],
+						},
+					],
+				},
+				{
+					id: "guide-tools",
+					title: "Outils",
+					url: "/docs/mcp",
+					icon: Wrench,
+					items: [
+						{
+							title: "MCP Server",
+							url: "/docs/mcp",
+							keywords: [
+								"mcp",
+								"model context protocol",
+								"ai",
+								"assistant",
+								"claude",
+								"cursor",
+								"tools",
+								"design system",
+							],
+						},
+						{
+							title: "Sandbox",
+							url: "/docs/sandbox",
+							keywords: ["sandbox", "playground", "test", "experiment"],
+						},
+					],
+				},
+				{
+					id: "guide-utils",
+					title: "Utils",
+					url: "/docs/utils/unsaved-changes-bar",
+					icon: Save,
+					items: [
+						{
+							title: "react-dirty-guard",
+							url: "/docs/utils/react-dirty-guard",
+							keywords: [
+								"dirty guard",
+								"unsaved changes",
+								"form guard",
+								"navigation guard",
+								"beforeunload",
+								"popstate",
+								"npm package",
+							],
+						},
+						{
+							title: "Unsaved Changes Bar",
+							url: "/docs/utils/unsaved-changes-bar",
+							keywords: [
+								"unsaved",
+								"dirty",
+								"form guard",
+								"navigation guard",
+								"save prompt",
+								"discard",
+							],
+						},
+						{
+							title: "Quick Login",
+							url: "/docs/utils/quick-login",
+							keywords: [
+								"dev",
+								"test accounts",
+								"quick login",
+								"account switcher",
+								"development",
+								"credentials",
+							],
+						},
+					],
+				},
+			],
+		},
+	],
+}
+
+// Backward compatibility - export navigationConfig as before
+export const navigationConfig = sidebarConfig.navigation
+
+export type SectionId = "components" | "blocks" | "data-table" | "ai" | "guide"
+
+export const sectionTabs: { id: SectionId; label: string; defaultUrl: string }[] = [
+	{ id: "components", label: "Composants", defaultUrl: "/docs/components" },
+	{ id: "blocks", label: "Blocks", defaultUrl: "/docs/blocks" },
+	{ id: "data-table", label: "Data Table", defaultUrl: "/docs/blocks/data-table" },
+	{ id: "ai", label: "AI", defaultUrl: "/docs/ai" },
+	{ id: "guide", label: "Guide", defaultUrl: "/docs/guide" },
+]
+
+export function getSectionForPathname(pathname: string): SectionId {
+	if (pathname === "/docs/ai" || pathname.startsWith("/docs/ai/")) return "ai"
+	if (pathname.startsWith("/docs/blocks/data-table")) return "data-table"
+	if (pathname === "/docs/blocks" || pathname.startsWith("/docs/blocks/")) return "blocks"
+	if (pathname.startsWith("/docs/guide")) return "guide"
+	if (
+		pathname.startsWith("/docs/mcp") ||
+		pathname.startsWith("/docs/sandbox") ||
+		pathname.startsWith("/docs/utils/")
+	)
+		return "guide"
+	if (
+		pathname.startsWith("/docs/components/colors") ||
+		pathname.startsWith("/docs/components/typography")
+	)
+		return "guide"
+	if (pathname.startsWith("/docs/components/layout/inset")) return "guide"
+	if (pathname.startsWith("/docs/components/ui/text")) return "guide"
+	return "components"
+}
+
+export function getSectionNavigation(sectionId: SectionId): NavigationSection | undefined {
+	return sidebarConfig.navigation.find((s) => s.id === sectionId)
+}
