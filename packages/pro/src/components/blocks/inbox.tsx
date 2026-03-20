@@ -14,7 +14,6 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@blazz/ui"
-import { withProGuard } from "../../lib/with-pro-guard"
 import { ErrorState } from "@blazz/ui"
 import { Button } from "@blazz/ui"
 import {
@@ -576,7 +575,7 @@ export interface InboxDetailEmptyProps {
 }
 
 export function InboxDetailEmpty({
-	title = "No unread notifications",
+	title = "Select a notification",
 	className,
 }: InboxDetailEmptyProps) {
 	return (
@@ -603,57 +602,6 @@ export function InboxDetailEmpty({
 			</svg>
 			<span className="text-sm text-fg-muted">{title}</span>
 		</div>
-	)
-}
-
-// ---------------------------------------------------------------------------
-// Inbox (split layout: list + detail)
-// ---------------------------------------------------------------------------
-
-export interface InboxProps {
-	children: React.ReactNode
-	className?: string
-}
-
-function InboxBase({ children, className }: InboxProps) {
-	return <div className={cn("flex h-full", className)}>{children}</div>
-}
-
-export const Inbox = withProGuard(InboxBase, "Inbox")
-
-// ---------------------------------------------------------------------------
-// InboxSidebar (left pane)
-// ---------------------------------------------------------------------------
-
-export interface InboxSidebarProps {
-	children: React.ReactNode
-	width?: number
-	className?: string
-}
-
-export function InboxSidebar({ children, width = 340, className }: InboxSidebarProps) {
-	return (
-		<div
-			className={cn("flex h-full flex-col border-r border-edge", className)}
-			style={{ width, minWidth: width }}
-		>
-			{children}
-		</div>
-	)
-}
-
-// ---------------------------------------------------------------------------
-// InboxDetail (right pane)
-// ---------------------------------------------------------------------------
-
-export interface InboxDetailProps {
-	children?: React.ReactNode
-	className?: string
-}
-
-export function InboxDetail({ children, className }: InboxDetailProps) {
-	return (
-		<div className={cn("flex flex-1 flex-col", className)}>{children ?? <InboxDetailEmpty />}</div>
 	)
 }
 

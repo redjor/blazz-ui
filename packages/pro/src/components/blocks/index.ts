@@ -34,7 +34,6 @@ export type {
 	InboxActionType,
 	InboxAuthor,
 	InboxDetailEmptyProps,
-	InboxDetailProps,
 	InboxFilters,
 	InboxHeaderProps,
 	InboxItemProps,
@@ -43,21 +42,16 @@ export type {
 	InboxNotification,
 	InboxPanelProps,
 	InboxPriority,
-	InboxProps,
 	InboxReadFilter,
-	InboxSidebarProps,
 	InboxStatusVariant,
 } from "./inbox"
 export {
 	filterInboxItems,
-	Inbox,
-	InboxDetail,
 	InboxDetailEmpty,
 	InboxHeader,
 	InboxItem,
 	InboxList,
 	InboxPanel,
-	InboxSidebar,
 } from "./inbox"
 export type { LineChartBlockProps } from "./line-chart-block"
 export { LineChartBlock } from "./line-chart-block"

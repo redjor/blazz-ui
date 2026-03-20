@@ -112,18 +112,13 @@ function SplitViewBase({
 
 				{/* Resize handle — desktop only */}
 				<div
-					className="group relative hidden w-0 shrink-0 cursor-col-resize md:block"
+					className={cn(
+						"hidden w-1 shrink-0 cursor-col-resize items-center justify-center transition-colors duration-150 ease-out md:flex",
+						dragging ? "bg-surface-3" : "hover:bg-surface-3",
+					)}
 					onPointerDown={handlePointerDown}
 				>
-					<div className="absolute inset-y-0 -left-1 z-10 w-2" />
-					<div
-						className={cn(
-							"absolute inset-y-0 left-0 w-px transition-colors duration-150 ease-out",
-							dragging
-								? "bg-fg-muted"
-								: "bg-transparent group-hover:bg-border",
-						)}
-					/>
+					<div className="h-8 w-0.5 rounded-full bg-border" />
 				</div>
 
 				{/* Detail panel */}
