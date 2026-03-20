@@ -19,7 +19,8 @@ import {
 } from "@blazz/ui/components/ui/sidebar"
 import { cn } from "@blazz/ui/lib/utils"
 import type { NavigationItem, NavigationSection } from "@blazz/ui/types/navigation"
-import { Link, useLocation } from "@tanstack/react-router"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import * as React from "react"
 import type { SectionId } from "~/config/navigation"
 import { getSectionNavigation, sectionTabs } from "~/config/navigation"
@@ -31,7 +32,7 @@ interface DocsMobileSheetProps {
 }
 
 export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileSheetProps) {
-	const { pathname } = useLocation()
+	const pathname = usePathname()
 	const [openItemId, setOpenItemId] = React.useState<string | null>(null)
 	const section = getSectionNavigation(sectionId)
 
@@ -74,7 +75,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 						{sectionTabs.map((tab) => (
 							<Link
 								key={tab.id}
-								to={tab.defaultUrl}
+								href={tab.defaultUrl}
 								onClick={handleLinkClick}
 								className={cn(
 									"px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
@@ -168,7 +169,7 @@ function NavItem({
 			>
 				<SidebarMenuItem>
 					<SidebarMenuCollapsibleTrigger spacing="compact" asChild isActive={isParentActive}>
-						<Link to={item.url ?? "/"} onClick={onLinkClick}>
+						<Link href={item.url ?? "/"} onClick={onLinkClick}>
 							{item.icon && <item.icon />}
 							<span>{item.title}</span>
 						</Link>
@@ -181,7 +182,7 @@ function NavItem({
 									isActive={isActive(sub.url)}
 								>
 									<SidebarMenuSubButton asChild isActive={isActive(sub.url)}>
-										<Link to={sub.url ?? "/"} onClick={onLinkClick}>
+										<Link href={sub.url ?? "/"} onClick={onLinkClick}>
 											{sub.icon && <sub.icon />}
 											<span>{sub.title}</span>
 										</Link>
@@ -198,7 +199,7 @@ function NavItem({
 	return (
 		<SidebarMenuItem>
 			<SidebarMenuButton asChild isActive={isActive(item.url)}>
-				<Link to={item.url ?? "/"} onClick={onLinkClick}>
+				<Link href={item.url ?? "/"} onClick={onLinkClick}>
 					{item.icon && <item.icon />}
 					<span>{item.title}</span>
 				</Link>

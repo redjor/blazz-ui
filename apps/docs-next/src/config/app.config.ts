@@ -12,20 +12,20 @@ import { sidebarConfig } from "./navigation"
  */
 export const appMetadata = {
 	/** Nom de l'application (affiche dans l'UI, meta tags, etc.) */
-	name: import.meta.env.VITE_APP_NAME || "Blazz UI App",
+	name: process.env.NEXT_PUBLIC_APP_NAME || "Blazz UI App",
 
 	/** Description de l'application (pour SEO, meta tags) */
 	description:
 		"Boilerplate Next.js production-ready avec bibliotheque de composants UI et integration LLM optimale",
 
 	/** Version de l'application */
-	version: import.meta.env.VITE_APP_VERSION || "1.0.0",
+	version: process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0",
 
 	/** URL de l'application */
-	url: import.meta.env.VITE_APP_URL || "http://localhost:3100",
+	url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3100",
 
 	/** Environnement (development, staging, production) */
-	environment: import.meta.env.VITE_ENVIRONMENT || "development",
+	environment: process.env.NEXT_PUBLIC_ENVIRONMENT || "development",
 
 	/** Keywords pour SEO */
 	keywords: [
@@ -89,37 +89,37 @@ export const features = {
 	/** Command Palette (Cmd+K / Ctrl+K) */
 	commandPalette: {
 		enabled:
-			import.meta.env.VITE_ENABLE_COMMAND_PALETTE === "true" ||
-			import.meta.env.VITE_ENABLE_COMMAND_PALETTE === undefined,
+			process.env.NEXT_PUBLIC_ENABLE_COMMAND_PALETTE === "true" ||
+			process.env.NEXT_PUBLIC_ENABLE_COMMAND_PALETTE === undefined,
 		shortcut: "Cmd+K",
 	},
 
 	/** Analytics */
 	analytics: {
-		enabled: import.meta.env.VITE_ENABLE_ANALYTICS === "true",
+		enabled: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === "true",
 		provider: "none" as "google" | "vercel" | "posthog" | "mixpanel" | "none",
 		// config: {
-		// 	measurementId: import.meta.env.VITE_GA_MEASUREMENT_ID,
+		// 	measurementId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
 		// },
 	},
 
 	/** Internationalisation (i18n) */
 	i18n: {
-		enabled: import.meta.env.VITE_ENABLE_I18N === "true",
+		enabled: process.env.NEXT_PUBLIC_ENABLE_I18N === "true",
 		defaultLocale: "fr",
 		locales: ["fr", "en"],
 	},
 
 	/** Mode maintenance */
 	maintenance: {
-		enabled: import.meta.env.VITE_MAINTENANCE_MODE === "true",
+		enabled: process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true",
 		message: "L'application est actuellement en maintenance. Nous serons de retour bientot.",
 	},
 
 	/** Debug mode */
 	debug: {
-		enabled: import.meta.env.VITE_DEBUG === "true",
-		showLogs: import.meta.env.DEV,
+		enabled: process.env.NEXT_PUBLIC_DEBUG === "true",
+		showLogs: process.env.NODE_ENV === "development",
 	},
 
 	/** Notifications */
@@ -174,10 +174,10 @@ export const auth = {
  */
 export const api = {
 	/** URL de base de l'API */
-	baseUrl: import.meta.env.VITE_API_URL || "/api",
+	baseUrl: process.env.NEXT_PUBLIC_API_URL || "/api",
 
 	/** Timeout des requetes (ms) */
-	timeout: Number(import.meta.env.VITE_API_TIMEOUT) || 30000,
+	timeout: Number(process.env.NEXT_PUBLIC_API_TIMEOUT) || 30000,
 
 	/** Headers par defaut */
 	defaultHeaders: {

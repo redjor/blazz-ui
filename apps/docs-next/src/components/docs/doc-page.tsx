@@ -1,5 +1,5 @@
 import { cn } from "@blazz/ui/lib/utils"
-import { useLocation } from "@tanstack/react-router"
+import { usePathname } from "next/navigation"
 import { navigationConfig } from "~/config/navigation"
 import { DocToc, type TocItem } from "./doc-toc"
 
@@ -22,7 +22,7 @@ interface DocPageProps {
 }
 
 export function DocPage({ title, subtitle, category, toc, children }: DocPageProps) {
-	const { pathname } = useLocation()
+	const pathname = usePathname()
 	const resolvedCategory = category ?? getCategoryForPath(pathname)
 	const hasToc = Boolean(toc && toc.length > 0)
 
