@@ -88,7 +88,7 @@ export function ContractSection({
 		<Box background="surface" border="default" borderRadius="lg">
 			<BlockStack gap="500">
 				{/* ── Header ── */}
-				<InlineStack align="space-between" blockAlign="center">
+				<InlineStack align="space-between" blockAlign="start">
 					<div>
 						<InlineStack gap="200" blockAlign="center">
 							<span className="text-sm font-semibold text-fg">
