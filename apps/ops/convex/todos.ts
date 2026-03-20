@@ -65,6 +65,22 @@ export const list = query({
 	},
 })
 
+export const listByProject = query({
+	args: {
+		projectId: v.id("projects"),
+	},
+	handler: async (ctx, { projectId }) => {
+		const { userId } = await requireAuth(ctx)
+		return ctx.db
+			.query("todos")
+			.withIndex("by_user_project", (q) =>
+				q.eq("userId", userId).eq("projectId", projectId)
+			)
+			.order("desc")
+			.collect()
+	},
+})
+
 export const get = query({
 	args: { id: v.id("todos") },
 	handler: async (ctx, { id }) => {

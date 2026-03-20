@@ -211,7 +211,8 @@ export default defineSchema({
 		.index("by_category", ["categoryId"])
 		.index("by_user", ["userId"])
 		.index("by_user_status", ["userId", "status"])
-		.index("by_user_category", ["userId", "categoryId"]),
+		.index("by_user_category", ["userId", "categoryId"])
+		.index("by_user_project", ["userId", "projectId"]),
 
 	licenseKeys: defineTable({
 		userId: v.string(),
