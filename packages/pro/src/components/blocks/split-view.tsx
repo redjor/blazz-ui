@@ -118,7 +118,7 @@ function SplitViewBase({
 					<div className="absolute inset-y-0 -left-1 z-10 w-2" />
 					<div
 						className={cn(
-							"absolute inset-y-0 left-0 w-px transition-colors duration-150",
+							"absolute inset-y-0 left-0 w-px transition-colors duration-150 ease-out",
 							dragging
 								? "bg-fg-muted"
 								: "bg-transparent group-hover:bg-border",
@@ -141,7 +141,7 @@ function Master({ className, children }: SplitViewPanelProps) {
 
 	return (
 		<div
-			className={cn("min-h-0 shrink-0 overflow-y-auto", className)}
+			className={cn("min-h-0 shrink-0 overflow-y-auto max-md:!w-full", className)}
 			style={{ width: `${ctx.ratio * 100}%` }}
 		>
 			{children}
