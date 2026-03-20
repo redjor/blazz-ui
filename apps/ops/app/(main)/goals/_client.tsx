@@ -296,8 +296,8 @@ export default function GoalsPageClient() {
 									<td className="py-2 text-right tabular-nums">{formatCurrency(q.target)}</td>
 									<td className="py-2 text-right tabular-nums">{formatCurrency(q.actual)}</td>
 									<td className="py-2 text-right tabular-nums">{q.percent}%</td>
-									<td className="py-2 text-right tabular-nums">
-										{formatCurrency(q.actual - q.target)}
+									<td className={`py-2 text-right tabular-nums ${q.actual - q.target >= 0 ? "text-positive" : "text-critical"}`}>
+										{q.actual - q.target >= 0 ? "+" : ""}{formatCurrency(q.actual - q.target)}
 									</td>
 								</tr>
 							))}
@@ -310,8 +310,8 @@ export default function GoalsPageClient() {
 									{formatCurrency(data.revenue.annual.actual)}
 								</td>
 								<td className="py-2 text-right tabular-nums">{data.revenue.annual.percent}%</td>
-								<td className="py-2 text-right tabular-nums">
-									{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}
+								<td className={`py-2 text-right tabular-nums ${data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "text-positive" : "text-critical"}`}>
+									{data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "+" : ""}{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}
 								</td>
 							</tr>
 						</tbody>
