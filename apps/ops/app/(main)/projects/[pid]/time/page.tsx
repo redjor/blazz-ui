@@ -433,16 +433,10 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 	// Loading state
 	if (data === undefined) {
 		return (
-			<BlockStack gap="400" className="p-6">
-				<InlineStack align="space-between" blockAlign="center">
-					<Skeleton className="h-5 w-32" />
-					<Skeleton className="h-8 w-28" />
-				</InlineStack>
-				<BlockStack gap="200">
-					{Array.from({ length: 5 }).map((_, i) => (
-						<Skeleton key={i} className="h-10 rounded" />
-					))}
-				</BlockStack>
+			<BlockStack gap="200" className="p-6">
+				{Array.from({ length: 5 }).map((_, i) => (
+					<Skeleton key={i} className="h-10 rounded" />
+				))}
 			</BlockStack>
 		)
 	}
@@ -454,15 +448,6 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 
 	return (
 		<>
-			<BlockStack gap="400" className="p-6 pb-0">
-				<InlineStack align="space-between" blockAlign="center">
-					<h2 className="text-sm font-medium text-fg">Entrées de temps</h2>
-					<Button size="sm" variant="outline" onClick={() => setQuickEntryOpen(true)}>
-						<Plus className="size-3.5 mr-1" />
-						Nouvelle entrée
-					</Button>
-				</InlineStack>
-			</BlockStack>
 			<DataTable
 				data={entries}
 				columns={entryColumns}
@@ -478,6 +463,16 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 				enableGrouping
 				defaultGrouping={["status"]}
 				defaultExpanded
+				renderGroupHeaderEnd={() => (
+					<Button
+						variant="ghost"
+						size="icon-sm"
+						onClick={() => setQuickEntryOpen(true)}
+						className="text-fg-muted hover:text-fg"
+					>
+						<Plus className="size-3.5" />
+					</Button>
+				)}
 				groupRowStyle={(row) => {
 					const s = row.getValue("status") as string | null
 					const cfg = s ? statusConfig[s] : null
