@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, type DocPropGroup, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -135,8 +138,8 @@ const propGroups: DocPropGroup[] = [
 	},
 ]
 
-export default async function FieldGridPage() {
-	const highlighted = await highlightedPromise
+export default function FieldGridPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

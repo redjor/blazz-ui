@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { TimePicker } from "@blazz/ui/components/ui/time-picker"
 import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -95,8 +98,8 @@ function ControlledTimePickerDemo() {
 	)
 }
 
-export default async function TimePickerPage() {
-	const highlighted = await highlightedPromise
+export default function TimePickerPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

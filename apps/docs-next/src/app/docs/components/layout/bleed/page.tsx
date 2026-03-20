@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -108,8 +111,8 @@ const bleedProps: DocProp[] = [
 	},
 ]
 
-export default async function BleedPage() {
-	const highlighted = await highlightedPromise
+export default function BleedPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

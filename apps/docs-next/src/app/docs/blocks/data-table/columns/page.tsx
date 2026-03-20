@@ -1,3 +1,5 @@
+"use client"
+
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 

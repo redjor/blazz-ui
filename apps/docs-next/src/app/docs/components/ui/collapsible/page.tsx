@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Collapsible,
@@ -143,8 +146,8 @@ const contentProps: DocProp[] = [
 ]
 
 
-export default async function CollapsiblePage() {
-	const highlighted = await highlightedPromise
+export default function CollapsiblePage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

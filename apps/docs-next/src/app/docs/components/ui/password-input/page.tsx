@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { PasswordInput } from "@blazz/ui/components/ui/password-input"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -38,8 +41,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function PasswordInputPage() {
-	const highlighted = await highlightedPromise
+export default function PasswordInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

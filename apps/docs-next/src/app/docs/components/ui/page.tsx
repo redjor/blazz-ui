@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Page } from "@blazz/ui/components/ui/page"
 import Link from "next/link"

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ButtonGroup } from "@blazz/ui/components/ui/button-group"
 import { Bold, ChevronLeft, ChevronRight, Italic, Underline } from "lucide-react"
@@ -83,8 +86,8 @@ const buttonGroupProps: DocProp[] = [
 	},
 ]
 
-export default async function ButtonGroupPage() {
-	const highlighted = await highlightedPromise
+export default function ButtonGroupPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

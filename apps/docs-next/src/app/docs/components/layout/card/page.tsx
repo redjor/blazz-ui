@@ -1,3 +1,5 @@
+"use client"
+
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
@@ -9,6 +11,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@blazz/ui/components/ui/card"
+import { use } from "react"
 import { ArrowRightIcon, BellIcon, SparklesIcon } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
@@ -257,8 +260,8 @@ const cardProps: DocProp[] = [
 	},
 ]
 
-export default async function CardPage() {
-	const highlighted = await highlightedPromise
+export default function CardPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { PropertyCard } from "@blazz/pro/components/blocks/property-card"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -139,8 +142,8 @@ const examples = [
 const highlightedPromise = highlightExamples(examples as any)
 
 
-export default async function PropertyCardPage() {
-	const highlighted = await highlightedPromise
+export default function PropertyCardPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

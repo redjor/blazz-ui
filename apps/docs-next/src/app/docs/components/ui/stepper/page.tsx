@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { Stepper } from "@blazz/ui/components/ui/stepper"
 import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -298,8 +301,8 @@ function VerticalStepperDemo() {
 	)
 }
 
-export default async function StepperPage() {
-	const highlighted = await highlightedPromise
+export default function StepperPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

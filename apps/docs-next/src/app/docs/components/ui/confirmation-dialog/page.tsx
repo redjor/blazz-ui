@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Archive, LogOut, Trash2 } from "lucide-react"
@@ -176,8 +179,8 @@ const confirmationDialogProps: DocProp[] = [
 ]
 
 
-export default async function ConfirmationDialogPage() {
-	const highlighted = await highlightedPromise
+export default function ConfirmationDialogPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

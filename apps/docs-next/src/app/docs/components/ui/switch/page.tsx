@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { Label } from "@blazz/ui/components/ui/label"
 import { Switch } from "@blazz/ui/components/ui/switch"
 import * as React from "react"
@@ -112,8 +115,8 @@ function ControlledSwitchDemo() {
 	)
 }
 
-export default async function SwitchPage() {
-	const highlighted = await highlightedPromise
+export default function SwitchPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

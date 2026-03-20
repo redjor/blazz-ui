@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
@@ -146,8 +149,8 @@ const toc = [
 	{ id: "related", title: "Voir aussi" },
 ]
 
-export default async function InsetPage() {
-	const highlighted = await highlightedPromise
+export default function InsetPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

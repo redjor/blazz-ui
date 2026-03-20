@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	InlineCitation,
 	InlineCitationCard,
@@ -66,8 +69,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function InlineCitationPage() {
-	const highlighted = await highlightedPromise
+export default function InlineCitationPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

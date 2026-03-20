@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Calendar } from "@blazz/ui/components/ui/calendar"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -116,8 +119,8 @@ const calendarProps: DocProp[] = [
 	},
 ]
 
-export default async function CalendarPage() {
-	const highlighted = await highlightedPromise
+export default function CalendarPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

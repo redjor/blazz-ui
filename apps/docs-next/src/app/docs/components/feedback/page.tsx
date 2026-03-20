@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import { AlertCircle, Bell, InboxIcon, Loader2, MessageSquare, Tag } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"

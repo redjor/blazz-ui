@@ -1,3 +1,5 @@
+"use client"
+
 import { DocPage } from "~/components/docs/doc-page"
 
 export default function FormSectionPage() {

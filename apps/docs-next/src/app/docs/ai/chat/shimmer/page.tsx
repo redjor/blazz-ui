@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Shimmer } from "@blazz/pro/components/ai/chat/shimmer"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -27,8 +30,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function ShimmerPage() {
-	const highlighted = await highlightedPromise
+export default function ShimmerPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

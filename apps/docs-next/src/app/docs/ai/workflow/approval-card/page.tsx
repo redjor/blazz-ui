@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { ApprovalCard } from "@blazz/pro/components/ai/generative/workflow/approval-card"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Check, X } from "lucide-react"
@@ -43,8 +46,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function ApprovalCardPage() {
-	const highlighted = await highlightedPromise
+export default function ApprovalCardPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

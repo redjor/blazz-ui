@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import type { LucideIcon } from "lucide-react"
 import {

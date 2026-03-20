@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
@@ -180,8 +183,8 @@ const toc = [
 	{ id: "related", title: "Voir aussi" },
 ]
 
-export default async function McpPage() {
-	const highlighted = await highlightedPromise
+export default function McpPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

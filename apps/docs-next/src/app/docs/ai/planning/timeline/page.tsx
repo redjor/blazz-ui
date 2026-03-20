@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Timeline } from "@blazz/pro/components/ai/generative/planning/timeline"
 import { Calendar, FileText, Mail, Phone } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -34,8 +37,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function TimelinePage() {
-	const highlighted = await highlightedPromise
+export default function TimelinePage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

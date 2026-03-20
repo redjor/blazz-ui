@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Menubar,
 	MenubarCheckboxItem,
@@ -194,8 +197,8 @@ const [showFullUrls, setShowFullUrls] = React.useState(false)
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function MenubarPage() {
-	const highlighted = await highlightedPromise
+export default function MenubarPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { BudgetCard } from "@blazz/pro/components/blocks/budget-card"
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -196,8 +199,8 @@ function BudgetCardHeroDemo() {
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function BudgetCardPage() {
-	const highlighted = await highlightedPromise
+export default function BudgetCardPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	const formatUSD = (n: number) => `$${n.toLocaleString("en-US")}`

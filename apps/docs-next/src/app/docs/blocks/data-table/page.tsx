@@ -221,7 +221,7 @@ const subPages = [
 const examples = [
 	{
 		key: "quick-start",
-		code: `import { use, DataTable, col } from "@blazz/pro/components/blocks/data-table"
+		code: `import { DataTable, col } from "@blazz/pro/components/blocks/data-table"
 
 const columns = [
   col.text<Deal>("company", { title: "Entreprise" }),
@@ -249,7 +249,7 @@ const columns = [
 	},
 	{
 		key: "stacked-toolbar",
-		code: `import { use, DataTable, col, createStatusViews } from "@blazz/pro/components/blocks/data-table"
+		code: `import { DataTable, col, createStatusViews } from "@blazz/pro/components/blocks/data-table"
 
 const views = createStatusViews({
   column: "stage",

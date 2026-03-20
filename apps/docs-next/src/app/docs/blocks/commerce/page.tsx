@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import { FileSearch, FileText } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"

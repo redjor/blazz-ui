@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	SettingsDanger,
 	SettingsHeader,
@@ -324,8 +327,8 @@ function SettingsBlockHeroDemo() {
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function SettingsBlockPage() {
-	const highlighted = await highlightedPromise
+export default function SettingsBlockPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

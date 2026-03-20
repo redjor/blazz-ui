@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import type { TreeNode } from "@blazz/ui/components/ui/tree-view"
 import { TreeView } from "@blazz/ui/components/ui/tree-view"
 import * as React from "react"
@@ -258,8 +261,8 @@ function ControlledTreeDemo() {
 	)
 }
 
-export default async function TreeViewPage() {
-	const highlighted = await highlightedPromise
+export default function TreeViewPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

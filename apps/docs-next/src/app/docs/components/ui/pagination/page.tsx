@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import {
 	Pagination,
 	PaginationContent,
@@ -200,8 +203,8 @@ function ControlledPaginationDemo() {
 	)
 }
 
-export default async function PaginationPage() {
-	const highlighted = await highlightedPromise
+export default function PaginationPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -68,8 +71,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function LabelPage() {
-	const highlighted = await highlightedPromise
+export default function LabelPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Pencil, Trash2 } from "lucide-react"
@@ -272,8 +275,8 @@ function DetailPanelHeroDemo() {
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function DetailPanelPage() {
-	const highlighted = await highlightedPromise
+export default function DetailPanelPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

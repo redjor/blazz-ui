@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -96,8 +99,8 @@ function Placeholder({ label }: { label: string }) {
 	)
 }
 
-export default async function BlockStackPage() {
-	const highlighted = await highlightedPromise
+export default function BlockStackPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

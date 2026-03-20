@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Breadcrumb,
 	BreadcrumbBackLink,
@@ -139,8 +142,8 @@ const breadcrumbProps: DocProp[] = [
 	},
 ]
 
-export default async function BreadcrumbPage() {
-	const highlighted = await highlightedPromise
+export default function BreadcrumbPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

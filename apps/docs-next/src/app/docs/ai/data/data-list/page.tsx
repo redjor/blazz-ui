@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DataList } from "@blazz/pro/components/ai/generative/data/data-list"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -37,8 +40,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function DataListPage() {
-	const highlighted = await highlightedPromise
+export default function DataListPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

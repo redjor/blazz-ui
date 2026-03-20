@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { SegmentedProgress } from "@blazz/pro/components/blocks/segmented-progress"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -132,8 +135,8 @@ function SegmentedProgressHeroDemo() {
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function SegmentedProgressPage() {
-	const highlighted = await highlightedPromise
+export default function SegmentedProgressPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

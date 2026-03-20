@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Reasoning,
 	ReasoningContent,
@@ -52,8 +55,8 @@ const mockReasoning = `The user is asking about React performance optimization. 
 
 Let me structure the response clearly with practical examples for each technique.`
 
-export default async function ReasoningPage() {
-	const highlighted = await highlightedPromise
+export default function ReasoningPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

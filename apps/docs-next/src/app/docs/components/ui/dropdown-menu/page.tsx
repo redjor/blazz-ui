@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { Button } from "@blazz/ui/components/ui/button"
 import { CheckboxItemsDemo, RadioItemsDemo, ComplexDemo } from "./demos"
 import {
@@ -523,8 +526,8 @@ const dropdownMenuItemProps: DocProp[] = [
 ]
 
 
-export default async function DropdownMenuPage() {
-	const highlighted = await highlightedPromise
+export default function DropdownMenuPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

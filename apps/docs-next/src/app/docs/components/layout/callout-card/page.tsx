@@ -1,3 +1,5 @@
+"use client"
+
 import { CalloutCard } from "@blazz/ui/components/ui/callout-card"
 import { DocDoDont } from "~/components/docs/doc-do-dont"
 import { DocExampleSync } from "~/components/docs/doc-example-client"

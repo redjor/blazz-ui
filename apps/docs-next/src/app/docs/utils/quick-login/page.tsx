@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -156,8 +159,8 @@ const accountProps: DocProp[] = [
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
-export default async function QuickLoginPage() {
-	const highlighted = await highlightedPromise
+export default function QuickLoginPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

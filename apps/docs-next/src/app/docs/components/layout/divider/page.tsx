@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Divider } from "@blazz/ui/components/ui/divider"
@@ -57,8 +60,8 @@ const dividerProps: DocProp[] = [
 	},
 ]
 
-export default async function DividerPage() {
-	const highlighted = await highlightedPromise
+export default function DividerPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import type { TimelineEvent } from "@blazz/pro/components/blocks/activity-timeline"
 import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -211,8 +214,8 @@ const toc = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function ActivityTimelinePage() {
-	const highlighted = await highlightedPromise
+export default function ActivityTimelinePage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

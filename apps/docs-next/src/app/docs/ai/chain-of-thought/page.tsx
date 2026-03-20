@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	ChainOfThought,
 	ChainOfThoughtContent,
@@ -59,8 +62,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function ChainOfThoughtPage() {
-	const highlighted = await highlightedPromise
+export default function ChainOfThoughtPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

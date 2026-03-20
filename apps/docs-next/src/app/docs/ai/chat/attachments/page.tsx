@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import type { AttachmentData } from "@blazz/pro/components/ai/chat/attachments"
 import {
 	Attachment,
@@ -72,8 +75,8 @@ const mockFiles: AttachmentData[] = [
 	},
 ]
 
-export default async function AttachmentsPage() {
-	const highlighted = await highlightedPromise
+export default function AttachmentsPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"

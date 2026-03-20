@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import { BarChart3, Gauge, LayoutList, TrendingUp } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"

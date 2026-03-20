@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Spinner } from "@blazz/ui/components/ui/spinner"
 import { ChevronRight, Mail, Plus } from "lucide-react"
@@ -98,8 +101,8 @@ const buttonProps: DocProp[] = [
 	},
 ]
 
-export default async function ButtonPage() {
-	const highlighted = await highlightedPromise
+export default function ButtonPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

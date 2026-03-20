@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import { AreaChart, BarChart3, LineChart, PieChart, Radar } from "lucide-react"
 import { ComponentSection } from "~/components/docs/component-card"

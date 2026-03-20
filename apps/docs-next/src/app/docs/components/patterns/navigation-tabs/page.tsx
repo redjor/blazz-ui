@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -538,8 +541,8 @@ function TabBarPreview() {
 	)
 }
 
-export default async function NavigationTabsPage() {
-	const highlighted = await highlightedPromise
+export default function NavigationTabsPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -82,8 +85,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function PhoneInputPage() {
-	const highlighted = await highlightedPromise
+export default function PhoneInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

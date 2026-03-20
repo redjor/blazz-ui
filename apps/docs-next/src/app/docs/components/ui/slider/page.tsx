@@ -1,4 +1,7 @@
+"use client"
+
 import { Slider } from "@blazz/ui/components/ui/slider"
+import { use } from "react"
 import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -107,8 +110,8 @@ function ControlledSliderDemo() {
 	)
 }
 
-export default async function SliderPage() {
-	const highlighted = await highlightedPromise
+export default function SliderPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { Combobox } from "@blazz/ui/components/ui/combobox"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Flag, Globe } from "lucide-react"
@@ -165,8 +168,8 @@ const comboboxProps: DocProp[] = [
 
 
 
-export default async function ComboboxPage() {
-	const highlighted = await highlightedPromise
+export default function ComboboxPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

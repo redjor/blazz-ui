@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { HelpCircle, Plus, Settings } from "lucide-react"
@@ -92,8 +95,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function TooltipPage() {
-	const highlighted = await highlightedPromise
+export default function TooltipPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

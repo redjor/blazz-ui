@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	CellAvatarGroup,
 	CellBoolean,
@@ -247,8 +250,8 @@ const keyValueProps: DocProp[] = [
 	{ name: "value", type: "string", description: "The value displayed in normal text." },
 ]
 
-export default async function CellTypesPage() {
-	const highlighted = await highlightedPromise
+export default function CellTypesPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

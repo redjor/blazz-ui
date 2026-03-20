@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -160,8 +163,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function StatsStripPage() {
-	const highlighted = await highlightedPromise
+export default function StatsStripPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

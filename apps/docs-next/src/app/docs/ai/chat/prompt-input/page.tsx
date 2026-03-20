@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	PromptInput,
 	PromptInputButton,
@@ -62,8 +65,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function PromptInputPage() {
-	const highlighted = await highlightedPromise
+export default function PromptInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

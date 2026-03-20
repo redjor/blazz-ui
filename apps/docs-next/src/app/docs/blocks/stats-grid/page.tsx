@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import type { StatItem } from "@blazz/pro/components/blocks/stats-grid"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import {
@@ -314,8 +317,8 @@ function StatsGridHeroDemo() {
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function StatsGridPage() {
-	const highlighted = await highlightedPromise
+export default function StatsGridPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

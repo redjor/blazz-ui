@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -128,8 +131,8 @@ function Placeholder({ label }: { label: string }) {
 	)
 }
 
-export default async function GridPage() {
-	const highlighted = await highlightedPromise
+export default function GridPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { MessagePreview } from "@blazz/pro/components/ai/generative/workflow/message-preview"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -31,8 +34,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function MessagePreviewPage() {
-	const highlighted = await highlightedPromise
+export default function MessagePreviewPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

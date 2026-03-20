@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -74,8 +77,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function InputPage() {
-	const highlighted = await highlightedPromise
+export default function InputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

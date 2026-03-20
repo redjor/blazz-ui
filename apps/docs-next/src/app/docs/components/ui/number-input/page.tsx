@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { NumberInput } from "@blazz/ui/components/ui/number-input"
 import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -115,8 +118,8 @@ function ControlledNumberInputDemo() {
 	)
 }
 
-export default async function NumberInputPage() {
-	const highlighted = await highlightedPromise
+export default function NumberInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

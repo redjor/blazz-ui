@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { Card } from "@blazz/ui/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@blazz/ui/components/ui/radio-group"
 import { Separator } from "@blazz/ui/components/ui/separator"
@@ -434,8 +437,8 @@ function ControlledRadioGroupDemo() {
 	)
 }
 
-export default async function RadioGroupPage() {
-	const highlighted = await highlightedPromise
+export default function RadioGroupPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

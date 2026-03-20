@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Banner } from "@blazz/ui/components/ui/banner"
 import { Info } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -204,8 +207,8 @@ const bannerActionProps: DocProp[] = [
 	},
 ]
 
-export default async function BannerPage() {
-	const highlighted = await highlightedPromise
+export default function BannerPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

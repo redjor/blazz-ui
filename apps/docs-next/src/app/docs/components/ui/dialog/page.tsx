@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
@@ -159,8 +162,8 @@ const dialogContentProps: DocProp[] = [
 	},
 ]
 
-export default async function DialogPage() {
-	const highlighted = await highlightedPromise
+export default function DialogPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

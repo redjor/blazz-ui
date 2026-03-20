@@ -1,3 +1,5 @@
+"use client"
+
 import { Page } from "@blazz/ui/components/ui/page"
 import { Columns3, GitBranch, ListOrdered } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"

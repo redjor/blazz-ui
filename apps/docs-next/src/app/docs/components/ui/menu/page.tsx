@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Menu,
 	MenuCheckboxItem,
@@ -173,8 +176,8 @@ const [autoSave, setAutoSave] = React.useState(false)
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function MenuPage() {
-	const highlighted = await highlightedPromise
+export default function MenuPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

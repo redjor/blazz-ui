@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { StatusUpdate } from "@blazz/pro/components/ai/generative/planning/status-update"
 import { ArrowRightLeft } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -36,8 +39,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function StatusUpdatePage() {
-	const highlighted = await highlightedPromise
+export default function StatusUpdatePage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

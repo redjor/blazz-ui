@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Card,
@@ -111,8 +114,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function TabsPage() {
-	const highlighted = await highlightedPromise
+export default function TabsPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

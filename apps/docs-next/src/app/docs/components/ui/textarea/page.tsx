@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -93,8 +96,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function TextareaPage() {
-	const highlighted = await highlightedPromise
+export default function TextareaPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

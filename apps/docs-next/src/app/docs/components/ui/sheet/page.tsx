@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
@@ -286,8 +289,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function SheetPage() {
-	const highlighted = await highlightedPromise
+export default function SheetPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

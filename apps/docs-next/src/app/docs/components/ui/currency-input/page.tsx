@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { CurrencyInput } from "@blazz/ui/components/ui/currency-input"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -95,8 +98,8 @@ const currencyInputProps: DocProp[] = [
 ]
 
 
-export default async function CurrencyInputPage() {
-	const highlighted = await highlightedPromise
+export default function CurrencyInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

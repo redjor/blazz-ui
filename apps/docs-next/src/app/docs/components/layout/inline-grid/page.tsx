@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -92,8 +95,8 @@ function Placeholder({ height = "80px", label }: { height?: string; label?: stri
 	)
 }
 
-export default async function InlineGridPage() {
-	const highlighted = await highlightedPromise
+export default function InlineGridPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

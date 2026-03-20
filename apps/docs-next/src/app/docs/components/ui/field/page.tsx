@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Field,
@@ -250,8 +253,8 @@ const fieldErrorProps: DocProp[] = [
 ]
 
 
-export default async function FieldPage() {
-	const highlighted = await highlightedPromise
+export default function FieldPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

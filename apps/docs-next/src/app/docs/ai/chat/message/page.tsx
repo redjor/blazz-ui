@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Message,
 	MessageAction,
@@ -49,8 +52,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function MessagePage() {
-	const highlighted = await highlightedPromise
+export default function MessagePage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

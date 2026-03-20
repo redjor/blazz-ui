@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { ColorPicker } from "@blazz/ui/components/ui/color-picker"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -79,8 +82,8 @@ const colorPickerProps: DocProp[] = [
 ]
 
 
-export default async function ColorPickerPage() {
-	const highlighted = await highlightedPromise
+export default function ColorPickerPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

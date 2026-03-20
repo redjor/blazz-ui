@@ -1,3 +1,5 @@
+"use client"
+
 import { Conversation, ConversationContent } from "@blazz/pro/components/ai/chat/conversation"
 import { Message, MessageContent } from "@blazz/pro/components/ai/chat/message"
 import {

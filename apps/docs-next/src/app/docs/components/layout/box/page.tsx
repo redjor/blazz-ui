@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Box } from "@blazz/ui/components/ui/box"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
@@ -100,8 +103,8 @@ const boxProps: DocProp[] = [
 	},
 ]
 
-export default async function BoxPage() {
-	const highlighted = await highlightedPromise
+export default function BoxPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

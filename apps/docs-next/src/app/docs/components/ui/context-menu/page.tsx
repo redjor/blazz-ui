@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { CheckboxItemsDemo, RadioItemsDemo } from "./demos"
 import {
 	ContextMenu,
@@ -282,8 +285,8 @@ const contextMenuItemProps: DocProp[] = [
 ]
 
 
-export default async function ContextMenuPage() {
-	const highlighted = await highlightedPromise
+export default function ContextMenuPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

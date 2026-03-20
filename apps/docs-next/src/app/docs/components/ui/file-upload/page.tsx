@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { FileUpload } from "@blazz/ui/components/ui/file-upload"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -106,8 +109,8 @@ const fileUploadProps: DocProp[] = [
 ]
 
 
-export default async function FileUploadPage() {
-	const highlighted = await highlightedPromise
+export default function FileUploadPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Card, CardContent, CardHeader } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -93,8 +96,8 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-export default async function SkeletonPage() {
-	const highlighted = await highlightedPromise
+export default function SkeletonPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

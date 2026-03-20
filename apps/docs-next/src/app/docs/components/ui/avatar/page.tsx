@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Avatar,
 	AvatarBadge,
@@ -85,8 +88,8 @@ const avatarImageProps: DocProp[] = [
 	},
 ]
 
-export default async function AvatarPage() {
-	const highlighted = await highlightedPromise
+export default function AvatarPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

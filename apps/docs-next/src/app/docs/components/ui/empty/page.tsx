@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Empty,
@@ -184,8 +187,8 @@ const actionProps: DocProp[] = [
 	},
 ]
 
-export default async function EmptyPage() {
-	const highlighted = await highlightedPromise
+export default function EmptyPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { CandidateCard } from "@blazz/pro/components/ai/generative/entities/candidate-card"
 import { Button } from "@blazz/ui/components/ui/button"
 import { CalendarPlus, ExternalLink, MessageCircle } from "lucide-react"
@@ -97,8 +100,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function CandidateCardPage() {
-	const highlighted = await highlightedPromise
+export default function CandidateCardPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

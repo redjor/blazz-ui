@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { Label } from "@blazz/ui/components/ui/label"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -265,8 +268,8 @@ const checkboxGroupOptionProps: DocProp[] = [
 	},
 ]
 
-export default async function CheckboxPage() {
-	const highlighted = await highlightedPromise
+export default function CheckboxPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import type { QuoteLineItem } from "@blazz/pro/components/blocks/quote-preview"
 import { QuotePreview } from "@blazz/pro/components/blocks/quote-preview"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -261,8 +264,8 @@ const highlightedPromise = highlightExamples(examples as any)
 // Page
 // ---------------------------------------------------------------------------
 
-export default async function QuotePreviewPage() {
-	const highlighted = await highlightedPromise
+export default function QuotePreviewPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

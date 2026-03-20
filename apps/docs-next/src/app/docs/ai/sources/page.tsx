@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Source,
 	Sources,
@@ -54,8 +57,8 @@ const mockSources = [
 	{ title: "TypeScript Handbook", href: "https://www.typescriptlang.org/docs" },
 ]
 
-export default async function SourcesPage() {
-	const highlighted = await highlightedPromise
+export default function SourcesPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

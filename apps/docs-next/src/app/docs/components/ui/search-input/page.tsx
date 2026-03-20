@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { SearchInput } from "@blazz/ui/components/ui/search-input"
 import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -80,8 +83,8 @@ function SearchInputWithClearDemo() {
 	)
 }
 
-export default async function SearchInputPage() {
-	const highlighted = await highlightedPromise
+export default function SearchInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

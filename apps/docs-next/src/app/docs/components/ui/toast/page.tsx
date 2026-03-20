@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -165,8 +168,8 @@ const toastApiProps: DocProp[] = [
 	{ name: "toast.dismiss(id?)", type: "(id?: string | number) => void", description: "Ferme un toast par son ID, ou tous les toasts si aucun ID." },
 ]
 
-export default async function ToastPage() {
-	const highlighted = await highlightedPromise
+export default function ToastPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

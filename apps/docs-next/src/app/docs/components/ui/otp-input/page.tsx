@@ -1,3 +1,6 @@
+"use client"
+import { use } from "react"
+
 import { OtpInput } from "@blazz/ui/components/ui/otp-input"
 import * as React from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
@@ -111,8 +114,8 @@ function ControlledOtpInputDemo() {
 	)
 }
 
-export default async function OtpInputPage() {
-	const highlighted = await highlightedPromise
+export default function OtpInputPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

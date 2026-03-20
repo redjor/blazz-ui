@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Command,
@@ -158,8 +161,8 @@ const commandItemProps: DocProp[] = [
 ]
 
 
-export default async function CommandPage() {
-	const highlighted = await highlightedPromise
+export default function CommandPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Context,
 	ContextContent,
@@ -86,8 +89,8 @@ function mockUsage(input: number, output: number): LanguageModelUsage {
 	}
 }
 
-export default async function ContextPage() {
-	const highlighted = await highlightedPromise
+export default function ContextPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

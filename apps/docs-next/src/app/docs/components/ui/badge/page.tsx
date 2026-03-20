@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
@@ -188,8 +191,8 @@ const badgeProps: DocProp[] = [
 	},
 ]
 
-export default async function BadgePage() {
-	const highlighted = await highlightedPromise
+export default function BadgePage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (

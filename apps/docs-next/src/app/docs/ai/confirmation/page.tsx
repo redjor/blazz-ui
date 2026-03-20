@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react"
 import {
 	Confirmation,
 	ConfirmationAccepted,
@@ -72,8 +75,8 @@ const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [{ id: "examples", title: "Examples" }]
 
-export default async function ConfirmationPage() {
-	const highlighted = await highlightedPromise
+export default function ConfirmationPage() {
+	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
