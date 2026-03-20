@@ -17,6 +17,7 @@ import { highlightCode } from "~/lib/highlight-code"
 const toc = [
 	{ id: "examples", title: "Examples" },
 	{ id: "split-view-props", title: "SplitView Props" },
+	{ id: "panel-props", title: "Panel Props" },
 	{ id: "related", title: "Related" },
 ]
 
@@ -97,21 +98,6 @@ const contacts: Contact[] = [
 
 const splitViewProps: DocProp[] = [
 	{
-		name: "master",
-		type: "React.ReactNode",
-		description: "Content rendered in the left (master) panel.",
-	},
-	{
-		name: "detail",
-		type: "React.ReactNode",
-		description: "Content rendered in the right (detail) panel.",
-	},
-	{
-		name: "emptyDetail",
-		type: "React.ReactNode",
-		description: "Fallback content shown when detail is empty/falsy.",
-	},
-	{
 		name: "defaultRatio",
 		type: "number",
 		default: "0.4",
@@ -134,6 +120,24 @@ const splitViewProps: DocProp[] = [
 		type: "string",
 		description: "Additional classes for the outer container.",
 	},
+	{
+		name: "children",
+		type: "React.ReactNode",
+		description: "Must contain SplitView.Master and SplitView.Detail.",
+	},
+]
+
+const panelProps: DocProp[] = [
+	{
+		name: "className",
+		type: "string",
+		description: "Additional classes for the panel container.",
+	},
+	{
+		name: "children",
+		type: "React.ReactNode",
+		description: "Panel content.",
+	},
 ]
 
 // ---------------------------------------------------------------------------
@@ -143,46 +147,42 @@ const splitViewProps: DocProp[] = [
 const examples = [
 	{
 		key: "basic",
-		code: `const [selected, setSelected] = useState<string | null>(null)
+		code: `const [selected, setSelected] = useState(null)
+const contact = contacts.find((c) => c.id === selected)
 
-<SplitView
-  master={
+<SplitView>
+  <SplitView.Master>
     <ul>
       {contacts.map((c) => (
         <li key={c.id} onClick={() => setSelected(c.id)}>
           <p className="font-medium">{c.name}</p>
-          <p className="text-fg-muted">{c.company}</p>
+          <p className="text-muted">{c.company}</p>
         </li>
       ))}
     </ul>
-  }
-  detail={
-    selected ? (
-      <div className="p-6">
-        <h2>{selectedContact.name}</h2>
-        <p>{selectedContact.role}</p>
-      </div>
-    ) : null
-  }
-  emptyDetail={
-    <div className="flex h-full items-center justify-center text-fg-muted">
-      Sélectionnez un contact
-    </div>
-  }
-/>`,
+  </SplitView.Master>
+  <SplitView.Detail>
+    {contact ? (
+      <ContactDetail contact={contact} />
+    ) : (
+      <Placeholder>Sélectionnez un contact</Placeholder>
+    )}
+  </SplitView.Detail>
+</SplitView>`,
 	},
 	{
 		key: "empty-state",
-		code: `<SplitView
-  master={<div className="p-4 text-sm text-fg-muted">Liste vide</div>}
-  detail={null}
-  emptyDetail={
-    <div className="flex h-full flex-col items-center justify-center gap-2 text-fg-muted">
-      <Users className="size-8 opacity-50" />
-      <p>Aucun élément sélectionné</p>
-    </div>
-  }
-/>`,
+		code: `<SplitView>
+  <SplitView.Master>
+    <ContactList />
+  </SplitView.Master>
+  <SplitView.Detail>
+    <EmptyState
+      icon={<Users className="size-8" />}
+      title="Aucun élément sélectionné"
+    />
+  </SplitView.Detail>
+</SplitView>`,
 	},
 	{
 		key: "custom-ratio",
@@ -190,9 +190,14 @@ const examples = [
   defaultRatio={0.3}
   minRatio={0.2}
   maxRatio={0.5}
-  master={<nav>...</nav>}
-  detail={<main>...</main>}
-/>`,
+>
+  <SplitView.Master>
+    <nav>...</nav>
+  </SplitView.Master>
+  <SplitView.Detail>
+    <main>...</main>
+  </SplitView.Detail>
+</SplitView>`,
 	},
 ] as const
 
@@ -252,27 +257,26 @@ function SplitViewPage() {
 
 				<DocExampleClient
 					title="With Empty State"
-					description="When no item is selected, the emptyDetail fallback is shown. Useful for guiding the user."
+					description="When no item is selected, the detail panel shows an empty state. The consumer handles this with a conditional inside SplitView.Detail."
 					code={examples[1].code}
 					highlightedCode={html("empty-state")}
 				>
 					<div className="w-full max-w-3xl overflow-hidden" style={{ height: 300 }}>
-						<SplitView
-							master={
+						<SplitView>
+							<SplitView.Master>
 								<div className="p-4">
 									<p className="text-sm font-medium text-fg">Contacts</p>
 									<p className="mt-1 text-xs text-fg-muted">Aucun contact dans cette vue</p>
 								</div>
-							}
-							detail={null}
-							emptyDetail={
+							</SplitView.Master>
+							<SplitView.Detail>
 								<div className="flex h-full flex-col items-center justify-center gap-2 text-fg-muted">
 									<Mail className="size-8 opacity-40" />
 									<p className="text-sm">Aucun élément sélectionné</p>
 									<p className="text-xs">Sélectionnez un contact dans la liste</p>
 								</div>
-							}
-						/>
+							</SplitView.Detail>
+						</SplitView>
 					</div>
 				</DocExampleClient>
 
@@ -291,6 +295,15 @@ function SplitViewPage() {
 			{/* Props */}
 			<DocSection id="split-view-props" title="SplitView Props">
 				<DocPropsTable props={splitViewProps} />
+			</DocSection>
+
+			{/* Panel Props */}
+			<DocSection id="panel-props" title="Panel Props">
+				<p className="mb-4 text-sm text-fg-muted">
+					Props shared by <code className="text-xs">SplitView.Master</code> and{" "}
+					<code className="text-xs">SplitView.Detail</code>.
+				</p>
+				<DocPropsTable props={panelProps} />
 			</DocSection>
 
 			{/* Related */}
@@ -388,30 +401,31 @@ function HeroDemo() {
 	const selected = contacts.find((c) => c.id === selectedId)
 
 	return (
-		<SplitView
-			master={
-				<div>
-					<div className="px-4 py-3 border-b border-edge">
-						<p className="text-sm font-semibold text-fg">Contacts</p>
-						<p className="text-xs text-fg-muted">{contacts.length} résultats</p>
+		<SplitView>
+			<SplitView.Master>
+				<div className="border-b border-edge px-4 py-3">
+					<p className="text-sm font-semibold text-fg">Contacts</p>
+					<p className="text-xs text-fg-muted">{contacts.length} résultats</p>
+				</div>
+				{contacts.map((c) => (
+					<ContactListItem
+						key={c.id}
+						contact={c}
+						selected={c.id === selectedId}
+						onClick={() => setSelectedId(c.id)}
+					/>
+				))}
+			</SplitView.Master>
+			<SplitView.Detail>
+				{selected ? (
+					<ContactDetail contact={selected} />
+				) : (
+					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
+						Sélectionnez un contact
 					</div>
-					{contacts.map((c) => (
-						<ContactListItem
-							key={c.id}
-							contact={c}
-							selected={c.id === selectedId}
-							onClick={() => setSelectedId(c.id)}
-						/>
-					))}
-				</div>
-			}
-			detail={selected ? <ContactDetail contact={selected} /> : null}
-			emptyDetail={
-				<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-					Sélectionnez un contact
-				</div>
-			}
-		/>
+				)}
+			</SplitView.Detail>
+		</SplitView>
 	)
 }
 
@@ -424,26 +438,27 @@ function BasicDemo() {
 	const selected = contacts.find((c) => c.id === selectedId)
 
 	return (
-		<SplitView
-			master={
-				<div>
-					{contacts.map((c) => (
-						<ContactListItem
-							key={c.id}
-							contact={c}
-							selected={c.id === selectedId}
-							onClick={() => setSelectedId(c.id)}
-						/>
-					))}
-				</div>
-			}
-			detail={selected ? <ContactDetail contact={selected} /> : null}
-			emptyDetail={
-				<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-					Sélectionnez un contact
-				</div>
-			}
-		/>
+		<SplitView>
+			<SplitView.Master>
+				{contacts.map((c) => (
+					<ContactListItem
+						key={c.id}
+						contact={c}
+						selected={c.id === selectedId}
+						onClick={() => setSelectedId(c.id)}
+					/>
+				))}
+			</SplitView.Master>
+			<SplitView.Detail>
+				{selected ? (
+					<ContactDetail contact={selected} />
+				) : (
+					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
+						Sélectionnez un contact
+					</div>
+				)}
+			</SplitView.Detail>
+		</SplitView>
 	)
 }
 
@@ -456,28 +471,26 @@ function CustomRatioDemo() {
 	const selected = contacts.find((c) => c.id === selectedId)
 
 	return (
-		<SplitView
-			defaultRatio={0.3}
-			minRatio={0.2}
-			maxRatio={0.5}
-			master={
-				<div>
-					{contacts.slice(0, 4).map((c) => (
-						<ContactListItem
-							key={c.id}
-							contact={c}
-							selected={c.id === selectedId}
-							onClick={() => setSelectedId(c.id)}
-						/>
-					))}
-				</div>
-			}
-			detail={selected ? <ContactDetail contact={selected} /> : null}
-			emptyDetail={
-				<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-					Sélectionnez un contact
-				</div>
-			}
-		/>
+		<SplitView defaultRatio={0.3} minRatio={0.2} maxRatio={0.5}>
+			<SplitView.Master>
+				{contacts.slice(0, 4).map((c) => (
+					<ContactListItem
+						key={c.id}
+						contact={c}
+						selected={c.id === selectedId}
+						onClick={() => setSelectedId(c.id)}
+					/>
+				))}
+			</SplitView.Master>
+			<SplitView.Detail>
+				{selected ? (
+					<ContactDetail contact={selected} />
+				) : (
+					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
+						Sélectionnez un contact
+					</div>
+				)}
+			</SplitView.Detail>
+		</SplitView>
 	)
 }

@@ -466,9 +466,8 @@ const splitViewItems = [
 export function SplitViewPreview() {
 	return (
 		<div className="h-[360px] w-[640px] p-4">
-			<SplitView
-				defaultRatio={0.35}
-				master={
+			<SplitView defaultRatio={0.35}>
+				<SplitView.Master>
 					<div className="divide-y divide-edge">
 						{splitViewItems.map((item) => (
 							<div
@@ -486,8 +485,8 @@ export function SplitViewPreview() {
 							</div>
 						))}
 					</div>
-				}
-				detail={
+				</SplitView.Master>
+				<SplitView.Detail>
 					<div className="space-y-4 p-4">
 						<div className="flex items-center gap-3">
 							<div className="flex size-10 items-center justify-center rounded-full bg-surface-3 text-sm font-semibold">
@@ -517,8 +516,8 @@ export function SplitViewPreview() {
 							</div>
 						</div>
 					</div>
-				}
-			/>
+				</SplitView.Detail>
+			</SplitView>
 		</div>
 	)
 }
