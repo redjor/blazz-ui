@@ -8,6 +8,27 @@ import { readTools, writeDangerousTools, writeSafeTools } from "@/lib/chat/tools
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
+const COMPLEX_PATTERNS = /\b(et|puis|ensuite|après|aussi|également)\b/i
+
+/**
+ * Detect messages that benefit from a stronger model:
+ * - multiple intentions (conjunctions)
+ * - long messages (> 120 chars)
+ */
+function isComplex(lastUserMessage: string): boolean {
+	if (lastUserMessage.length > 120) return true
+	const conjunctions = lastUserMessage.match(COMPLEX_PATTERNS)
+	if (conjunctions && conjunctions.length >= 1) {
+		// Only complex if conjunction likely separates two actions
+		// e.g. "ajoute X et log Y" vs "le projet X et Y" (just a name)
+		const parts = lastUserMessage.split(COMPLEX_PATTERNS).filter(Boolean)
+		const actionWords = /\b(ajoute|crée|log|démarre|supprime|modifie|mets|change|termine|facture)\b/i
+		const actionCount = parts.filter((p) => actionWords.test(p)).length
+		return actionCount >= 2
+	}
+	return false
+}
+
 function getMonday(d: Date): string {
 	const date = new Date(d)
 	const day = date.getDay() || 7
@@ -190,6 +211,12 @@ export async function POST(req: Request) {
 	}
 
 	const { messages } = await req.json()
+
+	// Pick model based on message complexity
+	const lastUserMsg = [...messages].reverse().find((m: any) => m.role === "user")
+	const useStrongerModel = lastUserMsg?.content && isComplex(typeof lastUserMsg.content === "string" ? lastUserMsg.content : "")
+	const model = openai.chat(useStrongerModel ? "gpt-4.1-mini" : "gpt-4o-mini")
+
 	const ctx = await loadContext(token)
 	const systemPrompt = buildSystemPrompt(ctx)
 	const executors = buildReadToolExecutors(token)
@@ -224,7 +251,7 @@ export async function POST(req: Request) {
 	}
 
 	const result = streamText({
-		model: openai.chat("gpt-4o-mini"),
+		model,
 		system: systemPrompt,
 		messages: modelMessages,
 		tools,

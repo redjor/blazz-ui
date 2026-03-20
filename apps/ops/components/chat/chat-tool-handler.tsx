@@ -1,12 +1,22 @@
 "use client"
 
-import { Button } from "@blazz/ui/components/ui/button"
-import { useMutation } from "convex/react"
-import { Check, X } from "lucide-react"
+import type { ToolUIPart } from "ai"
+import {
+	Confirmation,
+	ConfirmationAccepted,
+	ConfirmationAction,
+	ConfirmationActions,
+	ConfirmationRejected,
+	ConfirmationRequest,
+	ConfirmationTitle,
+} from "@blazz/pro/components/ai/tools/confirmation"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { useMutation, useQuery } from "convex/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { writeDangerousToolNames, writeSafeToolNames } from "@/lib/chat/tools"
+import { CategoryBadge } from "../manage-categories-sheet"
 
 type ToolStatus = "pending" | "executing" | "done" | "error" | "rejected"
 
@@ -30,6 +40,35 @@ const toolLabels: Record<string, string> = {
 	"delete-time-entry": "Supprimer une entrée",
 }
 
+/** Map our custom status to ToolUIPart state for the Confirmation component */
+function toToolState(status: ToolStatus): ToolUIPart["state"] {
+	switch (status) {
+		case "pending":
+			return "approval-requested"
+		case "executing":
+			return "approval-responded"
+		case "done":
+			return "output-available"
+		case "error":
+			return "output-available"
+		case "rejected":
+			return "output-denied"
+	}
+}
+
+function toApproval(status: ToolStatus, toolCallId: string) {
+	switch (status) {
+		case "pending":
+			return { id: toolCallId }
+		case "executing":
+		case "done":
+		case "error":
+			return { id: toolCallId, approved: true as const }
+		case "rejected":
+			return { id: toolCallId, approved: false as const }
+	}
+}
+
 export function ChatToolHandler({
 	toolName,
 	args,
@@ -37,7 +76,9 @@ export function ChatToolHandler({
 	addToolResult,
 }: ChatToolHandlerProps) {
 	const [status, setStatus] = useState<ToolStatus>("pending")
+	const [editableArgs, setEditableArgs] = useState<Record<string, unknown>>(args)
 	const executed = useRef(false)
+	const categories = useQuery(api.categories.list, {}) ?? []
 
 	const createTodo = useMutation(api.todos.create)
 	const updateTodo = useMutation(api.todos.update)
@@ -51,12 +92,16 @@ export function ChatToolHandler({
 	const createTimeEntry = useMutation(api.timeEntries.create)
 	const removeTimeEntry = useMutation(api.timeEntries.remove)
 
+	useEffect(() => {
+		setEditableArgs(args)
+	}, [args])
+
 	const getMutation = useCallback(() => {
 		const map: Record<string, (args: any) => Promise<any>> = {
 			"create-todo": createTodo,
 			"create-client": createClient,
 			"create-project": createProject,
-			"log-time": createTimeEntry,
+			"log-time": (a: any) => createTimeEntry({ billable: true, ...a }),
 			"update-todo": (a: any) => {
 				if (a.status && Object.keys(a).filter((k) => k !== "id" && k !== "status").length === 0) {
 					return updateTodoStatus({ id: a.id, status: a.status })
@@ -92,7 +137,7 @@ export function ChatToolHandler({
 		try {
 			const fn = getMutation()
 			if (!fn) throw new Error(`Unknown mutation: ${toolName}`)
-			const result = await fn(args as any)
+			const result = await fn(editableArgs as any)
 			setStatus("done")
 			toast.success(toolLabels[toolName] ?? toolName)
 			addToolResult({
@@ -112,7 +157,7 @@ export function ChatToolHandler({
 				errorText: message,
 			})
 		}
-	}, [getMutation, toolName, args, toolCallId, addToolResult])
+	}, [getMutation, toolName, editableArgs, toolCallId, addToolResult])
 
 	const reject = useCallback(() => {
 		setStatus("rejected")
@@ -133,38 +178,97 @@ export function ChatToolHandler({
 
 	if (writeSafeToolNames.has(toolName)) {
 		return (
-			<div className="flex items-center gap-2 text-sm text-fg-subtle py-1">
+			<InlineStack gap="100" blockAlign="center" className="text-sm text-fg-subtle py-1">
 				{status === "executing" && <span className="animate-pulse">Exécution...</span>}
-				{status === "done" && <span className="text-fg-success">✓ {toolLabels[toolName]}</span>}
-				{status === "error" && <span className="text-fg-critical">✗ Erreur</span>}
-			</div>
+				{status === "done" && <span className="text-fg-success">&#10003; {toolLabels[toolName]}</span>}
+				{status === "error" && <span className="text-fg-critical">&#10007; Erreur</span>}
+			</InlineStack>
 		)
 	}
 
 	if (writeDangerousToolNames.has(toolName)) {
+		const toolState = toToolState(status)
+		const approval = toApproval(status, toolCallId)
+		const selectedCategoryId =
+			typeof editableArgs.categoryId === "string" ? (editableArgs.categoryId as string) : ""
+
 		return (
-			<div className="rounded-lg border border-edge bg-surface-3 p-3 my-2">
-				<p className="text-sm font-medium mb-1">{toolLabels[toolName]}</p>
-				<pre className="text-xs text-fg-subtle bg-surface rounded p-2 mb-2 overflow-auto">
-					{JSON.stringify(args, null, 2)}
-				</pre>
-				{status === "pending" && (
-					<div className="flex gap-2">
-						<Button size="sm" onClick={execute}>
-							<Check className="size-3.5" />
-							Confirmer
-						</Button>
-						<Button size="sm" variant="outline" onClick={reject}>
-							<X className="size-3.5" />
+			<Confirmation state={toolState} approval={approval} className="my-2">
+				<ConfirmationTitle>{toolLabels[toolName]}</ConfirmationTitle>
+
+				<ConfirmationRequest>
+					{toolName === "create-todo" && (
+						<div className="my-2 space-y-2">
+							<p className="text-xs text-fg-subtle">
+								Catégorie suggérée ou à choisir avant création
+							</p>
+							<div className="flex flex-wrap gap-2">
+								<button
+									type="button"
+									className={`rounded-md border px-2 py-1 text-xs transition-colors ${
+										!selectedCategoryId
+											? "border-brand bg-brand/10 text-fg"
+											: "border-edge bg-surface text-fg-muted hover:text-fg"
+									}`}
+									onClick={() =>
+										setEditableArgs((current) => ({ ...current, categoryId: undefined }))
+									}
+								>
+									Aucune
+								</button>
+								{categories.map((category) => (
+									<button
+										key={category._id}
+										type="button"
+										className={`rounded-md border px-2 py-1 transition-colors ${
+											selectedCategoryId === category._id
+												? "border-brand bg-brand/10"
+												: "border-edge bg-surface hover:bg-surface-4"
+										}`}
+										onClick={() =>
+											setEditableArgs((current) => ({
+												...current,
+												categoryId: category._id,
+											}))
+										}
+									>
+										<CategoryBadge
+											name={category.name}
+											color={category.color}
+											icon={category.icon}
+										/>
+									</button>
+								))}
+							</div>
+						</div>
+					)}
+					<pre className="text-xs text-fg-subtle bg-surface rounded p-2 my-2 overflow-auto">
+						{JSON.stringify(editableArgs, null, 2)}
+					</pre>
+					<ConfirmationActions>
+						<ConfirmationAction variant="outline" onClick={reject}>
 							Annuler
-						</Button>
-					</div>
-				)}
-				{status === "executing" && <span className="text-sm animate-pulse">Exécution...</span>}
-				{status === "done" && <span className="text-sm text-fg-success">✓ Fait</span>}
-				{status === "error" && <span className="text-sm text-fg-critical">✗ Erreur</span>}
-				{status === "rejected" && <span className="text-sm text-fg-subtle">Annulé</span>}
-			</div>
+						</ConfirmationAction>
+						<ConfirmationAction onClick={execute}>
+							Confirmer
+						</ConfirmationAction>
+					</ConfirmationActions>
+				</ConfirmationRequest>
+
+				<ConfirmationAccepted>
+					{status === "executing" ? (
+						<span className="text-sm animate-pulse">Exécution...</span>
+					) : status === "error" ? (
+						<span className="text-sm text-fg-critical">&#10007; Erreur</span>
+					) : (
+						<span className="text-sm text-fg-success">&#10003; Fait</span>
+					)}
+				</ConfirmationAccepted>
+
+				<ConfirmationRejected>
+					<span className="text-sm text-fg-subtle">Annulé</span>
+				</ConfirmationRejected>
+			</Confirmation>
 		)
 	}
 

@@ -56,6 +56,7 @@ import type { Category } from "@/components/edit-todo-dialog"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { TagInput } from "@/components/tag-input"
+import { TodoCard } from "@/components/todo-card"
 import type { Todo } from "@/components/todos-preset"
 import { formatDueDate, StatusIcon } from "@/components/todos-preset"
 import { api } from "@/convex/_generated/api"
@@ -63,62 +64,6 @@ import type { Doc, Id } from "@/convex/_generated/dataModel"
 
 type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
 
-function TodoCard({
-	todo,
-	projects,
-	categories,
-}: {
-	todo: Doc<"todos">
-	projects: Doc<"projects">[]
-	categories: Category[]
-}) {
-	const router = useRouter()
-	const cat = categories.find((c) => c._id === todo.categoryId)
-	const tags = todo.tags ?? []
-
-	return (
-		<div
-			className={`p-3 rounded-md border border-edge bg-surface-3 cursor-pointer hover:border-accent/50 transition-colors ${todo.status === "done" ? "opacity-60" : ""}`}
-			onClick={() => router.push(`/todos/${todo._id}`)}
-			role="button"
-			tabIndex={0}
-			onKeyDown={(e) => e.key === "Enter" && router.push(`/todos/${todo._id}`)}
-		>
-			<BlockStack gap="200">
-				<p className="text-sm text-fg leading-snug">{todo.text}</p>
-				<InlineStack gap="150" wrap>
-					<PriorityIcon priority={todo.priority} />
-					{todo.dueDate &&
-						todo.status !== "done" &&
-						(() => {
-							const { label, className } = formatDueDate(todo.dueDate)
-							return (
-								<span className={`inline-flex items-center gap-1 text-xs ${className}`}>
-									<Calendar className="size-3" />
-									{label}
-								</span>
-							)
-						})()}
-					<ProjectBadge projectId={todo.projectId} projects={projects} />
-					{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
-				</InlineStack>
-				{tags.length > 0 && (
-					<InlineStack gap="100" wrap>
-						{tags.slice(0, 3).map((tag) => (
-							<span
-								key={tag}
-								className="text-xs text-fg-muted bg-surface border border-edge rounded-full px-1.5 py-0"
-							>
-								{tag}
-							</span>
-						))}
-						{tags.length > 3 && <span className="text-xs text-fg-muted">+{tags.length - 3}</span>}
-					</InlineStack>
-				)}
-			</BlockStack>
-		</div>
-	)
-}
 
 function AddTodoDialog({
 	defaultStatus,

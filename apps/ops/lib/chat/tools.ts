@@ -70,26 +70,6 @@ export const readTools = {
 // ─── Write tools (safe — auto-executed client-side) ───
 
 export const writeSafeTools = {
-	"create-todo": tool({
-		description: "Create a new todo",
-		parameters: z.object({
-			text: z.string().describe("Todo title"),
-			description: z.string().optional().describe("Detailed description"),
-			status: z
-				.enum(["triage", "todo", "blocked", "in_progress", "done"])
-				.optional()
-				.describe("Status (default: todo)"),
-			priority: z
-				.enum(["urgent", "high", "normal", "low"])
-				.optional()
-				.describe("Priority (default: normal)"),
-			dueDate: z.string().optional().describe("Due date (YYYY-MM-DD)"),
-			projectId: z.string().optional().describe("Project ID to link"),
-			categoryId: z.string().optional().describe("Category ID"),
-			tags: z.array(z.string()).optional().describe("Tags"),
-		}),
-	}),
-
 	"create-client": tool({
 		description: "Create a new client",
 		parameters: z.object({
@@ -130,6 +110,27 @@ export const writeSafeTools = {
 // ─── Write tools (dangerous — confirmation required) ───
 
 export const writeDangerousTools = {
+	"create-todo": tool({
+		description:
+			'Create a new todo. The "text" field is mandatory and must come from the user request. Never invent a todo title if it was not explicitly provided.',
+		parameters: z.object({
+			text: z.string().describe("Todo title, required, explicitly provided by the user"),
+			description: z.string().optional().describe("Detailed description"),
+			status: z
+				.enum(["triage", "todo", "blocked", "in_progress", "done"])
+				.optional()
+				.describe("Status (default: todo)"),
+			priority: z
+				.enum(["urgent", "high", "normal", "low"])
+				.optional()
+				.describe("Priority (default: normal)"),
+			dueDate: z.string().optional().describe("Due date (YYYY-MM-DD)"),
+			projectId: z.string().optional().describe("Project ID to link"),
+			categoryId: z.string().optional().describe("Category ID"),
+			tags: z.array(z.string()).optional().describe("Tags"),
+		}),
+	}),
+
 	"update-todo": tool({
 		description: "Update an existing todo",
 		parameters: z.object({
