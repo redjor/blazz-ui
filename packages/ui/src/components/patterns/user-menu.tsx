@@ -64,13 +64,13 @@ export function UserMenu({
 					/>
 				}
 			>
-				<Avatar>
+				<Avatar className="size-6">
 					<AvatarImage src={user?.avatar} alt={displayName} />
-					<AvatarFallback>{initials}</AvatarFallback>
+					<AvatarFallback className="text-[10px]">{initials}</AvatarFallback>
 				</Avatar>
 				<div className="flex flex-1 flex-col text-left">
 					<div className="flex items-center gap-1.5">
-						<span className="text-sm font-semibold text-fg">{displayName}</span>
+						<span className="text-xs font-medium text-fg">{displayName}</span>
 						{badge && (
 							<Badge variant="default" size="xs">
 								{badge}
@@ -84,9 +84,9 @@ export function UserMenu({
 
 			<DropdownMenuContent className="w-56" align="end" sideOffset={8}>
 				<div className="flex items-center gap-2 px-2 py-1.5">
-					<Avatar className="size-8">
+					<Avatar className="size-6">
 						<AvatarImage src={user?.avatar} alt={displayName} />
-						<AvatarFallback className="bg-brand/20 text-xs font-semibold text-brand">
+						<AvatarFallback className="bg-brand/20 text-[10px] font-semibold text-brand">
 							{initials}
 						</AvatarFallback>
 					</Avatar>
