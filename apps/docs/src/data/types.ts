@@ -18,3 +18,18 @@ export type ComponentData = {
 	gotchas: string[]
 	canonicalExample: string
 }
+
+export type ComponentDataLite = {
+	name: string
+	category: "ai"
+	description: string
+	imports: ComponentImport
+	useCase: string
+	canonicalExample: string
+}
+
+export type RegistryEntry = ComponentData | ComponentDataLite
+
+export function isFullComponent(entry: RegistryEntry): entry is ComponentData {
+	return "props" in entry && "gotchas" in entry
+}
