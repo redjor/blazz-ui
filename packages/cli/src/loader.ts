@@ -1,3 +1,4 @@
+import composeRaw from "../../../ai/compose.md"
 import componentsRaw from "../../../ai/components.md"
 import designRaw from "../../../ai/design.md"
 import dashboardPattern from "../../../ai/patterns/dashboard.md"
@@ -9,6 +10,10 @@ import resourceImportPattern from "../../../ai/patterns/resource-import.md"
 import resourceListPattern from "../../../ai/patterns/resource-list.md"
 import rulesRaw from "../../../ai/rules.md"
 import tokensRaw from "../../../packages/ui/styles/tokens.css"
+
+export function loadCompose(): string {
+  return composeRaw
+}
 
 export function loadRules(): string {
   return rulesRaw

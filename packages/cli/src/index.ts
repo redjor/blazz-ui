@@ -1,3 +1,4 @@
+import { compose } from "./commands/compose.js"
 import { design } from "./commands/design.js"
 import { list } from "./commands/list.js"
 import { pattern } from "./commands/pattern.js"
@@ -11,6 +12,7 @@ Commands:
   list                List all components (name, category, description)
   show <component>    Full documentation for a specific component
   pattern <name>      Page pattern (resource-list, dashboard, etc.)
+  compose             Layout primitives, compositions, and custom component patterns
   rules               Non-negotiable coding rules and conventions
   design              Design principles (Tufte, Gestalt, density, spacing)
   tokens              CSS design tokens (oklch, 3 themes)
@@ -26,6 +28,9 @@ Examples:
 const [command, ...args] = process.argv.slice(2)
 
 switch (command) {
+  case "compose":
+    compose()
+    break
   case "list":
     list()
     break
