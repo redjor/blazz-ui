@@ -9,7 +9,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
-import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
+import { Grid } from "@blazz/ui/components/ui/grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
 import { format, parse } from "date-fns"
@@ -128,7 +128,7 @@ export default function ProjectContractsPage({
 						<h3 className="text-xs font-medium text-fg-muted uppercase tracking-wide">
 							Contrats passés
 						</h3>
-						<InlineGrid columns={3} gap="300">
+						<Grid>
 							{allContracts
 								.filter((c) => c.status !== "active")
 								.map((c) => {
@@ -145,24 +145,26 @@ export default function ProjectContractsPage({
 										endFormatted = c.endDate
 									}
 									return (
-										<Box key={c._id} background="surface" border="default" borderRadius="lg">
-											<BlockStack gap="050">
-												<InlineStack gap="200" blockAlign="center">
-													<span className="text-sm font-medium text-fg">{typeLabel}</span>
-													<InlineStack gap="100" blockAlign="center">
-														<span className={`size-1.5 rounded-full ${statusColor}`} />
-														<span className="text-xs text-fg-muted">{statusLabel}</span>
+										<Grid.Cell key={c._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
+											<Box background="surface" border="default" borderRadius="lg">
+												<BlockStack gap="050">
+													<InlineStack gap="200" blockAlign="center">
+														<span className="text-sm font-medium text-fg">{typeLabel}</span>
+														<InlineStack gap="100" blockAlign="center">
+															<span className={`size-1.5 rounded-full ${statusColor}`} />
+															<span className="text-xs text-fg-muted">{statusLabel}</span>
+														</InlineStack>
 													</InlineStack>
-												</InlineStack>
-												<span className="text-xs text-fg-muted">
-													{startFormatted} → {endFormatted}
-													{c.daysPerMonth && <> · {c.daysPerMonth}j/mois</>}
-												</span>
-											</BlockStack>
-										</Box>
+													<span className="text-xs text-fg-muted">
+														{startFormatted} → {endFormatted}
+														{c.daysPerMonth && <> · {c.daysPerMonth}j/mois</>}
+													</span>
+												</BlockStack>
+											</Box>
+										</Grid.Cell>
 									)
 								})}
-						</InlineGrid>
+						</Grid>
 					</BlockStack>
 				)}
 			</BlockStack>
