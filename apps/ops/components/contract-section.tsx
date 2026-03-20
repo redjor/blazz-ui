@@ -86,7 +86,7 @@ export function ContractSection({
 			<BlockStack gap="500">
 				{/* ── Header ── */}
 				<InlineStack align="space-between" blockAlign="center">
-					<BlockStack gap="050" className="!w-auto min-w-0">
+					<div>
 						<InlineStack gap="200" blockAlign="center">
 							<span className="text-sm font-semibold text-fg">
 								{CONTRACT_TYPE_LABEL[contract.type] ?? contract.type}
@@ -98,13 +98,13 @@ export function ContractSection({
 								</span>
 							</InlineStack>
 						</InlineStack>
-						<span className="text-xs text-fg-muted">
+						<span className="block text-xs text-fg-muted mt-0.5">
 							{formatDate(contract.startDate)} → {formatDate(contract.endDate)}
 							{contract.daysPerMonth && (
 								<> · {contract.daysPerMonth}j/mois</>
 							)}
 						</span>
-					</BlockStack>
+					</div>
 					{contract.status === "active" && (onEdit || onComplete) && (
 							<DropdownMenu>
 								<DropdownMenuTrigger
