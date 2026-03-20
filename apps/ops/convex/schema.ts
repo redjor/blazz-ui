@@ -249,6 +249,26 @@ export default defineSchema({
 		.index("by_user", ["userId"])
 		.index("by_user_key", ["userId", "key"]),
 
+	goalPlans: defineTable({
+		userId: v.string(),
+		year: v.number(),
+		revenue: v.object({
+			annual: v.number(),
+			overrides: v.record(v.string(), v.number()),
+		}),
+		days: v.object({
+			annual: v.number(),
+			overrides: v.record(v.string(), v.number()),
+		}),
+		tjm: v.object({
+			target: v.number(),
+		}),
+		createdAt: v.number(),
+		updatedAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_year", ["userId", "year"]),
+
 	bookmarkCollections: defineTable({
 		userId: v.string(),
 		name: v.string(),
