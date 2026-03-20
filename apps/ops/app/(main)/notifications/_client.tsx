@@ -51,7 +51,7 @@ export default function NotificationsPageClient() {
 	}
 
 	return (
-		<SplitView defaultRatio={0.35} className="h-[calc(100vh-3.5rem)]">
+		<SplitView defaultWidth={380} className="h-[calc(100vh-3.5rem)]">
 			<SplitView.Master className="flex flex-col">
 				<InboxHeader
 					title="Notifications"

@@ -16,7 +16,7 @@ import { withProGuard } from "../../lib/with-pro-guard"
 // ── Context ──────────────────────────────────────────────────────────────────
 
 interface SplitViewContextValue {
-	ratio: number
+	width: number
 }
 
 const SplitViewContext = createContext<SplitViewContextValue | null>(null)
@@ -24,12 +24,12 @@ const SplitViewContext = createContext<SplitViewContextValue | null>(null)
 // ── Props ────────────────────────────────────────────────────────────────────
 
 export interface SplitViewProps {
-	/** Initial width ratio of the master panel (0–1). @default 0.4 */
-	defaultRatio?: number
-	/** Minimum width ratio. @default 0.25 */
-	minRatio?: number
-	/** Maximum width ratio. @default 0.6 */
-	maxRatio?: number
+	/** Initial width of the master panel in pixels. @default 320 */
+	defaultWidth?: number
+	/** Minimum width of the master panel in pixels. @default 200 */
+	minWidth?: number
+	/** Maximum width of the master panel in pixels. @default 600 */
+	maxWidth?: number
 	className?: string
 	children: React.ReactNode
 }
@@ -42,13 +42,13 @@ export interface SplitViewPanelProps {
 // ── SplitView (root) ─────────────────────────────────────────────────────────
 
 function SplitViewBase({
-	defaultRatio = 0.4,
-	minRatio = 0.25,
-	maxRatio = 0.6,
+	defaultWidth = 320,
+	minWidth = 200,
+	maxWidth = 600,
 	className,
 	children,
 }: SplitViewProps) {
-	const [ratio, setRatio] = useState(defaultRatio)
+	const [width, setWidth] = useState(defaultWidth)
 	const containerRef = useRef<HTMLDivElement>(null)
 	const isDragging = useRef(false)
 	const [dragging, setDragging] = useState(false)
@@ -64,10 +64,10 @@ function SplitViewBase({
 		(e: React.PointerEvent) => {
 			if (!isDragging.current || !containerRef.current) return
 			const rect = containerRef.current.getBoundingClientRect()
-			const newRatio = (e.clientX - rect.left) / rect.width
-			setRatio(Math.max(minRatio, Math.min(maxRatio, newRatio)))
+			const newWidth = e.clientX - rect.left
+			setWidth(Math.max(minWidth, Math.min(maxWidth, newWidth)))
 		},
-		[minRatio, maxRatio]
+		[minWidth, maxWidth]
 	)
 
 	const handlePointerUp = useCallback(() => {
@@ -100,7 +100,7 @@ function SplitViewBase({
 	})
 
 	return (
-		<SplitViewContext.Provider value={{ ratio }}>
+		<SplitViewContext.Provider value={{ width }}>
 			<div
 				ref={containerRef}
 				className={cn("flex h-full flex-col overflow-hidden md:flex-row", className)}
@@ -137,7 +137,7 @@ function Master({ className, children }: SplitViewPanelProps) {
 	return (
 		<div
 			className={cn("min-h-0 shrink-0 overflow-y-auto max-md:!w-full", className)}
-			style={{ width: `${ctx.ratio * 100}%` }}
+			style={{ width: ctx.width }}
 		>
 			{children}
 		</div>

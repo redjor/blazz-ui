@@ -184,7 +184,7 @@ const filtered = filterInboxItems(items, filters)
 	},
 	{
 		key: "split",
-		code: `<SplitView defaultRatio={0.35}>
+		code: `<SplitView defaultWidth={340}>
   <SplitView.Master className="flex flex-col">
     <InboxHeader
       filters={filters}
@@ -468,7 +468,7 @@ function InboxHeroDemo() {
 			className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden"
 			style={{ height: 480 }}
 		>
-			<SplitView defaultRatio={0.35}>
+			<SplitView defaultWidth={340}>
 				<SplitView.Master className="flex flex-col">
 					<InboxHeader
 						title="Notifications"
@@ -721,7 +721,7 @@ function SplitViewDemo() {
 			className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
 			style={{ height: 380 }}
 		>
-			<SplitView defaultRatio={0.35}>
+			<SplitView defaultWidth={340}>
 				<SplitView.Master className="flex flex-col">
 					<InboxHeader
 						menuActions={[{ label: "Mark all read", onClick: () => {} }]}

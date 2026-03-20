@@ -98,22 +98,22 @@ const contacts: Contact[] = [
 
 const splitViewProps: DocProp[] = [
 	{
-		name: "defaultRatio",
+		name: "defaultWidth",
 		type: "number",
-		default: "0.4",
-		description: "Initial width ratio of the master panel (0 to 1).",
+		default: "320",
+		description: "Initial width of the master panel in pixels.",
 	},
 	{
-		name: "minRatio",
+		name: "minWidth",
 		type: "number",
-		default: "0.25",
-		description: "Minimum width ratio the master panel can be resized to.",
+		default: "200",
+		description: "Minimum width the master panel can be resized to in pixels.",
 	},
 	{
-		name: "maxRatio",
+		name: "maxWidth",
 		type: "number",
-		default: "0.6",
-		description: "Maximum width ratio the master panel can be resized to.",
+		default: "600",
+		description: "Maximum width the master panel can be resized to in pixels.",
 	},
 	{
 		name: "className",
@@ -185,11 +185,11 @@ const contact = contacts.find((c) => c.id === selected)
 </SplitView>`,
 	},
 	{
-		key: "custom-ratio",
+		key: "custom-width",
 		code: `<SplitView
-  defaultRatio={0.3}
-  minRatio={0.2}
-  maxRatio={0.5}
+  defaultWidth={280}
+  minWidth={200}
+  maxWidth={500}
 >
   <SplitView.Master>
     <nav>...</nav>
@@ -281,13 +281,13 @@ function SplitViewPage() {
 				</DocExampleClient>
 
 				<DocExampleClient
-					title="Custom Ratio"
-					description="Adjust the default, minimum, and maximum panel ratios. Here the master panel starts at 30% width and can be resized between 20% and 50%."
+					title="Custom Width"
+					description="Set the default, minimum, and maximum master panel width in pixels. Here the master panel starts at 280px and can be resized between 200px and 500px."
 					code={examples[2].code}
-					highlightedCode={html("custom-ratio")}
+					highlightedCode={html("custom-width")}
 				>
 					<div className="w-full max-w-3xl overflow-hidden" style={{ height: 300 }}>
-						<CustomRatioDemo />
+						<CustomWidthDemo />
 					</div>
 				</DocExampleClient>
 			</DocSection>
@@ -463,15 +463,15 @@ function BasicDemo() {
 }
 
 // ---------------------------------------------------------------------------
-// Custom Ratio Demo
+// Custom Width Demo
 // ---------------------------------------------------------------------------
 
-function CustomRatioDemo() {
+function CustomWidthDemo() {
 	const [selectedId, setSelectedId] = useState<string | null>("2")
 	const selected = contacts.find((c) => c.id === selectedId)
 
 	return (
-		<SplitView defaultRatio={0.3} minRatio={0.2} maxRatio={0.5}>
+		<SplitView defaultWidth={280} minWidth={200} maxWidth={500}>
 			<SplitView.Master>
 				{contacts.slice(0, 4).map((c) => (
 					<ContactListItem

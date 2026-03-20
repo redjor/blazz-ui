@@ -466,7 +466,7 @@ const splitViewItems = [
 export function SplitViewPreview() {
 	return (
 		<div className="h-[360px] w-[640px] p-4">
-			<SplitView defaultRatio={0.35}>
+			<SplitView defaultWidth={210}>
 				<SplitView.Master>
 					<div className="divide-y divide-edge">
 						{splitViewItems.map((item) => (
