@@ -629,10 +629,12 @@ html.dark {
 }
 
 /* Shiki dual-theme: switch to dark colors when .dark is active */
+html.dark .shiki {
+	background-color: var(--shiki-dark-bg);
+}
 html.dark .shiki,
 html.dark .shiki span {
 	color: var(--shiki-dark);
-	background-color: var(--shiki-dark-bg);
 	font-style: var(--shiki-dark-font-style);
 	font-weight: var(--shiki-dark-font-weight);
 	text-decoration: var(--shiki-dark-text-decoration);
