@@ -107,13 +107,10 @@ export default function ProjectContractsPage({
 					)}
 					{/* Add new contract card */}
 					<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-						<Box
-							padding="0"
-							background="transparent"
-							borderRadius="lg"
-							className="h-full border border-dashed border-edge hover:border-fg-muted hover:bg-surface transition-colors cursor-pointer"
-							as="button"
+						<button
+							type="button"
 							onClick={() => setContractOpen(true)}
+							className="flex h-full w-full items-center justify-center rounded-lg border border-dashed border-edge transition-colors hover:border-fg-muted hover:bg-surface cursor-pointer"
 						>
 							<Empty size="sm" className="py-6">
 								<EmptyIcon size="sm">
@@ -121,7 +118,7 @@ export default function ProjectContractsPage({
 								</EmptyIcon>
 								<EmptyTitle>Nouveau contrat</EmptyTitle>
 							</Empty>
-						</Box>
+						</button>
 					</Grid.Cell>
 
 					{/* Past contracts */}
