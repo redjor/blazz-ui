@@ -149,16 +149,12 @@ function GoalsSummaryCard() {
 
 	return (
 		<BlockStack gap="200">
-			<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
-				Objectifs
-			</span>
+			<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Objectifs</span>
 			<Card>
 				<CardContent className="p-4">
 					<BlockStack gap="400">
 						<InlineStack align="space-between" blockAlign="center" wrap={false}>
-							<span className="text-sm font-semibold">
-								{revenue.month.label}
-							</span>
+							<span className="text-sm font-semibold">{revenue.month.label}</span>
 							<Link href="/goals" className="text-xs text-brand hover:underline">
 								Voir détails →
 							</Link>
@@ -180,9 +176,27 @@ function GoalsSummaryCard() {
 							percent={tjm.target > 0 ? Math.round((tjm.actual / tjm.target) * 100) : 0}
 						/>
 
+						{goals.projection && (
+							<InlineStack
+								align="space-between"
+								wrap={false}
+								className="pt-1 border-t border-edge/50"
+							>
+								<span className="text-xs text-fg-muted tabular-nums">
+									Projection fin de mois : {formatCurrency(goals.projection.month.revenue)}
+								</span>
+								<span
+									className={`text-xs tabular-nums font-medium ${goals.projection.month.revenuePercent >= 90 ? "text-positive" : goals.projection.month.revenuePercent >= 70 ? "text-caution" : "text-critical"}`}
+								>
+									{goals.projection.month.revenuePercent}% de la cible
+								</span>
+							</InlineStack>
+						)}
+
 						<InlineStack align="space-between" wrap={false}>
 							<span className="text-xs text-fg-muted tabular-nums">
-								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual)} / {formatCurrency(revenue.quarter.target)} ({revenue.quarter.percent}%)
+								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual)} /{" "}
+								{formatCurrency(revenue.quarter.target)} ({revenue.quarter.percent}%)
 							</span>
 							<span className="text-xs text-fg-muted tabular-nums">
 								{goals.year} : {revenue.annual.percent}%
@@ -242,10 +256,7 @@ export default function DashboardPageClient() {
 		() => projectsWithBudget?.filter((p) => p.status === "active") ?? [],
 		[projectsWithBudget]
 	)
-	const openTodos = useMemo(
-		() => todos?.filter((t) => t.status !== "done")?.length ?? 0,
-		[todos]
-	)
+	const openTodos = useMemo(() => todos?.filter((t) => t.status !== "done")?.length ?? 0, [todos])
 
 	const monthTitle = useMemo(
 		() => format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase()),

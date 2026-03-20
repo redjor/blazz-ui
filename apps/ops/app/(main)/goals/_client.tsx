@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/u
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
-import { Banknote, Calendar, Clock, Target, TrendingUp } from "lucide-react"
+import { Banknote, Calendar, Clock, Target, TrendingDown, TrendingUp } from "lucide-react"
 import { useMemo, useState } from "react"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { api } from "@/convex/_generated/api"
@@ -157,6 +157,63 @@ export default function GoalsPageClient() {
 				]}
 			/>
 
+			{/* ── Projections ── */}
+			{data.projection && (
+				<Grid>
+					<Grid.Cell columnSpan={{ xs: 12, md: 6 }}>
+						<Card>
+							<CardContent className="p-4">
+								<BlockStack gap="200">
+									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
+										Projection fin de mois
+									</span>
+									<BlockStack gap="300">
+										<ProjectionRow
+											label="Revenu"
+											projected={formatCurrency(data.projection.month.revenue)}
+											target={formatCurrency(data.revenue.month.target)}
+											percent={data.projection.month.revenuePercent}
+											context={`${data.projection.month.businessDaysElapsed}/${data.projection.month.businessDaysTotal} jours ouvrés écoulés`}
+										/>
+										<ProjectionRow
+											label="Jours"
+											projected={`${data.projection.month.days}j`}
+											target={`${data.days.month.target}j`}
+											percent={data.projection.month.daysPercent}
+										/>
+									</BlockStack>
+								</BlockStack>
+							</CardContent>
+						</Card>
+					</Grid.Cell>
+					<Grid.Cell columnSpan={{ xs: 12, md: 6 }}>
+						<Card>
+							<CardContent className="p-4">
+								<BlockStack gap="200">
+									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
+										Projection fin d'année
+									</span>
+									<BlockStack gap="300">
+										<ProjectionRow
+											label="Revenu"
+											projected={formatCurrency(data.projection.year.revenue)}
+											target={formatCurrency(data.revenue.annual.target)}
+											percent={data.projection.year.revenuePercent}
+										/>
+										<ProjectionRow
+											label="Jours"
+											projected={`${data.projection.year.days}j`}
+											target={`${data.days.annual.target}j`}
+											percent={data.projection.year.daysPercent}
+										/>
+									</BlockStack>
+								</BlockStack>
+							</CardContent>
+						</Card>
+					</Grid.Cell>
+				</Grid>
+			)}
+
 			<Grid>
 				<Grid.Cell columnSpan={{ xs: 12, md: 6 }}>
 					<Card>
@@ -262,6 +319,41 @@ export default function GoalsPageClient() {
 			</Card>
 
 			<GoalsConfigDialog open={configOpen} onOpenChange={setConfigOpen} year={year} plan={plan} />
+		</BlockStack>
+	)
+}
+
+function ProjectionRow({
+	label,
+	projected,
+	target,
+	percent,
+	context,
+}: {
+	label: string
+	projected: string
+	target: string
+	percent: number
+	context?: string
+}) {
+	const isOnTrack = percent >= 90
+	const isWarning = percent >= 70 && percent < 90
+	const colorClass = isOnTrack ? "text-positive" : isWarning ? "text-caution" : "text-critical"
+	const Icon = percent >= 100 ? TrendingUp : TrendingDown
+
+	return (
+		<BlockStack gap="050">
+			<InlineStack align="space-between" blockAlign="center" wrap={false}>
+				<InlineStack gap="100" blockAlign="center" wrap={false}>
+					<Icon className={`size-3.5 ${colorClass}`} />
+					<span className="text-sm text-fg-secondary">{label}</span>
+				</InlineStack>
+				<span className="text-sm tabular-nums">
+					{projected} <span className="text-fg-muted">/ {target}</span>
+					<span className={`ml-2 font-medium ${colorClass}`}>{percent}%</span>
+				</span>
+			</InlineStack>
+			{context && <span className="text-xs text-fg-muted ml-5">{context}</span>}
 		</BlockStack>
 	)
 }

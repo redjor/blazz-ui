@@ -36,6 +36,27 @@ function pct(actual: number, target: number) {
 	return target === 0 ? 0 : Math.round((actual / target) * 100)
 }
 
+/** Count business days (Mon-Fri) in a month */
+function businessDaysInMonth(year: number, month: number): number {
+	const daysInMonth = new Date(year, month + 1, 0).getDate()
+	let count = 0
+	for (let d = 1; d <= daysInMonth; d++) {
+		const day = new Date(year, month, d).getDay()
+		if (day !== 0 && day !== 6) count++
+	}
+	return count
+}
+
+/** Count business days elapsed so far in a month (up to and including `today`) */
+function businessDaysElapsed(year: number, month: number, today: number): number {
+	let count = 0
+	for (let d = 1; d <= today; d++) {
+		const day = new Date(year, month, d).getDay()
+		if (day !== 0 && day !== 6) count++
+	}
+	return count
+}
+
 // ── Queries ──
 
 export const get = query({
@@ -99,8 +120,62 @@ export const dashboard = query({
 		const totalRevenue = sumRange(monthlyRevenue, 0, 11)
 		const totalDays = sumRange(monthlyDays, 0, 11)
 
+		// ── Projections ──
+		const isCurrentYear = now.getFullYear() === year
+		const currentDay = now.getDate()
+
+		// End-of-month projection: extrapolate current pace over remaining business days
+		const bdTotal = isCurrentYear ? businessDaysInMonth(year, currentMonth) : 0
+		const bdElapsed = isCurrentYear ? businessDaysElapsed(year, currentMonth, currentDay) : 0
+		const bdRemaining = bdTotal - bdElapsed
+
+		const monthRevenuePace = bdElapsed > 0 ? monthlyRevenue[currentMonth] / bdElapsed : 0
+		const monthDaysPace = bdElapsed > 0 ? monthlyDays[currentMonth] / bdElapsed : 0
+
+		const projectedMonthRevenue = Math.round(
+			monthlyRevenue[currentMonth] + bdRemaining * monthRevenuePace
+		)
+		const projectedMonthDays =
+			Math.round((monthlyDays[currentMonth] + bdRemaining * monthDaysPace) * 10) / 10
+
+		// End-of-year projection: average monthly revenue/days over elapsed months, extrapolate
+		const completedMonths = isCurrentYear ? currentMonth : 12 // months fully completed (0-indexed, so month 2 = jan+feb done)
+		// Include current month pro-rata
+		const elapsedMonthsWeight = completedMonths + (bdTotal > 0 ? bdElapsed / bdTotal : 0)
+
+		// Sum of months with non-zero targets (active months)
+		const activeMonthCount = revenueTargets.filter((t) => t > 0).length
+		const remainingActiveMonths = activeMonthCount - (completedMonths + 1) // exclude current month
+
+		const projectedYearRevenue =
+			elapsedMonthsWeight > 0
+				? Math.round(totalRevenue + remainingActiveMonths * (totalRevenue / elapsedMonthsWeight))
+				: 0
+		const projectedYearDays =
+			elapsedMonthsWeight > 0
+				? Math.round((totalDays + remainingActiveMonths * (totalDays / elapsedMonthsWeight)) * 10) /
+					10
+				: 0
+
 		return {
 			year,
+			projection: {
+				month: {
+					revenue: projectedMonthRevenue,
+					revenuePercent: pct(projectedMonthRevenue, revenueTargets[currentMonth]),
+					days: projectedMonthDays,
+					daysPercent: pct(projectedMonthDays, dayTargets[currentMonth]),
+					businessDaysTotal: bdTotal,
+					businessDaysElapsed: bdElapsed,
+					businessDaysRemaining: bdRemaining,
+				},
+				year: {
+					revenue: projectedYearRevenue,
+					revenuePercent: pct(projectedYearRevenue, plan.revenue.annual),
+					days: projectedYearDays,
+					daysPercent: pct(projectedYearDays, plan.days.annual),
+				},
+			},
 			revenue: {
 				annual: {
 					target: plan.revenue.annual,
