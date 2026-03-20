@@ -1,5 +1,5 @@
-import {
 import { CheckboxItemsDemo, RadioItemsDemo } from "./demos"
+import {
 	ContextMenu,
 	ContextMenuCheckboxItem,
 	ContextMenuContent,

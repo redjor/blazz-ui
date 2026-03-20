@@ -6,7 +6,7 @@ import type {
 	DataTableView,
 	RowAction,
 } from "@blazz/pro/components/blocks/data-table"
-import { use, col, createStatusViews, DataTable } from "@blazz/pro/components/blocks/data-table"
+import { col, createStatusViews, DataTable } from "@blazz/pro/components/blocks/data-table"
 import {
 	ArrowRight,
 	Columns3,
@@ -21,13 +21,12 @@ import {
 	Table2,
 	Trash2,
 } from "lucide-react"
-import { use } from "react"
-import * as React from "react"
-import { use, DocExampleClient } from "~/components/docs/doc-example-client"
-import { use, DocHero } from "~/components/docs/doc-hero"
-import { use, DocPage } from "~/components/docs/doc-page"
-import { use, DocSection } from "~/components/docs/doc-section"
-import { use, highlightExamples } from "~/lib/highlight-examples"
+import React, { use } from "react"
+import { DocExampleClient } from "~/components/docs/doc-example-client"
+import { DocHero } from "~/components/docs/doc-hero"
+import { DocPage } from "~/components/docs/doc-page"
+import { DocSection } from "~/components/docs/doc-section"
+import { highlightExamples } from "~/lib/highlight-examples"
 
 // ---------------------------------------------------------------------------
 // Demo data
@@ -307,6 +306,8 @@ const views = createStatusViews({
 	},
 ]
 
+const highlightedPromise = highlightExamples(examples as any)
+
 // ---------------------------------------------------------------------------
 // Route
 // ---------------------------------------------------------------------------
@@ -320,13 +321,6 @@ const toc = [
 	{ id: "pages", title: "Documentation" },
 ]
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: DataTableIndexPage,
-})
 
 export default function DataTableIndexPage() {
 	const highlighted = use(highlightedPromise)

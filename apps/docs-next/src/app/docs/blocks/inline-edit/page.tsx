@@ -117,13 +117,6 @@ function CustomRenderExample() {
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: InlineEditPage,
-})
 
 function HeroDemo() {
 	const [company, setCompany] = useState("Acme Corporation")

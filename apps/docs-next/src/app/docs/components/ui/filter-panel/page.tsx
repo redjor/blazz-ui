@@ -1,26 +1,4 @@
-
-import {
 import { DefaultExample, MinimalExample, MultiSectionExample } from "./demos"
-	FilterPanel,
-	FilterPanelAction,
-	FilterPanelActions,
-	FilterPanelCheckboxItem,
-	FilterPanelHeader,
-	FilterPanelSection,
-	FilterPanelTabs,
-	FilterPanelTreeItem,
-} from "@blazz/ui/components/ui/filter-panel"
-import {
-	Activity,
-	BarChart3,
-	CircleDot,
-	CircleOff,
-	Layers,
-	Percent,
-	Repeat,
-	Search,
-	Settings2,
-} from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"

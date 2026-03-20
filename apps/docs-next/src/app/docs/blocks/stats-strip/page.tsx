@@ -160,14 +160,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: StatsStripPage,
-})
-
 export default async function StatsStripPage() {
 	const highlighted = await highlightedPromise
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""

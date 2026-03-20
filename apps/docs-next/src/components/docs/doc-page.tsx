@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@blazz/ui/lib/utils"
 import { usePathname } from "next/navigation"
 import { navigationConfig } from "~/config/navigation"

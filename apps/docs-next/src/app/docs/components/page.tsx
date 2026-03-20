@@ -8,7 +8,7 @@ const totalComponents = componentsNavigation.reduce((sum, cat) => sum + cat.item
 export default function ComponentsPage() {
 	return (
 		<Page>
-			{/* Hero — ready for bg-image via bg-[url(...)] or inline style */}
+			{/* Hero — ready for bg-image via Tailwind bg url utility or inline style */}
 			<div className="relative -mx-6 -mt-6 overflow-hidden rounded-b-2xl border-b border-edge bg-surface-3/40 bg-cover bg-center px-6 py-16 text-center">
 				{/* Dot grid overlay — will sit behind a future bg image if needed */}
 				<div

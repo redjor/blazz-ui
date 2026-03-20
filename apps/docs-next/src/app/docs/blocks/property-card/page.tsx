@@ -138,13 +138,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: PropertyCardPage,
-})
 
 export default async function PropertyCardPage() {
 	const highlighted = await highlightedPromise

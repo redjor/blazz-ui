@@ -11,5 +11,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   external: ["react", "react-dom", "next", "tailwindcss", "lucide-react"],
-  treeshake: true,
+  banner: { js: '"use client";' },
 })

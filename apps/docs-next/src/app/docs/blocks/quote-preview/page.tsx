@@ -256,13 +256,6 @@ const highlightedPromise = highlightExamples(examples as any)
 // Route
 // ---------------------------------------------------------------------------
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: QuotePreviewPage,
-})
 
 // ---------------------------------------------------------------------------
 // Page

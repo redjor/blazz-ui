@@ -208,13 +208,6 @@ const highlightedPromise = highlightExamples(examples as any)
 // Route
 // ---------------------------------------------------------------------------
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: SplitViewPage,
-})
 
 // ---------------------------------------------------------------------------
 // Page

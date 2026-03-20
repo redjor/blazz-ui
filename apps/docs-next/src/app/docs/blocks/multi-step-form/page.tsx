@@ -352,13 +352,6 @@ function WithDraftSave() {
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: MultiStepFormPage,
-})
 
 function HeroDemo() {
 	const [submitted, setSubmitted] = useState(false)

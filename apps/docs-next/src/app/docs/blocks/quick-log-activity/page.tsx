@@ -114,13 +114,6 @@ const highlightedPromise = highlightExamples(examples as any)
 // Route
 // ---------------------------------------------------------------------------
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: QuickLogActivityPage,
-})
 
 // ---------------------------------------------------------------------------
 // Page

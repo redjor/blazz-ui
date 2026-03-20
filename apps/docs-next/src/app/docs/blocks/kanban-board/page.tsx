@@ -244,13 +244,6 @@ function ReadOnlyBoard() {
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: KanbanBoardPage,
-})
 
 function HeroDemo() {
 	const [deals, setDeals] = useState<Deal[]>(sampleDeals)

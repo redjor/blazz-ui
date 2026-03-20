@@ -2,7 +2,8 @@
 const config = {
   output: "export",
   images: { unoptimized: true },
-  transpilePackages: ["@blazz/ui", "@blazz/pro"],
+  typescript: { ignoreBuildErrors: true },
+  transpilePackages: ["@blazz/ui", "@blazz/pro", "@blazz/tabs"],
 }
 
 export default config

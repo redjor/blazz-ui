@@ -430,13 +430,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: NotificationCenterPage,
-})
 
 function TriggerDemo() {
 	const [count, setCount] = useState(0)

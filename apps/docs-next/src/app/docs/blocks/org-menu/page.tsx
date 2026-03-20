@@ -173,13 +173,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-		return { highlighted }
-	},
-	component: OrgMenuPage,
-})
 
 function SwitchableDemo() {
 	const [active, setActive] = useState(organizations[0])

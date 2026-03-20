@@ -1,6 +1,6 @@
 import { Button } from "@blazz/ui/components/ui/button"
-import {
 import { CheckboxItemsDemo, RadioItemsDemo, ComplexDemo } from "./demos"
+import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,

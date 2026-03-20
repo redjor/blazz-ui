@@ -1,5 +1,3 @@
-"use client"
-
 import type { NavigationSection, SidebarConfig } from "@blazz/ui/types/navigation"
 import {
 	Activity,

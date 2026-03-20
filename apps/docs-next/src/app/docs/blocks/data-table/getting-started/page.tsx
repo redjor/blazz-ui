@@ -123,14 +123,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-,
-			}))
-		)
-
-		return { highlighted }
-	},
-	component: GettingStartedPage,
-})
 
 export default function GettingStartedPage() {
 	const highlighted = use(highlightedPromise)

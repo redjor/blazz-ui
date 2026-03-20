@@ -111,6 +111,7 @@ export default async function CandidateCardPage() {
 				<div className="max-w-sm">
 					<CandidateCard
 						name="Sarah Connor"
+						role="Senior Frontend Engineer"
 						avatar="https://i.pravatar.cc/150?u=sarah"
 						company="Cyberdyne Systems"
 						location="Los Angeles, CA"
@@ -132,6 +133,7 @@ export default async function CandidateCardPage() {
 					<div className="max-w-sm">
 						<CandidateCard
 							name="Sarah Connor"
+							role="Senior Frontend Engineer"
 							avatar="https://i.pravatar.cc/150?u=sarah"
 							company="Cyberdyne Systems"
 							location="Los Angeles, CA"
@@ -151,7 +153,7 @@ export default async function CandidateCardPage() {
 					highlightedCode={html("minimal")}
 				>
 					<div className="max-w-sm">
-						<CandidateCard name="John Doe" status="in-process" />
+						<CandidateCard name="John Doe" role="Software Engineer" status="in-process" />
 					</div>
 				</DocExampleClient>
 
@@ -164,6 +166,7 @@ export default async function CandidateCardPage() {
 					<div className="max-w-sm">
 						<CandidateCard
 							name="Marie Curie"
+							role="Research Scientist"
 							avatar="https://i.pravatar.cc/150?u=marie"
 							company="CNRS"
 							location="Paris, France"
@@ -197,6 +200,7 @@ export default async function CandidateCardPage() {
 						<CandidateCard
 							href="#"
 							name="Sarah Connor"
+							role="Senior Frontend Engineer"
 							avatar="https://i.pravatar.cc/150?u=sarah"
 							company="Cyberdyne Systems"
 							status="available"
@@ -215,6 +219,7 @@ export default async function CandidateCardPage() {
 					<div className="max-w-sm space-y-3">
 						<CandidateCard
 							name="Alice Martin"
+							role="Backend Engineer"
 							avatar="https://i.pravatar.cc/150?u=alice"
 							company="Stripe"
 							status="available"
@@ -223,6 +228,7 @@ export default async function CandidateCardPage() {
 						/>
 						<CandidateCard
 							name="Bob Chen"
+							role="Backend Engineer"
 							avatar="https://i.pravatar.cc/150?u=bob"
 							company="Datadog"
 							status="in-process"
