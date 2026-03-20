@@ -4,6 +4,7 @@ import { AppFrame, type NavGroup, type NavItem } from "@blazz/pro/components/blo
 import {
 	Banknote,
 	Bookmark,
+	Target,
 	CheckSquare,
 	Clock,
 	FileText,
@@ -61,6 +62,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 			},
 			{ title: "Factures", url: "/invoices", icon: Receipt, flag: "invoicing" },
 			{ title: "Finances", url: "/finances", icon: Banknote, flag: "finances" },
+			{ title: "Objectifs", url: "/goals", icon: Target, flag: "goals" },
 			{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
 		],
 	},
