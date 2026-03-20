@@ -23,15 +23,24 @@ interface ContractSectionProps {
 }
 
 const CONTRACT_TYPE_LABEL: Record<string, string> = {
-	tma: "Contrat TMA",
+	tma: "TMA",
 	regie: "Régie",
-	forfait: "Contrat Forfait",
+	forfait: "Forfait",
 }
 
 const CONTRACT_STATUS_LABEL: Record<string, string> = {
 	active: "Actif",
 	completed: "Terminé",
 	cancelled: "Annulé",
+}
+
+function formatDate(iso: string): string {
+	try {
+		const date = parse(iso, "yyyy-MM-dd", new Date())
+		return format(date, "d MMM yyyy", { locale: fr })
+	} catch {
+		return iso
+	}
 }
 
 function formatMonth(ym: string): string {
@@ -46,7 +55,7 @@ function StatusDot({ status }: { status: string }) {
 			: status === "completed"
 				? "bg-fg-muted"
 				: "bg-red-500"
-	return <span className={`size-2 rounded-full ${color}`} />
+	return <span className={`size-1.5 rounded-full ${color}`} />
 }
 
 export function ContractSection({
@@ -68,118 +77,100 @@ export function ContractSection({
 	return (
 		<Box padding="6" background="surface" border="default" borderRadius="lg">
 			<BlockStack gap="500">
-				{/* Contract header */}
-				<InlineStack align="space-between" blockAlign="center">
-					<BlockStack gap="100">
-						<InlineStack gap="200" blockAlign="center">
-							<h3 className="text-base font-semibold text-fg">
-								{CONTRACT_TYPE_LABEL[contract.type] ?? contract.type}
-							</h3>
-							<InlineStack gap="100" blockAlign="center">
-								<StatusDot status={contract.status} />
-								<span className="text-xs text-fg-muted">
-									{CONTRACT_STATUS_LABEL[contract.status]}
+				{/* ── Header ── */}
+				<BlockStack gap="200">
+					<InlineStack align="space-between" blockAlign="start">
+						<BlockStack gap="100">
+							<InlineStack gap="200" blockAlign="center">
+								<span className="text-sm font-semibold text-fg">
+									{CONTRACT_TYPE_LABEL[contract.type] ?? contract.type}
 								</span>
+								<InlineStack gap="100" blockAlign="center">
+									<StatusDot status={contract.status} />
+									<span className="text-xs text-fg-muted">
+										{CONTRACT_STATUS_LABEL[contract.status]}
+									</span>
+								</InlineStack>
 							</InlineStack>
-						</InlineStack>
-						<span className="text-xs text-fg-muted font-mono">
-							{contract.prestationStartDate && (
-								<span className="opacity-60">{contract.prestationStartDate} → </span>
-							)}
-							{contract.startDate} &rarr; {contract.endDate}
-						</span>
-					</BlockStack>
-					<InlineStack gap="200">
-						{contract.status === "active" && onEdit && (
-							<Button size="sm" variant="ghost" onClick={onEdit}>
-								Modifier
-							</Button>
-						)}
-						{contract.status === "active" && onComplete && (
-							<Button size="sm" variant="outline" onClick={onComplete}>
-								Clôturer
-							</Button>
+							<span className="text-xs text-fg-muted">
+								{formatDate(contract.startDate)} → {formatDate(contract.endDate)}
+								{contract.daysPerMonth && (
+									<> · {contract.daysPerMonth}j/mois</>
+								)}
+							</span>
+						</BlockStack>
+						{contract.status === "active" && (
+							<InlineStack gap="100">
+								{onEdit && (
+									<Button size="sm" variant="ghost" onClick={onEdit}>
+										Modifier
+									</Button>
+								)}
+								{onComplete && (
+									<Button size="sm" variant="ghost" onClick={onComplete}>
+										Clôturer
+									</Button>
+								)}
+							</InlineStack>
 						)}
 					</InlineStack>
-				</InlineStack>
+				</BlockStack>
 
-				{/* TMA metrics */}
+				{/* ── TMA metrics ── */}
 				{metrics && colors && (
 					<>
-						<Divider />
-
 						{/* Alert banners */}
 						{metrics.contractHealth === "over" && (
-							<div className={`px-4 py-2.5 rounded-lg text-sm font-medium ${colors.bg} ${colors.text}`}>
+							<div className={`px-3 py-2 rounded-md text-xs font-medium ${colors.bg} ${colors.text}`}>
 								Dépassement de {Math.abs(metrics.daysRemainingThisMonth)}j ce mois
 							</div>
 						)}
 						{(metrics.contractHealth === "danger" || metrics.contractHealth === "warning") && (
-							<div className={`px-4 py-2.5 rounded-lg text-sm font-medium ${colors.bg} ${colors.text}`}>
+							<div className={`px-3 py-2 rounded-md text-xs font-medium ${colors.bg} ${colors.text}`}>
 								{percentThisMonth}% des jours consommés ce mois
 							</div>
 						)}
 						{metrics.isAnticipated && (
-							<div className="px-4 py-2.5 rounded-lg text-sm font-medium bg-blue-500/10 text-blue-600 dark:text-blue-400">
-								Prestation anticipée — consommation imputée sur {formatMonth(metrics.targetMonth)}
+							<div className="px-3 py-2 rounded-md text-xs font-medium bg-blue-500/10 text-blue-600 dark:text-blue-400">
+								Prestation anticipée — imputée sur {formatMonth(metrics.targetMonth)}
 							</div>
 						)}
 
-						{/* KPI row */}
-						<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+						{/* KPIs — no inner borders, just bg for grouping */}
+						<div className="grid grid-cols-3 gap-3">
 							<KpiCell
-								label={
-									metrics.isAnticipated
-										? `${formatMonth(metrics.targetMonth)} (anticipé)`
-										: "Ce mois"
-								}
-								value={
-									<>
-										{metrics.daysConsumedThisMonth}
-										<span className="text-sm text-fg-muted font-normal">
-											/{metrics.daysAllocatedThisMonth}j
-										</span>
-									</>
-								}
+								label={metrics.isAnticipated ? formatMonth(metrics.targetMonth) : "Ce mois"}
+								value={metrics.daysConsumedThisMonth}
+								suffix={`/${metrics.daysAllocatedThisMonth}j`}
 							/>
 							<KpiCell
-								label={
-									metrics.isAnticipated
-										? `Restant ${formatMonth(metrics.targetMonth)}`
-										: "Restant ce mois"
+								label="Restant"
+								value={`${metrics.daysRemainingThisMonth}j`}
+								valueClass={metrics.daysRemainingThisMonth < 0
+									? "text-red-600 dark:text-red-400"
+									: "text-green-600 dark:text-green-400"
 								}
-								value={<span className={metrics.daysRemainingThisMonth < 0 ? "text-red-600 dark:text-red-400" : "text-green-600 dark:text-green-400"}>{metrics.daysRemainingThisMonth}j</span>}
 							/>
-							{contract.carryOver && metrics.carryInThisMonth > 0 && (
-								<KpiCell label="Report entrant" value={<>+{metrics.carryInThisMonth}j</>} />
-							)}
 							<KpiCell
 								label="Total contrat"
-								value={
-									<>
-										{metrics.totalDaysConsumed}
-										<span className="text-sm text-fg-muted font-normal">
-											/{metrics.totalDaysAllocated}j
-										</span>
-									</>
-								}
+								value={metrics.totalDaysConsumed}
+								suffix={`/${metrics.totalDaysAllocated}j`}
 							/>
 						</div>
 
-						{/* Progress bar */}
-						<BlockStack gap="150">
+						{/* Progress bar — minimal */}
+						<BlockStack gap="100">
 							<InlineStack align="space-between" blockAlign="center">
 								<span className="text-xs text-fg-muted">
 									{metrics.isAnticipated
 										? `Consommation ${formatMonth(metrics.targetMonth)}`
 										: "Consommation du mois"}
 								</span>
-								<span className="text-xs text-fg font-mono font-medium">
-									{metrics.daysConsumedThisMonth} / {metrics.daysAllocatedThisMonth}j (
-									{percentThisMonth}%)
+								<span className="text-xs text-fg-muted tabular-nums">
+									{metrics.daysConsumedThisMonth} / {metrics.daysAllocatedThisMonth}j ({percentThisMonth}%)
 								</span>
 							</InlineStack>
-							<div className="h-2.5 bg-surface-3 rounded-full overflow-hidden border border-edge">
+							<div className="h-1.5 bg-surface-3 rounded-full overflow-hidden">
 								<div
 									className={`h-full rounded-full transition-all ${colors.bar}`}
 									style={{ width: `${clampedPercent}%` }}
@@ -187,29 +178,21 @@ export function ContractSection({
 							</div>
 						</BlockStack>
 
-						{/* Monthly breakdown table */}
+						{/* Monthly breakdown */}
 						{metrics.monthlyBreakdown.length > 1 && (
 							<BlockStack gap="200">
-								<p className="text-xs text-fg-muted">Historique mensuel</p>
-								<div className="border border-edge rounded-lg overflow-hidden">
+								<span className="text-xs text-fg-muted">Historique mensuel</span>
+								<div className="rounded-md border border-edge overflow-hidden">
 									<table className="w-full text-xs">
 										<thead>
-											<tr className="bg-surface-3">
-												<th className="text-left px-3 py-2 font-medium text-fg-muted">Mois</th>
-												<th className="text-right px-3 py-2 font-medium text-fg-muted">
-													Alloués
-												</th>
-												<th className="text-right px-3 py-2 font-medium text-fg-muted">
-													Consommés
-												</th>
+											<tr className="bg-surface-3/50">
+												<th className="text-left px-3 py-1.5 font-medium text-fg-muted">Mois</th>
+												<th className="text-right px-3 py-1.5 font-medium text-fg-muted">Alloués</th>
+												<th className="text-right px-3 py-1.5 font-medium text-fg-muted">Consommés</th>
 												{contract.carryOver && (
-													<th className="text-right px-3 py-2 font-medium text-fg-muted">
-														Report
-													</th>
+													<th className="text-right px-3 py-1.5 font-medium text-fg-muted">Report</th>
 												)}
-												<th className="text-right px-3 py-2 font-medium text-fg-muted">
-													Restant
-												</th>
+												<th className="text-right px-3 py-1.5 font-medium text-fg-muted">Restant</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -217,21 +200,15 @@ export function ContractSection({
 												const rowColors = healthColor(row.health)
 												return (
 													<tr key={row.month} className="border-t border-edge">
-														<td className="px-3 py-2 font-mono text-fg">{row.month}</td>
-														<td className="text-right px-3 py-2 font-mono text-fg-muted">
-															{row.allocated}j
-														</td>
-														<td className="text-right px-3 py-2 font-mono text-fg">
-															{row.consumed}j
-														</td>
+														<td className="px-3 py-1.5 font-mono text-fg">{row.month}</td>
+														<td className="text-right px-3 py-1.5 font-mono text-fg-muted">{row.allocated}j</td>
+														<td className="text-right px-3 py-1.5 font-mono text-fg">{row.consumed}j</td>
 														{contract.carryOver && (
-															<td className="text-right px-3 py-2 font-mono text-fg-muted">
+															<td className="text-right px-3 py-1.5 font-mono text-fg-muted">
 																{row.carryIn > 0 ? `+${row.carryIn}j` : "—"}
 															</td>
 														)}
-														<td
-															className={`text-right px-3 py-2 font-mono font-medium ${rowColors.text}`}
-														>
+														<td className={`text-right px-3 py-1.5 font-mono font-medium ${rowColors.text}`}>
 															{row.remaining}j
 														</td>
 													</tr>
@@ -245,40 +222,31 @@ export function ContractSection({
 					</>
 				)}
 
-				{/* Forfait metrics */}
+				{/* ── Forfait metrics ── */}
 				{forfaitMetrics &&
 					(() => {
 						const fColors = healthColor(forfaitMetrics.health)
 						const clampedForfait = Math.min(forfaitMetrics.percentUsed, 100)
 						return (
 							<>
-								<Divider />
 								{forfaitMetrics.health === "over" && (
-									<div
-										className={`px-4 py-2.5 rounded-lg text-sm font-medium ${fColors.bg} ${fColors.text}`}
-									>
-										Dépassement de{" "}
-										{Math.abs(forfaitMetrics.remaining).toLocaleString("fr-FR")}€
+									<div className={`px-3 py-2 rounded-md text-xs font-medium ${fColors.bg} ${fColors.text}`}>
+										Dépassement de {Math.abs(forfaitMetrics.remaining).toLocaleString("fr-FR")}€
 									</div>
 								)}
-								{(forfaitMetrics.health === "danger" ||
-									forfaitMetrics.health === "warning") && (
-									<div
-										className={`px-4 py-2.5 rounded-lg text-sm font-medium ${fColors.bg} ${fColors.text}`}
-									>
+								{(forfaitMetrics.health === "danger" || forfaitMetrics.health === "warning") && (
+									<div className={`px-3 py-2 rounded-md text-xs font-medium ${fColors.bg} ${fColors.text}`}>
 										{forfaitMetrics.percentUsed}% du budget consommé
 									</div>
 								)}
-								<BlockStack gap="150">
+								<BlockStack gap="100">
 									<InlineStack align="space-between" blockAlign="center">
 										<span className="text-xs text-fg-muted">Budget consommé</span>
-										<span className="text-xs text-fg font-mono font-medium">
-											{forfaitMetrics.consumed.toLocaleString("fr-FR")}€ /{" "}
-											{forfaitMetrics.budgetTotal.toLocaleString("fr-FR")}€ (
-											{forfaitMetrics.percentUsed}%)
+										<span className="text-xs text-fg-muted tabular-nums">
+											{forfaitMetrics.consumed.toLocaleString("fr-FR")}€ / {forfaitMetrics.budgetTotal.toLocaleString("fr-FR")}€ ({forfaitMetrics.percentUsed}%)
 										</span>
 									</InlineStack>
-									<div className="h-2.5 bg-surface-3 rounded-full overflow-hidden border border-edge">
+									<div className="h-1.5 bg-surface-3 rounded-full overflow-hidden">
 										<div
 											className={`h-full rounded-full transition-all ${fColors.bar}`}
 											style={{ width: `${clampedForfait}%` }}
@@ -289,23 +257,23 @@ export function ContractSection({
 						)
 					})()}
 
-				{/* Attached files */}
+				{/* ── Attached files ── */}
 				{files && files.length > 0 && (
 					<>
 						<Divider />
 						<BlockStack gap="200">
-							<p className="text-xs text-fg-muted">Pièces jointes</p>
+							<span className="text-xs text-fg-muted">Pièces jointes</span>
 							<BlockStack gap="100">
 								{files.map((file) => (
 									<InlineStack
 										key={file._id}
 										gap="200"
 										blockAlign="center"
-										className="rounded-md border border-edge bg-app px-3 py-2 text-sm"
+										className="rounded-md bg-app px-3 py-1.5 text-xs"
 									>
-										<FileText className="size-4 shrink-0 text-fg-muted" />
+										<FileText className="size-3.5 shrink-0 text-fg-muted" />
 										<span className="min-w-0 flex-1 truncate text-fg">{file.fileName}</span>
-										<span className="shrink-0 text-xs text-fg-muted">
+										<span className="shrink-0 text-fg-muted tabular-nums">
 											{(file.fileSize / 1024).toFixed(0)} Ko
 										</span>
 										{file.url && (
@@ -316,7 +284,7 @@ export function ContractSection({
 												className="shrink-0 rounded p-1 text-fg-muted hover:text-fg"
 												title="Télécharger"
 											>
-												<Download className="size-3.5" />
+												<Download className="size-3" />
 											</a>
 										)}
 										<button
@@ -332,7 +300,7 @@ export function ContractSection({
 											className="shrink-0 rounded p-1 text-fg-muted hover:text-red-500"
 											title="Supprimer"
 										>
-											<Trash2 className="size-3.5" />
+											<Trash2 className="size-3" />
 										</button>
 									</InlineStack>
 								))}
@@ -341,13 +309,13 @@ export function ContractSection({
 					</>
 				)}
 
-				{/* Notes */}
+				{/* ── Notes ── */}
 				{contract.notes && (
 					<>
 						<Divider />
 						<BlockStack gap="100">
-							<p className="text-xs text-fg-muted">Notes</p>
-							<p className="text-sm text-fg whitespace-pre-wrap">{contract.notes}</p>
+							<span className="text-xs text-fg-muted">Notes</span>
+							<p className="text-xs text-fg whitespace-pre-wrap">{contract.notes}</p>
 						</BlockStack>
 					</>
 				)}
@@ -356,11 +324,24 @@ export function ContractSection({
 	)
 }
 
-function KpiCell({ label, value }: { label: string; value: React.ReactNode }) {
+function KpiCell({
+	label,
+	value,
+	suffix,
+	valueClass,
+}: {
+	label: string
+	value: React.ReactNode
+	suffix?: string
+	valueClass?: string
+}) {
 	return (
-		<BlockStack gap="050" className="rounded-lg bg-app p-3 border border-edge">
-			<span className="text-xs text-fg-muted">{label}</span>
-			<span className="text-xl font-semibold font-mono">{value}</span>
+		<BlockStack gap="050" className="rounded-md bg-app p-3">
+			<span className="text-[11px] text-fg-muted">{label}</span>
+			<span className={`text-lg font-semibold font-mono tabular-nums ${valueClass ?? ""}`}>
+				{value}
+				{suffix && <span className="text-xs text-fg-muted font-normal">{suffix}</span>}
+			</span>
 		</BlockStack>
 	)
 }
