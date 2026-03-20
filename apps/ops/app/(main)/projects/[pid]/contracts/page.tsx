@@ -14,6 +14,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
 import { format, parse } from "date-fns"
 import { fr } from "date-fns/locale"
+import { Plus } from "lucide-react"
 import { use, useState } from "react"
 import { toast } from "sonner"
 import { ContractForm } from "@/components/contract-form"
@@ -101,37 +102,22 @@ export default function ProjectContractsPage({
 					/>
 				)}
 
-				{/* No active contract — CTA */}
-				{!activeContract && (
-					<BlockStack gap="300" className="py-12 text-center">
-						<p className="text-sm text-fg-muted">Aucun contrat actif</p>
-						<div>
-							<Button size="sm" onClick={() => setContractOpen(true)}>
-								Nouveau contrat
-							</Button>
-						</div>
-					</BlockStack>
-				)}
+				{/* All contracts grid */}
+				<Grid>
+					{/* Add new contract card */}
+					<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
+						<button
+							type="button"
+							onClick={() => setContractOpen(true)}
+							className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-edge py-8 text-fg-muted transition-colors hover:border-fg-muted hover:text-fg hover:bg-surface cursor-pointer"
+						>
+							<Plus className="size-5" />
+							<span className="text-xs font-medium">Nouveau contrat</span>
+						</button>
+					</Grid.Cell>
 
-				{/* Contract management — only show button if active contract exists */}
-				{activeContract && (
-					<InlineStack align="end">
-						<Button size="sm" variant="outline" onClick={() => setContractOpen(true)}>
-							Nouveau contrat
-						</Button>
-					</InlineStack>
-				)}
-
-				{/* Past contracts */}
-				{allContracts && allContracts.filter((c) => c.status !== "active").length > 0 && (
-					<BlockStack gap="300">
-						<h3 className="text-xs font-medium text-fg-muted uppercase tracking-wide">
-							Contrats passés
-						</h3>
-						<Grid>
-							{allContracts
-								.filter((c) => c.status !== "active")
-								.map((c) => {
+					{/* Past contracts */}
+					{allContracts?.filter((c) => c.status !== "active").map((c) => {
 									const typeLabel = c.type === "tma" ? "TMA" : c.type === "regie" ? "Régie" : "Forfait"
 									const statusLabel = c.status === "completed" ? "Terminé" : "Annulé"
 									const statusColor = c.status === "completed" ? "bg-fg-muted" : "bg-red-500"
@@ -163,10 +149,8 @@ export default function ProjectContractsPage({
 											</Box>
 										</Grid.Cell>
 									)
-								})}
-						</Grid>
-					</BlockStack>
-				)}
+					})}
+				</Grid>
 			</BlockStack>
 
 			{/* New contract dialog */}
