@@ -1,16 +1,14 @@
 import type { InboxFilters, InboxNotification } from "@blazz/pro/components/blocks/inbox"
 import {
 	filterInboxItems,
-	Inbox,
-	InboxDetail,
 	InboxDetailCard,
 	InboxDetailEmpty,
 	InboxHeader,
 	InboxItem,
 	InboxList,
 	InboxPanel,
-	InboxSidebar,
 } from "@blazz/pro/components/blocks/inbox"
+import { SplitView } from "@blazz/pro/components/blocks/split-view"
 import { Button } from "@blazz/ui"
 import { Archive, ExternalLink } from "lucide-react"
 import { createFileRoute } from "@tanstack/react-router"
@@ -186,8 +184,8 @@ const filtered = filterInboxItems(items, filters)
 	},
 	{
 		key: "split",
-		code: `<Inbox>
-  <InboxSidebar>
+		code: `<SplitView defaultRatio={0.35}>
+  <SplitView.Master className="flex flex-col">
     <InboxHeader
       filters={filters}
       onFiltersChange={setFilters}
@@ -205,8 +203,8 @@ const filtered = filterInboxItems(items, filters)
         />
       ))}
     </InboxList>
-  </InboxSidebar>
-  <InboxDetail>
+  </SplitView.Master>
+  <SplitView.Detail>
     {selected ? (
       <InboxDetailCard
         title={selected.title}
@@ -223,8 +221,8 @@ const filtered = filterInboxItems(items, filters)
     ) : (
       <InboxDetailEmpty />
     )}
-  </InboxDetail>
-</Inbox>`,
+  </SplitView.Detail>
+</SplitView>`,
 	},
 	{
 		key: "detail-card",
@@ -470,8 +468,8 @@ function InboxHeroDemo() {
 			className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden"
 			style={{ height: 480 }}
 		>
-			<Inbox>
-				<InboxSidebar>
+			<SplitView defaultRatio={0.35}>
+				<SplitView.Master className="flex flex-col">
 					<InboxHeader
 						title="Notifications"
 						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
@@ -488,8 +486,8 @@ function InboxHeroDemo() {
 							/>
 						))}
 					</InboxList>
-				</InboxSidebar>
-				<InboxDetail>
+				</SplitView.Master>
+				<SplitView.Detail>
 					{selected ? (
 						<InboxDetailCard
 							title={selected.title}
@@ -524,8 +522,8 @@ function InboxHeroDemo() {
 					) : (
 						<InboxDetailEmpty />
 					)}
-				</InboxDetail>
-			</Inbox>
+				</SplitView.Detail>
+			</SplitView>
 		</div>
 	)
 }
@@ -601,7 +599,7 @@ function InboxPage() {
 
 				<DocExampleClient
 					title="Detail Card"
-					description="A styled notification detail card with source header, title, description, optional author section, and action buttons. Use inside InboxDetail for the split-view pattern."
+					description="A styled notification detail card with source header, title, description, optional author section, and action buttons. Use inside SplitView.Detail for the split-view pattern."
 					code={examples[4].code}
 					highlightedCode={html("detail-card")}
 				>
@@ -723,8 +721,8 @@ function SplitViewDemo() {
 			className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
 			style={{ height: 380 }}
 		>
-			<Inbox>
-				<InboxSidebar width={300}>
+			<SplitView defaultRatio={0.35}>
+				<SplitView.Master className="flex flex-col">
 					<InboxHeader
 						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
 						filters={filters}
@@ -740,8 +738,8 @@ function SplitViewDemo() {
 							/>
 						))}
 					</InboxList>
-				</InboxSidebar>
-				<InboxDetail>
+				</SplitView.Master>
+				<SplitView.Detail>
 					{selected ? (
 						<InboxDetailCard
 							title={selected.title}
@@ -761,8 +759,8 @@ function SplitViewDemo() {
 					) : (
 						<InboxDetailEmpty />
 					)}
-				</InboxDetail>
-			</Inbox>
+				</SplitView.Detail>
+			</SplitView>
 		</div>
 	)
 }
