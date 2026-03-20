@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import type { ComponentType } from "react"
 import { cn } from "../../lib/utils"
 
 export interface NavTab {
@@ -10,8 +9,6 @@ export interface NavTab {
 	label: string
 	/** Route path (absolute or relative to basePath) */
 	href: string
-	/** Lucide icon component */
-	icon?: ComponentType<{ className?: string }>
 }
 
 export interface NavTabsProps {
@@ -35,9 +32,9 @@ export interface NavTabsProps {
  * <NavTabs
  *   basePath={`/clients/${id}/projects/${pid}`}
  *   tabs={[
- *     { label: "Overview", href: "", icon: LayoutDashboard },
- *     { label: "Time", href: "/time", icon: Clock },
- *     { label: "Todos", href: "/todos", icon: CheckSquare },
+ *     { label: "Overview", href: "" },
+ *     { label: "Time", href: "/time" },
+ *     { label: "Todos", href: "/todos" },
  *   ]}
  * />
  * ```
@@ -58,20 +55,17 @@ export function NavTabs({ tabs, basePath = "", className }: NavTabsProps) {
 			<div className="flex items-center gap-1 px-6">
 				{tabs.map((tab) => {
 					const active = isActive(tab.href)
-					const Icon = tab.icon
 					return (
 						<Link
 							key={tab.href}
 							href={basePath + tab.href}
 							className={cn(
-								"relative inline-flex items-center gap-1.5 px-2.5 py-2 text-sm font-medium whitespace-nowrap transition-colors",
-								"[&_svg]:size-4 [&_svg]:shrink-0",
-								active ? "text-fg" : "text-fg-muted hover:text-fg",
+								"relative inline-flex items-center px-2.5 py-2 text-sm whitespace-nowrap transition-colors",
+								active ? "text-fg font-medium" : "text-fg-muted hover:text-fg",
 								"after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-fg after:rounded-full after:transition-opacity",
 								active ? "after:opacity-100" : "after:opacity-0"
 							)}
 						>
-							{Icon && <Icon />}
 							{tab.label}
 						</Link>
 					)

@@ -1,22 +1,14 @@
 "use client"
 
 import { NavTabs } from "@blazz/ui/components/patterns/nav-tabs"
-import {
-	CheckSquare,
-	Clock,
-	FileStack,
-	LayoutDashboard,
-	Receipt,
-	StickyNote,
-} from "lucide-react"
 
 const tabs = [
-	{ label: "Vue d'ensemble", href: "", icon: LayoutDashboard },
-	{ label: "Temps", href: "/time", icon: Clock },
-	{ label: "Todos", href: "/todos", icon: CheckSquare },
-	{ label: "Factures", href: "/invoices", icon: Receipt },
-	{ label: "Notes", href: "/notes", icon: StickyNote },
-	{ label: "Contrats", href: "/contracts", icon: FileStack },
+	{ label: "Vue d'ensemble", href: "" },
+	{ label: "Temps", href: "/time" },
+	{ label: "Todos", href: "/todos" },
+	{ label: "Factures", href: "/invoices" },
+	{ label: "Notes", href: "/notes" },
+	{ label: "Contrats", href: "/contracts" },
 ]
 
 export function ProjectTabs({ basePath }: { basePath: string }) {
