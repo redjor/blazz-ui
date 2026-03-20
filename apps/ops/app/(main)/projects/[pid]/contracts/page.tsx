@@ -86,9 +86,9 @@ export default function ProjectContractsPage({
 		<>
 			<BlockStack gap="600" className="p-6">
 				<Grid>
-					{/* Active contract — full width */}
+					{/* Active contract */}
 					{activeContract && (
-						<Grid.Cell columnSpan={{ xs: 12 }}>
+						<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
 							<ContractSection
 								contract={activeContract}
 								metrics={contractMetrics}
