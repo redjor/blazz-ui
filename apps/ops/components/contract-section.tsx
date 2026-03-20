@@ -82,7 +82,7 @@ export function ContractSection({
 	const clampedPercent = Math.min(percentThisMonth, 100)
 
 	return (
-		<Box padding="6" background="surface" border="default" borderRadius="lg">
+		<Box background="surface" border="default" borderRadius="lg">
 			<BlockStack gap="500">
 				{/* ── Header ── */}
 				<InlineStack align="space-between" blockAlign="center">

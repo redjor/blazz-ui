@@ -8,6 +8,7 @@ const boxVariants = cva("", {
 			"0": "p-0",
 			"2": "p-2",
 			"4": "p-4",
+			inset: "p-inset",
 			"6": "p-6",
 			"8": "p-8",
 		},
@@ -40,7 +41,7 @@ const boxVariants = cva("", {
 		},
 	},
 	defaultVariants: {
-		padding: "0",
+		padding: "inset",
 		background: "transparent",
 		border: "none",
 		borderRadius: "none",
