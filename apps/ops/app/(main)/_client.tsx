@@ -77,6 +77,124 @@ function PipelineSkeleton() {
 	)
 }
 
+// ─── Goals Summary ───────────────────────────────────────────
+
+function progressColor(percent: number) {
+	if (percent >= 90) return "bg-positive"
+	if (percent >= 70) return "bg-caution"
+	return "bg-critical"
+}
+
+function ProgressRow({
+	label,
+	detail,
+	percent,
+}: {
+	label: string
+	detail: string
+	percent: number
+}) {
+	const clamped = Math.min(percent, 100)
+	return (
+		<BlockStack gap="100">
+			<InlineStack align="space-between" blockAlign="center" wrap={false}>
+				<span className="text-sm font-medium">{label}</span>
+				<InlineStack gap="200" blockAlign="center" wrap={false}>
+					<span className="text-xs text-fg-muted tabular-nums">{detail}</span>
+					<span className="text-xs font-semibold tabular-nums w-10 text-right">{percent}%</span>
+				</InlineStack>
+			</InlineStack>
+			<div className="h-2 rounded-full bg-surface-3 overflow-hidden">
+				<div
+					className={`h-full rounded-full transition-all ${progressColor(percent)}`}
+					style={{ width: `${clamped}%` }}
+				/>
+			</div>
+		</BlockStack>
+	)
+}
+
+function GoalsSummarySkeleton() {
+	return (
+		<Card>
+			<CardContent className="p-4">
+				<BlockStack gap="400">
+					<InlineStack align="space-between" blockAlign="center" wrap={false}>
+						<Skeleton className="h-4 w-32" />
+						<Skeleton className="h-3 w-20" />
+					</InlineStack>
+					{[1, 2, 3].map((i) => (
+						<BlockStack key={i} gap="100">
+							<InlineStack align="space-between" wrap={false}>
+								<Skeleton className="h-3.5 w-16" />
+								<Skeleton className="h-3 w-28" />
+							</InlineStack>
+							<Skeleton className="h-2 w-full rounded-full" />
+						</BlockStack>
+					))}
+					<Skeleton className="h-3 w-48" />
+				</BlockStack>
+			</CardContent>
+		</Card>
+	)
+}
+
+function GoalsSummaryCard() {
+	const goals = useQuery(api.goals.dashboard, { year: new Date().getFullYear() })
+
+	if (goals === undefined) return <GoalsSummarySkeleton />
+	if (goals === null) return null
+
+	const { revenue, days, tjm } = goals
+
+	return (
+		<BlockStack gap="200">
+			<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
+				Objectifs
+			</span>
+			<Card>
+				<CardContent className="p-4">
+					<BlockStack gap="400">
+						<InlineStack align="space-between" blockAlign="center" wrap={false}>
+							<span className="text-sm font-semibold">
+								{revenue.month.label}
+							</span>
+							<Link href="/goals" className="text-xs text-brand hover:underline">
+								Voir détails →
+							</Link>
+						</InlineStack>
+
+						<ProgressRow
+							label="Revenu"
+							detail={`${formatCurrency(revenue.month.actual / 100)} / ${formatCurrency(revenue.month.target / 100)}`}
+							percent={revenue.month.percent}
+						/>
+						<ProgressRow
+							label="Jours"
+							detail={`${days.month.actual} / ${days.month.target}j`}
+							percent={days.month.percent}
+						/>
+						<ProgressRow
+							label="TJM moyen"
+							detail={`${formatCurrency(tjm.actual / 100)} (cible ${formatCurrency(tjm.target / 100)})`}
+							percent={tjm.trend}
+						/>
+
+						<InlineStack align="space-between" wrap={false}>
+							<span className="text-xs text-fg-muted tabular-nums">
+								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual / 100)} / {formatCurrency(revenue.quarter.target / 100)} ({revenue.quarter.percent}%)
+							</span>
+							<span className="text-xs text-fg-muted tabular-nums">
+								{goals.year} : {revenue.annual.percent}%
+							</span>
+						</InlineStack>
+					</BlockStack>
+				</CardContent>
+			</Card>
+		</BlockStack>
+	)
+}
+
 // ─── Main Dashboard ───────────────────────────────────────────
 
 export default function DashboardPageClient() {
@@ -208,6 +326,9 @@ export default function DashboardPageClient() {
 					</Card>
 				)}
 			</BlockStack>
+
+			{/* ─── Goals Summary ─────────────────────────── */}
+			<GoalsSummaryCard />
 
 			{/* ─── Active Project Budgets ─────────────────── */}
 			{activeProjects.length > 0 && (
