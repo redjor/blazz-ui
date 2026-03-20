@@ -14,9 +14,9 @@ import { useFeatureFlags } from "@/lib/feature-flags-context"
 
 export default function ProjectInvoicesPage({
 	params,
-}: { params: Promise<{ id: string; pid: string }> }) {
+}: { params: Promise<{ pid: string }> }) {
 	const { isEnabled } = useFeatureFlags()
-	const { id, pid } = use(params)
+	const { pid } = use(params)
 	const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
 	const router = useRouter()
 

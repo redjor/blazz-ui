@@ -363,7 +363,7 @@ export default function DashboardPageClient() {
 							return (
 								<Grid.Cell key={project._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
 									<Link
-										href={`/clients/${project.clientId}/projects/${project._id}`}
+										href={`/projects/${project._id}`}
 										className="block"
 									>
 										<BudgetCard

@@ -18,7 +18,7 @@ describe("routeToFlag", () => {
 
 	it("maps nested routes to parent flag", () => {
 		expect(routeToFlag("/clients/123")).toBe("clients")
-		expect(routeToFlag("/clients/123/projects/456")).toBe("clients")
+		expect(routeToFlag("/projects/456")).toBe("projects")
 		expect(routeToFlag("/todos/abc")).toBe("todos")
 	})
 

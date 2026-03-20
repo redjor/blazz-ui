@@ -20,7 +20,7 @@ import { computeContractMetrics, computeForfaitMetrics } from "@/lib/contracts"
 
 export default function ProjectContractsPage({
 	params,
-}: { params: Promise<{ id: string; pid: string }> }) {
+}: { params: Promise<{ pid: string }> }) {
 	const { pid } = use(params)
 	const [contractOpen, setContractOpen] = useState(false)
 	const [editingContract, setEditingContract] = useState<Doc<"contracts"> | null>(null)
@@ -78,7 +78,7 @@ export default function ProjectContractsPage({
 
 	return (
 		<>
-			<BlockStack gap="400" className="p-6">
+			<BlockStack gap="600" className="mx-auto max-w-3xl p-6">
 				{/* Active contract */}
 				{activeContract && (
 					<ContractSection
@@ -97,39 +97,57 @@ export default function ProjectContractsPage({
 					/>
 				)}
 
-				{/* Contract management header */}
-				<InlineStack align="space-between" blockAlign="center">
-					<h2 className="text-sm font-medium text-fg">Contrats</h2>
-					<Button size="sm" variant="outline" onClick={() => setContractOpen(true)}>
-						Nouveau contrat
-					</Button>
-				</InlineStack>
+				{/* No active contract — CTA */}
+				{!activeContract && (
+					<BlockStack gap="300" className="py-12 text-center">
+						<p className="text-sm text-fg-muted">Aucun contrat actif</p>
+						<div>
+							<Button size="sm" onClick={() => setContractOpen(true)}>
+								Nouveau contrat
+							</Button>
+						</div>
+					</BlockStack>
+				)}
+
+				{/* Contract management — only show button if active contract exists */}
+				{activeContract && (
+					<InlineStack align="end">
+						<Button size="sm" variant="outline" onClick={() => setContractOpen(true)}>
+							Nouveau contrat
+						</Button>
+					</InlineStack>
+				)}
 
 				{/* Past contracts list */}
 				{allContracts && allContracts.filter((c) => c.status !== "active").length > 0 && (
-					<BlockStack gap="100">
-						{allContracts
-							.filter((c) => c.status !== "active")
-							.map((c) => (
-								<InlineStack
-									key={c._id}
-									align="space-between"
-									blockAlign="center"
-									className="py-2 border-b border-edge last:border-0 text-xs text-fg-muted"
-								>
-									<span className="font-mono">
-										{c.startDate} → {c.endDate}
-									</span>
-									<span>
-										{c.type === "tma"
-											? `${c.daysPerMonth}j/mois`
-											: c.type === "regie"
-												? "Régie"
-												: "Forfait"}{" "}
-										· {c.status === "completed" ? "Terminé" : "Annulé"}
-									</span>
-								</InlineStack>
-							))}
+					<BlockStack gap="200">
+						<h3 className="text-xs font-medium text-fg-muted uppercase tracking-wide">
+							Contrats passés
+						</h3>
+						<BlockStack gap="100">
+							{allContracts
+								.filter((c) => c.status !== "active")
+								.map((c) => (
+									<InlineStack
+										key={c._id}
+										align="space-between"
+										blockAlign="center"
+										className="py-2 border-b border-edge last:border-0 text-xs text-fg-muted"
+									>
+										<span className="font-mono">
+											{c.startDate} → {c.endDate}
+										</span>
+										<span>
+											{c.type === "tma"
+												? `${c.daysPerMonth}j/mois`
+												: c.type === "regie"
+													? "Régie"
+													: "Forfait"}{" "}
+											· {c.status === "completed" ? "Terminé" : "Annulé"}
+										</span>
+									</InlineStack>
+								))}
+						</BlockStack>
 					</BlockStack>
 				)}
 			</BlockStack>

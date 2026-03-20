@@ -9,21 +9,25 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
 interface Props {
-	params: Promise<{ id: string; pid: string }>
+	params: Promise<{ pid: string }>
 	children: React.ReactNode
 }
 
 export default function ProjectLayout({ params, children }: Props) {
-	const { id, pid } = use(params)
+	const { pid } = use(params)
 	const project = useQuery(api.projects.get, { id: pid as Id<"projects"> })
-	const client = useQuery(api.clients.get, { id: id as Id<"clients"> })
-	const basePath = `/clients/${id}/projects/${pid}`
+	const clientId = project?.clientId
+	const client = useQuery(
+		api.clients.get,
+		clientId ? { id: clientId } : "skip"
+	)
+	const basePath = `/projects/${pid}`
 
 	useAppTopBar(
 		project != null
 			? [
 					{ label: "Clients", href: "/clients" },
-					{ label: client?.name ?? "...", href: `/clients/${id}` },
+					{ label: client?.name ?? "...", href: `/clients/${clientId}` },
 					{ label: project.name },
 				]
 			: null

@@ -21,11 +21,11 @@ import { computeContractMetrics, computeForfaitMetrics } from "@/lib/contracts"
 import { formatMinutes } from "@/lib/format"
 
 interface Props {
-	params: Promise<{ id: string; pid: string }>
+	params: Promise<{ pid: string }>
 }
 
 export default function ProjectOverviewPage({ params }: Props) {
-	const { id, pid } = use(params)
+	const { pid } = use(params)
 	const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
 	const activeContract = useQuery(api.contracts.getActiveByProject, {
 		projectId: pid as Id<"projects">,

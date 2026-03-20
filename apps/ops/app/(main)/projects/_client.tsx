@@ -163,7 +163,7 @@ export default function ProjectsPageClient() {
 							className="py-3 border-b border-edge last:border-0"
 						>
 							<Link
-								href={`/clients/${project.clientId}/projects/${project._id}`}
+								href={`/projects/${project._id}`}
 								className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
 							>
 								<span className="block text-sm font-medium text-fg">{project.name}</span>

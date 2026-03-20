@@ -43,9 +43,9 @@ import {
 	getEffectiveStatus,
 } from "@/lib/time-entry-status"
 
-export default function ProjectTimePage({ params }: { params: Promise<{ id: string; pid: string }> }) {
+export default function ProjectTimePage({ params }: { params: Promise<{ pid: string }> }) {
 	const { isEnabled } = useFeatureFlags()
-	const { id, pid } = use(params)
+	const { pid } = use(params)
 	const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
 	const setStatus = useMutation(api.timeEntries.setStatus)
 	const remove = useMutation(api.timeEntries.remove)

@@ -5,7 +5,7 @@ import { ProjectNotesList } from "@/components/project-notes-list"
 
 export default function ProjectNotesPage({
 	params,
-}: { params: Promise<{ id: string; pid: string }> }) {
+}: { params: Promise<{ pid: string }> }) {
 	const { pid } = use(params)
 
 	return (

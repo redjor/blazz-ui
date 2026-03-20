@@ -6,7 +6,7 @@ import type { Id } from "@/convex/_generated/dataModel"
 
 export default function ProjectTodosPage({
 	params,
-}: { params: Promise<{ id: string; pid: string }> }) {
+}: { params: Promise<{ pid: string }> }) {
 	const { pid } = use(params)
 
 	return <TodosDataTable projectId={pid as Id<"projects">} />
