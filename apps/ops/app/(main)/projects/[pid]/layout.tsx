@@ -53,7 +53,9 @@ export default function ProjectLayout({ params, children }: Props) {
 
 	return (
 		<div className="flex flex-col h-[calc(100vh-3.5rem)]">
-			<ProjectTabs basePath={basePath} />
+			<div className="border-b border-edge/50">
+				<ProjectTabs basePath={basePath} />
+			</div>
 			<div className="flex-1 min-w-0 overflow-y-auto">
 				{children}
 			</div>
