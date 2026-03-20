@@ -1,6 +1,7 @@
 "use client"
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
@@ -8,8 +9,11 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
+import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
+import { format, parse } from "date-fns"
+import { fr } from "date-fns/locale"
 import { use, useState } from "react"
 import { toast } from "sonner"
 import { ContractForm } from "@/components/contract-form"
@@ -78,7 +82,7 @@ export default function ProjectContractsPage({
 
 	return (
 		<>
-			<BlockStack gap="600" className="mx-auto max-w-3xl p-6">
+			<BlockStack gap="600" className="p-6">
 				{/* Active contract */}
 				{activeContract && (
 					<ContractSection
@@ -118,36 +122,47 @@ export default function ProjectContractsPage({
 					</InlineStack>
 				)}
 
-				{/* Past contracts list */}
+				{/* Past contracts */}
 				{allContracts && allContracts.filter((c) => c.status !== "active").length > 0 && (
-					<BlockStack gap="200">
+					<BlockStack gap="300">
 						<h3 className="text-xs font-medium text-fg-muted uppercase tracking-wide">
 							Contrats passés
 						</h3>
-						<BlockStack gap="100">
+						<InlineGrid columns={3} gap="300">
 							{allContracts
 								.filter((c) => c.status !== "active")
-								.map((c) => (
-									<InlineStack
-										key={c._id}
-										align="space-between"
-										blockAlign="center"
-										className="py-2 border-b border-edge last:border-0 text-xs text-fg-muted"
-									>
-										<span className="font-mono">
-											{c.startDate} → {c.endDate}
-										</span>
-										<span>
-											{c.type === "tma"
-												? `${c.daysPerMonth}j/mois`
-												: c.type === "regie"
-													? "Régie"
-													: "Forfait"}{" "}
-											· {c.status === "completed" ? "Terminé" : "Annulé"}
-										</span>
-									</InlineStack>
-								))}
-						</BlockStack>
+								.map((c) => {
+									const typeLabel = c.type === "tma" ? "TMA" : c.type === "regie" ? "Régie" : "Forfait"
+									const statusLabel = c.status === "completed" ? "Terminé" : "Annulé"
+									const statusColor = c.status === "completed" ? "bg-fg-muted" : "bg-red-500"
+									let startFormatted: string
+									let endFormatted: string
+									try {
+										startFormatted = format(parse(c.startDate, "yyyy-MM-dd", new Date()), "d MMM yyyy", { locale: fr })
+										endFormatted = format(parse(c.endDate, "yyyy-MM-dd", new Date()), "d MMM yyyy", { locale: fr })
+									} catch {
+										startFormatted = c.startDate
+										endFormatted = c.endDate
+									}
+									return (
+										<Box key={c._id} background="surface" border="default" borderRadius="lg">
+											<BlockStack gap="050">
+												<InlineStack gap="200" blockAlign="center">
+													<span className="text-sm font-medium text-fg">{typeLabel}</span>
+													<InlineStack gap="100" blockAlign="center">
+														<span className={`size-1.5 rounded-full ${statusColor}`} />
+														<span className="text-xs text-fg-muted">{statusLabel}</span>
+													</InlineStack>
+												</InlineStack>
+												<span className="text-xs text-fg-muted">
+													{startFormatted} → {endFormatted}
+													{c.daysPerMonth && <> · {c.daysPerMonth}j/mois</>}
+												</span>
+											</BlockStack>
+										</Box>
+									)
+								})}
+						</InlineGrid>
 					</BlockStack>
 				)}
 			</BlockStack>
