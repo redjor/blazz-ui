@@ -1,11 +1,7 @@
 "use client"
 
-import { useMemo } from "react"
-import { useForm } from "react-hook-form"
-import { useMutation } from "convex/react"
-import { api } from "@/convex/_generated/api"
-import { resolveMonthlyTargets } from "@/lib/goals"
-
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Button } from "@blazz/ui/components/ui/button"
 import {
 	Dialog,
 	DialogContent,
@@ -14,12 +10,15 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@blazz/ui/components/ui/dialog"
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Divider } from "@blazz/ui/components/ui/divider"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import { Button } from "@blazz/ui/components/ui/button"
-import { Divider } from "@blazz/ui/components/ui/divider"
+import { useMutation } from "convex/react"
+import { useMemo } from "react"
+import { useForm } from "react-hook-form"
+import { api } from "@/convex/_generated/api"
+import { resolveMonthlyTargets } from "@/lib/goals"
 
 const MONTH_LABELS = [
 	"Jan",
@@ -76,12 +75,7 @@ function stringsToOverrides(values: string[]): Record<string, number> {
 	return result
 }
 
-export function GoalsConfigDialog({
-	open,
-	onOpenChange,
-	year,
-	plan,
-}: GoalsConfigDialogProps) {
+export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfigDialogProps) {
 	const save = useMutation(api.goals.save)
 
 	const {
@@ -92,13 +86,9 @@ export function GoalsConfigDialog({
 	} = useForm<FormValues>({
 		defaultValues: {
 			revenueAnnual: plan?.revenue.annual ? String(plan.revenue.annual) : "",
-			revenueOverrides: plan
-				? overridesToStrings(plan.revenue.overrides)
-				: Array(12).fill(""),
+			revenueOverrides: plan ? overridesToStrings(plan.revenue.overrides) : Array(12).fill(""),
 			daysAnnual: plan?.days.annual ? String(plan.days.annual) : "",
-			daysOverrides: plan
-				? overridesToStrings(plan.days.overrides)
-				: Array(12).fill(""),
+			daysOverrides: plan ? overridesToStrings(plan.days.overrides) : Array(12).fill(""),
 			tjmTarget: plan?.tjm.target ? String(plan.tjm.target) : "",
 		},
 	})
@@ -148,15 +138,11 @@ export function GoalsConfigDialog({
 					<DialogHeader>
 						<DialogTitle>Objectifs {year}</DialogTitle>
 						<DialogDescription>
-							Définissez vos cibles annuelles. Les mois vides sont
-							auto-calculés.
+							Définissez vos cibles annuelles. Les mois vides sont auto-calculés.
 						</DialogDescription>
 					</DialogHeader>
 
-					<BlockStack
-						gap="600"
-						className="max-h-[60vh] overflow-y-auto py-4"
-					>
+					<BlockStack gap="600" className="max-h-[60vh] overflow-y-auto py-4">
 						{/* ── Revenu ── */}
 						<BlockStack gap="400">
 							<BlockStack gap="200">
@@ -174,9 +160,7 @@ export function GoalsConfigDialog({
 								<InlineGrid columns={4} gap="200">
 									{MONTH_LABELS.map((label, i) => (
 										<BlockStack key={label} gap="100">
-											<Label className="text-xs text-fg-muted">
-												{label}
-											</Label>
+											<Label className="text-xs text-fg-muted">{label}</Label>
 											<Input
 												type="number"
 												placeholder={String(resolvedRevenue[i])}
@@ -193,9 +177,7 @@ export function GoalsConfigDialog({
 						{/* ── Jours facturables ── */}
 						<BlockStack gap="400">
 							<BlockStack gap="200">
-								<Label htmlFor="daysAnnual">
-									Jours facturables — objectif annuel
-								</Label>
+								<Label htmlFor="daysAnnual">Jours facturables — objectif annuel</Label>
 								<Input
 									id="daysAnnual"
 									type="number"
@@ -209,9 +191,7 @@ export function GoalsConfigDialog({
 								<InlineGrid columns={4} gap="200">
 									{MONTH_LABELS.map((label, i) => (
 										<BlockStack key={label} gap="100">
-											<Label className="text-xs text-fg-muted">
-												{label}
-											</Label>
+											<Label className="text-xs text-fg-muted">{label}</Label>
 											<Input
 												type="number"
 												placeholder={String(resolvedDays[i])}
@@ -238,11 +218,7 @@ export function GoalsConfigDialog({
 					</BlockStack>
 
 					<DialogFooter className="pt-4">
-						<Button
-							variant="outline"
-							type="button"
-							onClick={() => onOpenChange(false)}
-						>
+						<Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
 							Annuler
 						</Button>
 						<Button type="submit" disabled={isSubmitting}>

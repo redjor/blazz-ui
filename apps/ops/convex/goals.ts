@@ -134,10 +134,7 @@ export const dashboard = query({
 				quarter: {
 					target: sumRange(dayTargets, qStart, qEnd),
 					actual: Math.round(sumRange(monthlyDays, qStart, qEnd) * 10) / 10,
-					percent: pct(
-						sumRange(monthlyDays, qStart, qEnd),
-						sumRange(dayTargets, qStart, qEnd)
-					),
+					percent: pct(sumRange(monthlyDays, qStart, qEnd), sumRange(dayTargets, qStart, qEnd)),
 					label: `Q${currentQuarter + 1}`,
 				},
 				month: {
@@ -154,9 +151,8 @@ export const dashboard = query({
 				actual: totalDays > 0 ? Math.round(totalRevenue / totalDays) : 0,
 				trend:
 					totalDays > 0
-						? Math.round(
-								((totalRevenue / totalDays - plan.tjm.target) / plan.tjm.target) * 1000
-							) / 10
+						? Math.round(((totalRevenue / totalDays - plan.tjm.target) / plan.tjm.target) * 1000) /
+							10
 						: 0,
 			},
 		}

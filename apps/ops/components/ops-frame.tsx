@@ -1,17 +1,17 @@
 "use client"
 
 import { AppFrame, type NavGroup, type NavItem } from "@blazz/pro/components/blocks/app-frame"
+import { useQuery } from "convex/react"
 import {
 	Banknote,
+	Bell,
 	Bookmark,
-	Target,
 	CheckSquare,
 	Clock,
 	FileText,
 	FolderOpen,
 	Key,
 	LayoutDashboard,
-	Bell,
 	MessageSquare,
 	Package,
 	Receipt,
@@ -19,15 +19,15 @@ import {
 	Rss,
 	Settings,
 	Sun,
+	Target,
 	Users,
 } from "lucide-react"
-import { useQuery } from "convex/react"
 import type { ReactNode } from "react"
 import { useMemo } from "react"
-import { api } from "@/convex/_generated/api"
 import { BlazzLogo } from "@/components/blazz-logo"
-import type { FeatureFlag } from "@/lib/features"
+import { api } from "@/convex/_generated/api"
 import { useFeatureFlags } from "@/lib/feature-flags-context"
+import type { FeatureFlag } from "@/lib/features"
 import { OpsUserMenu } from "./ops-user-menu"
 
 interface NavItemWithFlag extends NavItem {
@@ -86,7 +86,10 @@ const allNavGroups: NavGroupWithFlag[] = [
 	},
 ]
 
-function filterItems(items: NavItemWithFlag[], isEnabled: (flag: FeatureFlag) => boolean): NavItem[] {
+function filterItems(
+	items: NavItemWithFlag[],
+	isEnabled: (flag: FeatureFlag) => boolean
+): NavItem[] {
 	return items
 		.filter((item) => !item.flag || isEnabled(item.flag))
 		.map((item) => {
@@ -99,7 +102,10 @@ function filterItems(items: NavItemWithFlag[], isEnabled: (flag: FeatureFlag) =>
 		})
 }
 
-function filterGroups(groups: NavGroupWithFlag[], isEnabled: (flag: FeatureFlag) => boolean): NavGroup[] {
+function filterGroups(
+	groups: NavGroupWithFlag[],
+	isEnabled: (flag: FeatureFlag) => boolean
+): NavGroup[] {
 	return groups
 		.map((group) => ({
 			label: group.label,
@@ -118,9 +124,7 @@ export function OpsFrame({ children }: { children: ReactNode }) {
 		return filtered.map((group) => ({
 			...group,
 			items: group.items.map((item) =>
-				item.url === "/notifications"
-					? { ...item, badge: unreadCount }
-					: item,
+				item.url === "/notifications" ? { ...item, badge: unreadCount } : item
 			),
 		}))
 	}, [isEnabled, unreadCount])

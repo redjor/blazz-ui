@@ -4,10 +4,7 @@
  * Non-overridden months share the remainder equally.
  * Returns an array of 12 integers (index 0 = Jan).
  */
-export function resolveMonthlyTargets(
-	annual: number,
-	overrides: Record<string, number>
-): number[] {
+export function resolveMonthlyTargets(annual: number, overrides: Record<string, number>): number[] {
 	const result: number[] = new Array(12).fill(0)
 	const autoMonths: number[] = []
 	let overrideSum = 0

@@ -12,20 +12,25 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Banknote, Calendar, Clock, Target, TrendingUp } from "lucide-react"
 import { useMemo, useState } from "react"
-import {
-	Bar,
-	BarChart,
-	CartesianGrid,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis,
-} from "recharts"
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency } from "@/lib/format"
 import { GoalsConfigDialog } from "./_config-dialog"
 
-const MONTHS_FR = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"]
+const MONTHS_FR = [
+	"Jan",
+	"Fév",
+	"Mar",
+	"Avr",
+	"Mai",
+	"Jun",
+	"Jul",
+	"Aoû",
+	"Sep",
+	"Oct",
+	"Nov",
+	"Déc",
+]
 
 export default function GoalsPageClient() {
 	const year = new Date().getFullYear()
@@ -42,7 +47,7 @@ export default function GoalsPageClient() {
 				cible: data?.revenue.monthlyTargets[i] ?? 0,
 				réel: data?.revenue.monthlyActuals[i] ?? 0,
 			})),
-		[data],
+		[data]
 	)
 
 	const daysChartData = useMemo(
@@ -52,15 +57,19 @@ export default function GoalsPageClient() {
 				cible: data?.days.monthlyTargets[i] ?? 0,
 				réel: data?.days.monthlyActuals[i] ?? 0,
 			})),
-		[data],
+		[data]
 	)
 
 	const quarters = useMemo(
 		() =>
 			[0, 1, 2, 3].map((qi) => {
 				const start = qi * 3
-				const target = (data?.revenue.monthlyTargets ?? []).slice(start, start + 3).reduce((a, b) => a + b, 0)
-				const actual = (data?.revenue.monthlyActuals ?? []).slice(start, start + 3).reduce((a, b) => a + b, 0)
+				const target = (data?.revenue.monthlyTargets ?? [])
+					.slice(start, start + 3)
+					.reduce((a, b) => a + b, 0)
+				const actual = (data?.revenue.monthlyActuals ?? [])
+					.slice(start, start + 3)
+					.reduce((a, b) => a + b, 0)
 				return {
 					label: `Q${qi + 1}`,
 					target,
@@ -68,7 +77,7 @@ export default function GoalsPageClient() {
 					percent: target > 0 ? Math.round((actual / target) * 100) : 0,
 				}
 			}),
-		[data],
+		[data]
 	)
 
 	// Loading
@@ -91,20 +100,13 @@ export default function GoalsPageClient() {
 					<BlockStack gap="300" className="items-center">
 						<Target className="size-12 text-fg-muted" />
 						<span className="text-base font-medium">Pas encore d'objectifs</span>
-						<span className="text-sm text-fg-muted">
-							Définissez vos cibles pour {year}
-						</span>
+						<span className="text-sm text-fg-muted">Définissez vos cibles pour {year}</span>
 						<Button onClick={() => setConfigOpen(true)} className="mt-2">
 							Définir mes objectifs
 						</Button>
 					</BlockStack>
 				</Box>
-				<GoalsConfigDialog
-					open={configOpen}
-					onOpenChange={setConfigOpen}
-					year={year}
-					plan={plan}
-				/>
+				<GoalsConfigDialog open={configOpen} onOpenChange={setConfigOpen} year={year} plan={plan} />
 			</BlockStack>
 		)
 	}
@@ -164,11 +166,20 @@ export default function GoalsPageClient() {
 						<CardContent>
 							<ResponsiveContainer width="100%" height={280}>
 								<BarChart data={revenueChartData}>
-									<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" />
+									<CartesianGrid
+										strokeDasharray="3 3"
+										vertical={false}
+										stroke="var(--color-edge)"
+									/>
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<Tooltip />
-									<Bar dataKey="cible" fill="var(--color-fg-muted)" opacity={0.2} radius={[4, 4, 0, 0]} />
+									<Bar
+										dataKey="cible"
+										fill="var(--color-fg-muted)"
+										opacity={0.2}
+										radius={[4, 4, 0, 0]}
+									/>
 									<Bar dataKey="réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
@@ -183,11 +194,20 @@ export default function GoalsPageClient() {
 						<CardContent>
 							<ResponsiveContainer width="100%" height={280}>
 								<BarChart data={daysChartData}>
-									<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" />
+									<CartesianGrid
+										strokeDasharray="3 3"
+										vertical={false}
+										stroke="var(--color-edge)"
+									/>
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<Tooltip />
-									<Bar dataKey="cible" fill="var(--color-fg-muted)" opacity={0.2} radius={[4, 4, 0, 0]} />
+									<Bar
+										dataKey="cible"
+										fill="var(--color-fg-muted)"
+										opacity={0.2}
+										radius={[4, 4, 0, 0]}
+									/>
 									<Bar dataKey="réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
@@ -218,27 +238,30 @@ export default function GoalsPageClient() {
 									<td className="py-2 text-right tabular-nums">{formatCurrency(q.target)}</td>
 									<td className="py-2 text-right tabular-nums">{formatCurrency(q.actual)}</td>
 									<td className="py-2 text-right tabular-nums">{q.percent}%</td>
-									<td className="py-2 text-right tabular-nums">{formatCurrency(q.actual - q.target)}</td>
+									<td className="py-2 text-right tabular-nums">
+										{formatCurrency(q.actual - q.target)}
+									</td>
 								</tr>
 							))}
 							<tr className="font-semibold">
 								<td className="py-2">{data.year}</td>
-								<td className="py-2 text-right tabular-nums">{formatCurrency(data.revenue.annual.target)}</td>
-								<td className="py-2 text-right tabular-nums">{formatCurrency(data.revenue.annual.actual)}</td>
+								<td className="py-2 text-right tabular-nums">
+									{formatCurrency(data.revenue.annual.target)}
+								</td>
+								<td className="py-2 text-right tabular-nums">
+									{formatCurrency(data.revenue.annual.actual)}
+								</td>
 								<td className="py-2 text-right tabular-nums">{data.revenue.annual.percent}%</td>
-								<td className="py-2 text-right tabular-nums">{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}</td>
+								<td className="py-2 text-right tabular-nums">
+									{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</CardContent>
 			</Card>
 
-			<GoalsConfigDialog
-				open={configOpen}
-				onOpenChange={setConfigOpen}
-				year={year}
-				plan={plan}
-			/>
+			<GoalsConfigDialog open={configOpen} onOpenChange={setConfigOpen} year={year} plan={plan} />
 		</BlockStack>
 	)
 }
