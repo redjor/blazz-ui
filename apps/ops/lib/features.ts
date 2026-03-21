@@ -18,6 +18,7 @@ export const defaults = {
 	bookmarks: true,
 	veille: true,
 	notifications: true,
+	treasury: true,
 } as const satisfies Record<string, boolean>
 
 export type FeatureFlag = keyof typeof defaults
@@ -47,6 +48,7 @@ const routeMap: Record<string, FeatureFlag> = {
 	"/bookmarks": "bookmarks",
 	"/veille": "veille",
 	"/notifications": "notifications",
+	"/treasury": "treasury",
 }
 
 export function routeToFlag(pathname: string): FeatureFlag | null {
