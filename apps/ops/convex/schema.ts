@@ -349,6 +349,36 @@ export default defineSchema({
 		.index("by_user_type", ["userId", "type"])
 		.index("by_user_archived", ["userId", "archivedAt"]),
 
+	recurringExpenses: defineTable({
+		userId: v.string(),
+		name: v.string(),
+		amountCents: v.number(),
+		amountType: v.union(v.literal("fixed"), v.literal("variable")),
+		frequency: v.union(
+			v.literal("monthly"),
+			v.literal("quarterly"),
+			v.literal("yearly")
+		),
+		dayOfMonth: v.optional(v.number()),
+		categoryId: v.optional(v.id("categories")),
+		startDate: v.string(),
+		endDate: v.optional(v.string()),
+		active: v.boolean(),
+		notes: v.optional(v.string()),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_active", ["userId", "active"]),
+
+	treasurySettings: defineTable({
+		userId: v.string(),
+		manualBalanceCents: v.optional(v.number()),
+		defaultPaymentDelayDays: v.number(),
+		forecastMonths: v.number(),
+		createdAt: v.number(),
+		updatedAt: v.number(),
+	}).index("by_user", ["userId"]),
+
 	notifications: defineTable({
 		userId: v.string(),
 		source: v.union(v.literal("github"), v.literal("vercel"), v.literal("convex")),
