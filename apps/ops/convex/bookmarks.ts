@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 const bookmarkTypeValidator = v.union(
@@ -187,6 +187,42 @@ export const unarchive = mutation({
 		const bookmark = await ctx.db.get(id)
 		if (!bookmark || bookmark.userId !== userId) throw new ConvexError("Introuvable")
 		return ctx.db.patch(id, { archivedAt: undefined })
+	},
+})
+
+export const internalCreate = internalMutation({
+	args: {
+		userId: v.string(),
+		url: v.string(),
+		type: bookmarkTypeValidator,
+		title: v.optional(v.string()),
+		description: v.optional(v.string()),
+		thumbnailUrl: v.optional(v.string()),
+		author: v.optional(v.string()),
+		siteName: v.optional(v.string()),
+		embedUrl: v.optional(v.string()),
+		collectionId: v.optional(v.id("bookmarkCollections")),
+		notes: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		const url = args.url.trim()
+		if (!url) throw new ConvexError("L'URL est requise")
+
+		return ctx.db.insert("bookmarks", {
+			userId: args.userId,
+			url,
+			type: args.type,
+			title: args.title,
+			description: args.description,
+			thumbnailUrl: args.thumbnailUrl,
+			author: args.author,
+			siteName: args.siteName,
+			embedUrl: args.embedUrl,
+			collectionId: args.collectionId,
+			notes: args.notes,
+			pinned: false,
+			createdAt: Date.now(),
+		})
 	},
 })
 

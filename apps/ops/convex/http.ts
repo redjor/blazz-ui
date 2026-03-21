@@ -316,4 +316,157 @@ http.route({
 	}),
 })
 
+// ── Chrome Extension API ──
+
+const CORS_HEADERS = {
+	"Access-Control-Allow-Origin": "*",
+	"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+	"Access-Control-Allow-Headers": "Content-Type, X-Extension-Secret",
+}
+
+// Preflight for extension endpoints
+http.route({
+	path: "/api/extension/bookmarks",
+	method: "OPTIONS",
+	handler: httpAction(async () => {
+		return new Response(null, { status: 204, headers: CORS_HEADERS })
+	}),
+})
+
+http.route({
+	path: "/api/extension/collections",
+	method: "OPTIONS",
+	handler: httpAction(async () => {
+		return new Response(null, { status: 204, headers: CORS_HEADERS })
+	}),
+})
+
+// Create a bookmark from the Chrome extension
+http.route({
+	path: "/api/extension/bookmarks",
+	method: "POST",
+	handler: httpAction(async (ctx, request) => {
+		const secret = process.env.EXTENSION_SECRET
+		if (!secret) {
+			return new Response(
+				JSON.stringify({ error: "EXTENSION_SECRET not configured" }),
+				{ status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const headerSecret = request.headers.get("X-Extension-Secret")
+		if (headerSecret !== secret) {
+			return new Response(
+				JSON.stringify({ error: "Unauthorized" }),
+				{ status: 401, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const userId = process.env.OPS_USER_ID
+		if (!userId) {
+			return new Response(
+				JSON.stringify({ error: "OPS_USER_ID not configured" }),
+				{ status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		let body: {
+			url: string
+			type?: string
+			title?: string
+			description?: string
+			thumbnailUrl?: string
+			author?: string
+			siteName?: string
+			embedUrl?: string
+			collectionId?: string
+			notes?: string
+		}
+		try {
+			body = await request.json()
+		} catch {
+			return new Response(
+				JSON.stringify({ error: "Invalid JSON" }),
+				{ status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		if (!body.url) {
+			return new Response(
+				JSON.stringify({ error: "URL is required" }),
+				{ status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const type = body.type ?? "link"
+		const validTypes = ["tweet", "youtube", "image", "video", "link"]
+		if (!validTypes.includes(type)) {
+			return new Response(
+				JSON.stringify({ error: "Invalid type" }),
+				{ status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const id = await ctx.runMutation(internal.bookmarks.internalCreate, {
+			userId,
+			url: body.url,
+			type: type as "tweet" | "youtube" | "image" | "video" | "link",
+			title: body.title,
+			description: body.description,
+			thumbnailUrl: body.thumbnailUrl,
+			author: body.author,
+			siteName: body.siteName,
+			embedUrl: body.embedUrl,
+			collectionId: body.collectionId as any,
+			notes: body.notes,
+		})
+
+		return new Response(
+			JSON.stringify({ success: true, id }),
+			{ status: 201, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+		)
+	}),
+})
+
+// List collections for the Chrome extension
+http.route({
+	path: "/api/extension/collections",
+	method: "GET",
+	handler: httpAction(async (ctx, request) => {
+		const secret = process.env.EXTENSION_SECRET
+		if (!secret) {
+			return new Response(
+				JSON.stringify({ error: "EXTENSION_SECRET not configured" }),
+				{ status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const headerSecret = request.headers.get("X-Extension-Secret")
+		if (headerSecret !== secret) {
+			return new Response(
+				JSON.stringify({ error: "Unauthorized" }),
+				{ status: 401, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const userId = process.env.OPS_USER_ID
+		if (!userId) {
+			return new Response(
+				JSON.stringify({ error: "OPS_USER_ID not configured" }),
+				{ status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+			)
+		}
+
+		const collections = await ctx.runQuery(
+			internal.bookmarkCollections.internalList,
+			{ userId }
+		)
+
+		return new Response(
+			JSON.stringify(collections),
+			{ status: 200, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+		)
+	}),
+})
+
 export default http

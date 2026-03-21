@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Blazz Bookmarks - Configuration</title>
+	<link rel="stylesheet" href="popup.css">
+	<style>
+		body { width: 400px; }
+		.container { padding: 20px; }
+		.help { font-size: 11px; color: #71717a; margin-top: 4px; }
+		.saved-msg { color: #22c55e; text-align: center; font-weight: 600; margin-top: 12px; display: none; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<div class="logo">
+				<img src="icons/icon32.png" alt="Blazz" width="20" height="20">
+				<span>Configuration</span>
+			</div>
+		</header>
+
+		<div class="field">
+			<label for="convex-url">URL Convex</label>
+			<input type="url" id="convex-url" placeholder="https://votre-app.convex.site">
+			<p class="help">L'URL de votre backend Convex (ex: https://xxx.convex.site)</p>
+		</div>
+
+		<div class="field">
+			<label for="extension-secret">Secret</label>
+			<input type="password" id="extension-secret" placeholder="Votre EXTENSION_SECRET">
+			<p class="help">La valeur de la variable d'environnement EXTENSION_SECRET dans Convex</p>
+		</div>
+
+		<button id="save-btn" class="btn btn-primary">Enregistrer</button>
+		<p class="saved-msg" id="saved-msg">Configuration sauvegardée !</p>
+	</div>
+
+	<script src="options.js"></script>
+</body>
+</html>

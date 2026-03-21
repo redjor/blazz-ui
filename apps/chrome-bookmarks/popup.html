@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Blazz Bookmarks</title>
+	<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+	<div class="container">
+		<header>
+			<div class="logo">
+				<img src="icons/icon32.png" alt="Blazz" width="20" height="20">
+				<span>Blazz Bookmarks</span>
+			</div>
+		</header>
+
+		<!-- Not configured state -->
+		<div id="not-configured" class="state" hidden>
+			<p class="muted">Extension non configurée.</p>
+			<button id="open-settings" class="btn btn-secondary">Configurer</button>
+		</div>
+
+		<!-- Main form -->
+		<div id="form-state" class="state" hidden>
+			<div class="field">
+				<label for="title">Titre</label>
+				<input type="text" id="title" placeholder="Titre de la page">
+			</div>
+			<div class="field">
+				<label for="url">URL</label>
+				<input type="url" id="url" placeholder="https://...">
+			</div>
+			<div class="field">
+				<label for="collection">Collection</label>
+				<select id="collection">
+					<option value="">Sans collection</option>
+				</select>
+			</div>
+			<div class="field">
+				<label for="notes">Notes</label>
+				<textarea id="notes" rows="2" placeholder="Notes optionnelles..."></textarea>
+			</div>
+			<div class="field">
+				<span class="type-badge" id="type-badge">link</span>
+			</div>
+			<button id="save-btn" class="btn btn-primary">Sauvegarder</button>
+		</div>
+
+		<!-- Success state -->
+		<div id="success-state" class="state" hidden>
+			<div class="success-icon">&#10003;</div>
+			<p>Bookmark sauvegardé !</p>
+		</div>
+
+		<!-- Error state -->
+		<div id="error-state" class="state" hidden>
+			<p class="error-text" id="error-msg"></p>
+			<button id="retry-btn" class="btn btn-secondary">Réessayer</button>
+		</div>
+
+		<!-- Loading -->
+		<div id="loading-state" class="state" hidden>
+			<div class="spinner"></div>
+		</div>
+	</div>
+	<script src="popup.js"></script>
+</body>
+</html>

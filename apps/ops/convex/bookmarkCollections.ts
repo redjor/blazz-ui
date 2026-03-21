@@ -1,11 +1,21 @@
 import { ConvexError, v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const list = query({
 	args: {},
 	handler: async (ctx) => {
 		const { userId } = await requireAuth(ctx)
+		return ctx.db
+			.query("bookmarkCollections")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+	},
+})
+
+export const internalList = internalQuery({
+	args: { userId: v.string() },
+	handler: async (ctx, { userId }) => {
 		return ctx.db
 			.query("bookmarkCollections")
 			.withIndex("by_user", (q) => q.eq("userId", userId))
