@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>φ Golden Ratio Buttons — Comparaison</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: #0e0e10;
+    color: #e4e4e7;
+    padding: 48px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .subtitle {
+    color: #71717a;
+    font-size: 13px;
+    margin-bottom: 48px;
+  }
+
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 960px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .column-header {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #27272a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .column-header .tag {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .current .column-header { color: #a1a1aa; }
+  .current .tag { background: #27272a; color: #a1a1aa; }
+  .golden .column-header { color: #c4b5fd; }
+  .golden .tag { background: #2e1065; color: #c4b5fd; }
+
+  .size-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .size-label {
+    font-size: 11px;
+    color: #52525b;
+    font-weight: 500;
+  }
+
+  .button-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* ============================================
+     CURRENT BUTTONS (actual Blazz values)
+     ============================================ */
+
+  /* xs: h-6 (24px), px-2 (8px), gap-1 (4px), text-xs (12px), rounded-sm (3px) */
+  .btn-current-xs {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 12px;
+    border-radius: 3px;
+    gap: 4px;
+  }
+
+  /* sm: h-7 (28px), px-2.5 (10px), gap-1 (4px), text-xs (13px), rounded (4px) */
+  .btn-current-sm {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 13px;
+    border-radius: 4px;
+    gap: 4px;
+  }
+
+  /* default: h-8 (32px), px-3 (12px), gap-1.5 (6px), text-sm (14px), rounded-md (6px) */
+  .btn-current-default {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    gap: 6px;
+  }
+
+  /* lg: h-9 (36px), px-4 (16px), gap-2 (8px), text-sm (14px), rounded-md (6px) */
+  .btn-current-lg {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    gap: 8px;
+  }
+
+  /* ============================================
+     GOLDEN RATIO BUTTONS (φ-derived, even px)
+     ============================================ */
+
+  /* xs: φ → h-8 (32px), pl-1.5/pr-3 (6/12), gap-2 (8px), text-xs (12px), r-16px */
+  .btn-golden-xs {
+    height: 32px;
+    padding: 0 12px 0 6px;
+    font-size: 12px;
+    border-radius: 16px;
+    gap: 8px;
+  }
+  .btn-golden-xs.icon { padding-left: 6px; }
+  .btn-golden-xs:not(.icon) { padding-left: 12px; }
+
+  /* sm: φ → h-[34px], pl-1.5/pr-3.5 (6/14), gap-2 (8px), text-xs (13px), r-16px */
+  .btn-golden-sm {
+    height: 34px;
+    padding: 0 14px 0 6px;
+    font-size: 13px;
+    border-radius: 16px;
+    gap: 8px;
+  }
+  .btn-golden-sm.icon { padding-left: 6px; }
+  .btn-golden-sm:not(.icon) { padding-left: 14px; }
+
+  /* default: φ → h-9 (36px), pl-2/pr-3.5 (8/14), gap-2 (8px), text-sm (14px), r-18px */
+  .btn-golden-default {
+    height: 36px;
+    padding: 0 14px 0 8px;
+    font-size: 14px;
+    border-radius: 18px;
+    gap: 8px;
+  }
+  .btn-golden-default.icon { padding-left: 8px; }
+  .btn-golden-default:not(.icon) { padding-left: 14px; }
+
+  /* lg: φ → h-[46px], pl-2/pr-3.5 (8/14), gap-2.5 (10px), text-sm (14px), r-18px */
+  .btn-golden-lg {
+    height: 46px;
+    padding: 0 14px 0 8px;
+    font-size: 14px;
+    border-radius: 18px;
+    gap: 10px;
+  }
+  .btn-golden-lg.icon { padding-left: 8px; }
+  .btn-golden-lg:not(.icon) { padding-left: 14px; }
+
+  /* ============================================
+     SHARED BUTTON STYLES
+     ============================================ */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+    transition: all 150ms ease;
+    font-family: inherit;
+    line-height: 1;
+  }
+
+  .btn svg {
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    background: oklch(0.585 0.22 275);
+    color: #fff;
+  }
+  .btn-primary:hover { background: oklch(0.52 0.22 275); }
+
+  .btn-secondary {
+    background: #27272a;
+    color: #e4e4e7;
+    box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .btn-secondary:hover { background: #3f3f46; }
+
+  .btn-ghost {
+    background: transparent;
+    color: #a1a1aa;
+  }
+  .btn-ghost:hover { background: #27272a; color: #e4e4e7; }
+
+  .btn-destructive {
+    background: oklch(0.5 0.2 25);
+    color: #fff;
+  }
+  .btn-destructive:hover { background: oklch(0.45 0.2 25); }
+
+  /* ============================================
+     ANNOTATIONS
+     ============================================ */
+
+  .annotations {
+    margin-top: 48px;
+    max-width: 960px;
+    border-top: 1px solid #27272a;
+    padding-top: 32px;
+  }
+
+  .annotations h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: #27272a;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .formula-cell {
+    background: #18181b;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .formula-cell.header {
+    background: #1c1c1f;
+    font-weight: 600;
+    color: #a1a1aa;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .formula-cell .formula {
+    color: #c4b5fd;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .formula-cell .value {
+    color: #e4e4e7;
+    font-weight: 500;
+  }
+
+  .formula-cell .rounded {
+    color: #4ade80;
+    font-weight: 600;
+  }
+
+  /* Overlay ruler */
+  .ruler-demo {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ruler-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ruler-label {
+    width: 60px;
+    font-size: 11px;
+    color: #52525b;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .ruler-bar {
+    height: 8px;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .ruler-bar.current-bar {
+    background: #3f3f46;
+  }
+
+  .ruler-bar.golden-bar {
+    background: oklch(0.585 0.22 275 / 0.5);
+  }
+
+  .ruler-value {
+    font-size: 10px;
+    color: #71717a;
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .delta-section {
+    margin-top: 32px;
+  }
+
+  .delta-grid {
+    display: grid;
+    grid-template-columns: 100px repeat(4, 1fr);
+    gap: 1px;
+    background: #27272a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .delta-cell {
+    background: #18181b;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .delta-cell.header {
+    background: #1c1c1f;
+    font-weight: 600;
+    color: #71717a;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .delta-cell .old { color: #71717a; text-decoration: line-through; }
+  .delta-cell .new { color: #4ade80; font-weight: 500; }
+  .delta-cell .same { color: #52525b; }
+  .delta-cell .diff {
+    font-size: 10px;
+    color: #f59e0b;
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Golden Ratio Buttons — φ = 1.618</h1>
+<p class="subtitle">
+  Calcul : x = font-size · Pad icône = x·√φ/φ² · Gap = x/φ · Pad texte = x · Radius = x·√φ · Hauteur = x·φ² — arrondi au pixel pair
+</p>
+
+<div class="comparison">
+
+  <!-- ====== CURRENT ====== -->
+  <div class="column current">
+    <div class="column-header">
+      Actuel
+      <span class="tag">Blazz tokens</span>
+    </div>
+
+    <!-- XS -->
+    <div class="size-group">
+      <div class="size-label">XS — h:24 · px:8 · gap:4 · r:3</div>
+      <div class="button-row">
+        <button class="btn btn-current-xs btn-primary">Button</button>
+        <button class="btn btn-current-xs btn-primary icon">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-current-xs btn-secondary">Cancel</button>
+        <button class="btn btn-current-xs btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- SM -->
+    <div class="size-group">
+      <div class="size-label">SM — h:28 · px:10 · gap:4 · r:4</div>
+      <div class="button-row">
+        <button class="btn btn-current-sm btn-primary">Button</button>
+        <button class="btn btn-current-sm btn-primary icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-current-sm btn-secondary">Cancel</button>
+        <button class="btn btn-current-sm btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- Default -->
+    <div class="size-group">
+      <div class="size-label">Default — h:32 · px:12 · gap:6 · r:6</div>
+      <div class="button-row">
+        <button class="btn btn-current-default btn-primary">Button</button>
+        <button class="btn btn-current-default btn-primary icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-current-default btn-secondary">Cancel</button>
+        <button class="btn btn-current-default btn-ghost">Ghost</button>
+        <button class="btn btn-current-default btn-destructive">Delete</button>
+      </div>
+    </div>
+
+    <!-- LG -->
+    <div class="size-group">
+      <div class="size-label">LG — h:36 · px:16 · gap:8 · r:6</div>
+      <div class="button-row">
+        <button class="btn btn-current-lg btn-primary">Button</button>
+        <button class="btn btn-current-lg btn-primary icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-current-lg btn-secondary">Cancel</button>
+        <button class="btn btn-current-lg btn-destructive">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== GOLDEN RATIO ====== -->
+  <div class="column golden">
+    <div class="column-header">
+      Golden Ratio
+      <span class="tag">φ = 1.618</span>
+    </div>
+
+    <!-- XS -->
+    <div class="size-group">
+      <div class="size-label">XS — h:32 · pl:6/pr:12 · gap:8 · r:16</div>
+      <div class="button-row">
+        <button class="btn btn-golden-xs btn-primary">Button</button>
+        <button class="btn btn-golden-xs btn-primary icon">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-golden-xs btn-secondary">Cancel</button>
+        <button class="btn btn-golden-xs btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- SM -->
+    <div class="size-group">
+      <div class="size-label">SM — h:34 · pl:6/pr:14 · gap:8 · r:16</div>
+      <div class="button-row">
+        <button class="btn btn-golden-sm btn-primary">Button</button>
+        <button class="btn btn-golden-sm btn-primary icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-golden-sm btn-secondary">Cancel</button>
+        <button class="btn btn-golden-sm btn-ghost">Ghost</button>
+      </div>
+    </div>
+
+    <!-- Default -->
+    <div class="size-group">
+      <div class="size-label">Default — h:36 · pl:8/pr:14 · gap:8 · r:18</div>
+      <div class="button-row">
+        <button class="btn btn-golden-default btn-primary">Button</button>
+        <button class="btn btn-golden-default btn-primary icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-golden-default btn-secondary">Cancel</button>
+        <button class="btn btn-golden-default btn-ghost">Ghost</button>
+        <button class="btn btn-golden-default btn-destructive">Delete</button>
+      </div>
+    </div>
+
+    <!-- LG -->
+    <div class="size-group">
+      <div class="size-label">LG — h:46 · pl:8/pr:14 · gap:10 · r:18</div>
+      <div class="button-row">
+        <button class="btn btn-golden-lg btn-primary">Button</button>
+        <button class="btn btn-golden-lg btn-primary icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="12"/><line x1="4" y1="8" x2="12" y2="8"/></svg>
+          Create
+        </button>
+        <button class="btn btn-golden-lg btn-secondary">Cancel</button>
+        <button class="btn btn-golden-lg btn-destructive">Delete</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== DELTA TABLE ====== -->
+<div class="annotations">
+  <h2>Deltas : Actuel → φ</h2>
+
+  <div class="delta-grid">
+    <div class="delta-cell header">Prop</div>
+    <div class="delta-cell header">XS</div>
+    <div class="delta-cell header">SM</div>
+    <div class="delta-cell header">Default</div>
+    <div class="delta-cell header">LG</div>
+
+    <div class="delta-cell" style="font-weight:500;color:#a1a1aa">Height</div>
+    <div class="delta-cell"><span class="old">24</span> → <span class="new">32</span><span class="diff">+8</span></div>
+    <div class="delta-cell"><span class="old">28</span> → <span class="new">34</span><span class="diff">+6</span></div>
+    <div class="delta-cell"><span class="old">32</span> → <span class="new">36</span><span class="diff">+4</span></div>
+    <div class="delta-cell"><span class="old">36</span> → <span class="new">46</span><span class="diff">+10</span></div>
+
+    <div class="delta-cell" style="font-weight:500;color:#a1a1aa">Pad L</div>
+    <div class="delta-cell"><span class="old">8</span> → <span class="new">6</span><span class="diff">-2</span></div>
+    <div class="delta-cell"><span class="old">10</span> → <span class="new">6</span><span class="diff">-4</span></div>
+    <div class="delta-cell"><span class="old">12</span> → <span class="new">8</span><span class="diff">-4</span></div>
+    <div class="delta-cell"><span class="old">16</span> → <span class="new">8</span><span class="diff">-8</span></div>
+
+    <div class="delta-cell" style="font-weight:500;color:#a1a1aa">Pad R</div>
+    <div class="delta-cell"><span class="old">8</span> → <span class="new">12</span><span class="diff">+4</span></div>
+    <div class="delta-cell"><span class="old">10</span> → <span class="new">14</span><span class="diff">+4</span></div>
+    <div class="delta-cell"><span class="old">12</span> → <span class="new">14</span><span class="diff">+2</span></div>
+    <div class="delta-cell"><span class="old">16</span> → <span class="new">14</span><span class="diff">-2</span></div>
+
+    <div class="delta-cell" style="font-weight:500;color:#a1a1aa">Gap</div>
+    <div class="delta-cell"><span class="old">4</span> → <span class="new">8</span><span class="diff">+4</span></div>
+    <div class="delta-cell"><span class="old">4</span> → <span class="new">8</span><span class="diff">+4</span></div>
+    <div class="delta-cell"><span class="old">6</span> → <span class="new">8</span><span class="diff">+2</span></div>
+    <div class="delta-cell"><span class="same">8</span> → <span class="same">10</span><span class="diff">+2</span></div>
+
+    <div class="delta-cell" style="font-weight:500;color:#a1a1aa">Radius</div>
+    <div class="delta-cell"><span class="old">3</span> → <span class="new">16</span><span class="diff">+13</span></div>
+    <div class="delta-cell"><span class="old">4</span> → <span class="new">16</span><span class="diff">+12</span></div>
+    <div class="delta-cell"><span class="old">6</span> → <span class="new">18</span><span class="diff">+12</span></div>
+    <div class="delta-cell"><span class="old">6</span> → <span class="new">18</span><span class="diff">+12</span></div>
+  </div>
+
+  <h2>Formules φ (x = font-size en px)</h2>
+  <div class="formula-grid">
+    <div class="formula-cell header">Zone</div>
+    <div class="formula-cell header">Formule</div>
+    <div class="formula-cell header">x=12</div>
+    <div class="formula-cell header">x=13</div>
+    <div class="formula-cell header">x=14</div>
+
+    <div class="formula-cell"><span class="value">Pad icône</span></div>
+    <div class="formula-cell"><span class="formula">x · √φ / φ²</span></div>
+    <div class="formula-cell">5.83 → <span class="rounded">6px</span></div>
+    <div class="formula-cell">6.31 → <span class="rounded">6px</span></div>
+    <div class="formula-cell">6.80 → <span class="rounded">8px</span></div>
+
+    <div class="formula-cell"><span class="value">Gap</span></div>
+    <div class="formula-cell"><span class="formula">x / φ</span></div>
+    <div class="formula-cell">7.42 → <span class="rounded">8px</span></div>
+    <div class="formula-cell">8.03 → <span class="rounded">8px</span></div>
+    <div class="formula-cell">8.65 → <span class="rounded">8px</span></div>
+
+    <div class="formula-cell"><span class="value">Pad texte</span></div>
+    <div class="formula-cell"><span class="formula">x</span></div>
+    <div class="formula-cell">12 → <span class="rounded">12px</span></div>
+    <div class="formula-cell">13 → <span class="rounded">14px</span></div>
+    <div class="formula-cell">14 → <span class="rounded">14px</span></div>
+
+    <div class="formula-cell"><span class="value">Radius</span></div>
+    <div class="formula-cell"><span class="formula">x · √φ</span></div>
+    <div class="formula-cell">15.27 → <span class="rounded">16px</span></div>
+    <div class="formula-cell">16.54 → <span class="rounded">16px</span></div>
+    <div class="formula-cell">17.81 → <span class="rounded">18px</span></div>
+
+    <div class="formula-cell"><span class="value">Hauteur</span></div>
+    <div class="formula-cell"><span class="formula">x · φ²</span></div>
+    <div class="formula-cell">31.42 → <span class="rounded">32px</span></div>
+    <div class="formula-cell">34.04 → <span class="rounded">34px</span></div>
+    <div class="formula-cell">36.65 → <span class="rounded">36px</span></div>
+  </div>
+</div>
+
+</body>
+</html>
