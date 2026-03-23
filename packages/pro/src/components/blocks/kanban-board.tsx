@@ -95,7 +95,7 @@ function KanbanBoardBase<T extends { id: string }>({
 					<div
 						key={column.id}
 						className={cn(
-							"flex min-w-[280px] flex-col rounded-lg border border-edge bg-surface transition-colors",
+							"flex min-w-[280px] flex-col rounded-lg border border-edge-subtle bg-surface-3 transition-colors",
 							isOver && "border-fg/30 bg-surface-3/60",
 							columnClassName
 						)}

@@ -1,45 +1,23 @@
 "use client"
 
-import { Check, Paintbrush } from "lucide-react"
-import { type ThemePalette, useThemePalette } from "../../lib/theme-context"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
-
-const palettes: { id: ThemePalette; label: string; color: string }[] = [
-	{ id: "slate", label: "Slate", color: "oklch(0.585 0.22 275)" },
-	{ id: "corporate", label: "Corporate", color: "oklch(0.40 0.18 250)" },
-	{ id: "warm", label: "Warm", color: "oklch(0.55 0.17 70)" },
-]
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
 
 export function ThemePaletteSwitcher() {
-	const { palette, setPalette } = useThemePalette()
+	const { resolvedTheme, setTheme } = useTheme()
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger
-				render={
-					<button
-						type="button"
-						className="rounded-lg p-2 transition-colors hover:bg-gray-800"
-						aria-label="Changer la palette"
-					>
-						<Paintbrush className="h-4 w-4 text-gray-300" />
-					</button>
-				}
-			/>
-			<DropdownMenuContent align="end" sideOffset={8}>
-				{palettes.map((p) => (
-					<DropdownMenuItem key={p.id} onClick={() => setPalette(p.id)}>
-						<span className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
-						<span className="flex-1">{p.label}</span>
-						{palette === p.id && <Check className="h-3.5 w-3.5 text-fg-muted" />}
-					</DropdownMenuItem>
-				))}
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<button
+			type="button"
+			className="rounded-lg p-2 transition-colors hover:bg-surface-3"
+			aria-label="Toggle theme"
+			onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+		>
+			{resolvedTheme === "dark" ? (
+				<Sun className="h-4 w-4 text-fg-muted" />
+			) : (
+				<Moon className="h-4 w-4 text-fg-muted" />
+			)}
+		</button>
 	)
 }
