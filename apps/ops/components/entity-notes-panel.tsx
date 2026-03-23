@@ -1,6 +1,7 @@
 "use client"
 
 import { useTabTitle } from "@blazz/tabs"
+import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
@@ -159,6 +160,7 @@ export function EntityNotesPanel({
 	const [content, setContent] = useState<EditorValue>(EMPTY_EDITOR_DOC)
 	const [isCreating, setIsCreating] = useState(false)
 	const [isDeleting, setIsDeleting] = useState(false)
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 	const [saveState, setSaveState] = useState<Record<SaveField, SaveState>>({
 		title: "idle",
 		content: "idle",
@@ -437,7 +439,7 @@ export function EntityNotesPanel({
 							</InlineStack>
 							<button
 								type="button"
-								onClick={() => void handleDeleteNote()}
+								onClick={() => setShowDeleteConfirm(true)}
 								disabled={isDeleting}
 								className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-destructive disabled:opacity-50"
 							>
@@ -448,6 +450,16 @@ export function EntityNotesPanel({
 								)}
 								<span>Supprimer</span>
 							</button>
+							<ConfirmationDialog
+								open={showDeleteConfirm}
+								onOpenChange={setShowDeleteConfirm}
+								title="Supprimer la note"
+								description="Cette note sera supprimée définitivement. Cette action est irréversible."
+								confirmLabel="Supprimer"
+								cancelLabel="Annuler"
+								variant="destructive"
+								onConfirm={() => void handleDeleteNote()}
+							/>
 						</div>
 
 						{/* Content — Obsidian style */}
