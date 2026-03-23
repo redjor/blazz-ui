@@ -5,13 +5,14 @@ import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { type TreeNode, TreeView } from "@blazz/ui/components/ui/tree-view"
 import type { JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import { FileText, FolderOpen, Loader2, Pin, Plus, Trash2 } from "lucide-react"
+import { FileText, FolderOpen, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import type { ChangeEvent } from "react"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -318,6 +319,11 @@ export function EntityNotesPanel({
 		await updateNote({ id: selectedNote._id, pinned: !selectedNote.pinned })
 	}
 
+	async function handleToggleLocked() {
+		if (!selectedNote) return
+		await updateNote({ id: selectedNote._id, locked: !selectedNote.locked })
+	}
+
 	async function handleDeleteNote() {
 		if (!selectedNote) return
 		setIsDeleting(true)
@@ -427,6 +433,20 @@ export function EntityNotesPanel({
 									<Pin className={`size-3 ${selectedNote.pinned ? "fill-current" : ""}`} />
 									<span>{selectedNote.pinned ? "Épinglée" : "Épingler"}</span>
 								</button>
+								<button
+									type="button"
+									onClick={() => void handleToggleLocked()}
+									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-surface-2 ${
+										selectedNote.locked ? "text-brand" : "text-fg-muted"
+									}`}
+								>
+									{selectedNote.locked ? (
+										<Lock className="size-3" />
+									) : (
+										<LockOpen className="size-3" />
+									)}
+									<span>{selectedNote.locked ? "Verrouillée" : "Verrouiller"}</span>
+								</button>
 								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
 								{compositeState !== "idle" ? (
 									<span className="flex items-center gap-1.5">
@@ -437,19 +457,28 @@ export function EntityNotesPanel({
 									</span>
 								) : null}
 							</InlineStack>
-							<button
-								type="button"
-								onClick={() => setShowDeleteConfirm(true)}
-								disabled={isDeleting}
-								className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-destructive disabled:opacity-50"
-							>
-								{isDeleting ? (
-									<Loader2 className="size-3 animate-spin" />
-								) : (
-									<Trash2 className="size-3" />
-								)}
-								<span>Supprimer</span>
-							</button>
+							<Tooltip>
+								<TooltipTrigger
+									render={
+										<button
+											type="button"
+											onClick={() => setShowDeleteConfirm(true)}
+											disabled={isDeleting || !!selectedNote.locked}
+											className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-destructive disabled:opacity-50"
+										/>
+									}
+								>
+									{isDeleting ? (
+										<Loader2 className="size-3 animate-spin" />
+									) : (
+										<Trash2 className="size-3" />
+									)}
+									<span>Supprimer</span>
+								</TooltipTrigger>
+								{selectedNote.locked ? (
+									<TooltipContent>Déverrouille la note pour la supprimer</TooltipContent>
+								) : null}
+							</Tooltip>
 							<ConfirmationDialog
 								open={showDeleteConfirm}
 								onOpenChange={setShowDeleteConfirm}
@@ -468,6 +497,7 @@ export function EntityNotesPanel({
 								<textarea
 									value={title}
 									onChange={handleTitleChange}
+									readOnly={!!selectedNote.locked}
 									rows={1}
 									className="mb-2 w-full resize-none overflow-hidden bg-transparent text-[32px] font-bold leading-tight text-fg outline-none placeholder:text-fg-muted field-sizing-content"
 									placeholder="Titre de la note"
@@ -507,6 +537,7 @@ export function EntityNotesPanel({
 									content={content}
 									onUpdate={handleContentChange}
 									placeholder="Commence à écrire…"
+									editable={!selectedNote.locked}
 								/>
 							</div>
 						</div>

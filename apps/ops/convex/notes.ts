@@ -13,7 +13,7 @@ const entityTypeValidator = v.union(
 
 function applyNotePatchField(
 	patch: Record<string, unknown>,
-	key: "title" | "contentJson" | "contentText" | "pinned",
+	key: "title" | "contentJson" | "contentText" | "pinned" | "locked",
 	value: unknown
 ) {
 	if (value === undefined) return
@@ -99,12 +99,20 @@ export const update = mutation({
 		contentJson: v.optional(v.union(v.any(), v.null())),
 		contentText: v.optional(v.union(v.string(), v.null())),
 		pinned: v.optional(v.boolean()),
+		locked: v.optional(v.boolean()),
 		tags: v.optional(v.array(v.id("tags"))),
 	},
-	handler: async (ctx, { id, title, contentJson, contentText, pinned, tags }) => {
+	handler: async (ctx, { id, title, contentJson, contentText, pinned, locked, tags }) => {
 		const { userId } = await requireAuth(ctx)
 		const note = await ctx.db.get(id)
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
+
+		// Locked notes only allow toggling the lock itself
+		const isContentEdit =
+			title !== undefined || contentJson !== undefined || contentText !== undefined || tags !== undefined
+		if (note.locked && locked !== false && isContentEdit) {
+			throw new ConvexError("Note verrouillée")
+		}
 
 		const patch: Record<string, unknown> = { updatedAt: Date.now() }
 		applyNotePatchField(
@@ -115,6 +123,7 @@ export const update = mutation({
 		applyNotePatchField(patch, "contentJson", contentJson)
 		applyNotePatchField(patch, "contentText", contentText)
 		applyNotePatchField(patch, "pinned", pinned)
+		applyNotePatchField(patch, "locked", locked)
 		if (tags !== undefined) patch.tags = tags
 		return ctx.db.patch(id, patch)
 	},
@@ -126,6 +135,7 @@ export const remove = mutation({
 		const { userId } = await requireAuth(ctx)
 		const note = await ctx.db.get(id)
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
+		if (note.locked) throw new ConvexError("Note verrouillée")
 		return ctx.db.delete(id)
 	},
 })

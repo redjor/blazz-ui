@@ -55,6 +55,7 @@ export default defineSchema({
 		contentJson: v.optional(v.any()),
 		contentText: v.optional(v.string()),
 		pinned: v.boolean(),
+		locked: v.optional(v.boolean()),
 		tags: v.optional(v.array(v.id("tags"))),
 		createdAt: v.number(),
 		updatedAt: v.number(),

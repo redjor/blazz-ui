@@ -324,10 +324,12 @@ export function TiptapEditor({
 	content,
 	onUpdate,
 	placeholder = "Tapez '/' pour les commandes…",
+	editable = true,
 }: {
 	content: EditorValue
 	onUpdate: (payload: TiptapUpdatePayload) => void
 	placeholder?: string
+	editable?: boolean
 }) {
 	// ── Image upload ────────────────────────────────────────────────
 	const generateUploadUrl = useMutation(api.todos.generateUploadUrl)
@@ -495,6 +497,7 @@ export function TiptapEditor({
 	const editor = useEditor({
 		immediatelyRender: false,
 		shouldRerenderOnTransaction: false,
+		editable,
 		extensions: [
 			StarterKit.configure({
 				heading: { levels: [1, 2, 3] },
@@ -629,6 +632,10 @@ export function TiptapEditor({
 			editor.commands.setContent(content, { emitUpdate: false })
 		}
 	}, [content, editor]) // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (editor) editor.setEditable(editable)
+	}, [editable, editor])
 
 	useEffect(() => {
 		return () => {
