@@ -291,7 +291,7 @@ export function EntityNotesPanel({
 	function handleTitleChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const nextTitle = event.target.value
 		setTitle(nextTitle)
-		if (!selectedNote) return
+		if (!selectedNote || selectedNote.locked) return
 
 		scheduleSave("title", async () => {
 			await updateNote({
@@ -303,7 +303,7 @@ export function EntityNotesPanel({
 
 	function handleContentChange(payload: TiptapUpdatePayload) {
 		setContent(payload.json)
-		if (!selectedNote) return
+		if (!selectedNote || selectedNote.locked) return
 
 		scheduleSave("content", async () => {
 			await updateNote({

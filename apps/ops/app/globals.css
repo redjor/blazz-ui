@@ -662,9 +662,9 @@ html.dark {
 	height: 0;
 }
 
-/* Remove default prose margins for tighter spacing */
+/* Vertical rhythm — breathing room between blocks */
 .tiptap-notion > * + * {
-	margin-top: 0.5em;
+	margin-top: 0.75em;
 }
 
 .tiptap-notion h1 {
@@ -674,6 +674,8 @@ html.dark {
 	letter-spacing: -0.03em;
 	color: var(--text-primary);
 	scroll-margin-top: 6rem;
+	margin-top: 1.75em;
+	margin-bottom: 0.5em;
 }
 
 .tiptap-notion h2 {
@@ -683,6 +685,8 @@ html.dark {
 	letter-spacing: -0.025em;
 	color: var(--text-primary);
 	scroll-margin-top: 6rem;
+	margin-top: 1.5em;
+	margin-bottom: 0.4em;
 }
 
 .tiptap-notion h3 {
@@ -692,16 +696,25 @@ html.dark {
 	letter-spacing: -0.02em;
 	color: var(--text-primary);
 	scroll-margin-top: 6rem;
+	margin-top: 1.25em;
+	margin-bottom: 0.3em;
+}
+
+/* Collapse top margin on the very first child */
+.tiptap-notion > :first-child {
+	margin-top: 0;
 }
 
 .tiptap-notion p {
 	margin-block: 0;
+	line-height: 1.65;
 }
 
 /* Task list (checkboxes) */
 .tiptap-notion ul[data-type="taskList"] {
 	list-style: none;
 	padding: 0;
+	margin-top: 0.5em;
 }
 
 .tiptap-notion ul[data-type="taskList"] li {
@@ -756,6 +769,7 @@ html.dark {
 	padding-left: 1rem;
 	color: var(--text-secondary);
 	font-style: italic;
+	margin-block: 1em;
 }
 
 /* Code block */
@@ -766,6 +780,7 @@ html.dark {
 	padding: 0.75rem 1rem;
 	font-size: 0.85rem;
 	overflow-x: auto;
+	margin-block: 1em;
 }
 
 .tiptap-notion pre code {
@@ -797,15 +812,18 @@ html.dark {
 .tiptap-notion ul:not([data-type="taskList"]) {
 	padding-left: 1.25em;
 	list-style-type: disc;
+	margin-top: 0.5em;
 }
 
 .tiptap-notion ol {
 	padding-left: 1.25em;
 	list-style-type: decimal;
+	margin-top: 0.5em;
 }
 
 .tiptap-notion li {
-	padding: 1px 0;
+	padding: 2px 0;
+	line-height: 1.6;
 }
 
 .tiptap-notion li > p {
