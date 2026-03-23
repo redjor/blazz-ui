@@ -93,7 +93,7 @@
 	--radius: 0.5rem;
 
 	/* Surface layer scale */
-	--surface-base: oklch(0.94 0 0);
+	--surface-base: oklch(0.95 0 0);
 	--surface-top: oklch(1 0 0);
 	--surface-0: var(--surface-base);
 	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
@@ -102,8 +102,8 @@
 	--surface-4: var(--surface-top);
 
 	/* Borders */
-	--border-default: oklch(0.87 0 0);
-	--border-subtle: oklch(0.92 0 0);
+	--border-default: oklch(0.92 0 0);
+	--border-subtle: oklch(0.95 0 0);
 	--border-container: var(--border-default);
 	--border-field: var(--border-default);
 	--border-separator: var(--border-default);
@@ -125,9 +125,9 @@
 	--info: oklch(0.49 0.14 238);
 
 	/* Card shadows */
-	--card-shadow: 0 0 0 1px var(--border-container);
+	--card-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 	--card-shadow-elevated:
-		0 0 0 1px var(--border-container), 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+		0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
 
 	/* Density */
 	--row-height: 40px;

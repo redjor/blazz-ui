@@ -31,7 +31,7 @@ export function TodoCard({ todo, projects, categories, clickable = true }: TodoC
 
 	return (
 		<div
-			className={`p-3 rounded-md border border-edge bg-surface-3 transition-colors ${clickable ? "cursor-pointer hover:border-accent/50" : ""} ${todo.status === "done" ? "opacity-60" : ""}`}
+			className={`p-3 rounded-md border border-edge-subtle bg-surface-1 shadow-card transition-colors ${clickable ? "cursor-pointer hover:border-accent/50" : ""} ${todo.status === "done" ? "opacity-60" : ""}`}
 			onClick={handleClick}
 			role={clickable ? "button" : undefined}
 			tabIndex={clickable ? 0 : undefined}
