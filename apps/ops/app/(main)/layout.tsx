@@ -1,3 +1,4 @@
+import { ColorTuner } from "@/components/color-tuner"
 import { OpsCommandPalette } from "@/components/ops-command-palette"
 import { OpsFrame } from "@/components/ops-frame"
 import { RouteGuard } from "@/components/route-guard"
@@ -12,6 +13,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 					<RouteGuard>{children}</RouteGuard>
 				</OpsFrame>
 				<OpsCommandPalette />
+				<ColorTuner />
 			</FeatureFlagsProvider>
 		</AuthGuard>
 	)
