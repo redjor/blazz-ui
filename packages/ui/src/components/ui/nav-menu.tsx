@@ -5,7 +5,7 @@ import { Separator } from "./separator"
 
 function NavMenu({ className, ...props }: React.ComponentProps<"nav">) {
 	return (
-		<nav data-slot="nav-menu" className={cn("flex min-w-0 flex-col gap-1", className)} {...props} />
+		<nav data-slot="nav-menu" className={cn("flex min-w-0 flex-col gap-4", className)} {...props} />
 	)
 }
 
@@ -16,7 +16,7 @@ function NavMenuGroup({
 	...props
 }: React.ComponentProps<"div"> & { label?: string }) {
 	return (
-		<div data-slot="nav-menu-group" className={cn("flex flex-col gap-1", className)} {...props}>
+		<div data-slot="nav-menu-group" className={cn("flex flex-col gap-0", className)} {...props}>
 			{label && (
 				<span className="flex h-6 shrink-0 items-center px-2 text-xs font-medium text-fg/70">
 					{label}
