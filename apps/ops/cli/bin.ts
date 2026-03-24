@@ -20,4 +20,13 @@ registerNotesCommand(program)
 import { registerTodosCommand } from "./commands/todos"
 registerTodosCommand(program)
 
+import { startMcpServer } from "./mcp/server"
+
+program
+	.command("mcp")
+	.description("Start MCP server (stdio transport)")
+	.action(async () => {
+		await startMcpServer()
+	})
+
 program.parse()
