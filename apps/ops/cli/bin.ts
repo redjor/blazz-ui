@@ -14,6 +14,7 @@ program
 		if (opts.json) setJsonMode(true)
 	})
 
-// Commands will be registered here in subsequent tasks
+import { registerNotesCommand } from "./commands/notes"
+registerNotesCommand(program)
 
 program.parse()
