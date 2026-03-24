@@ -4,7 +4,9 @@
 	"version": "0.1.0",
 	"identifier": "dev.blazz.ops",
 	"build": {
-		"frontendDist": "../out",
+		"beforeBuildCommand": "bash scripts/tauri-build.sh",
+		"beforeDevCommand": "pnpm dev:ops",
+		"frontendDist": "./loading",
 		"devUrl": "http://localhost:3120"
 	},
 	"app": {
@@ -20,7 +22,10 @@
 	},
 	"bundle": {
 		"active": true,
-		"targets": "all",
+		"targets": ["dmg", "app"],
+		"resources": {
+			"../server-bundle/": "server/"
+		},
 		"icon": ["icons/icon.icns", "icons/icon.ico", "icons/32x32.png", "icons/128x128.png"]
 	}
 }

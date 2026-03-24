@@ -7,6 +7,10 @@ node_modules
 .env.local
 convex/_generated
 
+# Tauri
+server-bundle
+src-tauri/target
+
 # General
 .DS_Store
 *.tsbuildinfo

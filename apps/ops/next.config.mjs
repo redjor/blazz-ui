@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const config = {
+	output: "standalone",
 	images: { unoptimized: true },
 	transpilePackages: ["@blazz/ui", "@blazz/pro", "@blazz/tabs"],
 	// ignoreBuildErrors required because convex/_generated/ is gitignored.
