@@ -379,6 +379,30 @@ export default defineSchema({
 		updatedAt: v.number(),
 	}).index("by_user", ["userId"]),
 
+	syncSuggestions: defineTable({
+		userId: v.string(),
+		source: v.literal("qonto"),
+		syncedAt: v.number(),
+		name: v.string(),
+		amountCents: v.number(),
+		frequency: v.union(
+			v.literal("monthly"),
+			v.literal("quarterly"),
+			v.literal("yearly")
+		),
+		category: v.string(),
+		confidence: v.number(),
+		transactionIds: v.array(v.string()),
+		transactionLabels: v.array(v.string()),
+		status: v.union(
+			v.literal("pending"),
+			v.literal("accepted"),
+			v.literal("rejected")
+		),
+	})
+		.index("by_user_status", ["userId", "status"])
+		.index("by_user_synced", ["userId", "syncedAt"]),
+
 	notifications: defineTable({
 		userId: v.string(),
 		source: v.union(v.literal("github"), v.literal("vercel"), v.literal("convex")),
