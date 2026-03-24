@@ -30,6 +30,8 @@ const featureGroups: { title: string; description: string; items: FeatureItem[] 
 		items: [
 			{ flag: "invoicing", label: "Factures", description: "Gestion et génération de factures." },
 			{ flag: "finances", label: "Finances", description: "Suivi des revenus et dépenses." },
+			{ flag: "treasury", label: "Trésorerie", description: "Dépenses récurrentes et prévisionnel cashflow." },
+			{ flag: "goals", label: "Objectifs", description: "Suivi des objectifs et KPIs." },
 			{ flag: "recap", label: "Récapitulatif", description: "Récap hebdo/mensuel du temps passé." },
 		],
 	},

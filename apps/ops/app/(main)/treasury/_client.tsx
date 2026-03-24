@@ -120,8 +120,8 @@ export default function TreasuryPageClient() {
 				description="Dépenses récurrentes & prévisionnel cashflow"
 				actionsSlot={
 					<InlineStack gap="200">
-						<Button variant="outline" onClick={handleSync} loading={syncing}>
-							Sync Qonto
+						<Button variant="outline" onClick={handleSync} disabled={syncing}>
+							{syncing ? "Sync en cours…" : "Sync Qonto"}
 						</Button>
 						<Button variant="outline" onClick={() => setSettingsOpen(true)}>
 							Paramètres
