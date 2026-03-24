@@ -373,6 +373,7 @@ export default defineSchema({
 	treasurySettings: defineTable({
 		userId: v.string(),
 		manualBalanceCents: v.optional(v.number()),
+		qontoBalanceCents: v.optional(v.number()),
 		defaultPaymentDelayDays: v.number(),
 		forecastMonths: v.number(),
 		createdAt: v.number(),

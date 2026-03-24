@@ -47,6 +47,31 @@ export const saveSettings = mutation({
 	},
 })
 
+/** Update Qonto balance snapshot (called by qonto.analyzeRecurring) */
+export const updateQontoBalance = mutation({
+	args: { balanceCents: v.number() },
+	handler: async (ctx, { balanceCents }) => {
+		const { userId } = await requireAuth(ctx)
+		const existing = await ctx.db
+			.query("treasurySettings")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.unique()
+
+		if (existing) {
+			await ctx.db.patch(existing._id, { qontoBalanceCents: balanceCents, updatedAt: Date.now() })
+		} else {
+			await ctx.db.insert("treasurySettings", {
+				userId,
+				qontoBalanceCents: balanceCents,
+				defaultPaymentDelayDays: 30,
+				forecastMonths: 6,
+				createdAt: Date.now(),
+				updatedAt: Date.now(),
+			})
+		}
+	},
+})
+
 // ── Helpers ──
 
 /** Mensualise un montant selon la fréquence */
@@ -116,7 +141,7 @@ export const forecast = query({
 
 		const forecastMonths = monthsArg ?? settings?.forecastMonths ?? 6
 		const paymentDelayDays = settings?.defaultPaymentDelayDays ?? 30
-		const manualBalanceCents = settings?.manualBalanceCents
+		const manualBalanceCents = settings?.manualBalanceCents ?? settings?.qontoBalanceCents
 
 		// Load active recurring expenses
 		const expenses = await ctx.db

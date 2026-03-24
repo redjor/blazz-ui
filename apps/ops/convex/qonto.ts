@@ -167,6 +167,19 @@ export const analyzeRecurring = action({
 	handler: async (ctx, { bankAccountSlug }) => {
 		const { userId } = await requireAuth(ctx)
 
+		// 0. Fetch current balance and save it
+		const slug = process.env.QONTO_ORG_SLUG
+		if (slug) {
+			const orgData = await qontoFetch(`/organizations/${slug}`)
+			const accounts = orgData.organization?.bank_accounts ?? []
+			const account = accounts.find((a: Record<string, unknown>) => a.slug === bankAccountSlug)
+			if (account) {
+				await ctx.runMutation(api.treasury.updateQontoBalance, {
+					balanceCents: account.balance_cents as number,
+				})
+			}
+		}
+
 		// 1. Fetch 3 months of debit transactions (paginated)
 		const threeMonthsAgo = new Date()
 		threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)

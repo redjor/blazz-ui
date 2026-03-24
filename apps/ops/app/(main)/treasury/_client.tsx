@@ -117,8 +117,8 @@ export default function TreasuryPageClient() {
 		<BlockStack gap="600" className="p-4">
 			<PageHeader
 				title="Trésorerie"
-				subtitle="Dépenses récurrentes & prévisionnel cashflow"
-				actions={
+				description="Dépenses récurrentes & prévisionnel cashflow"
+				actionsSlot={
 					<InlineStack gap="200">
 						<Button variant="outline" onClick={handleSync} loading={syncing}>
 							Sync Qonto
@@ -154,7 +154,7 @@ export default function TreasuryPageClient() {
 						value: forecast.manualBalanceCents != null
 							? formatCurrency(forecast.manualBalanceCents / 100)
 							: "Non défini",
-						description: forecast.manualBalanceCents == null ? "Configurez dans Paramètres" : undefined,
+						description: forecast.manualBalanceCents == null ? "Sync Qonto ou Paramètres" : undefined,
 						icon: Wallet,
 					},
 					{
