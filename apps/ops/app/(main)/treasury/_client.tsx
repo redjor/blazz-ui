@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/u
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { useMutation, useQuery } from "convex/react"
+import { useAction, useMutation, useQuery } from "convex/react"
+import { toast } from "sonner"
 import {
 	CalendarClock,
 	Edit2,
@@ -28,6 +29,7 @@ import { formatCurrency } from "@/lib/format"
 import { CashflowChart } from "@/components/cashflow-chart"
 import { ExpenseDialog } from "./_expense-dialog"
 import { TreasurySettingsDialog } from "./_settings-dialog"
+import { SuggestionsSection } from "./_suggestions-section"
 
 const FREQ_LABELS: Record<string, string> = {
 	monthly: "Mensuel",
@@ -48,6 +50,32 @@ export default function TreasuryPageClient() {
 	const [editingExpense, setEditingExpense] = useState<(typeof expenses extends (infer T)[] | undefined ? T : never) | null>(null)
 	const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: Id<"recurringExpenses"> | null }>({ open: false, id: null })
 	const [settingsOpen, setSettingsOpen] = useState(false)
+
+	const getOrganization = useAction(api.qonto.getOrganization)
+	const analyzeRecurring = useAction(api.qonto.analyzeRecurring)
+	const [syncing, setSyncing] = useState(false)
+
+	async function handleSync() {
+		setSyncing(true)
+		try {
+			const org = await getOrganization({})
+			const mainAccount = org.bankAccounts[0]
+			if (!mainAccount) {
+				toast.error("Aucun compte bancaire trouvé sur Qonto")
+				return
+			}
+			const result = await analyzeRecurring({ bankAccountSlug: mainAccount.slug })
+			if (result.count > 0) {
+				toast.success(`${result.count} dépense${result.count > 1 ? "s" : ""} récurrente${result.count > 1 ? "s" : ""} détectée${result.count > 1 ? "s" : ""}`)
+			} else {
+				toast.info("Aucune nouvelle dépense récurrente détectée")
+			}
+		} catch (err) {
+			toast.error(err instanceof Error ? err.message : "Erreur lors du sync Qonto")
+		} finally {
+			setSyncing(false)
+		}
+	}
 
 	useAppTopBar([{ label: "Trésorerie" }])
 
@@ -92,6 +120,9 @@ export default function TreasuryPageClient() {
 				subtitle="Dépenses récurrentes & prévisionnel cashflow"
 				actions={
 					<InlineStack gap="200">
+						<Button variant="outline" onClick={handleSync} loading={syncing}>
+							Sync Qonto
+						</Button>
 						<Button variant="outline" onClick={() => setSettingsOpen(true)}>
 							Paramètres
 						</Button>
@@ -136,6 +167,9 @@ export default function TreasuryPageClient() {
 					},
 				]}
 			/>
+
+			{/* Qonto suggestions */}
+			<SuggestionsSection />
 
 			{/* Cashflow Chart */}
 			{forecast.months.length > 0 && <CashflowChart months={forecast.months} />}
