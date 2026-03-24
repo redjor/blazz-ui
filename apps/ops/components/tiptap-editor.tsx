@@ -323,11 +323,13 @@ function SlashMenu({
 export function TiptapEditor({
 	content,
 	onUpdate,
+	onEditorReady,
 	placeholder = "Tapez '/' pour les commandes…",
 	editable = true,
 }: {
 	content: EditorValue
 	onUpdate: (payload: TiptapUpdatePayload) => void
+	onEditorReady?: (editor: ReturnType<typeof useEditor>) => void
 	placeholder?: string
 	editable?: boolean
 }) {
@@ -623,6 +625,10 @@ export function TiptapEditor({
 
 	// Keep editorRef in sync
 	editorRef.current = editor
+
+	useEffect(() => {
+		if (editor) onEditorReady?.(editor)
+	}, [editor]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	const filteredCommands = getFilteredCommands(slashFilter)
 

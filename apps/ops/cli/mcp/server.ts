@@ -105,10 +105,20 @@ export async function startMcpServer() {
 
 	server.tool(
 		"notes_remove",
-		"Delete a note. Fails if note is locked.",
+		"Archive a note (soft delete). Fails if note is locked.",
 		{ id: z.string() },
 		async ({ id }) => {
-			await client.mutation(internal.cli.notesRemove, { userId, id: id as any })
+			await client.mutation(internal.cli.notesArchive, { userId, id: id as any })
+			return json({ ok: true })
+		},
+	)
+
+	server.tool(
+		"notes_restore",
+		"Restore an archived note.",
+		{ id: z.string() },
+		async ({ id }) => {
+			await client.mutation(internal.cli.notesRestore, { userId, id: id as any })
 			return json({ ok: true })
 		},
 	)

@@ -77,6 +77,7 @@ export const notesCreate = internalMutation({
 		entityType: entityTypeValidator,
 		entityId: v.optional(v.string()),
 		title: v.optional(v.string()),
+		contentJson: v.optional(v.any()),
 		contentText: v.optional(v.string()),
 		pinned: v.optional(v.boolean()),
 	},
@@ -87,6 +88,7 @@ export const notesCreate = internalMutation({
 			entityType: args.entityType,
 			entityId: args.entityId,
 			title: args.title ?? "Nouvelle note",
+			contentJson: args.contentJson,
 			contentText: args.contentText,
 			pinned: args.pinned ?? false,
 			createdAt: now,
@@ -100,6 +102,7 @@ export const notesUpdate = internalMutation({
 		userId: v.string(),
 		id: v.id("notes"),
 		title: v.optional(v.string()),
+		contentJson: v.optional(v.union(v.any(), v.null())),
 		contentText: v.optional(v.union(v.string(), v.null())),
 		pinned: v.optional(v.boolean()),
 		locked: v.optional(v.boolean()),
@@ -119,6 +122,8 @@ export const notesUpdate = internalMutation({
 
 		const patch: Record<string, unknown> = { updatedAt: Date.now() }
 		if (args.title !== undefined) patch.title = args.title
+		if (args.contentJson !== undefined)
+			patch.contentJson = args.contentJson ?? undefined
 		if (args.contentText !== undefined)
 			patch.contentText = args.contentText ?? undefined
 		if (args.pinned !== undefined) patch.pinned = args.pinned
@@ -128,7 +133,7 @@ export const notesUpdate = internalMutation({
 	},
 })
 
-export const notesRemove = internalMutation({
+export const notesArchive = internalMutation({
 	args: {
 		userId: v.string(),
 		id: v.id("notes"),
@@ -139,9 +144,23 @@ export const notesRemove = internalMutation({
 			throw new Error("Note not found or access denied")
 		}
 		if (note.locked) {
-			throw new Error("Cannot delete a locked note")
+			throw new Error("Cannot archive a locked note")
 		}
-		await ctx.db.delete(args.id)
+		await ctx.db.patch(args.id, { archivedAt: Date.now() })
+	},
+})
+
+export const notesRestore = internalMutation({
+	args: {
+		userId: v.string(),
+		id: v.id("notes"),
+	},
+	handler: async (ctx, args) => {
+		const note = await ctx.db.get(args.id)
+		if (!note || note.userId !== args.userId) {
+			throw new Error("Note not found or access denied")
+		}
+		await ctx.db.patch(args.id, { archivedAt: undefined })
 	},
 })
 

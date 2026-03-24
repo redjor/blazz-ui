@@ -57,6 +57,7 @@ export default defineSchema({
 		pinned: v.boolean(),
 		locked: v.optional(v.boolean()),
 		tags: v.optional(v.array(v.id("tags"))),
+		archivedAt: v.optional(v.number()),
 		createdAt: v.number(),
 		updatedAt: v.number(),
 	})

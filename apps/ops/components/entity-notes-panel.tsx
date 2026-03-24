@@ -8,11 +8,11 @@ import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { type TreeNode, TreeView } from "@blazz/ui/components/ui/tree-view"
-import type { JSONContent } from "@tiptap/react"
+import type { JSONContent, Editor } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import { FileText, FolderOpen, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
+import { FileText, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import type { ChangeEvent } from "react"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -56,6 +56,84 @@ function getStoredContent(value: unknown): EditorValue {
 		return value as JSONContent
 	}
 	return EMPTY_EDITOR_DOC
+}
+
+interface TocHeading {
+	id: string
+	text: string
+	level: number
+}
+
+function extractHeadings(editor: Editor): TocHeading[] {
+	const headings: TocHeading[] = []
+	editor.state.doc.descendants((node, pos) => {
+		if (node.type.name === "heading") {
+			const text = node.textContent
+			if (text.trim()) {
+				headings.push({
+					id: `heading-${pos}`,
+					text,
+					level: node.attrs.level as number,
+				})
+			}
+		}
+	})
+	return headings
+}
+
+function NoteToc({ editor }: { editor: Editor | null }) {
+	const [headings, setHeadings] = useState<TocHeading[]>([])
+
+	useEffect(() => {
+		if (!editor) {
+			setHeadings([])
+			return
+		}
+
+		const update = () => setHeadings(extractHeadings(editor))
+		update()
+		editor.on("update", update)
+		return () => { editor.off("update", update) }
+	}, [editor])
+
+	if (headings.length === 0) return null
+
+	function scrollToHeading(heading: TocHeading) {
+		if (!editor) return
+		let targetPos = 0
+		editor.state.doc.descendants((node, pos) => {
+			if (node.type.name === "heading" && pos === Number.parseInt(heading.id.replace("heading-", ""))) {
+				targetPos = pos
+				return false
+			}
+		})
+		const dom = editor.view.domAtPos(targetPos + 1)
+		const el = dom.node instanceof HTMLElement ? dom.node : dom.node.parentElement
+		el?.scrollIntoView({ behavior: "smooth", block: "start" })
+	}
+
+	return (
+		<div className="w-[180px] shrink-0">
+			<div className="sticky top-8">
+				<span className="mb-2 block text-[11px] font-medium uppercase tracking-wider text-fg-muted">
+					Sur cette page
+				</span>
+				<nav className="flex flex-col gap-0.5">
+					{headings.map((h) => (
+						<button
+							key={h.id}
+							type="button"
+							onClick={() => scrollToHeading(h)}
+							className="truncate text-left text-[13px] leading-relaxed text-fg-muted transition-colors hover:text-fg"
+							style={{ paddingLeft: `${(h.level - 1) * 12}px` }}
+						>
+							{h.text}
+						</button>
+					))}
+				</nav>
+			</div>
+		</div>
+	)
 }
 
 function getSaveStateLabel(state: SaveState) {
@@ -150,7 +228,7 @@ export function EntityNotesPanel({
 	const allTags = useQuery(api.tags.list)
 	const createNote = useMutation(api.notes.create)
 	const updateNote = useMutation(api.notes.update)
-	const removeNote = useMutation(api.notes.remove)
+	const archiveNote = useMutation(api.notes.archive)
 
 	const router = useRouter()
 
@@ -160,6 +238,7 @@ export function EntityNotesPanel({
 	const [title, setTitle] = useState("")
 	const [content, setContent] = useState<EditorValue>(EMPTY_EDITOR_DOC)
 	const [isCreating, setIsCreating] = useState(false)
+	const [editorInstance, setEditorInstance] = useState<Editor | null>(null)
 	const [isDeleting, setIsDeleting] = useState(false)
 	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 	const [saveState, setSaveState] = useState<Record<SaveField, SaveState>>({
@@ -243,7 +322,7 @@ export function EntityNotesPanel({
 
 		selectedNoteRef.current = selectedNote._id
 		setTitle(selectedNote.title)
-		setContent(getStoredContent(selectedNote.contentJson))
+		setContent(selectedNote.contentJson ? getStoredContent(selectedNote.contentJson) : selectedNote.contentText || EMPTY_EDITOR_DOC)
 		setSaveState({ title: "idle", content: "idle" })
 	}, [selectedNote])
 
@@ -260,6 +339,32 @@ export function EntityNotesPanel({
 		} finally {
 			setIsCreating(false)
 		}
+	}
+
+	function handleImportMd() {
+		const input = document.createElement("input")
+		input.type = "file"
+		input.accept = ".md,.markdown,.txt"
+		input.onchange = async () => {
+			const file = input.files?.[0]
+			if (!file) return
+			const text = await file.text()
+			const title = file.name.replace(/\.(md|markdown|txt)$/, "")
+			setIsCreating(true)
+			try {
+				const id = await createNote({
+					entityType: defaultCreateEntityType ?? entityType,
+					entityId:
+						defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
+					title,
+					contentText: text,
+				})
+				setSelectedNoteId(id)
+			} finally {
+				setIsCreating(false)
+			}
+		}
+		input.click()
 	}
 
 	function scheduleSave(field: SaveField, callback: () => Promise<void>, delay = 1200) {
@@ -329,7 +434,7 @@ export function EntityNotesPanel({
 		setIsDeleting(true)
 		try {
 			const currentId = selectedNote._id
-			await removeNote({ id: currentId })
+			await archiveNote({ id: currentId })
 			const currentIndex = noteList.findIndex((note) => note._id === currentId)
 			const fallback = noteList[currentIndex + 1] ?? noteList[currentIndex - 1] ?? null
 			setSelectedNoteId(fallback?._id ?? null)
@@ -375,18 +480,35 @@ export function EntityNotesPanel({
 					<span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
 						Notes
 					</span>
-					<button
-						type="button"
-						onClick={() => void handleCreateNote()}
-						disabled={isCreating}
-						className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-50"
-					>
-						{isCreating ? (
-							<Loader2 className="size-3.5 animate-spin" />
-						) : (
-							<Plus className="size-3.5" />
-						)}
-					</button>
+					<div className="flex items-center gap-0.5">
+						<Tooltip>
+							<TooltipTrigger
+								render={
+									<button
+										type="button"
+										onClick={handleImportMd}
+										disabled={isCreating}
+										className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-50"
+									/>
+								}
+							>
+								<Import className="size-3.5" />
+							</TooltipTrigger>
+							<TooltipContent>Importer un fichier .md</TooltipContent>
+						</Tooltip>
+						<button
+							type="button"
+							onClick={() => void handleCreateNote()}
+							disabled={isCreating}
+							className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-50"
+						>
+							{isCreating ? (
+								<Loader2 className="size-3.5 animate-spin" />
+							) : (
+								<Plus className="size-3.5" />
+							)}
+						</button>
+					</div>
 				</div>
 				<ScrollArea className="min-h-0 flex-1">
 					<div className="px-1 pb-3">
@@ -493,28 +615,29 @@ export function EntityNotesPanel({
 
 						{/* Content — Obsidian style */}
 						<div className="min-h-0 flex-1 overflow-y-auto">
-							<div className="mx-auto max-w-3xl px-10 py-12">
-								<textarea
-									value={title}
-									onChange={handleTitleChange}
-									readOnly={!!selectedNote.locked}
-									rows={1}
-									className="mb-2 w-full resize-none overflow-hidden bg-transparent text-[32px] font-bold leading-tight text-fg outline-none placeholder:text-fg-muted field-sizing-content"
-									placeholder="Titre de la note"
-								/>
-								{selectedNote.tags && selectedNote.tags.length > 0 && allTags ? (
-									<div className="mb-3 flex flex-wrap items-center gap-1.5">
-										{selectedNote.tags.map((tagId) => {
-											const tag = allTags.find((t) => t._id === tagId)
-											if (!tag) return null
-											const color = getTagColor(tag.color)
-											return (
-												<span
-													key={tagId}
-													className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${color.bg} ${color.text}`}
-												>
-													<span className={`size-1.5 rounded-full ${color.dot}`} />
-													{tag.name}
+							<div className="mx-auto flex max-w-5xl gap-8 px-10 py-12">
+								<div className="min-w-0 flex-1">
+									<textarea
+										value={title}
+										onChange={handleTitleChange}
+										readOnly={!!selectedNote.locked}
+										rows={1}
+										className="mb-2 w-full resize-none overflow-hidden bg-transparent text-[32px] font-bold leading-tight text-fg outline-none placeholder:text-fg-muted field-sizing-content"
+										placeholder="Titre de la note"
+									/>
+									{selectedNote.tags && selectedNote.tags.length > 0 && allTags ? (
+										<div className="mb-3 flex flex-wrap items-center gap-1.5">
+											{selectedNote.tags.map((tagId) => {
+												const tag = allTags.find((t) => t._id === tagId)
+												if (!tag) return null
+												const color = getTagColor(tag.color)
+												return (
+													<span
+														key={tagId}
+														className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${color.bg} ${color.text}`}
+													>
+														<span className={`size-1.5 rounded-full ${color.dot}`} />
+														{tag.name}
 												</span>
 											)
 										})}
@@ -533,12 +656,15 @@ export function EntityNotesPanel({
 										</>
 									) : null}
 								</p>
-								<TiptapEditor
-									content={content}
-									onUpdate={handleContentChange}
-									placeholder="Commence à écrire…"
-									editable={!selectedNote.locked}
-								/>
+									<TiptapEditor
+										content={content}
+										onUpdate={handleContentChange}
+										onEditorReady={setEditorInstance}
+										placeholder="Commence à écrire…"
+										editable={!selectedNote.locked}
+									/>
+								</div>
+								<NoteToc editor={editorInstance} />
 							</div>
 						</div>
 					</>

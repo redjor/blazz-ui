@@ -39,10 +39,12 @@ export const listByEntity = query({
 			.order("desc")
 			.collect()
 
-		return notes.sort((a, b) => {
-			if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
-			return b.updatedAt - a.updatedAt
-		})
+		return notes
+			.filter((n) => !n.archivedAt)
+			.sort((a, b) => {
+				if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
+				return b.updatedAt - a.updatedAt
+			})
 	},
 })
 
@@ -56,10 +58,12 @@ export const listRecent = query({
 			.order("desc")
 			.collect()
 
-		return notes.sort((a, b) => {
-			if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
-			return b.updatedAt - a.updatedAt
-		})
+		return notes
+			.filter((n) => !n.archivedAt)
+			.sort((a, b) => {
+				if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
+				return b.updatedAt - a.updatedAt
+			})
 	},
 })
 
@@ -129,13 +133,34 @@ export const update = mutation({
 	},
 })
 
-export const remove = mutation({
+export const archive = mutation({
 	args: { id: v.id("notes") },
 	handler: async (ctx, { id }) => {
 		const { userId } = await requireAuth(ctx)
 		const note = await ctx.db.get(id)
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
 		if (note.locked) throw new ConvexError("Note verrouillée")
+		return ctx.db.patch(id, { archivedAt: Date.now() })
+	},
+})
+
+export const restore = mutation({
+	args: { id: v.id("notes") },
+	handler: async (ctx, { id }) => {
+		const { userId } = await requireAuth(ctx)
+		const note = await ctx.db.get(id)
+		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
+		return ctx.db.patch(id, { archivedAt: undefined })
+	},
+})
+
+export const remove = mutation({
+	args: { id: v.id("notes") },
+	handler: async (ctx, { id }) => {
+		const { userId } = await requireAuth(ctx)
+		const note = await ctx.db.get(id)
+		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
+		if (!note.archivedAt) throw new ConvexError("Archiver avant de supprimer")
 		return ctx.db.delete(id)
 	},
 })
