@@ -11,7 +11,8 @@ const frameVariants = cva(
 				ghost: "",
 			},
 			spacing: {
-				xs: "[&_[data-slot=frame-panel]]:p-2 [&_[data-slot=frame-panel-header]]:px-2 [&_[data-slot=frame-panel-header]]:py-1 [&_[data-slot=frame-panel-footer]]:-mx-2 [&_[data-slot=frame-panel-footer]]:-mb-2 [&_[data-slot=frame-panel-footer]]:mt-2 [&_[data-slot=frame-panel-footer]]:px-2 [&_[data-slot=frame-panel-footer]]:py-1",
+				none: "[&_[data-slot=frame-panel]]:p-0 [&_[data-slot=frame-panel-header]]:px-0 [&_[data-slot=frame-panel-header]]:py-0 [&_[data-slot=frame-panel-footer]]:-mx-0 [&_[data-slot=frame-panel-footer]]:-mb-0 [&_[data-slot=frame-panel-footer]]:mt-0 [&_[data-slot=frame-panel-footer]]:px-0 [&_[data-slot=frame-panel-footer]]:py-0",
+				xs: "[&_[data-slot=frame-panel]]:p-1 [&_[data-slot=frame-panel-header]]:px-1 [&_[data-slot=frame-panel-header]]:py-0.5 [&_[data-slot=frame-panel-footer]]:-mx-1 [&_[data-slot=frame-panel-footer]]:-mb-1 [&_[data-slot=frame-panel-footer]]:mt-1 [&_[data-slot=frame-panel-footer]]:px-1 [&_[data-slot=frame-panel-footer]]:py-0.5",
 				sm: "[&_[data-slot=frame-panel]]:p-3 [&_[data-slot=frame-panel-header]]:px-3 [&_[data-slot=frame-panel-header]]:py-2 [&_[data-slot=frame-panel-footer]]:-mx-3 [&_[data-slot=frame-panel-footer]]:-mb-3 [&_[data-slot=frame-panel-footer]]:mt-3 [&_[data-slot=frame-panel-footer]]:px-3 [&_[data-slot=frame-panel-footer]]:py-2",
 				default:
 					"[&_[data-slot=frame-panel]]:p-4 [&_[data-slot=frame-panel-header]]:px-4 [&_[data-slot=frame-panel-header]]:py-3 [&_[data-slot=frame-panel-footer]]:-mx-4 [&_[data-slot=frame-panel-footer]]:-mb-4 [&_[data-slot=frame-panel-footer]]:mt-4 [&_[data-slot=frame-panel-footer]]:px-4 [&_[data-slot=frame-panel-footer]]:py-3",
