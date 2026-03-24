@@ -10,6 +10,9 @@
 		"devUrl": "http://localhost:3120"
 	},
 	"app": {
+		"security": {
+			"csp": null
+		},
 		"windows": [
 			{
 				"title": "Blazz Ops",

@@ -32,5 +32,14 @@
 <body>
   <div class="spinner"></div>
   <p>Demarrage...</p>
+  <script>
+    const SERVER_URL = 'http://localhost:3120';
+    function checkServer() {
+      fetch(SERVER_URL, { mode: 'no-cors' })
+        .then(() => { window.location.href = SERVER_URL; })
+        .catch(() => { setTimeout(checkServer, 300); });
+    }
+    checkServer();
+  </script>
 </body>
 </html>

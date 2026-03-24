@@ -143,18 +143,9 @@ pub fn run() {
             let state = app.state::<NodeServer>();
             *state.0.lock().unwrap() = Some(child);
 
-            // Wait for server to be ready
-            eprintln!("[tauri] Waiting for server on port {}...", PORT);
-            if wait_for_server(PORT, SERVER_TIMEOUT) {
-                eprintln!("[tauri] Server ready!");
-                // Navigate the main window to the server
-                if let Some(window) = app.get_webview_window("main") {
-                    let url = format!("http://localhost:{}", PORT);
-                    let _ = window.navigate(url.parse().unwrap());
-                }
-            } else {
-                eprintln!("[tauri] Server failed to start within {:?}", SERVER_TIMEOUT);
-            }
+            // The loading page (loading/index.html) polls localhost:3120
+            // and redirects automatically when the server is ready.
+            eprintln!("[tauri] Server spawned — loading page will redirect when ready");
 
             Ok(())
         })
