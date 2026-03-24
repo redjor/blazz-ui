@@ -10,7 +10,13 @@ export interface CliConfig {
 }
 
 export function loadConfig(): CliConfig {
-	// 1. Try ~/.blazz-ops/.env
+	// 1. Try apps/ops/.env.local (next to the CLI)
+	const localEnv = resolve(new URL(".", import.meta.url).pathname, "..", "..", ".env.local")
+	if (existsSync(localEnv)) {
+		config({ path: localEnv })
+	}
+
+	// 2. Try ~/.blazz-ops/.env (override)
 	const homeEnv = resolve(homedir(), ".blazz-ops", ".env")
 	if (existsSync(homeEnv)) {
 		config({ path: homeEnv })
