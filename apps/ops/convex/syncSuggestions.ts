@@ -1,5 +1,5 @@
 import { v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const listPending = query({
@@ -109,7 +109,7 @@ export const rejectAll = mutation({
 	},
 })
 
-export const insertFromAction = mutation({
+export const insertFromAction = internalMutation({
 	args: {
 		userId: v.string(),
 		source: v.literal("qonto"),

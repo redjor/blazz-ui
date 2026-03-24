@@ -1,6 +1,7 @@
 import OpenAI from "openai"
 import { v } from "convex/values"
 import { api } from "./_generated/api"
+import { internal } from "./_generated/api"
 import { action } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
@@ -276,7 +277,8 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 		})
 
 		const content = completion.choices[0]?.message?.content ?? "{}"
-		const parsed = JSON.parse(content) as {
+
+		let parsed: {
 			suggestions: Array<{
 				name: string
 				amountCents: number
@@ -287,6 +289,13 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 				matchedLabels: string[]
 			}>
 		}
+		try {
+			parsed = JSON.parse(content)
+		} catch {
+			throw new Error(
+				`OpenAI returned invalid JSON for recurring expense analysis: ${content.slice(0, 200)}`
+			)
+		}
 
 		const suggestions = parsed.suggestions ?? []
 
@@ -294,14 +303,25 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 			return { count: 0, syncedAt: Date.now() }
 		}
 
-		// 4. Insert suggestions via mutation
+		// 4. Deduplicate: filter out suggestions that already exist as pending
+		const pendingSuggestions: Array<{ name: string }> = await ctx.runQuery(
+			api.syncSuggestions.listPending
+		)
+		const pendingNames = new Set(pendingSuggestions.map((s) => s.name))
+		const newSuggestions = suggestions.filter((s) => !pendingNames.has(s.name))
+
+		if (newSuggestions.length === 0) {
+			return { count: 0, syncedAt: Date.now() }
+		}
+
+		// 5. Insert suggestions via internal mutation
 		const syncedAt = Date.now()
 
-		await ctx.runMutation(api.syncSuggestions.insertFromAction, {
+		await ctx.runMutation(internal.syncSuggestions.insertFromAction, {
 			userId,
 			source: "qonto",
 			syncedAt,
-			suggestions: suggestions.map((s) => ({
+			suggestions: newSuggestions.map((s) => ({
 				name: s.name,
 				amountCents: s.amountCents,
 				frequency: s.frequency,
@@ -312,6 +332,6 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 			})),
 		})
 
-		return { count: suggestions.length, syncedAt }
+		return { count: newSuggestions.length, syncedAt }
 	},
 })

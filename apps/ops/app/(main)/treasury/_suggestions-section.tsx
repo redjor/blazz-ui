@@ -33,21 +33,37 @@ export function SuggestionsSection() {
 	if (!suggestions || suggestions.length === 0) return null
 
 	async function handleAccept(id: Id<"syncSuggestions">, name: string) {
-		await acceptMutation({ id })
-		toast.success(`${name} ajouté aux dépenses récurrentes`)
+		try {
+			await acceptMutation({ id })
+			toast.success(`${name} ajouté aux dépenses récurrentes`)
+		} catch {
+			toast.error("Impossible d'accepter cette suggestion")
+		}
 	}
 
 	async function handleReject(id: Id<"syncSuggestions">) {
-		await rejectMutation({ id })
+		try {
+			await rejectMutation({ id })
+		} catch {
+			toast.error("Impossible de rejeter cette suggestion")
+		}
 	}
 
 	async function handleAcceptAll() {
-		const result = await acceptAllMutation()
-		toast.success(`${result.accepted} dépenses ajoutées`)
+		try {
+			const result = await acceptAllMutation()
+			toast.success(`${result.accepted} dépenses ajoutées`)
+		} catch {
+			toast.error("Impossible d'accepter les suggestions")
+		}
 	}
 
 	async function handleRejectAll() {
-		await rejectAllMutation()
+		try {
+			await rejectAllMutation()
+		} catch {
+			toast.error("Impossible de rejeter les suggestions")
+		}
 	}
 
 	return (
