@@ -8,12 +8,33 @@ BUNDLE_DIR="$APP_DIR/server-bundle"
 
 cd "$APP_DIR"
 
+# 0. Move .env.local aside so .env.production takes priority
+if [ -f ".env.local" ]; then
+  mv .env.local .env.local.bak
+fi
+restore_env() {
+  if [ -f ".env.local.bak" ]; then
+    mv .env.local.bak .env.local
+  fi
+}
+trap restore_env EXIT
+
+# Load .env.production into shell (needed for convex codegen)
+if [ -f ".env.production" ]; then
+  while IFS= read -r line; do
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    key="${line%%=*}"
+    value="${line#*=}"
+    export "$key=$value"
+  done < .env.production
+fi
+
 # 1. Generate Convex types
 echo "→ Generating Convex types..."
 npx convex codegen
 
 # 2. Build Next.js (standalone output)
-echo "→ Building Next.js (standalone)..."
+echo "→ Building Next.js (standalone with .env.production)..."
 npx next build --webpack
 
 # 3. Assemble server bundle
@@ -23,9 +44,11 @@ mkdir -p "$BUNDLE_DIR"
 
 # Copy standalone output (monorepo structure: .next/standalone/apps/ops/)
 # Use -L to dereference symlinks (pnpm uses symlinks that Tauri can't bundle)
+# Note: must copy .next separately since glob * excludes dotfiles
 cp -RL .next/standalone/apps/ops/* "$BUNDLE_DIR/"
-# Copy root node_modules (monorepo shared deps)
-cp -RL .next/standalone/node_modules "$BUNDLE_DIR/node_modules_root"
+cp -RL .next/standalone/apps/ops/.next "$BUNDLE_DIR/.next"
+# Merge root node_modules into app node_modules (Next.js uses relative requires)
+cp -RLn .next/standalone/node_modules/* "$BUNDLE_DIR/node_modules/" 2>/dev/null || true
 # Copy static assets (not included in standalone)
 mkdir -p "$BUNDLE_DIR/.next/static"
 cp -R .next/static/* "$BUNDLE_DIR/.next/static/"
@@ -34,14 +57,9 @@ if [ -d "public" ]; then
   cp -R public "$BUNDLE_DIR/public"
 fi
 
-# 4. Create a wrapper script that sets up node_modules resolution
-cat > "$BUNDLE_DIR/start.sh" << 'STARTEOF'
-#!/bin/bash
-DIR="$(cd "$(dirname "$0")" && pwd)"
-# Merge monorepo root node_modules with app node_modules
-export NODE_PATH="$DIR/node_modules_root:$DIR/node_modules"
-exec node "$DIR/server.js"
-STARTEOF
-chmod +x "$BUNDLE_DIR/start.sh"
+# Copy .env.production for runtime server env vars
+if [ -f ".env.production" ]; then
+  cp .env.production "$BUNDLE_DIR/.env.production"
+fi
 
 echo "→ Server bundle ready at $BUNDLE_DIR"

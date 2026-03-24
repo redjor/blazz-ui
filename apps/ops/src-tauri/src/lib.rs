@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+use std::fs;
+use std::path::Path;
 use std::process::{Child, Command};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
@@ -42,6 +45,25 @@ fn resolve_shell_path() -> Option<String> {
     None
 }
 
+/// Load a .env file into a HashMap
+fn load_env_file(path: &Path) -> HashMap<String, String> {
+    let mut vars = HashMap::new();
+    if let Ok(content) = fs::read_to_string(path) {
+        for line in content.lines() {
+            let line = line.trim();
+            if line.is_empty() || line.starts_with('#') {
+                continue;
+            }
+            if let Some(pos) = line.find('=') {
+                let key = line[..pos].to_string();
+                let value = line[pos + 1..].to_string();
+                vars.insert(key, value);
+            }
+        }
+    }
+    vars
+}
+
 fn wait_for_server(port: u16, timeout: Duration) -> bool {
     let start = Instant::now();
     while start.elapsed() < timeout {
@@ -77,35 +99,41 @@ pub fn run() {
             eprintln!("[tauri] Using node: {}", node_path);
             eprintln!("[tauri] Server path: {}", server_js.display());
 
-            // Build NODE_PATH for monorepo deps resolution
-            let node_modules_root = resource_path.join("node_modules_root");
-            let node_modules_app = resource_path.join("node_modules");
-            let node_path_env = format!(
-                "{}:{}",
-                node_modules_root.display(),
-                node_modules_app.display()
-            );
+            // Load .env.production from the bundled resources
+            let env_file = resource_path.join(".env.production");
+            let env_vars = load_env_file(&env_file);
+            if !env_vars.is_empty() {
+                eprintln!("[tauri] Loaded {} env vars from .env.production", env_vars.len());
+            }
+
+            // Kill any stale process on our port before starting
+            if let Ok(output) = Command::new("lsof")
+                .args(["-ti", &format!(":{}", PORT)])
+                .output()
+            {
+                let pids = String::from_utf8_lossy(&output.stdout);
+                for pid in pids.split_whitespace() {
+                    eprintln!("[tauri] Killing stale process on port {} (pid: {})", PORT, pid);
+                    let _ = Command::new("kill").args(["-9", pid]).output();
+                }
+                if !pids.trim().is_empty() {
+                    std::thread::sleep(Duration::from_millis(500));
+                }
+            }
 
             let mut cmd = Command::new(&node_path);
             cmd.arg(&server_js)
                 .env("PORT", PORT.to_string())
-                .env("HOSTNAME", "127.0.0.1")
-                .env("NODE_PATH", &node_path_env);
+                .env("HOSTNAME", "127.0.0.1");
 
             // Pass through the user's PATH so node can find dependencies
             if let Some(shell_path) = resolve_shell_path() {
                 cmd.env("PATH", shell_path);
             }
 
-            // Pass .env vars that Next.js needs at runtime
-            // NEXT_PUBLIC_* are baked at build time, but server-side env vars need passing
-            for (key, value) in std::env::vars() {
-                if key.starts_with("NEXT_PUBLIC_")
-                    || key == "CONVEX_DEPLOY_KEY"
-                    || key == "OPENAI_API_KEY"
-                {
-                    cmd.env(&key, &value);
-                }
+            // Pass all env vars from .env.production to the Node process
+            for (key, value) in &env_vars {
+                cmd.env(key, value);
             }
 
             let child = cmd.spawn().expect("failed to start Node.js server");
