@@ -3,60 +3,67 @@ import type { ComponentData } from "../types"
 
 export const appFrameData: ComponentData = {
 	name: "AppFrame",
-	category: "patterns",
-	description: "Shell principal d'application avec sidebar, top bar et zone de contenu.",
-	docPath: "/docs/components/patterns/app-frame",
+	category: "blocks",
+	description:
+		"Application shell with sidebar, top bar, breadcrumbs, and optional browser-style tabs.",
+	docPath: "/docs/blocks/app-frame",
 	imports: {
-		path: "@blazz/ui/components/patterns/app-frame",
-		named: ["AppFrame"],
+		path: "@blazz/pro/components/blocks/app-frame",
+		named: ["AppFrame", "useAppTopBar"],
 	},
 	props: [
 		{
-			name: "sidebarConfig",
-			type: "SidebarConfig",
-			description:
-				"Config complète sidebar (user, navigation). Requis si navigation n'est pas fourni.",
+			name: "navItems",
+			type: "NavItem[] | NavGroup[]",
+			required: true,
+			description: "Navigation items — flat array or grouped.",
 		},
 		{
-			name: "navigation",
-			type: "NavigationSection[]",
-			description: "Shortcut pour passer uniquement la navigation.",
+			name: "logo",
+			type: "React.ReactNode",
+			description: "Logo rendered in the sidebar header.",
+		},
+		{
+			name: "sidebarFooter",
+			type: "React.ReactNode",
+			description: "Content rendered at the bottom of the sidebar.",
+		},
+		{
+			name: "sidebarCollapsible",
+			type: '"offcanvas" | "icon" | "none"',
+			default: '"offcanvas"',
+			description: "Sidebar collapse behavior.",
+		},
+		{
+			name: "tabs",
+			type: "TabsConfig",
+			description: "Enable browser-style tabs. Pass { storageKey, alwaysShow? }.",
 		},
 		{
 			name: "children",
 			type: "React.ReactNode",
 			required: true,
-			description: "Contenu principal de l'app.",
-		},
-		{
-			name: "sidebarHeader",
-			type: "React.ReactNode",
-			description: "Slot en haut de sidebar (ex: OrgSwitcher).",
-		},
-		{
-			name: "topBarContent",
-			type: "React.ReactNode",
-			description: "Contenu additionnel dans la top bar.",
+			description: "Page content.",
 		},
 	],
 	gotchas: [
-		"Import from @blazz/ui/components/patterns/app-frame — not from @blazz/ui directly",
-		"AppFrame wraps the entire app layout — use in root layout file, not per-page",
-		"navigation prop is shorthand — use sidebarConfig for full control (user info, avatar, etc.)",
-		"NavItem.badge renders a SidebarMenuBadge at the end of the menu item — accepts string or number",
+		"Import from @blazz/pro/components/blocks/app-frame — requires @blazz/pro",
+		"Use useAppTopBar(breadcrumbs, actions?) in page components to set the top bar",
+		"navItems accepts NavItem[] (auto-wrapped in one group) or NavGroup[] (multiple sections)",
+		"tabs prop enables browser-style tabs — requires @blazz/tabs peer dependency",
 	],
-	canonicalExample: `// In root layout (layout.tsx)
-<AppFrame
-  navigation={[
-    {
-      title: "Main",
-      items: [
-        { label: "Dashboard", href: "/dashboard", icon: <LayoutDashboard /> },
-        { label: "Contacts", href: "/contacts", icon: <Users /> },
-      ]
-    }
-  ]}
->
-  {children}
-</AppFrame>`,
+	canonicalExample: `import { AppFrame } from "@blazz/pro/components/blocks/app-frame"
+
+const navItems = [
+  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Contacts", url: "/contacts", icon: Users },
+]
+
+export default function Layout({ children }) {
+  return (
+    <AppFrame navItems={navItems} logo={<Logo />}>
+      {children}
+    </AppFrame>
+  )
+}`,
 }

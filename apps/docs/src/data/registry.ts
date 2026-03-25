@@ -1,10 +1,8 @@
 // apps/docs/src/data/registry.ts
 
 import { activityTimelineData } from "./components/activity-timeline"
-// Patterns
+// Blocks
 import { appFrameData } from "./components/app-frame"
-import { appSidebarData } from "./components/app-sidebar"
-import { appTopBarData } from "./components/app-top-bar"
 import { avatarData } from "./components/avatar"
 // UI — Primitives
 import { badgeData } from "./components/badge"
@@ -67,13 +65,11 @@ export const registry: RegistryEntry[] = [
 	tabsData,
 	skeletonData,
 	// Patterns
-	appFrameData,
-	appSidebarData,
-	appTopBarData,
 	formFieldData,
 	fieldGridData,
 	pageHeaderShellData,
 	// Blocks
+	appFrameData,
 	dataTableData,
 	statsGridData,
 	filterBarData,
