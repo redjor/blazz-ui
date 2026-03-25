@@ -53,7 +53,7 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
 		<span
 			data-slot="avatar-badge"
 			className={cn(
-				"bg-brand text-brand-fg ring-[var(--avatar-ring,var(--surface-2))] absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-blend-color ring-2 select-none",
+				"bg-brand text-brand-fg ring-[var(--avatar-ring,var(--card))] absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-blend-color ring-2 select-none",
 				"group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
 				"group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
 				"group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
@@ -69,7 +69,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="avatar-group"
 			className={cn(
-				"*:data-[slot=avatar]:ring-[var(--avatar-ring,var(--surface-2))] group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2",
+				"*:data-[slot=avatar]:ring-[var(--avatar-ring,var(--card))] group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2",
 				className
 			)}
 			{...props}
@@ -82,7 +82,7 @@ function AvatarGroupCount({ className, ...props }: React.ComponentProps<"div">) 
 		<div
 			data-slot="avatar-group-count"
 			className={cn(
-				"bg-muted text-fg-muted size-8 rounded-full text-sm group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 group-has-data-[size=sm]/avatar-group:text-xs group-has-data-[size=lg]/avatar-group:text-sm [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3 ring-[var(--avatar-ring,var(--surface-2))] relative flex shrink-0 items-center justify-center ring-2",
+				"bg-muted text-fg-muted size-8 rounded-full text-sm group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 group-has-data-[size=sm]/avatar-group:text-xs group-has-data-[size=lg]/avatar-group:text-sm [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3 ring-[var(--avatar-ring,var(--card))] relative flex shrink-0 items-center justify-center ring-2",
 				className
 			)}
 			{...props}

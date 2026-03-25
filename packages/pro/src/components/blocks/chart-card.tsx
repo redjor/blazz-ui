@@ -60,7 +60,7 @@ function ChartCardBase({
 							<YAxis className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
 							<Tooltip
 								contentStyle={{
-									backgroundColor: "var(--surface-2)",
+									backgroundColor: "var(--card)",
 									border: "1px solid var(--border-default)",
 									borderRadius: "8px",
 									fontSize: "12px",
@@ -86,7 +86,7 @@ function ChartCardBase({
 							<YAxis className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
 							<Tooltip
 								contentStyle={{
-									backgroundColor: "var(--surface-2)",
+									backgroundColor: "var(--card)",
 									border: "1px solid var(--border-default)",
 									borderRadius: "8px",
 									fontSize: "12px",
@@ -120,7 +120,7 @@ function ChartCardBase({
 							</Pie>
 							<Tooltip
 								contentStyle={{
-									backgroundColor: "var(--surface-2)",
+									backgroundColor: "var(--card)",
 									border: "1px solid var(--border-default)",
 									borderRadius: "8px",
 									fontSize: "12px",

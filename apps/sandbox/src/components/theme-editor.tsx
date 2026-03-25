@@ -11,9 +11,12 @@ export const DEFAULT_THEME_CSS = `/* Blazz Dark Theme — Edit to customize */
 :root {
   --radius: 0.5rem;
 
-  /* Surface layer scale */
-  --surface-base: oklch(0.145 0.005 285);
-  --surface-top:  oklch(0.28 0.005 285);
+  /* Semantic surfaces */
+  --page: oklch(0.145 0.005 285);
+  --background: oklch(0.179 0.005 285);
+  --card: oklch(0.213 0.005 285);
+  --muted: oklch(0.246 0.005 285);
+  --popover: oklch(0.28 0.005 285);
 
   /* Borders */
   --border-default: oklch(0.35 0.005 285 / 0.6);
