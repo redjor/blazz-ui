@@ -26,6 +26,8 @@ const badgeVariants = cva(
 			fill: {
 				subtle: "",
 				solid: "",
+				ghost: "",
+				"ghost-dot": "text-fg",
 			},
 		},
 		compoundVariants: [
@@ -67,6 +69,20 @@ const badgeVariants = cva(
 				fill: "subtle",
 				className: "bg-negative/15 text-negative border border-negative/30",
 			},
+		// Ghost — text only, colored
+			{ variant: "default", fill: "ghost", className: "text-brand" },
+			{ variant: "secondary", fill: "ghost", className: "text-fg-muted" },
+			{ variant: "info", fill: "ghost", className: "text-inform" },
+			{ variant: "success", fill: "ghost", className: "text-positive" },
+			{ variant: "warning", fill: "ghost", className: "text-caution" },
+			{ variant: "critical", fill: "ghost", className: "text-negative" },
+			// Ghost-dot — dot colored, text neutral
+			{ variant: "default", fill: "ghost-dot", className: "text-fg" },
+			{ variant: "secondary", fill: "ghost-dot", className: "text-fg" },
+			{ variant: "info", fill: "ghost-dot", className: "text-fg" },
+			{ variant: "success", fill: "ghost-dot", className: "text-fg" },
+			{ variant: "warning", fill: "ghost-dot", className: "text-fg" },
+			{ variant: "critical", fill: "ghost-dot", className: "text-fg" },
 		],
 		defaultVariants: {
 			variant: "default",
@@ -93,6 +109,16 @@ const dotSolidColorMap: Record<string, string> = {
 	success: "bg-white",
 	warning: "bg-white",
 	critical: "bg-white",
+	outline: "bg-fg-muted",
+}
+
+const dotSemanticColorMap: Record<string, string> = {
+	default: "bg-brand",
+	secondary: "bg-fg-muted",
+	info: "bg-inform",
+	success: "bg-positive",
+	warning: "bg-caution",
+	critical: "bg-negative",
 	outline: "bg-fg-muted",
 }
 
@@ -137,7 +163,11 @@ function Badge({
 								className={cn(
 									"shrink-0 rounded-full",
 									dotSizeMap[sizeKey],
-									fillKey === "solid" ? dotSolidColorMap[variantKey] : dotColorMap[variantKey]
+									fillKey === "solid"
+										? dotSolidColorMap[variantKey]
+										: fillKey === "ghost-dot" || fillKey === "ghost"
+											? dotSemanticColorMap[variantKey]
+											: dotColorMap[variantKey]
 								)}
 							/>
 						)}

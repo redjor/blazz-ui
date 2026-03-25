@@ -42,7 +42,7 @@ export function Frame({ topBar, navigation, tabBar, header, children, className 
 
 				<div className="relative z-20 flex-1 min-w-0 flex flex-col bg-page peer-data-[collapsible=offcanvas]:[&>main]:rounded-tl-none peer-data-[collapsible=offcanvas]:[&>main]:border-l-0 peer-data-[collapsible=offcanvas]:[&>main]:border-t-0">
 					{tabBar}
-					<main className="flex-1 min-w-0 overflow-hidden flex flex-col rounded-tl-xl border border-container bg-background">
+					<main className="flex-1 min-w-0 overflow-hidden flex flex-col rounded-tl-xl border border-container bg-background shadow-(--card-shadow)">
 						{header}
 						<ScrollArea className={cn("min-h-0 w-full flex-1 bg-background")}>{children}</ScrollArea>
 					</main>

@@ -60,7 +60,7 @@ import { buttonVariants } from "@blazz/ui/components/ui/button"
 | DropdownMenu | `@blazz/ui/components/ui/dropdown-menu` | DropdownMenuTrigger uses render prop: `<DropdownMenuTrigger render={<Button size |
 | Popover | `@blazz/ui/components/ui/popover` | PopoverTrigger uses render prop: `<PopoverTrigger render={<Button />}>Open</Popo |
 | Tooltip | `@blazz/ui/components/ui/tooltip` | TooltipTrigger uses render prop: `<TooltipTrigger render={<Button />}>…</Tooltip |
-| Badge | `@blazz/ui/components/ui/badge` | For status dots use variant='success'|'warning'|'destructive'|'info' — not custo |
+| Badge | `@blazz/ui/components/ui/badge` | fill: solid/subtle/ghost/ghost-dot · ghost-dot = colored dot + neutral text · dot prop for status indicator |
 | Avatar | `@blazz/ui/components/ui/avatar` | Always provide AvatarFallback with 2-letter initials — image loading can fail |
 | Tabs | `@blazz/ui/components/ui/tabs` | TabsList variant prop: 'default' (underline) | 'pills' (filled buttons) |
 | Skeleton | `@blazz/ui/components/ui/skeleton` | Always mirror the real content structure — a skeleton row should look like a rea |
@@ -355,13 +355,24 @@ Named: `Tooltip, TooltipTrigger, TooltipContent`
 `@blazz/ui/components/ui/badge`
 Named: `Badge`
 
-- ⚠️ For status dots use variant='success'|'warning'|'destructive'|'info' — not custom colors
+- ⚠️ For status dots use variant='success'|'warning'|'critical'|'info' — not custom colors
 - ⚠️ Never use color alone to convey status — pair with text (e.g. '● Active' not just a colored dot)
+- ⚠️ fill prop controls chrome level: 'solid' (default) | 'subtle' (light bg + border) | 'ghost' (colored text only) | 'ghost-dot' (colored dot + neutral text)
+- ⚠️ fill='ghost-dot' is designed to be used with dot prop — renders neutral text-fg, the dot carries the semantic color
+- ⚠️ dot prop adds a small status dot before the text — color adapts to variant and fill
 
 ```tsx
+// Solid (default) — full background
 <Badge variant="success">Active</Badge>
 <Badge variant="warning">Pending</Badge>
-<Badge variant="destructive">Overdue</Badge>
+<Badge variant="critical">Overdue</Badge>
+
+// Ghost — colored text, no background/border
+<Badge variant="success" fill="ghost">Active</Badge>
+
+// Ghost-dot — colored dot, neutral text (Tufte data-ink)
+<Badge variant="success" fill="ghost-dot" dot>Active</Badge>
+<Badge variant="critical" fill="ghost-dot" dot>Overdue</Badge>
 ```
 
 ### Avatar
