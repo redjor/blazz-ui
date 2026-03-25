@@ -6,10 +6,14 @@
 ## Structure
 
 ```
-PageHeader           — titre, breadcrumbs, bouton "Nouveau"
-FilterBar            — filtres combinés, searchbar, reset, vues sauvegardées
-DataTable             — tableau paginé, triable, sélectionnable
-  └─ BulkActionBar   — actions sur sélection (apparaît quand lignes sélectionnées)
+Page
+  top                        — Breadcrumb (Dashboard > Clients)
+  header                     — PageHeader (titre, actions: Exporter + Nouveau)
+  children
+    └─ PageWrapper size="lg"
+         FilterBar            — filtres combinés, searchbar, reset, vues sauvegardées
+         DataTable             — tableau paginé, triable, sélectionnable
+           └─ BulkActionBar   — actions sur sélection (apparaît quand lignes sélectionnées)
 ```
 
 ## Fichiers à créer
@@ -192,7 +196,17 @@ export const clientFilters: FilterConfig[] = [
 
 ```tsx
 import { Plus, Download } from "lucide-react"
-import { PageHeader } from "@/components/blocks/page-header"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
+import { Button } from "@blazz/ui/components/ui/button"
 import { FilterBar } from "@/components/blocks/filter-bar"
 import { DataTable } from "@/components/blocks/data-table"
 import { getClients, exportClients, deleteClients } from "@/lib/actions/clients"
@@ -209,53 +223,76 @@ export default async function ClientsPage({
   const { data, totalCount } = await getClients(params)
 
   return (
-    <>
-      <PageHeader
-        title="Clients"
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Clients" },
-        ]}
-        actions={[
-          { label: "Exporter", onClick: () => exportClients(params), icon: Download, variant: "outline" },
-          { label: "Nouveau client", href: "/clients/new", icon: Plus },
-        ]}
-      />
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Clients</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={
+        <PageHeader
+          title="Clients"
+          actions={
+            <>
+              <Button variant="outline" onClick={() => exportClients(params)}>
+                <Download className="size-4" data-icon="inline-start" />
+                Exporter
+              </Button>
+              <Button asChild>
+                <a href="/clients/new">
+                  <Plus className="size-4" data-icon="inline-start" />
+                  Nouveau client
+                </a>
+              </Button>
+            </>
+          }
+        />
+      }
+    >
+      <PageWrapper size="lg">
+        <FilterBar
+          filters={clientFilters}
+          values={params}
+        />
 
-      <FilterBar
-        filters={clientFilters}
-        values={params}
-      />
-
-      <DataTable
-        columns={clientColumns}
-        data={data}
-        totalCount={totalCount}
-        currentPage={Number(params.page) || 1}
-        pageSize={Number(params.pageSize) || 25}
-        sortField={params.sortField}
-        sortDirection={params.sortDirection as "asc" | "desc"}
-        selectable
-        bulkActions={[
-          { label: "Supprimer", action: deleteClients, icon: "Trash", variant: "destructive", confirm: true },
-        ]}
-        emptyState={
-          Object.keys(params).length > 0 ? (
-            <EmptyState
-              title="Aucun résultat"
-              description="Essayez de modifier vos filtres"
-              action={{ label: "Réinitialiser les filtres", href: "/clients" }}
-            />
-          ) : (
-            <EmptyState
-              title="Aucun client"
-              description="Commencez par ajouter votre premier client"
-              action={{ label: "Nouveau client", href: "/clients/new", icon: Plus }}
-            />
-          )
-        }
-      />
-    </>
+        <DataTable
+          columns={clientColumns}
+          data={data}
+          totalCount={totalCount}
+          currentPage={Number(params.page) || 1}
+          pageSize={Number(params.pageSize) || 25}
+          sortField={params.sortField}
+          sortDirection={params.sortDirection as "asc" | "desc"}
+          selectable
+          bulkActions={[
+            { label: "Supprimer", action: deleteClients, icon: "Trash", variant: "destructive", confirm: true },
+          ]}
+          emptyState={
+            Object.keys(params).length > 0 ? (
+              <EmptyState
+                title="Aucun résultat"
+                description="Essayez de modifier vos filtres"
+                action={{ label: "Réinitialiser les filtres", href: "/clients" }}
+              />
+            ) : (
+              <EmptyState
+                title="Aucun client"
+                description="Commencez par ajouter votre premier client"
+                action={{ label: "Nouveau client", href: "/clients/new", icon: Plus }}
+              />
+            )
+          }
+        />
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -270,5 +307,7 @@ export default async function ClientsPage({
 - [ ] Export CSV ✓
 - [ ] Actions batch avec confirmation ✓
 - [ ] Lien vers la page détail sur le nom ✓
-- [ ] Breadcrumbs ✓
+- [ ] Page.top avec Breadcrumb primitives ✓
+- [ ] PageHeader avec actions JSX (Button) ✓
+- [ ] PageWrapper pour centrer le contenu ✓
 - [ ] Bouton "Nouveau" en haut à droite ✓

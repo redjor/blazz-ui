@@ -70,6 +70,10 @@ import { buttonVariants } from "@blazz/ui/components/ui/button"
 | FormField | `@blazz/ui/components/patterns/form-field` | Always use FormField to wrap inputs in forms — never write label+input+error man |
 | FieldGrid | `@blazz/ui/components/patterns/field-grid` | Use col-span-2 or col-span-3 on children for full-width fields (textarea, addres |
 | PageHeaderShell | `@blazz/ui/components/patterns/page-header-shell` | Primary action goes in actions prop (top-right), always a Button variant='defaul |
+| Page (pro) | `@blazz/pro/components/blocks/page` | 4 zones: top (breadcrumbs), header (PageHeader), nav (NavTabs), children (PageWrapper). Never forward PageHeader props through Page — compose in slots |
+| PageHeader (pro) | `@blazz/pro/components/blocks/page-header` | 4 slots: top, afterTitle, actions, bottom. Use in Page's header slot. Breadcrumbs go in Page.top, not PageHeader.top |
+| PageWrapper (pro) | `@blazz/pro/components/blocks/page` | Centered (mx-auto), size: sm/md/lg/full, card: boolean for bg+border+padding |
+| NavTabs | `@blazz/ui/components/patterns/nav-tabs` | Route-based pill tabs (Next.js Link). Use in Page's nav slot, not Tabs |
 
 ---
 

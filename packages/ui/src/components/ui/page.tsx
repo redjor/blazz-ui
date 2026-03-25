@@ -350,3 +350,52 @@ export const PageSection = React.forwardRef<HTMLElement, PageSectionProps>(
 )
 
 PageSection.displayName = "PageSection"
+
+/**
+ * PageWrapper - Constrains content width and optionally adds a card-like background + border.
+ *
+ * Used inside `<Page>` children to wrap content sections at a specific width,
+ * or to give them a visual card treatment.
+ *
+ * @example
+ * ```tsx
+ * <Page title="Nouveau client">
+ *   <PageWrapper size="sm" card>
+ *     <CustomerForm />
+ *   </PageWrapper>
+ * </Page>
+ * ```
+ */
+export interface PageWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
+	/** Max-width preset @default 'md' */
+	size?: "sm" | "md" | "lg" | "full"
+	/** Add background, border, and padding (card look) @default false */
+	card?: boolean
+}
+
+const sizeMap = {
+	sm: "max-w-2xl",
+	md: "max-w-4xl",
+	lg: "max-w-6xl",
+	full: "",
+} as const
+
+export const PageWrapper = React.forwardRef<HTMLDivElement, PageWrapperProps>(
+	({ size = "md", card = false, className, children, ...props }, ref) => {
+		return (
+			<div
+				ref={ref}
+				className={cn(
+					sizeMap[size],
+					card && "rounded-lg border border-edge bg-surface p-6",
+					className
+				)}
+				{...props}
+			>
+				{children}
+			</div>
+		)
+	}
+)
+
+PageWrapper.displayName = "PageWrapper"

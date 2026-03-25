@@ -6,11 +6,15 @@
 ## Structure
 
 ```
-PageHeader               — "Nouveau client" ou "Modifier Jean Dupont"
-FormSection "Info"       — Section collapsible avec FieldGrid
-FormSection "Contact"    — Section collapsible avec FieldGrid
-FormSection "Adresse"    — Section collapsible avec FieldGrid
-FormFooter               — Boutons Annuler / Enregistrer (sticky bottom)
+Page
+  top                        — Breadcrumb (Dashboard > Clients > Nouveau)
+  header                     — PageHeader (titre dynamique)
+  children
+    └─ PageWrapper size="md"
+         FormSection "Info"       — Section collapsible avec FieldGrid
+         FormSection "Contact"    — Section collapsible avec FieldGrid
+         FormSection "Adresse"    — Section collapsible avec FieldGrid
+         FormFooter               — Boutons Annuler / Enregistrer (sticky bottom)
 ```
 
 Pour les ressources complexes (20+ champs) → utiliser `MultiStepForm` à la place.
@@ -275,22 +279,44 @@ export function ClientForm({ mode, defaultValues, clientId }: ClientFormProps) {
 ### Page création (`app/(dashboard)/clients/new/page.tsx`)
 
 ```tsx
-import { PageHeader } from "@/components/blocks/page-header"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
 import { ClientForm } from "./_components/client-form"
 
 export default function NewClientPage() {
   return (
-    <>
-      <PageHeader
-        title="Nouveau client"
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Clients", href: "/clients" },
-          { label: "Nouveau" },
-        ]}
-      />
-      <ClientForm mode="create" />
-    </>
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/clients">Clients</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Nouveau</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={<PageHeader title="Nouveau client" />}
+    >
+      <PageWrapper size="md">
+        <ClientForm mode="create" />
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -299,7 +325,16 @@ export default function NewClientPage() {
 
 ```tsx
 import { notFound } from "next/navigation"
-import { PageHeader } from "@/components/blocks/page-header"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
 import { getClient } from "@/lib/actions/clients"
 import { ClientForm } from "../../new/_components/client-form"
 
@@ -314,33 +349,53 @@ export default async function EditClientPage({
   if (!client) notFound()
 
   return (
-    <>
-      <PageHeader
-        title={`Modifier ${client.firstName} ${client.lastName}`}
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Clients", href: "/clients" },
-          { label: `${client.firstName} ${client.lastName}`, href: `/clients/${id}` },
-          { label: "Modifier" },
-        ]}
-      />
-      <ClientForm
-        mode="edit"
-        clientId={id}
-        defaultValues={{
-          firstName: client.firstName,
-          lastName: client.lastName,
-          email: client.email,
-          phone: client.phone,
-          company: client.company,
-          status: client.status,
-          address: client.address,
-          zipCode: client.zipCode,
-          city: client.city,
-          notes: client.notes,
-        }}
-      />
-    </>
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/clients">Clients</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/clients/${id}`}>
+                {client.firstName} {client.lastName}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Modifier</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={
+        <PageHeader title={`Modifier ${client.firstName} ${client.lastName}`} />
+      }
+    >
+      <PageWrapper size="md">
+        <ClientForm
+          mode="edit"
+          clientId={id}
+          defaultValues={{
+            firstName: client.firstName,
+            lastName: client.lastName,
+            email: client.email,
+            phone: client.phone,
+            company: client.company,
+            status: client.status,
+            address: client.address,
+            zipCode: client.zipCode,
+            city: client.city,
+            notes: client.notes,
+          }}
+        />
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -356,5 +411,7 @@ export default async function EditClientPage({
 - [ ] `revalidatePath` sur la liste ET le détail ✓
 - [ ] FormSections collapsibles pour les longs formulaires ✓
 - [ ] Footer sticky avec Annuler / Enregistrer ✓
-- [ ] Breadcrumbs cohérents ✓
+- [ ] Page.top avec Breadcrumb primitives ✓
+- [ ] PageHeader titre dynamique (create vs edit) ✓
+- [ ] PageWrapper size="md" pour centrer le formulaire ✓
 - [ ] Même composant formulaire pour create et edit ✓

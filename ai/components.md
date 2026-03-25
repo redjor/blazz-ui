@@ -183,20 +183,52 @@ Cmd+K search globale.
 />
 ```
 
-### PageHeader
-En-tête de page standardisé.
+### Page (pro)
+Layout full-width avec 4 zones : top, header, nav, content.
 ```tsx
+import { Page, PageWrapper, PageSection } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { NavTabs } from "@blazz/ui/components/patterns/nav-tabs"
+
+<Page
+  top={<Breadcrumb>...</Breadcrumb>}
+  header={
+    <PageHeader
+      title="INV0012"
+      afterTitle={<Badge variant="critical">Impayée</Badge>}
+      actions={<Button>Envoyer</Button>}
+    />
+  }
+  nav={<NavTabs basePath="/invoices" tabs={[...]} />}
+>
+  <PageWrapper size="sm" card>
+    <PageSection title="Détails">
+      {/* contenu */}
+    </PageSection>
+  </PageWrapper>
+</Page>
+```
+
+**Zones :**
+- `top` — breadcrumbs, back link (px-4 py-2, border-b)
+- `header` — PageHeader (px-4 py-3, border-b si separator=true)
+- `nav` — NavTabs full-width (border-b)
+- `children` — contenu (p-4), utiliser PageWrapper pour centrer/constraindre
+
+**PageWrapper** — centré (mx-auto), size: sm|md|lg|full, card: boolean
+**PageSection** — sous-section titrée (h2 + description)
+
+### PageHeader (pro)
+Header composable avec 4 slots. Se pose dans le slot `header` de Page.
+```tsx
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+
 <PageHeader
   title="Clients"
-  description="Gérez votre base de clients"       // optionnel
-  breadcrumbs={[
-    { label: "Dashboard", href: "/" },
-    { label: "Clients" },
-  ]}
-  actions={[
-    { label: "Exporter", onClick: fn, icon: Download, variant: "outline" },
-    { label: "Nouveau client", onClick: fn, icon: Plus },
-  ]}
+  top={<Breadcrumb>...</Breadcrumb>}       // au-dessus du titre (si pas de Page.top)
+  afterTitle={<Badge>42</Badge>}            // inline après le titre
+  actions={<><Button variant="outline">Export</Button><Button>Nouveau</Button></>}
+  bottom={<p className="text-sm text-fg-muted">Description</p>}
 />
 ```
 

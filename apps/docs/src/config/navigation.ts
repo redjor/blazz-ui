@@ -583,6 +583,11 @@ export const sidebarConfig: SidebarConfig = {
 							keywords: ["app shell", "layout wrapper", "frame", "application frame", "sidebar", "tabs"],
 						},
 						{
+							title: "Page",
+							url: "/docs/blocks/page-layout",
+							keywords: ["page", "page layout", "page wrapper", "page section", "separator", "nav"],
+						},
+						{
 							title: "Page Header",
 							url: "/docs/blocks/page-header",
 							keywords: ["page header", "page title", "header", "breadcrumbs", "actions"],

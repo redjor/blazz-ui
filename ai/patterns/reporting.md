@@ -6,19 +6,23 @@
 ## Structure
 
 ```
-PageHeader                — titre + sélecteur de période + export
-Tabs                      — onglets par thématique de rapport
-  └─ Tab "Vue d'ensemble"
-       StatsGrid          — KPIs de la période
-       Grid 2 colonnes
-         ChartCard         — graphique principal
-         ChartCard         — graphique secondaire
-       DataTable            — tableau de détail
-  └─ Tab "Performance"
-       DataTable            — classement / ranking
-       ChartCard           — comparaison
-  └─ Tab "Prévisions"
-       ForecastChart       — projection pondérée
+Page
+  top                          — Breadcrumb (Dashboard > Rapports)
+  header                       — PageHeader (titre, actions: période + export)
+  children
+    └─ PageWrapper size="lg"
+         Tabs                   — onglets par thématique de rapport
+           └─ Tab "Vue d'ensemble"
+                StatsGrid       — KPIs de la période
+                Grid 2 colonnes
+                  ChartCard     — graphique principal
+                  ChartCard     — graphique secondaire
+                DataTable       — tableau de détail
+           └─ Tab "Performance"
+                DataTable       — classement / ranking
+                ChartCard       — comparaison
+           └─ Tab "Prévisions"
+                ForecastChart   — projection pondérée
 ```
 
 ## Code complet
@@ -28,7 +32,17 @@ Tabs                      — onglets par thématique de rapport
 ```tsx
 import { Suspense } from "react"
 import { Download } from "lucide-react"
-import { PageHeader } from "@/components/blocks/page-header"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
+import { Button } from "@blazz/ui/components/ui/button"
 import { Tabs } from "@/components/ui/tabs"
 import { Skeleton } from "@/components/ui/skeleton"
 import { OverviewTab } from "./_components/overview-tab"
@@ -44,55 +58,63 @@ export default async function ReportsPage({
   const period = params.period ?? "current-quarter"
 
   return (
-    <>
-      <PageHeader
-        title="Rapports"
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Rapports" },
-        ]}
-        actions={[
-          {
-            type: "select",
-            param: "period",
-            value: period,
-            options: [
-              { value: "current-month", label: "Ce mois" },
-              { value: "current-quarter", label: "Ce trimestre" },
-              { value: "current-year", label: "Cette année" },
-              { value: "last-year", label: "Année dernière" },
-            ],
-          },
-          { label: "Exporter PDF", onClick: () => {}, icon: Download, variant: "outline" },
-        ]}
-      />
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Rapports</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={
+        <PageHeader
+          title="Rapports"
+          actions={
+            <>
+              <PeriodSelect value={period} />
+              <Button variant="outline" onClick={() => {}}>
+                <Download className="size-4" data-icon="inline-start" />
+                Exporter PDF
+              </Button>
+            </>
+          }
+        />
+      }
+    >
+      <PageWrapper size="lg">
+        <Tabs defaultValue={params.tab ?? "overview"}>
+          <Tabs.List>
+            <Tabs.Trigger value="overview">Vue d'ensemble</Tabs.Trigger>
+            <Tabs.Trigger value="performance">Performance</Tabs.Trigger>
+            <Tabs.Trigger value="forecast">Prévisions</Tabs.Trigger>
+          </Tabs.List>
 
-      <Tabs defaultValue={params.tab ?? "overview"}>
-        <Tabs.List>
-          <Tabs.Trigger value="overview">Vue d'ensemble</Tabs.Trigger>
-          <Tabs.Trigger value="performance">Performance</Tabs.Trigger>
-          <Tabs.Trigger value="forecast">Prévisions</Tabs.Trigger>
-        </Tabs.List>
+          <Tabs.Content value="overview">
+            <Suspense fallback={<ReportSkeleton />}>
+              <OverviewTab period={period} />
+            </Suspense>
+          </Tabs.Content>
 
-        <Tabs.Content value="overview">
-          <Suspense fallback={<ReportSkeleton />}>
-            <OverviewTab period={period} />
-          </Suspense>
-        </Tabs.Content>
+          <Tabs.Content value="performance">
+            <Suspense fallback={<ReportSkeleton />}>
+              <PerformanceTab period={period} />
+            </Suspense>
+          </Tabs.Content>
 
-        <Tabs.Content value="performance">
-          <Suspense fallback={<ReportSkeleton />}>
-            <PerformanceTab period={period} />
-          </Suspense>
-        </Tabs.Content>
-
-        <Tabs.Content value="forecast">
-          <Suspense fallback={<ReportSkeleton />}>
-            <ForecastTab period={period} />
-          </Suspense>
-        </Tabs.Content>
-      </Tabs>
-    </>
+          <Tabs.Content value="forecast">
+            <Suspense fallback={<ReportSkeleton />}>
+              <ForecastTab period={period} />
+            </Suspense>
+          </Tabs.Content>
+        </Tabs>
+      </PageWrapper>
+    </Page>
   )
 }
 
@@ -287,7 +309,10 @@ export async function PerformanceTab({ period }: { period: string }) {
 
 ## Checklist avant de livrer
 
-- [ ] Sélecteur de période global ✓
+- [ ] Page.top avec Breadcrumb primitives ✓
+- [ ] PageHeader avec actions JSX (PeriodSelect + Button) ✓
+- [ ] PageWrapper size="lg" pour centrer le contenu ✓
+- [ ] Sélecteur de période dans PageHeader actions ✓
 - [ ] Période dans l'URL ✓
 - [ ] Tabs pour organiser les vues ✓
 - [ ] Suspense + skeleton par tab ✓

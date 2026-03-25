@@ -77,6 +77,8 @@ export {
 } from "./notification-center"
 export type { Organization, OrgMenuProps } from "./org-menu"
 export { OrgMenu } from "./org-menu"
+export type { PageProps, PageWrapperProps, PageSectionProps } from "./page"
+export { Page, PageWrapper, PageSection } from "./page"
 export type { PageHeaderProps } from "./page-header"
 export { PageHeader } from "./page-header"
 export type { PieChartBlockProps } from "./pie-chart-block"

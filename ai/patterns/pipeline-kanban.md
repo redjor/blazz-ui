@@ -6,13 +6,17 @@
 ## Structure
 
 ```
-PageHeader               — titre + total agrégé + toggle vue (Kanban | Table)
-FilterBar                — filtres partagés entre les deux vues
-KanbanBoard              — colonnes = étapes, cards = éléments
-  └─ KanbanColumn        — header avec nom + count + total
-       └─ KanbanCard     — résumé d'un élément draggable
-OU
-DataGrid                 — même données en vue table classique
+Page
+  top                        — Breadcrumb (Dashboard > Pipeline)
+  header                     — PageHeader (titre + description agrégée, actions: toggle vue + Nouveau)
+  children
+    └─ PageWrapper size="full"
+         FilterBar            — filtres partagés entre les deux vues
+         KanbanBoard          — colonnes = étapes, cards = éléments
+           └─ KanbanColumn    — header avec nom + count + total
+                └─ KanbanCard — résumé d'un élément draggable
+         OU
+         DataGrid             — même données en vue table classique
 ```
 
 ## Fichiers à créer
@@ -33,12 +37,24 @@ app/(dashboard)/[resources]/
 ### Page (`app/(dashboard)/deals/page.tsx`)
 
 ```tsx
-import { PageHeader } from "@/components/blocks/page-header"
+import { Plus } from "lucide-react"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
+import { Button } from "@blazz/ui/components/ui/button"
 import { FilterBar } from "@/components/blocks/filter-bar"
 import { getDeals } from "@/lib/actions/deals"
 import { KanbanView } from "./_components/kanban-view"
 import { TableView } from "./_components/table-view"
 import { dealFilters } from "./_components/filters"
+import { ViewToggle } from "./_components/view-toggle"
 
 export default async function DealsPage({
   searchParams,
@@ -50,40 +66,56 @@ export default async function DealsPage({
   const deals = await getDeals(params)
 
   return (
-    <>
-      <PageHeader
-        title="Pipeline"
-        description={`${deals.totalCount} deals — ${formatCurrency(deals.totalValue)}`}
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Pipeline" },
-        ]}
-        actions={[
-          {
-            type: "toggle",
-            param: "view",
-            value: view,
-            options: [
-              { value: "kanban", label: "Kanban", icon: "LayoutGrid" },
-              { value: "table", label: "Table", icon: "List" },
-            ],
-          },
-          { label: "Nouveau deal", href: "/deals/new", icon: "Plus" },
-        ]}
-      />
-
-      <FilterBar filters={dealFilters} values={params} />
-
-      {view === "kanban" ? (
-        <KanbanView deals={deals.data} stages={dealStages} />
-      ) : (
-        <TableView
-          deals={deals.data}
-          totalCount={deals.totalCount}
-          currentPage={Number(params.page) || 1}
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Pipeline</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={
+        <PageHeader
+          title="Pipeline"
+          afterTitle={
+            <span className="text-sm text-fg-muted">
+              {deals.totalCount} deals — {formatCurrency(deals.totalValue)}
+            </span>
+          }
+          actions={
+            <>
+              <ViewToggle value={view} />
+              <Button asChild>
+                <a href="/deals/new">
+                  <Plus className="size-4" data-icon="inline-start" />
+                  Nouveau deal
+                </a>
+              </Button>
+            </>
+          }
         />
-      )}
-    </>
+      }
+    >
+      <PageWrapper size="full">
+        <FilterBar filters={dealFilters} values={params} />
+
+        {view === "kanban" ? (
+          <KanbanView deals={deals.data} stages={dealStages} />
+        ) : (
+          <TableView
+            deals={deals.data}
+            totalCount={deals.totalCount}
+            currentPage={Number(params.page) || 1}
+          />
+        )}
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -217,4 +249,7 @@ export function KanbanDealCard({ deal }: { deal: Deal }) {
 - [ ] Avatar assigné sur chaque card ✓
 - [ ] Empty state par colonne ✓
 - [ ] Scroll horizontal du board ✓
+- [ ] Page.top avec Breadcrumb primitives ✓
+- [ ] PageHeader avec actions JSX (Button + ViewToggle) ✓
+- [ ] PageWrapper size="full" (kanban needs full width) ✓
 - [ ] Bouton "Nouveau deal" en haut à droite ✓

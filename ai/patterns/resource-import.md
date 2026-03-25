@@ -6,12 +6,16 @@
 ## Structure
 
 ```
-PageHeader                    — "Importer des clients"
-MultiStepForm
-  └─ Step 1 "Upload"         — Drop zone fichier + preview premières lignes
-  └─ Step 2 "Mapping"        — Associer colonnes du fichier → champs de la ressource
-  └─ Step 3 "Validation"     — Afficher erreurs par ligne, permettre correction
-  └─ Step 4 "Résultat"       — Résumé : X importés, Y ignorés, Z erreurs
+Page
+  top                          — Breadcrumb (Dashboard > Clients > Import)
+  header                       — PageHeader ("Importer des clients")
+  children
+    └─ PageWrapper size="md"
+         MultiStepForm
+           └─ Step 1 "Upload"      — Drop zone fichier + preview premières lignes
+           └─ Step 2 "Mapping"     — Associer colonnes du fichier → champs de la ressource
+           └─ Step 3 "Validation"  — Afficher erreurs par ligne, permettre correction
+           └─ Step 4 "Résultat"    — Résumé : X importés, Y ignorés, Z erreurs
 ```
 
 ## Code complet
@@ -19,37 +23,59 @@ MultiStepForm
 ### Page (`app/(dashboard)/clients/import/page.tsx`)
 
 ```tsx
-import { PageHeader } from "@/components/blocks/page-header"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
 import { ImportWizard } from "./_components/import-wizard"
 
 export default function ImportClientsPage() {
   return (
-    <>
-      <PageHeader
-        title="Importer des clients"
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Clients", href: "/clients" },
-          { label: "Import" },
-        ]}
-      />
-      <ImportWizard
-        resource="clients"
-        targetFields={[
-          { key: "lastName", label: "Nom", required: true },
-          { key: "firstName", label: "Prénom", required: true },
-          { key: "email", label: "Email", required: true },
-          { key: "phone", label: "Téléphone" },
-          { key: "company", label: "Entreprise" },
-          { key: "address", label: "Adresse" },
-          { key: "zipCode", label: "Code postal" },
-          { key: "city", label: "Ville" },
-        ]}
-        validationSchema={clientMutationSchema}
-        onImport={importClients}
-        templateUrl="/templates/clients-import.csv"
-      />
-    </>
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/clients">Clients</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Import</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={<PageHeader title="Importer des clients" />}
+    >
+      <PageWrapper size="md">
+        <ImportWizard
+          resource="clients"
+          targetFields={[
+            { key: "lastName", label: "Nom", required: true },
+            { key: "firstName", label: "Prénom", required: true },
+            { key: "email", label: "Email", required: true },
+            { key: "phone", label: "Téléphone" },
+            { key: "company", label: "Entreprise" },
+            { key: "address", label: "Adresse" },
+            { key: "zipCode", label: "Code postal" },
+            { key: "city", label: "Ville" },
+          ]}
+          validationSchema={clientMutationSchema}
+          onImport={importClients}
+          templateUrl="/templates/clients-import.csv"
+        />
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -192,3 +218,6 @@ export function ImportWizard({ resource, targetFields, validationSchema, onImpor
 - [ ] Rapport d'erreurs exportable ✓
 - [ ] Progress bar pendant l'import ✓
 - [ ] Possibilité de revenir en arrière dans les étapes ✓
+- [ ] Page.top avec Breadcrumb primitives ✓
+- [ ] PageHeader titre simple ✓
+- [ ] PageWrapper size="md" pour centrer le wizard ✓

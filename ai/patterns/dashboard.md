@@ -6,16 +6,19 @@
 ## Structure
 
 ```
-PageHeader                    — "Tableau de bord" + sélecteur de période
-StatsGrid                     — 4 KPI cards (row)
-Section "Graphiques"
-  └─ Grid 2 colonnes
-       ChartCard (évolution)  — Line chart principal
-       ChartCard (répartition)— Bar ou Pie chart secondaire
-Section "Activité"
-  └─ Grid 2 colonnes
-       DataGrid (mini)        — Derniers éléments ajoutés/modifiés
-       ActivityTimeline       — Dernières actions
+Page
+  header                         — PageHeader ("Tableau de bord" + sélecteur de période)
+  children
+    └─ PageWrapper size="lg"
+         StatsGrid                — 4 KPI cards (row)
+         Section "Graphiques"
+           └─ Grid 2 colonnes
+                ChartCard          — Line chart principal
+                ChartCard          — Bar ou Pie chart secondaire
+         Section "Activité"
+           └─ Grid 2 colonnes
+                DataGrid (mini)    — Derniers éléments ajoutés/modifiés
+                ActivityTimeline   — Dernières actions
 ```
 
 ## Code complet
@@ -24,9 +27,11 @@ Section "Activité"
 
 ```tsx
 import { Suspense } from "react"
-import { PageHeader } from "@/components/blocks/page-header"
+import { Page, PageWrapper } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsGrid } from "@/components/blocks/stats-grid"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Select } from "@blazz/ui/components/ui/select"
 import { getDashboardStats } from "@/lib/actions/dashboard"
 import { RecentActivity } from "./_components/recent-activity"
 import { Charts } from "./_components/charts"
@@ -42,73 +47,67 @@ export default async function DashboardPage({
   const stats = await getDashboardStats(period)
 
   return (
-    <>
-      <PageHeader
-        title="Tableau de bord"
-        actions={[
-          {
-            type: "select",
-            value: period,
-            param: "period",
-            options: [
-              { value: "7d", label: "7 derniers jours" },
-              { value: "30d", label: "30 derniers jours" },
-              { value: "90d", label: "3 derniers mois" },
-              { value: "1y", label: "12 derniers mois" },
-            ],
-          },
-        ]}
-      />
+    <Page
+      header={
+        <PageHeader
+          title="Tableau de bord"
+          actions={
+            <PeriodSelect value={period} />
+          }
+        />
+      }
+    >
+      <PageWrapper size="lg">
+        {/* KPIs — chargement immédiat car léger */}
+        <StatsGrid
+          stats={[
+            {
+              label: "Clients actifs",
+              value: stats.activeClients,
+              trend: stats.activeClientsTrend,
+              icon: "Users",
+            },
+            {
+              label: "Interventions ce mois",
+              value: stats.monthlyInterventions,
+              trend: stats.interventionsTrend,
+              icon: "Wrench",
+            },
+            {
+              label: "Taux de conformité",
+              value: `${stats.complianceRate}%`,
+              trend: stats.complianceTrend,
+              icon: "ShieldCheck",
+            },
+            {
+              label: "Temps moyen résolution",
+              value: stats.avgResolutionTime,
+              trend: stats.resolutionTrend,
+              trendInverted: true, // pour ce KPI, baisser = mieux
+              icon: "Clock",
+            },
+          ]}
+          columns={4}
+        />
 
-      {/* KPIs — chargement immédiat car léger */}
-      <StatsGrid
-        stats={[
-          {
-            label: "Clients actifs",
-            value: stats.activeClients,
-            trend: stats.activeClientsTrend,
-            icon: "Users",
-          },
-          {
-            label: "Interventions ce mois",
-            value: stats.monthlyInterventions,
-            trend: stats.interventionsTrend,
-            icon: "Wrench",
-          },
-          {
-            label: "Taux de conformité",
-            value: `${stats.complianceRate}%`,
-            trend: stats.complianceTrend,
-            icon: "ShieldCheck",
-          },
-          {
-            label: "Temps moyen résolution",
-            value: stats.avgResolutionTime,
-            trend: stats.resolutionTrend,
-            trendInverted: true, // pour ce KPI, baisser = mieux
-            icon: "Clock",
-          },
-        ]}
-        columns={4}
-      />
+        {/* Graphiques — Suspense car plus lent */}
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Suspense fallback={<Skeleton className="h-[350px] rounded-lg" />}>
+            <Charts period={period} />
+          </Suspense>
+        </div>
 
-      {/* Graphiques — Suspense car plus lent */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Suspense fallback={<Skeleton className="h-[350px] rounded-lg" />}>
-          <Charts period={period} />
-        </Suspense>
-      </div>
-
-      {/* Activité récente */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Suspense fallback={<Skeleton className="h-[400px] rounded-lg" />}>
-          <RecentItems />
-        </Suspense>
-        <Suspense fallback={<Skeleton className="h-[400px] rounded-lg" />}>
-          <RecentActivity />
-        </Suspense>
-      </div>
-    </>
+        {/* Activité récente */}
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Suspense fallback={<Skeleton className="h-[400px] rounded-lg" />}>
+            <RecentItems />
+          </Suspense>
+          <Suspense fallback={<Skeleton className="h-[400px] rounded-lg" />}>
+            <RecentActivity />
+          </Suspense>
+        </div>
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -199,7 +198,9 @@ export async function RecentItems() {
 
 ## Checklist avant de livrer
 
-- [ ] Sélecteur de période dans le header ✓
+- [ ] Page wrapper avec PageHeader (pas de breadcrumbs sur dashboard) ✓
+- [ ] PageWrapper size="lg" pour centrer le contenu ✓
+- [ ] Sélecteur de période dans PageHeader actions ✓
 - [ ] Période dans l'URL (searchParams) ✓
 - [ ] StatsGrid avec trend + icônes ✓
 - [ ] `trendInverted` pour les métriques où baisser = bien ✓

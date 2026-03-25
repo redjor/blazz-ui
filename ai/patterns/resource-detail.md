@@ -6,18 +6,19 @@
 ## Structure
 
 ```
-PageHeader              — titre dynamique, breadcrumbs, actions (Modifier, Supprimer)
-StatusFlow (optionnel)  — workflow de statuts si la ressource a un cycle de vie
-Tabs                    — onglets si beaucoup d'informations
-  └─ Tab "Général"
-       DetailPanel
-         └─ Section "Informations"    → FieldGrid en lecture
-         └─ Section "Coordonnées"     → FieldGrid en lecture
-         └─ Section "Notes"           → Texte libre
-  └─ Tab "Historique"
-       ActivityTimeline              → Audit log / événements
-  └─ Tab "Documents" (optionnel)
-       DataGrid (mini)               → Liste de fichiers associés
+Page
+  top                        — Breadcrumb (lien retour vers la liste)
+  header                     — PageHeader (titre dynamique, afterTitle badge, actions)
+  nav (optionnel)            — NavTabs si sous-routes (général, historique, documents)
+  children
+    └─ PageWrapper size="lg"
+         └─ Main + Sidebar layout
+              Main:
+                PageSection "Informations"   → FieldGrid en lecture
+                PageSection "Coordonnées"    → FieldGrid en lecture
+                PageSection "Notes"          → Texte libre
+              Sidebar:
+                Card client / statut / metadata
 ```
 
 ## Fichiers à créer
@@ -38,13 +39,21 @@ app/(dashboard)/[resources]/[id]/
 
 ```tsx
 import { notFound } from "next/navigation"
-import { Edit, Trash, Download } from "lucide-react"
-import { PageHeader } from "@/components/blocks/page-header"
-import { Tabs } from "@/components/ui/tabs"
-import { StatusFlow } from "@/components/blocks/status-flow"
-import { getClient, getClientHistory } from "@/lib/actions/clients"
-import { GeneralTab } from "./_components/general-tab"
-import { HistoryTab } from "./_components/history-tab"
+import { Edit, Trash } from "lucide-react"
+import { Page, PageWrapper, PageSection } from "@blazz/pro/components/blocks/page"
+import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@blazz/ui/components/ui/breadcrumb"
+import { Button } from "@blazz/ui/components/ui/button"
+import { NavTabs } from "@blazz/ui/components/patterns/nav-tabs"
+import { getClient } from "@/lib/actions/clients"
 
 export default async function ClientDetailPage({
   params,
@@ -56,60 +65,58 @@ export default async function ClientDetailPage({
 
   if (!client) notFound()
 
-  const history = await getClientHistory(id)
-
   return (
-    <>
-      <PageHeader
-        title={`${client.firstName} ${client.lastName}`}
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Clients", href: "/clients" },
-          { label: `${client.firstName} ${client.lastName}` },
-        ]}
-        actions={[
-          { label: "Modifier", href: `/clients/${id}/edit`, icon: Edit },
-          {
-            label: "Supprimer",
-            onClick: () => deleteClient(id),
-            icon: Trash,
-            variant: "destructive",
-            confirm: {
-              title: "Supprimer ce client ?",
-              description: `Le client ${client.firstName} ${client.lastName} sera supprimé définitivement.`,
-            },
-          },
-        ]}
-      />
-
-      {/* StatusFlow si la ressource a un cycle de vie */}
-      <StatusFlow
-        currentStatus={client.status}
-        statuses={clientStatuses}
-        transitions={clientTransitions}
-        onTransition={async (from, to) => {
-          "use server"
-          await updateClientStatus(id, to)
-        }}
-      />
-
-      <Tabs defaultValue="general">
-        <Tabs.List>
-          <Tabs.Trigger value="general">Informations</Tabs.Trigger>
-          <Tabs.Trigger value="history">
-            Historique ({history.length})
-          </Tabs.Trigger>
-        </Tabs.List>
-
-        <Tabs.Content value="general">
-          <GeneralTab client={client} />
-        </Tabs.Content>
-
-        <Tabs.Content value="history">
-          <HistoryTab events={history} />
-        </Tabs.Content>
-      </Tabs>
-    </>
+    <Page
+      top={
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/clients">Clients</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{client.firstName} {client.lastName}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      }
+      header={
+        <PageHeader
+          title={`${client.firstName} ${client.lastName}`}
+          afterTitle={<Badge variant="success" fill="subtle">{client.status}</Badge>}
+          actions={
+            <>
+              <Button variant="outline" size="sm">
+                <Edit className="size-3.5" data-icon="inline-start" />
+                Modifier
+              </Button>
+              <Button variant="destructive" size="sm">
+                <Trash className="size-3.5" data-icon="inline-start" />
+                Supprimer
+              </Button>
+            </>
+          }
+        />
+      }
+      nav={
+        <NavTabs
+          basePath={`/clients/${id}`}
+          tabs={[
+            { label: "Informations", href: "" },
+            { label: "Historique", href: "/history" },
+            { label: "Documents", href: "/documents" },
+          ]}
+        />
+      }
+    >
+      <PageWrapper size="lg">
+        <GeneralTab client={client} />
+      </PageWrapper>
+    </Page>
   )
 }
 ```
@@ -117,16 +124,17 @@ export default async function ClientDetailPage({
 ### Onglet Général (`_components/general-tab.tsx`)
 
 ```tsx
-import { DetailPanel } from "@/components/blocks/detail-panel"
-import { FieldGrid, Field } from "@/components/blocks/field-grid"
-import { Badge } from "@/components/ui/badge"
+import { PageSection } from "@blazz/pro/components/blocks/page"
+import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
+import { FieldGrid, Field } from "@blazz/ui/components/patterns/field-grid"
+import { Badge } from "@blazz/ui/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 import { type Client } from "@/lib/schemas/client"
 
 export function GeneralTab({ client }: { client: Client }) {
   return (
-    <DetailPanel>
-      <DetailPanel.Section title="Informations générales">
+    <div className="space-y-8">
+      <PageSection title="Informations générales">
         <FieldGrid columns={3}>
           <Field label="Nom" value={client.lastName} />
           <Field label="Prénom" value={client.firstName} />
@@ -135,24 +143,24 @@ export function GeneralTab({ client }: { client: Client }) {
           <Field label="Entreprise" value={client.company ?? "—"} />
           <Field label="Téléphone" value={client.phone ?? "—"} />
         </FieldGrid>
-      </DetailPanel.Section>
+      </PageSection>
 
-      <DetailPanel.Section title="Adresse">
+      <PageSection title="Adresse">
         <FieldGrid columns={2}>
           <Field label="Adresse" value={client.address ?? "—"} span={2} />
           <Field label="Code postal" value={client.zipCode ?? "—"} />
           <Field label="Ville" value={client.city ?? "—"} />
         </FieldGrid>
-      </DetailPanel.Section>
+      </PageSection>
 
-      <DetailPanel.Section title="Métadonnées">
+      <PageSection title="Métadonnées">
         <FieldGrid columns={3}>
           <Field label="Créé le" value={formatDate(client.createdAt)} />
           <Field label="Modifié le" value={formatDate(client.updatedAt)} />
           <Field label="Créé par" value={client.createdBy ?? "Système"} />
         </FieldGrid>
-      </DetailPanel.Section>
-    </DetailPanel>
+      </PageSection>
+    </div>
   )
 }
 ```
@@ -160,14 +168,14 @@ export function GeneralTab({ client }: { client: Client }) {
 ### Onglet Historique (`_components/history-tab.tsx`)
 
 ```tsx
-import { ActivityTimeline } from "@/components/blocks/activity-timeline"
-import { EmptyState } from "@/components/ui/empty-state"
+import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
+import { Empty } from "@blazz/ui/components/ui/empty"
 import { type HistoryEvent } from "@/lib/schemas/client"
 
 export function HistoryTab({ events }: { events: HistoryEvent[] }) {
   if (events.length === 0) {
     return (
-      <EmptyState
+      <Empty
         title="Aucun historique"
         description="Les modifications apportées à ce client apparaîtront ici."
       />
@@ -180,13 +188,13 @@ export function HistoryTab({ events }: { events: HistoryEvent[] }) {
 
 ## Checklist avant de livrer
 
-- [ ] `notFound()` si la ressource n'existe pas ✓
-- [ ] Breadcrumbs avec lien retour vers la liste ✓
-- [ ] Actions Modifier / Supprimer (avec confirmation) ✓
-- [ ] StatusFlow si workflow applicable ✓
-- [ ] Tabs si plus de 2 sections de contenu ✓
-- [ ] FieldGrid pour les champs en lecture (pas un formulaire) ✓
-- [ ] Valeurs manquantes affichées comme "—" (jamais vide) ✓
-- [ ] Historique / audit log ✓
-- [ ] Empty state sur l'historique ✓
-- [ ] Métadonnées (créé le, modifié le, par qui) ✓
+- [ ] `notFound()` si la ressource n'existe pas
+- [ ] Page.top avec Breadcrumb et lien retour vers la liste
+- [ ] PageHeader avec afterTitle (badge statut) et actions (Modifier, Supprimer)
+- [ ] NavTabs si plus de 2 sections de contenu
+- [ ] PageWrapper pour centrer le contenu
+- [ ] PageSection pour grouper les champs par thème
+- [ ] FieldGrid pour les champs en lecture (pas un formulaire)
+- [ ] Valeurs manquantes affichées comme "—" (jamais vide)
+- [ ] Historique / audit log avec empty state
+- [ ] Métadonnées (créé le, modifié le, par qui)
