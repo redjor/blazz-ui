@@ -789,7 +789,7 @@ export default function PageComponentPage() {
 				<DocExampleClient
 					title="Basic"
 					description="Constrains content width inside a fullWidth page. Here size='sm' caps at max-w-2xl."
-					code={examples[12].code}
+					code={examples[15].code}
 					highlightedCode={html("wrapper-basic")}
 				>
 					<div className="rounded-lg border border-edge bg-muted">
@@ -806,7 +806,7 @@ export default function PageComponentPage() {
 				<DocExampleClient
 					title="Card mode"
 					description="Add card=true for background, border, and padding — ideal for form containers."
-					code={examples[13].code}
+					code={examples[16].code}
 					highlightedCode={html("wrapper-card")}
 				>
 					<div className="rounded-lg border border-edge bg-muted">
@@ -823,7 +823,7 @@ export default function PageComponentPage() {
 				<DocExampleClient
 					title="Size comparison"
 					description="Visual comparison of all four size presets."
-					code={examples[14].code}
+					code={examples[17].code}
 					highlightedCode={html("wrapper-sizes")}
 				>
 					<div className="rounded-lg border border-edge bg-muted">
@@ -862,7 +862,7 @@ export default function PageComponentPage() {
 				<DocExampleClient
 					title="Page + PageWrapper + PageSection"
 					description="Full composition: a fullWidth page with breadcrumbs, actions, a card-wrapped form area, and sections inside."
-					code={examples[15].code}
+					code={examples[18].code}
 					highlightedCode={html("wrapper-composed")}
 				>
 					<div className="rounded-lg border border-edge bg-muted">
@@ -894,6 +894,10 @@ export default function PageComponentPage() {
 
 			<DocSection id="section-props" title="PageSection Props">
 				<DocPropsTable props={pageSectionProps} />
+			</DocSection>
+
+			<DocSection id="header-props" title="PageHeader Props">
+				<DocPropsTable props={pageHeaderProps} />
 			</DocSection>
 
 			<DocSection id="wrapper-props" title="PageWrapper Props">
