@@ -63,8 +63,8 @@ const skillData = [
 ]
 
 const skillConfig = {
-	current: { label: "Actuel", color: "hsl(var(--chart-1))" },
-	target: { label: "Objectif", color: "hsl(var(--chart-4))" },
+	current: { label: "Actuel", color: "var(--chart-1))" },
+	target: { label: "Objectif", color: "var(--chart-4))" },
 } satisfies ChartConfig
 
 const singleData = [
@@ -77,7 +77,7 @@ const singleData = [
 ]
 
 const singleConfig = {
-	score: { label: "Score", color: "hsl(var(--chart-2))" },
+	score: { label: "Score", color: "var(--chart-2))" },
 } satisfies ChartConfig
 
 export default function RadarChartPage() {
@@ -114,7 +114,7 @@ export default function RadarChartPage() {
 					title="Single Series"
 					description="Un seul dataKey pour un profil simple."
 					code={`const config = {
-  score: { label: "Score", color: "hsl(var(--chart-2))" },
+  score: { label: "Score", color: "var(--chart-2))" },
 } satisfies ChartConfig
 
 <RadarChartBlock
@@ -138,8 +138,8 @@ export default function RadarChartPage() {
 					title="Comparison"
 					description="Deux séries pour comparer actuel vs objectif."
 					code={`const config = {
-  current: { label: "Actuel", color: "hsl(var(--chart-1))" },
-  target: { label: "Objectif", color: "hsl(var(--chart-4))" },
+  current: { label: "Actuel", color: "var(--chart-1))" },
+  target: { label: "Objectif", color: "var(--chart-4))" },
 } satisfies ChartConfig
 
 <RadarChartBlock

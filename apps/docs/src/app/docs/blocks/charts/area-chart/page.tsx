@@ -68,8 +68,8 @@ const trafficData = [
 ]
 
 const trafficConfig = {
-	organic: { label: "Organique", color: "hsl(var(--chart-1))" },
-	paid: { label: "Payant", color: "hsl(var(--chart-2))" },
+	organic: { label: "Organique", color: "var(--chart-1))" },
+	paid: { label: "Payant", color: "var(--chart-2))" },
 } satisfies ChartConfig
 
 export default function AreaChartPage() {

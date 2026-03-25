@@ -62,8 +62,8 @@ const trendData = [
 ]
 
 const trendConfig = {
-	visitors: { label: "Visiteurs", color: "hsl(var(--chart-1))" },
-	pageViews: { label: "Pages vues", color: "hsl(var(--chart-2))" },
+	visitors: { label: "Visiteurs", color: "var(--chart-1))" },
+	pageViews: { label: "Pages vues", color: "var(--chart-2))" },
 } satisfies ChartConfig
 
 const singleData = [
@@ -76,7 +76,7 @@ const singleData = [
 ]
 
 const singleConfig = {
-	revenue: { label: "Revenu", color: "hsl(var(--chart-4))" },
+	revenue: { label: "Revenu", color: "var(--chart-4))" },
 } satisfies ChartConfig
 
 export default function LineChartPage() {
@@ -112,7 +112,7 @@ export default function LineChartPage() {
 					title="Single Line"
 					description="Une seule courbe pour suivre une métrique."
 					code={`const config = {
-  revenue: { label: "Revenu", color: "hsl(var(--chart-4))" },
+  revenue: { label: "Revenu", color: "var(--chart-4))" },
 } satisfies ChartConfig
 
 <LineChartBlock
@@ -130,8 +130,8 @@ export default function LineChartPage() {
 					title="Multi Lines"
 					description="Plusieurs courbes pour comparer des tendances."
 					code={`const config = {
-  visitors: { label: "Visiteurs", color: "hsl(var(--chart-1))" },
-  pageViews: { label: "Pages vues", color: "hsl(var(--chart-2))" },
+  visitors: { label: "Visiteurs", color: "var(--chart-1))" },
+  pageViews: { label: "Pages vues", color: "var(--chart-2))" },
 } satisfies ChartConfig
 
 <LineChartBlock

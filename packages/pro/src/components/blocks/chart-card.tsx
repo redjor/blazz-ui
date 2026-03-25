@@ -1,25 +1,25 @@
 "use client"
 
-import {
-	Bar,
-	BarChart,
-	CartesianGrid,
-	Cell,
-	Legend,
-	Line,
-	LineChart,
-	Pie,
-	PieChart,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis,
-} from "recharts"
+import { Bar, BarChart, CartesianGrid, Line, LineChart, Pie, PieChart, XAxis, YAxis } from "recharts"
 import { cn } from "@blazz/ui"
 import { withProGuard } from "../../lib/with-pro-guard"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui"
+import {
+	type ChartConfig,
+	ChartContainer,
+	ChartLegend,
+	ChartLegendContent,
+	ChartTooltip,
+	ChartTooltipContent,
+} from "@blazz/ui"
 
-const CHART_COLORS = ["#2563eb", "#16a34a", "#eab308", "#dc2626", "#9333ea"]
+const CHART_COLORS = [
+	"var(--chart-1)",
+	"var(--chart-2)",
+	"var(--chart-3)",
+	"var(--chart-4)",
+	"var(--chart-5)",
+]
 
 export interface ChartCardProps {
 	title: string
@@ -33,6 +33,17 @@ export interface ChartCardProps {
 	className?: string
 }
 
+function buildConfig(yKeys: string[]): ChartConfig {
+	const config: ChartConfig = {}
+	for (let i = 0; i < yKeys.length; i++) {
+		config[yKeys[i]] = {
+			label: yKeys[i].charAt(0).toUpperCase() + yKeys[i].slice(1),
+			color: CHART_COLORS[i % CHART_COLORS.length],
+		}
+	}
+	return config
+}
+
 function ChartCardBase({
 	title,
 	description,
@@ -44,6 +55,7 @@ function ChartCardBase({
 	className,
 }: ChartCardProps) {
 	const yKeys = Array.isArray(yKey) ? yKey : [yKey]
+	const config = buildConfig(yKeys)
 
 	return (
 		<Card className={cn(className)}>
@@ -52,27 +64,20 @@ function ChartCardBase({
 				{description && <p className="text-sm text-fg-muted">{description}</p>}
 			</CardHeader>
 			<CardContent>
-				<ResponsiveContainer width="100%" height={height}>
+				<ChartContainer config={config} className="w-full" style={{ minHeight: height }}>
 					{type === "line" ? (
-						<LineChart data={data}>
-							<CartesianGrid strokeDasharray="3 3" className="stroke-edge" />
-							<XAxis dataKey={xKey} className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
-							<YAxis className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
-							<Tooltip
-								contentStyle={{
-									backgroundColor: "var(--card)",
-									border: "1px solid var(--border-default)",
-									borderRadius: "8px",
-									fontSize: "12px",
-								}}
-							/>
-							{yKeys.length > 1 && <Legend />}
-							{yKeys.map((key, i) => (
+						<LineChart accessibilityLayer data={data}>
+							<CartesianGrid vertical={false} />
+							<XAxis dataKey={xKey} tickLine={false} tickMargin={10} axisLine={false} />
+							<YAxis tickLine={false} axisLine={false} />
+							<ChartTooltip content={<ChartTooltipContent />} />
+							{yKeys.length > 1 && <ChartLegend content={<ChartLegendContent />} />}
+							{yKeys.map((key) => (
 								<Line
 									key={key}
 									type="monotone"
 									dataKey={key}
-									stroke={CHART_COLORS[i % CHART_COLORS.length]}
+									stroke={`var(--color-${key})`}
 									strokeWidth={2}
 									dot={false}
 									activeDot={{ r: 4 }}
@@ -80,56 +85,32 @@ function ChartCardBase({
 							))}
 						</LineChart>
 					) : type === "bar" ? (
-						<BarChart data={data}>
-							<CartesianGrid strokeDasharray="3 3" className="stroke-edge" />
-							<XAxis dataKey={xKey} className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
-							<YAxis className="text-xs" tick={{ fill: "var(--text-secondary)" }} />
-							<Tooltip
-								contentStyle={{
-									backgroundColor: "var(--card)",
-									border: "1px solid var(--border-default)",
-									borderRadius: "8px",
-									fontSize: "12px",
-								}}
-							/>
-							{yKeys.length > 1 && <Legend />}
-							{yKeys.map((key, i) => (
-								<Bar
-									key={key}
-									dataKey={key}
-									fill={CHART_COLORS[i % CHART_COLORS.length]}
-									radius={[4, 4, 0, 0]}
-								/>
+						<BarChart accessibilityLayer data={data}>
+							<CartesianGrid vertical={false} />
+							<XAxis dataKey={xKey} tickLine={false} tickMargin={10} axisLine={false} />
+							<YAxis tickLine={false} axisLine={false} />
+							<ChartTooltip content={<ChartTooltipContent />} />
+							{yKeys.length > 1 && <ChartLegend content={<ChartLegendContent />} />}
+							{yKeys.map((key) => (
+								<Bar key={key} dataKey={key} fill={`var(--color-${key})`} radius={4} />
 							))}
 						</BarChart>
 					) : (
 						<PieChart>
+							<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
 							<Pie
 								data={data}
 								dataKey={yKeys[0]}
 								nameKey={xKey}
-								cx="50%"
-								cy="50%"
-								outerRadius={height / 3}
-								label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+								innerRadius={0}
+								strokeWidth={5}
+								label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
 								labelLine={false}
-							>
-								{data.map((_, i) => (
-									<Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-								))}
-							</Pie>
-							<Tooltip
-								contentStyle={{
-									backgroundColor: "var(--card)",
-									border: "1px solid var(--border-default)",
-									borderRadius: "8px",
-									fontSize: "12px",
-								}}
 							/>
-							<Legend />
+							<ChartLegend content={<ChartLegendContent nameKey={xKey} />} />
 						</PieChart>
 					)}
-				</ResponsiveContainer>
+				</ChartContainer>
 			</CardContent>
 		</Card>
 	)

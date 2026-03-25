@@ -27,6 +27,7 @@
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"tailwindcss": "^4.0.0",
+		"recharts": "^3.0.0",
 		"react-hook-form": "^7.0.0",
 		"@hookform/resolvers": "^5.0.0",
 		"zod": "^4.0.0"
@@ -39,6 +40,9 @@
 			"optional": true
 		},
 		"zod": {
+			"optional": true
+		},
+		"recharts": {
 			"optional": true
 		}
 	},

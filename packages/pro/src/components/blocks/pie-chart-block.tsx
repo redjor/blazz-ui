@@ -23,11 +23,11 @@ const defaultData = [
 
 const defaultConfig = {
 	visitors: { label: "Visiteurs" },
-	chrome: { label: "Chrome", color: "hsl(var(--chart-1))" },
-	safari: { label: "Safari", color: "hsl(var(--chart-2))" },
-	firefox: { label: "Firefox", color: "hsl(var(--chart-3))" },
-	edge: { label: "Edge", color: "hsl(var(--chart-4))" },
-	other: { label: "Autre", color: "hsl(var(--chart-5))" },
+	chrome: { label: "Chrome", color: "var(--chart-1))" },
+	safari: { label: "Safari", color: "var(--chart-2))" },
+	firefox: { label: "Firefox", color: "var(--chart-3))" },
+	edge: { label: "Edge", color: "var(--chart-4))" },
+	other: { label: "Autre", color: "var(--chart-5))" },
 } satisfies ChartConfig
 
 export interface PieChartBlockProps {

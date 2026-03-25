@@ -63,8 +63,8 @@ const revenueData = [
 ]
 
 const revenueConfig = {
-	recurring: { label: "Récurrent", color: "hsl(var(--chart-1))" },
-	oneTime: { label: "Ponctuel", color: "hsl(var(--chart-3))" },
+	recurring: { label: "Récurrent", color: "var(--chart-1))" },
+	oneTime: { label: "Ponctuel", color: "var(--chart-3))" },
 } satisfies ChartConfig
 
 const singleData = [
@@ -77,7 +77,7 @@ const singleData = [
 ]
 
 const singleConfig = {
-	sales: { label: "Ventes", color: "hsl(var(--chart-1))" },
+	sales: { label: "Ventes", color: "var(--chart-1))" },
 } satisfies ChartConfig
 
 export default function BarChartPage() {
@@ -119,7 +119,7 @@ export default function BarChartPage() {
 ]
 
 const config = {
-  sales: { label: "Ventes", color: "hsl(var(--chart-1))" },
+  sales: { label: "Ventes", color: "var(--chart-1))" },
 } satisfies ChartConfig
 
 <BarChartBlock
@@ -137,8 +137,8 @@ const config = {
 					title="Multi Series"
 					description="Plusieurs dataKeys pour comparer des séries côte à côte."
 					code={`const config = {
-  recurring: { label: "Récurrent", color: "hsl(var(--chart-1))" },
-  oneTime: { label: "Ponctuel", color: "hsl(var(--chart-3))" },
+  recurring: { label: "Récurrent", color: "var(--chart-1))" },
+  oneTime: { label: "Ponctuel", color: "var(--chart-3))" },
 } satisfies ChartConfig
 
 <BarChartBlock

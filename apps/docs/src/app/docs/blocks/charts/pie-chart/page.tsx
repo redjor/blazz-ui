@@ -87,11 +87,11 @@ const sourceData = [
 
 const sourceConfig = {
 	leads: { label: "Leads" },
-	direct: { label: "Direct", color: "hsl(var(--chart-1))" },
-	referral: { label: "Referral", color: "hsl(var(--chart-2))" },
-	organic: { label: "Organique", color: "hsl(var(--chart-3))" },
-	social: { label: "Social", color: "hsl(var(--chart-4))" },
-	email: { label: "Email", color: "hsl(var(--chart-5))" },
+	direct: { label: "Direct", color: "var(--chart-1))" },
+	referral: { label: "Referral", color: "var(--chart-2))" },
+	organic: { label: "Organique", color: "var(--chart-3))" },
+	social: { label: "Social", color: "var(--chart-4))" },
+	email: { label: "Email", color: "var(--chart-5))" },
 } satisfies ChartConfig
 
 export default function PieChartPage() {
