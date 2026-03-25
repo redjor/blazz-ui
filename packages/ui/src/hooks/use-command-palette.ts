@@ -40,17 +40,20 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 
 		navigation.forEach((section) => {
 			section.items.forEach((item) => {
-				// Add main item
-				commandItems.push({
-					id: item.url ?? item.title,
-					title: item.title,
-					url: item.url ?? "",
-					section: section.title,
-					keywords: item.keywords,
-					description: item.description,
-					icon: item.icon,
-					breadcrumb: section.title ?? "",
-				})
+				// Skip parent items that have children (they're group headers,
+				// children already carry the real URLs — avoids duplicate keys)
+				if (!item.items?.length) {
+					commandItems.push({
+						id: item.url ?? item.title,
+						title: item.title,
+						url: item.url ?? "",
+						section: section.title,
+						keywords: item.keywords,
+						description: item.description,
+						icon: item.icon,
+						breadcrumb: section.title ?? "",
+					})
+				}
 
 				// Add nested items with parent context
 				if (item.items) {
