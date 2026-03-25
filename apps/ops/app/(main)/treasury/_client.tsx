@@ -22,7 +22,7 @@ import {
 	TrendingDown,
 	Wallet,
 } from "lucide-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency } from "@/lib/format"
@@ -38,18 +38,28 @@ const FREQ_LABELS: Record<string, string> = {
 }
 
 export default function TreasuryPageClient() {
+	const [expenseDialogOpen, setExpenseDialogOpen] = useState(false)
+	const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: Id<"recurringExpenses"> | null }>({ open: false, id: null })
+	const [settingsOpen, setSettingsOpen] = useState(false)
+	const [horizon, setHorizon] = useState<"6m" | "eoy" | "12m">("eoy")
+
+	const forecastMonths = useMemo(() => {
+		const now = new Date()
+		if (horizon === "eoy") {
+			return 12 - now.getMonth()
+		}
+		return horizon === "12m" ? 12 : 6
+	}, [horizon])
+
 	const expenses = useQuery(api.recurringExpenses.list)
-	const forecast = useQuery(api.treasury.forecast, {})
+	const forecast = useQuery(api.treasury.forecast, { months: forecastMonths })
 	const summary = useQuery(api.treasury.expenseSummary)
 	const settings = useQuery(api.treasury.getSettings)
 
 	const updateExpense = useMutation(api.recurringExpenses.update)
 	const removeExpense = useMutation(api.recurringExpenses.remove)
 
-	const [expenseDialogOpen, setExpenseDialogOpen] = useState(false)
 	const [editingExpense, setEditingExpense] = useState<(typeof expenses extends (infer T)[] | undefined ? T : never) | null>(null)
-	const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id: Id<"recurringExpenses"> | null }>({ open: false, id: null })
-	const [settingsOpen, setSettingsOpen] = useState(false)
 
 	const getOrganization = useAction(api.qonto.getOrganization)
 	const analyzeRecurring = useAction(api.qonto.analyzeRecurring)
@@ -162,7 +172,7 @@ export default function TreasuryPageClient() {
 						value: forecast.months.length > 0
 							? formatCurrency(forecast.months[forecast.months.length - 1].balanceCents / 100)
 							: "—",
-						description: `dans ${forecast.forecastMonths} mois`,
+						description: horizon === "eoy" ? "fin d'année" : `dans ${forecastMonths} mois`,
 						icon: TrendingDown,
 					},
 				]}
@@ -172,7 +182,30 @@ export default function TreasuryPageClient() {
 			<SuggestionsSection />
 
 			{/* Cashflow Chart */}
-			{forecast.months.length > 0 && <CashflowChart months={forecast.months} />}
+			{forecast.months.length > 0 && (
+				<BlockStack gap="300">
+					<InlineStack align="space-between" blockAlign="center">
+						<h2 className="text-sm font-medium text-fg-muted">Prévisionnel</h2>
+						<InlineStack gap="050">
+							{([
+								{ key: "6m", label: "6 mois" },
+								{ key: "eoy", label: "Fin d'année" },
+								{ key: "12m", label: "12 mois" },
+							] as const).map(({ key, label }) => (
+								<Button
+									key={key}
+									variant={horizon === key ? "secondary" : "ghost"}
+									size="sm"
+									onClick={() => setHorizon(key)}
+								>
+									{label}
+								</Button>
+							))}
+						</InlineStack>
+					</InlineStack>
+					<CashflowChart months={forecast.months} />
+				</BlockStack>
+			)}
 
 			{/* Active expenses */}
 			<BlockStack gap="300">

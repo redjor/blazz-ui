@@ -1,5 +1,10 @@
 import { v } from "convex/values"
-import { internalMutation, mutation, query } from "./_generated/server"
+import {
+	internalMutation,
+	internalQuery,
+	mutation,
+	query,
+} from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const listPending = query({
@@ -13,6 +18,27 @@ export const listPending = query({
 			)
 			.collect()
 		return suggestions.sort((a, b) => b.confidence - a.confidence)
+	},
+})
+
+/** All suggestion names that have already been processed (accepted or rejected) */
+export const listProcessedNames = internalQuery({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const accepted = await ctx.db
+			.query("syncSuggestions")
+			.withIndex("by_user_status", (q) =>
+				q.eq("userId", userId).eq("status", "accepted")
+			)
+			.collect()
+		const rejected = await ctx.db
+			.query("syncSuggestions")
+			.withIndex("by_user_status", (q) =>
+				q.eq("userId", userId).eq("status", "rejected")
+			)
+			.collect()
+		return [...accepted, ...rejected].map((s) => s.name)
 	},
 })
 

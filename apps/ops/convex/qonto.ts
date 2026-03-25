@@ -316,12 +316,21 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 			return { count: 0, syncedAt: Date.now() }
 		}
 
-		// 4. Deduplicate: filter out suggestions that already exist as pending
+		// 4. Deduplicate: filter out suggestions that already exist (pending, accepted, or rejected)
 		const pendingSuggestions: Array<{ name: string }> = await ctx.runQuery(
 			api.syncSuggestions.listPending
 		)
-		const pendingNames = new Set(pendingSuggestions.map((s) => s.name))
-		const newSuggestions = suggestions.filter((s) => !pendingNames.has(s.name))
+		const processedNames: string[] = await ctx.runQuery(
+			internal.syncSuggestions.listProcessedNames
+		)
+		const existingNamesLower = new Set([
+			...existingNames.map((n) => n.toLowerCase()),
+			...pendingSuggestions.map((s) => s.name.toLowerCase()),
+			...processedNames.map((n) => n.toLowerCase()),
+		])
+		const newSuggestions = suggestions.filter(
+			(s) => !existingNamesLower.has(s.name.toLowerCase())
+		)
 
 		if (newSuggestions.length === 0) {
 			return { count: 0, syncedAt: Date.now() }
