@@ -1,113 +1,55 @@
 "use client"
 
-import type { LucideIcon } from "lucide-react"
-import Link from "next/link"
-import { Fragment } from "react"
+import type * as React from "react"
 import { cn } from "@blazz/ui"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { withProGuard } from "../../lib/with-pro-guard"
-import {
-	Breadcrumb,
-	BreadcrumbItem as BreadcrumbItemPrimitive,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@blazz/ui"
-import { Button, buttonVariants } from "@blazz/ui"
-
-export interface PageHeaderBreadcrumb {
-	label: string
-	href?: string
-}
-
-export interface PageHeaderAction {
-	label: string
-	onClick?: () => void | Promise<void>
-	href?: string
-	icon?: LucideIcon
-	variant?: "default" | "outline" | "ghost" | "destructive"
-}
 
 export interface PageHeaderProps {
+	/** Page title */
 	title: string
-	description?: string
-	breadcrumbs?: PageHeaderBreadcrumb[]
-	actions?: PageHeaderAction[]
-	actionsSlot?: React.ReactNode
+	/** Slot above the title row (breadcrumbs, back link, etc.) */
+	top?: React.ReactNode
+	/** Slot inline after the title (badge, status, metadata) */
+	afterTitle?: React.ReactNode
+	/** Slot on the right side of the title row (buttons, actions) */
+	actions?: React.ReactNode
+	/** Slot below the title row (tabs, filters, description) */
+	bottom?: React.ReactNode
+	/** Show a bottom border below the header */
+	bordered?: boolean
 	className?: string
 }
 
 function PageHeaderBase({
 	title,
-	description,
-	breadcrumbs,
+	top,
+	afterTitle,
 	actions,
-	actionsSlot,
+	bottom,
+	bordered = false,
 	className,
 }: PageHeaderProps) {
 	return (
-		<div className={cn("space-y-3", className)}>
-			{breadcrumbs && breadcrumbs.length > 0 && (
-				<Breadcrumb>
-					<BreadcrumbList>
-						{breadcrumbs.map((item, i) => (
-							<Fragment key={i}>
-								{i > 0 && <BreadcrumbSeparator />}
-								<BreadcrumbItemPrimitive>
-									{item.href ? (
-										<BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
-									) : (
-										<BreadcrumbPage>{item.label}</BreadcrumbPage>
-									)}
-								</BreadcrumbItemPrimitive>
-							</Fragment>
-						))}
-					</BreadcrumbList>
-				</Breadcrumb>
-			)}
+		<BlockStack gap="200" className={cn(bordered && "border-b border-edge pb-4", className)}>
+			{top}
 
-			<div className="flex items-start justify-between gap-4">
-				<div className="space-y-1">
+			<InlineStack align="space-between" blockAlign="center" gap="400">
+				<InlineStack blockAlign="center" gap="300">
 					<h1 className="text-lg font-semibold leading-normal text-fg">{title}</h1>
-					{description && <p className="text-sm text-fg-muted">{description}</p>}
-				</div>
+					{afterTitle}
+				</InlineStack>
 
-				{((actions && actions.length > 0) || actionsSlot) && (
-					<div className="flex items-center gap-2">
-						{actionsSlot}
-						{actions?.map((action, i) => {
-							const icon = action.icon ? (
-								<action.icon className="size-4" data-icon="inline-start" />
-							) : null
-
-							if (action.href) {
-								return (
-									<Link
-										key={i}
-										href={action.href}
-										className={cn(
-											buttonVariants({
-												variant: action.variant || "default",
-											})
-										)}
-									>
-										{icon}
-										{action.label}
-									</Link>
-								)
-							}
-
-							return (
-								<Button key={i} variant={action.variant || "default"} onClick={action.onClick}>
-									{icon}
-									{action.label}
-								</Button>
-							)
-						})}
-					</div>
+				{actions && (
+					<InlineStack blockAlign="center" gap="200">
+						{actions}
+					</InlineStack>
 				)}
-			</div>
-		</div>
+			</InlineStack>
+
+			{bottom}
+		</BlockStack>
 	)
 }
 
