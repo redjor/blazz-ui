@@ -2,7 +2,7 @@
 
 import { useTabs } from "@blazz/tabs"
 import { TabsBar, TabsItem, TabsItemOverlay } from "@blazz/tabs/ui"
-import { SidebarTrigger, useSidebar } from "@blazz/ui/components/ui/sidebar"
+import { SidebarTrigger } from "@blazz/ui/components/ui/sidebar"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { ReactNode } from "react"
@@ -22,7 +22,6 @@ export function AppFrameTabBar({
 	defaultNewTabTitle = "Home",
 }: AppFrameTabBarProps) {
 	const { tabs, activeTabId, showTabBar, activateTab, closeTab, addTab, reorderTabs } = useTabs()
-	const sidebar = useSidebar()
 	const router = useRouter()
 
 	return (
@@ -40,9 +39,7 @@ export function AppFrameTabBar({
 			{/* Tab bar */}
 			{showTabBar && (
 				<div className="flex items-center">
-					{sidebar.state === "collapsed" && (
-						<SidebarTrigger className="ml-1 mr-1 shrink-0" />
-					)}
+					<SidebarTrigger className="ml-1 mr-1 shrink-0" />
 					<TabsBar
 						className="flex-1 border-t-0"
 						tabIds={tabs.map((t) => t.id)}
