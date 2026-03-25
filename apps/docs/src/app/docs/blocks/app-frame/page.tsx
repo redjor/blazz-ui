@@ -157,7 +157,7 @@ const appFrameProps: DocProp[] = [
 	{
 		name: "sidebarCollapsible",
 		type: '"offcanvas" | "icon" | "none"',
-		defaultValue: '"offcanvas"',
+		default: '"offcanvas"',
 		description:
 			'Mode de collapse de la sidebar. "icon" réduit aux icônes, "offcanvas" cache complètement, "none" désactive le collapse.',
 	},
