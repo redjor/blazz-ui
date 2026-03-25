@@ -62,7 +62,13 @@ export function DocExampleClient({
 			)}
 
 			{/* Preview */}
-			<div className={cn("rounded-lg border border-container bg-muted p-6", previewClassName)}>
+			<div
+				className={cn(
+					"rounded-lg border border-container bg-page p-6",
+					"bg-[image:radial-gradient(var(--border-subtle)_1px,transparent_1px)] bg-[length:16px_16px] bg-[position:8px_8px]",
+					previewClassName
+				)}
+			>
 				{children}
 			</div>
 
