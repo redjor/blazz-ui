@@ -66,7 +66,7 @@
 	   InputGroup). Maps standard --color-* variables
 	   to the Blazz design-token equivalents.
 	   ============================================= */
-	--color-background: var(--surface-1);
+	--color-background: var(--surface-0);
 	--color-foreground: var(--text-primary);
 	--color-muted: var(--surface-3);
 	--color-muted-foreground: var(--text-secondary);
@@ -93,17 +93,15 @@
 	--radius: 0.5rem;
 
 	/* Surface layer scale */
-	--surface-base: oklch(0.95 0 0);
-	--surface-top: oklch(1 0 0);
-	--surface-0: var(--surface-base);
-	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
-	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
-	--surface-3: color-mix(in oklch, var(--surface-base) 25%, var(--surface-top));
-	--surface-4: var(--surface-top);
+	--surface-0: oklch(0.90 0 0);
+	--surface-1: oklch(0.975 0 0);
+	--surface-2: oklch(1 0 0);
+	--surface-3: oklch(1 0 0);
+	--surface-4: oklch(1 0 0);
 
 	/* Borders */
-	--border-default: oklch(0.92 0 0);
-	--border-subtle: oklch(0.95 0 0);
+	--border-default: oklch(0.88 0 0);
+	--border-subtle: oklch(0.92 0 0);
 	--border-container: var(--border-default);
 	--border-field: var(--border-default);
 	--border-separator: var(--border-default);
@@ -169,13 +167,11 @@ html.dark {
 	color-scheme: dark;
 
 	/* Surface layer scale */
-	--surface-base: oklch(0.145 0.005 270);
-	--surface-top: oklch(0.28 0.005 270);
-	--surface-0: var(--surface-base);
-	--surface-1: color-mix(in oklch, var(--surface-base) 75%, var(--surface-top));
-	--surface-2: color-mix(in oklch, var(--surface-base) 50%, var(--surface-top));
-	--surface-3: color-mix(in oklch, var(--surface-base) 25%, var(--surface-top));
-	--surface-4: var(--surface-top);
+	--surface-0: oklch(0.145 0.005 270);
+	--surface-1: oklch(0.179 0.005 270);
+	--surface-2: oklch(0.213 0.005 270);
+	--surface-3: oklch(0.246 0.005 270);
+	--surface-4: oklch(0.28 0.005 270);
 
 	/* Borders */
 	--border-default: oklch(0.35 0.005 270 / 0.6);

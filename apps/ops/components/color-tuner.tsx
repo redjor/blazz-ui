@@ -40,8 +40,9 @@ const TOKEN_GROUPS: TokenGroup[] = [
 	{
 		name: "Surfaces",
 		tokens: [
-			{ variable: "--surface-base", label: "surface-0 (base)", light: { l: 0.95, c: 0, h: 0 }, dark: { l: 0.145, c: 0.005, h: 270 } },
-			{ variable: "--surface-top", label: "surface-4 (top)", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.28, c: 0.005, h: 270 } },
+			{ variable: "--surface-0", label: "surface-0 (page)", light: { l: 0.90, c: 0, h: 0 }, dark: { l: 0.145, c: 0.005, h: 270 } },
+			{ variable: "--surface-1", label: "surface-1", light: { l: 0.975, c: 0, h: 0 }, dark: { l: 0.179, c: 0.005, h: 270 } },
+			{ variable: "--surface-2", label: "surface-2 (cards)", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.213, c: 0.005, h: 270 } },
 		],
 	},
 	{
@@ -55,8 +56,8 @@ const TOKEN_GROUPS: TokenGroup[] = [
 	{
 		name: "Borders",
 		tokens: [
-			{ variable: "--border-default", label: "border-default", light: { l: 0.92, c: 0, h: 0 }, dark: { l: 0.35, c: 0.005, h: 270 } },
-			{ variable: "--border-subtle", label: "border-subtle", light: { l: 0.95, c: 0, h: 0 }, dark: { l: 0.35, c: 0.005, h: 270 } },
+			{ variable: "--border-default", label: "border-default", light: { l: 0.88, c: 0, h: 0 }, dark: { l: 0.35, c: 0.005, h: 270 } },
+			{ variable: "--border-subtle", label: "border-subtle", light: { l: 0.92, c: 0, h: 0 }, dark: { l: 0.35, c: 0.005, h: 270 } },
 		],
 	},
 	{
