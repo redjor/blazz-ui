@@ -50,10 +50,15 @@ const allNavGroups: NavGroupWithFlag[] = [
 		],
 	},
 	{
-		label: "Activité",
+		label: "Clients",
 		items: [
 			{ title: "Clients", url: "/clients", icon: Users, flag: "clients" },
 			{ title: "Projets", url: "/projects", icon: FolderOpen, flag: "projects" },
+		],
+	},
+	{
+		label: "Temps & Argent",
+		items: [
 			{
 				title: "Suivi de temps",
 				url: "/time",
@@ -64,6 +69,11 @@ const allNavGroups: NavGroupWithFlag[] = [
 			{ title: "Factures", url: "/invoices", icon: Receipt, flag: "invoicing" },
 			{ title: "Finances", url: "/finances", icon: Banknote, flag: "finances" },
 			{ title: "Trésorerie", url: "/treasury", icon: PiggyBank, flag: "treasury" },
+		],
+	},
+	{
+		label: "Productivité",
+		items: [
 			{ title: "Objectifs", url: "/goals", icon: Target, flag: "goals" },
 			{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
 		],
