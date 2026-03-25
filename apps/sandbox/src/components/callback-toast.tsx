@@ -38,7 +38,7 @@ function ToastItem({
 	}, [event.id, onDismiss])
 
 	return (
-		<div className="bg-surface-3 border border-edge rounded-md px-3 py-1.5 text-xs text-fg-muted shadow-md animate-in fade-in slide-in-from-bottom-2 duration-200">
+		<div className="bg-muted border border-edge rounded-md px-3 py-1.5 text-xs text-fg-muted shadow-md animate-in fade-in slide-in-from-bottom-2 duration-200">
 			<span className="font-mono">{event.name}</span> called
 		</div>
 	)

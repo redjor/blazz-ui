@@ -17,7 +17,7 @@ export function ThumbnailShell({ children }: { children: React.ReactNode }) {
 
 	return (
 		<div
-			className="flex items-center justify-center bg-surface"
+			className="flex items-center justify-center bg-card"
 			style={{
 				width: 800,
 				height: 600,

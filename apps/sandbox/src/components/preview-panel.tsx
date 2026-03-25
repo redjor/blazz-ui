@@ -141,7 +141,7 @@ export function PreviewPanel({
 	}, [])
 
 	return (
-		<div id="sandbox-preview-container" className="flex flex-col h-full bg-surface">
+		<div id="sandbox-preview-container" className="flex flex-col h-full bg-card">
 			<PreviewToolbar
 				viewport={viewport}
 				onViewportChange={setViewport}

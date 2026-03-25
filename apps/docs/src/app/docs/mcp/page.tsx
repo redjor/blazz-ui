@@ -240,17 +240,17 @@ export default function McpPage() {
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
 						Le serveur MCP se configure dans le fichier de config de votre editeur. Il utilise{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
 							npx @blazz/mcp
 						</code>{" "}
 						— aucune installation globale necessaire.
 					</p>
 					<p>
 						La variable{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">BLAZZ_ROOT</code>{" "}
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">BLAZZ_ROOT</code>{" "}
 						pointe vers la racine du monorepo. Si omise, le serveur remonte l'arborescence pour
 						trouver le dossier{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">ai/</code>.
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/</code>.
 					</p>
 				</div>
 
@@ -306,7 +306,7 @@ export default function McpPage() {
 				<div className="overflow-hidden rounded-lg border border-container">
 					<table className="w-full text-sm">
 						<thead>
-							<tr className="border-b border-separator bg-surface-3/50">
+							<tr className="border-b border-separator bg-muted/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Tool</th>
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
 									Arguments
@@ -370,7 +370,7 @@ export default function McpPage() {
 					<p>
 						Retourne la liste complete des composants disponibles. L'IA utilise cette tool pour
 						savoir quel composant chercher avant d'appeler{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
 							get_component
 						</code>
 						.
@@ -402,7 +402,7 @@ export default function McpPage() {
 					<p>
 						Retourne la documentation complete d'un composant : props avec types et defaults,
 						exemples d'usage canoniques, et gotchas a eviter. Le contenu vient de{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
 							ai/components.md
 						</code>
 						.
@@ -417,7 +417,7 @@ export default function McpPage() {
 				>
 					<div className="space-y-3">
 						<div className="flex items-center gap-2">
-							<code className="rounded bg-surface-3 px-2 py-1 text-xs font-mono text-brand">
+							<code className="rounded bg-muted px-2 py-1 text-xs font-mono text-brand">
 								name: "Button"
 							</code>
 							<span className="text-xs text-fg-muted">ou "DataGrid", "PageHeader", etc.</span>
@@ -436,7 +436,7 @@ export default function McpPage() {
 					<p>
 						Retourne un pattern de page complet avec la structure de fichiers, le code skeleton, les
 						conventions specifiques et les 4 etats (loading, empty, error, success). Source :{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
 							ai/patterns/*.md
 						</code>
 						.
@@ -460,7 +460,7 @@ export default function McpPage() {
 							{ name: "reporting", desc: "Graphiques + export" },
 						].map((p) => (
 							<div key={p.name} className="flex items-start gap-2">
-								<code className="shrink-0 rounded bg-surface-3 px-1.5 py-0.5 text-[11px] font-mono text-brand">
+								<code className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-[11px] font-mono text-brand">
 									{p.name}
 								</code>
 								<span className="text-xs text-fg-muted">{p.desc}</span>
@@ -477,7 +477,7 @@ export default function McpPage() {
 						Retourne les conventions de code non negociables : architecture (Server Components par
 						defaut), formulaires (react-hook-form + zod), les 4 etats obligatoires, et les
 						conventions d'import. Source :{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
 							ai/rules.md
 						</code>
 						.
@@ -517,7 +517,7 @@ export default function McpPage() {
 					<p>
 						Retourne les principes de design du kit : ratio data-ink de Tufte, lois de Gestalt,
 						densite enterprise, echelle de 4px, typographie Inter, couleurs semantiques. Source :{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
 							ai/design.md
 						</code>
 						.
@@ -556,7 +556,7 @@ export default function McpPage() {
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
 						Retourne le fichier{" "}
-						<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs font-mono">tokens.css</code>{" "}
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">tokens.css</code>{" "}
 						complet avec les 25 tokens oklch pour les themes light et dark. L'IA les utilise pour
 						appliquer les bonnes variables CSS au lieu de hardcoder des couleurs.
 					</p>
@@ -635,7 +635,7 @@ export default function McpPage() {
 				<div className="overflow-hidden rounded-lg border border-container">
 					<table className="w-full text-sm">
 						<thead>
-							<tr className="border-b border-separator bg-surface-3/50">
+							<tr className="border-b border-separator bg-muted/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Client</th>
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Config</th>
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Statut</th>

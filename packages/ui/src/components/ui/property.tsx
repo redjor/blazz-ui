@@ -7,11 +7,27 @@ import { cn } from "../../lib/utils"
 
 interface PropertyProps {
 	label: string
+	/** "vertical" (default) stacks label above value. "horizontal" places them inline. */
+	direction?: "vertical" | "horizontal"
 	children: React.ReactNode
 	className?: string
 }
 
-function Property({ label, children, className }: PropertyProps) {
+function Property({ label, direction = "vertical", children, className }: PropertyProps) {
+	if (direction === "horizontal") {
+		return (
+			<div
+				className={cn(
+					"flex items-baseline gap-1.5 [[data-property-grid]_&]:contents",
+					className,
+				)}
+			>
+				<span className="text-sm text-fg-muted">{label}</span>
+				<span className="text-sm font-semibold text-fg">{children}</span>
+			</div>
+		)
+	}
+
 	return (
 		<div className={cn("flex flex-col gap-0.5", className)}>
 			<span className="text-xs text-fg-muted">{label}</span>
@@ -67,6 +83,34 @@ function PropertySection({
 	)
 }
 
+// ---------------------------------------------------------------------------
+// Property.List
+// ---------------------------------------------------------------------------
+
+interface PropertyListProps {
+	/** "horizontal" renders items in a row. "vertical" stacks them (default). */
+	direction?: "vertical" | "horizontal"
+	children: React.ReactNode
+	className?: string
+}
+
+function PropertyList({ direction = "vertical", children, className }: PropertyListProps) {
+	return (
+		<div
+			{...(direction === "vertical" ? { "data-property-grid": "" } : {})}
+			className={cn(
+				direction === "horizontal"
+					? "flex flex-wrap items-baseline gap-x-6 gap-y-2"
+					: "grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-2",
+				className,
+			)}
+		>
+			{children}
+		</div>
+	)
+}
+
 Property.Section = PropertySection
+Property.List = PropertyList
 
 export { Property }

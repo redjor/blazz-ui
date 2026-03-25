@@ -50,7 +50,7 @@ function PaginationLink({ className, isActive, ...props }: PaginationLinkProps) 
 				"transition-colors outline-none",
 				"focus-visible:ring-[3px] focus-visible:ring-brand/20",
 				"disabled:opacity-50 disabled:pointer-events-none",
-				isActive ? "bg-brand text-brand-fg" : "text-fg-muted hover:bg-surface-3 hover:text-fg",
+				isActive ? "bg-brand text-brand-fg" : "text-fg-muted hover:bg-muted hover:text-fg",
 				className
 			)}
 			{...props}
@@ -66,7 +66,7 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<"butto
 			aria-label="Go to previous page"
 			className={cn(
 				"inline-flex size-8 items-center justify-center rounded-md text-sm",
-				"text-fg-muted hover:bg-surface-3 hover:text-fg transition-colors outline-none",
+				"text-fg-muted hover:bg-muted hover:text-fg transition-colors outline-none",
 				"focus-visible:ring-[3px] focus-visible:ring-brand/20",
 				"disabled:opacity-50 disabled:pointer-events-none",
 				className
@@ -86,7 +86,7 @@ function PaginationNext({ className, ...props }: React.ComponentProps<"button">)
 			aria-label="Go to next page"
 			className={cn(
 				"inline-flex size-8 items-center justify-center rounded-md text-sm",
-				"text-fg-muted hover:bg-surface-3 hover:text-fg transition-colors outline-none",
+				"text-fg-muted hover:bg-muted hover:text-fg transition-colors outline-none",
 				"focus-visible:ring-[3px] focus-visible:ring-brand/20",
 				"disabled:opacity-50 disabled:pointer-events-none",
 				className

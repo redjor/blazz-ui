@@ -117,8 +117,7 @@ export default function TreasuryPageClient() {
 		<BlockStack gap="600" className="p-4">
 			<PageHeader
 				title="Trésorerie"
-				description="Dépenses récurrentes & prévisionnel cashflow"
-				actionsSlot={
+				actions={
 					<InlineStack gap="200">
 						<Button variant="outline" onClick={handleSync} disabled={syncing}>
 							{syncing ? "Sync en cours…" : "Sync Qonto"}
@@ -132,6 +131,7 @@ export default function TreasuryPageClient() {
 						</Button>
 					</InlineStack>
 				}
+				bottom={<p className="text-sm text-fg-muted">Dépenses récurrentes &amp; prévisionnel cashflow</p>}
 			/>
 
 			{/* Stats */}

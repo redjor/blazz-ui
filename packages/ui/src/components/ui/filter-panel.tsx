@@ -20,7 +20,7 @@ function FilterPanel({ className, width = 340, style, ...props }: FilterPanelPro
 		<div
 			data-slot="filter-panel"
 			className={cn(
-				"bg-surface-4 ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
+				"bg-popover ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
 				className
 			)}
 			style={{ width, ...style }}
@@ -63,7 +63,7 @@ function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelT
 	return (
 		<div
 			data-slot="filter-panel-tabs"
-			className={cn("flex items-center gap-0.5 rounded-md bg-surface-3 p-0.5", className)}
+			className={cn("flex items-center gap-0.5 rounded-md bg-muted p-0.5", className)}
 		>
 			{tabs.map((tab) => {
 				const isActive = tab === value
@@ -74,7 +74,7 @@ function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelT
 						onClick={() => onValueChange(tab)}
 						className={cn(
 							"rounded-[5px] px-2.5 py-1 text-xs font-medium transition-colors duration-150 ease-out",
-							isActive ? "bg-surface text-fg shadow-sm" : "text-fg-muted hover:text-fg"
+							isActive ? "bg-card text-fg shadow-sm" : "text-fg-muted hover:text-fg"
 						)}
 					>
 						{tab}
@@ -113,7 +113,7 @@ function FilterPanelAction({ className, ...props }: FilterPanelActionProps) {
 			type="button"
 			data-slot="filter-panel-action"
 			className={cn(
-				"flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-150 ease-out hover:bg-surface-3 hover:text-fg",
+				"flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-150 ease-out hover:bg-muted hover:text-fg",
 				className
 			)}
 			{...props}
@@ -180,7 +180,7 @@ function FilterPanelCheckboxItem({
 			htmlFor={id}
 			data-slot="filter-panel-checkbox-item"
 			className={cn(
-				"group flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-surface-3",
+				"group flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-muted",
 				disabled && "cursor-not-allowed opacity-50",
 				className
 			)}
@@ -199,7 +199,7 @@ function FilterPanelCheckboxItem({
 				disabled={disabled}
 				className={cn(
 					"flex size-3.5 shrink-0 items-center justify-center rounded-[3px] border transition-colors",
-					"border-edge/60 bg-surface",
+					"border-edge/60 bg-card",
 					"data-checked:bg-brand data-checked:border-brand data-checked:text-brand-fg",
 					"focus-visible:border-brand focus-visible:ring-brand/20 focus-visible:ring-[3px] outline-none"
 				)}
@@ -254,7 +254,7 @@ function FilterPanelTreeItem({
 		>
 			<CollapsiblePrimitive.Trigger
 				className={cn(
-					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-surface-3"
+					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-muted"
 				)}
 			>
 				<ChevronRightIcon className="size-3 shrink-0 text-fg-muted transition-transform duration-150 ease-out group-data-[panel-open]/tree:rotate-90" />

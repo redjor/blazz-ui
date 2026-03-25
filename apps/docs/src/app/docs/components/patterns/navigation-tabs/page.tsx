@@ -413,9 +413,9 @@ const itemProps: DocProp[] = [
 function TabBarPreview() {
 	return (
 		<div className="rounded border border-edge-subtle overflow-hidden">
-			<div className="flex h-9 items-center border-t border-edge-subtle bg-surface">
+			<div className="flex h-9 items-center border-t border-edge-subtle bg-card">
 				<div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto px-1">
-					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-surface-3 text-fg font-semibold">
+					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-muted text-fg font-semibold">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
 							<svg
 								className="h-3.5 w-3.5 shrink-0 opacity-60"
@@ -552,7 +552,7 @@ export default function NavigationTabsPage() {
 			toc={toc}
 		>
 			<DocSection id="overview" title="Overview">
-				<div className="rounded border border-edge-subtle bg-surface p-4 text-sm text-fg-secondary space-y-3">
+				<div className="rounded border border-edge-subtle bg-card p-4 text-sm text-fg-secondary space-y-3">
 					<p className="font-medium text-fg">Architecture du systeme</p>
 					<p className="text-xs text-fg-muted">
 						Package standalone <code className="font-mono text-brand">@blazz/tabs</code> avec 3
@@ -680,14 +680,14 @@ export default function NavigationTabsPage() {
 					highlightedCode={html("interceptor")}
 				>
 					<div className="grid grid-cols-2 gap-3 text-xs">
-						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
-							<kbd className="rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 font-mono text-fg">
+						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-card p-3">
+							<kbd className="rounded border border-edge-subtle bg-muted px-1.5 py-0.5 font-mono text-fg">
 								Cmd Clic
 							</kbd>
 							<span className="text-fg-muted">Ouvre dans un nouveau tab</span>
 						</div>
-						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-surface p-3">
-							<kbd className="rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 font-mono text-fg">
+						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-card p-3">
+							<kbd className="rounded border border-edge-subtle bg-muted px-1.5 py-0.5 font-mono text-fg">
 								Cmd W
 							</kbd>
 							<span className="text-fg-muted">Ferme le tab actif</span>
@@ -712,7 +712,7 @@ export default function NavigationTabsPage() {
 					code={examples[7].code}
 					highlightedCode={html("storage")}
 				>
-					<div className="rounded border border-edge-subtle bg-surface p-4 text-xs text-fg-muted space-y-2">
+					<div className="rounded border border-edge-subtle bg-card p-4 text-xs text-fg-muted space-y-2">
 						<p>
 							<code className="font-mono text-brand">TabsStorage</code> interface :
 						</p>

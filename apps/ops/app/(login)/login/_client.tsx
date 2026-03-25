@@ -20,7 +20,7 @@ export default function LoginPageClient() {
 	}, [isAuthenticated, isLoading, router])
 
 	return (
-		<BlockStack className="min-h-screen items-center justify-center bg-surface">
+		<BlockStack className="min-h-screen items-center justify-center bg-card">
 			<BlockStack gap="1000" className="items-center">
 				<Image src="/logo_blazz_white.svg" alt="Blazz Ops" width={120} height={34} priority />
 				<Button

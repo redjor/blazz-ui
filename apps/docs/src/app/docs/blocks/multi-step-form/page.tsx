@@ -175,7 +175,7 @@ function ConfirmationStep({ data }: StepComponentProps) {
 	return (
 		<div className="space-y-4">
 			<p className="text-sm text-fg-muted">Verifiez les informations avant de valider.</p>
-			<div className="rounded-lg border border-edge bg-surface-3/50 p-4 space-y-3">
+			<div className="rounded-lg border border-edge bg-muted/50 p-4 space-y-3">
 				<div className="grid grid-cols-2 gap-3 text-sm">
 					<div>
 						<span className="text-fg-muted">Entreprise</span>
@@ -292,7 +292,7 @@ function ConfirmStep({ data }: StepComponentProps) {
   return (
     <div className="space-y-3">
       <p className="text-sm text-fg-muted">Verifiez les informations.</p>
-      <div className="rounded-lg border bg-surface-3/50 p-4 text-sm space-y-2">
+      <div className="rounded-lg border bg-muted/50 p-4 text-sm space-y-2">
         <p><span className="text-fg-muted">Entreprise:</span> {(data.companyName as string) || "—"}</p>
         <p><span className="text-fg-muted">SIRET:</span> {(data.siret as string) || "—"}</p>
         <p><span className="text-fg-muted">Adresse:</span> {(data.address as string) || "—"}</p>
@@ -358,7 +358,7 @@ function HeroDemo() {
 
 	if (submitted) {
 		return (
-			<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+			<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 				<div className="flex flex-col items-center justify-center py-8 space-y-3">
 					<div className="flex size-12 items-center justify-center rounded-full bg-positive/10 text-positive">
 						<svg
@@ -385,7 +385,7 @@ function HeroDemo() {
 	}
 
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<MultiStepForm steps={heroSteps} onSubmit={() => setSubmitted(true)} />
 		</div>
 	)

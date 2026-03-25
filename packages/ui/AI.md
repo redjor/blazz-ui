@@ -28,6 +28,18 @@ Never useState for form fields. Always useForm + zodResolver.
 ### 5. 4 required states
 Every data-loading component needs: loading (Skeleton), empty (Empty), error, success.
 
+### 6. Button as link — use buttonVariants, not render
+Base UI `Button` always applies `role="button"`, which overrides the semantic link role on `<a>` elements. Never use `<Button render={<a />}>` for links.
+```tsx
+import { buttonVariants } from "@blazz/ui/components/ui/button"
+
+// ✅ Correct — plain <a> with button styling
+<a href="/login" className={buttonVariants({ variant: "secondary", size: "sm" })}>Login</a>
+
+// ❌ Wrong — breaks link semantics (role="button" on <a>)
+<Button render={<a href="/login" />} nativeButton={false}>Login</Button>
+```
+
 ---
 
 ## Component Index

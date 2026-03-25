@@ -28,7 +28,7 @@ export function AppFrameTabBar({
 	return (
 		<>
 			{/* Mobile header */}
-			<div className="flex md:hidden h-10 items-center gap-2 border-b border-edge-subtle bg-surface-3 px-3">
+			<div className="flex md:hidden h-10 items-center gap-2 border-b border-edge-subtle bg-muted px-3">
 				<SidebarTrigger />
 				{mobileLogo && (
 					<Link href="/">
@@ -39,12 +39,12 @@ export function AppFrameTabBar({
 
 			{/* Tab bar */}
 			{showTabBar && (
-				<div className="flex items-center bg-surface-0">
+				<div className="flex items-center">
 					{sidebar.state === "collapsed" && (
 						<SidebarTrigger className="ml-1 mr-1 shrink-0" />
 					)}
 					<TabsBar
-						className="flex-1 border-t-0 bg-surface-0"
+						className="flex-1 border-t-0"
 						tabIds={tabs.map((t) => t.id)}
 						onReorder={reorderTabs}
 						renderDragOverlay={(dragId) => {
@@ -54,8 +54,8 @@ export function AppFrameTabBar({
 								<TabsItemOverlay
 									title={tab.title}
 									isActive={tab.id === activeTabId}
-									className="bg-surface-1 text-fg-secondary"
-									activeClassName="bg-surface-2 text-fg"
+									className="bg-background text-fg-secondary"
+									activeClassName="bg-card text-fg"
 								/>
 							)
 						}}
@@ -88,8 +88,8 @@ export function AppFrameTabBar({
 										router.push(next.url)
 									}
 								} : undefined}
-								className="bg-surface-1 text-fg-secondary hover:bg-surface-2 hover:text-fg"
-								activeClassName="bg-surface-2 text-fg"
+								className="bg-background text-fg-secondary hover:bg-card hover:text-fg"
+								activeClassName="bg-card text-fg"
 							/>
 						))}
 					</TabsBar>

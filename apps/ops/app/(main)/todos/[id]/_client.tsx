@@ -400,7 +400,7 @@ export default function TodoDetailPageClient() {
 							>
 								<SelectTrigger
 									size="sm"
-									className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
+									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
 								>
 									<StatusIcon status={todo.status} />
 									<SelectValue />
@@ -432,7 +432,7 @@ export default function TodoDetailPageClient() {
 							>
 								<SelectTrigger
 									size="sm"
-									className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
+									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
 								>
 									{PRIORITY_ICON[todo.priority ?? "normal"]}
 									<SelectValue />
@@ -462,7 +462,7 @@ export default function TodoDetailPageClient() {
 							>
 								<SelectTrigger
 									size="sm"
-									className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
+									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
 								>
 									<SelectValue placeholder="Projet" />
 								</SelectTrigger>
@@ -492,7 +492,7 @@ export default function TodoDetailPageClient() {
 							>
 								<SelectTrigger
 									size="sm"
-									className="!border-none !bg-transparent hover:!bg-surface-3 !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
+									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
 								>
 									{currentCategory ? (
 										<>

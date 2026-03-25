@@ -453,16 +453,16 @@ export default function CellTypesPage() {
 			<DocSection id="col-usage" title="Usage with col.*">
 				<p className="text-sm text-fg-muted mb-4">
 					All cell types are available as shorthand methods on the{" "}
-					<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">col</code> namespace. The
+					<code className="text-xs bg-muted px-1.5 py-0.5 rounded">col</code> namespace. The
 					accessor key is the first argument, options are the second. Title is auto-derived from the
 					key.
 				</p>
 				<DocExampleClient title="Full Example" description="A complete table definition using various cell types." code={examples[15].code} highlightedCode={html("full-example")}>
-					<div className="rounded-lg border border-edge-subtle bg-surface-3/50 p-6">
+					<div className="rounded-lg border border-edge-subtle bg-muted/50 p-6">
 						<p className="text-sm text-fg-muted text-center">
-							Each <code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">col.*</code> method
+							Each <code className="text-xs bg-muted px-1.5 py-0.5 rounded">col.*</code> method
 							returns a fully typed column definition ready to pass to{" "}
-							<code className="text-xs bg-surface-3 px-1.5 py-0.5 rounded">DataTable</code>.
+							<code className="text-xs bg-muted px-1.5 py-0.5 rounded">DataTable</code>.
 						</p>
 					</div>
 				</DocExampleClient>

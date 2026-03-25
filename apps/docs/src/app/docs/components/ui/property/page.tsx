@@ -12,6 +12,7 @@ import { highlightExamples } from "~/lib/highlight-examples"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
+	{ id: "list", title: "List" },
 	{ id: "sections", title: "Sections" },
 	{ id: "props", title: "Props" },
 	{ id: "guidelines", title: "Guidelines" },
@@ -29,9 +30,37 @@ const propertyProps: DocProp[] = [
 		description: "The value content. Can be text, badges, links, or any React node.",
 	},
 	{
+		name: "direction",
+		type: '"vertical" | "horizontal"',
+		default: '"vertical"',
+		description:
+			"Vertical stacks label above value. Horizontal places them inline on the same line.",
+	},
+	{
 		name: "className",
 		type: "string",
 		description: "Additional CSS classes for the wrapper.",
+	},
+]
+
+const listProps: DocProp[] = [
+	{
+		name: "direction",
+		type: '"vertical" | "horizontal"',
+		default: '"vertical"',
+		description:
+			"Horizontal renders items in a row with wrapping. Vertical stacks them.",
+	},
+	{
+		name: "children",
+		type: "React.ReactNode",
+		required: true,
+		description: "Property elements to display.",
+	},
+	{
+		name: "className",
+		type: "string",
+		description: "Additional CSS classes for the list wrapper.",
 	},
 ]
 
@@ -118,6 +147,24 @@ const examples = [
 <Property label="Notes">
   <span className="text-fg-subtle italic">Aucune note</span>
 </Property>`,
+	},
+	{
+		key: "list-horizontal",
+		code: `<Property.List direction="horizontal">
+  <Property direction="horizontal" label="Type">Fidélité</Property>
+  <Property direction="horizontal" label="Origine">Interne</Property>
+  <Property direction="horizontal" label="Mode">Par unité</Property>
+  <Property direction="horizontal" label="Magasins">Tous</Property>
+</Property.List>`,
+	},
+	{
+		key: "list-vertical",
+		code: `<Property.List direction="vertical">
+  <Property direction="horizontal" label="Entreprise">Acme Corp</Property>
+  <Property direction="horizontal" label="Secteur">Technologie</Property>
+  <Property direction="horizontal" label="Taille">250 employés</Property>
+  <Property direction="horizontal" label="Localisation">Paris, France</Property>
+</Property.List>`,
 	},
 	{
 		key: "section-basic",
@@ -260,11 +307,57 @@ export default function PropertyPage() {
 				</DocExampleClient>
 			</DocSection>
 
+			<DocSection id="list" title="List">
+				<DocExampleClient
+					title="Horizontal List"
+					description="Use Property.List with direction='horizontal' for compact metadata bars. Pair with Property direction='horizontal' for inline label-value pairs."
+					code={examples[5].code}
+					highlightedCode={html("list-horizontal")}
+				>
+					<Property.List direction="horizontal">
+						<Property direction="horizontal" label="Type">
+							Fidélité
+						</Property>
+						<Property direction="horizontal" label="Origine">
+							Interne
+						</Property>
+						<Property direction="horizontal" label="Mode">
+							Par unité
+						</Property>
+						<Property direction="horizontal" label="Magasins">
+							Tous
+						</Property>
+					</Property.List>
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Vertical List"
+					description="Stack properties vertically on a 2-column grid. Labels and values align automatically."
+					code={examples[6].code}
+					highlightedCode={html("list-vertical")}
+				>
+					<Property.List direction="vertical">
+						<Property direction="horizontal" label="Entreprise">
+							Acme Corp
+						</Property>
+						<Property direction="horizontal" label="Secteur">
+							Technologie
+						</Property>
+						<Property direction="horizontal" label="Taille">
+							250 employés
+						</Property>
+						<Property direction="horizontal" label="Localisation">
+							Paris, France
+						</Property>
+					</Property.List>
+				</DocExampleClient>
+			</DocSection>
+
 			<DocSection id="sections" title="Sections">
 				<DocExampleClient
 					title="Basic Section"
 					description="Group related properties under a titled section with a separator."
-					code={examples[5].code}
+					code={examples[7].code}
 					highlightedCode={html("section-basic")}
 				>
 					<Property.Section title="Informations générales">
@@ -282,7 +375,7 @@ export default function PropertyPage() {
 				<DocExampleClient
 					title="Multiple Sections"
 					description="Stack sections to organize a detail page into logical groups."
-					code={examples[6].code}
+					code={examples[8].code}
 					highlightedCode={html("section-multiple")}
 				>
 					<div className="flex flex-col gap-8">
@@ -310,6 +403,7 @@ export default function PropertyPage() {
 				<DocPropsTable
 					groups={[
 						{ title: "Property", props: propertyProps },
+						{ title: "Property.List", props: listProps },
 						{ title: "Property.Section", props: sectionProps },
 					]}
 				/>

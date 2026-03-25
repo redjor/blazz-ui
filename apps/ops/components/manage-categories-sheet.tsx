@@ -172,7 +172,7 @@ export function CategoryBadge({
 	const dotColor = DOT_COLOR_MAP[color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
 
 	return (
-		<span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-1.5 py-0.5 text-[11px] font-medium text-fg-muted">
+		<span className="inline-flex items-center gap-1.5 rounded-full bg-card px-1.5 py-0.5 text-[11px] font-medium text-fg-muted">
 			{Icon ? (
 				<Icon className={`size-3 shrink-0 ${iconColor}`} />
 			) : (

@@ -57,7 +57,7 @@ export function CellAvatarGroup({ items, max = 4, size = "sm" }: CellAvatarGroup
 						<Avatar
 							className={cn(
 								sizeClasses[size],
-								"ring-2 ring-surface",
+								"ring-2 ring-card",
 								index > 0 && overlapClasses[size]
 							)}
 						>
@@ -74,8 +74,8 @@ export function CellAvatarGroup({ items, max = 4, size = "sm" }: CellAvatarGroup
 			{overflow > 0 && (
 				<span
 					className={cn(
-						"inline-flex items-center justify-center rounded-full ring-2 ring-surface",
-						"bg-surface-3 text-fg-muted font-medium",
+						"inline-flex items-center justify-center rounded-full ring-2 ring-card",
+						"bg-muted text-fg-muted font-medium",
 						sizeClasses[size],
 						overlapClasses[size]
 					)}

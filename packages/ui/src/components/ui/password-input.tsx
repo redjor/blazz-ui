@@ -19,8 +19,8 @@ function PasswordInput({ className, showToggle = true, ...props }: PasswordInput
 				data-slot="password-input"
 				className={cn(
 					"w-full min-w-0 outline-none",
-					"bg-surface",
-					"hover:bg-surface-3",
+					"bg-card",
+					"hover:bg-muted",
 					"border border-edge",
 					"hover:border-edge",
 					"focus:border-brand",

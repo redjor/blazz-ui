@@ -57,7 +57,7 @@ export function Pricing() {
 	return (
 		<section id="pricing" className="py-4 px-6">
 			<div className="mx-auto max-w-6xl">
-				<div className="rounded-xl border border-container bg-surface px-8 py-12 sm:px-12">
+				<div className="rounded-xl border border-container bg-card px-8 py-12 sm:px-12">
 					<motion.div
 						initial={{ opacity: 0, y: 12 }}
 						whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ export function Pricing() {
 								className={`relative rounded-lg border p-6 flex flex-col ${
 									tier.highlighted
 										? "border-brand bg-brand/[0.03]"
-										: "border-edge/40 bg-surface-3/30"
+										: "border-edge/40 bg-muted/30"
 								}`}
 							>
 								{tier.highlighted && (

@@ -104,7 +104,7 @@ function SettingsSection({
 				<h2 className="text-sm font-semibold text-fg">{title}</h2>
 				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
-			<ItemGroup className="gap-0 rounded-lg border border-container bg-surface [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
+			<ItemGroup className="gap-0 rounded-lg border border-container bg-card [&>[data-slot=item]]:rounded-none [&>:first-child[data-slot=item]]:rounded-t-lg [&>:last-child[data-slot=item]]:rounded-b-lg">
 				{interleaveWithSeparators(children)}
 			</ItemGroup>
 		</section>

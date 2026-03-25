@@ -109,7 +109,7 @@ function TreeNodeItem({
 			<div
 				className={cn(
 					"flex items-center gap-1 rounded-md px-1.5 py-1 cursor-pointer",
-					"transition-colors hover:bg-surface-3",
+					"transition-colors hover:bg-muted",
 					"outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
 					isSelected && "bg-brand/10 text-brand"
 				)}

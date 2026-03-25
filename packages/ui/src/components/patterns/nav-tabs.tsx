@@ -58,8 +58,8 @@ export function NavTabs({ tabs, basePath = "", className }: NavTabsProps) {
 						className={cn(
 							"inline-flex h-7 shrink-0 items-center whitespace-nowrap rounded-md px-2.5 text-xs font-medium transition-colors",
 							active
-								? "bg-surface-3 text-fg"
-								: "text-fg-muted hover:bg-surface-3/50 hover:text-fg",
+								? "bg-muted text-fg"
+								: "text-fg-muted hover:bg-muted/50 hover:text-fg",
 						)}
 					>
 						{tab.label}

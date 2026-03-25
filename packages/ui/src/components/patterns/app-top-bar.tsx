@@ -104,11 +104,11 @@ export function AppTopBar({
 				<button
 					type="button"
 					onClick={onOpenCommandPalette}
-					className="mx-4 flex min-w-lg max-w-md flex-1 items-center gap-2 rounded-lg border border-edge-subtle bg-surface px-3 py-1.5 transition-colors hover:border-edge hover:bg-surface-3"
+					className="mx-4 flex min-w-lg max-w-md flex-1 items-center gap-2 rounded-lg border border-edge-subtle bg-card px-3 py-1.5 transition-colors hover:border-edge hover:bg-muted"
 				>
 					<Search className="h-4 w-4 text-fg-subtle" />
 					<span className="text-sm text-fg-muted">Search...</span>
-					<kbd className="ml-auto hidden rounded border border-edge-subtle bg-surface-3 px-1.5 py-0.5 text-xs text-fg-muted md:inline-flex">
+					<kbd className="ml-auto hidden rounded border border-edge-subtle bg-muted px-1.5 py-0.5 text-xs text-fg-muted md:inline-flex">
 						⌘K
 					</kbd>
 				</button>

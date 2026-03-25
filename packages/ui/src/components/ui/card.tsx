@@ -13,7 +13,7 @@ function Card({
 			data-slot="card"
 			data-size={size}
 			className={cn(
-				"bg-surface text-fg",
+				"bg-card text-fg",
 				elevated ? "shadow-card-elevated" : "shadow-card",
 				"rounded-lg",
 				"overflow-hidden",
@@ -96,7 +96,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="card-footer"
 			className={cn(
-				"bg-surface-3 rounded-b-lg border-t border-separator",
+				"bg-muted rounded-b-lg border-t border-separator",
 				"p-inset group-data-[size=sm]/card:p-3",
 				"flex items-center",
 				className

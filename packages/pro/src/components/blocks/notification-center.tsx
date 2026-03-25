@@ -74,7 +74,7 @@ export function NotificationTrigger({ unreadCount = 0, className }: Notification
 	return (
 		<button
 			type="button"
-			className={cn("relative rounded-lg p-2 transition-colors hover:bg-surface-3", className)}
+			className={cn("relative rounded-lg p-2 transition-colors hover:bg-muted", className)}
 			aria-label="Notifications"
 		>
 			<Bell
@@ -251,7 +251,7 @@ export function NotificationItem({ notification, onClick, className }: Notificat
 				"group relative flex gap-3 px-4 py-3 transition-colors",
 				onClick && "cursor-pointer",
 				isUnread && "bg-white/[0.02]",
-				"hover:bg-surface-3",
+				"hover:bg-muted",
 				className
 			)}
 		>

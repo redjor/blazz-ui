@@ -979,7 +979,7 @@ function LinesSection({
 			<div className="border border-edge rounded-lg overflow-hidden">
 				<table className="w-full text-[13px]">
 					<thead>
-						<tr className="bg-raised">
+						<tr className="bg-muted">
 							<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs w-[40%]">
 								Libellé
 							</th>

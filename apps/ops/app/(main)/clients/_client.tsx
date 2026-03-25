@@ -25,7 +25,7 @@ const typeLabels = {
 function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null }) {
 	const initials = name.slice(0, 2).toUpperCase()
 	return (
-		<div className="size-8 rounded border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
+		<div className="size-8 rounded border border-edge bg-card flex items-center justify-center overflow-hidden shrink-0">
 			{logoUrl ? (
 				<Image
 					src={logoUrl}
@@ -129,7 +129,7 @@ export default function ClientsPageClient() {
 						<Link
 							key={client._id}
 							href={`/clients/${client._id}`}
-							className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-transparent hover:border-edge hover:bg-surface-3 transition-colors"
+							className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-transparent hover:border-edge hover:bg-muted transition-colors"
 						>
 							<ClientAvatar name={client.name} logoUrl={client.logoUrl} />
 							<div className="flex-1 min-w-0">

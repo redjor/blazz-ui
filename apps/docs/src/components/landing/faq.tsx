@@ -40,7 +40,7 @@ export function Faq() {
 	return (
 		<section id="faq" className="py-4 px-6">
 			<div className="mx-auto max-w-6xl">
-				<div className="rounded-xl border border-container bg-surface px-8 py-12 sm:px-12">
+				<div className="rounded-xl border border-container bg-card px-8 py-12 sm:px-12">
 					<motion.div
 						initial={{ opacity: 0, y: 12 }}
 						whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +62,7 @@ export function Faq() {
 								whileInView={{ opacity: 1, y: 0 }}
 								viewport={{ once: true }}
 								transition={{ duration: 0.2, delay: i * 0.03 }}
-								className="group rounded-lg border border-edge/40 bg-surface-3/30"
+								className="group rounded-lg border border-edge/40 bg-muted/30"
 							>
 								<summary className="flex items-center justify-between cursor-pointer px-4 py-3 text-[13px] font-medium text-fg list-none [&::-webkit-details-marker]:hidden">
 									{faq.question}

@@ -41,7 +41,7 @@ function StatCard({ stat }: { stat: StatItem }) {
 						<p className="text-2xl font-semibold tracking-tight">{stat.value}</p>
 					</div>
 					{Icon && (
-						<div className="rounded-md bg-surface-3 p-2">
+						<div className="rounded-md bg-muted p-2">
 							<Icon className="size-4 text-fg-muted" />
 						</div>
 					)}

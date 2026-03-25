@@ -176,7 +176,7 @@ export function TimeListView({
 							{tags.map((tag) => (
 								<span
 									key={tag}
-									className="inline-block rounded-full bg-surface-3 px-1.5 py-0 text-[11px] text-fg-muted"
+									className="inline-block rounded-full bg-muted px-1.5 py-0 text-[11px] text-fg-muted"
 								>
 									{tag}
 								</span>
@@ -513,7 +513,7 @@ export function TimeListView({
 									</span>
 								</div>
 								<div className="flex shrink-0 items-center gap-3">
-									<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
+									<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
 										{projectMap.get(entry.projectId) ?? "—"}
 									</span>
 								</div>

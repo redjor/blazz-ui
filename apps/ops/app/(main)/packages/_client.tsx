@@ -32,13 +32,13 @@ export default function PackagesPageClient() {
 		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title="Packages"
-				description="Suivi des packages npm publiés"
 				actions={
 					<Button variant="outline" size="sm" onClick={handleSync} disabled={syncing}>
 						<RefreshCw className={syncing ? "animate-spin" : ""} />
 						Refresh
 					</Button>
 				}
+				bottom={<p className="text-sm text-fg-muted">Suivi des packages npm publiés</p>}
 			/>
 
 			{packages === undefined ? (
@@ -65,7 +65,7 @@ export default function PackagesPageClient() {
 						<BlockStack
 							key={pkg._id}
 							gap="300"
-							className="rounded-lg border border-edge bg-surface-3 p-5"
+							className="rounded-lg border border-edge bg-muted p-5"
 						>
 							<InlineStack gap="200" align="space-between" blockAlign="start">
 								<div className="min-w-0">

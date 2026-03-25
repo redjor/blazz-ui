@@ -604,7 +604,7 @@ export default function DataTableIndexPage() {
 								className="group rounded-lg border border-separator p-4 hover:border-brand/50 transition-colors"
 							>
 								<div className="flex items-start gap-3">
-									<div className="rounded-md bg-surface-3 p-2 shrink-0">
+									<div className="rounded-md bg-muted p-2 shrink-0">
 										<Icon className="size-4 text-fg-muted group-hover:text-brand transition-colors" />
 									</div>
 									<div className="min-w-0">

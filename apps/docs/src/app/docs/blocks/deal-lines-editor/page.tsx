@@ -219,7 +219,7 @@ const toc = [
 function DealLinesHeroDemo() {
 	const [lines, setLines] = useState<DealLine[]>(sampleLines)
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<DealLinesEditor lines={lines} onChange={setLines} />
 		</div>
 	)
@@ -228,7 +228,7 @@ function DealLinesHeroDemo() {
 function BasicDemo() {
 	const [lines, setLines] = useState<DealLine[]>(sampleLines)
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<DealLinesEditor lines={lines} onChange={setLines} />
 		</div>
 	)
@@ -237,7 +237,7 @@ function BasicDemo() {
 function UsdDemo() {
 	const [lines, setLines] = useState<DealLine[]>(usdLines)
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<DealLinesEditor lines={lines} onChange={setLines} currency="USD" />
 		</div>
 	)
@@ -279,7 +279,7 @@ export default function DealLinesEditorPage() {
 					code={examples[1].code}
 					highlightedCode={html("readonly")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<DealLinesEditor lines={readOnlyLines} onChange={() => {}} readOnly />
 					</div>
 				</DocExampleClient>

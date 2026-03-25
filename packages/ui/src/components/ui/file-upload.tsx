@@ -97,9 +97,9 @@ function FileUpload({
 				onDrop={handleDrop}
 				className={cn(
 					"flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-6",
-					"border-edge bg-surface text-center",
+					"border-edge bg-card text-center",
 					"transition-colors duration-150 cursor-pointer",
-					"hover:bg-surface-3 hover:border-fg-muted",
+					"hover:bg-muted hover:border-fg-muted",
 					"focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-brand/20 focus-visible:border-brand",
 					isDragging && "border-brand bg-brand/5",
 					disabled && "opacity-50 pointer-events-none cursor-not-allowed"
@@ -126,7 +126,7 @@ function FileUpload({
 					{value.map((file, i) => (
 						<li
 							key={`${file.name}-${i}`}
-							className="flex items-center gap-2 rounded-md border border-edge bg-surface px-2.5 py-1.5 text-sm"
+							className="flex items-center gap-2 rounded-md border border-edge bg-card px-2.5 py-1.5 text-sm"
 						>
 							<FileIcon className="size-4 shrink-0 text-fg-muted" />
 							<span className="truncate flex-1 text-fg">{file.name}</span>

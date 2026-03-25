@@ -32,7 +32,7 @@ export function SidebarSearch({
 				placeholder={placeholder}
 				value={query}
 				onChange={handleChange}
-				className="h-9 pl-8 bg-surface"
+				className="h-9 pl-8 bg-card"
 			/>
 		</div>
 	)

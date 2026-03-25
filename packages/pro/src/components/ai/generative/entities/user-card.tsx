@@ -41,8 +41,8 @@ function UserCardBase({ name, avatar, role, department, status, href, className 
 		<Wrapper
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
-				"flex items-center gap-3 rounded-lg border border-container bg-surface p-3",
-				href && "transition-colors hover:bg-surface-3 cursor-pointer",
+				"flex items-center gap-3 rounded-lg border border-container bg-card p-3",
+				href && "transition-colors hover:bg-muted cursor-pointer",
 				className
 			)}
 		>

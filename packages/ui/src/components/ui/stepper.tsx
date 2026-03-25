@@ -168,8 +168,8 @@ function StepperDefault({
 										"flex shrink-0 items-center justify-center rounded-full text-xs font-medium transition-colors",
 										"size-7",
 										status === "completed" && "bg-brand text-brand-fg",
-										status === "active" && "border-2 border-brand text-brand bg-surface",
-										status === "pending" && "border border-edge text-fg-muted bg-surface"
+										status === "active" && "border-2 border-brand text-brand bg-card",
+										status === "pending" && "border border-edge text-fg-muted bg-card"
 									)}
 								>
 									{status === "completed" ? (

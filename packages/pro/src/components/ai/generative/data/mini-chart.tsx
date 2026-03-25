@@ -22,7 +22,7 @@ function MiniChartBase({
 	const chartData = data.map((v, i) => ({ i, v }))
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-baseline justify-between">
 				<span className="text-xs text-fg-muted">{label}</span>
 				{value && <span className="text-lg font-semibold text-fg">{value}</span>}

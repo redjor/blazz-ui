@@ -10,11 +10,10 @@ interface ColorToken {
 }
 
 const surfaces: ColorToken[] = [
-	{ name: "Nav Shell", cssVar: "--surface-0", utility: "bg-surface-0" },
-	{ name: "Main Area", cssVar: "--surface-1", utility: "bg-surface-1" },
-	{ name: "Card", cssVar: "--surface-2", utility: "bg-surface-2" },
-	{ name: "Inset", cssVar: "--surface-3", utility: "bg-surface-3" },
-	{ name: "Overlay", cssVar: "--surface-4", utility: "bg-surface-4" },
+	{ name: "Page", cssVar: "--background", utility: "bg-background" },
+	{ name: "Card", cssVar: "--card", utility: "bg-card" },
+	{ name: "Muted / Hover", cssVar: "--muted", utility: "bg-muted" },
+	{ name: "Popover", cssVar: "--popover", utility: "bg-popover" },
 ]
 
 const text: ColorToken[] = [
@@ -113,27 +112,17 @@ function SurfaceStack() {
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Surface Hierarchy</h2>
 				<p className="text-sm text-fg-muted">
-					5 levels of visual importance. Lower = more recessive (navigation), higher = more
-					prominent (content).
+					4 semantic surface levels for visual depth and separation.
 				</p>
 			</div>
-			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--surface-0)" }}>
-				<p className="text-xs font-mono text-fg-subtle mb-3">surface-0 — nav shell</p>
-				<div className="rounded-lg p-5" style={{ backgroundColor: "var(--surface-1)" }}>
-					<p className="text-xs font-mono text-fg-subtle mb-3">surface-1 — main area</p>
-					<div
-						className="rounded-lg p-5 border border-edge"
-						style={{ backgroundColor: "var(--surface-2)" }}
-					>
-						<p className="text-xs font-mono text-fg-subtle mb-3">surface-2 — card</p>
-						<div className="rounded-md p-4" style={{ backgroundColor: "var(--surface-3)" }}>
-							<p className="text-xs font-mono text-fg-subtle mb-3">surface-3 — inset</p>
-							<div
-								className="rounded-md p-3 border border-edge"
-								style={{ backgroundColor: "var(--surface-4)" }}
-							>
-								<p className="text-xs font-mono text-fg-subtle">surface-4 — overlay</p>
-							</div>
+			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--background)" }}>
+				<p className="text-xs font-mono text-fg-subtle mb-3">background — page</p>
+				<div className="rounded-lg border border-edge p-5" style={{ backgroundColor: "var(--card)" }}>
+					<p className="text-xs font-mono text-fg-subtle mb-3">card — containers</p>
+					<div className="rounded-md p-4" style={{ backgroundColor: "var(--muted)" }}>
+						<p className="text-xs font-mono text-fg-subtle mb-3">muted — hover / inset</p>
+						<div className="rounded p-3 shadow-md" style={{ backgroundColor: "var(--popover)" }}>
+							<p className="text-xs font-mono text-fg-subtle">popover — overlay</p>
 						</div>
 					</div>
 				</div>
@@ -151,7 +140,7 @@ function TextPreview() {
 					Three levels of text emphasis for content hierarchy.
 				</p>
 			</div>
-			<div className="space-y-3 rounded-lg border border-edge bg-surface-3 p-6">
+			<div className="space-y-3 rounded-lg border border-edge bg-muted p-6">
 				<p className="text-base text-fg font-medium">
 					Primary text — headings, labels, key content
 				</p>
@@ -251,7 +240,7 @@ export default function ColorsPage() {
 					<div className="overflow-x-auto rounded-lg border border-edge">
 						<table className="w-full text-sm">
 							<thead>
-								<tr className="border-b border-edge bg-surface-3">
+								<tr className="border-b border-edge bg-muted">
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">Token</th>
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">CSS Variable</th>
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">Tailwind</th>
@@ -279,48 +268,45 @@ export default function ColorsPage() {
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold text-fg">Theming</h2>
 					<p className="text-sm text-fg-muted">
-						The surface scale is generated from just 2 values per theme using{" "}
-						<code className="font-mono text-fg-subtle">color-mix(in oklch)</code>. To create a
-						custom theme, override <code className="font-mono text-fg-subtle">--surface-base</code>{" "}
-						(most recessive) and <code className="font-mono text-fg-subtle">--surface-top</code>{" "}
-						(most prominent). The 3 intermediate levels are computed automatically.
+						Each surface token is independent, so you can fine-tune hover contrast and elevation
+						separately. To create a custom theme, override the semantic tokens directly.
 					</p>
-					<div className="rounded-lg border border-edge bg-surface-3 p-6 space-y-4">
+					<div className="rounded-lg border border-edge bg-muted p-6 space-y-4">
 						<p className="text-xs font-mono text-fg-subtle">
-							{"/* Custom theme — 2 values only */"}
+							{"/* Custom theme — semantic tokens */"}
 						</p>
 						<pre className="text-sm font-mono text-fg whitespace-pre overflow-x-auto">
-							{`html[data-theme="ocean"] {
-  --surface-base: oklch(0.93 0.02 230);
-  --surface-top:  oklch(0.99 0.01 230);
+							{`:root {
+  --background: oklch(0.93 0.02 230);
+  --card: oklch(1 0.01 230);
+  --muted: oklch(0.96 0.015 230);
+  --popover: oklch(1 0.01 230);
 }
-
-html[data-theme="ocean"].dark {
-  --surface-base: oklch(0.14 0.02 230);
-  --surface-top:  oklch(0.28 0.02 230);
+html.dark {
+  --background: oklch(0.14 0.02 230);
+  --card: oklch(0.21 0.02 230);
+  --muted: oklch(0.25 0.02 230);
+  --popover: oklch(0.28 0.02 230);
 }`}
 						</pre>
 					</div>
 					<div className="rounded-lg border border-edge overflow-hidden">
 						<table className="w-full text-sm">
 							<thead>
-								<tr className="border-b border-edge bg-surface-3">
-									<th className="px-4 py-2 text-left font-medium text-fg-muted">Level</th>
-									<th className="px-4 py-2 text-left font-medium text-fg-muted">Mix</th>
+								<tr className="border-b border-edge bg-muted">
+									<th className="px-4 py-2 text-left font-medium text-fg-muted">Token</th>
 									<th className="px-4 py-2 text-left font-medium text-fg-muted">Role</th>
 								</tr>
 							</thead>
 							<tbody>
 								{[
-									{ level: "surface-0", mix: "base (100%)", role: "Sidebar, topbar" },
-									{ level: "surface-1", mix: "75% base / 25% top", role: "Main area background" },
-									{ level: "surface-2", mix: "50% / 50%", role: "Card, section, panel" },
-									{ level: "surface-3", mix: "25% base / 75% top", role: "Nested element, table" },
-									{ level: "surface-4", mix: "top (100%)", role: "Overlay, deep nesting" },
+									{ level: "background", role: "Page, sidebar, topbar" },
+									{ level: "card", role: "Card, input, section panel" },
+									{ level: "muted", role: "Hover, muted area, skeleton" },
+									{ level: "popover", role: "Dialog, dropdown, tooltip" },
 								].map((row) => (
 									<tr key={row.level} className="border-b border-edge-subtle">
 										<td className="px-4 py-2 font-mono text-fg">{row.level}</td>
-										<td className="px-4 py-2 font-mono text-fg-subtle">{row.mix}</td>
 										<td className="px-4 py-2 text-fg-muted">{row.role}</td>
 									</tr>
 								))}

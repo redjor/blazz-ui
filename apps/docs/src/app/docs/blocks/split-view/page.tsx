@@ -226,7 +226,7 @@ export default function SplitViewPage() {
 			{/* Hero */}
 			<DocHero>
 				<div
-					className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
+					className="w-full max-w-3xl rounded-lg border border-edge bg-card overflow-hidden"
 					style={{ height: 400 }}
 				>
 					<HeroDemo />
@@ -341,7 +341,7 @@ function ContactListItem({
 			type="button"
 			onClick={onClick}
 			className={`w-full px-4 py-3 text-left transition-colors border-b border-edge last:border-0 ${
-				selected ? "bg-surface-3" : "hover:bg-surface-3/50"
+				selected ? "bg-muted" : "hover:bg-muted/50"
 			}`}
 		>
 			<p className="text-sm font-medium text-fg">{contact.name}</p>

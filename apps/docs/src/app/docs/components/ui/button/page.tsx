@@ -58,7 +58,7 @@ const examples = [
 	},
 	{
 		key: "on-dark",
-		code: `<div className="bg-surface-0 rounded-lg p-4">
+		code: `<div className="bg-background rounded-lg p-4">
   <Button variant="default">Default</Button>
   <Button variant="outline">Outline</Button>
 </div>`,
@@ -214,7 +214,7 @@ export default function ButtonPage() {
 					code={examples[5].code}
 					highlightedCode={html("on-dark")}
 				>
-					<div className="flex flex-wrap items-center gap-2 rounded-lg bg-surface-0 p-4">
+					<div className="flex flex-wrap items-center gap-2 rounded-lg bg-background p-4">
 						<Button variant="default">Default</Button>
 						<Button variant="outline">Outline</Button>
 						<Button variant="secondary">Secondary</Button>

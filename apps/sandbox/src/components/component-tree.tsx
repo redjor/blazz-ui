@@ -41,7 +41,7 @@ export function ComponentTree() {
 	}
 
 	return (
-		<aside className="w-60 h-screen bg-surface border-r border-edge flex flex-col shrink-0">
+		<aside className="w-60 h-screen bg-card border-r border-edge flex flex-col shrink-0">
 			{/* Search */}
 			<div className="p-3">
 				<div className="relative">
@@ -141,7 +141,7 @@ function ComponentLink({ entry, active }: { entry: ComponentEntry; active: boole
 			to="/$category/$component"
 			params={{ category: entry.category, component: entry.slug }}
 			className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md cursor-pointer transition-colors ${
-				active ? "bg-brand/10 text-brand" : "text-fg hover:bg-raised"
+				active ? "bg-brand/10 text-brand" : "text-fg hover:bg-muted"
 			}`}
 		>
 			{entry.name}

@@ -35,7 +35,7 @@ export function ComponentsSidebar() {
 	}
 
 	return (
-		<aside className="hidden h-full w-64 shrink-0 border-r bg-surface lg:block">
+		<aside className="hidden h-full w-64 shrink-0 border-r bg-card lg:block">
 			<ScrollArea className="h-full py-6">
 				<div className="px-4 pb-4">
 					<Link
@@ -85,7 +85,7 @@ function CategoryItem({
 				type="button"
 				onClick={onToggle}
 				className={cn(
-					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-surface-3",
+					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted",
 					hasActiveItem ? "text-fg" : "text-fg-muted"
 				)}
 			>
@@ -105,9 +105,9 @@ function CategoryItem({
 							key={item.href}
 							href={item.href}
 							className={cn(
-								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-3",
+								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted",
 								isItemActive(item.href)
-									? "bg-surface-3 font-medium text-fg"
+									? "bg-muted font-medium text-fg"
 									: "text-fg-muted hover:text-fg"
 							)}
 						>
@@ -157,7 +157,7 @@ export function ComponentsSidebarMobile() {
 			<button
 				type="button"
 				onClick={() => setOpen(!open)}
-				className="flex w-full items-center justify-between rounded-lg border bg-surface px-4 py-2 text-sm font-medium"
+				className="flex w-full items-center justify-between rounded-lg border bg-card px-4 py-2 text-sm font-medium"
 			>
 				<span>{currentComponent?.title || "Components"}</span>
 				<ChevronRight
@@ -165,14 +165,14 @@ export function ComponentsSidebarMobile() {
 				/>
 			</button>
 			{open && (
-				<div className="mt-2 rounded-lg border bg-surface p-2">
+				<div className="mt-2 rounded-lg border bg-card p-2">
 					<nav className="space-y-1">
 						{componentsNavigation.map((category) => (
 							<div key={category.id}>
 								<button
 									type="button"
 									onClick={() => toggleCategory(category.id)}
-									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-fg-muted hover:bg-surface-3 hover:text-fg"
+									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-fg-muted hover:bg-muted hover:text-fg"
 								>
 									<ChevronRight
 										className={cn(
@@ -191,9 +191,9 @@ export function ComponentsSidebarMobile() {
 												href={item.href}
 												onClick={() => setOpen(false)}
 												className={cn(
-													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-3",
+													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted",
 													isItemActive(item.href)
-														? "bg-surface-3 font-medium text-fg"
+														? "bg-muted font-medium text-fg"
 														: "text-fg-muted hover:text-fg"
 												)}
 											>

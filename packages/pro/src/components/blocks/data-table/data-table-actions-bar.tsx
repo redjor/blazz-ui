@@ -403,8 +403,8 @@ export function DataTableActionsBar({
 											className={cn(
 												"inline-flex h-7 shrink-0 items-center whitespace-nowrap rounded-md px-2.5 text-xs font-medium transition-colors",
 												isActive
-													? "bg-surface-3 text-fg"
-													: "text-fg-muted hover:bg-surface-3/50 hover:text-fg"
+													? "bg-muted text-fg"
+													: "text-fg-muted hover:bg-muted/50 hover:text-fg"
 											)}
 										>
 											{view.name}
@@ -432,7 +432,7 @@ export function DataTableActionsBar({
 												<DropdownMenuItem
 													key={view.id}
 													onClick={() => onViewChange?.(view)}
-													className={cn(activeView?.id === view.id && "bg-surface-3 text-fg")}
+													className={cn(activeView?.id === view.id && "bg-muted text-fg")}
 												>
 													{view.name}
 												</DropdownMenuItem>
@@ -471,7 +471,7 @@ export function DataTableActionsBar({
 							variant="secondary"
 							size="icon-sm"
 							onClick={() => onSearchOpenChange(!searchOpen)}
-							className={cn("h-7 w-7", searchOpen && "bg-surface-3 text-fg")}
+							className={cn("h-7 w-7", searchOpen && "bg-muted text-fg")}
 							aria-label="Toggle search"
 							aria-expanded={searchOpen}
 						>
@@ -487,7 +487,7 @@ export function DataTableActionsBar({
 										size="icon-sm"
 										className={cn(
 											"relative h-7 w-7",
-											(showInlineFilters || filterCount > 0) && "bg-surface-3 text-fg"
+											(showInlineFilters || filterCount > 0) && "bg-muted text-fg"
 										)}
 										aria-label="Filter options"
 									>
@@ -861,8 +861,8 @@ export function DataTableActionsBar({
 												className={cn(
 													"relative inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md px-3 text-xs font-medium transition-colors",
 													isActive
-														? "bg-surface-3 text-fg"
-														: "text-fg-muted hover:bg-surface-3/50 hover:text-fg"
+														? "bg-muted text-fg"
+														: "text-fg-muted hover:bg-muted/50 hover:text-fg"
 												)}
 											>
 												<span>{view.name}</span>
@@ -875,7 +875,7 @@ export function DataTableActionsBar({
 														render={
 															<button
 																type="button"
-																className="inline-flex opacity-0 group-hover:opacity-100 data-[popup-open]:opacity-100 focus:opacity-100 h-8 w-6 items-center justify-center rounded-md text-fg-muted hover:bg-surface-3/50 hover:text-fg transition-opacity"
+																className="inline-flex opacity-0 group-hover:opacity-100 data-[popup-open]:opacity-100 focus:opacity-100 h-8 w-6 items-center justify-center rounded-md text-fg-muted hover:bg-muted/50 hover:text-fg transition-opacity"
 																aria-label="View options"
 															>
 																<MoreVertical className="h-3.5 w-3.5" />
@@ -916,7 +916,7 @@ export function DataTableActionsBar({
 												<DropdownMenuItem
 													key={view.id}
 													onClick={() => onViewChange?.(view)}
-													className={cn(activeView?.id === view.id && "bg-surface-3 text-fg")}
+													className={cn(activeView?.id === view.id && "bg-muted text-fg")}
 												>
 													{view.name}
 												</DropdownMenuItem>
@@ -973,7 +973,7 @@ export function DataTableActionsBar({
 								variant="outline"
 								size="icon-sm"
 								onClick={() => onSearchOpenChange(!searchOpen)}
-								className={cn("h-8 w-8", searchOpen && "bg-surface-3 text-fg")}
+								className={cn("h-8 w-8", searchOpen && "bg-muted text-fg")}
 								aria-label="Toggle search"
 								aria-expanded={searchOpen}
 							>
@@ -985,7 +985,7 @@ export function DataTableActionsBar({
 								variant="outline"
 								size="icon-sm"
 								onClick={onToggleInlineFilters || onOpenFilterBuilder}
-								className={cn("relative h-8 w-8", showInlineFilters && "bg-surface-3 text-fg")}
+								className={cn("relative h-8 w-8", showInlineFilters && "bg-muted text-fg")}
 								aria-label="Toggle filters"
 								aria-expanded={showInlineFilters}
 							>
@@ -1015,7 +1015,7 @@ export function DataTableActionsBar({
 					{/* Sort Icon */}
 					<Menu>
 						<MenuTrigger
-							className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-separator bg-surface text-sm font-medium transition-colors hover:bg-surface-3 hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-50"
+							className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-separator bg-card text-sm font-medium transition-colors hover:bg-muted hover:text-fg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand disabled:pointer-events-none disabled:opacity-50"
 							aria-label="Sort options"
 						>
 							<ArrowUpDown className="h-4 w-4" />

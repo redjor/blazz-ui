@@ -25,7 +25,7 @@ export default function CompositionPage() {
 					Le DataTable expose des <strong>render props</strong> pour remplacer le rendu par defaut
 					et des <strong>slots ReactNode</strong> pour ajouter du contenu sans rien remplacer.
 				</p>
-				<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
+				<div className="bg-muted rounded-lg p-4 text-sm font-mono space-y-1">
 					<p className="text-fg-muted">{"// Render props — remplacent le defaut"}</p>
 					<p>
 						renderGroupHeader, renderGroupHeaderContent, renderRowActions, renderPagination,
@@ -38,14 +38,14 @@ export default function CompositionPage() {
 
 			<DocSection id="toolbar-slots" title="Toolbar Slots">
 				<p className="text-fg-muted mb-4">Trois positions d'injection dans le toolbar :</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   toolbarLeadingSlot={<MyLogo />}       // Before view pills
   toolbarTrailingSlot={<ExportButton />} // After icon actions
   toolbarBelowSlot={<StatsStrip />}      // Between toolbar and table
 />`}
 				</pre>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto mt-4 text-fg-muted">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto mt-4 text-fg-muted">
 					{`┌──────────────────────────────────────────────────┐
 │ [leading] [view pills...] ← → [icons] [trailing] │ Row 1
 ├──────────────────────────────────────────────────┤
@@ -64,7 +64,7 @@ export default function CompositionPage() {
 				<p className="text-fg-muted mb-4">
 					Remplacement total du group header. Recoit la row et le contenu par defaut comme fallback.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`renderGroupHeader={(row, defaultContent) => (
   <div className="my-custom-wrapper">
     {defaultContent}  {/* Use the default as base */}
@@ -79,7 +79,7 @@ export default function CompositionPage() {
 					Remplace uniquement le contenu central (entre le chevron et les agregations). Le DataTable
 					gere toujours le chevron expand/collapse et la checkbox.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`renderGroupHeaderContent={({ row, groupValue, subRowCount, aggregations }) => (
   <span className="flex items-center gap-2">
     <StatusIcon status={groupValue} />
@@ -99,7 +99,7 @@ export default function CompositionPage() {
 				<p className="text-fg-muted mb-4">
 					Remplace le menu ... par un composant custom (boutons inline, switch, icones...).
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`renderRowActions={(row) => (
   <div className="flex items-center gap-1">
     <Button size="icon-sm" variant="ghost" onClick={() => edit(row.original)}>
@@ -121,7 +121,7 @@ export default function CompositionPage() {
 					Remplace la pagination par defaut. Recoit un objet simplifie (pas d'acces au table
 					TanStack).
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`renderPagination={({ page, pageCount, canNextPage, canPrevPage, onNextPage, onPrevPage }) => (
   <div className="flex items-center justify-center gap-2 py-2">
     <Button disabled={!canPrevPage} onClick={onPrevPage}>Prev</Button>
@@ -142,7 +142,7 @@ export default function CompositionPage() {
 				<p className="text-fg-muted mb-4">
 					ReactNode statique injecte apres la table et la pagination.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   footerSlot={
     <div className="p-3 text-sm text-fg-muted text-center border-t border-separator">

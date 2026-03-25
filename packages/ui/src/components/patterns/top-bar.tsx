@@ -54,7 +54,7 @@ export interface TopBarProps {
  */
 export function TopBar({ left, right, className, children }: TopBarProps) {
 	return (
-		<header className={cn("flex h-12 shrink-0 items-center gap-2 bg-surface px-4", className)}>
+		<header className={cn("flex h-12 shrink-0 items-center gap-2 bg-card px-4", className)}>
 			{children ? (
 				children
 			) : (

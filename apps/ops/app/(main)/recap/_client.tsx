@@ -417,7 +417,7 @@ export default function RecapPageClient() {
 
 	return (
 		<BlockStack gap="600" className="p-6">
-			<PageHeader title="Récapitulatif" description="Export et facturation par période" />
+			<PageHeader title="Récapitulatif" bottom={<p className="text-sm text-fg-muted">Export et facturation par période</p>} />
 
 			{/* Scope filters — compact inline bar, no labels */}
 			<InlineStack gap="200" blockAlign="center" wrap>

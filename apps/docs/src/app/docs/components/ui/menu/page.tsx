@@ -219,7 +219,7 @@ export default function MenuPage() {
 			<DocSection id="design-tokens" title="Design Tokens">
 				<p className="text-sm text-fg-muted">Menu uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-surface-3</code> - Menu background color</li>
+					<li><code className="text-xs">bg-muted</code> - Menu background color</li>
 					<li><code className="text-xs">text-fg</code> - Menu text color</li>
 					<li><code className="text-xs">bg-brand/10</code> - Highlighted item background</li>
 					<li><code className="text-xs">border</code> - Menu border color</li>
@@ -256,7 +256,7 @@ export default function MenuPage() {
 			<DocSection id="keyboard-shortcuts" title="Keyboard Shortcuts">
 				<div className="rounded-lg border">
 					<table className="w-full text-sm">
-						<thead className="border-b bg-surface-3/50">
+						<thead className="border-b bg-muted/50">
 							<tr>
 								<th className="p-3 text-left font-medium">Key</th>
 								<th className="p-3 text-left font-medium">Action</th>

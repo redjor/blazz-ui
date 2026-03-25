@@ -65,7 +65,7 @@ export default function LicensePage() {
 					{tiers.map((tier) => (
 						<div
 							key={tier.name}
-							className="rounded-xl border border-container bg-surface p-6 shadow-sm"
+							className="rounded-xl border border-container bg-card p-6 shadow-sm"
 						>
 							<div className="flex items-start justify-between gap-3">
 								<div>
@@ -82,7 +82,7 @@ export default function LicensePage() {
 				</section>
 
 				<section className="mx-auto mt-6 grid max-w-6xl gap-4 lg:grid-cols-2">
-					<div className="rounded-xl border border-container bg-surface p-6">
+					<div className="rounded-xl border border-container bg-card p-6">
 						<h2 className="text-lg font-semibold text-fg">What you can do</h2>
 						<ul className="mt-5 space-y-3">
 							{allowed.map((item) => (
@@ -97,7 +97,7 @@ export default function LicensePage() {
 						</ul>
 					</div>
 
-					<div className="rounded-xl border border-container bg-surface p-6">
+					<div className="rounded-xl border border-container bg-card p-6">
 						<h2 className="text-lg font-semibold text-fg">What you cannot do</h2>
 						<ul className="mt-5 space-y-3">
 							{restricted.map((item) => (
@@ -114,7 +114,7 @@ export default function LicensePage() {
 				</section>
 
 				<section className="mx-auto mt-6 grid max-w-6xl gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-					<div className="rounded-xl border border-container bg-surface p-6">
+					<div className="rounded-xl border border-container bg-card p-6">
 						<h2 className="text-lg font-semibold text-fg">Plain-English summary</h2>
 						<div className="mt-5 space-y-4 text-sm leading-relaxed text-fg-muted">
 							<p>Starter is free and MIT licensed. It covers the open source primitive layer.</p>
@@ -134,7 +134,7 @@ export default function LicensePage() {
 						</div>
 					</div>
 
-					<div className="rounded-xl border border-container bg-surface p-6">
+					<div className="rounded-xl border border-container bg-card p-6">
 						<h2 className="text-lg font-semibold text-fg">Common answers</h2>
 						<div className="mt-5 space-y-4 text-sm leading-relaxed text-fg-muted">
 							<div>
@@ -161,7 +161,7 @@ export default function LicensePage() {
 					</div>
 				</section>
 
-				<section className="mx-auto mt-6 max-w-6xl rounded-xl border border-container bg-surface p-6">
+				<section className="mx-auto mt-6 max-w-6xl rounded-xl border border-container bg-card p-6">
 					<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 						<div className="max-w-2xl">
 							<h2 className="text-lg font-semibold text-fg">Need custom terms?</h2>

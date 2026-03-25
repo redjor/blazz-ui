@@ -40,7 +40,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 						<button
 							type="button"
 							onClick={() => setMobileMenuOpen(true)}
-							className="inline-flex items-center justify-center rounded-md p-2 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors lg:hidden"
+							className="inline-flex items-center justify-center rounded-md p-2 text-fg-muted hover:text-fg hover:bg-muted transition-colors lg:hidden"
 							aria-label="Ouvrir le menu"
 						>
 							<Menu className="size-5" />
@@ -65,7 +65,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 						<button
 							type="button"
 							onClick={() => setCommandPaletteOpen(true)}
-							className="inline-flex items-center gap-2 rounded-md p-2 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors"
+							className="inline-flex items-center gap-2 rounded-md p-2 text-fg-muted hover:text-fg hover:bg-muted transition-colors"
 						>
 							<Search className="size-4" />
 							<KbdGroup className="hidden sm:inline-flex">
@@ -80,7 +80,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 
 			<SidebarProvider style={{ minHeight: 0 }} className="flex-1 gap-2 px-2 pb-2">
 				<DocsSidebar sectionId={activeSectionId} />
-				<main className="flex-1 overflow-y-auto min-w-0 bg-surface rounded-lg border border-container">
+				<main className="flex-1 overflow-y-auto min-w-0 bg-card rounded-lg border border-container">
 					{children}
 				</main>
 				<DocsMobileSheet

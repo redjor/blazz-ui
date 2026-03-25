@@ -21,7 +21,7 @@ export default function MobileLoginPageClient() {
 
 	if (!isLoading && isAuthenticated && token) {
 		return (
-			<BlockStack className="min-h-screen items-center justify-center bg-surface">
+			<BlockStack className="min-h-screen items-center justify-center bg-card">
 				<BlockStack gap="600" className="items-center">
 					<p className="text-fg text-lg font-medium">Connecté !</p>
 					<p className="text-fg-muted text-sm">Retour vers BlazzOS...</p>
@@ -37,7 +37,7 @@ export default function MobileLoginPageClient() {
 	}
 
 	return (
-		<BlockStack className="min-h-screen items-center justify-center bg-surface">
+		<BlockStack className="min-h-screen items-center justify-center bg-card">
 			<BlockStack gap="1000" className="items-center">
 				<BlockStack gap="200" className="items-center">
 					<p className="text-fg text-2xl font-bold">BlazzOS</p>

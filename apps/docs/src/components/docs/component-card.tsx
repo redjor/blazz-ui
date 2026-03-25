@@ -46,7 +46,7 @@ export function ComponentCard({
 		<Link href={href} className="group" aria-describedby={descId}>
 			<Card
 				className={cn(
-					"h-full transition-colors hover:bg-surface-3/50",
+					"h-full transition-colors hover:bg-muted/50",
 					"group-focus-visible:ring-2 group-focus-visible:ring-brand group-focus-visible:ring-offset-2",
 					thumbnail && "overflow-hidden",
 					className

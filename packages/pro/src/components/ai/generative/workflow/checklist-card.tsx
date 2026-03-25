@@ -29,7 +29,7 @@ function ChecklistCardBase({ title, items: initialItems, className }: ChecklistC
 	}
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			{title && (
 				<div className="flex items-center justify-between">
 					<span className="text-sm font-semibold text-fg">{title}</span>
@@ -39,7 +39,7 @@ function ChecklistCardBase({ title, items: initialItems, className }: ChecklistC
 				</div>
 			)}
 
-			<div className="mt-2 h-1.5 rounded-full bg-surface-3 overflow-hidden">
+			<div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
 				<div
 					className="h-full rounded-full bg-brand transition-all duration-300"
 					style={{ width: `${progress}%` }}
@@ -52,7 +52,7 @@ function ChecklistCardBase({ title, items: initialItems, className }: ChecklistC
 						key={i}
 						type="button"
 						onClick={() => toggle(i)}
-						className="flex w-full items-center gap-2.5 rounded-md px-1.5 py-1.5 text-left transition-colors hover:bg-surface-3"
+						className="flex w-full items-center gap-2.5 rounded-md px-1.5 py-1.5 text-left transition-colors hover:bg-muted"
 					>
 						{item.checked ? (
 							<CheckSquare className="size-4 shrink-0 text-brand" />

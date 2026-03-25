@@ -110,7 +110,7 @@ export default function ProjectContractsPage({
 						<button
 							type="button"
 							onClick={() => setContractOpen(true)}
-							className="flex h-full w-full items-center justify-center rounded-lg border border-dashed border-edge transition-colors hover:border-fg-muted hover:bg-surface cursor-pointer"
+							className="flex h-full w-full items-center justify-center rounded-lg border border-dashed border-edge transition-colors hover:border-fg-muted hover:bg-card cursor-pointer"
 						>
 							<Empty size="sm" className="py-6">
 								<EmptyIcon size="sm">

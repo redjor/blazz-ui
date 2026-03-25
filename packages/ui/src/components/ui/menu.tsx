@@ -162,7 +162,7 @@ const MenuPopup = React.forwardRef<
 	<MenuPrimitive.Popup
 		ref={ref}
 		className={cn(
-			"z-50 min-w-32 overflow-hidden rounded-md border bg-surface-4 p-1 text-fg shadow-md",
+			"z-50 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-fg shadow-md",
 			"origin-[var(--transform-origin)] transition-[transform,scale,opacity]",
 			"data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
 			"data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
@@ -214,7 +214,7 @@ const MenuItem = React.forwardRef<
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
 			"transition-colors",
-			"data-[highlighted]:bg-surface-3 data-[highlighted]:text-fg",
+			"data-[highlighted]:bg-muted data-[highlighted]:text-fg",
 			"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}
@@ -355,7 +355,7 @@ const MenuRadioItem = React.forwardRef<
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
 			"transition-colors",
-			"data-[highlighted]:bg-surface-3 data-[highlighted]:text-fg",
+			"data-[highlighted]:bg-muted data-[highlighted]:text-fg",
 			"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}
@@ -425,7 +425,7 @@ const MenuCheckboxItem = React.forwardRef<
 		className={cn(
 			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
 			"transition-colors",
-			"data-[highlighted]:bg-surface-3 data-[highlighted]:text-fg",
+			"data-[highlighted]:bg-muted data-[highlighted]:text-fg",
 			"data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 			className
 		)}

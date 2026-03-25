@@ -28,7 +28,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="bg-surface text-fg antialiased">
+			<body className="bg-card text-fg antialiased">
 				{children}
 				<Scripts />
 			</body>

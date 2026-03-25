@@ -50,7 +50,7 @@ export default function IntroductionPage() {
 	return (
 		<Page>
 			{/* Hero */}
-			<div className="relative -mx-6 -mt-6 overflow-hidden rounded-b-2xl border-b border-edge bg-surface-3/40 bg-cover bg-center px-6 py-16 text-center">
+			<div className="relative -mx-6 -mt-6 overflow-hidden rounded-b-2xl border-b border-edge bg-muted/40 bg-cover bg-center px-6 py-16 text-center">
 				<div
 					className="pointer-events-none absolute inset-0 opacity-40"
 					style={{
@@ -72,7 +72,7 @@ export default function IntroductionPage() {
 				{/* Vision */}
 				<section className="space-y-3">
 					<div className="flex items-center gap-3">
-						<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-edge">
+						<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted border border-edge">
 							<Zap className="h-4 w-4 text-fg-muted" />
 						</div>
 						<h2 className="text-sm font-semibold text-fg">Vision</h2>
@@ -94,7 +94,7 @@ export default function IntroductionPage() {
 				{/* Approach */}
 				<section className="space-y-3">
 					<div className="flex items-center gap-3">
-						<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-edge">
+						<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted border border-edge">
 							<Puzzle className="h-4 w-4 text-fg-muted" />
 						</div>
 						<h2 className="text-sm font-semibold text-fg">Approach</h2>
@@ -105,7 +105,7 @@ export default function IntroductionPage() {
 							density without clutter, and AI-native from day one.
 						</p>
 						<div className="grid gap-3 pt-1 sm:grid-cols-3">
-							<div className="space-y-1 rounded-lg border border-edge bg-surface px-3.5 py-2.5">
+							<div className="space-y-1 rounded-lg border border-edge bg-card px-3.5 py-2.5">
 								<div className="flex items-center gap-2">
 									<Layers className="h-3.5 w-3.5 text-fg-muted" />
 									<span className="text-xs font-medium text-fg">Composition</span>
@@ -114,7 +114,7 @@ export default function IntroductionPage() {
 									Small, focused components that combine freely. No monolithic props APIs.
 								</p>
 							</div>
-							<div className="space-y-1 rounded-lg border border-edge bg-surface px-3.5 py-2.5">
+							<div className="space-y-1 rounded-lg border border-edge bg-card px-3.5 py-2.5">
 								<div className="flex items-center gap-2">
 									<Box className="h-3.5 w-3.5 text-fg-muted" />
 									<span className="text-xs font-medium text-fg">Density</span>
@@ -123,7 +123,7 @@ export default function IntroductionPage() {
 									13px tables, 32px inputs, 40px rows. Enterprise-grade information density.
 								</p>
 							</div>
-							<div className="space-y-1 rounded-lg border border-edge bg-surface px-3.5 py-2.5">
+							<div className="space-y-1 rounded-lg border border-edge bg-card px-3.5 py-2.5">
 								<div className="flex items-center gap-2">
 									<Cpu className="h-3.5 w-3.5 text-fg-muted" />
 									<span className="text-xs font-medium text-fg">AI-native</span>
@@ -139,7 +139,7 @@ export default function IntroductionPage() {
 				{/* Foundations */}
 				<section className="space-y-3">
 					<div className="flex items-center gap-3">
-						<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-edge">
+						<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted border border-edge">
 							<Layers className="h-4 w-4 text-fg-muted" />
 						</div>
 						<h2 className="text-sm font-semibold text-fg">Foundations</h2>
@@ -184,9 +184,9 @@ export default function IntroductionPage() {
 							<Link
 								key={section.id}
 								href={section.href}
-								className="group flex items-center gap-3 rounded-lg border border-edge bg-surface px-3.5 py-3 transition-colors hover:bg-surface-3"
+								className="group flex items-center gap-3 rounded-lg border border-edge bg-card px-3.5 py-3 transition-colors hover:bg-muted"
 							>
-								<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-edge">
+								<div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted border border-edge">
 									<section.icon className="h-4 w-4 text-fg-muted" />
 								</div>
 								<div className="min-w-0 flex-1">

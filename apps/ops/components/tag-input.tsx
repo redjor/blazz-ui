@@ -103,7 +103,7 @@ export function TagInput({
 	return (
 		<div ref={containerRef} className="relative">
 			<div
-				className="flex flex-wrap items-center gap-1.5 min-h-8 px-3 py-1.5 rounded-md border border-edge bg-surface text-sm cursor-text transition-colors duration-150 ease-out focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20"
+				className="flex flex-wrap items-center gap-1.5 min-h-8 px-3 py-1.5 rounded-md border border-edge bg-card text-sm cursor-text transition-colors duration-150 ease-out focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20"
 				onClick={() => inputRef.current?.focus()}
 			>
 				{value.map((tag) => (
@@ -137,7 +137,7 @@ export function TagInput({
 			{showSuggestions && filtered.length > 0 && (
 				<div
 					ref={suggestionsRef}
-					className="absolute top-full left-0 right-0 z-50 mt-1 max-h-[220px] overflow-y-auto rounded-md border border-edge bg-surface shadow-md transition-opacity duration-150 ease-out"
+					className="absolute top-full left-0 right-0 z-50 mt-1 max-h-[220px] overflow-y-auto rounded-md border border-edge bg-card shadow-md transition-opacity duration-150 ease-out"
 				>
 					{filtered.map((s, i) => (
 						<button

@@ -163,7 +163,7 @@ export const cellWrapper = "relative -m-3"
 export const cellShared = "w-full px-3 py-3 text-body-md text-fg rounded-none bg-transparent transition-all duration-150"
 
 /** Idle (read) state — subtle indicator that cell is editable */
-const idleCell = `${cellShared} cursor-text text-left hover:bg-surface-3/30`
+const idleCell = `${cellShared} cursor-text text-left hover:bg-muted/30`
 
 /** Active edit state */
 const editInput = `${cellShared} min-w-0 h-auto border-0 outline-none ring-2 ring-inset ring-brand`

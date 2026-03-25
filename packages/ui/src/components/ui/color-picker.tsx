@@ -52,15 +52,15 @@ function ColorPicker({
 			<PopoverTrigger
 				disabled={disabled}
 				className={cn(
-					"inline-flex h-8 items-center gap-2 rounded-md border border-edge bg-surface px-2.5 text-sm",
-					"transition-colors hover:bg-surface-3 outline-none",
+					"inline-flex h-8 items-center gap-2 rounded-md border border-edge bg-card px-2.5 text-sm",
+					"transition-colors hover:bg-muted outline-none",
 					"focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand/20",
 					"disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
 					className
 				)}
 			>
 				<span
-					className={cn("size-4 shrink-0 rounded-sm border border-edge", !value && "bg-surface-3")}
+					className={cn("size-4 shrink-0 rounded-sm border border-edge", !value && "bg-muted")}
 					style={value ? { backgroundColor: value } : undefined}
 				/>
 				<span className={cn("text-sm", value ? "text-fg" : "text-fg-muted")}>
@@ -101,7 +101,7 @@ function ColorPicker({
 							onChange={(e) => onValueChange?.(e.target.value)}
 							placeholder="#000000"
 							className={cn(
-								"flex-1 h-7 rounded-md border border-edge bg-surface px-2 text-xs text-fg",
+								"flex-1 h-7 rounded-md border border-edge bg-card px-2 text-xs text-fg",
 								"outline-none focus:border-brand focus:ring-[3px] focus:ring-brand/20",
 								"placeholder:text-fg-subtle"
 							)}

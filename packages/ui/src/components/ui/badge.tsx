@@ -37,8 +37,8 @@ const badgeVariants = cva(
 				className: "bg-brand/15 text-brand border border-brand/30",
 			},
 			// Secondary
-			{ variant: "secondary", fill: "solid", className: "bg-fg-muted text-surface" },
-			{ variant: "secondary", fill: "subtle", className: "bg-surface-3 text-fg-muted" },
+			{ variant: "secondary", fill: "solid", className: "bg-fg-muted text-card" },
+			{ variant: "secondary", fill: "subtle", className: "bg-muted text-fg-muted" },
 			// Info
 			{ variant: "info", fill: "solid", className: "bg-inform text-white" },
 			{
@@ -88,7 +88,7 @@ const dotColorMap: Record<string, string> = {
 
 const dotSolidColorMap: Record<string, string> = {
 	default: "bg-brand-fg",
-	secondary: "bg-surface",
+	secondary: "bg-card",
 	info: "bg-white",
 	success: "bg-white",
 	warning: "bg-white",

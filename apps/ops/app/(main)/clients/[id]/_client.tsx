@@ -88,18 +88,16 @@ export default function ClientDetailPageClient({ params }: Props) {
 			<BlockStack gap="800" className="p-6">
 				<PageHeader
 					title={client.name}
-					actions={[
-						{
-							label: "Modifier",
-							variant: "outline",
-							onClick: () => setEditOpen(true),
-						},
-					]}
+					actions={
+						<Button variant="outline" onClick={() => setEditOpen(true)}>
+							Modifier
+						</Button>
+					}
 				/>
 
 				{/* Avatar + coordonnées */}
 				<InlineStack gap="400" blockAlign="start">
-					<Box className="size-14 rounded-lg border border-edge bg-surface flex items-center justify-center overflow-hidden shrink-0">
+					<Box className="size-14 rounded-lg border border-edge bg-card flex items-center justify-center overflow-hidden shrink-0">
 						{client.logoUrl ? (
 							<Image
 								src={client.logoUrl}

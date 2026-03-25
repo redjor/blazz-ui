@@ -58,7 +58,7 @@ export function ProjectNotesList({ projectId }: { projectId: string }) {
 			{notes === undefined ? (
 				<div className="space-y-1.5">
 					{[1, 2].map((i) => (
-						<div key={i} className="h-9 animate-pulse rounded-md bg-surface-2" />
+						<div key={i} className="h-9 animate-pulse rounded-md bg-card" />
 					))}
 				</div>
 			) : notes.length === 0 ? (
@@ -78,7 +78,7 @@ export function ProjectNotesList({ projectId }: { projectId: string }) {
 						<Link
 							key={note._id}
 							href={`/notes/${note._id}`}
-							className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-surface-2"
+							className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-card"
 						>
 							{note.pinned ? (
 								<Pin className="size-3.5 shrink-0 text-amber-500" />

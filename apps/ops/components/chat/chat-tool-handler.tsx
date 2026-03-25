@@ -208,7 +208,7 @@ export function ChatToolHandler({
 									className={`rounded-md border px-2 py-1 text-xs transition-colors ${
 										!selectedCategoryId
 											? "border-brand bg-brand/10 text-fg"
-											: "border-edge bg-surface text-fg-muted hover:text-fg"
+											: "border-edge bg-card text-fg-muted hover:text-fg"
 									}`}
 									onClick={() =>
 										setEditableArgs((current) => ({ ...current, categoryId: undefined }))
@@ -223,7 +223,7 @@ export function ChatToolHandler({
 										className={`rounded-md border px-2 py-1 transition-colors ${
 											selectedCategoryId === category._id
 												? "border-brand bg-brand/10"
-												: "border-edge bg-surface hover:bg-surface-4"
+												: "border-edge bg-card hover:bg-popover"
 										}`}
 										onClick={() =>
 											setEditableArgs((current) => ({
@@ -242,7 +242,7 @@ export function ChatToolHandler({
 							</div>
 						</div>
 					)}
-					<pre className="text-xs text-fg-subtle bg-surface rounded p-2 my-2 overflow-auto">
+					<pre className="text-xs text-fg-subtle bg-card rounded p-2 my-2 overflow-auto">
 						{JSON.stringify(editableArgs, null, 2)}
 					</pre>
 					<ConfirmationActions>

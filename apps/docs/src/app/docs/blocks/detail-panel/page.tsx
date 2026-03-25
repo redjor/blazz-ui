@@ -227,7 +227,7 @@ const toc = [
 
 function DetailPanelHeroDemo() {
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-6">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-6">
 			<DetailPanel>
 				<DetailPanel.Header
 					title="Nextera Solutions"
@@ -298,7 +298,7 @@ export default function DetailPanelPage() {
 					code={examples[0].code}
 					highlightedCode={html("basic")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-6">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-6">
 						<DetailPanel>
 							<DetailPanel.Header title="Nextera Solutions" subtitle="Client depuis janvier 2024" />
 							<DetailPanel.Section title="Informations générales">
@@ -329,7 +329,7 @@ export default function DetailPanelPage() {
 					code={examples[1].code}
 					highlightedCode={html("actions")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-6">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-6">
 						<DetailPanel>
 							<DetailPanel.Header
 								title="Proposition commerciale #PC-2026-018"
@@ -362,7 +362,7 @@ export default function DetailPanelPage() {
 					code={examples[2].code}
 					highlightedCode={html("status")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-6">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-6">
 						<DetailPanel>
 							<DetailPanel.Header
 								title="Deal — Refonte SI Logistique"

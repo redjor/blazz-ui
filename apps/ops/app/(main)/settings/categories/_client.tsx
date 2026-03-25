@@ -135,8 +135,8 @@ function IconPicker({
 						onClick={() => onChange(item.id)}
 						className={`flex items-center justify-center size-8 rounded-md transition-all ${
 							isSelected
-								? `bg-surface-3 ring-1 ring-edge ${iconColor}`
-								: "text-fg-muted hover:bg-surface-2 hover:text-fg-secondary"
+								? `bg-muted ring-1 ring-edge ${iconColor}`
+								: "text-fg-muted hover:bg-card hover:text-fg-secondary"
 						}`}
 						title={item.label}
 					>

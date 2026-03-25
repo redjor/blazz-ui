@@ -194,7 +194,7 @@ export default function AlertPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface</code> - Default alert background
+						<code className="text-xs">bg-card</code> - Default alert background
 					</li>
 					<li>
 						<code className="text-xs">text-fg</code> - Alert text color

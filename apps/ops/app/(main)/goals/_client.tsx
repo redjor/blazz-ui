@@ -117,7 +117,7 @@ export default function GoalsPageClient() {
 		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title={`Objectifs ${year}`}
-				actionsSlot={
+				actions={
 					<Button variant="outline" onClick={() => setConfigOpen(true)}>
 						Modifier les cibles
 					</Button>

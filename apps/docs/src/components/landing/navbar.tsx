@@ -43,7 +43,7 @@ export function Navbar() {
 						<Link
 							key={link.href}
 							href={link.href}
-							className="rounded-md px-3 py-1.5 text-[13px] text-fg-muted transition-colors hover:text-fg hover:bg-surface-3"
+							className="rounded-md px-3 py-1.5 text-[13px] text-fg-muted transition-colors hover:text-fg hover:bg-muted"
 						>
 							{link.label}
 						</Link>
@@ -58,7 +58,7 @@ export function Navbar() {
 					<ThemeToggle />
 					<Link
 						href="/docs/components"
-						className="inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[13px] text-fg-muted transition-colors hover:text-fg hover:bg-surface-3"
+						className="inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[13px] text-fg-muted transition-colors hover:text-fg hover:bg-muted"
 					>
 						<Search className="size-3.5" />
 						<KbdGroup className="hidden sm:inline-flex">

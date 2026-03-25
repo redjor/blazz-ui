@@ -204,7 +204,7 @@ export function ContractSection({
 								<div className="rounded-md border border-edge overflow-hidden">
 									<table className="w-full text-xs">
 										<thead>
-											<tr className="bg-surface-3/50">
+											<tr className="bg-muted/50">
 												<th className="text-left px-3 py-1.5 font-medium text-fg-muted">Mois</th>
 												<th className="text-right px-3 py-1.5 font-medium text-fg-muted">Alloués</th>
 												<th className="text-right px-3 py-1.5 font-medium text-fg-muted">Consommés</th>

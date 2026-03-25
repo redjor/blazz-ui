@@ -27,12 +27,12 @@ export const editableTableStyles = [
 	"[&_td]:!p-0",
 	// Inputs: borderless, square corners, flush with cell
 	"[&_[data-slot=input]]:border-0 [&_[data-slot=input]]:rounded-none [&_[data-slot=input]]:shadow-none [&_[data-slot=input]]:h-8",
-	"[&_[data-slot=input]]:focus-visible:ring-0 [&_[data-slot=input]]:focus-visible:bg-surface-3/60",
+	"[&_[data-slot=input]]:focus-visible:ring-0 [&_[data-slot=input]]:focus-visible:bg-muted/60",
 	"[&_[data-slot=input][aria-invalid=true]]:bg-negative/10",
 	// Select triggers: borderless, square corners, flush with cell
 	"[&_[data-slot=select-trigger]]:border-0 [&_[data-slot=select-trigger]]:rounded-none [&_[data-slot=select-trigger]]:shadow-none",
 	"[&_[data-slot=select-trigger]]:h-8 [&_[data-slot=select-trigger]]:w-full",
-	"[&_[data-slot=select-trigger]]:focus-visible:ring-0 [&_[data-slot=select-trigger]]:hover:bg-surface-3/60",
+	"[&_[data-slot=select-trigger]]:focus-visible:ring-0 [&_[data-slot=select-trigger]]:hover:bg-muted/60",
 ].join(" ")
 
 export const dataTableVariants = cva("w-full", {
@@ -40,13 +40,13 @@ export const dataTableVariants = cva("w-full", {
 		variant: {
 			default: "border-collapse",
 			lined: "[&_tr]:border-b [&_tr]:border-separator",
-			striped: "[&_tbody_tr:nth-child(even)]:bg-surface-3/50",
+			striped: "[&_tbody_tr:nth-child(even)]:bg-muted/50",
 			flat: [
 				// Spaced rows — border-separate + vertical spacing
 				"border-separate border-spacing-y-0.5",
 				// Rounded hover on data rows — applied on td (tr doesn't support border-radius)
 				"[&_tbody_tr:not([data-group-header])>td]:rounded-lg",
-				"[&_tbody_tr:not([data-group-header]):hover>td]:bg-surface-3/30",
+				"[&_tbody_tr:not([data-group-header]):hover>td]:bg-muted/30",
 				// Compact rows
 				"[&_td]:py-1.5! [&_td]:px-3!",
 				// Hide column headers — data speaks for itself
@@ -67,7 +67,7 @@ export const dataTableVariants = cva("w-full", {
 				// tbody_td = higher specificity than density's [&_td] — forces zero padding
 				// Padding is on the cell content (button/input/span) so the ring is flush
 				"[&_tbody_td]:!px-0 [&_tbody_td]:!py-0",
-				"[&_th]:bg-surface-3/50",
+				"[&_th]:bg-muted/50",
 			].join(" "),
 		},
 		density: {

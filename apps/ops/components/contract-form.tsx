@@ -321,7 +321,7 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 						{pendingFiles.map((file, i) => (
 							<li
 								key={`${file.name}-${i}`}
-								className="flex items-center gap-2 rounded-md border border-edge bg-surface px-2.5 py-1.5 text-sm"
+								className="flex items-center gap-2 rounded-md border border-edge bg-card px-2.5 py-1.5 text-sm"
 							>
 								<FileText className="size-4 shrink-0 text-fg-muted" />
 								<span className="min-w-0 flex-1 truncate">{file.name}</span>

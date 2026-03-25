@@ -22,12 +22,12 @@ function LinkPreviewBase({ url, title, description, image, domain, className }: 
 			target="_blank"
 			rel="noopener noreferrer"
 			className={cn(
-				"group flex overflow-hidden rounded-lg border border-container bg-surface transition-colors hover:bg-surface-3",
+				"group flex overflow-hidden rounded-lg border border-container bg-card transition-colors hover:bg-muted",
 				className
 			)}
 		>
 			{image && (
-				<div className="hidden sm:block w-32 shrink-0 bg-surface-3">
+				<div className="hidden sm:block w-32 shrink-0 bg-muted">
 					<img src={image} alt="" className="size-full object-cover" />
 				</div>
 			)}

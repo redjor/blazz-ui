@@ -292,7 +292,7 @@ export default function PageComponentPage() {
 					code={examples[0].code}
 					highlightedCode={html("basic")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Products">
 							<p className="text-sm text-fg-muted">Page content here</p>
 						</Page>
@@ -305,7 +305,7 @@ export default function PageComponentPage() {
 					code={examples[1].code}
 					highlightedCode={html("with-subtitle")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Products" subtitle="Manage your product catalog">
 							<p className="text-sm text-fg-muted">Page content here</p>
 						</Page>
@@ -318,7 +318,7 @@ export default function PageComponentPage() {
 					code={examples[2].code}
 					highlightedCode={html("with-actions")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							title="Products"
 							subtitle="Manage your product catalog"
@@ -340,7 +340,7 @@ export default function PageComponentPage() {
 					code={examples[3].code}
 					highlightedCode={html("breadcrumbs-array")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							breadcrumbs={[
 								{ label: "Products", href: "/products", icon: Package },
@@ -360,7 +360,7 @@ export default function PageComponentPage() {
 					code={examples[4].code}
 					highlightedCode={html("breadcrumbs-object")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							narrowWidth
 							breadcrumbs={{
@@ -381,7 +381,7 @@ export default function PageComponentPage() {
 					code={examples[5].code}
 					highlightedCode={html("breadcrumbs-parent")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							narrowWidth
 							breadcrumbs={{
@@ -406,7 +406,7 @@ export default function PageComponentPage() {
 					code={examples[6].code}
 					highlightedCode={html("title-metadata")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							narrowWidth
 							breadcrumbs={{
@@ -428,7 +428,7 @@ export default function PageComponentPage() {
 					code={examples[7].code}
 					highlightedCode={html("additional-metadata")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							title="Wireless Headphones"
 							subtitle="SKU: WH-1000"
@@ -448,7 +448,7 @@ export default function PageComponentPage() {
 					code={examples[8].code}
 					highlightedCode={html("metadata-tabs")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							title="Products"
 							subtitle="Manage your product catalog"
@@ -475,7 +475,7 @@ export default function PageComponentPage() {
 					code={examples[9].code}
 					highlightedCode={html("full-width")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Dashboard" fullWidth>
 							<p className="text-sm text-fg-muted">Full width content</p>
 						</Page>
@@ -488,7 +488,7 @@ export default function PageComponentPage() {
 					code={examples[10].code}
 					highlightedCode={html("narrow-width")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Settings" narrowWidth>
 							<p className="text-sm text-fg-muted">Narrow content for forms</p>
 						</Page>
@@ -501,7 +501,7 @@ export default function PageComponentPage() {
 					code={examples[11].code}
 					highlightedCode={html("page-section")}
 				>
-					<div className="rounded-lg border border-edge bg-surface-3">
+					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Settings">
 							<div className="space-y-8">
 								<PageSection title="General" description="Basic settings for your store">

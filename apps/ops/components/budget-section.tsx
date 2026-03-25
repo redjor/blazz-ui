@@ -50,7 +50,7 @@ export function BudgetSection({ metrics, tjm, weeklyBurnDown }: BudgetSectionPro
 						{metrics.percentUsed}%)
 					</span>
 				</div>
-				<div className="h-2.5 bg-surface-3 rounded-full overflow-hidden border border-edge">
+				<div className="h-2.5 bg-muted rounded-full overflow-hidden border border-edge">
 					<div
 						className={`h-full rounded-full transition-all ${colors.bar}`}
 						style={{ width: `${clampedPercent}%` }}

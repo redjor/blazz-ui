@@ -29,7 +29,7 @@ export function CellProgress({ value, showLabel, colorThresholds }: CellProgress
 
 	return (
 		<div className="flex items-center gap-2">
-			<div className="h-1.5 w-full min-w-12 rounded-full bg-surface-3/50">
+			<div className="h-1.5 w-full min-w-12 rounded-full bg-muted/50">
 				<div
 					className={cn("h-full rounded-full transition-all", barColor)}
 					style={{ width: `${clamped}%` }}

@@ -29,7 +29,7 @@ export function SandboxPreview() {
 
 	return (
 		<div className="flex items-start justify-center p-8">
-			<div className="w-[400px] bg-surface rounded-xl border border-container shadow-lg flex flex-col">
+			<div className="w-[400px] bg-card rounded-xl border border-container shadow-lg flex flex-col">
 				{/* Header */}
 				<div className="flex items-start justify-between px-6 pt-6 pb-4">
 					<div>
@@ -38,7 +38,7 @@ export function SandboxPreview() {
 					</div>
 					<button
 						type="button"
-						className="rounded-md p-1 text-fg-muted hover:text-fg hover:bg-surface-3 transition-colors"
+						className="rounded-md p-1 text-fg-muted hover:text-fg hover:bg-muted transition-colors"
 						aria-label="Fermer"
 					>
 						<X className="size-4" />
@@ -99,7 +99,7 @@ export function SandboxPreview() {
 
 					{/* Eligibility Criteria */}
 					<div>
-						<div className="px-6 py-2 bg-surface-3">
+						<div className="px-6 py-2 bg-muted">
 							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
 								Eligibility Criteria
 							</span>
@@ -136,7 +136,7 @@ export function SandboxPreview() {
 
 					{/* Payment Methods */}
 					<div>
-						<div className="px-6 py-2 bg-surface-3">
+						<div className="px-6 py-2 bg-muted">
 							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
 								Payment Methods
 							</span>
@@ -167,7 +167,7 @@ export function SandboxPreview() {
 
 					{/* Service Availability */}
 					<div>
-						<div className="px-6 py-2 bg-surface-3">
+						<div className="px-6 py-2 bg-muted">
 							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
 								Service Availability
 							</span>

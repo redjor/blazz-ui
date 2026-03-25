@@ -634,7 +634,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 											)}
 											{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
 											{!projectId && todo.projectName && (
-												<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
+												<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
 													{todo.projectName}
 												</span>
 											)}

@@ -33,7 +33,7 @@ export function JournalDayCard({
 	onClick,
 }: JournalDayCardProps) {
 	const content = (
-		<Card className="transition-colors hover:bg-surface-3/30">
+		<Card className="transition-colors hover:bg-muted/30">
 			<CardHeader>
 				<CardTitle>{dateLabel}</CardTitle>
 				<CardDescription>{summary}</CardDescription>
@@ -51,7 +51,7 @@ export function JournalDayCard({
 					</Badge>
 				) : null}
 				{note ? (
-					<div className="rounded-md border border-edge bg-surface-3 px-3 py-2 text-sm text-fg-muted">
+					<div className="rounded-md border border-edge bg-muted px-3 py-2 text-sm text-fg-muted">
 						{note}
 					</div>
 				) : null}

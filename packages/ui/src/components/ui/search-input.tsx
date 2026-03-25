@@ -21,8 +21,8 @@ function SearchInput({ className, value, onClear, ...props }: SearchInputProps) 
 				value={value}
 				className={cn(
 					"w-full min-w-0 outline-none",
-					"bg-surface",
-					"hover:bg-surface-3",
+					"bg-card",
+					"hover:bg-muted",
 					"border border-edge",
 					"hover:border-edge",
 					"focus:border-brand",

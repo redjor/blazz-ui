@@ -15,12 +15,12 @@ function ProgressCardBase({ label, value, description, color, className }: Progr
 	const clamped = Math.min(100, Math.max(0, value))
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-baseline justify-between">
 				<span className="text-sm font-medium text-fg">{label}</span>
 				<span className="text-sm tabular-nums text-fg-muted">{clamped}%</span>
 			</div>
-			<div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-3">
+			<div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
 				<div
 					className="h-full rounded-full bg-brand transition-all"
 					style={{

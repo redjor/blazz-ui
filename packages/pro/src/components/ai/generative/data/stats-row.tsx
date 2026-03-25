@@ -19,7 +19,7 @@ function StatsRowBase({ items, className }: StatsRowProps) {
 	return (
 		<div
 			className={cn(
-				"flex divide-x divide-separator rounded-lg border border-container bg-surface",
+				"flex divide-x divide-separator rounded-lg border border-container bg-card",
 				className
 			)}
 		>

@@ -32,9 +32,9 @@ function ApprovalCardBase({
 	const config = statusConfig[status]
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-start gap-3">
-				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-3">
+				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
 					<AlertCircle className="size-4 text-fg-muted" />
 				</div>
 				<div className="min-w-0 flex-1">
@@ -49,7 +49,7 @@ function ApprovalCardBase({
 			</div>
 
 			{details && details.length > 0 && (
-				<div className="mt-3 rounded-md bg-surface-3/50 p-3">
+				<div className="mt-3 rounded-md bg-muted/50 p-3">
 					{details.map((d, i) => (
 						<div
 							key={i}

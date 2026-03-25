@@ -54,7 +54,7 @@ export function CellTags({ items, colorMap, max = 3, variant = "badge" }: CellTa
 							type="button"
 							className={cn(
 								"inline-flex h-4 items-center justify-center rounded-full px-1.5 text-[10px] font-medium",
-								"bg-surface-3 text-fg-muted hover:bg-surface-3/80 transition-colors"
+								"bg-muted text-fg-muted hover:bg-muted/80 transition-colors"
 							)}
 						>
 							+{overflow.length}

@@ -123,7 +123,7 @@ function MultiStepFormBase({ steps, onSubmit, onSaveDraft, className }: MultiSte
 								<div
 									className={cn(
 										"flex size-7 items-center justify-center rounded-full border text-xs font-medium transition-colors",
-										isCompleted && "border-fg bg-fg text-surface",
+										isCompleted && "border-fg bg-fg text-card",
 										isCurrent && "border-fg text-fg",
 										!isCompleted && !isCurrent && "border-container text-fg-muted"
 									)}

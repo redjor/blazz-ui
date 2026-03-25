@@ -295,13 +295,13 @@ export default function TabsPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface-3</code> - Tab list background color
+						<code className="text-xs">bg-muted</code> - Tab list background color
 					</li>
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Inactive tab text
 					</li>
 					<li>
-						<code className="text-xs">bg-surface</code> - Active tab background
+						<code className="text-xs">bg-card</code> - Active tab background
 					</li>
 					<li>
 						<code className="text-xs">text-fg</code> - Active tab text

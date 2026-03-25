@@ -226,7 +226,7 @@ export default function ActivityTimelinePage() {
 		>
 			{/* Hero */}
 			<DocHero>
-				<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+				<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 					<ActivityTimeline events={heroEvents} />
 				</div>
 			</DocHero>
@@ -239,7 +239,7 @@ export default function ActivityTimelinePage() {
 					code={examples[0].code}
 					highlightedCode={html("basic")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<ActivityTimeline events={basicEvents} />
 					</div>
 				</DocExampleClient>
@@ -250,7 +250,7 @@ export default function ActivityTimelinePage() {
 					code={examples[1].code}
 					highlightedCode={html("loading")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<ActivityTimeline events={[]} loading />
 					</div>
 				</DocExampleClient>
@@ -261,7 +261,7 @@ export default function ActivityTimelinePage() {
 					code={examples[2].code}
 					highlightedCode={html("details")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<ActivityTimeline events={detailEvents} />
 					</div>
 				</DocExampleClient>

@@ -60,7 +60,7 @@ function QuotePreviewBase({
 	return (
 		<div
 			className={cn(
-				"mx-auto max-w-[800px] rounded-lg border bg-surface p-8 shadow-sm print:border-0 print:shadow-none",
+				"mx-auto max-w-[800px] rounded-lg border bg-card p-8 shadow-sm print:border-0 print:shadow-none",
 				className
 			)}
 		>
@@ -166,7 +166,7 @@ function QuotePreviewBase({
 
 			{/* Notes */}
 			{notes && (
-				<div className="mt-8 rounded-md bg-surface-3/50 p-4">
+				<div className="mt-8 rounded-md bg-muted/50 p-4">
 					<h3 className="text-xs font-semibold uppercase tracking-wide text-fg-muted">
 						Conditions
 					</h3>

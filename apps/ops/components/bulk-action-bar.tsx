@@ -72,7 +72,7 @@ export function BulkActionBar({
 	return (
 		<>
 			<div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2">
-				<div className="bg-surface-3 border border-edge rounded-lg shadow-lg px-4 py-2.5">
+				<div className="bg-muted border border-edge rounded-lg shadow-lg px-4 py-2.5">
 					<InlineStack gap="300" blockAlign="center" wrap={false}>
 						{/* Selection count + clear */}
 						<InlineStack gap="150" blockAlign="center" wrap={false}>

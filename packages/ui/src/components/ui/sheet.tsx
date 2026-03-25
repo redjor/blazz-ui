@@ -86,7 +86,7 @@ function SheetContent({
 			<DialogPrimitive.Popup
 				data-slot="sheet-content"
 				className={cn(
-					"fixed z-50 flex flex-col bg-surface-4 shadow-lg border border-container",
+					"fixed z-50 flex flex-col bg-popover shadow-lg border border-container",
 					"rounded-[var(--radius-xl)] overflow-hidden",
 					sideClasses[side],
 					className
@@ -131,7 +131,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
 		<div
 			data-slot="sheet-footer"
 			className={cn(
-				"bg-surface-3 border-t border-separator px-inset flex gap-2 justify-end",
+				"bg-muted border-t border-separator px-inset flex gap-2 justify-end",
 				className
 			)}
 			style={{ paddingBlock: "calc(var(--inset) * 0.75)" }}

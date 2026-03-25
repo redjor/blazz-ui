@@ -23,7 +23,7 @@ function SummaryCardBase({
 	className,
 }: SummaryCardProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-center gap-2">
 				<FileText className="size-4 text-fg-muted" />
 				<span className="text-sm font-semibold text-fg">{title}</span>
@@ -39,7 +39,7 @@ function SummaryCardBase({
 			</ul>
 
 			{conclusion && (
-				<div className="mt-3 rounded-md bg-surface-3/50 p-3">
+				<div className="mt-3 rounded-md bg-muted/50 p-3">
 					<p className="text-xs font-medium text-fg leading-relaxed">{conclusion}</p>
 				</div>
 			)}

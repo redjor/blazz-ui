@@ -42,8 +42,8 @@ const KIND_STYLES: Record<TimelineItemKind, string> = {
 	admin: "border-amber-500/25 bg-amber-500/12 text-amber-700 dark:text-amber-400",
 	meeting: "border-blue-500/25 bg-blue-500/12 text-blue-700 dark:text-blue-400",
 	break: "border-green-500/25 bg-green-500/12 text-green-700 dark:text-green-400",
-	personal: "border-edge bg-surface-3 text-fg-muted",
-	uncategorized: "border-edge bg-surface-3 text-fg-muted",
+	personal: "border-edge bg-muted text-fg-muted",
+	uncategorized: "border-edge bg-muted text-fg-muted",
 }
 
 function formatTimeRange(item: TimelineItem) {
@@ -121,7 +121,7 @@ export function DayTimelineCard({
 									<button
 										type="button"
 										onClick={() => onItemClick(item.id)}
-										className="flex w-full items-start justify-between gap-3 px-inset py-3 text-left transition-colors hover:bg-surface-3/60"
+										className="flex w-full items-start justify-between gap-3 px-inset py-3 text-left transition-colors hover:bg-muted/60"
 									>
 										{content}
 									</button>

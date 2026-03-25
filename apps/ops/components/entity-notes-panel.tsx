@@ -488,7 +488,7 @@ export function EntityNotesPanel({
 										type="button"
 										onClick={handleImportMd}
 										disabled={isCreating}
-										className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-50"
+										className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
 									/>
 								}
 							>
@@ -500,7 +500,7 @@ export function EntityNotesPanel({
 							type="button"
 							onClick={() => void handleCreateNote()}
 							disabled={isCreating}
-							className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-50"
+							className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
 						>
 							{isCreating ? (
 								<Loader2 className="size-3.5 animate-spin" />
@@ -548,7 +548,7 @@ export function EntityNotesPanel({
 								<button
 									type="button"
 									onClick={() => void handleTogglePinned()}
-									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-surface-2 ${
+									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${
 										selectedNote.pinned ? "text-amber-500" : "text-fg-muted"
 									}`}
 								>
@@ -558,7 +558,7 @@ export function EntityNotesPanel({
 								<button
 									type="button"
 									onClick={() => void handleToggleLocked()}
-									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-surface-2 ${
+									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${
 										selectedNote.locked ? "text-brand" : "text-fg-muted"
 									}`}
 								>
@@ -586,7 +586,7 @@ export function EntityNotesPanel({
 											type="button"
 											onClick={() => setShowDeleteConfirm(true)}
 											disabled={isDeleting || !!selectedNote.locked}
-											className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-destructive disabled:opacity-50"
+											className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-card hover:text-destructive disabled:opacity-50"
 										/>
 									}
 								>

@@ -233,14 +233,14 @@ const options = [
   { value: "yearly", label: "Yearly" },
 ]
 
-<RadioGroup value={value} onValueChange={setValue} className="inline-flex rounded-lg border border-edge bg-surface p-1 gap-1">
+<RadioGroup value={value} onValueChange={setValue} className="inline-flex rounded-lg border border-edge bg-card p-1 gap-1">
   {options.map((option) => (
     <label
       key={option.value}
       className={cn(
         "cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
         value === option.value
-          ? "bg-surface-3 text-fg shadow-sm"
+          ? "bg-muted text-fg shadow-sm"
           : "text-fg-muted hover:text-fg"
       )}
     >
@@ -332,7 +332,7 @@ function ButtonGroupRadioDemo() {
 		<RadioGroup
 			value={value}
 			onValueChange={setValue}
-			className="inline-flex rounded-lg border border-edge bg-surface p-1 gap-1"
+			className="inline-flex rounded-lg border border-edge bg-card p-1 gap-1"
 		>
 			{buttonGroupOptions.map((option) => (
 				<label
@@ -340,7 +340,7 @@ function ButtonGroupRadioDemo() {
 					className={cn(
 						"cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
 						value === option.value
-							? "bg-surface-3 text-fg shadow-sm"
+							? "bg-muted text-fg shadow-sm"
 							: "text-fg-muted hover:text-fg"
 					)}
 				>

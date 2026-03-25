@@ -14,7 +14,7 @@ const triggerBase = [
 	"border-field",
 	"focus-visible:border-brand focus-visible:ring-brand/20 focus-visible:ring-3",
 	"aria-invalid:ring-negative/20 aria-invalid:border-negative aria-invalid:ring-3",
-	"inline-flex h-8 items-center gap-1.5 rounded-lg border bg-surface hover:bg-surface-3 px-2.5 text-sm transition-colors select-none",
+	"inline-flex h-8 items-center gap-1.5 rounded-lg border bg-card hover:bg-muted px-2.5 text-sm transition-colors select-none",
 	"outline-none",
 	"disabled:cursor-not-allowed disabled:opacity-50",
 	"[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",

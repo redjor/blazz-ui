@@ -207,7 +207,7 @@ export default function TooltipPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface-3</code> - Tooltip background color
+						<code className="text-xs">bg-muted</code> - Tooltip background color
 					</li>
 					<li>
 						<code className="text-xs">text-fg</code> - Tooltip text color

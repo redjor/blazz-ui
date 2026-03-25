@@ -49,7 +49,7 @@ export function VariantsGrid({ entry, extraScope }: VariantsGridProps) {
 				{variants.map(({ option, element, error }) => (
 					<div key={option}>
 						<div className="text-xs text-fg-muted font-mono mb-2">{option}</div>
-						<div className="p-4 border border-edge rounded-md bg-surface flex items-center justify-center min-h-[80px]">
+						<div className="p-4 border border-edge rounded-md bg-card flex items-center justify-center min-h-[80px]">
 							{error ? <span className="text-xs text-negative">{error}</span> : element}
 						</div>
 					</div>

@@ -1029,7 +1029,7 @@ export function DataTable<TData, TValue = unknown>({
 										) : (
 											<span className="text-xs font-medium">{column.label}</span>
 										)}
-										<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] tabular-nums text-fg-muted">
+										<span className="rounded-full bg-muted/70 px-1.5 py-0.5 text-[11px] tabular-nums text-fg-muted">
 											{colItems.length}
 										</span>
 										{Object.keys(computedAggregations).length > 0 && (
@@ -1078,7 +1078,7 @@ export function DataTable<TData, TValue = unknown>({
 															...getPinningStyles(header.column, true),
 														}}
 														className={cn(
-															header.column.getIsPinned() && "bg-surface",
+															header.column.getIsPinned() && "bg-card",
 															header.column.getIsPinned() === "left" &&
 																header.column.getIsLastColumn("left") &&
 																"shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]",
@@ -1133,7 +1133,7 @@ export function DataTable<TData, TValue = unknown>({
 															return (
 																<span key={cell.id} className="flex items-center gap-2">
 																	{flexRender(cell.column.columnDef.cell, cell.getContext())}
-																	<span className="rounded-full bg-surface-3/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
+																	<span className="rounded-full bg-muted/70 px-1.5 py-0.5 text-[11px] font-normal tabular-nums text-fg-muted">
 																		{row.subRows.length}
 																	</span>
 																</span>
@@ -1203,7 +1203,7 @@ export function DataTable<TData, TValue = unknown>({
 													<TableRow
 														data-group-header=""
 														className={cn(
-															"bg-surface hover:bg-surface-3/50",
+															"bg-card hover:bg-muted/50",
 															finalVariant === "flat" && "bg-transparent hover:bg-transparent"
 														)}
 														style={{
@@ -1217,7 +1217,7 @@ export function DataTable<TData, TValue = unknown>({
 															colSpan={row.getVisibleCells().length}
 															className={cn(
 																"py-2",
-																finalVariant === "flat" && "rounded-lg bg-surface-3/50"
+																finalVariant === "flat" && "rounded-lg bg-muted/50"
 															)}
 															style={groupRowStyle?.(row)}
 														>
@@ -1284,7 +1284,7 @@ export function DataTable<TData, TValue = unknown>({
 											<React.Fragment key={row.id}>
 												<TableRow
 													data-state={row.getIsSelected() && "selected"}
-													className={onRowClick ? "cursor-pointer hover:bg-surface-3/50" : ""}
+													className={onRowClick ? "cursor-pointer hover:bg-muted/50" : ""}
 													style={flatRowStyle}
 													onClick={(e) => {
 														const target = e.target as HTMLElement
@@ -1316,7 +1316,7 @@ export function DataTable<TData, TValue = unknown>({
 																		: undefined
 																}
 																className={cn(
-																	cell.column.getIsPinned() && "bg-surface",
+																	cell.column.getIsPinned() && "bg-card",
 																	cell.column.getIsPinned() === "left" &&
 																		cell.column.getIsLastColumn("left") &&
 																		"shadow-[inset_-4px_0_4px_-4px_oklch(0_0_0/0.08)]",

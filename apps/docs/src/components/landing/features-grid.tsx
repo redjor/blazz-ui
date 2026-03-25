@@ -43,7 +43,7 @@ export function FeaturesGrid() {
 	return (
 		<section id="features" className="py-4 px-6">
 			<div className="mx-auto max-w-6xl">
-				<div className="rounded-2xl border border-container bg-surface px-8 py-12 sm:px-12">
+				<div className="rounded-2xl border border-container bg-card px-8 py-12 sm:px-12">
 					<motion.div
 						initial={{ opacity: 0, y: 12 }}
 						whileInView={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ export function FeaturesGrid() {
 								className="flex gap-3.5"
 							>
 								<div className="shrink-0 mt-0.5">
-									<div className="flex items-center justify-center size-8 rounded-md bg-surface-3">
+									<div className="flex items-center justify-center size-8 rounded-md bg-muted">
 										<feature.icon className="size-4 text-fg-muted" />
 									</div>
 								</div>

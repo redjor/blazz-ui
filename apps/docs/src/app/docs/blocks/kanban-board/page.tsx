@@ -121,7 +121,7 @@ const pipelineColumns: KanbanColumn<Deal>[] = [
 
 function DealCard({ deal }: { deal: Deal }) {
 	return (
-		<div className="rounded-lg border border-edge bg-surface p-3 space-y-2">
+		<div className="rounded-lg border border-edge bg-card p-3 space-y-2">
 			<div className="flex items-center justify-between">
 				<span className="text-sm font-medium text-fg">{deal.name}</span>
 			</div>
@@ -173,7 +173,7 @@ function BasicPipeline() {
         )
       }}
       renderCard={(deal) => (
-        <div className="rounded-lg border bg-surface p-3 space-y-1">
+        <div className="rounded-lg border bg-card p-3 space-y-1">
           <p className="text-sm font-medium">{deal.name}</p>
           <p className="text-xs text-fg-muted">{deal.company}</p>
           <p className="text-sm font-semibold">{deal.amount.toLocaleString("fr-FR")} €</p>
@@ -202,7 +202,7 @@ function CustomCardExample() {
         )
       }}
       renderCard={(deal) => (
-        <div className="rounded-lg border bg-surface p-3 space-y-2">
+        <div className="rounded-lg border bg-card p-3 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">{deal.name}</span>
             <Badge variant="outline" className="text-xs">
@@ -230,7 +230,7 @@ function ReadOnlyBoard() {
       items={deals}
       getColumnId={(d) => d.stage}
       renderCard={(deal) => (
-        <div className="rounded-lg border bg-surface p-3 space-y-1">
+        <div className="rounded-lg border bg-card p-3 space-y-1">
           <p className="text-sm font-medium">{deal.name}</p>
           <p className="text-xs text-fg-muted">{deal.company}</p>
           <p className="text-sm font-semibold">{deal.amount.toLocaleString("fr-FR")} €</p>
@@ -254,7 +254,7 @@ function HeroDemo() {
 
 	return (
 		<div
-			className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden p-4"
+			className="w-full max-w-4xl rounded-lg border border-edge bg-card overflow-hidden p-4"
 			style={{ minHeight: 420 }}
 		>
 			<KanbanBoard
@@ -284,7 +284,7 @@ function BasicPipelineDemo() {
 				setDeals((prev) => prev.map((d) => (d.id === id ? { ...d, stage: to } : d)))
 			}}
 			renderCard={(deal) => (
-				<div className="rounded-lg border border-edge bg-surface p-3 space-y-1">
+				<div className="rounded-lg border border-edge bg-card p-3 space-y-1">
 					<p className="text-sm font-medium text-fg">{deal.name}</p>
 					<p className="text-xs text-fg-muted">{deal.company}</p>
 					<p className="text-sm font-semibold text-fg">{deal.amount.toLocaleString("fr-FR")} €</p>
@@ -317,7 +317,7 @@ function CustomCardDemo() {
 				setDeals((prev) => prev.map((d) => (d.id === id ? { ...d, stage: to } : d)))
 			}}
 			renderCard={(deal) => (
-				<div className="rounded-lg border border-edge bg-surface p-3 space-y-2">
+				<div className="rounded-lg border border-edge bg-card p-3 space-y-2">
 					<div className="flex items-center justify-between">
 						<span className="text-sm font-medium text-fg">{deal.name}</span>
 						<Badge variant="outline" className="text-xs">
@@ -345,7 +345,7 @@ function ReadOnlyDemo() {
 			items={readOnlyDeals}
 			getColumnId={(d) => d.stage}
 			renderCard={(deal) => (
-				<div className="rounded-lg border border-edge bg-surface p-3 space-y-1">
+				<div className="rounded-lg border border-edge bg-card p-3 space-y-1">
 					<p className="text-sm font-medium text-fg">{deal.name}</p>
 					<p className="text-xs text-fg-muted">{deal.company}</p>
 					<p className="text-sm font-semibold text-fg">{deal.amount.toLocaleString("fr-FR")} €</p>

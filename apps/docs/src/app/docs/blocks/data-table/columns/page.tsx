@@ -181,7 +181,7 @@ export default function ColumnsPage() {
 								<code className="text-brand font-mono text-xs">{c.name}</code>
 								<span className="text-fg-muted text-xs">— {c.desc}</span>
 							</div>
-							<pre className="bg-surface-3 rounded p-2 text-xs overflow-x-auto mt-1">
+							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">
 								{c.signature}
 							</pre>
 						</div>
@@ -200,7 +200,7 @@ export default function ColumnsPage() {
 								<code className="text-brand font-mono text-xs">{c.name}</code>
 								<span className="text-fg-muted text-xs">— {c.desc}</span>
 							</div>
-							<pre className="bg-surface-3 rounded p-2 text-xs overflow-x-auto mt-1">
+							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">
 								{c.signature}
 							</pre>
 						</div>
@@ -215,7 +215,7 @@ export default function ColumnsPage() {
 								<code className="text-brand font-mono text-xs">{c.name}</code>
 								<span className="text-fg-muted text-xs">— {c.desc}</span>
 							</div>
-							<pre className="bg-surface-3 rounded p-2 text-xs overflow-x-auto mt-1">
+							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">
 								{c.signature}
 							</pre>
 						</div>
@@ -228,7 +228,7 @@ export default function ColumnsPage() {
 					Quand aucune factory <code>col.*</code> ne correspond a votre besoin, definissez une
 					colonne manuellement avec le type <code>DataTableColumnDef&lt;T&gt;</code> :
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
 
 const customColumn: DataTableColumnDef<Product> = {
@@ -268,7 +268,7 @@ const customColumn: DataTableColumnDef<Product> = {
 					Masquez des colonnes par defaut avec <code>defaultColumnVisibility</code>. Les colonnes
 					masquees restent disponibles pour le tri et les filtres.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   columns={columns}
   defaultColumnVisibility={{
@@ -289,7 +289,7 @@ const customColumn: DataTableColumnDef<Product> = {
 					Activez <code>enableColumnPinning</code> pour permettre de figer des colonnes a gauche ou
 					a droite lors du scroll horizontal.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   enableColumnPinning
   defaultColumnPinning={{

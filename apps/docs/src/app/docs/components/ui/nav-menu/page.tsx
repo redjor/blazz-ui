@@ -283,7 +283,7 @@ export default function NavMenuPage() {
 					code={examples[4].code}
 					highlightedCode={html("sidebar")}
 				>
-					<div className="flex w-full rounded-lg border bg-surface">
+					<div className="flex w-full rounded-lg border bg-card">
 						<aside className="w-48 shrink-0 border-r p-3">
 							<NavMenu>
 								<NavMenuGroup label="General">

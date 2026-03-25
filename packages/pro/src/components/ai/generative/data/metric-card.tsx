@@ -16,7 +16,7 @@ export interface MetricCardProps {
 
 function MetricCardBase({ label, value, trend, trendLabel, icon, className }: MetricCardProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-center justify-between">
 				<span className="text-xs uppercase tracking-wide text-fg-muted">{label}</span>
 				{icon && <span className="text-fg-muted">{icon}</span>}

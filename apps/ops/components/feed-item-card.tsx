@@ -34,7 +34,7 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 			background="surface"
 			border="default"
 			borderRadius="lg"
-			className="cursor-pointer transition-colors hover:bg-raised"
+			className="cursor-pointer transition-colors hover:bg-muted"
 			onClick={handleClick}
 		>
 			<BlockStack gap="300">
@@ -58,7 +58,7 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 							e.stopPropagation()
 							onToggleFavorite()
 						}}
-						className="p-1 rounded hover:bg-surface-hover transition-colors"
+						className="p-1 rounded hover:bg-card-hover transition-colors"
 					>
 						<Star
 							className={`size-3.5 ${item.isFavorite ? "fill-amber-400 text-amber-400" : "text-fg-muted"}`}

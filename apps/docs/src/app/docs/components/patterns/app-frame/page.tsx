@@ -145,10 +145,10 @@ const appFrameProps: DocProp[] = [
 function LayoutPlaceholder() {
 	return (
 		<div className="flex h-32 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
-			<div className="w-32 shrink-0 border-r border-dashed border-edge-subtle bg-surface-3/50 flex items-center justify-center">
+			<div className="w-32 shrink-0 border-r border-dashed border-edge-subtle bg-muted/50 flex items-center justify-center">
 				Sidebar
 			</div>
-			<div className="flex-1 flex items-center justify-center bg-surface">Main content</div>
+			<div className="flex-1 flex items-center justify-center bg-card">Main content</div>
 		</div>
 	)
 }
@@ -195,7 +195,7 @@ export default function AppFramePage() {
 						Deux patterns de layout sont supportés selon que vous passez ou non une top bar globale.
 					</p>
 					<div className="grid gap-4 md:grid-cols-2">
-						<div className="rounded-lg border border-edge-subtle bg-surface p-4">
+						<div className="rounded-lg border border-edge-subtle bg-card p-4">
 							<p className="text-xs font-medium text-fg mb-2">Sans top bar globale (recommandé)</p>
 							<div className="text-xs text-fg-muted font-mono whitespace-pre leading-relaxed">
 								{`┌──────────┬───────────────────┐
@@ -212,7 +212,7 @@ SidebarTrigger dans le tab bar
 quand la sidebar est collapsed.`}
 							</div>
 						</div>
-						<div className="rounded-lg border border-edge-subtle bg-surface p-4">
+						<div className="rounded-lg border border-edge-subtle bg-card p-4">
 							<p className="text-xs font-medium text-fg mb-2">Avec top bar globale</p>
 							<div className="text-xs text-fg-muted font-mono whitespace-pre leading-relaxed">
 								{`┌─────────────────────────────┐
@@ -229,7 +229,7 @@ top bar (top: --topbar-height).`}
 							</div>
 						</div>
 					</div>
-					<div className="rounded-lg border border-edge-subtle bg-surface p-3 text-xs text-fg-muted">
+					<div className="rounded-lg border border-edge-subtle bg-card p-3 text-xs text-fg-muted">
 						<p className="font-medium text-fg mb-1">Sidebar features :</p>
 						<ul className="list-disc list-inside space-y-0.5">
 							<li>

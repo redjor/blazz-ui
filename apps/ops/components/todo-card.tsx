@@ -31,7 +31,7 @@ export function TodoCard({ todo, projects, categories, clickable = true }: TodoC
 
 	return (
 		<div
-			className={`p-3 rounded-md border border-edge-subtle bg-surface-1 shadow-card transition-colors ${clickable ? "cursor-pointer hover:border-accent/50" : ""} ${todo.status === "done" ? "opacity-60" : ""}`}
+			className={`p-3 rounded-md border border-edge-subtle bg-background shadow-card transition-colors ${clickable ? "cursor-pointer hover:border-accent/50" : ""} ${todo.status === "done" ? "opacity-60" : ""}`}
 			onClick={handleClick}
 			role={clickable ? "button" : undefined}
 			tabIndex={clickable ? 0 : undefined}
@@ -63,7 +63,7 @@ export function TodoCard({ todo, projects, categories, clickable = true }: TodoC
 						{tags.slice(0, 3).map((tag) => (
 							<span
 								key={tag}
-								className="text-xs text-fg-muted bg-surface border border-edge rounded-full px-1.5 py-0"
+								className="text-xs text-fg-muted bg-card border border-edge rounded-full px-1.5 py-0"
 							>
 								{tag}
 							</span>

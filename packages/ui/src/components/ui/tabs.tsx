@@ -21,7 +21,7 @@ const tabsListVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "bg-surface-3",
+				default: "bg-muted",
 				line: "gap-1 bg-transparent",
 			},
 		},
@@ -61,7 +61,7 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
 				"[&_svg]:pointer-events-none [&_svg]:shrink-0",
 				// Default variant active
 				"group-data-[variant=default]/tabs-list:data-active:shadow-sm",
-				"data-active:bg-surface data-active:text-fg",
+				"data-active:bg-card data-active:text-fg",
 				// Line variant active
 				"group-data-[variant=line]/tabs-list:data-active:shadow-none group-data-[variant=line]/tabs-list:data-active:bg-transparent",
 				// Underline indicator for line variant

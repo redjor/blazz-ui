@@ -603,7 +603,7 @@ export function CellsPreview() {
 						CellProgress
 					</Text>
 					<div className="flex items-center gap-2">
-						<div className="h-1.5 w-24 rounded-full bg-surface-3 overflow-hidden">
+						<div className="h-1.5 w-24 rounded-full bg-muted overflow-hidden">
 							<div className="h-full w-3/4 rounded-full bg-brand" />
 						</div>
 						<Text variant="body-xs" tone="muted">
@@ -838,7 +838,7 @@ export function TablePreview() {
 export function DialogPreview() {
 	return (
 		<div className="p-8 w-[480px]">
-			<div className="rounded-xl border border-edge bg-surface-4 p-4 shadow-lg ring-1 ring-edge/40">
+			<div className="rounded-xl border border-edge bg-popover p-4 shadow-lg ring-1 ring-edge/40">
 				<div className="-mx-4 -mt-4 flex flex-col gap-2 border-b border-edge px-4 pb-3 pt-4">
 					<div className="text-sm font-medium text-fg">Create new contact</div>
 					<div className="text-sm text-fg-muted">Add a new contact to your CRM database.</div>
@@ -853,7 +853,7 @@ export function DialogPreview() {
 						<Input placeholder="email@example.com" />
 					</div>
 				</div>
-				<div className="-mx-4 -mb-4 mt-4 flex justify-end gap-2 rounded-b-xl border-t border-edge bg-surface-3 p-4">
+				<div className="-mx-4 -mb-4 mt-4 flex justify-end gap-2 rounded-b-xl border-t border-edge bg-muted p-4">
 					<Button variant="outline">Cancel</Button>
 					<Button>Create contact</Button>
 				</div>
@@ -865,7 +865,7 @@ export function DialogPreview() {
 export function SheetPreview() {
 	return (
 		<div className="p-8 w-[400px]">
-			<div className="flex h-[320px] flex-col rounded-xl border border-edge bg-surface-4 shadow-lg overflow-hidden">
+			<div className="flex h-[320px] flex-col rounded-xl border border-edge bg-popover shadow-lg overflow-hidden">
 				<div className="flex flex-col gap-1.5 border-b border-edge px-4 pb-3 pt-4">
 					<div className="text-sm font-medium text-fg">Edit company</div>
 					<div className="text-sm text-fg-muted">Update the company information.</div>
@@ -884,7 +884,7 @@ export function SheetPreview() {
 						<Input defaultValue="https://acme.com" />
 					</div>
 				</div>
-				<div className="flex justify-end gap-2 border-t border-edge bg-surface-3 px-4 py-3">
+				<div className="flex justify-end gap-2 border-t border-edge bg-muted px-4 py-3">
 					<Button variant="outline" size="sm">
 						Cancel
 					</Button>
@@ -898,9 +898,9 @@ export function SheetPreview() {
 export function DropdownMenuPreview() {
 	return (
 		<div className="p-8 w-[280px]">
-			<div className="rounded-lg border bg-surface-4 p-1 shadow-md ring-1 ring-fg/10">
+			<div className="rounded-lg border bg-popover p-1 shadow-md ring-1 ring-fg/10">
 				<div className="px-1.5 py-1 text-xs font-medium text-fg-muted">Actions</div>
-				<div className="flex cursor-default items-center gap-1.5 rounded-md bg-surface-3 px-1.5 py-1 text-sm text-fg">
+				<div className="flex cursor-default items-center gap-1.5 rounded-md bg-muted px-1.5 py-1 text-sm text-fg">
 					<Edit className="size-4" />
 					Edit
 					<span className="ml-auto text-xs text-fg-muted">Ctrl+E</span>
@@ -928,7 +928,7 @@ export function DropdownMenuPreview() {
 export function PopoverPreview() {
 	return (
 		<div className="p-8 w-[340px]">
-			<div className="rounded-lg border bg-surface-4 p-2.5 shadow-md ring-1 ring-edge/40">
+			<div className="rounded-lg border bg-popover p-2.5 shadow-md ring-1 ring-edge/40">
 				<div className="flex flex-col gap-0.5 text-sm">
 					<div className="font-medium">Dimensions</div>
 					<div className="text-fg-muted">Set the dimensions for the layer.</div>
@@ -956,14 +956,14 @@ export function TooltipPreview() {
 	return (
 		<div className="flex flex-col items-center gap-4 p-8">
 			<div className="relative inline-flex flex-col items-center">
-				<div className="mb-2 rounded-md bg-fg px-3 py-1.5 text-xs text-surface">
+				<div className="mb-2 rounded-md bg-fg px-3 py-1.5 text-xs text-card">
 					Click to save your changes
 					<div className="absolute -bottom-1 left-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-[2px] bg-fg" />
 				</div>
 				<Button>Save changes</Button>
 			</div>
 			<div className="relative inline-flex flex-col items-center">
-				<div className="mb-2 rounded-md bg-fg px-3 py-1.5 text-xs text-surface">
+				<div className="mb-2 rounded-md bg-fg px-3 py-1.5 text-xs text-card">
 					Share with your team
 					<div className="absolute -bottom-1 left-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-[2px] bg-fg" />
 				</div>
@@ -979,15 +979,15 @@ export function TooltipPreview() {
 export function MenubarPreview() {
 	return (
 		<div className="p-8 w-[520px]">
-			<div className="flex items-center gap-0.5 rounded-lg border border-edge bg-surface-4 p-[3px]">
-				<div className="rounded-sm bg-surface-3 px-1.5 py-[2px] text-sm font-medium">File</div>
+			<div className="flex items-center gap-0.5 rounded-lg border border-edge bg-popover p-[3px]">
+				<div className="rounded-sm bg-muted px-1.5 py-[2px] text-sm font-medium">File</div>
 				<div className="rounded-sm px-1.5 py-[2px] text-sm font-medium">Edit</div>
 				<div className="rounded-sm px-1.5 py-[2px] text-sm font-medium">View</div>
 				<div className="rounded-sm px-1.5 py-[2px] text-sm font-medium">Help</div>
 			</div>
 			{/* Open dropdown representation */}
-			<div className="ml-0.5 mt-1 w-52 rounded-lg border bg-surface-4 p-1 shadow-md ring-1 ring-fg/10">
-				<div className="flex items-center gap-1.5 rounded-md bg-surface-3 px-1.5 py-1 text-sm">
+			<div className="ml-0.5 mt-1 w-52 rounded-lg border bg-popover p-1 shadow-md ring-1 ring-fg/10">
+				<div className="flex items-center gap-1.5 rounded-md bg-muted px-1.5 py-1 text-sm">
 					New File
 					<span className="ml-auto text-xs text-fg-muted">Ctrl+N</span>
 				</div>
@@ -1017,8 +1017,8 @@ export function MenubarPreview() {
 export function MenuPreview() {
 	return (
 		<div className="p-8 w-[240px]">
-			<div className="rounded-md border bg-surface-4 p-1 shadow-md">
-				<div className="flex cursor-default items-center rounded-sm bg-surface-3 px-2 py-1.5 text-sm text-fg">
+			<div className="rounded-md border bg-popover p-1 shadow-md">
+				<div className="flex cursor-default items-center rounded-sm bg-muted px-2 py-1.5 text-sm text-fg">
 					<Edit className="mr-2 size-4" />
 					Edit
 				</div>
@@ -1043,7 +1043,7 @@ export function MenuPreview() {
 export function CommandPreview() {
 	return (
 		<div className="p-8 w-[480px]">
-			<div className="rounded-lg border bg-surface-4 shadow-lg overflow-hidden">
+			<div className="rounded-lg border bg-popover shadow-lg overflow-hidden">
 				<div className="flex items-center border-b px-3">
 					<Search className="mr-2 size-4 shrink-0 text-fg-muted" />
 					<div className="flex h-11 w-full items-center text-sm text-fg-muted">
@@ -1052,7 +1052,7 @@ export function CommandPreview() {
 				</div>
 				<div className="p-1">
 					<div className="px-2 py-1.5 text-xs font-semibold text-fg-muted">Suggestions</div>
-					<div className="flex items-center gap-2 rounded-sm bg-surface-3 px-2 py-1.5 text-sm text-fg">
+					<div className="flex items-center gap-2 rounded-sm bg-muted px-2 py-1.5 text-sm text-fg">
 						<FileText className="size-4 text-fg-muted" />
 						Create new deal
 						<span className="ml-auto text-xs text-fg-muted">Ctrl+N</span>
@@ -1079,7 +1079,7 @@ export function CommandPreview() {
 export function ConfirmationDialogPreview() {
 	return (
 		<div className="p-8 w-[420px]">
-			<div className="rounded-xl border border-edge bg-surface-4 p-4 shadow-lg ring-1 ring-edge/40">
+			<div className="rounded-xl border border-edge bg-popover p-4 shadow-lg ring-1 ring-edge/40">
 				<div className="-mx-4 -mt-4 flex flex-col gap-2 px-4 pb-3 pt-4">
 					<div className="text-sm font-medium text-fg">Delete this deal?</div>
 					<div className="text-sm text-fg-muted">
@@ -1087,7 +1087,7 @@ export function ConfirmationDialogPreview() {
 						removed from your workspace.
 					</div>
 				</div>
-				<div className="-mx-4 -mb-4 mt-4 flex justify-end gap-2 rounded-b-xl border-t border-edge bg-surface-3 p-4">
+				<div className="-mx-4 -mb-4 mt-4 flex justify-end gap-2 rounded-b-xl border-t border-edge bg-muted p-4">
 					<Button variant="outline">Cancel</Button>
 					<Button variant="destructive">Delete deal</Button>
 				</div>
@@ -1147,7 +1147,7 @@ export function DataTablePreview() {
 		<div className="p-4 w-[640px]">
 			<div className="rounded-lg border border-edge overflow-hidden">
 				{/* Toolbar */}
-				<div className="flex items-center justify-between border-b border-edge bg-surface px-3 py-2">
+				<div className="flex items-center justify-between border-b border-edge bg-card px-3 py-2">
 					<div className="flex items-center gap-2">
 						<div className="flex items-center gap-1 rounded-md border border-edge bg-transparent px-2 py-1 text-xs">
 							<Search className="size-3 text-fg-muted" />
@@ -1208,7 +1208,7 @@ export function DataTablePreview() {
 					</TableBody>
 				</Table>
 				{/* Pagination */}
-				<div className="flex items-center justify-between border-t border-edge bg-surface px-3 py-2">
+				<div className="flex items-center justify-between border-t border-edge bg-card px-3 py-2">
 					<Text variant="body-xs" tone="muted">
 						Showing 1-5 of 24 deals
 					</Text>
@@ -1321,7 +1321,7 @@ export function OrgMenuPreview() {
 	return (
 		<div className="p-8 w-[280px]">
 			{/* Trigger representation */}
-			<div className="flex items-center gap-2 rounded-lg px-2 py-2 transition-colors hover:bg-surface-3">
+			<div className="flex items-center gap-2 rounded-lg px-2 py-2 transition-colors hover:bg-muted">
 				<Avatar className="size-8 rounded-lg after:rounded-lg">
 					<AvatarFallback className="rounded-lg text-xs font-semibold">AC</AvatarFallback>
 				</Avatar>
@@ -1334,9 +1334,9 @@ export function OrgMenuPreview() {
 				<ChevronsUpDown className="size-3.5 shrink-0 text-fg-muted" />
 			</div>
 			{/* Dropdown representation */}
-			<div className="mt-2 rounded-lg border bg-surface-4 p-1 shadow-md ring-1 ring-fg/10">
+			<div className="mt-2 rounded-lg border bg-popover p-1 shadow-md ring-1 ring-fg/10">
 				<div className="px-1.5 py-1 text-xs font-medium text-fg-muted">Organizations</div>
-				<div className="flex items-center gap-2 rounded-md bg-surface-3 px-1.5 py-1 text-sm">
+				<div className="flex items-center gap-2 rounded-md bg-muted px-1.5 py-1 text-sm">
 					<Avatar className="size-5 rounded after:rounded">
 						<AvatarFallback className="rounded text-[10px] font-semibold">AC</AvatarFallback>
 					</Avatar>

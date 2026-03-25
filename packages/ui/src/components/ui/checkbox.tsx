@@ -10,7 +10,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
 		<CheckboxPrimitive.Root
 			data-slot="checkbox"
 			className={cn(
-				"border-field bg-surface data-checked:bg-brand data-checked:text-brand-fg data-checked:border-brand",
+				"border-field bg-card data-checked:bg-brand data-checked:text-brand-fg data-checked:border-brand",
 				"aria-invalid:border-negative aria-invalid:ring-negative/20",
 				"focus-visible:border-brand focus-visible:ring-brand/20",
 				"flex size-4 items-center justify-center rounded-[4px] border transition-colors",

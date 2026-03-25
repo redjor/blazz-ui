@@ -39,7 +39,7 @@ function GridSkeleton() {
 	return (
 		<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 			{Array.from({ length: 8 }).map((_, i) => (
-				<div key={i} className="rounded-lg border border-edge bg-surface overflow-hidden">
+				<div key={i} className="rounded-lg border border-edge bg-card overflow-hidden">
 					<Skeleton className="aspect-video w-full" />
 					<div className="p-3 space-y-2">
 						<Skeleton className="h-3 w-16 rounded-full" />

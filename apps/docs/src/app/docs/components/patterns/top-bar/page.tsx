@@ -122,7 +122,7 @@ const compoundComponents: DocProp[] = [
 
 function ContentBarPlaceholder() {
 	return (
-		<div className="h-12 rounded border border-dashed border-edge-subtle bg-surface flex items-center px-4 text-xs text-fg-muted gap-2">
+		<div className="h-12 rounded border border-dashed border-edge-subtle bg-card flex items-center px-4 text-xs text-fg-muted gap-2">
 			<div className="size-6 rounded border border-dashed border-edge-subtle flex items-center justify-center">
 				&#9776;
 			</div>

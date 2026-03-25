@@ -165,7 +165,7 @@ export default function ChatPageClient() {
 				<ConversationScrollButton />
 			</Conversation>
 
-			<div className="border-t border-edge bg-surface px-4 py-3">
+			<div className="border-t border-edge bg-card px-4 py-3">
 				<div className="max-w-3xl mx-auto">
 					<PromptInput onSubmit={handlePromptSubmit}>
 						<PromptInputTextarea

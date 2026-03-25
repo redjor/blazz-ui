@@ -48,13 +48,13 @@ function QuoteSummaryBase({
 		<Wrapper
 			{...(wrapperProps as Record<string, string>)}
 			className={cn(
-				"block rounded-lg border border-container bg-surface p-4",
-				href && "transition-colors hover:bg-surface-3 cursor-pointer",
+				"block rounded-lg border border-container bg-card p-4",
+				href && "transition-colors hover:bg-muted cursor-pointer",
 				className
 			)}
 		>
 			<div className="flex items-start gap-3">
-				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-3">
+				<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
 					<FileText className="size-4 text-fg-muted" />
 				</div>
 				<div className="min-w-0 flex-1">

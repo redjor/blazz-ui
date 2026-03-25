@@ -125,7 +125,7 @@ export default function ToolbarPage() {
 					/>
 				</div>
 
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto mt-4">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto mt-4">
 					{`<DataTable
   toolbarLayout="stacked"  // ou "classic" (defaut)
   enableGlobalSearch
@@ -145,7 +145,7 @@ export default function ToolbarPage() {
 					La factory <code>createStatusViews()</code> genere automatiquement une vue "All" + une vue
 					par statut :
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`import { createStatusViews } from "@blazz/pro/components/blocks/data-table"
 
 const views = createStatusViews({
@@ -163,7 +163,7 @@ const views = createStatusViews({
 					<code>enableCustomViews</code>. Un bouton "+" apparait apres les pilules de vues
 					existantes.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   views={views}
   enableCustomViews
@@ -183,7 +183,7 @@ const views = createStatusViews({
 					Activez la barre de recherche globale avec <code>enableGlobalSearch</code>. Par defaut, la
 					recherche filtre cote client sur toutes les colonnes texte.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`// Recherche client (defaut)
 <DataTable enableGlobalSearch searchPlaceholder="Rechercher un produit..." />
 
@@ -209,7 +209,7 @@ const views = createStatusViews({
 					Trois positions d'injection permettent d'ajouter du contenu dans le toolbar sans le
 					remplacer. Voir la page <strong>Composition & Slots</strong> pour le detail complet.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   toolbarLeadingSlot={<MyLogo />}        // Avant les view pills
   toolbarTrailingSlot={<ExportButton />}  // Apres les icones

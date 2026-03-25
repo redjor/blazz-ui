@@ -196,7 +196,7 @@ export default function GettingStartedPage() {
 								"Passez toujours un getRowId stable si vos donnees ont un id metier.",
 								"Activez d'abord sorting + pagination, puis search et filtres selon le besoin reel.",
 							].map((item) => (
-								<div key={item} className="flex items-start gap-3 rounded-lg bg-surface-3/60 p-3">
+								<div key={item} className="flex items-start gap-3 rounded-lg bg-muted/60 p-3">
 									<Check className="mt-0.5 size-4 shrink-0 text-brand" />
 									<p className="text-sm leading-6 text-fg-muted">{item}</p>
 								</div>
@@ -204,7 +204,7 @@ export default function GettingStartedPage() {
 						</div>
 					</div>
 
-					<div className="rounded-xl border border-separator bg-surface-3/40 p-5">
+					<div className="rounded-xl border border-separator bg-muted/40 p-5">
 						<div className="mb-4 flex items-center gap-2 text-sm font-medium text-fg">
 							<SlidersHorizontal className="size-4 text-brand" />
 							Quand ajouter plus
@@ -258,7 +258,7 @@ export default function GettingStartedPage() {
 						code={gettingStartedCode}
 						highlightedCode={html("basic")}
 						defaultExpanded
-						className="rounded-xl border border-separator bg-surface-3/40"
+						className="rounded-xl border border-separator bg-muted/40"
 						previewClassName="hidden"
 					>
 						{null}
@@ -272,7 +272,7 @@ export default function GettingStartedPage() {
 						code={recipeCode}
 						highlightedCode={html("recipe")}
 						defaultExpanded
-						className="rounded-xl border border-separator bg-surface-3/40"
+						className="rounded-xl border border-separator bg-muted/40"
 						previewClassName="hidden"
 					>
 						{null}
@@ -311,7 +311,7 @@ export default function GettingStartedPage() {
 							<p className="mb-3 text-sm font-medium text-fg">{group.title}</p>
 							<div className="space-y-2">
 								{group.items.map((f) => (
-									<div key={f.name} className="rounded-lg bg-surface-3/60 p-3">
+									<div key={f.name} className="rounded-lg bg-muted/60 p-3">
 										<code className="text-xs font-mono text-brand">{f.name}</code>
 										<p className="mt-1 text-xs text-fg-muted">{f.desc}</p>
 									</div>

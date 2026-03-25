@@ -28,7 +28,7 @@ const badgeVariantMap = {
 
 function DataListBase({ title, items, className }: DataListProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			{title && <span className="mb-3 block text-sm font-medium text-fg">{title}</span>}
 			<div>
 				{items.map((item, i) => (

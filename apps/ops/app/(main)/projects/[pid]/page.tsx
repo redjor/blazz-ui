@@ -2,6 +2,7 @@
 
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
@@ -116,13 +117,11 @@ export default function ProjectOverviewPage({ params }: Props) {
 				<BlockStack gap="150">
 					<PageHeader
 						title={project.name}
-						actions={[
-							{
-								label: "Modifier",
-								variant: "outline",
-								onClick: () => setEditOpen(true),
-							},
-						]}
+						actions={
+							<Button variant="outline" onClick={() => setEditOpen(true)}>
+								Modifier
+							</Button>
+						}
 					/>
 					<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted">
 						<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />

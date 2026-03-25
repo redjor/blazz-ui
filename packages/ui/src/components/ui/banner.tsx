@@ -8,7 +8,7 @@ import { cn } from "../../lib/utils"
 import { Button, buttonVariants } from "./button"
 
 const bannerVariants = cva(
-	"relative flex gap-2 rounded-md border border-container bg-surface-3 p-3",
+	"relative flex gap-2 rounded-md border border-container bg-muted p-3",
 	{
 		variants: {
 			variant: {

@@ -283,7 +283,7 @@ function SlashMenu({
 	return (
 		<Card
 			size="sm"
-			className="w-[280px] border-container bg-surface p-0 data-[size=sm]:p-0 shadow-[0_18px_50px_rgba(15,23,42,0.14)]"
+			className="w-[280px] border-container bg-card p-0 data-[size=sm]:p-0 shadow-[0_18px_50px_rgba(15,23,42,0.14)]"
 		>
 			<div ref={listRef} className="max-h-[360px] overflow-y-auto px-1 py-1">
 				{commands.map((cmd, index) => (
@@ -292,8 +292,8 @@ function SlashMenu({
 						type="button"
 						className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[15px] transition-colors ${
 							index === selectedIndex
-								? "bg-surface-3 text-fg"
-								: "text-fg-muted hover:bg-surface-2 hover:text-fg"
+								? "bg-muted text-fg"
+								: "text-fg-muted hover:bg-card hover:text-fg"
 						}`}
 						onClick={() => onSelect(index)}
 						onMouseEnter={() => onHover(index)}
@@ -308,9 +308,9 @@ function SlashMenu({
 					</button>
 				))}
 			</div>
-			<CardFooter className="justify-between border-t border-separator bg-surface px-3 py-2 text-xs text-fg-muted">
+			<CardFooter className="justify-between border-t border-separator bg-card px-3 py-2 text-xs text-fg-muted">
 				<span>Fermer le menu</span>
-				<span className="rounded-md border border-container bg-surface-2 px-1.5 py-0.5 font-medium text-fg-muted">
+				<span className="rounded-md border border-container bg-card px-1.5 py-0.5 font-medium text-fg-muted">
 					esc
 				</span>
 			</CardFooter>

@@ -309,7 +309,7 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 						{tags.map((tag) => (
 							<span
 								key={tag}
-								className="inline-flex items-center rounded-full bg-surface px-1.5 py-0.5 text-xs text-fg-muted border border-edge"
+								className="inline-flex items-center rounded-full bg-card px-1.5 py-0.5 text-xs text-fg-muted border border-edge"
 							>
 								{tag}
 							</span>

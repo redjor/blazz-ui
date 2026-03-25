@@ -307,7 +307,7 @@ const toc = [
 
 function StatsGridHeroDemo() {
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<StatsGrid stats={heroStats} />
 		</div>
 	)
@@ -340,7 +340,7 @@ export default function StatsGridPage() {
 					code={examples[0].code}
 					highlightedCode={html("basic")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<StatsGrid stats={heroStats} />
 					</div>
 				</DocExampleClient>
@@ -351,7 +351,7 @@ export default function StatsGridPage() {
 					code={examples[1].code}
 					highlightedCode={html("three-columns")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<StatsGrid stats={threeColumnStats} columns={3} />
 					</div>
 				</DocExampleClient>
@@ -362,7 +362,7 @@ export default function StatsGridPage() {
 					code={examples[2].code}
 					highlightedCode={html("inverted")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<StatsGrid stats={invertedStats} />
 					</div>
 				</DocExampleClient>
@@ -373,7 +373,7 @@ export default function StatsGridPage() {
 					code={examples[3].code}
 					highlightedCode={html("loading")}
 				>
-					<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<StatsGrid stats={[]} loading />
 					</div>
 				</DocExampleClient>

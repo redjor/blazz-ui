@@ -177,7 +177,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 			<div className="flex items-center justify-between px-4 py-2 border-b border-edge">
 				<div className="flex items-center gap-2">
 					<h1 className="text-sm font-semibold">{entry.name}</h1>
-					<span className="text-xs text-fg-muted bg-raised px-1.5 py-0.5 rounded">
+					<span className="text-xs text-fg-muted bg-muted px-1.5 py-0.5 rounded">
 						{entry.category}
 					</span>
 				</div>
@@ -186,7 +186,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 					size="xs"
 					onClick={() => setShowVariants((v) => !v)}
 					title="Toggle variants grid"
-					className={showVariants ? "bg-raised" : ""}
+					className={showVariants ? "bg-muted" : ""}
 				>
 					<LayoutGrid className="size-3 mr-1" />
 					<span className="text-xs">Variants</span>

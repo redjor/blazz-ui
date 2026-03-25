@@ -42,12 +42,12 @@ function TransactionCardBase({
 	const isIncoming = type === "incoming"
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-start gap-3">
 				<div
 					className={cn(
 						"mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full",
-						isIncoming ? "bg-emerald-500/10" : "bg-surface-3"
+						isIncoming ? "bg-emerald-500/10" : "bg-muted"
 					)}
 				>
 					{isIncoming ? (

@@ -587,6 +587,19 @@ export const sidebarConfig: SidebarConfig = {
 			title: "Blocks",
 			items: [
 				{
+					id: "block-layout",
+					title: "Layout",
+					url: "/docs/blocks/page-header",
+					icon: Layers,
+					items: [
+						{
+							title: "Page Header",
+							url: "/docs/blocks/page-header",
+							keywords: ["page header", "page title", "header", "breadcrumbs", "actions"],
+						},
+					],
+				},
+				{
 					id: "block-charts",
 					title: "Charts",
 					url: "/docs/blocks/charts",

@@ -277,7 +277,7 @@ export default function FlatModePage() {
 								</div>
 								<div className="flex shrink-0 items-center gap-3">
 									<span className="text-xs text-fg-muted">{issue.date}</span>
-									<span className="inline-flex items-center rounded-full bg-surface-3/70 px-2 py-0.5 text-[11px] text-fg-muted">
+									<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted">
 										{issue.project}
 									</span>
 								</div>
@@ -293,7 +293,7 @@ export default function FlatModePage() {
 					headers), <code>renderRow</code> (layout custom par ligne), et <code>enableGrouping</code>{" "}
 					(regroupement).
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   variant="flat"
   enableGrouping
@@ -324,7 +324,7 @@ export default function FlatModePage() {
 					<code>&lt;td colSpan&gt;</code> avec un flex div. Le DataTable injecte automatiquement la
 					checkbox de selection et le menu d'actions autour de votre contenu.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`renderRow={(row) => (
   <>
     {/* Left side — takes all available space */}
@@ -348,7 +348,7 @@ export default function FlatModePage() {
 					<code>&lt;td&gt;</code> du group header. Ideal pour teinter le fond avec la couleur du
 					statut.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`groupRowStyle={(row) => {
   const status = row.getValue("status")
   return { background: "oklch(0.70 0.15 150 / 0.08)" }

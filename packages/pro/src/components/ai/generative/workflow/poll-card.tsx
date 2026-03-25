@@ -39,7 +39,7 @@ function PollCardBase({
 	}
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<span className="block text-sm font-medium text-fg">{question}</span>
 			<div className="mt-3 space-y-2">
 				{options.map((option, i) => {
@@ -57,7 +57,7 @@ function PollCardBase({
 								"relative flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left text-sm transition-colors",
 								isSelected
 									? "border-brand bg-brand/5 text-fg"
-									: "border-container text-fg hover:bg-surface-3 cursor-pointer",
+									: "border-container text-fg hover:bg-muted cursor-pointer",
 								selected !== null && !isSelected && "opacity-70"
 							)}
 						>

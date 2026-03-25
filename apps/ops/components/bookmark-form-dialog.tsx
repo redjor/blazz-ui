@@ -294,7 +294,7 @@ export function BookmarkFormDialog({
 
 					{/* Metadata preview */}
 					{(thumbnailUrl || title) && (
-						<div className="rounded-lg border border-edge bg-surface p-3 space-y-2">
+						<div className="rounded-lg border border-edge bg-card p-3 space-y-2">
 							{thumbnailUrl && (
 								<img src={thumbnailUrl} alt="" className="w-full h-32 object-cover rounded-md" />
 							)}

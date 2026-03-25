@@ -47,7 +47,7 @@ function MessagePreviewBase({
 	const PlatformIcon = config.icon
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-center gap-2">
 				<PlatformIcon className={cn("size-4", config.color)} />
 				<span className="text-xs font-medium text-fg-muted">{config.label}</span>

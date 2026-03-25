@@ -88,7 +88,7 @@ function TimelineIndicator({ className, children, ...props }: React.ComponentPro
 					data-slot="timeline-indicator"
 					className={cn(
 						"z-10 flex size-7 shrink-0 items-center justify-center rounded-full",
-						"border border-edge bg-surface text-fg-muted",
+						"border border-edge bg-card text-fg-muted",
 						"[&>svg]:size-3.5",
 						className
 					)}
@@ -108,7 +108,7 @@ function TimelineIndicator({ className, children, ...props }: React.ComponentPro
 				data-slot="timeline-indicator"
 				className={cn(
 					"flex size-7 shrink-0 items-center justify-center rounded-full",
-					"border border-edge bg-surface text-fg-muted",
+					"border border-edge bg-card text-fg-muted",
 					"[&>svg]:size-3.5",
 					className
 				)}

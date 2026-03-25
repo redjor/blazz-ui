@@ -30,7 +30,7 @@ const emptyVariants = cva("flex w-full min-w-0 flex-col items-center justify-cen
 })
 
 const emptyIconVariants = cva(
-	"flex shrink-0 items-center justify-center rounded-full bg-surface-3 text-fg-muted [&_svg]:pointer-events-none [&_svg]:shrink-0",
+	"flex shrink-0 items-center justify-center rounded-full bg-muted text-fg-muted [&_svg]:pointer-events-none [&_svg]:shrink-0",
 	{
 		variants: {
 			size: {

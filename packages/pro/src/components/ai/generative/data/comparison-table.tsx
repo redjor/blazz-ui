@@ -12,7 +12,7 @@ export interface ComparisonTableProps {
 
 function ComparisonTableBase({ title, columns, rows, className }: ComparisonTableProps) {
 	return (
-		<div className={cn("overflow-hidden rounded-lg border border-container bg-surface", className)}>
+		<div className={cn("overflow-hidden rounded-lg border border-container bg-card", className)}>
 			{title && (
 				<div className="px-4 pt-3 pb-2">
 					<span className="text-sm font-medium text-fg">{title}</span>
@@ -30,7 +30,7 @@ function ComparisonTableBase({ title, columns, rows, className }: ComparisonTabl
 				</thead>
 				<tbody>
 					{rows.map((row, i) => (
-						<tr key={i} className="even:bg-surface-3/50">
+						<tr key={i} className="even:bg-muted/50">
 							{row.map((cell, j) => (
 								<td key={j} className="px-3 py-1.5 text-sm text-fg">
 									{cell}

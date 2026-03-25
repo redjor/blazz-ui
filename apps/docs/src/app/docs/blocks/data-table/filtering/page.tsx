@@ -171,7 +171,7 @@ export default function FilteringPage() {
 					5 types disponibles : <code>text</code>, <code>number</code>, <code>date</code>,{" "}
 					<code>boolean</code>, <code>select</code>.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`// Text — recherche par contenu
 col.text<Product>("name", {
   title: "Produit",
@@ -215,7 +215,7 @@ col.select<Product>("category", {
 					Activez <code>enableAdvancedFilters</code> pour afficher le filtre builder. Il permet de
 					creer des conditions complexes avec logique AND/OR.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   enableAdvancedFilters
   onFilterGroupChange={(filterGroup) => {
@@ -229,7 +229,7 @@ col.select<Product>("category", {
 					<code>FilterCondition</code>
 					et potentiellement des sous-groupes imbriques :
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`// (status = "active" OR status = "draft") AND price > 100
 const filterGroup: FilterGroup = {
   id: "root",
@@ -261,7 +261,7 @@ const filterGroup: FilterGroup = {
 					Par defaut, les filtres inline sont caches derriere un bouton "Ajouter un filtre". Pour
 					qu'un filtre soit visible immediatement, ajoutez <code>defaultInlineFilter: true</code>.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`col.text<Product>("name", {
   showInlineFilter: true,     // Disponible dans le dropdown "Ajouter un filtre"
   defaultInlineFilter: true,  // Affiche directement sans cliquer
@@ -289,7 +289,7 @@ col.select<Product>("status", {
 				<div className="space-y-6">
 					<div>
 						<p className="text-sm font-medium mb-2">Text</p>
-						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
+						<div className="bg-muted rounded-lg p-4 text-sm font-mono space-y-1">
 							<p>
 								contains, notContains, equals, notEquals, startsWith, endsWith, isEmpty, isNotEmpty
 							</p>
@@ -298,7 +298,7 @@ col.select<Product>("status", {
 
 					<div>
 						<p className="text-sm font-medium mb-2">Number</p>
-						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
+						<div className="bg-muted rounded-lg p-4 text-sm font-mono space-y-1">
 							<p>
 								equals, notEquals, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual,
 								between, isEmpty, isNotEmpty
@@ -308,7 +308,7 @@ col.select<Product>("status", {
 
 					<div>
 						<p className="text-sm font-medium mb-2">Date</p>
-						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
+						<div className="bg-muted rounded-lg p-4 text-sm font-mono space-y-1">
 							<p>
 								equals, notEquals, greaterThan (after), greaterThanOrEqual (on or after), lessThan
 								(before), lessThanOrEqual (on or before), between, isEmpty, isNotEmpty
@@ -318,14 +318,14 @@ col.select<Product>("status", {
 
 					<div>
 						<p className="text-sm font-medium mb-2">Select</p>
-						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
+						<div className="bg-muted rounded-lg p-4 text-sm font-mono space-y-1">
 							<p>equals, notEquals, in, notIn</p>
 						</div>
 					</div>
 
 					<div>
 						<p className="text-sm font-medium mb-2">Boolean</p>
-						<div className="bg-surface-3 rounded-lg p-4 text-sm font-mono space-y-1">
+						<div className="bg-muted rounded-lg p-4 text-sm font-mono space-y-1">
 							<p>equals</p>
 						</div>
 					</div>
@@ -335,7 +335,7 @@ col.select<Product>("status", {
 					Vous pouvez restreindre les operateurs disponibles via la prop <code>operators</code> dans
 					le <code>filterConfig</code> :
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto mt-2">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto mt-2">
 					{`filterConfig: {
   type: "text",
   operators: ["contains", "equals"],  // Seuls ces 2 operateurs seront proposes

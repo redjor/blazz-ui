@@ -9,7 +9,7 @@ export function ThemePaletteSwitcher() {
 	return (
 		<button
 			type="button"
-			className="rounded-lg p-2 transition-colors hover:bg-surface-3"
+			className="rounded-lg p-2 transition-colors hover:bg-muted"
 			aria-label="Toggle theme"
 			onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
 		>

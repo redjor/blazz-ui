@@ -20,7 +20,7 @@ export interface ActionListProps {
 
 function ActionListBase({ title, items, className }: ActionListProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface", className)}>
+		<div className={cn("rounded-lg border border-container bg-card", className)}>
 			{title && (
 				<div className="px-4 pt-3 pb-1">
 					<span className="text-sm font-medium text-fg">{title}</span>
@@ -32,10 +32,10 @@ function ActionListBase({ title, items, className }: ActionListProps) {
 						key={i}
 						type="button"
 						onClick={item.onClick}
-						className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-surface-3 cursor-pointer"
+						className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-muted cursor-pointer"
 					>
 						{item.icon && (
-							<span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-surface-3 border border-container text-fg-muted">
+							<span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-muted border border-container text-fg-muted">
 								{item.icon}
 							</span>
 						)}

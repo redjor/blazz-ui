@@ -30,7 +30,7 @@ function StatusUpdateBase({
 	className,
 }: StatusUpdateProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-baseline justify-between gap-2">
 				<div className="flex items-center gap-2">
 					{icon && <span className="text-fg-muted">{icon}</span>}

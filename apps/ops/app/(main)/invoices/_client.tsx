@@ -132,7 +132,7 @@ export default function InvoicesPageClient() {
 				<div className="border border-edge rounded-lg overflow-hidden">
 					<table className="w-full text-[13px]">
 						<thead>
-							<tr className="bg-raised">
+							<tr className="bg-muted">
 								<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs">N°</th>
 								<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs">Libelle</th>
 								<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs">Client</th>
@@ -151,7 +151,7 @@ export default function InvoicesPageClient() {
 								return (
 									<tr
 										key={inv._id}
-										className="border-t border-edge hover:bg-raised/50 h-10 cursor-pointer"
+										className="border-t border-edge hover:bg-muted/50 h-10 cursor-pointer"
 										onClick={() => router.push(`/invoices/${inv._id}`)}
 									>
 										<td className="px-3 py-2 font-mono text-fg">{inv.qontoNumber ?? "—"}</td>

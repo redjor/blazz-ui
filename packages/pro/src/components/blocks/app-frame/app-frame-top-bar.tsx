@@ -8,7 +8,7 @@ export function AppFrameTopBar({ state }: { state: AppTopBarState }) {
 
 	return (
 		<TopBar
-			className="bg-surface-1 border-b border-edge-subtle"
+			className="bg-background border-b border-edge-subtle"
 			left={
 				<>
 					<TopBar.Breadcrumbs items={state.breadcrumbs} />

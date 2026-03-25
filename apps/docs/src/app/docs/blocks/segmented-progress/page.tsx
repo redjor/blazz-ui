@@ -121,7 +121,7 @@ const toc = [
 
 function SegmentedProgressHeroDemo() {
 	return (
-		<div className="w-full max-w-md rounded-lg border border-edge bg-surface overflow-hidden p-6">
+		<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-6">
 			<BlockStack gap="400">
 				<SegmentedProgress percent={65} />
 				<SegmentedProgress percent={82} autoColor />
@@ -156,7 +156,7 @@ export default function SegmentedProgressPage() {
 					code={examples[0].code}
 					highlightedCode={html("basic")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<SegmentedProgress percent={35} />
 					</div>
 				</DocExampleClient>
@@ -167,7 +167,7 @@ export default function SegmentedProgressPage() {
 					code={examples[1].code}
 					highlightedCode={html("colors")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<BlockStack gap="300">
 							<SegmentedProgress percent={50} color="brand" />
 							<SegmentedProgress percent={80} color="caution" />
@@ -182,7 +182,7 @@ export default function SegmentedProgressPage() {
 					code={examples[2].code}
 					highlightedCode={html("auto-color")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<BlockStack gap="300">
 							<SegmentedProgress percent={50} autoColor />
 							<SegmentedProgress percent={82} autoColor />
@@ -197,7 +197,7 @@ export default function SegmentedProgressPage() {
 					code={examples[3].code}
 					highlightedCode={html("sizes")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface overflow-hidden p-4">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<BlockStack gap="300">
 							<SegmentedProgress percent={60} />
 							<SegmentedProgress percent={60} dotSize={8} gap={3} />

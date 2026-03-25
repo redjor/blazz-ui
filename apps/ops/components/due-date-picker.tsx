@@ -120,7 +120,7 @@ export function DueDatePicker({ value, onChange, compact }: DueDatePickerProps) 
 								key={s.label}
 								type="button"
 								onClick={() => pick(s.getDate())}
-								className="flex items-center gap-3 w-full px-3 py-2 text-sm rounded-md hover:bg-surface-3 transition-colors"
+								className="flex items-center gap-3 w-full px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
 							>
 								{s.icon}
 								<span className="flex-1 text-left text-fg">{s.label}</span>
@@ -133,7 +133,7 @@ export function DueDatePicker({ value, onChange, compact }: DueDatePickerProps) 
 								<button
 									type="button"
 									onClick={clear}
-									className="flex items-center gap-3 w-full px-3 py-2 text-sm rounded-md hover:bg-surface-3 transition-colors"
+									className="flex items-center gap-3 w-full px-3 py-2 text-sm rounded-md hover:bg-muted transition-colors"
 								>
 									<X className="size-4 text-fg-muted" />
 									<span className="flex-1 text-left text-fg-muted">Sans date</span>

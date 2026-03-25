@@ -461,7 +461,7 @@ export default function NotificationCenterPage() {
 		>
 			{/* Hero */}
 			<DocHero>
-				<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
+				<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 					<NotificationCenter unreadCount={2} onMarkAllRead={() => {}}>
 						<NotificationList>
 							{heroNotifications.map((n) => (
@@ -480,7 +480,7 @@ export default function NotificationCenterPage() {
 					code={examples[0].code}
 					highlightedCode={html("basic")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter unreadCount={1}>
 							<NotificationList>
 								{basicNotifications.map((n) => (
@@ -497,7 +497,7 @@ export default function NotificationCenterPage() {
 					code={examples[1].code}
 					highlightedCode={html("groups")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter unreadCount={2} onMarkAllRead={() => {}}>
 							<NotificationList>
 								<NotificationGroup label="Today">
@@ -521,7 +521,7 @@ export default function NotificationCenterPage() {
 					code={examples[2].code}
 					highlightedCode={html("actions")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter unreadCount={3}>
 							<NotificationList>
 								{actionNotifications.map((n) => (
@@ -538,7 +538,7 @@ export default function NotificationCenterPage() {
 					code={examples[3].code}
 					highlightedCode={html("loading")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter loading />
 					</div>
 				</DocExampleClient>
@@ -549,7 +549,7 @@ export default function NotificationCenterPage() {
 					code={examples[4].code}
 					highlightedCode={html("empty")}
 				>
-					<div className="w-full max-w-md rounded-lg border border-edge bg-surface">
+					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter />
 					</div>
 				</DocExampleClient>

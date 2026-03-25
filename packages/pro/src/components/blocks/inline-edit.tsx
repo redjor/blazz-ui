@@ -101,7 +101,7 @@ function InlineEditBase({
 			type="button"
 			onClick={() => setEditing(true)}
 			className={cn(
-				"group inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-sm transition-colors hover:bg-surface-3",
+				"group inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 text-sm transition-colors hover:bg-muted",
 				!value && "text-fg-muted",
 				className
 			)}

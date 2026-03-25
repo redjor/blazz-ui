@@ -141,7 +141,7 @@ function InboxAvatar({ author, actionType }: { author: InboxAuthor; actionType: 
 			)}
 
 			{/* Action type badge */}
-			<div className="absolute -bottom-0.5 -left-0.5 flex size-3.5 items-center justify-center rounded-full bg-surface ring-2 ring-surface">
+			<div className="absolute -bottom-0.5 -left-0.5 flex size-3.5 items-center justify-center rounded-full bg-card ring-2 ring-card">
 				<ActionIcon className="size-2.5 text-fg-muted" />
 			</div>
 		</div>

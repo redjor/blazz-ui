@@ -202,7 +202,7 @@ export default function CalendarPage() {
 						days
 					</li>
 					<li>
-						<code className="text-xs">bg-surface-3</code> — Today highlight, day hover, range middle
+						<code className="text-xs">bg-muted</code> — Today highlight, day hover, range middle
 					</li>
 					<li>
 						<code className="text-xs">bg-brand / text-brand-fg</code> — Selected day

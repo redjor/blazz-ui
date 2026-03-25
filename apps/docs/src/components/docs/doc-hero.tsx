@@ -9,7 +9,7 @@ export function DocHero({ children, className }: DocHeroProps) {
 	return (
 		<div
 			className={cn(
-				"flex items-center justify-center rounded-xl border border-container bg-surface-3/50 px-8 py-12",
+				"flex items-center justify-center rounded-xl border border-container bg-muted/50 px-8 py-12",
 				className
 			)}
 			style={{

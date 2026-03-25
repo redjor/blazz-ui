@@ -148,7 +148,7 @@ export default function DeploymentsPageClient() {
 		<BlockStack gap="600" className="p-6">
 			<PageHeader
 				title="Deployments"
-				actionsSlot={
+				actions={
 					<Button variant="outline" size="sm" onClick={fetchDeployments} disabled={loading}>
 						<RefreshCw className={loading ? "animate-spin" : ""} />
 						Refresh
@@ -167,7 +167,7 @@ export default function DeploymentsPageClient() {
 						return (
 							<BlockStack
 								key={branch}
-								className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-surface-3 p-5`}
+								className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-muted p-5`}
 								gap="200"
 							>
 								<InlineStack gap="200" blockAlign="center">
@@ -191,7 +191,7 @@ export default function DeploymentsPageClient() {
 					return (
 						<BlockStack
 							key={branch}
-							className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-surface-3`}
+							className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-muted`}
 						>
 							{/* Header */}
 							<InlineStack

@@ -26,7 +26,7 @@ const TableHeader = React.forwardRef<
 	<thead
 		ref={ref}
 		data-slot="table-header"
-		className={cn("bg-surface-3/50 [&_tr]:border-b", className)}
+		className={cn("bg-muted/50 [&_tr]:border-b", className)}
 		{...props}
 	/>
 ))
@@ -52,7 +52,7 @@ const TableFooter = React.forwardRef<
 	<tfoot
 		ref={ref}
 		data-slot="table-footer"
-		className={cn("border-t bg-surface-3/50 font-medium [&>tr]:last:border-b-0", className)}
+		className={cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)}
 		{...props}
 	/>
 ))
@@ -64,7 +64,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 			ref={ref}
 			data-slot="table-row"
 			className={cn(
-				"border-b border-separator transition-colors hover:bg-surface-3/50 data-[state=selected]:bg-brand/5",
+				"border-b border-separator transition-colors hover:bg-muted/50 data-[state=selected]:bg-brand/5",
 				className
 			)}
 			{...props}

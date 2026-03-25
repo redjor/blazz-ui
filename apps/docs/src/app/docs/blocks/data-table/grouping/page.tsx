@@ -110,7 +110,7 @@ export default function GroupingPage() {
 					<code>defaultExpanded</code>
 					pour ouvrir tous les groupes au chargement.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   enableGrouping
   defaultGrouping={["category"]}
@@ -126,7 +126,7 @@ export default function GroupingPage() {
 					chaque groupe. Types disponibles : <code>sum</code>, <code>avg</code>, <code>min</code>,{" "}
 					<code>max</code>, <code>count</code>, <code>range</code>, ou une fonction custom.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   enableGrouping
   defaultGrouping={["category"]}
@@ -162,7 +162,7 @@ export default function GroupingPage() {
 						chevron et les agregations)
 					</li>
 				</ul>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`// Remplacement du contenu central uniquement
 renderGroupHeaderContent={({ row, groupValue, subRowCount, aggregations }) => (
   <span className="flex items-center gap-2">
@@ -223,7 +223,7 @@ renderGroupHeader={(row, defaultContent) => (
 						getRowId={(row) => row.id}
 					/>
 				</div>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
   enableRowExpand
   expandMode="single"    // "single" (accordion) ou "multiple"
@@ -246,7 +246,7 @@ renderGroupHeader={(row, defaultContent) => (
 					Ajoutez <code>col.expand()</code> dans vos colonnes pour afficher le chevron de toggle.
 					Sinon, le toggle se fait via <code>onRowClick</code> ou programmatiquement.
 				</p>
-				<pre className="bg-surface-3 rounded-lg p-4 text-sm overflow-x-auto">
+				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`const columns = [
   col.expand<Product>(),  // Chevron en premiere colonne
   col.text<Product>("name", { title: "Produit" }),

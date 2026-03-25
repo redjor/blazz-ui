@@ -70,7 +70,7 @@ export function MobileSidebarSheet({ open, onOpenChange, config }: MobileSidebar
 		<Sheet open={open} onOpenChange={onOpenChange}>
 			<SheetContent
 				side="left"
-				className="w-(--sidebar-width) p-0 bg-surface rounded-(--main-radius)"
+				className="w-(--sidebar-width) p-0 bg-card rounded-(--main-radius)"
 				topOffset="var(--topbar-height)"
 			>
 				<ScrollArea className="h-full">

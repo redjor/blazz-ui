@@ -106,20 +106,20 @@ const layoutFrameProps: DocProp[] = [
 function LayoutPlaceholder() {
 	return (
 		<div className="flex h-40 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
-			<div className="w-28 shrink-0 bg-surface-3/30 flex flex-col">
+			<div className="w-28 shrink-0 bg-muted/30 flex flex-col">
 				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle flex items-center px-3 font-medium">
 					Logo
 				</div>
 				<div className="flex-1 flex items-center justify-center">Nav items</div>
 			</div>
 			<div className="flex-1 flex flex-col">
-				<div className="h-8 shrink-0 border-l border-t border-dashed border-edge-subtle bg-surface flex items-center px-3 gap-2 rounded-tl-lg">
+				<div className="h-8 shrink-0 border-l border-t border-dashed border-edge-subtle bg-card flex items-center px-3 gap-2 rounded-tl-lg">
 					<span className="size-4 rounded border border-dashed border-edge-subtle flex items-center justify-center text-[8px]">
 						&#9776;
 					</span>
 					<span>Header (TopBar + SidebarToggle)</span>
 				</div>
-				<div className="flex-1 border-l border-dashed border-edge-subtle bg-surface flex items-center justify-center">
+				<div className="flex-1 border-l border-dashed border-edge-subtle bg-card flex items-center justify-center">
 					Main content (ScrollArea)
 				</div>
 			</div>

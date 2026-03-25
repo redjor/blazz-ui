@@ -194,7 +194,7 @@ export default function TextareaPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface</code> - Input-specific background
+						<code className="text-xs">bg-card</code> - Input-specific background
 					</li>
 					<li>
 						<code className="text-xs">border-edge</code> - Input-specific border

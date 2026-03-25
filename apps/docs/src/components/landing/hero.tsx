@@ -22,7 +22,7 @@ export function Hero() {
 							initial={{ opacity: 0, scale: 0.96 }}
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ duration: 0.25, delay: 0.1 }}
-							className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-edge/60 bg-surface px-3 py-1 text-xs text-fg-muted"
+							className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-edge/60 bg-card px-3 py-1 text-xs text-fg-muted"
 						>
 							<Sparkles className="size-3 text-brand" />
 							Built for high-density enterprise workflows
@@ -66,7 +66,7 @@ export function Hero() {
 
 					<div className="relative mt-14">
 						<div className="absolute inset-x-20 -top-8 -z-10 h-40 rounded-full bg-brand/8 blur-3xl" />
-						<div className="overflow-hidden rounded-[28px] border border-container bg-surface shadow-[0_20px_80px_-32px_rgba(0,0,0,0.35)]">
+						<div className="overflow-hidden rounded-[28px] border border-container bg-card shadow-[0_20px_80px_-32px_rgba(0,0,0,0.35)]">
 							<div className="flex items-center justify-between border-b border-edge/50 px-4 py-3">
 								<div className="flex items-center gap-2">
 									<span className="size-2 rounded-full bg-fg-subtle/40" />

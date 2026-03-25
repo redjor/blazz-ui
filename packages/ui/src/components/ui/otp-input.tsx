@@ -120,7 +120,7 @@ function OtpInput({
 					aria-label={`Digit ${i + 1}`}
 					className={cn(
 						"w-10 h-10 text-center text-base font-medium tabular-nums",
-						"bg-surface border border-edge rounded-md",
+						"bg-card border border-edge rounded-md",
 						"outline-none transition-colors duration-150",
 						"focus:border-brand focus:ring-[3px] focus:ring-brand/20",
 						"disabled:opacity-50 disabled:cursor-not-allowed",

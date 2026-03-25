@@ -66,7 +66,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 		<Sheet open={open} onOpenChange={onOpenChange}>
 			<SheetContent
 				side="left"
-				className="w-(--sidebar-width) p-0 bg-surface"
+				className="w-(--sidebar-width) p-0 bg-card"
 				topOffset="var(--topbar-height)"
 			>
 				<ScrollArea className="h-full">
@@ -80,7 +80,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 								className={cn(
 									"px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
 									sectionId === tab.id
-										? "text-fg font-medium bg-surface-3"
+										? "text-fg font-medium bg-muted"
 										: "text-fg-muted hover:text-fg"
 								)}
 							>

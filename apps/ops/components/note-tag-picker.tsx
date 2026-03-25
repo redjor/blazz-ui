@@ -46,7 +46,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg">
+			<PopoverTrigger className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-card hover:text-fg">
 				<Tag className="size-3" />
 				<span>Tags</span>
 			</PopoverTrigger>
@@ -70,7 +70,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 									key={tag._id}
 									type="button"
 									onClick={() => void toggleTag(tag._id)}
-									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors hover:bg-surface-2"
+									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors hover:bg-card"
 								>
 									<span className={`size-2.5 shrink-0 rounded-full ${color.dot}`} />
 									<span className="min-w-0 flex-1 truncate text-left text-fg">{tag.name}</span>
@@ -83,7 +83,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 								<button
 									type="button"
 									onClick={() => void handleCreate()}
-									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-fg transition-colors hover:bg-surface-2"
+									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-fg transition-colors hover:bg-card"
 								>
 									<Plus className="size-3.5 shrink-0 text-fg-muted" />
 									<span>

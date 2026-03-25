@@ -40,9 +40,10 @@ const TOKEN_GROUPS: TokenGroup[] = [
 	{
 		name: "Surfaces",
 		tokens: [
-			{ variable: "--surface-0", label: "surface-0 (page)", light: { l: 0.90, c: 0, h: 0 }, dark: { l: 0.145, c: 0.005, h: 270 } },
-			{ variable: "--surface-1", label: "surface-1", light: { l: 0.975, c: 0, h: 0 }, dark: { l: 0.179, c: 0.005, h: 270 } },
-			{ variable: "--surface-2", label: "surface-2 (cards)", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.213, c: 0.005, h: 270 } },
+			{ variable: "--background", label: "background (page)", light: { l: 0.90, c: 0, h: 0 }, dark: { l: 0.145, c: 0.005, h: 270 } },
+			{ variable: "--card", label: "card", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.213, c: 0.005, h: 270 } },
+			{ variable: "--muted", label: "muted (hover)", light: { l: 0.955, c: 0, h: 0 }, dark: { l: 0.246, c: 0.005, h: 270 } },
+			{ variable: "--popover", label: "popover", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.28, c: 0.005, h: 270 } },
 		],
 	},
 	{
@@ -63,8 +64,8 @@ const TOKEN_GROUPS: TokenGroup[] = [
 	{
 		name: "Accent",
 		tokens: [
-			{ variable: "--accent", label: "accent", light: { l: 0.49, c: 0.19, h: 270 }, dark: { l: 0.64, c: 0.19, h: 270 } },
-			{ variable: "--accent-hover", label: "accent-hover", light: { l: 0.42, c: 0.19, h: 270 }, dark: { l: 0.57, c: 0.19, h: 270 } },
+			{ variable: "--accent-color", label: "accent-color", light: { l: 0.49, c: 0.19, h: 270 }, dark: { l: 0.64, c: 0.19, h: 270 } },
+			{ variable: "--accent-color-hover", label: "accent-color-hover", light: { l: 0.42, c: 0.19, h: 270 }, dark: { l: 0.57, c: 0.19, h: 270 } },
 			{ variable: "--accent-foreground", label: "accent-fg", light: { l: 0.985, c: 0, h: 0 }, dark: { l: 0.985, c: 0, h: 0 } },
 		],
 	},
@@ -272,7 +273,7 @@ export function ColorTuner() {
 			</Button>
 
 			{open && (
-				<div className="fixed top-2 bottom-2 right-2 z-50 flex w-[320px] flex-col bg-surface-4 shadow-lg border border-container rounded-xl overflow-hidden">
+				<div className="fixed top-2 bottom-2 right-2 z-50 flex w-[320px] flex-col bg-popover shadow-lg border border-container rounded-xl overflow-hidden">
 					<div className="flex items-center justify-between px-4 py-3 border-b border-separator">
 						<span className="text-sm font-medium text-fg">Color Tuner</span>
 						<Button
@@ -308,7 +309,7 @@ export function ColorTuner() {
 						</BlockStack>
 					</div>
 
-					<div className="flex gap-2 justify-end px-4 py-3 border-t border-separator bg-surface-3">
+					<div className="flex gap-2 justify-end px-4 py-3 border-t border-separator bg-muted">
 						<Button variant="outline" size="sm" onClick={handleReset}>
 							<RotateCcw className="size-3.5" />
 							Reset

@@ -104,7 +104,7 @@ function ProgressRow({
 					<span className="text-xs font-semibold tabular-nums w-10 text-right">{percent}%</span>
 				</InlineStack>
 			</InlineStack>
-			<div className="h-2 rounded-full bg-surface-3 overflow-hidden">
+			<div className="h-2 rounded-full bg-muted overflow-hidden">
 				<div
 					className={`h-full rounded-full transition-all ${progressColor(percent)}`}
 					style={{ width: `${clamped}%` }}
@@ -265,7 +265,7 @@ export default function DashboardPageClient() {
 
 	return (
 		<BlockStack gap="600" className="p-6">
-			<PageHeader title={monthTitle} description="Vue d'ensemble" />
+			<PageHeader title={monthTitle} bottom={<p className="text-sm text-fg-muted">Vue d'ensemble</p>} />
 
 			{/* ─── KPIs (StatsGrid) ──────────────────────── */}
 			<StatsGrid
@@ -313,7 +313,7 @@ export default function DashboardPageClient() {
 										label="Brouillons"
 										amount={forecast.draftCents}
 										icon={FileText}
-										accentClass="bg-surface-3 text-fg-muted"
+										accentClass="bg-muted text-fg-muted"
 									/>
 								</div>
 								<div className="flex-1 px-4">

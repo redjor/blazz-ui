@@ -142,7 +142,7 @@ export default function ProjectsPageClient() {
 							className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
 								filter === key
 									? "bg-brand text-white"
-									: "bg-surface border border-edge text-fg-muted hover:text-fg"
+									: "bg-card border border-edge text-fg-muted hover:text-fg"
 							}`}
 						>
 							{label}

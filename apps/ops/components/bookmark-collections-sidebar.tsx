@@ -76,7 +76,7 @@ export function BookmarkCollectionsSidebar({
 
 	const itemClass = (active: boolean) =>
 		`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
-			active ? "bg-brand/10 text-brand font-medium" : "text-fg-muted hover:bg-surface hover:text-fg"
+			active ? "bg-brand/10 text-brand font-medium" : "text-fg-muted hover:bg-card hover:text-fg"
 		}`
 
 	return (

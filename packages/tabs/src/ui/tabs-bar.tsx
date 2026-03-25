@@ -81,7 +81,7 @@ export function TabsBar({
   return (
     <div
       className={twMerge(
-        "flex h-9 shrink-0 items-center border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950",
+        "flex h-9 shrink-0 items-center border-t border-edge-subtle",
         className
       )}
     >

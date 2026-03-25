@@ -190,7 +190,7 @@ export default function ToastPage() {
 					highlightedCode={html("setup")}
 				>
 					<p className="text-sm text-fg-muted">
-						Le composant <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">Toaster</code>{" "}
+						Le composant <code className="text-xs bg-muted px-1 py-0.5 rounded">Toaster</code>{" "}
 						est déjà présent dans ce layout — essaie les boutons ci-dessous.
 					</p>
 				</DocExampleClient>
@@ -240,8 +240,8 @@ export default function ToastPage() {
 
 			<DocSection id="props" title="Toaster Props">
 				<p className="text-sm text-fg-muted mb-4">
-					Le composant <code className="text-xs bg-surface-3 px-1 py-0.5 rounded">Toaster</code> de{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">@blazz/ui</code> pre-configure
+					Le composant <code className="text-xs bg-muted px-1 py-0.5 rounded">Toaster</code> de{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">@blazz/ui</code> pre-configure
 					les valeurs optimales pour le design system. Toutes les props peuvent être surchargées.
 				</p>
 				<DocPropsTable props={toasterProps} />
@@ -254,13 +254,13 @@ export default function ToastPage() {
 			<DocSection id="progress-api" title="toastProgress Options">
 				<p className="text-sm text-fg-muted mb-4">
 					Options passées en second argument de{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">toastProgress.success()</code>{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">toastProgress.success()</code>{" "}
 					et ses variantes. Les méthodes disponibles sont{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.success()</code>,{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.error()</code>,{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.warning()</code>,{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.info()</code> et{" "}
-					<code className="text-xs bg-surface-3 px-1 py-0.5 rounded">.default()</code>.
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.success()</code>,{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.error()</code>,{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.warning()</code>,{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.info()</code> et{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.default()</code>.
 				</p>
 				<DocPropsTable props={toastProgressProps} />
 			</DocSection>

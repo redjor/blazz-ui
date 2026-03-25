@@ -87,7 +87,7 @@ export default function FinancesPageClient() {
 
 	return (
 		<BlockStack gap="600" className="p-4">
-			<PageHeader title="Finances" subtitle="Trésorerie & projection CA" />
+			<PageHeader title="Finances" bottom={<p className="text-sm text-fg-muted">Trésorerie &amp; projection CA</p>} />
 
 			<StatsGrid
 				columns={3}

@@ -315,7 +315,7 @@ export default function SelectPage() {
 				<p className="text-sm text-fg-muted">Select components use the design system tokens:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface</code> - Trigger background
+						<code className="text-xs">bg-card</code> - Trigger background
 					</li>
 					<li>
 						<code className="text-xs">border-edge</code> - Trigger border

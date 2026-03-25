@@ -34,7 +34,7 @@ function TimelineItem({ event }: { event: TimelineEvent }) {
 			{/* Connector line */}
 			<div className="absolute left-[4.5px] top-2 -bottom-2 w-px bg-border last:hidden" />
 			{/* Dot */}
-			<div className="absolute left-0 top-1.5 size-[10px] rounded-full border-2 border-fg/20 bg-surface" />
+			<div className="absolute left-0 top-1.5 size-[10px] rounded-full border-2 border-fg/20 bg-card" />
 
 			<div className="space-y-0.5">
 				<div className="flex items-center gap-2">
@@ -52,7 +52,7 @@ function TimelineSkeleton() {
 	return (
 		<li className="relative pb-6 pl-6">
 			<div className="absolute left-[4.5px] top-2 -bottom-2 w-px bg-border" />
-			<div className="absolute left-0 top-1.5 size-[10px] rounded-full bg-surface-3" />
+			<div className="absolute left-0 top-1.5 size-[10px] rounded-full bg-muted" />
 			<div className="space-y-1.5">
 				<div className="flex items-center gap-2">
 					<Skeleton className="h-4 w-20" />

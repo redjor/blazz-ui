@@ -544,7 +544,7 @@ export default function BadgePage() {
 						The badge border radius is configured globally via a CSS variable. Change it once in
 						your globals.css and all badges follow.
 					</p>
-					<div className="rounded-lg border border-edge-subtle bg-surface-3 p-4">
+					<div className="rounded-lg border border-edge-subtle bg-muted p-4">
 						<pre className="text-xs text-fg-muted">
 							{`/* globals.css */
 --badge-radius: 9999px;           /* pill (default) */
@@ -568,7 +568,7 @@ export default function BadgePage() {
 						<code className="text-xs">bg-brand / text-brand-fg</code> - Default variant
 					</li>
 					<li>
-						<code className="text-xs">bg-surface-3 / text-fg-muted</code> - Secondary variant
+						<code className="text-xs">bg-muted / text-fg-muted</code> - Secondary variant
 					</li>
 					<li>
 						<code className="text-xs">bg-inform</code> - Info variant

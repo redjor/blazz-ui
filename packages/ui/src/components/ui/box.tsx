@@ -15,8 +15,8 @@ const boxVariants = cva("", {
 		background: {
 			transparent: "bg-transparent",
 			app: "bg-app",
-			surface: "bg-surface",
-			raised: "bg-surface-3",
+			surface: "bg-card",
+			raised: "bg-muted",
 			overlay: "bg-overlay",
 			accent: "bg-brand/10",
 		},

@@ -124,7 +124,7 @@ function HeroDemo() {
 	const [contact, setContact] = useState("Jean Dupont")
 
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<div className="space-y-4">
 				<div className="space-y-1">
 					<span className="text-xs text-fg-muted">Entreprise</span>

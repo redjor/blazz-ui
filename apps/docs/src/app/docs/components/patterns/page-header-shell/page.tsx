@@ -133,7 +133,7 @@ const breadcrumbItemProps: DocProp[] = [
 function PageHeaderPreview() {
 	return (
 		<div className="rounded border border-edge-subtle overflow-hidden">
-			<div className="border-b border-edge-subtle bg-white dark:bg-surface px-6 py-4">
+			<div className="border-b border-edge-subtle bg-white dark:bg-card px-6 py-4">
 				<div className="flex items-center justify-between">
 					<div>
 						<h1 className="text-2xl font-bold tracking-tight text-fg">Produits</h1>
@@ -148,7 +148,7 @@ function PageHeaderPreview() {
 function PageHeaderActionsPreview() {
 	return (
 		<div className="rounded border border-edge-subtle overflow-hidden">
-			<div className="border-b border-edge-subtle bg-white dark:bg-surface px-6 py-4">
+			<div className="border-b border-edge-subtle bg-white dark:bg-card px-6 py-4">
 				<div className="flex items-center justify-between">
 					<div>
 						<h1 className="text-2xl font-bold tracking-tight text-fg">Produits</h1>
@@ -185,7 +185,7 @@ function PageHeaderActionsPreview() {
 function PageHeaderBreadcrumbPreview() {
 	return (
 		<div className="rounded border border-edge-subtle overflow-hidden">
-			<div className="border-b border-edge-subtle bg-white dark:bg-surface px-6 py-4">
+			<div className="border-b border-edge-subtle bg-white dark:bg-card px-6 py-4">
 				<nav className="mb-2 flex items-center gap-1 text-sm">
 					<span className="text-brand hover:underline cursor-pointer">Produits</span>
 					<svg
@@ -252,7 +252,7 @@ export default function PageHeaderShellPage() {
 					highlightedCode={html("title-only")}
 				>
 					<div className="rounded border border-edge-subtle overflow-hidden">
-						<div className="border-b border-edge-subtle bg-white dark:bg-surface px-6 py-4">
+						<div className="border-b border-edge-subtle bg-white dark:bg-card px-6 py-4">
 							<h1 className="text-2xl font-bold tracking-tight text-fg">Paramètres</h1>
 						</div>
 					</div>

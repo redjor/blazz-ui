@@ -51,7 +51,7 @@ export function PreviewToolbar({
 					variant="ghost"
 					size="icon-sm"
 					onClick={() => onViewportChange(value)}
-					className={viewport === value ? "bg-raised" : ""}
+					className={viewport === value ? "bg-muted" : ""}
 					aria-label={label}
 				>
 					<Icon className="size-3.5" />

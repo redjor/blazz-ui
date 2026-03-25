@@ -75,7 +75,7 @@ export function BulkActionBarPreview() {
 	return (
 		<div className="relative flex h-[120px] w-[600px] items-end justify-center pb-4">
 			{/* Override fixed positioning for thumbnail preview */}
-			<div className="flex items-center gap-3 rounded-lg border bg-surface px-4 py-2.5 shadow-lg">
+			<div className="flex items-center gap-3 rounded-lg border bg-card px-4 py-2.5 shadow-lg">
 				<span className="text-sm font-medium text-fg">12 selected</span>
 				<div className="h-4 w-px bg-border" />
 				<div className="flex items-center gap-2">
@@ -104,7 +104,7 @@ export function BulkActionBarPreview() {
 				<div className="h-4 w-px bg-border" />
 				<button
 					type="button"
-					className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted hover:bg-surface-3"
+					className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted hover:bg-muted"
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -293,7 +293,7 @@ export function FormFieldPreview() {
 			</div>
 			<div className="space-y-1.5">
 				<Label>Role</Label>
-				<select className="flex h-8 w-full rounded-md border border-edge bg-surface px-3 py-1 text-sm shadow-sm">
+				<select className="flex h-8 w-full rounded-md border border-edge bg-card px-3 py-1 text-sm shadow-sm">
 					<option value="">Select...</option>
 					<option value="ceo">CEO</option>
 					<option value="cto">CTO</option>
@@ -361,7 +361,7 @@ export function MultiStepFormPreview() {
 							<div
 								className={`flex size-7 items-center justify-center rounded-full border text-xs font-medium ${
 									step.completed
-										? "border-fg bg-fg text-surface"
+										? "border-fg bg-fg text-card"
 										: step.current
 											? "border-fg text-fg"
 											: "border-edge text-fg-muted"
@@ -413,7 +413,7 @@ export function MultiStepFormPreview() {
 				</button>
 				<button
 					type="button"
-					className="inline-flex h-9 items-center rounded-md bg-fg px-4 text-sm font-medium text-surface"
+					className="inline-flex h-9 items-center rounded-md bg-fg px-4 text-sm font-medium text-card"
 				>
 					Next
 				</button>
@@ -474,7 +474,7 @@ export function SplitViewPreview() {
 								key={item.name}
 								className={`flex items-center gap-3 px-4 py-3 ${item.active ? "bg-brand/5" : ""}`}
 							>
-								<div className="flex size-8 items-center justify-center rounded-full bg-surface-3 text-xs font-medium">
+								<div className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
 									{item.name.charAt(0)}
 								</div>
 								<div className="min-w-0 flex-1">
@@ -489,7 +489,7 @@ export function SplitViewPreview() {
 				<SplitView.Detail>
 					<div className="space-y-4 p-4">
 						<div className="flex items-center gap-3">
-							<div className="flex size-10 items-center justify-center rounded-full bg-surface-3 text-sm font-semibold">
+							<div className="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-semibold">
 								A
 							</div>
 							<div>

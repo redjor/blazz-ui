@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const frameVariants = cva(
-	"relative flex flex-col bg-surface-3 gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]",
+	"relative flex flex-col bg-muted gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]",
 	{
 		variants: {
 			variant: {
@@ -69,7 +69,7 @@ function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
 			className={cn(
-				"bg-surface relative rounded-(--frame-inner-radius) border bg-clip-padding shadow-xs before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--frame-inner-radius)-1px)] before:shadow-black/5 dark:bg-clip-border dark:before:shadow-white/5",
+				"bg-card relative rounded-(--frame-inner-radius) border bg-clip-padding shadow-xs before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--frame-inner-radius)-1px)] before:shadow-black/5 dark:bg-clip-border dark:before:shadow-white/5",
 				className
 			)}
 			data-slot="frame-panel"

@@ -40,8 +40,8 @@ function NavMenuItem({
 			data-slot="nav-menu-item"
 			data-active={active}
 			className={cn(
-				"flex w-full items-center gap-2 rounded-lg px-2 h-7 text-xs font-semibold text-fg/70 outline-none ring-brand/20 transition-colors hover:bg-surface-3/50 hover:text-fg focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>span]:truncate",
-				"data-[active=true]:bg-surface-3 data-[active=true]:text-fg",
+				"flex w-full items-center gap-2 rounded-lg px-2 h-7 text-xs font-semibold text-fg/70 outline-none ring-brand/20 transition-colors hover:bg-muted/50 hover:text-fg focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:scale-[0.8125] [&>span]:truncate",
+				"data-[active=true]:bg-muted data-[active=true]:text-fg",
 				className
 			)}
 			{...props}

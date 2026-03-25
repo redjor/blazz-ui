@@ -177,7 +177,7 @@ function StatsStripBase({ stats, loading = false, loadingCount = 4, className }:
 						type="button"
 						onClick={() => scroll("left")}
 						disabled={!canScrollLeft}
-						className="flex size-6 items-center justify-center rounded border border-container bg-surface transition-colors duration-150 ease-out hover:bg-surface-3 disabled:opacity-30 disabled:pointer-events-none"
+						className="flex size-6 items-center justify-center rounded border border-container bg-card transition-colors duration-150 ease-out hover:bg-muted disabled:opacity-30 disabled:pointer-events-none"
 						aria-label="Défiler à gauche"
 					>
 						<ChevronLeft className="size-3.5" />
@@ -186,7 +186,7 @@ function StatsStripBase({ stats, loading = false, loadingCount = 4, className }:
 						type="button"
 						onClick={() => scroll("right")}
 						disabled={!canScrollRight}
-						className="flex size-6 items-center justify-center rounded border border-container bg-surface transition-colors duration-150 ease-out hover:bg-surface-3 disabled:opacity-30 disabled:pointer-events-none"
+						className="flex size-6 items-center justify-center rounded border border-container bg-card transition-colors duration-150 ease-out hover:bg-muted disabled:opacity-30 disabled:pointer-events-none"
 						aria-label="Défiler à droite"
 					>
 						<ChevronRight className="size-3.5" />

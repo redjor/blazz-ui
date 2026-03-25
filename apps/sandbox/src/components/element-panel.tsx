@@ -156,7 +156,7 @@ export function ElementPanel({ element, code, onCodeChange, onDeselect }: Elemen
 								className={`group flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono transition-colors cursor-pointer ${
 									isAdded
 										? "bg-brand/15 text-brand border border-brand/30"
-										: "bg-surface-3 text-fg-muted hover:bg-negative/10 hover:text-negative"
+										: "bg-muted text-fg-muted hover:bg-negative/10 hover:text-negative"
 								}`}
 								title={`Click to remove "${cls}"`}
 							>

@@ -129,7 +129,7 @@ export default function TodayPageClient() {
 							<button
 								key={day.date}
 								type="button"
-								className="rounded-md border border-separator bg-surface px-2.5 py-1 text-xs font-medium text-fg-muted transition-colors hover:border-brand hover:text-brand"
+								className="rounded-md border border-separator bg-card px-2.5 py-1 text-xs font-medium text-fg-muted transition-colors hover:border-brand hover:text-brand"
 								onClick={() => {
 									setAddDate(day.date)
 									setAddOpen(true)
@@ -164,7 +164,7 @@ export default function TodayPageClient() {
 								<li key={todo._id}>
 									<button
 										type="button"
-										className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-surface-3/50"
+										className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-muted/50"
 										onClick={() => router.push(`/todos/${todo._id}`)}
 									>
 										<Circle className="size-3.5 shrink-0 text-fg-muted/50" />
@@ -176,7 +176,7 @@ export default function TodayPageClient() {
 								<li>
 									<button
 										type="button"
-										className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-surface-3/50"
+										className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-muted/50"
 										onClick={() => router.push("/todos")}
 									>
 										Voir les {activeTodos.length - 6} autres…
@@ -218,7 +218,7 @@ export default function TodayPageClient() {
 									<li key={entry._id}>
 										<button
 											type="button"
-											className="flex w-full items-center gap-3 px-inset py-3 text-left transition-colors hover:bg-surface-3/50"
+											className="flex w-full items-center gap-3 px-inset py-3 text-left transition-colors hover:bg-muted/50"
 											onClick={() => setEditingEntry(entry)}
 										>
 											<span
@@ -238,7 +238,7 @@ export default function TodayPageClient() {
 														{entry.tags.map((tag) => (
 															<span
 																key={tag}
-																className="inline-block rounded-full bg-surface-3 px-1.5 py-0 text-[11px] text-fg-muted"
+																className="inline-block rounded-full bg-muted px-1.5 py-0 text-[11px] text-fg-muted"
 															>
 																{tag}
 															</span>

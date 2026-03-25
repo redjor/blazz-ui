@@ -58,7 +58,7 @@ function LicenseListSkeleton() {
 	return (
 		<BlockStack gap="200">
 			{Array.from({ length: 3 }).map((_, i) => (
-				<div key={i} className="rounded-lg border border-edge bg-surface-3 p-4">
+				<div key={i} className="rounded-lg border border-edge bg-muted p-4">
 					<InlineStack gap="300" blockAlign="center">
 						<Skeleton className="h-4 w-64" />
 						<Skeleton className="h-5 w-16 rounded-full" />
@@ -136,7 +136,7 @@ export default function LicensesPageClient() {
 					</DialogHeader>
 					{generatedKey ? (
 						<BlockStack gap="300">
-							<div className="flex items-center gap-2 rounded-lg border border-edge bg-surface p-3 font-mono text-sm break-all">
+							<div className="flex items-center gap-2 rounded-lg border border-edge bg-card p-3 font-mono text-sm break-all">
 								{generatedKey}
 								<CopyButton value={generatedKey} />
 							</div>
@@ -199,7 +199,7 @@ export default function LicensesPageClient() {
 					{filtered.map((entry) => {
 						const status = getStatus(entry)
 						return (
-							<div key={entry._id} className="rounded-lg border border-edge bg-surface-3 p-4">
+							<div key={entry._id} className="rounded-lg border border-edge bg-muted p-4">
 								<InlineStack gap="300" blockAlign="center" className="justify-between">
 									<InlineStack gap="300" blockAlign="center" className="min-w-0 flex-1">
 										<code className="text-sm font-mono text-fg truncate">

@@ -48,7 +48,7 @@ export function QuickLoginDemo({ position }: { position?: "top-right" | "bottom-
 				{selected ? (
 					<>
 						Connected as{" "}
-						<code className="text-fg font-mono text-xs bg-surface px-1.5 py-0.5 rounded border border-edge">
+						<code className="text-fg font-mono text-xs bg-card px-1.5 py-0.5 rounded border border-edge">
 							{selected}
 						</code>
 					</>

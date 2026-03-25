@@ -45,7 +45,7 @@ export default function ConversationPage() {
 			toc={toc}
 		>
 			<DocHero className="p-0 overflow-hidden">
-				<div className="flex h-[600px] w-full flex-col rounded-xl border border-edge bg-surface">
+				<div className="flex h-[600px] w-full flex-col rounded-xl border border-edge bg-card">
 					<Conversation>
 						<ConversationContent className="gap-6 p-6">
 							<Message from="user">
@@ -74,7 +74,7 @@ export default function ConversationPage() {
 										</p>
 										<p>
 											Utilisez{" "}
-											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
+											<code className="rounded bg-muted px-1.5 py-0.5 text-xs">
 												React.memo()
 											</code>{" "}
 											pour eviter les re-renders inutiles.
@@ -84,22 +84,22 @@ export default function ConversationPage() {
 										</p>
 										<p>
 											Divisez votre bundle avec{" "}
-											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
+											<code className="rounded bg-muted px-1.5 py-0.5 text-xs">
 												React.lazy()
 											</code>{" "}
 											et{" "}
-											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">Suspense</code>.
+											<code className="rounded bg-muted px-1.5 py-0.5 text-xs">Suspense</code>.
 										</p>
 										<p>
 											<strong>3. Virtualisation des listes</strong>
 										</p>
 										<p>
 											Pour les longues listes, utilisez{" "}
-											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
+											<code className="rounded bg-muted px-1.5 py-0.5 text-xs">
 												react-window
 											</code>{" "}
 											ou{" "}
-											<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
+											<code className="rounded bg-muted px-1.5 py-0.5 text-xs">
 												@tanstack/virtual
 											</code>
 											.
@@ -121,9 +121,9 @@ export default function ConversationPage() {
 										<ul className="list-inside list-disc space-y-1">
 											<li>
 												<strong>Etat local</strong> :{" "}
-												<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">useState</code>{" "}
+												<code className="rounded bg-muted px-1.5 py-0.5 text-xs">useState</code>{" "}
 												+{" "}
-												<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">
+												<code className="rounded bg-muted px-1.5 py-0.5 text-xs">
 													useReducer
 												</code>
 											</li>
@@ -135,7 +135,7 @@ export default function ConversationPage() {
 											</li>
 											<li>
 												<strong>Etat URL</strong> :{" "}
-												<code className="rounded bg-surface-3 px-1.5 py-0.5 text-xs">nuqs</code>
+												<code className="rounded bg-muted px-1.5 py-0.5 text-xs">nuqs</code>
 											</li>
 										</ul>
 									</div>

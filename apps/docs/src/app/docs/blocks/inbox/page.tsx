@@ -456,7 +456,7 @@ function InboxHeroDemo() {
 
 	return (
 		<div
-			className="w-full max-w-4xl rounded-lg border border-edge bg-surface overflow-hidden"
+			className="w-full max-w-4xl rounded-lg border border-edge bg-card overflow-hidden"
 			style={{ height: 480 }}
 		>
 			<SplitView defaultWidth={340}>
@@ -565,7 +565,7 @@ export default function InboxPage() {
 					highlightedCode={html("loading")}
 				>
 					<div
-						className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden"
+						className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden"
 						style={{ height: 280 }}
 					>
 						<InboxPanel loading />
@@ -579,7 +579,7 @@ export default function InboxPage() {
 					highlightedCode={html("empty")}
 				>
 					<div
-						className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden"
+						className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden"
 						style={{ height: 200 }}
 					>
 						<InboxPanel>
@@ -595,7 +595,7 @@ export default function InboxPage() {
 					highlightedCode={html("detail-card")}
 				>
 					<div
-						className="w-full max-w-xl rounded-lg border border-edge bg-surface overflow-hidden"
+						className="w-full max-w-xl rounded-lg border border-edge bg-card overflow-hidden"
 						style={{ height: 320 }}
 					>
 						<InboxDetailCard
@@ -686,7 +686,7 @@ function BasicListDemo() {
 
 	return (
 		<div
-			className="w-full max-w-sm rounded-lg border border-edge bg-surface overflow-hidden"
+			className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden"
 			style={{ height: 320 }}
 		>
 			<InboxPanel>
@@ -709,7 +709,7 @@ function SplitViewDemo() {
 
 	return (
 		<div
-			className="w-full max-w-3xl rounded-lg border border-edge bg-surface overflow-hidden"
+			className="w-full max-w-3xl rounded-lg border border-edge bg-card overflow-hidden"
 			style={{ height: 380 }}
 		>
 			<SplitView defaultWidth={340}>

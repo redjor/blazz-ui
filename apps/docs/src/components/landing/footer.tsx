@@ -35,7 +35,7 @@ const linkGroups = [
 export function Footer() {
 	return (
 		<footer className="px-6 pt-4 pb-8">
-			<div className="mx-auto max-w-6xl rounded-xl border border-container bg-surface px-8 py-10 sm:px-12">
+			<div className="mx-auto max-w-6xl rounded-xl border border-container bg-card px-8 py-10 sm:px-12">
 				<div className="flex flex-col md:flex-row gap-10">
 					{/* Brand */}
 					<div className="md:w-1/3">

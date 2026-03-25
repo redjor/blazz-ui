@@ -95,8 +95,8 @@ function KanbanBoardBase<T extends { id: string }>({
 					<div
 						key={column.id}
 						className={cn(
-							"flex min-w-[280px] flex-col rounded-lg border border-edge-subtle bg-surface-3 transition-colors",
-							isOver && "border-fg/30 bg-surface-3/60",
+							"flex min-w-[280px] flex-col rounded-lg border border-edge-subtle bg-muted transition-colors",
+							isOver && "border-fg/30 bg-muted/60",
 							columnClassName
 						)}
 						onDragOver={(e) => handleDragOver(e, column.id)}

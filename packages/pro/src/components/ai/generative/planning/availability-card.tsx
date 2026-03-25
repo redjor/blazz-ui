@@ -27,7 +27,7 @@ export interface AvailabilityCardProps {
 const slotStyles = {
 	available:
 		"border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900 cursor-pointer",
-	busy: "border-edge-subtle bg-surface-3/50 text-fg-muted/50 cursor-not-allowed",
+	busy: "border-edge-subtle bg-muted/50 text-fg-muted/50 cursor-not-allowed",
 	tentative:
 		"border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300 dark:hover:bg-amber-900 cursor-pointer",
 } as const
@@ -48,7 +48,7 @@ function AvailabilityCardBase({
 	}
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-center gap-2">
 				<Clock className="size-4 text-fg-muted" />
 				<span className="text-sm font-semibold text-fg">{title}</span>
@@ -90,7 +90,7 @@ function AvailabilityCardBase({
 					<span className="size-2 rounded-full bg-amber-500" /> Tentative
 				</span>
 				<span className="flex items-center gap-1">
-					<span className="size-2 rounded-full bg-surface-3 border border-container" /> Busy
+					<span className="size-2 rounded-full bg-muted border border-container" /> Busy
 				</span>
 			</div>
 		</div>

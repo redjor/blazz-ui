@@ -40,7 +40,7 @@ function ScoreCardBase({
 				: "stroke-red-500"
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<span className="text-sm font-semibold text-fg">{title}</span>
 
 			<div className="mt-3 flex items-center gap-4">
@@ -78,7 +78,7 @@ function ScoreCardBase({
 											{item.value}/{itemMax}
 										</span>
 									</div>
-									<div className="mt-0.5 h-1.5 rounded-full bg-surface-3 overflow-hidden">
+									<div className="mt-0.5 h-1.5 rounded-full bg-muted overflow-hidden">
 										<div
 											className={cn(
 												"h-full rounded-full",

@@ -33,7 +33,7 @@ export function WeekInsightsCard({ stats, summary }: WeekInsightsCardProps) {
 					<Metric label="Non attribué" value={formatMinutes(stats.uncategorizedMinutes)} />
 					<Metric label="Temps total" value={formatMinutes(stats.totalMinutes)} />
 				</div>
-				<div className="rounded-md border border-edge bg-surface-3 px-4 py-3 text-sm text-fg-muted">
+				<div className="rounded-md border border-edge bg-muted px-4 py-3 text-sm text-fg-muted">
 					{summary}
 				</div>
 			</CardContent>
@@ -43,7 +43,7 @@ export function WeekInsightsCard({ stats, summary }: WeekInsightsCardProps) {
 
 function Metric({ label, value }: { label: string; value: string }) {
 	return (
-		<div className="rounded-md border border-edge bg-surface px-4 py-3">
+		<div className="rounded-md border border-edge bg-card px-4 py-3">
 			<p className="text-2xs uppercase tracking-wide text-fg-muted">{label}</p>
 			<p className="mt-1 font-mono text-base font-semibold text-fg">{value}</p>
 		</div>

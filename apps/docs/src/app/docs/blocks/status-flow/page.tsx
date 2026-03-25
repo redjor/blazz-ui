@@ -259,7 +259,7 @@ function StatusFlowHeroDemo() {
 	const [current, setCurrent] = useState("qualifie")
 
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<StatusFlow
 				currentStatus={current}
 				statuses={pipelineStatuses}
@@ -278,7 +278,7 @@ function BasicPipelineDemo() {
 	const [current, setCurrent] = useState("qualifie")
 
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<StatusFlow
 				currentStatus={current}
 				statuses={pipelineStatuses}
@@ -292,7 +292,7 @@ function TransitionsPipelineDemo() {
 	const [current, setCurrent] = useState("nouveau")
 
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<StatusFlow
 				currentStatus={current}
 				statuses={pipelineStatuses}
@@ -307,7 +307,7 @@ function OrderFlowDemo() {
 	const [current, setCurrent] = useState("brouillon")
 
 	return (
-		<div className="w-full max-w-2xl rounded-lg border border-edge bg-surface overflow-hidden p-4">
+		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 			<StatusFlow
 				currentStatus={current}
 				statuses={orderStatuses}

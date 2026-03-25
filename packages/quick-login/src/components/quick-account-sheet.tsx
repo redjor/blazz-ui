@@ -16,7 +16,7 @@ const GROUP_STYLES: Record<string, string> = {
 	Magasins: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
 }
 
-const DEFAULT_GROUP_HEADER = "bg-surface text-fg-muted border-separator"
+const DEFAULT_GROUP_HEADER = "bg-card text-fg-muted border-separator"
 
 interface GroupData {
 	name: string
@@ -112,7 +112,7 @@ export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountShe
 							{group.subgroups.map((subgroup) => (
 								<Fragment key={subgroup.name || "__default"}>
 									{subgroup.name && (
-										<div className="bg-surface border-b border-separator/50 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-fg-muted">
+										<div className="bg-card border-b border-separator/50 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-fg-muted">
 											{subgroup.name}
 										</div>
 									)}
@@ -131,7 +131,7 @@ export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountShe
 			</div>
 
 			{/* Footer */}
-			<div className="flex-shrink-0 border-t border-separator bg-surface-3 px-4 py-2">
+			<div className="flex-shrink-0 border-t border-separator bg-muted px-4 py-2">
 				<p className="text-center text-[11px] text-fg-muted tabular-nums">
 					{search ? `${filtered.length} / ${totalCount} comptes` : `${totalCount} comptes`}
 					{" · "}

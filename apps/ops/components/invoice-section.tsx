@@ -62,7 +62,7 @@ export function InvoiceSection({ projectId }: Props) {
 			<div className="border border-edge rounded-lg overflow-hidden">
 				<table className="w-full text-xs">
 					<thead>
-						<tr className="bg-surface-3">
+						<tr className="bg-muted">
 							<th className="text-left px-3 py-2 font-medium text-fg-muted">N°</th>
 							<th className="text-left px-3 py-2 font-medium text-fg-muted">Libellé</th>
 							<th className="text-right px-3 py-2 font-medium text-fg-muted">Montant HT</th>

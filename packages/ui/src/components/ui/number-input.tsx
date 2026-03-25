@@ -50,8 +50,8 @@ function NumberInput({
 			<NumberField.Decrement
 				className={cn(
 					"inline-flex size-8 items-center justify-center rounded-l-md",
-					"border border-r-0 border-edge bg-surface",
-					"text-fg-muted hover:bg-surface-3 hover:text-fg",
+					"border border-r-0 border-edge bg-card",
+					"text-fg-muted hover:bg-muted hover:text-fg",
 					"transition-colors outline-none",
 					"focus-visible:z-10 focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand/20",
 					"disabled:opacity-50 disabled:pointer-events-none"
@@ -64,7 +64,7 @@ function NumberInput({
 				aria-invalid={ariaInvalid}
 				className={cn(
 					"w-full min-w-0 outline-none",
-					"bg-surface",
+					"bg-card",
 					"border-y border-edge",
 					"focus:border-brand",
 					"focus:ring-[3px] focus:ring-brand/20 focus:z-10",
@@ -79,8 +79,8 @@ function NumberInput({
 			<NumberField.Increment
 				className={cn(
 					"inline-flex size-8 items-center justify-center rounded-r-md",
-					"border border-l-0 border-edge bg-surface",
-					"text-fg-muted hover:bg-surface-3 hover:text-fg",
+					"border border-l-0 border-edge bg-card",
+					"text-fg-muted hover:bg-muted hover:text-fg",
 					"transition-colors outline-none",
 					"focus-visible:z-10 focus-visible:border-brand focus-visible:ring-[3px] focus-visible:ring-brand/20",
 					"disabled:opacity-50 disabled:pointer-events-none"

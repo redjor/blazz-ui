@@ -53,7 +53,7 @@ function InsightCardBase({
 	const Icon = config.icon
 
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-start gap-3">
 				<div
 					className={cn(
@@ -79,7 +79,7 @@ function InsightCardBase({
 					{confidence !== undefined && (
 						<div className="flex items-center gap-2">
 							<span className="text-xs text-fg-muted">Confidence</span>
-							<div className="h-1.5 w-16 rounded-full bg-surface-3 overflow-hidden">
+							<div className="h-1.5 w-16 rounded-full bg-muted overflow-hidden">
 								<div
 									className={cn("h-full rounded-full", config.bg.replace("/10", ""))}
 									style={{ width: `${confidence}%`, backgroundColor: undefined }}

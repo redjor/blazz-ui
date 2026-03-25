@@ -108,7 +108,7 @@ const appTopBarProps: DocProp[] = [
 
 function TopBarPlaceholder() {
 	return (
-		<div className="h-12 rounded border border-dashed border-edge-subtle bg-surface-3/50 flex items-center px-4 text-xs text-fg-muted gap-4">
+		<div className="h-12 rounded border border-dashed border-edge-subtle bg-muted/50 flex items-center px-4 text-xs text-fg-muted gap-4">
 			<span>Logo</span>
 			<span className="flex gap-2 text-brand">App · Docs</span>
 			<div className="flex-1 mx-4 h-7 rounded border border-dashed border-edge-subtle flex items-center px-3">

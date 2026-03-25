@@ -28,7 +28,7 @@ const dotColor = {
 
 function TimelineBase({ title, items, className }: TimelineProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			{title && <span className="mb-3 block text-sm font-medium text-fg">{title}</span>}
 			<div className="relative space-y-0">
 				{items.map((item, i) => {
@@ -47,7 +47,7 @@ function TimelineBase({ title, items, className }: TimelineProps) {
 									</span>
 								) : (
 									<span
-										className={cn("mt-0.5 size-[9px] rounded-full ring-2 ring-surface", color)}
+										className={cn("mt-0.5 size-[9px] rounded-full ring-2 ring-card", color)}
 									/>
 								)}
 							</div>

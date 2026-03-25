@@ -103,7 +103,7 @@ export function AiMessagePreview() {
 export function AiPromptInputPreview() {
 	return (
 		<div className="w-[500px]">
-			<div className="flex items-end gap-2 rounded-lg border border-edge bg-surface p-2">
+			<div className="flex items-end gap-2 rounded-lg border border-edge bg-card p-2">
 				<div className="flex-1 min-h-[40px] px-3 py-2 text-sm text-fg-muted">
 					What would you like to know?
 				</div>
@@ -181,9 +181,9 @@ export function AiSourcesPreview() {
 export function AiConfirmationPreview() {
 	return (
 		<div className="w-[500px]">
-			<div className="rounded-lg border border-edge bg-surface p-4">
+			<div className="rounded-lg border border-edge bg-card p-4">
 				<div className="flex items-start gap-3">
-					<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-surface-3">
+					<div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
 						<BrainIcon className="size-4 text-fg-muted" />
 					</div>
 					<div className="min-w-0 flex-1">
@@ -196,7 +196,7 @@ export function AiConfirmationPreview() {
 				<div className="mt-3 flex items-center justify-end gap-2">
 					<button
 						type="button"
-						className="inline-flex items-center gap-1.5 rounded-md border border-edge bg-surface px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:bg-surface-3"
+						className="inline-flex items-center gap-1.5 rounded-md border border-edge bg-card px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:bg-muted"
 					>
 						<XIcon className="size-3" />
 						Reject
@@ -217,7 +217,7 @@ export function AiConfirmationPreview() {
 export function AiModelSelectorPreview() {
 	return (
 		<div className="w-[320px]">
-			<div className="rounded-lg border border-edge bg-surface overflow-hidden">
+			<div className="rounded-lg border border-edge bg-card overflow-hidden">
 				<div className="border-b border-edge px-3 py-2.5">
 					<div className="flex items-center gap-2 text-sm text-fg-muted">
 						<svg
@@ -235,7 +235,7 @@ export function AiModelSelectorPreview() {
 				</div>
 				<div className="p-1">
 					<div className="px-2 py-1.5 text-xs font-medium text-fg-muted">Popular</div>
-					<div className="rounded-md bg-surface-3 px-2 py-1.5 text-sm text-fg">GPT-4o</div>
+					<div className="rounded-md bg-muted px-2 py-1.5 text-sm text-fg">GPT-4o</div>
 					<div className="px-2 py-1.5 text-sm text-fg">Claude 3.5 Sonnet</div>
 					<div className="px-2 py-1.5 text-sm text-fg">Gemini Pro</div>
 				</div>
@@ -772,8 +772,8 @@ export function AiLinkPreviewPreview() {
 
 export function AiImageGalleryPreview() {
 	return (
-		<div className="overflow-hidden rounded-lg border border-edge bg-surface">
-			<div className="relative aspect-video bg-surface-3">
+		<div className="overflow-hidden rounded-lg border border-edge bg-card">
+			<div className="relative aspect-video bg-muted">
 				<div className="flex h-full w-full items-center justify-center">
 					<div className="flex flex-col items-center gap-2 text-fg-muted/50">
 						<svg

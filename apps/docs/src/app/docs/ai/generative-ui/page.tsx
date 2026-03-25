@@ -116,7 +116,7 @@ export default function GenerativeUiPage() {
 								<Link
 									key={component.href}
 									href={component.href}
-									className="group flex items-center justify-between rounded-lg border border-edge bg-surface px-3.5 py-2.5 transition-colors hover:bg-surface-3"
+									className="group flex items-center justify-between rounded-lg border border-edge bg-card px-3.5 py-2.5 transition-colors hover:bg-muted"
 								>
 									<span className="text-sm text-fg group-hover:text-fg">{component.title}</span>
 									<ArrowRight className="h-3.5 w-3.5 text-fg-muted opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0" />

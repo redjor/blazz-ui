@@ -93,7 +93,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 
 	if (type === "youtube" && thumbnailUrl) {
 		return (
-			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
+			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-card">
 				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 				<div className="absolute inset-0 flex items-center justify-center bg-black/20">
 					<div className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white">
@@ -106,7 +106,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 
 	if (type === "image" && thumbnailUrl) {
 		return (
-			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
+			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-card">
 				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 			</div>
 		)
@@ -114,7 +114,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 
 	if (type === "video" && thumbnailUrl) {
 		return (
-			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
+			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-card">
 				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 				<div className="absolute inset-0 flex items-center justify-center bg-black/20">
 					<div className="flex size-10 items-center justify-center rounded-full bg-black/60 text-white">
@@ -142,7 +142,7 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 	// link or fallback
 	if (thumbnailUrl) {
 		return (
-			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-surface">
+			<div className="relative aspect-video overflow-hidden rounded-t-lg bg-card">
 				<img src={thumbnailUrl} alt="" className="size-full object-cover" />
 			</div>
 		)

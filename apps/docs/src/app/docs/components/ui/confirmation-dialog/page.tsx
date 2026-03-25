@@ -241,7 +241,7 @@ export default function ConfirmationDialogPage() {
 				</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						<code className="text-xs">bg-surface</code> - Dialog background color
+						<code className="text-xs">bg-card</code> - Dialog background color
 					</li>
 					<li>
 						<code className="text-xs">text-fg</code> - Main text color

@@ -173,7 +173,11 @@ export default function TimePageClient() {
 			<BlockStack gap="600" className="p-6">
 				<PageHeader
 					title="Saisie des heures"
-					actions={[{ label: "Nouvelle entrée", onClick: () => setAddOpen(true) }]}
+					actions={
+						<Button onClick={() => setAddOpen(true)}>
+							Nouvelle entrée
+						</Button>
+					}
 				/>
 
 				<InlineStack gap="300" blockAlign="center">
@@ -181,7 +185,7 @@ export default function TimePageClient() {
 					<InlineStack
 						gap="100"
 						blockAlign="center"
-						className="rounded-lg border border-edge p-0.5 bg-surface-3"
+						className="rounded-lg border border-edge p-0.5 bg-muted"
 					>
 						<Button
 							type="button"

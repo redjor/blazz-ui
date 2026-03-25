@@ -62,7 +62,7 @@ function SegmentedProgressBase({
 			{Array.from({ length: dotCount }, (_, i) => (
 				<div
 					key={i}
-					className={cn("shrink-0 rounded-[1px]", i < filled ? activeColor : "bg-surface-3")}
+					className={cn("shrink-0 rounded-[1px]", i < filled ? activeColor : "bg-muted")}
 					style={{ width: dotSize, height: dotSize }}
 				/>
 			))}

@@ -26,7 +26,7 @@ export interface CalendarCardProps {
 
 function CalendarCardBase({ month, days, className }: CalendarCardProps) {
 	return (
-		<div className={cn("rounded-lg border border-container bg-surface p-4", className)}>
+		<div className={cn("rounded-lg border border-container bg-card p-4", className)}>
 			<div className="flex items-center gap-2">
 				<Calendar className="size-4 text-fg-muted" />
 				<span className="text-sm font-semibold text-fg">{month}</span>
@@ -39,7 +39,7 @@ function CalendarCardBase({ month, days, className }: CalendarCardProps) {
 						className={cn(
 							"flex items-start gap-3 rounded-md px-2 py-1.5",
 							day.isToday && "bg-brand/5",
-							day.isHighlighted && "bg-surface-3"
+							day.isHighlighted && "bg-muted"
 						)}
 					>
 						<span

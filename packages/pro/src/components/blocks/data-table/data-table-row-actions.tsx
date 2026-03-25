@@ -69,7 +69,7 @@ export function DataTableRowActions<TData>({ row, actions }: DataTableRowActions
 		<>
 			<DropdownMenu>
 				<DropdownMenuTrigger
-					className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors hover:bg-surface-3 hover:text-fg h-8 w-8 p-0"
+					className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors hover:bg-muted hover:text-fg h-8 w-8 p-0"
 					data-slot="data-table-row-actions-trigger"
 				>
 					<span className="sr-only">Open menu</span>
