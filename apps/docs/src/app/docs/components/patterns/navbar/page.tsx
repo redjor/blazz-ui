@@ -194,9 +194,9 @@ export default function NavbarPage() {
 							description: "Menu utilisateur pour la section droite.",
 						},
 						{
-							title: "App Top Bar",
-							href: "/docs/components/patterns/app-top-bar",
-							description: "Header global alternatif pour les apps sans navbar.",
+							title: "App Frame",
+							href: "/docs/blocks/app-frame",
+							description: "Shell complet avec sidebar, top bar et browser tabs.",
 						},
 					]}
 				/>

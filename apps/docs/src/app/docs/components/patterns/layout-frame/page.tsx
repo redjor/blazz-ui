@@ -163,19 +163,14 @@ export default function LayoutFramePage() {
 					items={[
 						{
 							title: "App Frame",
-							href: "/docs/components/patterns/app-frame",
-							description: "Shell complet recommandé — intègre sidebar, top bar et gestion mobile.",
+							href: "/docs/blocks/app-frame",
+							description: "Shell complet recommandé — intègre sidebar, top bar et browser tabs.",
 						},
 						{
 							title: "Top Bar",
 							href: "/docs/components/patterns/top-bar",
 							description:
 								"Header composable pour le header slot — avec SidebarToggle et breadcrumbs.",
-						},
-						{
-							title: "App Sidebar",
-							href: "/docs/components/patterns/app-sidebar",
-							description: "Sidebar hiérarchique pilotée par SidebarConfig.",
 						},
 					]}
 				/>

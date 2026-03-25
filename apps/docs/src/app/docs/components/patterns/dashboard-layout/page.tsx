@@ -140,8 +140,8 @@ export default function DashboardLayoutPage() {
 					items={[
 						{
 							title: "App Frame",
-							href: "/docs/components/patterns/app-frame",
-							description: "Shell complet recommandé — intègre sidebar, top bar et mobile.",
+							href: "/docs/blocks/app-frame",
+							description: "Shell complet recommandé — intègre sidebar, top bar et browser tabs.",
 						},
 						{
 							title: "Layout Frame",

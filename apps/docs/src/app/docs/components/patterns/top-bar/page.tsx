@@ -187,13 +187,8 @@ export default function TopBarPage() {
 				<DocRelated
 					items={[
 						{
-							title: "App Top Bar",
-							href: "/docs/components/patterns/app-top-bar",
-							description: "Header global de l'application (logo, sections, search).",
-						},
-						{
 							title: "App Frame",
-							href: "/docs/components/patterns/app-frame",
+							href: "/docs/blocks/app-frame",
 							description: "Shell complet qui compose TopBar avec sidebar et navigation.",
 						},
 						{
