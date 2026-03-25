@@ -459,28 +459,13 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "pat-app-shell",
 					title: "App Shell",
-					url: "/docs/components/patterns/app-frame",
+					url: "/docs/components/patterns/dashboard-layout",
 					icon: PanelLeft,
 					items: [
-						{
-							title: "App Frame",
-							url: "/docs/components/patterns/app-frame",
-							keywords: ["app shell", "layout wrapper", "frame", "application frame"],
-						},
 						{
 							title: "Dashboard Layout",
 							url: "/docs/components/patterns/dashboard-layout",
 							keywords: ["dashboard", "layout", "admin layout", "dashboard shell"],
-						},
-						{
-							title: "App Sidebar",
-							url: "/docs/components/patterns/app-sidebar",
-							keywords: ["sidebar", "nav sidebar", "app nav", "side navigation"],
-						},
-						{
-							title: "App Top Bar",
-							url: "/docs/components/patterns/app-top-bar",
-							keywords: ["top bar", "header", "app header", "navbar"],
 						},
 						{
 							title: "Top Bar",
@@ -589,9 +574,14 @@ export const sidebarConfig: SidebarConfig = {
 				{
 					id: "block-layout",
 					title: "Layout",
-					url: "/docs/blocks/page-header",
+					url: "/docs/blocks/app-frame",
 					icon: Layers,
 					items: [
+						{
+							title: "App Frame",
+							url: "/docs/blocks/app-frame",
+							keywords: ["app shell", "layout wrapper", "frame", "application frame", "sidebar", "tabs"],
+						},
 						{
 							title: "Page Header",
 							url: "/docs/blocks/page-header",
