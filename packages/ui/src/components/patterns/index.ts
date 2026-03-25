@@ -1,7 +1,3 @@
-// ── App Shell ──────────────────────────────────
-export * from "./app-frame"
-export * from "./app-sidebar"
-export * from "./app-top-bar"
 // ── Utilities ──────────────────────────────────
 export * from "./command-palette/command-palette"
 export * from "./dashboard-layout"
@@ -22,7 +18,6 @@ export * from "./image-upload/image-preview"
 export * from "./image-upload/image-upload"
 export * from "./layout-frame"
 export * from "./layout-top-bar"
-export * from "./mobile-sidebar-sheet"
 // ── Navigation ─────────────────────────────────
 export * from "./nav-tabs"
 export * from "./navbar"
