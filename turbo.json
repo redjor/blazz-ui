@@ -11,6 +11,7 @@
 		"QONTO_API_KEY",
 		"QONTO_ORG_SLUG"
 	],
+	"concurrency": "15",
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
