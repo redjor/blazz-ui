@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { internalMutation, mutation, query } from "./_generated/server"
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const list = query({
@@ -262,5 +262,45 @@ export const seed = mutation({
 				},
 			})
 		}
+	},
+})
+
+// ── Internal (for worker, no auth) ──
+
+export const internalGet = internalQuery({
+	args: { id: v.id("agents") },
+	handler: async (ctx, { id }) => {
+		return ctx.db.get(id)
+	},
+})
+
+export const internalUpdateStatus = internalMutation({
+	args: { id: v.id("agents"), status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")) },
+	handler: async (ctx, { id, status }) => {
+		await ctx.db.patch(id, { status, lastActiveAt: Date.now() })
+	},
+})
+
+export const internalAddUsage = internalMutation({
+	args: { id: v.id("agents"), costUsd: v.number() },
+	handler: async (ctx, { id, costUsd }) => {
+		const agent = await ctx.db.get(id)
+		if (!agent) return
+
+		const today = new Date().toISOString().slice(0, 10)
+		const month = new Date().toISOString().slice(0, 7)
+
+		const todayUsd = agent.usage.lastResetDay === today ? agent.usage.todayUsd + costUsd : costUsd
+		const monthUsd = agent.usage.lastResetMonth === month ? agent.usage.monthUsd + costUsd : costUsd
+
+		await ctx.db.patch(id, {
+			usage: {
+				todayUsd,
+				monthUsd,
+				totalUsd: agent.usage.totalUsd + costUsd,
+				lastResetDay: today,
+				lastResetMonth: month,
+			},
+		})
 	},
 })

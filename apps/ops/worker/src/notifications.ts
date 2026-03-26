@@ -1,5 +1,5 @@
 import type { ConvexHttpClient } from "convex/browser"
-import { api } from "../../../convex/_generated/api"
+import { api } from "./convex"
 
 interface Mission { _id: string; title: string }
 interface Agent { name: string; role: string; avatar?: string }

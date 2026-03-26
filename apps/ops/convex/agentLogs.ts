@@ -1,5 +1,5 @@
 import { v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, mutation, query } from "./_generated/server"
 
 export const list = query({
 	args: { missionId: v.id("missions") },
@@ -12,6 +12,27 @@ export const list = query({
 })
 
 export const append = mutation({
+	args: {
+		missionId: v.id("missions"),
+		agentId: v.id("agents"),
+		type: v.union(
+			v.literal("thinking"),
+			v.literal("tool_call"),
+			v.literal("tool_result"),
+			v.literal("error"),
+			v.literal("budget_warning"),
+			v.literal("done")
+		),
+		content: v.string(),
+		toolName: v.optional(v.string()),
+		duration: v.optional(v.number()),
+	},
+	handler: async (ctx, args) => {
+		return ctx.db.insert("agentLogs", args)
+	},
+})
+
+export const internalAppend = internalMutation({
 	args: {
 		missionId: v.id("missions"),
 		agentId: v.id("agents"),

@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 const missionStatus = v.union(
@@ -179,6 +179,99 @@ export const createFromTemplate = mutation({
 		const template = await ctx.db.get(templateMissionId)
 		if (!template) throw new ConvexError("Template introuvable")
 
+		return ctx.db.insert("missions", {
+			userId: template.userId,
+			agentId: template.agentId,
+			title: `${template.title} (auto ${new Date().toLocaleDateString("fr-FR")})`,
+			prompt: template.prompt,
+			status: "todo",
+			priority: template.priority,
+			mode: template.mode,
+			maxIterations: template.maxIterations,
+			templateId: template.templateId,
+			cron: template.cron,
+			parentMissionId: templateMissionId,
+			onComplete: template.onComplete,
+		})
+	},
+})
+
+// ── Internal (for worker, no auth) ──
+
+export const internalListByStatus = internalQuery({
+	args: { status: v.string() },
+	handler: async (ctx, { status }) => {
+		// Get all missions with this status (across all users)
+		const all = await ctx.db.query("missions").collect()
+		return all.filter((m) => m.status === status)
+	},
+})
+
+export const internalGet = internalQuery({
+	args: { id: v.id("missions") },
+	handler: async (ctx, { id }) => {
+		return ctx.db.get(id)
+	},
+})
+
+export const internalUpdateStatus = internalMutation({
+	args: {
+		id: v.id("missions"),
+		status: v.string(),
+		soulHash: v.optional(v.string()),
+		rejectionReason: v.optional(v.string()),
+	},
+	handler: async (ctx, { id, status, soulHash, rejectionReason }) => {
+		const patch: Record<string, unknown> = { status }
+		if (status === "in_progress") patch.startedAt = Date.now()
+		if (status === "review" || status === "done") patch.completedAt = Date.now()
+		if (status === "done" || status === "rejected") patch.reviewedAt = Date.now()
+		if (soulHash) patch.soulHash = soulHash
+		if (rejectionReason) patch.rejectionReason = rejectionReason
+		await ctx.db.patch(id, patch)
+	},
+})
+
+export const internalComplete = internalMutation({
+	args: {
+		id: v.id("missions"),
+		output: v.string(),
+		structuredOutput: v.optional(v.any()),
+		outputType: v.optional(v.string()),
+		actions: v.optional(v.array(v.object({
+			type: v.string(),
+			description: v.string(),
+			entityId: v.optional(v.string()),
+			reversible: v.boolean(),
+		}))),
+		costUsd: v.number(),
+		soulHash: v.string(),
+	},
+	handler: async (ctx, { id, ...data }) => {
+		await ctx.db.patch(id, { ...data, status: "review", completedAt: Date.now() })
+	},
+})
+
+export const internalFailMission = internalMutation({
+	args: { id: v.id("missions"), error: v.string() },
+	handler: async (ctx, { id, error }) => {
+		await ctx.db.patch(id, { status: "review", error, completedAt: Date.now() })
+	},
+})
+
+export const internalListCron = internalQuery({
+	args: {},
+	handler: async (ctx) => {
+		const all = await ctx.db.query("missions").collect()
+		return all.filter((m) => m.cron && m.status === "done")
+	},
+})
+
+export const internalCreateFromTemplate = internalMutation({
+	args: { templateMissionId: v.id("missions") },
+	handler: async (ctx, { templateMissionId }) => {
+		const template = await ctx.db.get(templateMissionId)
+		if (!template) throw new ConvexError("Template introuvable")
 		return ctx.db.insert("missions", {
 			userId: template.userId,
 			agentId: template.agentId,

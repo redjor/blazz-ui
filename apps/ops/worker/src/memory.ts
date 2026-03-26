@@ -1,8 +1,12 @@
 import OpenAI from "openai"
 import type { ConvexHttpClient } from "convex/browser"
-import { api } from "../../../convex/_generated/api"
+import { api } from "./convex"
 
-const openai = new OpenAI()
+let _openai: OpenAI
+function getOpenAI() {
+	if (!_openai) _openai = new OpenAI()
+	return _openai
+}
 
 export async function generatePostMissionMemory(
   convex: ConvexHttpClient,
@@ -12,7 +16,7 @@ export async function generatePostMissionMemory(
   output: string,
 ) {
   try {
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-4o-mini", // Always use cheap model for memory
       messages: [
         {

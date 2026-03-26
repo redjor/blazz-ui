@@ -1,5 +1,5 @@
 import type { ConvexHttpClient } from "convex/browser"
-import { api } from "../../../convex/_generated/api"
+import { api } from "../convex"
 import type { Tool } from "./index"
 
 export function sharedTools(convex: ConvexHttpClient): Tool[] {

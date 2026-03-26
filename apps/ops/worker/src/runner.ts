@@ -1,11 +1,15 @@
 import OpenAI from "openai"
 import { ConvexHttpClient } from "convex/browser"
-import { api } from "../../convex/_generated/api"
+import { api } from "./convex"
 import { loadSoul } from "./soul-loader"
 import { calculateCost, canStartMission, isMissionBudgetExceeded } from "./budget"
 import type { Tool } from "./tools/index"
 
-const openai = new OpenAI()
+let _openai: OpenAI
+function getOpenAI() {
+	if (!_openai) _openai = new OpenAI()
+	return _openai
+}
 
 interface Mission {
   _id: string
@@ -15,7 +19,6 @@ interface Mission {
   mode?: string
   maxIterations?: number
   rejectionReason?: string
-  onComplete?: { createMission?: { agentSlug: string; templateId: string; condition?: string } }
 }
 
 interface Agent {
@@ -35,39 +38,31 @@ export async function runMission(
   tools: Tool[],
   signal: AbortSignal,
 ) {
-  // 1. Budget check
   const budgetCheck = canStartMission(agent)
   if (!budgetCheck.ok) {
-    await convex.mutation(api.missions.failMission, { id: mission._id as any, error: budgetCheck.reason! })
+    await convex.mutation(api.worker.workerFailMission, { id: mission._id as any, error: budgetCheck.reason! })
     return
   }
 
-  // 2. Load soul
   const { systemPrompt, soulHash } = await loadSoul(agent.slug)
 
-  // 3. Resolve tools (filter by permissions)
   const allowedTools = tools.filter((t) => {
     if (agent.permissions.blocked.includes(t.name)) return false
-    if (agent.permissions.safe.includes(t.name)) return true
-    if (agent.permissions.confirm.includes(t.name)) return true
-    return false
+    return agent.permissions.safe.includes(t.name) || agent.permissions.confirm.includes(t.name)
   })
 
-  // 4. Update status
-  await convex.mutation(api.missions.updateStatus, {
-    id: mission._id as any,
-    status: "in_progress",
-    soulHash,
-  })
-  await convex.mutation(api.agents.updateStatus, { id: agent._id as any, status: "busy" })
+  await convex.mutation(api.worker.workerUpdateStatus, { id: mission._id as any, status: "in_progress", soulHash })
+  await convex.mutation(api.worker.workerUpdateAgentStatus, { id: agent._id as any, status: "busy" })
 
-  // 5. Load memory
-  const memories = await convex.query(api.agentMemory.list, { agentId: agent._id as any })
+  let memories: any[] = []
+  try {
+    memories = await convex.query(api.worker.workerListMemory, { agentId: agent._id as any })
+  } catch { /* no memories yet */ }
+
   const memoryBlock = memories.length > 0
-    ? "\n\n## Mémoire\n" + memories.slice(-10).map((m) => `[${m.type}] ${m.content}`).join("\n")
+    ? "\n\n## Mémoire\n" + memories.slice(-10).map((m: any) => `[${m.type}] ${m.content}`).join("\n")
     : ""
 
-  // 6. Rejection context
   const rejectionBlock = mission.rejectionReason
     ? `\n\nMISSION PRÉCÉDENTE REJETÉE. Raison : ${mission.rejectionReason}\nAjuste ton approche.`
     : ""
@@ -96,30 +91,26 @@ export async function runMission(
     while (!signal.aborted && iterations < maxIter) {
       iterations++
 
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: agent.model,
         messages,
         tools: allowedTools.length > 0 ? allowedTools.map((t) => t.definition) : undefined,
       })
 
-      // Track cost
       if (response.usage) {
         const cost = calculateCost(response.usage, agent.model)
         missionCost += cost
-        await convex.mutation(api.agents.addUsage, { id: agent._id as any, costUsd: cost })
+        await convex.mutation(api.worker.workerAddAgentUsage, { id: agent._id as any, costUsd: cost })
       }
 
       const choice = response.choices[0]
 
-      // Log thinking
       if (choice.message.content) {
         await log("thinking", choice.message.content)
       }
 
-      // Done?
       if (choice.finish_reason === "stop") break
 
-      // Budget check mid-mission
       if (isMissionBudgetExceeded(missionCost, agent.budget.maxPerMission)) {
         await log("budget_warning", `Budget mission atteint (${missionCost.toFixed(4)}$). Synthèse forcée.`)
         messages.push(choice.message)
@@ -127,7 +118,6 @@ export async function runMission(
         continue
       }
 
-      // Execute tool calls
       if (choice.message.tool_calls) {
         messages.push(choice.message)
 
@@ -141,22 +131,14 @@ export async function runMission(
           await log("tool_call", call.function.arguments, call.function.name)
 
           let result: string
-          const isDryRun = mission.mode === "dry-run" && tool.category === "write"
-
-          if (isDryRun) {
+          if (mission.mode === "dry-run" && tool.category === "write") {
             result = JSON.stringify({ skipped: true, reason: "dry-run mode" })
           } else {
             try {
               const output = await tool.execute(JSON.parse(call.function.arguments), convex)
               result = JSON.stringify(output)
-
-              // Track confirm actions
               if (agent.permissions.confirm.includes(tool.name)) {
-                actions.push({
-                  type: tool.name,
-                  description: `${tool.name}(${call.function.arguments})`,
-                  reversible: tool.category === "write",
-                })
+                actions.push({ type: tool.name, description: `${tool.name}(${call.function.arguments})`, reversible: tool.category === "write" })
               }
             } catch (err) {
               result = JSON.stringify({ error: String(err) })
@@ -170,13 +152,12 @@ export async function runMission(
       }
     }
 
-    // Final output
     const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant" && typeof m.content === "string")
     const output = (lastAssistant as any)?.content ?? "Mission terminée sans output."
 
     await log("done", `Mission terminée en ${iterations} itérations. Coût: ${missionCost.toFixed(4)}$`)
 
-    await convex.mutation(api.missions.complete, {
+    await convex.mutation(api.worker.workerComplete, {
       id: mission._id as any,
       output,
       actions: actions.length > 0 ? actions : undefined,
@@ -185,11 +166,8 @@ export async function runMission(
     })
   } catch (err) {
     await log("error", String(err))
-    await convex.mutation(api.missions.failMission, {
-      id: mission._id as any,
-      error: String(err),
-    })
+    await convex.mutation(api.worker.workerFailMission, { id: mission._id as any, error: String(err) })
   } finally {
-    await convex.mutation(api.agents.updateStatus, { id: agent._id as any, status: "idle" })
+    await convex.mutation(api.worker.workerUpdateAgentStatus, { id: agent._id as any, status: "idle" })
   }
 }

@@ -1,5 +1,5 @@
 import { v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const list = query({
@@ -35,5 +35,34 @@ export const remove = mutation({
 	args: { id: v.id("agentMemory") },
 	handler: async (ctx, { id }) => {
 		await ctx.db.delete(id)
+	},
+})
+
+// ── Internal (for worker, no auth) ──
+
+export const internalList = internalQuery({
+	args: { agentId: v.id("agents") },
+	handler: async (ctx, { agentId }) => {
+		const memories = await ctx.db
+			.query("agentMemory")
+			.collect()
+		const now = Date.now()
+		return memories
+			.filter((m) => m.agentId === agentId)
+			.filter((m) => !m.expiresAt || m.expiresAt > now)
+	},
+})
+
+export const internalAdd = internalMutation({
+	args: {
+		userId: v.id("users"),
+		agentId: v.id("agents"),
+		missionId: v.optional(v.id("missions")),
+		type: v.union(v.literal("summary"), v.literal("learning"), v.literal("fact")),
+		content: v.string(),
+		expiresAt: v.optional(v.number()),
+	},
+	handler: async (ctx, args) => {
+		return ctx.db.insert("agentMemory", args)
 	},
 })
