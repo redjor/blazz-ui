@@ -9,6 +9,7 @@ import {
 	SelectValue,
 } from "@blazz/ui/components/ui/select"
 import type { Id } from "@/convex/_generated/dataModel"
+import { AgentAvatar } from "./agent-avatar"
 
 interface Agent {
 	_id: Id<"agents">
@@ -49,7 +50,7 @@ export function AgentPicker({ agents, value, onValueChange }: AgentPickerProps) 
 				{agents.map((agent) => (
 					<SelectItem key={agent._id} value={agent._id}>
 						<InlineStack gap="200" blockAlign="center">
-							<span className="text-sm">{agent.avatar}</span>
+							<AgentAvatar name={agent.name} size={20} />
 							<span className="text-sm">
 								{agent.name} — {agent.role}
 							</span>

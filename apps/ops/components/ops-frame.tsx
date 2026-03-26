@@ -16,7 +16,6 @@ import {
 	Bookmark,
 	Bot,
 	CheckSquare,
-	CircleUserRound,
 	Clock,
 	FileText,
 	FolderOpen,
@@ -33,9 +32,18 @@ import {
 	Target,
 	Users,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { useMemo } from "react";
 import { OpsUserMenu } from "./ops-user-menu";
+
+function createAgentIcon(name: string): ComponentType<{ className?: string }> {
+  const url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}`;
+  function AgentIcon({ className }: { className?: string }) {
+    return <img src={url} alt={name} className={`rounded-full ${className ?? ""}`} />;
+  }
+  AgentIcon.displayName = `AgentIcon(${name})`;
+  return AgentIcon;
+}
 
 interface NavItemWithFlag extends NavItem {
   flag?: FeatureFlag;
@@ -74,9 +82,9 @@ const allNavGroups: NavGroupWithFlag[] = [
   {
     label: "Agents",
     items: [
-      { title: "Marc", url: "/agents/cfo", icon: CircleUserRound, flag: "agents" },
-      { title: "Léo", url: "/agents/timekeeper", icon: CircleUserRound, flag: "agents" },
-      { title: "Sarah", url: "/agents/product-lead", icon: CircleUserRound, flag: "agents" },
+      { title: "Marc", url: "/agents/cfo", icon: createAgentIcon("Marc"), flag: "agents" },
+      { title: "Léo", url: "/agents/timekeeper", icon: createAgentIcon("Léo"), flag: "agents" },
+      { title: "Sarah", url: "/agents/product-lead", icon: createAgentIcon("Sarah"), flag: "agents" },
     ],
   },
   {

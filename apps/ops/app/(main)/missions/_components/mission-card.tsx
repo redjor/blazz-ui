@@ -5,6 +5,7 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import type { Id } from "@/convex/_generated/dataModel"
+import { AgentAvatar } from "./agent-avatar"
 
 type Priority = "low" | "medium" | "high" | "urgent"
 type Status = "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"
@@ -82,7 +83,7 @@ export function MissionCard({ mission, agent, onClick }: MissionCardProps) {
 
 				{agent && (
 					<InlineStack gap="100" blockAlign="center">
-						<span className="text-xs">{agent.avatar}</span>
+						<AgentAvatar name={agent.name} size={16} />
 						<span className="text-xs text-fg-muted">
 							{agent.name} · {agent.role}
 						</span>

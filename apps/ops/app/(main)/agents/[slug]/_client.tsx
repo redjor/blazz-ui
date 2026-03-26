@@ -25,6 +25,7 @@ import { RotateCcw } from "lucide-react"
 import { useCallback } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
+import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
 
 const suggestionsMap: Record<string, string[]> = {
 	cfo: [
@@ -116,7 +117,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 			<BlockStack className="h-full items-center justify-center px-4">
 				<BlockStack gap="600" className="w-full max-w-2xl">
 					<BlockStack gap="200" className="items-center text-center">
-						<Box className="text-4xl">{agent.avatar}</Box>
+						<AgentAvatar name={agent.name} size={64} />
 						<h1 className="text-3xl font-semibold text-fg tracking-tight">
 							{agent.name}
 						</h1>
@@ -163,7 +164,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 		<BlockStack className="h-full">
 			<InlineStack align="space-between" blockAlign="center" className="px-4 py-2 border-b border-edge">
 				<InlineStack gap="200" blockAlign="center">
-					<Box className="text-lg">{agent.avatar}</Box>
+					<AgentAvatar name={agent.name} size={28} />
 					<span className="text-sm font-medium text-fg">{agent.name}</span>
 					<Badge variant="secondary" className="text-xs">
 						{agent.role}
