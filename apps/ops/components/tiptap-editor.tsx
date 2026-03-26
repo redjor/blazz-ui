@@ -4,11 +4,11 @@ import { Card, CardFooter } from "@blazz/ui/components/ui/card"
 import Color from "@tiptap/extension-color"
 import Highlight from "@tiptap/extension-highlight"
 import Image from "@tiptap/extension-image"
+import Placeholder from "@tiptap/extension-placeholder"
 import Table from "@tiptap/extension-table"
 import TableCell from "@tiptap/extension-table-cell"
 import TableHeader from "@tiptap/extension-table-header"
 import TableRow from "@tiptap/extension-table-row"
-import Placeholder from "@tiptap/extension-placeholder"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
 import TextStyle from "@tiptap/extension-text-style"
@@ -387,15 +387,7 @@ const HIGHLIGHT_COLORS = [
 	{ label: "Orange", value: "oklch(0.9 0.1 60)" },
 ]
 
-function ColorPicker({
-	colors,
-	activeColor,
-	onSelect,
-}: {
-	colors: { label: string; value: string }[]
-	activeColor: string
-	onSelect: (color: string) => void
-}) {
+function ColorPicker({ colors, activeColor, onSelect }: { colors: { label: string; value: string }[]; activeColor: string; onSelect: (color: string) => void }) {
 	return (
 		<div className="grid grid-cols-5 gap-1 p-1.5">
 			{colors.map((c) => (
@@ -404,15 +396,12 @@ function ColorPicker({
 					type="button"
 					title={c.label}
 					onClick={() => onSelect(c.value)}
-					className={`size-6 rounded-md border transition-transform hover:scale-110 ${
-						activeColor === c.value ? "border-white ring-1 ring-white/50" : "border-white/20"
-					}`}
+					className={`size-6 rounded-md border transition-transform hover:scale-110 ${activeColor === c.value ? "border-white ring-1 ring-white/50" : "border-white/20"}`}
 					style={{
 						backgroundColor: c.value || "transparent",
 						...(c.value === ""
 							? {
-									backgroundImage:
-										"linear-gradient(135deg, transparent 45%, red 45%, red 55%, transparent 55%)",
+									backgroundImage: "linear-gradient(135deg, transparent 45%, red 45%, red 55%, transparent 55%)",
 								}
 							: {}),
 					}}
@@ -424,11 +413,7 @@ function ColorPicker({
 
 // ── Table Toolbar ───────────────────────────────────────────────────
 
-function TableToolbar({
-	editor,
-}: {
-	editor: NonNullable<ReturnType<typeof useEditor>>
-}) {
+function TableToolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>> }) {
 	return (
 		<div className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1.5 py-1 shadow-xl mb-2 w-fit">
 			<BubbleButton onClick={() => editor.chain().focus().addColumnBefore().run()} title="Colonne avant">
@@ -710,7 +695,7 @@ export function TiptapEditor({
 			TableHeader,
 			TableCell,
 			DragHandle,
-		Placeholder.configure({
+			Placeholder.configure({
 				placeholder: ({ node }) => {
 					if (node.type.name === "heading") {
 						return `Titre ${node.attrs.level}`
@@ -898,11 +883,7 @@ export function TiptapEditor({
 				<div className="w-px h-4 bg-white/20 mx-0.5" />
 				{/* Text color */}
 				<div className="relative group/color">
-					<BubbleButton
-						onClick={() => {}}
-						active={!!editor.getAttributes("textStyle").color}
-						title="Couleur du texte"
-					>
+					<BubbleButton onClick={() => {}} active={!!editor.getAttributes("textStyle").color} title="Couleur du texte">
 						<Baseline className="size-3.5" />
 					</BubbleButton>
 					<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/color:block z-50">
@@ -923,11 +904,7 @@ export function TiptapEditor({
 				</div>
 				{/* Highlight */}
 				<div className="relative group/highlight">
-					<BubbleButton
-						onClick={() => {}}
-						active={!!editor.getAttributes("highlight").color}
-						title="Surlignage"
-					>
+					<BubbleButton onClick={() => {}} active={!!editor.getAttributes("highlight").color} title="Surlignage">
 						<Highlighter className="size-3.5" />
 					</BubbleButton>
 					<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/highlight:block z-50">

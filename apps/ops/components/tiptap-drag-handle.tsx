@@ -1,5 +1,5 @@
 import { Extension } from "@tiptap/core"
-import { Plugin, PluginKey, NodeSelection } from "@tiptap/pm/state"
+import { NodeSelection, Plugin, PluginKey } from "@tiptap/pm/state"
 
 const dragHandlePluginKey = new PluginKey("dragHandle")
 
@@ -28,8 +28,6 @@ export const DragHandle = Extension.create({
 	name: "dragHandle",
 
 	addProseMirrorPlugins() {
-		const { editor } = this
-
 		let currentNodePos: number | null = null
 		const { wrapper, plusBtn, dragBtn } = createHandleElement()
 		let hideTimeout: ReturnType<typeof setTimeout> | null = null
