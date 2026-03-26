@@ -86,8 +86,12 @@ export async function runMission(
   ]
 
   let missionCost = 0
+  let totalTokens = 0
+  let askAgentCount = 0
   let iterations = 0
   const maxIter = mission.maxIterations ?? 15
+  const maxTokens = 30_000 // hard cap: ~$0.02 for gpt-4.1-mini, ~$0.10 for gpt-4.1
+  const maxAskAgent = 3
   const actions: Array<{ type: string; description: string; entityId?: string; reversible: boolean }> = []
 
   const log = async (type: string, content: string, toolName?: string) => {
@@ -113,7 +117,25 @@ export async function runMission(
       if (response.usage) {
         const cost = calculateCost(response.usage, agent.model)
         missionCost += cost
+        totalTokens += (response.usage.prompt_tokens ?? 0) + (response.usage.completion_tokens ?? 0)
         await convex.mutation(api.worker.workerAddAgentUsage, { id: agent._id as any, costUsd: cost })
+      }
+
+      // Token cap check
+      if (totalTokens >= maxTokens) {
+        await log("budget_warning", `Token cap atteint (${totalTokens} / ${maxTokens}). Synthèse forcée.`)
+        messages.push(response.choices[0].message)
+        messages.push({ role: "user", content: "TOKEN LIMIT: Tu as atteint la limite de tokens. Conclus immédiatement avec ce que tu as." })
+        // One last call to conclude
+        const finalResponse = await getOpenAI().chat.completions.create({
+          model: agent.model,
+          messages,
+          max_tokens: 500,
+        })
+        if (finalResponse.choices[0].message.content) {
+          await log("thinking", finalResponse.choices[0].message.content)
+        }
+        break
       }
 
       const choice = response.choices[0]
@@ -142,6 +164,17 @@ export async function runMission(
           }
 
           await log("tool_call", call.function.arguments, call.function.name)
+
+          // Circuit breaker: max ask_agent calls per mission
+          if (call.function.name === "ask_agent") {
+            askAgentCount++
+            if (askAgentCount > maxAskAgent) {
+              const msg = `Limite de ${maxAskAgent} appels ask_agent atteinte. Utilise les réponses déjà obtenues.`
+              await log("budget_warning", msg, "ask_agent")
+              messages.push({ role: "tool", tool_call_id: call.id, content: JSON.stringify({ error: msg }) })
+              continue
+            }
+          }
 
           let result: string
           if (mission.mode === "dry-run" && tool.category === "write") {
