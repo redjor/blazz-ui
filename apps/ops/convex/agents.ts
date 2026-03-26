@@ -1,0 +1,198 @@
+import { ConvexError, v } from "convex/values"
+import { mutation, query } from "./_generated/server"
+import { requireAuth } from "./lib/auth"
+
+export const list = query({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		return ctx.db
+			.query("agents")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+	},
+})
+
+export const get = query({
+	args: { id: v.id("agents") },
+	handler: async (ctx, { id }) => {
+		const { userId } = await requireAuth(ctx)
+		const agent = await ctx.db.get(id)
+		if (!agent || agent.userId !== userId) throw new ConvexError("Introuvable")
+		return agent
+	},
+})
+
+export const getBySlug = query({
+	args: { slug: v.string() },
+	handler: async (ctx, { slug }) => {
+		const { userId } = await requireAuth(ctx)
+		return ctx.db
+			.query("agents")
+			.withIndex("by_slug", (q) => q.eq("userId", userId).eq("slug", slug))
+			.unique()
+	},
+})
+
+export const create = mutation({
+	args: {
+		slug: v.string(),
+		name: v.string(),
+		role: v.string(),
+		model: v.string(),
+		avatar: v.optional(v.string()),
+		budget: v.object({
+			maxPerMission: v.number(),
+			maxPerDay: v.number(),
+			maxPerMonth: v.number(),
+		}),
+		permissions: v.object({
+			safe: v.array(v.string()),
+			confirm: v.array(v.string()),
+			blocked: v.array(v.string()),
+		}),
+	},
+	handler: async (ctx, args) => {
+		const { userId } = await requireAuth(ctx)
+		return ctx.db.insert("agents", {
+			...args,
+			userId,
+			status: "idle",
+			usage: {
+				todayUsd: 0,
+				monthUsd: 0,
+				totalUsd: 0,
+				lastResetDay: new Date().toISOString().slice(0, 10),
+				lastResetMonth: new Date().toISOString().slice(0, 7),
+			},
+		})
+	},
+})
+
+export const updateStatus = mutation({
+	args: {
+		id: v.id("agents"),
+		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")),
+	},
+	handler: async (ctx, { id, status }) => {
+		const { userId } = await requireAuth(ctx)
+		const agent = await ctx.db.get(id)
+		if (!agent || agent.userId !== userId) throw new ConvexError("Introuvable")
+		await ctx.db.patch(id, { status, lastActiveAt: Date.now() })
+	},
+})
+
+export const addUsage = mutation({
+	args: { id: v.id("agents"), costUsd: v.number() },
+	handler: async (ctx, { id, costUsd }) => {
+		const agent = await ctx.db.get(id)
+		if (!agent) throw new ConvexError("Introuvable")
+
+		const today = new Date().toISOString().slice(0, 10)
+		const month = new Date().toISOString().slice(0, 7)
+
+		const todayUsd = agent.usage.lastResetDay === today ? agent.usage.todayUsd + costUsd : costUsd
+		const monthUsd =
+			agent.usage.lastResetMonth === month ? agent.usage.monthUsd + costUsd : costUsd
+
+		await ctx.db.patch(id, {
+			usage: {
+				todayUsd,
+				monthUsd,
+				totalUsd: agent.usage.totalUsd + costUsd,
+				lastResetDay: today,
+				lastResetMonth: month,
+			},
+		})
+	},
+})
+
+export const seed = mutation({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+
+		const existing = await ctx.db
+			.query("agents")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		if (existing.length > 0) return
+
+		const agents = [
+			{
+				slug: "cfo",
+				name: "Marc",
+				role: "Directeur Financier",
+				model: "gpt-4.1-mini",
+				avatar: "🟡",
+				budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
+				permissions: {
+					safe: [
+						"qonto_balance",
+						"qonto_transactions",
+						"list_invoices",
+						"list_recurring_expenses",
+						"treasury_forecast",
+						"list_projects",
+						"list_time_entries",
+					],
+					confirm: ["create_note"],
+					blocked: ["write_file", "github_create_issue"],
+				},
+			},
+			{
+				slug: "timekeeper",
+				name: "Léo",
+				role: "Suivi de temps",
+				model: "gpt-4.1-mini",
+				avatar: "🟢",
+				budget: { maxPerMission: 0.05, maxPerDay: 0.2, maxPerMonth: 2.0 },
+				permissions: {
+					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
+					confirm: ["create_note", "create_todo"],
+					blocked: [
+						"qonto_balance",
+						"qonto_transactions",
+						"write_file",
+						"github_create_issue",
+					],
+				},
+			},
+			{
+				slug: "product-lead",
+				name: "Sarah",
+				role: "Chef de Produit Blazz UI",
+				model: "gpt-4.1",
+				avatar: "🔵",
+				budget: { maxPerMission: 0.3, maxPerDay: 1.0, maxPerMonth: 8.0 },
+				permissions: {
+					safe: [
+						"git_log",
+						"git_diff",
+						"read_file",
+						"glob_files",
+						"github_issues",
+						"web_search",
+					],
+					confirm: ["write_file", "github_create_issue", "create_note"],
+					blocked: ["qonto_balance", "qonto_transactions"],
+				},
+			},
+		]
+
+		for (const agent of agents) {
+			await ctx.db.insert("agents", {
+				...agent,
+				userId,
+				status: "idle",
+				usage: {
+					todayUsd: 0,
+					monthUsd: 0,
+					totalUsd: 0,
+					lastResetDay: new Date().toISOString().slice(0, 10),
+					lastResetMonth: new Date().toISOString().slice(0, 7),
+				},
+			})
+		}
+	},
+})
