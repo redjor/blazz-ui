@@ -10,7 +10,7 @@ import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
-import { Bot, Plus, Zap } from "lucide-react"
+import { Bot, Kanban, LayoutList, Plus, Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { api } from "@/convex/_generated/api"
@@ -29,9 +29,18 @@ const STATUS_GROUPS: { key: Status; label: string }[] = [
 	{ key: "aborted", label: "Annulees" },
 ]
 
+const KANBAN_COLUMNS: { key: Status; label: string }[] = [
+	{ key: "planning", label: "Planification" },
+	{ key: "todo", label: "A faire" },
+	{ key: "in_progress", label: "En cours" },
+	{ key: "review", label: "En revue" },
+	{ key: "done", label: "Terminees" },
+]
+
 export function MissionsClient() {
 	const router = useRouter()
 	const [formOpen, setFormOpen] = useState(false)
+	const [view, setView] = useState<"list" | "kanban">("kanban")
 	const missions = useQuery(api.missions.list, {})
 	const agents = useQuery(api.agents.list)
 
@@ -108,6 +117,22 @@ export function MissionsClient() {
 				title="Mission Control"
 				actions={
 					<InlineStack gap="200">
+						<InlineStack gap="050">
+							<Button
+								variant={view === "list" ? "secondary" : "ghost"}
+								size="sm"
+								onClick={() => setView("list")}
+							>
+								<LayoutList className="size-4" />
+							</Button>
+							<Button
+								variant={view === "kanban" ? "secondary" : "ghost"}
+								size="sm"
+								onClick={() => setView("kanban")}
+							>
+								<Kanban className="size-4" />
+							</Button>
+						</InlineStack>
 						<Button onClick={() => setFormOpen(true)}>
 							<Plus className="size-4 mr-1" />
 							Nouvelle mission
@@ -127,35 +152,73 @@ export function MissionsClient() {
 				}
 			/>
 
-			{/* Missions grouped by status */}
-			{STATUS_GROUPS.map(({ key, label }) => {
-				const items = grouped.get(key)
-				if (!items || items.length === 0) return null
+			{view === "kanban" ? (
+				<div className="overflow-x-auto -mx-4 px-4 pb-4">
+					<InlineStack gap="300" className="min-w-max items-start">
+						{KANBAN_COLUMNS.map(({ key, label }) => {
+							const items = grouped.get(key) ?? []
+							return (
+								<BlockStack key={key} gap="200" className="w-72 shrink-0">
+									<InlineStack gap="200" blockAlign="center" className="px-1">
+										<span className="text-sm font-medium text-fg-muted">
+											{label}
+										</span>
+										<Badge variant="outline" className="text-[10px]">
+											{items.length}
+										</Badge>
+									</InlineStack>
+									<BlockStack gap="200" className="min-h-[120px] rounded-lg bg-muted/50 p-2">
+										{items.length === 0 ? (
+											<Box className="flex items-center justify-center h-20">
+												<span className="text-xs text-fg-muted">Aucune mission</span>
+											</Box>
+										) : (
+											items.map((mission) => (
+												<MissionCard
+													key={mission._id}
+													mission={mission}
+													agent={agentMap.get(mission.agentId) ?? null}
+													onClick={() => router.push(`/missions/${mission._id}`)}
+												/>
+											))
+										)}
+									</BlockStack>
+								</BlockStack>
+							)
+						})}
+					</InlineStack>
+				</div>
+			) : (
+				/* List view — missions grouped by status */
+				STATUS_GROUPS.map(({ key, label }) => {
+					const items = grouped.get(key)
+					if (!items || items.length === 0) return null
 
-				return (
-					<BlockStack key={key} gap="300">
-						<InlineStack gap="200" blockAlign="center">
-							<h2 className="text-sm font-medium text-fg-muted">
-								{label}
-							</h2>
-							<Badge variant="outline" className="text-[10px]">
-								{items.length}
-							</Badge>
-						</InlineStack>
+					return (
+						<BlockStack key={key} gap="300">
+							<InlineStack gap="200" blockAlign="center">
+								<h2 className="text-sm font-medium text-fg-muted">
+									{label}
+								</h2>
+								<Badge variant="outline" className="text-[10px]">
+									{items.length}
+								</Badge>
+							</InlineStack>
 
-						<BlockStack gap="200">
-							{items.map((mission) => (
-								<MissionCard
-									key={mission._id}
-									mission={mission}
-									agent={agentMap.get(mission.agentId) ?? null}
-									onClick={() => router.push(`/missions/${mission._id}`)}
-								/>
-							))}
+							<BlockStack gap="200">
+								{items.map((mission) => (
+									<MissionCard
+										key={mission._id}
+										mission={mission}
+										agent={agentMap.get(mission.agentId) ?? null}
+										onClick={() => router.push(`/missions/${mission._id}`)}
+									/>
+								))}
+							</BlockStack>
 						</BlockStack>
-					</BlockStack>
-				)
-			})}
+					)
+				})
+			)}
 
 			{/* Form dialog */}
 			<MissionForm open={formOpen} onOpenChange={setFormOpen} agents={agents} />
