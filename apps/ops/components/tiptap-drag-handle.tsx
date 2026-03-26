@@ -206,31 +206,54 @@ export const DragHandle = Extension.create({
 					handleDrop(view, event, _slice, _moved) {
 						if (draggedNodePos === null) return false
 
-						const coords = { left: event.clientX, top: event.clientY }
-						const dropPos = view.posAtCoords(coords)
-						if (!dropPos) return false
+						const coords = view.posAtCoords({
+							left: event.clientX,
+							top: event.clientY,
+						})
+						if (!coords) {
+							draggedNodePos = null
+							return false
+						}
 
-						const node = view.state.doc.nodeAt(draggedNodePos)
-						if (!node) return false
+						const dragNode = view.state.doc.nodeAt(draggedNodePos)
+						if (!dragNode) {
+							draggedNodePos = null
+							return false
+						}
 
+						// Find target top-level block
+						const $drop = view.state.doc.resolve(coords.pos)
+						if ($drop.depth < 1) {
+							draggedNodePos = null
+							return false
+						}
+
+						const targetBlockPos = $drop.before(1)
+						const targetBlockNode = view.state.doc.nodeAt(targetBlockPos)
+						if (!targetBlockNode) {
+							draggedNodePos = null
+							return false
+						}
+
+						// Insert before or after target block based on cursor position
+						const targetMid = targetBlockPos + targetBlockNode.nodeSize / 2
+						const insertAt = coords.pos < targetMid ? targetBlockPos : targetBlockPos + targetBlockNode.nodeSize
+
+						// Skip if dropping at same position
+						const dragEnd = draggedNodePos + dragNode.nodeSize
+						if (insertAt === draggedNodePos || insertAt === dragEnd) {
+							draggedNodePos = null
+							return true
+						}
+
+						// Delete source, map target, insert
 						const tr = view.state.tr
-
-						// Delete the dragged node first
-						tr.delete(draggedNodePos, draggedNodePos + node.nodeSize)
-
-						// Recalculate drop position after deletion
-						const mappedPos = tr.mapping.map(dropPos.pos)
-
-						// Resolve to find block boundary for insertion
-						const resolved = tr.doc.resolve(mappedPos)
-						const insertPos = resolved.depth > 0 ? resolved.after(1) : resolved.pos
-
-						// Insert the node at the new position
-						tr.insert(Math.min(insertPos, tr.doc.content.size), node)
+						tr.delete(draggedNodePos, dragEnd)
+						const mappedInsert = tr.mapping.map(insertAt)
+						tr.insert(Math.min(mappedInsert, tr.doc.content.size), dragNode)
 
 						view.dispatch(tr)
 						draggedNodePos = null
-
 						event.preventDefault()
 						return true
 					},
