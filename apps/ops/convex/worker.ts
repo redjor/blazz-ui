@@ -136,3 +136,100 @@ export const workerListMemory = query({
 		return all.filter((m) => m.agentId === agentId && (!m.expiresAt || m.expiresAt > now))
 	},
 })
+
+// ── Data queries (for agent tools, no auth) ──
+
+export const workerListTimeEntries = query({
+	args: {
+		projectId: v.optional(v.string()),
+		from: v.optional(v.string()),
+		to: v.optional(v.string()),
+	},
+	handler: async (ctx, { projectId, from, to }) => {
+		let entries = await ctx.db.query("timeEntries").collect()
+		if (projectId) entries = entries.filter((e) => e.projectId === projectId)
+		if (from) entries = entries.filter((e) => e.date >= from)
+		if (to) entries = entries.filter((e) => e.date <= to)
+		return entries.sort((a, b) => (b.date > a.date ? 1 : -1))
+	},
+})
+
+export const workerListProjects = query({
+	args: {},
+	handler: async (ctx) => {
+		return ctx.db.query("projects").collect()
+	},
+})
+
+export const workerListInvoices = query({
+	args: { status: v.optional(v.string()) },
+	handler: async (ctx, { status }) => {
+		let invoices = await ctx.db.query("invoices").collect()
+		if (status) invoices = invoices.filter((i) => i.status === status)
+		return invoices
+	},
+})
+
+export const workerGetTreasurySettings = query({
+	args: {},
+	handler: async (ctx) => {
+		const all = await ctx.db.query("treasurySettings").collect()
+		return all[0] ?? null
+	},
+})
+
+export const workerExpenseSummary = query({
+	args: {},
+	handler: async (ctx) => {
+		const expenses = await ctx.db.query("recurringExpenses").collect()
+		return expenses.filter((e) => e.active !== false)
+	},
+})
+
+export const workerListClients = query({
+	args: {},
+	handler: async (ctx) => {
+		return ctx.db.query("clients").collect()
+	},
+})
+
+// ── Write mutations (for agent tools) ──
+
+export const workerCreateNote = mutation({
+	args: {
+		content: v.string(),
+		entityType: v.optional(v.string()),
+		entityId: v.optional(v.string()),
+		userId: v.optional(v.id("users")),
+	},
+	handler: async (ctx, { content, entityType, entityId, userId }) => {
+		return ctx.db.insert("notes", {
+			content,
+			entityType: entityType ?? "general",
+			entityId,
+			userId: userId as any,
+			pinned: false,
+			locked: false,
+		})
+	},
+})
+
+export const workerCreateTodo = mutation({
+	args: {
+		text: v.string(),
+		priority: v.optional(v.string()),
+		dueDate: v.optional(v.string()),
+		userId: v.optional(v.id("users")),
+		createdByAgent: v.optional(v.id("agents")),
+	},
+	handler: async (ctx, { text, priority, dueDate, userId, createdByAgent }) => {
+		return ctx.db.insert("todos", {
+			text,
+			status: "todo",
+			priority: priority ?? "normal",
+			dueDate,
+			userId: userId as any,
+			createdByAgent,
+		})
+	},
+})

@@ -24,7 +24,7 @@ export function timeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async (args) => {
-        return convex.query(api.timeEntries.list, args as any)
+        return convex.query(api.worker.workerListTimeEntries, args as any)
       },
     },
     {
@@ -39,7 +39,7 @@ export function timeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async () => {
-        return convex.query(api.projects.listAll, {})
+        return convex.query(api.worker.workerListProjects, {})
       },
     },
     {
@@ -61,12 +61,11 @@ export function timeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async (args) => {
-        const entries = await convex.query(api.timeEntries.list, {
+        const entries = await convex.query(api.worker.workerListTimeEntries, {
           from: args.from as string,
           to: args.to as string,
         })
 
-        // Analyze anomalies
         const byDate: Record<string, number> = {}
         for (const e of entries as any[]) {
           byDate[e.date] = (byDate[e.date] ?? 0) + e.minutes
@@ -78,7 +77,7 @@ export function timeTools(convex: ConvexHttpClient): Tool[] {
 
         for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
           const day = d.getDay()
-          if (day === 0 || day === 6) continue // skip weekends
+          if (day === 0 || day === 6) continue
           const dateStr = d.toISOString().slice(0, 10)
           const minutes = byDate[dateStr] ?? 0
 

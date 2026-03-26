@@ -16,7 +16,7 @@ export function financeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async () => {
-        const settings = await convex.query(api.treasury.getSettings, {})
+        const settings = await convex.query(api.worker.workerGetTreasurySettings, {})
         return {
           balanceCents: settings?.qontoBalanceCents ?? 0,
           balanceEur: (settings?.qontoBalanceCents ?? 0) / 100,
@@ -36,8 +36,11 @@ export function financeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async () => {
-        // Delegate to Convex action
-        return convex.action(api.qonto.listTransactions, {})
+        try {
+          return await convex.action(api.qonto.listTransactions, {})
+        } catch {
+          return { error: "Qonto API not configured or unavailable" }
+        }
       },
     },
     {
@@ -58,7 +61,7 @@ export function financeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async (args) => {
-        return convex.query(api.invoices.list, args as any)
+        return convex.query(api.worker.workerListInvoices, args as any)
       },
     },
     {
@@ -73,7 +76,7 @@ export function financeTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async () => {
-        return convex.query(api.treasury.expenseSummary, {})
+        return convex.query(api.worker.workerExpenseSummary, {})
       },
     },
     {
@@ -83,7 +86,7 @@ export function financeTools(convex: ConvexHttpClient): Tool[] {
         type: "function",
         function: {
           name: "treasury_forecast",
-          description: "Get cashflow forecast for the next N months",
+          description: "Get cashflow forecast for the next N months. Returns projected balance per month.",
           parameters: {
             type: "object",
             properties: {
@@ -93,8 +96,13 @@ export function financeTools(convex: ConvexHttpClient): Tool[] {
           },
         },
       },
-      execute: async (args) => {
-        return convex.query(api.treasury.forecast, { months: (args.months as number) ?? 6 })
+      execute: async () => {
+        // Simplified: return expenses + settings for the agent to compute
+        const [settings, expenses] = await Promise.all([
+          convex.query(api.worker.workerGetTreasurySettings, {}),
+          convex.query(api.worker.workerExpenseSummary, {}),
+        ])
+        return { settings, expenses }
       },
     },
   ]

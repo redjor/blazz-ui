@@ -24,7 +24,7 @@ export function sharedTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async (args) => {
-        return convex.mutation(api.notes.create, {
+        return convex.mutation(api.worker.workerCreateNote, {
           content: args.content as string,
           entityType: (args.entityType as string) ?? "general",
           entityId: args.entityId as string | undefined,
@@ -51,9 +51,8 @@ export function sharedTools(convex: ConvexHttpClient): Tool[] {
         },
       },
       execute: async (args) => {
-        return convex.mutation(api.todos.create, {
+        return convex.mutation(api.worker.workerCreateTodo, {
           text: args.text as string,
-          status: "todo",
           priority: (args.priority as string) ?? "normal",
           dueDate: args.dueDate as string | undefined,
         })
