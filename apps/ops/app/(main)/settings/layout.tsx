@@ -7,7 +7,7 @@ import {
 	NavMenuItem,
 	NavMenuSeparator,
 } from "@blazz/ui/components/ui/nav-menu"
-import { Settings, Tag, ToggleRight } from "lucide-react"
+import { Bot, Settings, Tag, ToggleRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
@@ -30,6 +30,10 @@ const settingsNav: {
 	{
 		group: "Données",
 		items: [{ label: "Catégories", href: "/settings/categories", icon: Tag }],
+	},
+	{
+		group: "Agents",
+		items: [{ label: "Agents", href: "/settings/agents", icon: Bot }],
 	},
 ]
 

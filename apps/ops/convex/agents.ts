@@ -69,6 +69,31 @@ export const create = mutation({
 	},
 })
 
+export const update = mutation({
+	args: {
+		id: v.id("agents"),
+		name: v.optional(v.string()),
+		role: v.optional(v.string()),
+		model: v.optional(v.string()),
+		budget: v.optional(
+			v.object({
+				maxPerMission: v.number(),
+				maxPerDay: v.number(),
+				maxPerMonth: v.number(),
+			})
+		),
+		status: v.optional(
+			v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled"))
+		),
+	},
+	handler: async (ctx, { id, ...fields }) => {
+		const { userId } = await requireAuth(ctx)
+		const agent = await ctx.db.get(id)
+		if (!agent || agent.userId !== userId) throw new ConvexError("Introuvable")
+		await ctx.db.patch(id, fields)
+	},
+})
+
 export const updateStatus = mutation({
 	args: {
 		id: v.id("agents"),
