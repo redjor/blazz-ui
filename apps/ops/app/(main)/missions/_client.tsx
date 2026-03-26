@@ -11,6 +11,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Bot, Plus, Zap } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { api } from "@/convex/_generated/api"
 import { MissionCard } from "./_components/mission-card"
@@ -29,6 +30,7 @@ const STATUS_GROUPS: { key: Status; label: string }[] = [
 ]
 
 export function MissionsClient() {
+	const router = useRouter()
 	const [formOpen, setFormOpen] = useState(false)
 	const missions = useQuery(api.missions.list, {})
 	const agents = useQuery(api.agents.list)
@@ -147,6 +149,7 @@ export function MissionsClient() {
 									key={mission._id}
 									mission={mission}
 									agent={agentMap.get(mission.agentId) ?? null}
+									onClick={() => router.push(`/missions/${mission._id}`)}
 								/>
 							))}
 						</BlockStack>
