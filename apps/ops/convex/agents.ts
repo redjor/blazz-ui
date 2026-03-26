@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const list = query({
@@ -104,6 +104,74 @@ export const addUsage = mutation({
 				lastResetMonth: month,
 			},
 		})
+	},
+})
+
+// Internal seed — callable from CLI without auth
+export const internalSeed = internalMutation({
+	args: { userId: v.id("users") },
+	handler: async (ctx, { userId }) => {
+		const existing = await ctx.db
+			.query("agents")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		if (existing.length > 0) return "Already seeded"
+
+		const agents = [
+			{
+				slug: "cfo",
+				name: "Marc",
+				role: "Directeur Financier",
+				model: "gpt-4.1-mini",
+				avatar: "🟡",
+				budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
+				permissions: {
+					safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "treasury_forecast", "list_projects", "list_time_entries"],
+					confirm: ["create_note"],
+					blocked: ["write_file", "github_create_issue"],
+				},
+			},
+			{
+				slug: "timekeeper",
+				name: "Léo",
+				role: "Suivi de temps",
+				model: "gpt-4.1-mini",
+				avatar: "🟢",
+				budget: { maxPerMission: 0.05, maxPerDay: 0.2, maxPerMonth: 2.0 },
+				permissions: {
+					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
+					confirm: ["create_note", "create_todo"],
+					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
+				},
+			},
+			{
+				slug: "product-lead",
+				name: "Sarah",
+				role: "Chef de Produit Blazz UI",
+				model: "gpt-4.1",
+				avatar: "🔵",
+				budget: { maxPerMission: 0.3, maxPerDay: 1.0, maxPerMonth: 8.0 },
+				permissions: {
+					safe: ["git_log", "git_diff", "read_file", "glob_files", "github_issues", "web_search"],
+					confirm: ["write_file", "github_create_issue", "create_note"],
+					blocked: ["qonto_balance", "qonto_transactions"],
+				},
+			},
+		]
+
+		for (const agent of agents) {
+			await ctx.db.insert("agents", {
+				...agent,
+				userId,
+				status: "idle" as const,
+				usage: {
+					todayUsd: 0, monthUsd: 0, totalUsd: 0,
+					lastResetDay: new Date().toISOString().slice(0, 10),
+					lastResetMonth: new Date().toISOString().slice(0, 7),
+				},
+			})
+		}
+		return "Seeded 3 agents"
 	},
 })
 
