@@ -39,10 +39,8 @@ export function AgentPicker({ agents, value, onValueChange }: AgentPickerProps) 
 	return (
 		<Select
 			value={value}
-			onValueChange={onValueChange}
-			items={Object.fromEntries(
-				agents.map((a) => [a._id, `${a.avatar ?? ""} ${a.name} — ${a.role}`])
-			)}
+			onValueChange={(val: string | null) => { if (val) onValueChange(val) }}
+			items={agents.map((a) => ({ value: a._id, label: `${a.avatar ?? ""} ${a.name} — ${a.role}` }))}
 		>
 			<SelectTrigger className="w-full">
 				<SelectValue placeholder="Choisir un agent..." />

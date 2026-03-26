@@ -19,7 +19,9 @@ export const list = query({
 		if (status) {
 			return ctx.db
 				.query("missions")
-				.withIndex("by_status", (q) => q.eq("userId", userId).eq("status", status))
+				.withIndex("by_status", (q) =>
+					q.eq("userId", userId).eq("status", status as "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"),
+				)
 				.collect()
 		}
 		const all = await ctx.db
@@ -47,7 +49,9 @@ export const listByStatus = query({
 		const { userId } = await requireAuth(ctx)
 		return ctx.db
 			.query("missions")
-			.withIndex("by_status", (q) => q.eq("userId", userId).eq("status", status))
+			.withIndex("by_status", (q) =>
+				q.eq("userId", userId).eq("status", status as "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"),
+			)
 			.collect()
 	},
 })

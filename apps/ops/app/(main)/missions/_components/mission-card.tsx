@@ -41,13 +41,13 @@ const PRIORITY_LABEL: Record<Priority, string> = {
 	urgent: "Urgente",
 }
 
-const STATUS_VARIANT: Record<Status, "secondary" | "outline" | "default" | "destructive"> = {
+const STATUS_VARIANT: Record<Status, "secondary" | "outline" | "default" | "info" | "success" | "warning" | "critical"> = {
 	planning: "outline",
 	todo: "secondary",
-	in_progress: "default",
-	review: "secondary",
-	done: "secondary",
-	rejected: "destructive",
+	in_progress: "info",
+	review: "warning",
+	done: "success",
+	rejected: "critical",
 	aborted: "outline",
 }
 
