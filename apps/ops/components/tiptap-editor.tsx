@@ -4,6 +4,10 @@ import { Card, CardFooter } from "@blazz/ui/components/ui/card"
 import Color from "@tiptap/extension-color"
 import Highlight from "@tiptap/extension-highlight"
 import Image from "@tiptap/extension-image"
+import Table from "@tiptap/extension-table"
+import TableCell from "@tiptap/extension-table-cell"
+import TableHeader from "@tiptap/extension-table-header"
+import TableRow from "@tiptap/extension-table-row"
 import Placeholder from "@tiptap/extension-placeholder"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
@@ -18,6 +22,7 @@ import {
 	Bold,
 	CheckSquare,
 	Code,
+	Columns,
 	Heading1,
 	Heading2,
 	Heading3,
@@ -31,9 +36,12 @@ import {
 	Minus,
 	PenLine,
 	Quote,
+	Rows,
 	Sparkles,
 	SpellCheck,
 	Strikethrough,
+	Table as TableIcon,
+	Trash2,
 	Type,
 } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -291,6 +299,12 @@ const SLASH_COMMANDS: SlashCommand[] = [
 		icon: <ImagePlus className="size-4" />,
 		command: "image",
 	},
+	{
+		label: "Tableau",
+		hint: "|||",
+		icon: <TableIcon className="size-4" />,
+		command: "table",
+	},
 ]
 
 function SlashMenu({ commands, selectedIndex, onSelect, onHover }: { commands: SlashCommand[]; selectedIndex: number; onSelect: (index: number) => void; onHover: (index: number) => void }) {
@@ -407,6 +421,42 @@ function ColorPicker({
 	)
 }
 
+// ── Table Toolbar ───────────────────────────────────────────────────
+
+function TableToolbar({
+	editor,
+}: {
+	editor: NonNullable<ReturnType<typeof useEditor>>
+}) {
+	return (
+		<div className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1.5 py-1 shadow-xl mb-2 w-fit">
+			<BubbleButton onClick={() => editor.chain().focus().addColumnBefore().run()} title="Colonne avant">
+				<Columns className="size-3.5" />
+			</BubbleButton>
+			<BubbleButton onClick={() => editor.chain().focus().addColumnAfter().run()} title="Colonne après">
+				<Columns className="size-3.5" />
+			</BubbleButton>
+			<BubbleButton onClick={() => editor.chain().focus().deleteColumn().run()} title="Supprimer colonne">
+				<Columns className="size-3.5 text-red-400" />
+			</BubbleButton>
+			<div className="w-px h-4 bg-white/20 mx-0.5" />
+			<BubbleButton onClick={() => editor.chain().focus().addRowBefore().run()} title="Ligne avant">
+				<Rows className="size-3.5" />
+			</BubbleButton>
+			<BubbleButton onClick={() => editor.chain().focus().addRowAfter().run()} title="Ligne après">
+				<Rows className="size-3.5" />
+			</BubbleButton>
+			<BubbleButton onClick={() => editor.chain().focus().deleteRow().run()} title="Supprimer ligne">
+				<Rows className="size-3.5 text-red-400" />
+			</BubbleButton>
+			<div className="w-px h-4 bg-white/20 mx-0.5" />
+			<BubbleButton onClick={() => editor.chain().focus().deleteTable().run()} title="Supprimer tableau">
+				<Trash2 className="size-3.5 text-red-400" />
+			</BubbleButton>
+		</div>
+	)
+}
+
 // ── Main Editor ─────────────────────────────────────────────────────
 
 export function TiptapEditor({
@@ -475,6 +525,8 @@ export function TiptapEditor({
 		},
 		[generateUploadUrl, getStorageUrl]
 	)
+
+	const [isInTable, setIsInTable] = useState(false)
 
 	// Slash menu state — use refs for handleKeyDown closure + state for rendering
 	const [slashOpen, setSlashOpen] = useState(false)
@@ -623,6 +675,9 @@ export function TiptapEditor({
 					input.click()
 					break
 				}
+				case "table":
+					e.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+					break
 			}
 		},
 		[uploadImage]
@@ -649,6 +704,10 @@ export function TiptapEditor({
 				inline: false,
 				allowBase64: false,
 			}),
+			Table.configure({ resizable: false }),
+			TableRow,
+			TableHeader,
+			TableCell,
 			Placeholder.configure({
 				placeholder: ({ node }) => {
 					if (node.type.name === "heading") {
@@ -752,6 +811,9 @@ export function TiptapEditor({
 			} else if (slashOpenRef.current) {
 				closeSlash()
 			}
+		},
+		onSelectionUpdate: ({ editor: e }) => {
+			setIsInTable(e.isActive("table"))
 		},
 	})
 
@@ -898,6 +960,9 @@ export function TiptapEditor({
 					/>
 				</div>
 			)}
+
+			{/* Table toolbar */}
+			{isInTable && <TableToolbar editor={editor} />}
 
 			{/* Editor */}
 			<EditorContent editor={editor} />

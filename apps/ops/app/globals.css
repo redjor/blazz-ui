@@ -836,3 +836,39 @@ html.dark {
   outline: 2px solid oklch(0.585 0.22 275);
   outline-offset: 2px;
 }
+
+/* Tables */
+.tiptap-notion table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  overflow: hidden;
+}
+
+.tiptap-notion th,
+.tiptap-notion td {
+  border: 1px solid var(--border-default);
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
+  min-width: 80px;
+  position: relative;
+}
+
+.tiptap-notion th {
+  font-weight: 600;
+  background: var(--muted);
+  text-align: left;
+}
+
+.tiptap-notion td > p,
+.tiptap-notion th > p {
+  margin: 0;
+}
+
+.tiptap-notion .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: oklch(0.585 0.22 275 / 0.15);
+  pointer-events: none;
+}
