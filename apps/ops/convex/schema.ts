@@ -208,6 +208,7 @@ export default defineSchema({
 			v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
 		),
 		createdAt: v.number(),
+		createdByAgent: v.optional(v.id("agents")),
 	})
 		.index("by_status", ["status"])
 		.index("by_category", ["categoryId"])
@@ -427,4 +428,123 @@ export default defineSchema({
 		.index("by_user_source", ["userId", "source"])
 		.index("by_source_external", ["source", "externalId"])
 		.index("by_user_archived", ["userId", "archivedAt"]),
+
+	// ── Agent System ──────────────────────────────────────────────────
+
+	agents: defineTable({
+		userId: v.id("users"),
+		slug: v.string(),
+		name: v.string(),
+		role: v.string(),
+		model: v.string(),
+		avatar: v.optional(v.string()),
+		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")),
+		lastActiveAt: v.optional(v.number()),
+		budget: v.object({
+			maxPerMission: v.number(),
+			maxPerDay: v.number(),
+			maxPerMonth: v.number(),
+		}),
+		usage: v.object({
+			todayUsd: v.number(),
+			monthUsd: v.number(),
+			totalUsd: v.number(),
+			lastResetDay: v.string(),
+			lastResetMonth: v.string(),
+		}),
+		permissions: v.object({
+			safe: v.array(v.string()),
+			confirm: v.array(v.string()),
+			blocked: v.array(v.string()),
+		}),
+	})
+		.index("by_user", ["userId"])
+		.index("by_slug", ["userId", "slug"]),
+
+	missions: defineTable({
+		userId: v.id("users"),
+		agentId: v.id("agents"),
+		title: v.string(),
+		prompt: v.string(),
+		status: v.union(
+			v.literal("planning"),
+			v.literal("todo"),
+			v.literal("in_progress"),
+			v.literal("review"),
+			v.literal("done"),
+			v.literal("rejected"),
+			v.literal("aborted"),
+		),
+		priority: v.union(
+			v.literal("low"),
+			v.literal("medium"),
+			v.literal("high"),
+			v.literal("urgent"),
+		),
+		mode: v.optional(v.union(v.literal("dry-run"), v.literal("live"))),
+		output: v.optional(v.string()),
+		structuredOutput: v.optional(v.any()),
+		outputType: v.optional(v.string()),
+		actions: v.optional(
+			v.array(
+				v.object({
+					type: v.string(),
+					description: v.string(),
+					entityId: v.optional(v.string()),
+					reversible: v.boolean(),
+				}),
+			),
+		),
+		error: v.optional(v.string()),
+		costUsd: v.optional(v.number()),
+		maxIterations: v.optional(v.number()),
+		rejectionReason: v.optional(v.string()),
+		soulHash: v.optional(v.string()),
+		templateId: v.optional(v.string()),
+		cron: v.optional(v.string()),
+		parentMissionId: v.optional(v.id("missions")),
+		onComplete: v.optional(
+			v.object({
+				createMission: v.optional(
+					v.object({
+						agentSlug: v.string(),
+						templateId: v.string(),
+						condition: v.optional(v.string()),
+					}),
+				),
+			}),
+		),
+		startedAt: v.optional(v.number()),
+		completedAt: v.optional(v.number()),
+		reviewedAt: v.optional(v.number()),
+		metadata: v.optional(v.any()),
+	})
+		.index("by_status", ["userId", "status"])
+		.index("by_agent", ["userId", "agentId"])
+		.index("by_cron", ["userId", "cron"]),
+
+	agentLogs: defineTable({
+		missionId: v.id("missions"),
+		agentId: v.id("agents"),
+		type: v.union(
+			v.literal("thinking"),
+			v.literal("tool_call"),
+			v.literal("tool_result"),
+			v.literal("error"),
+			v.literal("budget_warning"),
+			v.literal("done"),
+		),
+		content: v.string(),
+		toolName: v.optional(v.string()),
+		duration: v.optional(v.number()),
+	}).index("by_mission", ["missionId"]),
+
+	agentMemory: defineTable({
+		userId: v.id("users"),
+		agentId: v.id("agents"),
+		missionId: v.optional(v.id("missions")),
+		type: v.union(v.literal("summary"), v.literal("learning"), v.literal("fact")),
+		content: v.string(),
+		expiresAt: v.optional(v.number()),
+	}).index("by_agent", ["userId", "agentId"]),
 })
