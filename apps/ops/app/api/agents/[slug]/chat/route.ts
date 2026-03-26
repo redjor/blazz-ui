@@ -154,6 +154,63 @@ function buildReadToolExecutors(token: string) {
 		"list-categories": async () => {
 			return convex.query(api.categories.list, {})
 		},
+
+		// ── Finance tools (for CFO agent) ──
+
+		"qonto-balance": async () => {
+			const settings = await convex.query(api.treasury.getSettings, {})
+			return {
+				balanceCents: settings?.qontoBalanceCents ?? 0,
+				balanceEur: (settings?.qontoBalanceCents ?? 0) / 100,
+			}
+		},
+
+		"qonto-transactions": async () => {
+			try {
+				return await convex.action(api.qonto.listTransactions, {})
+			} catch {
+				return { error: "Qonto API non configurée ou indisponible" }
+			}
+		},
+
+		"list-invoices": async ({ status }: { status?: string }) => {
+			const invoices = await convex.query(api.invoices.list, status ? { status: status as any } : {})
+			return invoices.map((inv: any) => ({
+				id: inv._id,
+				clientId: inv.clientId,
+				amount: inv.totalCents ? inv.totalCents / 100 : null,
+				status: inv.status,
+				date: inv.date ?? inv._creationTime,
+			}))
+		},
+
+		"list-recurring-expenses": async () => {
+			return convex.query(api.treasury.expenseSummary, {})
+		},
+
+		"treasury-forecast": async ({ months }: { months?: number }) => {
+			return convex.query(api.treasury.forecast, { months: months ?? 6 })
+		},
+
+		"check-time-anomalies": async ({ from, to }: { from: string; to: string }) => {
+			const entries = await convex.query(api.timeEntries.list, { from, to })
+			const byDate: Record<string, number> = {}
+			for (const e of entries) {
+				byDate[e.date] = (byDate[e.date] ?? 0) + e.minutes
+			}
+			const anomalies: string[] = []
+			const start = new Date(from)
+			const end = new Date(to)
+			for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+				if (d.getDay() === 0 || d.getDay() === 6) continue
+				const dateStr = d.toISOString().slice(0, 10)
+				const minutes = byDate[dateStr] ?? 0
+				if (minutes === 0) anomalies.push(`❌ ${dateStr}: aucune saisie`)
+				else if (minutes > 600) anomalies.push(`⚠ ${dateStr}: ${Math.round(minutes / 60)}h (>10h)`)
+				else if (minutes < 120) anomalies.push(`⚠ ${dateStr}: seulement ${Math.round(minutes / 60)}h (<2h)`)
+			}
+			return { totalDays: Object.keys(byDate).length, totalMinutes: Object.values(byDate).reduce((a, b) => a + b, 0), anomalies, anomalyCount: anomalies.length }
+		},
 	}
 }
 
@@ -168,6 +225,49 @@ const permissionToToolName: Record<string, string> = {
 	get_project: "get-project",
 	get_client: "get-client",
 	get_todo: "get-todo",
+	// Finance tools
+	qonto_balance: "qonto-balance",
+	qonto_transactions: "qonto-transactions",
+	list_invoices: "list-invoices",
+	list_recurring_expenses: "list-recurring-expenses",
+	treasury_forecast: "treasury-forecast",
+	// Time tools
+	check_time_anomalies: "check-time-anomalies",
+}
+
+// Finance tool definitions (not in @/lib/chat/tools)
+const financeToolDefs: Record<string, any> = {
+	"qonto-balance": tool({
+		description: "Obtenir le solde actuel du compte Qonto",
+		parameters: z.object({}),
+	}),
+	"qonto-transactions": tool({
+		description: "Lister les 10 dernières transactions bancaires Qonto",
+		parameters: z.object({}),
+	}),
+	"list-invoices": tool({
+		description: "Lister les factures. Peut filtrer par statut.",
+		parameters: z.object({
+			status: z.enum(["draft", "sent", "paid"]).optional().describe("Filtrer par statut"),
+		}),
+	}),
+	"list-recurring-expenses": tool({
+		description: "Lister les dépenses récurrentes actives (abonnements, charges, etc.)",
+		parameters: z.object({}),
+	}),
+	"treasury-forecast": tool({
+		description: "Obtenir la prévision de trésorerie sur N mois",
+		parameters: z.object({
+			months: z.number().optional().describe("Nombre de mois (défaut 6)"),
+		}),
+	}),
+	"check-time-anomalies": tool({
+		description: "Vérifier les anomalies de saisie de temps : jours vides, heures excessives",
+		parameters: z.object({
+			from: z.string().describe("Date de début YYYY-MM-DD"),
+			to: z.string().describe("Date de fin YYYY-MM-DD"),
+		}),
+	}),
 }
 
 export async function POST(
@@ -258,9 +358,17 @@ export async function POST(
 	// Add read tools based on agent.permissions.safe
 	for (const perm of agent.permissions.safe) {
 		const toolName = permissionToToolName[perm]
-		if (toolName && toolName in readTools) {
+		if (!toolName) continue
+
+		// Check standard read tools first, then finance tools
+		if (toolName in readTools) {
 			tools[toolName] = {
 				...readTools[toolName as keyof typeof readTools],
+				execute: executors[toolName as keyof typeof executors],
+			}
+		} else if (toolName in financeToolDefs) {
+			tools[toolName] = {
+				...financeToolDefs[toolName],
 				execute: executors[toolName as keyof typeof executors],
 			}
 		}
