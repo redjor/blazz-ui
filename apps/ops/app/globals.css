@@ -872,3 +872,49 @@ html.dark {
   background: oklch(0.585 0.22 275 / 0.15);
   pointer-events: none;
 }
+
+/* Drag handle */
+.tiptap-drag-handle {
+  display: none;
+  position: absolute;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  z-index: 10;
+  transition: opacity 0.15s;
+}
+
+.tiptap-drag-handle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  transition: background-color 0.15s, color 0.15s;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.tiptap-drag-handle-btn:hover {
+  background-color: var(--muted);
+  color: var(--text-primary);
+}
+
+.tiptap-drag-handle-plus {
+  cursor: pointer;
+}
+
+.tiptap-drag-handle-grip {
+  cursor: grab;
+}
+
+.tiptap-drag-handle.dragging .tiptap-drag-handle-grip {
+  cursor: grabbing;
+}
+
+.tiptap-drag-handle-grip:active {
+  cursor: grabbing;
+}

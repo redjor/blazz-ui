@@ -49,6 +49,7 @@ import { toast } from "sonner"
 import { Markdown } from "tiptap-markdown"
 import { api } from "@/convex/_generated/api"
 import { type AIAction, AIPreviewBlock } from "./ai-preview-block"
+import { DragHandle } from "./tiptap-drag-handle"
 
 // ── Bubble Menu Button ──────────────────────────────────────────────
 
@@ -708,7 +709,8 @@ export function TiptapEditor({
 			TableRow,
 			TableHeader,
 			TableCell,
-			Placeholder.configure({
+			DragHandle,
+		Placeholder.configure({
 				placeholder: ({ node }) => {
 					if (node.type.name === "heading") {
 						return `Titre ${node.attrs.level}`
@@ -871,7 +873,7 @@ export function TiptapEditor({
 	if (!editor) return null
 
 	return (
-		<div className="relative">
+		<div className="relative pl-14">
 			{/* Bubble menu on text selection */}
 			<BubbleMenu editor={editor} options={{ placement: "top", offset: 8 }} className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1 py-0.5 shadow-xl">
 				<BubbleButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Gras">
