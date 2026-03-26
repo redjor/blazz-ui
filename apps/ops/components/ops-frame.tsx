@@ -39,7 +39,7 @@ import { OpsUserMenu } from "./ops-user-menu";
 function createAgentIcon(name: string): ComponentType<{ className?: string }> {
   const url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}`;
   function AgentIcon({ className }: { className?: string }) {
-    return <img src={url} alt={name} className={`rounded-full ${className ?? ""}`} />;
+    return <img src={url} alt={name} width={16} height={16} className={`size-4 rounded-full shrink-0 ${className ?? ""}`} />;
   }
   AgentIcon.displayName = `AgentIcon(${name})`;
   return AgentIcon;
