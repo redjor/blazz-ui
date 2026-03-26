@@ -20,16 +20,22 @@ import {
 	Heading3,
 	ImagePlus,
 	Italic,
+	Languages,
 	List,
 	ListOrdered,
+	MessageSquare,
 	Minus,
+	PenLine,
 	Quote,
+	SpellCheck,
+	Sparkles,
 	Strikethrough,
 	Type,
 } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
+import { AIPreviewBlock, type AIAction } from "./ai-preview-block"
 
 // ── Bubble Menu Button ──────────────────────────────────────────────
 
@@ -189,10 +195,66 @@ interface SlashCommand {
 	label: string
 	icon: React.ReactNode
 	hint: string
-	command: string // editor chain command name
+	command: string
+	group?: "ai" | "style"
+	aiAction?: AIAction
+	children?: { label: string; aiAction: AIAction }[]
 }
 
 const SLASH_COMMANDS: SlashCommand[] = [
+	{
+		label: "Ask AI",
+		hint: "ai",
+		icon: <Sparkles className="size-4" />,
+		command: "ai-ask",
+		group: "ai",
+		aiAction: "ask",
+	},
+	{
+		label: "Continue Writing",
+		hint: "ai",
+		icon: <PenLine className="size-4" />,
+		command: "ai-continue",
+		group: "ai",
+		aiAction: "continue",
+	},
+	{
+		label: "Summarize",
+		hint: "ai",
+		icon: <Sparkles className="size-4" />,
+		command: "ai-summarize",
+		group: "ai",
+		aiAction: "summarize",
+	},
+	{
+		label: "Fix grammar",
+		hint: "ai",
+		icon: <SpellCheck className="size-4" />,
+		command: "ai-fix",
+		group: "ai",
+		aiAction: "fix",
+	},
+	{
+		label: "Translate",
+		hint: "ai",
+		icon: <Languages className="size-4" />,
+		command: "ai-translate",
+		group: "ai",
+		aiAction: "translate",
+	},
+	{
+		label: "Change tone",
+		hint: "ai",
+		icon: <MessageSquare className="size-4" />,
+		command: "ai-tone",
+		group: "ai",
+		children: [
+			{ label: "Professional", aiAction: "tone_professional" },
+			{ label: "Casual", aiAction: "tone_casual" },
+			{ label: "Friendly", aiAction: "tone_friendly" },
+			{ label: "Concise", aiAction: "tone_concise" },
+		],
+	},
 	{
 		label: "Texte",
 		hint: "T",
@@ -274,11 +336,41 @@ function SlashMenu({
 }) {
 	const listRef = useRef<HTMLDivElement>(null)
 
-	// Scroll selected item into view
 	useEffect(() => {
-		const el = listRef.current?.children[selectedIndex] as HTMLElement | undefined
+		const el = listRef.current?.querySelector(`[data-index="${selectedIndex}"]`) as HTMLElement | undefined
 		el?.scrollIntoView({ block: "nearest" })
 	}, [selectedIndex])
+
+	const aiCommands = commands.filter((c) => c.group === "ai")
+	const styleCommands = commands.filter((c) => c.group !== "ai")
+
+	// Build flat indexed list for keyboard nav
+	let flatIndex = 0
+	const renderItem = (cmd: SlashCommand) => {
+		const idx = flatIndex++
+		return (
+			<button
+				key={cmd.command}
+				type="button"
+				data-index={idx}
+				className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[15px] transition-colors ${
+					idx === selectedIndex
+						? "bg-muted text-fg"
+						: "text-fg-muted hover:bg-card hover:text-fg"
+				}`}
+				onClick={() => onSelect(idx)}
+				onMouseEnter={() => onHover(idx)}
+			>
+				<span className="flex size-5 shrink-0 items-center justify-center text-fg">
+					{cmd.icon}
+				</span>
+				<span className="min-w-0 flex-1 text-left leading-none">{cmd.label}</span>
+				<span className="ml-auto text-[11px] font-medium tracking-normal text-fg-muted">
+					{cmd.hint}
+				</span>
+			</button>
+		)
+	}
 
 	return (
 		<Card
@@ -286,27 +378,22 @@ function SlashMenu({
 			className="w-[280px] border-container bg-card p-0 data-[size=sm]:p-0 shadow-[0_18px_50px_rgba(15,23,42,0.14)]"
 		>
 			<div ref={listRef} className="max-h-[360px] overflow-y-auto px-1 py-1">
-				{commands.map((cmd, index) => (
-					<button
-						key={cmd.command}
-						type="button"
-						className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[15px] transition-colors ${
-							index === selectedIndex
-								? "bg-muted text-fg"
-								: "text-fg-muted hover:bg-card hover:text-fg"
-						}`}
-						onClick={() => onSelect(index)}
-						onMouseEnter={() => onHover(index)}
-					>
-						<span className="flex size-5 shrink-0 items-center justify-center text-fg">
-							{cmd.icon}
-						</span>
-						<span className="min-w-0 flex-1 text-left leading-none">{cmd.label}</span>
-						<span className="ml-auto text-[11px] font-medium tracking-normal text-fg-muted">
-							{cmd.hint}
-						</span>
-					</button>
-				))}
+				{aiCommands.length > 0 && (
+					<>
+						<div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">
+							AI
+						</div>
+						{aiCommands.map(renderItem)}
+					</>
+				)}
+				{styleCommands.length > 0 && (
+					<>
+						<div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">
+							Style
+						</div>
+						{styleCommands.map(renderItem)}
+					</>
+				)}
 			</div>
 			<CardFooter className="justify-between border-t border-separator bg-card px-3 py-2 text-xs text-fg-muted">
 				<span>Fermer le menu</span>
@@ -394,6 +481,16 @@ export function TiptapEditor({
 	const [selectedIdx, setSelectedIdx] = useState(0)
 	const menuContainerRef = useRef<HTMLDivElement>(null)
 
+	const [aiState, setAiState] = useState<{
+		action: AIAction
+		prompt?: string
+		position: { top: number; left: number }
+	} | null>(null)
+
+	const [toneSubmenu, setToneSubmenu] = useState<{
+		position: { top: number; left: number }
+	} | null>(null)
+
 	// Refs that mirror state so handleKeyDown always reads fresh values
 	const slashOpenRef = useRef(false)
 	const slashFilterRef = useRef("")
@@ -443,6 +540,39 @@ export function TiptapEditor({
 		(cmd: SlashCommand) => {
 			const e = editorRef.current
 			if (!e) return
+
+			// Handle AI commands
+			if (cmd.command.startsWith("ai-")) {
+				const slashRange = findSlashCommandRange(e)
+				if (slashRange) {
+					e.chain().focus().deleteRange({ from: slashRange.from, to: slashRange.to }).run()
+				}
+
+				if (cmd.command === "ai-tone" && cmd.children) {
+					const coords = e.view.coordsAtPos(e.state.selection.from)
+					const editorRect = e.view.dom.getBoundingClientRect()
+					setToneSubmenu({
+						position: {
+							top: coords.bottom - editorRect.top + 4,
+							left: coords.left - editorRect.left,
+						},
+					})
+					return
+				}
+
+				const action = cmd.aiAction!
+				const coords = e.view.coordsAtPos(e.state.selection.from)
+				const editorRect = e.view.dom.getBoundingClientRect()
+
+				setAiState({
+					action,
+					position: {
+						top: coords.bottom - editorRect.top + 8,
+						left: 0,
+					},
+				})
+				return
+			}
 
 			const slashRange = findSlashCommandRange(e)
 			if (slashRange) {
@@ -664,6 +794,16 @@ export function TiptapEditor({
 		return () => document.removeEventListener("mousedown", handleClick)
 	}, [slashOpen, closeSlash])
 
+	// Close tone submenu on click outside
+	useEffect(() => {
+		if (!toneSubmenu) return
+		function handleClick() {
+			setToneSubmenu(null)
+		}
+		document.addEventListener("mousedown", handleClick)
+		return () => document.removeEventListener("mousedown", handleClick)
+	}, [toneSubmenu])
+
 	if (!editor) return null
 
 	return (
@@ -740,6 +880,63 @@ export function TiptapEditor({
 
 			{/* Editor */}
 			<EditorContent editor={editor} />
+
+			{/* AI Preview */}
+			{aiState && (
+				<div className="absolute z-50 left-0 right-0" style={{ top: aiState.position.top }}>
+					<AIPreviewBlock
+						action={aiState.action}
+						initialPrompt={aiState.prompt}
+						editorContext={
+							editor.state.selection.from !== editor.state.selection.to
+								? editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to)
+								: editor.getText()
+						}
+						onApply={(text) => {
+							editor.chain().focus().insertContent(text).run()
+							setAiState(null)
+						}}
+						onDiscard={() => setAiState(null)}
+					/>
+				</div>
+			)}
+
+			{/* Tone sub-menu */}
+			{toneSubmenu && (
+				<div
+					className="absolute z-50"
+					style={{ top: toneSubmenu.position.top, left: toneSubmenu.position.left }}
+				>
+					<Card size="sm" className="w-[200px] p-1 shadow-lg">
+						{[
+							{ label: "Professional", action: "tone_professional" as AIAction },
+							{ label: "Casual", action: "tone_casual" as AIAction },
+							{ label: "Friendly", action: "tone_friendly" as AIAction },
+							{ label: "Concise", action: "tone_concise" as AIAction },
+						].map((tone) => (
+							<button
+								key={tone.action}
+								type="button"
+								className="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-muted text-fg"
+								onClick={() => {
+									const coords = editor.view.coordsAtPos(editor.state.selection.from)
+									const editorRect = editor.view.dom.getBoundingClientRect()
+									setToneSubmenu(null)
+									setAiState({
+										action: tone.action,
+										position: {
+											top: coords.bottom - editorRect.top + 8,
+											left: 0,
+										},
+									})
+								}}
+							>
+								{tone.label}
+							</button>
+						))}
+					</Card>
+				</div>
+			)}
 		</div>
 	)
 }
