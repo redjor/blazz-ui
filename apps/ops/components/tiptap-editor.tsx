@@ -1,22 +1,27 @@
 "use client"
 
 import { Card, CardFooter } from "@blazz/ui/components/ui/card"
+import Color from "@tiptap/extension-color"
+import Highlight from "@tiptap/extension-highlight"
 import Image from "@tiptap/extension-image"
 import Placeholder from "@tiptap/extension-placeholder"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
+import TextStyle from "@tiptap/extension-text-style"
 import { TextSelection } from "@tiptap/pm/state"
 import { EditorContent, type JSONContent, useEditor } from "@tiptap/react"
 import { BubbleMenu } from "@tiptap/react/menus"
 import StarterKit from "@tiptap/starter-kit"
 import { useMutation } from "convex/react"
 import {
+	Baseline,
 	Bold,
 	CheckSquare,
 	Code,
 	Heading1,
 	Heading2,
 	Heading3,
+	Highlighter,
 	ImagePlus,
 	Italic,
 	Languages,
@@ -343,6 +348,65 @@ function SlashMenu({ commands, selectedIndex, onSelect, onHover }: { commands: S
 	)
 }
 
+// ── Color Picker ────────────────────────────────────────────────────
+
+const TEXT_COLORS = [
+	{ label: "Default", value: "" },
+	{ label: "Red", value: "oklch(0.65 0.22 25)" },
+	{ label: "Orange", value: "oklch(0.7 0.17 55)" },
+	{ label: "Yellow", value: "oklch(0.8 0.15 85)" },
+	{ label: "Green", value: "oklch(0.7 0.17 150)" },
+	{ label: "Blue", value: "oklch(0.65 0.2 260)" },
+	{ label: "Purple", value: "oklch(0.6 0.22 300)" },
+	{ label: "Pink", value: "oklch(0.7 0.18 350)" },
+	{ label: "Gray", value: "oklch(0.55 0.01 270)" },
+]
+
+const HIGHLIGHT_COLORS = [
+	{ label: "None", value: "" },
+	{ label: "Yellow", value: "oklch(0.92 0.1 95)" },
+	{ label: "Green", value: "oklch(0.9 0.1 150)" },
+	{ label: "Blue", value: "oklch(0.9 0.1 240)" },
+	{ label: "Purple", value: "oklch(0.9 0.1 300)" },
+	{ label: "Pink", value: "oklch(0.9 0.1 350)" },
+	{ label: "Orange", value: "oklch(0.9 0.1 60)" },
+]
+
+function ColorPicker({
+	colors,
+	activeColor,
+	onSelect,
+}: {
+	colors: { label: string; value: string }[]
+	activeColor: string
+	onSelect: (color: string) => void
+}) {
+	return (
+		<div className="grid grid-cols-5 gap-1 p-1.5">
+			{colors.map((c) => (
+				<button
+					key={c.label}
+					type="button"
+					title={c.label}
+					onClick={() => onSelect(c.value)}
+					className={`size-6 rounded-md border transition-transform hover:scale-110 ${
+						activeColor === c.value ? "border-white ring-1 ring-white/50" : "border-white/20"
+					}`}
+					style={{
+						backgroundColor: c.value || "transparent",
+						...(c.value === ""
+							? {
+									backgroundImage:
+										"linear-gradient(135deg, transparent 45%, red 45%, red 55%, transparent 55%)",
+								}
+							: {}),
+					}}
+				/>
+			))}
+		</div>
+	)
+}
+
 // ── Main Editor ─────────────────────────────────────────────────────
 
 export function TiptapEditor({
@@ -576,6 +640,9 @@ export function TiptapEditor({
 				transformPastedText: true,
 				transformCopiedText: false,
 			}),
+			TextStyle,
+			Color,
+			Highlight.configure({ multicolor: true }),
 			TaskList,
 			TaskItem.configure({ nested: true }),
 			Image.configure({
@@ -764,6 +831,57 @@ export function TiptapEditor({
 				<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Sous-titre">
 					<Heading3 className="size-3.5" />
 				</BubbleButton>
+				<div className="w-px h-4 bg-white/20 mx-0.5" />
+				{/* Text color */}
+				<div className="relative group/color">
+					<BubbleButton
+						onClick={() => {}}
+						active={!!editor.getAttributes("textStyle").color}
+						title="Couleur du texte"
+					>
+						<Baseline className="size-3.5" />
+					</BubbleButton>
+					<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/color:block z-50">
+						<div className="bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg shadow-xl p-1">
+							<ColorPicker
+								colors={TEXT_COLORS}
+								activeColor={editor.getAttributes("textStyle").color ?? ""}
+								onSelect={(color) => {
+									if (color) {
+										editor.chain().focus().setColor(color).run()
+									} else {
+										editor.chain().focus().unsetColor().run()
+									}
+								}}
+							/>
+						</div>
+					</div>
+				</div>
+				{/* Highlight */}
+				<div className="relative group/highlight">
+					<BubbleButton
+						onClick={() => {}}
+						active={!!editor.getAttributes("highlight").color}
+						title="Surlignage"
+					>
+						<Highlighter className="size-3.5" />
+					</BubbleButton>
+					<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/highlight:block z-50">
+						<div className="bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg shadow-xl p-1">
+							<ColorPicker
+								colors={HIGHLIGHT_COLORS}
+								activeColor={editor.getAttributes("highlight").color ?? ""}
+								onSelect={(color) => {
+									if (color) {
+										editor.chain().focus().toggleHighlight({ color }).run()
+									} else {
+										editor.chain().focus().unsetHighlight().run()
+									}
+								}}
+							/>
+						</div>
+					</div>
+				</div>
 			</BubbleMenu>
 
 			{/* Slash command menu */}
