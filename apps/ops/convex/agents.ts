@@ -182,6 +182,32 @@ export const internalSeed = internalMutation({
 					blocked: ["qonto_balance", "qonto_transactions"],
 				},
 			},
+			{
+				slug: "assistant",
+				name: "Alex",
+				role: "Assistant Personnel",
+				model: "gpt-4.1-mini",
+				avatar: "🟣",
+				budget: { maxPerMission: 0.10, maxPerDay: 0.50, maxPerMonth: 5.0 },
+				permissions: {
+					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
+					confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
+					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
+				},
+			},
+			{
+				slug: "account-manager",
+				name: "Jules",
+				role: "Account Manager",
+				model: "gpt-4.1-mini",
+				avatar: "🟠",
+				budget: { maxPerMission: 0.10, maxPerDay: 0.30, maxPerMonth: 3.0 },
+				permissions: {
+					safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses"],
+					confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],
+					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue", "git_log", "git_diff", "read_file"],
+				},
+			},
 		]
 
 		for (const agent of agents) {
@@ -196,7 +222,7 @@ export const internalSeed = internalMutation({
 				},
 			})
 		}
-		return "Seeded 3 agents"
+		return "Seeded 5 agents"
 	},
 })
 
@@ -269,6 +295,32 @@ export const seed = mutation({
 					],
 					confirm: ["write_file", "github_create_issue", "create_note"],
 					blocked: ["qonto_balance", "qonto_transactions"],
+				},
+			},
+			{
+				slug: "assistant",
+				name: "Alex",
+				role: "Assistant Personnel",
+				model: "gpt-4.1-mini",
+				avatar: "🟣",
+				budget: { maxPerMission: 0.10, maxPerDay: 0.50, maxPerMonth: 5.0 },
+				permissions: {
+					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
+					confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
+					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
+				},
+			},
+			{
+				slug: "account-manager",
+				name: "Jules",
+				role: "Account Manager",
+				model: "gpt-4.1-mini",
+				avatar: "🟠",
+				budget: { maxPerMission: 0.10, maxPerDay: 0.30, maxPerMonth: 3.0 },
+				permissions: {
+					safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses"],
+					confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],
+					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue", "git_log", "git_diff", "read_file"],
 				},
 			},
 		]

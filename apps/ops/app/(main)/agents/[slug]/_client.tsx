@@ -43,6 +43,16 @@ const suggestionsMap: Record<string, string[]> = {
 		"Propose les priorités du sprint",
 		"Audite l'état du repo",
 	],
+	assistant: [
+		"Prépare mon daily brief",
+		"Trie mes nouveaux todos",
+		"Quels todos sont en retard ?",
+	],
+	"account-manager": [
+		"Résume la situation par client",
+		"Des projets qui finissent bientôt ?",
+		"Factures impayées ?",
+	],
 }
 
 export function AgentChatClient({ slug }: { slug: string }) {

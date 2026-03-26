@@ -85,6 +85,8 @@ const allNavGroups: NavGroupWithFlag[] = [
       { title: "Marc", url: "/agents/cfo", icon: createAgentIcon("Marc"), flag: "agents" },
       { title: "Léo", url: "/agents/timekeeper", icon: createAgentIcon("Léo"), flag: "agents" },
       { title: "Sarah", url: "/agents/product-lead", icon: createAgentIcon("Sarah"), flag: "agents" },
+      { title: "Alex", url: "/agents/assistant", icon: createAgentIcon("Alex"), flag: "agents" },
+      { title: "Jules", url: "/agents/account-manager", icon: createAgentIcon("Jules"), flag: "agents" },
     ],
   },
   {
