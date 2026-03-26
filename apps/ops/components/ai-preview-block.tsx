@@ -23,6 +23,7 @@ export function AIPreviewBlock({ action, initialPrompt, editorContext, onApply, 
 
 	const { completion, isLoading, complete } = useCompletion({
 		api: "/api/ai/editor",
+		streamProtocol: "text",
 		body: { action, context: editorContext },
 	})
 
