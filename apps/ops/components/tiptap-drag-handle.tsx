@@ -31,6 +31,7 @@ export const DragHandle = Extension.create({
 		let currentNodePos: number | null = null
 		const { wrapper, plusBtn, dragBtn } = createHandleElement()
 		let hideTimeout: ReturnType<typeof setTimeout> | null = null
+		let draggedNodePos: number | null = null
 
 		function showHandle() {
 			if (hideTimeout) {
@@ -60,46 +61,61 @@ export const DragHandle = Extension.create({
 						parent.appendChild(wrapper)
 					}
 
-					// Keep handle visible when hovering over it
 					wrapper.addEventListener("mouseenter", showHandle)
 					wrapper.addEventListener("mouseleave", scheduleHide)
 
+					// Plus button: insert "/" at block start to open slash menu
 					plusBtn.addEventListener("mousedown", (e) => {
 						e.preventDefault()
 						e.stopPropagation()
 						if (currentNodePos === null) return
 
-						// Focus editor and set cursor to start of the hovered block
 						const resolvedPos = editorView.state.doc.resolve(currentNodePos + 1)
 						const sel = editorView.state.selection.constructor.near(resolvedPos)
 						editorView.dispatch(editorView.state.tr.setSelection(sel))
 						editorView.focus()
 
-						// Insert "/" to trigger slash menu
 						setTimeout(() => {
 							const insertTr = editorView.state.tr.insertText("/", editorView.state.selection.from)
 							editorView.dispatch(insertTr)
 						}, 10)
 					})
 
+					// Drag: select node, then create a drag image from the node DOM element
 					dragBtn.addEventListener("dragstart", (e) => {
-						if (currentNodePos === null) return
+						if (currentNodePos === null || !e.dataTransfer) return
+
 						const node = editorView.state.doc.nodeAt(currentNodePos)
 						if (!node) return
 
+						draggedNodePos = currentNodePos
+
+						// Select the node so ProseMirror knows what's being dragged
 						const sel = NodeSelection.create(editorView.state.doc, currentNodePos)
 						editorView.dispatch(editorView.state.tr.setSelection(sel))
 
-						const slice = editorView.state.selection.content()
-						const { dom, text } = editorView.serializeForClipboard(slice)
-						e.dataTransfer?.clearData()
-						e.dataTransfer?.setData("text/html", dom.innerHTML)
-						e.dataTransfer?.setData("text/plain", text)
-						e.dataTransfer!.effectAllowed = "move"
+						// Serialize content for the drag data
+						const slice = sel.content()
 
+						// Use ProseMirror serializeForClipboard if available
+						if (typeof editorView.serializeForClipboard === "function") {
+							const { dom, text } = editorView.serializeForClipboard(slice)
+							e.dataTransfer.clearData()
+							e.dataTransfer.setData("text/html", dom.innerHTML)
+							e.dataTransfer.setData("text/plain", text)
+						} else {
+							// Fallback: serialize as plain text
+							const text = node.textContent
+							e.dataTransfer.clearData()
+							e.dataTransfer.setData("text/plain", text)
+						}
+
+						e.dataTransfer.effectAllowed = "move"
+
+						// Set drag image from the actual block DOM element
 						const nodeEl = editorView.nodeDOM(currentNodePos) as HTMLElement | null
 						if (nodeEl) {
-							e.dataTransfer?.setDragImage(nodeEl, 0, 0)
+							e.dataTransfer.setDragImage(nodeEl, 0, 0)
 						}
 
 						wrapper.classList.add("dragging")
@@ -107,6 +123,7 @@ export const DragHandle = Extension.create({
 
 					dragBtn.addEventListener("dragend", () => {
 						wrapper.classList.remove("dragging")
+						draggedNodePos = null
 					})
 
 					return {
@@ -120,15 +137,34 @@ export const DragHandle = Extension.create({
 				props: {
 					handleDOMEvents: {
 						mousemove(view, event) {
-							const editorRect = view.dom.getBoundingClientRect()
+							// Don't update handle while dragging
+							if (draggedNodePos !== null) return false
 
-							const pos = view.posAtCoords({ left: editorRect.left + 10, top: event.clientY })
+							const editorRect = view.dom.getBoundingClientRect()
+							const pos = view.posAtCoords({
+								left: editorRect.left + 10,
+								top: event.clientY,
+							})
 							if (!pos) {
 								scheduleHide()
 								return false
 							}
 
-							const resolved = view.state.doc.resolve(pos.pos)
+							// Resolve to top-level block
+							let resolved: ReturnType<typeof view.state.doc.resolve>
+							try {
+								resolved = view.state.doc.resolve(pos.pos)
+							} catch {
+								scheduleHide()
+								return false
+							}
+
+							// depth 0 = doc, depth 1 = top-level blocks
+							if (resolved.depth < 1) {
+								scheduleHide()
+								return false
+							}
+
 							const topLevelPos = resolved.start(1) - 1
 
 							if (topLevelPos < 0) {
@@ -155,7 +191,7 @@ export const DragHandle = Extension.create({
 
 							showHandle()
 							wrapper.style.top = `${nodeRect.top - parentRect.top}px`
-							wrapper.style.left = `-52px`
+							wrapper.style.left = "-52px"
 
 							return false
 						},
@@ -164,6 +200,39 @@ export const DragHandle = Extension.create({
 							scheduleHide()
 							return false
 						},
+					},
+
+					// Handle drop to move the block
+					handleDrop(view, event, _slice, _moved) {
+						if (draggedNodePos === null) return false
+
+						const coords = { left: event.clientX, top: event.clientY }
+						const dropPos = view.posAtCoords(coords)
+						if (!dropPos) return false
+
+						const node = view.state.doc.nodeAt(draggedNodePos)
+						if (!node) return false
+
+						const tr = view.state.tr
+
+						// Delete the dragged node first
+						tr.delete(draggedNodePos, draggedNodePos + node.nodeSize)
+
+						// Recalculate drop position after deletion
+						const mappedPos = tr.mapping.map(dropPos.pos)
+
+						// Resolve to find block boundary for insertion
+						const resolved = tr.doc.resolve(mappedPos)
+						const insertPos = resolved.depth > 0 ? resolved.after(1) : resolved.pos
+
+						// Insert the node at the new position
+						tr.insert(Math.min(insertPos, tr.doc.content.size), node)
+
+						view.dispatch(tr)
+						draggedNodePos = null
+
+						event.preventDefault()
+						return true
 					},
 				},
 			}),
