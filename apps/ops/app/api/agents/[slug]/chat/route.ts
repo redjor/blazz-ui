@@ -208,17 +208,26 @@ export async function POST(
 		)
 	}
 
-	// Load soul files
-	const [soul, style, skill] = await Promise.all([
+	// Load soul files (CONTEXT.md is optional)
+	const [soul, style, skill, context] = await Promise.all([
 		loadSoulFile(slug, "SOUL.md"),
 		loadSoulFile(slug, "STYLE.md"),
 		loadSoulFile(slug, "SKILL.md"),
+		loadSoulFile(slug, "CONTEXT.md"),
 	])
 
-	// Load agent memory
-	const memories = await convex.query(api.agentMemory.list, { agentId: agent._id })
-	const memoryBlock = memories.length > 0
-		? `\n## Mémoire\n${memories.map((m) => `- [${m.type}] ${m.content}`).join("\n")}`
+	// Load agent memory (private + shared)
+	const [privateMemories, sharedMemories] = await Promise.all([
+		convex.query(api.agentMemory.list, { agentId: agent._id }),
+		convex.query(api.agentMemory.listShared, {}),
+	])
+	const allMemories = [...privateMemories, ...sharedMemories]
+	const categoryOrder = ["rule", "preference", "pattern", "fact", "episode"]
+	const sortedMemories = allMemories
+		.sort((a, b) => categoryOrder.indexOf(a.category ?? "fact") - categoryOrder.indexOf(b.category ?? "fact"))
+		.slice(0, 15)
+	const memoryBlock = sortedMemories.length > 0
+		? `\n## Mémoire\n${sortedMemories.map((m) => `- [${m.category}${m.scope === "shared" ? " partagé" : ""}] ${m.content}`).join("\n")}`
 		: ""
 
 	// Build system prompt
@@ -234,6 +243,7 @@ export async function POST(
 		soul || `Tu es ${agent.name}, ${agent.role}. Tu assistes l'utilisateur en français, de manière concise et professionnelle.`,
 		style ? `\n## Style\n${style}` : "",
 		skill ? `\n## Compétences\n${skill}` : "",
+		context ? `\n## Contexte Projet\n${context}` : "",
 		memoryBlock,
 		`\n## Contexte temporel\nAujourd'hui : ${todayFormatted} (${todayISO})`,
 		`\n## Règles\n- Formate les dates en ISO: YYYY-MM-DD\n- "aujourd'hui" = ${todayISO}\n- Convertis les durées en minutes (1h30 = 90)\n- N'invente jamais un ID Convex`,
