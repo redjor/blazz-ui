@@ -918,3 +918,35 @@ html.dark {
 .tiptap-drag-handle-grip:active {
   cursor: grabbing;
 }
+
+/* Drop indicator line */
+.tiptap-drop-indicator {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-color);
+  border-radius: 1px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.tiptap-drop-indicator::before,
+.tiptap-drop-indicator::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-color);
+}
+
+.tiptap-drop-indicator::before {
+  left: -4px;
+}
+
+.tiptap-drop-indicator::after {
+  right: -4px;
+}

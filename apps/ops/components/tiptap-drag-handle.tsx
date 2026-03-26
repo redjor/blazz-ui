@@ -15,13 +15,47 @@ function createHandleElement() {
 	const dragBtn = document.createElement("button")
 	dragBtn.type = "button"
 	dragBtn.className = "tiptap-drag-handle-btn tiptap-drag-handle-grip"
-	dragBtn.draggable = true
 	dragBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="19" r="1"/></svg>`
+
+	// Drop indicator line
+	const dropIndicator = document.createElement("div")
+	dropIndicator.className = "tiptap-drop-indicator"
 
 	wrapper.appendChild(plusBtn)
 	wrapper.appendChild(dragBtn)
 
-	return { wrapper, plusBtn, dragBtn }
+	return { wrapper, plusBtn, dragBtn, dropIndicator }
+}
+
+/** Find all top-level block positions and their DOM rects */
+// biome-ignore lint/suspicious/noExplicitAny: ProseMirror types
+function getBlockRects(view: { state: { doc: any }; nodeDOM: (pos: number) => Node | null | undefined }) {
+	const blocks: { pos: number; rect: DOMRect; size: number }[] = []
+	const doc = view.state.doc
+
+	// biome-ignore lint/suspicious/noExplicitAny: ProseMirror node type
+	doc.forEach((node: any, offset: number) => {
+		const dom = view.nodeDOM(offset) as HTMLElement | null
+		if (dom?.getBoundingClientRect) {
+			blocks.push({
+				pos: offset,
+				rect: dom.getBoundingClientRect(),
+				size: node.nodeSize,
+			})
+		}
+	})
+
+	return blocks
+}
+
+/** Find the best insert position given a Y coordinate */
+function findDropIndex(blocks: { pos: number; rect: DOMRect; size: number }[], clientY: number) {
+	for (let i = 0; i < blocks.length; i++) {
+		const block = blocks[i]
+		const mid = block.rect.top + block.rect.height / 2
+		if (clientY < mid) return i
+	}
+	return blocks.length // After last block
 }
 
 export const DragHandle = Extension.create({
@@ -29,22 +63,27 @@ export const DragHandle = Extension.create({
 
 	addProseMirrorPlugins() {
 		let currentNodePos: number | null = null
-		const { wrapper, plusBtn, dragBtn } = createHandleElement()
+		const { wrapper, plusBtn, dragBtn, dropIndicator } = createHandleElement()
 		let hideTimeout: ReturnType<typeof setTimeout> | null = null
-		let draggedNodePos: number | null = null
+
+		// Drag state
+		let isDragging = false
+		let dragSourcePos: number | null = null
 
 		function showHandle() {
 			if (hideTimeout) {
 				clearTimeout(hideTimeout)
 				hideTimeout = null
 			}
-			wrapper.style.display = "flex"
+			if (!isDragging) {
+				wrapper.style.display = "flex"
+			}
 		}
 
 		function scheduleHide() {
 			if (hideTimeout) clearTimeout(hideTimeout)
 			hideTimeout = setTimeout(() => {
-				if (!wrapper.matches(":hover")) {
+				if (!wrapper.matches(":hover") && !isDragging) {
 					wrapper.style.display = "none"
 				}
 			}, 200)
@@ -59,12 +98,15 @@ export const DragHandle = Extension.create({
 					if (parent) {
 						parent.style.position = "relative"
 						parent.appendChild(wrapper)
+						parent.appendChild(dropIndicator)
 					}
 
 					wrapper.addEventListener("mouseenter", showHandle)
-					wrapper.addEventListener("mouseleave", scheduleHide)
+					wrapper.addEventListener("mouseleave", () => {
+						if (!isDragging) scheduleHide()
+					})
 
-					// Plus button: insert "/" at block start to open slash menu
+					// Plus button: insert "/" at block start
 					plusBtn.addEventListener("mousedown", (e) => {
 						e.preventDefault()
 						e.stopPropagation()
@@ -81,55 +123,113 @@ export const DragHandle = Extension.create({
 						}, 10)
 					})
 
-					// Drag: select node, then create a drag image from the node DOM element
-					dragBtn.addEventListener("dragstart", (e) => {
-						if (currentNodePos === null || !e.dataTransfer) return
+					// Grip: manual drag via mousedown/mousemove/mouseup
+					dragBtn.addEventListener("mousedown", (e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						if (currentNodePos === null) return
 
 						const node = editorView.state.doc.nodeAt(currentNodePos)
 						if (!node) return
 
-						draggedNodePos = currentNodePos
-
-						// Select the node so ProseMirror knows what's being dragged
+						// Select the node visually
 						const sel = NodeSelection.create(editorView.state.doc, currentNodePos)
 						editorView.dispatch(editorView.state.tr.setSelection(sel))
 
-						// Serialize content for the drag data
-						const slice = sel.content()
-
-						// Use ProseMirror serializeForClipboard if available
-						if (typeof editorView.serializeForClipboard === "function") {
-							const { dom, text } = editorView.serializeForClipboard(slice)
-							e.dataTransfer.clearData()
-							e.dataTransfer.setData("text/html", dom.innerHTML)
-							e.dataTransfer.setData("text/plain", text)
-						} else {
-							// Fallback: serialize as plain text
-							const text = node.textContent
-							e.dataTransfer.clearData()
-							e.dataTransfer.setData("text/plain", text)
-						}
-
-						e.dataTransfer.effectAllowed = "move"
-
-						// Set drag image from the actual block DOM element
-						const nodeEl = editorView.nodeDOM(currentNodePos) as HTMLElement | null
-						if (nodeEl) {
-							e.dataTransfer.setDragImage(nodeEl, 0, 0)
-						}
+						isDragging = true
+						dragSourcePos = currentNodePos
+						dragSourceSize = node.nodeSize
 
 						wrapper.classList.add("dragging")
-					})
+						document.body.style.cursor = "grabbing"
+						document.body.style.userSelect = "none"
 
-					dragBtn.addEventListener("dragend", () => {
-						wrapper.classList.remove("dragging")
-						draggedNodePos = null
+						const onMouseMove = (moveEvent: MouseEvent) => {
+							const blocks = getBlockRects(editorView)
+							const dropIdx = findDropIndex(blocks, moveEvent.clientY)
+							const editorParent = editorView.dom.parentElement!
+							const parentRect = editorParent.getBoundingClientRect()
+
+							// Position the drop indicator
+							let indicatorY: number
+							if (dropIdx < blocks.length) {
+								indicatorY = blocks[dropIdx].rect.top - parentRect.top - 1
+							} else if (blocks.length > 0) {
+								const lastBlock = blocks[blocks.length - 1]
+								indicatorY = lastBlock.rect.bottom - parentRect.top - 1
+							} else {
+								return
+							}
+
+							dropIndicator.style.display = "block"
+							dropIndicator.style.top = `${indicatorY}px`
+							dropIndicator.dataset.dropIndex = String(dropIdx)
+						}
+
+						const onMouseUp = (upEvent: MouseEvent) => {
+							document.removeEventListener("mousemove", onMouseMove)
+							document.removeEventListener("mouseup", onMouseUp)
+
+							isDragging = false
+							wrapper.classList.remove("dragging")
+							document.body.style.cursor = ""
+							document.body.style.userSelect = ""
+							dropIndicator.style.display = "none"
+
+							if (dragSourcePos === null) return
+
+							const blocks = getBlockRects(editorView)
+							const dropIdx = findDropIndex(blocks, upEvent.clientY)
+
+							// Find the source block index
+							const sourceIdx = blocks.findIndex((b) => b.pos === dragSourcePos)
+							if (sourceIdx === -1) {
+								dragSourcePos = null
+								return
+							}
+
+							// No move needed if dropping at same position or adjacent
+							if (dropIdx === sourceIdx || dropIdx === sourceIdx + 1) {
+								dragSourcePos = null
+								return
+							}
+
+							const sourceNode = editorView.state.doc.nodeAt(dragSourcePos)
+							if (!sourceNode) {
+								dragSourcePos = null
+								return
+							}
+
+							const tr = editorView.state.tr
+
+							if (dropIdx > sourceIdx) {
+								// Moving down: insert after target, then delete source
+								const targetBlock = blocks[dropIdx - 1]
+								const insertPos = targetBlock.pos + targetBlock.size
+								tr.insert(insertPos, sourceNode)
+								tr.delete(dragSourcePos, dragSourcePos + sourceNode.nodeSize)
+							} else {
+								// Moving up: delete source, then insert at mapped target
+								const targetBlock = blocks[dropIdx]
+								const insertPos = targetBlock.pos
+								tr.delete(dragSourcePos, dragSourcePos + sourceNode.nodeSize)
+								const mapped = tr.mapping.map(insertPos)
+								tr.insert(mapped, sourceNode)
+							}
+
+							editorView.dispatch(tr)
+							dragSourcePos = null
+						}
+
+						document.addEventListener("mousemove", onMouseMove)
+						document.addEventListener("mouseup", onMouseUp)
 					})
 
 					return {
 						update() {},
 						destroy() {
 							wrapper.remove()
+							dropIndicator.remove()
 						},
 					}
 				},
@@ -137,8 +237,7 @@ export const DragHandle = Extension.create({
 				props: {
 					handleDOMEvents: {
 						mousemove(view, event) {
-							// Don't update handle while dragging
-							if (draggedNodePos !== null) return false
+							if (isDragging) return false
 
 							const editorRect = view.dom.getBoundingClientRect()
 							const pos = view.posAtCoords({
@@ -150,7 +249,6 @@ export const DragHandle = Extension.create({
 								return false
 							}
 
-							// Resolve to top-level block
 							let resolved: ReturnType<typeof view.state.doc.resolve>
 							try {
 								resolved = view.state.doc.resolve(pos.pos)
@@ -159,14 +257,12 @@ export const DragHandle = Extension.create({
 								return false
 							}
 
-							// depth 0 = doc, depth 1 = top-level blocks
 							if (resolved.depth < 1) {
 								scheduleHide()
 								return false
 							}
 
 							const topLevelPos = resolved.start(1) - 1
-
 							if (topLevelPos < 0) {
 								scheduleHide()
 								return false
@@ -197,65 +293,9 @@ export const DragHandle = Extension.create({
 						},
 
 						mouseleave() {
-							scheduleHide()
+							if (!isDragging) scheduleHide()
 							return false
 						},
-					},
-
-					// Handle drop to move the block
-					handleDrop(view, event, _slice, _moved) {
-						if (draggedNodePos === null) return false
-
-						const coords = view.posAtCoords({
-							left: event.clientX,
-							top: event.clientY,
-						})
-						if (!coords) {
-							draggedNodePos = null
-							return false
-						}
-
-						const dragNode = view.state.doc.nodeAt(draggedNodePos)
-						if (!dragNode) {
-							draggedNodePos = null
-							return false
-						}
-
-						// Find target top-level block
-						const $drop = view.state.doc.resolve(coords.pos)
-						if ($drop.depth < 1) {
-							draggedNodePos = null
-							return false
-						}
-
-						const targetBlockPos = $drop.before(1)
-						const targetBlockNode = view.state.doc.nodeAt(targetBlockPos)
-						if (!targetBlockNode) {
-							draggedNodePos = null
-							return false
-						}
-
-						// Insert before or after target block based on cursor position
-						const targetMid = targetBlockPos + targetBlockNode.nodeSize / 2
-						const insertAt = coords.pos < targetMid ? targetBlockPos : targetBlockPos + targetBlockNode.nodeSize
-
-						// Skip if dropping at same position
-						const dragEnd = draggedNodePos + dragNode.nodeSize
-						if (insertAt === draggedNodePos || insertAt === dragEnd) {
-							draggedNodePos = null
-							return true
-						}
-
-						// Delete source, map target, insert
-						const tr = view.state.tr
-						tr.delete(draggedNodePos, dragEnd)
-						const mappedInsert = tr.mapping.map(insertAt)
-						tr.insert(Math.min(mappedInsert, tr.doc.content.size), dragNode)
-
-						view.dispatch(tr)
-						draggedNodePos = null
-						event.preventDefault()
-						return true
 					},
 				},
 			}),
