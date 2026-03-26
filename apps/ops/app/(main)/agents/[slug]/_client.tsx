@@ -201,14 +201,12 @@ export function AgentChatClient({ slug }: { slug: string }) {
 										return <MessageResponse key={`text-${i}`}>{part.text}</MessageResponse>
 									}
 									if ("toolCallId" in part && "state" in part) {
-										if (part.state === "output-available") {
-											const output = (part as any).output
-											return (
-												<MessageResponse key={part.toolCallId}>
-													{typeof output === "string" ? output : JSON.stringify(output, null, 2)}
-												</MessageResponse>
-											)
-										}
+										if (part.state === "output-available") return null
+										return (
+											<span key={(part as any).toolCallId} className="text-xs text-fg-muted">
+												🔧 {(part as any).toolName ?? "outil"}...
+											</span>
+										)
 									}
 									return null
 								})}
