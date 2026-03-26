@@ -5,7 +5,6 @@ import Image from "@tiptap/extension-image"
 import Placeholder from "@tiptap/extension-placeholder"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
-import { Markdown } from "tiptap-markdown"
 import { TextSelection } from "@tiptap/pm/state"
 import { EditorContent, type JSONContent, useEditor } from "@tiptap/react"
 import { BubbleMenu } from "@tiptap/react/menus"
@@ -27,38 +26,22 @@ import {
 	Minus,
 	PenLine,
 	Quote,
-	SpellCheck,
 	Sparkles,
+	SpellCheck,
 	Strikethrough,
 	Type,
 } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
+import { Markdown } from "tiptap-markdown"
 import { api } from "@/convex/_generated/api"
-import { AIPreviewBlock, type AIAction } from "./ai-preview-block"
+import { type AIAction, AIPreviewBlock } from "./ai-preview-block"
 
 // ── Bubble Menu Button ──────────────────────────────────────────────
 
-function BubbleButton({
-	onClick,
-	active,
-	children,
-	title,
-}: {
-	onClick: () => void
-	active?: boolean
-	children: React.ReactNode
-	title: string
-}) {
+function BubbleButton({ onClick, active, children, title }: { onClick: () => void; active?: boolean; children: React.ReactNode; title: string }) {
 	return (
-		<button
-			type="button"
-			onClick={onClick}
-			title={title}
-			className={`p-1.5 rounded transition-colors ${
-				active ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"
-			}`}
-		>
+		<button type="button" onClick={onClick} title={title} className={`p-1.5 rounded transition-colors ${active ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}>
 			{children}
 		</button>
 	)
@@ -111,10 +94,7 @@ function findSlashCommandRange(editor: NonNullable<ReturnType<typeof useEditor>>
 	}
 }
 
-function findImageNodeBySrc(
-	editor: NonNullable<ReturnType<typeof useEditor>>,
-	src: string
-): { from: number; to: number } | null {
+function findImageNodeBySrc(editor: NonNullable<ReturnType<typeof useEditor>>, src: string): { from: number; to: number } | null {
 	let match: { from: number; to: number } | null = null
 
 	editor.state.doc.descendants((node, pos) => {
@@ -133,30 +113,18 @@ function stripPendingUploadMarkup(html: string, pendingPreviewUrls: Iterable<str
 
 	for (const previewUrl of pendingPreviewUrls) {
 		const escapedUrl = escapeRegExp(previewUrl)
-		sanitized = sanitized.replace(
-			new RegExp(`<p[^>]*>\\s*<img[^>]*src="${escapedUrl}"[^>]*>\\s*</p>`, "g"),
-			""
-		)
+		sanitized = sanitized.replace(new RegExp(`<p[^>]*>\\s*<img[^>]*src="${escapedUrl}"[^>]*>\\s*</p>`, "g"), "")
 		sanitized = sanitized.replace(new RegExp(`<img[^>]*src="${escapedUrl}"[^>]*>`, "g"), "")
 	}
 
 	return sanitized
 }
 
-function stripPendingUploadJson(
-	content: JSONContent,
-	pendingPreviewUrls: ReadonlySet<string>
-): JSONContent {
+function stripPendingUploadJson(content: JSONContent, pendingPreviewUrls: ReadonlySet<string>): JSONContent {
 	const sanitizedChildren =
-		content.content
-			?.map((node) => stripPendingUploadJson(node, pendingPreviewUrls))
-			.filter(
-				(node) => !(node.type === "image" && pendingPreviewUrls.has(String(node.attrs?.src ?? "")))
-			) ?? undefined
+		content.content?.map((node) => stripPendingUploadJson(node, pendingPreviewUrls)).filter((node) => !(node.type === "image" && pendingPreviewUrls.has(String(node.attrs?.src ?? "")))) ?? undefined
 
-	return sanitizedChildren
-		? { ...content, content: sanitizedChildren }
-		: { ...content, content: undefined }
+	return sanitizedChildren ? { ...content, content: sanitizedChildren } : { ...content, content: undefined }
 }
 
 function hasMeaningfulContent(content: JSONContent | undefined): boolean {
@@ -166,10 +134,7 @@ function hasMeaningfulContent(content: JSONContent | undefined): boolean {
 	return content.content?.some((node) => hasMeaningfulContent(node)) ?? false
 }
 
-function areEditorContentsEqual(
-	editor: NonNullable<ReturnType<typeof useEditor>>,
-	content: EditorValue
-) {
+function areEditorContentsEqual(editor: NonNullable<ReturnType<typeof useEditor>>, content: EditorValue) {
 	if (typeof content === "string") {
 		return content === editor.getHTML()
 	}
@@ -323,17 +288,7 @@ const SLASH_COMMANDS: SlashCommand[] = [
 	},
 ]
 
-function SlashMenu({
-	commands,
-	selectedIndex,
-	onSelect,
-	onHover,
-}: {
-	commands: SlashCommand[]
-	selectedIndex: number
-	onSelect: (index: number) => void
-	onHover: (index: number) => void
-}) {
+function SlashMenu({ commands, selectedIndex, onSelect, onHover }: { commands: SlashCommand[]; selectedIndex: number; onSelect: (index: number) => void; onHover: (index: number) => void }) {
 	const listRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
@@ -353,53 +308,36 @@ function SlashMenu({
 				key={cmd.command}
 				type="button"
 				data-index={idx}
-				className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[15px] transition-colors ${
-					idx === selectedIndex
-						? "bg-muted text-fg"
-						: "text-fg-muted hover:bg-card hover:text-fg"
-				}`}
+				className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[15px] transition-colors ${idx === selectedIndex ? "bg-muted text-fg" : "text-fg-muted hover:bg-card hover:text-fg"}`}
 				onClick={() => onSelect(idx)}
 				onMouseEnter={() => onHover(idx)}
 			>
-				<span className="flex size-5 shrink-0 items-center justify-center text-fg">
-					{cmd.icon}
-				</span>
+				<span className="flex size-5 shrink-0 items-center justify-center text-fg">{cmd.icon}</span>
 				<span className="min-w-0 flex-1 text-left leading-none">{cmd.label}</span>
-				<span className="ml-auto text-[11px] font-medium tracking-normal text-fg-muted">
-					{cmd.hint}
-				</span>
+				<span className="ml-auto text-[11px] font-medium tracking-normal text-fg-muted">{cmd.hint}</span>
 			</button>
 		)
 	}
 
 	return (
-		<Card
-			size="sm"
-			className="w-[280px] border-container bg-card p-0 data-[size=sm]:p-0 shadow-[0_18px_50px_rgba(15,23,42,0.14)]"
-		>
+		<Card size="sm" className="w-[280px] border-container bg-card p-0 data-[size=sm]:p-0 shadow-[0_18px_50px_rgba(15,23,42,0.14)]">
 			<div ref={listRef} className="max-h-[360px] overflow-y-auto px-1 py-1">
 				{aiCommands.length > 0 && (
 					<>
-						<div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">
-							AI
-						</div>
+						<div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">AI</div>
 						{aiCommands.map(renderItem)}
 					</>
 				)}
 				{styleCommands.length > 0 && (
 					<>
-						<div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">
-							Style
-						</div>
+						<div className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-fg-muted">Style</div>
 						{styleCommands.map(renderItem)}
 					</>
 				)}
 			</div>
 			<CardFooter className="justify-between border-t border-separator bg-card px-3 py-2 text-xs text-fg-muted">
 				<span>Fermer le menu</span>
-				<span className="rounded-md border border-container bg-card px-1.5 py-0.5 font-medium text-fg-muted">
-					esc
-				</span>
+				<span className="rounded-md border border-container bg-card px-1.5 py-0.5 font-medium text-fg-muted">esc</span>
 			</CardFooter>
 		</Card>
 	)
@@ -656,8 +594,7 @@ export function TiptapEditor({
 		content,
 		editorProps: {
 			attributes: {
-				class:
-					"tiptap-notion prose prose-zinc sm:prose-lg max-w-none focus:outline-none min-h-[200px] text-base",
+				class: "tiptap-notion prose prose-zinc sm:prose-lg max-w-none focus:outline-none min-h-[200px] text-base",
 			},
 			handleKeyDown: (_view, event) => {
 				if (!slashOpenRef.current) return false
@@ -700,9 +637,7 @@ export function TiptapEditor({
 					const e = editorRef.current
 					const position = _view.posAtCoords({ left: event.clientX, top: event.clientY })
 					if (position) {
-						_view.dispatch(
-							_view.state.tr.setSelection(TextSelection.create(_view.state.doc, position.pos))
-						)
+						_view.dispatch(_view.state.tr.setSelection(TextSelection.create(_view.state.doc, position.pos)))
 					}
 					if (e) uploadImage(file, e)
 					return true
@@ -809,63 +744,31 @@ export function TiptapEditor({
 	return (
 		<div className="relative">
 			{/* Bubble menu on text selection */}
-			<BubbleMenu
-				editor={editor}
-				options={{ placement: "top", offset: 8 }}
-				className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1 py-0.5 shadow-xl"
-			>
-				<BubbleButton
-					onClick={() => editor.chain().focus().toggleBold().run()}
-					active={editor.isActive("bold")}
-					title="Gras"
-				>
+			<BubbleMenu editor={editor} options={{ placement: "top", offset: 8 }} className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1 py-0.5 shadow-xl">
+				<BubbleButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Gras">
 					<Bold className="size-3.5" />
 				</BubbleButton>
-				<BubbleButton
-					onClick={() => editor.chain().focus().toggleItalic().run()}
-					active={editor.isActive("italic")}
-					title="Italique"
-				>
+				<BubbleButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} title="Italique">
 					<Italic className="size-3.5" />
 				</BubbleButton>
-				<BubbleButton
-					onClick={() => editor.chain().focus().toggleStrike().run()}
-					active={editor.isActive("strike")}
-					title="Barré"
-				>
+				<BubbleButton onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive("strike")} title="Barré">
 					<Strikethrough className="size-3.5" />
 				</BubbleButton>
-				<BubbleButton
-					onClick={() => editor.chain().focus().toggleCode().run()}
-					active={editor.isActive("code")}
-					title="Code inline"
-				>
+				<BubbleButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive("code")} title="Code inline">
 					<Code className="size-3.5" />
 				</BubbleButton>
 				<div className="w-px h-4 bg-white/20 mx-0.5" />
-				<BubbleButton
-					onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-					active={editor.isActive("heading", { level: 2 })}
-					title="Titre"
-				>
+				<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Titre">
 					<Heading2 className="size-3.5" />
 				</BubbleButton>
-				<BubbleButton
-					onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-					active={editor.isActive("heading", { level: 3 })}
-					title="Sous-titre"
-				>
+				<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Sous-titre">
 					<Heading3 className="size-3.5" />
 				</BubbleButton>
 			</BubbleMenu>
 
 			{/* Slash command menu */}
 			{slashOpen && slashPos && filteredCommands.length > 0 && (
-				<div
-					ref={menuContainerRef}
-					className="absolute z-50"
-					style={{ top: slashPos.top, left: slashPos.left }}
-				>
+				<div ref={menuContainerRef} className="absolute z-50" style={{ top: slashPos.top, left: slashPos.left }}>
 					<SlashMenu
 						commands={filteredCommands}
 						selectedIndex={selectedIdx >= filteredCommands.length ? 0 : selectedIdx}
@@ -887,11 +790,7 @@ export function TiptapEditor({
 					<AIPreviewBlock
 						action={aiState.action}
 						initialPrompt={aiState.prompt}
-						editorContext={
-							editor.state.selection.from !== editor.state.selection.to
-								? editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to)
-								: editor.getText()
-						}
+						editorContext={editor.state.selection.from !== editor.state.selection.to ? editor.state.doc.textBetween(editor.state.selection.from, editor.state.selection.to) : editor.getText()}
 						onApply={(text) => {
 							editor.chain().focus().insertContent(text).run()
 							setAiState(null)
@@ -903,10 +802,7 @@ export function TiptapEditor({
 
 			{/* Tone sub-menu */}
 			{toneSubmenu && (
-				<div
-					className="absolute z-50"
-					style={{ top: toneSubmenu.position.top, left: toneSubmenu.position.left }}
-				>
+				<div className="absolute z-50" style={{ top: toneSubmenu.position.top, left: toneSubmenu.position.left }}>
 					<Card size="sm" className="w-[200px] p-1 shadow-lg">
 						{[
 							{ label: "Professional", action: "tone_professional" as AIAction },

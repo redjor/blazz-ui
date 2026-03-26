@@ -1,21 +1,12 @@
 "use client"
 
+import { useCompletion } from "@ai-sdk/react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card } from "@blazz/ui/components/ui/card"
-import { useCompletion } from "@ai-sdk/react"
-import { Loader2, RefreshCw, Sparkles, X, Check, ArrowUp } from "lucide-react"
+import { ArrowUp, Check, Loader2, RefreshCw, Sparkles, X } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 
-export type AIAction =
-	| "ask"
-	| "continue"
-	| "summarize"
-	| "fix"
-	| "translate"
-	| "tone_professional"
-	| "tone_casual"
-	| "tone_friendly"
-	| "tone_concise"
+export type AIAction = "ask" | "continue" | "summarize" | "fix" | "translate" | "tone_professional" | "tone_casual" | "tone_friendly" | "tone_concise"
 
 interface AIPreviewBlockProps {
 	action: AIAction
@@ -25,13 +16,7 @@ interface AIPreviewBlockProps {
 	onDiscard: () => void
 }
 
-export function AIPreviewBlock({
-	action,
-	initialPrompt,
-	editorContext,
-	onApply,
-	onDiscard,
-}: AIPreviewBlockProps) {
+export function AIPreviewBlock({ action, initialPrompt, editorContext, onApply, onDiscard }: AIPreviewBlockProps) {
 	const [refinementInput, setRefinementInput] = useState("")
 	const [currentPrompt, setCurrentPrompt] = useState(initialPrompt ?? "")
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -42,10 +27,11 @@ export function AIPreviewBlock({
 	})
 
 	// Auto-trigger on mount (except "ask" which needs prompt first)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional mount-only effect
 	useEffect(() => {
 		if (action === "ask" && !initialPrompt) return
 		complete(currentPrompt || editorContext)
-	}, []) // eslint-disable-line react-hooks/exhaustive-deps
+	}, [])
 
 	const handleTryAgain = useCallback(() => {
 		complete(currentPrompt || editorContext)
@@ -59,8 +45,7 @@ export function AIPreviewBlock({
 		complete(newPrompt)
 	}, [refinementInput, completion, complete])
 
-	const needsInitialPrompt =
-		action === "ask" && !initialPrompt && !completion && !isLoading
+	const needsInitialPrompt = action === "ask" && !initialPrompt && !completion && !isLoading
 
 	return (
 		<Card className="border-brand/30 bg-raised shadow-lg overflow-hidden">
@@ -92,14 +77,10 @@ export function AIPreviewBlock({
 								}
 								if (e.key === "Escape") onDiscard()
 							}}
+							// biome-ignore lint/a11y/noAutofocus: AI prompt input needs immediate focus
 							autoFocus
 						/>
-						<button
-							type="button"
-							onClick={() => currentPrompt.trim() && complete(currentPrompt)}
-							disabled={!currentPrompt.trim()}
-							className="p-1 rounded-full bg-brand text-white disabled:opacity-40"
-						>
+						<button type="button" onClick={() => currentPrompt.trim() && complete(currentPrompt)} disabled={!currentPrompt.trim()} className="p-1 rounded-full bg-brand text-white disabled:opacity-40">
 							<ArrowUp className="size-3.5" />
 						</button>
 					</div>
@@ -123,11 +104,7 @@ export function AIPreviewBlock({
 								}}
 							/>
 							{refinementInput.trim() && (
-								<button
-									type="button"
-									onClick={handleRefinement}
-									className="p-1 rounded-full bg-brand text-white"
-								>
+								<button type="button" onClick={handleRefinement} className="p-1 rounded-full bg-brand text-white">
 									<ArrowUp className="size-3" />
 								</button>
 							)}
@@ -135,12 +112,7 @@ export function AIPreviewBlock({
 					)}
 
 					<div className="flex items-center justify-between">
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={handleTryAgain}
-							disabled={isLoading}
-						>
+						<Button variant="ghost" size="sm" onClick={handleTryAgain} disabled={isLoading}>
 							<RefreshCw className="size-3 mr-1" />
 							Try again
 						</Button>
@@ -149,11 +121,7 @@ export function AIPreviewBlock({
 								<X className="size-3 mr-1" />
 								Discard
 							</Button>
-							<Button
-								size="sm"
-								onClick={() => onApply(completion)}
-								disabled={isLoading || !completion}
-							>
+							<Button size="sm" onClick={() => onApply(completion)} disabled={isLoading || !completion}>
 								<Check className="size-3 mr-1" />
 								Apply
 							</Button>
