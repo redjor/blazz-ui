@@ -16,6 +16,7 @@ import {
 	Bookmark,
 	Bot,
 	CheckSquare,
+	CircleUserRound,
 	Clock,
 	FileText,
 	FolderOpen,
@@ -68,6 +69,14 @@ const allNavGroups: NavGroupWithFlag[] = [
         icon: Bot,
         flag: "missions",
       },
+    ],
+  },
+  {
+    label: "Agents",
+    items: [
+      { title: "Marc", url: "/agents/cfo", icon: CircleUserRound, flag: "agents" },
+      { title: "Léo", url: "/agents/timekeeper", icon: CircleUserRound, flag: "agents" },
+      { title: "Sarah", url: "/agents/product-lead", icon: CircleUserRound, flag: "agents" },
     ],
   },
   {
