@@ -1,50 +1,19 @@
 "use client"
 
-import type {
-	BulkAction,
-	DataTableColumnDef,
-	DataTableView,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
-import {
-	Empty,
-	EmptyActions,
-	EmptyDescription,
-	EmptyTitle,
-} from "@blazz/ui/components/ui/empty"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@blazz/ui/components/ui/dropdown-menu"
+import { Empty, EmptyActions, EmptyDescription, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import {
-	CircleCheck,
-	CircleDashed,
-	CircleDot,
-	CircleSlash,
-	Columns3,
-	LayoutList,
-	Pencil,
-	Plus,
-	Trash2,
-} from "lucide-react"
+import { CircleCheck, CircleDashed, CircleDot, CircleSlash, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -132,18 +101,8 @@ function AddTodoDialog({
 				</DialogHeader>
 				<form onSubmit={handleSubmit}>
 					<BlockStack gap="400">
-						<Input
-							autoFocus
-							placeholder="Titre"
-							value={text}
-							onChange={(e) => setText(e.target.value)}
-						/>
-						<Textarea
-							placeholder="Description (optionnelle)"
-							value={description}
-							onChange={(e) => setDescription(e.target.value)}
-							rows={3}
-						/>
+						<Input autoFocus placeholder="Titre" value={text} onChange={(e) => setText(e.target.value)} />
+						<Textarea placeholder="Description (optionnelle)" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
 						<InlineStack gap="200">
 							<Select
 								value={priority}
@@ -169,10 +128,7 @@ function AddTodoDialog({
 								<Select
 									value={projectId ?? ""}
 									onValueChange={(value) => setProjectId(value || undefined)}
-									items={[
-										{ value: "", label: "Aucun" },
-										...projects.map((p) => ({ value: p._id, label: p.name })),
-									]}
+									items={[{ value: "", label: "Aucun" }, ...projects.map((p) => ({ value: p._id, label: p.name }))]}
 								>
 									<SelectTrigger className="w-full">
 										<SelectValue placeholder="Projet (optionnel)" />
@@ -189,14 +145,7 @@ function AddTodoDialog({
 							)}
 						</InlineStack>
 						<DueDatePicker value={dueDate} onChange={setDueDate} />
-						<Select
-							value={categoryId}
-							onValueChange={(value) => setCategoryId(value ?? "")}
-							items={[
-								{ value: "", label: "Aucune" },
-								...categories.map((c) => ({ value: c._id, label: c.name })),
-							]}
-						>
+						<Select value={categoryId} onValueChange={(value) => setCategoryId(value ?? "")} items={[{ value: "", label: "Aucune" }, ...categories.map((c) => ({ value: c._id, label: c.name }))]}>
 							<SelectTrigger className="w-full">
 								<SelectValue placeholder="Catégorie (optionnel)" />
 							</SelectTrigger>
@@ -235,10 +184,7 @@ export interface TodosDataTableProps {
 
 export function TodosDataTable({ projectId }: TodosDataTableProps) {
 	const router = useRouter()
-	const todos = useQuery(
-		projectId ? api.todos.listByProject : api.todos.list,
-		projectId ? { projectId } : {}
-	)
+	const todos = useQuery(projectId ? api.todos.listByProject : api.todos.list, projectId ? { projectId } : {})
 	const projects = useQuery(api.projects.listActive, {})
 	const categories = useQuery(api.categories.list, {})
 	const allTags = useQuery(api.todos.listAllTags, {})
@@ -391,7 +337,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 				},
 			},
 			{ accessorKey: "dueDate", header: "Échéance", enableSorting: true },
-			{ accessorKey: "createdAt", header: "Créé", enableSorting: true },
+			{ accessorKey: "createdAt", header: "Créé", enableSorting: true }
 		)
 
 		return cols
@@ -413,9 +359,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 				filters: {
 					id: "f",
 					operator: "AND",
-					conditions: [
-						{ id: "c", column: "status", operator: "equals", value: "triage", type: "select" },
-					],
+					conditions: [{ id: "c", column: "status", operator: "equals", value: "triage", type: "select" }],
 				},
 			},
 			{
@@ -425,9 +369,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 				filters: {
 					id: "f",
 					operator: "AND",
-					conditions: [
-						{ id: "c", column: "status", operator: "equals", value: "todo", type: "select" },
-					],
+					conditions: [{ id: "c", column: "status", operator: "equals", value: "todo", type: "select" }],
 				},
 			},
 			{
@@ -437,9 +379,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 				filters: {
 					id: "f",
 					operator: "AND",
-					conditions: [
-						{ id: "c", column: "status", operator: "equals", value: "blocked", type: "select" },
-					],
+					conditions: [{ id: "c", column: "status", operator: "equals", value: "blocked", type: "select" }],
 				},
 			},
 			{
@@ -449,9 +389,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 				filters: {
 					id: "f",
 					operator: "AND",
-					conditions: [
-						{ id: "c", column: "status", operator: "equals", value: "in_progress", type: "select" },
-					],
+					conditions: [{ id: "c", column: "status", operator: "equals", value: "in_progress", type: "select" }],
 				},
 			},
 			{
@@ -461,9 +399,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 				filters: {
 					id: "f",
 					operator: "AND",
-					conditions: [
-						{ id: "c", column: "status", operator: "equals", value: "done", type: "select" },
-					],
+					conditions: [{ id: "c", column: "status", operator: "equals", value: "done", type: "select" }],
 				},
 			},
 		],
@@ -554,11 +490,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 									<DropdownMenuTrigger
 										render={
 											<Button variant="ghost" size="icon-sm" className="h-7 w-7">
-												{viewMode === "list" ? (
-													<LayoutList className="size-3.5" />
-												) : (
-													<Columns3 className="size-3.5" />
-												)}
+												{viewMode === "list" ? <LayoutList className="size-3.5" /> : <Columns3 className="size-3.5" />}
 											</Button>
 										}
 									/>
@@ -583,12 +515,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 							defaultGrouping={["status"]}
 							defaultExpanded
 							renderGroupHeaderEnd={(row) => (
-								<Button
-									variant="ghost"
-									size="icon-sm"
-									onClick={() => setAddFor((row.getValue("status") as TodoStatus) ?? "triage")}
-									className="text-fg-muted hover:text-fg"
-								>
+								<Button variant="ghost" size="icon-sm" onClick={() => setAddFor((row.getValue("status") as TodoStatus) ?? "triage")} className="text-fg-muted hover:text-fg">
 									<Plus className="size-3.5" />
 								</Button>
 							)}
@@ -605,9 +532,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 							variant="flat"
 							storageKey={projectId ? `${storageKeyPrefix}-${projectId}` : storageKeyPrefix}
 							getRowId={(row) => row._id}
-							onRowClick={
-								viewMode === "list" ? (row) => router.push(`/todos/${row._id}`) : undefined
-							}
+							onRowClick={viewMode === "list" ? (row) => router.push(`/todos/${row._id}`) : undefined}
 							renderRow={(row) => {
 								const todo = row.original
 								const isDone = todo.status === "done"
@@ -615,28 +540,17 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 								const dueInfo = todo.dueDate && !isDone ? formatDueDate(todo.dueDate) : null
 								return (
 									<>
-										<div
-											className={`flex min-w-0 flex-1 items-center gap-3 ${isDone ? "opacity-50" : ""}`}
-										>
+										<div className={`flex min-w-0 flex-1 items-center gap-3 ${isDone ? "opacity-50" : ""}`}>
 											<StatusIcon status={todo.status} />
-											<span
-												className={`truncate text-fg ${isDone ? "line-through" : ""}`}
-												style={{ fontSize: 13 }}
-											>
+											<span className={`truncate text-fg ${isDone ? "line-through" : ""}`} style={{ fontSize: 13 }}>
 												{todo.text}
 											</span>
 										</div>
 										<div className="flex shrink-0 items-center gap-2">
-											{dueInfo && (
-												<span className={`text-xs whitespace-nowrap ${dueInfo.className}`}>
-													{dueInfo.label}
-												</span>
-											)}
+											{dueInfo && <span className={`text-xs whitespace-nowrap ${dueInfo.className}`}>{dueInfo.label}</span>}
 											{cat && <CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />}
 											{!projectId && todo.projectName && (
-												<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
-													{todo.projectName}
-												</span>
+												<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">{todo.projectName}</span>
 											)}
 										</div>
 									</>
@@ -644,13 +558,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 							}}
 							renderCard={(row) => {
 								const todo = row.original
-								return (
-									<TodoCard
-										todo={todo as unknown as Doc<"todos">}
-										projects={projectList}
-										categories={categoryList}
-									/>
-								)
+								return <TodoCard todo={todo as unknown as Doc<"todos">} projects={projectList} categories={categoryList} />
 							}}
 						/>
 					</Bleed>

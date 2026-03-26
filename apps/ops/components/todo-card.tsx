@@ -1,15 +1,20 @@
 "use client"
 
-import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { Calendar } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
 import { CategoryBadge } from "@/components/manage-categories-sheet"
 import { formatDueDate, StatusIcon } from "@/components/todos-preset"
 import type { Doc } from "@/convex/_generated/dataModel"
+import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Calendar } from "lucide-react"
+import { useRouter } from "next/navigation"
 
-type TodoCategory = { _id: string; name: string; color?: string; icon?: string }
+type TodoCategory = {
+	_id: string
+	name: string
+	color?: string
+	icon?: string
+}
 
 interface TodoCardProps {
 	todo: Doc<"todos">
@@ -31,7 +36,7 @@ export function TodoCard({ todo, projects, categories, clickable = true }: TodoC
 
 	return (
 		<div
-			className={`p-3 rounded-md border border-edge-subtle bg-background shadow-card transition-colors ${clickable ? "cursor-pointer hover:border-accent/50" : ""} ${todo.status === "done" ? "opacity-60" : ""}`}
+			className={`p-3 rounded-md bg-background shadow-card transition-colors ${clickable ? "cursor-pointer hover:border-accent/50" : ""} ${todo.status === "done" ? "opacity-60" : ""}`}
 			onClick={handleClick}
 			role={clickable ? "button" : undefined}
 			tabIndex={clickable ? 0 : undefined}

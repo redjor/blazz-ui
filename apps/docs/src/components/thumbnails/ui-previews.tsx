@@ -57,6 +57,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/u
 import { Text } from "@blazz/ui/components/ui/text"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import {
+	Timeline,
+	TimelineContent,
+	TimelineDescription,
+	TimelineHeader,
+	TimelineIndicator,
+	TimelineItem,
+	TimelineTitle,
+} from "@blazz/ui/components/ui/timeline"
+import { TreeView } from "@blazz/ui/components/ui/tree-view"
+import {
 	AlertTriangle,
 	BarChart3,
 	Bell,
@@ -71,6 +81,7 @@ import {
 	Edit,
 	FileText,
 	FolderOpen,
+	GitCommit,
 	Home,
 	Inbox,
 	Info,
@@ -1412,6 +1423,111 @@ export function StatsStripPreview() {
 					</div>
 				</CardContent>
 			</Card>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// timeline
+// ════════════════════════════════════════════════════════════════════════════
+
+export function TimelinePreview() {
+	return (
+		<div className="w-[480px] p-6">
+			<Timeline>
+				<TimelineItem>
+					<TimelineIndicator>
+						<GitCommit className="size-3.5" />
+					</TimelineIndicator>
+					<TimelineContent>
+						<TimelineHeader>
+							<TimelineTitle>Deal created</TimelineTitle>
+						</TimelineHeader>
+						<TimelineDescription>Enterprise Plan — Acme Corp</TimelineDescription>
+					</TimelineContent>
+				</TimelineItem>
+				<TimelineItem>
+					<TimelineIndicator>
+						<Mail className="size-3.5" />
+					</TimelineIndicator>
+					<TimelineContent>
+						<TimelineHeader>
+							<TimelineTitle>Proposal sent</TimelineTitle>
+						</TimelineHeader>
+						<TimelineDescription>Q1 contract renewal</TimelineDescription>
+					</TimelineContent>
+				</TimelineItem>
+				<TimelineItem>
+					<TimelineIndicator>
+						<CheckCircle2 className="size-3.5" />
+					</TimelineIndicator>
+					<TimelineContent>
+						<TimelineHeader>
+							<TimelineTitle>Status updated</TimelineTitle>
+						</TimelineHeader>
+						<TimelineDescription>Moved to Negotiation</TimelineDescription>
+					</TimelineContent>
+				</TimelineItem>
+				<TimelineItem showLine={false}>
+					<TimelineIndicator>
+						<Star className="size-3.5" />
+					</TimelineIndicator>
+					<TimelineContent>
+						<TimelineHeader>
+							<TimelineTitle>Note added</TimelineTitle>
+						</TimelineHeader>
+						<TimelineDescription>Follow-up scheduled for Friday</TimelineDescription>
+					</TimelineContent>
+				</TimelineItem>
+			</Timeline>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// tree-view
+// ════════════════════════════════════════════════════════════════════════════
+
+export function TreeViewPreview() {
+	return (
+		<div className="w-[400px] p-6">
+			<TreeView
+				data={[
+					{
+						id: "src",
+						label: "src",
+						children: [
+							{
+								id: "components",
+								label: "components",
+								children: [
+									{ id: "button", label: "button.tsx" },
+									{ id: "input", label: "input.tsx" },
+									{ id: "dialog", label: "dialog.tsx" },
+								],
+							},
+							{
+								id: "hooks",
+								label: "hooks",
+								children: [
+									{ id: "use-form", label: "use-form.ts" },
+									{ id: "use-auth", label: "use-auth.ts" },
+								],
+							},
+							{ id: "index", label: "index.ts" },
+						],
+					},
+					{
+						id: "config",
+						label: "config",
+						children: [
+							{ id: "tsconfig", label: "tsconfig.json" },
+							{ id: "package", label: "package.json" },
+						],
+					},
+				]}
+				expanded={["src", "components"]}
+			/>
 		</div>
 	)
 }

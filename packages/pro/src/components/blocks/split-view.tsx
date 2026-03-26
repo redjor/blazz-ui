@@ -30,6 +30,8 @@ export interface SplitViewProps {
 	minWidth?: number
 	/** Maximum width of the master panel in pixels. @default 600 */
 	maxWidth?: number
+	/** Place the master panel on the right side. @default false */
+	reversed?: boolean
 	className?: string
 	children: React.ReactNode
 }
@@ -45,6 +47,7 @@ function SplitViewBase({
 	defaultWidth = 320,
 	minWidth = 200,
 	maxWidth = 600,
+	reversed = false,
 	className,
 	children,
 }: SplitViewProps) {
@@ -64,10 +67,12 @@ function SplitViewBase({
 		(e: React.PointerEvent) => {
 			if (!isDragging.current || !containerRef.current) return
 			const rect = containerRef.current.getBoundingClientRect()
-			const newWidth = e.clientX - rect.left
+			const newWidth = reversed
+				? rect.right - e.clientX
+				: e.clientX - rect.left
 			setWidth(Math.max(minWidth, Math.min(maxWidth, newWidth)))
 		},
-		[minWidth, maxWidth]
+		[minWidth, maxWidth, reversed]
 	)
 
 	const handlePointerUp = useCallback(() => {
@@ -99,6 +104,19 @@ function SplitViewBase({
 		if (child.type === Detail) detailNode = child
 	})
 
+	const handle = (
+		<div
+			className={cn(
+				"hidden w-1 shrink-0 cursor-col-resize items-center justify-center border-edge transition-colors duration-150 ease-out md:flex",
+				reversed ? "border-r" : "border-l",
+				dragging ? "bg-muted" : "hover:bg-muted"
+			)}
+			onPointerDown={handlePointerDown}
+		>
+			<div className="h-8 w-0.5 rounded-full bg-border" />
+		</div>
+	)
+
 	return (
 		<SplitViewContext.Provider value={{ width }}>
 			<div
@@ -107,22 +125,19 @@ function SplitViewBase({
 				onPointerMove={handlePointerMove}
 				onPointerUp={handlePointerUp}
 			>
-				{/* Master panel */}
-				{masterNode}
-
-				{/* Resize handle — desktop only */}
-				<div
-					className={cn(
-						"hidden w-1 shrink-0 cursor-col-resize items-center justify-center border-l border-edge transition-colors duration-150 ease-out md:flex",
-						dragging ? "bg-muted" : "hover:bg-muted"
-					)}
-					onPointerDown={handlePointerDown}
-				>
-					<div className="h-8 w-0.5 rounded-full bg-border" />
-				</div>
-
-				{/* Detail panel */}
-				{detailNode}
+				{reversed ? (
+					<>
+						{detailNode}
+						{handle}
+						{masterNode}
+					</>
+				) : (
+					<>
+						{masterNode}
+						{handle}
+						{detailNode}
+					</>
+				)}
 			</div>
 		</SplitViewContext.Provider>
 	)

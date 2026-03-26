@@ -63,19 +63,29 @@ import {
 // ── Block Components ─────────────────────────────────────────────────────────
 import {
 	ActivityTimelinePreview,
+	BudgetCardPreview,
 	BulkActionBarPreview,
 	ChartCardPreview,
+	DealLinesEditorPreview,
 	DetailPanelPreview,
 	ErrorStatePreview,
 	FieldGridPreview,
 	FilterBarPreview,
 	FormFieldPreview,
 	FormSectionPreview,
+	InboxPreview,
+	InlineEditPreview,
+	KanbanBoardPreview,
 	MultiStepFormPreview,
 	PageHeaderPreview,
+	QuickLogActivityPreview,
+	QuotePreviewPreview,
+	SegmentedProgressPreview,
+	SettingsBlockPreview,
 	SplitViewPreview,
 	StatsGridPreview,
 	StatusFlowPreview,
+	ViewConfigPanelPreview,
 } from "./block-previews"
 // ── UI Primitives ────────────────────────────────────────────────────────────
 import {
@@ -116,7 +126,9 @@ import {
 	TabsPreview,
 	TextareaPreview,
 	TextPreview,
+	TimelinePreview,
 	TooltipPreview,
+	TreeViewPreview,
 } from "./ui-previews"
 
 /**
@@ -162,23 +174,35 @@ export const previewMap: Record<string, ComponentType> = {
 	tabs: TabsPreview,
 	text: TextPreview,
 	textarea: TextareaPreview,
+	timeline: TimelinePreview,
 	tooltip: TooltipPreview,
+	"tree-view": TreeViewPreview,
 
-	// ── Block Components (15) ────────────────────────────────────────────────
+	// ── Block Components (25) ────────────────────────────────────────────────
 	"activity-timeline": ActivityTimelinePreview,
+	"budget-card": BudgetCardPreview,
 	"bulk-action-bar": BulkActionBarPreview,
 	"chart-card": ChartCardPreview,
+	"deal-lines-editor": DealLinesEditorPreview,
 	"detail-panel": DetailPanelPreview,
 	"error-state": ErrorStatePreview,
 	"field-grid": FieldGridPreview,
 	"filter-bar": FilterBarPreview,
 	"form-field": FormFieldPreview,
 	"form-section": FormSectionPreview,
+	inbox: InboxPreview,
+	"inline-edit": InlineEditPreview,
+	"kanban-board": KanbanBoardPreview,
 	"multi-step-form": MultiStepFormPreview,
 	"page-header": PageHeaderPreview,
+	"quick-log-activity": QuickLogActivityPreview,
+	"quote-preview": QuotePreviewPreview,
+	"segmented-progress": SegmentedProgressPreview,
+	"settings-block": SettingsBlockPreview,
 	"split-view": SplitViewPreview,
 	"stats-grid": StatsGridPreview,
 	"status-flow": StatusFlowPreview,
+	"view-config-panel": ViewConfigPanelPreview,
 
 	// ── AI Components (46) ──────────────────────────────────────────────────
 	// Chat

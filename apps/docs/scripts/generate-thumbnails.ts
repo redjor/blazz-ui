@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises"
 import { join } from "node:path"
 import { chromium } from "playwright"
-import { thumbnailRegistry } from "../config/thumbnail-registry"
+import { thumbnailRegistry } from "../src/config/thumbnail-registry"
 
 const BASE_URL = "http://localhost:3100"
 const OUTPUT_DIR = join(process.cwd(), "public", "thumbnails")

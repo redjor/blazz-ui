@@ -27,17 +27,7 @@ export interface KanbanBoardProps<T extends { id: string }> {
 
 /* ─── Component ─── */
 
-function KanbanBoardBase<T extends { id: string }>({
-	columns,
-	items,
-	getColumnId,
-	onMove,
-	renderCard,
-	renderColumnHeader,
-	renderAfterCards,
-	columnClassName,
-	className,
-}: KanbanBoardProps<T>) {
+function KanbanBoardBase<T extends { id: string }>({ columns, items, getColumnId, onMove, renderCard, renderColumnHeader, renderAfterCards, columnClassName, className }: KanbanBoardProps<T>) {
 	const [dragItemId, setDragItemId] = useState<string | null>(null)
 	const [dragOverColumn, setDragOverColumn] = useState<string | null>(null)
 	const dragSourceColumn = useRef<string | null>(null)
@@ -94,11 +84,7 @@ function KanbanBoardBase<T extends { id: string }>({
 				return (
 					<div
 						key={column.id}
-						className={cn(
-							"flex min-w-[280px] flex-col rounded-lg border border-edge-subtle bg-muted transition-colors",
-							isOver && "border-fg/30 bg-muted/60",
-							columnClassName
-						)}
+						className={cn("flex min-w-[280px] flex-col rounded-lg border border-edge-subtle bg-muted/50 transition-colors", isOver && "border-fg/30 bg-muted/60", columnClassName)}
 						onDragOver={(e) => handleDragOver(e, column.id)}
 						onDragLeave={handleDragLeave}
 						onDrop={(e) => handleDrop(e, column.id)}
@@ -125,18 +111,12 @@ function KanbanBoardBase<T extends { id: string }>({
 									draggable={!!onMove}
 									onDragStart={(e) => handleDragStart(e, item)}
 									onDragEnd={handleDragEnd}
-									className={cn(
-										"transition-opacity",
-										onMove && "cursor-grab active:cursor-grabbing",
-										dragItemId === item.id && "opacity-40"
-									)}
+									className={cn("transition-opacity", onMove && "cursor-grab active:cursor-grabbing", dragItemId === item.id && "opacity-40")}
 								>
 									{renderCard(item)}
 								</div>
 							))}
-							{columnItems.length === 0 && (
-								<p className="py-8 text-center text-xs text-fg-muted">Aucun élément</p>
-							)}
+							{columnItems.length === 0 && <p className="py-8 text-center text-xs text-fg-muted">Aucun élément</p>}
 							{renderAfterCards?.(column, columnItems)}
 						</div>
 					</div>

@@ -47,26 +47,38 @@ export const thumbnailRegistry: ThumbnailEntry[] = [
 	{ slug: "tabs", category: "ui", label: "Tabs" },
 	{ slug: "text", category: "ui", label: "Text" },
 	{ slug: "textarea", category: "ui", label: "Textarea" },
+	{ slug: "timeline", category: "ui", label: "Timeline" },
 	{ slug: "tooltip", category: "ui", label: "Tooltip" },
+	{ slug: "tree-view", category: "ui", label: "Tree View" },
 
 	// ---------------------------------------------------------------------------
 	// Block Components (15)
 	// ---------------------------------------------------------------------------
 	{ slug: "activity-timeline", category: "blocks", label: "Activity Timeline" },
+	{ slug: "budget-card", category: "blocks", label: "Budget Card" },
 	{ slug: "bulk-action-bar", category: "blocks", label: "Bulk Action Bar" },
 	{ slug: "chart-card", category: "blocks", label: "Chart Card" },
 	{ slug: "data-grid", category: "blocks", label: "Data Grid" },
+	{ slug: "deal-lines-editor", category: "blocks", label: "Deal Lines Editor" },
 	{ slug: "detail-panel", category: "blocks", label: "Detail Panel" },
 	{ slug: "error-state", category: "blocks", label: "Error State" },
 	{ slug: "field-grid", category: "blocks", label: "Field Grid" },
 	{ slug: "filter-bar", category: "blocks", label: "Filter Bar" },
 	{ slug: "form-field", category: "blocks", label: "Form Field" },
 	{ slug: "form-section", category: "blocks", label: "Form Section" },
+	{ slug: "inbox", category: "blocks", label: "Inbox" },
+	{ slug: "inline-edit", category: "blocks", label: "Inline Edit" },
+	{ slug: "kanban-board", category: "blocks", label: "Kanban Board" },
 	{ slug: "multi-step-form", category: "blocks", label: "Multi-Step Form" },
 	{ slug: "page-header", category: "blocks", label: "Page Header" },
+	{ slug: "quick-log-activity", category: "blocks", label: "Quick Log Activity" },
+	{ slug: "quote-preview", category: "blocks", label: "Quote Preview" },
+	{ slug: "segmented-progress", category: "blocks", label: "Segmented Progress" },
+	{ slug: "settings-block", category: "blocks", label: "Settings Block" },
 	{ slug: "split-view", category: "blocks", label: "Split View" },
 	{ slug: "stats-grid", category: "blocks", label: "Stats Grid" },
 	{ slug: "status-flow", category: "blocks", label: "Status Flow" },
+	{ slug: "view-config-panel", category: "blocks", label: "View Config Panel" },
 
 	// ---------------------------------------------------------------------------
 	// AI Components (46)

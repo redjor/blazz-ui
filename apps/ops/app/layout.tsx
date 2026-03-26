@@ -1,3 +1,4 @@
+import Script from "next/script"
 import { GeistPixelSquare } from "geist/font/pixel"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelSquare.variable} font-sans antialiased`}
 				>
+					<Script src="https://mcp.figma.com/mcp/html-to-design/capture.js" strategy="afterInteractive" />
 					<Providers>{children}</Providers>
 				</body>
 			</html>

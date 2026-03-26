@@ -117,6 +117,12 @@ const splitViewProps: DocProp[] = [
 		description: "Maximum width the master panel can be resized to in pixels.",
 	},
 	{
+		name: "reversed",
+		type: "boolean",
+		default: "false",
+		description: "Place the master panel on the right side.",
+	},
+	{
 		name: "className",
 		type: "string",
 		description: "Additional classes for the outer container.",
@@ -200,6 +206,19 @@ const contact = contacts.find((c) => c.id === selected)
   </SplitView.Detail>
 </SplitView>`,
 	},
+	{
+		key: "reversed",
+		code: `<SplitView reversed defaultWidth={300}>
+  <SplitView.Master>
+    {/* Sidebar — rendered on the right */}
+    <ContactDetail contact={selected} />
+  </SplitView.Master>
+  <SplitView.Detail>
+    {/* Main content — rendered on the left */}
+    <ContactList onSelect={setSelectedId} />
+  </SplitView.Detail>
+</SplitView>`,
+	},
 ] as const
 
 const highlightedPromise = highlightExamples(examples as any)
@@ -279,6 +298,17 @@ export default function SplitViewPage() {
 				>
 					<div className="w-full max-w-3xl overflow-hidden" style={{ height: 300 }}>
 						<CustomWidthDemo />
+					</div>
+				</DocExampleClient>
+
+				<DocExampleClient
+					title="Reversed (Master on Right)"
+					description="Use the reversed prop to place the master panel on the right side. The detail pane becomes the main content area on the left. The resize handle works in the opposite direction."
+					code={examples[3].code}
+					highlightedCode={html("reversed")}
+				>
+					<div className="w-full max-w-3xl overflow-hidden" style={{ height: 400 }}>
+						<ReversedDemo />
 					</div>
 				</DocExampleClient>
 			</DocSection>
@@ -481,6 +511,46 @@ function CustomWidthDemo() {
 						Sélectionnez un contact
 					</div>
 				)}
+			</SplitView.Detail>
+		</SplitView>
+	)
+}
+
+// ---------------------------------------------------------------------------
+// Reversed Demo
+// ---------------------------------------------------------------------------
+
+function ReversedDemo() {
+	const [selectedId, setSelectedId] = useState<string | null>("1")
+	const selected = contacts.find((c) => c.id === selectedId)
+
+	return (
+		<SplitView reversed defaultWidth={300}>
+			<SplitView.Master>
+				<div className="border-b border-edge px-4 py-3">
+					<p className="text-sm font-semibold text-fg">Details</p>
+				</div>
+				{selected ? (
+					<ContactDetail contact={selected} />
+				) : (
+					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
+						Sélectionnez un contact
+					</div>
+				)}
+			</SplitView.Master>
+			<SplitView.Detail>
+				<div className="border-b border-edge px-4 py-3">
+					<p className="text-sm font-semibold text-fg">Contacts</p>
+					<p className="text-xs text-fg-muted">{contacts.length} résultats</p>
+				</div>
+				{contacts.map((c) => (
+					<ContactListItem
+						key={c.id}
+						contact={c}
+						selected={c.id === selectedId}
+						onClick={() => setSelectedId(c.id)}
+					/>
+				))}
 			</SplitView.Detail>
 		</SplitView>
 	)

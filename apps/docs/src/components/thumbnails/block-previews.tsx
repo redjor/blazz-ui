@@ -1,8 +1,13 @@
 import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
+import { BudgetCard } from "@blazz/pro/components/blocks/budget-card"
 import { ChartCard } from "@blazz/pro/components/blocks/chart-card"
+import { DealLinesEditor } from "@blazz/pro/components/blocks/deal-lines-editor"
 import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 import { FilterBar } from "@blazz/pro/components/blocks/filter-bar"
+import { InlineEdit } from "@blazz/pro/components/blocks/inline-edit"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
+import { QuotePreview } from "@blazz/pro/components/blocks/quote-preview"
+import { SegmentedProgress } from "@blazz/pro/components/blocks/segmented-progress"
 import { SplitView } from "@blazz/pro/components/blocks/split-view"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { StatusFlow } from "@blazz/pro/components/blocks/status-flow"
@@ -12,14 +17,26 @@ import { FormSection } from "@blazz/ui/components/patterns/form-section"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import { Switch } from "@blazz/ui/components/ui/switch"
 import {
+	Bell,
+	Calendar,
 	Check,
 	ChevronRight,
+	Columns3,
 	DollarSign,
 	Download,
 	Edit,
+	Globe,
+	LayoutGrid,
+	List,
 	Mail,
+	Moon,
+	Pencil,
+	Phone,
 	Plus,
+	Rows3,
+	StickyNote,
 	Target,
 	Trash2,
 	TrendingUp,
@@ -583,6 +600,330 @@ export function StatusFlowPreview() {
 					{ id: "won", label: "Won", color: "green" },
 				]}
 			/>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// budget-card
+// ════════════════════════════════════════════════════════════════════════════
+
+export function BudgetCardPreview() {
+	return (
+		<div className="grid w-[600px] grid-cols-3 gap-4 p-4">
+			<BudgetCard name="Acme Corp" revenue={4200} daysConsumed={7} percent={42} budgetLabel="4.2 / 10j" />
+			<BudgetCard name="Globex Inc" revenue={8900} daysConsumed={12} percent={82} budgetLabel="8.2 / 10j" />
+			<BudgetCard name="Initech" revenue={11200} daysConsumed={15} percent={95} budgetLabel="9.5 / 10j" />
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// deal-lines-editor
+// ════════════════════════════════════════════════════════════════════════════
+
+export function DealLinesEditorPreview() {
+	return (
+		<div className="w-[640px] p-4">
+			<DealLinesEditor
+				lines={[
+					{ id: "1", product: "Enterprise Plan", description: "Annual license", quantity: 1, unitPrice: 24000 },
+					{ id: "2", product: "Onboarding", description: "Setup & training", quantity: 5, unitPrice: 1200 },
+					{ id: "3", product: "Support Premium", description: "24/7 support", quantity: 12, unitPrice: 500 },
+				]}
+				onChange={() => {}}
+				readOnly
+			/>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// inbox
+// ════════════════════════════════════════════════════════════════════════════
+
+export function InboxPreview() {
+	return (
+		<div className="w-[480px] p-4">
+			<div className="divide-y divide-edge rounded-lg border">
+				{[
+					{ initials: "SC", name: "Sarah Chen", action: "commented on", target: "Q1 Proposal", time: "2m", unread: true },
+					{ initials: "MD", name: "Marc Dupont", action: "mentioned you in", target: "Deal Review", time: "15m", unread: true },
+					{ initials: "LP", name: "Lisa Park", action: "assigned you to", target: "Acme Corp", time: "1h", unread: false },
+					{ initials: "JL", name: "James Lee", action: "replied to", target: "Budget approval", time: "3h", unread: false },
+				].map((n) => (
+					<div key={n.target} className={`flex items-start gap-3 px-4 py-3 ${n.unread ? "bg-brand/5" : ""}`}>
+						<div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium">
+							{n.initials}
+						</div>
+						<div className="min-w-0 flex-1">
+							<p className="text-sm">
+								<span className="font-medium">{n.name}</span>{" "}
+								<span className="text-fg-muted">{n.action}</span>{" "}
+								<span className="font-medium">{n.target}</span>
+							</p>
+							<p className="text-xs text-fg-muted">{n.time} ago</p>
+						</div>
+						{n.unread && <div className="mt-2 size-2 shrink-0 rounded-full bg-brand" />}
+					</div>
+				))}
+			</div>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// inline-edit
+// ════════════════════════════════════════════════════════════════════════════
+
+export function InlineEditPreview() {
+	return (
+		<div className="w-[480px] p-6">
+			<div className="space-y-4">
+				<div className="space-y-1">
+					<p className="text-xs text-fg-muted">Company Name</p>
+					<InlineEdit value="Acme Corporation" onSave={() => {}} />
+				</div>
+				<div className="space-y-1">
+					<p className="text-xs text-fg-muted">Industry</p>
+					<InlineEdit value="Technology" onSave={() => {}} />
+				</div>
+				<div className="space-y-1">
+					<p className="text-xs text-fg-muted">Revenue</p>
+					<InlineEdit value="$2.4M" onSave={() => {}} />
+				</div>
+			</div>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// kanban-board
+// ════════════════════════════════════════════════════════════════════════════
+
+const kanbanColumns = [
+	{ id: "lead", label: "Lead", variant: "outline" as const },
+	{ id: "qualified", label: "Qualified", variant: "info" as const },
+	{ id: "proposal", label: "Proposal", variant: "warning" as const },
+	{ id: "won", label: "Won", variant: "success" as const },
+]
+
+const kanbanItems = [
+	{ id: "1", name: "Acme Corp", amount: "$24K", stage: "lead" },
+	{ id: "2", name: "Globex Inc", amount: "$18K", stage: "lead" },
+	{ id: "3", name: "Initech", amount: "$32K", stage: "qualified" },
+	{ id: "4", name: "Hooli", amount: "$45K", stage: "proposal" },
+	{ id: "5", name: "Umbrella", amount: "$12K", stage: "won" },
+]
+
+export function KanbanBoardPreview() {
+	return (
+		<div className="w-[700px] p-4">
+			<div className="flex gap-3">
+				{kanbanColumns.map((col) => {
+					const colItems = kanbanItems.filter((i) => i.stage === col.id)
+					return (
+						<div key={col.id} className="flex w-full flex-col gap-2">
+							<div className="flex items-center gap-2 px-1">
+								<Badge variant={col.variant} size="xs">{col.label}</Badge>
+								<span className="text-xs text-fg-muted">{colItems.length}</span>
+							</div>
+							<div className="space-y-2">
+								{colItems.map((item) => (
+									<div key={item.id} className="rounded-lg border bg-card p-3">
+										<p className="text-sm font-medium">{item.name}</p>
+										<p className="text-xs text-fg-muted">{item.amount}</p>
+									</div>
+								))}
+							</div>
+						</div>
+					)
+				})}
+			</div>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// quick-log-activity
+// ════════════════════════════════════════════════════════════════════════════
+
+const activityTypes = [
+	{ type: "call", label: "Appel", Icon: Phone, active: true },
+	{ type: "email", label: "Email", Icon: Mail, active: false },
+	{ type: "note", label: "Note", Icon: StickyNote, active: false },
+	{ type: "meeting", label: "RDV", Icon: Calendar, active: false },
+]
+
+export function QuickLogActivityPreview() {
+	return (
+		<div className="w-[320px] p-4">
+			<div className="space-y-3 rounded-lg border bg-card p-4 shadow-md">
+				<p className="text-sm font-medium">Type d&apos;activité</p>
+				<div className="grid grid-cols-4 gap-1.5">
+					{activityTypes.map((at) => (
+						<div
+							key={at.type}
+							className={`flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs ${
+								at.active ? "border-fg bg-fg text-card" : "border-edge"
+							}`}
+						>
+							<at.Icon className="size-4" />
+							{at.label}
+						</div>
+					))}
+				</div>
+				<div className="space-y-1.5">
+					<p className="text-sm">Note</p>
+					<div className="h-16 rounded-md border border-edge bg-card px-3 py-2 text-sm text-fg-muted">
+						Résumé de l&apos;activité...
+					</div>
+				</div>
+				<div className="flex h-8 items-center justify-center rounded-md bg-fg text-sm font-medium text-card">
+					Enregistrer
+				</div>
+			</div>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// quote-preview
+// ════════════════════════════════════════════════════════════════════════════
+
+export function QuotePreviewPreview() {
+	return (
+		<div className="w-[640px] p-4">
+			<QuotePreview
+				reference="DEV-2026-042"
+				date="2026-03-15"
+				validUntil="2026-04-15"
+				company={{ name: "Acme Corporation", address: "42 Tech Street", city: "San Francisco", country: "USA" }}
+				contact={{ name: "Sarah Chen", email: "sarah@acme.com" }}
+				lines={[
+					{ product: "Enterprise Plan", description: "Annual license", quantity: 1, unitPrice: 24000 },
+					{ product: "Premium Support", quantity: 12, unitPrice: 500 },
+				]}
+			/>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// segmented-progress
+// ════════════════════════════════════════════════════════════════════════════
+
+export function SegmentedProgressPreview() {
+	return (
+		<div className="w-[480px] space-y-6 p-6">
+			<div className="space-y-2">
+				<div className="flex items-center justify-between text-sm">
+					<span>Budget consumed</span>
+					<span className="font-medium tabular-nums">42%</span>
+				</div>
+				<SegmentedProgress percent={42} />
+			</div>
+			<div className="space-y-2">
+				<div className="flex items-center justify-between text-sm">
+					<span>Near limit</span>
+					<span className="font-medium tabular-nums text-caution">82%</span>
+				</div>
+				<SegmentedProgress percent={82} autoColor />
+			</div>
+			<div className="space-y-2">
+				<div className="flex items-center justify-between text-sm">
+					<span>Over budget</span>
+					<span className="font-medium tabular-nums text-negative">95%</span>
+				</div>
+				<SegmentedProgress percent={95} autoColor />
+			</div>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// settings-block
+// ════════════════════════════════════════════════════════════════════════════
+
+export function SettingsBlockPreview() {
+	return (
+		<div className="w-[560px] p-4">
+			<div className="space-y-6">
+				<div>
+					<h2 className="text-lg font-semibold">Settings</h2>
+					<p className="text-sm text-fg-muted">Manage your account preferences</p>
+				</div>
+				<div className="space-y-1 rounded-lg border">
+					{[
+						{ icon: Bell, label: "Notifications", desc: "Configure how you receive alerts", control: "switch-on" },
+						{ icon: Moon, label: "Dark mode", desc: "Toggle dark appearance", control: "switch-off" },
+						{ icon: Globe, label: "Language", desc: "Choose your preferred language", control: "text" },
+					].map((item, i) => (
+						<div key={item.label} className={`flex items-center gap-3 px-4 py-3 ${i > 0 ? "border-t" : ""}`}>
+							<div className="flex size-8 items-center justify-center rounded-md bg-muted">
+								<item.icon className="size-4 text-fg-muted" />
+							</div>
+							<div className="flex-1">
+								<p className="text-sm font-medium">{item.label}</p>
+								<p className="text-xs text-fg-muted">{item.desc}</p>
+							</div>
+							{item.control === "switch-on" && <Switch checked />}
+							{item.control === "switch-off" && <Switch />}
+							{item.control === "text" && <span className="text-sm text-fg-muted">English</span>}
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	)
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// view-config-panel
+// ════════════════════════════════════════════════════════════════════════════
+
+export function ViewConfigPanelPreview() {
+	return (
+		<div className="flex w-[320px] justify-center p-4">
+			<div className="flex w-[280px] flex-col rounded-lg bg-popover shadow-md ring-1 ring-edge/40">
+				{/* Tabs */}
+				<div className="mx-3 mt-3 mb-1 flex items-center gap-0.5 rounded-lg bg-muted p-1">
+					{[
+						{ Icon: List, label: "List", active: true },
+						{ Icon: LayoutGrid, label: "Board", active: false },
+						{ Icon: Columns3, label: "Table", active: false },
+					].map((tab) => (
+						<div
+							key={tab.label}
+							className={`flex flex-1 flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium ${
+								tab.active ? "bg-card text-fg shadow-sm" : "text-fg-muted"
+							}`}
+						>
+							<tab.Icon className="size-4" />
+							{tab.label}
+						</div>
+					))}
+				</div>
+				{/* Sections */}
+				<div className="space-y-3 p-3">
+					<div className="space-y-2">
+						<p className="text-xs font-medium text-fg-muted uppercase tracking-wide">Sort by</p>
+						<div className="flex h-8 items-center rounded-md border border-edge px-3 text-sm">
+							<Rows3 className="mr-2 size-3.5 text-fg-muted" />
+							Created date
+						</div>
+					</div>
+					<div className="space-y-2">
+						<p className="text-xs font-medium text-fg-muted uppercase tracking-wide">Properties</p>
+						{["Status", "Assignee", "Priority"].map((prop) => (
+							<div key={prop} className="flex items-center justify-between">
+								<span className="text-sm">{prop}</span>
+								<Switch checked />
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
 		</div>
 	)
 }
