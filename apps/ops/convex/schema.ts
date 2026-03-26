@@ -541,10 +541,22 @@ export default defineSchema({
 
 	agentMemory: defineTable({
 		userId: v.id("users"),
-		agentId: v.id("agents"),
+		agentId: v.optional(v.id("agents")), // null = shared memory
 		missionId: v.optional(v.id("missions")),
-		type: v.union(v.literal("summary"), v.literal("learning"), v.literal("fact")),
+		scope: v.union(v.literal("private"), v.literal("shared")), // private = agent-only, shared = all agents
+		category: v.union(
+			v.literal("fact"),        // "Client X paie en retard" — expires
+			v.literal("preference"),  // "Jonathan préfère les forecasts conservateurs" — permanent
+			v.literal("episode"),     // "Le 26 mars, discussion sur investissement monitoring" — expires
+			v.literal("pattern"),     // "Anomalies temps → toujours créer un todo" — permanent
+			v.literal("rule"),        // "Ne jamais suggérer de couper Figma" — permanent, manual
+		),
 		content: v.string(),
+		confidence: v.optional(v.number()),       // 0.0-1.0, increases on confirmation
+		source: v.optional(v.string()),           // "mission" | "chat" | "rejection" | "manual" | "consolidation"
+		lastConfirmedAt: v.optional(v.number()),  // for decay
 		expiresAt: v.optional(v.number()),
-	}).index("by_agent", ["userId", "agentId"]),
+	})
+		.index("by_agent", ["userId", "agentId"])
+		.index("by_scope", ["userId", "scope"]),
 })

@@ -3,6 +3,7 @@ import { ConvexHttpClient } from "convex/browser"
 import { api } from "./convex"
 import { loadSoul } from "./soul-loader"
 import { calculateCost, canStartMission, isMissionBudgetExceeded } from "./budget"
+import { extractAndSaveMemories } from "./memory"
 import type { Tool } from "./tools/index"
 
 let _openai: OpenAI
@@ -46,7 +47,10 @@ export async function runMission(
 
   const { systemPrompt, soulHash } = await loadSoul(agent.slug)
 
+  // Inter-agent tools are always available
+  const alwaysAvailable = ["delegate_to_agent", "ask_agent", "save_memory"]
   const allowedTools = tools.filter((t) => {
+    if (alwaysAvailable.includes(t.name)) return true
     if (agent.permissions.blocked.includes(t.name)) return false
     return agent.permissions.safe.includes(t.name) || agent.permissions.confirm.includes(t.name)
   })
@@ -59,8 +63,17 @@ export async function runMission(
     memories = await convex.query(api.worker.workerListMemory, { agentId: agent._id as any })
   } catch { /* no memories yet */ }
 
-  const memoryBlock = memories.length > 0
-    ? "\n\n## Mémoire\n" + memories.slice(-10).map((m: any) => `[${m.type}] ${m.content}`).join("\n")
+  // Build memory block, prioritized by category: rules > preferences > patterns > facts > episodes
+  const categoryOrder = ["rule", "preference", "pattern", "fact", "episode"]
+  const sorted = [...memories]
+    .sort((a, b) => categoryOrder.indexOf(a.category ?? "fact") - categoryOrder.indexOf(b.category ?? "fact"))
+    .slice(0, 15) // max 15 memories
+
+  const memoryBlock = sorted.length > 0
+    ? "\n\n## Mémoire\n" + sorted.map((m: any) => {
+        const scope = m.scope === "shared" ? " [partagé]" : ""
+        return `- [${m.category}${scope}] ${m.content}`
+      }).join("\n")
     : ""
 
   const rejectionBlock = mission.rejectionReason
@@ -164,6 +177,12 @@ export async function runMission(
       costUsd: missionCost,
       soulHash,
     })
+
+    // Extract and save memories from the mission output
+    const missionDoc = await convex.query(api.worker.workerGetAgent, { id: agent._id as any })
+    if (missionDoc) {
+      await extractAndSaveMemories(convex, agent._id, missionDoc.userId as string, mission._id, output, "mission")
+    }
   } catch (err) {
     await log("error", String(err))
     await convex.mutation(api.worker.workerFailMission, { id: mission._id as any, error: String(err) })

@@ -4,6 +4,7 @@ import { financeTools } from "./finance"
 import { timeTools } from "./time"
 import { productTools } from "./product"
 import { sharedTools } from "./shared"
+import { agentTools } from "./agents"
 
 export interface Tool {
   name: string
@@ -18,5 +19,6 @@ export function createToolRegistry(convex: ConvexHttpClient): Tool[] {
     ...timeTools(convex),
     ...productTools(),
     ...sharedTools(convex),
+    ...agentTools(convex),
   ]
 }

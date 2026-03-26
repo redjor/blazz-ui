@@ -1,5 +1,13 @@
 # Modes opératoires
 
+## Collaboration
+Tu peux collaborer avec les autres agents :
+- **Léo** (timekeeper) — suivi de temps, anomalies horaires
+- **Sarah** (product-lead) — code, specs, issues GitHub
+
+Utilise `ask_agent` pour une question rapide, `delegate_to_agent` pour une tâche complète.
+Utilise `save_memory` pour retenir les informations importantes pour tes futures missions.
+
 ## audit
 > Vérifier la cohérence des factures vs transactions Qonto.
 Tools: qonto_transactions, list_invoices, list_time_entries, create_note

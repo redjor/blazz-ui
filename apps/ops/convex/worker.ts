@@ -133,7 +133,62 @@ export const workerListMemory = query({
 	handler: async (ctx, { agentId }) => {
 		const all = await ctx.db.query("agentMemory").collect()
 		const now = Date.now()
-		return all.filter((m) => m.agentId === agentId && (!m.expiresAt || m.expiresAt > now))
+		// Private memories for this agent + all shared memories
+		return all.filter((m) =>
+			(!m.expiresAt || m.expiresAt > now) &&
+			(
+				(m.scope === "private" && m.agentId === agentId) ||
+				m.scope === "shared"
+			)
+		)
+	},
+})
+
+export const workerAddMemory = mutation({
+	args: {
+		userId: v.id("users"),
+		agentId: v.optional(v.id("agents")),
+		missionId: v.optional(v.id("missions")),
+		scope: v.union(v.literal("private"), v.literal("shared")),
+		category: v.union(
+			v.literal("fact"), v.literal("preference"), v.literal("episode"),
+			v.literal("pattern"), v.literal("rule"),
+		),
+		content: v.string(),
+		confidence: v.optional(v.number()),
+		source: v.optional(v.string()),
+		expiresAt: v.optional(v.number()),
+	},
+	handler: async (ctx, args) => {
+		return ctx.db.insert("agentMemory", { ...args, lastConfirmedAt: Date.now() })
+	},
+})
+
+// Get agent by slug (for delegate_to_agent tool)
+export const workerGetAgentBySlug = query({
+	args: { slug: v.string() },
+	handler: async (ctx, { slug }) => {
+		const all = await ctx.db.query("agents").collect()
+		return all.find((a) => a.slug === slug) ?? null
+	},
+})
+
+// Create mission (for delegate_to_agent tool)
+export const workerCreateMission = mutation({
+	args: {
+		userId: v.id("users"),
+		agentId: v.id("agents"),
+		title: v.string(),
+		prompt: v.string(),
+		priority: v.union(v.literal("low"), v.literal("medium"), v.literal("high"), v.literal("urgent")),
+		parentMissionId: v.optional(v.id("missions")),
+	},
+	handler: async (ctx, args) => {
+		return ctx.db.insert("missions", {
+			...args,
+			status: "todo",
+			mode: "live",
+		})
 	},
 })
 
