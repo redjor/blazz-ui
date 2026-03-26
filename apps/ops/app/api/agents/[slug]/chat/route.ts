@@ -303,8 +303,8 @@ export async function POST(
 		maxSteps: 5,
 		onFinish: async ({ usage }) => {
 			// Estimate cost (rough: $0.15/1M input tokens, $0.60/1M output tokens for gpt-4.1-mini)
-			const inputCost = ((usage?.promptTokens ?? 0) / 1_000_000) * 0.15
-			const outputCost = ((usage?.completionTokens ?? 0) / 1_000_000) * 0.60
+			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.15
+			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 0.60
 			const costUsd = Math.round((inputCost + outputCost) * 1_000_000) / 1_000_000
 
 			if (costUsd > 0) {

@@ -14,7 +14,6 @@ import {
 	PromptInputSubmit,
 	PromptInputTextarea,
 } from "@blazz/pro/components/ai/chat/prompt-input"
-import { Shimmer } from "@blazz/pro/components/ai/chat/shimmer"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
@@ -208,9 +207,9 @@ export function AgentChatClient({ slug }: { slug: string }) {
 					{status === "submitted" && (
 						<Message from="assistant">
 							<MessageContent>
-								<Shimmer className="text-sm" duration={1.5}>
+								<span className="text-sm text-fg-muted animate-pulse">
 									{agent.name} réfléchit...
-								</Shimmer>
+								</span>
 							</MessageContent>
 						</Message>
 					)}
