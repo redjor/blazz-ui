@@ -33,7 +33,6 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@blazz/ui/components/ui/tabs"
-import { Text } from "@blazz/ui/components/ui/text"
 import { useMutation, useQuery } from "convex/react"
 import { Trash2 } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
@@ -120,9 +119,9 @@ function SoulEditorTab({ slug, file }: { slug: string; file: string }) {
 
 	return (
 		<BlockStack gap="md">
-			<Text variant="muted" className="text-sm">
+			<p className="text-sm text-fg-muted">
 				{SOUL_DESCRIPTIONS[file]}
-			</Text>
+			</p>
 			<textarea
 				className="w-full min-h-[300px] rounded-lg border border-edge bg-surface p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
 				value={content}
@@ -167,17 +166,17 @@ function MemoryTab({ agentId }: { agentId: Id<"agents"> }) {
 
 	if (memories.length === 0) {
 		return (
-			<Text variant="muted" className="text-sm">
+			<p className="text-sm text-fg-muted">
 				Aucune m\u00e9moire enregistr\u00e9e pour cet agent.
-			</Text>
+			</p>
 		)
 	}
 
 	return (
 		<BlockStack gap="sm">
-			<Text variant="muted" className="text-sm">
+			<p className="text-sm text-fg-muted">
 				Informations apprises au fil des conversations et missions.
-			</Text>
+			</p>
 			<BlockStack gap="xs">
 				{memories.map((m) => (
 					<InlineStack key={m._id} align="space-between" blockAlign="center">
@@ -476,7 +475,7 @@ export function AgentsSettingsClient() {
 				<AgentCard key={agent._id} agent={agent as Agent} />
 			))}
 			{agents.length === 0 && (
-				<Text variant="muted">Aucun agent configur\u00e9. Lancez le seed depuis les missions.</Text>
+				<Text variant="muted">Aucun agent configur\u00e9. Lancez le seed depuis les missions.</p>
 			)}
 		</SettingsPage>
 	)

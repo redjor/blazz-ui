@@ -374,6 +374,9 @@ export async function POST(
 		}
 	}
 
+	console.log(`[agent-chat] ${slug} tools registered:`, Object.keys(tools))
+	console.log(`[agent-chat] ${slug} permissions.safe:`, agent.permissions.safe)
+
 	// Add create_mission tool for all agents
 	tools["create-mission"] = {
 		...tool({
