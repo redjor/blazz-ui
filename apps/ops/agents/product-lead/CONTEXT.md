@@ -1,59 +1,112 @@
-# Blazz UI — Contexte Projet
+# Blazz UI — Contexte Produit
 
-## Pitch
-Kit de composants React/Next.js AI-native pour apps pro data-heavy.
-Cible : Lead Techs qui veulent vibe coder des apps internes au lieu de payer Salesforce/SAP.
+## Vision
 
-## Architecture
-Turborepo monorepo avec 2 packages npm :
-- **@blazz/ui** (open-source) — 70+ primitives + 35+ patterns
-- **@blazz/pro** (payant) — 30+ blocks métier + 50+ composants AI + système de licence
+**Enterprise UI, Ready to Ship.**
 
-Apps : docs (documentation + landing), ops (app freelance interne)
+Blazz UI est un kit de composants React/Next.js conçu pour les applications enterprise et data-heavy.
+Pas du SaaS marketing avec des gros boutons et du vide — de l'interface pro, dense, productive.
 
-## Stack
-Next.js 16, React 19, TypeScript strict, Tailwind v4, Base UI (PAS Radix),
-react-hook-form + zod, TanStack Table, @dnd-kit, Recharts,
-Biome (lint/format), Turborepo, pnpm, tsup (ESM), Changesets
+Le problème qu'on résout : les Lead Techs et équipes produit qui construisent des apps internes
+(CRM, ERP, dashboards, outils de gestion) n'ont pas de bon kit UI. Soit c'est Ant Design (lourd,
+moche, pas moderne), soit c'est shadcn (joli mais zéro composants métier), soit ils paient
+Salesforce/SAP. Blazz UI c'est l'alternative : des composants enterprise-grade, beaux, denses,
+prêts à l'emploi.
 
-## Composants clés
-- Primitives : Button, Input, Select, Dialog, Sheet, Tabs, Badge, Skeleton, Toast, EmptyState, ErrorState
-- Layout : BlockStack, InlineStack, Grid, InlineGrid, Box, Bleed, Divider (OBLIGATOIRES, jamais de div nus)
-- Patterns : AppFrame, AppSidebar, PageHeaderShell, FormField, FormSection, FieldGrid, CommandPalette, NavigationTabs
-- Blocks (pro) : DataTable, KanbanBoard, StatsGrid, Page, PageHeader, ActivityTimeline, SplitView, ChartCard
-- AI (pro) : Chat, Conversation, Message, PromptInput, Shimmer, Reasoning, ToolCall, Confirmation
+## Ce qui nous différencie
 
-## Design System
-- 25 design tokens oklch dans tokens.css
-- 3 thèmes (light, dark, système)
-- Accent indigo/violet
-- Densité enterprise : font 13px tables, row-height 40px, input 32px
-- Références : Linear, Vercel Dashboard, Airtable
+**1. Densité enterprise** — Pas du SaaS aéré. Des interfaces pour des gens qui passent 8h/jour
+dans l'app. Font 13px dans les tables, row-height 40px, inputs 32px. Beaucoup d'infos visibles
+sans scroller. Références : Linear, Vercel Dashboard, Airtable, Bloomberg Terminal.
 
-## État actuel (mars 2026)
-- 200+ composants au total (76 primitives, 35 patterns, 37 blocks, 52 AI)
-- 176 pages de documentation
-- Phase 3 : stabiliser monorepo, publier sur npm
-- MCP Server pas commencé
-- Landing pas déployée
+**2. Composants métier prêts à l'emploi** — Pas juste des Button/Input. Des DataTable avancées,
+KanbanBoard, StatsGrid, Page layouts, ActivityTimeline, SplitView, Charts. Le dev pose le composant,
+ça marche.
 
-## Priorités immédiates
-1. Publier @blazz/ui + @blazz/pro sur npm (bloque tout le reste)
-2. MCP Server (4 tools MVP)
-3. Naming définitif (Blazz vs autre)
-4. Finaliser landing + domaine
-5. Vidéo démo + Twitter launch
+**3. AI-native** — 50+ composants AI intégrés : Chat, Conversation, Reasoning, ToolCall,
+Confirmation, Generative UI. Pas besoin de tout coder from scratch.
+
+**4. Polished visual** — Ça fait sérieux. Design system oklch, 25 tokens, 3 thèmes.
+Transitions 150ms, hiérarchie visuelle forte, data-ink ratio maximal (Tufte).
+Pas de shadow festival, pas de border overkill.
+
+## Business Model
+
+```
+@blazz/ui (gratuit, open-source)
+├── 76 primitives (Button, Input, Select, Dialog, Tabs, etc.)
+├── 35 patterns (AppFrame, FormField, CommandPalette, etc.)
+├── Layout primitives (BlockStack, InlineStack, Grid, Box, etc.)
+└── 25 design tokens oklch
+
+@blazz/pro (payant, licence)
+├── 37 blocks métier (DataTable, KanbanBoard, StatsGrid, Page, PageHeader, etc.)
+├── 52 composants AI (Chat, Conversation, Reasoning, ToolCall, etc.)
+├── Hooks avancés (use-data-table-url-state, use-data-table-views, etc.)
+└── Système de licence (BlazzProvider, withProGuard)
+
+@blazz/mcp (payant, à venir)
+├── Serveur MCP pour Claude Code / Cursor
+├── 6 tools : list_components, get_component, get_pattern, get_rules, get_design_principles, get_tokens
+└── Permet aux devs de "vibe coder" avec leurs composants Blazz
+```
+
+**Stratégie** : le gratuit (@blazz/ui) attire les devs. Quand ils ont besoin de DataTable,
+KanbanBoard, Charts, ou composants AI → ils passent à Pro. Le MCP Server vend l'intégration
+avec les outils AI (Claude Code, Cursor).
+
+## Architecture technique
+
+Turborepo monorepo :
+- `packages/ui/` → @blazz/ui (open-source, npm)
+- `packages/pro/` → @blazz/pro (payant, npm)
+- `apps/docs/` → Documentation + playground + landing
+- `apps/ops/` → App freelance interne (pas le produit)
+
+Stack : Next.js 16, React 19, TypeScript strict, Tailwind v4, Base UI (PAS Radix),
+react-hook-form + zod, TanStack Table, @dnd-kit, Recharts, Biome, tsup (ESM), Changesets.
+
+**Règle critique** : Base UI partout (pas Radix) → `render` prop pour composition, JAMAIS `asChild`.
+
+## Catalogue actuel (mars 2026)
+
+**200+ composants au total :**
+- Primitives (76) : Button, Input, Select, Dialog, Sheet, Tabs, Badge, Skeleton, Toast, EmptyState, ErrorState, Checkbox, Switch, Popover, Tooltip, Avatar, etc.
+- Layout (7) : BlockStack, InlineStack, Grid, InlineGrid, Box, Bleed, Divider — OBLIGATOIRES pour tout layout
+- Patterns (35) : AppFrame, AppSidebar, PageHeaderShell, FormField, FormSection, FieldGrid, ImageUpload, CommandPalette, NavigationTabs, ThemeToggle, etc.
+- Blocks pro (37) : DataTable, DataGrid, KanbanBoard, StatsGrid, Page, PageHeader, ActivityTimeline, SplitView, ChartCard, FilterBar, BulkActionBar, MultiStepForm, StatusFlow, etc.
+- AI pro (52) : Chat, Conversation, Message, PromptInput, Shimmer, Reasoning, ToolCall, Confirmation, GenerativeUI, etc.
+
+**176 pages de documentation.**
 
 ## Concurrence
-- shadcn/ui — gratuit, community-driven, pas de blocks métier
-- Tremor — dashboards, pas de composants génériques
-- NextUI — joli mais pas enterprise-grade
-- Ant Design / Material UI — lourd, pas moderne
-- Notre différenciation : AI-native + enterprise density + composants métier prêts à l'emploi
 
-## Conventions code
-- Server Components par défaut, Client uniquement pour interactivité
-- Formulaires = react-hook-form + zod TOUJOURS
-- 4 états obligatoires : loading (Skeleton), empty, error, success
-- Base UI (pas Radix) → `render` prop pour composition, JAMAIS `asChild`
-- Import paths : `@blazz/ui/components/ui/button`, `@blazz/pro/components/blocks/data-table`
+| Concurrent | Forces | Faiblesses vs nous |
+|-----------|--------|-------------------|
+| shadcn/ui | Gratuit, community énorme, copy-paste | Zéro composants métier, pas de DataTable avancée, pas d'AI |
+| Tremor | Bons dashboards, charts | Que des dashboards, pas de composants génériques |
+| NextUI | Joli, moderne | Pas enterprise-grade, densité trop faible |
+| Ant Design | Complet, enterprise | Lourd, design daté, DX pénible |
+| Material UI | Standard Google | Lourd, opinions fortes, pas moderne |
+| Radix | Bonnes primitives | Que des primitives, zéro blocks métier |
+
+**Notre créneau** : entre shadcn (trop basique) et Ant Design (trop lourd). Moderne + enterprise + AI.
+
+## État actuel & Priorités
+
+**Phase 3 — Stabiliser et publier :**
+1. ⚡ Publier @blazz/ui + @blazz/pro sur npm (BLOQUE TOUT)
+2. 🔌 MCP Server 4 tools MVP
+3. 📛 Naming définitif (Blazz vs autre nom)
+4. 🌐 Finaliser landing + domaine
+5. 📹 Vidéo démo + Twitter launch
+
+**Ce qui est prêt** : 200+ composants, 176 pages docs, design system complet, 3 thèmes.
+**Ce qui bloque** : npm publishing, landing page, vidéo de démo.
+
+## Idées de features futures
+- Templates d'apps complètes (CRM, Dashboard, Admin panel)
+- Thème builder visuel
+- Figma kit synchronisé
+- CLI d'initialisation (`npx create-blazz-app`)
+- Marketplace de blocks communautaires
