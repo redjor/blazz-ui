@@ -336,7 +336,7 @@ export const workerCreateNotification = mutation({
 			authorAvatar: args.agentAvatar,
 			url: args.url,
 			read: false,
-			archived: false,
+			createdAt: Date.now(),
 		})
 	},
 })
