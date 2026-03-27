@@ -285,7 +285,7 @@ export const workerCreateTodo = mutation({
 		text: v.string(),
 		priority: v.optional(v.string()),
 		dueDate: v.optional(v.string()),
-		userId: v.optional(v.id("users")),
+		userId: v.string(),
 		createdByAgent: v.optional(v.id("agents")),
 	},
 	handler: async (ctx, { text, priority, dueDate, userId, createdByAgent }) => {
@@ -296,7 +296,7 @@ export const workerCreateTodo = mutation({
 			source: "app" as const,
 			createdAt: Date.now(),
 			dueDate,
-			userId: userId as any,
+			userId,
 			createdByAgent,
 		})
 	},

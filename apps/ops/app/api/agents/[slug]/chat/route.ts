@@ -407,6 +407,10 @@ export async function POST(
 		},
 	}
 
+	// Capture userId for tool closures (agent.userId may not be accessible in async context)
+	const agentUserId = agent.userId as string
+	const agentId = agent._id
+
 	// Add write tools based on agent.permissions.confirm
 	if (agent.permissions.confirm.includes("create_todo") || agent.permissions.confirm.includes("create_note")) {
 		if (agent.permissions.confirm.includes("create_todo")) {
@@ -425,8 +429,8 @@ export async function POST(
 						text,
 						priority: priority ?? "normal",
 						dueDate,
-						userId: agent.userId as any,
-						createdByAgent: agent._id,
+						userId: agentUserId,
+						createdByAgent: agentId,
 					})
 					return { id, text, status: "created" }
 				},
@@ -450,7 +454,7 @@ export async function POST(
 						content,
 						entityType: entityType ?? "general",
 						entityId,
-						userId: agent.userId as any,
+						userId: agentUserId,
 					})
 					return { id, title, status: "created" }
 				},
