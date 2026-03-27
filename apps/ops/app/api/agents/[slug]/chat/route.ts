@@ -407,6 +407,58 @@ export async function POST(
 		},
 	}
 
+	// Add write tools based on agent.permissions.confirm
+	if (agent.permissions.confirm.includes("create_todo") || agent.permissions.confirm.includes("create_note")) {
+		if (agent.permissions.confirm.includes("create_todo")) {
+			tools["create-todo"] = {
+				...tool({
+					description: "Créer un todo dans Blazz Ops. Associe-le au bon projet si pertinent.",
+					parameters: z.object({
+						text: z.string().describe("Texte du todo"),
+						priority: z.enum(["urgent", "high", "normal", "low"]).optional().describe("Priorité (défaut: normal)"),
+						dueDate: z.string().optional().describe("Date limite YYYY-MM-DD"),
+						projectId: z.string().optional().describe("ID du projet associé"),
+					}),
+				}),
+				execute: async ({ text, priority, dueDate, projectId }: { text: string; priority?: string; dueDate?: string; projectId?: string }) => {
+					convex.setAuth(token)
+					const id = await convex.mutation(api.todos.create, {
+						text,
+						status: "todo",
+						priority: priority ?? "normal",
+						dueDate,
+						projectId: projectId as any,
+					})
+					return { id, text, status: "created" }
+				},
+			}
+		}
+
+		if (agent.permissions.confirm.includes("create_note")) {
+			tools["create-note"] = {
+				...tool({
+					description: "Créer une note dans Blazz Ops. Associe-la au bon projet ou client si pertinent.",
+					parameters: z.object({
+						title: z.string().describe("Titre de la note"),
+						content: z.string().describe("Contenu de la note (markdown)"),
+						entityType: z.enum(["general", "client", "project", "invoice", "todo"]).optional().describe("Type d'entité liée"),
+						entityId: z.string().optional().describe("ID de l'entité liée"),
+					}),
+				}),
+				execute: async ({ title, content, entityType, entityId }: { title: string; content: string; entityType?: string; entityId?: string }) => {
+					convex.setAuth(token)
+					const id = await convex.mutation(api.notes.create, {
+						title,
+						content,
+						entityType: (entityType ?? "general") as any,
+						entityId,
+					})
+					return { id, title, status: "created" }
+				},
+			}
+		}
+	}
+
 	const { messages, data } = await req.json()
 
 	// Save user message to DB
