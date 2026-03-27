@@ -290,11 +290,12 @@ export const workerCreateTodo = mutation({
 		text: v.string(),
 		priority: v.optional(v.string()),
 		dueDate: v.optional(v.string()),
+		projectId: v.optional(v.string()),
 		userId: v.optional(v.string()),
 		createdByAgent: v.optional(v.id("agents")),
 		agentSlug: v.optional(v.string()),
 	},
-	handler: async (ctx, { text, priority, dueDate, userId, createdByAgent, agentSlug }) => {
+	handler: async (ctx, { text, priority, dueDate, projectId, userId, createdByAgent, agentSlug }) => {
 		// Resolve userId from agent if not provided
 		let resolvedUserId = userId
 		if (!resolvedUserId && agentSlug) {
@@ -320,6 +321,7 @@ export const workerCreateTodo = mutation({
 			source: "app" as const,
 			createdAt: Date.now(),
 			dueDate,
+			projectId: projectId as any,
 			userId: resolvedUserId,
 			createdByAgent,
 		})

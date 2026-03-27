@@ -359,9 +359,9 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 					projectId: z.string().optional().describe("ID du projet associé"),
 				}),
 			}),
-			execute: async ({ text, priority, dueDate }: any) => {
+			execute: async ({ text, priority, dueDate, projectId }: any) => {
 				return convex.mutation(api.worker.workerCreateTodo, {
-					text, priority: priority ?? "normal", dueDate, userId: agentUserId,
+					text, priority: priority ?? "normal", dueDate, userId: agentUserId, projectId,
 				})
 			},
 		}
