@@ -24,7 +24,7 @@ export function agentTools(convex: ConvexHttpClient): Tool[] {
             properties: {
               agentSlug: {
                 type: "string",
-                enum: ["cfo", "timekeeper", "product-lead"],
+                enum: ["cfo", "timekeeper", "product-lead", "assistant", "account-manager"],
                 description: "The agent to delegate to",
               },
               title: { type: "string", description: "Mission title" },
@@ -73,7 +73,7 @@ export function agentTools(convex: ConvexHttpClient): Tool[] {
             properties: {
               agentSlug: {
                 type: "string",
-                enum: ["cfo", "timekeeper", "product-lead"],
+                enum: ["cfo", "timekeeper", "product-lead", "assistant", "account-manager"],
                 description: "The agent to ask",
               },
               question: { type: "string", description: "The question to ask" },
@@ -98,23 +98,66 @@ export function agentTools(convex: ConvexHttpClient): Tool[] {
           soulContext = soul
         } catch { /* no soul file */ }
 
-        // Quick one-shot call to the target agent's model
-        const response = await getOpenAI().chat.completions.create({
-          model: targetAgent.model,
-          messages: [
-            {
-              role: "system",
-              content: `Tu es ${targetAgent.name}, ${targetAgent.role}. Réponds de manière concise.\n\n${soulContext}`,
-            },
-            { role: "user", content: args.question as string },
-          ],
-          max_tokens: 500,
-        })
+        // Build tools for the target agent (read-only, from the registry)
+        const { financeTools } = await import("./finance")
+        const { timeTools } = await import("./time")
+        const { sharedTools } = await import("./shared")
+        const allTools = [...financeTools(convex), ...timeTools(convex), ...sharedTools(convex)]
+        const agentTools = allTools.filter((t) =>
+          t.category === "read" && targetAgent.permissions.safe.includes(t.name)
+        )
+
+        const toolDefs = agentTools.length > 0
+          ? agentTools.map((t) => t.definition)
+          : undefined
+
+        // Multi-step call — agent can use tools to answer
+        const messages: OpenAI.ChatCompletionMessageParam[] = [
+          {
+            role: "system",
+            content: `Tu es ${targetAgent.name}, ${targetAgent.role}. Un collègue agent te pose une question. Réponds de manière concise et factuelle. Utilise tes outils pour accéder aux données si nécessaire.\n\n${soulContext}`,
+          },
+          { role: "user", content: args.question as string },
+        ]
+
+        let answer = ""
+        for (let step = 0; step < 3; step++) {
+          const response = await getOpenAI().chat.completions.create({
+            model: targetAgent.model,
+            messages,
+            tools: toolDefs,
+            max_tokens: 800,
+          })
+
+          const choice = response.choices[0]
+
+          if (choice.message.content) {
+            answer = choice.message.content
+          }
+
+          if (choice.finish_reason === "stop" || !choice.message.tool_calls?.length) break
+
+          // Execute tool calls
+          messages.push(choice.message)
+          for (const call of choice.message.tool_calls) {
+            const tool = agentTools.find((t) => t.name === call.function.name)
+            if (!tool) {
+              messages.push({ role: "tool", tool_call_id: call.id, content: JSON.stringify({ error: "Tool not available" }) })
+              continue
+            }
+            try {
+              const result = await tool.execute(JSON.parse(call.function.arguments), convex)
+              messages.push({ role: "tool", tool_call_id: call.id, content: JSON.stringify(result) })
+            } catch (err) {
+              messages.push({ role: "tool", tool_call_id: call.id, content: JSON.stringify({ error: String(err) }) })
+            }
+          }
+        }
 
         return {
           agent: targetAgent.name,
           role: targetAgent.role,
-          answer: response.choices[0].message.content,
+          answer,
         }
       },
     },
