@@ -1,11 +1,19 @@
 "use client"
 
 import { AgentAvatar } from "./agent-avatar"
+import {
+	ChainOfThought,
+	ChainOfThoughtHeader,
+	ChainOfThoughtContent,
+	ChainOfThoughtStep,
+} from "@blazz/pro/components/ai/reasoning/chain-of-thought"
+import { Timeline } from "@blazz/pro/components/ai/generative/planning/timeline"
+import type { TimelineItem } from "@blazz/pro/components/ai/generative/planning/timeline"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 interface LogEntry {
 	_id: string
@@ -21,22 +29,13 @@ interface MissionLogsProps {
 	live?: boolean
 }
 
-const styleMap: Record<string, string> = {
-	thinking: "border-l-2 border-fg-muted/30 pl-3 italic text-fg-muted",
-	tool_call: "border-l-2 border-brand pl-3",
-	tool_result: "border-l-2 border-emerald-500 pl-3",
-	error: "border-l-2 border-destructive pl-3 bg-destructive/5 rounded",
-	budget_warning: "border-l-2 border-warning pl-3 bg-warning/5 rounded",
-	done: "border-l-2 border-emerald-500 pl-3 bg-emerald-500/5 rounded",
-}
-
-const iconMap: Record<string, string> = {
-	thinking: "\u{1F9E0}",
-	tool_call: "\u{1F527}",
-	tool_result: "\u{1F4C4}",
-	error: "\u274C",
-	budget_warning: "\u26A0\uFE0F",
-	done: "\u2705",
+const variantMap: Record<string, TimelineItem["variant"]> = {
+	thinking: "default",
+	tool_call: "info",
+	tool_result: "success",
+	error: "critical",
+	budget_warning: "warning",
+	done: "success",
 }
 
 function tryFormatJson(str: string): string {
@@ -59,51 +58,98 @@ function parseInterAgentTarget(content: string): { agentName: string } | null {
 	return null
 }
 
-function LogEntryRow({ log }: { log: LogEntry }) {
+/** Groups consecutive tool_call + tool_result logs into ChainOfThought blocks */
+function groupToolSequences(logs: LogEntry[]): Array<LogEntry | { type: "tool_group"; logs: LogEntry[] }> {
+	const result: Array<LogEntry | { type: "tool_group"; logs: LogEntry[] }> = []
+	let toolBuffer: LogEntry[] = []
+
+	const flushBuffer = () => {
+		if (toolBuffer.length > 0) {
+			if (toolBuffer.length >= 2) {
+				result.push({ type: "tool_group", logs: [...toolBuffer] })
+			} else {
+				// Single tool log, render inline
+				for (const log of toolBuffer) {
+					result.push(log)
+				}
+			}
+			toolBuffer = []
+		}
+	}
+
+	for (const log of logs) {
+		if (log.type === "tool_call" || log.type === "tool_result") {
+			toolBuffer.push(log)
+		} else {
+			flushBuffer()
+			result.push(log)
+		}
+	}
+	flushBuffer()
+
+	return result
+}
+
+function ToolGroupBlock({ logs }: { logs: LogEntry[] }) {
+	const toolNames = logs
+		.filter((l) => l.type === "tool_call" && l.toolName)
+		.map((l) => l.toolName!)
+	const uniqueTools = [...new Set(toolNames)]
+	const allComplete = logs.every((l) => l.type === "tool_result" || l.type === "tool_call")
+	const label = uniqueTools.length > 0 ? uniqueTools.join(", ") : "Outils"
+
+	return (
+		<ChainOfThought defaultOpen={false} className="my-1">
+			<ChainOfThoughtHeader>
+				{label} ({logs.length} etapes)
+			</ChainOfThoughtHeader>
+			<ChainOfThoughtContent>
+				{logs.map((log) => (
+					<ToolStepEntry key={log._id} log={log} />
+				))}
+			</ChainOfThoughtContent>
+		</ChainOfThought>
+	)
+}
+
+function ToolStepEntry({ log }: { log: LogEntry }) {
 	const [expanded, setExpanded] = useState(false)
-	const style = styleMap[log.type] ?? styleMap.thinking
-	const icon = iconMap[log.type] ?? "\u{1F9E0}"
+	const isCall = log.type === "tool_call"
 	const isInterAgent = log.toolName === "ask_agent" || log.toolName === "delegate_to_agent"
 
 	return (
-		<BlockStack gap="050" className={`py-2 ${style}`}>
-			<InlineStack gap="200" blockAlign="center">
-				<span className="text-xs">{icon}</span>
-				{log.toolName && (
-					<Badge variant="outline" size="xs">
-						{log.toolName}
-					</Badge>
-				)}
-				{isInterAgent && log.type === "tool_call" && (() => {
-					const target = parseInterAgentTarget(log.content)
-					if (!target) return null
-					return (
-						<InlineStack gap="100" blockAlign="center">
-							<AgentAvatar name={target.agentName} size={16} className="size-4" />
-							<span className="text-xs font-medium text-fg">{target.agentName}</span>
-						</InlineStack>
-					)
-				})()}
-				{log.duration != null && (
-					<span className="text-xs text-fg-muted tabular-nums">{log.duration}ms</span>
-				)}
-				<span className="text-xs text-fg-muted tabular-nums ml-auto">
-					{new Date(log._creationTime).toLocaleTimeString("fr-FR")}
-				</span>
-			</InlineStack>
-
-			{log.type === "thinking" && (
-				<Box className="text-sm text-fg-muted italic">{log.content}</Box>
-			)}
-
-			{(log.type === "tool_call" || log.type === "tool_result") && (
+		<ChainOfThoughtStep
+			label={
+				<InlineStack gap="200" blockAlign="center">
+					{log.toolName && (
+						<Badge variant="outline" size="xs">
+							{log.toolName}
+						</Badge>
+					)}
+					{isInterAgent && isCall && (() => {
+						const target = parseInterAgentTarget(log.content)
+						if (!target) return null
+						return (
+							<InlineStack gap="100" blockAlign="center">
+								<AgentAvatar name={target.agentName} size={16} className="size-4" />
+								<span className="text-xs font-medium text-fg">{target.agentName}</span>
+							</InlineStack>
+						)
+					})()}
+					{log.duration != null && (
+						<span className="text-xs text-fg-muted tabular-nums">{log.duration}ms</span>
+					)}
+				</InlineStack>
+			}
+			status={isCall ? "active" : "complete"}
+			description={
 				<BlockStack gap="050">
 					<button
 						type="button"
 						onClick={() => setExpanded(!expanded)}
 						className="text-xs text-fg-muted hover:text-fg cursor-pointer text-left w-fit"
 					>
-						{expanded ? "Masquer" : "Voir les d\u00E9tails"}
+						{expanded ? "Masquer" : "Voir les details"}
 					</button>
 					{expanded && (
 						<pre className="text-xs bg-muted/50 rounded p-2 overflow-x-auto max-h-48 overflow-y-auto">
@@ -111,17 +157,99 @@ function LogEntryRow({ log }: { log: LogEntry }) {
 						</pre>
 					)}
 				</BlockStack>
-			)}
+			}
+		/>
+	)
+}
 
-			{(log.type === "error" || log.type === "budget_warning" || log.type === "done") && (
-				<Box className="text-sm">{log.content}</Box>
-			)}
+function TimelineOverview({ logs }: { logs: LogEntry[] }) {
+	const items: TimelineItem[] = useMemo(() =>
+		logs.map((log) => ({
+			title: log.toolName
+				? `${log.toolName} (${log.type.replace("_", " ")})`
+				: log.type.replace("_", " "),
+			description:
+				log.type === "thinking" ? log.content.slice(0, 150) + (log.content.length > 150 ? "..." : "") :
+				log.type === "done" ? log.content :
+				log.type === "error" ? log.content :
+				log.type === "budget_warning" ? log.content :
+				undefined,
+			time: new Date(log._creationTime).toLocaleTimeString("fr-FR", {
+				hour: "2-digit",
+				minute: "2-digit",
+				second: "2-digit",
+			}),
+			variant: variantMap[log.type] ?? "default",
+		})),
+	[logs])
+
+	return <Timeline items={items} />
+}
+
+function DetailedLogs({ logs }: { logs: LogEntry[] }) {
+	const grouped = useMemo(() => groupToolSequences(logs), [logs])
+
+	return (
+		<BlockStack gap="100">
+			{grouped.map((entry) => {
+				if ("type" in entry && entry.type === "tool_group") {
+					const group = entry as { type: "tool_group"; logs: LogEntry[] }
+					return <ToolGroupBlock key={group.logs[0]._id} logs={group.logs} />
+				}
+
+				const log = entry as LogEntry
+
+				if (log.type === "thinking") {
+					return (
+						<Box key={log._id} className="py-2 border-l-2 border-fg-muted/30 pl-3">
+							<InlineStack gap="200" blockAlign="center">
+								<span className="text-sm text-fg-muted italic">{log.content}</span>
+								<span className="text-xs text-fg-muted tabular-nums ml-auto">
+									{new Date(log._creationTime).toLocaleTimeString("fr-FR")}
+								</span>
+							</InlineStack>
+						</Box>
+					)
+				}
+
+				if (log.type === "tool_call" || log.type === "tool_result") {
+					return (
+						<ChainOfThought key={log._id} defaultOpen={false} className="my-1">
+							<ChainOfThoughtHeader>{log.toolName ?? log.type}</ChainOfThoughtHeader>
+							<ChainOfThoughtContent>
+								<ToolStepEntry log={log} />
+							</ChainOfThoughtContent>
+						</ChainOfThought>
+					)
+				}
+
+				// error, budget_warning, done
+				const variant = variantMap[log.type] ?? "default"
+				const bgMap: Record<string, string> = {
+					error: "bg-destructive/5 border-destructive",
+					budget_warning: "bg-warning/5 border-warning",
+					done: "bg-emerald-500/5 border-emerald-500",
+				}
+				const bg = bgMap[log.type] ?? "border-fg-muted/30"
+
+				return (
+					<Box key={log._id} className={`py-2 border-l-2 pl-3 rounded ${bg}`}>
+						<InlineStack gap="200" blockAlign="center">
+							<span className="text-sm">{log.content}</span>
+							<span className="text-xs text-fg-muted tabular-nums ml-auto">
+								{new Date(log._creationTime).toLocaleTimeString("fr-FR")}
+							</span>
+						</InlineStack>
+					</Box>
+				)
+			})}
 		</BlockStack>
 	)
 }
 
 export function MissionLogs({ logs, live }: MissionLogsProps) {
 	const logsEndRef = useRef<HTMLDivElement>(null)
+	const [view, setView] = useState<"timeline" | "detailed">("detailed")
 
 	useEffect(() => {
 		if (live) {
@@ -139,12 +267,29 @@ export function MissionLogs({ logs, live }: MissionLogsProps) {
 
 	return (
 		<div className="max-h-[600px] overflow-y-auto">
-			<BlockStack gap="100">
-				{logs.map((log) => (
-					<LogEntryRow key={log._id} log={log} />
-				))}
-				<div ref={logsEndRef} />
-			</BlockStack>
+			<InlineStack gap="200" className="mb-3">
+				<button
+					type="button"
+					onClick={() => setView("detailed")}
+					className={`text-xs px-2 py-1 rounded cursor-pointer ${view === "detailed" ? "bg-brand text-white" : "text-fg-muted hover:text-fg"}`}
+				>
+					Detail
+				</button>
+				<button
+					type="button"
+					onClick={() => setView("timeline")}
+					className={`text-xs px-2 py-1 rounded cursor-pointer ${view === "timeline" ? "bg-brand text-white" : "text-fg-muted hover:text-fg"}`}
+				>
+					Timeline
+				</button>
+			</InlineStack>
+
+			{view === "timeline" ? (
+				<TimelineOverview logs={logs} />
+			) : (
+				<DetailedLogs logs={logs} />
+			)}
+			<div ref={logsEndRef} />
 		</div>
 	)
 }
