@@ -176,9 +176,12 @@ export async function consolidatePostMission(
 	if (allNew.length === 0) return
 
 	try {
-		const existing = await convex.query(api.worker.workerListMemory, {
+		const allExisting = await convex.query(api.worker.workerListMemory, {
 			agentId: agentId as any,
 		})
+		// Filter out memories just saved by extractAndSaveMemories (same missionId)
+		// to avoid the LLM seeing duplicates in both "existing" and "new"
+		const existing = allExisting.filter((m: any) => m.missionId !== missionId)
 		if (existing.length === 0) return
 
 		const existingForPrompt = existing

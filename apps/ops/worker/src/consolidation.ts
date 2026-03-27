@@ -29,6 +29,7 @@ Réponds en JSON strict :
 export async function consolidateAgent(
 	convex: ConvexHttpClient,
 	agentId: string,
+	userId: string,
 	agentName: string,
 	agentRole: string,
 ) {
@@ -78,9 +79,6 @@ export async function consolidateAgent(
 			delete: string[]
 			insert: Array<{ content: string; category: string; scope: string }>
 		}
-
-		const userId = (allMemories[0] as any)?.userId
-		if (!userId) return
 
 		for (const upd of result.update ?? []) {
 			await convex.mutation(api.worker.workerUpdateMemory, {
@@ -133,7 +131,7 @@ export async function runWeeklyConsolidation(convex: ConvexHttpClient) {
 		const agents = await convex.query(api.worker.workerListAgents, {})
 		for (const agent of agents) {
 			if ((agent as any).status === "disabled") continue
-			await consolidateAgent(convex, (agent as any)._id, (agent as any).name, (agent as any).role)
+			await consolidateAgent(convex, (agent as any)._id, (agent as any).userId, (agent as any).name, (agent as any).role)
 		}
 		console.log("[consolidation] weekly consolidation complete")
 	} catch (err) {
