@@ -408,8 +408,11 @@ export async function POST(
 	}
 
 	// Capture userId for tool closures (agent.userId may not be accessible in async context)
-	const agentUserId = agent.userId as string
+	const agentUserId = String(agent.userId)
 	const agentId = agent._id
+	// Debug: write userId to confirm it's captured
+	const { appendFileSync: appendFs } = await import("node:fs")
+	appendFs("/tmp/agent-userid-debug.txt", `${new Date().toISOString()} agentUserId=${agentUserId} type=${typeof agentUserId}\n`)
 
 	// Add write tools based on agent.permissions.confirm
 	if (agent.permissions.confirm.includes("create_todo") || agent.permissions.confirm.includes("create_note")) {

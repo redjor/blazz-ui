@@ -67,7 +67,6 @@ export function AgentChatClient({ slug }: { slug: string }) {
 	const transport = useMemo(
 		() => new DefaultChatTransport({
 			api: `/api/agents/${slug}/chat`,
-			fetch: (url, init) => fetch(`/api/agents/${slug}/chat`, init),
 		}),
 		[slug],
 	)
