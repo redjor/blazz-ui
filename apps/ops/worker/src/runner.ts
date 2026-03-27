@@ -3,7 +3,7 @@ import { ConvexHttpClient } from "convex/browser"
 import { api } from "./convex"
 import { loadSoul } from "./soul-loader"
 import { calculateCost, canStartMission, isMissionBudgetExceeded } from "./budget"
-import { extractAndSaveMemories } from "./memory"
+import { extractAndSaveMemories, consolidatePostMission } from "./memory"
 import { notifyMissionComplete, notifyMissionError } from "./notifications"
 import type { Tool } from "./tools/index"
 
@@ -232,8 +232,11 @@ export async function runMission(
     // Notify + create note
     await notifyMissionComplete(convex, mission, agent as any, output)
 
-    // Extract and save memories from the mission output
-    await extractAndSaveMemories(convex, agent._id, agent.userId as string, mission._id, output, "mission")
+    // Extract and save memories from the mission output, then consolidate
+    const extraction = await extractAndSaveMemories(convex, agent._id, agent.userId as string, mission._id, output, "mission")
+    if (extraction) {
+      await consolidatePostMission(convex, agent._id, agent.userId as string, mission._id, extraction)
+    }
     hadError = false
   } catch (err) {
     hadError = true
