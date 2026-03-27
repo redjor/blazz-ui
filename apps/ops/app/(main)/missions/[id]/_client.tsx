@@ -16,9 +16,19 @@ import {
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
+import { Input } from "@blazz/ui/components/ui/input"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
+import { Pencil } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
 import { MissionLogs } from "../_components/mission-logs"
 import { MissionOutput } from "../_components/mission-output"
 import { api } from "@/convex/_generated/api"
@@ -54,11 +64,13 @@ export function MissionDetailClient({ id }: Props) {
 		mission?.agentId ? { id: mission.agentId } : "skip"
 	)
 	const updateStatus = useMutation(api.missions.updateStatus)
+	const updateMission = useMutation(api.missions.update)
 	const createMission = useMutation(api.missions.create)
 
 	const [rejectOpen, setRejectOpen] = useState(false)
 	const [rejectionReason, setRejectionReason] = useState("")
 	const [loading, setLoading] = useState<string | null>(null)
+	const [editing, setEditing] = useState(false)
 
 	useAppTopBar(
 		mission != null
@@ -147,9 +159,29 @@ export function MissionDetailClient({ id }: Props) {
 			<BlockStack gap="600" className="p-6">
 				{/* Header */}
 				<PageHeader
-					title={mission.title}
+					title={editing ? undefined : mission.title}
 					actions={
 						<InlineStack gap="200">
+							{(mission.status === "planning" || mission.status === "todo") && !editing && (
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => setEditing(true)}
+								>
+									<Pencil className="size-3.5 mr-1" />
+									Modifier
+								</Button>
+							)}
+							{(mission.status === "planning" || mission.status === "todo") && !editing && (
+								<Button
+									size="sm"
+									onClick={async () => {
+										await updateStatus({ id: missionId, status: mission.status === "planning" ? "todo" : "planning" })
+									}}
+								>
+									{mission.status === "planning" ? "Lancer" : "Repasser en planning"}
+								</Button>
+							)}
 							{mission.status === "in_progress" && (
 								<Button
 									variant="destructive"
@@ -254,6 +286,96 @@ export function MissionDetailClient({ id }: Props) {
 					<Box className="rounded-lg border border-caution/30 bg-caution/10 p-3 text-sm text-caution">
 						Rejet : {mission.rejectionReason}
 					</Box>
+				)}
+
+				{/* Edit form */}
+				{editing && (
+					<BlockStack gap="400" className="rounded-lg border border-edge bg-card p-4">
+						<BlockStack gap="200">
+							<label className="text-xs font-medium text-fg-muted">Titre</label>
+							<Input
+								defaultValue={mission.title}
+								onBlur={async (e) => {
+									if (e.target.value !== mission.title) {
+										await updateMission({ id: missionId, title: e.target.value })
+										toast.success("Titre mis à jour")
+									}
+								}}
+							/>
+						</BlockStack>
+						<BlockStack gap="200">
+							<label className="text-xs font-medium text-fg-muted">Prompt</label>
+							<Textarea
+								defaultValue={mission.prompt}
+								rows={6}
+								onBlur={async (e) => {
+									if (e.target.value !== mission.prompt) {
+										await updateMission({ id: missionId, prompt: e.target.value })
+										toast.success("Prompt mis à jour")
+									}
+								}}
+							/>
+						</BlockStack>
+						<InlineStack gap="300">
+							<BlockStack gap="200">
+								<label className="text-xs font-medium text-fg-muted">Priorité</label>
+								<Select
+									value={mission.priority}
+									onValueChange={async (val: string | null) => {
+										if (val && val !== mission.priority) {
+											await updateMission({ id: missionId, priority: val as any })
+											toast.success("Priorité mise à jour")
+										}
+									}}
+									items={[
+										{ value: "low", label: "Low" },
+										{ value: "medium", label: "Medium" },
+										{ value: "high", label: "High" },
+										{ value: "urgent", label: "Urgent" },
+									]}
+								>
+									<SelectTrigger className="w-32">
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="low">Low</SelectItem>
+										<SelectItem value="medium">Medium</SelectItem>
+										<SelectItem value="high">High</SelectItem>
+										<SelectItem value="urgent">Urgent</SelectItem>
+									</SelectContent>
+								</Select>
+							</BlockStack>
+							<BlockStack gap="200">
+								<label className="text-xs font-medium text-fg-muted">Mode</label>
+								<Select
+									value={mission.mode ?? "live"}
+									onValueChange={async (val: string | null) => {
+										if (val) {
+											await updateMission({ id: missionId, mode: val as any })
+											toast.success("Mode mis à jour")
+										}
+									}}
+									items={[
+										{ value: "live", label: "Live" },
+										{ value: "dry-run", label: "Dry-run" },
+									]}
+								>
+									<SelectTrigger className="w-32">
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="live">Live</SelectItem>
+										<SelectItem value="dry-run">Dry-run</SelectItem>
+									</SelectContent>
+								</Select>
+							</BlockStack>
+						</InlineStack>
+						<InlineStack align="end">
+							<Button variant="outline" size="sm" onClick={() => setEditing(false)}>
+								Fermer l'édition
+							</Button>
+						</InlineStack>
+					</BlockStack>
 				)}
 
 				{/* Tabs */}

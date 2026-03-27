@@ -116,6 +116,31 @@ export const create = mutation({
 	},
 })
 
+export const update = mutation({
+	args: {
+		id: v.id("missions"),
+		title: v.optional(v.string()),
+		prompt: v.optional(v.string()),
+		priority: v.optional(v.union(v.literal("low"), v.literal("medium"), v.literal("high"), v.literal("urgent"))),
+		agentId: v.optional(v.id("agents")),
+		mode: v.optional(v.union(v.literal("dry-run"), v.literal("live"))),
+	},
+	handler: async (ctx, { id, ...fields }) => {
+		const { userId } = await requireAuth(ctx)
+		const mission = await ctx.db.get(id)
+		if (!mission || mission.userId !== userId) throw new ConvexError("Introuvable")
+		if (mission.status !== "planning" && mission.status !== "todo") {
+			throw new ConvexError("Seules les missions en planning ou todo peuvent être modifiées")
+		}
+		// Remove undefined fields
+		const patch: Record<string, unknown> = {}
+		for (const [k, v] of Object.entries(fields)) {
+			if (v !== undefined) patch[k] = v
+		}
+		await ctx.db.patch(id, patch)
+	},
+})
+
 export const updateStatus = mutation({
 	args: {
 		id: v.id("missions"),
