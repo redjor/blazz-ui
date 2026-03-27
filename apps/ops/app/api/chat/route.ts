@@ -458,38 +458,3 @@ const allToolDefs: Record<string, any> = {
 	"check-time-anomalies": tool({ description: "Anomalies de temps", parameters: z.object({ from: z.string(), to: z.string() }) }),
 }
 
-function buildReadToolExecutors(token: string) {
-	convex.setAuth(token)
-	return {
-		"list-clients": async () => (await convex.query(api.clients.list, {})).map((c: any) => ({ id: c._id, name: c.name, email: c.email })),
-		"list-projects": async () => (await convex.query(api.projects.listAll, {})).map((p: any) => ({ id: p._id, name: p.name, status: p.status, tjm: p.tjm })),
-		"get-project": async ({ id }: any) => convex.query(api.projects.getWithStats, { id }),
-		"list-time-entries": async ({ projectId, from, to }: any) => (await convex.query(api.timeEntries.list, { projectId, from, to })).map((e: any) => ({ id: e._id, date: e.date, minutes: e.minutes, hourlyRate: e.hourlyRate, description: e.description, projectId: e.projectId })),
-		"list-todos": async ({ status }: any) => (await convex.query(api.todos.list, status ? { status } : {})).map((t: any) => ({ id: t._id, text: t.text, status: t.status, priority: t.priority ?? "normal" })),
-		"get-todo": async ({ id }: any) => convex.query(api.todos.get, { id }),
-		"get-client": async ({ id }: any) => convex.query(api.clients.get, { id }),
-		"list-categories": async () => convex.query(api.categories.list, {}),
-		"qonto-balance": async () => {
-			const s = await convex.query(api.treasury.getSettings, {})
-			return { balanceEur: (s?.qontoBalanceCents ?? 0) / 100 }
-		},
-		"qonto-transactions": async () => { try { return await convex.action(api.qonto.listTransactions, {}) } catch { return { error: "Qonto indisponible" } } },
-		"list-invoices": async ({ status }: any) => convex.query(api.invoices.list, status ? { status } : {}),
-		"list-recurring-expenses": async () => convex.query(api.treasury.expenseSummary, {}),
-		"treasury-forecast": async ({ months }: any) => convex.query(api.treasury.forecast, { months: months ?? 6 }),
-		"check-time-anomalies": async ({ from, to }: any) => {
-			const entries = await convex.query(api.timeEntries.list, { from, to })
-			const byDate: Record<string, number> = {}
-			for (const e of entries) byDate[e.date] = (byDate[e.date] ?? 0) + e.minutes
-			const anomalies: string[] = []
-			for (let d = new Date(from); d <= new Date(to); d.setDate(d.getDate() + 1)) {
-				if (d.getDay() === 0 || d.getDay() === 6) continue
-				const ds = d.toISOString().slice(0, 10)
-				const m = byDate[ds] ?? 0
-				if (m === 0) anomalies.push(`❌ ${ds}: aucune saisie`)
-				else if (m > 600) anomalies.push(`⚠ ${ds}: ${Math.round(m / 60)}h`)
-			}
-			return { anomalies, anomalyCount: anomalies.length }
-		},
-	}
-}
