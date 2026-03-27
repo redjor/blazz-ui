@@ -1,6 +1,7 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import {
 	Conversation,
@@ -58,7 +59,7 @@ const suggestionsMap: Record<string, string[]> = {
 export function AgentChatClient({ slug }: { slug: string }) {
 	const agent = useQuery(api.agents.getBySlug, { slug })
 	const { messages, sendMessage, status, stop, setMessages } = useChat({
-		api: `/api/agents/${slug}/chat`,
+		transport: new DefaultChatTransport({ api: `/api/agents/${slug}/chat` }),
 		maxSteps: 5,
 		onError: (err) => {
 			toast.error(`Erreur agent : ${err.message}`)

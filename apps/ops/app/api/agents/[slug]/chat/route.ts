@@ -274,6 +274,10 @@ export async function POST(
 	req: Request,
 	{ params }: { params: Promise<{ slug: string }> }
 ) {
+	// TEMP DEBUG: write to file to confirm this route is hit
+	const { appendFileSync } = await import("node:fs")
+	appendFileSync("/tmp/agent-route-hit.txt", `${new Date().toISOString()} POST /api/agents/${(await params).slug}/chat\n`)
+
 	if (!process.env.OPENAI_API_KEY) {
 		return new Response(JSON.stringify({ error: "OPENAI_API_KEY not configured" }), {
 			status: 500,
@@ -419,8 +423,19 @@ export async function POST(
 
 	const model = openai.chat(agent.model)
 
-	// Debug: log what convertToModelMessages produced
-	console.log(`[agent-chat] ${slug} modelMessages:`, JSON.stringify(modelMessages.map((m: any) => ({ role: m.role, contentLength: typeof m.content === "string" ? m.content.length : "non-string", contentPreview: typeof m.content === "string" ? m.content.slice(0, 100) : "..." }))))
+	// Debug: write to file since console.log doesn't show in turbopack
+	const { writeFileSync } = await import("node:fs")
+	writeFileSync("/tmp/agent-chat-debug.json", JSON.stringify({
+		slug,
+		systemPromptLength: systemPrompt.length,
+		systemPromptStart: systemPrompt.slice(0, 200),
+		modelMessagesCount: modelMessages.length,
+		modelMessages: modelMessages.map((m: any) => ({
+			role: m.role,
+			contentLength: typeof m.content === "string" ? m.content.length : -1,
+			contentPreview: typeof m.content === "string" ? m.content.slice(0, 200) : JSON.stringify(m.content)?.slice(0, 200),
+		})),
+	}, null, 2))
 
 	// Filter out any system messages that convertToModelMessages might have injected
 	const filteredMessages = modelMessages.filter((m: any) => m.role !== "system")
