@@ -23,7 +23,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { RotateCcw } from "lucide-react"
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
@@ -58,15 +58,16 @@ const suggestionsMap: Record<string, string[]> = {
 
 export function AgentChatClient({ slug }: { slug: string }) {
 	const agent = useQuery(api.agents.getBySlug, { slug })
-	const { messages, sendMessage, status, stop, setMessages } = useChat({
-		transport: new DefaultChatTransport({
+	const transport = useMemo(
+		() => new DefaultChatTransport({
 			api: `/api/agents/${slug}/chat`,
-			fetch: (url, init) => {
-				// Force the URL to our agent endpoint regardless of what useChat thinks
-				const agentUrl = `/api/agents/${slug}/chat`
-				return fetch(agentUrl, init)
-			},
+			fetch: (url, init) => fetch(`/api/agents/${slug}/chat`, init),
 		}),
+		[slug],
+	)
+
+	const { messages, sendMessage, status, stop, setMessages } = useChat({
+		transport,
 		maxSteps: 5,
 		onError: (err) => {
 			toast.error(`Erreur agent : ${err.message}`)
