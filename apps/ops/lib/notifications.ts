@@ -23,6 +23,8 @@ const sourceLogos: Record<string, string> = {
 	convex: "/logos/convex.svg",
 }
 
+const agentActionTypes = new Set(["mission_complete", "mission_error"])
+
 const actionTypeMap: Record<string, InboxNotification["actionType"]> = {
 	comment: "comment",
 	reply: "reply",
@@ -32,6 +34,8 @@ const actionTypeMap: Record<string, InboxNotification["actionType"]> = {
 }
 
 export function toInboxNotification(n: ConvexNotification): InboxNotification {
+	const isAgent = agentActionTypes.has(n.actionType)
+
 	return {
 		id: n._id,
 		title: n.title,
@@ -39,6 +43,7 @@ export function toInboxNotification(n: ConvexNotification): InboxNotification {
 		actionType: actionTypeMap[n.actionType] ?? "comment",
 		status: (n.status as InboxNotification["status"]) ?? "default",
 		priority: (n.priority as InboxNotification["priority"]) ?? "none",
+		source: isAgent ? { name: n.authorName, logoUrl: n.authorAvatar } : undefined,
 		author: {
 			name: n.authorName,
 			initials: n.authorInitials,

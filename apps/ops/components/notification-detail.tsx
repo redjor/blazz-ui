@@ -1,7 +1,8 @@
 "use client"
 
 import { useMutation } from "convex/react"
-import { ExternalLink, Archive } from "lucide-react"
+import { ExternalLink, Archive, ArrowRight } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { formatDistanceToNowStrict } from "date-fns"
 import { Button } from "@blazz/ui"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
@@ -11,21 +12,31 @@ import { Divider } from "@blazz/ui/components/ui/divider"
 import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
 
-const sourceConfig: Record<string, { label: string; logo: string }> = {
+const sourceConfig: Record<string, { label: string; logo?: string }> = {
 	github: { label: "GitHub", logo: "/logos/github.svg" },
 	vercel: { label: "Vercel", logo: "/logos/vercel.svg" },
 	convex: { label: "Convex", logo: "/logos/convex.svg" },
 }
 
+function getSourceForNotification(n: Doc<"notifications">) {
+	// Agent notifications use source "convex" but actionType "mission_complete"
+	if (n.actionType === "mission_complete" || n.actionType === "mission_error") {
+		return { label: n.authorName, logo: n.authorAvatar }
+	}
+	return sourceConfig[n.source] ?? { label: n.source }
+}
+
 export function NotificationDetail({ notification }: { notification: Doc<"notifications"> }) {
+	const router = useRouter()
 	const archiveMutation = useMutation(api.notifications.archive)
 
 	const timeAgo = formatDistanceToNowStrict(new Date(notification.createdAt), {
 		addSuffix: true,
 	})
 
-	const source = sourceConfig[notification.source]
-	const sourceLabel = source?.label ?? notification.source
+	const source = getSourceForNotification(notification)
+	const sourceLabel = source.label
+	const isAgent = notification.actionType === "mission_complete" || notification.actionType === "mission_error"
 
 	return (
 		<div className="flex h-full items-center justify-center p-8">
@@ -93,7 +104,16 @@ export function NotificationDetail({ notification }: { notification: Doc<"notifi
 
 				{/* Actions */}
 				<CardFooter className="gap-2">
-					{notification.url && (
+					{notification.url && isAgent && (
+						<Button
+							size="sm"
+							onClick={() => router.push(notification.url!)}
+						>
+							<ArrowRight className="mr-1.5 size-3.5" />
+							Voir la mission
+						</Button>
+					)}
+					{notification.url && !isAgent && (
 						<Button
 							size="sm"
 							onClick={() => window.open(notification.url!, "_blank")}
