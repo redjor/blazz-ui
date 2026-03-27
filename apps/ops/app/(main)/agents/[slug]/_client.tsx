@@ -59,7 +59,14 @@ const suggestionsMap: Record<string, string[]> = {
 export function AgentChatClient({ slug }: { slug: string }) {
 	const agent = useQuery(api.agents.getBySlug, { slug })
 	const { messages, sendMessage, status, stop, setMessages } = useChat({
-		transport: new DefaultChatTransport({ api: `/api/agents/${slug}/chat` }),
+		transport: new DefaultChatTransport({
+			api: `/api/agents/${slug}/chat`,
+			fetch: (url, init) => {
+				// Force the URL to our agent endpoint regardless of what useChat thinks
+				const agentUrl = `/api/agents/${slug}/chat`
+				return fetch(agentUrl, init)
+			},
+		}),
 		maxSteps: 5,
 		onError: (err) => {
 			toast.error(`Erreur agent : ${err.message}`)
