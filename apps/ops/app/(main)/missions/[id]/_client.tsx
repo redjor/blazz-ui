@@ -202,6 +202,16 @@ export function MissionDetailClient({ id }: Props) {
 					}
 				/>
 
+					{/* Live progress indicator */}
+				{mission.status === "in_progress" && (
+					<InlineStack gap="200" blockAlign="center">
+						<span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+						<span className="text-xs text-fg-muted tabular-nums">
+							{logs?.length ?? 0} {"\u00E9tapes"} · ${mission.costUsd?.toFixed(4) ?? "0.00"}
+						</span>
+					</InlineStack>
+				)}
+
 				{/* Meta badges */}
 				<InlineStack gap="200" wrap>
 					{agent && (
@@ -267,7 +277,7 @@ export function MissionDetailClient({ id }: Props) {
 					</TabsContent>
 
 					<TabsContent value="logs" className="pt-4">
-						<MissionLogs logs={logs ?? []} />
+						<MissionLogs logs={logs ?? []} live={mission.status === "in_progress"} />
 					</TabsContent>
 
 					<TabsContent value="actions" className="pt-4">
