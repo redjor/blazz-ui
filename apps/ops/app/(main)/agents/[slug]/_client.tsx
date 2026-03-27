@@ -103,10 +103,15 @@ function ToolCallDisplay({ part }: { part: any }) {
 	// Render a TaskCard for create-todo tool results
 	if (isComplete && toolName === "create-todo") {
 		const title = args?.text ?? (typeof output === "string" ? output : output?.text ?? "Todo créé")
+		const desc = args?.description
 		const rawPriority = args?.priority ?? "normal"
 		const priority = rawPriority === "normal" ? "medium" : rawPriority
 		const todoId = typeof output === "string" ? output : output?.id ?? output
-		return <TaskCard title={title} status="todo" priority={priority} href={todoId ? `/todos/${todoId}` : undefined} className="my-2" />
+		return (
+			<BlockStack gap="100" className="my-2">
+				<TaskCard title={title} description={desc} status="todo" priority={priority} href={todoId ? `/todos/${todoId}` : undefined} />
+			</BlockStack>
+		)
 	}
 
 	// Render a note card for create-note

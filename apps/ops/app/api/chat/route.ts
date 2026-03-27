@@ -384,10 +384,10 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 	if (agent.permissions.confirm.includes("create_todo")) {
 		tools["create-todo"] = {
 			...tool({
-				description: "Créer un todo dans Blazz Ops. Mets TOUJOURS une description détaillée avec le contexte, les étapes, ou les critères de validation.",
+				description: "Créer un todo dans Blazz Ops. Mets TOUJOURS une description détaillée. NE PAS répéter la priorité, la date ou le projet dans la description — ils sont dans des champs séparés.",
 				parameters: z.object({
-					text: z.string().describe("Titre court du todo (1 ligne)"),
-					description: z.string().optional().describe("Description détaillée : contexte, étapes, critères de validation. Markdown accepté."),
+					text: z.string().describe("Titre court du todo (1 ligne, pas de détails)"),
+					description: z.string().optional().describe("Description détaillée en markdown : contexte, objectif, étapes numérotées, critères de validation. NE PAS inclure priorité/projet/date ici."),
 					priority: z.enum(["urgent", "high", "normal", "low"]).optional(),
 					dueDate: z.string().optional().describe("Date limite YYYY-MM-DD"),
 					projectId: z.string().optional().describe("ID du projet associé"),
