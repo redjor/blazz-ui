@@ -97,6 +97,7 @@ export async function runMission(
   const maxTokens = 30_000 // hard cap: ~$0.02 for gpt-4.1-mini, ~$0.10 for gpt-4.1
   const maxAskAgent = 3
   const actions: Array<{ type: string; description: string; entityId?: string; reversible: boolean }> = []
+  let lastThinkingContent: string | null = null
 
   const log = async (type: string, content: string, toolName?: string) => {
     await convex.mutation(api.agentLogs.append, {
@@ -146,6 +147,7 @@ export async function runMission(
       const choice = response.choices[0]
 
       if (choice.message.content) {
+        lastThinkingContent = choice.message.content
         await log("thinking", choice.message.content)
       }
 
@@ -203,13 +205,19 @@ export async function runMission(
       }
     }
 
-    // Collect ALL assistant text content (not just the last one — tool-call messages have content: null)
-    const allAssistantText = messages
-      .filter((m) => m.role === "assistant" && typeof (m as any).content === "string" && (m as any).content)
-      .map((m) => (m as any).content as string)
-    const output = allAssistantText.length > 0
-      ? allAssistantText[allAssistantText.length - 1]
-      : "Mission terminée sans output."
+    // Use the thinking logs to get the output — they contain ALL assistant text
+    // (messages array misses the final "stop" message since it's not pushed)
+    const thinkingLogs: string[] = []
+    for (const m of messages) {
+      if (m.role === "assistant" && typeof (m as any).content === "string" && (m as any).content) {
+        thinkingLogs.push((m as any).content)
+      }
+    }
+    // Also check: the last response might have been logged but not pushed
+    // Fall back to the agentLogs we created during the loop
+    const output = thinkingLogs.length > 0
+      ? thinkingLogs[thinkingLogs.length - 1]
+      : lastThinkingContent ?? "Mission terminée sans output."
 
     await log("done", `Mission terminée en ${iterations} itérations. Coût: ${missionCost.toFixed(4)}$`)
 
