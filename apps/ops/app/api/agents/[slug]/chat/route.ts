@@ -419,10 +419,15 @@ export async function POST(
 
 	const model = openai.chat(agent.model)
 
+	// Prepend system prompt as first message (more reliable than system param for some models)
+	const messagesWithSystem = [
+		{ role: "system" as const, content: systemPrompt },
+		...modelMessages,
+	]
+
 	const result = streamText({
 		model,
-		system: systemPrompt,
-		messages: modelMessages,
+		messages: messagesWithSystem,
 		tools,
 		maxSteps: 5,
 		onFinish: async ({ usage }) => {
