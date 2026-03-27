@@ -167,11 +167,11 @@ export async function consolidatePostMission(
 	newMemories: MemoryExtraction,
 ) {
 	const allNew = [
-		...(newMemories.facts ?? []),
-		...(newMemories.preferences ?? []),
-		...(newMemories.episodes ?? []),
-		...(newMemories.patterns ?? []),
-		...(newMemories.shared ?? []),
+		...(newMemories.facts ?? []).map((c) => ({ content: c, category: "fact" })),
+		...(newMemories.preferences ?? []).map((c) => ({ content: c, category: "preference" })),
+		...(newMemories.episodes ?? []).map((c) => ({ content: c, category: "episode" })),
+		...(newMemories.patterns ?? []).map((c) => ({ content: c, category: "pattern" })),
+		...(newMemories.shared ?? []).map((c) => ({ content: c, category: "fact", scope: "shared" })),
 	]
 	if (allNew.length === 0) return
 
@@ -192,9 +192,10 @@ export async function consolidatePostMission(
 				confidence: m.confidence,
 			}))
 
-		const newForPrompt = allNew.map((content, i) => ({
+		const newForPrompt = allNew.map((m, i) => ({
 			index: i,
-			content,
+			content: m.content,
+			category: m.category,
 		}))
 
 		const response = await getOpenAI().chat.completions.create({
@@ -237,9 +238,13 @@ export async function consolidatePostMission(
 
 		for (const ins of result.insert ?? []) {
 			const category = ins.category as "fact" | "preference" | "episode" | "pattern" | "rule"
-			const expiresAt = category === "fact" || category === "episode"
-				? Date.now() + 30 * 24 * 60 * 60 * 1000
-				: undefined
+			const thirtyDays = 30 * 24 * 60 * 60 * 1000
+			const ninetyDays = 90 * 24 * 60 * 60 * 1000
+			const expiresAt = category === "fact"
+				? Date.now() + thirtyDays
+				: category === "episode"
+					? Date.now() + ninetyDays
+					: undefined
 
 			await convex.mutation(api.worker.workerAddMemory, {
 				userId: userId as any,
