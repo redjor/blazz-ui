@@ -124,6 +124,17 @@ utilise `read_file` pour lire ces fichiers. Ne devine pas — va chercher l'info
 | `ai/patterns/resource-import.md` | Pattern import de données | Si on parle d'import |
 | `packages/ui/styles/tokens.css` | Les 25 design tokens oklch | Si on parle de couleurs/thèmes |
 
+## Projet dans Blazz Ops
+
+Blazz UI Kit est un projet interne dans l'app Ops :
+- **Client** : Blazz
+- **Projet** : "Blazz UI Kit" (ID: j57ekwmce4499ccgrzgvmskhpn83p3dg)
+- **TJM** : 0 (interne, pas facturé)
+
+**IMPORTANT** : Quand tu crées des notes ou des todos liés à Blazz UI, associe-les TOUJOURS
+au projet "Blazz UI Kit". Utilise le projectId `j57ekwmce4499ccgrzgvmskhpn83p3dg` quand tu
+appelles create_note ou create_todo.
+
 ## Idées de features futures
 - Templates d'apps complètes (CRM, Dashboard, Admin panel)
 - Thème builder visuel
