@@ -4,6 +4,7 @@ import { api } from "./convex"
 import { loadSoul } from "./soul-loader"
 import { calculateCost, canStartMission, isMissionBudgetExceeded } from "./budget"
 import { extractAndSaveMemories } from "./memory"
+import { notifyMissionComplete, notifyMissionError } from "./notifications"
 import type { Tool } from "./tools/index"
 
 let _openai: OpenAI
@@ -24,9 +25,12 @@ interface Mission {
 
 interface Agent {
   _id: string
+  userId: string
   slug: string
   name: string
+  role: string
   model: string
+  avatar?: string
   budget: { maxPerMission: number; maxPerDay: number; maxPerMonth: number }
   usage: { todayUsd: number; monthUsd: number; totalUsd: number; lastResetDay: string; lastResetMonth: string }
   permissions: { safe: string[]; confirm: string[]; blocked: string[] }
@@ -211,14 +215,15 @@ export async function runMission(
       soulHash,
     })
 
+    // Notify + create note
+    await notifyMissionComplete(convex, mission, agent as any, output)
+
     // Extract and save memories from the mission output
-    const missionDoc = await convex.query(api.worker.workerGetAgent, { id: agent._id as any })
-    if (missionDoc) {
-      await extractAndSaveMemories(convex, agent._id, missionDoc.userId as string, mission._id, output, "mission")
-    }
+    await extractAndSaveMemories(convex, agent._id, agent.userId as string, mission._id, output, "mission")
   } catch (err) {
     await log("error", String(err))
     await convex.mutation(api.worker.workerFailMission, { id: mission._id as any, error: String(err) })
+    await notifyMissionError(convex, mission, agent as any, String(err))
   } finally {
     await convex.mutation(api.worker.workerUpdateAgentStatus, { id: agent._id as any, status: "idle" })
   }

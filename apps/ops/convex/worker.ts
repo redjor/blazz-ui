@@ -253,18 +253,22 @@ export const workerListClients = query({
 export const workerCreateNote = mutation({
 	args: {
 		content: v.string(),
+		title: v.optional(v.string()),
 		entityType: v.optional(v.string()),
 		entityId: v.optional(v.string()),
 		userId: v.optional(v.id("users")),
 	},
-	handler: async (ctx, { content, entityType, entityId, userId }) => {
+	handler: async (ctx, { content, title, entityType, entityId, userId }) => {
+		const now = Date.now()
 		return ctx.db.insert("notes", {
-			content,
-			entityType: entityType ?? "general",
+			title: title ?? content.slice(0, 80),
+			contentText: content,
+			entityType: (entityType ?? "general") as "client" | "project" | "contract" | "invoice" | "todo" | "general",
 			entityId,
 			userId: userId as any,
 			pinned: false,
-			locked: false,
+			createdAt: now,
+			updatedAt: now,
 		})
 	},
 })
@@ -282,9 +286,50 @@ export const workerCreateTodo = mutation({
 			text,
 			status: "todo",
 			priority: priority ?? "normal",
+			source: "app" as const,
+			createdAt: Date.now(),
 			dueDate,
 			userId: userId as any,
 			createdByAgent,
+		})
+	},
+})
+
+// ── Notifications ──
+
+export const workerCreateNotification = mutation({
+	args: {
+		userId: v.string(),
+		title: v.string(),
+		description: v.string(),
+		url: v.optional(v.string()),
+		agentName: v.string(),
+		agentAvatar: v.optional(v.string()),
+		externalId: v.string(),
+	},
+	handler: async (ctx, args) => {
+		// Idempotence
+		const existing = await ctx.db
+			.query("notifications")
+			.withIndex("by_source_external", (q) =>
+				q.eq("source", "convex").eq("externalId", args.externalId),
+			)
+			.first()
+		if (existing) return existing._id
+
+		return ctx.db.insert("notifications", {
+			userId: args.userId,
+			source: "convex",
+			externalId: args.externalId,
+			title: args.title,
+			description: args.description,
+			actionType: "mission_complete",
+			authorName: args.agentName,
+			authorInitials: args.agentName.slice(0, 2).toUpperCase(),
+			authorAvatar: args.agentAvatar,
+			url: args.url,
+			read: false,
+			archived: false,
 		})
 	},
 })
