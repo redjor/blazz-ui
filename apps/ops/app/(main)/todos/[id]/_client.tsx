@@ -568,8 +568,10 @@ export default function TodoDetailPageClient() {
 
 						<Divider />
 
-						{/* Editor */}
-						<TiptapEditor content={descriptionContent} onUpdate={handleDescriptionChange} />
+						{/* Editor — negative margin so text aligns with title (pl-14 is for drag handles) */}
+						<div className="-ml-14">
+							<TiptapEditor content={descriptionContent} onUpdate={handleDescriptionChange} />
+						</div>
 					</BlockStack>
 				</BlockStack>
 			</Box>
