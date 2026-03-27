@@ -23,7 +23,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { RotateCcw } from "lucide-react"
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { useCallback, useMemo } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
@@ -72,30 +72,24 @@ export function AgentChatClient({ slug }: { slug: string }) {
 		[slug],
 	)
 
+	// Convert saved messages to useChat format
+	const initialMessages = useMemo(() => {
+		if (!savedMessages || savedMessages.length === 0) return undefined
+		return savedMessages.map((m) => ({
+			id: m._id,
+			role: m.role as "user" | "assistant",
+			content: m.content,
+			parts: [{ type: "text" as const, text: m.content }],
+		}))
+	}, [savedMessages])
+
 	const { messages, sendMessage, status, stop, setMessages } = useChat({
 		transport,
-		maxSteps: 5,
+		messages: initialMessages,
 		onError: (err) => {
 			toast.error(`Erreur agent : ${err.message}`)
 		},
 	})
-
-	// Load saved messages on mount (once)
-	const hasLoadedRef = useRef(false)
-	useEffect(() => {
-		if (hasLoadedRef.current) return
-		if (savedMessages && savedMessages.length > 0) {
-			hasLoadedRef.current = true
-			setMessages(
-				savedMessages.map((m) => ({
-					id: m._id,
-					role: m.role as "user" | "assistant",
-					content: m.content,
-					parts: [{ type: "text" as const, text: m.content }],
-				})),
-			)
-		}
-	}, [savedMessages, setMessages])
 
 	useAppTopBar(
 		agent != null
