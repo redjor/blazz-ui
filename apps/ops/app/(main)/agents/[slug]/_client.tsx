@@ -85,6 +85,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 	const { messages, sendMessage, status, stop, setMessages } = useChat({
 		transport,
 		messages: initialMessages,
+		maxSteps: 5,
 		onError: (err) => {
 			toast.error(`Erreur agent : ${err.message}`)
 		},
