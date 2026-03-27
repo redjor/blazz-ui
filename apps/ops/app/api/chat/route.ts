@@ -1,10 +1,13 @@
+import { readFile } from "node:fs/promises"
+import { join } from "node:path"
 import { openai } from "@ai-sdk/openai"
 import { convexAuthNextjsToken } from "@convex-dev/auth/nextjs/server"
 import { convertToModelMessages, streamText } from "ai"
 import { ConvexHttpClient } from "convex/browser"
+import { z } from "zod"
 import { api } from "@/convex/_generated/api"
 import { buildSystemPrompt, type ChatContext } from "@/lib/chat/system-prompt"
-import { readTools, writeDangerousTools, writeSafeTools } from "@/lib/chat/tools"
+import { readTools, writeDangerousTools, writeSafeTools, tool } from "@/lib/chat/tools"
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
@@ -210,7 +213,13 @@ export async function POST(req: Request) {
 		return new Response("Unauthorized", { status: 401 })
 	}
 
-	const { messages } = await req.json()
+	const body = await req.json()
+	const { messages, agentSlug } = body
+
+	// ── Agent mode: if agentSlug is set, use agent-specific logic ──
+	if (agentSlug) {
+		return handleAgentChat(token, agentSlug, messages)
+	}
 
 	// Pick model based on message complexity
 	const lastUserMsg = [...messages].reverse().find((m: any) => m.role === "user")
@@ -259,4 +268,228 @@ export async function POST(req: Request) {
 	})
 
 	return result.toUIMessageStreamResponse()
+}
+
+// ── Agent-specific chat handler ──
+
+async function loadSoulFile(slug: string, file: string): Promise<string> {
+	try {
+		return await readFile(join(process.cwd(), "agents", slug, file), "utf-8")
+	} catch {
+		return ""
+	}
+}
+
+async function handleAgentChat(token: string, slug: string, messages: any[]) {
+	convex.setAuth(token)
+
+	// Fetch agent
+	const agent = await convex.query(api.agents.getBySlug, { slug })
+	if (!agent) {
+		return new Response(JSON.stringify({ error: "Agent introuvable" }), {
+			status: 404, headers: { "Content-Type": "application/json" },
+		})
+	}
+
+	const agentUserId = String(agent.userId)
+
+	// Load soul files
+	const [soul, style, skill, context] = await Promise.all([
+		loadSoulFile(slug, "SOUL.md"),
+		loadSoulFile(slug, "STYLE.md"),
+		loadSoulFile(slug, "SKILL.md"),
+		loadSoulFile(slug, "CONTEXT.md"),
+	])
+
+	// Load memory
+	const [privateMemories, sharedMemories] = await Promise.all([
+		convex.query(api.agentMemory.list, { agentId: agent._id }),
+		convex.query(api.agentMemory.listShared, {}),
+	])
+	const allMemories = [...privateMemories, ...sharedMemories]
+	const sortedMemories = allMemories
+		.sort((a, b) => {
+			const order = ["rule", "preference", "pattern", "fact", "episode"]
+			return order.indexOf(a.category ?? "fact") - order.indexOf(b.category ?? "fact")
+		})
+		.slice(0, 15)
+	const memoryBlock = sortedMemories.length > 0
+		? `\n## Mémoire\n${sortedMemories.map((m) => `- [${m.category}${m.scope === "shared" ? " partagé" : ""}] ${m.content}`).join("\n")}`
+		: ""
+
+	// Build system prompt
+	const todayFormatted = new Date().toLocaleDateString("fr-FR", {
+		weekday: "long", year: "numeric", month: "long", day: "numeric",
+	})
+	const todayISOStr = new Date().toISOString().slice(0, 10)
+
+	const systemPrompt = [
+		`INSTRUCTION CRITIQUE : Tu es ${agent.name}, ${agent.role}. Respecte STRICTEMENT ta personnalité ci-dessous.\n`,
+		soul || `Tu es ${agent.name}, ${agent.role}.`,
+		style ? `\n## Style\n${style}` : "",
+		skill ? `\n## Compétences\n${skill}` : "",
+		context ? `\n## Contexte Projet\n${context}` : "",
+		memoryBlock,
+		`\n## Contexte temporel\nAujourd'hui : ${todayFormatted} (${todayISOStr})`,
+	].filter(Boolean).join("\n")
+
+	// Build tools
+	const tools: Record<string, any> = {}
+	const executors = buildReadToolExecutors(token)
+
+	for (const perm of agent.permissions.safe) {
+		const toolName = permissionToToolName[perm]
+		if (!toolName) continue
+		const def = allToolDefs[toolName]
+		const exec = executors[toolName as keyof typeof executors]
+		if (def && exec) {
+			tools[toolName] = { ...def, execute: exec }
+		}
+	}
+
+	// Write tools
+	if (agent.permissions.confirm.includes("create_todo")) {
+		tools["create-todo"] = {
+			...tool({
+				description: "Créer un todo dans Blazz Ops.",
+				parameters: z.object({
+					text: z.string().describe("Texte du todo"),
+					priority: z.enum(["urgent", "high", "normal", "low"]).optional(),
+					dueDate: z.string().optional().describe("Date limite YYYY-MM-DD"),
+					projectId: z.string().optional().describe("ID du projet associé"),
+				}),
+			}),
+			execute: async ({ text, priority, dueDate }: any) => {
+				return convex.mutation(api.worker.workerCreateTodo, {
+					text, priority: priority ?? "normal", dueDate, userId: agentUserId,
+				})
+			},
+		}
+	}
+	if (agent.permissions.confirm.includes("create_note")) {
+		tools["create-note"] = {
+			...tool({
+				description: "Créer une note dans Blazz Ops.",
+				parameters: z.object({
+					title: z.string().describe("Titre"),
+					content: z.string().describe("Contenu (markdown)"),
+				}),
+			}),
+			execute: async ({ title, content }: any) => {
+				return convex.mutation(api.worker.workerCreateNote, {
+					title, content, userId: agentUserId,
+				})
+			},
+		}
+	}
+
+	// Convert messages
+	let modelMessages: any
+	try {
+		modelMessages = await convertToModelMessages(messages, { tools })
+	} catch {
+		return new Response(JSON.stringify({ error: "Failed to convert messages" }), {
+			status: 400, headers: { "Content-Type": "application/json" },
+		})
+	}
+
+	const model = openai.chat(agent.model)
+
+	// Save user message
+	const lastUserMsg = [...messages].reverse().find((m: any) => m.role === "user")
+	if (lastUserMsg) {
+		const text = typeof lastUserMsg.content === "string"
+			? lastUserMsg.content
+			: lastUserMsg.parts?.find((p: any) => p.type === "text")?.text ?? ""
+		if (text) {
+			try { await convex.mutation(api.chatMessages.append, { agentId: agent._id, role: "user", content: text }) } catch {}
+		}
+	}
+
+	const result = streamText({
+		model,
+		system: systemPrompt,
+		messages: modelMessages,
+		tools,
+		maxSteps: 5,
+		onFinish: async ({ usage, text }) => {
+			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.40
+			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 1.60
+			const costUsd = Math.round((inputCost + outputCost) * 1_000_000) / 1_000_000
+
+			convex.setAuth(token)
+			if (costUsd > 0) {
+				try { await convex.mutation(api.agents.addUsage, { id: agent._id, costUsd }) } catch {}
+			}
+			if (text) {
+				try { await convex.mutation(api.chatMessages.append, { agentId: agent._id, role: "assistant", content: text }) } catch {}
+			}
+		},
+	})
+
+	return result.toUIMessageStreamResponse()
+}
+
+// Tool name mapping & definitions for agent mode
+const permissionToToolName: Record<string, string> = {
+	list_time_entries: "list-time-entries",
+	list_projects: "list-projects",
+	list_clients: "list-clients",
+	list_todos: "list-todos",
+	list_categories: "list-categories",
+	get_project: "get-project",
+	get_client: "get-client",
+	get_todo: "get-todo",
+	qonto_balance: "qonto-balance",
+	qonto_transactions: "qonto-transactions",
+	list_invoices: "list-invoices",
+	list_recurring_expenses: "list-recurring-expenses",
+	treasury_forecast: "treasury-forecast",
+	check_time_anomalies: "check-time-anomalies",
+}
+
+const allToolDefs: Record<string, any> = {
+	...readTools,
+	"qonto-balance": tool({ description: "Solde Qonto", parameters: z.object({}) }),
+	"qonto-transactions": tool({ description: "Transactions Qonto récentes", parameters: z.object({}) }),
+	"list-invoices": tool({ description: "Lister les factures", parameters: z.object({ status: z.enum(["draft", "sent", "paid"]).optional() }) }),
+	"list-recurring-expenses": tool({ description: "Dépenses récurrentes", parameters: z.object({}) }),
+	"treasury-forecast": tool({ description: "Prévision trésorerie", parameters: z.object({ months: z.number().optional() }) }),
+	"check-time-anomalies": tool({ description: "Anomalies de temps", parameters: z.object({ from: z.string(), to: z.string() }) }),
+}
+
+function buildReadToolExecutors(token: string) {
+	convex.setAuth(token)
+	return {
+		"list-clients": async () => (await convex.query(api.clients.list, {})).map((c: any) => ({ id: c._id, name: c.name, email: c.email })),
+		"list-projects": async () => (await convex.query(api.projects.listAll, {})).map((p: any) => ({ id: p._id, name: p.name, status: p.status, tjm: p.tjm })),
+		"get-project": async ({ id }: any) => convex.query(api.projects.getWithStats, { id }),
+		"list-time-entries": async ({ projectId, from, to }: any) => (await convex.query(api.timeEntries.list, { projectId, from, to })).map((e: any) => ({ id: e._id, date: e.date, minutes: e.minutes, hourlyRate: e.hourlyRate, description: e.description, projectId: e.projectId })),
+		"list-todos": async ({ status }: any) => (await convex.query(api.todos.list, status ? { status } : {})).map((t: any) => ({ id: t._id, text: t.text, status: t.status, priority: t.priority ?? "normal" })),
+		"get-todo": async ({ id }: any) => convex.query(api.todos.get, { id }),
+		"get-client": async ({ id }: any) => convex.query(api.clients.get, { id }),
+		"list-categories": async () => convex.query(api.categories.list, {}),
+		"qonto-balance": async () => {
+			const s = await convex.query(api.treasury.getSettings, {})
+			return { balanceEur: (s?.qontoBalanceCents ?? 0) / 100 }
+		},
+		"qonto-transactions": async () => { try { return await convex.action(api.qonto.listTransactions, {}) } catch { return { error: "Qonto indisponible" } } },
+		"list-invoices": async ({ status }: any) => convex.query(api.invoices.list, status ? { status } : {}),
+		"list-recurring-expenses": async () => convex.query(api.treasury.expenseSummary, {}),
+		"treasury-forecast": async ({ months }: any) => convex.query(api.treasury.forecast, { months: months ?? 6 }),
+		"check-time-anomalies": async ({ from, to }: any) => {
+			const entries = await convex.query(api.timeEntries.list, { from, to })
+			const byDate: Record<string, number> = {}
+			for (const e of entries) byDate[e.date] = (byDate[e.date] ?? 0) + e.minutes
+			const anomalies: string[] = []
+			for (let d = new Date(from); d <= new Date(to); d.setDate(d.getDate() + 1)) {
+				if (d.getDay() === 0 || d.getDay() === 6) continue
+				const ds = d.toISOString().slice(0, 10)
+				const m = byDate[ds] ?? 0
+				if (m === 0) anomalies.push(`❌ ${ds}: aucune saisie`)
+				else if (m > 600) anomalies.push(`⚠ ${ds}: ${Math.round(m / 60)}h`)
+			}
+			return { anomalies, anomalyCount: anomalies.length }
+		},
+	}
 }

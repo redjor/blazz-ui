@@ -2,7 +2,7 @@ import { z } from "zod"
 
 // ai@6.0.116 tool() helper puts schema in `parameters` but streamText reads `inputSchema`.
 // Build tool objects directly with inputSchema until the SDK fixes this.
-function tool(opts: { description: string; parameters: z.ZodType }) {
+export function tool(opts: { description: string; parameters: z.ZodType }) {
 	return { description: opts.description, inputSchema: opts.parameters }
 }
 
