@@ -384,17 +384,18 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 	if (agent.permissions.confirm.includes("create_todo")) {
 		tools["create-todo"] = {
 			...tool({
-				description: "Créer un todo dans Blazz Ops.",
+				description: "Créer un todo dans Blazz Ops. Mets TOUJOURS une description détaillée avec le contexte, les étapes, ou les critères de validation.",
 				parameters: z.object({
-					text: z.string().describe("Texte du todo"),
+					text: z.string().describe("Titre court du todo (1 ligne)"),
+					description: z.string().optional().describe("Description détaillée : contexte, étapes, critères de validation. Markdown accepté."),
 					priority: z.enum(["urgent", "high", "normal", "low"]).optional(),
 					dueDate: z.string().optional().describe("Date limite YYYY-MM-DD"),
 					projectId: z.string().optional().describe("ID du projet associé"),
 				}),
 			}),
-			execute: async ({ text, priority, dueDate, projectId }: any) => {
+			execute: async ({ text, description, priority, dueDate, projectId }: any) => {
 				return convex.mutation(api.worker.workerCreateTodo, {
-					text, priority: priority ?? "normal", dueDate, userId: agentUserId, projectId,
+					text, description, priority: priority ?? "normal", dueDate, userId: agentUserId, projectId,
 				})
 			},
 		}

@@ -331,6 +331,7 @@ export const workerCreateNote = mutation({
 export const workerCreateTodo = mutation({
 	args: {
 		text: v.string(),
+		description: v.optional(v.string()),
 		priority: v.optional(v.string()),
 		dueDate: v.optional(v.string()),
 		projectId: v.optional(v.string()),
@@ -338,7 +339,7 @@ export const workerCreateTodo = mutation({
 		createdByAgent: v.optional(v.id("agents")),
 		agentSlug: v.optional(v.string()),
 	},
-	handler: async (ctx, { text, priority, dueDate, projectId, userId, createdByAgent, agentSlug }) => {
+	handler: async (ctx, { text, description, priority, dueDate, projectId, userId, createdByAgent, agentSlug }) => {
 		// Resolve userId from agent if not provided
 		let resolvedUserId = userId
 		if (!resolvedUserId && agentSlug) {
@@ -359,6 +360,7 @@ export const workerCreateTodo = mutation({
 
 		return ctx.db.insert("todos", {
 			text,
+			description,
 			status: "todo",
 			priority: priority ?? "normal",
 			source: "app" as const,
