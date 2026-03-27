@@ -64,37 +64,79 @@ const suggestionsMap: Record<string, string[]> = {
 	],
 }
 
+const TOOL_LABELS: Record<string, string> = {
+	"create-todo": "Création de todo",
+	"create-note": "Création de note",
+	"create-mission": "Création de mission",
+	"list-todos": "Lecture des todos",
+	"list-projects": "Lecture des projets",
+	"list-clients": "Lecture des clients",
+	"list-time-entries": "Lecture du temps",
+	"list-invoices": "Lecture des factures",
+	"list-categories": "Lecture des catégories",
+	"list-recurring-expenses": "Dépenses récurrentes",
+	"qonto-balance": "Solde Qonto",
+	"qonto-transactions": "Transactions Qonto",
+	"treasury-forecast": "Prévision trésorerie",
+	"check-time-anomalies": "Anomalies de temps",
+	"get-project": "Détail projet",
+	"get-client": "Détail client",
+	"get-todo": "Détail todo",
+}
+
+function extractToolName(part: any): string {
+	// part.type can be "tool-create-todo" or "dynamic-tool"
+	if (part.toolName) return part.toolName
+	if (typeof part.type === "string" && part.type.startsWith("tool-")) {
+		return part.type.slice(5) // "tool-create-todo" → "create-todo"
+	}
+	return "outil"
+}
+
 function ToolCallDisplay({ part }: { part: any }) {
-	const toolName = part.toolName ?? "outil"
+	const toolName = extractToolName(part)
+	const label = TOOL_LABELS[toolName] ?? toolName
 	const isComplete = part.state === "output-available"
-	const output = isComplete ? part.output : null
+	const output = isComplete ? (part.output ?? part.result) : null
+	const args = part.args ?? part.input
 
 	// Render a TaskCard for create-todo tool results
-	if (isComplete && toolName === "create-todo" && output) {
-		const title = typeof output === "string" ? output : output.text ?? output.title ?? "Todo"
-		return <TaskCard title={title} status="todo" className="my-2" />
+	if (isComplete && toolName === "create-todo") {
+		const title = args?.text ?? (typeof output === "string" ? output : output?.text ?? "Todo créé")
+		const priority = args?.priority ?? "normal"
+		return <TaskCard title={title} status="todo" priority={priority} className="my-2" />
 	}
 
-	// Render a small note card for create-note
-	if (isComplete && toolName === "create-note" && output) {
-		const title = typeof output === "string" ? output : output.title ?? "Note"
+	// Render a note card for create-note
+	if (isComplete && toolName === "create-note") {
+		const title = args?.title ?? (typeof output === "string" ? output : output?.title ?? "Note créée")
 		return (
-			<Box className="my-2 rounded-lg border border-container bg-card p-3">
-				<span className="text-sm font-medium text-fg">{title}</span>
+			<Box className="my-2 rounded-lg border border-edge bg-card p-3">
+				<BlockStack gap="050">
+					<span className="text-xs text-fg-muted">📝 Note créée</span>
+					<span className="text-sm font-medium text-fg">{title}</span>
+				</BlockStack>
 			</Box>
 		)
 	}
 
-	// Default: chain-of-thought step for any other tool
+	// For read tools: show a compact chain-of-thought
 	return (
-		<ChainOfThought defaultOpen={!isComplete} className="my-2">
-			<ChainOfThoughtHeader>{toolName}</ChainOfThoughtHeader>
+		<ChainOfThought defaultOpen={false} className="my-1">
+			<ChainOfThoughtHeader>
+				{isComplete ? `✅ ${label}` : `⏳ ${label}...`}
+			</ChainOfThoughtHeader>
 			<ChainOfThoughtContent>
 				<ChainOfThoughtStep
-					label={toolName}
+					label={label}
 					status={isComplete ? "complete" : "active"}
-					description={isComplete ? "Termine" : "En cours..."}
+					description={isComplete ? "Données récupérées" : "En cours..."}
 				/>
+				{isComplete && output && (
+					<pre className="mt-2 text-xs bg-muted/50 rounded p-2 overflow-x-auto max-h-32 overflow-y-auto">
+						{typeof output === "string" ? output : JSON.stringify(output, null, 2).slice(0, 500)}
+					</pre>
+				)}
 			</ChainOfThoughtContent>
 		</ChainOfThought>
 	)
