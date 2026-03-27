@@ -36,13 +36,24 @@ import type { ComponentType, ReactNode } from "react";
 import { useMemo } from "react";
 import { OpsUserMenu } from "./ops-user-menu";
 
-function createAgentIcon(name: string): ComponentType<{ className?: string }> {
+function AgentNavIcon({ name, status }: { name: string; status: string }) {
   const url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}`;
-  function AgentIcon({ className }: { className?: string }) {
-    return <img src={url} alt={name} width={16} height={16} className={`size-4 rounded-full shrink-0 ${className ?? ""}`} />;
+  return (
+    <span className="relative">
+      <img src={url} alt={name} width={16} height={16} className="size-4 rounded-full shrink-0" />
+      {status === "busy" && (
+        <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 animate-pulse ring-1 ring-surface" />
+      )}
+    </span>
+  );
+}
+
+function createAgentIconWithStatus(name: string, status: string): ComponentType<{ className?: string }> {
+  function Icon() {
+    return <AgentNavIcon name={name} status={status} />;
   }
-  AgentIcon.displayName = `AgentIcon(${name})`;
-  return AgentIcon;
+  Icon.displayName = `AgentIcon(${name})`;
+  return Icon;
 }
 
 interface NavItemWithFlag extends NavItem {
@@ -77,16 +88,6 @@ const allNavGroups: NavGroupWithFlag[] = [
         icon: Bot,
         flag: "missions",
       },
-    ],
-  },
-  {
-    label: "Agents",
-    items: [
-      { title: "Marc", url: "/agents/cfo", icon: createAgentIcon("Marc"), flag: "agents" },
-      { title: "Léo", url: "/agents/timekeeper", icon: createAgentIcon("Léo"), flag: "agents" },
-      { title: "Sarah", url: "/agents/product-lead", icon: createAgentIcon("Sarah"), flag: "agents" },
-      { title: "Alex", url: "/agents/assistant", icon: createAgentIcon("Alex"), flag: "agents" },
-      { title: "Jules", url: "/agents/account-manager", icon: createAgentIcon("Jules"), flag: "agents" },
     ],
   },
   {
@@ -194,9 +195,34 @@ function filterGroups(
 export function OpsFrame({ children }: { children: ReactNode }) {
   const { isEnabled } = useFeatureFlags();
   const unreadCount = useQuery(api.notifications.unreadCount);
+  const agents = useQuery(api.agents.list);
 
   const navGroups = useMemo(() => {
     const filtered = filterGroups(allNavGroups, isEnabled);
+
+    // Build Agents group dynamically from live data
+    if (agents && agents.length > 0 && isEnabled("agents")) {
+      const agentsGroup: NavGroup = {
+        label: "Agents",
+        items: agents.map((agent) => ({
+          title: agent.name,
+          url: `/agents/${agent.slug}`,
+          icon: createAgentIconWithStatus(agent.name, agent.status),
+        })),
+      };
+      // Insert Agents group after the first group (main nav)
+      const firstGroup = filtered[0];
+      const rest = filtered.slice(1);
+      const withAgents = [firstGroup, agentsGroup, ...rest];
+      if (!unreadCount) return withAgents;
+      return withAgents.map((group) => ({
+        ...group,
+        items: group.items.map((item) =>
+          item.url === "/notifications" ? { ...item, badge: unreadCount } : item,
+        ),
+      }));
+    }
+
     if (!unreadCount) return filtered;
     return filtered.map((group) => ({
       ...group,
@@ -204,7 +230,7 @@ export function OpsFrame({ children }: { children: ReactNode }) {
         item.url === "/notifications" ? { ...item, badge: unreadCount } : item,
       ),
     }));
-  }, [isEnabled, unreadCount]);
+  }, [isEnabled, unreadCount, agents]);
 
   return (
     <AppFrame
