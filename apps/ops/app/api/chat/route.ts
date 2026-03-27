@@ -197,6 +197,39 @@ function buildReadToolExecutors(token: string) {
 		"list-categories": async () => {
 			return convex.query(api.categories.list, {})
 		},
+
+		// Finance tools
+		"qonto-balance": async () => {
+			const s = await convex.query(api.treasury.getSettings, {})
+			return { balanceEur: (s?.qontoBalanceCents ?? 0) / 100 }
+		},
+		"qonto-transactions": async () => {
+			try { return await convex.action(api.qonto.listTransactions, {}) }
+			catch { return { error: "Qonto indisponible" } }
+		},
+		"list-invoices": async ({ status }: { status?: string }) => {
+			return convex.query(api.invoices.list, status ? { status: status as any } : {})
+		},
+		"list-recurring-expenses": async () => {
+			return convex.query(api.treasury.expenseSummary, {})
+		},
+		"treasury-forecast": async ({ months }: { months?: number }) => {
+			return convex.query(api.treasury.forecast, { months: months ?? 6 })
+		},
+		"check-time-anomalies": async ({ from, to }: { from: string; to: string }) => {
+			const entries = await convex.query(api.timeEntries.list, { from, to })
+			const byDate: Record<string, number> = {}
+			for (const e of entries) byDate[e.date] = (byDate[e.date] ?? 0) + e.minutes
+			const anomalies: string[] = []
+			for (let d = new Date(from); d <= new Date(to); d.setDate(d.getDate() + 1)) {
+				if (d.getDay() === 0 || d.getDay() === 6) continue
+				const ds = d.toISOString().slice(0, 10)
+				const m = byDate[ds] ?? 0
+				if (m === 0) anomalies.push(`❌ ${ds}: aucune saisie`)
+				else if (m > 600) anomalies.push(`⚠ ${ds}: ${Math.round(m / 60)}h`)
+			}
+			return { anomalies, anomalyCount: anomalies.length }
+		},
 	}
 }
 
