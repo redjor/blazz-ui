@@ -1,6 +1,13 @@
 import { v } from "convex/values"
 import { internalMutation, mutation, query } from "./_generated/server"
 
+export const listRecent = query({
+	args: { limit: v.optional(v.number()) },
+	handler: async (ctx, { limit = 50 }) => {
+		return ctx.db.query("agentLogs").order("desc").take(limit)
+	},
+})
+
 export const list = query({
 	args: { missionId: v.id("missions") },
 	handler: async (ctx, { missionId }) => {

@@ -83,7 +83,7 @@ export const update = mutation({
 			})
 		),
 		status: v.optional(
-			v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled"))
+			v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled"))
 		),
 	},
 	handler: async (ctx, { id, ...fields }) => {
@@ -97,7 +97,7 @@ export const update = mutation({
 export const updateStatus = mutation({
 	args: {
 		id: v.id("agents"),
-		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")),
+		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled")),
 	},
 	handler: async (ctx, { id, status }) => {
 		const { userId } = await requireAuth(ctx)
@@ -352,7 +352,7 @@ export const internalGet = internalQuery({
 })
 
 export const internalUpdateStatus = internalMutation({
-	args: { id: v.id("agents"), status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")) },
+	args: { id: v.id("agents"), status: v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled")) },
 	handler: async (ctx, { id, status }) => {
 		await ctx.db.patch(id, { status, lastActiveAt: Date.now() })
 	},

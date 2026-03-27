@@ -438,7 +438,7 @@ export default defineSchema({
 		role: v.string(),
 		model: v.string(),
 		avatar: v.optional(v.string()),
-		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")),
+		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled")),
 		lastActiveAt: v.optional(v.number()),
 		budget: v.object({
 			maxPerMission: v.number(),

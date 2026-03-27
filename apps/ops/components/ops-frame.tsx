@@ -17,6 +17,7 @@ import {
 	Bot,
 	CheckSquare,
 	Clock,
+	Activity,
 	FileText,
 	FolderOpen,
 	Key,
@@ -43,6 +44,15 @@ function AgentNavIcon({ name, status }: { name: string; status: string }) {
       <img src={url} alt={name} width={16} height={16} className="size-4 rounded-full shrink-0" />
       {status === "busy" && (
         <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 animate-pulse ring-1 ring-surface" />
+      )}
+      {status === "paused" && (
+        <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-amber-400 ring-1 ring-surface" />
+      )}
+      {status === "error" && (
+        <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-red-500 ring-1 ring-surface" />
+      )}
+      {status === "disabled" && (
+        <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-fg-muted/40 ring-1 ring-surface" />
       )}
     </span>
   );
@@ -81,6 +91,12 @@ const allNavGroups: NavGroupWithFlag[] = [
         url: "/notifications",
         icon: Bell,
         flag: "notifications",
+      },
+      {
+        title: "Activité",
+        url: "/activity",
+        icon: Activity,
+        flag: "agents",
       },
       {
         title: "Mission Control",

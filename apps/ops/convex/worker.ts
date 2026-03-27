@@ -16,7 +16,7 @@ export const workerGetAgent = query({
 })
 
 export const workerUpdateAgentStatus = mutation({
-	args: { id: v.id("agents"), status: v.union(v.literal("idle"), v.literal("busy"), v.literal("disabled")) },
+	args: { id: v.id("agents"), status: v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled")) },
 	handler: async (ctx, { id, status }) => {
 		await ctx.db.patch(id, { status, lastActiveAt: Date.now() })
 	},
@@ -34,15 +34,22 @@ export const workerAddAgentUsage = mutation({
 		const todayUsd = agent.usage.lastResetDay === today ? agent.usage.todayUsd + costUsd : costUsd
 		const monthUsd = agent.usage.lastResetMonth === month ? agent.usage.monthUsd + costUsd : costUsd
 
+		const newUsage = {
+			todayUsd,
+			monthUsd,
+			totalUsd: agent.usage.totalUsd + costUsd,
+			lastResetDay: today,
+			lastResetMonth: month,
+		}
+
+		// Auto-pause if monthly budget exceeded
+		const budgetExceeded = monthUsd >= agent.budget.maxPerMonth
 		await ctx.db.patch(id, {
-			usage: {
-				todayUsd,
-				monthUsd,
-				totalUsd: agent.usage.totalUsd + costUsd,
-				lastResetDay: today,
-				lastResetMonth: month,
-			},
+			usage: newUsage,
+			...(budgetExceeded ? { status: "disabled" as const } : {}),
 		})
+
+		return { budgetExceeded, monthUsd, maxPerMonth: agent.budget.maxPerMonth }
 	},
 })
 

@@ -108,6 +108,7 @@ export async function runMission(
     })
   }
 
+  let hadError = true
   try {
     while (!signal.aborted && iterations < maxIter) {
       iterations++
@@ -220,11 +221,16 @@ export async function runMission(
 
     // Extract and save memories from the mission output
     await extractAndSaveMemories(convex, agent._id, agent.userId as string, mission._id, output, "mission")
+    hadError = false
   } catch (err) {
+    hadError = true
     await log("error", String(err))
     await convex.mutation(api.worker.workerFailMission, { id: mission._id as any, error: String(err) })
     await notifyMissionError(convex, mission, agent as any, String(err))
   } finally {
-    await convex.mutation(api.worker.workerUpdateAgentStatus, { id: agent._id as any, status: "idle" })
+    await convex.mutation(api.worker.workerUpdateAgentStatus, {
+      id: agent._id as any,
+      status: hadError ? "error" : "idle",
+    })
   }
 }

@@ -53,6 +53,7 @@ const routeMap: Record<string, FeatureFlag> = {
 	"/treasury": "treasury",
 	"/missions": "missions",
 	"/agents": "agents",
+	"/activity": "agents",
 }
 
 export function routeToFlag(pathname: string): FeatureFlag | null {
