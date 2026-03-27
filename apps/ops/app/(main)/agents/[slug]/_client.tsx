@@ -103,7 +103,8 @@ function ToolCallDisplay({ part }: { part: any }) {
 	// Render a TaskCard for create-todo tool results
 	if (isComplete && toolName === "create-todo") {
 		const title = args?.text ?? (typeof output === "string" ? output : output?.text ?? "Todo créé")
-		const priority = args?.priority ?? "normal"
+		const rawPriority = args?.priority ?? "normal"
+		const priority = rawPriority === "normal" ? "medium" : rawPriority
 		const todoId = typeof output === "string" ? output : output?.id ?? output
 		return <TaskCard title={title} status="todo" priority={priority} href={todoId ? `/todos/${todoId}` : undefined} className="my-2" />
 	}
