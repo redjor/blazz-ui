@@ -421,13 +421,12 @@ export async function POST(
 					}),
 				}),
 				execute: async ({ text, priority, dueDate, projectId }: { text: string; priority?: string; dueDate?: string; projectId?: string }) => {
-					convex.setAuth(token)
-					const id = await convex.mutation(api.todos.create, {
+					const id = await convex.mutation(api.worker.workerCreateTodo, {
 						text,
-						status: "todo",
 						priority: priority ?? "normal",
 						dueDate,
-						projectId: projectId as any,
+						userId: agent.userId as any,
+						createdByAgent: agent._id,
 					})
 					return { id, text, status: "created" }
 				},
@@ -446,12 +445,12 @@ export async function POST(
 					}),
 				}),
 				execute: async ({ title, content, entityType, entityId }: { title: string; content: string; entityType?: string; entityId?: string }) => {
-					convex.setAuth(token)
-					const id = await convex.mutation(api.notes.create, {
+					const id = await convex.mutation(api.worker.workerCreateNote, {
 						title,
 						content,
-						entityType: (entityType ?? "general") as any,
+						entityType: entityType ?? "general",
 						entityId,
+						userId: agent.userId as any,
 					})
 					return { id, title, status: "created" }
 				},
