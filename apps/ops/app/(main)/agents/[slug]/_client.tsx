@@ -23,7 +23,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { RotateCcw } from "lucide-react"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
@@ -80,11 +80,14 @@ export function AgentChatClient({ slug }: { slug: string }) {
 		},
 	})
 
-	// Load saved messages on mount
+	// Load saved messages on mount (once)
+	const hasLoadedRef = useRef(false)
 	useEffect(() => {
-		if (savedMessages && savedMessages.length > 0 && messages.length === 0) {
+		if (hasLoadedRef.current) return
+		if (savedMessages && savedMessages.length > 0) {
+			hasLoadedRef.current = true
 			setMessages(
-				savedMessages.map((m, i) => ({
+				savedMessages.map((m) => ({
 					id: m._id,
 					role: m.role as "user" | "assistant",
 					content: m.content,
@@ -92,7 +95,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 				})),
 			)
 		}
-	}, [savedMessages, messages.length, setMessages])
+	}, [savedMessages, setMessages])
 
 	useAppTopBar(
 		agent != null
