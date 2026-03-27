@@ -76,6 +76,12 @@ cron.schedule("0 3 * * 0", () => {
 })
 console.log("[cron] weekly memory consolidation scheduled (Sunday 3:00 AM)")
 
+// Manual consolidation trigger: kill -USR2 <pid>
+process.on("SIGUSR2", () => {
+  console.log("[worker] manual consolidation trigger")
+  runWeeklyConsolidation(convex)
+})
+
 process.on("SIGINT", () => {
   console.log("[worker] shutting down...")
   for (const [, controller] of running) {
