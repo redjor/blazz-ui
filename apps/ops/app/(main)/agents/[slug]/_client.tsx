@@ -21,9 +21,9 @@ import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { useQuery } from "convex/react"
+import { useMutation, useQuery } from "convex/react"
 import { RotateCcw } from "lucide-react"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
@@ -58,6 +58,12 @@ const suggestionsMap: Record<string, string[]> = {
 
 export function AgentChatClient({ slug }: { slug: string }) {
 	const agent = useQuery(api.agents.getBySlug, { slug })
+	const savedMessages = useQuery(
+		api.chatMessages.list,
+		agent ? { agentId: agent._id } : "skip",
+	)
+	const clearMessages = useMutation(api.chatMessages.clear)
+
 	const transport = useMemo(
 		() => new DefaultChatTransport({
 			api: `/api/agents/${slug}/chat`,
@@ -73,6 +79,20 @@ export function AgentChatClient({ slug }: { slug: string }) {
 			toast.error(`Erreur agent : ${err.message}`)
 		},
 	})
+
+	// Load saved messages on mount
+	useEffect(() => {
+		if (savedMessages && savedMessages.length > 0 && messages.length === 0) {
+			setMessages(
+				savedMessages.map((m, i) => ({
+					id: m._id,
+					role: m.role as "user" | "assistant",
+					content: m.content,
+					parts: [{ type: "text" as const, text: m.content }],
+				})),
+			)
+		}
+	}, [savedMessages, messages.length, setMessages])
 
 	useAppTopBar(
 		agent != null
@@ -98,7 +118,10 @@ export function AgentChatClient({ slug }: { slug: string }) {
 
 	const handleClear = useCallback(() => {
 		setMessages([])
-	}, [setMessages])
+		if (agent) {
+			clearMessages({ agentId: agent._id })
+		}
+	}, [setMessages, agent, clearMessages])
 
 	const isStreaming = status === "streaming" || status === "submitted"
 	const hasMessages = messages.length > 0

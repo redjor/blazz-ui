@@ -431,6 +431,14 @@ export default defineSchema({
 
 	// ── Agent System ──────────────────────────────────────────────────
 
+	chatMessages: defineTable({
+		userId: v.id("users"),
+		agentId: v.id("agents"),
+		role: v.union(v.literal("user"), v.literal("assistant")),
+		content: v.string(),
+	})
+		.index("by_agent", ["userId", "agentId"]),
+
 	agents: defineTable({
 		userId: v.id("users"),
 		slug: v.string(),

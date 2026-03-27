@@ -407,7 +407,25 @@ export async function POST(
 		},
 	}
 
-	const { messages } = await req.json()
+	const { messages, data } = await req.json()
+
+	// Save user message to DB
+	const lastUserMsg = [...messages].reverse().find((m: any) => m.role === "user")
+	if (lastUserMsg) {
+		const userText = typeof lastUserMsg.content === "string"
+			? lastUserMsg.content
+			: lastUserMsg.parts?.find((p: any) => p.type === "text")?.text ?? ""
+		if (userText) {
+			try {
+				convex.setAuth(token)
+				await convex.mutation(api.chatMessages.append, {
+					agentId: agent._id,
+					role: "user",
+					content: userText,
+				})
+			} catch {}
+		}
+	}
 
 	// Convert UI messages to model messages
 	let modelMessages: Awaited<ReturnType<typeof convertToModelMessages>>
@@ -451,22 +469,28 @@ export async function POST(
 		messages: messagesWithSystem,
 		tools,
 		maxSteps: 5,
-		onFinish: async ({ usage }) => {
-			// Estimate cost (rough: $0.15/1M input tokens, $0.60/1M output tokens for gpt-4.1-mini)
+		onFinish: async ({ usage, text }) => {
 			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.15
 			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 0.60
 			const costUsd = Math.round((inputCost + outputCost) * 1_000_000) / 1_000_000
 
+			convex.setAuth(token)
+
 			if (costUsd > 0) {
 				try {
-					convex.setAuth(token)
-					await convex.mutation(api.agents.addUsage, {
-						id: agent._id,
-						costUsd,
+					await convex.mutation(api.agents.addUsage, { id: agent._id, costUsd })
+				} catch {}
+			}
+
+			// Save assistant response to DB
+			if (text) {
+				try {
+					await convex.mutation(api.chatMessages.append, {
+						agentId: agent._id,
+						role: "assistant",
+						content: text,
 					})
-				} catch (err) {
-					console.error("[agent-chat] addUsage failed:", err)
-				}
+				} catch {}
 			}
 		},
 	})
