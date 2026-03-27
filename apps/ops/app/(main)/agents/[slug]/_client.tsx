@@ -15,6 +15,14 @@ import {
 	PromptInputSubmit,
 	PromptInputTextarea,
 } from "@blazz/pro/components/ai/chat/prompt-input"
+import { Suggestions, Suggestion } from "@blazz/pro/components/ai/chat/suggestion"
+import {
+	ChainOfThought,
+	ChainOfThoughtHeader,
+	ChainOfThoughtContent,
+	ChainOfThoughtStep,
+} from "@blazz/pro/components/ai/reasoning/chain-of-thought"
+import { TaskCard } from "@blazz/pro/components/ai/generative/workflow/task-card"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
@@ -54,6 +62,42 @@ const suggestionsMap: Record<string, string[]> = {
 		"Des projets qui finissent bientôt ?",
 		"Factures impayées ?",
 	],
+}
+
+function ToolCallDisplay({ part }: { part: any }) {
+	const toolName = part.toolName ?? "outil"
+	const isComplete = part.state === "output-available"
+	const output = isComplete ? part.output : null
+
+	// Render a TaskCard for create-todo tool results
+	if (isComplete && toolName === "create-todo" && output) {
+		const title = typeof output === "string" ? output : output.text ?? output.title ?? "Todo"
+		return <TaskCard title={title} status="todo" className="my-2" />
+	}
+
+	// Render a small note card for create-note
+	if (isComplete && toolName === "create-note" && output) {
+		const title = typeof output === "string" ? output : output.title ?? "Note"
+		return (
+			<Box className="my-2 rounded-lg border border-container bg-card p-3">
+				<span className="text-sm font-medium text-fg">{title}</span>
+			</Box>
+		)
+	}
+
+	// Default: chain-of-thought step for any other tool
+	return (
+		<ChainOfThought defaultOpen={!isComplete} className="my-2">
+			<ChainOfThoughtHeader>{toolName}</ChainOfThoughtHeader>
+			<ChainOfThoughtContent>
+				<ChainOfThoughtStep
+					label={toolName}
+					status={isComplete ? "complete" : "active"}
+					description={isComplete ? "Termine" : "En cours..."}
+				/>
+			</ChainOfThoughtContent>
+		</ChainOfThought>
+	)
 }
 
 export function AgentChatClient({ slug }: { slug: string }) {
@@ -180,18 +224,11 @@ export function AgentChatClient({ slug }: { slug: string }) {
 					</PromptInput>
 
 					{suggestions.length > 0 && (
-						<InlineStack gap="200" align="center" wrap>
+						<Suggestions className="justify-center">
 							{suggestions.map((text) => (
-								<Button
-									key={text}
-									variant="outline"
-									size="sm"
-									onClick={() => handleSuggestion(text)}
-								>
-									{text}
-								</Button>
+								<Suggestion key={text} suggestion={text} onClick={handleSuggestion} />
 							))}
-						</InlineStack>
+						</Suggestions>
 					)}
 				</BlockStack>
 			</BlockStack>
@@ -230,12 +267,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 										return <MessageResponse key={`text-${i}`}>{part.text}</MessageResponse>
 									}
 									if ("toolCallId" in part && "state" in part) {
-										if (part.state === "output-available") return null
-										return (
-											<span key={(part as any).toolCallId} className="text-xs text-fg-muted">
-												🔧 {(part as any).toolName ?? "outil"}...
-											</span>
-										)
+										return <ToolCallDisplay key={(part as any).toolCallId} part={part} />
 									}
 									return null
 								})}
