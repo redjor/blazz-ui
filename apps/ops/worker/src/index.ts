@@ -8,6 +8,7 @@ import { api } from "./convex"
 import { runMission } from "./runner"
 import { createToolRegistry } from "./tools/index"
 import cron from "node-cron"
+import { runWeeklyConsolidation } from "./consolidation"
 
 const CONVEX_URL = process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL
 if (!CONVEX_URL) throw new Error("NEXT_PUBLIC_CONVEX_URL or CONVEX_URL required")
@@ -67,6 +68,13 @@ async function startCronScheduler() {
 }
 
 startCronScheduler()
+
+// Weekly memory consolidation — Sunday 3:00 AM
+cron.schedule("0 3 * * 0", () => {
+  console.log("[cron] triggering weekly memory consolidation")
+  runWeeklyConsolidation(convex)
+})
+console.log("[cron] weekly memory consolidation scheduled (Sunday 3:00 AM)")
 
 process.on("SIGINT", () => {
   console.log("[worker] shutting down...")
