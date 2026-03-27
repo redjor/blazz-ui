@@ -23,10 +23,14 @@ async function pollMissions() {
       if (running.has(mission._id)) continue
 
       const agent = await convex.query(api.worker.workerGetAgent, { id: mission.agentId })
-      if (!agent || agent.status === "disabled") continue
+      if (!agent || agent.status === "disabled" || agent.status === "paused" || agent.status === "error") continue
 
+      // Mark as running immediately to prevent double-pickup
       const controller = new AbortController()
       running.set(mission._id, controller)
+
+      // Set status to in_progress NOW before the async runMission starts
+      await convex.mutation(api.worker.workerUpdateStatus, { id: mission._id, status: "in_progress" })
 
       const tools = createToolRegistry(convex)
 

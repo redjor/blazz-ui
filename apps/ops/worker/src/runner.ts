@@ -203,8 +203,13 @@ export async function runMission(
       }
     }
 
-    const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant" && typeof m.content === "string")
-    const output = (lastAssistant as any)?.content ?? "Mission terminée sans output."
+    // Collect ALL assistant text content (not just the last one — tool-call messages have content: null)
+    const allAssistantText = messages
+      .filter((m) => m.role === "assistant" && typeof (m as any).content === "string" && (m as any).content)
+      .map((m) => (m as any).content as string)
+    const output = allAssistantText.length > 0
+      ? allAssistantText[allAssistantText.length - 1]
+      : "Mission terminée sans output."
 
     await log("done", `Mission terminée en ${iterations} itérations. Coût: ${missionCost.toFixed(4)}$`)
 
