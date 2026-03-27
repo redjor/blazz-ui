@@ -171,6 +171,49 @@ export const workerAddMemory = mutation({
 	},
 })
 
+// Update existing memory entry (for memory consolidation)
+export const workerUpdateMemory = mutation({
+	args: {
+		id: v.id("agentMemory"),
+		content: v.string(),
+		confidence: v.optional(v.number()),
+	},
+	handler: async (ctx, { id, content, confidence }) => {
+		const patch: Record<string, unknown> = { content, lastConfirmedAt: Date.now() }
+		if (confidence !== undefined) patch.confidence = confidence
+		await ctx.db.patch(id, patch)
+	},
+})
+
+// Delete memory entry (for memory consolidation)
+export const workerDeleteMemory = mutation({
+	args: { id: v.id("agentMemory") },
+	handler: async (ctx, { id }) => {
+		const mem = await ctx.db.get(id)
+		if (mem) await ctx.db.delete(id)
+	},
+})
+
+// List all memory visible to an agent (private + shared)
+export const workerListAllMemory = query({
+	args: { agentId: v.id("agents") },
+	handler: async (ctx, { agentId }) => {
+		const all = await ctx.db.query("agentMemory").collect()
+		return all.filter((m) =>
+			(m.scope === "private" && m.agentId === agentId) ||
+			m.scope === "shared"
+		)
+	},
+})
+
+// List all agents
+export const workerListAgents = query({
+	args: {},
+	handler: async (ctx) => {
+		return ctx.db.query("agents").collect()
+	},
+})
+
 // Get agent by slug (for delegate_to_agent tool)
 export const workerGetAgentBySlug = query({
 	args: { slug: v.string() },
