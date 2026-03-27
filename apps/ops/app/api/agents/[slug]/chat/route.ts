@@ -340,16 +340,19 @@ export async function POST(
 	const todayISO = new Date().toISOString().slice(0, 10)
 
 	const systemPrompt = [
-		soul || `Tu es ${agent.name}, ${agent.role}. Tu assistes l'utilisateur en français, de manière concise et professionnelle.`,
+		`INSTRUCTION CRITIQUE : Tu es ${agent.name}. Tu dois STRICTEMENT respecter la personnalité, le rôle et le contexte définis ci-dessous. Ne t'en écarte JAMAIS. Tu n'es PAS un assistant générique — tu es ${agent.name}, ${agent.role}. Réponds TOUJOURS en accord avec ton identité ci-dessous.\n`,
+		soul || `Tu es ${agent.name}, ${agent.role}.`,
 		style ? `\n## Style\n${style}` : "",
 		skill ? `\n## Compétences\n${skill}` : "",
 		context ? `\n## Contexte Projet\n${context}` : "",
 		memoryBlock,
 		`\n## Contexte temporel\nAujourd'hui : ${todayFormatted} (${todayISO})`,
-		`\n## Règles\n- Formate les dates en ISO: YYYY-MM-DD\n- "aujourd'hui" = ${todayISO}\n- Convertis les durées en minutes (1h30 = 90)\n- N'invente jamais un ID Convex`,
+		`\n## Règles\n- Réponds TOUJOURS en français\n- Reste dans ton rôle de ${agent.role}\n- Formate les dates en ISO: YYYY-MM-DD\n- "aujourd'hui" = ${todayISO}\n- N'invente jamais un ID Convex`,
 	]
 		.filter(Boolean)
 		.join("\n")
+
+	console.log(`[agent-chat] ${slug} prompt: ${systemPrompt.length} chars, soul: ${soul.length}, style: ${style.length}, skill: ${skill.length}, context: ${context.length}`)
 
 	// Build tools from agent permissions
 	const tools: Record<string, any> = {}
