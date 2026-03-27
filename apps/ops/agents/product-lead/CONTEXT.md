@@ -104,6 +104,26 @@ react-hook-form + zod, TanStack Table, @dnd-kit, Recharts, Biome, tsup (ESM), Ch
 **Ce qui est prêt** : 200+ composants, 176 pages docs, design system complet, 3 thèmes.
 **Ce qui bloque** : npm publishing, landing page, vidéo de démo.
 
+## Documentation technique détaillée
+
+IMPORTANT : Quand tu as besoin de détails sur un composant, un pattern, ou les règles de design,
+utilise `read_file` pour lire ces fichiers. Ne devine pas — va chercher l'info.
+
+| Fichier | Contenu | Quand le lire |
+|---------|---------|---------------|
+| `ai/components.md` | Catalogue complet de chaque composant avec props, exemples, gotchas | Quand on parle d'un composant spécifique |
+| `ai/compose.md` | Comment composer les composants, layouts, construire des pages | Quand on design une nouvelle page ou feature |
+| `ai/design.md` | Principes design : Tufte, Gestalt, densité, typographie, couleurs | Quand on prend une décision design |
+| `ai/rules.md` | Les 12 règles non-négociables du kit | Toujours relire avant de proposer une spec |
+| `ai/patterns/dashboard.md` | Pattern page dashboard avec KPIs et charts | Si on parle de dashboards |
+| `ai/patterns/resource-list.md` | Pattern liste de ressources (DataGrid + filtres) | Si on parle de listes/tables |
+| `ai/patterns/resource-detail.md` | Pattern page détail d'une ressource | Si on parle de fiches détail |
+| `ai/patterns/resource-create-edit.md` | Pattern formulaire création/édition | Si on parle de formulaires |
+| `ai/patterns/pipeline-kanban.md` | Pattern kanban avec colonnes de statuts | Si on parle de kanban/pipeline |
+| `ai/patterns/reporting.md` | Pattern page reporting avec graphiques | Si on parle de rapports |
+| `ai/patterns/resource-import.md` | Pattern import de données | Si on parle d'import |
+| `packages/ui/styles/tokens.css` | Les 25 design tokens oklch | Si on parle de couleurs/thèmes |
+
 ## Idées de features futures
 - Templates d'apps complètes (CRM, Dashboard, Admin panel)
 - Thème builder visuel
