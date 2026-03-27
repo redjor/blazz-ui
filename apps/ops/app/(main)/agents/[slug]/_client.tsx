@@ -104,19 +104,21 @@ function ToolCallDisplay({ part }: { part: any }) {
 	if (isComplete && toolName === "create-todo") {
 		const title = args?.text ?? (typeof output === "string" ? output : output?.text ?? "Todo créé")
 		const priority = args?.priority ?? "normal"
-		return <TaskCard title={title} status="todo" priority={priority} className="my-2" />
+		const todoId = typeof output === "string" ? output : output?.id ?? output
+		return <TaskCard title={title} status="todo" priority={priority} href={todoId ? `/todos/${todoId}` : undefined} className="my-2" />
 	}
 
 	// Render a note card for create-note
 	if (isComplete && toolName === "create-note") {
 		const title = args?.title ?? (typeof output === "string" ? output : output?.title ?? "Note créée")
+		const noteId = typeof output === "string" ? output : output?.id ?? output
 		return (
-			<Box className="my-2 rounded-lg border border-edge bg-card p-3">
+			<a href={noteId ? `/notes/${noteId}` : "#"} className="block my-2 rounded-lg border border-edge bg-card p-3 transition-colors hover:bg-muted">
 				<BlockStack gap="050">
 					<span className="text-xs text-fg-muted">📝 Note créée</span>
 					<span className="text-sm font-medium text-fg">{title}</span>
 				</BlockStack>
-			</Box>
+			</a>
 		)
 	}
 
