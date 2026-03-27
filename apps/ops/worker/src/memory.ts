@@ -8,13 +8,31 @@ function getOpenAI() {
 	return _openai
 }
 
-interface MemoryExtraction {
+export interface MemoryExtraction {
 	facts: string[]
 	preferences: string[]
 	episodes: string[]
 	patterns: string[]
 	shared: string[] // facts relevant to all agents
 }
+
+const CONSOLIDATION_PROMPT = `Tu es un archiviste mémoire. On te donne les mémoires existantes d'un agent IA et les nouvelles mémoires extraites d'une mission.
+
+Règles :
+- Si une nouvelle mémoire dit la même chose qu'une existante → garde la plus récente/précise (update l'existante)
+- Si une nouvelle mémoire contredit une existante → remplace l'existante (update)
+- Si deux mémoires peuvent se fusionner en une seule plus complète → fusionne (delete les originales + insert la fusion)
+- Ne jamais supprimer une mémoire de catégorie "rule"
+- Ne jamais inventer d'information non présente dans les inputs
+- Si rien à consolider, retourne tous les IDs dans "keep" et les nouvelles dans "insert"
+
+Réponds en JSON strict :
+{
+  "keep": ["id1", "id2"],
+  "update": [{"id": "id3", "content": "nouveau contenu", "confidence": 0.8}],
+  "delete": ["id4", "id5"],
+  "insert": [{"content": "...", "category": "fact|preference|episode|pattern|rule", "scope": "private|shared"}]
+}`
 
 /**
  * Post-mission/chat memory extraction.
@@ -27,7 +45,7 @@ export async function extractAndSaveMemories(
 	missionId: string | undefined,
 	output: string,
 	source: "mission" | "chat",
-) {
+): Promise<MemoryExtraction | undefined> {
 	try {
 		const response = await getOpenAI().chat.completions.create({
 			model: "gpt-4o-mini",
@@ -133,7 +151,111 @@ Si rien d'intéressant, retourne tous les tableaux vides.`,
 				expiresAt: now + ninetyDays,
 			})
 		}
+
+		return extraction
 	} catch (err) {
 		console.error("[memory] extraction error:", err)
+		return undefined
+	}
+}
+
+export async function consolidatePostMission(
+	convex: ConvexHttpClient,
+	agentId: string,
+	userId: string,
+	missionId: string | undefined,
+	newMemories: MemoryExtraction,
+) {
+	const allNew = [
+		...(newMemories.facts ?? []),
+		...(newMemories.preferences ?? []),
+		...(newMemories.episodes ?? []),
+		...(newMemories.patterns ?? []),
+		...(newMemories.shared ?? []),
+	]
+	if (allNew.length === 0) return
+
+	try {
+		const existing = await convex.query(api.worker.workerListMemory, {
+			agentId: agentId as any,
+		})
+		if (existing.length === 0) return
+
+		const existingForPrompt = existing
+			.sort((a: any, b: any) => (b.lastConfirmedAt ?? 0) - (a.lastConfirmedAt ?? 0))
+			.slice(0, 50)
+			.map((m: any) => ({
+				id: m._id,
+				category: m.category,
+				scope: m.scope,
+				content: m.content,
+				confidence: m.confidence,
+			}))
+
+		const newForPrompt = allNew.map((content, i) => ({
+			index: i,
+			content,
+		}))
+
+		const response = await getOpenAI().chat.completions.create({
+			model: "gpt-4o-mini",
+			messages: [
+				{ role: "system", content: CONSOLIDATION_PROMPT },
+				{
+					role: "user",
+					content: `Mémoires existantes :\n${JSON.stringify(existingForPrompt, null, 2)}\n\nNouvelles mémoires :\n${JSON.stringify(newForPrompt, null, 2)}`,
+				},
+			],
+			response_format: { type: "json_object" },
+			max_tokens: 1000,
+		})
+
+		const content = response.choices[0].message.content
+		if (!content) return
+
+		const result = JSON.parse(content) as {
+			keep: string[]
+			update: Array<{ id: string; content: string; confidence?: number }>
+			delete: string[]
+			insert: Array<{ content: string; category: string; scope: string }>
+		}
+
+		for (const upd of result.update ?? []) {
+			await convex.mutation(api.worker.workerUpdateMemory, {
+				id: upd.id as any,
+				content: upd.content,
+				confidence: upd.confidence,
+			})
+		}
+
+		const existingMap = new Map(existing.map((m: any) => [m._id, m]))
+		for (const id of result.delete ?? []) {
+			const mem = existingMap.get(id)
+			if (mem && (mem as any).category === "rule") continue
+			await convex.mutation(api.worker.workerDeleteMemory, { id: id as any })
+		}
+
+		for (const ins of result.insert ?? []) {
+			const category = ins.category as "fact" | "preference" | "episode" | "pattern" | "rule"
+			const expiresAt = category === "fact" || category === "episode"
+				? Date.now() + 30 * 24 * 60 * 60 * 1000
+				: undefined
+
+			await convex.mutation(api.worker.workerAddMemory, {
+				userId: userId as any,
+				agentId: agentId as any,
+				missionId: missionId as any,
+				scope: (ins.scope as "private" | "shared") ?? "private",
+				category,
+				content: ins.content,
+				confidence: 0.7,
+				source: "consolidation",
+				expiresAt,
+			})
+		}
+
+		console.log(`[memory] post-mission consolidation: ${result.update?.length ?? 0} updated, ${result.delete?.length ?? 0} deleted, ${result.insert?.length ?? 0} inserted`)
+	} catch (err) {
+		console.error("[memory] consolidation error:", err)
 	}
 }
