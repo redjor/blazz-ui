@@ -419,10 +419,16 @@ export async function POST(
 
 	const model = openai.chat(agent.model)
 
-	// Prepend system prompt as first message (more reliable than system param for some models)
+	// Debug: log what convertToModelMessages produced
+	console.log(`[agent-chat] ${slug} modelMessages:`, JSON.stringify(modelMessages.map((m: any) => ({ role: m.role, contentLength: typeof m.content === "string" ? m.content.length : "non-string", contentPreview: typeof m.content === "string" ? m.content.slice(0, 100) : "..." }))))
+
+	// Filter out any system messages that convertToModelMessages might have injected
+	const filteredMessages = modelMessages.filter((m: any) => m.role !== "system")
+
+	// Prepend OUR system prompt
 	const messagesWithSystem = [
 		{ role: "system" as const, content: systemPrompt },
-		...modelMessages,
+		...filteredMessages,
 	]
 
 	const result = streamText({
