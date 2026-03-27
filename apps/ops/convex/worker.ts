@@ -263,16 +263,21 @@ export const workerCreateNote = mutation({
 		title: v.optional(v.string()),
 		entityType: v.optional(v.string()),
 		entityId: v.optional(v.string()),
-		userId: v.optional(v.id("users")),
+		userId: v.optional(v.string()),
 	},
 	handler: async (ctx, { content, title, entityType, entityId, userId }) => {
+		let resolvedUserId = userId
+		if (!resolvedUserId) {
+			const users = await ctx.db.query("users").take(1)
+			resolvedUserId = users[0]?._id
+		}
 		const now = Date.now()
 		return ctx.db.insert("notes", {
 			title: title ?? content.slice(0, 80),
 			contentText: content,
 			entityType: (entityType ?? "general") as "client" | "project" | "contract" | "invoice" | "todo" | "general",
 			entityId,
-			userId: userId as any,
+			userId: resolvedUserId as any,
 			pinned: false,
 			createdAt: now,
 			updatedAt: now,
@@ -285,10 +290,29 @@ export const workerCreateTodo = mutation({
 		text: v.string(),
 		priority: v.optional(v.string()),
 		dueDate: v.optional(v.string()),
-		userId: v.string(),
+		userId: v.optional(v.string()),
 		createdByAgent: v.optional(v.id("agents")),
+		agentSlug: v.optional(v.string()),
 	},
-	handler: async (ctx, { text, priority, dueDate, userId, createdByAgent }) => {
+	handler: async (ctx, { text, priority, dueDate, userId, createdByAgent, agentSlug }) => {
+		// Resolve userId from agent if not provided
+		let resolvedUserId = userId
+		if (!resolvedUserId && agentSlug) {
+			const agents = await ctx.db.query("agents").collect()
+			const agent = agents.find((a) => a.slug === agentSlug)
+			if (agent) resolvedUserId = agent.userId
+		}
+		if (!resolvedUserId && createdByAgent) {
+			const agent = await ctx.db.get(createdByAgent)
+			if (agent) resolvedUserId = agent.userId
+		}
+		if (!resolvedUserId) {
+			// Last resort: get first user
+			const users = await ctx.db.query("users").take(1)
+			resolvedUserId = users[0]?._id
+		}
+		if (!resolvedUserId) throw new ConvexError("Cannot resolve userId")
+
 		return ctx.db.insert("todos", {
 			text,
 			status: "todo",
@@ -296,7 +320,7 @@ export const workerCreateTodo = mutation({
 			source: "app" as const,
 			createdAt: Date.now(),
 			dueDate,
-			userId,
+			userId: resolvedUserId,
 			createdByAgent,
 		})
 	},
