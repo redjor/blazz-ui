@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
+import { contractMonthlyRevenue } from "./lib/contracts"
 
 // ── Pure helper (duplicated from lib/goals.ts — Convex can't import from app lib) ──
 
@@ -95,6 +96,32 @@ export const dashboard = query({
 				.collect()
 		).filter((e) => e.billable)
 
+		// Fetch active contracts for revenue projection
+		const contracts = await ctx.db
+			.query("contracts")
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "active"))
+			.collect()
+
+		const contractProjects = await Promise.all(
+			contracts.map((c) => ctx.db.get(c.projectId))
+		)
+		const projectMap = new Map(
+			contractProjects.filter(Boolean).map((p) => [p!._id, p!])
+		)
+
+		// Compute contract revenue per month
+		const monthlyContractRevenue = new Array(12).fill(0) as number[]
+		for (let i = 0; i < 12; i++) {
+			const ym = `${year}-${String(i + 1).padStart(2, "0")}`
+			for (const contract of contracts) {
+				const project = projectMap.get(contract.projectId)
+				if (!project) continue
+				monthlyContractRevenue[i] += contractMonthlyRevenue(contract, project, ym)
+			}
+		}
+
+		const securedAnnual = Math.round(monthlyContractRevenue.reduce((a, b) => a + b, 0))
+
 		// Aggregate actuals per month
 		const monthlyRevenue = new Array(12).fill(0) as number[]
 		const monthlyMinutes = new Array(12).fill(0) as number[]
@@ -138,24 +165,32 @@ export const dashboard = query({
 		const projectedMonthDays =
 			Math.round((monthlyDays[currentMonth] + bdRemaining * monthDaysPace) * 10) / 10
 
-		// End-of-year projection: average monthly revenue/days over elapsed months, extrapolate
-		const completedMonths = isCurrentYear ? currentMonth : 12 // months fully completed (0-indexed, so month 2 = jan+feb done)
-		// Include current month pro-rata
-		const elapsedMonthsWeight = completedMonths + (bdTotal > 0 ? bdElapsed / bdTotal : 0)
+		// End-of-year projection (hybrid: real + current extrapolation + future max(contract, target))
+		let projectedYearRevenue = 0
+		let projectedYearDays = 0
 
-		// Sum of months with non-zero targets (active months)
-		const activeMonthCount = revenueTargets.filter((t) => t > 0).length
-		const remainingActiveMonths = activeMonthCount - (completedMonths + 1) // exclude current month
+		for (let i = 0; i < 12; i++) {
+			if (!isCurrentYear) {
+				// Past year: just use actuals
+				projectedYearRevenue += monthlyRevenue[i]
+				projectedYearDays += monthlyDays[i]
+			} else if (i < currentMonth) {
+				// Past month: actual
+				projectedYearRevenue += monthlyRevenue[i]
+				projectedYearDays += monthlyDays[i]
+			} else if (i === currentMonth) {
+				// Current month: extrapolation from pace
+				projectedYearRevenue += projectedMonthRevenue
+				projectedYearDays += projectedMonthDays
+			} else {
+				// Future month: max(contract revenue, target from goalPlan)
+				projectedYearRevenue += Math.max(monthlyContractRevenue[i], revenueTargets[i])
+				projectedYearDays += dayTargets[i]
+			}
+		}
 
-		const projectedYearRevenue =
-			elapsedMonthsWeight > 0
-				? Math.round(totalRevenue + remainingActiveMonths * (totalRevenue / elapsedMonthsWeight))
-				: 0
-		const projectedYearDays =
-			elapsedMonthsWeight > 0
-				? Math.round((totalDays + remainingActiveMonths * (totalDays / elapsedMonthsWeight)) * 10) /
-					10
-				: 0
+		projectedYearRevenue = Math.round(projectedYearRevenue)
+		projectedYearDays = Math.round(projectedYearDays * 10) / 10
 
 		return {
 			year,
@@ -229,6 +264,11 @@ export const dashboard = query({
 						? Math.round(((totalRevenue / totalDays - plan.tjm.target) / plan.tjm.target) * 1000) /
 							10
 						: 0,
+			},
+			secured: {
+				annual: securedAnnual,
+				percent: pct(securedAnnual, plan.revenue.annual),
+				monthlyBreakdown: monthlyContractRevenue.map(Math.round),
 			},
 		}
 	},
