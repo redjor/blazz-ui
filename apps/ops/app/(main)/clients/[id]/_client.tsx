@@ -23,6 +23,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
+import { FavoriteButton } from "@/components/favorite-button"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
@@ -89,9 +90,16 @@ export default function ClientDetailPageClient({ params }: Props) {
 				<PageHeader
 					title={client.name}
 					actions={
-						<Button variant="outline" onClick={() => setEditOpen(true)}>
-							Modifier
-						</Button>
+						<InlineStack gap="200" blockAlign="center">
+							<FavoriteButton
+								entityType="client"
+								entityId={id}
+								label={client.name}
+							/>
+							<Button variant="outline" onClick={() => setEditOpen(true)}>
+								Modifier
+							</Button>
+						</InlineStack>
 					}
 				/>
 

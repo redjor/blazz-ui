@@ -12,6 +12,7 @@ import { useMutation, useQuery } from "convex/react"
 import { use, useState } from "react"
 import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
+import { FavoriteButton } from "@/components/favorite-button"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
 import { ProjectForm } from "@/components/project-form"
@@ -118,9 +119,16 @@ export default function ProjectOverviewPage({ params }: Props) {
 					<PageHeader
 						title={project.name}
 						actions={
-							<Button variant="outline" onClick={() => setEditOpen(true)}>
-								Modifier
-							</Button>
+							<InlineStack gap="200" blockAlign="center">
+								<FavoriteButton
+									entityType="project"
+									entityId={pid}
+									label={project.name}
+								/>
+								<Button variant="outline" onClick={() => setEditOpen(true)}>
+									Modifier
+								</Button>
+							</InlineStack>
 						}
 					/>
 					<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted">
