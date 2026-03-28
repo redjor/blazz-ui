@@ -1,6 +1,6 @@
 "use client"
 
-import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
+import { BlurFadeText, Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { Label } from "@blazz/ui/components/ui/label"
 import * as React from "react"
 
@@ -9,7 +9,9 @@ export function ControlledCheckboxDemo() {
 	return (
 		<div className="flex items-center gap-2">
 			<Checkbox id="controlled" checked={checked} onCheckedChange={setChecked} />
-			<Label htmlFor="controlled">{checked ? "Checked" : "Unchecked"}</Label>
+			<Label htmlFor="controlled">
+				<BlurFadeText text={checked ? "Checked" : "Unchecked"} />
+			</Label>
 		</div>
 	)
 }

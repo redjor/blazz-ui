@@ -71,15 +71,15 @@ const boxProps: DocProp[] = [
 	},
 	{
 		name: "padding",
-		type: '"0" | "2" | "4" | "6" | "8"',
-		default: '"0"',
-		description: "Padding around the content.",
+		type: '"0" | "2" | "4" | "inset" | "6" | "8"',
+		default: '"inset"',
+		description: 'Padding around the content. "inset" maps to the theme\'s standard inset spacing.',
 	},
 	{
 		name: "background",
-		type: '"transparent" | "app" | "surface" | "raised" | "overlay"',
+		type: '"transparent" | "app" | "surface" | "raised" | "overlay" | "accent"',
 		default: '"transparent"',
-		description: "Background color of the box. Follows the surface hierarchy: app < surface < raised < overlay.",
+		description: "Background color of the box. Follows the surface hierarchy: app < surface < raised < overlay. 'accent' applies a subtle brand tint (10% opacity).",
 	},
 	{
 		name: "border",
@@ -127,6 +127,9 @@ export default function BoxPage() {
 						<Box background="overlay" padding="4" borderRadius="md" border="default">
 							<p className="text-sm">Overlay</p>
 						</Box>
+						<Box background="accent" padding="4" borderRadius="md">
+							<p className="text-sm">Accent</p>
+						</Box>
 					</div>
 				</DocExampleClient>
 
@@ -134,6 +137,9 @@ export default function BoxPage() {
 					<div className="flex items-start gap-4">
 						<Box padding="2" background="raised" borderRadius="md">
 							<p className="text-sm">p-2</p>
+						</Box>
+						<Box padding="inset" background="raised" borderRadius="md">
+							<p className="text-sm">inset</p>
 						</Box>
 						<Box padding="4" background="raised" borderRadius="md">
 							<p className="text-sm">p-4</p>

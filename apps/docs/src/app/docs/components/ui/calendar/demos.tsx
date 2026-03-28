@@ -1,7 +1,7 @@
 "use client"
 
 import { Calendar } from "@blazz/ui/components/ui/calendar"
-import { addDays } from "date-fns"
+import { addDays, format } from "date-fns"
 import * as React from "react"
 import type { DateRange } from "react-day-picker"
 
@@ -10,7 +10,7 @@ export function SingleSelectionDemo() {
 	return (
 		<div className="flex flex-col items-center gap-2">
 			<Calendar mode="single" selected={date} onSelect={setDate} className="rounded-lg border border-edge" />
-			{date && <p className="text-xs text-fg-muted">Selected: {date.toLocaleDateString()}</p>}
+			{date && <p className="text-xs text-fg-muted">Selected: {format(date, "PPP")}</p>}
 		</div>
 	)
 }
@@ -20,7 +20,7 @@ export function ControlledDemo() {
 	return (
 		<div className="flex flex-col items-center gap-2">
 			<Calendar mode="single" selected={date} onSelect={setDate} className="rounded-lg border border-edge" />
-			<p className="text-xs text-fg-muted">{date ? `Selected: ${date.toLocaleDateString()}` : "Click a day to select it"}</p>
+			<p className="text-xs text-fg-muted">{date ? `Selected: ${format(date, "PPP")}` : "Click a day to select it"}</p>
 		</div>
 	)
 }
@@ -35,7 +35,7 @@ export function RangeSelectionDemo() {
 			<Calendar mode="range" selected={range} onSelect={setRange} numberOfMonths={2} className="rounded-lg border border-edge" />
 			{range?.from && range?.to && (
 				<p className="text-xs text-fg-muted">
-					{range.from.toLocaleDateString()} &ndash; {range.to.toLocaleDateString()}
+					{format(range.from, "PPP")} &ndash; {format(range.to, "PPP")}
 				</p>
 			)}
 		</div>

@@ -172,10 +172,10 @@ html.dark {
 
 	/* Semantic surfaces */
 	--page: oklch(0.1774 0.0044 264.46);
-	--background: oklch(0.1974 0.0044 264.46);
-	--card: oklch(0.214 0.0044 264.46);
-	--muted: oklch(0.234 0.0044 264.46);
-	--accent: oklch(0.246 0.005 270);
+	--background: oklch(0.2 0.004 264.46);
+	--card: oklch(0.23 0.004 264.46);
+	--muted: oklch(0.24 0.004 264.46);
+	--accent: oklch(0.22 0.005 270);
 	--secondary: oklch(0.246 0.005 270);
 	--popover: oklch(0.28 0.005 270);
 

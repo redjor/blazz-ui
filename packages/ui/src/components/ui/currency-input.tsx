@@ -102,7 +102,7 @@ function CurrencyInput({ value, onValueChange, currency = "EUR", locale = "fr-FR
 					"focus:border-brand",
 					"focus:ring-[3px] focus:ring-brand/20",
 					"h-8 rounded-md py-1",
-					symbolPosition === "left" ? "pl-8 pr-2.5" : "pl-2.5 pr-8",
+					symbolPosition === "left" ? "pl-8 pr-2.5" : "pl-2.5 pr-6",
 					"text-sm text-fg text-right tabular-nums",
 					"placeholder:text-fg-subtle",
 					"transition-colors duration-150 ease-out",

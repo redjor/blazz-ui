@@ -1,7 +1,7 @@
 "use client"
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
-import { CheckIcon } from "lucide-react"
+
 import * as React from "react"
 import { cn } from "../../lib/utils"
 
@@ -22,10 +22,60 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
 			)}
 			{...props}
 		>
-			<CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="[&>svg]:size-3.5 grid place-content-center text-current transition-none">
-				<CheckIcon />
+			<CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="grid place-content-center text-current transition-none">
+				<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M2.5 6.5L5 9L9.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+				</svg>
 			</CheckboxPrimitive.Indicator>
 		</CheckboxPrimitive.Root>
+	)
+}
+
+// ---------------------------------------------------------------------------
+// BlurFadeText — animated label transition
+// ---------------------------------------------------------------------------
+
+function BlurFadeText({ text, duration = 150 }: { text: string; duration?: number }) {
+	const [items, setItems] = React.useState([{ text, key: 0 }])
+	const counterRef = React.useRef(0)
+	const prevText = React.useRef(text)
+
+	React.useEffect(() => {
+		if (text === prevText.current) return
+		prevText.current = text
+		counterRef.current += 1
+		const newKey = counterRef.current
+
+		setItems((prev) => [...prev, { text, key: newKey }])
+
+		const cleanup = setTimeout(() => {
+			setItems((prev) => prev.filter((item) => item.key === newKey))
+		}, duration)
+
+		return () => clearTimeout(cleanup)
+	}, [text, duration])
+
+	return (
+		<span className="pointer-events-none relative inline-flex">
+			{items.map((item, i) => {
+				const isEntering = i === items.length - 1 && items.length > 1
+				const isLeaving = i < items.length - 1
+
+				return (
+					<span
+						key={item.key}
+						className={cn("transition-[opacity,filter] ease-out", i > 0 && "absolute inset-0")}
+						style={{
+							transitionDuration: `${duration}ms`,
+							opacity: isLeaving ? 0 : 1,
+							filter: isLeaving ? "blur(4px)" : isEntering ? "blur(0px)" : undefined,
+						}}
+					>
+						{item.text}
+					</span>
+				)
+			})}
+		</span>
 	)
 }
 
@@ -115,7 +165,7 @@ function CheckboxGroup({
 							/>
 							<div className="space-y-0.5">
 								<label htmlFor={id} className={cn("text-sm font-medium leading-none select-none", (option.disabled || disabled) && "opacity-50 cursor-not-allowed")}>
-									{option.label}
+									<BlurFadeText text={option.label} />
 								</label>
 								{option.description && <p className={cn("text-sm text-fg-muted", (option.disabled || disabled) && "opacity-50")}>{option.description}</p>}
 							</div>
@@ -127,4 +177,4 @@ function CheckboxGroup({
 	)
 }
 
-export { Checkbox, CheckboxGroup }
+export { BlurFadeText, Checkbox, CheckboxGroup }
