@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
+import { contractMonthlyRevenue } from "./lib/contracts"
 
 // ── Settings ──
 
@@ -199,31 +200,9 @@ export const forecast = query({
 			// Revenue: from active contracts
 			let revenueCents = 0
 			for (const contract of contracts) {
-				// Check contract is active during this month
-				const cStart = contract.startDate.slice(0, 7)
-				const cEnd = contract.endDate.slice(0, 7)
-				if (yearMonth < cStart || yearMonth > cEnd) continue
-
 				const project = projectMap.get(contract.projectId)
 				if (!project) continue
-
-				if (contract.type === "tma" && contract.daysPerMonth) {
-					revenueCents += Math.round(contract.daysPerMonth * project.tjm * 100)
-				} else if (contract.type === "regie") {
-					// Régie: estimate based on project's hoursPerDay × 20 working days × TJM
-					revenueCents += Math.round(20 * project.tjm * 100)
-				}
-				// Forfait: budget spread over contract duration (simplified)
-				if (contract.type === "forfait" && contract.budgetAmount) {
-					const startDate = new Date(contract.startDate)
-					const endDate = new Date(contract.endDate)
-					const totalMonths =
-						(endDate.getFullYear() - startDate.getFullYear()) * 12 +
-						(endDate.getMonth() - startDate.getMonth()) + 1
-					if (totalMonths > 0) {
-						revenueCents += Math.round((contract.budgetAmount / totalMonths) * 100)
-					}
-				}
+				revenueCents += Math.round(contractMonthlyRevenue(contract, project, yearMonth) * 100)
 			}
 
 			// Add unpaid invoices expected to land this month (based on payment delay)
