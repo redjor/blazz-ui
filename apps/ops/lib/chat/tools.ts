@@ -12,10 +12,7 @@ export const readTools = {
 	"list-todos": tool({
 		description: "List all todos, optionally filtered by status",
 		parameters: z.object({
-			status: z
-				.enum(["triage", "todo", "blocked", "in_progress", "done"])
-				.optional()
-				.describe("Filter by status"),
+			status: z.enum(["triage", "todo", "blocked", "in_progress", "done"]).optional().describe("Filter by status"),
 		}),
 	}),
 
@@ -87,10 +84,7 @@ export const writeSafeTools = {
 			tjm: z.number().describe("Daily rate (TJM) in EUR"),
 			hoursPerDay: z.number().optional().describe("Hours per day (default: 7)"),
 			currency: z.string().optional().describe("Currency (default: EUR)"),
-			status: z
-				.enum(["active", "paused", "closed"])
-				.optional()
-				.describe("Status (default: active)"),
+			status: z.enum(["active", "paused", "closed"]).optional().describe("Status (default: active)"),
 		}),
 	}),
 
@@ -111,19 +105,12 @@ export const writeSafeTools = {
 
 export const writeDangerousTools = {
 	"create-todo": tool({
-		description:
-			'Create a new todo. The "text" field is mandatory and must come from the user request. Never invent a todo title if it was not explicitly provided.',
+		description: 'Create a new todo. The "text" field is mandatory and must come from the user request. Never invent a todo title if it was not explicitly provided.',
 		parameters: z.object({
 			text: z.string().describe("Todo title, required, explicitly provided by the user"),
 			description: z.string().optional().describe("Detailed description"),
-			status: z
-				.enum(["triage", "todo", "blocked", "in_progress", "done"])
-				.optional()
-				.describe("Status (default: todo)"),
-			priority: z
-				.enum(["urgent", "high", "normal", "low"])
-				.optional()
-				.describe("Priority (default: normal)"),
+			status: z.enum(["triage", "todo", "blocked", "in_progress", "done"]).optional().describe("Status (default: todo)"),
+			priority: z.enum(["urgent", "high", "normal", "low"]).optional().describe("Priority (default: normal)"),
 			dueDate: z.string().optional().describe("Due date (YYYY-MM-DD)"),
 			projectId: z.string().optional().describe("Project ID to link"),
 			categoryId: z.string().optional().describe("Category ID"),

@@ -4,67 +4,27 @@ import { Alert, AlertDescription, AlertTitle } from "@blazz/ui/components/ui/ale
 import { Avatar, AvatarFallback, AvatarGroup } from "@blazz/ui/components/ui/avatar"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Banner } from "@blazz/ui/components/ui/banner"
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@blazz/ui/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@blazz/ui/components/ui/breadcrumb"
 // ── UI primitives ──────────────────────────────────────────────────────────
 import { Button } from "@blazz/ui/components/ui/button"
 import { ButtonGroup } from "@blazz/ui/components/ui/button-group"
 import { Calendar } from "@blazz/ui/components/ui/calendar"
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { Empty } from "@blazz/ui/components/ui/empty"
-import {
-	Frame,
-	FrameDescription,
-	FrameHeader,
-	FramePanel,
-	FrameTitle,
-} from "@blazz/ui/components/ui/frame-panel"
+import { Frame, FrameDescription, FrameHeader, FramePanel, FrameTitle } from "@blazz/ui/components/ui/frame-panel"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { NavMenu, NavMenuGroup, NavMenuItem } from "@blazz/ui/components/ui/nav-menu"
 import { Property } from "@blazz/ui/components/ui/property"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Switch } from "@blazz/ui/components/ui/switch"
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@blazz/ui/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@blazz/ui/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
 import { Text } from "@blazz/ui/components/ui/text"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
-import {
-	Timeline,
-	TimelineContent,
-	TimelineDescription,
-	TimelineHeader,
-	TimelineIndicator,
-	TimelineItem,
-	TimelineTitle,
-} from "@blazz/ui/components/ui/timeline"
+import { Timeline, TimelineContent, TimelineDescription, TimelineHeader, TimelineIndicator, TimelineItem, TimelineTitle } from "@blazz/ui/components/ui/timeline"
 import { TreeView } from "@blazz/ui/components/ui/tree-view"
 import {
 	AlertTriangle,
@@ -304,20 +264,14 @@ export function DateSelectorPreview() {
 		<div className="flex flex-col gap-4 p-8 w-[360px]">
 			<div className="space-y-1.5">
 				<Label>Start date</Label>
-				<button
-					type="button"
-					className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-edge bg-transparent px-2.5 text-sm"
-				>
+				<button type="button" className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-edge bg-transparent px-2.5 text-sm">
 					<CalendarIcon className="size-4 text-fg-muted" />
 					<span>February 23, 2026</span>
 				</button>
 			</div>
 			<div className="space-y-1.5">
 				<Label>Date range</Label>
-				<button
-					type="button"
-					className="inline-flex h-8 items-center gap-0 rounded-lg border border-edge bg-transparent px-2.5 text-sm"
-				>
+				<button type="button" className="inline-flex h-8 items-center gap-0 rounded-lg border border-edge bg-transparent px-2.5 text-sm">
 					<CalendarIcon className="mr-1.5 size-4 text-fg-muted" />
 					<span>Feb 01, 2026</span>
 					<span className="mx-1.5 text-fg-muted">&ndash;</span>
@@ -338,16 +292,12 @@ export function AlertPreview() {
 			<Alert>
 				<Info className="size-4" />
 				<AlertTitle>Information</AlertTitle>
-				<AlertDescription>
-					Your account has been successfully created. Check your email to verify.
-				</AlertDescription>
+				<AlertDescription>Your account has been successfully created. Check your email to verify.</AlertDescription>
 			</Alert>
 			<Alert variant="destructive">
 				<AlertTriangle className="size-4" />
 				<AlertTitle>Error</AlertTitle>
-				<AlertDescription>
-					There was a problem processing your request. Please try again.
-				</AlertDescription>
+				<AlertDescription>There was a problem processing your request. Please try again.</AlertDescription>
 			</Alert>
 		</div>
 	)
@@ -628,10 +578,7 @@ export function CellsPreview() {
 					</Text>
 					<div className="flex gap-0.5">
 						{[1, 2, 3, 4, 5].map((i) => (
-							<Star
-								key={i}
-								className={`size-3.5 ${i <= 4 ? "fill-caution text-caution" : "text-fg-subtle"}`}
-							/>
+							<Star key={i} className={`size-3.5 ${i <= 4 ? "fill-caution text-caution" : "text-fg-subtle"}`} />
 						))}
 					</div>
 				</div>
@@ -826,11 +773,7 @@ export function TablePreview() {
 							<TableCell>{row.contact}</TableCell>
 							<TableCell className="text-right tabular-nums">{row.revenue}</TableCell>
 							<TableCell>
-								<Badge
-									variant={row.status === "Active" ? "success" : "warning"}
-									size="xs"
-									fill="subtle"
-								>
+								<Badge variant={row.status === "Active" ? "success" : "warning"} size="xs" fill="subtle">
 									{row.status}
 								</Badge>
 							</TableCell>
@@ -1057,9 +1000,7 @@ export function CommandPreview() {
 			<div className="rounded-lg border bg-popover shadow-lg overflow-hidden">
 				<div className="flex items-center border-b px-3">
 					<Search className="mr-2 size-4 shrink-0 text-fg-muted" />
-					<div className="flex h-11 w-full items-center text-sm text-fg-muted">
-						Type a command or search...
-					</div>
+					<div className="flex h-11 w-full items-center text-sm text-fg-muted">Type a command or search...</div>
 				</div>
 				<div className="p-1">
 					<div className="px-2 py-1.5 text-xs font-semibold text-fg-muted">Suggestions</div>
@@ -1093,10 +1034,7 @@ export function ConfirmationDialogPreview() {
 			<div className="rounded-xl border border-edge bg-popover p-4 shadow-lg ring-1 ring-edge/40">
 				<div className="-mx-4 -mt-4 flex flex-col gap-2 px-4 pb-3 pt-4">
 					<div className="text-sm font-medium text-fg">Delete this deal?</div>
-					<div className="text-sm text-fg-muted">
-						This action cannot be undone. The deal and all associated data will be permanently
-						removed from your workspace.
-					</div>
+					<div className="text-sm text-fg-muted">This action cannot be undone. The deal and all associated data will be permanently removed from your workspace.</div>
 				</div>
 				<div className="-mx-4 -mb-4 mt-4 flex justify-end gap-2 rounded-b-xl border-t border-edge bg-muted p-4">
 					<Button variant="outline">Cancel</Button>
@@ -1299,9 +1237,7 @@ export function NotificationCenterPreview() {
 							const Icon = n.icon
 							return (
 								<div key={i} className={`flex gap-3 px-4 py-3 ${!n.read ? "bg-brand/5" : ""}`}>
-									<div
-										className={`mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full ${iconVariantClasses[n.variant]}`}
-									>
+									<div className={`mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full ${iconVariantClasses[n.variant]}`}>
 										<Icon className="size-3.5" />
 									</div>
 									<div className="min-w-0 flex-1">
@@ -1337,9 +1273,7 @@ export function OrgMenuPreview() {
 					<AvatarFallback className="rounded-lg text-xs font-semibold">AC</AvatarFallback>
 				</Avatar>
 				<div className="flex min-w-0 flex-1 flex-col text-left">
-					<span className="truncate text-[13px] font-semibold leading-tight text-fg">
-						Acme Corp
-					</span>
+					<span className="truncate text-[13px] font-semibold leading-tight text-fg">Acme Corp</span>
 					<span className="truncate text-xs leading-tight text-fg-muted">Pro Plan</span>
 				</div>
 				<ChevronsUpDown className="size-3.5 shrink-0 text-fg-muted" />

@@ -3,9 +3,7 @@
 import { use } from "react"
 import { ProjectNotesList } from "@/components/project-notes-list"
 
-export default function ProjectNotesPage({
-	params,
-}: { params: Promise<{ pid: string }> }) {
+export default function ProjectNotesPage({ params }: { params: Promise<{ pid: string }> }) {
 	const { pid } = use(params)
 
 	return (

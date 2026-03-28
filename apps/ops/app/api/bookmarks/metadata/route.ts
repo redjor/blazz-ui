@@ -32,10 +32,7 @@ function extractTweetAuthor(url: string): string | null {
 }
 
 function getMetaContent(html: string, property: string): string | null {
-	const regex = new RegExp(
-		`<meta[^>]*(?:property|name)=["']${property}["'][^>]*content=["']([^"']*?)["']|<meta[^>]*content=["']([^"']*?)["'][^>]*(?:property|name)=["']${property}["']`,
-		"i"
-	)
+	const regex = new RegExp(`<meta[^>]*(?:property|name)=["']${property}["'][^>]*content=["']([^"']*?)["']|<meta[^>]*content=["']([^"']*?)["'][^>]*(?:property|name)=["']${property}["']`, "i")
 	const match = html.match(regex)
 	return match?.[1] ?? match?.[2] ?? null
 }
@@ -83,14 +80,9 @@ export async function POST(request: Request) {
 				})
 				if (response.ok) {
 					const html = await response.text()
-					metadata.title =
-						metadata.title ?? getMetaContent(html, "og:title") ?? getTitle(html) ?? undefined
-					metadata.description =
-						getMetaContent(html, "og:description") ??
-						getMetaContent(html, "description") ??
-						undefined
-					metadata.thumbnailUrl =
-						metadata.thumbnailUrl ?? getMetaContent(html, "og:image") ?? undefined
+					metadata.title = metadata.title ?? getMetaContent(html, "og:title") ?? getTitle(html) ?? undefined
+					metadata.description = getMetaContent(html, "og:description") ?? getMetaContent(html, "description") ?? undefined
+					metadata.thumbnailUrl = metadata.thumbnailUrl ?? getMetaContent(html, "og:image") ?? undefined
 					metadata.siteName = metadata.siteName ?? getMetaContent(html, "og:site_name") ?? undefined
 					metadata.author = metadata.author ?? getMetaContent(html, "article:author") ?? undefined
 				}

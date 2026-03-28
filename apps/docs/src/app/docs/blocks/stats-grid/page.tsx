@@ -1,17 +1,9 @@
 "use client"
 
-import { use } from "react"
 import type { StatItem } from "@blazz/pro/components/blocks/stats-grid"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
-import {
-	Clock,
-	CreditCard,
-	DollarSign,
-	Handshake,
-	ShoppingCart,
-	TrendingUp,
-	Users,
-} from "lucide-react"
+import { Clock, CreditCard, DollarSign, Handshake, ShoppingCart, TrendingUp, Users } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -238,15 +230,13 @@ const statsGridProps: DocProp[] = [
 		name: "columns",
 		type: "2 | 3 | 4",
 		default: "4",
-		description:
-			"Number of columns in the grid. Responsive: collapses to 2 on tablet, 1 on mobile.",
+		description: "Number of columns in the grid. Responsive: collapses to 2 on tablet, 1 on mobile.",
 	},
 	{
 		name: "loading",
 		type: "boolean",
 		default: "false",
-		description:
-			"Show skeleton loading state. Renders placeholder cards matching the column count.",
+		description: "Show skeleton loading state. Renders placeholder cards matching the column count.",
 	},
 	{
 		name: "className",
@@ -269,14 +259,12 @@ const statItemProps: DocProp[] = [
 	{
 		name: "trend",
 		type: "number",
-		description:
-			"Percentage change vs previous period. Positive shows green up arrow, negative shows red down arrow.",
+		description: "Percentage change vs previous period. Positive shows green up arrow, negative shows red down arrow.",
 	},
 	{
 		name: "trendInverted",
 		type: "boolean",
-		description:
-			"Invert trend colors: negative becomes green (good) and positive becomes red (bad). Use for cost-type metrics where lower is better.",
+		description: "Invert trend colors: negative becomes green (good) and positive becomes red (bad). Use for cost-type metrics where lower is better.",
 	},
 	{
 		name: "icon",
@@ -300,7 +288,6 @@ const toc = [
 // Route
 // ---------------------------------------------------------------------------
 
-
 // ---------------------------------------------------------------------------
 // Hero demo
 // ---------------------------------------------------------------------------
@@ -322,11 +309,7 @@ export default function StatsGridPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Stats Grid"
-			subtitle="A responsive grid of KPI cards with trend indicators, icons, loading skeletons, and support for inverted metrics where lower is better."
-			toc={toc}
-		>
+		<DocPage title="Stats Grid" subtitle="A responsive grid of KPI cards with trend indicators, icons, loading skeletons, and support for inverted metrics where lower is better." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<StatsGridHeroDemo />
@@ -345,12 +328,7 @@ export default function StatsGridPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Three Columns"
-					description="Use the columns prop to switch to a 3-column layout for fewer metrics."
-					code={examples[1].code}
-					highlightedCode={html("three-columns")}
-				>
+				<DocExampleClient title="Three Columns" description="Use the columns prop to switch to a 3-column layout for fewer metrics." code={examples[1].code} highlightedCode={html("three-columns")}>
 					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<StatsGrid stats={threeColumnStats} columns={3} />
 					</div>
@@ -396,14 +374,12 @@ export default function StatsGridPage() {
 						{
 							title: "Stats Strip",
 							href: "/docs/blocks/stats-strip",
-							description:
-								"Horizontal row of key metrics with trend indicators and compact layout.",
+							description: "Horizontal row of key metrics with trend indicators and compact layout.",
 						},
 						{
 							title: "Data Table",
 							href: "/docs/blocks/data-table",
-							description:
-								"Full-featured data table with sorting, filtering, pagination, and row selection.",
+							description: "Full-featured data table with sorting, filtering, pagination, and row selection.",
 						},
 						{
 							title: "Chart Card",

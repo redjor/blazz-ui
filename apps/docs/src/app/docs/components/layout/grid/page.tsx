@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Grid } from "@blazz/ui/components/ui/grid"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -124,11 +124,7 @@ const gridCellProps: DocProp[] = [
 ]
 
 function Placeholder({ label }: { label: string }) {
-	return (
-		<div className="flex h-24 items-center justify-center rounded-lg bg-brand/10 text-sm font-medium">
-			{label}
-		</div>
-	)
+	return <div className="flex h-24 items-center justify-center rounded-lg bg-brand/10 text-sm font-medium">{label}</div>
 }
 
 export default function GridPage() {
@@ -168,12 +164,7 @@ export default function GridPage() {
 					</Grid>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Two-thirds and One-third"
-					description="An asymmetric layout with a main content area and a sidebar."
-					code={examples[1].code}
-					highlightedCode={html("two-thirds")}
-				>
+				<DocExampleClient title="Two-thirds and One-third" description="An asymmetric layout with a main content area and a sidebar." code={examples[1].code} highlightedCode={html("two-thirds")}>
 					<Grid>
 						<Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 8, lg: 8 }}>
 							<Placeholder label="Main Content (2/3)" />
@@ -184,12 +175,7 @@ export default function GridPage() {
 					</Grid>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Three Column"
-					description="A three column layout for equal-width content sections."
-					code={examples[2].code}
-					highlightedCode={html("three-column")}
-				>
+				<DocExampleClient title="Three Column" description="A three column layout for equal-width content sections." code={examples[2].code} highlightedCode={html("three-column")}>
 					<Grid>
 						<Grid.Cell columnSpan={{ xs: 6, sm: 6, md: 4, lg: 4 }}>
 							<Placeholder label="Column 1" />
@@ -203,12 +189,7 @@ export default function GridPage() {
 					</Grid>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Four Column"
-					description="A four column layout for dashboard-style content."
-					code={examples[3].code}
-					highlightedCode={html("four-column")}
-				>
+				<DocExampleClient title="Four Column" description="A four column layout for dashboard-style content." code={examples[3].code} highlightedCode={html("four-column")}>
 					<Grid>
 						<Grid.Cell columnSpan={{ xs: 6, sm: 3, md: 3, lg: 3 }}>
 							<Placeholder label="Stat 1" />
@@ -225,12 +206,7 @@ export default function GridPage() {
 					</Grid>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Mixed Layout"
-					description="Combine different column spans for complex layouts."
-					code={examples[4].code}
-					highlightedCode={html("mixed")}
-				>
+				<DocExampleClient title="Mixed Layout" description="Combine different column spans for complex layouts." code={examples[4].code} highlightedCode={html("mixed")}>
 					<Grid>
 						<Grid.Cell columnSpan={{ xs: 6, md: 12, lg: 12 }}>
 							<Placeholder label="Full Width Header" />

@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { StatsStrip } from "@blazz/pro/components/blocks/stats-strip"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -78,8 +78,7 @@ const statsStripProps: DocProp[] = [
 		name: "loadingCount",
 		type: "number",
 		default: "4",
-		description:
-			"Number of skeleton items to render while loading. Set this to match the expected number of stats.",
+		description: "Number of skeleton items to render while loading. Set this to match the expected number of stats.",
 	},
 	{
 		name: "className",
@@ -107,8 +106,7 @@ const statsStripItemProps: DocProp[] = [
 	{
 		name: "trend",
 		type: '"up" | "down" | "neutral"',
-		description:
-			'Override the sparkline color. Without this prop, trend is auto-detected by comparing chart[0] vs chart[last]. "up" → green, "down" → red, "neutral" → muted.',
+		description: 'Override the sparkline color. Without this prop, trend is auto-detected by comparing chart[0] vs chart[last]. "up" → green, "down" → red, "neutral" → muted.',
 	},
 ]
 
@@ -168,11 +166,7 @@ export default function StatsStripPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="StatsStrip"
-			subtitle="A compact, horizontally scrollable bar of KPIs with optional sparklines. Ideal for dashboards and analytics headers."
-			toc={toc}
-		>
+		<DocPage title="StatsStrip" subtitle="A compact, horizontally scrollable bar of KPIs with optional sparklines. Ideal for dashboards and analytics headers." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-3xl">
 					<StatsStrip stats={heroStats} />
@@ -180,21 +174,11 @@ export default function StatsStripPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="Simple KPIs without sparklines."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="Simple KPIs without sparklines." code={examples[0].code} highlightedCode={html("basic")}>
 					<StatsStrip stats={basicStats} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Sparklines"
-					description="Each metric shows a mini trend line from the chart data points."
-					code={examples[1].code}
-					highlightedCode={html("sparklines")}
-				>
+				<DocExampleClient title="With Sparklines" description="Each metric shows a mini trend line from the chart data points." code={examples[1].code} highlightedCode={html("sparklines")}>
 					<StatsStrip stats={sparklineStats} />
 				</DocExampleClient>
 
@@ -236,10 +220,7 @@ export default function StatsStripPage() {
 
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
-					<li>
-						Use for analytics headers and dashboard summaries — not as the main KPI display (use
-						StatsGrid for that)
-					</li>
+					<li>Use for analytics headers and dashboard summaries — not as the main KPI display (use StatsGrid for that)</li>
 					<li>Pre-format values before passing them (e.g. "€45 200", "3.2 %")</li>
 					<li>Provide at least 7 data points for smooth sparklines</li>
 					<li>Keep labels concise — long labels will be truncated with a tooltip</li>

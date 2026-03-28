@@ -37,40 +37,35 @@ const formComponents = [
 	{
 		title: "Checkbox",
 		href: "/docs/components/ui/checkbox",
-		description:
-			"A control that allows the user to toggle between checked and unchecked states with indeterminate support.",
+		description: "A control that allows the user to toggle between checked and unchecked states with indeterminate support.",
 		icon: CheckSquare,
 		thumbnail: "checkbox",
 	},
 	{
 		title: "Color Picker",
 		href: "/docs/components/ui/color-picker",
-		description:
-			"A color selection component with palette presets, hex input, and opacity control.",
+		description: "A color selection component with palette presets, hex input, and opacity control.",
 		icon: Palette,
 		thumbnail: "color-picker",
 	},
 	{
 		title: "Combobox",
 		href: "/docs/components/ui/combobox",
-		description:
-			"An input with autocomplete functionality for searching and selecting from a list of options.",
+		description: "An input with autocomplete functionality for searching and selecting from a list of options.",
 		icon: Search,
 		thumbnail: "combobox",
 	},
 	{
 		title: "Currency Input",
 		href: "/docs/components/ui/currency-input",
-		description:
-			"A specialized number input with currency symbol, locale-aware formatting, and decimal precision.",
+		description: "A specialized number input with currency symbol, locale-aware formatting, and decimal precision.",
 		icon: DollarSign,
 		thumbnail: "currency-input",
 	},
 	{
 		title: "Date Selector",
 		href: "/docs/components/ui/date-selector",
-		description:
-			"A popover-based date picker for forms with single date and grouped start/end date variants.",
+		description: "A popover-based date picker for forms with single date and grouped start/end date variants.",
 		icon: CalendarDays,
 		thumbnail: "date-selector",
 	},
@@ -91,8 +86,7 @@ const formComponents = [
 	{
 		title: "Input",
 		href: "/docs/components/ui/input",
-		description:
-			"A text input field for single-line data entry with validation and accessibility support.",
+		description: "A text input field for single-line data entry with validation and accessibility support.",
 		icon: Type,
 		thumbnail: "input",
 	},
@@ -106,8 +100,7 @@ const formComponents = [
 	{
 		title: "Number Input",
 		href: "/docs/components/ui/number-input",
-		description:
-			"A numeric input with increment/decrement buttons, min/max range, and step control.",
+		description: "A numeric input with increment/decrement buttons, min/max range, and step control.",
 		icon: Hash,
 		thumbnail: "number-input",
 	},
@@ -128,8 +121,7 @@ const formComponents = [
 	{
 		title: "Phone Input",
 		href: "/docs/components/ui/phone-input",
-		description:
-			"An international phone number input with country selector, flag display, and E.164 formatting.",
+		description: "An international phone number input with country selector, flag display, and E.164 formatting.",
 		icon: Phone,
 		thumbnail: "phone-input",
 	},
@@ -157,8 +149,7 @@ const formComponents = [
 	{
 		title: "Select",
 		href: "/docs/components/ui/select",
-		description:
-			"A dropdown control for selecting from a list of options with keyboard navigation.",
+		description: "A dropdown control for selecting from a list of options with keyboard navigation.",
 		icon: ChevronDown,
 		thumbnail: "select",
 	},
@@ -179,8 +170,7 @@ const formComponents = [
 	{
 		title: "Tags Input",
 		href: "/docs/components/ui/tags-input",
-		description:
-			"An input for managing multiple tags or values with add, remove, and validation capabilities.",
+		description: "An input for managing multiple tags or values with add, remove, and validation capabilities.",
 		icon: Hash,
 		thumbnail: "tags-input",
 	},

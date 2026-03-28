@@ -2,18 +2,7 @@
 
 import { Page } from "@blazz/ui/components/ui/page"
 import type { LucideIcon } from "lucide-react"
-import {
-	ArrowRight,
-	Brain,
-	Calendar,
-	ChartLine,
-	CreditCard,
-	FileText,
-	ListChecks,
-	MessageCircle,
-	Users,
-	Wrench,
-} from "lucide-react"
+import { ArrowRight, Brain, Calendar, ChartLine, CreditCard, FileText, ListChecks, MessageCircle, Users, Wrench } from "lucide-react"
 import Link from "next/link"
 
 interface AIComponentItem {
@@ -169,9 +158,7 @@ export default function AIElementsPage() {
 				/>
 				<div className="relative z-10 mx-auto max-w-2xl space-y-3">
 					<h1 className="text-4xl font-bold tracking-tight text-fg">AI Elements</h1>
-					<p className="text-base text-fg-muted">
-						{totalComponents} components for building AI chat interfaces. Browse by category.
-					</p>
+					<p className="text-base text-fg-muted">{totalComponents} components for building AI chat interfaces. Browse by category.</p>
 				</div>
 			</div>
 			<div className="space-y-10 py-8">
@@ -184,9 +171,7 @@ export default function AIElementsPage() {
 							<div className="min-w-0">
 								<div className="flex items-center gap-2">
 									<h2 className="text-sm font-semibold text-fg">{category.title}</h2>
-									<span className="text-xs text-fg-muted tabular-nums">
-										{category.items.length}
-									</span>
+									<span className="text-xs text-fg-muted tabular-nums">{category.items.length}</span>
 								</div>
 								<p className="text-xs text-fg-muted">{category.description}</p>
 							</div>

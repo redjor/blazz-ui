@@ -49,9 +49,7 @@ describe("timeEntries auth", () => {
 			hourlyRate: 100,
 			billable: true,
 		})
-		await expect(t.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow(
-			"Non authentifié"
-		)
+		await expect(t.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow("Non authentifié")
 	})
 
 	it("update rejects unauthenticated", async () => {
@@ -99,9 +97,7 @@ describe("timeEntries delete guards", () => {
 			billable: true,
 			status: "invoiced",
 		})
-		await expect(asUser.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow(
-			"facturée"
-		)
+		await expect(asUser.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow("facturée")
 	})
 
 	it("cannot delete a paid entry", async () => {
@@ -451,9 +447,7 @@ describe("ownership isolation", () => {
 			hourlyRate: 100,
 			billable: true,
 		})
-		await expect(asUser2.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow(
-			"introuvable"
-		)
+		await expect(asUser2.mutation(api.timeEntries.remove, { id: entryId })).rejects.toThrow("introuvable")
 	})
 
 	it("user2 cannot update user1's time entry", async () => {

@@ -1,9 +1,6 @@
 "use client"
 
-import {
-	SettingsHeader,
-	SettingsPage,
-} from "@blazz/pro/components/blocks/settings-block"
+import { SettingsHeader, SettingsPage } from "@blazz/pro/components/blocks/settings-block"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
@@ -11,8 +8,8 @@ import { Progress } from "@blazz/ui/components/ui/progress"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { useRouter } from "next/navigation"
-import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
+import { api } from "@/convex/_generated/api"
 
 export function AgentsSettingsClient() {
 	const agents = useQuery(api.agents.list)
@@ -36,15 +33,7 @@ export function AgentsSettingsClient() {
 			<SettingsHeader title="Agents" description="Gérez vos agents autonomes." />
 			<BlockStack gap="200">
 				{agents.map((agent) => {
-					const usagePercent =
-						agent.budget.maxPerMonth > 0
-							? Math.min(
-									100,
-									Math.round(
-										(agent.usage.monthUsd / agent.budget.maxPerMonth) * 100,
-									),
-								)
-							: 0
+					const usagePercent = agent.budget.maxPerMonth > 0 ? Math.min(100, Math.round((agent.usage.monthUsd / agent.budget.maxPerMonth) * 100)) : 0
 
 					return (
 						<button
@@ -58,20 +47,9 @@ export function AgentsSettingsClient() {
 									<AgentAvatar name={agent.name} size={40} />
 									<BlockStack gap="050">
 										<InlineStack gap="200" blockAlign="center">
-											<span className="text-sm font-medium text-fg">
-												{agent.name}
-											</span>
-											<Badge
-												variant={
-													agent.status === "disabled"
-														? "outline"
-														: "secondary"
-												}
-												className="text-xs"
-											>
-												{agent.status === "disabled"
-													? "Désactivé"
-													: agent.role}
+											<span className="text-sm font-medium text-fg">{agent.name}</span>
+											<Badge variant={agent.status === "disabled" ? "outline" : "secondary"} className="text-xs">
+												{agent.status === "disabled" ? "Désactivé" : agent.role}
 											</Badge>
 										</InlineStack>
 										<span className="text-xs text-fg-muted">{agent.model}</span>
@@ -81,8 +59,7 @@ export function AgentsSettingsClient() {
 								<InlineStack gap="300" blockAlign="center">
 									<BlockStack gap="050" className="items-end">
 										<span className="text-xs text-fg-muted tabular-nums">
-											${agent.usage.monthUsd.toFixed(2)} / $
-											{agent.budget.maxPerMonth.toFixed(2)}
+											${agent.usage.monthUsd.toFixed(2)} / ${agent.budget.maxPerMonth.toFixed(2)}
 										</span>
 										<Progress value={usagePercent} className="w-24 h-1.5" />
 									</BlockStack>
@@ -91,11 +68,7 @@ export function AgentsSettingsClient() {
 						</button>
 					)
 				})}
-				{agents.length === 0 && (
-					<p className="text-sm text-fg-muted">
-						Aucun agent configuré. Lancez le seed depuis les missions.
-					</p>
-				)}
+				{agents.length === 0 && <p className="text-sm text-fg-muted">Aucun agent configuré. Lancez le seed depuis les missions.</p>}
 			</BlockStack>
 		</SettingsPage>
 	)

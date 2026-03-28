@@ -1,7 +1,6 @@
 "use client"
 
 import { UserMenu } from "@blazz/ui/components/patterns/user-menu"
-import { SidebarMenuButton } from "@blazz/ui/components/ui/sidebar"
 import { useAuthActions } from "@convex-dev/auth/react"
 import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"

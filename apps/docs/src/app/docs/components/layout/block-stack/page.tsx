@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -92,11 +92,7 @@ const blockStackProps: DocProp[] = [
 ]
 
 function Placeholder({ label }: { label: string }) {
-	return (
-		<div className="flex h-12 items-center justify-center rounded-md bg-brand/10 px-4 text-sm">
-			{label}
-		</div>
-	)
+	return <div className="flex h-12 items-center justify-center rounded-md bg-brand/10 px-4 text-sm">{label}</div>
 }
 
 export default function BlockStackPage() {
@@ -104,18 +100,9 @@ export default function BlockStackPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Block Stack"
-			subtitle="Use to display children vertically with full width by default. Based on CSS Flexbox."
-			toc={toc}
-		>
+		<DocPage title="Block Stack" subtitle="Use to display children vertically with full width by default. Based on CSS Flexbox." toc={toc}>
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Gap"
-					description="Control the vertical space between children using the gap prop."
-					code={examples[0].code}
-					highlightedCode={html("gap")}
-				>
+				<DocExampleClient title="Gap" description="Control the vertical space between children using the gap prop." code={examples[0].code} highlightedCode={html("gap")}>
 					<Card>
 						<CardContent>
 							<BlockStack gap="400">
@@ -127,12 +114,7 @@ export default function BlockStackPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Different Gap Sizes"
-					description="Compare different gap sizes side by side."
-					code={examples[1].code}
-					highlightedCode={html("gap-sizes")}
-				>
+				<DocExampleClient title="Different Gap Sizes" description="Compare different gap sizes side by side." code={examples[1].code} highlightedCode={html("gap-sizes")}>
 					<div className="grid grid-cols-3 gap-8">
 						<div>
 							<p className="mb-2 text-xs font-medium">gap="100"</p>
@@ -161,12 +143,7 @@ export default function BlockStackPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Align"
-					description="Control the vertical alignment of children."
-					code={examples[2].code}
-					highlightedCode={html("align")}
-				>
+				<DocExampleClient title="Align" description="Control the vertical alignment of children." code={examples[2].code} highlightedCode={html("align")}>
 					<div className="grid grid-cols-3 gap-8">
 						<div>
 							<p className="mb-2 text-xs font-medium">align="start"</p>
@@ -204,12 +181,7 @@ export default function BlockStackPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Inline Align"
-					description="Control the horizontal alignment of children."
-					code={examples[3].code}
-					highlightedCode={html("inline-align")}
-				>
+				<DocExampleClient title="Inline Align" description="Control the horizontal alignment of children." code={examples[3].code} highlightedCode={html("inline-align")}>
 					<div className="grid grid-cols-3 gap-8">
 						<div>
 							<p className="mb-2 text-xs font-medium">inlineAlign="start"</p>
@@ -250,12 +222,7 @@ export default function BlockStackPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Reverse Order"
-					description="Reverse the order of children."
-					code={examples[4].code}
-					highlightedCode={html("reverse")}
-				>
+				<DocExampleClient title="Reverse Order" description="Reverse the order of children." code={examples[4].code} highlightedCode={html("reverse")}>
 					<Card>
 						<CardContent>
 							<BlockStack reverseOrder gap="200">

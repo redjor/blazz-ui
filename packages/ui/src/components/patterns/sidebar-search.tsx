@@ -11,11 +11,7 @@ interface SidebarSearchProps {
 	className?: string
 }
 
-export function SidebarSearch({
-	placeholder = "Search...",
-	onSearch,
-	className,
-}: SidebarSearchProps) {
+export function SidebarSearch({ placeholder = "Search...", onSearch, className }: SidebarSearchProps) {
 	const [query, setQuery] = React.useState("")
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,13 +23,7 @@ export function SidebarSearch({
 	return (
 		<div className={cn("relative", className)}>
 			<Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-muted" />
-			<Input
-				type="search"
-				placeholder={placeholder}
-				value={query}
-				onChange={handleChange}
-				className="h-9 pl-8 bg-card"
-			/>
+			<Input type="search" placeholder={placeholder} value={query} onChange={handleChange} className="h-9 pl-8 bg-card" />
 		</div>
 	)
 }

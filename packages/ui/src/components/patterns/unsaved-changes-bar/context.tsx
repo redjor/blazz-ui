@@ -90,11 +90,7 @@ const UnsavedChangesContext = createContext<UnsavedChangesContextValue | null>(n
 export function UnsavedChangesProvider({ children }: { children: ReactNode }) {
 	const [state, dispatch] = useReducer(reducer, defaultState)
 
-	return (
-		<UnsavedChangesContext.Provider value={{ state, dispatch }}>
-			{children}
-		</UnsavedChangesContext.Provider>
-	)
+	return <UnsavedChangesContext.Provider value={{ state, dispatch }}>{children}</UnsavedChangesContext.Provider>
 }
 
 export function useUnsavedChangesContext(): UnsavedChangesContextValue {

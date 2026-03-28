@@ -22,10 +22,7 @@ function Radio({ className, ...props }: RadioPrimitive.Root.Props) {
 			)}
 			{...props}
 		>
-			<RadioPrimitive.Indicator
-				data-slot="radio-indicator"
-				className="size-2 rounded-full bg-brand transition-transform data-unchecked:scale-0 data-checked:scale-100"
-			/>
+			<RadioPrimitive.Indicator data-slot="radio-indicator" className="size-2 rounded-full bg-brand transition-transform data-unchecked:scale-0 data-checked:scale-100" />
 		</RadioPrimitive.Root>
 	)
 }
@@ -71,68 +68,31 @@ function RadioGroup({
 	// Composition mode: render children directly when no options provided
 	if (!options) {
 		return (
-			<RadioGroupPrimitiveRoot
-				data-slot="radio-group"
-				value={value}
-				defaultValue={defaultValue}
-				onValueChange={onValueChange}
-				disabled={disabled}
-				className={className}
-			>
+			<RadioGroupPrimitiveRoot data-slot="radio-group" value={value} defaultValue={defaultValue} onValueChange={onValueChange} disabled={disabled} className={className}>
 				{children}
 			</RadioGroupPrimitiveRoot>
 		)
 	}
 
 	return (
-		<RadioGroupPrimitiveRoot
-			data-slot="radio-group"
-			value={value}
-			defaultValue={defaultValue}
-			onValueChange={onValueChange}
-			disabled={disabled}
-			className={cn("space-y-3", className)}
-		>
+		<RadioGroupPrimitiveRoot data-slot="radio-group" value={value} defaultValue={defaultValue} onValueChange={onValueChange} disabled={disabled} className={cn("space-y-3", className)}>
 			{(label || description) && (
 				<div className="space-y-1">
 					{label && <span className="text-sm font-medium leading-none text-fg">{label}</span>}
 					{description && <p className="text-sm text-fg-muted">{description}</p>}
 				</div>
 			)}
-			<div
-				className={cn(orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2")}
-			>
+			<div className={cn(orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2")}>
 				{options.map((option) => {
 					const id = `radio-group-${option.value}`
 					return (
 						<div key={option.value} className="flex gap-2">
-							<Radio
-								id={id}
-								value={option.value}
-								disabled={option.disabled || disabled}
-								aria-invalid={ariaInvalid || undefined}
-								className="mt-0.5"
-							/>
+							<Radio id={id} value={option.value} disabled={option.disabled || disabled} aria-invalid={ariaInvalid || undefined} className="mt-0.5" />
 							<div className="space-y-0.5">
-								<label
-									htmlFor={id}
-									className={cn(
-										"text-sm font-medium leading-none select-none",
-										(option.disabled || disabled) && "opacity-50 cursor-not-allowed"
-									)}
-								>
+								<label htmlFor={id} className={cn("text-sm font-medium leading-none select-none", (option.disabled || disabled) && "opacity-50 cursor-not-allowed")}>
 									{option.label}
 								</label>
-								{option.description && (
-									<p
-										className={cn(
-											"text-sm text-fg-muted",
-											(option.disabled || disabled) && "opacity-50"
-										)}
-									>
-										{option.description}
-									</p>
-								)}
+								{option.description && <p className={cn("text-sm text-fg-muted", (option.disabled || disabled) && "opacity-50")}>{option.description}</p>}
 							</div>
 						</div>
 					)

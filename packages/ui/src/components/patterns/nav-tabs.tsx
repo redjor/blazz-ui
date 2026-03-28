@@ -57,9 +57,7 @@ export function NavTabs({ tabs, basePath = "", className }: NavTabsProps) {
 						href={basePath + tab.href}
 						className={cn(
 							"inline-flex h-7 shrink-0 items-center whitespace-nowrap rounded-md px-2.5 text-xs font-medium transition-colors",
-							active
-								? "bg-muted text-fg"
-								: "text-fg-muted hover:bg-muted/50 hover:text-fg",
+							active ? "bg-muted text-fg" : "text-fg-muted hover:bg-muted/50 hover:text-fg"
 						)}
 					>
 						{tab.label}

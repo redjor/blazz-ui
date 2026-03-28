@@ -18,10 +18,7 @@ export const popoverData: ComponentData = {
 			description: "Callback au changement d'état.",
 		},
 	],
-	gotchas: [
-		"PopoverTrigger uses render prop: `<PopoverTrigger render={<Button />}>Open</PopoverTrigger>`",
-		"PopoverContent align prop: 'start' | 'center' (default) | 'end'",
-	],
+	gotchas: ["PopoverTrigger uses render prop: `<PopoverTrigger render={<Button />}>Open</PopoverTrigger>`", "PopoverContent align prop: 'start' | 'center' (default) | 'end'"],
 	canonicalExample: `<Popover>
   <PopoverTrigger render={<Button variant="outline" />}>Open</PopoverTrigger>
   <PopoverContent>

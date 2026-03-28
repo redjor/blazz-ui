@@ -1,18 +1,11 @@
 "use client"
 
-import { use } from "react"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Frame,
-	FrameDescription,
-	FrameFooter,
-	FrameHeader,
-	FramePanel,
-	FrameTitle,
-} from "@blazz/ui/components/ui/frame-panel"
+import { Frame, FrameDescription, FrameFooter, FrameHeader, FramePanel, FrameTitle } from "@blazz/ui/components/ui/frame-panel"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Switch } from "@blazz/ui/components/ui/switch"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -174,7 +167,6 @@ const examples = [
 	},
 ] as const
 
-
 const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [
@@ -227,11 +219,7 @@ export default function FramePanelPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Frame"
-			subtitle="A container that groups related panels with consistent spacing, borders, and visual hierarchy. Use it for settings pages, forms, and sectioned content."
-			toc={toc}
-		>
+		<DocPage title="Frame" subtitle="A container that groups related panels with consistent spacing, borders, and visual hierarchy. Use it for settings pages, forms, and sectioned content." toc={toc}>
 			<DocHero>
 				<Frame>
 					<FrameHeader>
@@ -304,9 +292,7 @@ export default function FramePanelPage() {
 							<div className="flex items-center justify-between">
 								<div>
 									<div className="text-sm font-medium">Notifications</div>
-									<div className="text-sm text-fg-muted">
-										Configure email and push notifications.
-									</div>
+									<div className="text-sm text-fg-muted">Configure email and push notifications.</div>
 								</div>
 							</div>
 						</FramePanel>
@@ -355,13 +341,7 @@ export default function FramePanelPage() {
 					</Frame>
 				</DocExampleClient>
 
-				<DocExampleClient
-					previewClassName="bg-muted"
-					title="Spacing Variants"
-					description="Control inner padding with the spacing prop."
-					code={examples[4].code}
-					highlightedCode={html("spacing")}
-				>
+				<DocExampleClient previewClassName="bg-muted" title="Spacing Variants" description="Control inner padding with the spacing prop." code={examples[4].code} highlightedCode={html("spacing")}>
 					<div className="grid gap-4 sm:grid-cols-2">
 						{(["xs", "sm", "default", "lg"] as const).map((size) => (
 							<Frame key={size} spacing={size}>
@@ -377,13 +357,7 @@ export default function FramePanelPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					previewClassName="bg-muted"
-					title="Ghost Variant"
-					description="No outer border or background — panels float freely."
-					code={examples[5].code}
-					highlightedCode={html("ghost")}
-				>
+				<DocExampleClient previewClassName="bg-muted" title="Ghost Variant" description="No outer border or background — panels float freely." code={examples[5].code} highlightedCode={html("ghost")}>
 					<Frame variant="ghost">
 						<FrameHeader>
 							<FrameTitle>Floating Panel</FrameTitle>

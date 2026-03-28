@@ -38,8 +38,7 @@ const kanbanBoardProps: DocProp[] = [
 	{
 		name: "onMove",
 		type: "(itemId: string, fromColumn: string, toColumn: string) => void | Promise<void>",
-		description:
-			"Callback when an item is dragged to another column. Omit to disable drag-and-drop.",
+		description: "Callback when an item is dragged to another column. Omit to disable drag-and-drop.",
 	},
 	{
 		name: "renderCard",
@@ -244,7 +243,6 @@ function ReadOnlyBoard() {
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 function HeroDemo() {
 	const [deals, setDeals] = useState<Deal[]>(sampleDeals)
 
@@ -253,17 +251,8 @@ function HeroDemo() {
 	}, [])
 
 	return (
-		<div
-			className="w-full max-w-4xl rounded-lg border border-edge bg-card overflow-hidden p-4"
-			style={{ minHeight: 420 }}
-		>
-			<KanbanBoard
-				columns={pipelineColumns}
-				items={deals}
-				getColumnId={(d) => d.stage}
-				onMove={handleMove}
-				renderCard={(deal) => <DealCard deal={deal} />}
-			/>
+		<div className="w-full max-w-4xl rounded-lg border border-edge bg-card overflow-hidden p-4" style={{ minHeight: 420 }}>
+			<KanbanBoard columns={pipelineColumns} items={deals} getColumnId={(d) => d.stage} onMove={handleMove} renderCard={(deal) => <DealCard deal={deal} />} />
 		</div>
 	)
 }
@@ -360,11 +349,7 @@ export default function KanbanBoardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="KanbanBoard"
-			subtitle="Drag-and-drop board for pipeline visualization. Distribute items across columns with custom card rendering."
-			toc={toc}
-		>
+		<DocPage title="KanbanBoard" subtitle="Drag-and-drop board for pipeline visualization. Distribute items across columns with custom card rendering." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<HeroDemo />
@@ -372,12 +357,7 @@ export default function KanbanBoardPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Pipeline"
-					description="A CRM deal pipeline with drag-and-drop between stages. Drag a card to move it."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Pipeline" description="A CRM deal pipeline with drag-and-drop between stages. Drag a card to move it." code={examples[0].code} highlightedCode={html("basic")}>
 					<BasicPipelineDemo />
 				</DocExampleClient>
 
@@ -390,12 +370,7 @@ export default function KanbanBoardPage() {
 					<CustomCardDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Read Only"
-					description="Omit onMove to disable drag-and-drop. Cards are displayed but not movable."
-					code={examples[2].code}
-					highlightedCode={html("read-only")}
-				>
+				<DocExampleClient title="Read Only" description="Omit onMove to disable drag-and-drop. Cards are displayed but not movable." code={examples[2].code} highlightedCode={html("read-only")}>
 					<ReadOnlyDemo />
 				</DocExampleClient>
 			</DocSection>

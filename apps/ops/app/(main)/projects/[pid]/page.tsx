@@ -12,9 +12,9 @@ import { useMutation, useQuery } from "convex/react"
 import { use, useState } from "react"
 import { toast } from "sonner"
 import { BudgetSection } from "@/components/budget-section"
-import { FavoriteButton } from "@/components/favorite-button"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
+import { FavoriteButton } from "@/components/favorite-button"
 import { ProjectForm } from "@/components/project-form"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
@@ -120,11 +120,7 @@ export default function ProjectOverviewPage({ params }: Props) {
 						title={project.name}
 						actions={
 							<InlineStack gap="200" blockAlign="center">
-								<FavoriteButton
-									entityType="project"
-									entityId={pid}
-									label={project.name}
-								/>
+								<FavoriteButton entityType="project" entityId={pid} label={project.name} />
 								<Button variant="outline" onClick={() => setEditOpen(true)}>
 									Modifier
 								</Button>
@@ -142,49 +138,32 @@ export default function ProjectOverviewPage({ params }: Props) {
 					<Card>
 						<CardContent className="p-4">
 							<p className="text-xs text-fg-muted mb-1">CA total</p>
-							<p className="text-xl font-semibold font-pixel">
-								{stats.totalRevenue.toLocaleString("fr-FR")} €
-							</p>
+							<p className="text-xl font-semibold font-pixel">{stats.totalRevenue.toLocaleString("fr-FR")} €</p>
 						</CardContent>
 					</Card>
 					<Card>
 						<CardContent className="p-4">
 							<p className="text-xs text-fg-muted mb-1">Facturé</p>
-							<p className="text-xl font-semibold font-pixel text-green-600 dark:text-green-400">
-								{stats.invoicedRevenue.toLocaleString("fr-FR")} €
-							</p>
+							<p className="text-xl font-semibold font-pixel text-green-600 dark:text-green-400">{stats.invoicedRevenue.toLocaleString("fr-FR")} €</p>
 						</CardContent>
 					</Card>
 					<Card>
 						<CardContent className="p-4">
 							<p className="text-xs text-fg-muted mb-1">À facturer</p>
-							<p className="text-xl font-semibold font-pixel text-amber-600 dark:text-amber-400">
-								{stats.pendingRevenue.toLocaleString("fr-FR")} €
-							</p>
+							<p className="text-xl font-semibold font-pixel text-amber-600 dark:text-amber-400">{stats.pendingRevenue.toLocaleString("fr-FR")} €</p>
 						</CardContent>
 					</Card>
 					<Card>
 						<CardContent className="p-4">
 							<p className="text-xs text-fg-muted mb-1">Temps passé</p>
-							<p className="text-xl font-semibold font-pixel">
-								{formatMinutes(stats.totalMinutes)}
-							</p>
-							<p className="text-xs text-fg-muted mt-1 tabular-nums">
-								{(stats.totalMinutes / (project.hoursPerDay * 60)).toFixed(1).replace(".", ",")}{" "}
-								jours
-							</p>
+							<p className="text-xl font-semibold font-pixel">{formatMinutes(stats.totalMinutes)}</p>
+							<p className="text-xs text-fg-muted mt-1 tabular-nums">{(stats.totalMinutes / (project.hoursPerDay * 60)).toFixed(1).replace(".", ",")} jours</p>
 						</CardContent>
 					</Card>
 				</div>
 
 				{/* Budget section */}
-				{budgetMetrics && (
-					<BudgetSection
-						metrics={budgetMetrics}
-						tjm={project.tjm}
-						weeklyBurnDown={data.weeklyBurnDown ?? null}
-					/>
-				)}
+				{budgetMetrics && <BudgetSection metrics={budgetMetrics} tjm={project.tjm} weeklyBurnDown={data.weeklyBurnDown ?? null} />}
 
 				{/* Contract section */}
 				{activeContract && (
@@ -211,12 +190,7 @@ export default function ProjectOverviewPage({ params }: Props) {
 					<DialogHeader>
 						<DialogTitle>Modifier le projet</DialogTitle>
 					</DialogHeader>
-					<ProjectForm
-						clientId={project.clientId}
-						defaultValues={{ ...project, id: project._id }}
-						onSuccess={() => setEditOpen(false)}
-						onCancel={() => setEditOpen(false)}
-					/>
+					<ProjectForm clientId={project.clientId} defaultValues={{ ...project, id: project._id }} onSuccess={() => setEditOpen(false)} onCancel={() => setEditOpen(false)} />
 				</DialogContent>
 			</Dialog>
 

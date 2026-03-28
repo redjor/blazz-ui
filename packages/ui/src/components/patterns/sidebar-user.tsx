@@ -4,14 +4,7 @@ import { ChevronsUpDown, LogOut, Settings, User } from "lucide-react"
 import { useRouter } from "next/navigation"
 import type { SidebarUser } from "../../types/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { SidebarMenuButton } from "../ui/sidebar"
 
 interface SidebarUserProps {
@@ -56,10 +49,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 		<DropdownMenu>
 			<DropdownMenuTrigger
 				render={
-					<SidebarMenuButton
-						size="lg"
-						className="data-[state=open]:bg-muted data-[state=open]:text-fg"
-					>
+					<SidebarMenuButton size="lg" className="data-[state=open]:bg-muted data-[state=open]:text-fg">
 						<Avatar className="h-8 w-8 rounded-lg">
 							<AvatarImage src={user.avatar} alt={user.name} />
 							<AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
@@ -72,12 +62,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 					</SidebarMenuButton>
 				}
 			/>
-			<DropdownMenuContent
-				className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-				side="bottom"
-				align="end"
-				sideOffset={4}
-			>
+			<DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg" side="bottom" align="end" sideOffset={4}>
 				<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 					<Avatar className="h-8 w-8 rounded-lg">
 						<AvatarImage src={user.avatar} alt={user.name} />
@@ -85,9 +70,7 @@ export function SidebarUserMenu({ user }: SidebarUserProps) {
 					</Avatar>
 					<div className="grid flex-1 text-left text-sm leading-tight">
 						<span className="truncate font-semibold">{user.name}</span>
-						{user.role && (
-							<span className="truncate text-xs text-fg-muted font-medium">{user.role}</span>
-						)}
+						{user.role && <span className="truncate text-xs text-fg-muted font-medium">{user.role}</span>}
 					</div>
 				</div>
 				<DropdownMenuSeparator />

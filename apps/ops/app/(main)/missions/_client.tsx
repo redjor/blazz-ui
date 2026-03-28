@@ -96,9 +96,7 @@ export function MissionsClient() {
 					<CardContent className="py-16 text-center">
 						<BlockStack gap="300" className="items-center">
 							<Bot className="size-12 text-fg-muted" />
-							<span className="text-sm text-fg-muted">
-								Aucune mission. Creez-en une pour demarrer vos agents.
-							</span>
+							<span className="text-sm text-fg-muted">Aucune mission. Creez-en une pour demarrer vos agents.</span>
 							<Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
 								<Plus className="size-3 mr-1" />
 								Creer une mission
@@ -118,18 +116,10 @@ export function MissionsClient() {
 				actions={
 					<InlineStack gap="200">
 						<InlineStack gap="050">
-							<Button
-								variant={view === "list" ? "secondary" : "ghost"}
-								size="sm"
-								onClick={() => setView("list")}
-							>
+							<Button variant={view === "list" ? "secondary" : "ghost"} size="sm" onClick={() => setView("list")}>
 								<LayoutList className="size-4" />
 							</Button>
-							<Button
-								variant={view === "kanban" ? "secondary" : "ghost"}
-								size="sm"
-								onClick={() => setView("kanban")}
-							>
+							<Button variant={view === "kanban" ? "secondary" : "ghost"} size="sm" onClick={() => setView("kanban")}>
 								<Kanban className="size-4" />
 							</Button>
 						</InlineStack>
@@ -145,9 +135,7 @@ export function MissionsClient() {
 							<Zap className="size-3 mr-1" />
 							{activeMissionCount} active{activeMissionCount > 1 ? "s" : ""}
 						</Badge>
-						<Badge variant="outline">
-							{missions.length} total
-						</Badge>
+						<Badge variant="outline">{missions.length} total</Badge>
 					</InlineStack>
 				}
 			/>
@@ -160,9 +148,7 @@ export function MissionsClient() {
 							return (
 								<BlockStack key={key} gap="200" className="w-72 shrink-0">
 									<InlineStack gap="200" blockAlign="center" className="px-1">
-										<span className="text-sm font-medium text-fg-muted">
-											{label}
-										</span>
+										<span className="text-sm font-medium text-fg-muted">{label}</span>
 										<Badge variant="outline" className="text-[10px]">
 											{items.length}
 										</Badge>
@@ -173,14 +159,7 @@ export function MissionsClient() {
 												<span className="text-xs text-fg-muted">Aucune mission</span>
 											</Box>
 										) : (
-											items.map((mission) => (
-												<MissionCard
-													key={mission._id}
-													mission={mission}
-													agent={agentMap.get(mission.agentId) ?? null}
-													onClick={() => router.push(`/missions/${mission._id}`)}
-												/>
-											))
+											items.map((mission) => <MissionCard key={mission._id} mission={mission} agent={agentMap.get(mission.agentId) ?? null} onClick={() => router.push(`/missions/${mission._id}`)} />)
 										)}
 									</BlockStack>
 								</BlockStack>
@@ -197,9 +176,7 @@ export function MissionsClient() {
 					return (
 						<BlockStack key={key} gap="300">
 							<InlineStack gap="200" blockAlign="center">
-								<h2 className="text-sm font-medium text-fg-muted">
-									{label}
-								</h2>
+								<h2 className="text-sm font-medium text-fg-muted">{label}</h2>
 								<Badge variant="outline" className="text-[10px]">
 									{items.length}
 								</Badge>
@@ -207,12 +184,7 @@ export function MissionsClient() {
 
 							<BlockStack gap="200">
 								{items.map((mission) => (
-									<MissionCard
-										key={mission._id}
-										mission={mission}
-										agent={agentMap.get(mission.agentId) ?? null}
-										onClick={() => router.push(`/missions/${mission._id}`)}
-									/>
+									<MissionCard key={mission._id} mission={mission} agent={agentMap.get(mission.agentId) ?? null} onClick={() => router.push(`/missions/${mission._id}`)} />
 								))}
 							</BlockStack>
 						</BlockStack>

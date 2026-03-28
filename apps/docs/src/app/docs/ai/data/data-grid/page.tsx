@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { DataGrid } from "@blazz/pro/components/ai/generative/data/data-grid"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "simple-text",
@@ -100,7 +101,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function DataGridPage() {
@@ -108,11 +108,7 @@ export default function DataGridPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Data Grid"
-			subtitle="A typed data table with avatar, badge and trend cells — renders inline in conversations."
-			toc={toc}
-		>
+		<DocPage title="Data Grid" subtitle="A typed data table with avatar, badge and trend cells — renders inline in conversations." toc={toc}>
 			<DocHero>
 				<DataGrid
 					title="Top Candidates"
@@ -161,12 +157,7 @@ export default function DataGridPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Simple Text Table"
-					description="Basic table with plain string values."
-					code={examples[0].code}
-					highlightedCode={html("simple-text")}
-				>
+				<DocExampleClient title="Simple Text Table" description="Basic table with plain string values." code={examples[0].code} highlightedCode={html("simple-text")}>
 					<DataGrid
 						title="Q4 Revenue by Region"
 						columns={[
@@ -183,12 +174,7 @@ export default function DataGridPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Avatars & Badges"
-					description="Avatar cells for people, badge cells for status."
-					code={examples[1].code}
-					highlightedCode={html("avatars-badges")}
-				>
+				<DocExampleClient title="With Avatars & Badges" description="Avatar cells for people, badge cells for status." code={examples[1].code} highlightedCode={html("avatars-badges")}>
 					<DataGrid
 						columns={[
 							{ key: "person", label: "Person" },
@@ -220,12 +206,7 @@ export default function DataGridPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Trend Cells"
-					description="Trend cells show positive/negative values with arrows."
-					code={examples[2].code}
-					highlightedCode={html("trend-cells")}
-				>
+				<DocExampleClient title="With Trend Cells" description="Trend cells show positive/negative values with arrows." code={examples[2].code} highlightedCode={html("trend-cells")}>
 					<DataGrid
 						title="Monthly Metrics"
 						columns={[
@@ -241,12 +222,7 @@ export default function DataGridPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sorted Column"
-					description="Mark a column as sorted to show a direction arrow in the header."
-					code={examples[3].code}
-					highlightedCode={html("sorted")}
-				>
+				<DocExampleClient title="Sorted Column" description="Mark a column as sorted to show a direction arrow in the header." code={examples[3].code} highlightedCode={html("sorted")}>
 					<DataGrid
 						columns={[
 							{ key: "product", label: "Product" },
@@ -260,12 +236,7 @@ export default function DataGridPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Clickable Rows"
-					description="Add href to each row to make it a navigable link."
-					code={examples[4].code}
-					highlightedCode={html("clickable")}
-				>
+				<DocExampleClient title="Clickable Rows" description="Add href to each row to make it a navigable link." code={examples[4].code} highlightedCode={html("clickable")}>
 					<DataGrid
 						title="Team Members"
 						columns={[

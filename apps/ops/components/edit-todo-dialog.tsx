@@ -5,13 +5,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Combobox, type ComboboxOption } from "@blazz/ui/components/ui/combobox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation } from "convex/react"
 import { Flag, Trash2 } from "lucide-react"
@@ -60,13 +54,7 @@ const PRIORITY_OPTIONS: ComboboxOption[] = [
 	},
 ]
 
-export function ProjectBadge({
-	projectId,
-	projects,
-}: {
-	projectId?: Id<"projects">
-	projects: Doc<"projects">[]
-}) {
+export function ProjectBadge({ projectId, projects }: { projectId?: Id<"projects">; projects: Doc<"projects">[] }) {
 	if (!projectId) return null
 	const proj = projects.find((p) => p._id === projectId)
 	if (!proj) return null
@@ -96,9 +84,7 @@ export function EditTodoDialog({
 	const remove = useMutation(api.todos.remove)
 	const [text, setText] = useState(todo.text)
 	const [description, setDescription] = useState(todo.description ?? "")
-	const [priority, setPriority] = useState<"urgent" | "high" | "normal" | "low">(
-		todo.priority ?? "normal"
-	)
+	const [priority, setPriority] = useState<"urgent" | "high" | "normal" | "low">(todo.priority ?? "normal")
 	const [projectId, setProjectId] = useState(todo.projectId ?? "")
 	const [categoryId, setCategoryId] = useState(todo.categoryId ?? "")
 	const [dueDate, setDueDate] = useState(todo.dueDate ?? "")
@@ -157,18 +143,8 @@ export function EditTodoDialog({
 					<DialogTitle>Modifier le todo</DialogTitle>
 				</DialogHeader>
 				<form onSubmit={handleSubmit} className="space-y-4">
-					<Input
-						autoFocus
-						placeholder="Titre"
-						value={text}
-						onChange={(e) => setText(e.target.value)}
-					/>
-					<Textarea
-						placeholder="Description (optionnelle)"
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						rows={3}
-					/>
+					<Input autoFocus placeholder="Titre" value={text} onChange={(e) => setText(e.target.value)} />
+					<Textarea placeholder="Description (optionnelle)" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
 					<Combobox
 						value={priority}
 						onValueChange={(v) => setPriority(v || "normal")}
@@ -178,14 +154,7 @@ export function EditTodoDialog({
 						emptyMessage="Aucun résultat"
 					/>
 					<DueDatePicker value={dueDate} onChange={setDueDate} />
-					<Select
-						value={projectId}
-						onValueChange={(value) => setProjectId(value ?? "")}
-						items={[
-							{ value: "", label: "Aucun" },
-							...projects.map((p) => ({ value: p._id, label: p.name })),
-						]}
-					>
+					<Select value={projectId} onValueChange={(value) => setProjectId(value ?? "")} items={[{ value: "", label: "Aucun" }, ...projects.map((p) => ({ value: p._id, label: p.name }))]}>
 						<SelectTrigger className="w-full">
 							<SelectValue placeholder="Projet (optionnel)" />
 						</SelectTrigger>
@@ -198,14 +167,7 @@ export function EditTodoDialog({
 							))}
 						</SelectContent>
 					</Select>
-					<Select
-						value={categoryId}
-						onValueChange={(value) => setCategoryId(value ?? "")}
-						items={[
-							{ value: "", label: "Aucune" },
-							...categories.map((c) => ({ value: c._id, label: c.name })),
-						]}
-					>
+					<Select value={categoryId} onValueChange={(value) => setCategoryId(value ?? "")} items={[{ value: "", label: "Aucune" }, ...categories.map((c) => ({ value: c._id, label: c.name }))]}>
 						<SelectTrigger className="w-full">
 							<SelectValue placeholder="Catégorie (optionnel)" />
 						</SelectTrigger>
@@ -220,14 +182,7 @@ export function EditTodoDialog({
 					</Select>
 					<TagInput value={tags} onChange={setTags} suggestions={allTags} />
 					<div className="flex justify-between gap-2">
-						<Button
-							type="button"
-							variant="ghost"
-							size="icon-sm"
-							onClick={handleDelete}
-							aria-label="Supprimer"
-							className="text-fg-muted hover:text-destructive"
-						>
+						<Button type="button" variant="ghost" size="icon-sm" onClick={handleDelete} aria-label="Supprimer" className="text-fg-muted hover:text-destructive">
 							<Trash2 className="size-4" />
 						</Button>
 						<div className="flex gap-2">

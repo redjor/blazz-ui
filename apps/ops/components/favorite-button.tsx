@@ -31,13 +31,7 @@ export function FavoriteButton({ entityType, entityId, label }: FavoriteButtonPr
 				}
 			}}
 		>
-			<Star
-				className={`size-4 transition-transform ${
-					isFavorited
-						? "fill-amber-400 text-amber-400 scale-110"
-						: "text-fg-muted"
-				}`}
-			/>
+			<Star className={`size-4 transition-transform ${isFavorited ? "fill-amber-400 text-amber-400 scale-110" : "text-fg-muted"}`} />
 		</Button>
 	)
 }

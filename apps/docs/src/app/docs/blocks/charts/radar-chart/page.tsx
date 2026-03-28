@@ -32,8 +32,7 @@ const radarChartProps: DocProp[] = [
 	{
 		name: "data",
 		type: "Record<string, unknown>[]",
-		description:
-			"Array of data points. Each object should contain the angleKey and one field per series.",
+		description: "Array of data points. Each object should contain the angleKey and one field per series.",
 	},
 	{
 		name: "config",
@@ -82,29 +81,15 @@ const singleConfig = {
 
 export default function RadarChartPage() {
 	return (
-		<DocPage
-			title="Radar Chart"
-			subtitle="Diagramme radar pour comparer des données multi-dimensionnelles. Basé sur Recharts et les primitives shadcn Chart."
-			toc={toc}
-		>
+		<DocPage title="Radar Chart" subtitle="Diagramme radar pour comparer des données multi-dimensionnelles. Basé sur Recharts et les primitives shadcn Chart." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
-					<RadarChartBlock
-						title="Compétences"
-						description="Actuel vs objectif"
-						data={skillData}
-						config={skillConfig}
-						angleKey="area"
-					/>
+					<RadarChartBlock title="Compétences" description="Actuel vs objectif" data={skillData} config={skillConfig} angleKey="area" />
 				</div>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleSync
-					title="Default"
-					description="Le composant fonctionne sans props avec des données de démo."
-					code={`<RadarChartBlock />`}
-				>
+				<DocExampleSync title="Default" description="Le composant fonctionne sans props avec des données de démo." code={`<RadarChartBlock />`}>
 					<div className="max-w-sm">
 						<RadarChartBlock />
 					</div>
@@ -125,12 +110,7 @@ export default function RadarChartPage() {
 />`}
 				>
 					<div className="max-w-sm">
-						<RadarChartBlock
-							title="Stack technique"
-							data={singleData}
-							config={singleConfig}
-							angleKey="area"
-						/>
+						<RadarChartBlock title="Stack technique" data={singleData} config={singleConfig} angleKey="area" />
 					</div>
 				</DocExampleSync>
 
@@ -151,13 +131,7 @@ export default function RadarChartPage() {
 />`}
 				>
 					<div className="max-w-sm">
-						<RadarChartBlock
-							title="Compétences"
-							description="Actuel vs objectif"
-							data={skillData}
-							config={skillConfig}
-							angleKey="area"
-						/>
+						<RadarChartBlock title="Compétences" description="Actuel vs objectif" data={skillData} config={skillConfig} angleKey="area" />
 					</div>
 				</DocExampleSync>
 			</DocSection>

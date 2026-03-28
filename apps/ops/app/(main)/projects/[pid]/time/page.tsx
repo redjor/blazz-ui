@@ -1,33 +1,15 @@
 "use client"
 
-import type {
-	BulkAction,
-	DataTableColumnDef,
-	DataTableView,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import {
-	Ban,
-	CheckCircle2,
-	CircleDashed,
-	CircleDollarSign,
-	CircleFadingArrowUp,
-	FileText,
-	Pencil,
-	Plus,
-	Receipt,
-	Send,
-	Trash2,
-} from "lucide-react"
+import { Ban, CheckCircle2, CircleDashed, CircleDollarSign, CircleFadingArrowUp, FileText, Pencil, Plus, Receipt, Send, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { use, useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -37,11 +19,7 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { useFeatureFlags } from "@/lib/feature-flags-context"
 import { formatMinutes } from "@/lib/format"
-import {
-	type EntryStatus,
-	getAllowedTransitions,
-	getEffectiveStatus,
-} from "@/lib/time-entry-status"
+import { getAllowedTransitions, getEffectiveStatus } from "@/lib/time-entry-status"
 
 export default function ProjectTimePage({ params }: { params: Promise<{ pid: string }> }) {
 	const { isEnabled } = useFeatureFlags()
@@ -57,10 +35,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 	// DataTable config — time entries (hooks must be before early returns)
 	// ---------------------------------------------------------------------------
 
-	const statusConfig: Record<
-		string,
-		{ icon: typeof CircleDashed; iconClass: string; tint: string; label: string }
-	> = {
+	const statusConfig: Record<string, { icon: typeof CircleDashed; iconClass: string; tint: string; label: string }> = {
 		draft: {
 			icon: CircleDashed,
 			iconClass: "text-violet-500",
@@ -148,7 +123,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 				enableSorting: true,
 			},
 		],
-		[]
+		[statusConfig[s]]
 	)
 
 	const entryViews = useMemo<DataTableView[]>(
@@ -297,8 +272,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 			{
 				id: "mark-invoiced",
 				label: "Marquer facturé",
-				hidden: (row) =>
-					!getAllowedTransitions(getEffectiveStatus(row.original)).includes("invoiced"),
+				hidden: (row) => !getAllowedTransitions(getEffectiveStatus(row.original)).includes("invoiced"),
 				handler: async (row) => {
 					try {
 						await setStatus({ ids: [row.original._id], status: "invoiced" })
@@ -415,8 +389,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 				icon: Trash2,
 				variant: "destructive",
 				requireConfirmation: true,
-				confirmationMessage: (count) =>
-					`Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
+				confirmationMessage: (count) => `Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
 				handler: async (rows) => {
 					try {
 						await Promise.all(rows.map((r) => remove({ id: r.original._id })))
@@ -427,7 +400,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 				},
 			},
 		],
-		[remove, setStatus, router, pid, data]
+		[remove, setStatus, router, pid, data, isEnabled]
 	)
 
 	// Loading state
@@ -464,12 +437,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 				defaultGrouping={["status"]}
 				defaultExpanded
 				renderGroupHeaderEnd={() => (
-					<Button
-						variant="ghost"
-						size="icon-sm"
-						onClick={() => setQuickEntryOpen(true)}
-						className="text-fg-muted hover:text-fg"
-					>
+					<Button variant="ghost" size="icon-sm" onClick={() => setQuickEntryOpen(true)} className="text-fg-muted hover:text-fg">
 						<Plus className="size-3.5" />
 					</Button>
 				)}
@@ -499,29 +467,17 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 					return (
 						<>
 							<div className="flex min-w-0 flex-1 items-center gap-3">
-								<span
-									className="text-fg-muted whitespace-nowrap"
-									style={{ fontSize: 13, minWidth: 52 }}
-								>
+								<span className="text-fg-muted whitespace-nowrap" style={{ fontSize: 13, minWidth: 52 }}>
 									{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 								</span>
 								<Icon className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`} />
-								<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
-									{formatMinutes(entry.minutes)}
-								</span>
-								<span
-									className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`}
-									style={{ fontSize: 13 }}
-								>
+								<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">{formatMinutes(entry.minutes)}</span>
+								<span className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`} style={{ fontSize: 13 }}>
 									{entry.description || "Pas de description"}
 								</span>
 							</div>
 							<div className="flex shrink-0 items-center gap-3">
-								{entry.billable && (
-									<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
-										{revenue.toLocaleString("fr-FR")} €
-									</span>
-								)}
+								{entry.billable && <span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">{revenue.toLocaleString("fr-FR")} €</span>}
 							</div>
 						</>
 					)

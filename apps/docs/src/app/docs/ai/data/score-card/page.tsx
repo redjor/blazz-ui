@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { ScoreCard } from "@blazz/pro/components/ai/generative/data/score-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "with-breakdown",
@@ -34,7 +35,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function ScoreCardPage() {
@@ -42,11 +42,7 @@ export default function ScoreCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Score Card"
-			subtitle="A circular score gauge with optional breakdown bars."
-			toc={toc}
-		>
+		<DocPage title="Score Card" subtitle="A circular score gauge with optional breakdown bars." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<ScoreCard
@@ -64,12 +60,7 @@ export default function ScoreCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="With Breakdown"
-					description="Score with detailed breakdown bars."
-					code={examples[0].code}
-					highlightedCode={html("with-breakdown")}
-				>
+				<DocExampleClient title="With Breakdown" description="Score with detailed breakdown bars." code={examples[0].code} highlightedCode={html("with-breakdown")}>
 					<div className="max-w-sm">
 						<ScoreCard
 							title="Lead Quality Score"
@@ -84,12 +75,7 @@ export default function ScoreCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Simple Score"
-					description="Just a circular score without breakdown."
-					code={examples[1].code}
-					highlightedCode={html("simple")}
-				>
+				<DocExampleClient title="Simple Score" description="Just a circular score without breakdown." code={examples[1].code} highlightedCode={html("simple")}>
 					<div className="max-w-xs">
 						<ScoreCard title="Performance" score={42} maxScore={100} label="Needs work" />
 					</div>

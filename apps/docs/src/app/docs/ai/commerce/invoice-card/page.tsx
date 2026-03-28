@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { InvoiceCard } from "@blazz/pro/components/ai/generative/commerce/invoice-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "paid",
@@ -33,7 +34,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function InvoiceCardPage() {
@@ -41,11 +41,7 @@ export default function InvoiceCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Invoice Card"
-			subtitle="An invoice summary with status, line items and due date."
-			toc={toc}
-		>
+		<DocPage title="Invoice Card" subtitle="An invoice summary with status, line items and due date." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<InvoiceCard
@@ -64,38 +60,15 @@ export default function InvoiceCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Paid Invoice"
-					description="Invoice marked as paid."
-					code={examples[0].code}
-					highlightedCode={html("paid")}
-				>
+				<DocExampleClient title="Paid Invoice" description="Invoice marked as paid." code={examples[0].code} highlightedCode={html("paid")}>
 					<div className="max-w-sm">
-						<InvoiceCard
-							number="INV-2024-089"
-							client="Acme Corporation"
-							amount="$12,500.00"
-							status="paid"
-							issuedDate="Feb 1, 2026"
-							dueDate="Mar 3, 2026"
-						/>
+						<InvoiceCard number="INV-2024-089" client="Acme Corporation" amount="$12,500.00" status="paid" issuedDate="Feb 1, 2026" dueDate="Mar 3, 2026" />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Overdue"
-					description="Invoice past its due date."
-					code={examples[1].code}
-					highlightedCode={html("overdue")}
-				>
+				<DocExampleClient title="Overdue" description="Invoice past its due date." code={examples[1].code} highlightedCode={html("overdue")}>
 					<div className="max-w-sm">
-						<InvoiceCard
-							number="INV-2024-072"
-							client="TechStart Inc."
-							amount="$3,200.00"
-							status="overdue"
-							dueDate="Jan 15, 2026"
-						/>
+						<InvoiceCard number="INV-2024-072" client="TechStart Inc." amount="$3,200.00" status="overdue" dueDate="Jan 15, 2026" />
 					</div>
 				</DocExampleClient>
 			</DocSection>

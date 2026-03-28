@@ -2,15 +2,7 @@ import { ConvexError, v } from "convex/values"
 import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const missionStatus = v.union(
-	v.literal("planning"),
-	v.literal("todo"),
-	v.literal("in_progress"),
-	v.literal("review"),
-	v.literal("done"),
-	v.literal("rejected"),
-	v.literal("aborted")
-)
+const missionStatus = v.union(v.literal("planning"), v.literal("todo"), v.literal("in_progress"), v.literal("review"), v.literal("done"), v.literal("rejected"), v.literal("aborted"))
 
 export const list = query({
 	args: { status: v.optional(v.string()) },
@@ -19,9 +11,7 @@ export const list = query({
 		if (status) {
 			return ctx.db
 				.query("missions")
-				.withIndex("by_status", (q) =>
-					q.eq("userId", userId).eq("status", status as "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"),
-				)
+				.withIndex("by_status", (q) => q.eq("userId", userId).eq("status", status as "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"))
 				.collect()
 		}
 		const all = await ctx.db
@@ -49,9 +39,7 @@ export const listByStatus = query({
 		const { userId } = await requireAuth(ctx)
 		return ctx.db
 			.query("missions")
-			.withIndex("by_status", (q) =>
-				q.eq("userId", userId).eq("status", status as "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"),
-			)
+			.withIndex("by_status", (q) => q.eq("userId", userId).eq("status", status as "planning" | "todo" | "in_progress" | "review" | "done" | "rejected" | "aborted"))
 			.collect()
 	},
 })
@@ -84,12 +72,7 @@ export const create = mutation({
 		title: v.string(),
 		prompt: v.string(),
 		status: missionStatus,
-		priority: v.union(
-			v.literal("low"),
-			v.literal("medium"),
-			v.literal("high"),
-			v.literal("urgent")
-		),
+		priority: v.union(v.literal("low"), v.literal("medium"), v.literal("high"), v.literal("urgent")),
 		mode: v.optional(v.union(v.literal("dry-run"), v.literal("live"))),
 		maxIterations: v.optional(v.number()),
 		templateId: v.optional(v.string()),
@@ -263,12 +246,16 @@ export const internalComplete = internalMutation({
 		output: v.string(),
 		structuredOutput: v.optional(v.any()),
 		outputType: v.optional(v.string()),
-		actions: v.optional(v.array(v.object({
-			type: v.string(),
-			description: v.string(),
-			entityId: v.optional(v.string()),
-			reversible: v.boolean(),
-		}))),
+		actions: v.optional(
+			v.array(
+				v.object({
+					type: v.string(),
+					description: v.string(),
+					entityId: v.optional(v.string()),
+					reversible: v.boolean(),
+				})
+			)
+		),
 		costUsd: v.number(),
 		soulHash: v.string(),
 	},

@@ -21,8 +21,7 @@ export const badgeData: ComponentData = {
 			name: "fill",
 			type: '"solid" | "subtle" | "ghost" | "ghost-dot"',
 			default: '"solid"',
-			description:
-				"Niveau de remplissage. solid = fond plein, subtle = fond léger + border, ghost = texte coloré uniquement, ghost-dot = dot coloré + texte neutre.",
+			description: "Niveau de remplissage. solid = fond plein, subtle = fond léger + border, ghost = texte coloré uniquement, ghost-dot = dot coloré + texte neutre.",
 		},
 		{
 			name: "size",

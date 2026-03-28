@@ -12,9 +12,7 @@ import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { useFeatureFlags } from "@/lib/feature-flags-context"
 
-export default function ProjectInvoicesPage({
-	params,
-}: { params: Promise<{ pid: string }> }) {
+export default function ProjectInvoicesPage({ params }: { params: Promise<{ pid: string }> }) {
 	const { isEnabled } = useFeatureFlags()
 	const { pid } = use(params)
 	const data = useQuery(api.projects.getWithStats, { id: pid as Id<"projects"> })
@@ -25,22 +23,14 @@ export default function ProjectInvoicesPage({
 	}
 
 	const entries = data?.entries ?? []
-	const readyEntries = entries.filter(
-		(e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt
-	)
+	const readyEntries = entries.filter((e) => e.billable && e.status !== "invoiced" && e.status !== "paid" && !e.invoicedAt)
 
 	return (
 		<BlockStack gap="400" className="p-6">
 			<InlineStack align="space-between" blockAlign="center">
 				<h2 className="text-sm font-medium text-fg">Factures</h2>
 				{readyEntries.length > 0 && (
-					<Button
-						size="sm"
-						variant="outline"
-						onClick={() =>
-							router.push(`/invoices/new?clientId=${data?.project.clientId}&projectId=${pid}`)
-						}
-					>
+					<Button size="sm" variant="outline" onClick={() => router.push(`/invoices/new?clientId=${data?.project.clientId}&projectId=${pid}`)}>
 						<FileText className="size-3.5 mr-1" />
 						Facturer ({readyEntries.length} entrée{readyEntries.length > 1 ? "s" : ""})
 					</Button>

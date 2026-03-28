@@ -53,11 +53,7 @@ const calloutCardProps: DocProp[] = [
 
 export default function CalloutCardPage() {
 	return (
-		<DocPage
-			title="Callout Card"
-			subtitle="Callout cards are used to encourage users to take an action related to a new feature or opportunity."
-			toc={toc}
-		>
+		<DocPage title="Callout Card" subtitle="Callout cards are used to encourage users to take an action related to a new feature or opportunity." toc={toc}>
 			<DocSection id="examples" title="Examples">
 				<DocExampleSync
 					title="Default"
@@ -113,8 +109,7 @@ export default function CalloutCardPage() {
 							onAction: () => alert("Learn more clicked"),
 						}}
 					>
-						Add an extra layer of security to your account by requiring a code in addition to your
-						password.
+						Add an extra layer of security to your account by requiring a code in addition to your password.
 					</CalloutCard>
 				</DocExampleSync>
 

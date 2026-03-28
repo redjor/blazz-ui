@@ -7,24 +7,11 @@ import { cn } from "../../lib/utils"
  * --------------------------------------------------------------------------- */
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
-	return (
-		<nav
-			aria-label="Pagination"
-			data-slot="pagination"
-			className={cn("flex items-center justify-center", className)}
-			{...props}
-		/>
-	)
+	return <nav aria-label="Pagination" data-slot="pagination" className={cn("flex items-center justify-center", className)} {...props} />
 }
 
 function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
-	return (
-		<ul
-			data-slot="pagination-content"
-			className={cn("flex items-center gap-1", className)}
-			{...props}
-		/>
-	)
+	return <ul data-slot="pagination-content" className={cn("flex items-center gap-1", className)} {...props} />
 }
 
 function PaginationItem({ className, ...props }: React.ComponentProps<"li">) {
@@ -100,23 +87,10 @@ function PaginationNext({ className, ...props }: React.ComponentProps<"button">)
 
 function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span">) {
 	return (
-		<span
-			data-slot="pagination-ellipsis"
-			aria-hidden
-			className={cn("inline-flex size-8 items-center justify-center text-fg-muted", className)}
-			{...props}
-		>
+		<span data-slot="pagination-ellipsis" aria-hidden className={cn("inline-flex size-8 items-center justify-center text-fg-muted", className)} {...props}>
 			<MoreHorizontalIcon className="size-4" />
 		</span>
 	)
 }
 
-export {
-	Pagination,
-	PaginationContent,
-	PaginationItem,
-	PaginationLink,
-	PaginationPrevious,
-	PaginationNext,
-	PaginationEllipsis,
-}
+export { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis }

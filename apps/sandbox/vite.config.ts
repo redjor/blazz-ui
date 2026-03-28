@@ -20,11 +20,5 @@ export default defineConfig({
 			},
 		],
 	},
-	plugins: [
-		tailwindcss(),
-		tsconfigPaths({ projects: ["./tsconfig.json"] }),
-		tanstackStart({ srcDirectory: "src" }),
-		nitro(),
-		viteReact(),
-	],
+	plugins: [tailwindcss(), tsconfigPaths({ projects: ["./tsconfig.json"] }), tanstackStart({ srcDirectory: "src" }), nitro(), viteReact()],
 })

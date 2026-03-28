@@ -8,16 +8,7 @@ export const dialogData: ComponentData = {
 	docPath: "/docs/components/ui/dialog",
 	imports: {
 		path: "@blazz/ui/components/ui/dialog",
-		named: [
-			"Dialog",
-			"DialogTrigger",
-			"DialogContent",
-			"DialogHeader",
-			"DialogTitle",
-			"DialogDescription",
-			"DialogFooter",
-			"DialogClose",
-		],
+		named: ["Dialog", "DialogTrigger", "DialogContent", "DialogHeader", "DialogTitle", "DialogDescription", "DialogFooter", "DialogClose"],
 	},
 	props: [
 		{ name: "open", type: "boolean", description: "État d'ouverture contrôlé." },

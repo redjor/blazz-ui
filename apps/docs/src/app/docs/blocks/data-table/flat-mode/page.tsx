@@ -1,10 +1,6 @@
 "use client"
 
-import type {
-	DataTableColumnDef,
-	DataTableView,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
+import type { DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { Ban, CheckCircle2, CircleDot, FileEdit, Pencil, Send, Trash2 } from "lucide-react"
 import * as React from "react"
@@ -21,10 +17,7 @@ type Issue = {
 	date: string
 }
 
-const statusConfig: Record<
-	string,
-	{ icon: typeof FileEdit; iconClass: string; tint: string; label: string }
-> = {
+const statusConfig: Record<string, { icon: typeof FileEdit; iconClass: string; tint: string; label: string }> = {
 	backlog: {
 		icon: Ban,
 		iconClass: "text-fg-muted",
@@ -277,9 +270,7 @@ export default function FlatModePage() {
 								</div>
 								<div className="flex shrink-0 items-center gap-3">
 									<span className="text-xs text-fg-muted">{issue.date}</span>
-									<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted">
-										{issue.project}
-									</span>
+									<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted">{issue.project}</span>
 								</div>
 							</>
 						)
@@ -289,8 +280,7 @@ export default function FlatModePage() {
 
 			<DocSection id="how-it-works" title="How it Works">
 				<p className="text-fg-muted mb-4">
-					Le flat mode combine 3 features : <code>variant="flat"</code> (pas de bordures, pas de
-					headers), <code>renderRow</code> (layout custom par ligne), et <code>enableGrouping</code>{" "}
+					Le flat mode combine 3 features : <code>variant="flat"</code> (pas de bordures, pas de headers), <code>renderRow</code> (layout custom par ligne), et <code>enableGrouping</code>{" "}
 					(regroupement).
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
@@ -320,9 +310,8 @@ export default function FlatModePage() {
 
 			<DocSection id="renderRow" title="renderRow">
 				<p className="text-fg-muted mb-4">
-					Quand <code>renderRow</code> est fourni, chaque data row rend un seul{" "}
-					<code>&lt;td colSpan&gt;</code> avec un flex div. Le DataTable injecte automatiquement la
-					checkbox de selection et le menu d'actions autour de votre contenu.
+					Quand <code>renderRow</code> est fourni, chaque data row rend un seul <code>&lt;td colSpan&gt;</code> avec un flex div. Le DataTable injecte automatiquement la checkbox de selection et le
+					menu d'actions autour de votre contenu.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`renderRow={(row) => (
@@ -344,9 +333,7 @@ export default function FlatModePage() {
 
 			<DocSection id="groupRowStyle" title="groupRowStyle">
 				<p className="text-fg-muted mb-4">
-					Callback qui recoit la row groupee et retourne des styles inline pour le{" "}
-					<code>&lt;td&gt;</code> du group header. Ideal pour teinter le fond avec la couleur du
-					statut.
+					Callback qui recoit la row groupee et retourne des styles inline pour le <code>&lt;td&gt;</code> du group header. Ideal pour teinter le fond avec la couleur du statut.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`groupRowStyle={(row) => {

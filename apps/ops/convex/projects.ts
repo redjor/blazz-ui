@@ -35,10 +35,7 @@ export const listByClient = query({
 			if (!project.budgetAmount) return { ...project, budgetPercent: null }
 			const entries = entriesByProject.get(project._id as string) ?? []
 			const billableEntries = entries.filter((e) => e.billable)
-			const daysConsumed =
-				project.hoursPerDay > 0
-					? billableEntries.reduce((s, e) => s + e.minutes, 0) / (project.hoursPerDay * 60)
-					: 0
+			const daysConsumed = project.hoursPerDay > 0 ? billableEntries.reduce((s, e) => s + e.minutes, 0) / (project.hoursPerDay * 60) : 0
 			const daysSold = project.tjm > 0 ? project.budgetAmount / project.tjm : 0
 			const percentUsed = daysSold > 0 ? (daysConsumed / daysSold) * 100 : 0
 			return { ...project, budgetPercent: Math.round(percentUsed * 10) / 10 }
@@ -99,11 +96,8 @@ export const listAllWithBudget = query({
 			const entries = entriesByProject.get(project._id as string) ?? []
 			const billableEntries = entries.filter((e) => e.billable)
 			const billableMinutes = billableEntries.reduce((s, e) => s + e.minutes, 0)
-			const billableRevenue = Math.round(
-				billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
-			)
-			const daysConsumed =
-				project.hoursPerDay > 0 ? billableMinutes / (project.hoursPerDay * 60) : 0
+			const billableRevenue = Math.round(billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0))
+			const daysConsumed = project.hoursPerDay > 0 ? billableMinutes / (project.hoursPerDay * 60) : 0
 
 			const contracts = contractsByProject.get(project._id as string) ?? []
 			const activeContract = contracts.find((c) => c.status === "active")
@@ -125,9 +119,7 @@ export const listAllWithBudget = query({
 
 			// 2) Active contract with daysPerMonth (TMA/régie) → monthly consumption
 			if (activeContract?.daysPerMonth) {
-				const monthBillable = billableEntries.filter(
-					(e) => e.date >= monthStart && e.date <= monthEnd
-				)
+				const monthBillable = billableEntries.filter((e) => e.date >= monthStart && e.date <= monthEnd)
 				const monthMinutes = monthBillable.reduce((s, e) => s + e.minutes, 0)
 				const monthDays = project.hoursPerDay > 0 ? monthMinutes / (project.hoursPerDay * 60) : 0
 				const percentUsed = (monthDays / activeContract.daysPerMonth) * 100
@@ -145,10 +137,7 @@ export const listAllWithBudget = query({
 
 			// 3) Active contract with budgetAmount (forfait) → global budget progress
 			if (activeContract?.budgetAmount) {
-				const percentUsed =
-					activeContract.budgetAmount > 0
-						? (billableRevenue / activeContract.budgetAmount) * 100
-						: 0
+				const percentUsed = activeContract.budgetAmount > 0 ? (billableRevenue / activeContract.budgetAmount) * 100 : 0
 				return {
 					...project,
 					budgetPercent: Math.round(percentUsed * 10) / 10,
@@ -238,10 +227,7 @@ export const update = mutation({
 	},
 })
 
-function buildWeeklyBurnDown(
-	project: { startDate?: string; budgetAmount?: number; tjm: number; hoursPerDay: number },
-	billableEntries: Array<{ date: string; minutes: number; hourlyRate: number }>
-) {
+function buildWeeklyBurnDown(project: { startDate?: string; budgetAmount?: number; tjm: number; hoursPerDay: number }, billableEntries: Array<{ date: string; minutes: number; hourlyRate: number }>) {
 	if (!project.budgetAmount || !project.startDate) return null
 
 	const revenueByWeek: Record<string, number> = {}
@@ -287,9 +273,7 @@ export const getWithStats = query({
 
 		const totalMinutes = entries.reduce((s, e) => s + e.minutes, 0)
 		const totalRevenue = billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
-		const invoicedRevenue = billableEntries
-			.filter((e) => e.status === "invoiced" || e.status === "paid")
-			.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
+		const invoicedRevenue = billableEntries.filter((e) => e.status === "invoiced" || e.status === "paid").reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
 		const pendingRevenue = totalRevenue - invoicedRevenue
 
 		const byMonthMap: Record<string, { minutes: number; revenue: number }> = {}
@@ -313,9 +297,7 @@ export const getWithStats = query({
 			stats: {
 				totalMinutes,
 				billableMinutes: billableEntries.reduce((s, e) => s + e.minutes, 0),
-				billableRevenue: Math.round(
-					billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)
-				),
+				billableRevenue: Math.round(billableEntries.reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0)),
 				totalRevenue: Math.round(totalRevenue),
 				invoicedRevenue: Math.round(invoicedRevenue),
 				pendingRevenue: Math.round(pendingRevenue),

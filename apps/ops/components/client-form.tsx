@@ -4,13 +4,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "convex/react"
@@ -49,9 +43,7 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 	const update = useMutation(api.clients.update)
 	const generateUploadUrl = useMutation(api.clients.generateUploadUrl)
 
-	const [logoStorageId, setLogoStorageId] = useState<Id<"_storage"> | undefined>(
-		defaultValues?.logoStorageId
-	)
+	const [logoStorageId, setLogoStorageId] = useState<Id<"_storage"> | undefined>(defaultValues?.logoStorageId)
 	const [logoPreview, setLogoPreview] = useState<string | null>(defaultValues?.logoUrl ?? null)
 	const [uploading, setUploading] = useState(false)
 	const fileInputRef = useRef<HTMLInputElement>(null)
@@ -124,17 +116,9 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 				</button>
 				<div>
 					<p className="text-sm font-medium text-fg">Logo</p>
-					<p className="text-xs text-fg-muted">
-						{logoPreview ? "Cliquer pour remplacer" : "Cliquer pour ajouter"}
-					</p>
+					<p className="text-xs text-fg-muted">{logoPreview ? "Cliquer pour remplacer" : "Cliquer pour ajouter"}</p>
 				</div>
-				<input
-					ref={fileInputRef}
-					type="file"
-					accept="image/*"
-					className="hidden"
-					onChange={handleFileChange}
-				/>
+				<input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
 			</div>
 
 			<div className="space-y-1.5">
@@ -187,31 +171,16 @@ export function ClientForm({ defaultValues, onSuccess, onCancel }: Props) {
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="qontoClientId">ID Client Qonto</Label>
-				<Input
-					id="qontoClientId"
-					placeholder="Visible dans Qonto > Clients"
-					{...register("qontoClientId")}
-				/>
+				<Input id="qontoClientId" placeholder="Visible dans Qonto > Clients" {...register("qontoClientId")} />
 			</div>
 			<DialogFooter>
 				{onCancel && (
-					<Button
-						type="button"
-						variant="outline"
-						onClick={onCancel}
-						disabled={isSubmitting || uploading}
-					>
+					<Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting || uploading}>
 						Annuler
 					</Button>
 				)}
 				<Button type="submit" disabled={isSubmitting || uploading}>
-					{isSubmitting ? (
-						<Loader2 className="size-4 animate-spin" />
-					) : defaultValues?.id ? (
-						"Mettre à jour"
-					) : (
-						"Créer le client"
-					)}
+					{isSubmitting ? <Loader2 className="size-4 animate-spin" /> : defaultValues?.id ? "Mettre à jour" : "Créer le client"}
 				</Button>
 			</DialogFooter>
 		</form>

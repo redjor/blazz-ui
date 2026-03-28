@@ -2,9 +2,9 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import Link from "next/link"
 import { ArrowRight, Github, Sparkles } from "lucide-react"
 import { motion } from "motion/react"
+import Link from "next/link"
 
 const githubUrl = "https://github.com/redjor/blazz-ui"
 
@@ -12,11 +12,7 @@ export function Hero() {
 	return (
 		<section className="px-6 pb-4 pt-8 md:pt-10">
 			<div className="mx-auto max-w-6xl">
-				<motion.div
-					initial={{ opacity: 0, y: 16 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.4 }}
-				>
+				<motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
 					<div className="mx-auto max-w-3xl text-center">
 						<motion.div
 							initial={{ opacity: 0, scale: 0.96 }}
@@ -35,8 +31,7 @@ export function Hero() {
 						</h1>
 
 						<p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
-							Dense tables, structured layouts, fast workflows, and polished visuals for serious
-							business software.
+							Dense tables, structured layouts, fast workflows, and polished visuals for serious business software.
 						</p>
 
 						<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -81,41 +76,17 @@ export function Hero() {
 
 							<div className="grid gap-0 border-edge/50 lg:grid-cols-[1.35fr_0.65fr]">
 								<div className="border-b border-edge/50 p-4 lg:border-b-0 lg:border-r">
-									<img
-										src="/thumbnails/light/data-table.png"
-										alt="Editable data table preview"
-										className="w-full rounded-xl border border-edge/40 dark:hidden"
-									/>
-									<img
-										src="/thumbnails/dark/data-table.png"
-										alt="Editable data table preview"
-										className="hidden w-full rounded-xl border border-edge/40 dark:block"
-									/>
+									<img src="/thumbnails/light/data-table.png" alt="Editable data table preview" className="w-full rounded-xl border border-edge/40 dark:hidden" />
+									<img src="/thumbnails/dark/data-table.png" alt="Editable data table preview" className="hidden w-full rounded-xl border border-edge/40 dark:block" />
 								</div>
 								<div className="grid gap-0">
 									<div className="border-b border-edge/50 p-4">
-										<img
-											src="/thumbnails/light/stats-grid.png"
-											alt="Stats grid preview"
-											className="w-full rounded-xl border border-edge/40 dark:hidden"
-										/>
-										<img
-											src="/thumbnails/dark/stats-grid.png"
-											alt="Stats grid preview"
-											className="hidden w-full rounded-xl border border-edge/40 dark:block"
-										/>
+										<img src="/thumbnails/light/stats-grid.png" alt="Stats grid preview" className="w-full rounded-xl border border-edge/40 dark:hidden" />
+										<img src="/thumbnails/dark/stats-grid.png" alt="Stats grid preview" className="hidden w-full rounded-xl border border-edge/40 dark:block" />
 									</div>
 									<div className="p-4">
-										<img
-											src="/thumbnails/light/notification-center.png"
-											alt="Notification center preview"
-											className="w-full rounded-xl border border-edge/40 dark:hidden"
-										/>
-										<img
-											src="/thumbnails/dark/notification-center.png"
-											alt="Notification center preview"
-											className="hidden w-full rounded-xl border border-edge/40 dark:block"
-										/>
+										<img src="/thumbnails/light/notification-center.png" alt="Notification center preview" className="w-full rounded-xl border border-edge/40 dark:hidden" />
+										<img src="/thumbnails/dark/notification-center.png" alt="Notification center preview" className="hidden w-full rounded-xl border border-edge/40 dark:block" />
 									</div>
 								</div>
 							</div>

@@ -1,18 +1,12 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
 import { CreditCard, Settings, User } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -119,11 +113,7 @@ export default function TabsPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Tabs"
-			subtitle="Organize content into separate views where only one view is visible at a time."
-			toc={toc}
-		>
+		<DocPage title="Tabs" subtitle="Organize content into separate views where only one view is visible at a time." toc={toc}>
 			<DocHero>
 				<Tabs defaultValue="account" className="w-full max-w-sm">
 					<TabsList>
@@ -135,12 +125,7 @@ export default function TabsPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="Basic tabs with content panels."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="Basic tabs with content panels." code={examples[0].code} highlightedCode={html("default")}>
 					<Tabs defaultValue="account" className="w-full max-w-md">
 						<TabsList>
 							<TabsTrigger value="account">Account</TabsTrigger>
@@ -179,12 +164,7 @@ export default function TabsPage() {
 					</Tabs>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Line Variant"
-					description="Tabs with an underline indicator."
-					code={examples[1].code}
-					highlightedCode={html("line")}
-				>
+				<DocExampleClient title="Line Variant" description="Tabs with an underline indicator." code={examples[1].code} highlightedCode={html("line")}>
 					<Tabs defaultValue="profile" className="w-full max-w-md">
 						<TabsList variant="line">
 							<TabsTrigger value="profile">Profile</TabsTrigger>
@@ -203,12 +183,7 @@ export default function TabsPage() {
 					</Tabs>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Icons"
-					description="Add icons to tab triggers for visual context."
-					code={examples[2].code}
-					highlightedCode={html("with-icons")}
-				>
+				<DocExampleClient title="With Icons" description="Add icons to tab triggers for visual context." code={examples[2].code} highlightedCode={html("with-icons")}>
 					<Tabs defaultValue="profile" className="w-full max-w-md">
 						<TabsList>
 							<TabsTrigger value="profile">
@@ -233,12 +208,7 @@ export default function TabsPage() {
 					</Tabs>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Vertical"
-					description="Tabs arranged vertically."
-					code={examples[3].code}
-					highlightedCode={html("vertical")}
-				>
+				<DocExampleClient title="Vertical" description="Tabs arranged vertically." code={examples[3].code} highlightedCode={html("vertical")}>
 					<Tabs defaultValue="general" orientation="vertical" className="w-full max-w-lg">
 						<TabsList>
 							<TabsTrigger value="general">General</TabsTrigger>
@@ -251,9 +221,7 @@ export default function TabsPage() {
 									<CardTitle>General Settings</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="text-sm text-fg-muted">
-										Configure your general application settings.
-									</p>
+									<p className="text-sm text-fg-muted">Configure your general application settings.</p>
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -290,9 +258,7 @@ export default function TabsPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Tabs uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Tabs uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Tab list background color

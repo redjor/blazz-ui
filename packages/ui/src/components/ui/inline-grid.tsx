@@ -65,11 +65,7 @@ export function InlineGrid({ children, className, columns = 2, gap, alignItems }
 	}
 
 	return (
-		<div
-			data-slot="inline-grid"
-			className={cn(inlineGridVariants({ gap, alignItems }), className)}
-			style={{ gridTemplateColumns }}
-		>
+		<div data-slot="inline-grid" className={cn(inlineGridVariants({ gap, alignItems }), className)} style={{ gridTemplateColumns }}>
 			{children}
 		</div>
 	)

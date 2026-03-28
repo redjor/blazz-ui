@@ -1,9 +1,9 @@
 "use client"
-import { use } from "react"
 
 import type { TreeNode } from "@blazz/ui/components/ui/tree-view"
 import { TreeView } from "@blazz/ui/components/ui/tree-view"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -254,9 +254,7 @@ function ControlledTreeDemo() {
 	return (
 		<div className="space-y-3">
 			<TreeView data={fileTree} selected={selected} onSelect={setSelected} className="max-w-xs" />
-			<p className="text-xs text-fg-muted">
-				Selected: {selected.length > 0 ? selected.join(", ") : "none"}
-			</p>
+			<p className="text-xs text-fg-muted">Selected: {selected.length > 0 ? selected.join(", ") : "none"}</p>
 		</div>
 	)
 }
@@ -276,39 +274,19 @@ export default function TreeViewPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple tree view with folders and files."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple tree view with folders and files." code={examples[0].code} highlightedCode={html("basic")}>
 					<TreeView data={basicTree} className="max-w-xs" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Multi Select"
-					description="Allow selecting multiple nodes simultaneously."
-					code={examples[1].code}
-					highlightedCode={html("multi-select")}
-				>
+				<DocExampleClient title="Multi Select" description="Allow selecting multiple nodes simultaneously." code={examples[1].code} highlightedCode={html("multi-select")}>
 					<TreeView data={basicTree} multiSelect className="max-w-xs" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage selected nodes with state and display selected IDs."
-					code={examples[2].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage selected nodes with state and display selected IDs." code={examples[2].code} highlightedCode={html("controlled")}>
 					<ControlledTreeDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Deep Nesting"
-					description="TreeView handles deeply nested data structures."
-					code={examples[3].code}
-					highlightedCode={html("deep-nesting")}
-				>
+				<DocExampleClient title="Deep Nesting" description="TreeView handles deeply nested data structures." code={examples[3].code} highlightedCode={html("deep-nesting")}>
 					<TreeView data={deepTree} className="max-w-sm" />
 				</DocExampleClient>
 			</DocSection>
@@ -326,9 +304,7 @@ export default function TreeViewPage() {
 					<li>Use unique IDs for each node to ensure correct selection and expansion</li>
 					<li>Keep nesting depth reasonable (3-4 levels) for usability</li>
 					<li>Use multiSelect when users need to operate on multiple items</li>
-					<li>
-						Keyboard navigation is supported: Arrow keys for expansion, Enter/Space for selection
-					</li>
+					<li>Keyboard navigation is supported: Arrow keys for expansion, Enter/Space for selection</li>
 				</ul>
 			</DocSection>
 		</DocPage>

@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { ComparisonTable } from "@blazz/pro/components/ai/generative/data/comparison-table"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "plan-comparison",
@@ -35,7 +36,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function ComparisonTablePage() {
@@ -43,11 +43,7 @@ export default function ComparisonTablePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Comparison Table"
-			subtitle="A compact table for side-by-side data comparisons."
-			toc={toc}
-		>
+		<DocPage title="Comparison Table" subtitle="A compact table for side-by-side data comparisons." toc={toc}>
 			<DocHero>
 				<ComparisonTable
 					title="Plan Comparison"
@@ -61,12 +57,7 @@ export default function ComparisonTablePage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Plan Comparison"
-					description="A lightweight table for side-by-side comparison data."
-					code={examples[0].code}
-					highlightedCode={html("plan-comparison")}
-				>
+				<DocExampleClient title="Plan Comparison" description="A lightweight table for side-by-side comparison data." code={examples[0].code} highlightedCode={html("plan-comparison")}>
 					<ComparisonTable
 						title="Plan Comparison"
 						columns={["Feature", "Starter", "Pro", "Enterprise"]}
@@ -78,12 +69,7 @@ export default function ComparisonTablePage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Title"
-					description="The title is optional — the table renders standalone."
-					code={examples[1].code}
-					highlightedCode={html("without-title")}
-				>
+				<DocExampleClient title="Without Title" description="The title is optional — the table renders standalone." code={examples[1].code} highlightedCode={html("without-title")}>
 					<ComparisonTable
 						columns={["Metric", "Q3", "Q4"]}
 						rows={[

@@ -4,13 +4,7 @@ import { PanelLeft } from "lucide-react"
 import Link from "next/link"
 import * as React from "react"
 import { cn } from "../../lib/utils"
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "../ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "../ui/breadcrumb"
 import { Button } from "../ui/button"
 import { useSidebarSafe } from "../ui/sidebar"
 

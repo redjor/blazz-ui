@@ -1,22 +1,13 @@
 "use client"
 
-import { useQuery, useMutation } from "convex/react"
+import { filterInboxItems, InboxDetailEmpty, type InboxFilters, InboxHeader, InboxItem, InboxList, type InboxNotification, InboxPanel } from "@blazz/pro/components/blocks/inbox"
+import { SplitView } from "@blazz/pro/components/blocks/split-view"
+import { useMutation, useQuery } from "convex/react"
 import { useState } from "react"
+import { NotificationDetail } from "@/components/notification-detail"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import {
-	InboxHeader,
-	InboxPanel,
-	InboxList,
-	InboxItem,
-	InboxDetailEmpty,
-	filterInboxItems,
-	type InboxFilters,
-	type InboxNotification,
-} from "@blazz/pro/components/blocks/inbox"
-import { SplitView } from "@blazz/pro/components/blocks/split-view"
 import { toInboxNotification } from "@/lib/notifications"
-import { NotificationDetail } from "@/components/notification-detail"
 
 export default function NotificationsPageClient() {
 	const notifications = useQuery(api.notifications.list, {})
@@ -65,23 +56,12 @@ export default function NotificationsPageClient() {
 				<InboxPanel loading={isLoading}>
 					<InboxList>
 						{filtered.map((item) => (
-							<InboxItem
-								key={item.id}
-								item={item}
-								selected={selectedId === item.id}
-								onClick={handleSelect}
-							/>
+							<InboxItem key={item.id} item={item} selected={selectedId === item.id} onClick={handleSelect} />
 						))}
 					</InboxList>
 				</InboxPanel>
 			</SplitView.Master>
-			<SplitView.Detail>
-				{selectedNotification ? (
-					<NotificationDetail notification={selectedNotification} />
-				) : (
-					<InboxDetailEmpty />
-				)}
-			</SplitView.Detail>
+			<SplitView.Detail>{selectedNotification ? <NotificationDetail notification={selectedNotification} /> : <InboxDetailEmpty />}</SplitView.Detail>
 		</SplitView>
 	)
 }

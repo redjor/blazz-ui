@@ -2,9 +2,9 @@
 
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
 import { cn } from "@blazz/ui/lib/utils"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronRight } from "lucide-react"
 import * as React from "react"
 import { type ComponentNavCategory, componentsNavigation } from "~/config/components-navigation"
 
@@ -14,20 +14,14 @@ export function ComponentsSidebar() {
 
 	// Auto-open category containing active item
 	React.useEffect(() => {
-		const activeCategory = componentsNavigation.find((category) =>
-			category.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
-		)
+		const activeCategory = componentsNavigation.find((category) => category.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`)))
 		if (activeCategory) {
-			setOpenCategories((prev) =>
-				prev.includes(activeCategory.id) ? prev : [...prev, activeCategory.id]
-			)
+			setOpenCategories((prev) => (prev.includes(activeCategory.id) ? prev : [...prev, activeCategory.id]))
 		}
 	}, [pathname])
 
 	const toggleCategory = (categoryId: string) => {
-		setOpenCategories((prev) =>
-			prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]
-		)
+		setOpenCategories((prev) => (prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]))
 	}
 
 	const isItemActive = (href: string) => {
@@ -38,27 +32,13 @@ export function ComponentsSidebar() {
 		<aside className="hidden h-full w-64 shrink-0 border-r bg-card lg:block">
 			<ScrollArea className="h-full py-6">
 				<div className="px-4 pb-4">
-					<Link
-						href="/docs/components"
-						className={cn(
-							"text-sm font-semibold hover:text-fg",
-							pathname === "/docs/components" || pathname === "/docs/components/"
-								? "text-fg"
-								: "text-fg-muted"
-						)}
-					>
+					<Link href="/docs/components" className={cn("text-sm font-semibold hover:text-fg", pathname === "/docs/components" || pathname === "/docs/components/" ? "text-fg" : "text-fg-muted")}>
 						Components
 					</Link>
 				</div>
 				<nav className="space-y-1 px-2">
 					{componentsNavigation.map((category) => (
-						<CategoryItem
-							key={category.id}
-							category={category}
-							isOpen={openCategories.includes(category.id)}
-							onToggle={() => toggleCategory(category.id)}
-							isItemActive={isItemActive}
-						/>
+						<CategoryItem key={category.id} category={category} isOpen={openCategories.includes(category.id)} onToggle={() => toggleCategory(category.id)} isItemActive={isItemActive} />
 					))}
 				</nav>
 			</ScrollArea>
@@ -66,17 +46,7 @@ export function ComponentsSidebar() {
 	)
 }
 
-function CategoryItem({
-	category,
-	isOpen,
-	onToggle,
-	isItemActive,
-}: {
-	category: ComponentNavCategory
-	isOpen: boolean
-	onToggle: () => void
-	isItemActive: (href: string) => boolean
-}) {
+function CategoryItem({ category, isOpen, onToggle, isItemActive }: { category: ComponentNavCategory; isOpen: boolean; onToggle: () => void; isItemActive: (href: string) => boolean }) {
 	const hasActiveItem = category.items.some((item) => isItemActive(item.href))
 
 	return (
@@ -84,17 +54,9 @@ function CategoryItem({
 			<button
 				type="button"
 				onClick={onToggle}
-				className={cn(
-					"flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted",
-					hasActiveItem ? "text-fg" : "text-fg-muted"
-				)}
+				className={cn("flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-muted", hasActiveItem ? "text-fg" : "text-fg-muted")}
 			>
-				<ChevronRight
-					className={cn(
-						"h-4 w-4 shrink-0 transition-transform duration-200",
-						isOpen && "rotate-90"
-					)}
-				/>
+				<ChevronRight className={cn("h-4 w-4 shrink-0 transition-transform duration-200", isOpen && "rotate-90")} />
 				<category.icon className="h-4 w-4 shrink-0" />
 				<span className="truncate">{category.title}</span>
 			</button>
@@ -104,12 +66,7 @@ function CategoryItem({
 						<Link
 							key={item.href}
 							href={item.href}
-							className={cn(
-								"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted",
-								isItemActive(item.href)
-									? "bg-muted font-medium text-fg"
-									: "text-fg-muted hover:text-fg"
-							)}
+							className={cn("block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted", isItemActive(item.href) ? "bg-muted font-medium text-fg" : "text-fg-muted hover:text-fg")}
 						>
 							{item.title}
 						</Link>
@@ -127,20 +84,14 @@ export function ComponentsSidebarMobile() {
 	const [openCategories, setOpenCategories] = React.useState<string[]>([])
 
 	React.useEffect(() => {
-		const activeCategory = componentsNavigation.find((category) =>
-			category.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
-		)
+		const activeCategory = componentsNavigation.find((category) => category.items.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`)))
 		if (activeCategory) {
-			setOpenCategories((prev) =>
-				prev.includes(activeCategory.id) ? prev : [...prev, activeCategory.id]
-			)
+			setOpenCategories((prev) => (prev.includes(activeCategory.id) ? prev : [...prev, activeCategory.id]))
 		}
 	}, [pathname])
 
 	const toggleCategory = (categoryId: string) => {
-		setOpenCategories((prev) =>
-			prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]
-		)
+		setOpenCategories((prev) => (prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId]))
 	}
 
 	const isItemActive = (href: string) => {
@@ -148,21 +99,13 @@ export function ComponentsSidebarMobile() {
 	}
 
 	// Find current component name
-	const currentComponent = componentsNavigation
-		.flatMap((cat) => cat.items)
-		.find((item) => isItemActive(item.href))
+	const currentComponent = componentsNavigation.flatMap((cat) => cat.items).find((item) => isItemActive(item.href))
 
 	return (
 		<div className="lg:hidden">
-			<button
-				type="button"
-				onClick={() => setOpen(!open)}
-				className="flex w-full items-center justify-between rounded-lg border bg-card px-4 py-2 text-sm font-medium"
-			>
+			<button type="button" onClick={() => setOpen(!open)} className="flex w-full items-center justify-between rounded-lg border bg-card px-4 py-2 text-sm font-medium">
 				<span>{currentComponent?.title || "Components"}</span>
-				<ChevronRight
-					className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-90")}
-				/>
+				<ChevronRight className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-90")} />
 			</button>
 			{open && (
 				<div className="mt-2 rounded-lg border bg-card p-2">
@@ -174,12 +117,7 @@ export function ComponentsSidebarMobile() {
 									onClick={() => toggleCategory(category.id)}
 									className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium text-fg-muted hover:bg-muted hover:text-fg"
 								>
-									<ChevronRight
-										className={cn(
-											"h-4 w-4 shrink-0 transition-transform duration-200",
-											openCategories.includes(category.id) && "rotate-90"
-										)}
-									/>
+									<ChevronRight className={cn("h-4 w-4 shrink-0 transition-transform duration-200", openCategories.includes(category.id) && "rotate-90")} />
 									<category.icon className="h-4 w-4 shrink-0" />
 									<span>{category.title}</span>
 								</button>
@@ -192,9 +130,7 @@ export function ComponentsSidebarMobile() {
 												onClick={() => setOpen(false)}
 												className={cn(
 													"block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-muted",
-													isItemActive(item.href)
-														? "bg-muted font-medium text-fg"
-														: "text-fg-muted hover:text-fg"
+													isItemActive(item.href) ? "bg-muted font-medium text-fg" : "text-fg-muted hover:text-fg"
 												)}
 											>
 												{item.title}

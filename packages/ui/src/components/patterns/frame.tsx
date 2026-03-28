@@ -33,9 +33,7 @@ export function Frame({ topBar, navigation, tabBar, header, children, className 
 
 	return (
 		<div className={cn("h-screen w-full bg-page", className)}>
-			{hasTopBar && (
-				<div className="fixed top-0 left-0 right-0 z-20 h-(--topbar-height)">{topBar}</div>
-			)}
+			{hasTopBar && <div className="fixed top-0 left-0 right-0 z-20 h-(--topbar-height)">{topBar}</div>}
 
 			<div className={cn("flex h-screen overflow-hidden", hasTopBar && "pt-(--topbar-height)")}>
 				{navigation}

@@ -1,26 +1,15 @@
 "use client"
 
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@blazz/ui/components/ui/command"
+import { Calculator, Calendar, CreditCard, Settings, Smile, User } from "lucide-react"
 import { use } from "react"
-import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Command,
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-	CommandShortcut,
-} from "@blazz/ui/components/ui/command"
-import { Calculator, Calendar, CreditCard, Search, Settings, Smile, User } from "lucide-react"
-import { CommandDialogExample } from "./demos"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+import { CommandDialogExample } from "./demos"
 
 const examples = [
 	{
@@ -160,17 +149,12 @@ const commandItemProps: DocProp[] = [
 	},
 ]
 
-
 export default function CommandPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Command"
-			subtitle="Fast, composable, unstyled command menu for React."
-			toc={toc}
-		>
+		<DocPage title="Command" subtitle="Fast, composable, unstyled command menu for React." toc={toc}>
 			<DocHero>
 				<Command className="rounded-lg border shadow-md max-w-md">
 					<CommandInput placeholder="Type a command or search..." />
@@ -191,12 +175,7 @@ export default function CommandPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Command"
-					description="A simple command menu with search and grouped items."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Command" description="A simple command menu with search and grouped items." code={examples[0].code} highlightedCode={html("basic")}>
 					<Command className="rounded-lg border shadow-md">
 						<CommandInput placeholder="Type a command or search..." />
 						<CommandList>
@@ -237,12 +216,7 @@ export default function CommandPage() {
 					</Command>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Command Dialog"
-					description="Open command menu in a modal dialog with keyboard shortcut."
-					code={examples[1].code}
-					highlightedCode={html("dialog")}
-				>
+				<DocExampleClient title="Command Dialog" description="Open command menu in a modal dialog with keyboard shortcut." code={examples[1].code} highlightedCode={html("dialog")}>
 					<CommandDialogExample />
 				</DocExampleClient>
 			</DocSection>
@@ -257,9 +231,7 @@ export default function CommandPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Command uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Command uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Command background color

@@ -39,9 +39,7 @@ export function DocPage({ title, subtitle, category, toc, children }: DocPagePro
 
 			{/* Content + TOC */}
 			<div className={cn("flex items-start", hasToc ? "gap-8 xl:gap-14 2xl:gap-20" : "gap-10")}>
-				<div className={cn("min-w-0 space-y-12 pb-16", hasToc ? "flex-1 max-w-4xl" : "flex-1")}>
-					{children}
-				</div>
+				<div className={cn("min-w-0 space-y-12 pb-16", hasToc ? "flex-1 max-w-4xl" : "flex-1")}>{children}</div>
 				{toc && toc.length > 0 && (
 					<div className="hidden w-52 shrink-0 xl:w-56 2xl:w-64 lg:block">
 						<DocToc items={toc} />

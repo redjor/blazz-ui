@@ -32,22 +32,12 @@ interface DateSelectorProps {
 	formatStr?: string
 }
 
-function DateSelector({
-	value,
-	onValueChange,
-	placeholder = "Pick a date",
-	disabled = false,
-	className,
-	formatStr = "PPP",
-}: DateSelectorProps) {
+function DateSelector({ value, onValueChange, placeholder = "Pick a date", disabled = false, className, formatStr = "PPP" }: DateSelectorProps) {
 	const [open, setOpen] = React.useState(false)
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger
-				disabled={disabled}
-				className={cn(triggerBase, !value && "text-fg-muted", className)}
-			>
+			<PopoverTrigger disabled={disabled} className={cn(triggerBase, !value && "text-fg-muted", className)}>
 				<CalendarIcon className="size-4 text-fg-muted" />
 				{value ? format(value, formatStr) : placeholder}
 			</PopoverTrigger>
@@ -99,13 +89,9 @@ function DateRangeSelector({
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger disabled={disabled} className={cn(triggerBase, "gap-0", className)}>
 				<CalendarIcon className="mr-1.5 size-4 text-fg-muted" />
-				<span className={cn(!from && "text-fg-muted")}>
-					{from ? format(from, formatStr) : fromPlaceholder}
-				</span>
+				<span className={cn(!from && "text-fg-muted")}>{from ? format(from, formatStr) : fromPlaceholder}</span>
 				<span className="mx-1.5 text-fg-muted">&ndash;</span>
-				<span className={cn(!to && "text-fg-muted")}>
-					{to ? format(to, formatStr) : toPlaceholder}
-				</span>
+				<span className={cn(!to && "text-fg-muted")}>{to ? format(to, formatStr) : toPlaceholder}</span>
 			</PopoverTrigger>
 			<PopoverContent className="w-auto p-0" align="start">
 				<Calendar

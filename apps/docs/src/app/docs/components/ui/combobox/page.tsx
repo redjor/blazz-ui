@@ -1,10 +1,6 @@
 "use client"
-import { use } from "react"
 
-import { Combobox } from "@blazz/ui/components/ui/combobox"
-import { Label } from "@blazz/ui/components/ui/label"
-import { Flag, Globe } from "lucide-react"
-import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -12,7 +8,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import { ComboboxDefaultDemo, ComboboxWithIconDemo, ComboboxWithLabelDemo, ComboboxCustomEmptyDemo, ComboboxIconTriggerDemo, ComboboxTeamMemberDemo } from "./demos"
+import { ComboboxCustomEmptyDemo, ComboboxDefaultDemo, ComboboxIconTriggerDemo, ComboboxTeamMemberDemo, ComboboxWithIconDemo, ComboboxWithLabelDemo } from "./demos"
 
 const examples = [
 	{
@@ -125,8 +121,7 @@ const comboboxProps: DocProp[] = [
 	{
 		name: "options",
 		type: "ComboboxOption[]",
-		description:
-			"Array of options. Each option has value, label, and optional description, avatar (image URL), icon (ReactNode).",
+		description: "Array of options. Each option has value, label, and optional description, avatar (image URL), icon (ReactNode).",
 	},
 	{
 		name: "placeholder",
@@ -149,15 +144,13 @@ const comboboxProps: DocProp[] = [
 	{
 		name: "icon",
 		type: "React.ReactNode",
-		description:
-			"Optional icon rendered before the selected label. Used as fallback in iconTrigger mode when no option is selected.",
+		description: "Optional icon rendered before the selected label. Used as fallback in iconTrigger mode when no option is selected.",
 	},
 	{
 		name: "iconTrigger",
 		type: "boolean",
 		default: "false",
-		description:
-			"When true, the trigger renders as a compact icon-only button (32×32px). Shows the selected option's icon, or the icon prop as fallback.",
+		description: "When true, the trigger renders as a compact icon-only button (32×32px). Shows the selected option's icon, or the icon prop as fallback.",
 	},
 	{
 		name: "className",
@@ -166,56 +159,30 @@ const comboboxProps: DocProp[] = [
 	},
 ]
 
-
-
 export default function ComboboxPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Combobox"
-			subtitle="A searchable dropdown that combines a text input with a list of options. Ideal for large option sets where filtering is needed."
-			toc={toc}
-		>
+		<DocPage title="Combobox" subtitle="A searchable dropdown that combines a text input with a list of options. Ideal for large option sets where filtering is needed." toc={toc}>
 			<DocHero>
 				<ComboboxTeamMemberDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic combobox with search functionality."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic combobox with search functionality." code={examples[0].code} highlightedCode={html("default")}>
 					<ComboboxDefaultDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Icon"
-					description="Add a custom icon before the selected value."
-					code={examples[1].code}
-					highlightedCode={html("with-icon")}
-				>
+				<DocExampleClient title="With Icon" description="Add a custom icon before the selected value." code={examples[1].code} highlightedCode={html("with-icon")}>
 					<ComboboxWithIconDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Pair the combobox with a Label for better accessibility."
-					code={examples[2].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Pair the combobox with a Label for better accessibility." code={examples[2].code} highlightedCode={html("with-label")}>
 					<ComboboxWithLabelDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Empty Message"
-					description="Customize the message shown when no options match the search."
-					code={examples[3].code}
-					highlightedCode={html("custom-empty")}
-				>
+				<DocExampleClient title="Custom Empty Message" description="Customize the message shown when no options match the search." code={examples[3].code} highlightedCode={html("custom-empty")}>
 					<ComboboxCustomEmptyDemo />
 				</DocExampleClient>
 
@@ -244,9 +211,7 @@ export default function ComboboxPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>
-						Use Combobox when you have more than 7-10 options that benefit from search filtering
-					</li>
+					<li>Use Combobox when you have more than 7-10 options that benefit from search filtering</li>
 					<li>For fewer options without search, prefer a standard Select component</li>
 					<li>Provide clear placeholder and searchPlaceholder text to guide users</li>
 					<li>Customize emptyMessage to give helpful feedback when search yields no results</li>

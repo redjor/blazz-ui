@@ -1,18 +1,7 @@
 "use client"
 
-import type {
-	BulkAction,
-	DataTableColumnDef,
-	DataTableView,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
-import {
-	col,
-	createBulkActions,
-	createCRUDActions,
-	createStatusViews,
-	DataTableColumnHeader,
-} from "@blazz/pro/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
+import { col, createBulkActions, createCRUDActions, createStatusViews, DataTableColumnHeader } from "@blazz/pro/components/blocks/data-table"
 import { format, isPast, isThisWeek, isToday, isTomorrow, parseISO } from "date-fns"
 import { fr } from "date-fns/locale"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -76,8 +65,7 @@ export function formatDueDate(dueDate: string): {
 	const today = new Date()
 	today.setHours(0, 0, 0, 0)
 
-	if (isToday(date))
-		return { label: "Aujourd'hui", overdue: false, className: "text-orange-500 font-medium" }
+	if (isToday(date)) return { label: "Aujourd'hui", overdue: false, className: "text-orange-500 font-medium" }
 	if (isTomorrow(date)) return { label: "Demain", overdue: false, className: "text-fg-muted" }
 	if (isPast(date))
 		return {
@@ -108,72 +96,30 @@ export function StatusIcon({ status, className = "" }: { status: string; classNa
 			// Dashed circle — unprocessed
 			return (
 				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
-					<circle
-						cx="7"
-						cy="7"
-						r="5.5"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeDasharray="3 2"
-						className="text-orange-400"
-					/>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" className="text-orange-400" />
 				</svg>
 			)
 		case "todo":
 			// Empty circle — to do
 			return (
 				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
-					<circle
-						cx="7"
-						cy="7"
-						r="5.5"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						className="text-zinc-500"
-					/>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-zinc-500" />
 				</svg>
 			)
 		case "blocked":
 			// Circle with horizontal line — blocked
 			return (
 				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
-					<circle
-						cx="7"
-						cy="7"
-						r="5.5"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						className="text-red-500"
-					/>
-					<line
-						x1="4"
-						y1="7"
-						x2="10"
-						y2="7"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						className="text-red-500"
-					/>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-red-500" />
+					<line x1="4" y1="7" x2="10" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="text-red-500" />
 				</svg>
 			)
 		case "in_progress":
 			// Half-filled circle — in progress
 			return (
 				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
-					<circle
-						cx="7"
-						cy="7"
-						r="5.5"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						className="text-yellow-500"
-					/>
-					<path
-						d="M7 1.5 A5.5 5.5 0 0 1 7 12.5 Z"
-						fill="currentColor"
-						className="text-yellow-500"
-					/>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-yellow-500" />
+					<path d="M7 1.5 A5.5 5.5 0 0 1 7 12.5 Z" fill="currentColor" className="text-yellow-500" />
 				</svg>
 			)
 		case "done":
@@ -181,26 +127,13 @@ export function StatusIcon({ status, className = "" }: { status: string; classNa
 			return (
 				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
 					<circle cx="7" cy="7" r="6" fill="currentColor" className="text-green-500" />
-					<path
-						d="M4.5 7.2 L6.2 8.9 L9.5 5.5"
-						stroke="white"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					/>
+					<path d="M4.5 7.2 L6.2 8.9 L9.5 5.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 				</svg>
 			)
 		default:
 			return (
 				<svg width={size} height={size} viewBox="0 0 14 14" fill="none" className={cn}>
-					<circle
-						cx="7"
-						cy="7"
-						r="5.5"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						className="text-zinc-400"
-					/>
+					<circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" className="text-zinc-400" />
 				</svg>
 			)
 	}
@@ -266,11 +199,7 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 				if (!value) return <span className="text-fg-muted/40 text-sm">—</span>
 				const isDone = row.original.status === "done"
 				const { label, className } = formatDueDate(value)
-				return (
-					<span className={`text-sm ${isDone ? "text-fg-muted/40 line-through" : className}`}>
-						{label}
-					</span>
-				)
+				return <span className={`text-sm ${isDone ? "text-fg-muted/40 line-through" : className}`}>{label}</span>
 			},
 			enableSorting: true,
 			size: 110,
@@ -285,13 +214,7 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 				const color = row.original.categoryColor
 				if (!name) return <span className="text-fg-muted/40 text-sm">—</span>
 				const cls = getCategoryColorClasses(color)
-				return (
-					<span
-						className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls.bg} ${cls.text}`}
-					>
-						{name}
-					</span>
-				)
+				return <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${cls.bg} ${cls.text}`}>{name}</span>
 			},
 			enableSorting: true,
 			size: 120,
@@ -307,10 +230,7 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 				return (
 					<div className="flex flex-wrap gap-1">
 						{tags.map((tag) => (
-							<span
-								key={tag}
-								className="inline-flex items-center rounded-full bg-card px-1.5 py-0.5 text-xs text-fg-muted border border-edge"
-							>
+							<span key={tag} className="inline-flex items-center rounded-full bg-card px-1.5 py-0.5 text-xs text-fg-muted border border-edge">
 								{tag}
 							</span>
 						))}
@@ -327,11 +247,7 @@ export function createTodosPreset(config: TodosPresetConfig = {}): TodosPreset {
 			header: ({ column }) => <DataTableColumnHeader column={column} title="Projet" />,
 			cell: ({ row }) => {
 				const name = row.getValue("projectName") as string | undefined
-				return (
-					<span className={`text-sm ${name ? "text-fg-muted" : "text-fg-muted/40"}`}>
-						{name ?? "—"}
-					</span>
-				)
+				return <span className={`text-sm ${name ? "text-fg-muted" : "text-fg-muted/40"}`}>{name ?? "—"}</span>
 			},
 			enableSorting: false,
 			size: 160,

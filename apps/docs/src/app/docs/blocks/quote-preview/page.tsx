@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import type { QuoteLineItem } from "@blazz/pro/components/blocks/quote-preview"
 import { QuotePreview } from "@blazz/pro/components/blocks/quote-preview"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -258,7 +258,6 @@ const highlightedPromise = highlightExamples(examples as any)
 // ---------------------------------------------------------------------------
 // Route
 // ---------------------------------------------------------------------------
-
 
 // ---------------------------------------------------------------------------
 // Page

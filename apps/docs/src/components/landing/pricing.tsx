@@ -23,14 +23,7 @@ const tiers = [
 		price: "249€",
 		period: "one-time",
 		description: "Full enterprise UI package",
-		features: [
-			"Everything in Starter",
-			"150+ blocks & patterns",
-			"52 AI components",
-			"MCP server for AI coding",
-			"Unlimited projects",
-			"Free updates",
-		],
+		features: ["Everything in Starter", "150+ blocks & patterns", "52 AI components", "MCP server for AI coding", "Unlimited projects", "Free updates"],
 		cta: "Browse Pro docs",
 		href: "/docs/blocks",
 		highlighted: true,
@@ -40,13 +33,7 @@ const tiers = [
 		price: "Custom",
 		period: "on quote",
 		description: "Custom + training",
-		features: [
-			"Everything in Pro",
-			"Custom theme creation",
-			"Team onboarding session",
-			"SLA & dedicated support",
-			"Custom components",
-		],
+		features: ["Everything in Pro", "Custom theme creation", "Team onboarding session", "SLA & dedicated support", "Custom components"],
 		cta: "Contact us",
 		href: `${githubUrl}/issues/new`,
 		highlighted: false,
@@ -58,20 +45,10 @@ export function Pricing() {
 		<section id="pricing" className="py-4 px-6">
 			<div className="mx-auto max-w-6xl">
 				<div className="rounded-xl border border-container bg-card px-8 py-12 sm:px-12">
-					<motion.div
-						initial={{ opacity: 0, y: 12 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.3 }}
-						className="mb-10"
-					>
+					<motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-10">
 						<p className="text-sm font-medium text-brand mb-1.5">Pricing</p>
-						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
-							Get everything, forever.
-						</h2>
-						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							One-time purchase, unlimited projects, free updates, and full code ownership.
-						</p>
+						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">Get everything, forever.</h2>
+						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">One-time purchase, unlimited projects, free updates, and full code ownership.</p>
 					</motion.div>
 
 					<div className="grid md:grid-cols-3 gap-4">
@@ -82,11 +59,7 @@ export function Pricing() {
 								whileInView={{ opacity: 1, y: 0 }}
 								viewport={{ once: true }}
 								transition={{ duration: 0.3, delay: i * 0.05 }}
-								className={`relative rounded-lg border p-6 flex flex-col ${
-									tier.highlighted
-										? "border-brand bg-brand/[0.03]"
-										: "border-edge/40 bg-muted/30"
-								}`}
+								className={`relative rounded-lg border p-6 flex flex-col ${tier.highlighted ? "border-brand bg-brand/[0.03]" : "border-edge/40 bg-muted/30"}`}
 							>
 								{tier.highlighted && (
 									<div className="absolute -top-2.5 left-4">
@@ -115,11 +88,7 @@ export function Pricing() {
 								</ul>
 
 								<a href={tier.href} className="w-full">
-									<Button
-										variant={tier.highlighted ? "default" : "outline"}
-										size="sm"
-										className="w-full"
-									>
+									<Button variant={tier.highlighted ? "default" : "outline"} size="sm" className="w-full">
 										{tier.cta}
 									</Button>
 								</a>

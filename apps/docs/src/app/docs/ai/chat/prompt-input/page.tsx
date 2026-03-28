@@ -1,16 +1,9 @@
 "use client"
 
-import { use } from "react"
-import {
-	PromptInput,
-	PromptInputButton,
-	PromptInputFooter,
-	PromptInputSubmit,
-	PromptInputTextarea,
-	PromptInputTools,
-} from "@blazz/pro/components/ai/chat/prompt-input"
+import { PromptInput, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from "@blazz/pro/components/ai/chat/prompt-input"
 import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 import { PaperclipIcon } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -70,11 +63,7 @@ export default function PromptInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Prompt Input"
-			subtitle="A rich text input for AI chat interfaces with support for file attachments, action menus, and submit controls."
-			toc={toc}
-		>
+		<DocPage title="Prompt Input" subtitle="A rich text input for AI chat interfaces with support for file attachments, action menus, and submit controls." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-lg">
 					<PromptInput onSubmit={() => {}}>
@@ -88,12 +77,7 @@ export default function PromptInputPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Input"
-					description="A minimal prompt input with textarea and submit button."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Input" description="A minimal prompt input with textarea and submit button." code={examples[0].code} highlightedCode={html("basic")}>
 					<PromptInput onSubmit={() => {}}>
 						<PromptInputTextarea placeholder="Ask anything..." />
 						<PromptInputFooter>
@@ -103,12 +87,7 @@ export default function PromptInputPage() {
 					</PromptInput>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Tools"
-					description="Add tool buttons in the footer for attachments or other actions."
-					code={examples[1].code}
-					highlightedCode={html("with-tools")}
-				>
+				<DocExampleClient title="With Tools" description="Add tool buttons in the footer for attachments or other actions." code={examples[1].code} highlightedCode={html("with-tools")}>
 					<PromptInput onSubmit={() => {}}>
 						<PromptInputTextarea placeholder="Type your message..." />
 						<PromptInputFooter>
@@ -122,12 +101,7 @@ export default function PromptInputPage() {
 					</PromptInput>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Suggestions"
-					description="Combine with Suggestions above the input for quick prompts."
-					code={examples[2].code}
-					highlightedCode={html("with-suggestions")}
-				>
+				<DocExampleClient title="With Suggestions" description="Combine with Suggestions above the input for quick prompts." code={examples[2].code} highlightedCode={html("with-suggestions")}>
 					<div className="space-y-3">
 						<Suggestions>
 							<Suggestion suggestion="Explain React hooks" onClick={() => {}} />

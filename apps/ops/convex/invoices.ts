@@ -15,10 +15,7 @@ const lineValidator = v.object({
 	sortOrder: v.number(),
 })
 
-function computeTotal(
-	lines: Array<{ quantity: number; unitPrice: number; discountPercent?: number }>,
-	globalDiscount?: { type: "percent" | "fixed"; value: number }
-): number {
+function computeTotal(lines: Array<{ quantity: number; unitPrice: number; discountPercent?: number }>, globalDiscount?: { type: "percent" | "fixed"; value: number }): number {
 	const subtotal = lines.reduce((sum, line) => {
 		const lineTotal = line.quantity * line.unitPrice
 		const discount = line.discountPercent ? lineTotal * (line.discountPercent / 100) : 0
@@ -50,10 +47,7 @@ export const listAll = query({
 		const clientIds = [...new Set(sorted.map((i) => i.clientId))]
 		const projectIds = [...new Set(sorted.filter((i) => i.projectId).map((i) => i.projectId!))]
 
-		const [clients, projects] = await Promise.all([
-			Promise.all(clientIds.map((id) => ctx.db.get(id))),
-			Promise.all(projectIds.map((id) => ctx.db.get(id))),
-		])
+		const [clients, projects] = await Promise.all([Promise.all(clientIds.map((id) => ctx.db.get(id))), Promise.all(projectIds.map((id) => ctx.db.get(id)))])
 
 		const clientMap = new Map(clients.filter(Boolean).map((c) => [c!._id, c!.name]))
 		const projectMap = new Map(projects.filter(Boolean).map((p) => [p!._id, p!.name]))

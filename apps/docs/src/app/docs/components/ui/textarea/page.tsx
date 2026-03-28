@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -101,64 +101,32 @@ export default function TextareaPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Textarea"
-			subtitle="A multi-line text input field for longer content like descriptions or comments."
-			toc={toc}
-		>
+		<DocPage title="Textarea" subtitle="A multi-line text input field for longer content like descriptions or comments." toc={toc}>
 			<DocHero>
 				<Textarea placeholder="Type your message here." className="max-w-md" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic textarea."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic textarea." code={examples[0].code} highlightedCode={html("default")}>
 					<Textarea placeholder="Type your message here." className="max-w-md" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Textarea with an associated label."
-					code={examples[1].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Textarea with an associated label." code={examples[1].code} highlightedCode={html("with-label")}>
 					<div className="max-w-md space-y-2">
 						<Label htmlFor="message">Message</Label>
 						<Textarea id="message" placeholder="Enter your message" />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Default Value"
-					description="Pre-filled textarea content."
-					code={examples[2].code}
-					highlightedCode={html("with-default-value")}
-				>
-					<Textarea
-						defaultValue="This is some default text that can be edited by the user."
-						className="max-w-md"
-					/>
+				<DocExampleClient title="With Default Value" description="Pre-filled textarea content." code={examples[2].code} highlightedCode={html("with-default-value")}>
+					<Textarea defaultValue="This is some default text that can be edited by the user." className="max-w-md" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled textareas prevent interaction."
-					code={examples[3].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled textareas prevent interaction." code={examples[3].code} highlightedCode={html("disabled")}>
 					<Textarea disabled placeholder="This textarea is disabled" className="max-w-md" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Error State"
-					description="Show validation errors using aria-invalid."
-					code={examples[4].code}
-					highlightedCode={html("error")}
-				>
+				<DocExampleClient title="Error State" description="Show validation errors using aria-invalid." code={examples[4].code} highlightedCode={html("error")}>
 					<div className="max-w-md space-y-2">
 						<Label htmlFor="error-textarea">Description</Label>
 						<Textarea id="error-textarea" aria-invalid placeholder="This field has an error" />
@@ -166,19 +134,12 @@ export default function TextareaPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Form Example"
-					description="Complete form with textarea."
-					code={examples[5].code}
-					highlightedCode={html("form-example")}
-				>
+				<DocExampleClient title="Form Example" description="Complete form with textarea." code={examples[5].code} highlightedCode={html("form-example")}>
 					<div className="max-w-md space-y-4">
 						<div className="space-y-2">
 							<Label htmlFor="bio">Bio</Label>
 							<Textarea id="bio" placeholder="Tell us about yourself..." />
-							<p className="text-xs text-fg-muted">
-								Write a short description about yourself. Maximum 500 characters.
-							</p>
+							<p className="text-xs text-fg-muted">Write a short description about yourself. Maximum 500 characters.</p>
 						</div>
 					</div>
 				</DocExampleClient>
@@ -189,9 +150,7 @@ export default function TextareaPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Textarea uses the same design tokens as Input for consistency:
-				</p>
+				<p className="text-sm text-fg-muted">Textarea uses the same design tokens as Input for consistency:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-card</code> - Input-specific background

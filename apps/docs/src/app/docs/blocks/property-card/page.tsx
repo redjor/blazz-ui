@@ -1,10 +1,10 @@
 "use client"
 
-import { use } from "react"
 import { PropertyCard } from "@blazz/pro/components/blocks/property-card"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Edit } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -141,17 +141,12 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 export default function PropertyCardPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="PropertyCard"
-			subtitle="A card with a titled section of key-value properties, designed for entity detail pages."
-			toc={toc}
-		>
+		<DocPage title="PropertyCard" subtitle="A card with a titled section of key-value properties, designed for entity detail pages." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<div className="w-full max-w-2xl">
@@ -168,12 +163,7 @@ export default function PropertyCardPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple card with a title and a grid of properties."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple card with a title and a grid of properties." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="max-w-2xl">
 						<PropertyCard title="Informations générales" columns={3}>
 							<PropertyCard.Item label="Entreprise" value="Acme Corporation" />
@@ -186,12 +176,7 @@ export default function PropertyCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Actions"
-					description="Pass an actions slot to show buttons in the card header."
-					code={examples[1].code}
-					highlightedCode={html("with-actions")}
-				>
+				<DocExampleClient title="With Actions" description="Pass an actions slot to show buttons in the card header." code={examples[1].code} highlightedCode={html("with-actions")}>
 					<div className="max-w-2xl">
 						<PropertyCard
 							title="Contact principal"
@@ -211,18 +196,9 @@ export default function PropertyCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Description"
-					description="Add a subtitle below the card title for extra context."
-					code={examples[2].code}
-					highlightedCode={html("with-description")}
-				>
+				<DocExampleClient title="With Description" description="Add a subtitle below the card title for extra context." code={examples[2].code} highlightedCode={html("with-description")}>
 					<div className="max-w-2xl">
-						<PropertyCard
-							title="Adresse"
-							description="Adresse de facturation principale"
-							columns={2}
-						>
+						<PropertyCard title="Adresse" description="Adresse de facturation principale" columns={2}>
 							<PropertyCard.Item label="Rue" value="123 Avenue des Champs-Élysées" span={2} />
 							<PropertyCard.Item label="Ville" value="Paris" />
 							<PropertyCard.Item label="Pays" value="France" />
@@ -230,12 +206,7 @@ export default function PropertyCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Missing Values"
-					description='When value is undefined or null, an em dash "—" is displayed automatically.'
-					code={examples[3].code}
-					highlightedCode={html("missing")}
-				>
+				<DocExampleClient title="Missing Values" description='When value is undefined or null, an em dash "—" is displayed automatically.' code={examples[3].code} highlightedCode={html("missing")}>
 					<div className="max-w-2xl">
 						<PropertyCard title="Métadonnées" columns={3}>
 							<PropertyCard.Item label="Assigné à" value="Marie Martin" />
@@ -245,12 +216,7 @@ export default function PropertyCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Stacked Sections"
-					description="Stack multiple PropertyCards for a complete detail view."
-					code={examples[4].code}
-					highlightedCode={html("stacked")}
-				>
+				<DocExampleClient title="Stacked Sections" description="Stack multiple PropertyCards for a complete detail view." code={examples[4].code} highlightedCode={html("stacked")}>
 					<div className="max-w-2xl space-y-6">
 						<PropertyCard title="Informations" columns={3}>
 							<PropertyCard.Item label="Entreprise" value="Acme Corp" />
@@ -283,8 +249,7 @@ export default function PropertyCardPage() {
 						Use <code className="text-xs">span</code> for long values like addresses or descriptions
 					</li>
 					<li>
-						Stack multiple PropertyCards with <code className="text-xs">space-y-6</code> for detail
-						pages
+						Stack multiple PropertyCards with <code className="text-xs">space-y-6</code> for detail pages
 					</li>
 					<li>Pair with Badge for status values, links for emails/URLs</li>
 					<li>Never leave a field empty — omit the Item or show "—"</li>

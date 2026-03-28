@@ -8,22 +8,11 @@ import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, usePaginatedQuery, useQuery } from "convex/react"
-import {
-	addDays,
-	addMonths,
-	addWeeks,
-	endOfMonth,
-	format,
-	startOfMonth,
-	startOfWeek,
-	subMonths,
-	subWeeks,
-} from "date-fns"
+import { addDays, addMonths, addWeeks, endOfMonth, format, startOfMonth, startOfWeek, subMonths, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
-import { TimeListView, type TimeEntry, type TimeEntryRaw } from "./_list-view"
 import { DayEntriesDialog } from "@/components/day-entries-dialog"
 import { MonthCalendar } from "@/components/month-calendar"
 import { QuickTimeEntryModal } from "@/components/quick-time-entry-modal"
@@ -32,6 +21,7 @@ import { WeekGrid } from "@/components/week-grid"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { computeHourlyRate } from "@/lib/rate"
+import { type TimeEntry, type TimeEntryRaw, TimeListView } from "./_list-view"
 
 type View = "list" | "week" | "totals"
 
@@ -39,10 +29,7 @@ function computeDateRange(date: string): string {
 	const now = new Date()
 	const ws = format(startOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd")
 	const prevWs = format(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), "yyyy-MM-dd")
-	const prevWe = format(
-		addDays(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), 6),
-		"yyyy-MM-dd"
-	)
+	const prevWe = format(addDays(startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 }), 6), "yyyy-MM-dd")
 	const ms = format(startOfMonth(now), "yyyy-MM-dd")
 	const prevMs = format(startOfMonth(subMonths(now, 1)), "yyyy-MM-dd")
 	const prevMe = format(endOfMonth(subMonths(now, 1)), "yyyy-MM-dd")
@@ -63,20 +50,14 @@ export default function TimePageClient() {
 
 	const weekFrom = format(weekStart, "yyyy-MM-dd")
 	const weekTo = format(addDays(weekStart, 6), "yyyy-MM-dd")
-	const weekEntries = useQuery(
-		api.timeEntries.list,
-		view === "week" ? { from: weekFrom, to: weekTo } : "skip"
-	)
+	const weekEntries = useQuery(api.timeEntries.list, view === "week" ? { from: weekFrom, to: weekTo } : "skip")
 	const activeProjects = useQuery(api.projects.listActive)
 
 	// Month calendar state
 	const [currentMonth, setCurrentMonth] = useState<Date>(() => startOfMonth(new Date()))
 	const monthFrom = format(currentMonth, "yyyy-MM-dd")
 	const monthTo = format(endOfMonth(currentMonth), "yyyy-MM-dd")
-	const monthEntries = useQuery(
-		api.timeEntries.list,
-		view === "totals" ? { from: monthFrom, to: monthTo } : "skip"
-	)
+	const monthEntries = useQuery(api.timeEntries.list, view === "totals" ? { from: monthFrom, to: monthTo } : "skip")
 	const allProjects = useQuery(api.projects.listAll)
 
 	const {
@@ -87,10 +68,7 @@ export default function TimePageClient() {
 		initialNumItems: 100,
 	})
 
-	const allEntries = useMemo<TimeEntry[]>(
-		() => (rawEntries ?? []).map((e) => ({ ...e, dateRange: computeDateRange(e.date) })),
-		[rawEntries]
-	)
+	const allEntries = useMemo<TimeEntry[]>(() => (rawEntries ?? []).map((e) => ({ ...e, dateRange: computeDateRange(e.date) })), [rawEntries])
 
 	const remove = useMutation(api.timeEntries.remove)
 	const setStatus = useMutation(api.timeEntries.setStatus)
@@ -129,21 +107,13 @@ export default function TimePageClient() {
 	// Derive day entries from live Convex data so the dialog stays in sync
 	const dayDetailEntries = useMemo(() => {
 		if (!dayDetail.open || !dayDetail.projectId || !weekEntries) return []
-		return weekEntries.filter(
-			(e) => e.projectId === dayDetail.projectId && e.date === dayDetail.date
-		)
+		return weekEntries.filter((e) => e.projectId === dayDetail.projectId && e.date === dayDetail.date)
 	}, [dayDetail.open, dayDetail.projectId, dayDetail.date, weekEntries])
 
-	const projectMap = useMemo(
-		() => new Map((allProjects ?? []).map((p) => [p._id, p.name])),
-		[allProjects]
-	)
+	const projectMap = useMemo(() => new Map((allProjects ?? []).map((p) => [p._id, p.name])), [allProjects])
 
 	// Derive project options for filters
-	const projectOptions = useMemo(
-		() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })),
-		[allProjects]
-	)
+	const projectOptions = useMemo(() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })), [allProjects])
 
 	// ---------------------------------------------------------------------------
 	// Data Table (extracted to _list-view.tsx)
@@ -171,47 +141,18 @@ export default function TimePageClient() {
 	return (
 		<>
 			<BlockStack gap="600" className="p-6">
-				<PageHeader
-					title="Saisie des heures"
-					actions={
-						<Button onClick={() => setAddOpen(true)}>
-							Nouvelle entrée
-						</Button>
-					}
-				/>
+				<PageHeader title="Saisie des heures" actions={<Button onClick={() => setAddOpen(true)}>Nouvelle entrée</Button>} />
 
 				<InlineStack gap="300" blockAlign="center">
 					{/* Toggle Semaine/Mois/Liste */}
-					<InlineStack
-						gap="100"
-						blockAlign="center"
-						className="rounded-lg border border-edge p-0.5 bg-muted"
-					>
-						<Button
-							type="button"
-							size="sm"
-							variant={view === "week" ? "default" : "ghost"}
-							onClick={() => setView("week")}
-							className="h-7 px-3 text-xs"
-						>
+					<InlineStack gap="100" blockAlign="center" className="rounded-lg border border-edge p-0.5 bg-muted">
+						<Button type="button" size="sm" variant={view === "week" ? "default" : "ghost"} onClick={() => setView("week")} className="h-7 px-3 text-xs">
 							Semaine
 						</Button>
-						<Button
-							type="button"
-							size="sm"
-							variant={view === "totals" ? "default" : "ghost"}
-							onClick={() => setView("totals")}
-							className="h-7 px-3 text-xs"
-						>
+						<Button type="button" size="sm" variant={view === "totals" ? "default" : "ghost"} onClick={() => setView("totals")} className="h-7 px-3 text-xs">
 							Mois
 						</Button>
-						<Button
-							type="button"
-							size="sm"
-							variant={view === "list" ? "default" : "ghost"}
-							onClick={() => setView("list")}
-							className="h-7 px-3 text-xs"
-						>
+						<Button type="button" size="sm" variant={view === "list" ? "default" : "ghost"} onClick={() => setView("list")} className="h-7 px-3 text-xs">
 							Liste
 						</Button>
 					</InlineStack>
@@ -219,34 +160,14 @@ export default function TimePageClient() {
 					{/* Navigation semaine */}
 					{view === "week" && (
 						<>
-							<Button
-								type="button"
-								variant="ghost"
-								size="icon"
-								className="size-8"
-								onClick={() => setWeekStart((w) => subWeeks(w, 1))}
-							>
+							<Button type="button" variant="ghost" size="icon" className="size-8" onClick={() => setWeekStart((w) => subWeeks(w, 1))}>
 								<ChevronLeft className="h-4 w-4" />
 							</Button>
-							<span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">
-								{weekLabel}
-							</span>
-							<Button
-								type="button"
-								variant="ghost"
-								size="icon"
-								className="size-8"
-								onClick={() => setWeekStart((w) => addWeeks(w, 1))}
-							>
+							<span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">{weekLabel}</span>
+							<Button type="button" variant="ghost" size="icon" className="size-8" onClick={() => setWeekStart((w) => addWeeks(w, 1))}>
 								<ChevronRight className="h-4 w-4" />
 							</Button>
-							<Button
-								type="button"
-								variant="ghost"
-								size="sm"
-								className="text-xs h-7 px-2"
-								onClick={() => setWeekStart(getWeekStart(new Date()))}
-							>
+							<Button type="button" variant="ghost" size="sm" className="text-xs h-7 px-2" onClick={() => setWeekStart(getWeekStart(new Date()))}>
 								Aujourd'hui
 							</Button>
 						</>
@@ -255,34 +176,14 @@ export default function TimePageClient() {
 					{/* Navigation mois */}
 					{view === "totals" && (
 						<>
-							<Button
-								type="button"
-								variant="ghost"
-								size="icon"
-								className="size-8"
-								onClick={() => setCurrentMonth((m) => subMonths(m, 1))}
-							>
+							<Button type="button" variant="ghost" size="icon" className="size-8" onClick={() => setCurrentMonth((m) => subMonths(m, 1))}>
 								<ChevronLeft className="h-4 w-4" />
 							</Button>
-							<span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">
-								{format(currentMonth, "MMMM yyyy", { locale: fr })}
-							</span>
-							<Button
-								type="button"
-								variant="ghost"
-								size="icon"
-								className="size-8"
-								onClick={() => setCurrentMonth((m) => addMonths(m, 1))}
-							>
+							<span className="text-sm font-medium text-fg min-w-[160px] text-center capitalize">{format(currentMonth, "MMMM yyyy", { locale: fr })}</span>
+							<Button type="button" variant="ghost" size="icon" className="size-8" onClick={() => setCurrentMonth((m) => addMonths(m, 1))}>
 								<ChevronRight className="h-4 w-4" />
 							</Button>
-							<Button
-								type="button"
-								variant="ghost"
-								size="sm"
-								className="text-xs h-7 px-2"
-								onClick={() => setCurrentMonth(startOfMonth(new Date()))}
-							>
+							<Button type="button" variant="ghost" size="sm" className="text-xs h-7 px-2" onClick={() => setCurrentMonth(startOfMonth(new Date()))}>
 								Ce mois
 							</Button>
 						</>
@@ -290,13 +191,7 @@ export default function TimePageClient() {
 				</InlineStack>
 
 				{view === "week" && (
-					<div
-						className={
-							weekEntries === undefined || activeProjects === undefined
-								? "opacity-50 pointer-events-none"
-								: ""
-						}
-					>
+					<div className={weekEntries === undefined || activeProjects === undefined ? "opacity-50 pointer-events-none" : ""}>
 						<WeekGrid
 							weekStart={weekStart}
 							entries={weekEntries ?? []}

@@ -6,18 +6,8 @@ function toHex(buffer: ArrayBuffer): string {
 		.join("")
 }
 
-async function hmacSign(
-	algorithm: "SHA-256" | "SHA-1",
-	secret: string,
-	payload: string
-): Promise<string> {
-	const key = await crypto.subtle.importKey(
-		"raw",
-		encoder.encode(secret),
-		{ name: "HMAC", hash: algorithm },
-		false,
-		["sign"]
-	)
+async function hmacSign(algorithm: "SHA-256" | "SHA-1", secret: string, payload: string): Promise<string> {
+	const key = await crypto.subtle.importKey("raw", encoder.encode(secret), { name: "HMAC", hash: algorithm }, false, ["sign"])
 	const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(payload))
 	return toHex(sig)
 }
@@ -25,11 +15,7 @@ async function hmacSign(
 /**
  * Verify GitHub webhook signature (HMAC-SHA256).
  */
-export async function verifyGitHubSignature(
-	payload: string,
-	signature: string | null,
-	secret: string
-): Promise<boolean> {
+export async function verifyGitHubSignature(payload: string, signature: string | null, secret: string): Promise<boolean> {
 	if (!signature) return false
 	const expected = `sha256=${await hmacSign("SHA-256", secret, payload)}`
 	return signature === expected
@@ -38,11 +24,7 @@ export async function verifyGitHubSignature(
 /**
  * Verify Vercel webhook signature (HMAC-SHA1).
  */
-export async function verifyVercelSignature(
-	payload: string,
-	signature: string | null,
-	secret: string
-): Promise<boolean> {
+export async function verifyVercelSignature(payload: string, signature: string | null, secret: string): Promise<boolean> {
 	if (!signature) return false
 	const expected = await hmacSign("SHA-1", secret, payload)
 	return signature === expected

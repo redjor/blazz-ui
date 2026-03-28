@@ -1,14 +1,5 @@
 import { useQuery } from "convex/react"
-import {
-	eachDayOfInterval,
-	endOfWeek,
-	format,
-	getDay,
-	isAfter,
-	startOfDay,
-	startOfWeek,
-	subWeeks,
-} from "date-fns"
+import { eachDayOfInterval, endOfWeek, format, getDay, isAfter, startOfDay, startOfWeek, subWeeks } from "date-fns"
 import { fr } from "date-fns/locale"
 import { useMemo } from "react"
 import { api } from "@/convex/_generated/api"

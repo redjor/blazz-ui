@@ -4,16 +4,7 @@ import { registry } from "./registry-data"
 // Types
 // ---------------------------------------------------------------------------
 
-export type PropType =
-	| "boolean"
-	| "string"
-	| "number"
-	| "union"
-	| "enum"
-	| "slot"
-	| "function"
-	| "object"
-	| "array"
+export type PropType = "boolean" | "string" | "number" | "union" | "enum" | "slot" | "function" | "object" | "array"
 
 export type PropGroup = "main" | "style" | "slots" | "callbacks"
 
@@ -57,12 +48,7 @@ export function getComponentsByCategory(category: ComponentEntry["category"]): C
 
 export function searchComponents(query: string): ComponentEntry[] {
 	const q = query.toLowerCase()
-	return registry.filter(
-		(c) =>
-			c.name.toLowerCase().includes(q) ||
-			c.slug.toLowerCase().includes(q) ||
-			c.category.toLowerCase().includes(q)
-	)
+	return registry.filter((c) => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q) || c.category.toLowerCase().includes(q))
 }
 
 export { registry }

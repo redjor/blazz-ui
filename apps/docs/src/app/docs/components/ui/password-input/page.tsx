@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { PasswordInput } from "@blazz/ui/components/ui/password-input"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -46,11 +46,7 @@ export default function PasswordInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="PasswordInput"
-			subtitle="A password input field with an optional visibility toggle for showing or hiding the entered value."
-			toc={toc}
-		>
+		<DocPage title="PasswordInput" subtitle="A password input field with an optional visibility toggle for showing or hiding the entered value." toc={toc}>
 			<DocHero>
 				<PasswordInput placeholder="Enter your password" className="max-w-sm" />
 			</DocHero>

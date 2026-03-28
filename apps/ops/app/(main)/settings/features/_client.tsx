@@ -1,21 +1,11 @@
 "use client"
 
-import {
-	SettingsHeader,
-	SettingsPage,
-	SettingsSection,
-} from "@blazz/pro/components/blocks/settings-block"
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemTitle,
-} from "@blazz/ui/components/ui/item"
+import { SettingsHeader, SettingsPage, SettingsSection } from "@blazz/pro/components/blocks/settings-block"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@blazz/ui/components/ui/item"
 import { Switch } from "@blazz/ui/components/ui/switch"
 import { toast } from "sonner"
-import type { FeatureFlag } from "@/lib/features"
 import { useFeatureFlags } from "@/lib/feature-flags-context"
+import type { FeatureFlag } from "@/lib/features"
 
 interface FeatureItem {
 	flag: FeatureFlag
@@ -78,10 +68,7 @@ export default function FeaturesClient() {
 
 	return (
 		<SettingsPage>
-			<SettingsHeader
-				title="Fonctionnalités"
-				description="Activez ou désactivez les modules de l'application."
-			/>
+			<SettingsHeader title="Fonctionnalités" description="Activez ou désactivez les modules de l'application." />
 			{featureGroups.map((group) => (
 				<SettingsSection key={group.title} title={group.title} description={group.description}>
 					{group.items.map((item) => (
@@ -91,10 +78,7 @@ export default function FeaturesClient() {
 								<ItemDescription>{item.description}</ItemDescription>
 							</ItemContent>
 							<ItemActions>
-								<Switch
-									checked={flags[item.flag]}
-									onCheckedChange={(checked) => handleToggle(item.flag, checked)}
-								/>
+								<Switch checked={flags[item.flag]} onCheckedChange={(checked) => handleToggle(item.flag, checked)} />
 							</ItemActions>
 						</Item>
 					))}

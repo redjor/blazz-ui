@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { TAG_COLORS, getTagColor } from "./tag-colors"
+import { getTagColor, TAG_COLORS } from "./tag-colors"
 
 describe("TAG_COLORS", () => {
 	it("has 9 colors", () => {

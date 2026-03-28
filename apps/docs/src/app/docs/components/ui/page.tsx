@@ -152,13 +152,7 @@ const dataDisplayComponents = [
 	},
 ]
 
-function ComponentSection({
-	title,
-	components,
-}: {
-	title: string
-	components: { title: string; description: string; href: string }[]
-}) {
+function ComponentSection({ title, components }: { title: string; components: { title: string; description: string; href: string }[] }) {
 	return (
 		<section className="space-y-4">
 			<h2 className="text-lg font-semibold">{title}</h2>

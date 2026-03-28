@@ -1,16 +1,8 @@
 "use client"
-import { use } from "react"
 
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from "@blazz/ui/components/ui/pagination"
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@blazz/ui/components/ui/pagination"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -133,8 +125,7 @@ function ControlledPaginationDemo() {
 		}
 
 		if (currentPage <= 3) return [1, 2, 3, 4, 5]
-		if (currentPage >= totalPages - 2)
-			return [totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages]
+		if (currentPage >= totalPages - 2) return [totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages]
 
 		return [currentPage - 1, currentPage, currentPage + 1]
 	}
@@ -148,10 +139,7 @@ function ControlledPaginationDemo() {
 			<Pagination>
 				<PaginationContent>
 					<PaginationItem>
-						<PaginationPrevious
-							onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-							disabled={currentPage === 1}
-						/>
+						<PaginationPrevious onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} disabled={currentPage === 1} />
 					</PaginationItem>
 
 					{visiblePages[0] > 1 && (
@@ -182,17 +170,12 @@ function ControlledPaginationDemo() {
 
 					{visiblePages[visiblePages.length - 1] < totalPages && (
 						<PaginationItem>
-							<PaginationLink onClick={() => setCurrentPage(totalPages)}>
-								{totalPages}
-							</PaginationLink>
+							<PaginationLink onClick={() => setCurrentPage(totalPages)}>{totalPages}</PaginationLink>
 						</PaginationItem>
 					)}
 
 					<PaginationItem>
-						<PaginationNext
-							onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-							disabled={currentPage === totalPages}
-						/>
+						<PaginationNext onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} />
 					</PaginationItem>
 				</PaginationContent>
 			</Pagination>
@@ -208,11 +191,7 @@ export default function PaginationPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Pagination"
-			subtitle="A composable pagination component for navigating between pages of content. Built with accessible navigation semantics."
-			toc={toc}
-		>
+		<DocPage title="Pagination" subtitle="A composable pagination component for navigating between pages of content. Built with accessible navigation semantics." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<Pagination>
@@ -250,12 +229,7 @@ export default function PaginationPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple pagination with page numbers."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple pagination with page numbers." code={examples[0].code} highlightedCode={html("basic")}>
 					<Pagination>
 						<PaginationContent>
 							<PaginationItem>
@@ -277,12 +251,7 @@ export default function PaginationPage() {
 					</Pagination>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Active Page"
-					description="Highlight the currently active page."
-					code={examples[1].code}
-					highlightedCode={html("active")}
-				>
+				<DocExampleClient title="Active Page" description="Highlight the currently active page." code={examples[1].code} highlightedCode={html("active")}>
 					<Pagination>
 						<PaginationContent>
 							<PaginationItem>
@@ -304,12 +273,7 @@ export default function PaginationPage() {
 					</Pagination>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Ellipsis"
-					description="Use ellipsis to indicate skipped page ranges."
-					code={examples[2].code}
-					highlightedCode={html("ellipsis")}
-				>
+				<DocExampleClient title="With Ellipsis" description="Use ellipsis to indicate skipped page ranges." code={examples[2].code} highlightedCode={html("ellipsis")}>
 					<Pagination>
 						<PaginationContent>
 							<PaginationItem>
@@ -343,12 +307,7 @@ export default function PaginationPage() {
 					</Pagination>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage current page state with click handlers."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage current page state with click handlers." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledPaginationDemo />
 				</DocExampleClient>
 			</DocSection>

@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { BudgetCard } from "@blazz/pro/components/blocks/budget-card"
 import { Grid } from "@blazz/ui/components/ui/grid"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -111,15 +111,13 @@ const budgetCardProps: DocProp[] = [
 	{
 		name: "budgetLabel",
 		type: "string",
-		description:
-			'Label below the bar (e.g. "0.9 / 10j" for TMA contracts, "budget \u20ac1 200" for forfaits). Defaults to non-breaking space if omitted.',
+		description: 'Label below the bar (e.g. "0.9 / 10j" for TMA contracts, "budget \u20ac1 200" for forfaits). Defaults to non-breaking space if omitted.',
 	},
 	{
 		name: "autoColor",
 		type: "boolean",
 		default: "true",
-		description:
-			"Auto-switch bar color based on percent: brand below 75%, caution 75-90%, negative above 90%.",
+		description: "Auto-switch bar color based on percent: brand below 75%, caution 75-90%, negative above 90%.",
 	},
 	{
 		name: "loading",
@@ -154,7 +152,6 @@ const toc = [
 // Route
 // ---------------------------------------------------------------------------
 
-
 // ---------------------------------------------------------------------------
 // Hero
 // ---------------------------------------------------------------------------
@@ -164,31 +161,13 @@ function BudgetCardHeroDemo() {
 		<div className="w-full max-w-2xl">
 			<Grid>
 				<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-					<BudgetCard
-						name="Dashboard Analytics"
-						revenue={12550}
-						daysConsumed={17.9}
-						percent={45}
-						budgetLabel="budget \u20ac28 000"
-					/>
+					<BudgetCard name="Dashboard Analytics" revenue={12550} daysConsumed={17.9} percent={45} budgetLabel="budget \u20ac28 000" />
 				</Grid.Cell>
 				<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-					<BudgetCard
-						name="API Gateway v2"
-						revenue={8400}
-						daysConsumed={0.9}
-						percent={9}
-						budgetLabel="0.9 / 10j"
-					/>
+					<BudgetCard name="API Gateway v2" revenue={8400} daysConsumed={0.9} percent={9} budgetLabel="0.9 / 10j" />
 				</Grid.Cell>
 				<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-					<BudgetCard
-						name="ML Platform"
-						revenue={8550}
-						daysConsumed={10.7}
-						percent={82}
-						budgetLabel="budget \u20ac10 500"
-					/>
+					<BudgetCard name="ML Platform" revenue={8550} daysConsumed={10.7} percent={82} budgetLabel="budget \u20ac10 500" />
 				</Grid.Cell>
 			</Grid>
 		</div>
@@ -216,20 +195,9 @@ export default function BudgetCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A single budget card with TMA-style label showing days consumed vs allocated."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A single budget card with TMA-style label showing days consumed vs allocated." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="w-full max-w-xs">
-						<BudgetCard
-							name="API Gateway v2"
-							revenue={8400}
-							daysConsumed={9.8}
-							percent={9}
-							budgetLabel="0.9 / 10j"
-						/>
+						<BudgetCard name="API Gateway v2" revenue={8400} daysConsumed={9.8} percent={9} budgetLabel="0.9 / 10j" />
 					</div>
 				</DocExampleClient>
 
@@ -242,31 +210,13 @@ export default function BudgetCardPage() {
 					<div className="w-full max-w-2xl">
 						<Grid>
 							<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-								<BudgetCard
-									name="Dashboard Analytics"
-									revenue={12550}
-									daysConsumed={17.9}
-									percent={45}
-									budgetLabel="budget \u20ac28 000"
-								/>
+								<BudgetCard name="Dashboard Analytics" revenue={12550} daysConsumed={17.9} percent={45} budgetLabel="budget \u20ac28 000" />
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-								<BudgetCard
-									name="ML Platform"
-									revenue={8550}
-									daysConsumed={10.7}
-									percent={82}
-									budgetLabel="budget \u20ac10 500"
-								/>
+								<BudgetCard name="ML Platform" revenue={8550} daysConsumed={10.7} percent={82} budgetLabel="budget \u20ac10 500" />
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
-								<BudgetCard
-									name="Legacy Migration"
-									revenue={4200}
-									daysConsumed={6}
-									percent={95}
-									budgetLabel="budget \u20ac4 400"
-								/>
+								<BudgetCard name="Legacy Migration" revenue={4200} daysConsumed={6} percent={95} budgetLabel="budget \u20ac4 400" />
 							</Grid.Cell>
 						</Grid>
 					</div>
@@ -281,42 +231,19 @@ export default function BudgetCardPage() {
 					<div className="w-full max-w-2xl">
 						<Grid>
 							<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<BudgetCard
-									name="Dashboard Analytics"
-									revenue={12550}
-									daysConsumed={17.9}
-									percent={45}
-									budgetLabel="budget \u20ac28 000"
-								/>
+								<BudgetCard name="Dashboard Analytics" revenue={12550} daysConsumed={17.9} percent={45} budgetLabel="budget \u20ac28 000" />
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<BudgetCard
-									name="API Gateway v2"
-									revenue={8400}
-									daysConsumed={9.8}
-									percent={9}
-									budgetLabel="0.9 / 10j"
-								/>
+								<BudgetCard name="API Gateway v2" revenue={8400} daysConsumed={9.8} percent={9} budgetLabel="0.9 / 10j" />
 							</Grid.Cell>
 							<Grid.Cell columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-								<BudgetCard
-									name="Site Vitrine"
-									revenue={4773}
-									daysConsumed={7.9}
-									percent={66}
-									budgetLabel="budget \u20ac7 200"
-								/>
+								<BudgetCard name="Site Vitrine" revenue={4773} daysConsumed={7.9} percent={66} budgetLabel="budget \u20ac7 200" />
 							</Grid.Cell>
 						</Grid>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Loading State"
-					description="Pass loading to display a skeleton placeholder while data is being fetched."
-					code={examples[3].code}
-					highlightedCode={html("loading")}
-				>
+				<DocExampleClient title="Loading State" description="Pass loading to display a skeleton placeholder while data is being fetched." code={examples[3].code} highlightedCode={html("loading")}>
 					<div className="w-full max-w-xs">
 						<BudgetCard name="" revenue={0} daysConsumed={0} percent={0} loading />
 					</div>
@@ -329,14 +256,7 @@ export default function BudgetCardPage() {
 					highlightedCode={html("custom-format")}
 				>
 					<div className="w-full max-w-xs">
-						<BudgetCard
-							name="US Project"
-							revenue={15200}
-							daysConsumed={12}
-							percent={72}
-							budgetLabel="budget $21,000"
-							formatCurrency={formatUSD}
-						/>
+						<BudgetCard name="US Project" revenue={15200} daysConsumed={12} percent={72} budgetLabel="budget $21,000" formatCurrency={formatUSD} />
 					</div>
 				</DocExampleClient>
 			</DocSection>

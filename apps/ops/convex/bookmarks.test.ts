@@ -19,9 +19,7 @@ describe("bookmarks auth", () => {
 
 	it("create rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(
-			t.mutation(api.bookmarks.create, { url: "https://example.com", type: "link" })
-		).rejects.toThrow("Non authentifié")
+		await expect(t.mutation(api.bookmarks.create, { url: "https://example.com", type: "link" })).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -40,9 +38,7 @@ describe("bookmarks CRUD", () => {
 
 	it("rejects empty URL", async () => {
 		const { asUser } = setup()
-		await expect(
-			asUser.mutation(api.bookmarks.create, { url: "  ", type: "link" })
-		).rejects.toThrow("L'URL est requise")
+		await expect(asUser.mutation(api.bookmarks.create, { url: "  ", type: "link" })).rejects.toThrow("L'URL est requise")
 	})
 
 	it("gets by id", async () => {
@@ -117,7 +113,7 @@ describe("bookmarks archive", () => {
 describe("bookmarks pinning", () => {
 	it("pinned bookmarks appear first", async () => {
 		const { asUser } = setup()
-		const id1 = await asUser.mutation(api.bookmarks.create, {
+		const _id1 = await asUser.mutation(api.bookmarks.create, {
 			url: "https://unpinned.com",
 			type: "link",
 			title: "Unpinned",

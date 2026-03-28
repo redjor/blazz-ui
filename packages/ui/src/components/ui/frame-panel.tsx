@@ -2,67 +2,50 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "../../lib/utils"
 
-const frameVariants = cva(
-	"relative flex flex-col bg-muted gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]",
-	{
-		variants: {
-			variant: {
-				default: "border border-container/50 bg-clip-padding",
-				ghost: "",
-			},
-			spacing: {
-				none: "[&_[data-slot=frame-panel]]:p-0 [&_[data-slot=frame-panel-header]]:px-0 [&_[data-slot=frame-panel-header]]:py-0 [&_[data-slot=frame-panel-footer]]:-mx-0 [&_[data-slot=frame-panel-footer]]:-mb-0 [&_[data-slot=frame-panel-footer]]:mt-0 [&_[data-slot=frame-panel-footer]]:px-0 [&_[data-slot=frame-panel-footer]]:py-0",
-				xs: "[&_[data-slot=frame-panel]]:p-1 [&_[data-slot=frame-panel-header]]:px-1 [&_[data-slot=frame-panel-header]]:py-0.5 [&_[data-slot=frame-panel-footer]]:-mx-1 [&_[data-slot=frame-panel-footer]]:-mb-1 [&_[data-slot=frame-panel-footer]]:mt-1 [&_[data-slot=frame-panel-footer]]:px-1 [&_[data-slot=frame-panel-footer]]:py-0.5",
-				sm: "[&_[data-slot=frame-panel]]:p-3 [&_[data-slot=frame-panel-header]]:px-3 [&_[data-slot=frame-panel-header]]:py-2 [&_[data-slot=frame-panel-footer]]:-mx-3 [&_[data-slot=frame-panel-footer]]:-mb-3 [&_[data-slot=frame-panel-footer]]:mt-3 [&_[data-slot=frame-panel-footer]]:px-3 [&_[data-slot=frame-panel-footer]]:py-2",
-				default:
-					"[&_[data-slot=frame-panel]]:p-4 [&_[data-slot=frame-panel-header]]:px-4 [&_[data-slot=frame-panel-header]]:py-3 [&_[data-slot=frame-panel-footer]]:-mx-4 [&_[data-slot=frame-panel-footer]]:-mb-4 [&_[data-slot=frame-panel-footer]]:mt-4 [&_[data-slot=frame-panel-footer]]:px-4 [&_[data-slot=frame-panel-footer]]:py-3",
-				lg: "[&_[data-slot=frame-panel]]:p-5 [&_[data-slot=frame-panel-header]]:px-5 [&_[data-slot=frame-panel-header]]:py-4 [&_[data-slot=frame-panel-footer]]:-mx-5 [&_[data-slot=frame-panel-footer]]:-mb-5 [&_[data-slot=frame-panel-footer]]:mt-5 [&_[data-slot=frame-panel-footer]]:px-5 [&_[data-slot=frame-panel-footer]]:py-4",
-			},
-			stacked: {
-				true: [
-					"gap-0 *:has-[+[data-slot=frame-panel]]:rounded-b-none",
-					"*:has-[+[data-slot=frame-panel]]:before:hidden",
-					"dark:*:has-[+[data-slot=frame-panel]]:before:block",
-					"*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:rounded-t-none",
-					"*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:border-t-0",
-					"dark:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:before:hidden",
-				],
-				false: [
-					"data-[spacing=sm]:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-0.5",
-					"data-[spacing=default]:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-1",
-					"data-[spacing=lg]:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-2",
-				],
-			},
-			dense: {
-				true: "p-0 border-container [--frame-inner-radius:var(--frame-radius)] [&_[data-slot=frame-panel]]:-mx-px [&_[data-slot=frame-panel]]:before:hidden [&_[data-slot=frame-panel]:last-child]:-mb-px",
-				false: "",
-			},
+const frameVariants = cva("relative flex flex-col bg-muted gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)] [--frame-inner-radius:calc(var(--frame-radius)-0.1875rem)]", {
+	variants: {
+		variant: {
+			default: "border border-container/50 bg-clip-padding",
+			ghost: "",
 		},
-		defaultVariants: {
-			variant: "default",
-			spacing: "default",
-			stacked: false,
-			dense: false,
+		spacing: {
+			none: "[&_[data-slot=frame-panel]]:p-0 [&_[data-slot=frame-panel-header]]:px-0 [&_[data-slot=frame-panel-header]]:py-0 [&_[data-slot=frame-panel-footer]]:-mx-0 [&_[data-slot=frame-panel-footer]]:-mb-0 [&_[data-slot=frame-panel-footer]]:mt-0 [&_[data-slot=frame-panel-footer]]:px-0 [&_[data-slot=frame-panel-footer]]:py-0",
+			xs: "[&_[data-slot=frame-panel]]:p-1 [&_[data-slot=frame-panel-header]]:px-1 [&_[data-slot=frame-panel-header]]:py-0.5 [&_[data-slot=frame-panel-footer]]:-mx-1 [&_[data-slot=frame-panel-footer]]:-mb-1 [&_[data-slot=frame-panel-footer]]:mt-1 [&_[data-slot=frame-panel-footer]]:px-1 [&_[data-slot=frame-panel-footer]]:py-0.5",
+			sm: "[&_[data-slot=frame-panel]]:p-3 [&_[data-slot=frame-panel-header]]:px-3 [&_[data-slot=frame-panel-header]]:py-2 [&_[data-slot=frame-panel-footer]]:-mx-3 [&_[data-slot=frame-panel-footer]]:-mb-3 [&_[data-slot=frame-panel-footer]]:mt-3 [&_[data-slot=frame-panel-footer]]:px-3 [&_[data-slot=frame-panel-footer]]:py-2",
+			default:
+				"[&_[data-slot=frame-panel]]:p-4 [&_[data-slot=frame-panel-header]]:px-4 [&_[data-slot=frame-panel-header]]:py-3 [&_[data-slot=frame-panel-footer]]:-mx-4 [&_[data-slot=frame-panel-footer]]:-mb-4 [&_[data-slot=frame-panel-footer]]:mt-4 [&_[data-slot=frame-panel-footer]]:px-4 [&_[data-slot=frame-panel-footer]]:py-3",
+			lg: "[&_[data-slot=frame-panel]]:p-5 [&_[data-slot=frame-panel-header]]:px-5 [&_[data-slot=frame-panel-header]]:py-4 [&_[data-slot=frame-panel-footer]]:-mx-5 [&_[data-slot=frame-panel-footer]]:-mb-5 [&_[data-slot=frame-panel-footer]]:mt-5 [&_[data-slot=frame-panel-footer]]:px-5 [&_[data-slot=frame-panel-footer]]:py-4",
 		},
-	}
-)
+		stacked: {
+			true: [
+				"gap-0 *:has-[+[data-slot=frame-panel]]:rounded-b-none",
+				"*:has-[+[data-slot=frame-panel]]:before:hidden",
+				"dark:*:has-[+[data-slot=frame-panel]]:before:block",
+				"*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:rounded-t-none",
+				"*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:border-t-0",
+				"dark:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:before:hidden",
+			],
+			false: [
+				"data-[spacing=sm]:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-0.5",
+				"data-[spacing=default]:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-1",
+				"data-[spacing=lg]:*:[[data-slot=frame-panel]+[data-slot=frame-panel]]:mt-2",
+			],
+		},
+		dense: {
+			true: "p-0 border-container [--frame-inner-radius:var(--frame-radius)] [&_[data-slot=frame-panel]]:-mx-px [&_[data-slot=frame-panel]]:before:hidden [&_[data-slot=frame-panel]:last-child]:-mb-px",
+			false: "",
+		},
+	},
+	defaultVariants: {
+		variant: "default",
+		spacing: "default",
+		stacked: false,
+		dense: false,
+	},
+})
 
-function Frame({
-	className,
-	variant,
-	spacing,
-	stacked,
-	dense,
-	...props
-}: React.ComponentProps<"div"> & VariantProps<typeof frameVariants>) {
-	return (
-		<div
-			className={cn(frameVariants({ variant, spacing, stacked, dense }), className)}
-			data-slot="frame"
-			data-spacing={spacing}
-			{...props}
-		/>
-	)
+function Frame({ className, variant, spacing, stacked, dense, ...props }: React.ComponentProps<"div"> & VariantProps<typeof frameVariants>) {
+	return <div className={cn(frameVariants({ variant, spacing, stacked, dense }), className)} data-slot="frame" data-spacing={spacing} {...props} />
 }
 
 function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
@@ -79,42 +62,19 @@ function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function FrameHeader({ className, ...props }: React.ComponentProps<"header">) {
-	return (
-		<header className={cn("flex flex-col", className)} data-slot="frame-panel-header" {...props} />
-	)
+	return <header className={cn("flex flex-col", className)} data-slot="frame-panel-header" {...props} />
 }
 
 function FrameTitle({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			className={cn("text-sm font-semibold", className)}
-			data-slot="frame-panel-title"
-			{...props}
-		/>
-	)
+	return <div className={cn("text-sm font-semibold", className)} data-slot="frame-panel-title" {...props} />
 }
 
 function FrameDescription({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			className={cn("text-fg-muted text-sm", className)}
-			data-slot="frame-panel-description"
-			{...props}
-		/>
-	)
+	return <div className={cn("text-fg-muted text-sm", className)} data-slot="frame-panel-description" {...props} />
 }
 
 function FrameFooter({ className, ...props }: React.ComponentProps<"footer">) {
-	return (
-		<footer
-			className={cn(
-				"flex flex-col gap-1 border-t rounded-b-[calc(var(--frame-inner-radius)-1px)]",
-				className
-			)}
-			data-slot="frame-panel-footer"
-			{...props}
-		/>
-	)
+	return <footer className={cn("flex flex-col gap-1 border-t rounded-b-[calc(var(--frame-inner-radius)-1px)]", className)} data-slot="frame-panel-footer" {...props} />
 }
 
 export { Frame, FramePanel, FrameHeader, FrameTitle, FrameDescription, FrameFooter, frameVariants }

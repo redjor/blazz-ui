@@ -1,19 +1,10 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogClose,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -141,8 +132,7 @@ const dialogHeaderProps: DocProp[] = [
 		name: "separator",
 		type: "boolean",
 		default: "true",
-		description:
-			"Shows a border-bottom to separate the header from the content. Set to false for compact dialogs like confirmations.",
+		description: "Shows a border-bottom to separate the header from the content. Set to false for compact dialogs like confirmations.",
 	},
 ]
 
@@ -151,8 +141,7 @@ const dialogContentProps: DocProp[] = [
 		name: "size",
 		type: '"sm" | "md" | "lg" | "xl" | "full"',
 		default: '"sm"',
-		description:
-			"Controls the max-width of the dialog. sm=384px, md=512px, lg=672px, xl=896px, full=1152px.",
+		description: "Controls the max-width of the dialog. sm=384px, md=512px, lg=672px, xl=896px, full=1152px.",
 	},
 	{
 		name: "showCloseButton",
@@ -167,11 +156,7 @@ export default function DialogPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Dialog"
-			subtitle="Modal dialogs for focused interactions. Use for confirmations, forms, and important information."
-			toc={toc}
-		>
+		<DocPage title="Dialog" subtitle="Modal dialogs for focused interactions. Use for confirmations, forms, and important information." toc={toc}>
 			<DocHero>
 				<Dialog>
 					<DialogTrigger render={<Button />}>Open Dialog</DialogTrigger>
@@ -186,12 +171,7 @@ export default function DialogPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic dialog with header and content."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic dialog with header and content." code={examples[0].code} highlightedCode={html("default")}>
 					<Dialog>
 						<DialogTrigger render={<Button />}>Open Dialog</DialogTrigger>
 						<DialogContent>
@@ -199,27 +179,18 @@ export default function DialogPage() {
 								<DialogTitle>Dialog Title</DialogTitle>
 								<DialogDescription>This is a description of the dialog content.</DialogDescription>
 							</DialogHeader>
-							<p className="text-sm text-fg-muted">
-								Your dialog content goes here. This could be anything from text to forms.
-							</p>
+							<p className="text-sm text-fg-muted">Your dialog content goes here. This could be anything from text to forms.</p>
 						</DialogContent>
 					</Dialog>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Footer"
-					description="Dialog with action buttons in the footer."
-					code={examples[1].code}
-					highlightedCode={html("with-footer")}
-				>
+				<DocExampleClient title="With Footer" description="Dialog with action buttons in the footer." code={examples[1].code} highlightedCode={html("with-footer")}>
 					<Dialog>
 						<DialogTrigger render={<Button />}>Edit Profile</DialogTrigger>
 						<DialogContent>
 							<DialogHeader>
 								<DialogTitle>Edit Profile</DialogTitle>
-								<DialogDescription>
-									Make changes to your profile here. Click save when done.
-								</DialogDescription>
+								<DialogDescription>Make changes to your profile here. Click save when done.</DialogDescription>
 							</DialogHeader>
 							<div className="space-y-4">
 								<div className="space-y-2">
@@ -239,20 +210,13 @@ export default function DialogPage() {
 					</Dialog>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Close Button"
-					description="Hide the default close button for custom layouts."
-					code={examples[2].code}
-					highlightedCode={html("no-close-button")}
-				>
+				<DocExampleClient title="Without Close Button" description="Hide the default close button for custom layouts." code={examples[2].code} highlightedCode={html("no-close-button")}>
 					<Dialog>
 						<DialogTrigger render={<Button variant="outline" />}>No Close Button</DialogTrigger>
 						<DialogContent showCloseButton={false}>
 							<DialogHeader separator={false}>
 								<DialogTitle>Custom Dialog</DialogTitle>
-								<DialogDescription>
-									This dialog has no close button. Use the footer buttons.
-								</DialogDescription>
+								<DialogDescription>This dialog has no close button. Use the footer buttons.</DialogDescription>
 							</DialogHeader>
 							<DialogFooter>
 								<DialogClose render={<Button />}>Close</DialogClose>
@@ -272,10 +236,7 @@ export default function DialogPage() {
 						<DialogContent>
 							<DialogHeader separator={false}>
 								<DialogTitle>Are you absolutely sure?</DialogTitle>
-								<DialogDescription>
-									This action cannot be undone. This will permanently delete your account and remove
-									your data from our servers.
-								</DialogDescription>
+								<DialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</DialogDescription>
 							</DialogHeader>
 							<DialogFooter>
 								<DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
@@ -285,12 +246,7 @@ export default function DialogPage() {
 					</Dialog>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Use the size prop to control the dialog width."
-					code={examples[4].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Use the size prop to control the dialog width." code={examples[4].code} highlightedCode={html("sizes")}>
 					<div className="flex flex-wrap gap-2">
 						{(["sm", "md", "lg", "xl", "full"] as const).map((size) => (
 							<Dialog key={size}>
@@ -323,9 +279,7 @@ export default function DialogPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Dialog uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Dialog uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-card</code> - Dialog background color

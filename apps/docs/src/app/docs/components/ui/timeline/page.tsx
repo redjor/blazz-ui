@@ -1,26 +1,14 @@
 "use client"
 
-import { use } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "@blazz/ui/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@blazz/ui/components/ui/collapsible"
 import { Frame, FrameHeader, FramePanel } from "@blazz/ui/components/ui/frame-panel"
 import { Spinner } from "@blazz/ui/components/ui/spinner"
-import {
-	Timeline,
-	TimelineContent,
-	TimelineDescription,
-	TimelineIndicator,
-	TimelineItem,
-	TimelineTime,
-	TimelineTitle,
-} from "@blazz/ui/components/ui/timeline"
+import { Timeline, TimelineContent, TimelineDescription, TimelineIndicator, TimelineItem, TimelineTime, TimelineTitle } from "@blazz/ui/components/ui/timeline"
 import { cn } from "@blazz/ui/lib/utils"
 import { AlertCircleIcon, CheckIcon, ChevronRightIcon, CircleIcon, MailIcon } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -274,8 +262,7 @@ function PipelineExample() {
 					<TimelineIndicator
 						className={cn(
 							step.status === "completed" && "bg-brand text-brand-fg border-brand",
-							step.status === "active" &&
-								"bg-inform/15 text-inform border-inform/30 ring-2 ring-inform/20",
+							step.status === "active" && "bg-inform/15 text-inform border-inform/30 ring-2 ring-inform/20",
 							step.status === "pending" && "opacity-50"
 						)}
 					>
@@ -284,17 +271,7 @@ function PipelineExample() {
 					<TimelineContent>
 						<div className="mb-1.5 flex items-center gap-2">
 							<TimelineTitle>{step.title}</TimelineTitle>
-							<Badge
-								variant={
-									step.status === "completed"
-										? "success"
-										: step.status === "active"
-											? "info"
-											: "warning"
-								}
-								fill="subtle"
-								size="sm"
-							>
+							<Badge variant={step.status === "completed" ? "success" : step.status === "active" ? "info" : "warning"} fill="subtle" size="sm">
 								{step.duration}
 							</Badge>
 						</div>
@@ -333,11 +310,7 @@ export default function TimelinePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Timeline"
-			subtitle="A composable timeline component for displaying a sequence of events in chronological order. Built with flexible sub-components for custom layouts."
-			toc={toc}
-		>
+		<DocPage title="Timeline" subtitle="A composable timeline component for displaying a sequence of events in chronological order. Built with flexible sub-components for custom layouts." toc={toc}>
 			<DocHero>
 				<Timeline className="max-w-md">
 					<TimelineItem>
@@ -374,12 +347,7 @@ export default function TimelinePage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple timeline with text content."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple timeline with text content." code={examples[0].code} highlightedCode={html("basic")}>
 					<Timeline className="max-w-md">
 						<TimelineItem>
 							<TimelineIndicator />
@@ -408,12 +376,7 @@ export default function TimelinePage() {
 					</Timeline>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Icons"
-					description="Use icons inside the timeline indicator for visual context."
-					code={examples[1].code}
-					highlightedCode={html("with-icons")}
-				>
+				<DocExampleClient title="With Icons" description="Use icons inside the timeline indicator for visual context." code={examples[1].code} highlightedCode={html("with-icons")}>
 					<Timeline className="max-w-md">
 						<TimelineItem>
 							<TimelineIndicator>
@@ -445,12 +408,7 @@ export default function TimelinePage() {
 					</Timeline>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Indicators"
-					description="Customize indicator colors and styles."
-					code={examples[2].code}
-					highlightedCode={html("custom-indicators")}
-				>
+				<DocExampleClient title="Custom Indicators" description="Customize indicator colors and styles." code={examples[2].code} highlightedCode={html("custom-indicators")}>
 					<Timeline className="max-w-md">
 						<TimelineItem>
 							<TimelineIndicator className="bg-positive text-white border-positive">
@@ -497,23 +455,17 @@ export default function TimelinePage() {
 					<p>Timeline is built from composable sub-components:</p>
 					<ul className="list-inside list-disc space-y-2">
 						<li>
-							<code className="text-xs">Timeline</code> - Root container. Accepts{" "}
-							<code className="text-xs">orientation</code> (
-							<code className="text-xs">"vertical" | "horizontal"</code>, default{" "}
+							<code className="text-xs">Timeline</code> - Root container. Accepts <code className="text-xs">orientation</code> (<code className="text-xs">"vertical" | "horizontal"</code>, default{" "}
 							<code className="text-xs">"vertical"</code>)
 						</li>
 						<li>
-							<code className="text-xs">TimelineItem</code> - Individual event wrapper. Accepts{" "}
-							<code className="text-xs">showLine</code> prop (default{" "}
-							<code className="text-xs">true</code>)
+							<code className="text-xs">TimelineItem</code> - Individual event wrapper. Accepts <code className="text-xs">showLine</code> prop (default <code className="text-xs">true</code>)
 						</li>
 						<li>
-							<code className="text-xs">TimelineIndicator</code> - The circle indicator, optionally
-							containing an icon
+							<code className="text-xs">TimelineIndicator</code> - The circle indicator, optionally containing an icon
 						</li>
 						<li>
-							<code className="text-xs">TimelineHeader</code> - Optional wrapper to group date and
-							title above/below the indicator
+							<code className="text-xs">TimelineHeader</code> - Optional wrapper to group date and title above/below the indicator
 						</li>
 						<li>
 							<code className="text-xs">TimelineContent</code> - Content wrapper for the event
@@ -525,8 +477,7 @@ export default function TimelinePage() {
 							<code className="text-xs">TimelineDescription</code> - Event description text
 						</li>
 						<li>
-							<code className="text-xs">TimelineTime</code> /{" "}
-							<code className="text-xs">TimelineDate</code> - Timestamp display
+							<code className="text-xs">TimelineTime</code> / <code className="text-xs">TimelineDate</code> - Timestamp display
 						</li>
 					</ul>
 				</div>
@@ -535,15 +486,13 @@ export default function TimelinePage() {
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						Set <code className="text-xs">showLine={false}</code> on the last{" "}
-						<code className="text-xs">TimelineItem</code> to avoid a trailing connector
+						Set <code className="text-xs">showLine={false}</code> on the last <code className="text-xs">TimelineItem</code> to avoid a trailing connector
 					</li>
 					<li>Use icons to visually distinguish event types</li>
 					<li>Keep timeline items concise for readability</li>
 					<li>Order events chronologically (newest first or last, be consistent)</li>
 					<li>
-						Use <code className="text-xs">orientation="horizontal"</code> for step-by-step workflows
-						with few items
+						Use <code className="text-xs">orientation="horizontal"</code> for step-by-step workflows with few items
 					</li>
 				</ul>
 			</DocSection>

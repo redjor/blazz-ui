@@ -15,15 +15,13 @@ const tiers = [
 		name: "Pro",
 		price: "249",
 		badge: "One-time purchase",
-		description:
-			"Full enterprise UI package with commercial usage, unlimited projects, and code ownership.",
+		description: "Full enterprise UI package with commercial usage, unlimited projects, and code ownership.",
 	},
 	{
 		name: "Enterprise",
 		price: "Custom",
 		badge: "Custom terms",
-		description:
-			"For teams that need onboarding, SLAs, custom theming, or negotiated licensing terms.",
+		description: "For teams that need onboarding, SLAs, custom theming, or negotiated licensing terms.",
 	},
 ]
 
@@ -51,22 +49,16 @@ export default function LicensePage() {
 						Licensing
 					</Badge>
 					<div className="max-w-3xl">
-						<h1 className="text-balance text-4xl font-semibold tracking-tight text-fg sm:text-5xl">
-							Simple licensing for serious product teams.
-						</h1>
+						<h1 className="text-balance text-4xl font-semibold tracking-tight text-fg sm:text-5xl">Simple licensing for serious product teams.</h1>
 						<p className="mt-4 max-w-2xl text-base leading-relaxed text-fg-muted sm:text-lg">
-							Blazz UI is sold as a one-time product license. Buy it once, use it across unlimited
-							projects, and keep full control of the code you ship.
+							Blazz UI is sold as a one-time product license. Buy it once, use it across unlimited projects, and keep full control of the code you ship.
 						</p>
 					</div>
 				</div>
 
 				<section className="mx-auto mt-10 grid max-w-6xl gap-4 md:grid-cols-3">
 					{tiers.map((tier) => (
-						<div
-							key={tier.name}
-							className="rounded-xl border border-container bg-card p-6 shadow-sm"
-						>
+						<div key={tier.name} className="rounded-xl border border-container bg-card p-6 shadow-sm">
 							<div className="flex items-start justify-between gap-3">
 								<div>
 									<h2 className="text-lg font-semibold text-fg">{tier.name}</h2>
@@ -86,10 +78,7 @@ export default function LicensePage() {
 						<h2 className="text-lg font-semibold text-fg">What you can do</h2>
 						<ul className="mt-5 space-y-3">
 							{allowed.map((item) => (
-								<li
-									key={item}
-									className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted"
-								>
+								<li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted">
 									<Check className="mt-0.5 size-4 shrink-0 text-positive" />
 									<span>{item}</span>
 								</li>
@@ -101,10 +90,7 @@ export default function LicensePage() {
 						<h2 className="text-lg font-semibold text-fg">What you cannot do</h2>
 						<ul className="mt-5 space-y-3">
 							{restricted.map((item) => (
-								<li
-									key={item}
-									className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted"
-								>
+								<li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-fg-muted">
 									<X className="mt-0.5 size-4 shrink-0 text-negative" />
 									<span>{item}</span>
 								</li>
@@ -119,18 +105,11 @@ export default function LicensePage() {
 						<div className="mt-5 space-y-4 text-sm leading-relaxed text-fg-muted">
 							<p>Starter is free and MIT licensed. It covers the open source primitive layer.</p>
 							<p>
-								Pro is the paid package. It is a one-time purchase for the full Blazz UI system,
-								including blocks, patterns, and premium components. You can use it in unlimited
-								internal and client projects.
+								Pro is the paid package. It is a one-time purchase for the full Blazz UI system, including blocks, patterns, and premium components. You can use it in unlimited internal and client
+								projects.
 							</p>
-							<p>
-								Enterprise is for teams that need additional commercial terms, onboarding, or
-								customization beyond the standard Pro package.
-							</p>
-							<p>
-								This page is a practical summary for buyers. If you need procurement-friendly terms,
-								reseller permissions, or custom licensing, contact us for an enterprise agreement.
-							</p>
+							<p>Enterprise is for teams that need additional commercial terms, onboarding, or customization beyond the standard Pro package.</p>
+							<p>This page is a practical summary for buyers. If you need procurement-friendly terms, reseller permissions, or custom licensing, contact us for an enterprise agreement.</p>
 						</div>
 					</div>
 
@@ -143,9 +122,7 @@ export default function LicensePage() {
 							</div>
 							<div>
 								<p className="font-medium text-fg">Do I own the code?</p>
-								<p className="mt-1">
-									Yes. You keep the source in your repository and modify it freely.
-								</p>
+								<p className="mt-1">Yes. You keep the source in your repository and modify it freely.</p>
 							</div>
 							<div>
 								<p className="font-medium text-fg">Is there any per-seat pricing?</p>
@@ -153,9 +130,7 @@ export default function LicensePage() {
 							</div>
 							<div>
 								<p className="font-medium text-fg">Can I redistribute it as my own kit?</p>
-								<p className="mt-1">
-									No. The paid package cannot be repackaged or resold as a competing UI product.
-								</p>
+								<p className="mt-1">No. The paid package cannot be repackaged or resold as a competing UI product.</p>
 							</div>
 						</div>
 					</div>
@@ -166,8 +141,7 @@ export default function LicensePage() {
 						<div className="max-w-2xl">
 							<h2 className="text-lg font-semibold text-fg">Need custom terms?</h2>
 							<p className="mt-2 text-sm leading-relaxed text-fg-muted">
-								If your team needs SLAs, procurement review, onboarding, or negotiated licensing
-								terms, the enterprise tier is the right path.
+								If your team needs SLAs, procurement review, onboarding, or negotiated licensing terms, the enterprise tier is the right path.
 							</p>
 						</div>
 						<div className="flex gap-3">

@@ -95,12 +95,7 @@ export function calculatePercentage(amount: number, percent: number, decimals = 
  * calculateDiscount(150, 10, 'fixed') // 140
  * ```
  */
-export function calculateDiscount(
-	amount: number,
-	discount: number,
-	type: DiscountType = "percentage",
-	decimals = 2
-): number {
+export function calculateDiscount(amount: number, discount: number, type: DiscountType = "percentage", decimals = 2): number {
 	if (type === "percentage") {
 		const discountAmount = calculatePercentage(amount, discount, decimals)
 		return round(amount - discountAmount, decimals)
@@ -127,11 +122,7 @@ export function calculateDiscount(
  * // { amount: 15, percentage: 10 }
  * ```
  */
-export function getDiscountDetails(
-	originalPrice: number,
-	discountedPrice: number,
-	decimals = 2
-): { amount: number; percentage: number } {
+export function getDiscountDetails(originalPrice: number, discountedPrice: number, decimals = 2): { amount: number; percentage: number } {
 	const amount = round(originalPrice - discountedPrice, decimals)
 	const percentage = originalPrice > 0 ? round((amount / originalPrice) * 100, decimals) : 0
 
@@ -215,11 +206,7 @@ export function removeTax(amountIncludingTax: number, taxRate: number, decimals 
  * // }
  * ```
  */
-export function calculatePriceBreakdown(
-	items: Array<{ price: number; quantity: number }>,
-	taxRate: number,
-	decimals = 2
-): { subtotal: number; tax: number; total: number } {
+export function calculatePriceBreakdown(items: Array<{ price: number; quantity: number }>, taxRate: number, decimals = 2): { subtotal: number; tax: number; total: number } {
 	const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 	const tax = calculateTax(subtotal, taxRate, decimals)
 	const total = round(subtotal + tax, decimals)
@@ -320,11 +307,7 @@ export function calculateMarkup(sellingPrice: number, costPrice: number, decimal
  * calculatePriceFromMargin(100, 50) // 200
  * ```
  */
-export function calculatePriceFromMargin(
-	costPrice: number,
-	marginPercentage: number,
-	decimals = 2
-): number {
+export function calculatePriceFromMargin(costPrice: number, marginPercentage: number, decimals = 2): number {
 	return round(costPrice / (1 - marginPercentage / 100), decimals)
 }
 
@@ -342,11 +325,7 @@ export function calculatePriceFromMargin(
  * calculatePriceFromMarkup(100, 100) // 200
  * ```
  */
-export function calculatePriceFromMarkup(
-	costPrice: number,
-	markupPercentage: number,
-	decimals = 2
-): number {
+export function calculatePriceFromMarkup(costPrice: number, markupPercentage: number, decimals = 2): number {
 	return round(costPrice * (1 + markupPercentage / 100), decimals)
 }
 
@@ -423,11 +402,7 @@ export function averagePrice(prices: number[], decimals = 2): number {
  * // 100 - 10% = 90, 90 - 5 = 85
  * ```
  */
-export function applyMultipleDiscounts(
-	amount: number,
-	discounts: Array<{ value: number; type: DiscountType }>,
-	decimals = 2
-): number {
+export function applyMultipleDiscounts(amount: number, discounts: Array<{ value: number; type: DiscountType }>, decimals = 2): number {
 	let finalAmount = amount
 
 	for (const discount of discounts) {
@@ -469,12 +444,7 @@ export function isWithinBudget(price: number, budget: number): boolean {
  * calculateSavings(100, 15, 'fixed') // 15
  * ```
  */
-export function calculateSavings(
-	originalPrice: number,
-	discount: number,
-	type: DiscountType = "percentage",
-	decimals = 2
-): number {
+export function calculateSavings(originalPrice: number, discount: number, type: DiscountType = "percentage", decimals = 2): number {
 	if (type === "percentage") {
 		return calculatePercentage(originalPrice, discount, decimals)
 	}

@@ -9,17 +9,7 @@ import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import {
-	AlertCircle,
-	Circle,
-	ExternalLink,
-	GitBranch,
-	GitCommitHorizontal,
-	Globe,
-	RefreshCw,
-	Rocket,
-	Shield,
-} from "lucide-react"
+import { AlertCircle, Circle, ExternalLink, GitCommitHorizontal, Globe, RefreshCw, Rocket, Shield } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 
 interface VercelDeployment {
@@ -69,9 +59,7 @@ const BRANCHES: BranchName[] = ["main", "develop"]
 function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
 	return (
 		<BlockStack gap="100">
-			<span className="text-[11px] text-fg-muted uppercase tracking-wider font-medium">
-				{label}
-			</span>
+			<span className="text-[11px] text-fg-muted uppercase tracking-wider font-medium">{label}</span>
 			{children}
 		</BlockStack>
 	)
@@ -165,11 +153,7 @@ export default function DeploymentsPageClient() {
 
 					if (!d) {
 						return (
-							<BlockStack
-								key={branch}
-								className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-muted p-5`}
-								gap="200"
-							>
+							<BlockStack key={branch} className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-muted p-5`} gap="200">
 								<InlineStack gap="200" blockAlign="center">
 									<BranchIcon className="h-4 w-4 text-fg-muted" />
 									<span className="text-sm font-semibold text-fg">{config.label}</span>
@@ -189,17 +173,9 @@ export default function DeploymentsPageClient() {
 					const author = d.creator?.username ?? d.meta?.githubCommitAuthorName
 
 					return (
-						<BlockStack
-							key={branch}
-							className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-muted`}
-						>
+						<BlockStack key={branch} className={`flex-1 rounded-lg border-l-[3px] ${config.accent} border border-edge bg-muted`}>
 							{/* Header */}
-							<InlineStack
-								gap="200"
-								align="space-between"
-								blockAlign="center"
-								className="px-5 pt-4 pb-3"
-							>
+							<InlineStack gap="200" align="space-between" blockAlign="center" className="px-5 pt-4 pb-3">
 								<InlineStack gap="200" blockAlign="center">
 									<BranchIcon className="h-4 w-4 text-fg-muted" />
 									<span className="text-sm font-semibold text-fg">{config.label}</span>
@@ -270,9 +246,7 @@ export default function DeploymentsPageClient() {
 										<InlineStack gap="100" blockAlign="center">
 											<GitCommitHorizontal className="h-3.5 w-3.5 text-fg-muted shrink-0" />
 											{sha && <span className="text-sm font-mono text-fg-muted">{sha}</span>}
-											{commitMsg && (
-												<span className="text-sm text-fg line-clamp-1">{commitMsg}</span>
-											)}
+											{commitMsg && <span className="text-sm text-fg line-clamp-1">{commitMsg}</span>}
 										</InlineStack>
 									</InfoRow>
 								)}

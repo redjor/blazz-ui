@@ -133,30 +133,17 @@ export default function VeilleClient() {
 			{/* Toolbar */}
 			<div className="flex items-center gap-3 border-b border-edge px-4 py-3">
 				<Button size="sm" onClick={handleFetchNow} disabled={fetching}>
-					{fetching ? (
-						<Loader2 className="size-4 mr-1.5 animate-spin" />
-					) : (
-						<RefreshCw className="size-4 mr-1.5" />
-					)}
+					{fetching ? <Loader2 className="size-4 mr-1.5 animate-spin" /> : <RefreshCw className="size-4 mr-1.5" />}
 					Fetch now
 				</Button>
 
-				<Button
-					size="sm"
-					variant="outline"
-					onClick={handleMarkAllRead}
-					disabled={!unreadCount}
-				>
+				<Button size="sm" variant="outline" onClick={handleMarkAllRead} disabled={!unreadCount}>
 					<CheckCheck className="size-4 mr-1.5" />
 					Tout lire
-					{unreadCount !== undefined && unreadCount > 0 && (
-						<span className="ml-1 text-[11px] bg-brand text-white rounded-full px-1.5">
-							{unreadCount}
-						</span>
-					)}
+					{unreadCount !== undefined && unreadCount > 0 && <span className="ml-1 text-[11px] bg-brand text-white rounded-full px-1.5">{unreadCount}</span>}
 				</Button>
 
-				{items && items.some((i: any) => !i.aiSummary) && (
+				{items?.some((i: any) => !i.aiSummary) && (
 					<Button size="sm" variant="outline" onClick={handleEnrichMissing}>
 						<Sparkles className="size-4 mr-1.5" />
 						Enrichir
@@ -166,12 +153,7 @@ export default function VeilleClient() {
 				{/* Type filter pills */}
 				<InlineStack gap="100" className="ml-auto">
 					{TYPE_FILTERS.map((f) => (
-						<Button
-							key={f.value}
-							size="sm"
-							variant={typeFilter === f.value ? "default" : "outline"}
-							onClick={() => handleFilterChange(f.value)}
-						>
+						<Button key={f.value} size="sm" variant={typeFilter === f.value ? "default" : "outline"} onClick={() => handleFilterChange(f.value)}>
 							{f.label}
 						</Button>
 					))}
@@ -189,11 +171,7 @@ export default function VeilleClient() {
 						<Empty
 							icon={Rss}
 							title="Aucun article"
-							description={
-								typeFilter !== "all"
-									? "Aucun article pour ce filtre"
-									: "Ajoutez des sources pour commencer votre veille"
-							}
+							description={typeFilter !== "all" ? "Aucun article pour ce filtre" : "Ajoutez des sources pour commencer votre veille"}
 							action={
 								typeFilter === "all"
 									? {
@@ -223,11 +201,7 @@ export default function VeilleClient() {
 
 							{/* Load more */}
 							{hasMore && (
-								<Button
-									variant="outline"
-									className="w-full"
-									onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-								>
+								<Button variant="outline" className="w-full" onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}>
 									Charger plus ({totalCount - items.length} restants)
 								</Button>
 							)}

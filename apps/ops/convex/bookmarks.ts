@@ -2,13 +2,7 @@ import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const bookmarkTypeValidator = v.union(
-	v.literal("tweet"),
-	v.literal("youtube"),
-	v.literal("image"),
-	v.literal("video"),
-	v.literal("link")
-)
+const bookmarkTypeValidator = v.union(v.literal("tweet"), v.literal("youtube"), v.literal("image"), v.literal("video"), v.literal("link"))
 
 export const list = query({
 	args: {
@@ -27,9 +21,7 @@ export const list = query({
 		if (collectionId) {
 			results = await ctx.db
 				.query("bookmarks")
-				.withIndex("by_user_collection", (q) =>
-					q.eq("userId", userId).eq("collectionId", collectionId)
-				)
+				.withIndex("by_user_collection", (q) => q.eq("userId", userId).eq("collectionId", collectionId))
 				.collect()
 		} else if (type) {
 			results = await ctx.db
@@ -59,13 +51,7 @@ export const list = query({
 
 		if (search) {
 			const q = search.toLowerCase()
-			results = results.filter(
-				(b) =>
-					b.title?.toLowerCase().includes(q) ||
-					b.description?.toLowerCase().includes(q) ||
-					b.url.toLowerCase().includes(q) ||
-					b.author?.toLowerCase().includes(q)
-			)
+			results = results.filter((b) => b.title?.toLowerCase().includes(q) || b.description?.toLowerCase().includes(q) || b.url.toLowerCase().includes(q) || b.author?.toLowerCase().includes(q))
 		}
 
 		return results.sort((a, b) => {

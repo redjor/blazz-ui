@@ -154,25 +154,12 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "Combobox",
 							url: "/docs/components/ui/combobox",
-							keywords: [
-								"autocomplete",
-								"typeahead",
-								"searchable select",
-								"search select",
-								"filterable",
-							],
+							keywords: ["autocomplete", "typeahead", "searchable select", "search select", "filterable"],
 						},
 						{
 							title: "Cascading Select",
 							url: "/docs/components/ui/cascading-select",
-							keywords: [
-								"hierarchy",
-								"drill-down",
-								"nested select",
-								"cascading",
-								"tree select",
-								"category picker",
-							],
+							keywords: ["hierarchy", "drill-down", "nested select", "cascading", "tree select", "category picker"],
 						},
 						{
 							title: "Currency Input",
@@ -187,13 +174,7 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "Field",
 							url: "/docs/components/ui/field",
-							keywords: [
-								"form field",
-								"input wrapper",
-								"label input",
-								"form group",
-								"field wrapper",
-							],
+							keywords: ["form field", "input wrapper", "label input", "form group", "field wrapper"],
 						},
 						{
 							title: "File Upload",
@@ -334,13 +315,7 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "Filter Panel",
 							url: "/docs/components/ui/filter-panel",
-							keywords: [
-								"filter dropdown",
-								"filter popover",
-								"checkbox filter",
-								"faceted filter",
-								"market filter",
-							],
+							keywords: ["filter dropdown", "filter popover", "checkbox filter", "faceted filter", "market filter"],
 						},
 						{
 							title: "Popover",
@@ -480,14 +455,7 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "Navigation Tabs",
 							url: "/docs/components/patterns/navigation-tabs",
-							keywords: [
-								"tabs",
-								"browser tabs",
-								"tab bar",
-								"navigation tabs",
-								"page tabs",
-								"@blazz/tabs",
-							],
+							keywords: ["tabs", "browser tabs", "tab bar", "navigation tabs", "page tabs", "@blazz/tabs"],
 						},
 						{
 							title: "Nav Tabs",
@@ -661,14 +629,7 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "View Config Panel",
 							url: "/docs/blocks/view-config-panel",
-							keywords: [
-								"view config",
-								"table view",
-								"filter panel",
-								"display properties",
-								"board config",
-								"linear",
-							],
+							keywords: ["view config", "table view", "filter panel", "display properties", "board config", "linear"],
 						},
 					],
 				},
@@ -1222,16 +1183,7 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "MCP Server",
 							url: "/docs/mcp",
-							keywords: [
-								"mcp",
-								"model context protocol",
-								"ai",
-								"assistant",
-								"claude",
-								"cursor",
-								"tools",
-								"design system",
-							],
+							keywords: ["mcp", "model context protocol", "ai", "assistant", "claude", "cursor", "tools", "design system"],
 						},
 						{
 							title: "Sandbox",
@@ -1249,39 +1201,17 @@ export const sidebarConfig: SidebarConfig = {
 						{
 							title: "react-dirty-guard",
 							url: "/docs/utils/react-dirty-guard",
-							keywords: [
-								"dirty guard",
-								"unsaved changes",
-								"form guard",
-								"navigation guard",
-								"beforeunload",
-								"popstate",
-								"npm package",
-							],
+							keywords: ["dirty guard", "unsaved changes", "form guard", "navigation guard", "beforeunload", "popstate", "npm package"],
 						},
 						{
 							title: "Unsaved Changes Bar",
 							url: "/docs/utils/unsaved-changes-bar",
-							keywords: [
-								"unsaved",
-								"dirty",
-								"form guard",
-								"navigation guard",
-								"save prompt",
-								"discard",
-							],
+							keywords: ["unsaved", "dirty", "form guard", "navigation guard", "save prompt", "discard"],
 						},
 						{
 							title: "Quick Login",
 							url: "/docs/utils/quick-login",
-							keywords: [
-								"dev",
-								"test accounts",
-								"quick login",
-								"account switcher",
-								"development",
-								"credentials",
-							],
+							keywords: ["dev", "test accounts", "quick login", "account switcher", "development", "credentials"],
 						},
 					],
 				},
@@ -1308,17 +1238,8 @@ export function getSectionForPathname(pathname: string): SectionId {
 	if (pathname.startsWith("/docs/blocks/data-table")) return "data-table"
 	if (pathname === "/docs/blocks" || pathname.startsWith("/docs/blocks/")) return "blocks"
 	if (pathname.startsWith("/docs/guide")) return "guide"
-	if (
-		pathname.startsWith("/docs/mcp") ||
-		pathname.startsWith("/docs/sandbox") ||
-		pathname.startsWith("/docs/utils/")
-	)
-		return "guide"
-	if (
-		pathname.startsWith("/docs/components/colors") ||
-		pathname.startsWith("/docs/components/typography")
-	)
-		return "guide"
+	if (pathname.startsWith("/docs/mcp") || pathname.startsWith("/docs/sandbox") || pathname.startsWith("/docs/utils/")) return "guide"
+	if (pathname.startsWith("/docs/components/colors") || pathname.startsWith("/docs/components/typography")) return "guide"
 	if (pathname.startsWith("/docs/components/layout/inset")) return "guide"
 	if (pathname.startsWith("/docs/components/ui/text")) return "guide"
 	return "components"

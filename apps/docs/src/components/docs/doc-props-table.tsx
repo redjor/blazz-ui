@@ -40,13 +40,7 @@ function PropsRows({ props }: { props: DocProp[] }) {
 						<code className="font-mono text-xs text-fg-muted">{prop.type}</code>
 					</td>
 					<td className="py-2.5 pr-4 align-top">
-						{prop.default ? (
-							<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-fg-muted">
-								{prop.default}
-							</code>
-						) : (
-							<span className="text-xs text-fg-subtle">&mdash;</span>
-						)}
+						{prop.default ? <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-fg-muted">{prop.default}</code> : <span className="text-xs text-fg-subtle">&mdash;</span>}
 					</td>
 					<td className="py-2.5 align-top text-[13px] text-fg-muted">{prop.description}</td>
 				</tr>
@@ -61,18 +55,10 @@ export function DocPropsTable({ props, groups, className }: DocPropsTableProps) 
 			<table className="w-full text-sm">
 				<thead>
 					<tr className="border-b border-separator">
-						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
-							Prop
-						</th>
-						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
-							Type
-						</th>
-						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
-							Default
-						</th>
-						<th className="py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">
-							Description
-						</th>
+						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Prop</th>
+						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Type</th>
+						<th className="py-2.5 pr-4 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Default</th>
+						<th className="py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-fg-muted">Description</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -81,9 +67,7 @@ export function DocPropsTable({ props, groups, className }: DocPropsTableProps) 
 						<React.Fragment key={group.title}>
 							<tr>
 								<td colSpan={4} className="pt-6 pb-2">
-									<span className="text-xs font-semibold uppercase tracking-wider text-fg-muted">
-										{group.title}
-									</span>
+									<span className="text-xs font-semibold uppercase tracking-wider text-fg-muted">{group.title}</span>
 								</td>
 							</tr>
 							<PropsRows props={group.props} />

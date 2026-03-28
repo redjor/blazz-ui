@@ -13,10 +13,7 @@ export interface InspectedElement {
 
 // ── Hook: useElementInspector ───────────────────
 
-export function useElementInspector(
-	containerRef: React.RefObject<HTMLElement | null>,
-	enabled: boolean
-) {
+export function useElementInspector(containerRef: React.RefObject<HTMLElement | null>, enabled: boolean) {
 	const [hovered, setHovered] = useState<InspectedElement | null>(null)
 	const [selected, setSelected] = useState<InspectedElement | null>(null)
 	const hoveredRef = useRef<HTMLElement | null>(null)
@@ -39,12 +36,7 @@ export function useElementInspector(
 			const containerRect = containerRef.current?.getBoundingClientRect()
 			const elRect = el.getBoundingClientRect()
 			// Compute rect relative to container
-			const rect = new DOMRect(
-				elRect.x - (containerRect?.x ?? 0),
-				elRect.y - (containerRect?.y ?? 0),
-				elRect.width,
-				elRect.height
-			)
+			const rect = new DOMRect(elRect.x - (containerRect?.x ?? 0), elRect.y - (containerRect?.y ?? 0), elRect.width, elRect.height)
 			return {
 				slot: el.getAttribute("data-slot") ?? "",
 				textContent: getDirectTextContent(el),

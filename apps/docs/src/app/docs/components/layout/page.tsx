@@ -1,34 +1,20 @@
 "use client"
 
 import { Page } from "@blazz/ui/components/ui/page"
-import {
-	Columns3,
-	Expand,
-	FileText,
-	GalleryHorizontal,
-	LayoutGrid,
-	Megaphone,
-	PanelsTopLeft,
-	RectangleHorizontal,
-	Rows3,
-	SeparatorHorizontal,
-	Square,
-} from "lucide-react"
+import { Columns3, Expand, FileText, GalleryHorizontal, LayoutGrid, Megaphone, PanelsTopLeft, RectangleHorizontal, Rows3, SeparatorHorizontal, Square } from "lucide-react"
 import { CategoryPageHero, ComponentSection } from "~/components/docs/component-card"
 
 const layoutPrimitives = [
 	{
 		title: "Bleed",
-		description:
-			"Applies negative margin to allow content to bleed out into the surrounding layout.",
+		description: "Applies negative margin to allow content to bleed out into the surrounding layout.",
 		href: "/docs/components/layout/bleed",
 		icon: Expand,
 		thumbnail: "bleed",
 	},
 	{
 		title: "Block Stack",
-		description:
-			"Use to display children vertically with full width by default. Based on CSS Flexbox.",
+		description: "Use to display children vertically with full width by default. Based on CSS Flexbox.",
 		href: "/docs/components/layout/block-stack",
 		icon: Rows3,
 		thumbnail: "block-stack",
@@ -56,8 +42,7 @@ const layoutPrimitives = [
 	},
 	{
 		title: "Inline Grid",
-		description:
-			"Use to lay out children horizontally with equal gap between columns. Based on CSS Grid.",
+		description: "Use to lay out children horizontally with equal gap between columns. Based on CSS Grid.",
 		href: "/docs/components/layout/inline-grid",
 		icon: Columns3,
 		thumbnail: "inline-grid",
@@ -74,16 +59,14 @@ const layoutPrimitives = [
 const layoutCompositions = [
 	{
 		title: "Callout Card",
-		description:
-			"Callout cards are used to encourage users to take an action related to a new feature.",
+		description: "Callout cards are used to encourage users to take an action related to a new feature.",
 		href: "/docs/components/layout/callout-card",
 		icon: Megaphone,
 		thumbnail: "callout-card",
 	},
 	{
 		title: "Card",
-		description:
-			"Used to group similar concepts and tasks together for easier scanning and reading.",
+		description: "Used to group similar concepts and tasks together for easier scanning and reading.",
 		href: "/docs/components/layout/card",
 		icon: RectangleHorizontal,
 		thumbnail: "card",
@@ -97,8 +80,7 @@ const layoutCompositions = [
 	},
 	{
 		title: "Page",
-		description:
-			"A container component for page-level layout with title, actions, and breadcrumbs.",
+		description: "A container component for page-level layout with title, actions, and breadcrumbs.",
 		href: "/docs/components/layout/page-component",
 		icon: FileText,
 		thumbnail: "page-component",
@@ -108,10 +90,7 @@ const layoutCompositions = [
 export default function LayoutComponentsPage() {
 	return (
 		<Page>
-			<CategoryPageHero
-				title="Layout and Structure"
-				description="Layout is the arrangement of elements on a page. A good layout helps users understand and find information more easily."
-			/>
+			<CategoryPageHero title="Layout and Structure" description="Layout is the arrangement of elements on a page. A good layout helps users understand and find information more easily." />
 			<div className="space-y-10">
 				<ComponentSection
 					title="Layout Primitives"

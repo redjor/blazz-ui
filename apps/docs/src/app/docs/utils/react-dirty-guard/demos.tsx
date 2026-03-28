@@ -6,39 +6,18 @@ import { useState } from "react"
 
 // ── Mock Bar (visual only) ──────────────────────────────────────────────────
 
-function MockBar({
-	position = "top",
-	isSaving = false,
-	onSave,
-	onDiscard,
-}: {
-	position?: "top" | "bottom"
-	isSaving?: boolean
-	onSave: () => void
-	onDiscard: () => void
-}) {
-	const positionClasses =
-		position === "top" ? "top-0 left-0 right-0 border-b" : "bottom-0 left-0 right-0 border-t"
+function MockBar({ position = "top", isSaving = false, onSave, onDiscard }: { position?: "top" | "bottom"; isSaving?: boolean; onSave: () => void; onDiscard: () => void }) {
+	const positionClasses = position === "top" ? "top-0 left-0 right-0 border-b" : "bottom-0 left-0 right-0 border-t"
 	return (
-		<div
-			className={`absolute z-50 flex items-center gap-2 border-zinc-200 bg-white/80 px-3 py-1.5 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80 ${positionClasses}`}
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 20 20"
-				fill="currentColor"
-				className="size-3.5 shrink-0 text-amber-500"
-				aria-hidden="true"
-			>
+		<div className={`absolute z-50 flex items-center gap-2 border-zinc-200 bg-white/80 px-3 py-1.5 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80 ${positionClasses}`}>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-3.5 shrink-0 text-amber-500" aria-hidden="true">
 				<path
 					fillRule="evenodd"
 					d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z"
 					clipRule="evenodd"
 				/>
 			</svg>
-			<span className="min-w-0 flex-1 truncate text-xs font-medium text-zinc-900 dark:text-zinc-100">
-				You have unsaved changes
-			</span>
+			<span className="min-w-0 flex-1 truncate text-xs font-medium text-zinc-900 dark:text-zinc-100">You have unsaved changes</span>
 			<div className="flex shrink-0 items-center gap-1">
 				<button
 					type="button"
@@ -56,19 +35,8 @@ function MockBar({
 				>
 					{isSaving && (
 						<svg className="size-3 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-							<circle
-								cx="12"
-								cy="12"
-								r="10"
-								stroke="currentColor"
-								strokeWidth="4"
-								className="opacity-25"
-							/>
-							<path
-								fill="currentColor"
-								d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-								className="opacity-75"
-							/>
+							<circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+							<path fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" className="opacity-75" />
 						</svg>
 					)}
 					Save
@@ -78,15 +46,7 @@ function MockBar({
 	)
 }
 
-function DemoButton({
-	isDirty,
-	isSaving,
-	onClick,
-}: {
-	isDirty: boolean
-	isSaving: boolean
-	onClick: () => void
-}) {
+function DemoButton({ isDirty, isSaving, onClick }: { isDirty: boolean; isSaving: boolean; onClick: () => void }) {
 	return (
 		<button
 			type="button"
@@ -114,14 +74,7 @@ export function StyledDemo() {
 
 	return (
 		<div className="relative w-full min-h-[120px]">
-			{isDirty && (
-				<MockBar
-					position="top"
-					isSaving={isSaving}
-					onSave={handleSave}
-					onDiscard={() => setIsDirty(false)}
-				/>
-			)}
+			{isDirty && <MockBar position="top" isSaving={isSaving} onSave={handleSave} onDiscard={() => setIsDirty(false)} />}
 			<div className="flex items-center justify-center pt-16">
 				<DemoButton isDirty={isDirty} isSaving={isSaving} onClick={() => setIsDirty(!isDirty)} />
 			</div>
@@ -145,14 +98,7 @@ export function BottomDemo() {
 			<div className="flex items-center justify-center pb-16">
 				<DemoButton isDirty={isDirty} isSaving={isSaving} onClick={() => setIsDirty(!isDirty)} />
 			</div>
-			{isDirty && (
-				<MockBar
-					position="bottom"
-					isSaving={isSaving}
-					onSave={handleSave}
-					onDiscard={() => setIsDirty(false)}
-				/>
-			)}
+			{isDirty && <MockBar position="bottom" isSaving={isSaving} onSave={handleSave} onDiscard={() => setIsDirty(false)} />}
 		</div>
 	)
 }

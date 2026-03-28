@@ -60,20 +60,12 @@ function GridCell({ children, className, columnSpan }: GridCellProps) {
 	const smSpan = columnSpan?.sm || columnSpan?.xs || 6
 	const mdSpan = columnSpan?.md || columnSpan?.sm || columnSpan?.xs || 6
 	const lgSpan = columnSpan?.lg || columnSpan?.md || columnSpan?.sm || columnSpan?.xs || 6
-	const xlSpan =
-		columnSpan?.xl || columnSpan?.lg || columnSpan?.md || columnSpan?.sm || columnSpan?.xs || 6
+	const xlSpan = columnSpan?.xl || columnSpan?.lg || columnSpan?.md || columnSpan?.sm || columnSpan?.xs || 6
 
 	return (
 		<div
 			data-slot="grid-cell"
-			className={cn(
-				`col-span-${xsSpan}`,
-				`sm:col-span-${smSpan}`,
-				`md:col-span-${mdSpan}`,
-				`lg:col-span-${lgSpan}`,
-				`xl:col-span-${xlSpan}`,
-				className
-			)}
+			className={cn(`col-span-${xsSpan}`, `sm:col-span-${smSpan}`, `md:col-span-${mdSpan}`, `lg:col-span-${lgSpan}`, `xl:col-span-${xlSpan}`, className)}
 			style={{
 				gridColumn: `span ${lgSpan} / span ${lgSpan}`,
 			}}

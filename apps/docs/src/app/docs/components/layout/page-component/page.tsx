@@ -1,12 +1,12 @@
 "use client"
 
-import { use } from "react"
+import { PageHeader } from "@blazz/ui/components/patterns/page-header-shell"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Page, PageSection, PageWrapper } from "@blazz/ui/components/ui/page"
-import { PageHeader } from "@blazz/ui/components/patterns/page-header-shell"
 import { Tabs, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
-import { Package, Tag, ArrowLeft } from "lucide-react"
+import { Package, Tag } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -313,14 +313,12 @@ const pageProps: DocProp[] = [
 	{
 		name: "breadcrumbs",
 		type: "React.ReactNode | BreadcrumbConfig | PageBreadcrumbItem[]",
-		description:
-			"Breadcrumb navigation. Accepts a ReactNode, a BreadcrumbConfig object, or a PageBreadcrumbItem[] array where the last item without href automatically becomes the page title.",
+		description: "Breadcrumb navigation. Accepts a ReactNode, a BreadcrumbConfig object, or a PageBreadcrumbItem[] array where the last item without href automatically becomes the page title.",
 	},
 	{
 		name: "titleMetadata",
 		type: "React.ReactNode",
-		description:
-			"Inline metadata displayed next to the title or breadcrumb title (e.g., status badge).",
+		description: "Inline metadata displayed next to the title or breadcrumb title (e.g., status badge).",
 	},
 	{
 		name: "additionalMetadata",
@@ -389,8 +387,7 @@ const pageHeaderProps: DocProp[] = [
 	{
 		name: "breadcrumbs",
 		type: "BreadcrumbItemType[]",
-		description:
-			"Array of breadcrumb items. Each item has a label and optional href. The last item (no href) renders as current page.",
+		description: "Array of breadcrumb items. Each item has a label and optional href. The last item (no href) renders as current page.",
 	},
 	{
 		name: "title",
@@ -419,8 +416,7 @@ const pageWrapperProps: DocProp[] = [
 		name: "size",
 		type: '"sm" | "md" | "lg" | "full"',
 		default: '"md"',
-		description:
-			"Max-width preset. sm = max-w-2xl, md = max-w-4xl, lg = max-w-6xl, full = no constraint.",
+		description: "Max-width preset. sm = max-w-2xl, md = max-w-4xl, lg = max-w-6xl, full = no constraint.",
 	},
 	{
 		name: "card",
@@ -449,21 +445,12 @@ export default function PageComponentPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Page"
-			subtitle="A page-level layout container with header, breadcrumbs, actions, and composable sub-components (PageSection, PageWrapper)."
-			toc={toc}
-		>
+		<DocPage title="Page" subtitle="A page-level layout container with header, breadcrumbs, actions, and composable sub-components (PageSection, PageWrapper)." toc={toc}>
 			{/* ============================================================ */}
 			{/*  PAGE — basics                                               */}
 			{/* ============================================================ */}
 			<DocSection id="page-examples" title="Page">
-				<DocExampleClient
-					title="Basic"
-					description="A page with just a title."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A page with just a title." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Products">
 							<p className="text-sm text-fg-muted">Page content here</p>
@@ -471,12 +458,7 @@ export default function PageComponentPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Subtitle"
-					description="A page with a title and subtitle."
-					code={examples[1].code}
-					highlightedCode={html("with-subtitle")}
-				>
+				<DocExampleClient title="With Subtitle" description="A page with a title and subtitle." code={examples[1].code} highlightedCode={html("with-subtitle")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Products" subtitle="Manage your product catalog">
 							<p className="text-sm text-fg-muted">Page content here</p>
@@ -484,12 +466,7 @@ export default function PageComponentPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Actions"
-					description="A page with primary and secondary action buttons."
-					code={examples[2].code}
-					highlightedCode={html("with-actions")}
-				>
+				<DocExampleClient title="With Actions" description="A page with primary and secondary action buttons." code={examples[2].code} highlightedCode={html("with-actions")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							title="Products"
@@ -518,14 +495,7 @@ export default function PageComponentPage() {
 					highlightedCode={html("breadcrumbs-array")}
 				>
 					<div className="rounded-lg border border-edge bg-muted">
-						<Page
-							breadcrumbs={[
-								{ label: "Products", href: "/products", icon: Package },
-								{ label: "Wireless Headphones" },
-							]}
-							subtitle="SKU: WH-1000"
-							primaryAction={<Button size="sm">Save</Button>}
-						>
+						<Page breadcrumbs={[{ label: "Products", href: "/products", icon: Package }, { label: "Wireless Headphones" }]} subtitle="SKU: WH-1000" primaryAction={<Button size="sm">Save</Button>}>
 							<p className="text-sm text-fg-muted">Page content here</p>
 						</Page>
 					</div>
@@ -615,11 +585,7 @@ export default function PageComponentPage() {
 							title="Wireless Headphones"
 							subtitle="SKU: WH-1000"
 							primaryAction={<Button size="sm">Save</Button>}
-							additionalMetadata={
-								<p className="text-sm text-fg-muted">
-									Updated by an app on January 2 at 10:39
-								</p>
-							}
+							additionalMetadata={<p className="text-sm text-fg-muted">Updated by an app on January 2 at 10:39</p>}
 						>
 							<p className="text-sm text-fg-muted">Page content here</p>
 						</Page>
@@ -658,12 +624,7 @@ export default function PageComponentPage() {
 			{/*  WIDTH VARIANTS                                              */}
 			{/* ============================================================ */}
 			<DocSection id="width-variants" title="Width Variants">
-				<DocExampleClient
-					title="Full Width"
-					description="Spans the full viewport width without max-width constraint."
-					code={examples[9].code}
-					highlightedCode={html("full-width")}
-				>
+				<DocExampleClient title="Full Width" description="Spans the full viewport width without max-width constraint." code={examples[9].code} highlightedCode={html("full-width")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Dashboard" fullWidth>
 							<p className="text-sm text-fg-muted">Full width content</p>
@@ -671,12 +632,7 @@ export default function PageComponentPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Narrow Width"
-					description="A narrower max-width (max-w-3xl), ideal for forms and settings."
-					code={examples[10].code}
-					highlightedCode={html("narrow-width")}
-				>
+				<DocExampleClient title="Narrow Width" description="A narrower max-width (max-w-3xl), ideal for forms and settings." code={examples[10].code} highlightedCode={html("narrow-width")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Settings" narrowWidth>
 							<p className="text-sm text-fg-muted">Narrow content for forms</p>
@@ -689,25 +645,15 @@ export default function PageComponentPage() {
 			{/*  PAGESECTION                                                 */}
 			{/* ============================================================ */}
 			<DocSection id="page-section" title="PageSection">
-				<DocExampleClient
-					title="Sections"
-					description="Use PageSection to organize content into titled sub-sections within a page."
-					code={examples[11].code}
-					highlightedCode={html("page-section")}
-				>
+				<DocExampleClient title="Sections" description="Use PageSection to organize content into titled sub-sections within a page." code={examples[11].code} highlightedCode={html("page-section")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Settings">
 							<div className="space-y-8">
 								<PageSection title="General" description="Basic settings for your store">
 									<p className="text-sm text-fg-muted">General settings content</p>
 								</PageSection>
-								<PageSection
-									title="Notifications"
-									description="Configure notification preferences"
-								>
-									<p className="text-sm text-fg-muted">
-										Notification settings content
-									</p>
+								<PageSection title="Notifications" description="Configure notification preferences">
+									<p className="text-sm text-fg-muted">Notification settings content</p>
 								</PageSection>
 							</div>
 						</Page>
@@ -720,21 +666,13 @@ export default function PageComponentPage() {
 			{/* ============================================================ */}
 			<DocSection id="page-header" title="PageHeader">
 				<p className="text-sm text-fg-muted mb-6">
-					Standalone header pattern from <code className="text-xs bg-muted px-1.5 py-0.5 rounded">@blazz/ui/components/patterns/page-header-shell</code>. Use it when you need a header outside of Page, or when you want full control over the header layout separately from the content area.
+					Standalone header pattern from <code className="text-xs bg-muted px-1.5 py-0.5 rounded">@blazz/ui/components/patterns/page-header-shell</code>. Use it when you need a header outside of Page,
+					or when you want full control over the header layout separately from the content area.
 				</p>
 
-				<DocExampleClient
-					title="Basic"
-					description="A standalone PageHeader with title, description, and actions."
-					code={examples[12].code}
-					highlightedCode={html("header-basic")}
-				>
+				<DocExampleClient title="Basic" description="A standalone PageHeader with title, description, and actions." code={examples[12].code} highlightedCode={html("header-basic")}>
 					<div className="rounded-lg border border-edge bg-muted">
-						<PageHeader
-							title="Products"
-							description="Manage your product catalog"
-							actions={<Button size="sm">Add product</Button>}
-						/>
+						<PageHeader title="Products" description="Manage your product catalog" actions={<Button size="sm">Add product</Button>} />
 					</div>
 				</DocExampleClient>
 
@@ -746,11 +684,7 @@ export default function PageComponentPage() {
 				>
 					<div className="rounded-lg border border-edge bg-muted">
 						<PageHeader
-							breadcrumbs={[
-								{ label: "Home", href: "/" },
-								{ label: "Products", href: "/products" },
-								{ label: "Wireless Headphones" },
-							]}
+							breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: "Wireless Headphones" }]}
 							title="Wireless Headphones"
 							actions={<Button size="sm">Save</Button>}
 						/>
@@ -766,10 +700,7 @@ export default function PageComponentPage() {
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page fullWidth divider={false}>
 							<PageHeader
-								breadcrumbs={[
-									{ label: "Products", href: "/products" },
-									{ label: "Edit Product" },
-								]}
+								breadcrumbs={[{ label: "Products", href: "/products" }, { label: "Edit Product" }]}
 								title="Wireless Headphones"
 								description="SKU: WH-1000"
 								actions={<Button size="sm">Save</Button>}
@@ -795,9 +726,7 @@ export default function PageComponentPage() {
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Settings" fullWidth>
 							<PageWrapper size="sm">
-								<p className="text-sm text-fg-muted">
-									Content constrained to max-w-2xl
-								</p>
+								<p className="text-sm text-fg-muted">Content constrained to max-w-2xl</p>
 							</PageWrapper>
 						</Page>
 					</div>
@@ -812,42 +741,27 @@ export default function PageComponentPage() {
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="New Customer" fullWidth>
 							<PageWrapper size="sm" card>
-								<p className="text-sm text-fg-muted">
-									Card-styled content with border, background, and padding
-								</p>
+								<p className="text-sm text-fg-muted">Card-styled content with border, background, and padding</p>
 							</PageWrapper>
 						</Page>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Size comparison"
-					description="Visual comparison of all four size presets."
-					code={examples[17].code}
-					highlightedCode={html("wrapper-sizes")}
-				>
+				<DocExampleClient title="Size comparison" description="Visual comparison of all four size presets." code={examples[17].code} highlightedCode={html("wrapper-sizes")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page title="Width Comparison" fullWidth divider={false}>
 							<div className="space-y-3">
 								<PageWrapper size="sm">
-									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-										sm — max-w-2xl
-									</div>
+									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">sm — max-w-2xl</div>
 								</PageWrapper>
 								<PageWrapper size="md">
-									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-										md — max-w-4xl (default)
-									</div>
+									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">md — max-w-4xl (default)</div>
 								</PageWrapper>
 								<PageWrapper size="lg">
-									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-										lg — max-w-6xl
-									</div>
+									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">lg — max-w-6xl</div>
 								</PageWrapper>
 								<PageWrapper size="full">
-									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-										full — no max-width
-									</div>
+									<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">full — no max-width</div>
 								</PageWrapper>
 							</div>
 						</Page>
@@ -868,10 +782,7 @@ export default function PageComponentPage() {
 					<div className="rounded-lg border border-edge bg-muted">
 						<Page
 							title="Product Details"
-							breadcrumbs={[
-								{ label: "Products", href: "/products", icon: Package },
-								{ label: "Wireless Headphones" },
-							]}
+							breadcrumbs={[{ label: "Products", href: "/products", icon: Package }, { label: "Wireless Headphones" }]}
 							primaryAction={<Button size="sm">Save</Button>}
 							fullWidth
 						>

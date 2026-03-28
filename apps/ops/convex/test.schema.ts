@@ -42,14 +42,7 @@ export default defineSchema({
 
 	notes: defineTable({
 		userId: v.string(),
-		entityType: v.union(
-			v.literal("client"),
-			v.literal("project"),
-			v.literal("contract"),
-			v.literal("invoice"),
-			v.literal("todo"),
-			v.literal("general")
-		),
+		entityType: v.union(v.literal("client"), v.literal("project"), v.literal("contract"), v.literal("invoice"), v.literal("todo"), v.literal("general")),
 		entityId: v.optional(v.string()),
 		title: v.string(),
 		contentJson: v.optional(v.any()),
@@ -71,14 +64,7 @@ export default defineSchema({
 		description: v.optional(v.string()),
 		billable: v.boolean(),
 		invoicedAt: v.optional(v.number()),
-		status: v.optional(
-			v.union(
-				v.literal("draft"),
-				v.literal("ready_to_invoice"),
-				v.literal("invoiced"),
-				v.literal("paid")
-			)
-		),
+		status: v.optional(v.union(v.literal("draft"), v.literal("ready_to_invoice"), v.literal("invoiced"), v.literal("paid"))),
 		createdAt: v.number(),
 	})
 		.index("by_project", ["projectId"])
@@ -99,21 +85,13 @@ export default defineSchema({
 		text: v.string(),
 		description: v.optional(v.string()),
 		descriptionJson: v.optional(v.any()),
-		status: v.union(
-			v.literal("triage"),
-			v.literal("todo"),
-			v.literal("blocked"),
-			v.literal("in_progress"),
-			v.literal("done")
-		),
+		status: v.union(v.literal("triage"), v.literal("todo"), v.literal("blocked"), v.literal("in_progress"), v.literal("done")),
 		source: v.union(v.literal("app"), v.literal("telegram")),
 		dueDate: v.optional(v.string()),
 		projectId: v.optional(v.id("projects")),
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),
-		priority: v.optional(
-			v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
-		),
+		priority: v.optional(v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))),
 		createdAt: v.number(),
 	})
 		.index("by_status", ["status"])
@@ -201,9 +179,7 @@ export default defineSchema({
 		pdfStorageId: v.optional(v.id("_storage")),
 		paidAt: v.optional(v.number()),
 		createdAt: v.number(),
-		invoiceType: v.optional(
-			v.union(v.literal("unique"), v.literal("acompte"), v.literal("situation"))
-		),
+		invoiceType: v.optional(v.union(v.literal("unique"), v.literal("acompte"), v.literal("situation"))),
 		lines: v.optional(
 			v.array(
 				v.object({
@@ -254,13 +230,7 @@ export default defineSchema({
 	bookmarks: defineTable({
 		userId: v.string(),
 		url: v.string(),
-		type: v.union(
-			v.literal("tweet"),
-			v.literal("youtube"),
-			v.literal("image"),
-			v.literal("video"),
-			v.literal("link")
-		),
+		type: v.union(v.literal("tweet"), v.literal("youtube"), v.literal("image"), v.literal("video"), v.literal("link")),
 		title: v.optional(v.string()),
 		description: v.optional(v.string()),
 		thumbnailUrl: v.optional(v.string()),

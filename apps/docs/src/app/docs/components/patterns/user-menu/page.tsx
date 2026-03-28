@@ -123,22 +123,13 @@ export default function UserMenuPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="UserMenu"
-			subtitle="A user account dropdown for the top bar or sidebar footer. Shows name, role and avatar, with configurable actions for profile, settings and logout."
-			toc={toc}
-		>
+		<DocPage title="UserMenu" subtitle="A user account dropdown for the top bar or sidebar footer. Shows name, role and avatar, with configurable actions for profile, settings and logout." toc={toc}>
 			<DocHero>
 				<BasicDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="Full configuration: user info, badge, profile, settings and logout."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="Full configuration: user info, badge, profile, settings and logout." code={examples[0].code} highlightedCode={html("basic")}>
 					<BasicDemo />
 				</DocExampleClient>
 
@@ -151,12 +142,7 @@ export default function UserMenuPage() {
 					<ProfileOnlyDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Avatar"
-					description="Provide an avatar URL to replace the initials fallback."
-					code={examples[2].code}
-					highlightedCode={html("with-avatar")}
-				>
+				<DocExampleClient title="With Avatar" description="Provide an avatar URL to replace the initials fallback." code={examples[2].code} highlightedCode={html("with-avatar")}>
 					<WithAvatarDemo />
 				</DocExampleClient>
 

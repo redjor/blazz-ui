@@ -101,9 +101,7 @@ export default function FinancesPageClient() {
 					{
 						label: "Total à encaisser",
 						value: forecast ? formatAmount(forecast.totalCents / 100) : "—",
-						description: forecast
-							? `${forecast.readyToInvoiceCount + forecast.unpaidCount} éléments`
-							: undefined,
+						description: forecast ? `${forecast.readyToInvoiceCount + forecast.unpaidCount} éléments` : undefined,
 						icon: TrendingUp,
 					},
 					{
@@ -149,15 +147,9 @@ export default function FinancesPageClient() {
 								<div key={tx.id} className="flex items-center justify-between px-inset py-3">
 									<div className="flex flex-col gap-0.5">
 										<span className="text-sm text-fg">{tx.label || "—"}</span>
-										<span className="text-xs text-fg-muted">
-											{new Date(tx.settledAt).toLocaleDateString("fr-FR")}
-										</span>
+										<span className="text-xs text-fg-muted">{new Date(tx.settledAt).toLocaleDateString("fr-FR")}</span>
 									</div>
-									<span
-										className={`text-sm font-medium tabular-nums ${
-											tx.side === "credit" ? "text-success" : "text-destructive"
-										}`}
-									>
+									<span className={`text-sm font-medium tabular-nums ${tx.side === "credit" ? "text-success" : "text-destructive"}`}>
 										{tx.side === "credit" ? "+" : "−"}
 										{formatAmount(tx.amount, tx.currency)}
 									</span>
@@ -176,11 +168,7 @@ export default function FinancesPageClient() {
 
 			{!loading && org && (
 				<BlockStack gap="400">
-					<h2 className="text-sm font-medium text-fg-muted">
-						{org.bankAccounts.length === 1
-							? "Compte bancaire"
-							: `${org.bankAccounts.length} comptes bancaires`}
-					</h2>
+					<h2 className="text-sm font-medium text-fg-muted">{org.bankAccounts.length === 1 ? "Compte bancaire" : `${org.bankAccounts.length} comptes bancaires`}</h2>
 
 					{org.bankAccounts.map((account) => (
 						<Card key={account.slug}>
@@ -193,15 +181,8 @@ export default function FinancesPageClient() {
 							<div className="divide-y divide-separator">
 								<AccountRow label="IBAN" value={formatIban(account.iban)} mono />
 								<AccountRow label="BIC" value={account.bic} mono />
-								<AccountRow
-									label="Solde"
-									value={formatAmount(account.balance, account.currency)}
-									highlight
-								/>
-								<AccountRow
-									label="Solde autorisé"
-									value={formatAmount(account.authorizedBalance, account.currency)}
-								/>
+								<AccountRow label="Solde" value={formatAmount(account.balance, account.currency)} highlight />
+								<AccountRow label="Solde autorisé" value={formatAmount(account.authorizedBalance, account.currency)} />
 								<AccountRow label="Devise" value={account.currency} />
 							</div>
 						</Card>
@@ -211,34 +192,18 @@ export default function FinancesPageClient() {
 
 			{!loading && !org && !error && (
 				<Card>
-					<div className="px-inset py-10 text-center text-sm text-fg-muted">
-						Aucune donnée disponible. Vérifiez la configuration de l'API Qonto.
-					</div>
+					<div className="px-inset py-10 text-center text-sm text-fg-muted">Aucune donnée disponible. Vérifiez la configuration de l'API Qonto.</div>
 				</Card>
 			)}
 		</BlockStack>
 	)
 }
 
-function AccountRow({
-	label,
-	value,
-	mono,
-	highlight,
-}: {
-	label: string
-	value: string
-	mono?: boolean
-	highlight?: boolean
-}) {
+function AccountRow({ label, value, mono, highlight }: { label: string; value: string; mono?: boolean; highlight?: boolean }) {
 	return (
 		<div className="flex items-center justify-between px-inset py-3">
 			<span className="text-sm text-fg-muted">{label}</span>
-			<span
-				className={`text-sm ${highlight ? "font-semibold text-fg" : "text-fg"} ${mono ? "font-mono" : ""}`}
-			>
-				{value}
-			</span>
+			<span className={`text-sm ${highlight ? "font-semibold text-fg" : "text-fg"} ${mono ? "font-mono" : ""}`}>{value}</span>
 		</div>
 	)
 }

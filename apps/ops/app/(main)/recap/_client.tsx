@@ -1,23 +1,13 @@
 "use client"
 
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
-import type {
-	BulkAction,
-	DataTableColumnDef,
-	DataTableView,
-} from "@blazz/pro/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { useMutation, useQuery } from "convex/react"
 import { endOfMonth, format, parseISO, startOfMonth, subMonths } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -84,10 +74,7 @@ export default function RecapPageClient() {
 	const setStatus = useMutation(api.timeEntries.setStatus)
 
 	const clients = useQuery(api.clients.list)
-	const clientProjects = useQuery(
-		api.projects.listByClient,
-		clientId ? { clientId: clientId as Id<"clients"> } : "skip"
-	)
+	const clientProjects = useQuery(api.projects.listByClient, clientId ? { clientId: clientId as Id<"clients"> } : "skip")
 	const allProjects = useQuery(api.projects.listAll)
 
 	const periodDates = period !== "custom" ? getPeriodDates(period) : { from, to }
@@ -116,10 +103,7 @@ export default function RecapPageClient() {
 		return map
 	}, [allProjects])
 
-	const projectOptions = useMemo(
-		() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })),
-		[allProjects]
-	)
+	const projectOptions = useMemo(() => (allProjects ?? []).map((p) => ({ label: p.name, value: p._id })), [allProjects])
 
 	// ---------------------------------------------------------------------------
 	// Columns
@@ -180,29 +164,19 @@ export default function RecapPageClient() {
 			{
 				accessorKey: "description",
 				header: "Description",
-				cell: ({ row }) => (
-					<span className="truncate max-w-[300px] inline-block">
-						{row.original.description ?? "—"}
-					</span>
-				),
+				cell: ({ row }) => <span className="truncate max-w-[300px] inline-block">{row.original.description ?? "—"}</span>,
 			},
 			{
 				accessorKey: "minutes",
 				header: "Durée",
 				enableSorting: true,
-				cell: ({ row }) => (
-					<span className="font-mono tabular-nums">{formatMinutes(row.original.minutes)}</span>
-				),
+				cell: ({ row }) => <span className="font-mono tabular-nums">{formatMinutes(row.original.minutes)}</span>,
 				meta: { align: "right" },
 			},
 			{
 				accessorKey: "hourlyRate",
 				header: "Taux",
-				cell: ({ row }) => (
-					<span className="font-mono tabular-nums text-fg-muted">
-						{Math.round(row.original.hourlyRate)}€/h
-					</span>
-				),
+				cell: ({ row }) => <span className="font-mono tabular-nums text-fg-muted">{Math.round(row.original.hourlyRate)}€/h</span>,
 				meta: { align: "right" },
 			},
 			{
@@ -212,9 +186,7 @@ export default function RecapPageClient() {
 				enableSorting: true,
 				cell: ({ row }) => {
 					const amount = (row.original.minutes / 60) * row.original.hourlyRate
-					return (
-						<span className="font-mono font-medium tabular-nums">{formatCurrency(amount)}</span>
-					)
+					return <span className="font-mono font-medium tabular-nums">{formatCurrency(amount)}</span>
 				},
 				meta: { align: "right" },
 			},
@@ -350,9 +322,7 @@ export default function RecapPageClient() {
 							"TOTAL",
 							formatMinutes(data.reduce((s: number, e: TimeEntry) => s + e.minutes, 0)),
 							"",
-							data
-								.reduce((s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate, 0)
-								.toFixed(2),
+							data.reduce((s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate, 0).toFixed(2),
 						],
 					]
 					const csv = csvRows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n")
@@ -391,13 +361,8 @@ export default function RecapPageClient() {
 					dateLabel: format(new Date(`${date}T00:00:00`), "EEEE d MMMM", {
 						locale: fr,
 					}),
-					summary:
-						dayEntries.length > 1
-							? `${dayEntries.length} entrées regroupées. ${lead} ouvre la journée.`
-							: lead,
-					topActivities: dayEntries
-						.slice(0, 3)
-						.map((entry: TimeEntry) => entry.description || "Sans description"),
+					summary: dayEntries.length > 1 ? `${dayEntries.length} entrées regroupées. ${lead} ouvre la journée.` : lead,
+					topActivities: dayEntries.slice(0, 3).map((entry: TimeEntry) => entry.description || "Sans description"),
 					note: `${formatMinutes(total)} sur cette journée.`,
 				}
 			})
@@ -408,9 +373,7 @@ export default function RecapPageClient() {
 	// ---------------------------------------------------------------------------
 
 	const totalMinutes = filteredByClient?.reduce((s: number, e: TimeEntry) => s + e.minutes, 0) ?? 0
-	const totalAmount =
-		filteredByClient?.reduce((s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate, 0) ??
-		0
+	const totalAmount = filteredByClient?.reduce((s: number, e: TimeEntry) => s + (e.minutes / 60) * e.hourlyRate, 0) ?? 0
 	const totalDays = totalMinutes / 60 / 8
 
 	useAppTopBar([{ label: "Récapitulatif" }])
@@ -427,10 +390,7 @@ export default function RecapPageClient() {
 						setClientId(v === "_all" ? "" : v)
 						setProjectId("")
 					}}
-					items={[
-						{ value: "_all", label: "Tous les clients" },
-						...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
-					]}
+					items={[{ value: "_all", label: "Tous les clients" }, ...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? [])]}
 				>
 					<SelectTrigger className="h-8 w-40 text-xs">
 						<SelectValue placeholder="Client" />
@@ -451,10 +411,7 @@ export default function RecapPageClient() {
 					<Select
 						value={projectId || "_all"}
 						onValueChange={(v) => setProjectId(v === "_all" ? "" : v)}
-						items={[
-							{ value: "_all", label: "Tous les projets" },
-							...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? []),
-						]}
+						items={[{ value: "_all", label: "Tous les projets" }, ...(clientProjects?.map((p) => ({ value: p._id, label: p.name })) ?? [])]}
 					>
 						<SelectTrigger className="h-8 w-40 text-xs">
 							<SelectValue placeholder="Projet" />
@@ -513,9 +470,7 @@ export default function RecapPageClient() {
 			{/* Summary stats */}
 			<InlineStack gap="600" blockAlign="start">
 				<div>
-					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">
-						Heures
-					</div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Heures</div>
 					<div className="text-lg font-semibold tabular-nums">{formatMinutes(totalMinutes)}</div>
 				</div>
 				<div>
@@ -523,9 +478,7 @@ export default function RecapPageClient() {
 					<div className="text-lg font-semibold tabular-nums">{totalDays.toFixed(1)}j</div>
 				</div>
 				<div>
-					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">
-						Montant
-					</div>
+					<div className="text-[11px] font-medium text-fg-muted uppercase tracking-wide">Montant</div>
 					<div className="text-lg font-semibold tabular-nums">{formatCurrency(totalAmount)}</div>
 				</div>
 			</InlineStack>
@@ -551,11 +504,7 @@ export default function RecapPageClient() {
 					},
 					amount: (values) => {
 						const total = (values as number[]).reduce((a, b) => a + b, 0)
-						return (
-							<span className="font-mono text-xs font-medium tabular-nums">
-								{formatCurrency(total)}
-							</span>
-						)
+						return <span className="font-mono text-xs font-medium tabular-nums">{formatCurrency(total)}</span>
 					},
 				}}
 				groupRowStyle={(row) => {
@@ -581,19 +530,11 @@ export default function RecapPageClient() {
 				<BlockStack gap="300" className="pt-2">
 					<BlockStack>
 						<h2 className="text-sm font-medium text-fg">Journal de période</h2>
-						<p className="text-xs text-fg-muted">
-							Lecture compacte des dernières journées présentes dans ce récapitulatif.
-						</p>
+						<p className="text-xs text-fg-muted">Lecture compacte des dernières journées présentes dans ce récapitulatif.</p>
 					</BlockStack>
 					<div className="grid gap-4 lg:grid-cols-2">
 						{journalDays.map((day) => (
-							<JournalDayCard
-								key={day.dateLabel}
-								dateLabel={day.dateLabel}
-								summary={day.summary}
-								topActivities={day.topActivities}
-								note={day.note}
-							/>
+							<JournalDayCard key={day.dateLabel} dateLabel={day.dateLabel} summary={day.summary} topActivities={day.topActivities} note={day.note} />
 						))}
 					</div>
 				</BlockStack>

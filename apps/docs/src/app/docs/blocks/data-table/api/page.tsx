@@ -146,8 +146,7 @@ const propGroups: DocPropGroup[] = [
 			{
 				name: "renderRow",
 				type: "(row: Row<TData>) => ReactNode",
-				description:
-					"Custom row layout — replaces cell-based rendering. Checkbox and actions auto-injected.",
+				description: "Custom row layout — replaces cell-based rendering. Checkbox and actions auto-injected.",
 			},
 			{
 				name: "renderExpandedRow",
@@ -259,11 +258,7 @@ const propGroups: DocPropGroup[] = [
 
 export default function ApiPage() {
 	return (
-		<DocPage
-			title="API Reference"
-			subtitle="Reference complete des props, types et interfaces du DataTable."
-			toc={toc}
-		>
+		<DocPage title="API Reference" subtitle="Reference complete des props, types et interfaces du DataTable." toc={toc}>
 			{propGroups.map((group) => (
 				<DocSection key={group.title} id={group.title.toLowerCase()} title={group.title}>
 					<DocPropsTable groups={[group]} />

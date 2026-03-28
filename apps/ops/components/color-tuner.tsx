@@ -1,10 +1,10 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
-import { Button } from "@blazz/ui/components/ui/button"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import { Palette, Copy, RotateCcw, X } from "lucide-react"
+import { Copy, Palette, RotateCcw, X } from "lucide-react"
+import { useCallback, useRef, useState } from "react"
 
 // ---------------------------------------------------------------------------
 // oklch type + format
@@ -40,7 +40,7 @@ const TOKEN_GROUPS: TokenGroup[] = [
 	{
 		name: "Surfaces",
 		tokens: [
-			{ variable: "--background", label: "background (page)", light: { l: 0.90, c: 0, h: 0 }, dark: { l: 0.145, c: 0.005, h: 270 } },
+			{ variable: "--background", label: "background (page)", light: { l: 0.9, c: 0, h: 0 }, dark: { l: 0.145, c: 0.005, h: 270 } },
 			{ variable: "--card", label: "card", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.213, c: 0.005, h: 270 } },
 			{ variable: "--muted", label: "muted (hover)", light: { l: 0.955, c: 0, h: 0 }, dark: { l: 0.246, c: 0.005, h: 270 } },
 			{ variable: "--popover", label: "popover", light: { l: 1, c: 0, h: 0 }, dark: { l: 0.28, c: 0.005, h: 270 } },
@@ -82,10 +82,10 @@ const TOKEN_GROUPS: TokenGroup[] = [
 		name: "Chart",
 		tokens: [
 			{ variable: "--chart-1", label: "chart-1", light: { l: 0.52, c: 0.12, h: 270 }, dark: { l: 0.66, c: 0.12, h: 270 } },
-			{ variable: "--chart-2", label: "chart-2", light: { l: 0.50, c: 0.11, h: 162 }, dark: { l: 0.64, c: 0.11, h: 162 } },
-			{ variable: "--chart-3", label: "chart-3", light: { l: 0.56, c: 0.10, h: 78 }, dark: { l: 0.70, c: 0.10, h: 78 } },
-			{ variable: "--chart-4", label: "chart-4", light: { l: 0.50, c: 0.12, h: 330 }, dark: { l: 0.64, c: 0.12, h: 330 } },
-			{ variable: "--chart-5", label: "chart-5", light: { l: 0.50, c: 0.10, h: 15 }, dark: { l: 0.64, c: 0.10, h: 15 } },
+			{ variable: "--chart-2", label: "chart-2", light: { l: 0.5, c: 0.11, h: 162 }, dark: { l: 0.64, c: 0.11, h: 162 } },
+			{ variable: "--chart-3", label: "chart-3", light: { l: 0.56, c: 0.1, h: 78 }, dark: { l: 0.7, c: 0.1, h: 78 } },
+			{ variable: "--chart-4", label: "chart-4", light: { l: 0.5, c: 0.12, h: 330 }, dark: { l: 0.64, c: 0.12, h: 330 } },
+			{ variable: "--chart-5", label: "chart-5", light: { l: 0.5, c: 0.1, h: 15 }, dark: { l: 0.64, c: 0.1, h: 15 } },
 		],
 	},
 	{
@@ -106,89 +106,30 @@ const TOKEN_GROUPS: TokenGroup[] = [
 // Sub-components
 // ---------------------------------------------------------------------------
 
-function SliderField({
-	label,
-	value,
-	min,
-	max,
-	step,
-	onChange,
-}: {
-	label: string
-	value: number
-	min: number
-	max: number
-	step: number
-	onChange: (v: number) => void
-}) {
+function SliderField({ label, value, min, max, step, onChange }: { label: string; value: number; min: number; max: number; step: number; onChange: (v: number) => void }) {
 	return (
 		<BlockStack gap="050">
 			<InlineStack blockAlign="center" align="space-between" gap="100">
 				<span className="text-2xs text-fg-muted">{label}</span>
-				<span className="text-2xs text-fg-muted font-mono tabular-nums">
-					{label === "H" ? value.toFixed(0) : value.toFixed(3)}
-				</span>
+				<span className="text-2xs text-fg-muted font-mono tabular-nums">{label === "H" ? value.toFixed(0) : value.toFixed(3)}</span>
 			</InlineStack>
-			<input
-				type="range"
-				value={value}
-				min={min}
-				max={max}
-				step={step}
-				onChange={(e) => onChange(Number.parseFloat(e.target.value))}
-				aria-label={label}
-				className="w-full h-1.5 accent-brand"
-			/>
+			<input type="range" value={value} min={min} max={max} step={step} onChange={(e) => onChange(Number.parseFloat(e.target.value))} aria-label={label} className="w-full h-1.5 accent-brand" />
 		</BlockStack>
 	)
 }
 
-function TokenRow({
-	token,
-	value,
-	onChange,
-}: {
-	token: TokenDef
-	value: Oklch
-	onChange: (v: Oklch) => void
-}) {
+function TokenRow({ token, value, onChange }: { token: TokenDef; value: Oklch; onChange: (v: Oklch) => void }) {
 	return (
 		<BlockStack gap="150">
 			<InlineStack blockAlign="center" gap="200">
-				<div
-					className="size-4 shrink-0 rounded-sm border border-edge"
-					style={{ backgroundColor: fmt(value) }}
-				/>
+				<div className="size-4 shrink-0 rounded-sm border border-edge" style={{ backgroundColor: fmt(value) }} />
 				<span className="text-xs font-medium text-fg">{token.label}</span>
-				<span className="ml-auto text-2xs text-fg-muted font-mono">
-					{fmt(value)}
-				</span>
+				<span className="ml-auto text-2xs text-fg-muted font-mono">{fmt(value)}</span>
 			</InlineStack>
 			<div className="grid grid-cols-3 gap-2">
-				<SliderField
-					label="L"
-					value={value.l}
-					min={0}
-					max={1}
-					step={0.005}
-					onChange={(l) => onChange({ ...value, l })}
-				/>
-				<SliderField
-					label="C"
-					value={value.c}
-					min={0}
-					max={0.4}
-					step={0.005}
-					onChange={(c) => onChange({ ...value, c })}
-				/>
-				<SliderField
-					label="H"
-					value={value.h}
-					min={0}
-					max={360}
-					step={1}
-					onChange={(h) => onChange({ ...value, h })}
-				/>
+				<SliderField label="L" value={value.l} min={0} max={1} step={0.005} onChange={(l) => onChange({ ...value, l })} />
+				<SliderField label="C" value={value.c} min={0} max={0.4} step={0.005} onChange={(c) => onChange({ ...value, c })} />
+				<SliderField label="H" value={value.h} min={0} max={360} step={1} onChange={(h) => onChange({ ...value, h })} />
 			</div>
 		</BlockStack>
 	)
@@ -229,14 +170,11 @@ export function ColorTuner() {
 		setOpen(true)
 	}, [])
 
-	const handleTokenChange = useCallback(
-		(variable: string, newValue: Oklch) => {
-			setValues((prev) => ({ ...prev, [variable]: newValue }))
-			modifiedRef.current.add(variable)
-			document.documentElement.style.setProperty(variable, fmt(newValue))
-		},
-		[]
-	)
+	const handleTokenChange = useCallback((variable: string, newValue: Oklch) => {
+		setValues((prev) => ({ ...prev, [variable]: newValue }))
+		modifiedRef.current.add(variable)
+		document.documentElement.style.setProperty(variable, fmt(newValue))
+	}, [])
 
 	const handleReset = useCallback(() => {
 		for (const group of TOKEN_GROUPS) {
@@ -263,12 +201,7 @@ export function ColorTuner() {
 
 	return (
 		<>
-			<Button
-				variant="outline"
-				size="icon"
-				onClick={() => (open ? setOpen(false) : handleOpen())}
-				className="fixed bottom-4 right-4 z-50 size-9 rounded-full shadow-lg"
-			>
+			<Button variant="outline" size="icon" onClick={() => (open ? setOpen(false) : handleOpen())} className="fixed bottom-4 right-4 z-50 size-9 rounded-full shadow-lg">
 				<Palette className="size-4" />
 			</Button>
 
@@ -276,11 +209,7 @@ export function ColorTuner() {
 				<div className="fixed top-2 bottom-2 right-2 z-50 flex w-[320px] flex-col bg-popover shadow-lg border border-container rounded-xl overflow-hidden">
 					<div className="flex items-center justify-between px-4 py-3 border-b border-separator">
 						<span className="text-sm font-medium text-fg">Color Tuner</span>
-						<Button
-							variant="ghost"
-							size="icon-sm"
-							onClick={() => setOpen(false)}
-						>
+						<Button variant="ghost" size="icon-sm" onClick={() => setOpen(false)}>
 							<X className="size-3.5" />
 						</Button>
 					</div>
@@ -289,19 +218,10 @@ export function ColorTuner() {
 						<BlockStack gap="600">
 							{TOKEN_GROUPS.map((group) => (
 								<BlockStack key={group.name} gap="200">
-									<h3 className="text-xs uppercase text-fg-muted tracking-wider font-medium">
-										{group.name}
-									</h3>
+									<h3 className="text-xs uppercase text-fg-muted tracking-wider font-medium">{group.name}</h3>
 									<BlockStack gap="300">
 										{group.tokens.map((token) => (
-											<TokenRow
-												key={token.variable}
-												token={token}
-												value={values[token.variable] ?? token.dark}
-												onChange={(v) =>
-													handleTokenChange(token.variable, v)
-												}
-											/>
+											<TokenRow key={token.variable} token={token} value={values[token.variable] ?? token.dark} onChange={(v) => handleTokenChange(token.variable, v)} />
 										))}
 									</BlockStack>
 								</BlockStack>

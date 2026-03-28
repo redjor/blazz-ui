@@ -2,13 +2,7 @@
 
 import { Button } from "@blazz/ui/components/ui/button"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -42,15 +36,7 @@ interface Props {
 	date: string | null
 }
 
-export function QuickTimeEntryModal({
-	open,
-	onOpenChange,
-	projectId,
-	projectName,
-	hourlyRate,
-	hoursPerDay,
-	date,
-}: Props) {
+export function QuickTimeEntryModal({ open, onOpenChange, projectId, projectName, hourlyRate, hoursPerDay, date }: Props) {
 	const create = useMutation(api.timeEntries.create)
 	const allTags = useQuery(api.timeEntries.distinctTags)
 
@@ -118,62 +104,30 @@ export function QuickTimeEntryModal({
 						<Label htmlFor="quick-hours">Durée *</Label>
 						{hoursPerDay && hoursPerDay > 0 && (
 							<div className="flex gap-2">
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									className="flex-1 h-8 text-xs"
-									onClick={() => setValue("hours", hoursPerDay / 2)}
-								>
+								<Button type="button" variant="outline" size="sm" className="flex-1 h-8 text-xs" onClick={() => setValue("hours", hoursPerDay / 2)}>
 									½ journée ({hoursPerDay / 2}h)
 								</Button>
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									className="flex-1 h-8 text-xs"
-									onClick={() => setValue("hours", hoursPerDay)}
-								>
+								<Button type="button" variant="outline" size="sm" className="flex-1 h-8 text-xs" onClick={() => setValue("hours", hoursPerDay)}>
 									Journée ({hoursPerDay}h)
 								</Button>
 							</div>
 						)}
-						<Input
-							id="quick-hours"
-							type="number"
-							step="0.25"
-							min="0.25"
-							max="24"
-							autoFocus
-							{...register("hours")}
-						/>
+						<Input id="quick-hours" type="number" step="0.25" min="0.25" max="24" autoFocus {...register("hours")} />
 						{errors.hours && <p className="text-xs text-red-500">{errors.hours.message}</p>}
 					</div>
 
 					<div className="space-y-1.5">
 						<Label htmlFor="quick-description">Description</Label>
-						<Input
-							id="quick-description"
-							placeholder="Ce qui a été fait…"
-							{...register("description")}
-						/>
+						<Input id="quick-description" placeholder="Ce qui a été fait…" {...register("description")} />
 					</div>
 
 					<div className="space-y-1.5">
 						<Label>Tags</Label>
-						<TagInput
-							value={watch("tags") ?? []}
-							onChange={(tags) => setValue("tags", tags)}
-							suggestions={allTags ?? []}
-						/>
+						<TagInput value={watch("tags") ?? []} onChange={(tags) => setValue("tags", tags)} suggestions={allTags ?? []} />
 					</div>
 
 					<div className="flex items-center gap-2">
-						<Checkbox
-							id="quick-billable"
-							checked={watch("billable")}
-							onCheckedChange={(v) => setValue("billable", !!v)}
-						/>
+						<Checkbox id="quick-billable" checked={watch("billable")} onCheckedChange={(v) => setValue("billable", !!v)} />
 						<Label htmlFor="quick-billable" className="font-normal cursor-pointer">
 							Facturable
 						</Label>

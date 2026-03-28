@@ -1,5 +1,5 @@
-import OpenAI from "openai"
 import type { ConvexHttpClient } from "convex/browser"
+import OpenAI from "openai"
 import { api } from "./convex"
 
 let _openai: OpenAI
@@ -44,7 +44,7 @@ export async function extractAndSaveMemories(
 	userId: string,
 	missionId: string | undefined,
 	output: string,
-	source: "mission" | "chat",
+	source: "mission" | "chat"
 ): Promise<MemoryExtraction | undefined> {
 	try {
 		const response = await getOpenAI().chat.completions.create({
@@ -159,13 +159,7 @@ Si rien d'intéressant, retourne tous les tableaux vides.`,
 	}
 }
 
-export async function consolidatePostMission(
-	convex: ConvexHttpClient,
-	agentId: string,
-	userId: string,
-	missionId: string | undefined,
-	newMemories: MemoryExtraction,
-) {
+export async function consolidatePostMission(convex: ConvexHttpClient, agentId: string, userId: string, missionId: string | undefined, newMemories: MemoryExtraction) {
 	const allNew = [
 		...(newMemories.facts ?? []).map((c) => ({ content: c, category: "fact" })),
 		...(newMemories.preferences ?? []).map((c) => ({ content: c, category: "preference" })),
@@ -243,11 +237,7 @@ export async function consolidatePostMission(
 			const category = ins.category as "fact" | "preference" | "episode" | "pattern" | "rule"
 			const thirtyDays = 30 * 24 * 60 * 60 * 1000
 			const ninetyDays = 90 * 24 * 60 * 60 * 1000
-			const expiresAt = category === "fact"
-				? Date.now() + thirtyDays
-				: category === "episode"
-					? Date.now() + ninetyDays
-					: undefined
+			const expiresAt = category === "fact" ? Date.now() + thirtyDays : category === "episode" ? Date.now() + ninetyDays : undefined
 
 			await convex.mutation(api.worker.workerAddMemory, {
 				userId: userId as any,

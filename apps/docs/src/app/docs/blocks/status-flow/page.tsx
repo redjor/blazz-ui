@@ -179,14 +179,12 @@ const statusFlowProps: DocProp[] = [
 		name: "transitions",
 		type: "StatusTransition[]",
 		default: "[]",
-		description:
-			"Available transitions from each status. Buttons are shown for transitions matching the current status.",
+		description: "Available transitions from each status. Buttons are shown for transitions matching the current status.",
 	},
 	{
 		name: "onTransition",
 		type: "(from: string, to: string) => void | Promise<void>",
-		description:
-			"Callback when a transition button is clicked. Supports async handlers with automatic loading state.",
+		description: "Callback when a transition button is clicked. Supports async handlers with automatic loading state.",
 	},
 	{
 		name: "className",
@@ -209,8 +207,7 @@ const statusDefinitionProps: DocProp[] = [
 	{
 		name: "color",
 		type: '"gray" | "blue" | "green" | "yellow" | "red" | "purple"',
-		description:
-			"Color theme for the status badge. Active status uses a solid variant, past statuses use a light variant, future statuses are dimmed.",
+		description: "Color theme for the status badge. Active status uses a solid variant, past statuses use a light variant, future statuses are dimmed.",
 	},
 ]
 
@@ -218,8 +215,7 @@ const statusTransitionProps: DocProp[] = [
 	{
 		name: "from",
 		type: "string",
-		description:
-			"Source status id. The transition button only appears when currentStatus matches this value.",
+		description: "Source status id. The transition button only appears when currentStatus matches this value.",
 	},
 	{
 		name: "to",
@@ -234,8 +230,7 @@ const statusTransitionProps: DocProp[] = [
 	{
 		name: "role",
 		type: "string",
-		description:
-			'Optional role hint for documentation or permission checks (e.g. "commercial", "logistique").',
+		description: 'Optional role hint for documentation or permission checks (e.g. "commercial", "logistique").',
 	},
 ]
 
@@ -260,12 +255,7 @@ function StatusFlowHeroDemo() {
 
 	return (
 		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
-			<StatusFlow
-				currentStatus={current}
-				statuses={pipelineStatuses}
-				transitions={pipelineTransitions}
-				onTransition={(_from, to) => setCurrent(to)}
-			/>
+			<StatusFlow currentStatus={current} statuses={pipelineStatuses} transitions={pipelineTransitions} onTransition={(_from, to) => setCurrent(to)} />
 		</div>
 	)
 }
@@ -279,11 +269,7 @@ function BasicPipelineDemo() {
 
 	return (
 		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
-			<StatusFlow
-				currentStatus={current}
-				statuses={pipelineStatuses}
-				onTransition={(_from, to) => setCurrent(to)}
-			/>
+			<StatusFlow currentStatus={current} statuses={pipelineStatuses} onTransition={(_from, to) => setCurrent(to)} />
 		</div>
 	)
 }
@@ -293,12 +279,7 @@ function TransitionsPipelineDemo() {
 
 	return (
 		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
-			<StatusFlow
-				currentStatus={current}
-				statuses={pipelineStatuses}
-				transitions={pipelineTransitions}
-				onTransition={(_from, to) => setCurrent(to)}
-			/>
+			<StatusFlow currentStatus={current} statuses={pipelineStatuses} transitions={pipelineTransitions} onTransition={(_from, to) => setCurrent(to)} />
 		</div>
 	)
 }
@@ -308,12 +289,7 @@ function OrderFlowDemo() {
 
 	return (
 		<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
-			<StatusFlow
-				currentStatus={current}
-				statuses={orderStatuses}
-				transitions={orderTransitions}
-				onTransition={(_from, to) => setCurrent(to)}
-			/>
+			<StatusFlow currentStatus={current} statuses={orderStatuses} transitions={orderTransitions} onTransition={(_from, to) => setCurrent(to)} />
 		</div>
 	)
 }
@@ -327,11 +303,7 @@ export default function StatusFlowPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Status Flow"
-			subtitle="A linear status pipeline with colored badges, chevron separators, transition action buttons, and async support for workflow state machines."
-			toc={toc}
-		>
+		<DocPage title="Status Flow" subtitle="A linear status pipeline with colored badges, chevron separators, transition action buttons, and async support for workflow state machines." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<StatusFlowHeroDemo />
@@ -394,8 +366,7 @@ export default function StatusFlowPage() {
 						{
 							title: "Multi Step Form",
 							href: "/docs/blocks/multi-step-form",
-							description:
-								"Step-by-step form wizard with validation, progress indicator, and navigation.",
+							description: "Step-by-step form wizard with validation, progress indicator, and navigation.",
 						},
 						{
 							title: "Stats Grid",

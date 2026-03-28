@@ -15,9 +15,7 @@ async function main() {
 
 	const themes = themeArg && themeArg !== "both" ? [themeArg as "light" | "dark"] : THEMES
 
-	const entries = componentArg
-		? thumbnailRegistry.filter((e) => e.slug === componentArg)
-		: thumbnailRegistry
+	const entries = componentArg ? thumbnailRegistry.filter((e) => e.slug === componentArg) : thumbnailRegistry
 
 	if (entries.length === 0) {
 		console.error(`No component found for: ${componentArg}`)
@@ -36,9 +34,7 @@ async function main() {
 	let success = 0
 	let errors = 0
 
-	console.log(
-		`Generating thumbnails for ${entries.length} components × ${themes.length} themes...\n`
-	)
+	console.log(`Generating thumbnails for ${entries.length} components × ${themes.length} themes...\n`)
 
 	for (const entry of entries) {
 		for (const theme of themes) {
@@ -50,9 +46,7 @@ async function main() {
 				await page.waitForTimeout(500)
 				// Hide Next.js dev indicator
 				await page.evaluate(() => {
-					document
-						.querySelectorAll("[data-next-badge-root], nextjs-portal")
-						.forEach((el) => el.remove())
+					document.querySelectorAll("[data-next-badge-root], nextjs-portal").forEach((el) => el.remove())
 				})
 				await page.screenshot({ path: outPath, type: "png" })
 				console.log(`  ✓ ${theme}/${entry.slug}.png`)

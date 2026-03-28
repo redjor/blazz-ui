@@ -1,9 +1,9 @@
 "use client"
 
 import { useMutation, useQuery } from "convex/react"
-import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react"
+import { createContext, type ReactNode, useCallback, useContext, useMemo } from "react"
 import { api } from "@/convex/_generated/api"
-import { type FeatureFlag, defaults, routeToFlag } from "./features"
+import { defaults, type FeatureFlag, routeToFlag } from "./features"
 
 interface FeatureFlagsContextValue {
 	isEnabled: (flag: FeatureFlag) => boolean
@@ -44,13 +44,10 @@ export function FeatureFlagsProvider({ children }: { children: ReactNode }) {
 				await setSetting({ key: `${SETTING_PREFIX}${flag}`, value: String(enabled) })
 			}
 		},
-		[setSetting, removeSetting],
+		[setSetting, removeSetting]
 	)
 
-	const value = useMemo(
-		() => ({ isEnabled, setFlag, flags, isLoaded: allSettings !== undefined }),
-		[isEnabled, setFlag, flags, allSettings],
-	)
+	const value = useMemo(() => ({ isEnabled, setFlag, flags, isLoaded: allSettings !== undefined }), [isEnabled, setFlag, flags, allSettings])
 
 	return <FeatureFlagsContext.Provider value={value}>{children}</FeatureFlagsContext.Provider>
 }

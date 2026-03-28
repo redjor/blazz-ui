@@ -30,11 +30,7 @@ export const filterBarData: ComponentData = {
 		},
 		{ name: "onReset", type: "() => void", description: "Callback reset tous les filtres." },
 	],
-	gotchas: [
-		"FilterBar goes ABOVE the DataTable, outside of it — not inside",
-		"Persist filters in URL searchParams for back-button support",
-		"onReset should clear both search and all activeFilters",
-	],
+	gotchas: ["FilterBar goes ABOVE the DataTable, outside of it — not inside", "Persist filters in URL searchParams for back-button support", "onReset should clear both search and all activeFilters"],
 	canonicalExample: `<FilterBar
   search={search}
   onSearchChange={setSearch}

@@ -14,11 +14,7 @@ export const ENTRY_STATUS_LABELS: Record<EntryStatus, string> = {
  * Priority: explicit `status` field > legacy `invoicedAt` > default "draft"
  * Returns null for non-billable entries (outside billing scope).
  */
-export function getEffectiveStatus(entry: {
-	status?: EntryStatus | null
-	billable: boolean
-	invoicedAt?: number | null
-}): EntryStatus | null {
+export function getEffectiveStatus(entry: { status?: EntryStatus | null; billable: boolean; invoicedAt?: number | null }): EntryStatus | null {
 	if (!entry.billable) return null
 	if (entry.status) return entry.status
 	if (entry.invoicedAt) return "invoiced"

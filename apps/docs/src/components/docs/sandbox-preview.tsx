@@ -7,13 +7,7 @@ import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { RadioGroup } from "@blazz/ui/components/ui/radio-group"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { X } from "lucide-react"
 import { useState } from "react"
 
@@ -36,11 +30,7 @@ export function SandboxPreview() {
 						<h2 className="text-base font-semibold text-fg">Service Fee</h2>
 						<p className="text-sm text-fg-muted">Configure your service pricing and terms</p>
 					</div>
-					<button
-						type="button"
-						className="rounded-md p-1 text-fg-muted hover:text-fg hover:bg-muted transition-colors"
-						aria-label="Fermer"
-					>
+					<button type="button" className="rounded-md p-1 text-fg-muted hover:text-fg hover:bg-muted transition-colors" aria-label="Fermer">
 						<X className="size-4" />
 					</button>
 				</div>
@@ -54,9 +44,7 @@ export function SandboxPreview() {
 								type="button"
 								onClick={() => setActiveTab(t.id)}
 								className={`pb-3 pr-5 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
-									activeTab === t.id
-										? "border-brand text-fg"
-										: "border-transparent text-fg-muted hover:text-fg"
+									activeTab === t.id ? "border-brand text-fg" : "border-transparent text-fg-muted hover:text-fg"
 								}`}
 							>
 								{t.label}
@@ -72,9 +60,7 @@ export function SandboxPreview() {
 						<Label className="text-sm font-medium text-fg">Amount</Label>
 						<div className="flex gap-2">
 							<div className="relative flex-1">
-								<span className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted text-sm pointer-events-none">
-									€
-								</span>
+								<span className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted text-sm pointer-events-none">€</span>
 								<Input type="number" defaultValue="0.00" step="0.01" min="0" className="pl-7" />
 							</div>
 							<Select
@@ -100,9 +86,7 @@ export function SandboxPreview() {
 					{/* Eligibility Criteria */}
 					<div>
 						<div className="px-6 py-2 bg-muted">
-							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
-								Eligibility Criteria
-							</span>
+							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">Eligibility Criteria</span>
 						</div>
 						<div className="px-6 py-4 flex flex-col gap-3">
 							<Select
@@ -122,11 +106,7 @@ export function SandboxPreview() {
 								</SelectContent>
 							</Select>
 							<div className="flex items-center gap-2">
-								<Checkbox
-									id="existing-account"
-									checked={prerequisiteChecked}
-									onCheckedChange={(checked) => setPrerequisiteChecked(checked === true)}
-								/>
+								<Checkbox id="existing-account" checked={prerequisiteChecked} onCheckedChange={(checked) => setPrerequisiteChecked(checked === true)} />
 								<Label htmlFor="existing-account" className="text-sm text-fg cursor-pointer">
 									Client must have an existing account
 								</Label>
@@ -137,9 +117,7 @@ export function SandboxPreview() {
 					{/* Payment Methods */}
 					<div>
 						<div className="px-6 py-2 bg-muted">
-							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
-								Payment Methods
-							</span>
+							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">Payment Methods</span>
 						</div>
 						<div className="px-6 py-4">
 							<CheckboxGroup
@@ -168,9 +146,7 @@ export function SandboxPreview() {
 					{/* Service Availability */}
 					<div>
 						<div className="px-6 py-2 bg-muted">
-							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
-								Service Availability
-							</span>
+							<span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">Service Availability</span>
 						</div>
 						<div className="px-6 py-4">
 							<RadioGroup

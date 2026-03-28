@@ -1,13 +1,7 @@
 "use client"
 
 import { Badge } from "@blazz/ui/components/ui/badge"
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 
 type JournalDayCardProps = {
 	dateLabel: string
@@ -24,14 +18,7 @@ const ENERGY_CONFIG = {
 	low: { label: "Énergie basse", variant: "warning" as const },
 }
 
-export function JournalDayCard({
-	dateLabel,
-	summary,
-	energy,
-	topActivities = [],
-	note,
-	onClick,
-}: JournalDayCardProps) {
+export function JournalDayCard({ dateLabel, summary, energy, topActivities = [], note, onClick }: JournalDayCardProps) {
 	const content = (
 		<Card className="transition-colors hover:bg-muted/30">
 			<CardHeader>
@@ -50,11 +37,7 @@ export function JournalDayCard({
 						{ENERGY_CONFIG[energy].label}
 					</Badge>
 				) : null}
-				{note ? (
-					<div className="rounded-md border border-edge bg-muted px-3 py-2 text-sm text-fg-muted">
-						{note}
-					</div>
-				) : null}
+				{note ? <div className="rounded-md border border-edge bg-muted px-3 py-2 text-sm text-fg-muted">{note}</div> : null}
 			</CardContent>
 		</Card>
 	)

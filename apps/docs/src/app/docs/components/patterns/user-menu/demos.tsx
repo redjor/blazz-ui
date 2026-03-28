@@ -16,15 +16,7 @@ const mockUserWithAvatar = {
 }
 
 export function BasicDemo() {
-	return (
-		<UserMenu
-			user={mockUser}
-			badge="Pro"
-			onProfile={() => {}}
-			onSettings={() => {}}
-			onLogout={() => {}}
-		/>
-	)
+	return <UserMenu user={mockUser} badge="Pro" onProfile={() => {}} onSettings={() => {}} onLogout={() => {}} />
 }
 
 export function ProfileOnlyDemo() {
@@ -32,15 +24,7 @@ export function ProfileOnlyDemo() {
 }
 
 export function WithAvatarDemo() {
-	return (
-		<UserMenu
-			user={mockUserWithAvatar}
-			badge="Pro"
-			onProfile={() => {}}
-			onSettings={() => {}}
-			onLogout={() => {}}
-		/>
-	)
+	return <UserMenu user={mockUserWithAvatar} badge="Pro" onProfile={() => {}} onSettings={() => {}} onLogout={() => {}} />
 }
 
 export function MinimalDemo() {

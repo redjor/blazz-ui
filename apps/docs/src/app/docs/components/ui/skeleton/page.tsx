@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Card, CardContent, CardHeader } from "@blazz/ui/components/ui/card"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -101,11 +101,7 @@ export default function SkeletonPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Skeleton"
-			subtitle="Display placeholder content while data is loading."
-			toc={toc}
-		>
+		<DocPage title="Skeleton" subtitle="Display placeholder content while data is loading." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-sm space-y-3">
 					<div className="flex items-center gap-3">
@@ -121,12 +117,7 @@ export default function SkeletonPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Skeleton"
-					description="Simple skeleton shapes for loading states."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Skeleton" description="Simple skeleton shapes for loading states." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="space-y-2">
 						<Skeleton className="h-4 w-full" />
 						<Skeleton className="h-4 w-full" />
@@ -134,12 +125,7 @@ export default function SkeletonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Card Skeleton"
-					description="Skeleton for a card with avatar and text."
-					code={examples[1].code}
-					highlightedCode={html("card")}
-				>
+				<DocExampleClient title="Card Skeleton" description="Skeleton for a card with avatar and text." code={examples[1].code} highlightedCode={html("card")}>
 					<Card>
 						<CardHeader>
 							<div className="flex items-center gap-4">
@@ -160,12 +146,7 @@ export default function SkeletonPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="List Skeleton"
-					description="Skeleton for a list of items."
-					code={examples[2].code}
-					highlightedCode={html("list")}
-				>
+				<DocExampleClient title="List Skeleton" description="Skeleton for a list of items." code={examples[2].code} highlightedCode={html("list")}>
 					<div className="space-y-4">
 						{[1, 2, 3].map((i) => (
 							<div key={i} className="flex items-center gap-4">
@@ -179,12 +160,7 @@ export default function SkeletonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Table Skeleton"
-					description="Skeleton for a table layout."
-					code={examples[3].code}
-					highlightedCode={html("table")}
-				>
+				<DocExampleClient title="Table Skeleton" description="Skeleton for a table layout." code={examples[3].code} highlightedCode={html("table")}>
 					<div className="space-y-3">
 						<div className="flex gap-4">
 							<Skeleton className="h-8 flex-1" />
@@ -203,12 +179,7 @@ export default function SkeletonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Article Skeleton"
-					description="Skeleton for article or blog post."
-					code={examples[4].code}
-					highlightedCode={html("article")}
-				>
+				<DocExampleClient title="Article Skeleton" description="Skeleton for article or blog post." code={examples[4].code} highlightedCode={html("article")}>
 					<div className="space-y-4">
 						<Skeleton className="h-8 w-3/4" />
 						<Skeleton className="h-4 w-1/2" />
@@ -224,9 +195,7 @@ export default function SkeletonPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Skeleton uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Skeleton uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Skeleton background color
@@ -246,27 +215,19 @@ export default function SkeletonPage() {
 					<div className="space-y-4">
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Avatar + Text</h4>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
-								&lt;Skeleton className="h-12 w-12 rounded-full" /&gt;
-							</code>
+							<code className="text-xs bg-muted px-2 py-1 rounded">&lt;Skeleton className="h-12 w-12 rounded-full" /&gt;</code>
 						</div>
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Text Line</h4>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
-								&lt;Skeleton className="h-4 w-full" /&gt;
-							</code>
+							<code className="text-xs bg-muted px-2 py-1 rounded">&lt;Skeleton className="h-4 w-full" /&gt;</code>
 						</div>
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Image/Thumbnail</h4>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
-								&lt;Skeleton className="h-48 w-full" /&gt;
-							</code>
+							<code className="text-xs bg-muted px-2 py-1 rounded">&lt;Skeleton className="h-48 w-full" /&gt;</code>
 						</div>
 						<div>
 							<h4 className="font-semibold text-sm mb-2 text-fg-muted">Button</h4>
-							<code className="text-xs bg-muted px-2 py-1 rounded">
-								&lt;Skeleton className="h-10 w-24" /&gt;
-							</code>
+							<code className="text-xs bg-muted px-2 py-1 rounded">&lt;Skeleton className="h-10 w-24" /&gt;</code>
 						</div>
 					</div>
 				</div>

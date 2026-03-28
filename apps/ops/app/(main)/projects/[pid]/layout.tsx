@@ -17,21 +17,10 @@ export default function ProjectLayout({ params, children }: Props) {
 	const { pid } = use(params)
 	const project = useQuery(api.projects.get, { id: pid as Id<"projects"> })
 	const clientId = project?.clientId
-	const client = useQuery(
-		api.clients.get,
-		clientId ? { id: clientId } : "skip"
-	)
+	const client = useQuery(api.clients.get, clientId ? { id: clientId } : "skip")
 	const basePath = `/projects/${pid}`
 
-	useAppTopBar(
-		project != null
-			? [
-					{ label: "Clients", href: "/clients" },
-					{ label: client?.name ?? "...", href: `/clients/${clientId}` },
-					{ label: project.name },
-				]
-			: null
-	)
+	useAppTopBar(project != null ? [{ label: "Clients", href: "/clients" }, { label: client?.name ?? "...", href: `/clients/${clientId}` }, { label: project.name }] : null)
 
 	if (project === undefined) {
 		return (
@@ -56,9 +45,7 @@ export default function ProjectLayout({ params, children }: Props) {
 			<div className="border-b border-edge/50">
 				<ProjectTabs basePath={basePath} />
 			</div>
-			<div className="flex-1 min-w-0 overflow-y-auto">
-				{children}
-			</div>
+			<div className="flex-1 min-w-0 overflow-y-auto">{children}</div>
 		</div>
 	)
 }

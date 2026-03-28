@@ -15,8 +15,7 @@ export const statsGridData: ComponentData = {
 			name: "stats",
 			type: "StatItem[]",
 			required: true,
-			description:
-				"Tableau de stats à afficher. Chaque item: { label, value, trend?, trendInverted?, icon? }.",
+			description: "Tableau de stats à afficher. Chaque item: { label, value, trend?, trendInverted?, icon? }.",
 		},
 		{
 			name: "columns",

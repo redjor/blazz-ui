@@ -29,12 +29,8 @@ export function InvoiceSection({ projectId }: Props) {
 
 	if (!invoices || invoices.length === 0) return null
 
-	const totalInvoiced = invoices
-		.filter((i) => i.status === "sent" || i.status === "paid")
-		.reduce((s, i) => s + i.totalAmount, 0)
-	const totalPaid = invoices
-		.filter((i) => i.status === "paid")
-		.reduce((s, i) => s + i.totalAmount, 0)
+	const totalInvoiced = invoices.filter((i) => i.status === "sent" || i.status === "paid").reduce((s, i) => s + i.totalAmount, 0)
+	const totalPaid = invoices.filter((i) => i.status === "paid").reduce((s, i) => s + i.totalAmount, 0)
 
 	return (
 		<div className="space-y-4">
@@ -44,17 +40,13 @@ export function InvoiceSection({ projectId }: Props) {
 				<Card>
 					<CardContent className="p-4">
 						<p className="text-xs text-fg-muted mb-1">Facturé</p>
-						<p className="text-xl font-semibold font-mono">
-							{(totalInvoiced / 100).toLocaleString("fr-FR")} €
-						</p>
+						<p className="text-xl font-semibold font-mono">{(totalInvoiced / 100).toLocaleString("fr-FR")} €</p>
 					</CardContent>
 				</Card>
 				<Card>
 					<CardContent className="p-4">
 						<p className="text-xs text-fg-muted mb-1">Encaissé</p>
-						<p className="text-xl font-semibold font-mono text-green-600 dark:text-green-400">
-							{(totalPaid / 100).toLocaleString("fr-FR")} €
-						</p>
+						<p className="text-xl font-semibold font-mono text-green-600 dark:text-green-400">{(totalPaid / 100).toLocaleString("fr-FR")} €</p>
 					</CardContent>
 				</Card>
 			</div>
@@ -75,12 +67,8 @@ export function InvoiceSection({ projectId }: Props) {
 							<tr key={inv._id} className="border-t border-edge">
 								<td className="px-3 py-2 font-mono text-fg">{inv.qontoNumber ?? "—"}</td>
 								<td className="px-3 py-2 text-fg truncate max-w-[200px]">{inv.label}</td>
-								<td className="text-right px-3 py-2 font-mono text-fg">
-									{(inv.totalAmount / 100).toLocaleString("fr-FR")} €
-								</td>
-								<td className={`text-center px-3 py-2 font-medium ${STATUS_COLOR[inv.status]}`}>
-									{STATUS_LABEL[inv.status]}
-								</td>
+								<td className="text-right px-3 py-2 font-mono text-fg">{(inv.totalAmount / 100).toLocaleString("fr-FR")} €</td>
+								<td className={`text-center px-3 py-2 font-medium ${STATUS_COLOR[inv.status]}`}>{STATUS_LABEL[inv.status]}</td>
 								<td className="text-right px-3 py-2">
 									{inv.status === "sent" && (
 										<Button

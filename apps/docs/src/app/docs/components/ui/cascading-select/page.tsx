@@ -58,8 +58,7 @@ const cascadingSelectProps: DocProp[] = [
 	{
 		name: "nodes",
 		type: "CascadingSelectNode[]",
-		description:
-			"Root-level nodes of the tree. Each node has id, label, and optional children array.",
+		description: "Root-level nodes of the tree. Each node has id, label, and optional children array.",
 	},
 	{
 		name: "value",
@@ -94,11 +93,7 @@ export default function CascadingSelectPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Cascading Select"
-			subtitle="A drill-down select for hierarchical data. Navigate level by level with breadcrumb orientation, selecting any node at any depth."
-			toc={toc}
-		>
+		<DocPage title="Cascading Select" subtitle="A drill-down select for hierarchical data. Navigate level by level with breadcrumb orientation, selecting any node at any depth." toc={toc}>
 			<DocHero>
 				<WithLabelDemo />
 			</DocHero>
@@ -122,12 +117,7 @@ export default function CascadingSelectPage() {
 					<WithLabelDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Geographic Zones"
-					description="Works for any hierarchical data — countries, regions, cities."
-					code={examples[2].code}
-					highlightedCode={html("geographic")}
-				>
+				<DocExampleClient title="Geographic Zones" description="Works for any hierarchical data — countries, regions, cities." code={examples[2].code} highlightedCode={html("geographic")}>
 					<GeographicDemo />
 				</DocExampleClient>
 			</DocSection>
@@ -138,19 +128,10 @@ export default function CascadingSelectPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>
-						Use CascadingSelect when data has natural parent-child hierarchy (categories,
-						geographies, org structures)
-					</li>
+					<li>Use CascadingSelect when data has natural parent-child hierarchy (categories, geographies, org structures)</li>
 					<li>Any node at any level is selectable — users are not forced to reach leaf nodes</li>
-					<li>
-						The trigger displays the full path (e.g., "Boissons › Alcools › Apéritifs") so the
-						selection is always clear
-					</li>
-					<li>
-						For react-hook-form integration, use the CategorySelect block from
-						@blazz/pro/components/blocks/category-select
-					</li>
+					<li>The trigger displays the full path (e.g., "Boissons › Alcools › Apéritifs") so the selection is always clear</li>
+					<li>For react-hook-form integration, use the CategorySelect block from @blazz/pro/components/blocks/category-select</li>
 				</ul>
 			</DocSection>
 

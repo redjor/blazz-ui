@@ -53,28 +53,9 @@ export interface BlockStackProps extends VariantProps<typeof blockStackVariants>
 	role?: string
 }
 
-export function BlockStack({
-	as: Component = "div",
-	gap,
-	align,
-	inlineAlign,
-	reverseOrder = false,
-	className,
-	children,
-	id,
-	role,
-}: BlockStackProps) {
+export function BlockStack({ as: Component = "div", gap, align, inlineAlign, reverseOrder = false, className, children, id, role }: BlockStackProps) {
 	return (
-		<Component
-			data-slot="block-stack"
-			id={id}
-			role={role}
-			className={cn(
-				blockStackVariants({ gap, align, inlineAlign }),
-				reverseOrder && "flex-col-reverse",
-				className
-			)}
-		>
+		<Component data-slot="block-stack" id={id} role={role} className={cn(blockStackVariants({ gap, align, inlineAlign }), reverseOrder && "flex-col-reverse", className)}>
 			{children}
 		</Component>
 	)

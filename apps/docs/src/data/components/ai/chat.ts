@@ -4,22 +4,11 @@ import type { ComponentData } from "../../types"
 export const messageData: ComponentData = {
 	name: "Message",
 	category: "ai",
-	description:
-		"Message bubble for AI chat interfaces. Compound component with content, actions, branching, and streaming response support.",
+	description: "Message bubble for AI chat interfaces. Compound component with content, actions, branching, and streaming response support.",
 	docPath: "/docs/ai/chat/message",
 	imports: {
 		path: "@blazz/pro/components/ai/chat",
-		named: [
-			"Message",
-			"MessageContent",
-			"MessageActions",
-			"MessageAction",
-			"MessageResponse",
-			"MessageToolbar",
-			"MessageBranch",
-			"MessageBranchContent",
-			"MessageBranchSelector",
-		],
+		named: ["Message", "MessageContent", "MessageActions", "MessageAction", "MessageResponse", "MessageToolbar", "MessageBranch", "MessageBranchContent", "MessageBranchSelector"],
 	},
 	props: [
 		{
@@ -50,18 +39,11 @@ export const messageData: ComponentData = {
 export const conversationData: ComponentData = {
 	name: "Conversation",
 	category: "ai",
-	description:
-		"Scrollable chat container with sticky-to-bottom behavior, empty state, and download support.",
+	description: "Scrollable chat container with sticky-to-bottom behavior, empty state, and download support.",
 	docPath: "/docs/ai/chat/conversation",
 	imports: {
 		path: "@blazz/pro/components/ai/chat",
-		named: [
-			"Conversation",
-			"ConversationContent",
-			"ConversationEmptyState",
-			"ConversationScrollButton",
-			"ConversationDownload",
-		],
+		named: ["Conversation", "ConversationContent", "ConversationEmptyState", "ConversationScrollButton", "ConversationDownload"],
 	},
 	props: [
 		{
@@ -91,8 +73,7 @@ export const conversationData: ComponentData = {
 export const promptInputData: ComponentData = {
 	name: "PromptInput",
 	category: "ai",
-	description:
-		"Chat input form with file attachments, drag-and-drop, paste support, and composable toolbar.",
+	description: "Chat input form with file attachments, drag-and-drop, paste support, and composable toolbar.",
 	docPath: "/docs/ai/chat/prompt-input",
 	imports: {
 		path: "@blazz/pro/components/ai/chat",
@@ -177,18 +158,11 @@ export const promptInputData: ComponentData = {
 export const attachmentsData: ComponentData = {
 	name: "Attachments",
 	category: "ai",
-	description:
-		"File attachment display with grid, inline, and list variants. Supports image/video preview, info, and remove actions.",
+	description: "File attachment display with grid, inline, and list variants. Supports image/video preview, info, and remove actions.",
 	docPath: "/docs/ai/chat/attachments",
 	imports: {
 		path: "@blazz/pro/components/ai/chat",
-		named: [
-			"Attachments",
-			"Attachment",
-			"AttachmentPreview",
-			"AttachmentInfo",
-			"AttachmentRemove",
-		],
+		named: ["Attachments", "Attachment", "AttachmentPreview", "AttachmentInfo", "AttachmentRemove"],
 	},
 	props: [
 		{

@@ -64,10 +64,7 @@ export function isNotEmpty(obj: Record<string, unknown> | null | undefined): boo
  * pick(user, ['id', 'name']) // { id: 1, name: 'Alice' }
  * ```
  */
-export function pick<T extends Record<string, unknown>, K extends keyof T>(
-	obj: T,
-	keys: K[]
-): Pick<T, K> {
+export function pick<T extends Record<string, unknown>, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
 	const result = {} as Pick<T, K>
 	for (const key of keys) {
 		if (key in obj) {
@@ -90,10 +87,7 @@ export function pick<T extends Record<string, unknown>, K extends keyof T>(
  * omit(user, ['password']) // { id: 1, name: 'Alice' }
  * ```
  */
-export function omit<T extends Record<string, unknown>, K extends keyof T>(
-	obj: T,
-	keys: K[]
-): Omit<T, K> {
+export function omit<T extends Record<string, unknown>, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
 	const result = { ...obj }
 	for (const key of keys) {
 		delete result[key]
@@ -160,9 +154,7 @@ export function entries<T extends Record<string, unknown>>(obj: T): [keyof T, T[
  * fromEntries([['a', 1], ['b', 2]]) // { a: 1, b: 2 }
  * ```
  */
-export function fromEntries<K extends string | number | symbol, V>(
-	entries: [K, V][]
-): Record<K, V> {
+export function fromEntries<K extends string | number | symbol, V>(entries: [K, V][]): Record<K, V> {
 	return Object.fromEntries(entries) as Record<K, V>
 }
 
@@ -179,10 +171,7 @@ export function fromEntries<K extends string | number | symbol, V>(
  * hasKey({ a: 1 }, 'b') // false
  * ```
  */
-export function hasKey<T extends Record<string, unknown>>(
-	obj: T,
-	key: string | number | symbol
-): key is keyof T {
+export function hasKey<T extends Record<string, unknown>>(obj: T, key: string | number | symbol): key is keyof T {
 	return key in obj
 }
 
@@ -242,10 +231,7 @@ export function deepMerge<T extends Record<string, unknown>>(target: T, source: 
 		const targetValue = result[key]
 
 		if (isPlainObject(sourceValue) && isPlainObject(targetValue)) {
-			result[key] = deepMerge(
-				targetValue as Record<string, unknown>,
-				sourceValue as Record<string, unknown>
-			) as T[Extract<keyof T, string>]
+			result[key] = deepMerge(targetValue as Record<string, unknown>, sourceValue as Record<string, unknown>) as T[Extract<keyof T, string>]
 		} else {
 			result[key] = sourceValue as T[Extract<keyof T, string>]
 		}
@@ -291,10 +277,7 @@ export function isPlainObject(value: unknown): value is Record<string, unknown> 
  * mapValues(obj, v => v * 2) // { a: 2, b: 4, c: 6 }
  * ```
  */
-export function mapValues<T extends Record<string, unknown>, R>(
-	obj: T,
-	fn: (value: T[keyof T], key: keyof T) => R
-): Record<keyof T, R> {
+export function mapValues<T extends Record<string, unknown>, R>(obj: T, fn: (value: T[keyof T], key: keyof T) => R): Record<keyof T, R> {
 	const result = {} as Record<keyof T, R>
 	for (const key in obj) {
 		result[key] = fn(obj[key], key)
@@ -315,10 +298,7 @@ export function mapValues<T extends Record<string, unknown>, R>(
  * mapKeys(obj, k => k.toUpperCase()) // { A: 1, B: 2 }
  * ```
  */
-export function mapKeys<T extends Record<string, unknown>>(
-	obj: T,
-	fn: (key: keyof T) => string
-): Record<string, T[keyof T]> {
+export function mapKeys<T extends Record<string, unknown>>(obj: T, fn: (key: keyof T) => string): Record<string, T[keyof T]> {
 	const result: Record<string, T[keyof T]> = {}
 	for (const key in obj) {
 		result[fn(key)] = obj[key]
@@ -339,10 +319,7 @@ export function mapKeys<T extends Record<string, unknown>>(
  * filterObject(obj, v => v > 1) // { b: 2, c: 3 }
  * ```
  */
-export function filterObject<T extends Record<string, unknown>>(
-	obj: T,
-	predicate: (value: T[keyof T], key: keyof T) => boolean
-): Partial<T> {
+export function filterObject<T extends Record<string, unknown>>(obj: T, predicate: (value: T[keyof T], key: keyof T) => boolean): Partial<T> {
 	const result = {} as Partial<T>
 	for (const key in obj) {
 		if (predicate(obj[key], key)) {
@@ -369,11 +346,7 @@ export function filterObject<T extends Record<string, unknown>>(
  * get(obj, ['user', 'name']) // 'Alice'
  * ```
  */
-export function get<T>(
-	obj: Record<string, unknown>,
-	path: string | string[],
-	defaultValue?: T
-): T | undefined {
+export function get<T>(obj: Record<string, unknown>, path: string | string[], defaultValue?: T): T | undefined {
 	const keys = Array.isArray(path) ? path : path.split(".")
 	let result: unknown = obj
 
@@ -403,11 +376,7 @@ export function get<T>(
  * // { user: { name: 'Alice', age: 25 } }
  * ```
  */
-export function set<T>(
-	obj: Record<string, unknown>,
-	path: string | string[],
-	value: T
-): Record<string, unknown> {
+export function set<T>(obj: Record<string, unknown>, path: string | string[], value: T): Record<string, unknown> {
 	const keys = Array.isArray(path) ? path : path.split(".")
 	const lastKey = keys.pop()
 

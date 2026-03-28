@@ -28,25 +28,13 @@ function trendPercent(current: number, previous: number) {
 
 // ─── Pipeline Segment ─────────────────────────────────────────
 
-function PipelineSegment({
-	label,
-	amount,
-	icon: Icon,
-	accentClass,
-}: {
-	label: string
-	amount: number
-	icon: LucideIcon
-	accentClass: string
-}) {
+function PipelineSegment({ label, amount, icon: Icon, accentClass }: { label: string; amount: number; icon: LucideIcon; accentClass: string }) {
 	return (
 		<div className="flex-1 min-w-0">
 			<div className="flex items-start justify-between gap-2">
 				<BlockStack gap="100">
 					<span className="text-xs font-medium text-fg-muted">{label}</span>
-					<span className="text-xl font-semibold tabular-nums tracking-tight">
-						{formatCurrency(amount / 100)}
-					</span>
+					<span className="text-xl font-semibold tabular-nums tracking-tight">{formatCurrency(amount / 100)}</span>
 				</BlockStack>
 				<div className={`rounded-md p-1.5 shrink-0 ${accentClass}`}>
 					<Icon className="size-3.5" />
@@ -85,15 +73,7 @@ function progressColor(percent: number) {
 	return "bg-critical"
 }
 
-function ProgressRow({
-	label,
-	detail,
-	percent,
-}: {
-	label: string
-	detail: string
-	percent: number
-}) {
+function ProgressRow({ label, detail, percent }: { label: string; detail: string; percent: number }) {
 	const clamped = Math.min(percent, 100)
 	return (
 		<BlockStack gap="100">
@@ -105,10 +85,7 @@ function ProgressRow({
 				</InlineStack>
 			</InlineStack>
 			<div className="h-2 rounded-full bg-muted overflow-hidden">
-				<div
-					className={`h-full rounded-full transition-all ${progressColor(percent)}`}
-					style={{ width: `${clamped}%` }}
-				/>
+				<div className={`h-full rounded-full transition-all ${progressColor(percent)}`} style={{ width: `${clamped}%` }} />
 			</div>
 		</BlockStack>
 	)
@@ -160,31 +137,13 @@ function GoalsSummaryCard() {
 							</Link>
 						</InlineStack>
 
-						<ProgressRow
-							label="Revenu"
-							detail={`${formatCurrency(revenue.month.actual)} / ${formatCurrency(revenue.month.target)}`}
-							percent={revenue.month.percent}
-						/>
-						<ProgressRow
-							label="Jours"
-							detail={`${days.month.actual} / ${days.month.target}j`}
-							percent={days.month.percent}
-						/>
-						<ProgressRow
-							label="TJM moyen"
-							detail={`${formatCurrency(tjm.actual)} (cible ${formatCurrency(tjm.target)})`}
-							percent={tjm.target > 0 ? Math.round((tjm.actual / tjm.target) * 100) : 0}
-						/>
+						<ProgressRow label="Revenu" detail={`${formatCurrency(revenue.month.actual)} / ${formatCurrency(revenue.month.target)}`} percent={revenue.month.percent} />
+						<ProgressRow label="Jours" detail={`${days.month.actual} / ${days.month.target}j`} percent={days.month.percent} />
+						<ProgressRow label="TJM moyen" detail={`${formatCurrency(tjm.actual)} (cible ${formatCurrency(tjm.target)})`} percent={tjm.target > 0 ? Math.round((tjm.actual / tjm.target) * 100) : 0} />
 
 						{goals.projection && (
-							<InlineStack
-								align="space-between"
-								wrap={false}
-								className="pt-1 border-t border-edge/50"
-							>
-								<span className="text-xs text-fg-muted tabular-nums">
-									Projection fin de mois : {formatCurrency(goals.projection.month.revenue)}
-								</span>
+							<InlineStack align="space-between" wrap={false} className="pt-1 border-t border-edge/50">
+								<span className="text-xs text-fg-muted tabular-nums">Projection fin de mois : {formatCurrency(goals.projection.month.revenue)}</span>
 								<span
 									className={`text-xs tabular-nums font-medium ${goals.projection.month.revenuePercent >= 90 ? "text-positive" : goals.projection.month.revenuePercent >= 70 ? "text-caution" : "text-critical"}`}
 								>
@@ -195,8 +154,7 @@ function GoalsSummaryCard() {
 
 						<InlineStack align="space-between" wrap={false}>
 							<span className="text-xs text-fg-muted tabular-nums">
-								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual)} /{" "}
-								{formatCurrency(revenue.quarter.target)} ({revenue.quarter.percent}%)
+								{revenue.quarter.label} : {formatCurrency(revenue.quarter.actual)} / {formatCurrency(revenue.quarter.target)} ({revenue.quarter.percent}%)
 							</span>
 							<span className="text-xs text-fg-muted tabular-nums">
 								{goals.year} : {revenue.annual.percent}%
@@ -229,8 +187,7 @@ export default function DashboardPageClient() {
 	const forecast = useQuery(api.finances.forecast)
 	const todos = useQuery(api.todos.list, {})
 
-	const isLoading =
-		monthEntries === undefined || prevMonthEntries === undefined || projectsWithBudget === undefined
+	const isLoading = monthEntries === undefined || prevMonthEntries === undefined || projectsWithBudget === undefined
 
 	// Current month — memoized
 	const { totalMinutes, totalAmount } = useMemo(() => {
@@ -252,16 +209,10 @@ export default function DashboardPageClient() {
 		}
 	}, [prevMonthEntries, totalMinutes, totalAmount])
 
-	const activeProjects = useMemo(
-		() => projectsWithBudget?.filter((p) => p.status === "active") ?? [],
-		[projectsWithBudget]
-	)
+	const activeProjects = useMemo(() => projectsWithBudget?.filter((p) => p.status === "active") ?? [], [projectsWithBudget])
 	const openTodos = useMemo(() => todos?.filter((t) => t.status !== "done")?.length ?? 0, [todos])
 
-	const monthTitle = useMemo(
-		() => format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase()),
-		[now]
-	)
+	const monthTitle = useMemo(() => format(now, "MMMM yyyy", { locale: fr }).replace(/^\w/, (c) => c.toUpperCase()), [now])
 
 	return (
 		<BlockStack gap="600" className="p-6">
@@ -299,9 +250,7 @@ export default function DashboardPageClient() {
 
 			{/* ─── Financial Pipeline (single card) ──────── */}
 			<BlockStack gap="200">
-				<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
-					Pipeline financier
-				</span>
+				<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Pipeline financier</span>
 				{forecast === undefined ? (
 					<PipelineSkeleton />
 				) : (
@@ -309,28 +258,13 @@ export default function DashboardPageClient() {
 						<CardContent className="p-4">
 							<div className="flex divide-x divide-edge">
 								<div className="flex-1 pr-4">
-									<PipelineSegment
-										label="Brouillons"
-										amount={forecast.draftCents}
-										icon={FileText}
-										accentClass="bg-muted text-fg-muted"
-									/>
+									<PipelineSegment label="Brouillons" amount={forecast.draftCents} icon={FileText} accentClass="bg-muted text-fg-muted" />
 								</div>
 								<div className="flex-1 px-4">
-									<PipelineSegment
-										label="À facturer"
-										amount={forecast.readyToInvoiceCents}
-										icon={Send}
-										accentClass="bg-inform/10 text-inform"
-									/>
+									<PipelineSegment label="À facturer" amount={forecast.readyToInvoiceCents} icon={Send} accentClass="bg-inform/10 text-inform" />
 								</div>
 								<div className="flex-1 pl-4">
-									<PipelineSegment
-										label="En attente"
-										amount={forecast.unpaidCents}
-										icon={CreditCard}
-										accentClass="bg-caution/10 text-caution"
-									/>
+									<PipelineSegment label="En attente" amount={forecast.unpaidCents} icon={CreditCard} accentClass="bg-caution/10 text-caution" />
 								</div>
 							</div>
 						</CardContent>
@@ -345,12 +279,8 @@ export default function DashboardPageClient() {
 			{activeProjects.length > 0 && (
 				<BlockStack gap="200">
 					<div className="flex items-center justify-between">
-						<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
-							Projets actifs
-						</span>
-						<span className="text-xs text-fg-muted tabular-nums">
-							{activeProjects.length} projets
-						</span>
+						<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Projets actifs</span>
+						<span className="text-xs text-fg-muted tabular-nums">{activeProjects.length} projets</span>
 					</div>
 					<Grid>
 						{activeProjects.map((project) => {
@@ -362,10 +292,7 @@ export default function DashboardPageClient() {
 									: `${project.daysConsumed}j consommés`
 							return (
 								<Grid.Cell key={project._id} columnSpan={{ xs: 12, sm: 6, md: 4 }}>
-									<Link
-										href={`/projects/${project._id}`}
-										className="block"
-									>
+									<Link href={`/projects/${project._id}`} className="block">
 										<BudgetCard
 											name={project.name}
 											revenue={project.billableRevenue}
@@ -398,9 +325,7 @@ export default function DashboardPageClient() {
 
 			{!isLoading && monthEntries?.length === 0 && activeProjects.length === 0 && (
 				<Box padding="8" className="text-center">
-					<span className="text-fg-muted text-sm">
-						Pas encore de données. Créez un client et des projets pour commencer.
-					</span>
+					<span className="text-fg-muted text-sm">Pas encore de données. Créez un client et des projets pour commencer.</span>
 				</Box>
 			)}
 		</BlockStack>

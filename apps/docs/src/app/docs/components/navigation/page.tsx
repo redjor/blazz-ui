@@ -8,40 +8,35 @@ const navigationComponents = [
 	{
 		title: "Breadcrumb",
 		href: "/docs/components/ui/breadcrumb",
-		description:
-			"Shows the current page's location within the navigational hierarchy and allows quick navigation to parent pages.",
+		description: "Shows the current page's location within the navigational hierarchy and allows quick navigation to parent pages.",
 		icon: ChevronRight,
 		thumbnail: "breadcrumb",
 	},
 	{
 		title: "Command",
 		href: "/docs/components/ui/command",
-		description:
-			"A command palette for quick navigation and actions with keyboard shortcuts and fuzzy search.",
+		description: "A command palette for quick navigation and actions with keyboard shortcuts and fuzzy search.",
 		icon: Command,
 		thumbnail: "command",
 	},
 	{
 		title: "Menu",
 		href: "/docs/components/ui/menu",
-		description:
-			"An unstyled, accessible menu component for building custom navigation and action menus.",
+		description: "An unstyled, accessible menu component for building custom navigation and action menus.",
 		icon: Menu,
 		thumbnail: "menu",
 	},
 	{
 		title: "Menubar",
 		href: "/docs/components/ui/menubar",
-		description:
-			"A horizontal menu bar with dropdown menus, keyboard navigation, and support for checkboxes and radio items.",
+		description: "A horizontal menu bar with dropdown menus, keyboard navigation, and support for checkboxes and radio items.",
 		icon: PanelTop,
 		thumbnail: "menubar",
 	},
 	{
 		title: "Nav Menu",
 		href: "/docs/components/ui/nav-menu",
-		description:
-			"Lightweight vertical navigation menu for page sidebars, dialogs, sheets, or any panel.",
+		description: "Lightweight vertical navigation menu for page sidebars, dialogs, sheets, or any panel.",
 		icon: List,
 		thumbnail: "nav-menu",
 	},
@@ -64,10 +59,7 @@ const navigationComponents = [
 export default function NavigationPage() {
 	return (
 		<Page>
-			<CategoryPageHero
-				title="Navigation"
-				description="Navigation components help users understand where they are in your application and move efficiently between different sections and pages."
-			/>
+			<CategoryPageHero title="Navigation" description="Navigation components help users understand where they are in your application and move efficiently between different sections and pages." />
 			<ComponentSection components={navigationComponents} />
 		</Page>
 	)

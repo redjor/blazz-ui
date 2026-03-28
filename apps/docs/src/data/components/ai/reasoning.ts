@@ -4,20 +4,11 @@ import type { ComponentData } from "../../types"
 export const chainOfThoughtData: ComponentData = {
 	name: "ChainOfThought",
 	category: "ai",
-	description:
-		"Collapsible chain-of-thought reasoning display with step-by-step progress, search results, and images.",
+	description: "Collapsible chain-of-thought reasoning display with step-by-step progress, search results, and images.",
 	docPath: "/docs/ai/reasoning/chain-of-thought",
 	imports: {
 		path: "@blazz/pro/components/ai/reasoning",
-		named: [
-			"ChainOfThought",
-			"ChainOfThoughtHeader",
-			"ChainOfThoughtContent",
-			"ChainOfThoughtStep",
-			"ChainOfThoughtSearchResults",
-			"ChainOfThoughtSearchResult",
-			"ChainOfThoughtImage",
-		],
+		named: ["ChainOfThought", "ChainOfThoughtHeader", "ChainOfThoughtContent", "ChainOfThoughtStep", "ChainOfThoughtSearchResults", "ChainOfThoughtSearchResult", "ChainOfThoughtImage"],
 	},
 	props: [
 		{
@@ -58,8 +49,7 @@ export const chainOfThoughtData: ComponentData = {
 export const reasoningData: ComponentData = {
 	name: "Reasoning",
 	category: "ai",
-	description:
-		"Collapsible reasoning block that auto-expands during streaming and shows thinking duration.",
+	description: "Collapsible reasoning block that auto-expands during streaming and shows thinking duration.",
 	docPath: "/docs/ai/reasoning/reasoning",
 	imports: {
 		path: "@blazz/pro/components/ai/reasoning",
@@ -104,19 +94,11 @@ export const reasoningData: ComponentData = {
 export const inlineCitationData: ComponentData = {
 	name: "InlineCitation",
 	category: "ai",
-	description:
-		"Inline citation badge with hover card showing source details in a carousel.",
+	description: "Inline citation badge with hover card showing source details in a carousel.",
 	docPath: "/docs/ai/reasoning/inline-citation",
 	imports: {
 		path: "@blazz/pro/components/ai/reasoning",
-		named: [
-			"InlineCitation",
-			"InlineCitationText",
-			"InlineCitationCard",
-			"InlineCitationCardTrigger",
-			"InlineCitationCardBody",
-			"InlineCitationSource",
-		],
+		named: ["InlineCitation", "InlineCitationText", "InlineCitationCard", "InlineCitationCardTrigger", "InlineCitationCardBody", "InlineCitationSource"],
 	},
 	props: [
 		{

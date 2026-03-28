@@ -30,9 +30,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 
 	async function toggleTag(tagId: Id<"tags">) {
 		const current = noteTagIds
-		const next = current.includes(tagId)
-			? current.filter((id) => id !== tagId)
-			: [...current, tagId]
+		const next = current.includes(tagId) ? current.filter((id) => id !== tagId) : [...current, tagId]
 		await updateNote({ id: noteId, tags: next })
 	}
 
@@ -57,7 +55,6 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 						onChange={(e) => setSearch(e.target.value)}
 						placeholder="Chercher ou créer un tag…"
 						className="w-full bg-transparent text-sm text-fg outline-none placeholder:text-fg-muted/60"
-						autoFocus
 					/>
 				</div>
 				<ScrollArea className="max-h-[240px]">
@@ -66,12 +63,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 							const color = getTagColor(tag.color)
 							const isActive = noteTagIds.includes(tag._id)
 							return (
-								<button
-									key={tag._id}
-									type="button"
-									onClick={() => void toggleTag(tag._id)}
-									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors hover:bg-card"
-								>
+								<button key={tag._id} type="button" onClick={() => void toggleTag(tag._id)} className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors hover:bg-card">
 									<span className={`size-2.5 shrink-0 rounded-full ${color.dot}`} />
 									<span className="min-w-0 flex-1 truncate text-left text-fg">{tag.name}</span>
 									{isActive ? <Check className="size-3.5 shrink-0 text-brand" /> : null}
@@ -80,11 +72,7 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 						})}
 						{search.trim() && !exactMatch ? (
 							<div className="border-t border-edge mt-1 pt-1">
-								<button
-									type="button"
-									onClick={() => void handleCreate()}
-									className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-fg transition-colors hover:bg-card"
-								>
+								<button type="button" onClick={() => void handleCreate()} className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-fg transition-colors hover:bg-card">
 									<Plus className="size-3.5 shrink-0 text-fg-muted" />
 									<span>
 										Créer <strong>{search.trim()}</strong>
@@ -96,22 +84,14 @@ export function NoteTagPicker({ noteId, noteTagIds }: NoteTagPickerProps) {
 											key={c.key}
 											type="button"
 											onClick={() => setNewColor(c.key)}
-											className={`size-5 rounded-full transition-all ${c.dot} ${
-												newColor === c.key
-													? "ring-2 ring-fg ring-offset-2 ring-offset-surface"
-													: "hover:scale-110"
-											}`}
+											className={`size-5 rounded-full transition-all ${c.dot} ${newColor === c.key ? "ring-2 ring-fg ring-offset-2 ring-offset-surface" : "hover:scale-110"}`}
 											title={c.label}
 										/>
 									))}
 								</div>
 							</div>
 						) : null}
-						{filtered.length === 0 && !search.trim() ? (
-							<p className="px-3 py-4 text-center text-xs text-fg-muted">
-								Aucun tag. Tape un nom pour en créer.
-							</p>
-						) : null}
+						{filtered.length === 0 && !search.trim() ? <p className="px-3 py-4 text-center text-xs text-fg-muted">Aucun tag. Tape un nom pour en créer.</p> : null}
 					</div>
 				</ScrollArea>
 			</PopoverContent>

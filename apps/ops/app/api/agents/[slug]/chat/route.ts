@@ -80,15 +80,7 @@ function buildReadToolExecutors(token: string) {
 			}
 		},
 
-		"list-time-entries": async ({
-			projectId,
-			from,
-			to,
-		}: {
-			projectId?: string
-			from?: string
-			to?: string
-		}) => {
+		"list-time-entries": async ({ projectId, from, to }: { projectId?: string; from?: string; to?: string }) => {
 			const entries = await convex.query(api.timeEntries.list, {
 				projectId: projectId as any,
 				from,
@@ -270,10 +262,7 @@ const financeToolDefs: Record<string, any> = {
 	}),
 }
 
-export async function POST(
-	req: Request,
-	{ params }: { params: Promise<{ slug: string }> }
-) {
+export async function POST(req: Request, { params }: { params: Promise<{ slug: string }> }) {
 	// TEMP DEBUG: write to file to confirm this route is hit
 	const { appendFileSync } = await import("node:fs")
 	appendFileSync("/tmp/agent-route-hit.txt", `${new Date().toISOString()} POST /api/agents/${(await params).slug}/chat\n`)
@@ -306,33 +295,18 @@ export async function POST(
 	const today = new Date().toISOString().slice(0, 10)
 	const todayUsd = agent.usage.lastResetDay === today ? agent.usage.todayUsd : 0
 	if (todayUsd >= agent.budget.maxPerDay) {
-		return new Response(
-			JSON.stringify({ error: `Budget journalier atteint ($${agent.budget.maxPerDay})` }),
-			{ status: 429, headers: { "Content-Type": "application/json" } }
-		)
+		return new Response(JSON.stringify({ error: `Budget journalier atteint ($${agent.budget.maxPerDay})` }), { status: 429, headers: { "Content-Type": "application/json" } })
 	}
 
 	// Load soul files (CONTEXT.md is optional)
-	const [soul, style, skill, context] = await Promise.all([
-		loadSoulFile(slug, "SOUL.md"),
-		loadSoulFile(slug, "STYLE.md"),
-		loadSoulFile(slug, "SKILL.md"),
-		loadSoulFile(slug, "CONTEXT.md"),
-	])
+	const [soul, style, skill, context] = await Promise.all([loadSoulFile(slug, "SOUL.md"), loadSoulFile(slug, "STYLE.md"), loadSoulFile(slug, "SKILL.md"), loadSoulFile(slug, "CONTEXT.md")])
 
 	// Load agent memory (private + shared)
-	const [privateMemories, sharedMemories] = await Promise.all([
-		convex.query(api.agentMemory.list, { agentId: agent._id }),
-		convex.query(api.agentMemory.listShared, {}),
-	])
+	const [privateMemories, sharedMemories] = await Promise.all([convex.query(api.agentMemory.list, { agentId: agent._id }), convex.query(api.agentMemory.listShared, {})])
 	const allMemories = [...privateMemories, ...sharedMemories]
 	const categoryOrder = ["rule", "preference", "pattern", "fact", "episode"]
-	const sortedMemories = allMemories
-		.sort((a, b) => categoryOrder.indexOf(a.category ?? "fact") - categoryOrder.indexOf(b.category ?? "fact"))
-		.slice(0, 15)
-	const memoryBlock = sortedMemories.length > 0
-		? `\n## Mémoire\n${sortedMemories.map((m) => `- [${m.category}${m.scope === "shared" ? " partagé" : ""}] ${m.content}`).join("\n")}`
-		: ""
+	const sortedMemories = allMemories.sort((a, b) => categoryOrder.indexOf(a.category ?? "fact") - categoryOrder.indexOf(b.category ?? "fact")).slice(0, 15)
+	const memoryBlock = sortedMemories.length > 0 ? `\n## Mémoire\n${sortedMemories.map((m) => `- [${m.category}${m.scope === "shared" ? " partagé" : ""}] ${m.content}`).join("\n")}` : ""
 
 	// Build system prompt
 	const todayFormatted = new Date().toLocaleDateString("fr-FR", {
@@ -465,14 +439,12 @@ export async function POST(
 		}
 	}
 
-	const { messages, data } = await req.json()
+	const { messages } = await req.json()
 
 	// Save user message to DB
 	const lastUserMsg = [...messages].reverse().find((m: any) => m.role === "user")
 	if (lastUserMsg) {
-		const userText = typeof lastUserMsg.content === "string"
-			? lastUserMsg.content
-			: lastUserMsg.parts?.find((p: any) => p.type === "text")?.text ?? ""
+		const userText = typeof lastUserMsg.content === "string" ? lastUserMsg.content : (lastUserMsg.parts?.find((p: any) => p.type === "text")?.text ?? "")
 		if (userText) {
 			try {
 				convex.setAuth(token)
@@ -501,26 +473,30 @@ export async function POST(
 
 	// Debug: write to file since console.log doesn't show in turbopack
 	const { writeFileSync } = await import("node:fs")
-	writeFileSync("/tmp/agent-chat-debug.json", JSON.stringify({
-		slug,
-		systemPromptLength: systemPrompt.length,
-		systemPromptStart: systemPrompt.slice(0, 200),
-		modelMessagesCount: modelMessages.length,
-		modelMessages: modelMessages.map((m: any) => ({
-			role: m.role,
-			contentLength: typeof m.content === "string" ? m.content.length : -1,
-			contentPreview: typeof m.content === "string" ? m.content.slice(0, 200) : JSON.stringify(m.content)?.slice(0, 200),
-		})),
-	}, null, 2))
+	writeFileSync(
+		"/tmp/agent-chat-debug.json",
+		JSON.stringify(
+			{
+				slug,
+				systemPromptLength: systemPrompt.length,
+				systemPromptStart: systemPrompt.slice(0, 200),
+				modelMessagesCount: modelMessages.length,
+				modelMessages: modelMessages.map((m: any) => ({
+					role: m.role,
+					contentLength: typeof m.content === "string" ? m.content.length : -1,
+					contentPreview: typeof m.content === "string" ? m.content.slice(0, 200) : JSON.stringify(m.content)?.slice(0, 200),
+				})),
+			},
+			null,
+			2
+		)
+	)
 
 	// Filter out any system messages that convertToModelMessages might have injected
 	const filteredMessages = modelMessages.filter((m: any) => m.role !== "system")
 
 	// Prepend OUR system prompt
-	const messagesWithSystem = [
-		{ role: "system" as const, content: systemPrompt },
-		...filteredMessages,
-	]
+	const messagesWithSystem = [{ role: "system" as const, content: systemPrompt }, ...filteredMessages]
 
 	const result = streamText({
 		model,
@@ -529,7 +505,7 @@ export async function POST(
 		maxSteps: 5,
 		onFinish: async ({ usage, text }) => {
 			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.15
-			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 0.60
+			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 0.6
 			const costUsd = Math.round((inputCost + outputCost) * 1_000_000) / 1_000_000
 
 			convex.setAuth(token)

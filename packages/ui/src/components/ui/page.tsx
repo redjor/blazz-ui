@@ -1,14 +1,6 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
-import {
-	Breadcrumb,
-	BreadcrumbBackLink,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "./breadcrumb"
+import { Breadcrumb, BreadcrumbBackLink, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./breadcrumb"
 
 export interface BreadcrumbParent {
 	label: string
@@ -33,9 +25,7 @@ function isBreadcrumbConfig(value: unknown): value is BreadcrumbConfig {
 }
 
 function isPageBreadcrumbArray(value: unknown): value is PageBreadcrumbItem[] {
-	return (
-		Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "label" in value[0]
-	)
+	return Array.isArray(value) && value.length > 0 && typeof value[0] === "object" && "label" in value[0]
 }
 
 export interface PageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -221,10 +211,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 							<>
 								<BreadcrumbSeparator />
 								<BreadcrumbItem>
-									<BreadcrumbLink
-										href={breadcrumbs.parent.href}
-										className="inline-block max-w-[8ch] truncate align-bottom transition-all duration-200 ease-out hover:max-w-[200px]"
-									>
+									<BreadcrumbLink href={breadcrumbs.parent.href} className="inline-block max-w-[8ch] truncate align-bottom transition-all duration-200 ease-out hover:max-w-[200px]">
 										{breadcrumbs.parent.label}
 									</BreadcrumbLink>
 								</BreadcrumbItem>
@@ -241,13 +228,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 			resolvedBreadcrumbs = breadcrumbs
 		}
 
-		const hasHeader =
-			resolvedTitle ||
-			primaryAction ||
-			secondaryActions ||
-			resolvedBreadcrumbs ||
-			titleMetadata ||
-			additionalMetadata
+		const hasHeader = resolvedTitle || primaryAction || secondaryActions || resolvedBreadcrumbs || titleMetadata || additionalMetadata
 
 		// Actions block — shared between all header layouts
 		const actionsBlock = (primaryAction || secondaryActions) && (
@@ -260,9 +241,7 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 		// Title row — either title-based or breadcrumb-based or actions-only
 		const titleDisplay = resolvedTitle ? (
 			<>
-				{resolvedBreadcrumbs && (
-					<div className="flex items-center gap-3">{resolvedBreadcrumbs}</div>
-				)}
+				{resolvedBreadcrumbs && <div className="flex items-center gap-3">{resolvedBreadcrumbs}</div>}
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 					<div className="flex-1 space-y-1">
 						<div className="flex items-center gap-3">
@@ -283,32 +262,14 @@ export const Page = React.forwardRef<HTMLDivElement, PageProps>(
 				{actionsBlock}
 			</div>
 		) : actionsBlock ? (
-			<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
-				{actionsBlock}
-			</div>
+			<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">{actionsBlock}</div>
 		) : null
 
 		return (
-			<div
-				ref={ref}
-				className={cn(
-					"w-full px-6",
-					!fullWidth && "mx-auto",
-					!fullWidth && !narrowWidth && "max-w-5xl",
-					!fullWidth && narrowWidth && "max-w-3xl",
-					className
-				)}
-				{...props}
-			>
+			<div ref={ref} className={cn("w-full px-6", !fullWidth && "mx-auto", !fullWidth && !narrowWidth && "max-w-5xl", !fullWidth && narrowWidth && "max-w-3xl", className)} {...props}>
 				{/* Page Header */}
 				{hasHeader && (
-					<div
-						className={cn(
-							"space-y-4 py-4",
-							divider && "border-b border-separator",
-							headerClassName
-						)}
-					>
+					<div className={cn("space-y-4 py-4", divider && "border-b border-separator", headerClassName)}>
 						{titleDisplay}
 						{additionalMetadata && <div className="flex items-center">{additionalMetadata}</div>}
 					</div>
@@ -333,21 +294,19 @@ export interface PageSectionProps extends React.HTMLAttributes<HTMLElement> {
 	description?: string
 }
 
-export const PageSection = React.forwardRef<HTMLElement, PageSectionProps>(
-	({ title, description, className, children, ...props }, ref) => {
-		return (
-			<section ref={ref} className={cn("space-y-4", className)} {...props}>
-				{(title || description) && (
-					<div className="space-y-1">
-						{title && <h2 className="text-heading-lg tracking-tight">{title}</h2>}
-						{description && <p className="text-body-md text-fg-muted">{description}</p>}
-					</div>
-				)}
-				{children}
-			</section>
-		)
-	}
-)
+export const PageSection = React.forwardRef<HTMLElement, PageSectionProps>(({ title, description, className, children, ...props }, ref) => {
+	return (
+		<section ref={ref} className={cn("space-y-4", className)} {...props}>
+			{(title || description) && (
+				<div className="space-y-1">
+					{title && <h2 className="text-heading-lg tracking-tight">{title}</h2>}
+					{description && <p className="text-body-md text-fg-muted">{description}</p>}
+				</div>
+			)}
+			{children}
+		</section>
+	)
+})
 
 PageSection.displayName = "PageSection"
 
@@ -380,22 +339,12 @@ const sizeMap = {
 	full: "",
 } as const
 
-export const PageWrapper = React.forwardRef<HTMLDivElement, PageWrapperProps>(
-	({ size = "md", card = false, className, children, ...props }, ref) => {
-		return (
-			<div
-				ref={ref}
-				className={cn(
-					sizeMap[size],
-					card && "rounded-lg border border-edge bg-surface p-6",
-					className
-				)}
-				{...props}
-			>
-				{children}
-			</div>
-		)
-	}
-)
+export const PageWrapper = React.forwardRef<HTMLDivElement, PageWrapperProps>(({ size = "md", card = false, className, children, ...props }, ref) => {
+	return (
+		<div ref={ref} className={cn(sizeMap[size], card && "rounded-lg border border-edge bg-surface p-6", className)} {...props}>
+			{children}
+		</div>
+	)
+})
 
 PageWrapper.displayName = "PageWrapper"

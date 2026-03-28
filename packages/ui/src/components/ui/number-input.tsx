@@ -19,20 +19,7 @@ export interface NumberInputProps {
 	id?: string
 }
 
-function NumberInput({
-	value,
-	defaultValue,
-	onValueChange,
-	min,
-	max,
-	step = 1,
-	disabled = false,
-	placeholder,
-	className,
-	"aria-invalid": ariaInvalid,
-	"aria-label": ariaLabel,
-	id,
-}: NumberInputProps) {
+function NumberInput({ value, defaultValue, onValueChange, min, max, step = 1, disabled = false, placeholder, className, "aria-invalid": ariaInvalid, "aria-label": ariaLabel, id }: NumberInputProps) {
 	return (
 		<NumberField.Root
 			data-slot="number-input"

@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { CalendarCard } from "@blazz/pro/components/ai/generative/planning/calendar-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "week-view",
@@ -23,7 +24,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function CalendarCardPage() {
@@ -31,11 +31,7 @@ export default function CalendarCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Calendar Card"
-			subtitle="A mini calendar view highlighting specific days with events."
-			toc={toc}
-		>
+		<DocPage title="Calendar Card" subtitle="A mini calendar view highlighting specific days with events." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<CalendarCard
@@ -62,12 +58,7 @@ export default function CalendarCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Week View"
-					description="A few days with events highlighted."
-					code={examples[0].code}
-					highlightedCode={html("week-view")}
-				>
+				<DocExampleClient title="Week View" description="A few days with events highlighted." code={examples[0].code} highlightedCode={html("week-view")}>
 					<div className="max-w-sm">
 						<CalendarCard
 							month="March 2026"

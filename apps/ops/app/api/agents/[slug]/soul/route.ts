@@ -21,26 +21,15 @@ async function loadFile(slug: string, key: string): Promise<string> {
 	}
 }
 
-export async function GET(
-	_request: Request,
-	{ params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params
 
-	const [soul, style, skill, context] = await Promise.all([
-		loadFile(slug, "soul"),
-		loadFile(slug, "style"),
-		loadFile(slug, "skill"),
-		loadFile(slug, "context"),
-	])
+	const [soul, style, skill, context] = await Promise.all([loadFile(slug, "soul"), loadFile(slug, "style"), loadFile(slug, "skill"), loadFile(slug, "context")])
 
 	return NextResponse.json({ soul, style, skill, context })
 }
 
-export async function PUT(
-	request: Request,
-	{ params }: { params: Promise<{ slug: string }> }
-) {
+export async function PUT(request: Request, { params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params
 	const body = await request.json()
 	const { file, content } = body as { file: string; content: string }

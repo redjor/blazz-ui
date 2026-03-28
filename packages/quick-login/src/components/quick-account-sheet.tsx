@@ -51,13 +51,7 @@ function buildGroups(accounts: TestAccount[]): GroupData[] {
 function filterAccounts(accounts: TestAccount[], query: string): TestAccount[] {
 	if (!query) return accounts
 	const q = query.toLowerCase()
-	return accounts.filter(
-		(a) =>
-			a.label.toLowerCase().includes(q) ||
-			a.username.toLowerCase().includes(q) ||
-			a.description?.toLowerCase().includes(q) ||
-			a.subgroup?.toLowerCase().includes(q)
-	)
+	return accounts.filter((a) => a.label.toLowerCase().includes(q) || a.username.toLowerCase().includes(q) || a.description?.toLowerCase().includes(q) || a.subgroup?.toLowerCase().includes(q))
 }
 
 export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountSheetProps) {
@@ -79,22 +73,12 @@ export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountShe
 			{/* Header — SheetHeader includes built-in close button */}
 			<SheetHeader className="gap-2.5">
 				<SheetTitle>Comptes de test</SheetTitle>
-				<Input
-					ref={searchRef}
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-					placeholder="Rechercher..."
-					className="h-7 text-xs"
-				/>
+				<Input ref={searchRef} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Rechercher..." className="h-7 text-xs" />
 			</SheetHeader>
 
 			{/* Scrollable list */}
 			<div className="flex-1 overflow-y-auto min-h-0">
-				{groups.length === 0 && (
-					<p className="px-4 py-8 text-center text-xs text-fg-muted">
-						Aucun résultat pour «&nbsp;{search}&nbsp;»
-					</p>
-				)}
+				{groups.length === 0 && <p className="px-4 py-8 text-center text-xs text-fg-muted">Aucun résultat pour «&nbsp;{search}&nbsp;»</p>}
 
 				{groups.map((group) => {
 					const headerClass = GROUP_STYLES[group.name] ?? DEFAULT_GROUP_HEADER
@@ -102,26 +86,16 @@ export function QuickAccountSheet({ accounts, onAccountSelect }: QuickAccountShe
 					return (
 						<div key={group.name}>
 							{/* Group header */}
-							<div
-								className={`sticky top-0 z-[5] px-3 py-1.5 border-b text-[11px] font-semibold uppercase tracking-wider ${headerClass}`}
-							>
+							<div className={`sticky top-0 z-[5] px-3 py-1.5 border-b text-[11px] font-semibold uppercase tracking-wider ${headerClass}`}>
 								{group.name}
 								<span className="ml-1 font-normal opacity-60">({group.totalCount})</span>
 							</div>
 
 							{group.subgroups.map((subgroup) => (
 								<Fragment key={subgroup.name || "__default"}>
-									{subgroup.name && (
-										<div className="bg-card border-b border-separator/50 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-fg-muted">
-											{subgroup.name}
-										</div>
-									)}
+									{subgroup.name && <div className="bg-card border-b border-separator/50 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-fg-muted">{subgroup.name}</div>}
 									{subgroup.accounts.map((account) => (
-										<QuickAccountListItem
-											key={account.username}
-											account={account}
-											onSelect={() => onAccountSelect(account.username, account.password)}
-										/>
+										<QuickAccountListItem key={account.username} account={account} onSelect={() => onAccountSelect(account.username, account.password)} />
 									))}
 								</Fragment>
 							))}

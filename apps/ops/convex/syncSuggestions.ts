@@ -1,10 +1,5 @@
 import { v } from "convex/values"
-import {
-	internalMutation,
-	internalQuery,
-	mutation,
-	query,
-} from "./_generated/server"
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const listPending = query({
@@ -13,9 +8,7 @@ export const listPending = query({
 		const { userId } = await requireAuth(ctx)
 		const suggestions = await ctx.db
 			.query("syncSuggestions")
-			.withIndex("by_user_status", (q) =>
-				q.eq("userId", userId).eq("status", "pending")
-			)
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "pending"))
 			.collect()
 		return suggestions.sort((a, b) => b.confidence - a.confidence)
 	},
@@ -28,15 +21,11 @@ export const listProcessedNames = internalQuery({
 		const { userId } = await requireAuth(ctx)
 		const accepted = await ctx.db
 			.query("syncSuggestions")
-			.withIndex("by_user_status", (q) =>
-				q.eq("userId", userId).eq("status", "accepted")
-			)
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "accepted"))
 			.collect()
 		const rejected = await ctx.db
 			.query("syncSuggestions")
-			.withIndex("by_user_status", (q) =>
-				q.eq("userId", userId).eq("status", "rejected")
-			)
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "rejected"))
 			.collect()
 		return [...accepted, ...rejected].map((s) => s.name)
 	},
@@ -92,9 +81,7 @@ export const acceptAll = mutation({
 		const { userId } = await requireAuth(ctx)
 		const pending = await ctx.db
 			.query("syncSuggestions")
-			.withIndex("by_user_status", (q) =>
-				q.eq("userId", userId).eq("status", "pending")
-			)
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "pending"))
 			.collect()
 
 		for (const suggestion of pending) {
@@ -122,9 +109,7 @@ export const rejectAll = mutation({
 		const { userId } = await requireAuth(ctx)
 		const pending = await ctx.db
 			.query("syncSuggestions")
-			.withIndex("by_user_status", (q) =>
-				q.eq("userId", userId).eq("status", "pending")
-			)
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "pending"))
 			.collect()
 
 		for (const suggestion of pending) {
@@ -144,11 +129,7 @@ export const insertFromAction = internalMutation({
 			v.object({
 				name: v.string(),
 				amountCents: v.number(),
-				frequency: v.union(
-					v.literal("monthly"),
-					v.literal("quarterly"),
-					v.literal("yearly")
-				),
+				frequency: v.union(v.literal("monthly"), v.literal("quarterly"), v.literal("yearly")),
 				category: v.string(),
 				confidence: v.number(),
 				transactionIds: v.array(v.string()),

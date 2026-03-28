@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { Badge } from "@blazz/ui/components/ui/badge"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocRelated } from "~/components/docs/doc-related"
@@ -198,38 +198,26 @@ export default function McpPage() {
 			<DocSection id="concept" title="Le concept">
 				<div className="space-y-4 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						<strong className="text-fg">@blazz/mcp</strong> est un serveur{" "}
-						<strong className="text-fg">Model Context Protocol</strong> qui donne a votre assistant
-						AI (Claude, Cursor, Copilot) un acces structure au design system Blazz.
+						<strong className="text-fg">@blazz/mcp</strong> est un serveur <strong className="text-fg">Model Context Protocol</strong> qui donne a votre assistant AI (Claude, Cursor, Copilot) un acces
+						structure au design system Blazz.
 					</p>
 					<p>
-						Au lieu de copier-coller de la documentation dans vos prompts, l'IA interroge
-						directement le MCP pour obtenir les props d'un composant, le skeleton d'une page, ou les
-						tokens CSS. Le code genere respecte les conventions{" "}
-						<strong className="text-fg">des le premier essai</strong>.
+						Au lieu de copier-coller de la documentation dans vos prompts, l'IA interroge directement le MCP pour obtenir les props d'un composant, le skeleton d'une page, ou les tokens CSS. Le code
+						genere respecte les conventions <strong className="text-fg">des le premier essai</strong>.
 					</p>
 
 					<div className="grid gap-4 sm:grid-cols-3">
 						<div className="rounded-lg border border-container p-4 space-y-2">
 							<p className="text-xs font-medium text-fg uppercase tracking-wider">Sans MCP</p>
-							<p className="text-[13px] text-fg-muted">
-								L'IA invente des props, utilise des patterns non standards, et ignore les
-								conventions du projet. Aller-retour constants.
-							</p>
+							<p className="text-[13px] text-fg-muted">L'IA invente des props, utilise des patterns non standards, et ignore les conventions du projet. Aller-retour constants.</p>
 						</div>
 						<div className="rounded-lg border border-container p-4 space-y-2">
 							<p className="text-xs font-medium text-fg uppercase tracking-wider">Avec MCP</p>
-							<p className="text-[13px] text-fg-muted">
-								L'IA interroge l'API des composants, recupere les patterns exacts, et genere du code
-								conforme au design system.
-							</p>
+							<p className="text-[13px] text-fg-muted">L'IA interroge l'API des composants, recupere les patterns exacts, et genere du code conforme au design system.</p>
 						</div>
 						<div className="rounded-lg border border-container p-4 space-y-2">
 							<p className="text-xs font-medium text-fg uppercase tracking-wider">6 tools</p>
-							<p className="text-[13px] text-fg-muted">
-								Composants, patterns de pages, tokens CSS, principes de design, et conventions de
-								code — tout est accessible.
-							</p>
+							<p className="text-[13px] text-fg-muted">Composants, patterns de pages, tokens CSS, principes de design, et conventions de code — tout est accessible.</p>
 						</div>
 					</div>
 				</div>
@@ -239,27 +227,16 @@ export default function McpPage() {
 			<DocSection id="installation" title="Installation">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le serveur MCP se configure dans le fichier de config de votre editeur. Il utilise{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-							npx @blazz/mcp
-						</code>{" "}
-						— aucune installation globale necessaire.
+						Le serveur MCP se configure dans le fichier de config de votre editeur. Il utilise <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">npx @blazz/mcp</code> — aucune
+						installation globale necessaire.
 					</p>
 					<p>
-						La variable{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">BLAZZ_ROOT</code>{" "}
-						pointe vers la racine du monorepo. Si omise, le serveur remonte l'arborescence pour
-						trouver le dossier{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/</code>.
+						La variable <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">BLAZZ_ROOT</code> pointe vers la racine du monorepo. Si omise, le serveur remonte l'arborescence pour trouver
+						le dossier <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/</code>.
 					</p>
 				</div>
 
-				<DocExampleClient
-					title="Claude Code"
-					description="Fichier .claude/mcp.json ou .mcp.json a la racine du projet."
-					code={examples[0].code}
-					highlightedCode={html("install-claude")}
-				>
+				<DocExampleClient title="Claude Code" description="Fichier .claude/mcp.json ou .mcp.json a la racine du projet." code={examples[0].code} highlightedCode={html("install-claude")}>
 					<div className="space-y-2 text-sm">
 						<div className="flex items-center gap-2">
 							<Badge variant="outline" className="text-[10px]">
@@ -267,18 +244,11 @@ export default function McpPage() {
 							</Badge>
 							<span className="text-xs text-fg-muted">.claude/mcp.json</span>
 						</div>
-						<p className="text-xs text-fg-muted">
-							Claude Code charge automatiquement les serveurs MCP au demarrage.
-						</p>
+						<p className="text-xs text-fg-muted">Claude Code charge automatiquement les serveurs MCP au demarrage.</p>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Cursor"
-					description="Fichier .cursor/mcp.json dans le projet."
-					code={examples[1].code}
-					highlightedCode={html("install-cursor")}
-				>
+				<DocExampleClient title="Cursor" description="Fichier .cursor/mcp.json dans le projet." code={examples[1].code} highlightedCode={html("install-cursor")}>
 					<div className="space-y-2 text-sm">
 						<div className="flex items-center gap-2">
 							<Badge variant="outline" className="text-[10px]">
@@ -286,9 +256,7 @@ export default function McpPage() {
 							</Badge>
 							<span className="text-xs text-fg-muted">.cursor/mcp.json</span>
 						</div>
-						<p className="text-xs text-fg-muted">
-							Cursor detecte les serveurs MCP au rechargement de la fenetre.
-						</p>
+						<p className="text-xs text-fg-muted">Cursor detecte les serveurs MCP au rechargement de la fenetre.</p>
 					</div>
 				</DocExampleClient>
 			</DocSection>
@@ -297,9 +265,8 @@ export default function McpPage() {
 			<DocSection id="tools" title="Les 6 tools">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Le serveur expose <strong className="text-fg">6 tools</strong> que l'assistant AI peut
-						appeler a tout moment pendant une conversation. Chaque tool retourne du contenu
-						structure — JSON ou Markdown — que l'IA utilise pour generer du code.
+						Le serveur expose <strong className="text-fg">6 tools</strong> que l'assistant AI peut appeler a tout moment pendant une conversation. Chaque tool retourne du contenu structure — JSON ou
+						Markdown — que l'IA utilise pour generer du code.
 					</p>
 				</div>
 
@@ -308,12 +275,8 @@ export default function McpPage() {
 						<thead>
 							<tr className="border-b border-separator bg-muted/50">
 								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Tool</th>
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
-									Arguments
-								</th>
-								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">
-									Description
-								</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Arguments</th>
+								<th className="px-4 py-2.5 text-left text-xs font-medium text-fg-muted">Description</th>
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-separator">
@@ -368,21 +331,12 @@ export default function McpPage() {
 			<DocSection id="tool-list-components" title="list_components">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne la liste complete des composants disponibles. L'IA utilise cette tool pour
-						savoir quel composant chercher avant d'appeler{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-							get_component
-						</code>
-						.
+						Retourne la liste complete des composants disponibles. L'IA utilise cette tool pour savoir quel composant chercher avant d'appeler{" "}
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">get_component</code>.
 					</p>
 				</div>
 
-				<DocExampleClient
-					title="Reponse"
-					description="Tableau JSON avec name, category et description pour chaque composant."
-					code={examples[2].code}
-					highlightedCode={html("tool-list-components")}
-				>
+				<DocExampleClient title="Reponse" description="Tableau JSON avec name, category et description pour chaque composant." code={examples[2].code} highlightedCode={html("tool-list-components")}>
 					<div className="space-y-2">
 						<p className="text-xs font-medium text-fg">Categories retournees</p>
 						<div className="flex flex-wrap gap-2">
@@ -400,12 +354,8 @@ export default function McpPage() {
 			<DocSection id="tool-get-component" title="get_component">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne la documentation complete d'un composant : props avec types et defaults,
-						exemples d'usage canoniques, et gotchas a eviter. Le contenu vient de{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-							ai/components.md
-						</code>
-						.
+						Retourne la documentation complete d'un composant : props avec types et defaults, exemples d'usage canoniques, et gotchas a eviter. Le contenu vient de{" "}
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/components.md</code>.
 					</p>
 				</div>
 
@@ -417,14 +367,11 @@ export default function McpPage() {
 				>
 					<div className="space-y-3">
 						<div className="flex items-center gap-2">
-							<code className="rounded bg-muted px-2 py-1 text-xs font-mono text-brand">
-								name: "Button"
-							</code>
+							<code className="rounded bg-muted px-2 py-1 text-xs font-mono text-brand">name: "Button"</code>
 							<span className="text-xs text-fg-muted">ou "DataGrid", "PageHeader", etc.</span>
 						</div>
 						<p className="text-xs text-fg-muted">
-							Si le composant n'existe pas, retourne une erreur avec la suggestion d'utiliser{" "}
-							<code className="text-brand">list_components</code>.
+							Si le composant n'existe pas, retourne une erreur avec la suggestion d'utiliser <code className="text-brand">list_components</code>.
 						</p>
 					</div>
 				</DocExampleClient>
@@ -434,12 +381,8 @@ export default function McpPage() {
 			<DocSection id="tool-get-pattern" title="get_pattern">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne un pattern de page complet avec la structure de fichiers, le code skeleton, les
-						conventions specifiques et les 4 etats (loading, empty, error, success). Source :{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-							ai/patterns/*.md
-						</code>
-						.
+						Retourne un pattern de page complet avec la structure de fichiers, le code skeleton, les conventions specifiques et les 4 etats (loading, empty, error, success). Source :{" "}
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/patterns/*.md</code>.
 					</p>
 				</div>
 
@@ -460,9 +403,7 @@ export default function McpPage() {
 							{ name: "reporting", desc: "Graphiques + export" },
 						].map((p) => (
 							<div key={p.name} className="flex items-start gap-2">
-								<code className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-[11px] font-mono text-brand">
-									{p.name}
-								</code>
+								<code className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-[11px] font-mono text-brand">{p.name}</code>
 								<span className="text-xs text-fg-muted">{p.desc}</span>
 							</div>
 						))}
@@ -474,22 +415,12 @@ export default function McpPage() {
 			<DocSection id="tool-get-rules" title="get_rules">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne les conventions de code non negociables : architecture (Server Components par
-						defaut), formulaires (react-hook-form + zod), les 4 etats obligatoires, et les
-						conventions d'import. Source :{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-							ai/rules.md
-						</code>
-						.
+						Retourne les conventions de code non negociables : architecture (Server Components par defaut), formulaires (react-hook-form + zod), les 4 etats obligatoires, et les conventions d'import.
+						Source : <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/rules.md</code>.
 					</p>
 				</div>
 
-				<DocExampleClient
-					title="Contenu"
-					description="Les regles que l'IA doit respecter pour generer du code conforme."
-					code={examples[5].code}
-					highlightedCode={html("tool-get-rules")}
-				>
+				<DocExampleClient title="Contenu" description="Les regles que l'IA doit respecter pour generer du code conforme." code={examples[5].code} highlightedCode={html("tool-get-rules")}>
 					<div className="space-y-2">
 						<p className="text-xs font-medium text-fg">Points couverts</p>
 						<div className="grid gap-2 sm:grid-cols-2">
@@ -515,21 +446,12 @@ export default function McpPage() {
 			<DocSection id="tool-get-design-principles" title="get_design_principles">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne les principes de design du kit : ratio data-ink de Tufte, lois de Gestalt,
-						densite enterprise, echelle de 4px, typographie Inter, couleurs semantiques. Source :{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-							ai/design.md
-						</code>
-						.
+						Retourne les principes de design du kit : ratio data-ink de Tufte, lois de Gestalt, densite enterprise, echelle de 4px, typographie Inter, couleurs semantiques. Source :{" "}
+						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">ai/design.md</code>.
 					</p>
 				</div>
 
-				<DocExampleClient
-					title="Contenu"
-					description="Les principes que l'IA utilise pour prendre des decisions visuelles."
-					code={examples[6].code}
-					highlightedCode={html("tool-get-design")}
-				>
+				<DocExampleClient title="Contenu" description="Les principes que l'IA utilise pour prendre des decisions visuelles." code={examples[6].code} highlightedCode={html("tool-get-design")}>
 					<div className="space-y-2">
 						<p className="text-xs font-medium text-fg">Principes couverts</p>
 						<div className="grid gap-2 sm:grid-cols-2">
@@ -555,19 +477,12 @@ export default function McpPage() {
 			<DocSection id="tool-get-tokens" title="get_tokens">
 				<div className="space-y-2 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Retourne le fichier{" "}
-						<code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">tokens.css</code>{" "}
-						complet avec les 25 tokens oklch pour les themes light et dark. L'IA les utilise pour
-						appliquer les bonnes variables CSS au lieu de hardcoder des couleurs.
+						Retourne le fichier <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">tokens.css</code> complet avec les 25 tokens oklch pour les themes light et dark. L'IA les utilise
+						pour appliquer les bonnes variables CSS au lieu de hardcoder des couleurs.
 					</p>
 				</div>
 
-				<DocExampleClient
-					title="Exemple de tokens"
-					description="Variables CSS en oklch pour surfaces, textes, bordures et accents."
-					code={examples[7].code}
-					highlightedCode={html("tool-get-tokens")}
-				>
+				<DocExampleClient title="Exemple de tokens" description="Variables CSS en oklch pour surfaces, textes, bordures et accents." code={examples[7].code} highlightedCode={html("tool-get-tokens")}>
 					<div className="grid gap-3 sm:grid-cols-3">
 						{[
 							{ label: "Surfaces", tokens: ["--app", "--surface", "--raised"] },
@@ -575,9 +490,7 @@ export default function McpPage() {
 							{ label: "Accents", tokens: ["--brand", "--info", "--success"] },
 						].map((group) => (
 							<div key={group.label} className="space-y-1.5">
-								<p className="text-[11px] font-medium text-fg uppercase tracking-wider">
-									{group.label}
-								</p>
+								<p className="text-[11px] font-medium text-fg uppercase tracking-wider">{group.label}</p>
 								{group.tokens.map((t) => (
 									<code key={t} className="block text-xs font-mono text-fg-muted">
 										{t}
@@ -593,9 +506,8 @@ export default function McpPage() {
 			<DocSection id="workflow" title="Workflow type">
 				<div className="space-y-4 text-sm text-fg-secondary leading-relaxed">
 					<p>
-						Voici comment un assistant AI utilise le MCP en pratique. Les tools sont appelees{" "}
-						<strong className="text-fg">automatiquement</strong> par l'IA — tu n'as pas besoin de
-						les invoquer manuellement.
+						Voici comment un assistant AI utilise le MCP en pratique. Les tools sont appelees <strong className="text-fg">automatiquement</strong> par l'IA — tu n'as pas besoin de les invoquer
+						manuellement.
 					</p>
 				</div>
 
@@ -617,9 +529,7 @@ export default function McpPage() {
 							{ step: "4", label: "get_tokens", desc: "Verifier les tokens pour le styling" },
 						].map((s) => (
 							<div key={s.step} className="flex items-start gap-3">
-								<span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand/10 text-xs font-semibold text-brand">
-									{s.step}
-								</span>
+								<span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand/10 text-xs font-semibold text-brand">{s.step}</span>
 								<div className="space-y-0.5">
 									<code className="text-xs font-mono text-brand">{s.label}</code>
 									<p className="text-xs text-fg-muted">{s.desc}</p>

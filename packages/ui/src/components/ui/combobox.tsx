@@ -3,14 +3,7 @@
 import { Check, ChevronsUpDown } from "lucide-react"
 import * as React from "react"
 import { cn } from "../../lib/utils"
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-} from "./command"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./command"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 
 export interface ComboboxOption {
@@ -78,23 +71,14 @@ export function Combobox({
 				>
 					<span className="flex items-center gap-2 truncate">
 						{icon}
-						{selectedOption?.avatar && (
-							<img
-								src={selectedOption.avatar}
-								alt=""
-								className="size-6 shrink-0 rounded-full object-cover"
-							/>
-						)}
+						{selectedOption?.avatar && <img src={selectedOption.avatar} alt="" className="size-6 shrink-0 rounded-full object-cover" />}
 						{selectedOption?.icon}
 						{selectedOption ? selectedOption.label : placeholder}
 					</span>
 					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</PopoverTrigger>
 			)}
-			<PopoverContent
-				className={cn("p-0", iconTrigger ? "w-48" : "w-(--radix-popover-trigger-width)")}
-				align="start"
-			>
+			<PopoverContent className={cn("p-0", iconTrigger ? "w-48" : "w-(--radix-popover-trigger-width)")} align="start">
 				<Command>
 					{searchable && <CommandInput placeholder={searchPlaceholder} />}
 					<CommandList>
@@ -110,26 +94,13 @@ export function Combobox({
 									}}
 									className={cn("gap-2.5", hasRichOptions && "py-2")}
 								>
-									{option.avatar && (
-										<img
-											src={option.avatar}
-											alt=""
-											className="size-8 shrink-0 rounded-full object-cover"
-										/>
-									)}
+									{option.avatar && <img src={option.avatar} alt="" className="size-8 shrink-0 rounded-full object-cover" />}
 									{option.icon}
 									<div className="flex-1 truncate">
 										<span className={cn(option.description && "font-medium")}>{option.label}</span>
-										{option.description && (
-											<p className="text-xs text-fg-muted truncate">{option.description}</p>
-										)}
+										{option.description && <p className="text-xs text-fg-muted truncate">{option.description}</p>}
 									</div>
-									<Check
-										className={cn(
-											"ml-auto h-4 w-4 shrink-0",
-											value === option.value ? "opacity-100" : "opacity-0"
-										)}
-									/>
+									<Check className={cn("ml-auto h-4 w-4 shrink-0", value === option.value ? "opacity-100" : "opacity-0")} />
 								</CommandItem>
 							))}
 						</CommandGroup>

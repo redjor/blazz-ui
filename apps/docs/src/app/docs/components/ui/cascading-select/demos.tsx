@@ -88,12 +88,7 @@ export function DefaultDemo() {
 	const [value, setValue] = React.useState("")
 	return (
 		<div className="w-[300px]">
-			<CascadingSelect
-				nodes={PRODUCT_CATEGORIES}
-				value={value}
-				onValueChange={setValue}
-				placeholder="Select a category..."
-			/>
+			<CascadingSelect nodes={PRODUCT_CATEGORIES} value={value} onValueChange={setValue} placeholder="Select a category..." />
 		</div>
 	)
 }
@@ -105,12 +100,7 @@ export function WithLabelDemo() {
 			<Label>
 				Category <span className="text-negative">*</span>
 			</Label>
-			<CascadingSelect
-				nodes={PRODUCT_CATEGORIES}
-				value={value}
-				onValueChange={setValue}
-				placeholder="Select a category..."
-			/>
+			<CascadingSelect nodes={PRODUCT_CATEGORIES} value={value} onValueChange={setValue} placeholder="Select a category..." />
 		</div>
 	)
 }
@@ -119,12 +109,7 @@ export function GeographicDemo() {
 	const [value, setValue] = React.useState("")
 	return (
 		<div className="w-[300px]">
-			<CascadingSelect
-				nodes={GEOGRAPHIC}
-				value={value}
-				onValueChange={setValue}
-				placeholder="Select a region..."
-			/>
+			<CascadingSelect nodes={GEOGRAPHIC} value={value} onValueChange={setValue} placeholder="Select a region..." />
 		</div>
 	)
 }

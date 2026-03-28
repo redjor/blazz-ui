@@ -62,11 +62,7 @@ export default function PackagesPageClient() {
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{packages.map((pkg) => (
-						<BlockStack
-							key={pkg._id}
-							gap="300"
-							className="rounded-lg border border-edge bg-muted p-5"
-						>
+						<BlockStack key={pkg._id} gap="300" className="rounded-lg border border-edge bg-muted p-5">
 							<InlineStack gap="200" align="space-between" blockAlign="start">
 								<div className="min-w-0">
 									<a
@@ -78,9 +74,7 @@ export default function PackagesPageClient() {
 										{pkg.name}
 										<ExternalLink className="h-3 w-3 text-fg-muted" />
 									</a>
-									{pkg.description && (
-										<p className="text-xs text-fg-muted mt-0.5 line-clamp-2">{pkg.description}</p>
-									)}
+									{pkg.description && <p className="text-xs text-fg-muted mt-0.5 line-clamp-2">{pkg.description}</p>}
 								</div>
 								<Badge variant="secondary" className="shrink-0 font-mono text-xs">
 									v{pkg.latestVersion}
@@ -89,16 +83,12 @@ export default function PackagesPageClient() {
 
 							<div className="grid grid-cols-2 gap-y-1.5 text-xs">
 								<div className="text-fg-muted">Downloads/semaine</div>
-								<div className="text-fg font-mono text-right tabular-nums">
-									{pkg.weeklyDownloads.toLocaleString("fr-FR")}
-								</div>
+								<div className="text-fg font-mono text-right tabular-nums">{pkg.weeklyDownloads.toLocaleString("fr-FR")}</div>
 
 								{pkg.unpackedSize != null && (
 									<>
 										<div className="text-fg-muted">Taille</div>
-										<div className="text-fg font-mono text-right">
-											{formatBytes(pkg.unpackedSize)}
-										</div>
+										<div className="text-fg font-mono text-right">{formatBytes(pkg.unpackedSize)}</div>
 									</>
 								)}
 

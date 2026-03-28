@@ -76,15 +76,7 @@ const PROGRESS_COLOR: Record<ProgressToastType, string> = {
 	default: "bg-brand",
 }
 
-function ProgressToastContent({
-	id,
-	title,
-	type,
-	description,
-	duration,
-	showProgress,
-	showCountdown,
-}: ProgressToastContentProps) {
+function ProgressToastContent({ id, title, type, description, duration, showProgress, showCountdown }: ProgressToastContentProps) {
 	const [remaining, setRemaining] = useState(Math.ceil(duration / 1000))
 	const progressBarRef = useRef<HTMLDivElement>(null)
 
@@ -123,9 +115,7 @@ function ProgressToastContent({
 			}}
 		>
 			<div className="flex items-start gap-3 p-4 pb-3">
-				{IconComponent && (
-					<IconComponent className={cn("size-5 mt-0.5 shrink-0", ICON_COLOR[type])} />
-				)}
+				{IconComponent && <IconComponent className={cn("size-5 mt-0.5 shrink-0", ICON_COLOR[type])} />}
 				<div className="flex-1 min-w-0">
 					<p className="text-sm font-semibold leading-5" style={{ color: "var(--text-primary)" }}>
 						{title}
@@ -147,19 +137,13 @@ function ProgressToastContent({
 			</div>
 
 			{showCountdown && (
-				<div
-					className="px-4 pt-2 pb-3 text-xs"
-					style={{ color: "var(--text-muted)", borderTop: "1px solid var(--border-default)" }}
-				>
+				<div className="px-4 pt-2 pb-3 text-xs" style={{ color: "var(--text-muted)", borderTop: "1px solid var(--border-default)" }}>
 					Dismissing in {remaining} second{remaining !== 1 ? "s" : ""}
 				</div>
 			)}
 
 			{showProgress && (
-				<div
-					className="absolute bottom-0 left-0 right-0 h-[3px]"
-					style={{ background: "rgb(0 0 0 / 0.06)" }}
-				>
+				<div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: "rgb(0 0 0 / 0.06)" }}>
 					<div ref={progressBarRef} className={cn("h-full w-full", PROGRESS_COLOR[type])} />
 				</div>
 			)}
@@ -170,20 +154,9 @@ function ProgressToastContent({
 function createProgressToast(type: ProgressToastType) {
 	return (title: string, options: ProgressToastOptions = {}) => {
 		const { description, duration = 5000, showProgress = true, showCountdown = true } = options
-		return toast.custom(
-			(id) => (
-				<ProgressToastContent
-					id={id}
-					title={title}
-					type={type}
-					description={description}
-					duration={duration}
-					showProgress={showProgress}
-					showCountdown={showCountdown}
-				/>
-			),
-			{ duration }
-		)
+		return toast.custom((id) => <ProgressToastContent id={id} title={title} type={type} description={description} duration={duration} showProgress={showProgress} showCountdown={showCountdown} />, {
+			duration,
+		})
 	}
 }
 

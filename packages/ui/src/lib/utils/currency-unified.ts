@@ -96,12 +96,7 @@ export function formatCurrency(amount: number, currency: string, locale: string 
  * // "+1 234,56 €"
  * ```
  */
-export function formatCurrencyAdvanced(
-	amount: number,
-	currency: string,
-	options: Intl.NumberFormatOptions = {},
-	locale: string = "fr-FR"
-): string {
+export function formatCurrencyAdvanced(amount: number, currency: string, options: Intl.NumberFormatOptions = {}, locale: string = "fr-FR"): string {
 	try {
 		return new Intl.NumberFormat(locale, {
 			style: "currency",

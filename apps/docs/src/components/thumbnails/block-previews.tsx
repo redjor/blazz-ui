@@ -32,7 +32,6 @@ import {
 	List,
 	Mail,
 	Moon,
-	Pencil,
 	Phone,
 	Plus,
 	Rows3,
@@ -96,44 +95,22 @@ export function BulkActionBarPreview() {
 				<span className="text-sm font-medium text-fg">12 selected</span>
 				<div className="h-4 w-px bg-border" />
 				<div className="flex items-center gap-2">
-					<button
-						type="button"
-						className="inline-flex h-8 items-center gap-1.5 rounded-md border border-edge bg-transparent px-3 text-sm font-medium"
-					>
+					<button type="button" className="inline-flex h-8 items-center gap-1.5 rounded-md border border-edge bg-transparent px-3 text-sm font-medium">
 						<Download className="size-4" />
 						Export
 					</button>
-					<button
-						type="button"
-						className="inline-flex h-8 items-center gap-1.5 rounded-md border border-edge bg-transparent px-3 text-sm font-medium"
-					>
+					<button type="button" className="inline-flex h-8 items-center gap-1.5 rounded-md border border-edge bg-transparent px-3 text-sm font-medium">
 						<UserPlus className="size-4" />
 						Assign
 					</button>
-					<button
-						type="button"
-						className="inline-flex h-8 items-center gap-1.5 rounded-md border border-negative bg-negative px-3 text-sm font-medium text-white"
-					>
+					<button type="button" className="inline-flex h-8 items-center gap-1.5 rounded-md border border-negative bg-negative px-3 text-sm font-medium text-white">
 						<Trash2 className="size-4" />
 						Delete
 					</button>
 				</div>
 				<div className="h-4 w-px bg-border" />
-				<button
-					type="button"
-					className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted hover:bg-muted"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="16"
-						height="16"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					>
+				<button type="button" className="inline-flex size-7 items-center justify-center rounded-md text-fg-muted hover:bg-muted">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 						<path d="M18 6 6 18" />
 						<path d="m6 6 12 12" />
 					</svg>
@@ -211,11 +188,7 @@ export function DetailPanelPreview() {
 export function ErrorStatePreview() {
 	return (
 		<div className="w-[480px] p-6">
-			<ErrorState
-				title="Failed to load data"
-				description="Please check your connection and try again."
-				onRetry={() => {}}
-			/>
+			<ErrorState title="Failed to load data" description="Please check your connection and try again." onRetry={() => {}} />
 		</div>
 	)
 }
@@ -328,11 +301,7 @@ export function FormFieldPreview() {
 export function FormSectionPreview() {
 	return (
 		<div className="flex w-[520px] flex-col gap-4 p-6">
-			<FormSection
-				title="Contact Information"
-				description="Primary contact details for this record"
-				defaultOpen
-			>
+			<FormSection title="Contact Information" description="Primary contact details for this record" defaultOpen>
 				<div className="grid grid-cols-2 gap-4">
 					<div className="space-y-1.5">
 						<Label>First name</Label>
@@ -377,18 +346,12 @@ export function MultiStepFormPreview() {
 						<div className="flex items-center gap-2">
 							<div
 								className={`flex size-7 items-center justify-center rounded-full border text-xs font-medium ${
-									step.completed
-										? "border-fg bg-fg text-card"
-										: step.current
-											? "border-fg text-fg"
-											: "border-edge text-fg-muted"
+									step.completed ? "border-fg bg-fg text-card" : step.current ? "border-fg text-fg" : "border-edge text-fg-muted"
 								}`}
 							>
 								{step.completed ? <Check className="size-3.5" /> : i + 1}
 							</div>
-							<span className={`text-sm ${step.current ? "font-medium text-fg" : "text-fg-muted"}`}>
-								{step.title}
-							</span>
+							<span className={`text-sm ${step.current ? "font-medium text-fg" : "text-fg-muted"}`}>{step.title}</span>
 						</div>
 					</div>
 				))}
@@ -422,16 +385,10 @@ export function MultiStepFormPreview() {
 
 			{/* Navigation */}
 			<div className="flex items-center justify-between">
-				<button
-					type="button"
-					className="inline-flex h-9 items-center rounded-md border border-edge bg-transparent px-4 text-sm font-medium"
-				>
+				<button type="button" className="inline-flex h-9 items-center rounded-md border border-edge bg-transparent px-4 text-sm font-medium">
 					Previous
 				</button>
-				<button
-					type="button"
-					className="inline-flex h-9 items-center rounded-md bg-fg px-4 text-sm font-medium text-card"
-				>
+				<button type="button" className="inline-flex h-9 items-center rounded-md bg-fg px-4 text-sm font-medium text-card">
 					Next
 				</button>
 			</div>
@@ -487,13 +444,8 @@ export function SplitViewPreview() {
 				<SplitView.Master>
 					<div className="divide-y divide-edge">
 						{splitViewItems.map((item) => (
-							<div
-								key={item.name}
-								className={`flex items-center gap-3 px-4 py-3 ${item.active ? "bg-brand/5" : ""}`}
-							>
-								<div className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
-									{item.name.charAt(0)}
-								</div>
+							<div key={item.name} className={`flex items-center gap-3 px-4 py-3 ${item.active ? "bg-brand/5" : ""}`}>
+								<div className="flex size-8 items-center justify-center rounded-full bg-muted text-xs font-medium">{item.name.charAt(0)}</div>
 								<div className="min-w-0 flex-1">
 									<p className="truncate text-sm font-medium text-fg">{item.name}</p>
 									<p className="text-xs text-fg-muted">{item.subtitle}</p>
@@ -506,9 +458,7 @@ export function SplitViewPreview() {
 				<SplitView.Detail>
 					<div className="space-y-4 p-4">
 						<div className="flex items-center gap-3">
-							<div className="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-semibold">
-								A
-							</div>
+							<div className="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-semibold">A</div>
 							<div>
 								<p className="text-sm font-semibold text-fg">Acme Corp</p>
 								<p className="text-xs text-fg-muted">Technology</p>
@@ -653,14 +603,10 @@ export function InboxPreview() {
 					{ initials: "JL", name: "James Lee", action: "replied to", target: "Budget approval", time: "3h", unread: false },
 				].map((n) => (
 					<div key={n.target} className={`flex items-start gap-3 px-4 py-3 ${n.unread ? "bg-brand/5" : ""}`}>
-						<div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium">
-							{n.initials}
-						</div>
+						<div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium">{n.initials}</div>
 						<div className="min-w-0 flex-1">
 							<p className="text-sm">
-								<span className="font-medium">{n.name}</span>{" "}
-								<span className="text-fg-muted">{n.action}</span>{" "}
-								<span className="font-medium">{n.target}</span>
+								<span className="font-medium">{n.name}</span> <span className="text-fg-muted">{n.action}</span> <span className="font-medium">{n.target}</span>
 							</p>
 							<p className="text-xs text-fg-muted">{n.time} ago</p>
 						</div>
@@ -725,7 +671,9 @@ export function KanbanBoardPreview() {
 					return (
 						<div key={col.id} className="flex w-full flex-col gap-2">
 							<div className="flex items-center gap-2 px-1">
-								<Badge variant={col.variant} size="xs">{col.label}</Badge>
+								<Badge variant={col.variant} size="xs">
+									{col.label}
+								</Badge>
 								<span className="text-xs text-fg-muted">{colItems.length}</span>
 							</div>
 							<div className="space-y-2">
@@ -762,12 +710,7 @@ export function QuickLogActivityPreview() {
 				<p className="text-sm font-medium">Type d&apos;activité</p>
 				<div className="grid grid-cols-4 gap-1.5">
 					{activityTypes.map((at) => (
-						<div
-							key={at.type}
-							className={`flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs ${
-								at.active ? "border-fg bg-fg text-card" : "border-edge"
-							}`}
-						>
+						<div key={at.type} className={`flex flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs ${at.active ? "border-fg bg-fg text-card" : "border-edge"}`}>
 							<at.Icon className="size-4" />
 							{at.label}
 						</div>
@@ -775,13 +718,9 @@ export function QuickLogActivityPreview() {
 				</div>
 				<div className="space-y-1.5">
 					<p className="text-sm">Note</p>
-					<div className="h-16 rounded-md border border-edge bg-card px-3 py-2 text-sm text-fg-muted">
-						Résumé de l&apos;activité...
-					</div>
+					<div className="h-16 rounded-md border border-edge bg-card px-3 py-2 text-sm text-fg-muted">Résumé de l&apos;activité...</div>
 				</div>
-				<div className="flex h-8 items-center justify-center rounded-md bg-fg text-sm font-medium text-card">
-					Enregistrer
-				</div>
+				<div className="flex h-8 items-center justify-center rounded-md bg-fg text-sm font-medium text-card">Enregistrer</div>
 			</div>
 		</div>
 	)
@@ -893,12 +832,7 @@ export function ViewConfigPanelPreview() {
 						{ Icon: LayoutGrid, label: "Board", active: false },
 						{ Icon: Columns3, label: "Table", active: false },
 					].map((tab) => (
-						<div
-							key={tab.label}
-							className={`flex flex-1 flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium ${
-								tab.active ? "bg-card text-fg shadow-sm" : "text-fg-muted"
-							}`}
-						>
+						<div key={tab.label} className={`flex flex-1 flex-col items-center gap-1 rounded-md px-3 py-1.5 text-xs font-medium ${tab.active ? "bg-card text-fg shadow-sm" : "text-fg-muted"}`}>
 							<tab.Icon className="size-4" />
 							{tab.label}
 						</div>

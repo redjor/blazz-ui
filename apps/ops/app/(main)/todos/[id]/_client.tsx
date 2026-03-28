@@ -4,32 +4,12 @@ import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Divider } from "@blazz/ui/components/ui/divider"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuShortcut,
-	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@blazz/ui/components/ui/dropdown-menu"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui/popover"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import type { JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
@@ -37,12 +17,7 @@ import { ArrowLeft, Copy, Flag, Link, Loader2, MoreHorizontal, Tag, Trash2 } fro
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { DueDatePicker } from "@/components/due-date-picker"
-import {
-	CategoryBadge,
-	DOT_COLOR_MAP,
-	getCategoryIcon,
-	ICON_COLOR_MAP,
-} from "@/components/manage-categories-sheet"
+import { DOT_COLOR_MAP, getCategoryIcon, ICON_COLOR_MAP } from "@/components/manage-categories-sheet"
 import { TagInput } from "@/components/tag-input"
 import { TiptapEditor, type TiptapUpdatePayload } from "@/components/tiptap-editor"
 import { StatusIcon } from "@/components/todos-preset"
@@ -173,10 +148,7 @@ export default function TodoDetailPageClient() {
 
 	useEffect(() => {
 		if (todo && !descInitialized.current) {
-			setDescriptionContent(
-				getStoredDescriptionJsonContent(todo.descriptionJson) ??
-					getLegacyDescriptionContent(todo.description)
-			)
+			setDescriptionContent(getStoredDescriptionJsonContent(todo.descriptionJson) ?? getLegacyDescriptionContent(todo.description))
 			setSaveState((current) => ({ ...current, description: "idle" }))
 			descInitialized.current = true
 		}
@@ -195,9 +167,7 @@ export default function TodoDetailPageClient() {
 	const topBarActions = todo ? (
 		<>
 			<DropdownMenu>
-				<DropdownMenuTrigger
-					render={<Button type="button" variant="ghost" size="icon-sm" className="text-fg-muted" />}
-				>
+				<DropdownMenuTrigger render={<Button type="button" variant="ghost" size="icon-sm" className="text-fg-muted" />}>
 					<MoreHorizontal className="size-4" />
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
@@ -227,9 +197,7 @@ export default function TodoDetailPageClient() {
 			</DropdownMenu>
 			{compositeState !== "idle" && (
 				<span className="flex items-center gap-1.5 text-xs text-fg-muted">
-					{(compositeState === "saving" || compositeState === "pending") && (
-						<Loader2 className="size-3 animate-spin" />
-					)}
+					{(compositeState === "saving" || compositeState === "pending") && <Loader2 className="size-3 animate-spin" />}
 					{getSaveStateLabel(compositeState)}
 				</span>
 			)}
@@ -386,22 +354,10 @@ export default function TodoDetailPageClient() {
 						</BlockStack>
 
 						{/* Inline property bar */}
-						<InlineStack
-							gap="050"
-							blockAlign="center"
-							wrap
-							className="rounded-lg border border-edge px-1.5 py-1 w-fit"
-						>
+						<InlineStack gap="050" blockAlign="center" wrap className="rounded-lg border border-edge px-1.5 py-1 w-fit">
 							{/* Status */}
-							<Select
-								value={todo.status}
-								onValueChange={(value) => void updateTodoStatusValue(value)}
-								items={STATUS_OPTIONS}
-							>
-								<SelectTrigger
-									size="sm"
-									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
-								>
+							<Select value={todo.status} onValueChange={(value) => void updateTodoStatusValue(value)} items={STATUS_OPTIONS}>
+								<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
 									<StatusIcon status={todo.status} />
 									<SelectValue />
 								</SelectTrigger>
@@ -425,15 +381,8 @@ export default function TodoDetailPageClient() {
 							<span className="text-fg-muted/20 text-xs select-none">|</span>
 
 							{/* Priority */}
-							<Select
-								value={todo.priority ?? "normal"}
-								onValueChange={handlePriorityChange}
-								items={PRIORITY_OPTIONS}
-							>
-								<SelectTrigger
-									size="sm"
-									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
-								>
+							<Select value={todo.priority ?? "normal"} onValueChange={handlePriorityChange} items={PRIORITY_OPTIONS}>
+								<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
 									{PRIORITY_ICON[todo.priority ?? "normal"]}
 									<SelectValue />
 								</SelectTrigger>
@@ -455,15 +404,9 @@ export default function TodoDetailPageClient() {
 							<Select
 								value={todo.projectId ?? ""}
 								onValueChange={(value) => void updateProjectValue(value)}
-								items={[
-									{ value: "", label: "Aucun" },
-									...projectList.map((project) => ({ value: project._id, label: project.name })),
-								]}
+								items={[{ value: "", label: "Aucun" }, ...projectList.map((project) => ({ value: project._id, label: project.name }))]}
 							>
-								<SelectTrigger
-									size="sm"
-									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
-								>
+								<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
 									<SelectValue placeholder="Projet" />
 								</SelectTrigger>
 								<SelectContent alignItemWithTrigger={false}>
@@ -490,23 +433,14 @@ export default function TodoDetailPageClient() {
 									})),
 								]}
 							>
-								<SelectTrigger
-									size="sm"
-									className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none"
-								>
+								<SelectTrigger size="sm" className="!border-none !bg-transparent hover:!bg-muted !h-7 gap-1.5 !px-2 !text-xs text-fg-muted !shadow-none">
 									{currentCategory ? (
 										<>
 											{(() => {
 												const Icon = getCategoryIcon(currentCategory.icon)
-												const iconColor =
-													ICON_COLOR_MAP[currentCategory.color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
-												const dotColor =
-													DOT_COLOR_MAP[currentCategory.color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
-												return Icon ? (
-													<Icon className={`size-3 shrink-0 ${iconColor}`} />
-												) : (
-													<span className={`size-2 shrink-0 rounded-full ${dotColor}`} />
-												)
+												const iconColor = ICON_COLOR_MAP[currentCategory.color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
+												const dotColor = DOT_COLOR_MAP[currentCategory.color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
+												return Icon ? <Icon className={`size-3 shrink-0 ${iconColor}`} /> : <span className={`size-2 shrink-0 rounded-full ${dotColor}`} />
 											})()}
 											<span className="text-xs">{currentCategory.name}</span>
 										</>
@@ -518,17 +452,11 @@ export default function TodoDetailPageClient() {
 									<SelectItem value="">Aucune</SelectItem>
 									{categoryList.map((category) => {
 										const CatIcon = getCategoryIcon(category.icon)
-										const catIconColor =
-											ICON_COLOR_MAP[category.color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
-										const catDotColor =
-											DOT_COLOR_MAP[category.color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
+										const catIconColor = ICON_COLOR_MAP[category.color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
+										const catDotColor = DOT_COLOR_MAP[category.color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
 										return (
 											<SelectItem key={category._id} value={category._id}>
-												{CatIcon ? (
-													<CatIcon className={`size-3 shrink-0 ${catIconColor}`} />
-												) : (
-													<span className={`size-2 shrink-0 rounded-full ${catDotColor}`} />
-												)}
+												{CatIcon ? <CatIcon className={`size-3 shrink-0 ${catIconColor}`} /> : <span className={`size-2 shrink-0 rounded-full ${catDotColor}`} />}
 												{category.name}
 											</SelectItem>
 										)
@@ -539,29 +467,12 @@ export default function TodoDetailPageClient() {
 							{/* Tags */}
 							<span className="text-fg-muted/20 text-xs select-none">|</span>
 							<Popover>
-								<PopoverTrigger
-									render={
-										<Button
-											type="button"
-											variant="ghost"
-											size="sm"
-											className="h-7 px-2 text-xs text-fg-muted gap-1.5"
-										/>
-									}
-								>
+								<PopoverTrigger render={<Button type="button" variant="ghost" size="sm" className="h-7 px-2 text-xs text-fg-muted gap-1.5" />}>
 									<Tag className="size-3" />
-									{(todo.tags ?? []).length > 0 ? (
-										<span className="text-xs">{(todo.tags ?? []).join(", ")}</span>
-									) : (
-										<span className="text-xs text-fg-muted">Tags</span>
-									)}
+									{(todo.tags ?? []).length > 0 ? <span className="text-xs">{(todo.tags ?? []).join(", ")}</span> : <span className="text-xs text-fg-muted">Tags</span>}
 								</PopoverTrigger>
 								<PopoverContent className="w-72 p-3" align="start">
-									<TagInput
-										value={todo.tags ?? []}
-										onChange={handleTagsChange}
-										suggestions={allTagsList}
-									/>
+									<TagInput value={todo.tags ?? []} onChange={handleTagsChange} suggestions={allTagsList} />
 								</PopoverContent>
 							</Popover>
 						</InlineStack>
@@ -581,17 +492,10 @@ export default function TodoDetailPageClient() {
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>Supprimer ce todo ?</DialogTitle>
-						<DialogDescription>
-							Cette action est irréversible. Le todo « {todo.text} » sera définitivement supprimé.
-						</DialogDescription>
+						<DialogDescription>Cette action est irréversible. Le todo « {todo.text} » sera définitivement supprimé.</DialogDescription>
 					</DialogHeader>
 					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => setDeleteOpen(false)}
-							disabled={isDeleting}
-						>
+						<Button type="button" variant="outline" onClick={() => setDeleteOpen(false)} disabled={isDeleting}>
 							Annuler
 						</Button>
 						<Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>

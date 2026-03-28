@@ -8,24 +8,21 @@ const detailViewsComponents = [
 	{
 		title: "Detail Panel",
 		href: "/docs/blocks/detail-panel",
-		description:
-			"Panneau latéral pour afficher les détails d'un enregistrement sans quitter la vue liste.",
+		description: "Panneau latéral pour afficher les détails d'un enregistrement sans quitter la vue liste.",
 		icon: PanelRight,
 		thumbnail: "detail-panel",
 	},
 	{
 		title: "Property Card",
 		href: "/docs/blocks/property-card",
-		description:
-			"Carte de propriétés clé-valeur pour afficher les attributs d'une entité dans une fiche détail.",
+		description: "Carte de propriétés clé-valeur pour afficher les attributs d'une entité dans une fiche détail.",
 		icon: CreditCard,
 		thumbnail: "property-card",
 	},
 	{
 		title: "Inline Edit",
 		href: "/docs/blocks/inline-edit",
-		description:
-			"Édition en place avec bascule lecture/écriture au clic. Idéal pour les fiches de détail.",
+		description: "Édition en place avec bascule lecture/écriture au clic. Idéal pour les fiches de détail.",
 		icon: PencilLine,
 		thumbnail: "inline-edit",
 	},

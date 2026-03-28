@@ -565,8 +565,7 @@ const manualRegistry: Registry = [
 				name: "items",
 				type: "array",
 				group: "main",
-				description:
-					"Array of { value, label } objects. REQUIRED — Base UI Select.Value displays raw value without it.",
+				description: "Array of { value, label } objects. REQUIRED — Base UI Select.Value displays raw value without it.",
 			},
 			{
 				name: "children",
@@ -624,7 +623,4 @@ const manualRegistry: Registry = [
 
 // Merge: manual overrides generated (manual entries take priority)
 const manualSlugs = new Set(manualRegistry.map((c) => c.slug))
-export const registry: Registry = [
-	...manualRegistry,
-	...generatedRegistry.filter((c) => !manualSlugs.has(c.slug)),
-]
+export const registry: Registry = [...manualRegistry, ...generatedRegistry.filter((c) => !manualSlugs.has(c.slug))]

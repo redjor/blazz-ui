@@ -1,21 +1,12 @@
 "use client"
-import { use } from "react"
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
-import {
-	Table,
-	TableBody,
-	TableCaption,
-	TableCell,
-	TableFooter,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@blazz/ui/components/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@blazz/ui/components/ui/table"
 import { MoreHorizontal } from "lucide-react"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -214,15 +205,9 @@ function TableWithSelectionDemo() {
 			</TableHeader>
 			<TableBody>
 				{invoices.map((invoice) => (
-					<TableRow
-						key={invoice.id}
-						data-state={selectedRows.has(invoice.id) ? "selected" : undefined}
-					>
+					<TableRow key={invoice.id} data-state={selectedRows.has(invoice.id) ? "selected" : undefined}>
 						<TableCell>
-							<Checkbox
-								checked={selectedRows.has(invoice.id)}
-								onCheckedChange={() => toggleRow(invoice.id)}
-							/>
+							<Checkbox checked={selectedRows.has(invoice.id)} onCheckedChange={() => toggleRow(invoice.id)} />
 						</TableCell>
 						<TableCell className="font-medium">{invoice.id}</TableCell>
 						<TableCell>{invoice.status}</TableCell>
@@ -239,11 +224,7 @@ export default function TablePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Table"
-			subtitle="Display data in rows and columns with semantic HTML table elements."
-			toc={toc}
-		>
+		<DocPage title="Table" subtitle="Display data in rows and columns with semantic HTML table elements." toc={toc}>
 			<DocHero>
 				<Table>
 					<TableHeader>
@@ -268,12 +249,7 @@ export default function TablePage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Table"
-					description="A simple table with header and body rows."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Table" description="A simple table with header and body rows." code={examples[0].code} highlightedCode={html("basic")}>
 					<Table>
 						<TableCaption>A list of your recent invoices.</TableCaption>
 						<TableHeader>
@@ -297,12 +273,7 @@ export default function TablePage() {
 					</Table>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Footer"
-					description="Add a footer row for totals or summaries."
-					code={examples[1].code}
-					highlightedCode={html("with-footer")}
-				>
+				<DocExampleClient title="With Footer" description="Add a footer row for totals or summaries." code={examples[1].code} highlightedCode={html("with-footer")}>
 					<Table>
 						<TableHeader>
 							<TableRow>
@@ -329,12 +300,7 @@ export default function TablePage() {
 					</Table>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Status Badges"
-					description="Use badges to highlight status or categories."
-					code={examples[2].code}
-					highlightedCode={html("with-badges")}
-				>
+				<DocExampleClient title="With Status Badges" description="Use badges to highlight status or categories." code={examples[2].code} highlightedCode={html("with-badges")}>
 					<Table>
 						<TableHeader>
 							<TableRow>
@@ -348,17 +314,7 @@ export default function TablePage() {
 								<TableRow key={invoice.id}>
 									<TableCell className="font-medium">{invoice.id}</TableCell>
 									<TableCell>
-										<Badge
-											variant={
-												invoice.status === "Paid"
-													? "success"
-													: invoice.status === "Pending"
-														? "warning"
-														: "critical"
-											}
-										>
-											{invoice.status}
-										</Badge>
+										<Badge variant={invoice.status === "Paid" ? "success" : invoice.status === "Pending" ? "warning" : "critical"}>{invoice.status}</Badge>
 									</TableCell>
 									<TableCell>{invoice.amount}</TableCell>
 								</TableRow>
@@ -367,21 +323,11 @@ export default function TablePage() {
 					</Table>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Row Selection"
-					description="Add checkboxes for row selection."
-					code={examples[3].code}
-					highlightedCode={html("with-selection")}
-				>
+				<DocExampleClient title="With Row Selection" description="Add checkboxes for row selection." code={examples[3].code} highlightedCode={html("with-selection")}>
 					<TableWithSelectionDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Row Actions"
-					description="Add action buttons to table rows."
-					code={examples[4].code}
-					highlightedCode={html("with-actions")}
-				>
+				<DocExampleClient title="With Row Actions" description="Add action buttons to table rows." code={examples[4].code} highlightedCode={html("with-actions")}>
 					<Table>
 						<TableHeader>
 							<TableRow>
@@ -410,9 +356,7 @@ export default function TablePage() {
 			</DocSection>
 
 			<DocSection id="design-tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Table uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Table uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted/50</code> - Header and footer background

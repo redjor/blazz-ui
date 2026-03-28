@@ -16,11 +16,7 @@ export function StringControl({ name, value, onChange, descriptor }: StringContr
 			<label className="min-w-[100px] text-xs text-fg-muted" title={descriptor.description}>
 				{name}
 			</label>
-			<Input
-				className="h-7 text-xs flex-1 max-w-[180px]"
-				value={String(value ?? "")}
-				onChange={(e) => onChange(e.target.value)}
-			/>
+			<Input className="h-7 text-xs flex-1 max-w-[180px]" value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} />
 		</div>
 	)
 }

@@ -10,7 +10,7 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { CheckCircle, FileText, Plus, Send } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useCallback, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency } from "@/lib/format"
@@ -47,6 +47,34 @@ export default function InvoicesPageClient() {
 
 	useAppTopBar([{ label: "Factures" }], topBarActions)
 
+	const { draftTotal, draftCount, sentTotal, sentCount, paidTotal, paidCount } = useMemo(() => {
+		if (!invoices) return { draftTotal: 0, draftCount: 0, sentTotal: 0, sentCount: 0, paidTotal: 0, paidCount: 0 }
+		let draftTotal = 0,
+			draftCount = 0
+		let sentTotal = 0,
+			sentCount = 0
+		let paidTotal = 0,
+			paidCount = 0
+		for (const i of invoices) {
+			if (i.status === "draft") {
+				draftTotal += i.totalAmount
+				draftCount++
+			} else if (i.status === "sent") {
+				sentTotal += i.totalAmount
+				sentCount++
+			} else if (i.status === "paid") {
+				paidTotal += i.totalAmount
+				paidCount++
+			}
+		}
+		return { draftTotal, draftCount, sentTotal, sentCount, paidTotal, paidCount }
+	}, [invoices])
+
+	const filtered = useMemo(() => {
+		if (!invoices) return []
+		return filter === "all" ? invoices : invoices.filter((i) => i.status === filter)
+	}, [invoices, filter])
+
 	if (!invoices) {
 		return (
 			<BlockStack gap="600" className="p-6">
@@ -60,23 +88,6 @@ export default function InvoicesPageClient() {
 			</BlockStack>
 		)
 	}
-
-	const { draftTotal, draftCount, sentTotal, sentCount, paidTotal, paidCount } = useMemo(() => {
-		let draftTotal = 0, draftCount = 0
-		let sentTotal = 0, sentCount = 0
-		let paidTotal = 0, paidCount = 0
-		for (const i of invoices) {
-			if (i.status === "draft") { draftTotal += i.totalAmount; draftCount++ }
-			else if (i.status === "sent") { sentTotal += i.totalAmount; sentCount++ }
-			else if (i.status === "paid") { paidTotal += i.totalAmount; paidCount++ }
-		}
-		return { draftTotal, draftCount, sentTotal, sentCount, paidTotal, paidCount }
-	}, [invoices])
-
-	const filtered = useMemo(
-		() => filter === "all" ? invoices : invoices.filter((i) => i.status === filter),
-		[invoices, filter]
-	)
 
 	return (
 		<BlockStack gap="600" className="p-6">
@@ -107,12 +118,7 @@ export default function InvoicesPageClient() {
 
 			<InlineStack gap="100">
 				{FILTER_TABS.map((tab) => (
-					<Button
-						key={tab.value}
-						variant={filter === tab.value ? "default" : "ghost"}
-						size="sm"
-						onClick={() => setFilter(tab.value)}
-					>
+					<Button key={tab.value} variant={filter === tab.value ? "default" : "ghost"} size="sm" onClick={() => setFilter(tab.value)}>
 						{tab.label}
 					</Button>
 				))}
@@ -122,11 +128,7 @@ export default function InvoicesPageClient() {
 				<BlockStack gap="200" className="py-12 items-center text-center">
 					<FileText className="size-12 text-fg-muted" />
 					<p className="text-sm font-medium text-fg">Aucune facture</p>
-					<p className="text-xs text-fg-muted">
-						{filter === "all"
-							? "Creez votre premiere facture depuis un projet."
-							: "Aucune facture avec ce statut."}
-					</p>
+					<p className="text-xs text-fg-muted">{filter === "all" ? "Creez votre premiere facture depuis un projet." : "Aucune facture avec ce statut."}</p>
 				</BlockStack>
 			) : (
 				<div className="border border-edge rounded-lg overflow-hidden">
@@ -138,9 +140,7 @@ export default function InvoicesPageClient() {
 								<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs">Client</th>
 								<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs">Projet</th>
 								<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs">Periode</th>
-								<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs">
-									Montant HT
-								</th>
+								<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs">Montant HT</th>
 								<th className="text-center px-3 py-2 font-medium text-fg-muted text-xs">Statut</th>
 								<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs" />
 							</tr>
@@ -149,15 +149,9 @@ export default function InvoicesPageClient() {
 							{filtered.map((inv) => {
 								const cfg = STATUS_CONFIG[inv.status]
 								return (
-									<tr
-										key={inv._id}
-										className="border-t border-edge hover:bg-muted/50 h-10 cursor-pointer"
-										onClick={() => router.push(`/invoices/${inv._id}`)}
-									>
+									<tr key={inv._id} className="border-t border-edge hover:bg-muted/50 h-10 cursor-pointer" onClick={() => router.push(`/invoices/${inv._id}`)}>
 										<td className="px-3 py-2 font-mono text-fg">{inv.qontoNumber ?? "—"}</td>
-										<td className="px-3 py-2 text-fg font-medium truncate max-w-[240px]">
-											{inv.label}
-										</td>
+										<td className="px-3 py-2 text-fg font-medium truncate max-w-[240px]">{inv.label}</td>
 										<td className="px-3 py-2 text-fg-secondary">{inv.clientName}</td>
 										<td className="px-3 py-2 text-fg-secondary">{inv.projectName}</td>
 										<td className="px-3 py-2 text-fg-muted text-xs">

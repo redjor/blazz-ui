@@ -16,15 +16,12 @@ export const list = query({
 		const { userId } = await requireAuth(ctx)
 
 		// Use more specific index when filtering by read or source
+		// biome-ignore lint/suspicious/noImplicitAnyLet: type inferred from first assignment
 		let query
 		if (read !== undefined) {
-			query = ctx.db
-				.query("notifications")
-				.withIndex("by_user_read", (q) => q.eq("userId", userId).eq("read", read))
+			query = ctx.db.query("notifications").withIndex("by_user_read", (q) => q.eq("userId", userId).eq("read", read))
 		} else if (source !== undefined) {
-			query = ctx.db
-				.query("notifications")
-				.withIndex("by_user_source", (q) => q.eq("userId", userId).eq("source", source))
+			query = ctx.db.query("notifications").withIndex("by_user_source", (q) => q.eq("userId", userId).eq("source", source))
 		} else {
 			query = ctx.db
 				.query("notifications")
@@ -81,9 +78,7 @@ export const markAllRead = mutation({
 			.withIndex("by_user_read", (q) => q.eq("userId", userId).eq("read", false))
 			.collect()
 
-		const toUpdate = rows
-			.filter((n) => n.archivedAt === undefined)
-			.filter((n) => (source !== undefined ? n.source === source : true))
+		const toUpdate = rows.filter((n) => n.archivedAt === undefined).filter((n) => (source !== undefined ? n.source === source : true))
 
 		for (const n of toUpdate) {
 			await ctx.db.patch(n._id, { read: true })
@@ -140,9 +135,7 @@ export const internalCreate = internalMutation({
 		// Idempotence check: skip if same source+externalId already exists
 		const existing = await ctx.db
 			.query("notifications")
-			.withIndex("by_source_external", (q) =>
-				q.eq("source", args.source).eq("externalId", args.externalId)
-			)
+			.withIndex("by_source_external", (q) => q.eq("source", args.source).eq("externalId", args.externalId))
 			.first()
 
 		if (existing) return existing._id

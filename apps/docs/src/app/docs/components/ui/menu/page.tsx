@@ -1,21 +1,6 @@
 "use client"
 
 import { use } from "react"
-import {
-	Menu,
-	MenuCheckboxItem,
-	MenuGroup,
-	MenuGroupLabel,
-	MenuItem,
-	MenuPopup,
-	MenuPortal,
-	MenuPositioner,
-	MenuRadioGroup,
-	MenuRadioItem,
-	MenuSeparator,
-	MenuTrigger,
-} from "@blazz/ui/components/ui/menu"
-import { ChevronDown, LogOut, Settings, User } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -23,13 +8,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import {
-	MenuBasicDemo,
-	MenuCheckboxDemo,
-	MenuHeroDemo,
-	MenuRadioDemo,
-	MenuWithGroupsDemo,
-} from "./menu-demos"
+import { MenuBasicDemo, MenuCheckboxDemo, MenuHeroDemo, MenuRadioDemo, MenuWithGroupsDemo } from "./menu-demos"
 
 const toc = [
 	{ id: "examples", title: "Examples" },
@@ -181,11 +160,7 @@ export default function MenuPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Menu"
-			subtitle="An unstyled dropdown component with full keyboard navigation and accessibility."
-			toc={toc}
-		>
+		<DocPage title="Menu" subtitle="An unstyled dropdown component with full keyboard navigation and accessibility." toc={toc}>
 			<DocHero>
 				<MenuHeroDemo />
 			</DocHero>
@@ -219,12 +194,24 @@ export default function MenuPage() {
 			<DocSection id="design-tokens" title="Design Tokens">
 				<p className="text-sm text-fg-muted">Menu uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li><code className="text-xs">bg-muted</code> - Menu background color</li>
-					<li><code className="text-xs">text-fg</code> - Menu text color</li>
-					<li><code className="text-xs">bg-brand/10</code> - Highlighted item background</li>
-					<li><code className="text-xs">border</code> - Menu border color</li>
-					<li><code className="text-xs">shadow-md</code> - Medium shadow for elevation</li>
-					<li><code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)</li>
+					<li>
+						<code className="text-xs">bg-muted</code> - Menu background color
+					</li>
+					<li>
+						<code className="text-xs">text-fg</code> - Menu text color
+					</li>
+					<li>
+						<code className="text-xs">bg-brand/10</code> - Highlighted item background
+					</li>
+					<li>
+						<code className="text-xs">border</code> - Menu border color
+					</li>
+					<li>
+						<code className="text-xs">shadow-md</code> - Medium shadow for elevation
+					</li>
+					<li>
+						<code className="text-xs">rounded-md</code> - Medium border radius (0.375rem)
+					</li>
 				</ul>
 			</DocSection>
 
@@ -263,11 +250,26 @@ export default function MenuPage() {
 							</tr>
 						</thead>
 						<tbody className="divide-y">
-							<tr><td className="p-3 font-mono text-xs">&#8593; &#8595;</td><td className="p-3 text-fg-muted">Navigate between items</td></tr>
-							<tr><td className="p-3 font-mono text-xs">Enter / Space</td><td className="p-3 text-fg-muted">Select item</td></tr>
-							<tr><td className="p-3 font-mono text-xs">Esc</td><td className="p-3 text-fg-muted">Close menu</td></tr>
-							<tr><td className="p-3 font-mono text-xs">Home / End</td><td className="p-3 text-fg-muted">Jump to first/last item</td></tr>
-							<tr><td className="p-3 font-mono text-xs">Type</td><td className="p-3 text-fg-muted">Jump to item by text</td></tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">&#8593; &#8595;</td>
+								<td className="p-3 text-fg-muted">Navigate between items</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Enter / Space</td>
+								<td className="p-3 text-fg-muted">Select item</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Esc</td>
+								<td className="p-3 text-fg-muted">Close menu</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Home / End</td>
+								<td className="p-3 text-fg-muted">Jump to first/last item</td>
+							</tr>
+							<tr>
+								<td className="p-3 font-mono text-xs">Type</td>
+								<td className="p-3 text-fg-muted">Jump to item by text</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

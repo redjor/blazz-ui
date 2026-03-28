@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Property } from "@blazz/ui/components/ui/property"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -33,8 +33,7 @@ const propertyProps: DocProp[] = [
 		name: "direction",
 		type: '"vertical" | "horizontal"',
 		default: '"vertical"',
-		description:
-			"Vertical stacks label above value. Horizontal places them inline on the same line.",
+		description: "Vertical stacks label above value. Horizontal places them inline on the same line.",
 	},
 	{
 		name: "className",
@@ -48,8 +47,7 @@ const listProps: DocProp[] = [
 		name: "direction",
 		type: '"vertical" | "horizontal"',
 		default: '"vertical"',
-		description:
-			"Horizontal renders items in a row with wrapping. Vertical stacks them.",
+		description: "Horizontal renders items in a row with wrapping. Vertical stacks them.",
 	},
 	{
 		name: "children",
@@ -206,11 +204,7 @@ export default function PropertyPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Property"
-			subtitle="Display a label-value pair for showing entity details, metadata, or read-only fields."
-			toc={toc}
-		>
+		<DocPage title="Property" subtitle="Display a label-value pair for showing entity details, metadata, or read-only fields." toc={toc}>
 			<DocHero>
 				<div className="flex gap-10">
 					<Property label="Entreprise">Acme Corp</Property>
@@ -222,12 +216,7 @@ export default function PropertyPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple label and text value."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple label and text value." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="flex gap-10">
 						<Property label="Secteur">Technologie</Property>
 						<Property label="Taille">250 employés</Property>
@@ -235,12 +224,7 @@ export default function PropertyPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Badges"
-					description="Combine with Badge for status or category values."
-					code={examples[1].code}
-					highlightedCode={html("badges")}
-				>
+				<DocExampleClient title="With Badges" description="Combine with Badge for status or category values." code={examples[1].code} highlightedCode={html("badges")}>
 					<div className="flex gap-10">
 						<Property label="Statut">
 							<Badge variant="success">Actif</Badge>
@@ -254,12 +238,7 @@ export default function PropertyPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Links"
-					description="Use links for clickable values like emails or websites."
-					code={examples[2].code}
-					highlightedCode={html("links")}
-				>
+				<DocExampleClient title="With Links" description="Use links for clickable values like emails or websites." code={examples[2].code} highlightedCode={html("links")}>
 					<div className="flex gap-10">
 						<Property label="Email">
 							<a href="#" className="text-sm font-semibold text-brand hover:underline">
@@ -274,12 +253,7 @@ export default function PropertyPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Company Detail Card"
-					description="Real-world layout for an entity detail view."
-					code={examples[3].code}
-					highlightedCode={html("detail-card")}
-				>
+				<DocExampleClient title="Company Detail Card" description="Real-world layout for an entity detail view." code={examples[3].code} highlightedCode={html("detail-card")}>
 					<div className="grid grid-cols-2 gap-x-10 gap-y-4 sm:grid-cols-3">
 						<Property label="Entreprise">Acme Corp</Property>
 						<Property label="Secteur">Technologie</Property>
@@ -292,12 +266,7 @@ export default function PropertyPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Empty & Fallback"
-					description="Handle missing data gracefully."
-					code={examples[4].code}
-					highlightedCode={html("fallback")}
-				>
+				<DocExampleClient title="Empty & Fallback" description="Handle missing data gracefully." code={examples[4].code} highlightedCode={html("fallback")}>
 					<div className="flex gap-10">
 						<Property label="Téléphone">—</Property>
 						<Property label="Notes">
@@ -354,12 +323,7 @@ export default function PropertyPage() {
 			</DocSection>
 
 			<DocSection id="sections" title="Sections">
-				<DocExampleClient
-					title="Basic Section"
-					description="Group related properties under a titled section with a separator."
-					code={examples[7].code}
-					highlightedCode={html("section-basic")}
-				>
+				<DocExampleClient title="Basic Section" description="Group related properties under a titled section with a separator." code={examples[7].code} highlightedCode={html("section-basic")}>
 					<Property.Section title="Informations générales">
 						<Property label="Entreprise">Acme Corp</Property>
 						<Property label="Secteur">Technologie</Property>
@@ -372,17 +336,9 @@ export default function PropertyPage() {
 					</Property.Section>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Multiple Sections"
-					description="Stack sections to organize a detail page into logical groups."
-					code={examples[8].code}
-					highlightedCode={html("section-multiple")}
-				>
+				<DocExampleClient title="Multiple Sections" description="Stack sections to organize a detail page into logical groups." code={examples[8].code} highlightedCode={html("section-multiple")}>
 					<div className="flex flex-col gap-8">
-						<Property.Section
-							title="Informations"
-							description="Données principales de l'entreprise"
-						>
+						<Property.Section title="Informations" description="Données principales de l'entreprise">
 							<Property label="Entreprise">Acme Corp</Property>
 							<Property label="Secteur">Technologie</Property>
 							<Property label="Localisation">Paris, France</Property>

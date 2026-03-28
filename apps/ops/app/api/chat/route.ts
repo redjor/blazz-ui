@@ -7,7 +7,7 @@ import { ConvexHttpClient } from "convex/browser"
 import { z } from "zod"
 import { api } from "@/convex/_generated/api"
 import { buildSystemPrompt, type ChatContext } from "@/lib/chat/system-prompt"
-import { readTools, writeDangerousTools, writeSafeTools, tool } from "@/lib/chat/tools"
+import { readTools, tool, writeDangerousTools, writeSafeTools } from "@/lib/chat/tools"
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
@@ -169,15 +169,7 @@ function buildReadToolExecutors(token: string) {
 			}
 		},
 
-		"list-time-entries": async ({
-			projectId,
-			from,
-			to,
-		}: {
-			projectId?: string
-			from?: string
-			to?: string
-		}) => {
+		"list-time-entries": async ({ projectId, from, to }: { projectId?: string; from?: string; to?: string }) => {
 			const entries = await convex.query(api.timeEntries.list, {
 				projectId: projectId as any,
 				from,
@@ -204,8 +196,11 @@ function buildReadToolExecutors(token: string) {
 			return { balanceEur: (s?.qontoBalanceCents ?? 0) / 100 }
 		},
 		"qonto-transactions": async () => {
-			try { return await convex.action(api.qonto.listTransactions, {}) }
-			catch { return { error: "Qonto indisponible" } }
+			try {
+				return await convex.action(api.qonto.listTransactions, {})
+			} catch {
+				return { error: "Qonto indisponible" }
+			}
 		},
 		"list-invoices": async ({ status }: { status?: string }) => {
 			return convex.query(api.invoices.list, status ? { status: status as any } : {})
@@ -320,25 +315,18 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 	const agent = await convex.query(api.agents.getBySlug, { slug })
 	if (!agent) {
 		return new Response(JSON.stringify({ error: "Agent introuvable" }), {
-			status: 404, headers: { "Content-Type": "application/json" },
+			status: 404,
+			headers: { "Content-Type": "application/json" },
 		})
 	}
 
 	const agentUserId = String(agent.userId)
 
 	// Load soul files
-	const [soul, style, skill, context] = await Promise.all([
-		loadSoulFile(slug, "SOUL.md"),
-		loadSoulFile(slug, "STYLE.md"),
-		loadSoulFile(slug, "SKILL.md"),
-		loadSoulFile(slug, "CONTEXT.md"),
-	])
+	const [soul, style, skill, context] = await Promise.all([loadSoulFile(slug, "SOUL.md"), loadSoulFile(slug, "STYLE.md"), loadSoulFile(slug, "SKILL.md"), loadSoulFile(slug, "CONTEXT.md")])
 
 	// Load memory
-	const [privateMemories, sharedMemories] = await Promise.all([
-		convex.query(api.agentMemory.list, { agentId: agent._id }),
-		convex.query(api.agentMemory.listShared, {}),
-	])
+	const [privateMemories, sharedMemories] = await Promise.all([convex.query(api.agentMemory.list, { agentId: agent._id }), convex.query(api.agentMemory.listShared, {})])
 	const allMemories = [...privateMemories, ...sharedMemories]
 	const sortedMemories = allMemories
 		.sort((a, b) => {
@@ -346,13 +334,14 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 			return order.indexOf(a.category ?? "fact") - order.indexOf(b.category ?? "fact")
 		})
 		.slice(0, 15)
-	const memoryBlock = sortedMemories.length > 0
-		? `\n## Mémoire\n${sortedMemories.map((m) => `- [${m.category}${m.scope === "shared" ? " partagé" : ""}] ${m.content}`).join("\n")}`
-		: ""
+	const memoryBlock = sortedMemories.length > 0 ? `\n## Mémoire\n${sortedMemories.map((m) => `- [${m.category}${m.scope === "shared" ? " partagé" : ""}] ${m.content}`).join("\n")}` : ""
 
 	// Build system prompt
 	const todayFormatted = new Date().toLocaleDateString("fr-FR", {
-		weekday: "long", year: "numeric", month: "long", day: "numeric",
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
 	})
 	const todayISOStr = new Date().toISOString().slice(0, 10)
 
@@ -364,7 +353,9 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 		context ? `\n## Contexte Projet\n${context}` : "",
 		memoryBlock,
 		`\n## Contexte temporel\nAujourd'hui : ${todayFormatted} (${todayISOStr})`,
-	].filter(Boolean).join("\n")
+	]
+		.filter(Boolean)
+		.join("\n")
 
 	// Build tools
 	const tools: Record<string, any> = {}
@@ -395,7 +386,12 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 			}),
 			execute: async ({ text, description, priority, dueDate, projectId }: any) => {
 				return convex.mutation(api.worker.workerCreateTodo, {
-					text, description, priority: priority ?? "normal", dueDate, userId: agentUserId, projectId,
+					text,
+					description,
+					priority: priority ?? "normal",
+					dueDate,
+					userId: agentUserId,
+					projectId,
 				})
 			},
 		}
@@ -411,7 +407,9 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 			}),
 			execute: async ({ title, content }: any) => {
 				return convex.mutation(api.worker.workerCreateNote, {
-					title, content, userId: agentUserId,
+					title,
+					content,
+					userId: agentUserId,
 				})
 			},
 		}
@@ -423,7 +421,8 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 		modelMessages = await convertToModelMessages(messages, { tools })
 	} catch {
 		return new Response(JSON.stringify({ error: "Failed to convert messages" }), {
-			status: 400, headers: { "Content-Type": "application/json" },
+			status: 400,
+			headers: { "Content-Type": "application/json" },
 		})
 	}
 
@@ -432,11 +431,11 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 	// Save user message
 	const lastUserMsg = [...messages].reverse().find((m: any) => m.role === "user")
 	if (lastUserMsg) {
-		const text = typeof lastUserMsg.content === "string"
-			? lastUserMsg.content
-			: lastUserMsg.parts?.find((p: any) => p.type === "text")?.text ?? ""
+		const text = typeof lastUserMsg.content === "string" ? lastUserMsg.content : (lastUserMsg.parts?.find((p: any) => p.type === "text")?.text ?? "")
 		if (text) {
-			try { await convex.mutation(api.chatMessages.append, { agentId: agent._id, role: "user", content: text }) } catch {}
+			try {
+				await convex.mutation(api.chatMessages.append, { agentId: agent._id, role: "user", content: text })
+			} catch {}
 		}
 	}
 
@@ -447,16 +446,20 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 		tools,
 		maxSteps: 5,
 		onFinish: async ({ usage, text }) => {
-			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.40
-			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 1.60
+			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.4
+			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 1.6
 			const costUsd = Math.round((inputCost + outputCost) * 1_000_000) / 1_000_000
 
 			convex.setAuth(token)
 			if (costUsd > 0) {
-				try { await convex.mutation(api.agents.addUsage, { id: agent._id, costUsd }) } catch {}
+				try {
+					await convex.mutation(api.agents.addUsage, { id: agent._id, costUsd })
+				} catch {}
 			}
 			if (text) {
-				try { await convex.mutation(api.chatMessages.append, { agentId: agent._id, role: "assistant", content: text }) } catch {}
+				try {
+					await convex.mutation(api.chatMessages.append, { agentId: agent._id, role: "assistant", content: text })
+				} catch {}
 			}
 		},
 	})
@@ -491,4 +494,3 @@ const allToolDefs: Record<string, any> = {
 	"treasury-forecast": tool({ description: "Prévision trésorerie", parameters: z.object({ months: z.number().optional() }) }),
 	"check-time-anomalies": tool({ description: "Anomalies de temps", parameters: z.object({ from: z.string(), to: z.string() }) }),
 }
-

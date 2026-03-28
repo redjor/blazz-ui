@@ -21,15 +21,7 @@ export interface CalloutCardProps {
 	onDismiss?: () => void
 }
 
-export function CalloutCard({
-	children,
-	className,
-	title,
-	illustration,
-	primaryAction,
-	secondaryAction,
-	onDismiss,
-}: CalloutCardProps) {
+export function CalloutCard({ children, className, title, illustration, primaryAction, secondaryAction, onDismiss }: CalloutCardProps) {
 	const handlePrimaryAction = () => {
 		if (primaryAction.onAction) {
 			primaryAction.onAction()
@@ -47,20 +39,9 @@ export function CalloutCard({
 	}
 
 	return (
-		<div
-			data-slot="callout-card"
-			className={cn(
-				"relative flex gap-4 rounded-xl border border-container bg-card p-4 text-fg",
-				className
-			)}
-		>
+		<div data-slot="callout-card" className={cn("relative flex gap-4 rounded-xl border border-container bg-card p-4 text-fg", className)}>
 			{onDismiss && (
-				<button
-					type="button"
-					onClick={onDismiss}
-					className="absolute right-2 top-2 rounded-md p-1 text-fg-muted hover:bg-muted hover:text-fg"
-					aria-label="Dismiss"
-				>
+				<button type="button" onClick={onDismiss} className="absolute right-2 top-2 rounded-md p-1 text-fg-muted hover:bg-muted hover:text-fg" aria-label="Dismiss">
 					<X className="h-4 w-4" />
 				</button>
 			)}
@@ -75,11 +56,7 @@ export function CalloutCard({
 						{primaryAction.content}
 					</Button>
 					{secondaryAction && (
-						<Button
-							size="sm"
-							variant={secondaryAction.variant || "ghost"}
-							onClick={handleSecondaryAction}
-						>
+						<Button size="sm" variant={secondaryAction.variant || "ghost"} onClick={handleSecondaryAction}>
 							{secondaryAction.content}
 						</Button>
 					)}

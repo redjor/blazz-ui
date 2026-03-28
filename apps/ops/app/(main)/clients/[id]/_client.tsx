@@ -7,13 +7,7 @@ import { Field, FieldGrid } from "@blazz/ui/components/patterns/field-grid"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
@@ -52,9 +46,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 	const [projectOpen, setProjectOpen] = useState(false)
 	const [editingProject, setEditingProject] = useState<Doc<"projects"> | null>(null)
 
-	useAppTopBar(
-		client != null ? [{ label: "Clients", href: "/clients" }, { label: client.name }] : null
-	)
+	useAppTopBar(client != null ? [{ label: "Clients", href: "/clients" }, { label: client.name }] : null)
 
 	if (client === undefined) {
 		return (
@@ -91,11 +83,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 					title={client.name}
 					actions={
 						<InlineStack gap="200" blockAlign="center">
-							<FavoriteButton
-								entityType="client"
-								entityId={id}
-								label={client.name}
-							/>
+							<FavoriteButton entityType="client" entityId={id} label={client.name} />
 							<Button variant="outline" onClick={() => setEditOpen(true)}>
 								Modifier
 							</Button>
@@ -107,26 +95,16 @@ export default function ClientDetailPageClient({ params }: Props) {
 				<InlineStack gap="400" blockAlign="start">
 					<Box className="size-14 rounded-lg border border-edge bg-card flex items-center justify-center overflow-hidden shrink-0">
 						{client.logoUrl ? (
-							<Image
-								src={client.logoUrl}
-								alt={client.name}
-								className="size-full object-contain"
-								width={40}
-								height={40}
-							/>
+							<Image src={client.logoUrl} alt={client.name} className="size-full object-contain" width={40} height={40} />
 						) : (
-							<span className="text-lg font-semibold text-fg-muted">
-								{client.name.slice(0, 2).toUpperCase()}
-							</span>
+							<span className="text-lg font-semibold text-fg-muted">{client.name.slice(0, 2).toUpperCase()}</span>
 						)}
 					</Box>
 					<FieldGrid columns={3} className="flex-1">
 						{client.email && <Field label="Email" value={client.email} />}
 						{client.phone && <Field label="Téléphone" value={client.phone} />}
 						{client.address && <Field label="Adresse" value={client.address} span={2} />}
-						{!client.email && !client.phone && !client.address && (
-							<Field label="Informations" value="—" />
-						)}
+						{!client.email && !client.phone && !client.address && <Field label="Informations" value="—" />}
 					</FieldGrid>
 				</InlineStack>
 
@@ -158,31 +136,17 @@ export default function ClientDetailPageClient({ params }: Props) {
 								<DialogHeader>
 									<DialogTitle>Nouveau projet</DialogTitle>
 								</DialogHeader>
-								<ProjectForm
-									clientId={id as Id<"clients">}
-									onSuccess={() => setProjectOpen(false)}
-									onCancel={() => setProjectOpen(false)}
-								/>
+								<ProjectForm clientId={id as Id<"clients">} onSuccess={() => setProjectOpen(false)} onCancel={() => setProjectOpen(false)} />
 							</DialogContent>
 						</Dialog>
 					</InlineStack>
 
-					{projects?.length === 0 && (
-						<p className="text-sm text-fg-muted">Aucun projet pour ce client.</p>
-					)}
+					{projects?.length === 0 && <p className="text-sm text-fg-muted">Aucun projet pour ce client.</p>}
 
 					<BlockStack gap="200">
 						{projects?.map((project) => (
-							<InlineStack
-								key={project._id}
-								align="space-between"
-								blockAlign="center"
-								className="py-2.5 border-b border-edge last:border-0"
-							>
-								<Link
-									href={`/projects/${project._id}`}
-									className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
-								>
+							<InlineStack key={project._id} align="space-between" blockAlign="center" className="py-2.5 border-b border-edge last:border-0">
+								<Link href={`/projects/${project._id}`} className="flex-1 min-w-0 hover:opacity-75 transition-opacity">
 									<span className="block text-sm font-medium text-fg">{project.name}</span>
 									<span className="block text-xs text-fg-muted mt-0.5 font-mono">
 										{project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
@@ -192,28 +156,15 @@ export default function ClientDetailPageClient({ params }: Props) {
 								<InlineStack gap="300" blockAlign="center" className="shrink-0 ml-4">
 									{project.budgetPercent !== null && (
 										<span
-											className={`inline-block size-2 rounded-full ${
-												project.budgetPercent >= 90
-													? "bg-red-500"
-													: project.budgetPercent >= 70
-														? "bg-amber-500"
-														: "bg-green-500"
-											}`}
+											className={`inline-block size-2 rounded-full ${project.budgetPercent >= 90 ? "bg-red-500" : project.budgetPercent >= 70 ? "bg-amber-500" : "bg-green-500"}`}
 											title={`Budget : ${project.budgetPercent}%`}
 										/>
 									)}
 									<span className="flex items-center gap-1.5 text-xs text-fg-muted">
-										<span
-											className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`}
-										/>
+										<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
 										{statusLabel[project.status]}
 									</span>
-									<Button
-										variant="ghost"
-										size="icon"
-										className="size-8 text-fg-muted"
-										onClick={() => setEditingProject(project)}
-									>
+									<Button variant="ghost" size="icon" className="size-8 text-fg-muted" onClick={() => setEditingProject(project)}>
 										<Pencil className="size-3.5" />
 									</Button>
 								</InlineStack>
@@ -229,11 +180,7 @@ export default function ClientDetailPageClient({ params }: Props) {
 					<DialogHeader>
 						<DialogTitle>Modifier le client</DialogTitle>
 					</DialogHeader>
-					<ClientForm
-						defaultValues={{ ...client, id: client._id }}
-						onSuccess={() => setEditOpen(false)}
-						onCancel={() => setEditOpen(false)}
-					/>
+					<ClientForm defaultValues={{ ...client, id: client._id }} onSuccess={() => setEditOpen(false)} onCancel={() => setEditOpen(false)} />
 				</DialogContent>
 			</Dialog>
 

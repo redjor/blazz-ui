@@ -1,18 +1,12 @@
 "use client"
-import { use } from "react"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import { CheckboxItemsDemo, RadioItemsDemo, ComplexDemo } from "./demos"
 import {
 	DropdownMenu,
-	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuPortal,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
 	DropdownMenuShortcut,
 	DropdownMenuSub,
@@ -20,43 +14,8 @@ import {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@blazz/ui/components/ui/dropdown-menu"
-import {
-	BellIcon,
-	CreditCard,
-	CreditCardIcon,
-	DownloadIcon,
-	EyeIcon,
-	FileCodeIcon,
-	FileIcon,
-	FileTextIcon,
-	FolderIcon,
-	FolderOpenIcon,
-	FolderSearchIcon,
-	HelpCircleIcon,
-	KeyboardIcon,
-	LanguagesIcon,
-	LayoutIcon,
-	LogOut,
-	LogOutIcon,
-	Mail,
-	MailIcon,
-	MessageSquare,
-	MonitorIcon,
-	MoonIcon,
-	MoreHorizontal,
-	MoreHorizontalIcon,
-	PaletteIcon,
-	PlusCircle,
-	SaveIcon,
-	Settings,
-	SettingsIcon,
-	ShieldIcon,
-	SunIcon,
-	User,
-	UserIcon,
-	UserPlus,
-} from "lucide-react"
-import * as React from "react"
+import { CreditCard, LogOut, Mail, MessageSquare, MoreHorizontal, PlusCircle, Settings, User, UserPlus } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -64,6 +23,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+import { CheckboxItemsDemo, ComplexDemo, RadioItemsDemo } from "./demos"
 
 const examples = [
 	{
@@ -525,7 +485,6 @@ const dropdownMenuItemProps: DocProp[] = [
 	},
 ]
 
-
 export default function DropdownMenuPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
@@ -553,12 +512,7 @@ export default function DropdownMenuPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Dropdown Menu"
-					description="A simple dropdown menu with items."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Dropdown Menu" description="A simple dropdown menu with items." code={examples[0].code} highlightedCode={html("basic")}>
 					<DropdownMenu>
 						<DropdownMenuTrigger render={<Button variant="outline">Open Menu</Button>} />
 						<DropdownMenuContent>
@@ -587,12 +541,7 @@ export default function DropdownMenuPage() {
 					</DropdownMenu>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Keyboard Shortcuts"
-					description="Display keyboard shortcuts for menu items."
-					code={examples[1].code}
-					highlightedCode={html("shortcuts")}
-				>
+				<DocExampleClient title="With Keyboard Shortcuts" description="Display keyboard shortcuts for menu items." code={examples[1].code} highlightedCode={html("shortcuts")}>
 					<DropdownMenu>
 						<DropdownMenuTrigger render={<Button variant="outline">Edit</Button>} />
 						<DropdownMenuContent>
@@ -621,30 +570,15 @@ export default function DropdownMenuPage() {
 					</DropdownMenu>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Checkbox Items"
-					description="Menu items with checkbox state."
-					code={examples[2].code}
-					highlightedCode={html("checkbox")}
-				>
+				<DocExampleClient title="With Checkbox Items" description="Menu items with checkbox state." code={examples[2].code} highlightedCode={html("checkbox")}>
 					<CheckboxItemsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Radio Items"
-					description="Menu items with radio selection."
-					code={examples[3].code}
-					highlightedCode={html("radio")}
-				>
+				<DocExampleClient title="With Radio Items" description="Menu items with radio selection." code={examples[3].code} highlightedCode={html("radio")}>
 					<RadioItemsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Submenu"
-					description="Nested submenus for hierarchical options."
-					code={examples[4].code}
-					highlightedCode={html("submenu")}
-				>
+				<DocExampleClient title="With Submenu" description="Nested submenus for hierarchical options." code={examples[4].code} highlightedCode={html("submenu")}>
 					<DropdownMenu>
 						<DropdownMenuTrigger render={<Button variant="outline">Actions</Button>} />
 						<DropdownMenuContent>
@@ -679,12 +613,7 @@ export default function DropdownMenuPage() {
 					</DropdownMenu>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Icon Button Trigger"
-					description="Use an icon button as the dropdown trigger."
-					code={examples[5].code}
-					highlightedCode={html("icon-trigger")}
-				>
+				<DocExampleClient title="Icon Button Trigger" description="Use an icon button as the dropdown trigger." code={examples[5].code} highlightedCode={html("icon-trigger")}>
 					<DropdownMenu>
 						<DropdownMenuTrigger
 							render={

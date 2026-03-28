@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { DateRangeSelector, DateSelector } from "@blazz/ui/components/ui/date-selector"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -9,7 +9,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import { DateSelectorDemo, DateSelectorCustomFormatDemo, DateRangeSelectorDemo, DateRangeSelectorCustomDemo } from "./demos"
+import { DateRangeSelectorCustomDemo, DateRangeSelectorDemo, DateSelectorCustomFormatDemo, DateSelectorDemo } from "./demos"
 
 const examples = [
 	{
@@ -121,8 +121,7 @@ const dateRangeSelectorProps: DocProp[] = [
 	{
 		name: "onRangeChange",
 		type: "(range: { from?: Date; to?: Date }) => void",
-		description:
-			"Callback when the range changes. Called on each click — popover auto-closes once both dates are selected.",
+		description: "Callback when the range changes. Called on each click — popover auto-closes once both dates are selected.",
 	},
 	{
 		name: "fromPlaceholder",
@@ -156,55 +155,30 @@ const dateRangeSelectorProps: DocProp[] = [
 	},
 ]
 
-
 export default function DateSelectorPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="DateSelector"
-			subtitle="A popover-based date picker for forms. Supports single date and range selection with a unified calendar."
-			toc={toc}
-		>
+		<DocPage title="DateSelector" subtitle="A popover-based date picker for forms. Supports single date and range selection with a unified calendar." toc={toc}>
 			<DocHero>
 				<DateSelectorDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A single date selector with popover calendar."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A single date selector with popover calendar." code={examples[0].code} highlightedCode={html("basic")}>
 					<DateSelectorDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Format"
-					description="Use a custom date-fns format string."
-					code={examples[1].code}
-					highlightedCode={html("custom-format")}
-				>
+				<DocExampleClient title="Custom Format" description="Use a custom date-fns format string." code={examples[1].code} highlightedCode={html("custom-format")}>
 					<DateSelectorCustomFormatDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Placeholder"
-					description="Set a placeholder for the empty state."
-					code={examples[2].code}
-					highlightedCode={html("placeholder")}
-				>
+				<DocExampleClient title="Custom Placeholder" description="Set a placeholder for the empty state." code={examples[2].code} highlightedCode={html("placeholder")}>
 					<DateSelector placeholder="Date de naissance" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Prevent interaction when disabled."
-					code={examples[3].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Prevent interaction when disabled." code={examples[3].code} highlightedCode={html("disabled")}>
 					<DateSelector disabled placeholder="Disabled" />
 				</DocExampleClient>
 			</DocSection>
@@ -219,21 +193,11 @@ export default function DateSelectorPage() {
 					<DateRangeSelectorDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Placeholders & Format"
-					description="Customize placeholders and date format."
-					code={examples[5].code}
-					highlightedCode={html("range-custom")}
-				>
+				<DocExampleClient title="Custom Placeholders & Format" description="Customize placeholders and date format." code={examples[5].code} highlightedCode={html("range-custom")}>
 					<DateRangeSelectorCustomDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disable the entire range selector."
-					code={examples[6].code}
-					highlightedCode={html("range-disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disable the entire range selector." code={examples[6].code} highlightedCode={html("range-disabled")}>
 					<DateRangeSelector disabled />
 				</DocExampleClient>
 			</DocSection>
@@ -250,9 +214,7 @@ export default function DateSelectorPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use DateSelector for single date fields in forms (due date, birth date, etc.)</li>
 					<li>Use DateRangeSelector for start/end pairs (contract period, filter range, etc.)</li>
-					<li>
-						The range popover auto-closes when both dates are selected — no extra click needed
-					</li>
+					<li>The range popover auto-closes when both dates are selected — no extra click needed</li>
 					<li>For inline calendar display (outside forms), use the Calendar component directly</li>
 					<li>The trigger matches the Select trigger style for visual consistency in forms</li>
 				</ul>

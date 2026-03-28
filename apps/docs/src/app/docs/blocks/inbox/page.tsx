@@ -1,15 +1,7 @@
 "use client"
 
 import type { InboxFilters, InboxNotification } from "@blazz/pro/components/blocks/inbox"
-import {
-	filterInboxItems,
-	InboxDetailCard,
-	InboxDetailEmpty,
-	InboxHeader,
-	InboxItem,
-	InboxList,
-	InboxPanel,
-} from "@blazz/pro/components/blocks/inbox"
+import { filterInboxItems, InboxDetailCard, InboxDetailEmpty, InboxHeader, InboxItem, InboxList, InboxPanel } from "@blazz/pro/components/blocks/inbox"
 import { SplitView } from "@blazz/pro/components/blocks/split-view"
 import { Button } from "@blazz/ui"
 import { Archive, ExternalLink } from "lucide-react"
@@ -443,7 +435,6 @@ const toc = [
 // Route
 // ---------------------------------------------------------------------------
 
-
 // ---------------------------------------------------------------------------
 // Interactive demo for hero
 // ---------------------------------------------------------------------------
@@ -455,26 +446,13 @@ function InboxHeroDemo() {
 	const selected = filtered.find((i) => i.id === selectedId)
 
 	return (
-		<div
-			className="w-full max-w-4xl rounded-lg border border-edge bg-card overflow-hidden"
-			style={{ height: 480 }}
-		>
+		<div className="w-full max-w-4xl rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 480 }}>
 			<SplitView defaultWidth={340}>
 				<SplitView.Master className="flex flex-col">
-					<InboxHeader
-						title="Notifications"
-						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
-						filters={filters}
-						onFiltersChange={setFilters}
-					/>
+					<InboxHeader title="Notifications" menuActions={[{ label: "Mark all read", onClick: () => {} }]} filters={filters} onFiltersChange={setFilters} />
 					<InboxList>
 						{filtered.map((item) => (
-							<InboxItem
-								key={item.id}
-								item={item}
-								selected={item.id === selectedId}
-								onClick={(n) => setSelectedId(n.id)}
-							/>
+							<InboxItem key={item.id} item={item} selected={item.id === selectedId} onClick={(n) => setSelectedId(n.id)} />
 						))}
 					</InboxList>
 				</SplitView.Master>
@@ -528,11 +506,7 @@ export default function InboxPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Inbox"
-			subtitle="A Linear-style inbox with split-view layout, styled detail cards, action type indicators, status dots, and priority badges."
-			toc={toc}
-		>
+		<DocPage title="Inbox" subtitle="A Linear-style inbox with split-view layout, styled detail cards, action type indicators, status dots, and priority badges." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<InboxHeroDemo />
@@ -558,30 +532,14 @@ export default function InboxPage() {
 					<SplitViewDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Loading State"
-					description="Pass the loading prop to InboxPanel to show skeleton placeholders."
-					code={examples[2].code}
-					highlightedCode={html("loading")}
-				>
-					<div
-						className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden"
-						style={{ height: 280 }}
-					>
+				<DocExampleClient title="Loading State" description="Pass the loading prop to InboxPanel to show skeleton placeholders." code={examples[2].code} highlightedCode={html("loading")}>
+					<div className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 280 }}>
 						<InboxPanel loading />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Empty State"
-					description="When there are no items, a built-in empty state is displayed."
-					code={examples[3].code}
-					highlightedCode={html("empty")}
-				>
-					<div
-						className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden"
-						style={{ height: 200 }}
-					>
+				<DocExampleClient title="Empty State" description="When there are no items, a built-in empty state is displayed." code={examples[3].code} highlightedCode={html("empty")}>
+					<div className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 200 }}>
 						<InboxPanel>
 							<InboxHeader />
 						</InboxPanel>
@@ -594,10 +552,7 @@ export default function InboxPage() {
 					code={examples[4].code}
 					highlightedCode={html("detail-card")}
 				>
-					<div
-						className="w-full max-w-xl rounded-lg border border-edge bg-card overflow-hidden"
-						style={{ height: 320 }}
-					>
+					<div className="w-full max-w-xl rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 320 }}>
 						<InboxDetailCard
 							title="Deploy succeeded on main"
 							description="feat: add notifications inbox page"
@@ -685,10 +640,7 @@ function BasicListDemo() {
 	const filtered = filterInboxItems(basicItems, filters)
 
 	return (
-		<div
-			className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden"
-			style={{ height: 320 }}
-		>
+		<div className="w-full max-w-sm rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 320 }}>
 			<InboxPanel>
 				<InboxHeader filters={filters} onFiltersChange={setFilters} />
 				<InboxList>
@@ -708,25 +660,13 @@ function SplitViewDemo() {
 	const selected = filtered.find((i) => i.id === selectedId)
 
 	return (
-		<div
-			className="w-full max-w-3xl rounded-lg border border-edge bg-card overflow-hidden"
-			style={{ height: 380 }}
-		>
+		<div className="w-full max-w-3xl rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 380 }}>
 			<SplitView defaultWidth={340}>
 				<SplitView.Master className="flex flex-col">
-					<InboxHeader
-						menuActions={[{ label: "Mark all read", onClick: () => {} }]}
-						filters={filters}
-						onFiltersChange={setFilters}
-					/>
+					<InboxHeader menuActions={[{ label: "Mark all read", onClick: () => {} }]} filters={filters} onFiltersChange={setFilters} />
 					<InboxList>
 						{filtered.map((item) => (
-							<InboxItem
-								key={item.id}
-								item={item}
-								selected={item.id === selectedId}
-								onClick={(n) => setSelectedId(n.id)}
-							/>
+							<InboxItem key={item.id} item={item} selected={item.id === selectedId} onClick={(n) => setSelectedId(n.id)} />
 						))}
 					</InboxList>
 				</SplitView.Master>

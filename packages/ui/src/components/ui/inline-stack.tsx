@@ -62,25 +62,9 @@ export interface InlineStackProps extends VariantProps<typeof inlineStackVariant
 	role?: string
 }
 
-export function InlineStack({
-	as: Component = "div",
-	gap,
-	align,
-	blockAlign,
-	direction,
-	wrap,
-	className,
-	children,
-	id,
-	role,
-}: InlineStackProps) {
+export function InlineStack({ as: Component = "div", gap, align, blockAlign, direction, wrap, className, children, id, role }: InlineStackProps) {
 	return (
-		<Component
-			data-slot="inline-stack"
-			id={id}
-			role={role}
-			className={cn(inlineStackVariants({ gap, align, blockAlign, direction, wrap }), className)}
-		>
+		<Component data-slot="inline-stack" id={id} role={role} className={cn(inlineStackVariants({ gap, align, blockAlign, direction, wrap }), className)}>
 			{children}
 		</Component>
 	)

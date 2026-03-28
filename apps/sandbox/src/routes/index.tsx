@@ -40,16 +40,10 @@ function HomePage() {
 
 			{/* Quick links */}
 			<div className="space-y-3">
-				<p className="text-xs font-medium text-fg-muted uppercase tracking-wider text-center">
-					Popular components
-				</p>
+				<p className="text-xs font-medium text-fg-muted uppercase tracking-wider text-center">Popular components</p>
 				<div className="flex gap-2">
 					{QUICK_LINKS.map(({ name, path }) => (
-						<Link
-							key={path}
-							to={path}
-							className="px-4 py-2 text-sm border border-edge rounded-lg hover:bg-muted hover:border-brand/30 transition-colors"
-						>
+						<Link key={path} to={path} className="px-4 py-2 text-sm border border-edge rounded-lg hover:bg-muted hover:border-brand/30 transition-colors">
 							{name}
 						</Link>
 					))}

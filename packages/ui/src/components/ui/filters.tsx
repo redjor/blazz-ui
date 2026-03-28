@@ -5,21 +5,8 @@ import { AlertCircle, Check, Plus, X } from "lucide-react"
 import type React from "react"
 import { createContext, useCallback, useContext, useMemo, useState } from "react"
 import { cn } from "../../lib/utils"
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-} from "./command"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "./dropdown-menu"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "./command"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 import { Switch } from "./switch"
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip"
@@ -248,44 +235,36 @@ const filterInputVariants = cva(
 )
 
 // Reusable remove button variant component
-const filterRemoveButtonVariants = cva(
-	[
-		"inline-flex items-center shrink-0 justify-center transition shrink-0 text-fg-muted hover:text-fg",
-	],
-	{
-		variants: {
-			variant: {
-				solid: "bg-muted",
-				outline: "border border-edge border-s-0 hover:bg-muted",
-			},
-			size: {
-				lg: "h-10 w-10 [&_svg:not([class*=size-])]:size-4",
-				md: "h-9 w-9 [&_svg:not([class*=size-])]:size-3.5",
-				sm: "h-7 w-7 [&_svg:not([class*=size-])]:size-3",
-			},
-			cursorPointer: {
-				true: "cursor-pointer",
-				false: "",
-			},
-			radius: {
-				md: "rounded-e-md",
-				full: "rounded-e-full",
-			},
+const filterRemoveButtonVariants = cva(["inline-flex items-center shrink-0 justify-center transition shrink-0 text-fg-muted hover:text-fg"], {
+	variants: {
+		variant: {
+			solid: "bg-muted",
+			outline: "border border-edge border-s-0 hover:bg-muted",
 		},
-		defaultVariants: {
-			variant: "outline",
-			size: "md",
-			radius: "md",
-			cursorPointer: true,
+		size: {
+			lg: "h-10 w-10 [&_svg:not([class*=size-])]:size-4",
+			md: "h-9 w-9 [&_svg:not([class*=size-])]:size-3.5",
+			sm: "h-7 w-7 [&_svg:not([class*=size-])]:size-3",
 		},
-	}
-)
+		cursorPointer: {
+			true: "cursor-pointer",
+			false: "",
+		},
+		radius: {
+			md: "rounded-e-md",
+			full: "rounded-e-full",
+		},
+	},
+	defaultVariants: {
+		variant: "outline",
+		size: "md",
+		radius: "md",
+		cursorPointer: true,
+	},
+})
 
 const filterAddButtonVariants = cva(
-	[
-		"inline-flex items-center shrink-0 justify-center transition shrink-0 text-fg shadow-xs shadow-black/5",
-		"[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60",
-	],
+	["inline-flex items-center shrink-0 justify-center transition shrink-0 text-fg shadow-xs shadow-black/5", "[&_svg:not([role=img]):not([class*=text-]):not([class*=opacity-])]:opacity-60"],
 	{
 		variants: {
 			variant: {
@@ -314,89 +293,73 @@ const filterAddButtonVariants = cva(
 	}
 )
 
-const filterOperatorVariants = cva(
-	[
-		"transition text-fg-muted hover:text-fg data-[state=open]:text-fg shrink-0 flex items-center relative focus-visible:z-1",
-	],
-	{
-		variants: {
-			variant: {
-				solid: "bg-muted",
-				outline:
-					"bg-card border border-edge border-e-0 hover:bg-muted data-[state=open]:bg-muted [&+[data-slot=filters-remove]]:border-s",
-			},
-			size: {
-				lg: "h-10 px-4 text-sm gap-1.5",
-				md: "h-9 px-3 text-sm gap-1.25",
-				sm: "h-7 px-2 text-xs gap-1",
-			},
-			cursorPointer: {
-				true: "cursor-pointer",
-				false: "",
-			},
+const filterOperatorVariants = cva(["transition text-fg-muted hover:text-fg data-[state=open]:text-fg shrink-0 flex items-center relative focus-visible:z-1"], {
+	variants: {
+		variant: {
+			solid: "bg-muted",
+			outline: "bg-card border border-edge border-e-0 hover:bg-muted data-[state=open]:bg-muted [&+[data-slot=filters-remove]]:border-s",
 		},
-		defaultVariants: {
-			variant: "outline",
-			size: "md",
-			cursorPointer: true,
+		size: {
+			lg: "h-10 px-4 text-sm gap-1.5",
+			md: "h-9 px-3 text-sm gap-1.25",
+			sm: "h-7 px-2 text-xs gap-1",
 		},
-	}
-)
+		cursorPointer: {
+			true: "cursor-pointer",
+			false: "",
+		},
+	},
+	defaultVariants: {
+		variant: "outline",
+		size: "md",
+		cursorPointer: true,
+	},
+})
 
-const filterFieldLabelVariants = cva(
-	[
-		"flex gap-1.5 shrink-0 px-1.5 py-1 items-center text-fg",
-		"[&_svg:not([class*=size-])]:size-3.5 [&_svg:not([class*=opacity-])]:opacity-60",
-	],
-	{
-		variants: {
-			variant: {
-				solid: "bg-muted",
-				outline: "border border-edge border-e-0",
-			},
-			size: {
-				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
-				md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
-				sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
-			},
-			radius: {
-				md: "rounded-s-md",
-				full: "rounded-s-full",
-			},
+const filterFieldLabelVariants = cva(["flex gap-1.5 shrink-0 px-1.5 py-1 items-center text-fg", "[&_svg:not([class*=size-])]:size-3.5 [&_svg:not([class*=opacity-])]:opacity-60"], {
+	variants: {
+		variant: {
+			solid: "bg-muted",
+			outline: "border border-edge border-e-0",
 		},
-		defaultVariants: {
-			variant: "outline",
-			size: "md",
+		size: {
+			lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
+			md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
+			sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
 		},
-	}
-)
+		radius: {
+			md: "rounded-s-md",
+			full: "rounded-s-full",
+		},
+	},
+	defaultVariants: {
+		variant: "outline",
+		size: "md",
+	},
+})
 
-const filterFieldValueVariants = cva(
-	"text-fg transition shrink-0 flex items-center gap-1 relative focus-visible:z-1",
-	{
-		variants: {
-			variant: {
-				solid: "bg-muted",
-				outline:
-					"bg-card border border-edge hover:bg-muted has-[[data-slot=switch]]:hover:bg-transparent",
-			},
-			size: {
-				lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
-				md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
-				sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
-			},
-			cursorPointer: {
-				true: "cursor-pointer has-[[data-slot=switch]]:cursor-default",
-				false: "",
-			},
+const filterFieldValueVariants = cva("text-fg transition shrink-0 flex items-center gap-1 relative focus-visible:z-1", {
+	variants: {
+		variant: {
+			solid: "bg-muted",
+			outline: "bg-card border border-edge hover:bg-muted has-[[data-slot=switch]]:hover:bg-transparent",
 		},
-		defaultVariants: {
-			variant: "outline",
-			size: "md",
-			cursorPointer: true,
+		size: {
+			lg: "h-10 px-4 text-sm gap-1.5 [&_svg:not([class*=size-])]:size-4",
+			md: "h-9 px-3 gap-1.5 text-sm [&_svg:not([class*=size-])]:size-4",
+			sm: "h-7 px-2 gap-1.25 text-xs [&_svg:not([class*=size-])]:size-3.5",
 		},
-	}
-)
+		cursorPointer: {
+			true: "cursor-pointer has-[[data-slot=switch]]:cursor-default",
+			false: "",
+		},
+	},
+	defaultVariants: {
+		variant: "outline",
+		size: "md",
+		cursorPointer: true,
+	},
+})
 
 const filterFieldAddonVariants = cva("text-fg shrink-0 flex items-center justify-center", {
 	variants: {
@@ -551,10 +514,7 @@ function FilterInput<T = unknown>({
 	// Handle keydown event - hide validation error when user starts typing
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		// Hide validation error when user starts typing (any key except special keys)
-		if (
-			!isValid &&
-			!["Tab", "Escape", "Enter", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)
-		) {
+		if (!isValid && !["Tab", "Escape", "Enter", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
 			setIsValid(true)
 			setValidationMessage("")
 		}
@@ -575,14 +535,7 @@ function FilterInput<T = unknown>({
 	}
 
 	return (
-		<div
-			className={cn(
-				"w-36",
-				filterInputVariants({ variant: context.variant, size: context.size }),
-				className
-			)}
-			data-slot="filters-input-wrapper"
-		>
+		<div className={cn("w-36", filterInputVariants({ variant: context.variant, size: context.size }), className)} data-slot="filters-input-wrapper">
 			{field?.prefix && (
 				<div
 					data-slot="filters-prefix"
@@ -599,9 +552,7 @@ function FilterInput<T = unknown>({
 				<input
 					className="w-full outline-none"
 					aria-invalid={!isValid}
-					aria-describedby={
-						!isValid && validationMessage ? `${field?.key || "input"}-error` : undefined
-					}
+					aria-describedby={!isValid && validationMessage ? `${field?.key || "input"}-error` : undefined}
 					onChange={handleChange}
 					onBlur={handleBlur}
 					onKeyDown={handleKeyDown}
@@ -639,9 +590,7 @@ function FilterInput<T = unknown>({
 	)
 }
 
-interface FilterRemoveButtonProps
-	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-		VariantProps<typeof filterRemoveButtonVariants> {
+interface FilterRemoveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof filterRemoveButtonVariants> {
 	icon?: React.ReactNode
 }
 
@@ -702,22 +651,7 @@ export interface FilterFieldConfig<T = unknown> {
 	key?: string
 	label?: string
 	icon?: React.ReactNode
-	type?:
-		| "select"
-		| "multiselect"
-		| "date"
-		| "daterange"
-		| "text"
-		| "number"
-		| "numberrange"
-		| "boolean"
-		| "email"
-		| "url"
-		| "tel"
-		| "time"
-		| "datetime"
-		| "custom"
-		| "separator"
+	type?: "select" | "multiselect" | "date" | "daterange" | "text" | "number" | "numberrange" | "boolean" | "email" | "url" | "tel" | "time" | "datetime" | "custom" | "separator"
 	// Group-level configuration
 	group?: string
 	fields?: FilterFieldConfig<T>[]
@@ -755,9 +689,7 @@ export interface FilterFieldConfig<T = unknown> {
 }
 
 // Helper functions to handle both flat and grouped field configurations
-const isFieldGroup = <T = unknown>(
-	item: FilterFieldConfig<T> | FilterFieldGroup<T>
-): item is FilterFieldGroup<T> => {
+const isFieldGroup = <T = unknown>(item: FilterFieldConfig<T> | FilterFieldGroup<T>): item is FilterFieldGroup<T> => {
 	return "fields" in item && Array.isArray(item.fields)
 }
 
@@ -779,9 +711,7 @@ const flattenFields = <T = unknown>(fields: FilterFieldsConfig<T>): FilterFieldC
 	}, [])
 }
 
-const getFieldsMap = <T = unknown>(
-	fields: FilterFieldsConfig<T>
-): Record<string, FilterFieldConfig<T>> => {
+const getFieldsMap = <T = unknown>(fields: FilterFieldsConfig<T>): Record<string, FilterFieldConfig<T>> => {
 	const flatFields = flattenFields(fields)
 	return flatFields.reduce(
 		(acc, field) => {
@@ -902,15 +832,10 @@ const createOperatorsFromI18n = (i18n: FilterI18nConfig): Record<string, FilterO
 })
 
 // Default operators for different field types (using default i18n)
-export const DEFAULT_OPERATORS: Record<string, FilterOperator[]> =
-	createOperatorsFromI18n(DEFAULT_I18N)
+export const DEFAULT_OPERATORS: Record<string, FilterOperator[]> = createOperatorsFromI18n(DEFAULT_I18N)
 
 // Helper function to get operators for a field
-const getOperatorsForField = <T = unknown>(
-	field: FilterFieldConfig<T>,
-	values: T[],
-	i18n: FilterI18nConfig
-): FilterOperator[] => {
+const getOperatorsForField = <T = unknown>(field: FilterFieldConfig<T>, values: T[], i18n: FilterI18nConfig): FilterOperator[] => {
 	if (field.operators) return field.operators
 
 	const operators = createOperatorsFromI18n(i18n)
@@ -938,19 +863,12 @@ interface FilterOperatorDropdownProps<T = unknown> {
 	onChange: (operator: string) => void
 }
 
-function FilterOperatorDropdown<T = unknown>({
-	field,
-	operator,
-	values,
-	onChange,
-}: FilterOperatorDropdownProps<T>) {
+function FilterOperatorDropdown<T = unknown>({ field, operator, values, onChange }: FilterOperatorDropdownProps<T>) {
 	const context = useFilterContext()
 	const operators = getOperatorsForField(field, values, context.i18n)
 
 	// Find the operator label, with fallback to formatted operator name
-	const operatorLabel =
-		operators.find((op) => op.value === operator)?.label ||
-		context.i18n.helpers.formatOperator(operator)
+	const operatorLabel = operators.find((op) => op.value === operator)?.label || context.i18n.helpers.formatOperator(operator)
 
 	return (
 		<DropdownMenu>
@@ -964,15 +882,9 @@ function FilterOperatorDropdown<T = unknown>({
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="start" className="w-fit min-w-fit">
 				{operators.map((op) => (
-					<DropdownMenuItem
-						key={op.value}
-						onClick={() => onChange(op.value)}
-						className="flex items-center justify-between"
-					>
+					<DropdownMenuItem key={op.value} onClick={() => onChange(op.value)} className="flex items-center justify-between">
 						<span>{op.label}</span>
-						<Check
-							className={`text-brand ms-auto ${op.value === operator ? "opacity-100" : "opacity-0"}`}
-						/>
+						<Check className={`text-brand ms-auto ${op.value === operator ? "opacity-100" : "opacity-0"}`} />
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>
@@ -997,13 +909,7 @@ interface SelectOptionsPopoverProps<T = unknown> {
 	inline?: boolean
 }
 
-function SelectOptionsPopover<T = unknown>({
-	field,
-	values,
-	onChange,
-	onClose,
-	inline = false,
-}: SelectOptionsPopoverProps<T>) {
+function SelectOptionsPopover<T = unknown>({ field, values, onChange, onClose, inline = false }: SelectOptionsPopoverProps<T>) {
 	const [open, setOpen] = useState(false)
 	const [searchInput, setSearchInput] = useState("")
 	const context = useFilterContext()
@@ -1011,8 +917,7 @@ function SelectOptionsPopover<T = unknown>({
 	const isMultiSelect = field.type === "multiselect" || values.length > 1
 	const effectiveValues = (field.value !== undefined ? (field.value as T[]) : values) || []
 	const selectedOptions = field.options?.filter((opt) => effectiveValues.includes(opt.value)) || []
-	const unselectedOptions =
-		field.options?.filter((opt) => !effectiveValues.includes(opt.value)) || []
+	const unselectedOptions = field.options?.filter((opt) => !effectiveValues.includes(opt.value)) || []
 
 	const handleClose = () => {
 		setOpen(false)
@@ -1025,12 +930,7 @@ function SelectOptionsPopover<T = unknown>({
 			<div className="w-full">
 				<Command>
 					{field.searchable !== false && (
-						<CommandInput
-							placeholder={context.i18n.placeholders.searchField(field.label || "")}
-							className="h-8.5 text-sm"
-							value={searchInput}
-							onValueChange={setSearchInput}
-						/>
+						<CommandInput placeholder={context.i18n.placeholders.searchField(field.label || "")} className="h-8.5 text-sm" value={searchInput} onValueChange={setSearchInput} />
 					)}
 					<CommandList>
 						<CommandEmpty>{context.i18n.noResultsFound}</CommandEmpty>
@@ -1136,19 +1036,13 @@ function SelectOptionsPopover<T = unknown>({
 					) : (
 						<>
 							{selectedOptions.length > 0 && (
-								<div
-									className={cn("-space-x-1.5 flex items-center", field.selectedOptionsClassName)}
-								>
+								<div className={cn("-space-x-1.5 flex items-center", field.selectedOptionsClassName)}>
 									{selectedOptions.slice(0, 3).map((option) => (
 										<div key={String(option.value)}>{option.icon}</div>
 									))}
 								</div>
 							)}
-							{selectedOptions.length === 1
-								? selectedOptions[0].label
-								: selectedOptions.length > 1
-									? `${selectedOptions.length} ${context.i18n.selectedCount}`
-									: context.i18n.select}
+							{selectedOptions.length === 1 ? selectedOptions[0].label : selectedOptions.length > 1 ? `${selectedOptions.length} ${context.i18n.selectedCount}` : context.i18n.select}
 						</>
 					)}
 				</div>
@@ -1156,12 +1050,7 @@ function SelectOptionsPopover<T = unknown>({
 			<PopoverContent align="start" className={cn("w-[200px] p-0", field.className)}>
 				<Command>
 					{field.searchable !== false && (
-						<CommandInput
-							placeholder={context.i18n.placeholders.searchField(field.label || "")}
-							className="h-9 text-sm"
-							value={searchInput}
-							onValueChange={setSearchInput}
-						/>
+						<CommandInput placeholder={context.i18n.placeholders.searchField(field.label || "")} className="h-9 text-sm" value={searchInput} onValueChange={setSearchInput} />
 					)}
 					<CommandList>
 						<CommandEmpty>{context.i18n.noResultsFound}</CommandEmpty>
@@ -1232,12 +1121,7 @@ function SelectOptionsPopover<T = unknown>({
 	)
 }
 
-function FilterValueSelector<T = unknown>({
-	field,
-	values,
-	onChange,
-	operator,
-}: FilterValueSelectorProps<T>) {
+function FilterValueSelector<T = unknown>({ field, values, onChange, operator }: FilterValueSelectorProps<T>) {
 	const [open, setOpen] = useState(false)
 	const [searchInput, setSearchInput] = useState("")
 	const context = useFilterContext()
@@ -1278,14 +1162,8 @@ function FilterValueSelector<T = unknown>({
 				})}
 			>
 				<div className="flex items-center gap-2">
-					<Switch
-						checked={isChecked}
-						onCheckedChange={(checked) => onChange([checked as T])}
-						size="sm"
-					/>
-					{field.onLabel && field.offLabel && (
-						<span className="text-xs text-fg-muted">{isChecked ? onLabel : offLabel}</span>
-					)}
+					<Switch checked={isChecked} onCheckedChange={(checked) => onChange([checked as T])} size="sm" />
+					{field.onLabel && field.offLabel && <span className="text-xs text-fg-muted">{isChecked ? onLabel : offLabel}</span>}
 				</div>
 			</div>
 		)
@@ -1298,14 +1176,7 @@ function FilterValueSelector<T = unknown>({
 
 			return (
 				<div className="flex items-center" data-slot="filters-item">
-					<FilterInput
-						type="time"
-						value={startTime}
-						onChange={(e) => onChange([e.target.value, endTime] as T[])}
-						onInputChange={field.onInputChange}
-						className={field.className}
-						field={field}
-					/>
+					<FilterInput type="time" value={startTime} onChange={(e) => onChange([e.target.value, endTime] as T[])} onInputChange={field.onInputChange} className={field.className} field={field} />
 					<div
 						data-slot="filters-between"
 						className={filterFieldBetweenVariants({
@@ -1315,27 +1186,13 @@ function FilterValueSelector<T = unknown>({
 					>
 						{context.i18n.to}
 					</div>
-					<FilterInput
-						type="time"
-						value={endTime}
-						onChange={(e) => onChange([startTime, e.target.value] as T[])}
-						onInputChange={field.onInputChange}
-						className={field.className}
-						field={field}
-					/>
+					<FilterInput type="time" value={endTime} onChange={(e) => onChange([startTime, e.target.value] as T[])} onInputChange={field.onInputChange} className={field.className} field={field} />
 				</div>
 			)
 		}
 
 		return (
-			<FilterInput
-				type="time"
-				value={(values[0] as string) || ""}
-				onChange={(e) => onChange([e.target.value] as T[])}
-				onInputChange={field.onInputChange}
-				field={field}
-				className={field.className}
-			/>
+			<FilterInput type="time" value={(values[0] as string) || ""} onChange={(e) => onChange([e.target.value] as T[])} onInputChange={field.onInputChange} field={field} className={field.className} />
 		)
 	}
 
@@ -1420,9 +1277,7 @@ function FilterValueSelector<T = unknown>({
 				value={(values[0] as string) || ""}
 				onChange={(e) => onChange([e.target.value] as T[])}
 				onInputChange={field.onInputChange}
-				placeholder={
-					field.placeholder || context.i18n.placeholders.enterField(field.type || "text")
-				}
+				placeholder={field.placeholder || context.i18n.placeholders.enterField(field.type || "text")}
 				pattern={field.pattern || getPattern()}
 				className={field.className}
 				field={field}
@@ -1588,11 +1443,7 @@ function FilterValueSelector<T = unknown>({
 									))}
 								</div>
 							)}
-							{selectedOptions.length === 1
-								? selectedOptions[0].label
-								: selectedOptions.length > 1
-									? `${selectedOptions.length} ${context.i18n.selectedCount}`
-									: context.i18n.select}
+							{selectedOptions.length === 1 ? selectedOptions[0].label : selectedOptions.length > 1 ? `${selectedOptions.length} ${context.i18n.selectedCount}` : context.i18n.select}
 						</>
 					)}
 				</div>
@@ -1600,12 +1451,7 @@ function FilterValueSelector<T = unknown>({
 			<PopoverContent className={cn("w-36 p-0", field.popoverContentClassName)}>
 				<Command>
 					{field.searchable !== false && (
-						<CommandInput
-							placeholder={context.i18n.placeholders.searchField(field.label || "")}
-							className="h-9 text-sm"
-							value={searchInput}
-							onValueChange={setSearchInput}
-						/>
+						<CommandInput placeholder={context.i18n.placeholders.searchField(field.label || "")} className="h-9 text-sm" value={searchInput} onValueChange={setSearchInput} />
 					)}
 					<CommandList>
 						<CommandEmpty>{context.i18n.noResultsFound}</CommandEmpty>
@@ -1693,11 +1539,7 @@ interface FiltersContentProps<T = unknown> {
 	onChange: (filters: Filter<T>[]) => void
 }
 
-export const FiltersContent = <T = unknown>({
-	filters,
-	fields,
-	onChange,
-}: FiltersContentProps<T>) => {
+export const FiltersContent = <T = unknown>({ filters, fields, onChange }: FiltersContentProps<T>) => {
 	const context = useFilterContext()
 	const fieldsMap = useMemo(() => getFieldsMap(fields), [fields])
 
@@ -1742,11 +1584,7 @@ export const FiltersContent = <T = unknown>({
 				if (!field) return null
 
 				return (
-					<div
-						key={filter.id}
-						className={filterItemVariants({ variant: context.variant })}
-						data-slot="filter-item"
-					>
+					<div key={filter.id} className={filterItemVariants({ variant: context.variant })} data-slot="filter-item">
 						{/* Field Label */}
 						<div
 							className={filterFieldLabelVariants({
@@ -1760,20 +1598,10 @@ export const FiltersContent = <T = unknown>({
 						</div>
 
 						{/* Operator Dropdown */}
-						<FilterOperatorDropdown<T>
-							field={field}
-							operator={filter.operator}
-							values={filter.values}
-							onChange={(operator) => updateFilter(filter.id, { operator })}
-						/>
+						<FilterOperatorDropdown<T> field={field} operator={filter.operator} values={filter.values} onChange={(operator) => updateFilter(filter.id, { operator })} />
 
 						{/* Value Selector */}
-						<FilterValueSelector<T>
-							field={field}
-							values={filter.values}
-							onChange={(values) => updateFilter(filter.id, { values })}
-							operator={filter.operator}
-						/>
+						<FilterValueSelector<T> field={field} values={filter.values} onChange={(values) => updateFilter(filter.id, { values })} operator={filter.operator} />
 
 						{/* Remove Button */}
 						<FilterRemoveButton onClick={() => removeFilter(filter.id)} />
@@ -1829,8 +1657,7 @@ export function Filters<T = unknown>({
 	popoverContentClassName,
 }: FiltersProps<T>) {
 	const [addFilterOpen, setAddFilterOpen] = useState(false)
-	const [selectedFieldForOptions, setSelectedFieldForOptions] =
-		useState<FilterFieldConfig<T> | null>(null)
+	const [selectedFieldForOptions, setSelectedFieldForOptions] = useState<FilterFieldConfig<T> | null>(null)
 	const [tempSelectedValues, setTempSelectedValues] = useState<unknown[]>([])
 
 	// Merge provided i18n with defaults
@@ -1889,29 +1716,16 @@ export function Filters<T = unknown>({
 					setSelectedFieldForOptions(field)
 					// For multiselect, check if there's already a filter and use its values
 					const existingFilter = filters.find((f) => f.field === fieldKey)
-					const initialValues =
-						field.type === "multiselect" && existingFilter ? existingFilter.values : []
+					const initialValues = field.type === "multiselect" && existingFilter ? existingFilter.values : []
 					setTempSelectedValues(initialValues)
 					return
 				}
 
 				// For other types, add filter directly
-				const defaultOperator =
-					field.defaultOperator ||
-					(field.type === "daterange"
-						? "between"
-						: field.type === "numberrange"
-							? "between"
-							: field.type === "boolean"
-								? "is"
-								: "is")
+				const defaultOperator = field.defaultOperator || (field.type === "daterange" ? "between" : field.type === "numberrange" ? "between" : field.type === "boolean" ? "is" : "is")
 				let defaultValues: unknown[] = []
 
-				if (
-					["text", "number", "date", "email", "url", "tel", "time", "datetime"].includes(
-						field.type || ""
-					)
-				) {
+				if (["text", "number", "date", "email", "url", "tel", "time", "datetime"].includes(field.type || "")) {
 					defaultValues = [""] as unknown[]
 				} else if (field.type === "daterange") {
 					defaultValues = ["", ""] as unknown[]
@@ -1938,8 +1752,7 @@ export function Filters<T = unknown>({
 		(field: FilterFieldConfig<T>, values: unknown[], closePopover: boolean = true) => {
 			if (!field.key) return
 
-			const defaultOperator =
-				field.defaultOperator || (field.type === "multiselect" ? "is_any_of" : "is")
+			const defaultOperator = field.defaultOperator || (field.type === "multiselect" ? "is_any_of" : "is")
 
 			// Check if there's already a filter for this field
 			const existingFilterIndex = filters.findIndex((f) => f.field === field.key)
@@ -2049,11 +1862,7 @@ export function Filters<T = unknown>({
 											// For multiselect, create filter immediately but keep popover open
 											// For single select, create filter and close popover
 											const shouldClosePopover = selectedFieldForOptions.type === "select"
-											addFilterWithOption(
-												selectedFieldForOptions,
-												values as unknown[],
-												shouldClosePopover
-											)
+											addFilterWithOption(selectedFieldForOptions, values as unknown[], shouldClosePopover)
 										}}
 										onClose={() => setAddFilterOpen(false)}
 										inline={true}
@@ -2061,9 +1870,7 @@ export function Filters<T = unknown>({
 								) : (
 									// Show field selection
 									<>
-										{showSearchInput && (
-											<CommandInput placeholder={mergedI18n.searchFields} className="h-9" />
-										)}
+										{showSearchInput && <CommandInput placeholder={mergedI18n.searchFields} className="h-9" />}
 										<CommandList>
 											<CommandEmpty>{mergedI18n.noFieldsFound}</CommandEmpty>
 											{fields.map((item, index) => {
@@ -2094,10 +1901,7 @@ export function Filters<T = unknown>({
 
 																// Regular field
 																return (
-																	<CommandItem
-																		key={field.key}
-																		onSelect={() => field.key && addFilter(field.key)}
-																	>
+																	<CommandItem key={field.key} onSelect={() => field.key && addFilter(field.key)}>
 																		{field.icon}
 																		<span>{field.label}</span>
 																	</CommandItem>
@@ -2134,10 +1938,7 @@ export function Filters<T = unknown>({
 
 																// Regular field
 																return (
-																	<CommandItem
-																		key={field.key}
-																		onSelect={() => field.key && addFilter(field.key)}
-																	>
+																	<CommandItem key={field.key} onSelect={() => field.key && addFilter(field.key)}>
 																		{field.icon}
 																		<span>{field.label}</span>
 																	</CommandItem>
@@ -2157,10 +1958,7 @@ export function Filters<T = unknown>({
 
 												// Regular field
 												return (
-													<CommandItem
-														key={field.key}
-														onSelect={() => field.key && addFilter(field.key)}
-													>
+													<CommandItem key={field.key} onSelect={() => field.key && addFilter(field.key)}>
 														{field.icon}
 														<span>{field.label}</span>
 													</CommandItem>
@@ -2179,11 +1977,7 @@ export function Filters<T = unknown>({
 					if (!field) return null
 
 					return (
-						<div
-							key={filter.id}
-							className={filterItemVariants({ variant })}
-							data-slot="filter-item"
-						>
+						<div key={filter.id} className={filterItemVariants({ variant })} data-slot="filter-item">
 							{/* Field Label */}
 							<div
 								className={filterFieldLabelVariants({
@@ -2197,20 +1991,10 @@ export function Filters<T = unknown>({
 							</div>
 
 							{/* Operator Dropdown */}
-							<FilterOperatorDropdown<T>
-								field={field}
-								operator={filter.operator}
-								values={filter.values}
-								onChange={(operator) => updateFilter(filter.id, { operator })}
-							/>
+							<FilterOperatorDropdown<T> field={field} operator={filter.operator} values={filter.values} onChange={(operator) => updateFilter(filter.id, { operator })} />
 
 							{/* Value Selector */}
-							<FilterValueSelector<T>
-								field={field}
-								values={filter.values}
-								onChange={(values) => updateFilter(filter.id, { values })}
-								operator={filter.operator}
-							/>
+							<FilterValueSelector<T> field={field} values={filter.values} onChange={(values) => updateFilter(filter.id, { values })} operator={filter.operator} />
 
 							{/* Remove Button */}
 							<FilterRemoveButton onClick={() => removeFilter(filter.id)} />
@@ -2257,20 +2041,14 @@ export function Filters<T = unknown>({
 										values={tempSelectedValues as T[]}
 										onChange={(values) => {
 											const shouldClosePopover = selectedFieldForOptions.type === "select"
-											addFilterWithOption(
-												selectedFieldForOptions,
-												values as unknown[],
-												shouldClosePopover
-											)
+											addFilterWithOption(selectedFieldForOptions, values as unknown[], shouldClosePopover)
 										}}
 										onClose={() => setAddFilterOpen(false)}
 										inline={true}
 									/>
 								) : (
 									<>
-										{showSearchInput && (
-											<CommandInput placeholder={mergedI18n.searchFields} className="h-9" />
-										)}
+										{showSearchInput && <CommandInput placeholder={mergedI18n.searchFields} className="h-9" />}
 										<CommandList>
 											<CommandEmpty>{mergedI18n.noFieldsFound}</CommandEmpty>
 											{fields.map((item, index) => {
@@ -2288,10 +2066,7 @@ export function Filters<T = unknown>({
 																	return <CommandSeparator key={`separator-${fieldIndex}`} />
 																}
 																return (
-																	<CommandItem
-																		key={field.key}
-																		onSelect={() => field.key && addFilter(field.key)}
-																	>
+																	<CommandItem key={field.key} onSelect={() => field.key && addFilter(field.key)}>
 																		{field.icon}
 																		<span>{field.label}</span>
 																	</CommandItem>
@@ -2314,10 +2089,7 @@ export function Filters<T = unknown>({
 																	return <CommandSeparator key={`separator-${fieldIndex}`} />
 																}
 																return (
-																	<CommandItem
-																		key={field.key}
-																		onSelect={() => field.key && addFilter(field.key)}
-																	>
+																	<CommandItem key={field.key} onSelect={() => field.key && addFilter(field.key)}>
 																		{field.icon}
 																		<span>{field.label}</span>
 																	</CommandItem>
@@ -2331,10 +2103,7 @@ export function Filters<T = unknown>({
 													return <CommandSeparator key={`separator-${index}`} />
 												}
 												return (
-													<CommandItem
-														key={field.key}
-														onSelect={() => field.key && addFilter(field.key)}
-													>
+													<CommandItem key={field.key} onSelect={() => field.key && addFilter(field.key)}>
 														{field.icon}
 														<span>{field.label}</span>
 													</CommandItem>
@@ -2352,23 +2121,14 @@ export function Filters<T = unknown>({
 	)
 }
 
-export const createFilter = <T = unknown>(
-	field: string,
-	operator?: string,
-	values: T[] = []
-): Filter<T> => ({
+export const createFilter = <T = unknown>(field: string, operator?: string, values: T[] = []): Filter<T> => ({
 	id: `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
 	field,
 	operator: operator || "is",
 	values,
 })
 
-export const createFilterGroup = <T = unknown>(
-	id: string,
-	label: string,
-	fields: FilterFieldConfig<T>[],
-	initialFilters: Filter<T>[] = []
-): FilterGroup<T> => ({
+export const createFilterGroup = <T = unknown>(id: string, label: string, fields: FilterFieldConfig<T>[], initialFilters: Filter<T>[] = []): FilterGroup<T> => ({
 	id,
 	label,
 	filters: initialFilters,

@@ -1,9 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { ButtonGroup } from "@blazz/ui/components/ui/button-group"
 import { Bold, ChevronLeft, ChevronRight, Italic, Underline } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -91,11 +91,7 @@ export default function ButtonGroupPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Button Group"
-			subtitle="Groups related buttons together with connected styling."
-			toc={toc}
-		>
+		<DocPage title="Button Group" subtitle="Groups related buttons together with connected styling." toc={toc}>
 			<DocHero>
 				<ButtonGroup>
 					<Button variant="outline">Left</Button>
@@ -105,12 +101,7 @@ export default function ButtonGroupPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Button Group"
-					description="Group buttons together for related actions."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Button Group" description="Group buttons together for related actions." code={examples[0].code} highlightedCode={html("basic")}>
 					<ButtonGroup>
 						<Button variant="outline">Left</Button>
 						<Button variant="outline">Center</Button>
@@ -118,12 +109,7 @@ export default function ButtonGroupPage() {
 					</ButtonGroup>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Icons"
-					description="Button groups work well with icon-only buttons."
-					code={examples[1].code}
-					highlightedCode={html("with-icons")}
-				>
+				<DocExampleClient title="With Icons" description="Button groups work well with icon-only buttons." code={examples[1].code} highlightedCode={html("with-icons")}>
 					<ButtonGroup>
 						<Button variant="outline" size="icon">
 							<ChevronLeft className="h-4 w-4" />
@@ -134,12 +120,7 @@ export default function ButtonGroupPage() {
 					</ButtonGroup>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Toolbar"
-					description="Create a text formatting toolbar with button groups."
-					code={examples[2].code}
-					highlightedCode={html("toolbar")}
-				>
+				<DocExampleClient title="Toolbar" description="Create a text formatting toolbar with button groups." code={examples[2].code} highlightedCode={html("toolbar")}>
 					<ButtonGroup>
 						<Button variant="outline" size="icon">
 							<Bold className="h-4 w-4" />
@@ -153,12 +134,7 @@ export default function ButtonGroupPage() {
 					</ButtonGroup>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Different Variants"
-					description="Button groups work with different button variants."
-					code={examples[3].code}
-					highlightedCode={html("variants")}
-				>
+				<DocExampleClient title="Different Variants" description="Button groups work with different button variants." code={examples[3].code} highlightedCode={html("variants")}>
 					<div className="flex flex-col gap-4">
 						<ButtonGroup>
 							<Button>Save</Button>

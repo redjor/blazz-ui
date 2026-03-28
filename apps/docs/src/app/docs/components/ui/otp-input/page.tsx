@@ -1,8 +1,8 @@
 "use client"
-import { use } from "react"
 
 import { OtpInput } from "@blazz/ui/components/ui/otp-input"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -103,12 +103,7 @@ function ControlledOtpInputDemo() {
 
 	return (
 		<div className="flex flex-col items-start gap-3">
-			<OtpInput
-				length={6}
-				value={otp}
-				onValueChange={setOtp}
-				onComplete={(code) => console.log("Complete:", code)}
-			/>
+			<OtpInput length={6} value={otp} onValueChange={setOtp} onComplete={(code) => console.log("Complete:", code)} />
 			<p className="text-sm text-fg-muted">Value: {otp || "(empty)"}</p>
 		</div>
 	)
@@ -119,11 +114,7 @@ export default function OtpInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="OtpInput"
-			subtitle="A one-time password input with individual digit fields, supporting paste and keyboard navigation."
-			toc={toc}
-		>
+		<DocPage title="OtpInput" subtitle="A one-time password input with individual digit fields, supporting paste and keyboard navigation." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<OtpInput length={6} />
@@ -131,48 +122,23 @@ export default function OtpInputPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A 6-digit OTP input."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A 6-digit OTP input." code={examples[0].code} highlightedCode={html("default")}>
 					<OtpInput length={6} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="4 Digits"
-					description="A shorter 4-digit OTP for simpler codes."
-					code={examples[1].code}
-					highlightedCode={html("four-digits")}
-				>
+				<DocExampleClient title="4 Digits" description="A shorter 4-digit OTP for simpler codes." code={examples[1].code} highlightedCode={html("four-digits")}>
 					<OtpInput length={4} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Masked / PIN"
-					description="Mask the digits for PIN-style secure entry."
-					code={examples[2].code}
-					highlightedCode={html("masked")}
-				>
+				<DocExampleClient title="Masked / PIN" description="Mask the digits for PIN-style secure entry." code={examples[2].code} highlightedCode={html("masked")}>
 					<OtpInput length={4} mask />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the OTP value programmatically."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the OTP value programmatically." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledOtpInputDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Error State"
-					description="Show validation errors using aria-invalid."
-					code={examples[4].code}
-					highlightedCode={html("error")}
-				>
+				<DocExampleClient title="Error State" description="Show validation errors using aria-invalid." code={examples[4].code} highlightedCode={html("error")}>
 					<div className="space-y-2">
 						<OtpInput length={6} aria-invalid />
 						<p className="text-sm text-negative">Invalid verification code. Please try again.</p>

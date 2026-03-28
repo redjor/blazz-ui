@@ -81,28 +81,15 @@ const singleConfig = {
 
 export default function LineChartPage() {
 	return (
-		<DocPage
-			title="Line Chart"
-			subtitle="Courbes pour visualiser des tendances temporelles. Basé sur Recharts et les primitives shadcn Chart."
-			toc={toc}
-		>
+		<DocPage title="Line Chart" subtitle="Courbes pour visualiser des tendances temporelles. Basé sur Recharts et les primitives shadcn Chart." toc={toc}>
 			<DocHero>
 				<div className="max-w-lg">
-					<LineChartBlock
-						title="Trafic web"
-						description="Visiteurs et pages vues"
-						data={trendData}
-						config={trendConfig}
-					/>
+					<LineChartBlock title="Trafic web" description="Visiteurs et pages vues" data={trendData} config={trendConfig} />
 				</div>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleSync
-					title="Default"
-					description="Le composant fonctionne sans props avec des données de démo."
-					code={`<LineChartBlock />`}
-				>
+				<DocExampleSync title="Default" description="Le composant fonctionne sans props avec des données de démo." code={`<LineChartBlock />`}>
 					<div className="max-w-lg">
 						<LineChartBlock />
 					</div>
@@ -142,12 +129,7 @@ export default function LineChartPage() {
 />`}
 				>
 					<div className="max-w-lg">
-						<LineChartBlock
-							title="Trafic web"
-							description="Visiteurs et pages vues"
-							data={trendData}
-							config={trendConfig}
-						/>
+						<LineChartBlock title="Trafic web" description="Visiteurs et pages vues" data={trendData} config={trendConfig} />
 					</div>
 				</DocExampleSync>
 			</DocSection>

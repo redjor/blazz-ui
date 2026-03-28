@@ -1,10 +1,10 @@
 "use client"
 
-import { use } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@blazz/ui/components/ui/avatar"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Check, CircleAlert, Crown, Mail, Shield, Star, Tag, X, XIcon, Zap } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -196,11 +196,7 @@ export default function BadgePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Badge"
-			subtitle="Small status indicators for labeling, categorizing, or showing counts."
-			toc={toc}
-		>
+		<DocPage title="Badge" subtitle="Small status indicators for labeling, categorizing, or showing counts." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<div className="flex flex-wrap items-center gap-2">
@@ -217,12 +213,7 @@ export default function BadgePage() {
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
 				{/* Variants */}
-				<DocExampleClient
-					title="Variants"
-					description="Seven semantic variants for different contexts."
-					code={examples[0].code}
-					highlightedCode={html("variants")}
-				>
+				<DocExampleClient title="Variants" description="Seven semantic variants for different contexts." code={examples[0].code} highlightedCode={html("variants")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge variant="default">Default</Badge>
 						<Badge variant="secondary">Secondary</Badge>
@@ -290,12 +281,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* With Dot */}
-				<DocExampleClient
-					title="With Dot"
-					description="A small colored dot before the text, ideal for status indicators."
-					code={examples[3].code}
-					highlightedCode={html("with-dot")}
-				>
+				<DocExampleClient title="With Dot" description="A small colored dot before the text, ideal for status indicators." code={examples[3].code} highlightedCode={html("with-dot")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge variant="success" fill="subtle" dot>
 							Online
@@ -316,12 +302,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* Dot + Solid Fill */}
-				<DocExampleClient
-					title="Dot + Solid Fill"
-					description="Dots work with both fill modes."
-					code={examples[4].code}
-					highlightedCode={html("dot-solid")}
-				>
+				<DocExampleClient title="Dot + Solid Fill" description="Dots work with both fill modes." code={examples[4].code} highlightedCode={html("dot-solid")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge variant="success" dot>
 							Active
@@ -362,12 +343,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* Icon Only */}
-				<DocExampleClient
-					title="Icon Only"
-					description="Compact icon-only badges for tight spaces."
-					code={examples[6].code}
-					highlightedCode={html("icon-only")}
-				>
+				<DocExampleClient title="Icon Only" description="Compact icon-only badges for tight spaces." code={examples[6].code} highlightedCode={html("icon-only")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge>
 							<Check />
@@ -395,12 +371,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* Dismissable + Variants */}
-				<DocExampleClient
-					title="Dismissable + Variants"
-					description="Close buttons work with all variants and fills."
-					code={examples[8].code}
-					highlightedCode={html("dismissable-variants")}
-				>
+				<DocExampleClient title="Dismissable + Variants" description="Close buttons work with all variants and fills." code={examples[8].code} highlightedCode={html("dismissable-variants")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge variant="default" onDismiss={() => {}}>
 							Default
@@ -418,12 +389,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* Counts */}
-				<DocExampleClient
-					title="Counts"
-					description="Display notification counts or quantities."
-					code={examples[9].code}
-					highlightedCode={html("counts")}
-				>
+				<DocExampleClient title="Counts" description="Display notification counts or quantities." code={examples[9].code} highlightedCode={html("counts")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge>3</Badge>
 						<Badge variant="info">99+</Badge>
@@ -432,12 +398,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* Status Indicators */}
-				<DocExampleClient
-					title="Status Indicators"
-					description="Combine dot, fill, and variants for a complete status system."
-					code={examples[10].code}
-					highlightedCode={html("status")}
-				>
+				<DocExampleClient title="Status Indicators" description="Combine dot, fill, and variants for a complete status system." code={examples[10].code} highlightedCode={html("status")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge variant="success" fill="subtle" dot>
 							Active
@@ -478,12 +439,7 @@ export default function BadgePage() {
 				</DocExampleClient>
 
 				{/* Composition: User Roles */}
-				<DocExampleClient
-					title="Composition: User Roles"
-					description="Icon badges for role indicators."
-					code={examples[12].code}
-					highlightedCode={html("user-roles")}
-				>
+				<DocExampleClient title="Composition: User Roles" description="Icon badges for role indicators." code={examples[12].code} highlightedCode={html("user-roles")}>
 					<div className="flex flex-wrap gap-2">
 						<Badge variant="default">
 							<Crown /> Admin
@@ -540,10 +496,7 @@ export default function BadgePage() {
 				<DocPropsTable props={badgeProps} />
 				<div className="space-y-4">
 					<h3 className="text-sm font-semibold text-fg">Configuration</h3>
-					<p className="text-sm text-fg-muted">
-						The badge border radius is configured globally via a CSS variable. Change it once in
-						your globals.css and all badges follow.
-					</p>
+					<p className="text-sm text-fg-muted">The badge border radius is configured globally via a CSS variable. Change it once in your globals.css and all badges follow.</p>
 					<div className="rounded-lg border border-edge-subtle bg-muted p-4">
 						<pre className="text-xs text-fg-muted">
 							{`/* globals.css */
@@ -557,9 +510,7 @@ export default function BadgePage() {
 
 			{/* Tokens */}
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Badge uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Badge uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">--badge-radius</code> - Global border radius for all badges
@@ -604,8 +555,7 @@ export default function BadgePage() {
 					<li>Use consistent colors for the same status across the app</li>
 					<li>Use xs size when pairing with small text (names, inline labels)</li>
 					<li>
-						Configure <code className="text-xs">--badge-radius</code> once to match your design
-						language
+						Configure <code className="text-xs">--badge-radius</code> once to match your design language
 					</li>
 				</ul>
 			</DocSection>

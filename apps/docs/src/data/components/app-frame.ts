@@ -4,8 +4,7 @@ import type { ComponentData } from "../types"
 export const appFrameData: ComponentData = {
 	name: "AppFrame",
 	category: "blocks",
-	description:
-		"Application shell with sidebar, top bar, breadcrumbs, and optional browser-style tabs.",
+	description: "Application shell with sidebar, top bar, breadcrumbs, and optional browser-style tabs.",
 	docPath: "/docs/blocks/app-frame",
 	imports: {
 		path: "@blazz/pro/components/blocks/app-frame",

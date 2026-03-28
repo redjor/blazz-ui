@@ -30,10 +30,7 @@ export const radioGroupData: ComponentData = {
 			description: "Orientation du groupe.",
 		},
 	],
-	gotchas: [
-		"Use the options prop API — not RadioGroupItem children, which is more verbose",
-		"With react-hook-form: `value={watch('type')} onValueChange={(v) => setValue('type', v)}`",
-	],
+	gotchas: ["Use the options prop API — not RadioGroupItem children, which is more verbose", "With react-hook-form: `value={watch('type')} onValueChange={(v) => setValue('type', v)}`"],
 	canonicalExample: `<RadioGroup
   value={watch("plan")}
   onValueChange={(v) => setValue("plan", v)}

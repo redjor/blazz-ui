@@ -73,15 +73,13 @@ const navbarProps: DocProp[] = [
 	{
 		name: "right",
 		type: "React.ReactNode",
-		description:
-			"Section droite — UserMenu, notifications, datetime. Aligne les éléments flex-end.",
+		description: "Section droite — UserMenu, notifications, datetime. Aligne les éléments flex-end.",
 	},
 	{
 		name: "bgColor",
 		type: "string",
 		default: '"bg-bb-dark-green"',
-		description:
-			"Classe Tailwind pour la couleur de fond. Passer n'importe quelle classe bg-* pour surcharger le vert Blazz par défaut.",
+		description: "Classe Tailwind pour la couleur de fond. Passer n'importe quelle classe bg-* pour surcharger le vert Blazz par défaut.",
 	},
 	{
 		name: "className",
@@ -98,23 +96,13 @@ function NavbarPreview() {
 					<span className="font-bold text-white text-sm">MyApp</span>
 				</div>
 				<div className="flex items-center gap-1 rounded-full bg-white/10 p-1">
-					<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">
-						Dashboard
-					</span>
-					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-						Companies
-					</span>
-					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-						Contacts
-					</span>
-					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-						Reports
-					</span>
+					<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">Dashboard</span>
+					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Companies</span>
+					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Contacts</span>
+					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Reports</span>
 				</div>
 				<div className="flex items-center justify-end gap-3">
-					<div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs text-white font-medium">
-						JD
-					</div>
+					<div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs text-white font-medium">JD</div>
 				</div>
 			</div>
 		</div>
@@ -129,20 +117,12 @@ function NavbarCustomBgPreview() {
 					<span className="font-bold text-white text-sm">MyApp</span>
 				</div>
 				<div className="flex items-center gap-1 rounded-full bg-white/10 p-1">
-					<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-slate-900">
-						Dashboard
-					</span>
-					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-						Companies
-					</span>
-					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-						Contacts
-					</span>
+					<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-slate-900">Dashboard</span>
+					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Companies</span>
+					<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Contacts</span>
 				</div>
 				<div className="flex items-center justify-end gap-3">
-					<div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs text-white font-medium">
-						JD
-					</div>
+					<div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs text-white font-medium">JD</div>
 				</div>
 			</div>
 		</div>

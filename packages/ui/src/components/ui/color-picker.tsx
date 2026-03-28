@@ -37,14 +37,7 @@ const defaultPresets = [
 	"#000000",
 ]
 
-function ColorPicker({
-	value = "",
-	onValueChange,
-	presets = defaultPresets,
-	disabled = false,
-	className,
-	placeholder = "Pick a color",
-}: ColorPickerProps) {
+function ColorPicker({ value = "", onValueChange, presets = defaultPresets, disabled = false, className, placeholder = "Pick a color" }: ColorPickerProps) {
 	const [open, setOpen] = React.useState(false)
 
 	return (
@@ -59,13 +52,8 @@ function ColorPicker({
 					className
 				)}
 			>
-				<span
-					className={cn("size-4 shrink-0 rounded-sm border border-edge", !value && "bg-muted")}
-					style={value ? { backgroundColor: value } : undefined}
-				/>
-				<span className={cn("text-sm", value ? "text-fg" : "text-fg-muted")}>
-					{value || placeholder}
-				</span>
+				<span className={cn("size-4 shrink-0 rounded-sm border border-edge", !value && "bg-muted")} style={value ? { backgroundColor: value } : undefined} />
+				<span className={cn("text-sm", value ? "text-fg" : "text-fg-muted")}>{value || placeholder}</span>
 			</PopoverTrigger>
 			<PopoverContent className="w-auto p-3" align="start">
 				<div className="space-y-3">

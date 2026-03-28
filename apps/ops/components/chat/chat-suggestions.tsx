@@ -2,13 +2,7 @@
 
 import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 
-const suggestions = [
-	"Mes todos du jour",
-	"Crée un todo pour demain",
-	"Résumé de la semaine",
-	"Combien d'heures cette semaine ?",
-	"Liste mes projets actifs",
-]
+const suggestions = ["Mes todos du jour", "Crée un todo pour demain", "Résumé de la semaine", "Combien d'heures cette semaine ?", "Liste mes projets actifs"]
 
 interface ChatSuggestionsProps {
 	onSelect: (text: string) => void

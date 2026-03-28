@@ -1,8 +1,8 @@
 "use client"
-import { use } from "react"
 
 import { NumberInput } from "@blazz/ui/components/ui/number-input"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -106,13 +106,7 @@ function ControlledNumberInputDemo() {
 
 	return (
 		<div className="flex flex-col items-start gap-3">
-			<NumberInput
-				value={value}
-				onValueChange={setValue}
-				min={0}
-				max={100}
-				className="max-w-[180px]"
-			/>
+			<NumberInput value={value} onValueChange={setValue} min={0} max={100} className="max-w-[180px]" />
 			<p className="text-sm text-fg-muted">Value: {value ?? "empty"}</p>
 		</div>
 	)
@@ -123,11 +117,7 @@ export default function NumberInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="NumberInput"
-			subtitle="A numeric input with increment and decrement stepper buttons for precise value adjustments."
-			toc={toc}
-		>
+		<DocPage title="NumberInput" subtitle="A numeric input with increment and decrement stepper buttons for precise value adjustments." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<NumberInput defaultValue={5} min={0} max={100} className="max-w-[180px]" />
@@ -135,48 +125,23 @@ export default function NumberInputPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic number input with stepper buttons."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic number input with stepper buttons." code={examples[0].code} highlightedCode={html("default")}>
 					<NumberInput defaultValue={5} className="max-w-[180px]" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Min/Max"
-					description="Constrain the value to a specific range."
-					code={examples[1].code}
-					highlightedCode={html("min-max")}
-				>
+				<DocExampleClient title="With Min/Max" description="Constrain the value to a specific range." code={examples[1].code} highlightedCode={html("min-max")}>
 					<NumberInput defaultValue={5} min={0} max={10} className="max-w-[180px]" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Step"
-					description="Customize the increment and decrement step size."
-					code={examples[2].code}
-					highlightedCode={html("step")}
-				>
+				<DocExampleClient title="With Step" description="Customize the increment and decrement step size." code={examples[2].code} highlightedCode={html("step")}>
 					<NumberInput defaultValue={0} step={5} min={0} max={100} className="max-w-[180px]" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the value programmatically."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the value programmatically." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledNumberInputDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled number inputs prevent user interaction."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled number inputs prevent user interaction." code={examples[4].code} highlightedCode={html("disabled")}>
 					<NumberInput disabled defaultValue={5} className="max-w-[180px]" />
 				</DocExampleClient>
 			</DocSection>
@@ -191,13 +156,8 @@ export default function NumberInputPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use for numeric values where precise adjustment is needed</li>
 					<li>Always set min and max when the value has natural bounds</li>
-					<li>
-						Choose a step size that makes sense for the data (e.g., 0.1 for prices, 5 for
-						percentages)
-					</li>
-					<li>
-						Use a Slider instead when the exact value is less important than the relative position
-					</li>
+					<li>Choose a step size that makes sense for the data (e.g., 0.1 for prices, 5 for percentages)</li>
+					<li>Use a Slider instead when the exact value is less important than the relative position</li>
 				</ul>
 			</DocSection>
 

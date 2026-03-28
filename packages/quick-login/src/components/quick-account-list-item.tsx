@@ -26,14 +26,10 @@ export function QuickAccountListItem({ account, onSelect }: QuickAccountListItem
 
 			<div className="flex-1 min-w-0 text-left">
 				<div className="truncate text-xs font-medium text-fg">{account.label}</div>
-				{account.description && (
-					<div className="truncate text-[11px] text-fg-muted">{account.description}</div>
-				)}
+				{account.description && <div className="truncate text-[11px] text-fg-muted">{account.description}</div>}
 			</div>
 
-			<span className="flex-shrink-0 font-mono text-[10px] text-fg-muted tabular-nums">
-				{account.username}
-			</span>
+			<span className="flex-shrink-0 font-mono text-[10px] text-fg-muted tabular-nums">{account.username}</span>
 		</button>
 	)
 }

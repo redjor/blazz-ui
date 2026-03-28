@@ -1,7 +1,7 @@
 import { Card } from "@blazz/ui/components/ui/card"
 import { cn } from "@blazz/ui/lib/utils"
-import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
+import Link from "next/link"
 import { useId } from "react"
 import { ComponentCardThumbnail } from "./component-card-thumbnail"
 
@@ -31,14 +31,7 @@ export interface ComponentCardProps {
 	className?: string
 }
 
-export function ComponentCard({
-	title,
-	description,
-	href,
-	icon: Icon,
-	thumbnail,
-	className,
-}: ComponentCardProps) {
+export function ComponentCard({ title, description, href, icon: Icon, thumbnail, className }: ComponentCardProps) {
 	const id = useId()
 	const descId = `${id}-desc`
 
@@ -56,9 +49,7 @@ export function ComponentCard({
 				<div className="flex flex-col gap-3 p-4">
 					<Icon className="size-5 text-fg-muted" />
 					<div className="space-y-1">
-						<h3 className="text-sm font-medium text-fg group-hover:text-brand transition-colors">
-							{title}
-						</h3>
+						<h3 className="text-sm font-medium text-fg group-hover:text-brand transition-colors">{title}</h3>
 						<p id={descId} className="text-xs text-fg-muted line-clamp-2">
 							{description}
 						</p>

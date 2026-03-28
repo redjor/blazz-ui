@@ -138,40 +138,34 @@ const appFrameProps: DocProp[] = [
 	{
 		name: "logo",
 		type: "React.ReactNode",
-		description:
-			"Logo affiché en haut de la sidebar. Texte, image ou composant custom.",
+		description: "Logo affiché en haut de la sidebar. Texte, image ou composant custom.",
 	},
 	{
 		name: "navItems",
 		type: "NavItem[] | NavGroup[]",
 		required: true,
-		description:
-			"Items de navigation. Liste plate de NavItem ou groupes NavGroup avec label optionnel.",
+		description: "Items de navigation. Liste plate de NavItem ou groupes NavGroup avec label optionnel.",
 	},
 	{
 		name: "sidebarFooter",
 		type: "React.ReactNode",
-		description:
-			"Contenu fixé en bas de la sidebar. Typiquement un user menu ou un bouton upgrade.",
+		description: "Contenu fixé en bas de la sidebar. Typiquement un user menu ou un bouton upgrade.",
 	},
 	{
 		name: "sidebarCollapsible",
 		type: '"offcanvas" | "icon" | "none"',
 		default: '"offcanvas"',
-		description:
-			'Mode de collapse de la sidebar. "icon" réduit aux icônes, "offcanvas" cache complètement, "none" désactive le collapse.',
+		description: 'Mode de collapse de la sidebar. "icon" réduit aux icônes, "offcanvas" cache complètement, "none" désactive le collapse.',
 	},
 	{
 		name: "tabs",
 		type: "TabsConfig",
-		description:
-			"Active les browser-style tabs. Voir TabsConfig ci-dessous.",
+		description: "Active les browser-style tabs. Voir TabsConfig ci-dessous.",
 	},
 	{
 		name: "rounded",
 		type: "boolean",
-		description:
-			"Ajoute des coins arrondis au conteneur principal pour un look desktop app.",
+		description: "Ajoute des coins arrondis au conteneur principal pour un look desktop app.",
 	},
 	{
 		name: "className",
@@ -212,8 +206,7 @@ const navItemProps: DocProp[] = [
 	{
 		name: "badge",
 		type: "string | number",
-		description:
-			"Badge affiché à droite du label. Compteur, statut, etc.",
+		description: "Badge affiché à droite du label. Compteur, statut, etc.",
 	},
 ]
 
@@ -221,8 +214,7 @@ const navGroupProps: DocProp[] = [
 	{
 		name: "label",
 		type: "string",
-		description:
-			"Label de section affiché au-dessus du groupe. Si omis, les items sont rendus sans header.",
+		description: "Label de section affiché au-dessus du groupe. Si omis, les items sont rendus sans header.",
 	},
 	{
 		name: "items",
@@ -237,21 +229,18 @@ const tabsConfigProps: DocProp[] = [
 		name: "storageKey",
 		type: "string",
 		required: true,
-		description:
-			"Clé localStorage pour persister les tabs ouverts entre les sessions.",
+		description: "Clé localStorage pour persister les tabs ouverts entre les sessions.",
 	},
 	{
 		name: "alwaysShow",
 		type: "boolean",
-		description:
-			"Affiche la barre de tabs même avec un seul tab ouvert. Par défaut, la barre est masquée quand il n'y a qu'un tab.",
+		description: "Affiche la barre de tabs même avec un seul tab ouvert. Par défaut, la barre est masquée quand il n'y a qu'un tab.",
 	},
 	{
 		name: "defaultTab",
 		type: "{ url: string; title: string }",
 		required: true,
-		description:
-			"Tab par défaut ouvert au premier chargement. Typiquement le dashboard.",
+		description: "Tab par défaut ouvert au premier chargement. Typiquement le dashboard.",
 	},
 ]
 
@@ -260,14 +249,12 @@ const useAppTopBarProps: DocProp[] = [
 		name: "items",
 		type: "BreadcrumbItem[] | null",
 		required: true,
-		description:
-			'Liste de breadcrumbs à afficher dans le top bar. Chaque item a un label et un href optionnel. Passer null pour masquer les breadcrumbs.',
+		description: "Liste de breadcrumbs à afficher dans le top bar. Chaque item a un label et un href optionnel. Passer null pour masquer les breadcrumbs.",
 	},
 	{
 		name: "actions",
 		type: "React.ReactNode",
-		description:
-			"Actions affichées à droite du top bar (boutons, menus). Slot libre.",
+		description: "Actions affichées à droite du top bar (boutons, menus). Slot libre.",
 	},
 ]
 
@@ -279,39 +266,25 @@ function LayoutDiagram() {
 	return (
 		<div className="flex h-52 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
 			<div className="w-32 shrink-0 bg-muted/30 flex flex-col border-r border-dashed border-edge-subtle">
-				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle flex items-center px-3 font-medium">
-					Logo
-				</div>
+				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle flex items-center px-3 font-medium">Logo</div>
 				<div className="flex-1 flex flex-col gap-1 p-2">
-					<div className="px-2 py-0.5 text-[10px] font-medium text-fg-muted/60 uppercase tracking-wider">
-						Group label
-					</div>
-					<div className="px-2 py-1 rounded bg-accent/10 text-fg text-[10px]">
-						Nav item
-					</div>
+					<div className="px-2 py-0.5 text-[10px] font-medium text-fg-muted/60 uppercase tracking-wider">Group label</div>
+					<div className="px-2 py-1 rounded bg-accent/10 text-fg text-[10px]">Nav item</div>
 					<div className="px-2 py-1 text-[10px]">Nav item</div>
 					<div className="px-2 py-1 text-[10px]">Nav item</div>
 				</div>
-				<div className="h-8 shrink-0 border-t border-dashed border-edge-subtle flex items-center px-3">
-					Footer
-				</div>
+				<div className="h-8 shrink-0 border-t border-dashed border-edge-subtle flex items-center px-3">Footer</div>
 			</div>
 			<div className="flex-1 flex flex-col">
 				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle bg-card flex items-center px-3 gap-2">
-					<span className="size-4 rounded border border-dashed border-edge-subtle flex items-center justify-center text-[8px]">
-						&#9776;
-					</span>
+					<span className="size-4 rounded border border-dashed border-edge-subtle flex items-center justify-center text-[8px]">&#9776;</span>
 					<span>Top Bar (breadcrumbs + actions via useAppTopBar)</span>
 				</div>
 				<div className="h-6 shrink-0 border-b border-dashed border-edge-subtle bg-muted/20 flex items-center px-3 gap-2">
-					<span className="px-2 py-0.5 rounded-t bg-card text-[10px] border border-b-0 border-dashed border-edge-subtle">
-						Tab 1
-					</span>
+					<span className="px-2 py-0.5 rounded-t bg-card text-[10px] border border-b-0 border-dashed border-edge-subtle">Tab 1</span>
 					<span className="px-2 py-0.5 text-[10px]">Tab 2</span>
 				</div>
-				<div className="flex-1 bg-card flex items-center justify-center">
-					children (main content)
-				</div>
+				<div className="flex-1 bg-card flex items-center justify-center">children (main content)</div>
 			</div>
 		</div>
 	)
@@ -325,20 +298,12 @@ function AppFramePlaceholder({ label }: { label?: string }) {
 	return (
 		<div className="flex h-40 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
 			<div className="w-28 shrink-0 bg-muted/30 flex flex-col">
-				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle flex items-center px-3 font-medium">
-					Logo
-				</div>
-				<div className="flex-1 flex items-center justify-center">
-					Sidebar
-				</div>
+				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle flex items-center px-3 font-medium">Logo</div>
+				<div className="flex-1 flex items-center justify-center">Sidebar</div>
 			</div>
 			<div className="flex-1 flex flex-col">
-				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle bg-card flex items-center px-3">
-					Top Bar
-				</div>
-				<div className="flex-1 bg-card flex items-center justify-center">
-					{label ?? "Main content"}
-				</div>
+				<div className="h-8 shrink-0 border-b border-dashed border-edge-subtle bg-card flex items-center px-3">Top Bar</div>
+				<div className="flex-1 bg-card flex items-center justify-center">{label ?? "Main content"}</div>
 			</div>
 		</div>
 	)
@@ -350,15 +315,10 @@ function AppFramePlaceholder({ label }: { label?: string }) {
 
 export default function AppFrameDocPage() {
 	const highlighted = use(highlightedPromise)
-	const html = (key: string) =>
-		highlighted.find((h) => h.key === key)?.html ?? ""
+	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="App Frame"
-			subtitle="Application shell with sidebar navigation, breadcrumb top bar, and optional browser-style tabs. The main entry point for pro applications."
-			toc={toc}
-		>
+		<DocPage title="App Frame" subtitle="Application shell with sidebar navigation, breadcrumb top bar, and optional browser-style tabs. The main entry point for pro applications." toc={toc}>
 			<DocSection id="usage" title="Usage">
 				<DocExampleClient
 					title="Basic"
@@ -400,13 +360,11 @@ export default function AppFrameDocPage() {
 			<DocSection id="layout" title="Layout">
 				<div className="space-y-3">
 					<p className="text-sm text-fg-muted">
-						AppFrame compose internement un Frame (sidebar + main area), un TopBar
-						(breadcrumbs + actions), et optionnellement une TabBar. Le diagramme
-						ci-dessous montre la structure :
+						AppFrame compose internement un Frame (sidebar + main area), un TopBar (breadcrumbs + actions), et optionnellement une TabBar. Le diagramme ci-dessous montre la structure :
 					</p>
 					<LayoutDiagram />
 					<pre className="rounded-lg bg-muted/30 p-4 text-xs text-fg-muted font-mono leading-relaxed overflow-x-auto">
-{`+------------------+---------------------------------------------+
+						{`+------------------+---------------------------------------------+
 |                  |  Top Bar (breadcrumbs + actions)             |
 |   Sidebar        +---------------------------------------------+
 |                  |  Tab Bar (optional, browser-style tabs)      |
@@ -433,9 +391,7 @@ export default function AppFrameDocPage() {
 				<h3 className="text-sm font-semibold mt-8 mb-2">TabsConfig</h3>
 				<DocPropsTable props={tabsConfigProps} />
 
-				<h3 className="text-sm font-semibold mt-8 mb-2">
-					useAppTopBar(items, actions?)
-				</h3>
+				<h3 className="text-sm font-semibold mt-8 mb-2">useAppTopBar(items, actions?)</h3>
 				<DocPropsTable props={useAppTopBarProps} />
 			</DocSection>
 
@@ -445,20 +401,17 @@ export default function AppFrameDocPage() {
 						{
 							title: "Frame (patterns)",
 							href: "/docs/components/patterns/layout-frame",
-							description:
-								"Brique flexbox bas niveau utilisee internement par AppFrame. Pour un controle total du layout.",
+							description: "Brique flexbox bas niveau utilisee internement par AppFrame. Pour un controle total du layout.",
 						},
 						{
 							title: "Top Bar (patterns)",
 							href: "/docs/components/patterns/top-bar",
-							description:
-								"Header composable avec breadcrumbs, sidebar toggle et actions. Utilise par AppFrame.",
+							description: "Header composable avec breadcrumbs, sidebar toggle et actions. Utilise par AppFrame.",
 						},
 						{
 							title: "Page Header",
 							href: "/docs/blocks/page-header",
-							description:
-								"Header de page composable pour le contenu principal a l'interieur de AppFrame.",
+							description: "Header de page composable pour le contenu principal a l'interieur de AppFrame.",
 						},
 					]}
 				/>

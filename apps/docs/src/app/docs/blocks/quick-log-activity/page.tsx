@@ -32,14 +32,12 @@ const quickLogActivityProps: DocProp[] = [
 	{
 		name: "onLog",
 		type: "(activity: { type: ActivityType; note: string }) => void | Promise<void>",
-		description:
-			"Callback fired when the user submits an activity. Supports async — the button shows a loading state until the promise resolves.",
+		description: "Callback fired when the user submits an activity. Supports async — the button shows a loading state until the promise resolves.",
 	},
 	{
 		name: "trigger",
 		type: "React.ReactElement",
-		description:
-			'Custom trigger element rendered via the render prop pattern. Defaults to an outline button labeled "Activité".',
+		description: 'Custom trigger element rendered via the render prop pattern. Defaults to an outline button labeled "Activité".',
 	},
 	{
 		name: "className",
@@ -113,7 +111,6 @@ const highlightedPromise = highlightExamples(examples as any)
 // ---------------------------------------------------------------------------
 // Route
 // ---------------------------------------------------------------------------
-
 
 // ---------------------------------------------------------------------------
 // Page
@@ -191,10 +188,7 @@ export default function QuickLogActivityPage() {
 
 			<DocSection id="activity-type" title="ActivityType">
 				<p className="mb-4 text-sm text-fg-muted">
-					Union type:{" "}
-					<code className="rounded bg-muted px-1.5 py-0.5 text-xs">
-						"call" | "email" | "note" | "meeting"
-					</code>
+					Union type: <code className="rounded bg-muted px-1.5 py-0.5 text-xs">"call" | "email" | "note" | "meeting"</code>
 				</p>
 				<DocPropsTable props={activityTypeProps} />
 			</DocSection>
@@ -251,9 +245,7 @@ function HeroDemo() {
 					<p className="text-xs font-medium text-fg-muted">Activités enregistrées :</p>
 					{logs.map((log, i) => (
 						<div key={i} className="flex items-center gap-2 text-xs text-fg-muted">
-							<span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] uppercase">
-								{log.type}
-							</span>
+							<span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] uppercase">{log.type}</span>
 							<span className="truncate">{log.note}</span>
 						</div>
 					))}

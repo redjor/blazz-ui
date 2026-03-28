@@ -1,14 +1,15 @@
 "use client"
 
-import { use } from "react"
 import { ApprovalCard } from "@blazz/pro/components/ai/generative/workflow/approval-card"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Check, X } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "pending",
@@ -43,7 +44,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function ApprovalCardPage() {
@@ -51,11 +51,7 @@ export default function ApprovalCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Approval Card"
-			subtitle="A decision card with context details and accept/reject actions."
-			toc={toc}
-		>
+		<DocPage title="Approval Card" subtitle="A decision card with context details and accept/reject actions." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<ApprovalCard
@@ -82,12 +78,7 @@ export default function ApprovalCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Pending Approval"
-					description="Full approval card with details and action buttons."
-					code={examples[0].code}
-					highlightedCode={html("pending")}
-				>
+				<DocExampleClient title="Pending Approval" description="Full approval card with details and action buttons." code={examples[0].code} highlightedCode={html("pending")}>
 					<div className="max-w-sm">
 						<ApprovalCard
 							title="Discount Approval Required"
@@ -111,12 +102,7 @@ export default function ApprovalCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Already Approved"
-					description="Card in approved state without actions."
-					code={examples[1].code}
-					highlightedCode={html("approved")}
-				>
+				<DocExampleClient title="Already Approved" description="Card in approved state without actions." code={examples[1].code} highlightedCode={html("approved")}>
 					<div className="max-w-sm">
 						<ApprovalCard
 							title="Discount Approved"

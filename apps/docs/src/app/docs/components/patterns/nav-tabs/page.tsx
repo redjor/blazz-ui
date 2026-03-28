@@ -108,8 +108,7 @@ const navTabsProps: DocProp[] = [
 		name: "preserveQueryParams",
 		type: "boolean",
 		default: "true",
-		description:
-			"Si true, conserve les searchParams de l'URL courante lors des navigations entre tabs. Utile pour préserver les filtres actifs.",
+		description: "Si true, conserve les searchParams de l'URL courante lors des navigations entre tabs. Utile pour préserver les filtres actifs.",
 	},
 	{
 		name: "className",
@@ -129,8 +128,7 @@ const navTabItemProps: DocProp[] = [
 		name: "href",
 		type: "string",
 		required: true,
-		description:
-			"URL de destination. L'onglet est actif si pathname.startsWith(href). Pour la racine, utiliser '/'.",
+		description: "URL de destination. L'onglet est actif si pathname.startsWith(href). Pour la racine, utiliser '/'.",
 	},
 	{
 		name: "icon",
@@ -141,8 +139,7 @@ const navTabItemProps: DocProp[] = [
 	{
 		name: "badge",
 		type: 'number | "loading"',
-		description:
-			'Badge affiché à droite du label. number → count (affiche "9+" si > 9). "loading" → spinner Loader2 animé. Ignoré si 0 ou undefined.',
+		description: 'Badge affiché à droite du label. number → count (affiche "9+" si > 9). "loading" → spinner Loader2 animé. Ignoré si 0 ou undefined.',
 	},
 	{
 		name: "disabled",
@@ -155,12 +152,8 @@ function NavTabsPreview() {
 	return (
 		<div className="flex items-center justify-center rounded border border-edge-subtle bg-[#1a3c2e] p-4">
 			<div className="flex items-center gap-1 rounded-full bg-white/10 p-1">
-				<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">
-					Dashboard
-				</span>
-				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
-					Companies
-				</span>
+				<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">Dashboard</span>
+				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Companies</span>
 				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Contacts</span>
 				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80">Reports</span>
 			</div>
@@ -172,38 +165,17 @@ function NavTabsBadgePreview() {
 	return (
 		<div className="flex items-center justify-center rounded border border-edge-subtle bg-[#1a3c2e] p-4">
 			<div className="flex items-center gap-1 rounded-full bg-white/10 p-1">
-				<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">
-					Dashboard
-				</span>
+				<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">Dashboard</span>
 				<span className="flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
 					Companies
-					<span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-1 text-xs font-bold text-white">
-						12
-					</span>
+					<span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-1 text-xs font-bold text-white">12</span>
 				</span>
 				<span className="flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
 					Contacts
 					<span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-500 px-1">
-						<svg
-							className="h-3 w-3 animate-spin text-white"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							aria-hidden="true"
-						>
-							<circle
-								className="opacity-25"
-								cx="12"
-								cy="12"
-								r="10"
-								stroke="currentColor"
-								strokeWidth="4"
-							/>
-							<path
-								className="opacity-75"
-								fill="currentColor"
-								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-							/>
+						<svg className="h-3 w-3 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+							<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+							<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
 						</svg>
 					</span>
 				</span>
@@ -216,12 +188,8 @@ function NavTabsDisabledPreview() {
 	return (
 		<div className="flex items-center justify-center rounded border border-edge-subtle bg-[#1a3c2e] p-4">
 			<div className="flex items-center gap-1 rounded-full bg-white/10 p-1">
-				<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">
-					Companies
-				</span>
-				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80 opacity-50">
-					Reports
-				</span>
+				<span className="rounded-full bg-white px-4 py-1.5 text-xs font-medium text-[#1a3c2e]">Companies</span>
+				<span className="rounded-full px-4 py-1.5 text-xs font-medium text-white/80 opacity-50">Reports</span>
 			</div>
 		</div>
 	)
@@ -250,9 +218,7 @@ export default function NavTabsPage() {
 			<DocSection id="badges" title="Badges">
 				<DocExampleClient
 					title="Badges numériques et loading"
-					description={
-						'badge: number affiche un count ("9+" si supérieur à 9). badge: "loading" affiche un spinner — utile quand les données du tab sont en cours de chargement.'
-					}
+					description={'badge: number affiche un count ("9+" si supérieur à 9). badge: "loading" affiche un spinner — utile quand les données du tab sont en cours de chargement.'}
 					code={examples[1].code}
 					highlightedCode={html("badges")}
 				>

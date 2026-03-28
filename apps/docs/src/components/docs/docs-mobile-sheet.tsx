@@ -64,11 +64,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
-			<SheetContent
-				side="left"
-				className="w-(--sidebar-width) p-0 bg-card"
-				topOffset="var(--topbar-height)"
-			>
+			<SheetContent side="left" className="w-(--sidebar-width) p-0 bg-card" topOffset="var(--topbar-height)">
 				<ScrollArea className="h-full">
 					{/* Section tabs for mobile */}
 					<div className="flex gap-1 p-3 border-b border-container">
@@ -77,12 +73,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 								key={tab.id}
 								href={tab.defaultUrl}
 								onClick={handleLinkClick}
-								className={cn(
-									"px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
-									sectionId === tab.id
-										? "text-fg font-medium bg-muted"
-										: "text-fg-muted hover:text-fg"
-								)}
+								className={cn("px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap", sectionId === tab.id ? "text-fg font-medium bg-muted" : "text-fg-muted hover:text-fg")}
 							>
 								{tab.label}
 							</Link>
@@ -91,13 +82,7 @@ export function DocsMobileSheet({ open, onOpenChange, sectionId }: DocsMobileShe
 					{/* Filtered sidebar content */}
 					{section && (
 						<SidebarContent>
-							<NavSection
-								section={{ ...section, title: undefined }}
-								isActive={isActive}
-								onLinkClick={handleLinkClick}
-								openItemId={openItemId}
-								setOpenItemId={setOpenItemId}
-							/>
+							<NavSection section={{ ...section, title: undefined }} isActive={isActive} onLinkClick={handleLinkClick} openItemId={openItemId} setOpenItemId={setOpenItemId} />
 						</SidebarContent>
 					)}
 				</ScrollArea>
@@ -125,14 +110,7 @@ function NavSection({
 			<SidebarGroupContent>
 				<SidebarMenu>
 					{section.items.map((item) => (
-						<NavItem
-							key={item.id ?? item.url ?? item.title}
-							item={item}
-							isActive={isActive}
-							onLinkClick={onLinkClick}
-							openItemId={openItemId}
-							setOpenItemId={setOpenItemId}
-						/>
+						<NavItem key={item.id ?? item.url ?? item.title} item={item} isActive={isActive} onLinkClick={onLinkClick} openItemId={openItemId} setOpenItemId={setOpenItemId} />
 					))}
 				</SidebarMenu>
 			</SidebarGroupContent>
@@ -177,10 +155,7 @@ function NavItem({
 					<SidebarCollapsibleContent>
 						<SidebarMenuSub>
 							{item.items?.map((sub) => (
-								<SidebarMenuSubItem
-									key={sub.id ?? sub.url ?? sub.title}
-									isActive={isActive(sub.url)}
-								>
+								<SidebarMenuSubItem key={sub.id ?? sub.url ?? sub.title} isActive={isActive(sub.url)}>
 									<SidebarMenuSubButton asChild isActive={isActive(sub.url)}>
 										<Link href={sub.url ?? "/"} onClick={onLinkClick}>
 											{sub.icon && <sub.icon />}

@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { SegmentedProgress } from "@blazz/pro/components/blocks/segmented-progress"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -78,8 +78,7 @@ const segmentedProgressProps: DocProp[] = [
 		name: "autoColor",
 		type: "boolean",
 		default: "false",
-		description:
-			"Auto-switch color based on percent thresholds: brand below 75%, caution 75-90%, negative above 90%.",
+		description: "Auto-switch color based on percent thresholds: brand below 75%, caution 75-90%, negative above 90%.",
 	},
 	{
 		name: "dotSize",
@@ -113,7 +112,6 @@ const toc = [
 // ---------------------------------------------------------------------------
 // Route
 // ---------------------------------------------------------------------------
-
 
 // ---------------------------------------------------------------------------
 // Hero
@@ -161,12 +159,7 @@ export default function SegmentedProgressPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Colors"
-					description="Manually set the bar color with the color prop."
-					code={examples[1].code}
-					highlightedCode={html("colors")}
-				>
+				<DocExampleClient title="Colors" description="Manually set the bar color with the color prop." code={examples[1].code} highlightedCode={html("colors")}>
 					<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<BlockStack gap="300">
 							<SegmentedProgress percent={50} color="brand" />
@@ -191,12 +184,7 @@ export default function SegmentedProgressPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Dot Sizes"
-					description="Customize dot size and gap for different densities."
-					code={examples[3].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Dot Sizes" description="Customize dot size and gap for different densities." code={examples[3].code} highlightedCode={html("sizes")}>
 					<div className="w-full max-w-md rounded-lg border border-edge bg-card overflow-hidden p-4">
 						<BlockStack gap="300">
 							<SegmentedProgress percent={60} />
@@ -217,8 +205,7 @@ export default function SegmentedProgressPage() {
 						{
 							title: "Budget Card",
 							href: "/docs/blocks/budget-card",
-							description:
-								"Card component that composes SegmentedProgress with project name, revenue, and budget label.",
+							description: "Card component that composes SegmentedProgress with project name, revenue, and budget label.",
 						},
 						{
 							title: "Stats Grid",

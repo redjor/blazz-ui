@@ -19,9 +19,7 @@ describe("categories auth", () => {
 
 	it("create rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(t.mutation(api.categories.create, { name: "Dev" })).rejects.toThrow(
-			"Non authentifié"
-		)
+		await expect(t.mutation(api.categories.create, { name: "Dev" })).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -47,9 +45,7 @@ describe("categories CRUD", () => {
 		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
 		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
 		const id = await user1.mutation(api.categories.create, { name: "Mine" })
-		await expect(
-			user2.mutation(api.categories.update, { id, name: "Hacked" })
-		).rejects.toThrow("Introuvable")
+		await expect(user2.mutation(api.categories.update, { id, name: "Hacked" })).rejects.toThrow("Introuvable")
 	})
 
 	it("removes and nullifies linked todos", async () => {
@@ -73,8 +69,6 @@ describe("categories CRUD", () => {
 		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
 		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
 		const id = await user1.mutation(api.categories.create, { name: "Mine" })
-		await expect(user2.mutation(api.categories.remove, { id })).rejects.toThrow(
-			"Introuvable"
-		)
+		await expect(user2.mutation(api.categories.remove, { id })).rejects.toThrow("Introuvable")
 	})
 })

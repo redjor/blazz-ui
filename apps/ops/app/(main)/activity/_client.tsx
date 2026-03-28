@@ -9,8 +9,8 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { useRouter } from "next/navigation"
 import { useMemo } from "react"
-import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
+import { api } from "@/convex/_generated/api"
 
 const TYPE_ICON: Record<string, string> = {
 	thinking: "🧠",
@@ -80,12 +80,7 @@ export function ActivityClient() {
 
 	return (
 		<BlockStack gap="400" className="p-4">
-			<PageHeader
-				title="Activité des agents"
-				bottom={
-					<p className="text-sm text-fg-muted">{logs.length} événements récents · mise à jour en temps réel</p>
-				}
-			/>
+			<PageHeader title="Activité des agents" bottom={<p className="text-sm text-fg-muted">{logs.length} événements récents · mise à jour en temps réel</p>} />
 
 			<BlockStack gap="100">
 				{logs.map((log) => {
@@ -119,19 +114,11 @@ export function ActivityClient() {
 									)}
 
 									<span className="text-xs text-fg-muted truncate min-w-0">
-										{log.type === "thinking"
-											? truncate(log.content, 80)
-											: log.type === "done"
-												? log.content
-												: log.type === "error" || log.type === "budget_warning"
-													? truncate(log.content, 100)
-													: ""}
+										{log.type === "thinking" ? truncate(log.content, 80) : log.type === "done" ? log.content : log.type === "error" || log.type === "budget_warning" ? truncate(log.content, 100) : ""}
 									</span>
 								</InlineStack>
 
-								<span className="text-[10px] text-fg-muted tabular-nums shrink-0 ml-2">
-									{formatTime(log._creationTime)}
-								</span>
+								<span className="text-[10px] text-fg-muted tabular-nums shrink-0 ml-2">{formatTime(log._creationTime)}</span>
 							</InlineStack>
 						</button>
 					)

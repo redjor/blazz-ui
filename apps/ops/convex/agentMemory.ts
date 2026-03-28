@@ -2,13 +2,7 @@ import { v } from "convex/values"
 import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const categoryValidator = v.union(
-	v.literal("fact"),
-	v.literal("preference"),
-	v.literal("episode"),
-	v.literal("pattern"),
-	v.literal("rule"),
-)
+const categoryValidator = v.union(v.literal("fact"), v.literal("preference"), v.literal("episode"), v.literal("pattern"), v.literal("rule"))
 
 // ── Public (authenticated) ──
 
@@ -46,9 +40,7 @@ export const listAll = query({
 		const { userId } = await requireAuth(ctx)
 		const all = await ctx.db.query("agentMemory").collect()
 		const now = Date.now()
-		return all
-			.filter((m) => m.userId === userId)
-			.filter((m) => !m.expiresAt || m.expiresAt > now)
+		return all.filter((m) => m.userId === userId).filter((m) => !m.expiresAt || m.expiresAt > now)
 	},
 })
 
@@ -90,9 +82,7 @@ export const internalList = internalQuery({
 	handler: async (ctx, { agentId }) => {
 		const memories = await ctx.db.query("agentMemory").collect()
 		const now = Date.now()
-		return memories
-			.filter((m) => m.agentId === agentId && m.scope === "private")
-			.filter((m) => !m.expiresAt || m.expiresAt > now)
+		return memories.filter((m) => m.agentId === agentId && m.scope === "private").filter((m) => !m.expiresAt || m.expiresAt > now)
 	},
 })
 

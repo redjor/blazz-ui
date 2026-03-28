@@ -1,17 +1,8 @@
 "use client"
 
-import { use } from "react"
-import {
-	Context,
-	ContextContent,
-	ContextContentBody,
-	ContextContentFooter,
-	ContextContentHeader,
-	ContextInputUsage,
-	ContextOutputUsage,
-	ContextTrigger,
-} from "@blazz/pro/components/ai/tools/context"
+import { Context, ContextContent, ContextContentBody, ContextContentFooter, ContextContentHeader, ContextInputUsage, ContextOutputUsage, ContextTrigger } from "@blazz/pro/components/ai/tools/context"
 import type { LanguageModelUsage } from "ai"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -94,18 +85,9 @@ export default function ContextPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Context"
-			subtitle="A hover card that displays token usage, cost breakdown, and context window utilization for AI model interactions."
-			toc={toc}
-		>
+		<DocPage title="Context" subtitle="A hover card that displays token usage, cost breakdown, and context window utilization for AI model interactions." toc={toc}>
 			<DocHero>
-				<Context
-					usedTokens={32000}
-					maxTokens={128000}
-					usage={mockUsage(24000, 8000)}
-					modelId="claude-3-5-sonnet-20241022"
-				>
+				<Context usedTokens={32000} maxTokens={128000} usage={mockUsage(24000, 8000)} modelId="claude-3-5-sonnet-20241022">
 					<ContextTrigger />
 					<ContextContent>
 						<ContextContentHeader />
@@ -121,18 +103,8 @@ export default function ContextPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Low Usage"
-					description="Context display when only a small portion of the window is used."
-					code={examples[0].code}
-					highlightedCode={html("low-usage")}
-				>
-					<Context
-						usedTokens={5000}
-						maxTokens={128000}
-						usage={mockUsage(3000, 2000)}
-						modelId="claude-3-5-sonnet-20241022"
-					>
+				<DocExampleClient title="Low Usage" description="Context display when only a small portion of the window is used." code={examples[0].code} highlightedCode={html("low-usage")}>
+					<Context usedTokens={5000} maxTokens={128000} usage={mockUsage(3000, 2000)} modelId="claude-3-5-sonnet-20241022">
 						<ContextTrigger />
 						<ContextContent>
 							<ContextContentHeader />
@@ -147,18 +119,8 @@ export default function ContextPage() {
 					</Context>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="High Usage"
-					description="Shows the display when approaching context window limits."
-					code={examples[1].code}
-					highlightedCode={html("high-usage")}
-				>
-					<Context
-						usedTokens={100000}
-						maxTokens={128000}
-						usage={mockUsage(80000, 20000)}
-						modelId="gpt-4o"
-					>
+				<DocExampleClient title="High Usage" description="Shows the display when approaching context window limits." code={examples[1].code} highlightedCode={html("high-usage")}>
+					<Context usedTokens={100000} maxTokens={128000} usage={mockUsage(80000, 20000)} modelId="gpt-4o">
 						<ContextTrigger />
 						<ContextContent>
 							<ContextContentHeader />
@@ -173,12 +135,7 @@ export default function ContextPage() {
 					</Context>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Model (No Cost)"
-					description="When no modelId is provided, cost information is omitted."
-					code={examples[2].code}
-					highlightedCode={html("without-model")}
-				>
+				<DocExampleClient title="Without Model (No Cost)" description="When no modelId is provided, cost information is omitted." code={examples[2].code} highlightedCode={html("without-model")}>
 					<Context usedTokens={15000} maxTokens={32000}>
 						<ContextTrigger />
 						<ContextContent>

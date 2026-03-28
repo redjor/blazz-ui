@@ -1,16 +1,8 @@
 "use client"
 
-import type { ToolUIPart } from "ai"
-import {
-	Confirmation,
-	ConfirmationAccepted,
-	ConfirmationAction,
-	ConfirmationActions,
-	ConfirmationRejected,
-	ConfirmationRequest,
-	ConfirmationTitle,
-} from "@blazz/pro/components/ai/tools/confirmation"
+import { Confirmation, ConfirmationAccepted, ConfirmationAction, ConfirmationActions, ConfirmationRejected, ConfirmationRequest, ConfirmationTitle } from "@blazz/pro/components/ai/tools/confirmation"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import type { ToolUIPart } from "ai"
 import { useMutation, useQuery } from "convex/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
@@ -69,12 +61,7 @@ function toApproval(status: ToolStatus, toolCallId: string) {
 	}
 }
 
-export function ChatToolHandler({
-	toolName,
-	args,
-	toolCallId,
-	addToolResult,
-}: ChatToolHandlerProps) {
+export function ChatToolHandler({ toolName, args, toolCallId, addToolResult }: ChatToolHandlerProps) {
 	const [status, setStatus] = useState<ToolStatus>("pending")
 	const [editableArgs, setEditableArgs] = useState<Record<string, unknown>>(args)
 	const executed = useRef(false)
@@ -115,20 +102,7 @@ export function ChatToolHandler({
 			"delete-time-entry": (a: any) => removeTimeEntry({ id: a.id }),
 		}
 		return map[toolName]
-	}, [
-		toolName,
-		createTodo,
-		updateTodo,
-		updateTodoStatus,
-		removeTodo,
-		createClient,
-		updateClient,
-		removeClient,
-		createProject,
-		updateProject,
-		createTimeEntry,
-		removeTimeEntry,
-	])
+	}, [toolName, createTodo, updateTodo, updateTodoStatus, removeTodo, createClient, updateClient, removeClient, createProject, updateProject, createTimeEntry, removeTimeEntry])
 
 	const execute = useCallback(async () => {
 		if (executed.current) return
@@ -189,8 +163,7 @@ export function ChatToolHandler({
 	if (writeDangerousToolNames.has(toolName)) {
 		const toolState = toToolState(status)
 		const approval = toApproval(status, toolCallId)
-		const selectedCategoryId =
-			typeof editableArgs.categoryId === "string" ? (editableArgs.categoryId as string) : ""
+		const selectedCategoryId = typeof editableArgs.categoryId === "string" ? (editableArgs.categoryId as string) : ""
 
 		return (
 			<Confirmation state={toolState} approval={approval} className="my-2">
@@ -199,20 +172,12 @@ export function ChatToolHandler({
 				<ConfirmationRequest>
 					{toolName === "create-todo" && (
 						<div className="my-2 space-y-2">
-							<p className="text-xs text-fg-subtle">
-								Catégorie suggérée ou à choisir avant création
-							</p>
+							<p className="text-xs text-fg-subtle">Catégorie suggérée ou à choisir avant création</p>
 							<div className="flex flex-wrap gap-2">
 								<button
 									type="button"
-									className={`rounded-md border px-2 py-1 text-xs transition-colors ${
-										!selectedCategoryId
-											? "border-brand bg-brand/10 text-fg"
-											: "border-edge bg-card text-fg-muted hover:text-fg"
-									}`}
-									onClick={() =>
-										setEditableArgs((current) => ({ ...current, categoryId: undefined }))
-									}
+									className={`rounded-md border px-2 py-1 text-xs transition-colors ${!selectedCategoryId ? "border-brand bg-brand/10 text-fg" : "border-edge bg-card text-fg-muted hover:text-fg"}`}
+									onClick={() => setEditableArgs((current) => ({ ...current, categoryId: undefined }))}
 								>
 									Aucune
 								</button>
@@ -220,11 +185,7 @@ export function ChatToolHandler({
 									<button
 										key={category._id}
 										type="button"
-										className={`rounded-md border px-2 py-1 transition-colors ${
-											selectedCategoryId === category._id
-												? "border-brand bg-brand/10"
-												: "border-edge bg-card hover:bg-popover"
-										}`}
+										className={`rounded-md border px-2 py-1 transition-colors ${selectedCategoryId === category._id ? "border-brand bg-brand/10" : "border-edge bg-card hover:bg-popover"}`}
 										onClick={() =>
 											setEditableArgs((current) => ({
 												...current,
@@ -232,26 +193,18 @@ export function ChatToolHandler({
 											}))
 										}
 									>
-										<CategoryBadge
-											name={category.name}
-											color={category.color}
-											icon={category.icon}
-										/>
+										<CategoryBadge name={category.name} color={category.color} icon={category.icon} />
 									</button>
 								))}
 							</div>
 						</div>
 					)}
-					<pre className="text-xs text-fg-subtle bg-card rounded p-2 my-2 overflow-auto">
-						{JSON.stringify(editableArgs, null, 2)}
-					</pre>
+					<pre className="text-xs text-fg-subtle bg-card rounded p-2 my-2 overflow-auto">{JSON.stringify(editableArgs, null, 2)}</pre>
 					<ConfirmationActions>
 						<ConfirmationAction variant="outline" onClick={reject}>
 							Annuler
 						</ConfirmationAction>
-						<ConfirmationAction onClick={execute}>
-							Confirmer
-						</ConfirmationAction>
+						<ConfirmationAction onClick={execute}>Confirmer</ConfirmationAction>
 					</ConfirmationActions>
 				</ConfirmationRequest>
 

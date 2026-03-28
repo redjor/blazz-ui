@@ -27,10 +27,7 @@ export interface FieldProps {
 
 export function Field({ label, value, span, className }: FieldProps) {
 	return (
-		<div
-			className={cn("min-w-0", className)}
-			style={span ? { gridColumn: `span ${span}` } : undefined}
-		>
+		<div className={cn("min-w-0", className)} style={span ? { gridColumn: `span ${span}` } : undefined}>
 			<dt className="text-sm text-fg-muted">{label}</dt>
 			<dd className="mt-0.5 text-sm font-medium text-fg">{value ?? "—"}</dd>
 		</div>

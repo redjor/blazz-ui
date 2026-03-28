@@ -161,15 +161,10 @@ export default function ColumnsPage() {
 	]
 
 	return (
-		<DocPage
-			title="Columns"
-			subtitle="Reference complete des factories col.*, colonnes custom, visibilite et pinning."
-			toc={toc}
-		>
+		<DocPage title="Columns" subtitle="Reference complete des factories col.*, colonnes custom, visibilite et pinning." toc={toc}>
 			<DocSection id="col-namespace" title="col.* Namespace">
 				<p className="text-fg-muted mb-4">
-					Le namespace <code>col</code> fournit des factories pour creer des colonnes en une ligne.
-					Le <code>title</code> est auto-derive de la cle (<code>"companyName"</code> →{" "}
+					Le namespace <code>col</code> fournit des factories pour creer des colonnes en une ligne. Le <code>title</code> est auto-derive de la cle (<code>"companyName"</code> →{" "}
 					<code>"Company Name"</code>) mais peut toujours etre surcharge.
 				</p>
 
@@ -181,17 +176,14 @@ export default function ColumnsPage() {
 								<code className="text-brand font-mono text-xs">{c.name}</code>
 								<span className="text-fg-muted text-xs">— {c.desc}</span>
 							</div>
-							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">
-								{c.signature}
-							</pre>
+							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">{c.signature}</pre>
 						</div>
 					))}
 				</div>
 
 				<p className="text-sm font-medium mb-3 mt-8">Editable</p>
 				<p className="text-fg-muted mb-3 text-sm">
-					Les colonnes editables necessitent <code>enableCellEditing</code> sur le DataTable et un
-					callback <code>onCellEdit</code>.
+					Les colonnes editables necessitent <code>enableCellEditing</code> sur le DataTable et un callback <code>onCellEdit</code>.
 				</p>
 				<div className="space-y-3">
 					{editableColumns.map((c) => (
@@ -200,9 +192,7 @@ export default function ColumnsPage() {
 								<code className="text-brand font-mono text-xs">{c.name}</code>
 								<span className="text-fg-muted text-xs">— {c.desc}</span>
 							</div>
-							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">
-								{c.signature}
-							</pre>
+							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">{c.signature}</pre>
 						</div>
 					))}
 				</div>
@@ -215,9 +205,7 @@ export default function ColumnsPage() {
 								<code className="text-brand font-mono text-xs">{c.name}</code>
 								<span className="text-fg-muted text-xs">— {c.desc}</span>
 							</div>
-							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">
-								{c.signature}
-							</pre>
+							<pre className="bg-muted rounded p-2 text-xs overflow-x-auto mt-1">{c.signature}</pre>
 						</div>
 					))}
 				</div>
@@ -225,8 +213,7 @@ export default function ColumnsPage() {
 
 			<DocSection id="custom-columns" title="Custom Columns">
 				<p className="text-fg-muted mb-4">
-					Quand aucune factory <code>col.*</code> ne correspond a votre besoin, definissez une
-					colonne manuellement avec le type <code>DataTableColumnDef&lt;T&gt;</code> :
+					Quand aucune factory <code>col.*</code> ne correspond a votre besoin, definissez une colonne manuellement avec le type <code>DataTableColumnDef&lt;T&gt;</code> :
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
@@ -257,16 +244,14 @@ const customColumn: DataTableColumnDef<Product> = {
 }`}
 				</pre>
 				<p className="text-fg-muted mt-4 text-sm">
-					Le type etend <code>ColumnDef</code> de TanStack Table avec un <code>filterConfig</code>{" "}
-					optionnel. Vous avez acces a toutes les props TanStack (<code>cell</code>,{" "}
-					<code>header</code>, <code>enableSorting</code>, <code>size</code>, etc.).
+					Le type etend <code>ColumnDef</code> de TanStack Table avec un <code>filterConfig</code> optionnel. Vous avez acces a toutes les props TanStack (<code>cell</code>, <code>header</code>,{" "}
+					<code>enableSorting</code>, <code>size</code>, etc.).
 				</p>
 			</DocSection>
 
 			<DocSection id="column-visibility" title="Column Visibility">
 				<p className="text-fg-muted mb-4">
-					Masquez des colonnes par defaut avec <code>defaultColumnVisibility</code>. Les colonnes
-					masquees restent disponibles pour le tri et les filtres.
+					Masquez des colonnes par defaut avec <code>defaultColumnVisibility</code>. Les colonnes masquees restent disponibles pour le tri et les filtres.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
@@ -279,15 +264,13 @@ const customColumn: DataTableColumnDef<Product> = {
 />`}
 				</pre>
 				<p className="text-fg-muted mt-4 text-sm">
-					L'utilisateur peut basculer la visibilite via l'icone colonnes dans le toolbar (si
-					present). Les views peuvent aussi definir leur propre <code>columnVisibility</code>.
+					L'utilisateur peut basculer la visibilite via l'icone colonnes dans le toolbar (si present). Les views peuvent aussi definir leur propre <code>columnVisibility</code>.
 				</p>
 			</DocSection>
 
 			<DocSection id="column-pinning" title="Column Pinning">
 				<p className="text-fg-muted mb-4">
-					Activez <code>enableColumnPinning</code> pour permettre de figer des colonnes a gauche ou
-					a droite lors du scroll horizontal.
+					Activez <code>enableColumnPinning</code> pour permettre de figer des colonnes a gauche ou a droite lors du scroll horizontal.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
@@ -301,10 +284,7 @@ const customColumn: DataTableColumnDef<Product> = {
   }}
 />`}
 				</pre>
-				<p className="text-fg-muted mt-4 text-sm">
-					Les colonnes pinnees ont un fond opaque et une ombre pour se distinguer visuellement du
-					contenu scrollable.
-				</p>
+				<p className="text-fg-muted mt-4 text-sm">Les colonnes pinnees ont un fond opaque et une ombre pour se distinguer visuellement du contenu scrollable.</p>
 			</DocSection>
 		</DocPage>
 	)

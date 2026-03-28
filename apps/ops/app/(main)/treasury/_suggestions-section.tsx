@@ -4,12 +4,7 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@blazz/ui/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { useMutation, useQuery } from "convex/react"
 import { Check, X } from "lucide-react"
 import { toast } from "sonner"
@@ -71,26 +66,14 @@ export function SuggestionsSection() {
 			<CardHeader>
 				<InlineStack align="space-between" blockAlign="center">
 					<BlockStack gap="050">
-						<CardTitle className="text-sm font-medium">
-							Suggestions Qonto
-						</CardTitle>
-						<span className="text-xs text-fg-muted">
-							{suggestions.length} dépenses détectées
-						</span>
+						<CardTitle className="text-sm font-medium">Suggestions Qonto</CardTitle>
+						<span className="text-xs text-fg-muted">{suggestions.length} dépenses détectées</span>
 					</BlockStack>
 					<InlineStack gap="200">
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={handleAcceptAll}
-						>
+						<Button variant="outline" size="sm" onClick={handleAcceptAll}>
 							Tout accepter ({suggestions.length})
 						</Button>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={handleRejectAll}
-						>
+						<Button variant="ghost" size="sm" onClick={handleRejectAll}>
 							Tout rejeter
 						</Button>
 					</InlineStack>
@@ -100,24 +83,13 @@ export function SuggestionsSection() {
 				<TooltipProvider>
 					<div className="divide-y divide-separator">
 						{suggestions.map((suggestion) => (
-							<div
-								key={suggestion._id}
-								className={`flex items-center justify-between px-inset py-3${
-									suggestion.confidence < 0.7 ? " opacity-60" : ""
-								}`}
-							>
+							<div key={suggestion._id} className={`flex items-center justify-between px-inset py-3${suggestion.confidence < 0.7 ? " opacity-60" : ""}`}>
 								<div className="flex flex-col gap-0.5 min-w-0 flex-1">
 									<Tooltip>
 										<TooltipTrigger className="text-left">
-											<span className="text-sm font-medium text-fg truncate cursor-default">
-												{suggestion.name}
-											</span>
+											<span className="text-sm font-medium text-fg truncate cursor-default">{suggestion.name}</span>
 										</TooltipTrigger>
-										<TooltipContent>
-											{suggestion.transactionLabels.length > 0
-												? suggestion.transactionLabels.join(", ")
-												: "Aucun libellé"}
-										</TooltipContent>
+										<TooltipContent>{suggestion.transactionLabels.length > 0 ? suggestion.transactionLabels.join(", ") : "Aucun libellé"}</TooltipContent>
 									</Tooltip>
 									<span className="text-xs text-fg-muted">
 										{suggestion.category} · {suggestion.transactionIds.length} transactions
@@ -128,26 +100,12 @@ export function SuggestionsSection() {
 										{formatCurrency(suggestion.amountCents / 100)}
 										{FREQ_LABELS[suggestion.frequency] ?? ""}
 									</span>
-									<span className="text-xs text-fg-muted tabular-nums">
-										{Math.round(suggestion.confidence * 100)}%
-									</span>
+									<span className="text-xs text-fg-muted tabular-nums">{Math.round(suggestion.confidence * 100)}%</span>
 									<InlineStack gap="050">
-										<Button
-											variant="ghost"
-											size="icon-sm"
-											onClick={() =>
-												handleAccept(suggestion._id, suggestion.name)
-											}
-											title="Accepter"
-										>
+										<Button variant="ghost" size="icon-sm" onClick={() => handleAccept(suggestion._id, suggestion.name)} title="Accepter">
 											<Check className="size-3.5 text-positive" />
 										</Button>
-										<Button
-											variant="ghost"
-											size="icon-sm"
-											onClick={() => handleReject(suggestion._id)}
-											title="Rejeter"
-										>
+										<Button variant="ghost" size="icon-sm" onClick={() => handleReject(suggestion._id)} title="Rejeter">
 											<X className="size-3.5 text-destructive" />
 										</Button>
 									</InlineStack>

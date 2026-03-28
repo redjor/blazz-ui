@@ -4,13 +4,7 @@ import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
@@ -128,11 +122,7 @@ export default function LicensesPageClient() {
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>{generatedKey ? "Clé générée" : "Nouvelle clé licence"}</DialogTitle>
-						{generatedKey && (
-							<DialogDescription>
-								Copiez cette clé maintenant. Elle ne sera plus affichée en entier.
-							</DialogDescription>
-						)}
+						{generatedKey && <DialogDescription>Copiez cette clé maintenant. Elle ne sera plus affichée en entier.</DialogDescription>}
 					</DialogHeader>
 					{generatedKey ? (
 						<BlockStack gap="300">
@@ -150,10 +140,7 @@ export default function LicensesPageClient() {
 							</Button>
 						</BlockStack>
 					) : (
-						<LicenseKeyForm
-							onSuccess={(key) => setGeneratedKey(key)}
-							onCancel={() => setCreateOpen(false)}
-						/>
+						<LicenseKeyForm onSuccess={(key) => setGeneratedKey(key)} onCancel={() => setCreateOpen(false)} />
 					)}
 				</DialogContent>
 			</Dialog>
@@ -162,19 +149,8 @@ export default function LicensesPageClient() {
 			{keys && keys.length > 0 && (
 				<InlineStack gap="200">
 					{(["all", "active", "expired", "revoked"] as const).map((f) => (
-						<Button
-							key={f}
-							size="sm"
-							variant={filter === f ? "default" : "outline"}
-							onClick={() => setFilter(f)}
-						>
-							{f === "all"
-								? "Toutes"
-								: f === "active"
-									? "Actives"
-									: f === "expired"
-										? "Expirées"
-										: "Révoquées"}
+						<Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)}>
+							{f === "all" ? "Toutes" : f === "active" ? "Actives" : f === "expired" ? "Expirées" : "Révoquées"}
 						</Button>
 					))}
 				</InlineStack>
@@ -185,12 +161,7 @@ export default function LicensesPageClient() {
 
 			{/* Empty */}
 			{keys?.length === 0 && (
-				<Empty
-					icon={Key}
-					title="Aucune clé licence"
-					description="Générez des clés pour vos clients @blazz/pro"
-					action={{ label: "Nouvelle clé", onClick: () => setCreateOpen(true), icon: Plus }}
-				/>
+				<Empty icon={Key} title="Aucune clé licence" description="Générez des clés pour vos clients @blazz/pro" action={{ label: "Nouvelle clé", onClick: () => setCreateOpen(true), icon: Plus }} />
 			)}
 
 			{/* List */}

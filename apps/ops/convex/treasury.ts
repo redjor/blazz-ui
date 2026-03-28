@@ -88,10 +88,7 @@ function monthlyAmount(amountCents: number, frequency: "monthly" | "quarterly" |
 }
 
 /** Check if an expense is active during a given month (YYYY-MM) */
-function isActiveInMonth(
-	expense: { startDate: string; endDate?: string; active: boolean },
-	yearMonth: string
-): boolean {
+function isActiveInMonth(expense: { startDate: string; endDate?: string; active: boolean }, yearMonth: string): boolean {
 	if (!expense.active) return false
 	const start = expense.startDate.slice(0, 7) // YYYY-MM
 	if (yearMonth < start) return false
@@ -156,18 +153,14 @@ export const forecast = query({
 			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "active"))
 			.collect()
 
-		const projects = await Promise.all(
-			contracts.map((c) => ctx.db.get(c.projectId))
-		)
+		const projects = await Promise.all(contracts.map((c) => ctx.db.get(c.projectId)))
 		const projectMap = new Map(projects.filter(Boolean).map((p) => [p!._id, p!]))
 
 		// Load unpaid invoices (sent but not paid) for payment delay projection
-		const unpaidInvoices = (
-			await ctx.db
-				.query("invoices")
-				.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "sent"))
-				.collect()
-		)
+		const unpaidInvoices = await ctx.db
+			.query("invoices")
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "sent"))
+			.collect()
 
 		// Build monthly forecast
 		const now = new Date()
@@ -183,10 +176,7 @@ export const forecast = query({
 		}> = []
 
 		// Monthly expenses total (for stats)
-		const totalMonthlyExpenses = expenses.reduce(
-			(sum, e) => sum + monthlyAmount(e.amountCents, e.frequency),
-			0
-		)
+		const totalMonthlyExpenses = expenses.reduce((sum, e) => sum + monthlyAmount(e.amountCents, e.frequency), 0)
 
 		let runningBalance = manualBalanceCents ?? 0
 
@@ -256,10 +246,7 @@ export const expenseSummary = query({
 			.withIndex("by_user_active", (q) => q.eq("userId", userId).eq("active", true))
 			.collect()
 
-		const monthlyCents = expenses.reduce(
-			(sum, e) => sum + monthlyAmount(e.amountCents, e.frequency),
-			0
-		)
+		const monthlyCents = expenses.reduce((sum, e) => sum + monthlyAmount(e.amountCents, e.frequency), 0)
 
 		// Group by category
 		const byCategory = new Map<string, number>()

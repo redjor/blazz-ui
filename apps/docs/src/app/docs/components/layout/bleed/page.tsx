@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -116,11 +116,7 @@ export default function BleedPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Bleed"
-			subtitle="Applies negative margin to allow content to bleed out into the surrounding layout."
-			toc={toc}
-		>
+		<DocPage title="Bleed" subtitle="Applies negative margin to allow content to bleed out into the surrounding layout." toc={toc}>
 			<DocSection id="examples" title="Examples">
 				<DocExampleClient
 					title="Horizontal Bleed"
@@ -132,20 +128,13 @@ export default function BleedPage() {
 						<CardContent>
 							<p className="mb-4 text-sm">Content inside a card</p>
 							<Bleed marginInline="400">
-								<div className="bg-brand/10 px-4 py-3 text-sm">
-									This content bleeds horizontally
-								</div>
+								<div className="bg-brand/10 px-4 py-3 text-sm">This content bleeds horizontally</div>
 							</Bleed>
 						</CardContent>
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Vertical Bleed"
-					description="Content will bleed vertically using the marginBlock prop."
-					code={examples[1].code}
-					highlightedCode={html("vertical")}
-				>
+				<DocExampleClient title="Vertical Bleed" description="Content will bleed vertically using the marginBlock prop." code={examples[1].code} highlightedCode={html("vertical")}>
 					<Card>
 						<CardContent>
 							<Bleed marginBlock="400">
@@ -156,12 +145,7 @@ export default function BleedPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Specific Direction"
-					description="Bleed in a specific direction using individual margin props."
-					code={examples[2].code}
-					highlightedCode={html("specific-direction")}
-				>
+				<DocExampleClient title="Specific Direction" description="Bleed in a specific direction using individual margin props." code={examples[2].code} highlightedCode={html("specific-direction")}>
 					<Card>
 						<CardContent>
 							<Bleed marginInlineStart="400">
@@ -171,12 +155,7 @@ export default function BleedPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Full Bleed"
-					description="Combine marginInline and marginBlock for a full bleed effect."
-					code={examples[3].code}
-					highlightedCode={html("full-bleed")}
-				>
+				<DocExampleClient title="Full Bleed" description="Combine marginInline and marginBlock for a full bleed effect." code={examples[3].code} highlightedCode={html("full-bleed")}>
 					<Card>
 						<CardContent>
 							<p className="mb-4 text-sm">Content above</p>

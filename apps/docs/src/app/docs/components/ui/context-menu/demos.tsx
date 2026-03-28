@@ -1,6 +1,16 @@
 "use client"
 
-import { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuLabel, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuTrigger } from "@blazz/ui/components/ui/context-menu"
+import {
+	ContextMenu,
+	ContextMenuCheckboxItem,
+	ContextMenuContent,
+	ContextMenuGroup,
+	ContextMenuLabel,
+	ContextMenuRadioGroup,
+	ContextMenuRadioItem,
+	ContextMenuSeparator,
+	ContextMenuTrigger,
+} from "@blazz/ui/components/ui/context-menu"
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
 
@@ -14,8 +24,14 @@ export function CheckboxItemsDemo() {
 				<ContextMenuGroup>
 					<ContextMenuLabel>Display</ContextMenuLabel>
 					<ContextMenuSeparator />
-					<ContextMenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}><Eye className="mr-2 h-4 w-4" />Show Grid</ContextMenuCheckboxItem>
-					<ContextMenuCheckboxItem checked={showRulers} onCheckedChange={setShowRulers}><EyeOff className="mr-2 h-4 w-4" />Show Rulers</ContextMenuCheckboxItem>
+					<ContextMenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
+						<Eye className="mr-2 h-4 w-4" />
+						Show Grid
+					</ContextMenuCheckboxItem>
+					<ContextMenuCheckboxItem checked={showRulers} onCheckedChange={setShowRulers}>
+						<EyeOff className="mr-2 h-4 w-4" />
+						Show Rulers
+					</ContextMenuCheckboxItem>
 				</ContextMenuGroup>
 			</ContextMenuContent>
 		</ContextMenu>

@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { PollCard } from "@blazz/pro/components/ai/generative/workflow/poll-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "with-results",
@@ -35,7 +36,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function PollCardPage() {
@@ -43,11 +43,7 @@ export default function PollCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Poll Card"
-			subtitle="An interactive poll for quick decision-making within a conversation."
-			toc={toc}
-		>
+		<DocPage title="Poll Card" subtitle="An interactive poll for quick decision-making within a conversation." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<PollCard
@@ -64,12 +60,7 @@ export default function PollCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="With Results"
-					description="Results shown with percentage bars."
-					code={examples[0].code}
-					highlightedCode={html("with-results")}
-				>
+				<DocExampleClient title="With Results" description="Results shown with percentage bars." code={examples[0].code} highlightedCode={html("with-results")}>
 					<div className="max-w-sm">
 						<PollCard
 							question="Which CRM should we migrate to?"
@@ -83,12 +74,7 @@ export default function PollCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Interactive Vote"
-					description="Click an option to vote — results appear after selection."
-					code={examples[1].code}
-					highlightedCode={html("interactive")}
-				>
+				<DocExampleClient title="Interactive Vote" description="Click an option to vote — results appear after selection." code={examples[1].code} highlightedCode={html("interactive")}>
 					<div className="max-w-sm">
 						<PollCard
 							question="Best time for the team sync?"

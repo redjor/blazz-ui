@@ -214,27 +214,23 @@ const providerProps: DocProp[] = [
 		name: "storageKey",
 		type: "string",
 		required: true,
-		description:
-			"Cle de persistance des tabs entre rechargements. Utilisee comme cle dans le storage (localStorage par defaut). Chaque app ou section doit utiliser une cle unique.",
+		description: "Cle de persistance des tabs entre rechargements. Utilisee comme cle dans le storage (localStorage par defaut). Chaque app ou section doit utiliser une cle unique.",
 	},
 	{
 		name: "storage",
 		type: "TabsStorage",
-		description:
-			"Adaptateur de stockage personnalise. Doit implementer getItem(key) et setItem(key, value), meme API que Web Storage. Par defaut : localStorage.",
+		description: "Adaptateur de stockage personnalise. Doit implementer getItem(key) et setItem(key, value), meme API que Web Storage. Par defaut : localStorage.",
 	},
 	{
 		name: "defaultTab",
 		type: "{ url: string; title: string }",
-		description:
-			"Tab ouvert par defaut quand le store est vide (premier chargement). Si omis, aucun tab n'est cree automatiquement.",
+		description: "Tab ouvert par defaut quand le store est vide (premier chargement). Si omis, aucun tab n'est cree automatiquement.",
 	},
 	{
 		name: "children",
 		type: "React.ReactNode",
 		required: true,
-		description:
-			"Arbre React enfant. Tous les composants et hooks @blazz/tabs doivent etre dans cet arbre.",
+		description: "Arbre React enfant. Tous les composants et hooks @blazz/tabs doivent etre dans cet arbre.",
 	},
 ]
 
@@ -252,32 +248,27 @@ const contextValueProps: DocProp[] = [
 	{
 		name: "showTabBar",
 		type: "boolean",
-		description:
-			"true si >= 2 tabs sont ouverts. Utiliser pour conditionner l'affichage de TabsBar.",
+		description: "true si >= 2 tabs sont ouverts. Utiliser pour conditionner l'affichage de TabsBar.",
 	},
 	{
 		name: "addTab",
 		type: "(payload: { url: string; title: string; icon?: string }) => void",
-		description:
-			"Ouvre un tab sur l'URL donnee. Si un tab avec la meme URL existe deja, l'active simplement.",
+		description: "Ouvre un tab sur l'URL donnee. Si un tab avec la meme URL existe deja, l'active simplement.",
 	},
 	{
 		name: "closeTab",
 		type: "(id: string) => void",
-		description:
-			"Ferme un tab. Si c'est le tab actif, active automatiquement le tab precedent ou suivant.",
+		description: "Ferme un tab. Si c'est le tab actif, active automatiquement le tab precedent ou suivant.",
 	},
 	{
 		name: "activateTab",
 		type: "(id: string) => void",
-		description:
-			"Active un tab existant sans naviguer (la navigation doit etre faite separement via router.push).",
+		description: "Active un tab existant sans naviguer (la navigation doit etre faite separement via router.push).",
 	},
 	{
 		name: "updateActiveTabUrl",
 		type: "(url: string) => void",
-		description:
-			"Met a jour l'URL enregistree du tab actif (appele automatiquement par useTabUrlSync).",
+		description: "Met a jour l'URL enregistree du tab actif (appele automatiquement par useTabUrlSync).",
 	},
 	{
 		name: "updateTabTitle",
@@ -290,27 +281,23 @@ const interceptorProps: DocProp[] = [
 	{
 		name: "pathname",
 		type: "string",
-		description:
-			"Pathname courant du router (requis pour TabsInterceptor generique). Non requis pour NextTabsInterceptor qui le lit automatiquement.",
+		description: "Pathname courant du router (requis pour TabsInterceptor generique). Non requis pour NextTabsInterceptor qui le lit automatiquement.",
 	},
 	{
 		name: "onNavigate",
 		type: "(url: string) => void",
-		description:
-			"Callback de navigation (requis pour TabsInterceptor generique). Non requis pour NextTabsInterceptor qui utilise next/navigation.",
+		description: "Callback de navigation (requis pour TabsInterceptor generique). Non requis pour NextTabsInterceptor qui utilise next/navigation.",
 	},
 	{
 		name: "excludePaths",
 		type: "string[]",
 		default: "[]",
-		description:
-			'Chemins exclus de l\'interception Cmd+clic. Les liens dont le href commence par un de ces chemins sont ignores (ex: ["/api", "/auth"]).',
+		description: 'Chemins exclus de l\'interception Cmd+clic. Les liens dont le href commence par un de ces chemins sont ignores (ex: ["/api", "/auth"]).',
 	},
 	{
 		name: "titleResolver",
 		type: "(url: string) => string",
-		description:
-			"Fonction pour determiner le titre d'un tab cree via Cmd+clic. Par defaut, utilise le dernier segment du chemin ou le texte du lien.",
+		description: "Fonction pour determiner le titre d'un tab cree via Cmd+clic. Par defaut, utilise le dernier segment du chemin ou le texte du lien.",
 	},
 ]
 
@@ -318,14 +305,12 @@ const urlSyncProps: DocProp[] = [
 	{
 		name: "pathname",
 		type: "string",
-		description:
-			"Pathname courant (requis pour useTabUrlSync). Non requis pour useNextTabSync qui le lit automatiquement via usePathname().",
+		description: "Pathname courant (requis pour useTabUrlSync). Non requis pour useNextTabSync qui le lit automatiquement via usePathname().",
 	},
 	{
 		name: "titleResolver",
 		type: "(pathname: string) => string",
-		description:
-			"Fonction appelee a chaque changement de pathname pour determiner le titre du tab actif. Si omis, le titre n'est pas mis a jour automatiquement.",
+		description: "Fonction appelee a chaque changement de pathname pour determiner le titre du tab actif. Si omis, le titre n'est pas mis a jour automatiquement.",
 	},
 ]
 
@@ -339,8 +324,7 @@ const barProps: DocProp[] = [
 	{
 		name: "onAddTab",
 		type: "() => void",
-		description:
-			'Si fourni, affiche le bouton "+" a droite de la barre pour ouvrir un nouvel onglet.',
+		description: 'Si fourni, affiche le bouton "+" a droite de la barre pour ouvrir un nouvel onglet.',
 	},
 	{
 		name: "addButtonLabel",
@@ -370,8 +354,7 @@ const itemProps: DocProp[] = [
 	{
 		name: "icon",
 		type: "React.ReactNode",
-		description:
-			"Icone affichee a gauche du titre. Accepte tout ReactNode (Lucide, SVG, emoji...). Les SVG enfants sont redimensionnes a 3.5x3.5 automatiquement.",
+		description: "Icone affichee a gauche du titre. Accepte tout ReactNode (Lucide, SVG, emoji...). Les SVG enfants sont redimensionnes a 3.5x3.5 automatiquement.",
 	},
 	{
 		name: "isActive",
@@ -389,8 +372,7 @@ const itemProps: DocProp[] = [
 		name: "onClose",
 		type: "() => void",
 		required: true,
-		description:
-			"Handler de fermeture. Le bouton x est masque par defaut et apparait au hover (toujours visible sur le tab actif).",
+		description: "Handler de fermeture. Le bouton x est masque par defaut et apparait au hover (toujours visible sur le tab actif).",
 	},
 	{
 		name: "className",
@@ -400,8 +382,7 @@ const itemProps: DocProp[] = [
 	{
 		name: "activeClassName",
 		type: "string",
-		description:
-			"Classes CSS supplementaires appliquees uniquement quand isActive est true. Fusionne avec les styles actifs par defaut.",
+		description: "Classes CSS supplementaires appliquees uniquement quand isActive est true. Fusionne avec les styles actifs par defaut.",
 	},
 	{
 		name: "closeButtonClassName",
@@ -417,13 +398,7 @@ function TabBarPreview() {
 				<div className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto px-1">
 					<div className="group relative flex shrink-0 items-center rounded-lg text-xs bg-muted text-fg font-semibold">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
-							<svg
-								className="h-3.5 w-3.5 shrink-0 opacity-60"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
+							<svg className="h-3.5 w-3.5 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -434,31 +409,14 @@ function TabBarPreview() {
 							<span className="truncate">Dashboard</span>
 						</div>
 						<div className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm hover:bg-edge-subtle">
-							<svg
-								className="h-3 w-3"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M6 18L18 6M6 6l12 12"
-								/>
+							<svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
 							</svg>
 						</div>
 					</div>
 					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
-							<svg
-								className="h-3.5 w-3.5 shrink-0 opacity-60"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
+							<svg className="h-3.5 w-3.5 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -469,31 +427,14 @@ function TabBarPreview() {
 							<span className="truncate">Contacts &gt; Jane Dupont</span>
 						</div>
 						<div className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm opacity-0 group-hover:opacity-100 hover:bg-edge-subtle">
-							<svg
-								className="h-3 w-3"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M6 18L18 6M6 6l12 12"
-								/>
+							<svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
 							</svg>
 						</div>
 					</div>
 					<div className="group relative flex shrink-0 items-center rounded-lg text-xs text-fg-muted">
 						<div className="flex h-7 items-center gap-1.5 truncate pl-2 pr-1 cursor-pointer">
-							<svg
-								className="h-3.5 w-3.5 shrink-0 opacity-60"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
+							<svg className="h-3.5 w-3.5 shrink-0 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -504,35 +445,14 @@ function TabBarPreview() {
 							<span className="truncate">Rapports</span>
 						</div>
 						<div className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm opacity-0 group-hover:opacity-100 hover:bg-edge-subtle">
-							<svg
-								className="h-3 w-3"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M6 18L18 6M6 6l12 12"
-								/>
+							<svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
 							</svg>
 						</div>
 					</div>
 				</div>
-				<button
-					type="button"
-					className="flex h-9 w-9 shrink-0 items-center justify-center border-l border-edge-subtle text-fg-muted"
-					aria-label="Open new tab"
-				>
-					<svg
-						className="h-4 w-4"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						aria-hidden="true"
-					>
+				<button type="button" className="flex h-9 w-9 shrink-0 items-center justify-center border-l border-edge-subtle text-fg-muted" aria-label="Open new tab">
+					<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
 					</svg>
 				</button>
@@ -555,17 +475,13 @@ export default function NavigationTabsPage() {
 				<div className="rounded border border-edge-subtle bg-card p-4 text-sm text-fg-secondary space-y-3">
 					<p className="font-medium text-fg">Architecture du systeme</p>
 					<p className="text-xs text-fg-muted">
-						Package standalone <code className="font-mono text-brand">@blazz/tabs</code> avec 3
-						entry points : <code className="font-mono">@blazz/tabs</code> (core),{" "}
-						<code className="font-mono">@blazz/tabs/ui</code> (styled components),{" "}
-						<code className="font-mono">@blazz/tabs/adapters/next</code> (Next.js adapter).
+						Package standalone <code className="font-mono text-brand">@blazz/tabs</code> avec 3 entry points : <code className="font-mono">@blazz/tabs</code> (core),{" "}
+						<code className="font-mono">@blazz/tabs/ui</code> (styled components), <code className="font-mono">@blazz/tabs/adapters/next</code> (Next.js adapter).
 					</p>
 					<div className="grid grid-cols-1 gap-2 text-xs">
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">TabsProvider</span>
-							<span className="text-fg-muted">
-								— Context React + reducer + persistance (localStorage ou custom)
-							</span>
+							<span className="text-fg-muted">— Context React + reducer + persistance (localStorage ou custom)</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">TabsBar</span>
@@ -573,21 +489,15 @@ export default function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">TabsItem</span>
-							<span className="text-fg-muted">
-								— Tab individuel avec icone, titre tronque, bouton x
-							</span>
+							<span className="text-fg-muted">— Tab individuel avec icone, titre tronque, bouton x</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">TabsInterceptor</span>
-							<span className="text-fg-muted">
-								— Intercepte Cmd+clic et Cmd+W (renderless, framework-agnostic)
-							</span>
+							<span className="text-fg-muted">— Intercepte Cmd+clic et Cmd+W (renderless, framework-agnostic)</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">NextTabsInterceptor</span>
-							<span className="text-fg-muted">
-								— Interceptor pre-cable pour Next.js (auto pathname + navigation)
-							</span>
+							<span className="text-fg-muted">— Interceptor pre-cable pour Next.js (auto pathname + navigation)</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useTabs()</span>
@@ -595,9 +505,7 @@ export default function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useTabUrlSync()</span>
-							<span className="text-fg-muted">
-								— Sync pathname + titre du tab actif (framework-agnostic)
-							</span>
+							<span className="text-fg-muted">— Sync pathname + titre du tab actif (framework-agnostic)</span>
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useNextTabSync()</span>
@@ -605,9 +513,7 @@ export default function NavigationTabsPage() {
 						</div>
 						<div className="flex gap-3">
 							<span className="font-mono text-brand shrink-0">useTabTitle()</span>
-							<span className="text-fg-muted">
-								— Met a jour le titre du tab actif depuis une page
-							</span>
+							<span className="text-fg-muted">— Met a jour le titre du tab actif depuis une page</span>
 						</div>
 					</div>
 				</div>
@@ -630,19 +536,8 @@ export default function NavigationTabsPage() {
 					highlightedCode={html("use-tabs")}
 				>
 					<div className="flex items-center gap-2 p-4 rounded border border-dashed border-edge-subtle text-sm text-fg-muted">
-						<svg
-							className="h-4 w-4"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							aria-hidden="true"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M12 4v16m8-8H4"
-							/>
+						<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
 						</svg>
 						Ouvrir dans un onglet
 					</div>
@@ -681,15 +576,11 @@ export default function NavigationTabsPage() {
 				>
 					<div className="grid grid-cols-2 gap-3 text-xs">
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-card p-3">
-							<kbd className="rounded border border-edge-subtle bg-muted px-1.5 py-0.5 font-mono text-fg">
-								Cmd Clic
-							</kbd>
+							<kbd className="rounded border border-edge-subtle bg-muted px-1.5 py-0.5 font-mono text-fg">Cmd Clic</kbd>
 							<span className="text-fg-muted">Ouvre dans un nouveau tab</span>
 						</div>
 						<div className="flex items-center gap-2 rounded border border-edge-subtle bg-card p-3">
-							<kbd className="rounded border border-edge-subtle bg-muted px-1.5 py-0.5 font-mono text-fg">
-								Cmd W
-							</kbd>
+							<kbd className="rounded border border-edge-subtle bg-muted px-1.5 py-0.5 font-mono text-fg">Cmd W</kbd>
 							<span className="text-fg-muted">Ferme le tab actif</span>
 						</div>
 					</div>

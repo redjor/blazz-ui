@@ -44,8 +44,7 @@ export function Footer() {
 							<img src="/logo_blazz_black.svg" alt="Blazz" className="block h-4 dark:hidden" />
 						</Link>
 						<p className="text-xs text-fg-muted leading-relaxed max-w-xs">
-							The React component kit for data-heavy professional applications. Designed for teams
-							shipping CRM, ATS, inventory, and internal tools.
+							The React component kit for data-heavy professional applications. Designed for teams shipping CRM, ATS, inventory, and internal tools.
 						</p>
 					</div>
 
@@ -53,16 +52,11 @@ export function Footer() {
 					<div className="flex-1 grid grid-cols-3 gap-6">
 						{linkGroups.map((group) => (
 							<div key={group.title}>
-								<h4 className="text-2xs font-semibold text-fg-muted uppercase tracking-wider mb-3">
-									{group.title}
-								</h4>
+								<h4 className="text-2xs font-semibold text-fg-muted uppercase tracking-wider mb-3">{group.title}</h4>
 								<ul className="space-y-1.5">
 									{group.links.map((link) => (
 										<li key={link.label}>
-											<a
-												href={link.href}
-												className="text-xs text-fg-muted hover:text-fg transition-colors"
-											>
+											<a href={link.href} className="text-xs text-fg-muted hover:text-fg transition-colors">
 												{link.label}
 											</a>
 										</li>
@@ -75,9 +69,7 @@ export function Footer() {
 
 				{/* Bottom */}
 				<div className="mt-8 pt-6 border-t border-edge/40">
-					<span className="text-2xs text-fg-subtle">
-						&copy; {new Date().getFullYear()} Blazz. All rights reserved.
-					</span>
+					<span className="text-2xs text-fg-subtle">&copy; {new Date().getFullYear()} Blazz. All rights reserved.</span>
 				</div>
 			</div>
 		</footer>

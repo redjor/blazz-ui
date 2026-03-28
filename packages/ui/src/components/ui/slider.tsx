@@ -18,19 +18,7 @@ export interface SliderProps {
 	showValue?: boolean
 }
 
-function Slider({
-	value,
-	defaultValue = 0,
-	onValueChange,
-	onValueCommitted,
-	min = 0,
-	max = 100,
-	step = 1,
-	disabled = false,
-	className,
-	"aria-label": ariaLabel,
-	showValue = false,
-}: SliderProps) {
+function Slider({ value, defaultValue = 0, onValueChange, onValueCommitted, min = 0, max = 100, step = 1, disabled = false, className, "aria-label": ariaLabel, showValue = false }: SliderProps) {
 	return (
 		<SliderPrimitive.Root
 			data-slot="slider"
@@ -43,20 +31,10 @@ function Slider({
 			step={step}
 			disabled={disabled}
 			aria-label={ariaLabel}
-			className={cn(
-				"relative flex w-full touch-none select-none items-center",
-				"data-disabled:opacity-50",
-				className
-			)}
+			className={cn("relative flex w-full touch-none select-none items-center", "data-disabled:opacity-50", className)}
 		>
-			<SliderPrimitive.Track
-				data-slot="slider-track"
-				className="bg-muted relative h-1.5 w-full grow overflow-hidden rounded-full"
-			>
-				<SliderPrimitive.Indicator
-					data-slot="slider-indicator"
-					className="bg-brand absolute h-full rounded-full"
-				/>
+			<SliderPrimitive.Track data-slot="slider-track" className="bg-muted relative h-1.5 w-full grow overflow-hidden rounded-full">
+				<SliderPrimitive.Indicator data-slot="slider-indicator" className="bg-brand absolute h-full rounded-full" />
 			</SliderPrimitive.Track>
 			<SliderPrimitive.Thumb
 				data-slot="slider-thumb"

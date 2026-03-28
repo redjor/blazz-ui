@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { ProgressCard } from "@blazz/pro/components/ai/generative/data/progress-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "target",
@@ -29,7 +30,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function ProgressCardPage() {
@@ -37,43 +37,21 @@ export default function ProgressCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Progress Card"
-			subtitle="A labeled progress bar with description text."
-			toc={toc}
-		>
+		<DocPage title="Progress Card" subtitle="A labeled progress bar with description text." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
-					<ProgressCard
-						label="Q4 Revenue Target"
-						value={78}
-						description="$1.24M of $1.6M target reached"
-					/>
+					<ProgressCard label="Q4 Revenue Target" value={78} description="$1.24M of $1.6M target reached" />
 				</div>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Target Progress"
-					description="A labeled progress bar with description."
-					code={examples[0].code}
-					highlightedCode={html("target")}
-				>
+				<DocExampleClient title="Target Progress" description="A labeled progress bar with description." code={examples[0].code} highlightedCode={html("target")}>
 					<div className="max-w-sm">
-						<ProgressCard
-							label="Q4 Revenue Target"
-							value={78}
-							description="$1.24M of $1.6M target reached"
-						/>
+						<ProgressCard label="Q4 Revenue Target" value={78} description="$1.24M of $1.6M target reached" />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Pipeline Stages"
-					description="Stack several progress cards for pipeline or milestone views."
-					code={examples[1].code}
-					highlightedCode={html("pipeline")}
-				>
+				<DocExampleClient title="Pipeline Stages" description="Stack several progress cards for pipeline or milestone views." code={examples[1].code} highlightedCode={html("pipeline")}>
 					<div className="max-w-sm space-y-3">
 						<ProgressCard label="Prospecting" value={100} />
 						<ProgressCard label="Qualification" value={65} />

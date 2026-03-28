@@ -12,20 +12,17 @@ const features = [
 	{
 		icon: Palette,
 		title: "Enterprise Visual System",
-		description:
-			"A consistent design language with density, themes, and polished defaults for serious products.",
+		description: "A consistent design language with density, themes, and polished defaults for serious products.",
 	},
 	{
 		icon: PanelLeft,
 		title: "App Shell & Navigation",
-		description:
-			"Structured layouts for multi-page apps with tabs, breadcrumbs, sidebars, and command flows.",
+		description: "Structured layouts for multi-page apps with tabs, breadcrumbs, sidebars, and command flows.",
 	},
 	{
 		icon: FileCheck,
 		title: "Forms & Validation",
-		description:
-			"Production-ready form patterns for CRUD-heavy products and operator-facing workflows.",
+		description: "Production-ready form patterns for CRUD-heavy products and operator-facing workflows.",
 	},
 	{
 		icon: BarChart3,
@@ -44,21 +41,10 @@ export function FeaturesGrid() {
 		<section id="features" className="py-4 px-6">
 			<div className="mx-auto max-w-6xl">
 				<div className="rounded-2xl border border-container bg-card px-8 py-12 sm:px-12">
-					<motion.div
-						initial={{ opacity: 0, y: 12 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ duration: 0.3 }}
-						className="mb-10"
-					>
+					<motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-10">
 						<p className="text-sm font-medium text-brand mb-1.5">Features</p>
-						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">
-							The full package for operator-facing software
-						</h2>
-						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">
-							Components, blocks, and workflows designed for products where users manage data and
-							move fast.
-						</p>
+						<h2 className="text-xl sm:text-2xl font-bold tracking-tight text-fg">The full package for operator-facing software</h2>
+						<p className="mt-2 text-[13px] text-fg-muted max-w-xl">Components, blocks, and workflows designed for products where users manage data and move fast.</p>
 					</motion.div>
 
 					<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
@@ -78,9 +64,7 @@ export function FeaturesGrid() {
 								</div>
 								<div>
 									<h3 className="text-[13px] font-semibold text-fg">{feature.title}</h3>
-									<p className="mt-1 text-xs text-fg-muted leading-relaxed">
-										{feature.description}
-									</p>
+									<p className="mt-1 text-xs text-fg-muted leading-relaxed">{feature.description}</p>
 								</div>
 							</motion.div>
 						))}

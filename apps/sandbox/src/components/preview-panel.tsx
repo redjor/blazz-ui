@@ -1,21 +1,8 @@
 "use client"
 
-import {
-	Component,
-	type ErrorInfo,
-	type ReactNode,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react"
+import { Component, type ErrorInfo, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { type CallbackEvent, CallbackToast } from "~/components/callback-toast"
-import {
-	type InspectedElement,
-	InspectorOverlay,
-	useElementInspector,
-} from "~/components/element-inspector"
+import { type InspectedElement, InspectorOverlay, useElementInspector } from "~/components/element-inspector"
 import { PreviewToolbar, type Theme, type Viewport } from "~/components/preview-toolbar"
 import { runCode } from "~/lib/code-runner"
 
@@ -74,13 +61,7 @@ interface PreviewPanelProps {
 
 export type { InspectedElement }
 
-export function PreviewPanel({
-	code,
-	extraScope,
-	inspectMode = false,
-	onInspectModeChange,
-	onElementSelect,
-}: PreviewPanelProps) {
+export function PreviewPanel({ code, extraScope, inspectMode = false, onInspectModeChange, onElementSelect }: PreviewPanelProps) {
 	const [viewport, setViewport] = useState<Viewport>("desktop")
 	const [theme, setTheme] = useState<Theme>("light")
 	const [callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
@@ -110,10 +91,7 @@ export function PreviewPanel({
 		setRenderError(null)
 	}, [])
 
-	const { element, error } = useMemo(
-		() => runCode(debouncedCode, extraScope),
-		[debouncedCode, extraScope]
-	)
+	const { element, error } = useMemo(() => runCode(debouncedCode, extraScope), [debouncedCode, extraScope])
 
 	const displayError = renderError || error
 
@@ -158,10 +136,7 @@ export function PreviewPanel({
 				ref={previewAreaRef}
 				className={`flex-1 relative overflow-auto bg-[radial-gradient(circle,_var(--color-edge)_1px,_transparent_1px)] bg-[length:16px_16px] ${inspectMode ? "cursor-crosshair" : ""}`}
 			>
-				<div
-					className="mx-auto h-full transition-[max-width] duration-200"
-					style={{ maxWidth: VIEWPORT_MAX_WIDTH[viewport] }}
-				>
+				<div className="mx-auto h-full transition-[max-width] duration-200" style={{ maxWidth: VIEWPORT_MAX_WIDTH[viewport] }}>
 					<div className={theme === "dark" ? "dark" : ""}>
 						<div className="p-6">
 							<PreviewErrorBoundary resetKey={debouncedCode} onError={handleRenderError}>
@@ -177,11 +152,7 @@ export function PreviewPanel({
 			</div>
 
 			{/* Error bar */}
-			{displayError && (
-				<div className="bg-negative/10 text-negative border-t border-negative/20 px-3 py-2 text-xs font-mono whitespace-pre-wrap">
-					{displayError}
-				</div>
-			)}
+			{displayError && <div className="bg-negative/10 text-negative border-t border-negative/20 px-3 py-2 text-xs font-mono whitespace-pre-wrap">{displayError}</div>}
 		</div>
 	)
 }
@@ -190,10 +161,7 @@ export function PreviewPanel({
 
 let eventCounter = 0
 
-export function createCallbackProxy(
-	name: string,
-	addEvent: (event: CallbackEvent) => void
-): (...args: unknown[]) => void {
+export function createCallbackProxy(name: string, addEvent: (event: CallbackEvent) => void): (...args: unknown[]) => void {
 	return (..._args: unknown[]) => {
 		eventCounter++
 		addEvent({

@@ -4,35 +4,19 @@ import { cn } from "../../lib/utils"
 import { Separator } from "./separator"
 
 function NavMenu({ className, ...props }: React.ComponentProps<"nav">) {
-	return (
-		<nav data-slot="nav-menu" className={cn("flex min-w-0 flex-col gap-4", className)} {...props} />
-	)
+	return <nav data-slot="nav-menu" className={cn("flex min-w-0 flex-col gap-4", className)} {...props} />
 }
 
-function NavMenuGroup({
-	className,
-	label,
-	children,
-	...props
-}: React.ComponentProps<"div"> & { label?: string }) {
+function NavMenuGroup({ className, label, children, ...props }: React.ComponentProps<"div"> & { label?: string }) {
 	return (
 		<div data-slot="nav-menu-group" className={cn("flex flex-col gap-0", className)} {...props}>
-			{label && (
-				<span className="flex h-6 shrink-0 items-center px-2 text-xs font-medium text-fg/70">
-					{label}
-				</span>
-			)}
+			{label && <span className="flex h-6 shrink-0 items-center px-2 text-xs font-medium text-fg/70">{label}</span>}
 			{children}
 		</div>
 	)
 }
 
-function NavMenuItem({
-	className,
-	active = false,
-	asChild = false,
-	...props
-}: React.ComponentProps<"a"> & { active?: boolean; asChild?: boolean }) {
+function NavMenuItem({ className, active = false, asChild = false, ...props }: React.ComponentProps<"a"> & { active?: boolean; asChild?: boolean }) {
 	const Comp = asChild ? Slot : "a"
 
 	return (
@@ -50,13 +34,7 @@ function NavMenuItem({
 }
 
 function NavMenuSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
-	return (
-		<Separator
-			data-slot="nav-menu-separator"
-			className={cn("my-1 bg-edge", className)}
-			{...props}
-		/>
-	)
+	return <Separator data-slot="nav-menu-separator" className={cn("my-1 bg-edge", className)} {...props} />
 }
 
 export { NavMenu, NavMenuGroup, NavMenuItem, NavMenuSeparator }

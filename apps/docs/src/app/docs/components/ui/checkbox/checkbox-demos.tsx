@@ -29,9 +29,7 @@ export function ControlledCheckboxGroupDemo() {
 				value={value}
 				onValueChange={setValue}
 			/>
-			<p className="text-xs text-fg-muted">
-				Selected: {value.length > 0 ? value.join(", ") : "none"}
-			</p>
+			<p className="text-xs text-fg-muted">Selected: {value.length > 0 ? value.join(", ") : "none"}</p>
 		</div>
 	)
 }

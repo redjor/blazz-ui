@@ -16,10 +16,7 @@ export const pageHeaderShellData: ComponentData = {
 		{ name: "actions", type: "React.ReactNode", description: "Boutons d'action (top-right)." },
 		{ name: "breadcrumb", type: "React.ReactNode", description: "Fil d'Ariane." },
 	],
-	gotchas: [
-		"Primary action goes in actions prop (top-right), always a Button variant='default'",
-		"Use at the top of every resource page — not inside cards",
-	],
+	gotchas: ["Primary action goes in actions prop (top-right), always a Button variant='default'", "Use at the top of every resource page — not inside cards"],
 	canonicalExample: `<PageHeaderShell
   title="Contacts"
   description="2 847 contacts"

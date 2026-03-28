@@ -8,16 +8,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import {
-	ToastDefaultDemo,
-	ToastDescriptionDemo,
-	ToastDismissDemo,
-	ToastHeroDemo,
-	ToastProgressOptionsDemo,
-	ToastProgressTypesDemo,
-	ToastPromiseDemo,
-	ToastTypesDemo,
-} from "./toast-demos"
+import { ToastDefaultDemo, ToastDescriptionDemo, ToastDismissDemo, ToastHeroDemo, ToastProgressOptionsDemo, ToastProgressTypesDemo, ToastPromiseDemo, ToastTypesDemo } from "./toast-demos"
 
 const examples = [
 	{
@@ -173,11 +164,7 @@ export default function ToastPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Toast"
-			subtitle="Notifications temporaires déclenchées de manière impérative. Idéal pour le feedback après une action utilisateur."
-			toc={toc}
-		>
+		<DocPage title="Toast" subtitle="Notifications temporaires déclenchées de manière impérative. Idéal pour le feedback après une action utilisateur." toc={toc}>
 			<DocHero>
 				<ToastHeroDemo />
 			</DocHero>
@@ -190,8 +177,7 @@ export default function ToastPage() {
 					highlightedCode={html("setup")}
 				>
 					<p className="text-sm text-fg-muted">
-						Le composant <code className="text-xs bg-muted px-1 py-0.5 rounded">Toaster</code>{" "}
-						est déjà présent dans ce layout — essaie les boutons ci-dessous.
+						Le composant <code className="text-xs bg-muted px-1 py-0.5 rounded">Toaster</code> est déjà présent dans ce layout — essaie les boutons ci-dessous.
 					</p>
 				</DocExampleClient>
 			</DocSection>
@@ -221,7 +207,12 @@ export default function ToastPage() {
 					<ToastDefaultDemo />
 				</DocExampleClient>
 
-				<DocExampleClient title="Types sémantiques" description="Utilise success, error, warning et info pour transmettre le statut de l'opération." code={examples[2].code} highlightedCode={html("types")}>
+				<DocExampleClient
+					title="Types sémantiques"
+					description="Utilise success, error, warning et info pour transmettre le statut de l'opération."
+					code={examples[2].code}
+					highlightedCode={html("types")}
+				>
 					<ToastTypesDemo />
 				</DocExampleClient>
 
@@ -240,9 +231,8 @@ export default function ToastPage() {
 
 			<DocSection id="props" title="Toaster Props">
 				<p className="text-sm text-fg-muted mb-4">
-					Le composant <code className="text-xs bg-muted px-1 py-0.5 rounded">Toaster</code> de{" "}
-					<code className="text-xs bg-muted px-1 py-0.5 rounded">@blazz/ui</code> pre-configure
-					les valeurs optimales pour le design system. Toutes les props peuvent être surchargées.
+					Le composant <code className="text-xs bg-muted px-1 py-0.5 rounded">Toaster</code> de <code className="text-xs bg-muted px-1 py-0.5 rounded">@blazz/ui</code> pre-configure les valeurs
+					optimales pour le design system. Toutes les props peuvent être surchargées.
 				</p>
 				<DocPropsTable props={toasterProps} />
 			</DocSection>
@@ -253,13 +243,9 @@ export default function ToastPage() {
 
 			<DocSection id="progress-api" title="toastProgress Options">
 				<p className="text-sm text-fg-muted mb-4">
-					Options passées en second argument de{" "}
-					<code className="text-xs bg-muted px-1 py-0.5 rounded">toastProgress.success()</code>{" "}
-					et ses variantes. Les méthodes disponibles sont{" "}
-					<code className="text-xs bg-muted px-1 py-0.5 rounded">.success()</code>,{" "}
-					<code className="text-xs bg-muted px-1 py-0.5 rounded">.error()</code>,{" "}
-					<code className="text-xs bg-muted px-1 py-0.5 rounded">.warning()</code>,{" "}
-					<code className="text-xs bg-muted px-1 py-0.5 rounded">.info()</code> et{" "}
+					Options passées en second argument de <code className="text-xs bg-muted px-1 py-0.5 rounded">toastProgress.success()</code> et ses variantes. Les méthodes disponibles sont{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.success()</code>, <code className="text-xs bg-muted px-1 py-0.5 rounded">.error()</code>,{" "}
+					<code className="text-xs bg-muted px-1 py-0.5 rounded">.warning()</code>, <code className="text-xs bg-muted px-1 py-0.5 rounded">.info()</code> et{" "}
 					<code className="text-xs bg-muted px-1 py-0.5 rounded">.default()</code>.
 				</p>
 				<DocPropsTable props={toastProgressProps} />
@@ -268,20 +254,28 @@ export default function ToastPage() {
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Placer {"<Toaster />"} une seule fois dans le layout racine</li>
-					<li>Utiliser <code className="text-xs">toast.promise()</code> pour les opérations async — évite de gérer manuellement les états</li>
+					<li>
+						Utiliser <code className="text-xs">toast.promise()</code> pour les opérations async — évite de gérer manuellement les états
+					</li>
 					<li>Toujours utiliser les variants sémantiques (success, error, warning) plutôt que le toast neutre pour les retours d'actions</li>
 					<li>Garder les messages courts — max 60 caractères pour le titre</li>
-					<li>Pour les alertes persistantes inline (non temporaires), utiliser <code className="text-xs">Alert</code> à la place</li>
-					<li>Passer <code className="text-xs">theme={"{resolvedTheme}"}</code> depuis next-themes pour synchroniser avec le thème de l'app</li>
+					<li>
+						Pour les alertes persistantes inline (non temporaires), utiliser <code className="text-xs">Alert</code> à la place
+					</li>
+					<li>
+						Passer <code className="text-xs">theme={"{resolvedTheme}"}</code> depuis next-themes pour synchroniser avec le thème de l'app
+					</li>
 				</ul>
 			</DocSection>
 
 			<DocSection id="related" title="Related">
-				<DocRelated items={[
-					{ title: "Alert", href: "/docs/components/ui/alert", description: "Messages inline persistants dans le contenu." },
-					{ title: "Banner", href: "/docs/components/ui/banner", description: "Notifications pleine largeur au niveau de la page." },
-					{ title: "Dialog", href: "/docs/components/ui/dialog", description: "Confirmation modale pour les actions critiques." },
-				]} />
+				<DocRelated
+					items={[
+						{ title: "Alert", href: "/docs/components/ui/alert", description: "Messages inline persistants dans le contenu." },
+						{ title: "Banner", href: "/docs/components/ui/banner", description: "Notifications pleine largeur au niveau de la page." },
+						{ title: "Dialog", href: "/docs/components/ui/dialog", description: "Confirmation modale pour les actions critiques." },
+					]}
+				/>
 			</DocSection>
 		</DocPage>
 	)

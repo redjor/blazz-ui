@@ -14,13 +14,7 @@ import {
 	ViewConfigToggle,
 } from "@blazz/pro/components/blocks/view-config-panel"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { ArrowUpDown, Columns3, LayoutGrid, List, ListFilter, Rows3 } from "lucide-react"
 import * as React from "react"
 import { DocExampleSync } from "~/components/docs/doc-example-client"
@@ -340,14 +334,7 @@ function FullDemo() {
 	const [columns, setColumns] = React.useState("status")
 	const [rows, setRows] = React.useState("none")
 	const [ordering, setOrdering] = React.useState("updated")
-	const [activeProps, setActiveProps] = React.useState([
-		"id",
-		"status",
-		"assignee",
-		"priority",
-		"project",
-		"due_date",
-	])
+	const [activeProps, setActiveProps] = React.useState(["id", "status", "assignee", "priority", "project", "due_date"])
 
 	return (
 		<ViewConfigPanel>
@@ -422,21 +409,11 @@ function FullDemo() {
 			</ViewConfigSection>
 
 			<ViewConfigSection title="Display properties">
-				<ViewConfigPropertyToggles
-					properties={allProperties}
-					value={activeProps}
-					onValueChange={setActiveProps}
-				/>
+				<ViewConfigPropertyToggles properties={allProperties} value={activeProps} onValueChange={setActiveProps} />
 			</ViewConfigSection>
 
 			<ViewConfigFooter>
-				<ViewConfigFooterAction
-					onClick={() =>
-						setActiveProps(["id", "status", "assignee", "priority", "project", "due_date"])
-					}
-				>
-					Reset
-				</ViewConfigFooterAction>
+				<ViewConfigFooterAction onClick={() => setActiveProps(["id", "status", "assignee", "priority", "project", "due_date"])}>Reset</ViewConfigFooterAction>
 				<ViewConfigFooterAction variant="accent">Set default for everyone</ViewConfigFooterAction>
 			</ViewConfigFooter>
 		</ViewConfigPanel>
@@ -497,11 +474,7 @@ function BoardConfigDemo() {
 			</ViewConfigSection>
 
 			<ViewConfigSection title="Display properties">
-				<ViewConfigPropertyToggles
-					properties={allProperties.slice(0, 8)}
-					value={activeProps}
-					onValueChange={setActiveProps}
-				/>
+				<ViewConfigPropertyToggles properties={allProperties.slice(0, 8)} value={activeProps} onValueChange={setActiveProps} />
 			</ViewConfigSection>
 		</ViewConfigPanel>
 	)
@@ -529,11 +502,7 @@ function MinimalDemo() {
 			<ViewConfigDivider />
 
 			<ViewConfigSection title="Visible columns">
-				<ViewConfigPropertyToggles
-					properties={columns}
-					value={visible}
-					onValueChange={setVisible}
-				/>
+				<ViewConfigPropertyToggles properties={columns} value={visible} onValueChange={setVisible} />
 			</ViewConfigSection>
 		</ViewConfigPanel>
 	)
@@ -557,11 +526,7 @@ export default function ViewConfigPanelPage() {
 			<DocSection id="examples" title="Examples" />
 
 			<DocSection id="basic" title="Basic">
-				<DocExampleSync
-					title="Full configuration"
-					description="Panel complet avec tabs, filtres, toggles, propriétés et footer."
-					code={codeBasic}
-				>
+				<DocExampleSync title="Full configuration" description="Panel complet avec tabs, filtres, toggles, propriétés et footer." code={codeBasic}>
 					<div className="flex justify-center">
 						<FullDemo />
 					</div>
@@ -569,11 +534,7 @@ export default function ViewConfigPanelPage() {
 			</DocSection>
 
 			<DocSection id="board-config" title="Board config">
-				<DocExampleSync
-					title="Board-specific options"
-					description="Configuration orientée kanban board avec options spécifiques."
-					code={codeBoardConfig}
-				>
+				<DocExampleSync title="Board-specific options" description="Configuration orientée kanban board avec options spécifiques." code={codeBoardConfig}>
 					<div className="flex justify-center">
 						<BoardConfigDemo />
 					</div>
@@ -581,11 +542,7 @@ export default function ViewConfigPanelPage() {
 			</DocSection>
 
 			<DocSection id="minimal" title="Minimal">
-				<DocExampleSync
-					title="Toggles + column picker"
-					description="Version allégée : uniquement des toggles et un sélecteur de colonnes visibles."
-					code={codeMinimal}
-				>
+				<DocExampleSync title="Toggles + column picker" description="Version allégée : uniquement des toggles et un sélecteur de colonnes visibles." code={codeMinimal}>
 					<div className="flex justify-center">
 						<MinimalDemo />
 					</div>

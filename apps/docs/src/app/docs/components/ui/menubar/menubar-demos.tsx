@@ -4,7 +4,6 @@ import {
 	Menubar,
 	MenubarCheckboxItem,
 	MenubarContent,
-	MenubarGroup,
 	MenubarItem,
 	MenubarLabel,
 	MenubarMenu,
@@ -12,9 +11,6 @@ import {
 	MenubarRadioItem,
 	MenubarSeparator,
 	MenubarShortcut,
-	MenubarSub,
-	MenubarSubContent,
-	MenubarSubTrigger,
 	MenubarTrigger,
 } from "@blazz/ui/components/ui/menubar"
 import * as React from "react"

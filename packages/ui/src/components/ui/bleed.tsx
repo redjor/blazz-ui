@@ -1,20 +1,7 @@
 import type * as React from "react"
 import { cn } from "../../lib/utils"
 
-type SpaceScale =
-	| "0"
-	| "050"
-	| "100"
-	| "150"
-	| "200"
-	| "300"
-	| "400"
-	| "500"
-	| "600"
-	| "800"
-	| "1000"
-	| "1200"
-	| "1600"
+type SpaceScale = "0" | "050" | "100" | "150" | "200" | "300" | "400" | "500" | "600" | "800" | "1000" | "1200" | "1600"
 
 const marginMap: Record<SpaceScale, string> = {
 	"0": "0",
@@ -43,16 +30,7 @@ export interface BleedProps {
 	marginInlineEnd?: SpaceScale
 }
 
-export function Bleed({
-	children,
-	className,
-	marginInline,
-	marginBlock,
-	marginBlockStart,
-	marginBlockEnd,
-	marginInlineStart,
-	marginInlineEnd,
-}: BleedProps) {
+export function Bleed({ children, className, marginInline, marginBlock, marginBlockStart, marginBlockEnd, marginInlineStart, marginInlineEnd }: BleedProps) {
 	const style: React.CSSProperties = {}
 
 	if (marginInline) {

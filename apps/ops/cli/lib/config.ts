@@ -1,7 +1,7 @@
-import { config } from "dotenv"
-import { resolve } from "node:path"
-import { homedir } from "node:os"
 import { existsSync } from "node:fs"
+import { homedir } from "node:os"
+import { resolve } from "node:path"
+import { config } from "dotenv"
 
 export interface CliConfig {
 	convexUrl: string

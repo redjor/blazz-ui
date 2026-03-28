@@ -69,7 +69,7 @@ export const DragHandle = Extension.create({
 		// Drag state
 		let isDragging = false
 		let dragSourcePos: number | null = null
-		let dragSourceSize: number | null = null
+		let _dragSourceSize: number | null = null
 
 		function showHandle() {
 			if (hideTimeout) {
@@ -139,7 +139,7 @@ export const DragHandle = Extension.create({
 
 						isDragging = true
 						dragSourcePos = currentNodePos
-						dragSourceSize = node.nodeSize
+						_dragSourceSize = node.nodeSize
 
 						wrapper.classList.add("dragging")
 						document.body.style.cursor = "grabbing"

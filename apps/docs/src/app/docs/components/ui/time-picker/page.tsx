@@ -1,8 +1,8 @@
 "use client"
-import { use } from "react"
 
 import { TimePicker } from "@blazz/ui/components/ui/time-picker"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -103,49 +103,25 @@ export default function TimePickerPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="TimePicker"
-			subtitle="A time input with a clock icon for selecting hours and minutes."
-			toc={toc}
-		>
+		<DocPage title="TimePicker" subtitle="A time input with a clock icon for selecting hours and minutes." toc={toc}>
 			<DocHero>
 				<TimePicker className="max-w-[180px]" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic time picker."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic time picker." code={examples[0].code} highlightedCode={html("default")}>
 					<TimePicker className="max-w-[180px]" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Default Value"
-					description="Pre-fill the time picker with a value."
-					code={examples[1].code}
-					highlightedCode={html("with-default-value")}
-				>
+				<DocExampleClient title="With Default Value" description="Pre-fill the time picker with a value." code={examples[1].code} highlightedCode={html("with-default-value")}>
 					<TimePicker value="14:30" className="max-w-[180px]" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the time value programmatically."
-					code={examples[2].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the time value programmatically." code={examples[2].code} highlightedCode={html("controlled")}>
 					<ControlledTimePickerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled time pickers prevent user interaction."
-					code={examples[3].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled time pickers prevent user interaction." code={examples[3].code} highlightedCode={html("disabled")}>
 					<TimePicker disabled value="12:00" className="max-w-[180px]" />
 				</DocExampleClient>
 			</DocSection>

@@ -1,23 +1,11 @@
 "use client"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Card,
-	CardAction,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardAction, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { cn } from "@blazz/ui/lib/utils"
 import { formatMinutes } from "@/lib/format"
 
-export type TimelineItemKind =
-	| "focus"
-	| "admin"
-	| "meeting"
-	| "break"
-	| "personal"
-	| "uncategorized"
+export type TimelineItemKind = "focus" | "admin" | "meeting" | "break" | "personal" | "uncategorized"
 
 export type TimelineItem = {
 	id: string
@@ -52,12 +40,7 @@ function formatTimeRange(item: TimelineItem) {
 	return "Sans horaire"
 }
 
-export function DayTimelineCard({
-	title = "Timeline",
-	items,
-	onItemClick,
-	onAddClick,
-}: DayTimelineCardProps) {
+export function DayTimelineCard({ title = "Timeline", items, onItemClick, onAddClick }: DayTimelineCardProps) {
 	return (
 		<Card>
 			<CardHeader className="border-b border-separator">
@@ -80,14 +63,7 @@ export function DayTimelineCard({
 							const content = (
 								<>
 									<div className="flex min-w-0 items-start gap-3">
-										<span
-											className={cn(
-												"mt-0.5 inline-flex min-w-24 shrink-0 rounded-md border px-2 py-1 font-mono text-xs",
-												KIND_STYLES[item.kind]
-											)}
-										>
-											{formatTimeRange(item)}
-										</span>
+										<span className={cn("mt-0.5 inline-flex min-w-24 shrink-0 rounded-md border px-2 py-1 font-mono text-xs", KIND_STYLES[item.kind])}>{formatTimeRange(item)}</span>
 										<div className="min-w-0 flex-1 space-y-0.5">
 											<p className="truncate text-sm font-medium text-fg">{item.label}</p>
 											{item.projectName || item.description ? (
@@ -99,18 +75,13 @@ export function DayTimelineCard({
 											) : null}
 										</div>
 									</div>
-									<span className="shrink-0 font-mono text-xs text-fg-muted">
-										{formatMinutes(item.minutes)}
-									</span>
+									<span className="shrink-0 font-mono text-xs text-fg-muted">{formatMinutes(item.minutes)}</span>
 								</>
 							)
 
 							if (!onItemClick) {
 								return (
-									<li
-										key={item.id}
-										className="flex items-start justify-between gap-3 px-inset py-3"
-									>
+									<li key={item.id} className="flex items-start justify-between gap-3 px-inset py-3">
 										{content}
 									</li>
 								)
@@ -118,11 +89,7 @@ export function DayTimelineCard({
 
 							return (
 								<li key={item.id}>
-									<button
-										type="button"
-										onClick={() => onItemClick(item.id)}
-										className="flex w-full items-start justify-between gap-3 px-inset py-3 text-left transition-colors hover:bg-muted/60"
-									>
+									<button type="button" onClick={() => onItemClick(item.id)} className="flex w-full items-start justify-between gap-3 px-inset py-3 text-left transition-colors hover:bg-muted/60">
 										{content}
 									</button>
 								</li>

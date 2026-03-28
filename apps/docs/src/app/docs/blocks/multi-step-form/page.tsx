@@ -35,8 +35,7 @@ const multiStepFormProps: DocProp[] = [
 	{
 		name: "onSaveDraft",
 		type: "(data: Record<string, unknown>) => void | Promise<void>",
-		description:
-			"Optional callback to save form data as draft. Shows a 'Sauvegarder le brouillon' button when provided.",
+		description: "Optional callback to save form data as draft. Shows a 'Sauvegarder le brouillon' button when provided.",
 	},
 	{
 		name: "className",
@@ -93,32 +92,17 @@ function InformationsStep({ data, onChange, errors }: StepComponentProps) {
 		<div className="space-y-4">
 			<div className="space-y-1.5">
 				<Label htmlFor="companyName">Nom de l'entreprise</Label>
-				<Input
-					id="companyName"
-					value={(data.companyName as string) ?? ""}
-					onChange={(e) => onChange({ companyName: e.target.value })}
-					placeholder="Acme Corporation"
-				/>
+				<Input id="companyName" value={(data.companyName as string) ?? ""} onChange={(e) => onChange({ companyName: e.target.value })} placeholder="Acme Corporation" />
 				{errors?.companyName && <p className="text-xs text-negative">{errors.companyName}</p>}
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="siret">SIRET</Label>
-				<Input
-					id="siret"
-					value={(data.siret as string) ?? ""}
-					onChange={(e) => onChange({ siret: e.target.value })}
-					placeholder="123 456 789 00001"
-				/>
+				<Input id="siret" value={(data.siret as string) ?? ""} onChange={(e) => onChange({ siret: e.target.value })} placeholder="123 456 789 00001" />
 				{errors?.siret && <p className="text-xs text-negative">{errors.siret}</p>}
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="sector">Secteur d'activite</Label>
-				<Input
-					id="sector"
-					value={(data.sector as string) ?? ""}
-					onChange={(e) => onChange({ sector: e.target.value })}
-					placeholder="Technologie"
-				/>
+				<Input id="sector" value={(data.sector as string) ?? ""} onChange={(e) => onChange({ sector: e.target.value })} placeholder="Technologie" />
 			</div>
 		</div>
 	)
@@ -129,43 +113,22 @@ function DetailsStep({ data, onChange, errors }: StepComponentProps) {
 		<div className="space-y-4">
 			<div className="space-y-1.5">
 				<Label htmlFor="address">Adresse</Label>
-				<Input
-					id="address"
-					value={(data.address as string) ?? ""}
-					onChange={(e) => onChange({ address: e.target.value })}
-					placeholder="123 Avenue des Champs-Elysees"
-				/>
+				<Input id="address" value={(data.address as string) ?? ""} onChange={(e) => onChange({ address: e.target.value })} placeholder="123 Avenue des Champs-Elysees" />
 				{errors?.address && <p className="text-xs text-negative">{errors.address}</p>}
 			</div>
 			<div className="grid grid-cols-2 gap-4">
 				<div className="space-y-1.5">
 					<Label htmlFor="city">Ville</Label>
-					<Input
-						id="city"
-						value={(data.city as string) ?? ""}
-						onChange={(e) => onChange({ city: e.target.value })}
-						placeholder="Paris"
-					/>
+					<Input id="city" value={(data.city as string) ?? ""} onChange={(e) => onChange({ city: e.target.value })} placeholder="Paris" />
 				</div>
 				<div className="space-y-1.5">
 					<Label htmlFor="postalCode">Code postal</Label>
-					<Input
-						id="postalCode"
-						value={(data.postalCode as string) ?? ""}
-						onChange={(e) => onChange({ postalCode: e.target.value })}
-						placeholder="75008"
-					/>
+					<Input id="postalCode" value={(data.postalCode as string) ?? ""} onChange={(e) => onChange({ postalCode: e.target.value })} placeholder="75008" />
 				</div>
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="contactEmail">Email de contact</Label>
-				<Input
-					id="contactEmail"
-					type="email"
-					value={(data.contactEmail as string) ?? ""}
-					onChange={(e) => onChange({ contactEmail: e.target.value })}
-					placeholder="contact@acme.fr"
-				/>
+				<Input id="contactEmail" type="email" value={(data.contactEmail as string) ?? ""} onChange={(e) => onChange({ contactEmail: e.target.value })} placeholder="contact@acme.fr" />
 			</div>
 		</div>
 	)
@@ -352,7 +315,6 @@ function WithDraftSave() {
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 function HeroDemo() {
 	const [submitted, setSubmitted] = useState(false)
 
@@ -361,22 +323,12 @@ function HeroDemo() {
 			<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">
 				<div className="flex flex-col items-center justify-center py-8 space-y-3">
 					<div className="flex size-12 items-center justify-center rounded-full bg-positive/10 text-positive">
-						<svg
-							className="size-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-							strokeWidth={2}
-						>
+						<svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
 							<path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 					</div>
 					<p className="text-sm font-medium text-fg">Entreprise creee avec succes !</p>
-					<button
-						type="button"
-						onClick={() => setSubmitted(false)}
-						className="text-xs text-brand hover:underline"
-					>
+					<button type="button" onClick={() => setSubmitted(false)} className="text-xs text-brand hover:underline">
 						Recommencer
 					</button>
 				</div>

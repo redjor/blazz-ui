@@ -1,15 +1,7 @@
 import type { Id } from "./_generated/dataModel"
 import { mutation } from "./_generated/server"
 
-const BACKFILL_TABLES = [
-	"clients",
-	"projects",
-	"contracts",
-	"contractFiles",
-	"timeEntries",
-	"categories",
-	"todos",
-] as const
+const BACKFILL_TABLES = ["clients", "projects", "contracts", "contractFiles", "timeEntries", "categories", "todos"] as const
 
 /**
  * One-shot migration: replace "seed-user-dev" userId with the real auth user ID.
@@ -274,8 +266,7 @@ export const run = mutation({
 			status?: EntryStatus
 		}
 
-		const insert = (e: EntryArgs) =>
-			ctx.db.insert("timeEntries", { ...e, userId: SEED_USER_ID, createdAt: now })
+		const insert = (e: EntryArgs) => ctx.db.insert("timeEntries", { ...e, userId: SEED_USER_ID, createdAt: now })
 
 		const _invoicedTs = now - 15 * 86400_000
 		const paidTs = now - 60 * 86400_000
@@ -1157,16 +1148,7 @@ export const run = mutation({
 			},
 		]
 
-		const allEntries = [
-			...acmeDashEntries,
-			...acmeMarsEntries,
-			...acmeMobileEntries,
-			...veridianEntries,
-			...atlasEntries,
-			...nexusEntries,
-			...orbitalRiskEntries,
-			...orbitalMobileEntries,
-		]
+		const allEntries = [...acmeDashEntries, ...acmeMarsEntries, ...acmeMobileEntries, ...veridianEntries, ...atlasEntries, ...nexusEntries, ...orbitalRiskEntries, ...orbitalMobileEntries]
 
 		for (const entry of allEntries) {
 			await insert(entry)

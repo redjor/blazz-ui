@@ -24,9 +24,7 @@ export function ComponentTree() {
 
 	const recents = useMemo(() => {
 		const slugs = getRecents()
-		return slugs
-			.map((slug) => registry.find((c) => c.slug === slug))
-			.filter(Boolean) as ComponentEntry[]
+		return slugs.map((slug) => registry.find((c) => c.slug === slug)).filter(Boolean) as ComponentEntry[]
 	}, [])
 
 	const isSearching = query.trim().length > 0
@@ -46,13 +44,7 @@ export function ComponentTree() {
 			<div className="p-3">
 				<div className="relative">
 					<Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-fg-muted pointer-events-none" />
-					<Input
-						placeholder="Search components..."
-						value={query}
-						onChange={(e) => setQuery(e.target.value)}
-						className="pl-8 h-8 text-sm"
-						autoFocus
-					/>
+					<Input placeholder="Search components..." value={query} onChange={(e) => setQuery(e.target.value)} className="pl-8 h-8 text-sm" autoFocus />
 				</div>
 			</div>
 
@@ -63,9 +55,7 @@ export function ComponentTree() {
 						{results.length === 0 ? (
 							<p className="px-3 py-2 text-xs text-fg-muted">No results found.</p>
 						) : (
-							results.map((entry) => (
-								<ComponentLink key={entry.slug} entry={entry} active={isActive(entry)} />
-							))
+							results.map((entry) => <ComponentLink key={entry.slug} entry={entry} active={isActive(entry)} />)
 						)}
 					</div>
 				) : (
@@ -79,11 +69,7 @@ export function ComponentTree() {
 								</div>
 								<div className="px-1">
 									{recents.map((entry) => (
-										<ComponentLink
-											key={`recent-${entry.slug}`}
-											entry={entry}
-											active={isActive(entry)}
-										/>
+										<ComponentLink key={`recent-${entry.slug}`} entry={entry} active={isActive(entry)} />
 									))}
 								</div>
 							</div>
@@ -102,15 +88,9 @@ export function ComponentTree() {
 										onClick={() => toggleCategory(cat)}
 										className="w-full flex items-center gap-1 px-3 py-2 text-xs font-medium text-fg-muted uppercase tracking-wider hover:text-fg transition-colors"
 									>
-										{isCollapsed ? (
-											<ChevronRight className="size-3" />
-										) : (
-											<ChevronDown className="size-3" />
-										)}
+										{isCollapsed ? <ChevronRight className="size-3" /> : <ChevronDown className="size-3" />}
 										{cat}
-										<span className="ml-auto text-[10px] tabular-nums opacity-60">
-											{items.length}
-										</span>
+										<span className="ml-auto text-[10px] tabular-nums opacity-60">{items.length}</span>
 									</button>
 									{!isCollapsed && (
 										<div className="px-1">
@@ -140,9 +120,7 @@ function ComponentLink({ entry, active }: { entry: ComponentEntry; active: boole
 		<Link
 			to="/$category/$component"
 			params={{ category: entry.category, component: entry.slug }}
-			className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md cursor-pointer transition-colors ${
-				active ? "bg-brand/10 text-brand" : "text-fg hover:bg-muted"
-			}`}
+			className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md cursor-pointer transition-colors ${active ? "bg-brand/10 text-brand" : "text-fg hover:bg-muted"}`}
 		>
 			{entry.name}
 			{modified && <span className="size-1.5 rounded-full bg-brand" />}

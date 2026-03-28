@@ -166,8 +166,7 @@ const optionsProps: DocProp[] = [
 	{
 		name: "onSave",
 		type: "() => void | Promise<void>",
-		description:
-			"Called when user clicks Save. If it returns a rejecting Promise, isSaving resets to false and the guard stays active.",
+		description: "Called when user clicks Save. If it returns a rejecting Promise, isSaving resets to false and the guard stays active.",
 	},
 	{
 		name: "onDiscard",
@@ -178,15 +177,13 @@ const optionsProps: DocProp[] = [
 		name: "blockRouteNavigation",
 		type: "boolean",
 		default: "true",
-		description:
-			"Block in-page navigation via popstate interception. Uses a phantom history entry. Set to false if conflicting with your router.",
+		description: "Block in-page navigation via popstate interception. Uses a phantom history entry. Set to false if conflicting with your router.",
 	},
 	{
 		name: "disabled",
 		type: "boolean",
 		default: "false",
-		description:
-			"Disable all blocking. Useful for conditional opt-out (e.g. read-only mode). Returns inert state with no-op callbacks.",
+		description: "Disable all blocking. Useful for conditional opt-out (e.g. read-only mode). Returns inert state with no-op callbacks.",
 	},
 ]
 
@@ -199,8 +196,7 @@ const stateProps: DocProp[] = [
 	{
 		name: "isShaking",
 		type: "boolean",
-		description:
-			"True briefly (~500ms) when the user tries to navigate away. Use for shake animation.",
+		description: "True briefly (~500ms) when the user tries to navigate away. Use for shake animation.",
 	},
 	{
 		name: "isSaving",
@@ -220,8 +216,7 @@ const stateProps: DocProp[] = [
 	{
 		name: "allowNextNavigation",
 		type: "() => void",
-		description:
-			"One-shot bypass for the next navigation event. Call after a successful save before router.push().",
+		description: "One-shot bypass for the next navigation event. Call after a successful save before router.push().",
 	},
 ]
 
@@ -316,12 +311,7 @@ export default function ReactDirtyGuardPage() {
 					<StyledDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Bottom placement"
-					description='Use position="bottom" to place the bar at the bottom of the screen.'
-					code={examples[0].code}
-					highlightedCode={html("styled")}
-				>
+				<DocExampleClient title="Bottom placement" description='Use position="bottom" to place the bar at the bottom of the screen.' code={examples[0].code} highlightedCode={html("styled")}>
 					<BottomDemo />
 				</DocExampleClient>
 
@@ -335,9 +325,7 @@ export default function ReactDirtyGuardPage() {
 
 			<DocSection id="headless" title="Headless">
 				<p className="text-sm text-fg-muted mb-4">
-					Use <code className="text-fg">useDirtyGuard</code> without the styled bar. Build your own
-					UI using the returned state — here with a <code className="text-fg">{"<Alert>"}</code>{" "}
-					component.
+					Use <code className="text-fg">useDirtyGuard</code> without the styled bar. Build your own UI using the returned state — here with a <code className="text-fg">{"<Alert>"}</code> component.
 				</p>
 				<DocExampleClient
 					title="Custom UI with Alert"
@@ -351,17 +339,10 @@ export default function ReactDirtyGuardPage() {
 
 			<DocSection id="rhf-adapter" title="React Hook Form">
 				<p className="text-sm text-fg-muted mb-4">
-					<code className="text-fg">useDirtyGuardRHF</code> reads{" "}
-					<code className="text-fg">isDirty</code>, <code className="text-fg">isSubmitting</code>,
-					and <code className="text-fg">reset()</code> directly from the form instance. Import from{" "}
-					<code className="text-fg">react-dirty-guard/adapters/react-hook-form</code>.
+					<code className="text-fg">useDirtyGuardRHF</code> reads <code className="text-fg">isDirty</code>, <code className="text-fg">isSubmitting</code>, and <code className="text-fg">reset()</code>{" "}
+					directly from the form instance. Import from <code className="text-fg">react-dirty-guard/adapters/react-hook-form</code>.
 				</p>
-				<DocExampleClient
-					title="RHF adapter"
-					description="No manual wiring — the adapter extracts form state automatically."
-					code={examples[2].code}
-					highlightedCode={html("rhf")}
-				/>
+				<DocExampleClient title="RHF adapter" description="No manual wiring — the adapter extracts form state automatically." code={examples[2].code} highlightedCode={html("rhf")} />
 				<DocExampleClient
 					title="Custom adapter"
 					description="Any adapter is a 5-line mapping to useDirtyGuard. Here's a Formik example."
@@ -372,16 +353,10 @@ export default function ReactDirtyGuardPage() {
 
 			<DocSection id="use-is-dirty" title="useIsDirty">
 				<p className="text-sm text-fg-muted mb-4">
-					A minimal dirty-tracking hook for forms without a form library. Returns{" "}
-					<code className="text-fg">isDirty</code>, <code className="text-fg">markDirty()</code>,
-					and <code className="text-fg">markClean()</code>.
+					A minimal dirty-tracking hook for forms without a form library. Returns <code className="text-fg">isDirty</code>, <code className="text-fg">markDirty()</code>, and{" "}
+					<code className="text-fg">markClean()</code>.
 				</p>
-				<DocExampleClient
-					title="Zero-dependency usage"
-					description="Track dirty state with plain onChange handlers."
-					code={examples[3].code}
-					highlightedCode={html("useIsDirty")}
-				/>
+				<DocExampleClient title="Zero-dependency usage" description="Track dirty state with plain onChange handlers." code={examples[3].code} highlightedCode={html("useIsDirty")} />
 			</DocSection>
 
 			<DocSection id="options-props" title="useDirtyGuard Options">
@@ -394,8 +369,7 @@ export default function ReactDirtyGuardPage() {
 
 			<DocSection id="bar-props" title="DirtyGuardBar Props">
 				<p className="text-sm text-fg-muted mb-4">
-					Extends <code className="text-fg">DirtyGuardState</code> — spread the hook return value
-					directly: <code className="text-fg">{"<DirtyGuardBar {...guard} />"}</code>
+					Extends <code className="text-fg">DirtyGuardState</code> — spread the hook return value directly: <code className="text-fg">{"<DirtyGuardBar {...guard} />"}</code>
 				</p>
 				<DocPropsTable props={barProps} />
 			</DocSection>
@@ -407,26 +381,20 @@ export default function ReactDirtyGuardPage() {
 			<DocSection id="limitations" title="Known Limitations">
 				<ul className="list-disc list-inside space-y-2 text-sm text-fg-muted">
 					<li>
-						<strong className="text-fg">Phantom history entry</strong> —{" "}
-						<code className="text-fg">popstate</code> blocking works by pushing a phantom entry to{" "}
-						<code className="text-fg">history</code>. This can conflict with SPA routers that also
-						manipulate history.
+						<strong className="text-fg">Phantom history entry</strong> — <code className="text-fg">popstate</code> blocking works by pushing a phantom entry to <code className="text-fg">history</code>
+						. This can conflict with SPA routers that also manipulate history.
 					</li>
 					<li>
-						<strong className="text-fg">Double-tap back</strong> — Rapidly pressing back twice may
-						slip through the guard.
+						<strong className="text-fg">Double-tap back</strong> — Rapidly pressing back twice may slip through the guard.
 					</li>
 					<li>
-						<strong className="text-fg">Mobile Safari swipe-back</strong> — The swipe-back gesture
-						on iOS is inconsistent with <code className="text-fg">popstate</code> interception.
+						<strong className="text-fg">Mobile Safari swipe-back</strong> — The swipe-back gesture on iOS is inconsistent with <code className="text-fg">popstate</code> interception.
 					</li>
 					<li>
-						<strong className="text-fg">beforeunload message</strong> — Modern browsers ignore
-						custom messages and show a generic prompt instead.
+						<strong className="text-fg">beforeunload message</strong> — Modern browsers ignore custom messages and show a generic prompt instead.
 					</li>
 					<li>
-						Set <code className="text-fg">blockRouteNavigation: false</code> if you experience
-						router conflicts. Tab close/reload blocking works independently and is always reliable.
+						Set <code className="text-fg">blockRouteNavigation: false</code> if you experience router conflicts. Tab close/reload blocking works independently and is always reliable.
 					</li>
 				</ul>
 			</DocSection>

@@ -1,8 +1,8 @@
 "use client"
-import { use } from "react"
 
 import { Rating } from "@blazz/ui/components/ui/rating"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -117,11 +117,7 @@ export default function RatingPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Rating"
-			subtitle="A star-based rating component for collecting or displaying user feedback. Supports half-star precision, multiple sizes, and read-only mode."
-			toc={toc}
-		>
+		<DocPage title="Rating" subtitle="A star-based rating component for collecting or displaying user feedback. Supports half-star precision, multiple sizes, and read-only mode." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<Rating defaultValue={3} />
@@ -129,21 +125,11 @@ export default function RatingPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic interactive star rating."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic interactive star rating." code={examples[0].code} highlightedCode={html("default")}>
 					<Rating defaultValue={0} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Available rating sizes."
-					code={examples[1].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Available rating sizes." code={examples[1].code} highlightedCode={html("sizes")}>
 					<div className="flex flex-col gap-4">
 						<div className="flex items-center gap-3">
 							<Rating size="sm" defaultValue={3} />
@@ -160,39 +146,19 @@ export default function RatingPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Half Stars"
-					description="Allow half-star precision for more granular ratings."
-					code={examples[2].code}
-					highlightedCode={html("half")}
-				>
+				<DocExampleClient title="Half Stars" description="Allow half-star precision for more granular ratings." code={examples[2].code} highlightedCode={html("half")}>
 					<Rating allowHalf defaultValue={2.5} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Read Only"
-					description="Display a rating value without allowing interaction."
-					code={examples[3].code}
-					highlightedCode={html("readonly")}
-				>
+				<DocExampleClient title="Read Only" description="Display a rating value without allowing interaction." code={examples[3].code} highlightedCode={html("readonly")}>
 					<Rating readOnly value={3.5} allowHalf />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage the rating value programmatically."
-					code={examples[4].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage the rating value programmatically." code={examples[4].code} highlightedCode={html("controlled")}>
 					<ControlledRatingDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled ratings prevent user interaction."
-					code={examples[5].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled ratings prevent user interaction." code={examples[5].code} highlightedCode={html("disabled")}>
 					<Rating disabled defaultValue={2} />
 				</DocExampleClient>
 			</DocSection>

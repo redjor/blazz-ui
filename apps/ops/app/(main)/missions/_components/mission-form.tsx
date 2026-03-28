@@ -2,26 +2,14 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation } from "convex/react"
-import { useForm, Controller } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -104,39 +92,19 @@ export function MissionForm({ open, onOpenChange, agents }: MissionFormProps) {
 						{/* Agent picker */}
 						<BlockStack gap="200">
 							<Label>Agent</Label>
-							<Controller
-								control={control}
-								name="agentId"
-								rules={{ required: true }}
-								render={({ field }) => (
-									<AgentPicker
-										agents={agents}
-										value={field.value}
-										onValueChange={field.onChange}
-									/>
-								)}
-							/>
+							<Controller control={control} name="agentId" rules={{ required: true }} render={({ field }) => <AgentPicker agents={agents} value={field.value} onValueChange={field.onChange} />} />
 						</BlockStack>
 
 						{/* Title */}
 						<BlockStack gap="200">
 							<Label htmlFor="mission-title">Titre</Label>
-							<Input
-								id="mission-title"
-								placeholder="ex: Audit depenses mars 2026"
-								{...register("title", { required: true })}
-							/>
+							<Input id="mission-title" placeholder="ex: Audit depenses mars 2026" {...register("title", { required: true })} />
 						</BlockStack>
 
 						{/* Prompt */}
 						<BlockStack gap="200">
 							<Label htmlFor="mission-prompt">Prompt / Instructions</Label>
-							<Textarea
-								id="mission-prompt"
-								placeholder="Decrivez ce que l'agent doit faire..."
-								rows={4}
-								{...register("prompt", { required: true })}
-							/>
+							<Textarea id="mission-prompt" placeholder="Decrivez ce que l'agent doit faire..." rows={4} {...register("prompt", { required: true })} />
 						</BlockStack>
 
 						{/* Priority + Mode */}
@@ -200,11 +168,7 @@ export function MissionForm({ open, onOpenChange, agents }: MissionFormProps) {
 					</BlockStack>
 
 					<DialogFooter>
-						<Button
-							variant="outline"
-							type="button"
-							onClick={() => onOpenChange(false)}
-						>
+						<Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
 							Annuler
 						</Button>
 						<Button type="submit" disabled={isSubmitting}>

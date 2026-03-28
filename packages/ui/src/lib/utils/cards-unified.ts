@@ -321,12 +321,7 @@ export function sanitizeCardNumber(cardNumber: string): string {
  * // { valid: false, errors: ['Invalid card number'] }
  * ```
  */
-export function validateCard(
-	cardNumber: string,
-	expiryMonth: string,
-	expiryYear: string,
-	cvv: string
-): { valid: boolean; errors: string[] } {
+export function validateCard(cardNumber: string, expiryMonth: string, expiryYear: string, cvv: string): { valid: boolean; errors: string[] } {
 	const errors: string[] = []
 
 	// Validate card number

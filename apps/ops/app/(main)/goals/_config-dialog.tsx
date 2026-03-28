@@ -2,14 +2,7 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Divider } from "@blazz/ui/components/ui/divider"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { Input } from "@blazz/ui/components/ui/input"
@@ -20,20 +13,7 @@ import { useForm } from "react-hook-form"
 import { api } from "@/convex/_generated/api"
 import { resolveMonthlyTargets } from "@/lib/goals"
 
-const MONTH_LABELS = [
-	"Jan",
-	"Fév",
-	"Mar",
-	"Avr",
-	"Mai",
-	"Jun",
-	"Jul",
-	"Aoû",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Déc",
-] as const
+const MONTH_LABELS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"] as const
 
 interface GoalsConfigDialogProps {
 	open: boolean
@@ -137,9 +117,7 @@ export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfi
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<DialogHeader>
 						<DialogTitle>Objectifs {year}</DialogTitle>
-						<DialogDescription>
-							Définissez vos cibles annuelles. Les mois vides sont auto-calculés.
-						</DialogDescription>
+						<DialogDescription>Définissez vos cibles annuelles. Les mois vides sont auto-calculés.</DialogDescription>
 					</DialogHeader>
 
 					<BlockStack gap="600" className="max-h-[60vh] overflow-y-auto py-4">
@@ -147,12 +125,7 @@ export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfi
 						<BlockStack gap="400">
 							<BlockStack gap="200">
 								<Label htmlFor="revenueAnnual">Objectif annuel (€)</Label>
-								<Input
-									id="revenueAnnual"
-									type="number"
-									placeholder="ex: 120000"
-									{...register("revenueAnnual")}
-								/>
+								<Input id="revenueAnnual" type="number" placeholder="ex: 120000" {...register("revenueAnnual")} />
 							</BlockStack>
 
 							<BlockStack gap="200">
@@ -161,11 +134,7 @@ export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfi
 									{MONTH_LABELS.map((label, i) => (
 										<BlockStack key={label} gap="100">
 											<Label className="text-xs text-fg-muted">{label}</Label>
-											<Input
-												type="number"
-												placeholder={String(resolvedRevenue[i])}
-												{...register(`revenueOverrides.${i}`)}
-											/>
+											<Input type="number" placeholder={String(resolvedRevenue[i])} {...register(`revenueOverrides.${i}`)} />
 										</BlockStack>
 									))}
 								</InlineGrid>
@@ -178,12 +147,7 @@ export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfi
 						<BlockStack gap="400">
 							<BlockStack gap="200">
 								<Label htmlFor="daysAnnual">Jours facturables — objectif annuel</Label>
-								<Input
-									id="daysAnnual"
-									type="number"
-									placeholder="ex: 218"
-									{...register("daysAnnual")}
-								/>
+								<Input id="daysAnnual" type="number" placeholder="ex: 218" {...register("daysAnnual")} />
 							</BlockStack>
 
 							<BlockStack gap="200">
@@ -192,11 +156,7 @@ export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfi
 									{MONTH_LABELS.map((label, i) => (
 										<BlockStack key={label} gap="100">
 											<Label className="text-xs text-fg-muted">{label}</Label>
-											<Input
-												type="number"
-												placeholder={String(resolvedDays[i])}
-												{...register(`daysOverrides.${i}`)}
-											/>
+											<Input type="number" placeholder={String(resolvedDays[i])} {...register(`daysOverrides.${i}`)} />
 										</BlockStack>
 									))}
 								</InlineGrid>
@@ -208,12 +168,7 @@ export function GoalsConfigDialog({ open, onOpenChange, year, plan }: GoalsConfi
 						{/* ── TJM cible ── */}
 						<BlockStack gap="200">
 							<Label htmlFor="tjmTarget">TJM cible (€/jour)</Label>
-							<Input
-								id="tjmTarget"
-								type="number"
-								placeholder="ex: 550"
-								{...register("tjmTarget")}
-							/>
+							<Input id="tjmTarget" type="number" placeholder="ex: 550" {...register("tjmTarget")} />
 						</BlockStack>
 					</BlockStack>
 

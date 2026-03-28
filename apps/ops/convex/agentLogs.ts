@@ -22,14 +22,7 @@ export const append = mutation({
 	args: {
 		missionId: v.id("missions"),
 		agentId: v.id("agents"),
-		type: v.union(
-			v.literal("thinking"),
-			v.literal("tool_call"),
-			v.literal("tool_result"),
-			v.literal("error"),
-			v.literal("budget_warning"),
-			v.literal("done")
-		),
+		type: v.union(v.literal("thinking"), v.literal("tool_call"), v.literal("tool_result"), v.literal("error"), v.literal("budget_warning"), v.literal("done")),
 		content: v.string(),
 		toolName: v.optional(v.string()),
 		duration: v.optional(v.number()),
@@ -43,14 +36,7 @@ export const internalAppend = internalMutation({
 	args: {
 		missionId: v.id("missions"),
 		agentId: v.id("agents"),
-		type: v.union(
-			v.literal("thinking"),
-			v.literal("tool_call"),
-			v.literal("tool_result"),
-			v.literal("error"),
-			v.literal("budget_warning"),
-			v.literal("done")
-		),
+		type: v.union(v.literal("thinking"), v.literal("tool_call"), v.literal("tool_result"), v.literal("error"), v.literal("budget_warning"), v.literal("done")),
 		content: v.string(),
 		toolName: v.optional(v.string()),
 		duration: v.optional(v.number()),

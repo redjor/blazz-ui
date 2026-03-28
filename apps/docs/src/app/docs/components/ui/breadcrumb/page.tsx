@@ -1,6 +1,5 @@
 "use client"
 
-import { use } from "react"
 import {
 	Breadcrumb,
 	BreadcrumbBackLink,
@@ -11,14 +10,9 @@ import {
 	BreadcrumbList,
 	BreadcrumbSeparator,
 } from "@blazz/ui/components/ui/breadcrumb"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@blazz/ui/components/ui/dropdown-menu"
 import { Home, Slash } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -147,11 +141,7 @@ export default function BreadcrumbPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Breadcrumb"
-			subtitle="Displays the path to the current location within a hierarchical structure."
-			toc={toc}
-		>
+		<DocPage title="Breadcrumb" subtitle="Displays the path to the current location within a hierarchical structure." toc={toc}>
 			<DocHero>
 				<Breadcrumb>
 					<BreadcrumbList>
@@ -171,12 +161,7 @@ export default function BreadcrumbPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Breadcrumb"
-					description="A simple breadcrumb navigation showing the current path."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Breadcrumb" description="A simple breadcrumb navigation showing the current path." code={examples[0].code} highlightedCode={html("basic")}>
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
@@ -194,12 +179,7 @@ export default function BreadcrumbPage() {
 					</Breadcrumb>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Separator"
-					description="Use a custom separator between breadcrumb items."
-					code={examples[1].code}
-					highlightedCode={html("custom-separator")}
-				>
+				<DocExampleClient title="Custom Separator" description="Use a custom separator between breadcrumb items." code={examples[1].code} highlightedCode={html("custom-separator")}>
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
@@ -221,12 +201,7 @@ export default function BreadcrumbPage() {
 					</Breadcrumb>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Dropdown Menu"
-					description="Use a dropdown menu to collapse intermediate items."
-					code={examples[2].code}
-					highlightedCode={html("with-dropdown")}
-				>
+				<DocExampleClient title="With Dropdown Menu" description="Use a dropdown menu to collapse intermediate items." code={examples[2].code} highlightedCode={html("with-dropdown")}>
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
@@ -259,12 +234,7 @@ export default function BreadcrumbPage() {
 					</Breadcrumb>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Icon"
-					description="Use BreadcrumbBackLink with an icon. On hover, the icon morphs into a back arrow."
-					code={examples[3].code}
-					highlightedCode={html("with-icon")}
-				>
+				<DocExampleClient title="With Icon" description="Use BreadcrumbBackLink with an icon. On hover, the icon morphs into a back arrow." code={examples[3].code} highlightedCode={html("with-icon")}>
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
@@ -290,9 +260,7 @@ export default function BreadcrumbPage() {
 			</DocSection>
 
 			<DocSection id="design-tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Breadcrumb uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Breadcrumb uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">text-fg-muted</code> - Breadcrumb link color
@@ -331,15 +299,13 @@ export default function BreadcrumbPage() {
 			<DocSection id="accessibility" title="Accessibility">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
 					<li>
-						Uses semantic <code className="text-xs">&lt;nav&gt;</code> element with
-						aria-label="breadcrumb"
+						Uses semantic <code className="text-xs">&lt;nav&gt;</code> element with aria-label="breadcrumb"
 					</li>
 					<li>
 						Current page marked with <code className="text-xs">aria-current="page"</code>
 					</li>
 					<li>
-						Separators have <code className="text-xs">aria-hidden="true"</code> to avoid screen
-						reader verbosity
+						Separators have <code className="text-xs">aria-hidden="true"</code> to avoid screen reader verbosity
 					</li>
 					<li>All links are keyboard accessible with standard tab navigation</li>
 					<li>Provides clear visual feedback on hover and focus states</li>

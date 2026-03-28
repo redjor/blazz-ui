@@ -29,73 +29,40 @@ const emptyVariants = cva("flex w-full min-w-0 flex-col items-center justify-cen
 	},
 })
 
-const emptyIconVariants = cva(
-	"flex shrink-0 items-center justify-center rounded-full bg-muted text-fg-muted [&_svg]:pointer-events-none [&_svg]:shrink-0",
-	{
-		variants: {
-			size: {
-				sm: "size-8 p-1.5 [&_svg:not([class*='size-'])]:size-4",
-				default: "size-10 p-2.5 [&_svg:not([class*='size-'])]:size-5",
-				lg: "size-12 p-3 [&_svg:not([class*='size-'])]:size-6",
-			},
+const emptyIconVariants = cva("flex shrink-0 items-center justify-center rounded-full bg-muted text-fg-muted [&_svg]:pointer-events-none [&_svg]:shrink-0", {
+	variants: {
+		size: {
+			sm: "size-8 p-1.5 [&_svg:not([class*='size-'])]:size-4",
+			default: "size-10 p-2.5 [&_svg:not([class*='size-'])]:size-5",
+			lg: "size-12 p-3 [&_svg:not([class*='size-'])]:size-6",
 		},
-		defaultVariants: {
-			size: "default",
-		},
-	}
-)
+	},
+	defaultVariants: {
+		size: "default",
+	},
+})
 
 /* ----- Sub-components (compositional API) ----- */
 
-function EmptyIcon({
-	className,
-	size = "default",
-	...props
-}: React.ComponentProps<"div"> & VariantProps<typeof emptyIconVariants>) {
-	return (
-		<div data-slot="empty-icon" className={cn(emptyIconVariants({ size, className }))} {...props} />
-	)
+function EmptyIcon({ className, size = "default", ...props }: React.ComponentProps<"div"> & VariantProps<typeof emptyIconVariants>) {
+	return <div data-slot="empty-icon" className={cn(emptyIconVariants({ size, className }))} {...props} />
 }
 
 function EmptyTitle({ className, ...props }: React.ComponentProps<"h3">) {
-	return (
-		<h3
-			data-slot="empty-title"
-			className={cn("text-sm font-medium text-fg", className)}
-			{...props}
-		/>
-	)
+	return <h3 data-slot="empty-title" className={cn("text-sm font-medium text-fg", className)} {...props} />
 }
 
 function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
-	return (
-		<p
-			data-slot="empty-description"
-			className={cn("max-w-sm text-sm text-fg-muted", className)}
-			{...props}
-		/>
-	)
+	return <p data-slot="empty-description" className={cn("max-w-sm text-sm text-fg-muted", className)} {...props} />
 }
 
 function EmptyActions({ className, ...props }: React.ComponentProps<"div">) {
-	return (
-		<div
-			data-slot="empty-actions"
-			className={cn("flex items-center gap-2", className)}
-			{...props}
-		/>
-	)
+	return <div data-slot="empty-actions" className={cn("flex items-center gap-2", className)} {...props} />
 }
 
 /* ----- Action renderer ----- */
 
-function EmptyActionButton({
-	action,
-	variant = "default",
-}: {
-	action: EmptyAction
-	variant?: "default" | "outline"
-}) {
+function EmptyActionButton({ action, variant = "default" }: { action: EmptyAction; variant?: "default" | "outline" }) {
 	const ActionIcon = action.icon
 
 	if (action.href) {
@@ -130,17 +97,7 @@ interface EmptyProps extends React.ComponentProps<"div">, VariantProps<typeof em
 	secondaryAction?: EmptyAction
 }
 
-function Empty({
-	className,
-	size = "default",
-	icon: Icon,
-	title,
-	description,
-	action,
-	secondaryAction,
-	children,
-	...props
-}: EmptyProps) {
+function Empty({ className, size = "default", icon: Icon, title, description, action, secondaryAction, children, ...props }: EmptyProps) {
 	// Compositional mode: just render children
 	if (children) {
 		return (

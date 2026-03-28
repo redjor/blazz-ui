@@ -3,14 +3,7 @@
 import { ChevronDown, LogOut, Settings, User as UserIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Badge } from "../ui/badge"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
 
 export interface UserMenuUser {
 	name: string
@@ -38,15 +31,7 @@ function getUserInitials(name: string): string {
 		.slice(0, 2)
 }
 
-export function UserMenu({
-	user,
-	badge,
-	onProfile,
-	onSettings,
-	onLogout,
-	showEmail = false,
-	className,
-}: UserMenuProps) {
+export function UserMenu({ user, badge, onProfile, onSettings, onLogout, showEmail = false, className }: UserMenuProps) {
 	const displayName = user?.name ?? "Jean Dupont"
 	const displayRole = user?.role
 	const initials = getUserInitials(displayName)
@@ -86,18 +71,12 @@ export function UserMenu({
 				<div className="flex items-center gap-2 px-2 py-1.5">
 					<Avatar className="size-6">
 						<AvatarImage src={user?.avatar} alt={displayName} />
-						<AvatarFallback className="bg-brand/20 text-[10px] font-semibold text-brand">
-							{initials}
-						</AvatarFallback>
+						<AvatarFallback className="bg-brand/20 text-[10px] font-semibold text-brand">{initials}</AvatarFallback>
 					</Avatar>
 					<div className="grid flex-1 text-left leading-tight">
 						<span className="truncate text-sm font-semibold text-fg">{displayName}</span>
-						{displayRole && (
-							<span className="truncate text-xs text-fg-muted font-medium">{displayRole}</span>
-						)}
-						{showEmail && user?.email && (
-							<span className="truncate text-xs text-fg-muted">{user.email}</span>
-						)}
+						{displayRole && <span className="truncate text-xs text-fg-muted font-medium">{displayRole}</span>}
+						{showEmail && user?.email && <span className="truncate text-xs text-fg-muted">{user.email}</span>}
 					</div>
 				</div>
 

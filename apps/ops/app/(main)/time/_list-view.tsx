@@ -1,42 +1,23 @@
 "use client"
 
-import type {
-	BulkAction,
-	DataTableColumnDef,
-	DataTableView,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
+import type { BulkAction, DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
 import { DataTable } from "@blazz/pro/components/blocks/data-table"
 import { Bleed } from "@blazz/ui/components/ui/bleed"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import {
-	Ban,
-	CheckCircle2,
-	CircleDashed,
-	CircleDollarSign,
-	CircleDot,
-	CircleFadingArrowUp,
-	Pencil,
-	Receipt,
-	Send,
-	Trash2,
-} from "lucide-react"
+import { Ban, CheckCircle2, CircleDashed, CircleDollarSign, CircleFadingArrowUp, Pencil, Receipt, Send, Trash2 } from "lucide-react"
 import { useMemo } from "react"
 import { toast } from "sonner"
-import type { Doc, Id } from "@/convex/_generated/dataModel"
+import type { Doc } from "@/convex/_generated/dataModel"
 import { formatMinutes } from "@/lib/format"
 import { getAllowedTransitions, getEffectiveStatus } from "@/lib/time-entry-status"
 
 type TimeEntryRaw = Doc<"timeEntries">
 type TimeEntry = TimeEntryRaw & { dateRange: string }
 
-const statusConfig: Record<
-	string,
-	{ dot: string; icon: typeof CircleDashed; iconClass: string; tint: string; label: string }
-> = {
+const statusConfig: Record<string, { dot: string; icon: typeof CircleDashed; iconClass: string; tint: string; label: string }> = {
 	draft: {
 		dot: "bg-violet-500",
 		icon: CircleDashed,
@@ -83,16 +64,7 @@ interface TimeListViewProps {
 	remove: (args: any) => Promise<any>
 }
 
-export function TimeListView({
-	data,
-	paginationStatus,
-	loadMore,
-	projectMap,
-	projectOptions,
-	onEdit,
-	setStatus,
-	remove,
-}: TimeListViewProps) {
+export function TimeListView({ data, paginationStatus, loadMore, projectMap, projectOptions, onEdit, setStatus, remove }: TimeListViewProps) {
 	const columns = useMemo<DataTableColumnDef<TimeEntry>[]>(
 		() => [
 			{
@@ -174,10 +146,7 @@ export function TimeListView({
 					return (
 						<span className="flex gap-1 flex-wrap">
 							{tags.map((tag) => (
-								<span
-									key={tag}
-									className="inline-block rounded-full bg-muted px-1.5 py-0 text-[11px] text-fg-muted"
-								>
+								<span key={tag} className="inline-block rounded-full bg-muted px-1.5 py-0 text-[11px] text-fg-muted">
 									{tag}
 								</span>
 							))}
@@ -225,9 +194,7 @@ export function TimeListView({
 				filters: {
 					id: "draft-filter",
 					operator: "AND",
-					conditions: [
-						{ id: "draft-cond", column: "status", operator: "equals", value: "draft", type: "select" },
-					],
+					conditions: [{ id: "draft-cond", column: "status", operator: "equals", value: "draft", type: "select" }],
 				},
 				sorting: [{ id: "date", desc: true }],
 			},
@@ -238,9 +205,7 @@ export function TimeListView({
 				filters: {
 					id: "ready-filter",
 					operator: "AND",
-					conditions: [
-						{ id: "ready-cond", column: "status", operator: "equals", value: "ready_to_invoice", type: "select" },
-					],
+					conditions: [{ id: "ready-cond", column: "status", operator: "equals", value: "ready_to_invoice", type: "select" }],
 				},
 				sorting: [{ id: "date", desc: true }],
 			},
@@ -251,9 +216,7 @@ export function TimeListView({
 				filters: {
 					id: "invoiced-filter",
 					operator: "AND",
-					conditions: [
-						{ id: "invoiced-cond", column: "status", operator: "equals", value: "invoiced", type: "select" },
-					],
+					conditions: [{ id: "invoiced-cond", column: "status", operator: "equals", value: "invoiced", type: "select" }],
 				},
 				sorting: [{ id: "date", desc: true }],
 			},
@@ -264,9 +227,7 @@ export function TimeListView({
 				filters: {
 					id: "paid-filter",
 					operator: "AND",
-					conditions: [
-						{ id: "paid-cond", column: "status", operator: "equals", value: "paid", type: "select" },
-					],
+					conditions: [{ id: "paid-cond", column: "status", operator: "equals", value: "paid", type: "select" }],
 				},
 				sorting: [{ id: "date", desc: true }],
 			},
@@ -277,9 +238,7 @@ export function TimeListView({
 				filters: {
 					id: "non-billable-filter",
 					operator: "AND",
-					conditions: [
-						{ id: "non-billable-cond", column: "status", operator: "equals", value: null, type: "select" },
-					],
+					conditions: [{ id: "non-billable-cond", column: "status", operator: "equals", value: null, type: "select" }],
 				},
 				sorting: [{ id: "date", desc: true }],
 			},
@@ -428,8 +387,7 @@ export function TimeListView({
 				icon: Trash2,
 				variant: "destructive",
 				requireConfirmation: true,
-				confirmationMessage: (count) =>
-					`Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
+				confirmationMessage: (count) => `Supprimer ${count} entrée(s) ? Cette action est irréversible.`,
 				handler: async (rows) => {
 					try {
 						await Promise.all(rows.map((r) => remove({ id: r.original._id })))
@@ -470,9 +428,7 @@ export function TimeListView({
 					groupAggregations={{
 						minutes: (values) => {
 							const total = (values as number[]).reduce((a, b) => a + b, 0)
-							return (
-								<span className="font-mono text-xs tabular-nums">{formatMinutes(total)}</span>
-							)
+							return <span className="font-mono text-xs tabular-nums">{formatMinutes(total)}</span>
 						},
 					}}
 					enablePagination={false}
@@ -488,34 +444,20 @@ export function TimeListView({
 						return (
 							<>
 								<div className="flex min-w-0 flex-1 items-center gap-3">
-									<span
-										className="text-fg-muted whitespace-nowrap"
-										style={{ fontSize: 13, minWidth: 52 }}
-									>
+									<span className="text-fg-muted whitespace-nowrap" style={{ fontSize: 13, minWidth: 52 }}>
 										{format(new Date(`${entry.date}T00:00:00`), "dd MMM", { locale: fr })}
 									</span>
 									{(() => {
 										const Icon = cfg?.icon ?? Ban
-										return (
-											<Icon
-												className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`}
-											/>
-										)
+										return <Icon className={`size-3.5 shrink-0 ${cfg?.iconClass ?? "text-fg-muted"}`} />
 									})()}
-									<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">
-										{formatMinutes(entry.minutes)}
-									</span>
-									<span
-										className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`}
-										style={{ fontSize: 13 }}
-									>
+									<span className="font-mono text-xs tabular-nums text-fg whitespace-nowrap">{formatMinutes(entry.minutes)}</span>
+									<span className={`truncate text-fg-muted ${!entry.description ? "italic" : ""}`} style={{ fontSize: 13 }}>
 										{entry.description || "Pas de description"}
 									</span>
 								</div>
 								<div className="flex shrink-0 items-center gap-3">
-									<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">
-										{projectMap.get(entry.projectId) ?? "—"}
-									</span>
+									<span className="inline-flex items-center rounded-full bg-muted/70 px-2 py-0.5 text-[11px] text-fg-muted whitespace-nowrap">{projectMap.get(entry.projectId) ?? "—"}</span>
 								</div>
 							</>
 						)
@@ -524,13 +466,7 @@ export function TimeListView({
 			</Bleed>
 			{paginationStatus === "CanLoadMore" && (
 				<InlineStack align="center" className="pt-1">
-					<Button
-						type="button"
-						variant="outline"
-						size="sm"
-						className="h-7 px-3 text-xs"
-						onClick={() => loadMore(100)}
-					>
+					<Button type="button" variant="outline" size="sm" className="h-7 px-3 text-xs" onClick={() => loadMore(100)}>
 						Charger plus d'entrées
 					</Button>
 				</InlineStack>

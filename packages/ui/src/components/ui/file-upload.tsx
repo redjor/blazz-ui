@@ -110,35 +110,16 @@ function FileUpload({
 				{description && <p className="text-xs text-fg-muted">{description}</p>}
 			</div>
 
-			<input
-				ref={inputRef}
-				type="file"
-				accept={accept}
-				multiple={multiple}
-				disabled={disabled}
-				onChange={(e) => handleFiles(e.target.files)}
-				className="sr-only"
-				tabIndex={-1}
-			/>
+			<input ref={inputRef} type="file" accept={accept} multiple={multiple} disabled={disabled} onChange={(e) => handleFiles(e.target.files)} className="sr-only" tabIndex={-1} />
 
 			{value.length > 0 && (
 				<ul className="space-y-1">
 					{value.map((file, i) => (
-						<li
-							key={`${file.name}-${i}`}
-							className="flex items-center gap-2 rounded-md border border-edge bg-card px-2.5 py-1.5 text-sm"
-						>
+						<li key={`${file.name}-${i}`} className="flex items-center gap-2 rounded-md border border-edge bg-card px-2.5 py-1.5 text-sm">
 							<FileIcon className="size-4 shrink-0 text-fg-muted" />
 							<span className="truncate flex-1 text-fg">{file.name}</span>
-							<span className="shrink-0 text-xs text-fg-muted tabular-nums">
-								{formatSize(file.size)}
-							</span>
-							<button
-								type="button"
-								onClick={() => removeFile(i)}
-								className="shrink-0 text-fg-muted hover:text-fg transition-colors outline-none"
-								aria-label={`Remove ${file.name}`}
-							>
+							<span className="shrink-0 text-xs text-fg-muted tabular-nums">{formatSize(file.size)}</span>
+							<button type="button" onClick={() => removeFile(i)} className="shrink-0 text-fg-muted hover:text-fg transition-colors outline-none" aria-label={`Remove ${file.name}`}>
 								<XIcon className="size-3.5" />
 							</button>
 						</li>

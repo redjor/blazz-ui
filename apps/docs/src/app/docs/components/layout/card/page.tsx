@@ -2,17 +2,9 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Card,
-	CardAction,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
-import { use } from "react"
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { ArrowRightIcon, BellIcon, SparklesIcon } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -265,18 +257,9 @@ export default function CardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Card"
-			subtitle="Cards are used to group similar concepts and tasks together for users to scan, read, and get things done more easily."
-			toc={toc}
-		>
+		<DocPage title="Card" subtitle="Cards are used to group similar concepts and tasks together for users to scan, read, and get things done more easily." toc={toc}>
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic card with content."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic card with content." code={examples[0].code} highlightedCode={html("default")}>
 					<Card>
 						<CardContent>
 							<p className="text-sm text-fg-muted">Content inside a card</p>
@@ -284,12 +267,7 @@ export default function CardPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Header"
-					description="A card with a header section including title and description."
-					code={examples[1].code}
-					highlightedCode={html("with-header")}
-				>
+				<DocExampleClient title="With Header" description="A card with a header section including title and description." code={examples[1].code} highlightedCode={html("with-header")}>
 					<Card>
 						<CardHeader>
 							<CardTitle>Card Title</CardTitle>
@@ -301,12 +279,7 @@ export default function CardPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Header Action"
-					description="A card with an action button in the header."
-					code={examples[2].code}
-					highlightedCode={html("header-action")}
-				>
+				<DocExampleClient title="With Header Action" description="A card with an action button in the header." code={examples[2].code} highlightedCode={html("header-action")}>
 					<Card>
 						<CardHeader>
 							<CardTitle>Orders</CardTitle>
@@ -323,12 +296,7 @@ export default function CardPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Small Size"
-					description="A compact card with reduced padding."
-					code={examples[3].code}
-					highlightedCode={html("small-size")}
-				>
+				<DocExampleClient title="Small Size" description="A compact card with reduced padding." code={examples[3].code} highlightedCode={html("small-size")}>
 					<Card size="sm">
 						<CardHeader>
 							<CardTitle>Compact Card</CardTitle>
@@ -339,12 +307,7 @@ export default function CardPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Footer"
-					description="A card with a footer for actions."
-					code={examples[4].code}
-					highlightedCode={html("with-footer")}
-				>
+				<DocExampleClient title="With Footer" description="A card with a footer for actions." code={examples[4].code} highlightedCode={html("with-footer")}>
 					<Card>
 						<CardHeader>
 							<CardTitle>Settings</CardTitle>
@@ -359,20 +322,11 @@ export default function CardPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Image"
-					description="A card combining an image, badges, and a call-to-action button."
-					code={examples[5].code}
-					highlightedCode={html("with-image")}
-				>
+				<DocExampleClient title="With Image" description="A card combining an image, badges, and a call-to-action button." code={examples[5].code} highlightedCode={html("with-image")}>
 					<Card className="w-full max-w-xs">
 						<CardContent className="flex flex-col gap-4">
 							<div className="relative h-48 w-full overflow-hidden rounded-md">
-								<img
-									src="https://picsum.photos/1000/800?grayscale&random=18"
-									alt="16:9"
-									className="h-full w-full object-cover"
-								/>
+								<img src="https://picsum.photos/1000/800?grayscale&random=18" alt="16:9" className="h-full w-full object-cover" />
 							</div>
 
 							<div className="flex items-center justify-between gap-5">
@@ -386,10 +340,7 @@ export default function CardPage() {
 								</div>
 							</div>
 
-							<p className="text-foreground text-sm">
-								Simplifying your workflow from day one. Manage your tasks, projects, and team in one
-								place.
-							</p>
+							<p className="text-foreground text-sm">Simplifying your workflow from day one. Manage your tasks, projects, and team in one place.</p>
 
 							<Button>
 								Get Started
@@ -399,12 +350,7 @@ export default function CardPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Collapsible Billing"
-					description="A card with a collapsible section and a toggle button."
-					code={examples[6].code}
-					highlightedCode={html("collapsible-billing")}
-				>
+				<DocExampleClient title="Collapsible Billing" description="A card with a collapsible section and a toggle button." code={examples[6].code} highlightedCode={html("collapsible-billing")}>
 					<CardBillingExample />
 				</DocExampleClient>
 			</DocSection>
@@ -419,9 +365,7 @@ export default function CardPage() {
 					<li>Display information in a way that prioritizes what the user needs to know first</li>
 					<li>Use headings that set clear expectations about the card's purpose</li>
 					<li>Stick to single user flows or break more complicated flows into multiple sections</li>
-					<li>
-						Avoid too many call-to-action buttons and only one primary call to action per card
-					</li>
+					<li>Avoid too many call-to-action buttons and only one primary call to action per card</li>
 				</ul>
 			</DocSection>
 		</DocPage>

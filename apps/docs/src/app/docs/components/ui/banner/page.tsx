@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Banner } from "@blazz/ui/components/ui/banner"
 import { Info } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -10,14 +10,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import {
-	AsyncActionBannerDemo,
-	CriticalBannerDemo,
-	InfoBannerDemo,
-	SuccessBannerDemo,
-	WarningBannerDemo,
-	WithActionsBannerDemo,
-} from "./demos"
+import { AsyncActionBannerDemo, CriticalBannerDemo, InfoBannerDemo, SuccessBannerDemo, WarningBannerDemo, WithActionsBannerDemo } from "./demos"
 
 const examples = [
 	{
@@ -212,11 +205,7 @@ export default function BannerPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Banner"
-			subtitle="Display important page-level messages and notifications."
-			toc={toc}
-		>
+		<DocPage title="Banner" subtitle="Display important page-level messages and notifications." toc={toc}>
 			<DocHero>
 				<Banner tone="info" title="Update Available" className="w-full max-w-lg">
 					A new version of the app is available. Update to get the latest features.
@@ -224,77 +213,37 @@ export default function BannerPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Info Banner"
-					description="Use for informational messages that don't require immediate action."
-					code={examples[0].code}
-					highlightedCode={html("info")}
-				>
+				<DocExampleClient title="Info Banner" description="Use for informational messages that don't require immediate action." code={examples[0].code} highlightedCode={html("info")}>
 					<InfoBannerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Success Banner"
-					description="Use to confirm successful operations."
-					code={examples[1].code}
-					highlightedCode={html("success")}
-				>
+				<DocExampleClient title="Success Banner" description="Use to confirm successful operations." code={examples[1].code} highlightedCode={html("success")}>
 					<SuccessBannerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Warning Banner"
-					description="Use for warnings that need attention but aren't critical."
-					code={examples[2].code}
-					highlightedCode={html("warning")}
-				>
+				<DocExampleClient title="Warning Banner" description="Use for warnings that need attention but aren't critical." code={examples[2].code} highlightedCode={html("warning")}>
 					<WarningBannerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Critical Banner"
-					description="Use for errors or critical issues requiring immediate attention."
-					code={examples[3].code}
-					highlightedCode={html("critical")}
-				>
+				<DocExampleClient title="Critical Banner" description="Use for errors or critical issues requiring immediate attention." code={examples[3].code} highlightedCode={html("critical")}>
 					<CriticalBannerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Actions"
-					description="Add primary and secondary actions to the banner."
-					code={examples[4].code}
-					highlightedCode={html("with-actions")}
-				>
+				<DocExampleClient title="With Actions" description="Add primary and secondary actions to the banner." code={examples[4].code} highlightedCode={html("with-actions")}>
 					<WithActionsBannerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Async Action"
-					description="Show loading state during async operations."
-					code={examples[5].code}
-					highlightedCode={html("async-action")}
-				>
+				<DocExampleClient title="Async Action" description="Show loading state during async operations." code={examples[5].code} highlightedCode={html("async-action")}>
 					<AsyncActionBannerDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Icon"
-					description="Hide the icon for simpler presentation."
-					code={examples[6].code}
-					highlightedCode={html("without-icon")}
-				>
+				<DocExampleClient title="Without Icon" description="Hide the icon for simpler presentation." code={examples[6].code} highlightedCode={html("without-icon")}>
 					<Banner tone="info" title="System Notification" hideIcon>
 						This banner appears without an icon for a cleaner look.
 					</Banner>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Icon"
-					description="Provide a custom icon instead of the default."
-					code={examples[7].code}
-					highlightedCode={html("custom-icon")}
-				>
+				<DocExampleClient title="Custom Icon" description="Provide a custom icon instead of the default." code={examples[7].code} highlightedCode={html("custom-icon")}>
 					<Banner tone="info" title="Special Offer" icon={Info}>
 						Get 20% off your next purchase with code SPECIAL20.
 					</Banner>
@@ -310,9 +259,7 @@ export default function BannerPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Banner uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Banner uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-inform</code> - Info banner background

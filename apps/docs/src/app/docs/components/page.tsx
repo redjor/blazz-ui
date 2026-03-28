@@ -1,8 +1,8 @@
 "use client"
 
 import { Page } from "@blazz/ui/components/ui/page"
-import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 import { componentsNavigation } from "~/config/components-navigation"
 
 const totalComponents = componentsNavigation.reduce((sum, cat) => sum + cat.items.length, 0)
@@ -23,8 +23,7 @@ export default function ComponentsPage() {
 				<div className="relative z-10 mx-auto max-w-2xl space-y-3">
 					<h1 className="text-4xl font-bold tracking-tight text-fg">Components</h1>
 					<p className="text-base text-fg-muted">
-						{totalComponents} components across {componentsNavigation.length} categories. Browse by
-						category or search for a specific component.
+						{totalComponents} components across {componentsNavigation.length} categories. Browse by category or search for a specific component.
 					</p>
 				</div>
 			</div>
@@ -38,9 +37,7 @@ export default function ComponentsPage() {
 							<div className="min-w-0">
 								<div className="flex items-center gap-2">
 									<h2 className="text-sm font-semibold text-fg">{category.title}</h2>
-									<span className="text-xs text-fg-muted tabular-nums">
-										{category.items.length}
-									</span>
+									<span className="text-xs text-fg-muted tabular-nums">{category.items.length}</span>
 								</div>
 								<p className="text-xs text-fg-muted">{category.description}</p>
 							</div>

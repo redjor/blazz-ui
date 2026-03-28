@@ -15,13 +15,7 @@ export interface BudgetMetrics {
  * Compute all budget-derived metrics from a project's data.
  * Returns null if no budget is set.
  */
-export function computeBudgetMetrics(opts: {
-	budgetAmount: number | undefined
-	tjm: number
-	hoursPerDay: number
-	billableMinutes: number
-	billableRevenue: number
-}): BudgetMetrics | null {
+export function computeBudgetMetrics(opts: { budgetAmount: number | undefined; tjm: number; hoursPerDay: number; billableMinutes: number; billableRevenue: number }): BudgetMetrics | null {
 	if (!opts.budgetAmount || opts.budgetAmount <= 0) return null
 
 	const daysSold = opts.tjm > 0 ? opts.budgetAmount / opts.tjm : 0

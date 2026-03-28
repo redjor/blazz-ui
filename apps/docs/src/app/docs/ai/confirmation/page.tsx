@@ -1,15 +1,7 @@
 "use client"
 
+import { Confirmation, ConfirmationAccepted, ConfirmationAction, ConfirmationActions, ConfirmationRejected, ConfirmationRequest, ConfirmationTitle } from "@blazz/pro/components/ai/tools/confirmation"
 import { use } from "react"
-import {
-	Confirmation,
-	ConfirmationAccepted,
-	ConfirmationAction,
-	ConfirmationActions,
-	ConfirmationRejected,
-	ConfirmationRequest,
-	ConfirmationTitle,
-} from "@blazz/pro/components/ai/tools/confirmation"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -80,21 +72,13 @@ export default function ConfirmationPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Confirmation"
-			subtitle="A tool approval UI that shows pending, accepted, and rejected states for AI tool execution requests."
-			toc={toc}
-		>
+		<DocPage title="Confirmation" subtitle="A tool approval UI that shows pending, accepted, and rejected states for AI tool execution requests." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-lg">
 					<Confirmation state="approval-requested" approval={{ id: "1" }}>
-						<ConfirmationTitle>
-							The assistant wants to execute a database query to retrieve your recent orders.
-						</ConfirmationTitle>
+						<ConfirmationTitle>The assistant wants to execute a database query to retrieve your recent orders.</ConfirmationTitle>
 						<ConfirmationRequest>
-							<p className="text-sm text-muted-foreground">
-								This will access your order history from the last 30 days.
-							</p>
+							<p className="text-sm text-muted-foreground">This will access your order history from the last 30 days.</p>
 						</ConfirmationRequest>
 						<ConfirmationActions>
 							<ConfirmationAction variant="outline">Deny</ConfirmationAction>
@@ -114,9 +98,7 @@ export default function ConfirmationPage() {
 					<Confirmation state="approval-requested" approval={{ id: "demo-1" }}>
 						<ConfirmationTitle>The assistant wants to run a database migration.</ConfirmationTitle>
 						<ConfirmationRequest>
-							<p className="text-sm text-muted-foreground">
-								This will update the database schema to add new columns.
-							</p>
+							<p className="text-sm text-muted-foreground">This will update the database schema to add new columns.</p>
 						</ConfirmationRequest>
 						<ConfirmationActions>
 							<ConfirmationAction variant="outline">Deny</ConfirmationAction>
@@ -125,37 +107,20 @@ export default function ConfirmationPage() {
 					</Confirmation>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Accepted"
-					description="After the user approves, show a confirmation message."
-					code={examples[1].code}
-					highlightedCode={html("accepted")}
-				>
+				<DocExampleClient title="Accepted" description="After the user approves, show a confirmation message." code={examples[1].code} highlightedCode={html("accepted")}>
 					<Confirmation state="approval-responded" approval={{ id: "demo-2", approved: true }}>
 						<ConfirmationTitle>File deletion request</ConfirmationTitle>
 						<ConfirmationAccepted>
-							<p className="text-sm text-green-600 dark:text-green-400">
-								Approved — the file has been deleted successfully.
-							</p>
+							<p className="text-sm text-green-600 dark:text-green-400">Approved — the file has been deleted successfully.</p>
 						</ConfirmationAccepted>
 					</Confirmation>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Rejected"
-					description="When the user denies the action, show the rejection state."
-					code={examples[2].code}
-					highlightedCode={html("rejected")}
-				>
-					<Confirmation
-						state="approval-responded"
-						approval={{ id: "demo-3", approved: false, reason: "Too risky" }}
-					>
+				<DocExampleClient title="Rejected" description="When the user denies the action, show the rejection state." code={examples[2].code} highlightedCode={html("rejected")}>
+					<Confirmation state="approval-responded" approval={{ id: "demo-3", approved: false, reason: "Too risky" }}>
 						<ConfirmationTitle>Deploy to production</ConfirmationTitle>
 						<ConfirmationRejected>
-							<p className="text-sm text-red-600 dark:text-red-400">
-								Denied — the deployment was not executed. Reason: Too risky.
-							</p>
+							<p className="text-sm text-red-600 dark:text-red-400">Denied — the deployment was not executed. Reason: Too risky.</p>
 						</ConfirmationRejected>
 					</Confirmation>
 				</DocExampleClient>

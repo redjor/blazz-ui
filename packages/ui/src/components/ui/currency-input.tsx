@@ -3,8 +3,7 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
 
-export interface CurrencyInputProps
-	extends Omit<React.ComponentProps<"input">, "type" | "value" | "onChange"> {
+export interface CurrencyInputProps extends Omit<React.ComponentProps<"input">, "type" | "value" | "onChange"> {
 	value?: number | null
 	onValueChange?: (value: number | null) => void
 	/** Currency symbol. @default "EUR" */
@@ -17,17 +16,7 @@ export interface CurrencyInputProps
 	symbolPosition?: "left" | "right"
 }
 
-function CurrencyInput({
-	value,
-	onValueChange,
-	currency = "EUR",
-	locale = "fr-FR",
-	decimals = 2,
-	symbolPosition = "right",
-	className,
-	placeholder,
-	...props
-}: CurrencyInputProps) {
+function CurrencyInput({ value, onValueChange, currency = "EUR", locale = "fr-FR", decimals = 2, symbolPosition = "right", className, placeholder, ...props }: CurrencyInputProps) {
 	const [displayValue, setDisplayValue] = React.useState("")
 	const [isFocused, setIsFocused] = React.useState(false)
 
@@ -94,11 +83,7 @@ function CurrencyInput({
 
 	return (
 		<div className={cn("relative", className)}>
-			{symbolPosition === "left" && (
-				<span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-sm text-fg-muted pointer-events-none select-none">
-					{symbol}
-				</span>
-			)}
+			{symbolPosition === "left" && <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-sm text-fg-muted pointer-events-none select-none">{symbol}</span>}
 			<input
 				type="text"
 				inputMode="decimal"
@@ -126,11 +111,7 @@ function CurrencyInput({
 				)}
 				{...props}
 			/>
-			{symbolPosition === "right" && (
-				<span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-sm text-fg-muted pointer-events-none select-none">
-					{symbol}
-				</span>
-			)}
+			{symbolPosition === "right" && <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-sm text-fg-muted pointer-events-none select-none">{symbol}</span>}
 		</div>
 	)
 }

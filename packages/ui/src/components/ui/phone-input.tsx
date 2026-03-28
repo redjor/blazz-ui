@@ -6,14 +6,7 @@ import * as BasePhoneInput from "react-phone-number-input"
 import flags from "react-phone-number-input/flags"
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-} from "./command"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./command"
 import { Input } from "./input"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 import { ScrollArea } from "./scroll-area"
@@ -53,17 +46,7 @@ function PhoneInput({ className, variant, onChange, value, ...props }: PhoneInpu
 function InputComponent({ className, ...props }: React.ComponentProps<typeof Input>) {
 	const { variant } = useContext(PhoneInputContext)
 
-	return (
-		<Input
-			className={cn(
-				"rounded-s-none focus:z-10",
-				variant === "sm" && "h-7",
-				variant === "lg" && "h-9",
-				className
-			)}
-			{...props}
-		/>
-	)
+	return <Input className={cn("rounded-s-none focus:z-10", variant === "sm" && "h-7", variant === "lg" && "h-9", className)} {...props} />
 }
 
 type CountryEntry = { label: string; value: BasePhoneInput.Country | undefined }
@@ -75,12 +58,7 @@ type CountrySelectProps = {
 	onChange: (country: BasePhoneInput.Country) => void
 }
 
-function CountrySelect({
-	disabled,
-	value: selectedCountry,
-	options: countryList,
-	onChange,
-}: CountrySelectProps) {
+function CountrySelect({ disabled, value: selectedCountry, options: countryList, onChange }: CountrySelectProps) {
 	const { variant } = useContext(PhoneInputContext)
 	const [open, setOpen] = useState(false)
 
@@ -92,10 +70,7 @@ function CountrySelect({
 					size={variant}
 					role="combobox"
 					aria-expanded={open}
-					className={cn(
-						"rounded-s-lg rounded-e-none flex gap-1 border-e-0 px-2.5 py-0 leading-none hover:bg-transparent focus:z-10",
-						disabled && "opacity-50"
-					)}
+					className={cn("rounded-s-lg rounded-e-none flex gap-1 border-e-0 px-2.5 py-0 leading-none hover:bg-transparent focus:z-10", disabled && "opacity-50")}
 					disabled={disabled}
 				>
 					<FlagComponent country={selectedCountry} countryName={selectedCountry} />
@@ -122,15 +97,8 @@ function CountrySelect({
 										>
 											<FlagComponent country={item.value} countryName={item.label} />
 											<span className="flex-1 text-sm">{item.label}</span>
-											<span className="text-fg-muted text-xs font-mono">
-												{`+${BasePhoneInput.getCountryCallingCode(item.value)}`}
-											</span>
-											<Check
-												className={cn(
-													"size-3.5",
-													selectedCountry === item.value ? "opacity-100" : "opacity-0"
-												)}
-											/>
+											<span className="text-fg-muted text-xs font-mono">{`+${BasePhoneInput.getCountryCallingCode(item.value)}`}</span>
+											<Check className={cn("size-3.5", selectedCountry === item.value ? "opacity-100" : "opacity-0")} />
 										</CommandItem>
 									) : null
 								)}

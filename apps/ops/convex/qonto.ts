@@ -1,7 +1,6 @@
-import OpenAI from "openai"
 import { v } from "convex/values"
-import { api } from "./_generated/api"
-import { internal } from "./_generated/api"
+import OpenAI from "openai"
+import { api, internal } from "./_generated/api"
 import { action } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
@@ -75,9 +74,7 @@ export const listClients = action({
 export const listTransactions = action({
 	args: { bankAccountSlug: v.string() },
 	handler: async (_ctx, { bankAccountSlug }) => {
-		const data = await qontoFetch(
-			`/transactions?slug=${bankAccountSlug}&sort_by=settled_at:desc&per_page=10`
-		)
+		const data = await qontoFetch(`/transactions?slug=${bankAccountSlug}&sort_by=settled_at:desc&per_page=10`)
 		return (data.transactions ?? []).map((t: Record<string, unknown>) => ({
 			id: t.id as string,
 			amount: t.amount as number,
@@ -128,9 +125,7 @@ export const createInvoice = action({
 					quantity: String(line.quantity),
 					unit_price: { value: unitPriceEur, currency: "EUR" },
 					vat_rate: String(args.vatRate),
-					...(line.discountPercent
-						? { discount: { type: "percentage", value: String(line.discountPercent) } }
-						: {}),
+					...(line.discountPercent ? { discount: { type: "percentage", value: String(line.discountPercent) } } : {}),
 				}
 			})
 
@@ -198,26 +193,18 @@ export const analyzeRecurring = action({
 		let hasMore = true
 
 		while (hasMore) {
-			const data = await qontoFetch(
-				`/transactions?slug=${bankAccountSlug}&settled_at_from=${settledAtFrom}&side=debit&sort_by=settled_at:desc&per_page=100&current_page=${currentPage}`
-			)
+			const data = await qontoFetch(`/transactions?slug=${bankAccountSlug}&settled_at_from=${settledAtFrom}&side=debit&sort_by=settled_at:desc&per_page=100&current_page=${currentPage}`)
 
-			const transactions = (data.transactions ?? []).map(
-				(t: Record<string, unknown>) => ({
-					id: t.id as string,
-					amount: t.amount as number,
-					amountCents: t.amount_cents as number,
-					side: t.side as string,
-					label: t.label as string,
-					settledAt: t.settled_at as string,
-				})
-			)
+			const transactions = (data.transactions ?? []).map((t: Record<string, unknown>) => ({
+				id: t.id as string,
+				amount: t.amount as number,
+				amountCents: t.amount_cents as number,
+				side: t.side as string,
+				label: t.label as string,
+				settledAt: t.settled_at as string,
+			}))
 
-			allTransactions.push(
-				...transactions.filter(
-					(t: { side: string }) => t.side === "debit"
-				)
-			)
+			allTransactions.push(...transactions.filter((t: { side: string }) => t.side === "debit"))
 
 			if (data.meta?.next_page) {
 				currentPage = data.meta.next_page
@@ -231,9 +218,7 @@ export const analyzeRecurring = action({
 		}
 
 		// 2. Load existing recurring expenses to exclude duplicates
-		const existingExpenses: Array<{ name: string }> = await ctx.runQuery(
-			api.recurringExpenses.list
-		)
+		const existingExpenses: Array<{ name: string }> = await ctx.runQuery(api.recurringExpenses.list)
 		const existingNames = existingExpenses.map((e) => e.name)
 
 		// 3. Call OpenAI to detect recurring expenses
@@ -305,9 +290,7 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 		try {
 			parsed = JSON.parse(content)
 		} catch {
-			throw new Error(
-				`OpenAI returned invalid JSON for recurring expense analysis: ${content.slice(0, 200)}`
-			)
+			throw new Error(`OpenAI returned invalid JSON for recurring expense analysis: ${content.slice(0, 200)}`)
 		}
 
 		const suggestions = parsed.suggestions ?? []
@@ -317,20 +300,10 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 		}
 
 		// 4. Deduplicate: filter out suggestions that already exist (pending, accepted, or rejected)
-		const pendingSuggestions: Array<{ name: string }> = await ctx.runQuery(
-			api.syncSuggestions.listPending
-		)
-		const processedNames: string[] = await ctx.runQuery(
-			internal.syncSuggestions.listProcessedNames
-		)
-		const existingNamesLower = new Set([
-			...existingNames.map((n) => n.toLowerCase()),
-			...pendingSuggestions.map((s) => s.name.toLowerCase()),
-			...processedNames.map((n) => n.toLowerCase()),
-		])
-		const newSuggestions = suggestions.filter(
-			(s) => !existingNamesLower.has(s.name.toLowerCase())
-		)
+		const pendingSuggestions: Array<{ name: string }> = await ctx.runQuery(api.syncSuggestions.listPending)
+		const processedNames: string[] = await ctx.runQuery(internal.syncSuggestions.listProcessedNames)
+		const existingNamesLower = new Set([...existingNames.map((n) => n.toLowerCase()), ...pendingSuggestions.map((s) => s.name.toLowerCase()), ...processedNames.map((n) => n.toLowerCase())])
+		const newSuggestions = suggestions.filter((s) => !existingNamesLower.has(s.name.toLowerCase()))
 
 		if (newSuggestions.length === 0) {
 			return { count: 0, syncedAt: Date.now() }

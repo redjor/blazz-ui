@@ -1,10 +1,10 @@
 "use client"
 
-import { use } from "react"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Switch } from "@blazz/ui/components/ui/switch"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -76,11 +76,7 @@ export default function LabelPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Label"
-			subtitle="Renders an accessible label associated with a form control. Automatically handles disabled state styling."
-			toc={toc}
-		>
+		<DocPage title="Label" subtitle="Renders an accessible label associated with a form control. Automatically handles disabled state styling." toc={toc}>
 			<DocHero>
 				<div className="space-y-2">
 					<Label htmlFor="demo-input">Email address</Label>
@@ -89,36 +85,21 @@ export default function LabelPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="With Input"
-					description="Associate a label with a text input using htmlFor."
-					code={examples[0].code}
-					highlightedCode={html("with-input")}
-				>
+				<DocExampleClient title="With Input" description="Associate a label with a text input using htmlFor." code={examples[0].code} highlightedCode={html("with-input")}>
 					<div className="w-[280px] space-y-2">
 						<Label htmlFor="email">Email</Label>
 						<Input id="email" placeholder="you@example.com" />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Checkbox"
-					description="Pair a label with a checkbox control."
-					code={examples[1].code}
-					highlightedCode={html("with-checkbox")}
-				>
+				<DocExampleClient title="With Checkbox" description="Pair a label with a checkbox control." code={examples[1].code} highlightedCode={html("with-checkbox")}>
 					<div className="flex items-center gap-2">
 						<Checkbox id="terms" />
 						<Label htmlFor="terms">Accept terms and conditions</Label>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Switch"
-					description="Label next to a switch toggle."
-					code={examples[2].code}
-					highlightedCode={html("with-switch")}
-				>
+				<DocExampleClient title="With Switch" description="Label next to a switch toggle." code={examples[2].code} highlightedCode={html("with-switch")}>
 					<div className="flex items-center gap-2">
 						<Switch id="notifications" />
 						<Label htmlFor="notifications">Enable notifications</Label>
@@ -150,10 +131,7 @@ export default function LabelPage() {
 					<li>Always use htmlFor to associate the label with its form control for accessibility</li>
 					<li>Keep label text concise and descriptive</li>
 					<li>Place labels above inputs or to the left of checkboxes and switches</li>
-					<li>
-						Label automatically handles disabled styling via peer-disabled and group-data-disabled
-						selectors
-					</li>
+					<li>Label automatically handles disabled styling via peer-disabled and group-data-disabled selectors</li>
 				</ul>
 			</DocSection>
 

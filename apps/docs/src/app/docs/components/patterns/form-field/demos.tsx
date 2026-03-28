@@ -33,15 +33,7 @@ export function RequiredDemo() {
 	return (
 		<div className="w-full max-w-sm">
 			<form onSubmit={handleSubmit(() => {})}>
-				<FormField
-					name="email"
-					label="Email"
-					control={control}
-					type="email"
-					placeholder="jean@acme.com"
-					required
-					description="L'email de contact principal."
-				/>
+				<FormField name="email" label="Email" control={control} type="email" placeholder="jean@acme.com" required description="L'email de contact principal." />
 			</form>
 		</div>
 	)
@@ -84,14 +76,7 @@ export function TextareaDemo() {
 	})
 	return (
 		<div className="w-full max-w-sm">
-			<FormField
-				name="notes"
-				label="Notes"
-				control={control}
-				type="textarea"
-				placeholder="Ajouter une note..."
-				rows={4}
-			/>
+			<FormField name="notes" label="Notes" control={control} type="textarea" placeholder="Ajouter une note..." rows={4} />
 		</div>
 	)
 }
@@ -115,14 +100,7 @@ export function GridDemo() {
 			<FormField name="lastName" label="Nom" control={control} required />
 			<FormField name="email" label="Email" control={control} type="email" required />
 			<FormField name="phone" label="Téléphone" control={control} type="tel" />
-			<FormField
-				name="notes"
-				label="Notes"
-				control={control}
-				type="textarea"
-				span={2}
-				placeholder="Ajouter une note..."
-			/>
+			<FormField name="notes" label="Notes" control={control} type="textarea" span={2} placeholder="Ajouter une note..." />
 		</div>
 	)
 }

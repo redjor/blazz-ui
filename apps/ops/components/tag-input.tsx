@@ -10,12 +10,7 @@ interface TagInputProps {
 	placeholder?: string
 }
 
-export function TagInput({
-	value,
-	onChange,
-	suggestions = [],
-	placeholder = "Ajouter un tag...",
-}: TagInputProps) {
+export function TagInput({ value, onChange, suggestions = [], placeholder = "Ajouter un tag..." }: TagInputProps) {
 	const [input, setInput] = useState("")
 	const [showSuggestions, setShowSuggestions] = useState(false)
 	const [highlightedIndex, setHighlightedIndex] = useState(-1)
@@ -23,11 +18,7 @@ export function TagInput({
 	const containerRef = useRef<HTMLDivElement>(null)
 	const suggestionsRef = useRef<HTMLDivElement>(null)
 
-	const filtered = suggestions
-		.filter(
-			(s) => s.toLowerCase().includes(input.toLowerCase()) && !value.includes(s.toLowerCase())
-		)
-		.slice(0, 8)
+	const filtered = suggestions.filter((s) => s.toLowerCase().includes(input.toLowerCase()) && !value.includes(s.toLowerCase())).slice(0, 8)
 
 	const addTag = useCallback(
 		(tag: string) => {
@@ -86,7 +77,7 @@ export function TagInput({
 	// Reset highlighted index when filtered list changes
 	useEffect(() => {
 		setHighlightedIndex(-1)
-	}, [input])
+	}, [])
 
 	// Scroll highlighted suggestion into view
 	useEffect(() => {
@@ -107,13 +98,7 @@ export function TagInput({
 				onClick={() => inputRef.current?.focus()}
 			>
 				{value.map((tag) => (
-					<Badge
-						key={tag}
-						variant="secondary"
-						size="xs"
-						fill="subtle"
-						onDismiss={() => removeTag(tag)}
-					>
+					<Badge key={tag} variant="secondary" size="xs" fill="subtle" onDismiss={() => removeTag(tag)}>
 						{tag}
 					</Badge>
 				))}
@@ -149,9 +134,7 @@ export function TagInput({
 							}}
 							onMouseEnter={() => setHighlightedIndex(i)}
 							className={`w-full px-3 py-1.5 text-left text-sm transition-colors duration-150 ease-out ${
-								i === highlightedIndex
-									? "bg-brand/10 text-brand"
-									: "text-fg hover:bg-brand/10 hover:text-brand"
+								i === highlightedIndex ? "bg-brand/10 text-brand" : "text-fg hover:bg-brand/10 hover:text-brand"
 							}`}
 						>
 							{s}

@@ -97,10 +97,7 @@ const totalComponents = categories.reduce((sum, cat) => sum + cat.items.length, 
 
 export default function GenerativeUiPage() {
 	return (
-		<Page
-			title="Generative UI"
-			subtitle={`${totalComponents} structured blocks that render inline in AI chat messages. Browse by category.`}
-		>
+		<Page title="Generative UI" subtitle={`${totalComponents} structured blocks that render inline in AI chat messages. Browse by category.`}>
 			<div className="space-y-10">
 				{categories.map((category) => (
 					<section key={category.id} className="space-y-3">

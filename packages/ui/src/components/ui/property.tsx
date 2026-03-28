@@ -16,12 +16,7 @@ interface PropertyProps {
 function Property({ label, direction = "vertical", children, className }: PropertyProps) {
 	if (direction === "horizontal") {
 		return (
-			<div
-				className={cn(
-					"flex items-baseline gap-1.5 [[data-property-grid]_&]:contents",
-					className,
-				)}
-			>
+			<div className={cn("flex items-baseline gap-1.5 [[data-property-grid]_&]:contents", className)}>
 				<span className="text-sm text-fg-muted">{label}</span>
 				<span className="text-sm font-semibold text-fg">{children}</span>
 			</div>
@@ -60,14 +55,7 @@ interface PropertySectionProps {
 	className?: string
 }
 
-function PropertySection({
-	title,
-	description,
-	columns = 3,
-	actions,
-	children,
-	className,
-}: PropertySectionProps) {
+function PropertySection({ title, description, columns = 3, actions, children, className }: PropertySectionProps) {
 	return (
 		<div className={cn("flex flex-col gap-4", className)}>
 			<div className="flex items-start justify-between gap-4">
@@ -98,12 +86,7 @@ function PropertyList({ direction = "vertical", children, className }: PropertyL
 	return (
 		<div
 			{...(direction === "vertical" ? { "data-property-grid": "" } : {})}
-			className={cn(
-				direction === "horizontal"
-					? "flex flex-wrap items-baseline gap-x-6 gap-y-2"
-					: "grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-2",
-				className,
-			)}
+			className={cn(direction === "horizontal" ? "flex flex-wrap items-baseline gap-x-6 gap-y-2" : "grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-2", className)}
 		>
 			{children}
 		</div>

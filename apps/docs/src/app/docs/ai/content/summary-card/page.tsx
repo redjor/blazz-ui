@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { SummaryCard } from "@blazz/pro/components/ai/generative/content/summary-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "meeting",
@@ -36,7 +37,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function SummaryCardPage() {
@@ -44,11 +44,7 @@ export default function SummaryCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Summary Card"
-			subtitle="A structured text summary with bullet points and conclusion."
-			toc={toc}
-		>
+		<DocPage title="Summary Card" subtitle="A structured text summary with bullet points and conclusion." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<SummaryCard
@@ -66,41 +62,20 @@ export default function SummaryCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Meeting Summary"
-					description="Summary of a meeting with key points and conclusion."
-					code={examples[0].code}
-					highlightedCode={html("meeting")}
-				>
+				<DocExampleClient title="Meeting Summary" description="Summary of a meeting with key points and conclusion." code={examples[0].code} highlightedCode={html("meeting")}>
 					<div className="max-w-sm">
 						<SummaryCard
 							title="Q4 Sales Meeting Summary"
-							points={[
-								"Revenue target exceeded by 12%",
-								"Three new enterprise accounts closed",
-								"Pipeline for Q1 is 35% above last year",
-							]}
+							points={["Revenue target exceeded by 12%", "Three new enterprise accounts closed", "Pipeline for Q1 is 35% above last year"]}
 							conclusion="Strong quarter. Focus Q1 on mid-market expansion."
 							source="Meeting transcript"
 						/>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Simple Summary"
-					description="Bullet points without conclusion."
-					code={examples[1].code}
-					highlightedCode={html("simple")}
-				>
+				<DocExampleClient title="Simple Summary" description="Bullet points without conclusion." code={examples[1].code} highlightedCode={html("simple")}>
 					<div className="max-w-sm">
-						<SummaryCard
-							title="Key Takeaways"
-							points={[
-								"API response time improved by 40%",
-								"Zero critical bugs in production",
-								"User satisfaction score: 4.8/5",
-							]}
-						/>
+						<SummaryCard title="Key Takeaways" points={["API response time improved by 40%", "Zero critical bugs in production", "User satisfaction score: 4.8/5"]} />
 					</div>
 				</DocExampleClient>
 			</DocSection>

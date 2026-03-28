@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { ImageGallery } from "@blazz/pro/components/ai/generative/content/image-gallery"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "multi-image",
@@ -30,7 +31,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function ImageGalleryPage() {
@@ -38,11 +38,7 @@ export default function ImageGalleryPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Image Gallery"
-			subtitle="An inline image carousel with navigation and captions."
-			toc={toc}
-		>
+		<DocPage title="Image Gallery" subtitle="An inline image carousel with navigation and captions." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<ImageGallery
@@ -68,12 +64,7 @@ export default function ImageGalleryPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Multi-Image"
-					description="Navigate between images with prev/next buttons."
-					code={examples[0].code}
-					highlightedCode={html("multi-image")}
-				>
+				<DocExampleClient title="Multi-Image" description="Navigate between images with prev/next buttons." code={examples[0].code} highlightedCode={html("multi-image")}>
 					<div className="max-w-sm">
 						<ImageGallery
 							images={[
@@ -85,12 +76,7 @@ export default function ImageGalleryPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Single Image"
-					description="No navigation when there's only one image."
-					code={examples[1].code}
-					highlightedCode={html("single")}
-				>
+				<DocExampleClient title="Single Image" description="No navigation when there's only one image." code={examples[1].code} highlightedCode={html("single")}>
 					<div className="max-w-sm">
 						<ImageGallery
 							images={[

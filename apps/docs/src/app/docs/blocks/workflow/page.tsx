@@ -22,8 +22,7 @@ const workflowComponents = [
 	{
 		title: "Multi Step Form",
 		href: "/docs/blocks/multi-step-form",
-		description:
-			"Formulaire multi-étapes avec stepper, validation par étape et navigation avant/arrière.",
+		description: "Formulaire multi-étapes avec stepper, validation par étape et navigation avant/arrière.",
 		icon: ListOrdered,
 		thumbnail: "multi-step-form",
 	},
@@ -32,10 +31,7 @@ const workflowComponents = [
 export default function WorkflowPage() {
 	return (
 		<Page>
-			<CategoryPageHero
-				title="Workflow"
-				description="Pipelines, kanban et formulaires multi-étapes. Composants pour gérer des processus, des statuts et des flux de travail séquentiels."
-			/>
+			<CategoryPageHero title="Workflow" description="Pipelines, kanban et formulaires multi-étapes. Composants pour gérer des processus, des statuts et des flux de travail séquentiels." />
 			<ComponentSection components={workflowComponents} />
 		</Page>
 	)

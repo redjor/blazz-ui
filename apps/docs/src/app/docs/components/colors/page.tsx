@@ -43,10 +43,7 @@ const semantic: ColorToken[] = [
 function ColorSwatch({ token }: { token: ColorToken }) {
 	return (
 		<div className="flex items-center gap-3">
-			<div
-				className="size-10 shrink-0 rounded-lg border border-edge"
-				style={{ backgroundColor: `var(${token.cssVar})` }}
-			/>
+			<div className="size-10 shrink-0 rounded-lg border border-edge" style={{ backgroundColor: `var(${token.cssVar})` }} />
 			<div className="min-w-0">
 				<p className="text-sm font-medium text-fg">{token.name}</p>
 				<p className="text-xs text-fg-subtle font-mono">{token.utility}</p>
@@ -55,15 +52,7 @@ function ColorSwatch({ token }: { token: ColorToken }) {
 	)
 }
 
-function ColorGroup({
-	title,
-	description,
-	tokens,
-}: {
-	title: string
-	description: string
-	tokens: ColorToken[]
-}) {
+function ColorGroup({ title, description, tokens }: { title: string; description: string; tokens: ColorToken[] }) {
 	return (
 		<section className="space-y-4">
 			<div>
@@ -93,11 +82,7 @@ function SemanticPreview() {
 					{ label: "Destructive", bg: "var(--destructive)", fg: "#fff" },
 					{ label: "Info", bg: "var(--info)", fg: "#fff" },
 				].map((item) => (
-					<div
-						key={item.label}
-						className="flex h-20 items-center justify-center rounded-lg text-sm font-medium"
-						style={{ backgroundColor: item.bg, color: item.fg }}
-					>
+					<div key={item.label} className="flex h-20 items-center justify-center rounded-lg text-sm font-medium" style={{ backgroundColor: item.bg, color: item.fg }}>
 						{item.label}
 					</div>
 				))}
@@ -111,9 +96,7 @@ function SurfaceStack() {
 		<section className="space-y-4">
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Surface Hierarchy</h2>
-				<p className="text-sm text-fg-muted">
-					4 semantic surface levels for visual depth and separation.
-				</p>
+				<p className="text-sm text-fg-muted">4 semantic surface levels for visual depth and separation.</p>
 			</div>
 			<div className="rounded-xl p-6" style={{ backgroundColor: "var(--background)" }}>
 				<p className="text-xs font-mono text-fg-subtle mb-3">background — page</p>
@@ -136,17 +119,11 @@ function TextPreview() {
 		<section className="space-y-4">
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Text Hierarchy</h2>
-				<p className="text-sm text-fg-muted">
-					Three levels of text emphasis for content hierarchy.
-				</p>
+				<p className="text-sm text-fg-muted">Three levels of text emphasis for content hierarchy.</p>
 			</div>
 			<div className="space-y-3 rounded-lg border border-edge bg-muted p-6">
-				<p className="text-base text-fg font-medium">
-					Primary text — headings, labels, key content
-				</p>
-				<p className="text-sm text-fg-muted">
-					Secondary text — descriptions, supporting information
-				</p>
+				<p className="text-base text-fg font-medium">Primary text — headings, labels, key content</p>
+				<p className="text-sm text-fg-muted">Secondary text — descriptions, supporting information</p>
 				<p className="text-xs text-fg-subtle">Muted text — timestamps, metadata, disabled states</p>
 			</div>
 		</section>
@@ -158,23 +135,13 @@ function AccentPreview() {
 		<section className="space-y-4">
 			<div>
 				<h2 className="text-lg font-semibold text-fg">Accent in Context</h2>
-				<p className="text-sm text-fg-muted">
-					The accent color for interactive elements and focus states.
-				</p>
+				<p className="text-sm text-fg-muted">The accent color for interactive elements and focus states.</p>
 			</div>
 			<div className="flex flex-wrap items-center gap-3">
-				<button
-					type="button"
-					className="rounded-lg px-4 py-2 text-sm font-medium"
-					style={{ backgroundColor: "var(--accent)", color: "var(--accent-foreground)" }}
-				>
+				<button type="button" className="rounded-lg px-4 py-2 text-sm font-medium" style={{ backgroundColor: "var(--accent)", color: "var(--accent-foreground)" }}>
 					Primary Action
 				</button>
-				<button
-					type="button"
-					className="rounded-lg px-4 py-2 text-sm font-medium"
-					style={{ backgroundColor: "var(--accent-hover)", color: "var(--accent-foreground)" }}
-				>
+				<button type="button" className="rounded-lg px-4 py-2 text-sm font-medium" style={{ backgroundColor: "var(--accent-hover)", color: "var(--accent-foreground)" }}>
 					Hover State
 				</button>
 				<span className="text-sm font-medium" style={{ color: "var(--accent)" }}>
@@ -188,54 +155,30 @@ function AccentPreview() {
 export default function ColorsPage() {
 	return (
 		<Page>
-			<CategoryPageHero
-				title="Colors"
-				description="Design tokens for surfaces, text, borders, and semantic meaning. All colors use oklch for perceptual uniformity."
-			/>
+			<CategoryPageHero title="Colors" description="Design tokens for surfaces, text, borders, and semantic meaning. All colors use oklch for perceptual uniformity." />
 			<div className="space-y-12">
-				<ColorGroup
-					title="Surfaces"
-					description="Background layers that create visual depth and separation."
-					tokens={surfaces}
-				/>
+				<ColorGroup title="Surfaces" description="Background layers that create visual depth and separation." tokens={surfaces} />
 
 				<SurfaceStack />
 
-				<ColorGroup
-					title="Text"
-					description="Three levels of text emphasis for content hierarchy."
-					tokens={text}
-				/>
+				<ColorGroup title="Text" description="Three levels of text emphasis for content hierarchy." tokens={text} />
 
 				<TextPreview />
 
-				<ColorGroup
-					title="Borders"
-					description="Edge colors for containers and dividers."
-					tokens={borders}
-				/>
+				<ColorGroup title="Borders" description="Edge colors for containers and dividers." tokens={borders} />
 
-				<ColorGroup
-					title="Accent / Brand"
-					description="Primary interactive color for buttons, links, and focus rings."
-					tokens={accent}
-				/>
+				<ColorGroup title="Accent / Brand" description="Primary interactive color for buttons, links, and focus rings." tokens={accent} />
 
 				<AccentPreview />
 
-				<ColorGroup
-					title="Semantic"
-					description="Status colors that communicate meaning — success, warning, danger, info."
-					tokens={semantic}
-				/>
+				<ColorGroup title="Semantic" description="Status colors that communicate meaning — success, warning, danger, info." tokens={semantic} />
 
 				<SemanticPreview />
 
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold text-fg">Token Reference</h2>
 					<p className="text-sm text-fg-muted">
-						All design tokens are CSS custom properties defined in globals.css, mapped to Tailwind
-						utilities via <code className="font-mono text-fg-subtle">@theme inline</code>.
+						All design tokens are CSS custom properties defined in globals.css, mapped to Tailwind utilities via <code className="font-mono text-fg-subtle">@theme inline</code>.
 					</p>
 					<div className="overflow-x-auto rounded-lg border border-edge">
 						<table className="w-full text-sm">
@@ -254,10 +197,7 @@ export default function ColorsPage() {
 										<td className="px-4 py-2 font-mono text-fg-subtle">{token.cssVar}</td>
 										<td className="px-4 py-2 font-mono text-fg-subtle">{token.utility}</td>
 										<td className="px-4 py-2">
-											<div
-												className="size-6 rounded border border-edge"
-												style={{ backgroundColor: `var(${token.cssVar})` }}
-											/>
+											<div className="size-6 rounded border border-edge" style={{ backgroundColor: `var(${token.cssVar})` }} />
 										</td>
 									</tr>
 								))}
@@ -268,13 +208,10 @@ export default function ColorsPage() {
 				<section className="space-y-4">
 					<h2 className="text-lg font-semibold text-fg">Theming</h2>
 					<p className="text-sm text-fg-muted">
-						Each surface token is independent, so you can fine-tune hover contrast and elevation
-						separately. To create a custom theme, override the semantic tokens directly.
+						Each surface token is independent, so you can fine-tune hover contrast and elevation separately. To create a custom theme, override the semantic tokens directly.
 					</p>
 					<div className="rounded-lg border border-edge bg-muted p-6 space-y-4">
-						<p className="text-xs font-mono text-fg-subtle">
-							{"/* Custom theme — semantic tokens */"}
-						</p>
+						<p className="text-xs font-mono text-fg-subtle">{"/* Custom theme — semantic tokens */"}</p>
 						<pre className="text-sm font-mono text-fg whitespace-pre overflow-x-auto">
 							{`:root {
   --background: oklch(0.93 0.02 230);
@@ -313,10 +250,7 @@ html.dark {
 							</tbody>
 						</table>
 					</div>
-					<p className="text-sm text-fg-muted">
-						All other tokens (accent, text, borders, semantic) can be overridden independently in
-						the same theme block.
-					</p>
+					<p className="text-sm text-fg-muted">All other tokens (accent, text, borders, semantic) can be overridden independently in the same theme block.</p>
 				</section>
 			</div>
 		</Page>

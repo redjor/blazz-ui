@@ -141,10 +141,7 @@ export function uniqueBy<T>(arr: T[], selector: keyof T | ((item: T) => unknown)
  * // }
  * ```
  */
-export function groupBy<T>(
-	arr: T[],
-	selector: keyof T | ((item: T) => string | number)
-): Record<string, T[]> {
+export function groupBy<T>(arr: T[], selector: keyof T | ((item: T) => string | number)): Record<string, T[]> {
 	const getValue = typeof selector === "function" ? selector : (item: T) => String(item[selector])
 
 	return arr.reduce(

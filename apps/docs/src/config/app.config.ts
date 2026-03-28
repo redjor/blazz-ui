@@ -15,8 +15,7 @@ export const appMetadata = {
 	name: process.env.NEXT_PUBLIC_APP_NAME || "Blazz UI App",
 
 	/** Description de l'application (pour SEO, meta tags) */
-	description:
-		"Boilerplate Next.js production-ready avec bibliotheque de composants UI et integration LLM optimale",
+	description: "Boilerplate Next.js production-ready avec bibliotheque de composants UI et integration LLM optimale",
 
 	/** Version de l'application */
 	version: process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0",
@@ -28,16 +27,7 @@ export const appMetadata = {
 	environment: process.env.NEXT_PUBLIC_ENVIRONMENT || "development",
 
 	/** Keywords pour SEO */
-	keywords: [
-		"next.js",
-		"react",
-		"typescript",
-		"tailwind",
-		"ui components",
-		"dashboard",
-		"admin",
-		"saas",
-	],
+	keywords: ["next.js", "react", "typescript", "tailwind", "ui components", "dashboard", "admin", "saas"],
 
 	/** Auteur / Organisation */
 	author: {
@@ -88,9 +78,7 @@ export const navigation = {
 export const features = {
 	/** Command Palette (Cmd+K / Ctrl+K) */
 	commandPalette: {
-		enabled:
-			process.env.NEXT_PUBLIC_ENABLE_COMMAND_PALETTE === "true" ||
-			process.env.NEXT_PUBLIC_ENABLE_COMMAND_PALETTE === undefined,
+		enabled: process.env.NEXT_PUBLIC_ENABLE_COMMAND_PALETTE === "true" || process.env.NEXT_PUBLIC_ENABLE_COMMAND_PALETTE === undefined,
 		shortcut: "Cmd+K",
 	},
 
@@ -125,13 +113,7 @@ export const features = {
 	/** Notifications */
 	notifications: {
 		enabled: true,
-		position: "top-right" as
-			| "top-left"
-			| "top-center"
-			| "top-right"
-			| "bottom-left"
-			| "bottom-center"
-			| "bottom-right",
+		position: "top-right" as "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right",
 		duration: 5000, // ms
 	},
 } as const
@@ -204,15 +186,8 @@ export const storage = {
 	/** Types de fichiers acceptes */
 	acceptedFileTypes: {
 		images: ["image/jpeg", "image/png", "image/webp", "image/gif"],
-		documents: [
-			"application/pdf",
-			"application/msword",
-			"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-		],
-		spreadsheets: [
-			"application/vnd.ms-excel",
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-		],
+		documents: ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
+		spreadsheets: ["application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
 	},
 } as const
 

@@ -4,23 +4,14 @@ import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
 import { Bookmark, Plus, Search } from "lucide-react"
 import { useCallback, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { BookmarkCard } from "@/components/bookmark-card"
-import {
-	BookmarkCollectionsSidebar,
-	type CollectionFilter,
-} from "@/components/bookmark-collections-sidebar"
+import { BookmarkCollectionsSidebar, type CollectionFilter } from "@/components/bookmark-collections-sidebar"
 import { BookmarkFormDialog } from "@/components/bookmark-form-dialog"
 import { CollectionFormDialog } from "@/components/collection-form-dialog"
 import { api } from "@/convex/_generated/api"
@@ -55,9 +46,7 @@ function GridSkeleton() {
 export default function BookmarksPageClient() {
 	// State
 	const [activeFilter, setActiveFilter] = useState<CollectionFilter>({ type: "all" })
-	const [typeFilter, setTypeFilter] = useState<
-		"tweet" | "youtube" | "image" | "video" | "link" | undefined
-	>(undefined)
+	const [typeFilter, setTypeFilter] = useState<"tweet" | "youtube" | "image" | "video" | "link" | undefined>(undefined)
 	const [tagFilter, setTagFilter] = useState<Id<"tags"> | undefined>(undefined)
 	const [searchQuery, setSearchQuery] = useState("")
 	const [debouncedSearch, setDebouncedSearch] = useState("")
@@ -67,9 +56,7 @@ export default function BookmarksPageClient() {
 	const [addOpen, setAddOpen] = useState(false)
 	const [editBookmark, setEditBookmark] = useState<Doc<"bookmarks"> | undefined>(undefined)
 	const [collectionDialogOpen, setCollectionDialogOpen] = useState(false)
-	const [editCollection, setEditCollection] = useState<Doc<"bookmarkCollections"> | undefined>(
-		undefined
-	)
+	const [editCollection, setEditCollection] = useState<Doc<"bookmarkCollections"> | undefined>(undefined)
 
 	// Tags query (lifted from BookmarkCard to avoid N+1)
 	const allTags = useQuery(api.tags.list)
@@ -166,12 +153,7 @@ export default function BookmarksPageClient() {
 				{/* Type filter pills */}
 				<div className="flex items-center gap-1">
 					{TYPES.map((t) => (
-						<Button
-							key={t.label}
-							size="sm"
-							variant={typeFilter === t.value ? "default" : "outline"}
-							onClick={() => setTypeFilter(t.value)}
-						>
+						<Button key={t.label} size="sm" variant={typeFilter === t.value ? "default" : "outline"} onClick={() => setTypeFilter(t.value)}>
 							{t.label}
 						</Button>
 					))}
@@ -182,10 +164,7 @@ export default function BookmarksPageClient() {
 					<Select
 						value={tagFilter ?? ""}
 						onValueChange={(val) => setTagFilter(val ? (val as Id<"tags">) : undefined)}
-						items={[
-							{ value: "", label: "Tous les tags" },
-							...allTags.map((t) => ({ value: t._id, label: t.name })),
-						]}
+						items={[{ value: "", label: "Tous les tags" }, ...allTags.map((t) => ({ value: t._id, label: t.name }))]}
 					>
 						<SelectTrigger className="w-40 h-8">
 							<SelectValue placeholder="Tous les tags" />
@@ -204,12 +183,7 @@ export default function BookmarksPageClient() {
 				{/* Search */}
 				<div className="relative ml-auto w-56">
 					<Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-fg-muted" />
-					<Input
-						placeholder="Rechercher..."
-						className="pl-8 h-8"
-						value={searchQuery}
-						onChange={handleSearchChange}
-					/>
+					<Input placeholder="Rechercher..." className="pl-8 h-8" value={searchQuery} onChange={handleSearchChange} />
 				</div>
 			</div>
 
@@ -280,17 +254,11 @@ export default function BookmarksPageClient() {
 					}
 				}}
 				bookmark={editBookmark}
-				defaultCollectionId={
-					activeFilter.type === "collection" ? activeFilter.collectionId : undefined
-				}
+				defaultCollectionId={activeFilter.type === "collection" ? activeFilter.collectionId : undefined}
 			/>
 
 			{/* Collection form dialog */}
-			<CollectionFormDialog
-				open={collectionDialogOpen}
-				onOpenChange={setCollectionDialogOpen}
-				collection={editCollection}
-			/>
+			<CollectionFormDialog open={collectionDialogOpen} onOpenChange={setCollectionDialogOpen} collection={editCollection} />
 		</div>
 	)
 }

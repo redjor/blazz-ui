@@ -106,10 +106,7 @@ export function useCommandPalette({ navigation, open, onOpenChange }: UseCommand
 		(item: CommandPaletteItem) => {
 			// Add to recent items (strip icon since it can't be serialized to JSON)
 			const serializable = { ...item, icon: undefined }
-			const newRecent = [serializable, ...recentItems.filter((i) => i.id !== item.id)].slice(
-				0,
-				MAX_RECENT_ITEMS
-			)
+			const newRecent = [serializable, ...recentItems.filter((i) => i.id !== item.id)].slice(0, MAX_RECENT_ITEMS)
 
 			setRecentItems(newRecent)
 			try {

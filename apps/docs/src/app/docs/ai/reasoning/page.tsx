@@ -1,11 +1,7 @@
 "use client"
 
+import { Reasoning, ReasoningContent, ReasoningTrigger } from "@blazz/pro/components/ai/reasoning/reasoning"
 import { use } from "react"
-import {
-	Reasoning,
-	ReasoningContent,
-	ReasoningTrigger,
-} from "@blazz/pro/components/ai/reasoning/reasoning"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -60,11 +56,7 @@ export default function ReasoningPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Reasoning"
-			subtitle="A collapsible panel that reveals the AI model's thinking process, with streaming support and auto-open/close behavior."
-			toc={toc}
-		>
+		<DocPage title="Reasoning" subtitle="A collapsible panel that reveals the AI model's thinking process, with streaming support and auto-open/close behavior." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-lg">
 					<Reasoning defaultOpen duration={8}>
@@ -75,55 +67,34 @@ export default function ReasoningPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Expanded by Default"
-					description="Set defaultOpen to true to show the reasoning content immediately."
-					code={examples[0].code}
-					highlightedCode={html("expanded")}
-				>
+				<DocExampleClient title="Expanded by Default" description="Set defaultOpen to true to show the reasoning content immediately." code={examples[0].code} highlightedCode={html("expanded")}>
 					<div className="w-full">
 						<Reasoning defaultOpen duration={8}>
 							<ReasoningTrigger />
 							<ReasoningContent>
-								The user wants to understand how React Server Components work. Let me break this
-								down into the key concepts: server-only rendering, zero client-side JavaScript for
-								server components, and the boundary between server and client components.
+								The user wants to understand how React Server Components work. Let me break this down into the key concepts: server-only rendering, zero client-side JavaScript for server components,
+								and the boundary between server and client components.
 							</ReasoningContent>
 						</Reasoning>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Collapsed"
-					description="By default reasoning is collapsed, showing only the trigger with duration."
-					code={examples[1].code}
-					highlightedCode={html("collapsed")}
-				>
+				<DocExampleClient title="Collapsed" description="By default reasoning is collapsed, showing only the trigger with duration." code={examples[1].code} highlightedCode={html("collapsed")}>
 					<div className="w-full">
 						<Reasoning defaultOpen={false} duration={5}>
 							<ReasoningTrigger />
 							<ReasoningContent>
-								I need to analyze the user's codebase structure and identify potential areas for
-								optimization. The main bottlenecks appear to be in the data fetching layer and the
-								rendering pipeline.
+								I need to analyze the user's codebase structure and identify potential areas for optimization. The main bottlenecks appear to be in the data fetching layer and the rendering pipeline.
 							</ReasoningContent>
 						</Reasoning>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Streaming State"
-					description="When isStreaming is true, the trigger shows an animated shimmer effect."
-					code={examples[2].code}
-					highlightedCode={html("streaming")}
-				>
+				<DocExampleClient title="Streaming State" description="When isStreaming is true, the trigger shows an animated shimmer effect." code={examples[2].code} highlightedCode={html("streaming")}>
 					<div className="w-full">
 						<Reasoning isStreaming defaultOpen>
 							<ReasoningTrigger />
-							<ReasoningContent>
-								Analyzing the question about state management patterns. I should compare different
-								approaches including local state, context, and external stores...
-							</ReasoningContent>
+							<ReasoningContent>Analyzing the question about state management patterns. I should compare different approaches including local state, context, and external stores...</ReasoningContent>
 						</Reasoning>
 					</div>
 				</DocExampleClient>

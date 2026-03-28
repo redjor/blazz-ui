@@ -2,29 +2,11 @@ import { v } from "convex/values"
 import { internalMutation, internalQuery } from "./_generated/server"
 
 // ── Entity type union (reused across notes functions) ──────────────────────
-const entityTypeValidator = v.union(
-	v.literal("client"),
-	v.literal("project"),
-	v.literal("contract"),
-	v.literal("invoice"),
-	v.literal("todo"),
-	v.literal("general")
-)
+const entityTypeValidator = v.union(v.literal("client"), v.literal("project"), v.literal("contract"), v.literal("invoice"), v.literal("todo"), v.literal("general"))
 
-const statusValidator = v.union(
-	v.literal("triage"),
-	v.literal("todo"),
-	v.literal("blocked"),
-	v.literal("in_progress"),
-	v.literal("done")
-)
+const statusValidator = v.union(v.literal("triage"), v.literal("todo"), v.literal("blocked"), v.literal("in_progress"), v.literal("done"))
 
-const priorityValidator = v.union(
-	v.literal("urgent"),
-	v.literal("high"),
-	v.literal("normal"),
-	v.literal("low")
-)
+const priorityValidator = v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
 
 // ═══════════════════════════════════════════════════════════════════════════
 // NOTES
@@ -122,10 +104,8 @@ export const notesUpdate = internalMutation({
 
 		const patch: Record<string, unknown> = { updatedAt: Date.now() }
 		if (args.title !== undefined) patch.title = args.title
-		if (args.contentJson !== undefined)
-			patch.contentJson = args.contentJson ?? undefined
-		if (args.contentText !== undefined)
-			patch.contentText = args.contentText ?? undefined
+		if (args.contentJson !== undefined) patch.contentJson = args.contentJson ?? undefined
+		if (args.contentText !== undefined) patch.contentText = args.contentText ?? undefined
 		if (args.pinned !== undefined) patch.pinned = args.pinned
 		if (args.locked !== undefined) patch.locked = args.locked
 
@@ -176,13 +156,12 @@ export const todosList = internalQuery({
 		priority: v.optional(priorityValidator),
 	},
 	handler: async (ctx, args) => {
+		// biome-ignore lint/suspicious/noImplicitAnyLet: type inferred from first assignment
 		let todos
 		if (args.status !== undefined) {
 			todos = await ctx.db
 				.query("todos")
-				.withIndex("by_user_status", (q) =>
-					q.eq("userId", args.userId).eq("status", args.status!)
-				)
+				.withIndex("by_user_status", (q) => q.eq("userId", args.userId).eq("status", args.status!))
 				.collect()
 		} else {
 			todos = await ctx.db
@@ -192,9 +171,7 @@ export const todosList = internalQuery({
 		}
 
 		if (args.projectId !== undefined) {
-			todos = todos.filter(
-				(t) => t.projectId !== undefined && String(t.projectId) === args.projectId
-			)
+			todos = todos.filter((t) => t.projectId !== undefined && String(t.projectId) === args.projectId)
 		}
 		if (args.priority !== undefined) {
 			todos = todos.filter((t) => t.priority === args.priority)
@@ -262,12 +239,10 @@ export const todosUpdate = internalMutation({
 
 		const patch: Record<string, unknown> = {}
 		if (args.text !== undefined) patch.text = args.text
-		if (args.description !== undefined)
-			patch.description = args.description ?? undefined
+		if (args.description !== undefined) patch.description = args.description ?? undefined
 		if (args.priority !== undefined) patch.priority = args.priority
 		if (args.dueDate !== undefined) patch.dueDate = args.dueDate ?? undefined
-		if (args.projectId !== undefined)
-			patch.projectId = args.projectId ?? undefined
+		if (args.projectId !== undefined) patch.projectId = args.projectId ?? undefined
 		if (args.tags !== undefined) patch.tags = args.tags ?? undefined
 
 		await ctx.db.patch(args.id, patch)

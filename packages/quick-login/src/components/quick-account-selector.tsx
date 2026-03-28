@@ -5,14 +5,7 @@ import { useEffect, useState } from "react"
 import type { QuickAccountSelectorProps } from "../types"
 import { QuickAccountSheet } from "./quick-account-sheet"
 
-export function QuickAccountSelector({
-	onAccountSelect,
-	accounts,
-	forceShow = false,
-	position = "top-right",
-	sheetSide = "right",
-	triggerClassName,
-}: QuickAccountSelectorProps) {
+export function QuickAccountSelector({ onAccountSelect, accounts, forceShow = false, position = "top-right", sheetSide = "right", triggerClassName }: QuickAccountSelectorProps) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isMac, setIsMac] = useState(false)
 	const isDevelopment = process.env.NODE_ENV === "development"

@@ -85,8 +85,7 @@ const topBarProps: DocProp[] = [
 	{
 		name: "left",
 		type: "React.ReactNode",
-		description:
-			"Contenu aligné à gauche (typiquement SidebarToggle + Breadcrumbs). Occupe flex-1.",
+		description: "Contenu aligné à gauche (typiquement SidebarToggle + Breadcrumbs). Occupe flex-1.",
 	},
 	{
 		name: "right",
@@ -115,27 +114,20 @@ const compoundComponents: DocProp[] = [
 	{
 		name: "TopBar.Breadcrumbs",
 		type: "compound",
-		description:
-			"Fil d'Ariane. Accepte items en prop ou lit automatiquement les breadcrumbs du FrameContext. Le dernier item est rendu sans lien.",
+		description: "Fil d'Ariane. Accepte items en prop ou lit automatiquement les breadcrumbs du FrameContext. Le dernier item est rendu sans lien.",
 	},
 ]
 
 function ContentBarPlaceholder() {
 	return (
 		<div className="h-12 rounded border border-dashed border-edge-subtle bg-card flex items-center px-4 text-xs text-fg-muted gap-2">
-			<div className="size-6 rounded border border-dashed border-edge-subtle flex items-center justify-center">
-				&#9776;
-			</div>
+			<div className="size-6 rounded border border-dashed border-edge-subtle flex items-center justify-center">&#9776;</div>
 			<span>Contacts</span>
 			<span>/</span>
 			<span className="font-medium text-fg">Jane Dupont</span>
 			<div className="ml-auto flex gap-2">
-				<div className="h-7 w-16 rounded border border-dashed border-edge-subtle flex items-center justify-center">
-					Export
-				</div>
-				<div className="h-7 w-24 rounded bg-brand/20 flex items-center justify-center">
-					Add Contact
-				</div>
+				<div className="h-7 w-16 rounded border border-dashed border-edge-subtle flex items-center justify-center">Export</div>
+				<div className="h-7 w-24 rounded bg-brand/20 flex items-center justify-center">Add Contact</div>
 			</div>
 		</div>
 	)
@@ -160,12 +152,7 @@ export default function TopBarPage() {
 				>
 					<ContentBarPlaceholder />
 				</DocExampleClient>
-				<DocExampleClient
-					title="Avec actions"
-					description="Le slot right accueille les boutons d'action, alignés à droite."
-					code={examples[1].code}
-					highlightedCode={html("with-actions")}
-				>
+				<DocExampleClient title="Avec actions" description="Le slot right accueille les boutons d'action, alignés à droite." code={examples[1].code} highlightedCode={html("with-actions")}>
 					<ContentBarPlaceholder />
 				</DocExampleClient>
 				<DocExampleClient
@@ -194,8 +181,7 @@ export default function TopBarPage() {
 						{
 							title: "Frame",
 							href: "/docs/components/patterns/layout-frame",
-							description:
-								"Brique flexbox bas niveau — le header slot est l'emplacement du TopBar.",
+							description: "Brique flexbox bas niveau — le header slot est l'emplacement du TopBar.",
 						},
 					]}
 				/>

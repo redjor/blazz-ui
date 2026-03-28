@@ -29,8 +29,7 @@ export default function TodayPageClient() {
 	const activeProjects = useQuery(api.projects.listActive)
 	const todos = useQuery(api.todos.list, {})
 
-	const isLoading =
-		todayEntries === undefined || activeProjects === undefined || todos === undefined
+	const isLoading = todayEntries === undefined || activeProjects === undefined || todos === undefined
 
 	const { totalMinutesToday, totalAmountToday } = useMemo(() => {
 		const billable = todayEntries?.filter((e) => e.billable) ?? []
@@ -75,9 +74,7 @@ export default function TodayPageClient() {
 								<span className="text-3xl leading-none">{info.icon}</span>
 								<BlockStack gap="050" className="items-end">
 									<div className="flex items-baseline gap-1.5">
-										<span className="text-2xl font-semibold tabular-nums text-fg">
-											{weather.data.temperature}°
-										</span>
+										<span className="text-2xl font-semibold tabular-nums text-fg">{weather.data.temperature}°</span>
 										<span className="text-xs text-fg-muted">
 											{weather.data.tempMax}° / {weather.data.tempMin}°
 										</span>
@@ -85,15 +82,11 @@ export default function TodayPageClient() {
 									<div className="flex items-center gap-3">
 										<div className="flex items-center gap-1">
 											<Droplets className="size-3 text-fg-muted/60" />
-											<span className="text-xs tabular-nums text-fg-muted">
-												{weather.data.humidity}%
-											</span>
+											<span className="text-xs tabular-nums text-fg-muted">{weather.data.humidity}%</span>
 										</div>
 										<div className="flex items-center gap-1">
 											<Wind className="size-3 text-fg-muted/60" />
-											<span className="text-xs tabular-nums text-fg-muted">
-												{weather.data.windSpeed} km/h
-											</span>
+											<span className="text-xs tabular-nums text-fg-muted">{weather.data.windSpeed} km/h</span>
 										</div>
 									</div>
 								</BlockStack>
@@ -120,10 +113,7 @@ export default function TodayPageClient() {
 			/>
 
 			{missingDays && missingDays.length > 0 && (
-				<Banner
-					tone="warning"
-					title={`${missingDays.length} jour${missingDays.length > 1 ? "s" : ""} sans saisie`}
-				>
+				<Banner tone="warning" title={`${missingDays.length} jour${missingDays.length > 1 ? "s" : ""} sans saisie`}>
 					<InlineStack gap="150" wrap>
 						{missingDays.map((day) => (
 							<button
@@ -162,11 +152,7 @@ export default function TodayPageClient() {
 						<ul className="divide-y divide-separator">
 							{activeTodos.slice(0, 6).map((todo) => (
 								<li key={todo._id}>
-									<button
-										type="button"
-										className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-muted/50"
-										onClick={() => router.push(`/todos/${todo._id}`)}
-									>
+									<button type="button" className="flex w-full items-center gap-2.5 px-inset py-2.5 text-left transition-colors hover:bg-muted/50" onClick={() => router.push(`/todos/${todo._id}`)}>
 										<Circle className="size-3.5 shrink-0 text-fg-muted/50" />
 										<span className="min-w-0 flex-1 truncate text-sm text-fg">{todo.text}</span>
 									</button>
@@ -174,11 +160,7 @@ export default function TodayPageClient() {
 							))}
 							{activeTodos.length > 6 && (
 								<li>
-									<button
-										type="button"
-										className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-muted/50"
-										onClick={() => router.push("/todos")}
-									>
+									<button type="button" className="w-full px-inset py-2.5 text-left text-xs text-fg-muted transition-colors hover:bg-muted/50" onClick={() => router.push("/todos")}>
 										Voir les {activeTodos.length - 6} autres…
 									</button>
 								</li>
@@ -206,9 +188,7 @@ export default function TodayPageClient() {
 						<BlockStack gap="200" className="px-inset py-10 items-center">
 							<Clock className="size-8 text-fg-muted/40" />
 							<p className="text-sm font-medium text-fg">Aucune entrée</p>
-							<p className="text-xs text-fg-muted">
-								Utilisez les projets à droite pour logger du temps.
-							</p>
+							<p className="text-xs text-fg-muted">Utilisez les projets à droite pour logger du temps.</p>
 						</BlockStack>
 					) : (
 						<ul className="divide-y divide-separator">
@@ -216,30 +196,19 @@ export default function TodayPageClient() {
 								const project = projectList.find((p) => p._id === entry.projectId)
 								return (
 									<li key={entry._id}>
-										<button
-											type="button"
-											className="flex w-full items-center gap-3 px-inset py-3 text-left transition-colors hover:bg-muted/50"
-											onClick={() => setEditingEntry(entry)}
-										>
+										<button type="button" className="flex w-full items-center gap-3 px-inset py-3 text-left transition-colors hover:bg-muted/50" onClick={() => setEditingEntry(entry)}>
 											<span
 												className="size-1.5 shrink-0 rounded-full"
 												style={{
-													backgroundColor: entry.billable
-														? "var(--color-brand)"
-														: "var(--color-fg-muted)",
+													backgroundColor: entry.billable ? "var(--color-brand)" : "var(--color-fg-muted)",
 												}}
 											/>
 											<span className="min-w-0 flex-1">
-												<span className="truncate text-sm text-fg block">
-													{entry.description || project?.name || "—"}
-												</span>
+												<span className="truncate text-sm text-fg block">{entry.description || project?.name || "—"}</span>
 												{entry.tags && entry.tags.length > 0 && (
 													<span className="flex gap-1 mt-0.5">
 														{entry.tags.map((tag) => (
-															<span
-																key={tag}
-																className="inline-block rounded-full bg-muted px-1.5 py-0 text-[11px] text-fg-muted"
-															>
+															<span key={tag} className="inline-block rounded-full bg-muted px-1.5 py-0 text-[11px] text-fg-muted">
 																{tag}
 															</span>
 														))}
@@ -247,9 +216,7 @@ export default function TodayPageClient() {
 												)}
 											</span>
 											<span className="shrink-0 text-xs text-fg-muted">{project?.name ?? "—"}</span>
-											<span className="shrink-0 font-mono text-sm tabular-nums text-fg-muted">
-												{formatMinutes(entry.minutes)}
-											</span>
+											<span className="shrink-0 font-mono text-sm tabular-nums text-fg-muted">{formatMinutes(entry.minutes)}</span>
 										</button>
 									</li>
 								)

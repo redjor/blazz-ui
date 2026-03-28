@@ -19,9 +19,7 @@ describe("clients auth", () => {
 
 	it("create rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(t.mutation(api.clients.create, { name: "Test" })).rejects.toThrow(
-			"Non authentifié"
-		)
+		await expect(t.mutation(api.clients.create, { name: "Test" })).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -64,9 +62,7 @@ describe("clients CRUD", () => {
 		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
 		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
 		const id = await user1.mutation(api.clients.create, { name: "Private" })
-		await expect(
-			user2.mutation(api.clients.update, { id, name: "Hacked" })
-		).rejects.toThrow("Introuvable")
+		await expect(user2.mutation(api.clients.update, { id, name: "Hacked" })).rejects.toThrow("Introuvable")
 	})
 
 	it("removes a client", async () => {

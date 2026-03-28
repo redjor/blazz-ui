@@ -1,9 +1,9 @@
 "use client"
-import { use } from "react"
 
 import { Label } from "@blazz/ui/components/ui/label"
 import { Switch } from "@blazz/ui/components/ui/switch"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -120,11 +120,7 @@ export default function SwitchPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Switch"
-			subtitle="A toggle control for turning options on or off. Use for binary settings that take effect immediately."
-			toc={toc}
-		>
+		<DocPage title="Switch" subtitle="A toggle control for turning options on or off. Use for binary settings that take effect immediately." toc={toc}>
 			<DocHero>
 				<div className="flex items-center gap-2">
 					<Switch id="hero-switch" defaultChecked />
@@ -133,33 +129,18 @@ export default function SwitchPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic switch toggle."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic switch toggle." code={examples[0].code} highlightedCode={html("default")}>
 					<Switch />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Switch with an associated label."
-					code={examples[1].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Switch with an associated label." code={examples[1].code} highlightedCode={html("with-label")}>
 					<div className="flex items-center gap-2">
 						<Switch id="airplane" />
 						<Label htmlFor="airplane">Airplane Mode</Label>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Available switch sizes."
-					code={examples[2].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Available switch sizes." code={examples[2].code} highlightedCode={html("sizes")}>
 					<div className="flex items-center gap-4">
 						<div className="flex items-center gap-2">
 							<Switch id="small" size="sm" />
@@ -172,21 +153,11 @@ export default function SwitchPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the switch state programmatically."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the switch state programmatically." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledSwitchDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled switches prevent interaction."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled switches prevent interaction." code={examples[4].code} highlightedCode={html("disabled")}>
 					<div className="flex items-center gap-4">
 						<div className="flex items-center gap-2">
 							<Switch id="disabled-off" disabled />
@@ -203,12 +174,7 @@ export default function SwitchPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Settings List"
-					description="Use switches in a settings list."
-					code={examples[5].code}
-					highlightedCode={html("settings-list")}
-				>
+				<DocExampleClient title="Settings List" description="Use switches in a settings list." code={examples[5].code} highlightedCode={html("settings-list")}>
 					<div className="w-full max-w-sm space-y-4">
 						<div className="flex items-center justify-between">
 							<Label htmlFor="notifications">Notifications</Label>
@@ -231,9 +197,7 @@ export default function SwitchPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Switch uses the design system for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Switch uses the design system for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Unchecked background

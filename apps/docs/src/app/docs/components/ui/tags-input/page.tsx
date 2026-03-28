@@ -1,9 +1,9 @@
 "use client"
-import { use } from "react"
 
 import { Label } from "@blazz/ui/components/ui/label"
 import { TagsInput } from "@blazz/ui/components/ui/tags-input"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -34,8 +34,7 @@ const tagsInputProps: DocProp[] = [
 		name: "suggestions",
 		type: "string[]",
 		default: "[]",
-		description:
-			"Optional list of suggestions shown as the user types. Filters dynamically based on input.",
+		description: "Optional list of suggestions shown as the user types. Filters dynamically based on input.",
 	},
 	{
 		name: "placeholder",
@@ -106,9 +105,7 @@ const highlightedPromise = highlightExamples(examples as any)
 function TagsInputDefaultDemo() {
 	const [tags, setTags] = React.useState(["React", "TypeScript"])
 
-	return (
-		<TagsInput tags={tags} onTagsChange={setTags} placeholder="Add a tag..." className="max-w-sm" />
-	)
+	return <TagsInput tags={tags} onTagsChange={setTags} placeholder="Add a tag..." className="max-w-sm" />
 }
 
 function TagsInputWithSuggestionsDemo() {
@@ -118,15 +115,7 @@ function TagsInputWithSuggestionsDemo() {
 		<TagsInput
 			tags={tags}
 			onTagsChange={setTags}
-			suggestions={[
-				"Design",
-				"Development",
-				"Marketing",
-				"Product",
-				"Engineering",
-				"Sales",
-				"Support",
-			]}
+			suggestions={["Design", "Development", "Marketing", "Product", "Engineering", "Sales", "Support"]}
 			placeholder="Add a skill..."
 			className="max-w-sm"
 		/>
@@ -150,12 +139,7 @@ function TagsInputWithLabelDemo() {
 	return (
 		<div className="max-w-sm space-y-2">
 			<Label>Categories</Label>
-			<TagsInput
-				tags={tags}
-				onTagsChange={setTags}
-				suggestions={["Frontend", "Backend", "DevOps", "Mobile", "AI/ML"]}
-				placeholder="Add categories..."
-			/>
+			<TagsInput tags={tags} onTagsChange={setTags} suggestions={["Frontend", "Backend", "DevOps", "Mobile", "AI/ML"]} placeholder="Add categories..." />
 		</div>
 	)
 }
@@ -165,49 +149,25 @@ export default function TagsInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Tags Input"
-			subtitle="An input that allows users to add and remove tags. Supports suggestions, keyboard navigation, and tag limits."
-			toc={toc}
-		>
+		<DocPage title="Tags Input" subtitle="An input that allows users to add and remove tags. Supports suggestions, keyboard navigation, and tag limits." toc={toc}>
 			<DocHero>
 				<TagsInputDefaultDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic tags input. Press Enter to add a tag, Backspace to remove the last one."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic tags input. Press Enter to add a tag, Backspace to remove the last one." code={examples[0].code} highlightedCode={html("default")}>
 					<TagsInputDefaultDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Suggestions"
-					description="Show a dropdown of filtered suggestions as the user types."
-					code={examples[1].code}
-					highlightedCode={html("with-suggestions")}
-				>
+				<DocExampleClient title="With Suggestions" description="Show a dropdown of filtered suggestions as the user types." code={examples[1].code} highlightedCode={html("with-suggestions")}>
 					<TagsInputWithSuggestionsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Max Tags"
-					description="Limit the number of tags. The input is disabled once the limit is reached."
-					code={examples[2].code}
-					highlightedCode={html("max-tags")}
-				>
+				<DocExampleClient title="Max Tags" description="Limit the number of tags. The input is disabled once the limit is reached." code={examples[2].code} highlightedCode={html("max-tags")}>
 					<TagsInputMaxTagsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Pair with a Label component for form contexts."
-					code={examples[3].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Pair with a Label component for form contexts." code={examples[3].code} highlightedCode={html("with-label")}>
 					<TagsInputWithLabelDemo />
 				</DocExampleClient>
 			</DocSection>

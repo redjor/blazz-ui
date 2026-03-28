@@ -1,18 +1,11 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Popover,
-	PopoverContent,
-	PopoverDescription,
-	PopoverHeader,
-	PopoverTitle,
-	PopoverTrigger,
-} from "@blazz/ui/components/ui/popover"
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@blazz/ui/components/ui/popover"
 import { HelpCircle } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -178,11 +171,7 @@ export default function PopoverPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Popover"
-			subtitle="Displays rich content in a floating container anchored to a trigger."
-			toc={toc}
-		>
+		<DocPage title="Popover" subtitle="Displays rich content in a floating container anchored to a trigger." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<Popover>
@@ -198,12 +187,7 @@ export default function PopoverPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Popover"
-					description="A simple popover with title and description."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Popover" description="A simple popover with title and description." code={examples[0].code} highlightedCode={html("basic")}>
 					<Popover>
 						<PopoverTrigger render={<Button variant="outline">Open</Button>} />
 						<PopoverContent>
@@ -215,12 +199,7 @@ export default function PopoverPage() {
 					</Popover>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Form"
-					description="A popover containing form inputs."
-					code={examples[1].code}
-					highlightedCode={html("with-form")}
-				>
+				<DocExampleClient title="With Form" description="A popover containing form inputs." code={examples[1].code} highlightedCode={html("with-form")}>
 					<Popover>
 						<PopoverTrigger render={<Button>Schedule</Button>} />
 						<PopoverContent>
@@ -243,12 +222,7 @@ export default function PopoverPage() {
 					</Popover>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Positioning"
-					description="Control the side and alignment of the popover."
-					code={examples[2].code}
-					highlightedCode={html("positioning")}
-				>
+				<DocExampleClient title="Positioning" description="Control the side and alignment of the popover." code={examples[2].code} highlightedCode={html("positioning")}>
 					<div className="flex gap-4 justify-center">
 						<Popover>
 							<PopoverTrigger render={<Button variant="outline">Top</Button>} />
@@ -282,12 +256,7 @@ export default function PopoverPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Icon Button Trigger"
-					description="Use an icon button to trigger the popover."
-					code={examples[3].code}
-					highlightedCode={html("icon-trigger")}
-				>
+				<DocExampleClient title="Icon Button Trigger" description="Use an icon button to trigger the popover." code={examples[3].code} highlightedCode={html("icon-trigger")}>
 					<div className="flex justify-center">
 						<Popover>
 							<PopoverTrigger
@@ -320,9 +289,7 @@ export default function PopoverPage() {
 
 			{/* Design Tokens */}
 			<DocSection id="design-tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Popover uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Popover uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Background color for the popover

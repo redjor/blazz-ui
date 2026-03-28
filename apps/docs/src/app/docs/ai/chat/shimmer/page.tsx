@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { Shimmer } from "@blazz/pro/components/ai/chat/shimmer"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -35,43 +35,24 @@ export default function ShimmerPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Shimmer"
-			subtitle="An animated text shimmer effect for loading states and thinking indicators in AI interfaces."
-			toc={toc}
-		>
+		<DocPage title="Shimmer" subtitle="An animated text shimmer effect for loading states and thinking indicators in AI interfaces." toc={toc}>
 			<DocHero>
 				<Shimmer className="text-lg font-medium">Thinking...</Shimmer>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A simple shimmer animation on text content."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A simple shimmer animation on text content." code={examples[0].code} highlightedCode={html("default")}>
 					<Shimmer>Thinking...</Shimmer>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Duration"
-					description="Control the animation speed with the duration prop (in seconds)."
-					code={examples[1].code}
-					highlightedCode={html("custom-duration")}
-				>
+				<DocExampleClient title="Custom Duration" description="Control the animation speed with the duration prop (in seconds)." code={examples[1].code} highlightedCode={html("custom-duration")}>
 					<div className="flex flex-col gap-4">
 						<Shimmer duration={1}>Fast shimmer (1s)</Shimmer>
 						<Shimmer duration={3}>Slow shimmer (3s)</Shimmer>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Different Sizes"
-					description="Use className to control text size and weight."
-					code={examples[2].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Different Sizes" description="Use className to control text size and weight." code={examples[2].code} highlightedCode={html("sizes")}>
 					<div className="flex flex-col gap-4">
 						<Shimmer className="text-xs">Small shimmer text</Shimmer>
 						<Shimmer className="text-base">Medium shimmer text</Shimmer>

@@ -4,15 +4,7 @@ import { Clock, FileText, Search } from "lucide-react"
 import * as React from "react"
 import { useCommandPalette } from "../../../hooks/use-command-palette"
 import type { NavigationSection } from "../../../types/navigation"
-import {
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-} from "../../ui/command"
+import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "../../ui/command"
 
 export interface CommandPaletteProps {
 	navigation: NavigationSection[]
@@ -57,18 +49,11 @@ export function CommandPalette({ navigation, open, onOpenChange }: CommandPalett
 					<>
 						<CommandGroup heading="Recent">
 							{recentItems.map((item) => (
-								<CommandItem
-									key={`recent-${item.id}`}
-									value={`recent:${item.title}`}
-									keywords={item.keywords}
-									onSelect={() => navigate(item)}
-								>
+								<CommandItem key={`recent-${item.id}`} value={`recent:${item.title}`} keywords={item.keywords} onSelect={() => navigate(item)}>
 									<Clock className="mr-2 h-4 w-4 shrink-0 text-fg-subtle" />
 									<div className="flex min-w-0 flex-1 items-center justify-between gap-2">
 										<span className="truncate">{item.title}</span>
-										{item.breadcrumb && (
-											<span className="shrink-0 text-xs text-fg-subtle">{item.breadcrumb}</span>
-										)}
+										{item.breadcrumb && <span className="shrink-0 text-xs text-fg-subtle">{item.breadcrumb}</span>}
 									</div>
 								</CommandItem>
 							))}
@@ -83,18 +68,11 @@ export function CommandPalette({ navigation, open, onOpenChange }: CommandPalett
 						{sectionItems.map((item) => {
 							const Icon = item.icon || FileText
 							return (
-								<CommandItem
-									key={item.id}
-									value={item.title}
-									keywords={item.keywords}
-									onSelect={() => navigate(item)}
-								>
+								<CommandItem key={item.id} value={item.title} keywords={item.keywords} onSelect={() => navigate(item)}>
 									<Icon className="mr-2 h-4 w-4 shrink-0 text-fg-subtle" />
 									<div className="flex min-w-0 flex-1 items-center justify-between gap-2">
 										<span className="truncate">{item.title}</span>
-										{item.breadcrumb && (
-											<span className="shrink-0 text-xs text-fg-subtle">{item.breadcrumb}</span>
-										)}
+										{item.breadcrumb && <span className="shrink-0 text-xs text-fg-subtle">{item.breadcrumb}</span>}
 									</div>
 								</CommandItem>
 							)

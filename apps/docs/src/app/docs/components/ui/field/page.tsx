@@ -1,24 +1,6 @@
 "use client"
 
 import { use } from "react"
-import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Field,
-	FieldContent,
-	FieldControl,
-	FieldDescription,
-	FieldError,
-	FieldLabel,
-} from "@blazz/ui/components/ui/field"
-import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
-import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -26,7 +8,19 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import { FieldBasicDemo, FieldDescriptionDemo, FieldErrorDemo, FieldHeroDemo, FieldHorizontalControlledDemo, FieldHorizontalDemo, FieldHorizontalFieldsetDemo, FieldMultipleErrorsDemo, FieldSelectDemo, FieldTextareaDemo, FieldValidationDemo } from "./demos"
+import {
+	FieldBasicDemo,
+	FieldDescriptionDemo,
+	FieldErrorDemo,
+	FieldHeroDemo,
+	FieldHorizontalControlledDemo,
+	FieldHorizontalDemo,
+	FieldHorizontalFieldsetDemo,
+	FieldMultipleErrorsDemo,
+	FieldSelectDemo,
+	FieldTextareaDemo,
+	FieldValidationDemo,
+} from "./demos"
 
 const examples = [
 	{
@@ -183,8 +177,7 @@ const fieldProps: DocProp[] = [
 		name: "orientation",
 		type: '"vertical" | "horizontal"',
 		default: '"vertical"',
-		description:
-			"Layout direction of the field. Vertical stacks label above control; horizontal places them side by side.",
+		description: "Layout direction of the field. Vertical stacks label above control; horizontal places them side by side.",
 	},
 	{
 		name: "className",
@@ -202,8 +195,7 @@ const fieldLabelProps: DocProp[] = [
 	{
 		name: "className",
 		type: "string",
-		description:
-			"Additional CSS classes. Turns text-negative automatically when the field has errors.",
+		description: "Additional CSS classes. Turns text-negative automatically when the field has errors.",
 	},
 ]
 
@@ -211,8 +203,7 @@ const fieldControlProps: DocProp[] = [
 	{
 		name: "children",
 		type: "ReactElement",
-		description:
-			"The form control element. Receives id, aria-describedby, and aria-invalid via cloneElement.",
+		description: "The form control element. Receives id, aria-describedby, and aria-invalid via cloneElement.",
 	},
 	{
 		name: "render",
@@ -252,37 +243,22 @@ const fieldErrorProps: DocProp[] = [
 	},
 ]
 
-
 export default function FieldPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Field"
-			subtitle="A composition system for accessible form fields. Connects labels, controls, descriptions, and error messages with proper aria attributes."
-			toc={toc}
-		>
+		<DocPage title="Field" subtitle="A composition system for accessible form fields. Connects labels, controls, descriptions, and error messages with proper aria attributes." toc={toc}>
 			<DocHero>
 				<FieldHeroDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple field with a label and input."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple field with a label and input." code={examples[0].code} highlightedCode={html("basic")}>
 					<FieldBasicDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Description"
-					description="Add helper text below the control."
-					code={examples[1].code}
-					highlightedCode={html("description")}
-				>
+				<DocExampleClient title="With Description" description="Add helper text below the control." code={examples[1].code} highlightedCode={html("description")}>
 					<FieldDescriptionDemo />
 				</DocExampleClient>
 
@@ -295,39 +271,19 @@ export default function FieldPage() {
 					<FieldErrorDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Multiple Errors"
-					description="Pass an array of error messages via the errors prop."
-					code={examples[3].code}
-					highlightedCode={html("multiple-errors")}
-				>
+				<DocExampleClient title="Multiple Errors" description="Pass an array of error messages via the errors prop." code={examples[3].code} highlightedCode={html("multiple-errors")}>
 					<FieldMultipleErrorsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Textarea"
-					description="Field works with any form control."
-					code={examples[4].code}
-					highlightedCode={html("textarea")}
-				>
+				<DocExampleClient title="With Textarea" description="Field works with any form control." code={examples[4].code} highlightedCode={html("textarea")}>
 					<FieldTextareaDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Select"
-					description="Use the render prop for components that don't accept a direct id prop."
-					code={examples[5].code}
-					highlightedCode={html("select")}
-				>
+				<DocExampleClient title="With Select" description="Use the render prop for components that don't accept a direct id prop." code={examples[5].code} highlightedCode={html("select")}>
 					<FieldSelectDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled Validation"
-					description="Interactive example with client-side validation on submit."
-					code={examples[6].code}
-					highlightedCode={html("validation")}
-				>
+				<DocExampleClient title="Controlled Validation" description="Interactive example with client-side validation on submit." code={examples[6].code} highlightedCode={html("validation")}>
 					<FieldValidationDemo />
 				</DocExampleClient>
 			</DocSection>
@@ -342,21 +298,11 @@ export default function FieldPage() {
 					<FieldHorizontalDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Horizontal with Validation"
-					description="Controlled horizontal field with inline validation."
-					code={examples[8].code}
-					highlightedCode={html("horizontal-validation")}
-				>
+				<DocExampleClient title="Horizontal with Validation" description="Controlled horizontal field with inline validation." code={examples[8].code} highlightedCode={html("horizontal-validation")}>
 					<FieldHorizontalControlledDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Horizontal Fieldset"
-					description="Compose multiple horizontal fields in a fieldset."
-					code={examples[9].code}
-					highlightedCode={html("horizontal-fieldset")}
-				>
+				<DocExampleClient title="Horizontal Fieldset" description="Compose multiple horizontal fields in a fieldset." code={examples[9].code} highlightedCode={html("horizontal-fieldset")}>
 					<FieldHorizontalFieldsetDemo />
 				</DocExampleClient>
 			</DocSection>
@@ -383,18 +329,11 @@ export default function FieldPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>
-						Always use FieldLabel for accessibility — it auto-connects to the control via htmlFor
-					</li>
+					<li>Always use FieldLabel for accessibility — it auto-connects to the control via htmlFor</li>
 					<li>Use FieldControl to inject aria attributes into your form control</li>
-					<li>
-						Use the render prop on FieldControl for components that don't accept an id prop directly
-					</li>
+					<li>Use the render prop on FieldControl for components that don't accept an id prop directly</li>
 					<li>For horizontal layouts, wrap control + description + error in FieldContent</li>
-					<li>
-						FieldError accepts either children (static) or an errors array (dynamic, e.g. from
-						react-hook-form)
-					</li>
+					<li>FieldError accepts either children (static) or an errors array (dynamic, e.g. from react-hook-form)</li>
 					<li>Field is framework-agnostic — works with or without react-hook-form</li>
 				</ul>
 			</DocSection>

@@ -17,7 +17,7 @@ type ConvexNotification = {
 	createdAt: number
 }
 
-const sourceLogos: Record<string, string> = {
+const _sourceLogos: Record<string, string> = {
 	github: "/logos/github.svg",
 	vercel: "/logos/vercel.svg",
 	convex: "/logos/convex.svg",

@@ -66,9 +66,7 @@ describe("licenseKeys CRUD", () => {
 			expiresAt: "2027-01-01",
 		})
 		await asUser.mutation(api.licenseKeys.revoke, { id })
-		await expect(asUser.mutation(api.licenseKeys.revoke, { id })).rejects.toThrow(
-			"Déjà révoquée"
-		)
+		await expect(asUser.mutation(api.licenseKeys.revoke, { id })).rejects.toThrow("Déjà révoquée")
 	})
 
 	it("removes a key", async () => {
@@ -96,9 +94,7 @@ describe("licenseKeys isolation", () => {
 			orgId: "org1",
 			expiresAt: "2027-01-01",
 		})
-		await expect(user2.mutation(api.licenseKeys.revoke, { id })).rejects.toThrow(
-			"Introuvable"
-		)
+		await expect(user2.mutation(api.licenseKeys.revoke, { id })).rejects.toThrow("Introuvable")
 	})
 
 	it("remove rejects other user's key", async () => {
@@ -111,8 +107,6 @@ describe("licenseKeys isolation", () => {
 			orgId: "org1",
 			expiresAt: "2027-01-01",
 		})
-		await expect(user2.mutation(api.licenseKeys.remove, { id })).rejects.toThrow(
-			"Introuvable"
-		)
+		await expect(user2.mutation(api.licenseKeys.remove, { id })).rejects.toThrow("Introuvable")
 	})
 })

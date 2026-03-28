@@ -42,14 +42,7 @@ export default defineSchema({
 
 	notes: defineTable({
 		userId: v.string(),
-		entityType: v.union(
-			v.literal("client"),
-			v.literal("project"),
-			v.literal("contract"),
-			v.literal("invoice"),
-			v.literal("todo"),
-			v.literal("general")
-		),
+		entityType: v.union(v.literal("client"), v.literal("project"), v.literal("contract"), v.literal("invoice"), v.literal("todo"), v.literal("general")),
 		entityId: v.optional(v.string()),
 		title: v.string(),
 		contentJson: v.optional(v.any()),
@@ -119,9 +112,7 @@ export default defineSchema({
 		paidAt: v.optional(v.number()),
 		createdAt: v.number(),
 		// ── New fields ──
-		invoiceType: v.optional(
-			v.union(v.literal("unique"), v.literal("acompte"), v.literal("situation"))
-		),
+		invoiceType: v.optional(v.union(v.literal("unique"), v.literal("acompte"), v.literal("situation"))),
 		lines: v.optional(
 			v.array(
 				v.object({
@@ -161,14 +152,7 @@ export default defineSchema({
 		billable: v.boolean(),
 		invoiceId: v.optional(v.id("invoices")),
 		invoicedAt: v.optional(v.number()),
-		status: v.optional(
-			v.union(
-				v.literal("draft"),
-				v.literal("ready_to_invoice"),
-				v.literal("invoiced"),
-				v.literal("paid")
-			)
-		),
+		status: v.optional(v.union(v.literal("draft"), v.literal("ready_to_invoice"), v.literal("invoiced"), v.literal("paid"))),
 		tags: v.optional(v.array(v.id("tags"))),
 		createdAt: v.number(),
 	})
@@ -192,21 +176,13 @@ export default defineSchema({
 		text: v.string(),
 		description: v.optional(v.string()),
 		descriptionJson: v.optional(v.any()),
-		status: v.union(
-			v.literal("triage"),
-			v.literal("todo"),
-			v.literal("blocked"),
-			v.literal("in_progress"),
-			v.literal("done")
-		),
+		status: v.union(v.literal("triage"), v.literal("todo"), v.literal("blocked"), v.literal("in_progress"), v.literal("done")),
 		source: v.union(v.literal("app"), v.literal("telegram")),
 		dueDate: v.optional(v.string()),
 		projectId: v.optional(v.id("projects")),
 		categoryId: v.optional(v.id("categories")),
 		tags: v.optional(v.array(v.string())),
-		priority: v.optional(
-			v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
-		),
+		priority: v.optional(v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))),
 		createdAt: v.number(),
 		createdByAgent: v.optional(v.id("agents")),
 	})
@@ -324,13 +300,7 @@ export default defineSchema({
 	bookmarks: defineTable({
 		userId: v.string(),
 		url: v.string(),
-		type: v.union(
-			v.literal("tweet"),
-			v.literal("youtube"),
-			v.literal("image"),
-			v.literal("video"),
-			v.literal("link")
-		),
+		type: v.union(v.literal("tweet"), v.literal("youtube"), v.literal("image"), v.literal("video"), v.literal("link")),
 		title: v.optional(v.string()),
 		description: v.optional(v.string()),
 		thumbnailUrl: v.optional(v.string()),
@@ -355,11 +325,7 @@ export default defineSchema({
 		name: v.string(),
 		amountCents: v.number(),
 		amountType: v.union(v.literal("fixed"), v.literal("variable")),
-		frequency: v.union(
-			v.literal("monthly"),
-			v.literal("quarterly"),
-			v.literal("yearly")
-		),
+		frequency: v.union(v.literal("monthly"), v.literal("quarterly"), v.literal("yearly")),
 		dayOfMonth: v.optional(v.number()),
 		categoryId: v.optional(v.id("categories")),
 		startDate: v.string(),
@@ -387,20 +353,12 @@ export default defineSchema({
 		syncedAt: v.number(),
 		name: v.string(),
 		amountCents: v.number(),
-		frequency: v.union(
-			v.literal("monthly"),
-			v.literal("quarterly"),
-			v.literal("yearly")
-		),
+		frequency: v.union(v.literal("monthly"), v.literal("quarterly"), v.literal("yearly")),
 		category: v.string(),
 		confidence: v.number(),
 		transactionIds: v.array(v.string()),
 		transactionLabels: v.array(v.string()),
-		status: v.union(
-			v.literal("pending"),
-			v.literal("accepted"),
-			v.literal("rejected")
-		),
+		status: v.union(v.literal("pending"), v.literal("accepted"), v.literal("rejected")),
 	})
 		.index("by_user_status", ["userId", "status"])
 		.index("by_user_synced", ["userId", "syncedAt"]),
@@ -436,8 +394,7 @@ export default defineSchema({
 		agentId: v.id("agents"),
 		role: v.union(v.literal("user"), v.literal("assistant")),
 		content: v.string(),
-	})
-		.index("by_agent", ["userId", "agentId"]),
+	}).index("by_agent", ["userId", "agentId"]),
 
 	agents: defineTable({
 		userId: v.id("users"),
@@ -474,21 +431,8 @@ export default defineSchema({
 		agentId: v.id("agents"),
 		title: v.string(),
 		prompt: v.string(),
-		status: v.union(
-			v.literal("planning"),
-			v.literal("todo"),
-			v.literal("in_progress"),
-			v.literal("review"),
-			v.literal("done"),
-			v.literal("rejected"),
-			v.literal("aborted"),
-		),
-		priority: v.union(
-			v.literal("low"),
-			v.literal("medium"),
-			v.literal("high"),
-			v.literal("urgent"),
-		),
+		status: v.union(v.literal("planning"), v.literal("todo"), v.literal("in_progress"), v.literal("review"), v.literal("done"), v.literal("rejected"), v.literal("aborted")),
+		priority: v.union(v.literal("low"), v.literal("medium"), v.literal("high"), v.literal("urgent")),
 		mode: v.optional(v.union(v.literal("dry-run"), v.literal("live"))),
 		output: v.optional(v.string()),
 		structuredOutput: v.optional(v.any()),
@@ -500,8 +444,8 @@ export default defineSchema({
 					description: v.string(),
 					entityId: v.optional(v.string()),
 					reversible: v.boolean(),
-				}),
-			),
+				})
+			)
 		),
 		error: v.optional(v.string()),
 		costUsd: v.optional(v.number()),
@@ -518,9 +462,9 @@ export default defineSchema({
 						agentSlug: v.string(),
 						templateId: v.string(),
 						condition: v.optional(v.string()),
-					}),
+					})
 				),
-			}),
+			})
 		),
 		startedAt: v.optional(v.number()),
 		completedAt: v.optional(v.number()),
@@ -534,14 +478,7 @@ export default defineSchema({
 	agentLogs: defineTable({
 		missionId: v.id("missions"),
 		agentId: v.id("agents"),
-		type: v.union(
-			v.literal("thinking"),
-			v.literal("tool_call"),
-			v.literal("tool_result"),
-			v.literal("error"),
-			v.literal("budget_warning"),
-			v.literal("done"),
-		),
+		type: v.union(v.literal("thinking"), v.literal("tool_call"), v.literal("tool_result"), v.literal("error"), v.literal("budget_warning"), v.literal("done")),
 		content: v.string(),
 		toolName: v.optional(v.string()),
 		duration: v.optional(v.number()),
@@ -553,16 +490,16 @@ export default defineSchema({
 		missionId: v.optional(v.id("missions")),
 		scope: v.union(v.literal("private"), v.literal("shared")), // private = agent-only, shared = all agents
 		category: v.union(
-			v.literal("fact"),        // "Client X paie en retard" — expires
-			v.literal("preference"),  // "Jonathan préfère les forecasts conservateurs" — permanent
-			v.literal("episode"),     // "Le 26 mars, discussion sur investissement monitoring" — expires
-			v.literal("pattern"),     // "Anomalies temps → toujours créer un todo" — permanent
-			v.literal("rule"),        // "Ne jamais suggérer de couper Figma" — permanent, manual
+			v.literal("fact"), // "Client X paie en retard" — expires
+			v.literal("preference"), // "Jonathan préfère les forecasts conservateurs" — permanent
+			v.literal("episode"), // "Le 26 mars, discussion sur investissement monitoring" — expires
+			v.literal("pattern"), // "Anomalies temps → toujours créer un todo" — permanent
+			v.literal("rule") // "Ne jamais suggérer de couper Figma" — permanent, manual
 		),
 		content: v.string(),
-		confidence: v.optional(v.number()),       // 0.0-1.0, increases on confirmation
-		source: v.optional(v.string()),           // "mission" | "chat" | "rejection" | "manual" | "consolidation"
-		lastConfirmedAt: v.optional(v.number()),  // for decay
+		confidence: v.optional(v.number()), // 0.0-1.0, increases on confirmation
+		source: v.optional(v.string()), // "mission" | "chat" | "rejection" | "manual" | "consolidation"
+		lastConfirmedAt: v.optional(v.number()), // for decay
 		expiresAt: v.optional(v.number()),
 	})
 		.index("by_agent", ["userId", "agentId"])
@@ -571,14 +508,7 @@ export default defineSchema({
 	// ── Favorites ──────────────────────────────────────────────────
 	favorites: defineTable({
 		userId: v.string(),
-		entityType: v.union(
-			v.literal("client"),
-			v.literal("project"),
-			v.literal("todo"),
-			v.literal("note"),
-			v.literal("bookmark"),
-			v.literal("feedItem"),
-		),
+		entityType: v.union(v.literal("client"), v.literal("project"), v.literal("todo"), v.literal("note"), v.literal("bookmark"), v.literal("feedItem")),
 		entityId: v.string(),
 		label: v.string(),
 		order: v.number(),

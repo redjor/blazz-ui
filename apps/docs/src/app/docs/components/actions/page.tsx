@@ -22,8 +22,7 @@ const actionComponents = [
 	{
 		title: "Dropdown Menu",
 		href: "/docs/components/ui/dropdown-menu",
-		description:
-			"Displays a menu of actions in a dropdown overlay with keyboard navigation support.",
+		description: "Displays a menu of actions in a dropdown overlay with keyboard navigation support.",
 		icon: MoreHorizontal,
 		thumbnail: "dropdown-menu",
 	},

@@ -66,11 +66,7 @@ export function ActivityHeatmap({ entries, weeks = 26 }: Props) {
 			{/* Month labels row */}
 			<div className="relative h-4" style={{ marginLeft: 28 }}>
 				{monthLabels.map(({ label, col }) => (
-					<span
-						key={col}
-						className="absolute text-[10px] text-fg-muted capitalize"
-						style={{ left: col * STEP }}
-					>
+					<span key={col} className="absolute text-[10px] text-fg-muted capitalize" style={{ left: col * STEP }}>
 						{label}
 					</span>
 				))}
@@ -81,11 +77,7 @@ export function ActivityHeatmap({ entries, weeks = 26 }: Props) {
 				{/* Day-of-week labels */}
 				<div className="flex flex-col" style={{ gap: GAP, width: 24 }}>
 					{DAY_LABELS.map((label, i) => (
-						<div
-							key={i}
-							className="flex items-center text-[10px] text-fg-muted"
-							style={{ height: CELL }}
-						>
+						<div key={i} className="flex items-center text-[10px] text-fg-muted" style={{ height: CELL }}>
 							{label}
 						</div>
 					))}

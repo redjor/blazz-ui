@@ -82,8 +82,7 @@ const barProps: DocProp[] = [
 	{
 		name: "side",
 		type: '"top" | "bottom"',
-		description:
-			'Direction the bar slides in from. "top" slides down, "bottom" slides up. Default: "top".',
+		description: 'Direction the bar slides in from. "top" slides down, "bottom" slides up. Default: "top".',
 	},
 	{
 		name: "blockNavigation",
@@ -115,15 +114,13 @@ const hookProps: DocProp[] = [
 		name: "onSave",
 		type: "() => void | Promise<void>",
 		required: true,
-		description:
-			"Called when the user clicks the save button. Call allowNextNavigation() before programmatic navigation.",
+		description: "Called when the user clicks the save button. Call allowNextNavigation() before programmatic navigation.",
 	},
 	{
 		name: "onDiscard",
 		type: "() => void",
 		required: true,
-		description:
-			"Called when the user clicks the discard button. allowNextNavigation() is automatically called before this runs.",
+		description: "Called when the user clicks the discard button. allowNextNavigation() is automatically called before this runs.",
 	},
 	{
 		name: "isSaving",
@@ -195,24 +192,19 @@ export default function UnsavedChangesBarPage() {
 			<DocSection id="setup" title="Setup">
 				<ol className="list-decimal list-inside space-y-2 text-sm text-fg-muted">
 					<li>
-						Wrap your app (or the relevant layout) with{" "}
-						<code className="text-fg">UnsavedChangesProvider</code>.
+						Wrap your app (or the relevant layout) with <code className="text-fg">UnsavedChangesProvider</code>.
 					</li>
 					<li>
-						Place <code className="text-fg">{"<UnsavedChangesBar blockNavigation />"}</code> in your
-						top bar or bottom bar. The <code className="text-fg">blockNavigation</code> prop blocks
-						browser back/forward and tab close automatically — no separate hook needed. Use{" "}
-						<code className="text-fg">side="bottom"</code> if placing it at the bottom.
+						Place <code className="text-fg">{"<UnsavedChangesBar blockNavigation />"}</code> in your top bar or bottom bar. The <code className="text-fg">blockNavigation</code> prop blocks browser
+						back/forward and tab close automatically — no separate hook needed. Use <code className="text-fg">side="bottom"</code> if placing it at the bottom.
 					</li>
 					<li>
-						Call <code className="text-fg">useUnsavedChanges()</code> in any form component. The bar
-						appears automatically when <code className="text-fg">isDirty</code> is true and
-						disappears on save or discard.
+						Call <code className="text-fg">useUnsavedChanges()</code> in any form component. The bar appears automatically when <code className="text-fg">isDirty</code> is true and disappears on save
+						or discard.
 					</li>
 					<li>
-						Before programmatic navigation after a successful save, call{" "}
-						<code className="text-fg">allowNextNavigation()</code> (returned by the hook) so the
-						navigation guard doesn't block the redirect.
+						Before programmatic navigation after a successful save, call <code className="text-fg">allowNextNavigation()</code> (returned by the hook) so the navigation guard doesn't block the
+						redirect.
 					</li>
 				</ol>
 			</DocSection>
@@ -228,25 +220,18 @@ export default function UnsavedChangesBarPage() {
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-sm text-fg-muted">
 					<li>
-						Prefer <code className="text-fg">blockNavigation</code> on the bar over calling{" "}
-						<code className="text-fg">useUnsavedChangesNavigationGuard()</code> separately — it's
-						one less thing to wire up.
+						Prefer <code className="text-fg">blockNavigation</code> on the bar over calling <code className="text-fg">useUnsavedChangesNavigationGuard()</code> separately — it's one less thing to wire
+						up.
 					</li>
 					<li>
-						Always call <code className="text-fg">allowNextNavigation()</code> before{" "}
-						<code className="text-fg">router.push()</code> after a successful save, otherwise the
-						navigation guard will call <code className="text-fg">history.back()</code> to undo the
-						redirect.
+						Always call <code className="text-fg">allowNextNavigation()</code> before <code className="text-fg">router.push()</code> after a successful save, otherwise the navigation guard will call{" "}
+						<code className="text-fg">history.back()</code> to undo the redirect.
 					</li>
 					<li>
-						<code className="text-fg">onDiscard</code> gets{" "}
-						<code className="text-fg">allowNextNavigation()</code> called automatically — no need to
-						call it yourself in that callback.
+						<code className="text-fg">onDiscard</code> gets <code className="text-fg">allowNextNavigation()</code> called automatically — no need to call it yourself in that callback.
 					</li>
 					<li>
-						One form at a time — only one registered form is displayed. If multiple forms mount
-						simultaneously, the last one to call <code className="text-fg">useUnsavedChanges</code>{" "}
-						wins.
+						One form at a time — only one registered form is displayed. If multiple forms mount simultaneously, the last one to call <code className="text-fg">useUnsavedChanges</code> wins.
 					</li>
 				</ul>
 			</DocSection>

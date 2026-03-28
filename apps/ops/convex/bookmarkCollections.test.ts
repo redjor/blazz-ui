@@ -19,9 +19,7 @@ describe("bookmarkCollections auth", () => {
 
 	it("create rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(
-			t.mutation(api.bookmarkCollections.create, { name: "Test" })
-		).rejects.toThrow("Non authentifié")
+		await expect(t.mutation(api.bookmarkCollections.create, { name: "Test" })).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -36,9 +34,7 @@ describe("bookmarkCollections CRUD", () => {
 
 	it("rejects empty name", async () => {
 		const { asUser } = setup()
-		await expect(
-			asUser.mutation(api.bookmarkCollections.create, { name: "   " })
-		).rejects.toThrow("Le nom est requis")
+		await expect(asUser.mutation(api.bookmarkCollections.create, { name: "   " })).rejects.toThrow("Le nom est requis")
 	})
 
 	it("auto-increments order", async () => {
@@ -63,9 +59,7 @@ describe("bookmarkCollections CRUD", () => {
 		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
 		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
 		const id = await user1.mutation(api.bookmarkCollections.create, { name: "Mine" })
-		await expect(
-			user2.mutation(api.bookmarkCollections.update, { id, name: "Hacked" })
-		).rejects.toThrow("Introuvable")
+		await expect(user2.mutation(api.bookmarkCollections.update, { id, name: "Hacked" })).rejects.toThrow("Introuvable")
 	})
 })
 
@@ -134,8 +128,6 @@ describe("bookmarkCollections remove", () => {
 		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
 		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
 		const id = await user1.mutation(api.bookmarkCollections.create, { name: "Mine" })
-		await expect(
-			user2.mutation(api.bookmarkCollections.remove, { id })
-		).rejects.toThrow("Introuvable")
+		await expect(user2.mutation(api.bookmarkCollections.remove, { id })).rejects.toThrow("Introuvable")
 	})
 })

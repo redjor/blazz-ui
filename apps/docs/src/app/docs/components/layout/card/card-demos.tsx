@@ -1,13 +1,7 @@
 "use client"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Card,
-	CardAction,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Progress } from "@blazz/ui/components/ui/progress"
 import { cn } from "@blazz/ui/lib/utils"
 import { ChevronDownIcon } from "lucide-react"
@@ -26,12 +20,7 @@ export function CardBillingExample() {
 					</Button>
 				</CardAction>
 			</CardHeader>
-			<CardContent
-				className={cn(
-					"relative space-y-5 overflow-hidden transition-all duration-500 ease-in-out",
-					isOpen ? "max-h-[500px]" : "max-h-48"
-				)}
-			>
+			<CardContent className={cn("relative space-y-5 overflow-hidden transition-all duration-500 ease-in-out", isOpen ? "max-h-[500px]" : "max-h-48")}>
 				<div className="bg-muted/60 space-y-3 rounded-md p-4">
 					<div className="text-muted-foreground flex justify-between text-xs font-medium">
 						<span>Included Credit</span>
@@ -76,16 +65,8 @@ export function CardBillingExample() {
 			</CardContent>
 
 			<div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-				<Button
-					variant="outline"
-					size="icon-sm"
-					className="bg-background hover:bg-background rounded-full shadow-sm"
-					onClick={() => setIsOpen(!isOpen)}
-				>
-					<ChevronDownIcon
-						aria-hidden="true"
-						className={cn("transition-transform duration-300", isOpen && "rotate-180")}
-					/>
+				<Button variant="outline" size="icon-sm" className="bg-background hover:bg-background rounded-full shadow-sm" onClick={() => setIsOpen(!isOpen)}>
+					<ChevronDownIcon aria-hidden="true" className={cn("transition-transform duration-300", isOpen && "rotate-180")} />
 					<span className="sr-only">Toggle card</span>
 				</Button>
 			</div>

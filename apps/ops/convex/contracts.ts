@@ -2,11 +2,7 @@ import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const contractStatusValidator = v.union(
-	v.literal("active"),
-	v.literal("completed"),
-	v.literal("cancelled")
-)
+const contractStatusValidator = v.union(v.literal("active"), v.literal("completed"), v.literal("cancelled"))
 
 const contractTypeValidator = v.union(v.literal("tma"), v.literal("forfait"), v.literal("regie"))
 

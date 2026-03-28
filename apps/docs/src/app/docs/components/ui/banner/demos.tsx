@@ -58,12 +58,7 @@ export function CriticalBannerDemo() {
 
 export function WithActionsBannerDemo() {
 	return (
-		<Banner
-			tone="info"
-			title="New Features Available"
-			action={{ content: "Learn More", url: "/features" }}
-			secondaryAction={{ content: "Dismiss", onAction: () => console.log("Dismissed") }}
-		>
+		<Banner tone="info" title="New Features Available" action={{ content: "Learn More", url: "/features" }} secondaryAction={{ content: "Dismiss", onAction: () => console.log("Dismissed") }}>
 			Check out the latest features added to your dashboard.
 		</Banner>
 	)
@@ -77,11 +72,7 @@ export function AsyncActionBannerDemo() {
 		setLoading(false)
 	}
 	return (
-		<Banner
-			tone="warning"
-			title="Confirm Action"
-			action={{ content: "Confirm", onAction: handleAsyncAction, loading: loading }}
-		>
+		<Banner tone="warning" title="Confirm Action" action={{ content: "Confirm", onAction: handleAsyncAction, loading: loading }}>
 			This action requires confirmation. Click confirm to proceed.
 		</Banner>
 	)

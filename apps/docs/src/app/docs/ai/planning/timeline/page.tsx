@@ -1,13 +1,14 @@
 "use client"
 
-import { use } from "react"
 import { Timeline } from "@blazz/pro/components/ai/generative/planning/timeline"
 import { Calendar, FileText, Mail, Phone } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "with-icons",
@@ -34,7 +35,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function TimelinePage() {
@@ -42,11 +42,7 @@ export default function TimelinePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Timeline"
-			subtitle="A vertical activity feed showing events in chronological order."
-			toc={toc}
-		>
+		<DocPage title="Timeline" subtitle="A vertical activity feed showing events in chronological order." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<Timeline
@@ -84,12 +80,7 @@ export default function TimelinePage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="With Icons"
-					description="Use icons to differentiate activity types."
-					code={examples[0].code}
-					highlightedCode={html("with-icons")}
-				>
+				<DocExampleClient title="With Icons" description="Use icons to differentiate activity types." code={examples[0].code} highlightedCode={html("with-icons")}>
 					<div className="max-w-sm">
 						<Timeline
 							title="Recent Activity"
@@ -111,12 +102,7 @@ export default function TimelinePage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Simple Dots"
-					description="Without icons, colored dots indicate event type."
-					code={examples[1].code}
-					highlightedCode={html("simple")}
-				>
+				<DocExampleClient title="Simple Dots" description="Without icons, colored dots indicate event type." code={examples[1].code} highlightedCode={html("simple")}>
 					<div className="max-w-sm">
 						<Timeline
 							items={[

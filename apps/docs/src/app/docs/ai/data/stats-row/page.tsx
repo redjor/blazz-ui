@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { StatsRow } from "@blazz/pro/components/ai/generative/data/stats-row"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "with-trends",
@@ -32,7 +33,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function StatsRowPage() {
@@ -40,11 +40,7 @@ export default function StatsRowPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Stats Row"
-			subtitle="2-4 KPIs displayed in a compact horizontal row with dividers."
-			toc={toc}
-		>
+		<DocPage title="Stats Row" subtitle="2-4 KPIs displayed in a compact horizontal row with dividers." toc={toc}>
 			<DocHero>
 				<StatsRow
 					className="w-full max-w-lg"
@@ -57,12 +53,7 @@ export default function StatsRowPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="With Trends"
-					description="Each metric can have an optional trend indicator."
-					code={examples[0].code}
-					highlightedCode={html("with-trends")}
-				>
+				<DocExampleClient title="With Trends" description="Each metric can have an optional trend indicator." code={examples[0].code} highlightedCode={html("with-trends")}>
 					<StatsRow
 						items={[
 							{ label: "Contacts", value: "1,204", trend: 4.3 },
@@ -73,12 +64,7 @@ export default function StatsRowPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Two Metrics"
-					description="Works with as few as two items."
-					code={examples[1].code}
-					highlightedCode={html("two-metrics")}
-				>
+				<DocExampleClient title="Two Metrics" description="Works with as few as two items." code={examples[1].code} highlightedCode={html("two-metrics")}>
 					<div className="max-w-xs">
 						<StatsRow
 							items={[

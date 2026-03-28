@@ -2,23 +2,11 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAction, useMutation } from "convex/react"
 import { Check, Loader2, Search } from "lucide-react"
@@ -69,9 +57,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 		formState: { errors, isSubmitting },
 	} = useForm<FormValues>({
 		resolver: zodResolver(schema),
-		defaultValues: source
-			? { name: source.name, type: source.type, externalId: source.externalId }
-			: { name: "", type: "youtube", externalId: "" },
+		defaultValues: source ? { name: source.name, type: source.type, externalId: source.externalId } : { name: "", type: "youtube", externalId: "" },
 	})
 
 	const selectedType = watch("type")
@@ -148,12 +134,7 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 								control={control}
 								name="type"
 								render={({ field }) => (
-									<Select
-										value={field.value}
-										onValueChange={field.onChange}
-										disabled={isEdit}
-										items={TYPE_ITEMS}
-									>
+									<Select value={field.value} onValueChange={field.onChange} disabled={isEdit} items={TYPE_ITEMS}>
 										<SelectTrigger>
 											<SelectValue />
 										</SelectTrigger>
@@ -186,83 +167,35 @@ export function SourceFormDialog({ open, onOpenChange, source }: SourceFormDialo
 										}}
 										className="flex-1"
 									/>
-									<Button
-										type="button"
-										variant="outline"
-										size="sm"
-										onClick={handleResolve}
-										disabled={resolving || !handleInput.trim()}
-										className="shrink-0"
-									>
-										{resolving ? (
-											<Loader2 className="size-3.5 animate-spin" />
-										) : resolved ? (
-											<Check className="size-3.5 text-green-500" />
-										) : (
-											<Search className="size-3.5" />
-										)}
+									<Button type="button" variant="outline" size="sm" onClick={handleResolve} disabled={resolving || !handleInput.trim()} className="shrink-0">
+										{resolving ? <Loader2 className="size-3.5 animate-spin" /> : resolved ? <Check className="size-3.5 text-green-500" /> : <Search className="size-3.5" />}
 									</Button>
 								</InlineStack>
-								<p className="text-[11px] text-fg-muted">
-									Collez un handle (@melvynxdev) ou une URL YouTube — le Channel ID sera résolu automatiquement
-								</p>
+								<p className="text-[11px] text-fg-muted">Collez un handle (@melvynxdev) ou une URL YouTube — le Channel ID sera résolu automatiquement</p>
 							</BlockStack>
 						)}
 
 						{/* Name */}
 						<BlockStack gap="150">
 							<Label htmlFor="source-name">Nom</Label>
-							<Input
-								id="source-name"
-								placeholder="Ex: Fireship, TechCrunch..."
-								{...register("name")}
-							/>
-							{errors.name && (
-								<p className="text-xs text-red-500">{errors.name.message}</p>
-							)}
+							<Input id="source-name" placeholder="Ex: Fireship, TechCrunch..." {...register("name")} />
+							{errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
 						</BlockStack>
 
 						{/* External ID */}
 						<BlockStack gap="150">
-							<Label htmlFor="source-external-id">
-								{selectedType === "youtube" ? "Channel ID" : "URL du flux RSS"}
-							</Label>
-							<Input
-								id="source-external-id"
-								placeholder={
-									selectedType === "youtube"
-										? "UCxxxxxxxxxxxxxxxxxxxxxx"
-										: "https://example.com/feed.xml"
-								}
-								{...register("externalId")}
-							/>
-							{selectedType === "youtube" && !resolved && (
-								<p className="text-[11px] text-fg-muted">
-									Rempli automatiquement si vous utilisez le champ Handle ci-dessus
-								</p>
-							)}
-							{errors.externalId && (
-								<p className="text-xs text-red-500">{errors.externalId.message}</p>
-							)}
+							<Label htmlFor="source-external-id">{selectedType === "youtube" ? "Channel ID" : "URL du flux RSS"}</Label>
+							<Input id="source-external-id" placeholder={selectedType === "youtube" ? "UCxxxxxxxxxxxxxxxxxxxxxx" : "https://example.com/feed.xml"} {...register("externalId")} />
+							{selectedType === "youtube" && !resolved && <p className="text-[11px] text-fg-muted">Rempli automatiquement si vous utilisez le champ Handle ci-dessus</p>}
+							{errors.externalId && <p className="text-xs text-red-500">{errors.externalId.message}</p>}
 						</BlockStack>
 
 						<DialogFooter>
-							<Button
-								type="button"
-								variant="outline"
-								onClick={() => onOpenChange(false)}
-								disabled={isSubmitting}
-							>
+							<Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
 								Annuler
 							</Button>
 							<Button type="submit" disabled={isSubmitting}>
-								{isSubmitting ? (
-									<Loader2 className="size-4 animate-spin" />
-								) : isEdit ? (
-									"Mettre à jour"
-								) : (
-									"Ajouter"
-								)}
+								{isSubmitting ? <Loader2 className="size-4 animate-spin" /> : isEdit ? "Mettre à jour" : "Ajouter"}
 							</Button>
 						</DialogFooter>
 					</BlockStack>

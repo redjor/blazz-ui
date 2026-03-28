@@ -1,15 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Empty,
-	EmptyActions,
-	EmptyDescription,
-	EmptyIcon,
-	EmptyTitle,
-} from "@blazz/ui/components/ui/empty"
+import { Empty, EmptyActions, EmptyDescription, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { Building, FileText, Plus, Rocket, RotateCcw, SearchX, Users } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -109,7 +103,6 @@ const examples = [
 	},
 ] as const
 
-
 const highlightedPromise = highlightExamples(examples as any)
 
 const toc = [
@@ -153,14 +146,12 @@ const emptyProps: DocProp[] = [
 		name: "size",
 		type: '"sm" | "default" | "lg"',
 		default: '"default"',
-		description:
-			"Controls padding and icon size. Use sm for cards, default for page sections, lg for full-page states.",
+		description: "Controls padding and icon size. Use sm for cards, default for page sections, lg for full-page states.",
 	},
 	{
 		name: "children",
 		type: "React.ReactNode",
-		description:
-			"When provided, enables compositional mode. Props-based content (icon, title, etc.) is ignored.",
+		description: "When provided, enables compositional mode. Props-based content (icon, title, etc.) is ignored.",
 	},
 ]
 
@@ -192,63 +183,25 @@ export default function EmptyPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Empty"
-			subtitle="Communicate empty states with context and actionable guidance. Use when data doesn't exist yet or search results are empty."
-			toc={toc}
-		>
+		<DocPage title="Empty" subtitle="Communicate empty states with context and actionable guidance. Use when data doesn't exist yet or search results are empty." toc={toc}>
 			<DocHero>
-				<Empty
-					icon={Building}
-					title="No companies"
-					description="Create your first company to get started."
-					action={{ label: "Add company", icon: Plus }}
-				/>
+				<Empty icon={Building} title="No companies" description="Create your first company to get started." action={{ label: "Add company", icon: Plus }} />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A minimal empty state with just an icon and title."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A minimal empty state with just an icon and title." code={examples[0].code} highlightedCode={html("basic")}>
 					<Empty icon={Building} title="No companies" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Description"
-					description="Add context to help the user understand why the area is empty."
-					code={examples[1].code}
-					highlightedCode={html("with-description")}
-				>
-					<Empty
-						icon={Users}
-						title="No contacts"
-						description="Import your contacts or create them manually."
-					/>
+				<DocExampleClient title="With Description" description="Add context to help the user understand why the area is empty." code={examples[1].code} highlightedCode={html("with-description")}>
+					<Empty icon={Users} title="No contacts" description="Import your contacts or create them manually." />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Action"
-					description="Provide a clear next step. The primary pattern for 'no data' states."
-					code={examples[2].code}
-					highlightedCode={html("with-action")}
-				>
-					<Empty
-						icon={Building}
-						title="No companies"
-						description="Create your first company to get started."
-						action={{ label: "Add company", icon: Plus }}
-					/>
+				<DocExampleClient title="With Action" description="Provide a clear next step. The primary pattern for 'no data' states." code={examples[2].code} highlightedCode={html("with-action")}>
+					<Empty icon={Building} title="No companies" description="Create your first company to get started." action={{ label: "Add company", icon: Plus }} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Two Actions"
-					description="Offer primary and secondary paths when multiple options exist."
-					code={examples[3].code}
-					highlightedCode={html("two-actions")}
-				>
+				<DocExampleClient title="With Two Actions" description="Offer primary and secondary paths when multiple options exist." code={examples[3].code} highlightedCode={html("two-actions")}>
 					<Empty
 						icon={FileText}
 						title="No documents"
@@ -258,52 +211,21 @@ export default function EmptyPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="No Results"
-					description="Use when filters or search return nothing. Always offer a way to reset."
-					code={examples[4].code}
-					highlightedCode={html("no-results")}
-				>
-					<Empty
-						icon={SearchX}
-						title="No results"
-						description="No companies match your current filters."
-						action={{ label: "Reset filters", icon: RotateCcw }}
-						size="sm"
-					/>
+				<DocExampleClient title="No Results" description="Use when filters or search return nothing. Always offer a way to reset." code={examples[4].code} highlightedCode={html("no-results")}>
+					<Empty icon={SearchX} title="No results" description="No companies match your current filters." action={{ label: "Reset filters", icon: RotateCcw }} size="sm" />
 				</DocExampleClient>
 			</DocSection>
 
 			<DocSection id="sizes" title="Sizes">
-				<DocExampleClient
-					title="Small"
-					description="Use inside cards, kanban columns, or compact sections."
-					code={examples[5].code}
-					highlightedCode={html("size-sm")}
-				>
+				<DocExampleClient title="Small" description="Use inside cards, kanban columns, or compact sections." code={examples[5].code} highlightedCode={html("size-sm")}>
 					<Empty icon={Users} title="No contacts" size="sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Default"
-					description="Standard size for page sections and tables."
-					code={examples[6].code}
-					highlightedCode={html("size-default")}
-				>
-					<Empty
-						icon={Users}
-						title="No contacts"
-						description="Add contacts to this company."
-						action={{ label: "Add contact", icon: Plus }}
-					/>
+				<DocExampleClient title="Default" description="Standard size for page sections and tables." code={examples[6].code} highlightedCode={html("size-default")}>
+					<Empty icon={Users} title="No contacts" description="Add contacts to this company." action={{ label: "Add contact", icon: Plus }} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Large"
-					description="Use for full-page states like onboarding or first-run experiences."
-					code={examples[7].code}
-					highlightedCode={html("size-lg")}
-				>
+				<DocExampleClient title="Large" description="Use for full-page states like onboarding or first-run experiences." code={examples[7].code} highlightedCode={html("size-lg")}>
 					<Empty
 						icon={Rocket}
 						title="Welcome to Forge CRM"
@@ -327,9 +249,7 @@ export default function EmptyPage() {
 							<Rocket />
 						</EmptyIcon>
 						<EmptyTitle>Build your pipeline</EmptyTitle>
-						<EmptyDescription>
-							Start by adding deals from the contacts page, or import a CSV.
-						</EmptyDescription>
+						<EmptyDescription>Start by adding deals from the contacts page, or import a CSV.</EmptyDescription>
 						<EmptyActions>
 							<Button size="sm">Import CSV</Button>
 							<Button size="sm" variant="outline">
@@ -349,9 +269,7 @@ export default function EmptyPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Empty uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Empty uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> — Icon circle background
@@ -370,16 +288,13 @@ export default function EmptyPage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
-					<li>
-						Distinguish between "no data" (first-time) and "no results" (filters too restrictive)
-					</li>
+					<li>Distinguish between "no data" (first-time) and "no results" (filters too restrictive)</li>
 					<li>"No data" states should include a CTA to create the first item</li>
 					<li>"No results" states should offer a way to reset filters</li>
 					<li>Always provide an action — never leave the user without a next step</li>
 					<li>Keep descriptions short and actionable (1 sentence max)</li>
 					<li>
-						Use <code className="text-xs">sm</code> size inside cards and panels,{" "}
-						<code className="text-xs">lg</code> for full-page onboarding
+						Use <code className="text-xs">sm</code> size inside cards and panels, <code className="text-xs">lg</code> for full-page onboarding
 					</li>
 					<li>Icons should be descriptive of the content type, not decorative</li>
 				</ul>

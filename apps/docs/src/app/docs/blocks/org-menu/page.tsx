@@ -173,19 +173,12 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 function SwitchableDemo() {
 	const [active, setActive] = useState(organizations[0])
 
 	return (
 		<div className="w-64">
-			<OrgMenu
-				organizations={organizations}
-				activeOrganization={active}
-				onSelect={setActive}
-				onCreate={() => {}}
-				onManage={() => {}}
-			/>
+			<OrgMenu organizations={organizations} activeOrganization={active} onSelect={setActive} onCreate={() => {}} onManage={() => {}} />
 		</div>
 	)
 }
@@ -205,12 +198,7 @@ function SingleOrgDemo() {
 
 	return (
 		<div className="w-64">
-			<OrgMenu
-				organizations={singleOrg}
-				activeOrganization={active}
-				onSelect={setActive}
-				onCreate={() => {}}
-			/>
+			<OrgMenu organizations={singleOrg} activeOrganization={active} onSelect={setActive} onCreate={() => {}} />
 		</div>
 	)
 }
@@ -218,12 +206,7 @@ function SingleOrgDemo() {
 function EmptyDemo() {
 	return (
 		<div className="w-64">
-			<OrgMenu
-				organizations={[]}
-				activeOrganization={{ id: "0", name: "No Org", slug: "no-org" }}
-				onSelect={() => {}}
-				onCreate={() => {}}
-			/>
+			<OrgMenu organizations={[]} activeOrganization={{ id: "0", name: "No Org", slug: "no-org" }} onSelect={() => {}} onCreate={() => {}} />
 		</div>
 	)
 }
@@ -233,11 +216,7 @@ export default function OrgMenuPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="OrgMenu"
-			subtitle="A workspace switcher dropdown for the sidebar. Lets users switch between organizations, create new ones, and access org settings."
-			toc={toc}
-		>
+		<DocPage title="OrgMenu" subtitle="A workspace switcher dropdown for the sidebar. Lets users switch between organizations, create new ones, and access org settings." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<SwitchableDemo />
@@ -245,12 +224,7 @@ export default function OrgMenuPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A workspace switcher with multiple organizations, create and manage actions."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A workspace switcher with multiple organizations, create and manage actions." code={examples[0].code} highlightedCode={html("basic")}>
 					<SwitchableDemo />
 				</DocExampleClient>
 
@@ -263,12 +237,7 @@ export default function OrgMenuPage() {
 					<ManyOrgsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Single Organization"
-					description="With a single organization, the dropdown still allows creating a new one."
-					code={examples[2].code}
-					highlightedCode={html("single")}
-				>
+				<DocExampleClient title="Single Organization" description="With a single organization, the dropdown still allows creating a new one." code={examples[2].code} highlightedCode={html("single")}>
 					<SingleOrgDemo />
 				</DocExampleClient>
 
@@ -297,10 +266,7 @@ export default function OrgMenuPage() {
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
 					<li>Place at the top of the sidebar, above the navigation items</li>
 					<li>Always show the active organization name and plan in the trigger</li>
-					<li>
-						Use square-rounded avatars (rounded-lg) to differentiate from user avatars
-						(rounded-full)
-					</li>
+					<li>Use square-rounded avatars (rounded-lg) to differentiate from user avatars (rounded-full)</li>
 					<li>Keep organization names short — long names are truncated with a tooltip</li>
 					<li>Provide onCreate to allow users to add organizations inline</li>
 				</ul>

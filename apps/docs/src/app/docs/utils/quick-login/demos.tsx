@@ -47,10 +47,7 @@ export function QuickLoginDemo({ position }: { position?: "top-right" | "bottom-
 			<p className="text-sm text-fg-muted">
 				{selected ? (
 					<>
-						Connected as{" "}
-						<code className="text-fg font-mono text-xs bg-card px-1.5 py-0.5 rounded border border-edge">
-							{selected}
-						</code>
+						Connected as <code className="text-fg font-mono text-xs bg-card px-1.5 py-0.5 rounded border border-edge">{selected}</code>
 					</>
 				) : (
 					"Click the button to select a test account"

@@ -19,10 +19,7 @@ export const fieldGridData: ComponentData = {
 			description: "Champs à afficher en grille.",
 		},
 	],
-	gotchas: [
-		"Use col-span-2 or col-span-3 on children for full-width fields (textarea, address)",
-		"Use cols={3} for 8-15 fields, cols={2} for < 8 fields",
-	],
+	gotchas: ["Use col-span-2 or col-span-3 on children for full-width fields (textarea, address)", "Use cols={3} for 8-15 fields, cols={2} for < 8 fields"],
 	canonicalExample: `<FieldGrid cols={2}>
   <FormField label="First Name" required error={errors.firstName?.message}>
     <Input {...register("firstName")} />

@@ -2,14 +2,7 @@
 
 import * as React from "react"
 import { cn } from "../../lib/utils"
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "../ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "../ui/breadcrumb"
 
 export interface BreadcrumbItemType {
 	label: string
@@ -45,13 +38,7 @@ export interface PageHeaderProps {
  *   actions={<Button>Add Product</Button>}
  * />
  */
-export function PageHeader({
-	breadcrumbs,
-	title,
-	description,
-	actions,
-	className,
-}: PageHeaderProps) {
+export function PageHeader({ breadcrumbs, title, description, actions, className }: PageHeaderProps) {
 	return (
 		<div className={cn("border-b border-gray-200 bg-white px-6 py-4", className)}>
 			{/* Breadcrumbs */}
@@ -65,11 +52,7 @@ export function PageHeader({
 								// biome-ignore lint/suspicious/noArrayIndexKey: breadcrumb items have stable order
 								<React.Fragment key={index}>
 									<BreadcrumbItem>
-										{isLast || !breadcrumb.href ? (
-											<BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
-										) : (
-											<BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>
-										)}
+										{isLast || !breadcrumb.href ? <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage> : <BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>}
 									</BreadcrumbItem>
 									{!isLast && <BreadcrumbSeparator />}
 								</React.Fragment>

@@ -62,10 +62,7 @@ export function NavbarTabs({ value, children, className }: NavbarTabsProps) {
 		<NavbarTabsContext.Provider value={value}>
 			<div ref={navRef} className={cn("relative flex items-center gap-1", className)}>
 				<div
-					className={cn(
-						"absolute top-1/2 -translate-y-1/2 h-[30px] rounded-md bg-muted transition-all duration-200 ease-out",
-						!indicator.ready && "opacity-0"
-					)}
+					className={cn("absolute top-1/2 -translate-y-1/2 h-[30px] rounded-md bg-muted transition-all duration-200 ease-out", !indicator.ready && "opacity-0")}
 					style={{ left: indicator.left, width: indicator.width }}
 					aria-hidden
 				/>
@@ -88,11 +85,7 @@ export function NavbarTab({ value, children, className }: NavbarTabProps) {
 	return (
 		<div
 			data-active={isActive}
-			className={cn(
-				"relative z-10 px-3 py-1.5 text-sm rounded-md transition-colors duration-150",
-				isActive ? "text-fg font-medium" : "text-fg-muted hover:text-fg",
-				className
-			)}
+			className={cn("relative z-10 px-3 py-1.5 text-sm rounded-md transition-colors duration-150", isActive ? "text-fg font-medium" : "text-fg-muted hover:text-fg", className)}
 		>
 			{children}
 		</div>

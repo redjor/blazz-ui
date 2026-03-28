@@ -64,9 +64,7 @@ function mapCategory(item: NavigationItem): ComponentNavCategory | null {
 	if (!item.items?.length) return null
 
 	const id = item.id ?? normalizeId(item.title)
-	const mappedItems = item.items
-		.map(mapCategoryItem)
-		.filter((entry): entry is ComponentNavItem => Boolean(entry))
+	const mappedItems = item.items.map(mapCategoryItem).filter((entry): entry is ComponentNavItem => Boolean(entry))
 
 	if (mappedItems.length === 0) return null
 

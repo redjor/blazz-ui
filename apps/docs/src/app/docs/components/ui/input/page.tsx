@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -82,43 +82,24 @@ export default function InputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Input"
-			subtitle="Text input field for collecting user data. Supports various types like text, email, password, and more."
-			toc={toc}
-		>
+		<DocPage title="Input" subtitle="Text input field for collecting user data. Supports various types like text, email, password, and more." toc={toc}>
 			<DocHero>
 				<Input placeholder="Enter your name" className="max-w-sm" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic text input field."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic text input field." code={examples[0].code} highlightedCode={html("default")}>
 					<Input placeholder="Enter your name" className="max-w-sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Input with an associated label for accessibility."
-					code={examples[1].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Input with an associated label for accessibility." code={examples[1].code} highlightedCode={html("with-label")}>
 					<div className="max-w-sm space-y-2">
 						<Label htmlFor="email">Email</Label>
 						<Input id="email" type="email" placeholder="name@example.com" />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Input Types"
-					description="Different input types for various data formats."
-					code={examples[2].code}
-					highlightedCode={html("types")}
-				>
+				<DocExampleClient title="Input Types" description="Different input types for various data formats." code={examples[2].code} highlightedCode={html("types")}>
 					<div className="grid max-w-sm gap-4">
 						<Input type="text" placeholder="Text input" />
 						<Input type="email" placeholder="email@example.com" />
@@ -127,30 +108,15 @@ export default function InputPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="File Input"
-					description="Input for file uploads."
-					code={examples[3].code}
-					highlightedCode={html("file")}
-				>
+				<DocExampleClient title="File Input" description="Input for file uploads." code={examples[3].code} highlightedCode={html("file")}>
 					<Input type="file" className="max-w-sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled inputs prevent user interaction."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled inputs prevent user interaction." code={examples[4].code} highlightedCode={html("disabled")}>
 					<Input disabled placeholder="Disabled input" className="max-w-sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Error State"
-					description="Show validation errors using aria-invalid."
-					code={examples[5].code}
-					highlightedCode={html("error")}
-				>
+				<DocExampleClient title="Error State" description="Show validation errors using aria-invalid." code={examples[5].code} highlightedCode={html("error")}>
 					<Input aria-invalid placeholder="Invalid input" className="max-w-sm" />
 				</DocExampleClient>
 			</DocSection>
@@ -160,9 +126,7 @@ export default function InputPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Input uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Input uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-card</code> - Input-specific background

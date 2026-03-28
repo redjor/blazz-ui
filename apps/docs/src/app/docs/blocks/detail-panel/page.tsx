@@ -1,9 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { DetailPanel } from "@blazz/pro/components/blocks/detail-panel"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Pencil, Trash2 } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -220,7 +220,6 @@ const toc = [
 // Route
 // ---------------------------------------------------------------------------
 
-
 // ---------------------------------------------------------------------------
 // Hero demo
 // ---------------------------------------------------------------------------
@@ -280,11 +279,7 @@ export default function DetailPanelPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Detail Panel"
-			subtitle="A compound component for structured detail views with header, status badges, action buttons, and content sections."
-			toc={toc}
-		>
+		<DocPage title="Detail Panel" subtitle="A compound component for structured detail views with header, status badges, action buttons, and content sections." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<DetailPanelHeroDemo />
@@ -364,11 +359,7 @@ export default function DetailPanelPage() {
 				>
 					<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-6">
 						<DetailPanel>
-							<DetailPanel.Header
-								title="Deal — Refonte SI Logistique"
-								subtitle="Pipeline : Qualification"
-								status={<Badge variant="success">Gagné</Badge>}
-							/>
+							<DetailPanel.Header title="Deal — Refonte SI Logistique" subtitle="Pipeline : Qualification" status={<Badge variant="success">Gagné</Badge>} />
 							<DetailPanel.Section title="Montant & échéance">
 								<div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
 									<span className="text-fg-muted">Montant</span>
@@ -379,14 +370,8 @@ export default function DetailPanelPage() {
 									<span className="text-fg">30 avril 2026</span>
 								</div>
 							</DetailPanel.Section>
-							<DetailPanel.Section
-								title="Notes"
-								description="Informations complémentaires sur le deal"
-							>
-								<p className="text-sm text-fg">
-									Le client a validé le POC. Signature prévue fin avril après validation du comité
-									de direction.
-								</p>
+							<DetailPanel.Section title="Notes" description="Informations complémentaires sur le deal">
+								<p className="text-sm text-fg">Le client a validé le POC. Signature prévue fin avril après validation du comité de direction.</p>
 							</DetailPanel.Section>
 						</DetailPanel>
 					</div>

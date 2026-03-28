@@ -1,10 +1,10 @@
 "use client"
 
-import { use } from "react"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -102,10 +102,7 @@ const inlineStackProps: DocProp[] = [
 
 function Placeholder({ width = "auto" }: { width?: string }) {
 	return (
-		<div
-			className="flex h-10 items-center justify-center rounded-md bg-brand/10 px-4 text-sm"
-			style={{ width }}
-		>
+		<div className="flex h-10 items-center justify-center rounded-md bg-brand/10 px-4 text-sm" style={{ width }}>
 			{width}
 		</div>
 	)
@@ -116,18 +113,9 @@ export default function InlineStackPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Inline Stack"
-			subtitle="Use to display children horizontally in a row. Based on CSS Flexbox."
-			toc={toc}
-		>
+		<DocPage title="Inline Stack" subtitle="Use to display children horizontally in a row. Based on CSS Flexbox." toc={toc}>
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Gap"
-					description="Control the horizontal space between children using the gap prop."
-					code={examples[0].code}
-					highlightedCode={html("gap")}
-				>
+				<DocExampleClient title="Gap" description="Control the horizontal space between children using the gap prop." code={examples[0].code} highlightedCode={html("gap")}>
 					<Card>
 						<CardContent>
 							<InlineStack gap="400">
@@ -138,12 +126,7 @@ export default function InlineStackPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Non-wrapping"
-					description="Prevent items from wrapping to the next line using wrap={false}."
-					code={examples[1].code}
-					highlightedCode={html("non-wrapping")}
-				>
+				<DocExampleClient title="Non-wrapping" description="Prevent items from wrapping to the next line using wrap={false}." code={examples[1].code} highlightedCode={html("non-wrapping")}>
 					<Card>
 						<CardContent className="overflow-x-auto">
 							<InlineStack wrap={false} gap="200">
@@ -157,12 +140,7 @@ export default function InlineStackPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Align"
-					description="Control horizontal alignment of children."
-					code={examples[2].code}
-					highlightedCode={html("align")}
-				>
+				<DocExampleClient title="Align" description="Control horizontal alignment of children." code={examples[2].code} highlightedCode={html("align")}>
 					<div className="space-y-4">
 						<div>
 							<p className="mb-2 text-xs font-medium">align="start"</p>
@@ -215,24 +193,15 @@ export default function InlineStackPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Block Align"
-					description="Control vertical alignment of children with different heights."
-					code={examples[3].code}
-					highlightedCode={html("block-align")}
-				>
+				<DocExampleClient title="Block Align" description="Control vertical alignment of children with different heights." code={examples[3].code} highlightedCode={html("block-align")}>
 					<div className="grid grid-cols-3 gap-4">
 						<div>
 							<p className="mb-2 text-xs font-medium">blockAlign="start"</p>
 							<Card>
 								<CardContent>
 									<InlineStack blockAlign="start" gap="200">
-										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">
-											40px
-										</div>
-										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">
-											80px
-										</div>
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">40px</div>
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">80px</div>
 									</InlineStack>
 								</CardContent>
 							</Card>
@@ -242,12 +211,8 @@ export default function InlineStackPage() {
 							<Card>
 								<CardContent>
 									<InlineStack blockAlign="center" gap="200">
-										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">
-											40px
-										</div>
-										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">
-											80px
-										</div>
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">40px</div>
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">80px</div>
 									</InlineStack>
 								</CardContent>
 							</Card>
@@ -257,12 +222,8 @@ export default function InlineStackPage() {
 							<Card>
 								<CardContent>
 									<InlineStack blockAlign="end" gap="200">
-										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">
-											40px
-										</div>
-										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">
-											80px
-										</div>
+										<div className="flex h-10 w-16 items-center justify-center rounded bg-brand/10 text-xs">40px</div>
+										<div className="flex h-20 w-16 items-center justify-center rounded bg-brand/10 text-xs">80px</div>
 									</InlineStack>
 								</CardContent>
 							</Card>
@@ -270,12 +231,7 @@ export default function InlineStackPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Direction"
-					description="Reverse the direction of items using direction='row-reverse'."
-					code={examples[4].code}
-					highlightedCode={html("direction")}
-				>
+				<DocExampleClient title="Direction" description="Reverse the direction of items using direction='row-reverse'." code={examples[4].code} highlightedCode={html("direction")}>
 					<div className="grid grid-cols-2 gap-4">
 						<div>
 							<p className="mb-2 text-xs font-medium">direction="row"</p>

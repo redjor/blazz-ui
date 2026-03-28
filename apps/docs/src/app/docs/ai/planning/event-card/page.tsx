@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { EventCard } from "@blazz/pro/components/ai/generative/planning/event-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "meeting",
@@ -33,7 +34,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function EventCardPage() {
@@ -41,11 +41,7 @@ export default function EventCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Event Card"
-			subtitle="Displays a meeting, call, task or deadline with date, time and participants."
-			toc={toc}
-		>
+		<DocPage title="Event Card" subtitle="Displays a meeting, call, task or deadline with date, time and participants." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<EventCard
@@ -64,12 +60,7 @@ export default function EventCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Meeting"
-					description="Meeting with participants and location."
-					code={examples[0].code}
-					highlightedCode={html("meeting")}
-				>
+				<DocExampleClient title="Meeting" description="Meeting with participants and location." code={examples[0].code} highlightedCode={html("meeting")}>
 					<div className="max-w-sm">
 						<EventCard
 							title="Product Demo — Acme Corp"
@@ -85,12 +76,7 @@ export default function EventCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Task & Deadline"
-					description="Different event types."
-					code={examples[1].code}
-					highlightedCode={html("task-deadline")}
-				>
+				<DocExampleClient title="Task & Deadline" description="Different event types." code={examples[1].code} highlightedCode={html("task-deadline")}>
 					<div className="max-w-sm space-y-3">
 						<EventCard title="Send proposal" type="task" date="Mar 10, 2026" />
 						<EventCard title="Q1 Review" type="deadline" date="Mar 31, 2026" />

@@ -10,23 +10,13 @@ import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useAction, useMutation, useQuery } from "convex/react"
-import { toast } from "sonner"
-import {
-	CalendarClock,
-	Edit2,
-	Pause,
-	Play,
-	Plus,
-	Receipt,
-	Trash2,
-	TrendingDown,
-	Wallet,
-} from "lucide-react"
+import { CalendarClock, Edit2, Pause, Play, Plus, Receipt, Trash2, TrendingDown, Wallet } from "lucide-react"
 import { useMemo, useState } from "react"
+import { toast } from "sonner"
+import { CashflowChart } from "@/components/cashflow-chart"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency } from "@/lib/format"
-import { CashflowChart } from "@/components/cashflow-chart"
 import { ExpenseDialog } from "./_expense-dialog"
 import { TreasurySettingsDialog } from "./_settings-dialog"
 import { SuggestionsSection } from "./_suggestions-section"
@@ -161,17 +151,13 @@ export default function TreasuryPageClient() {
 					},
 					{
 						label: "Solde initial",
-						value: forecast.manualBalanceCents != null
-							? formatCurrency(forecast.manualBalanceCents / 100)
-							: "Non défini",
+						value: forecast.manualBalanceCents != null ? formatCurrency(forecast.manualBalanceCents / 100) : "Non défini",
 						description: forecast.manualBalanceCents == null ? "Sync Qonto ou Paramètres" : undefined,
 						icon: Wallet,
 					},
 					{
 						label: "Solde projeté (fin)",
-						value: forecast.months.length > 0
-							? formatCurrency(forecast.months[forecast.months.length - 1].balanceCents / 100)
-							: "—",
+						value: forecast.months.length > 0 ? formatCurrency(forecast.months[forecast.months.length - 1].balanceCents / 100) : "—",
 						description: horizon === "eoy" ? "fin d'année" : `dans ${forecastMonths} mois`,
 						icon: TrendingDown,
 					},
@@ -187,17 +173,14 @@ export default function TreasuryPageClient() {
 					<InlineStack align="space-between" blockAlign="center">
 						<h2 className="text-sm font-medium text-fg-muted">Prévisionnel</h2>
 						<InlineStack gap="050">
-							{([
-								{ key: "6m", label: "6 mois" },
-								{ key: "eoy", label: "Fin d'année" },
-								{ key: "12m", label: "12 mois" },
-							] as const).map(({ key, label }) => (
-								<Button
-									key={key}
-									variant={horizon === key ? "secondary" : "ghost"}
-									size="sm"
-									onClick={() => setHorizon(key)}
-								>
+							{(
+								[
+									{ key: "6m", label: "6 mois" },
+									{ key: "eoy", label: "Fin d'année" },
+									{ key: "12m", label: "12 mois" },
+								] as const
+							).map(({ key, label }) => (
+								<Button key={key} variant={horizon === key ? "secondary" : "ghost"} size="sm" onClick={() => setHorizon(key)}>
 									{label}
 								</Button>
 							))}
@@ -210,9 +193,7 @@ export default function TreasuryPageClient() {
 			{/* Active expenses */}
 			<BlockStack gap="300">
 				<InlineStack align="space-between" blockAlign="center">
-					<h2 className="text-sm font-medium text-fg-muted">
-						Dépenses récurrentes ({activeExpenses.length})
-					</h2>
+					<h2 className="text-sm font-medium text-fg-muted">Dépenses récurrentes ({activeExpenses.length})</h2>
 				</InlineStack>
 
 				{activeExpenses.length === 0 ? (
@@ -232,55 +213,25 @@ export default function TreasuryPageClient() {
 					<Card>
 						<div className="divide-y divide-separator">
 							{activeExpenses.map((expense) => (
-								<div
-									key={expense._id}
-									className="flex items-center justify-between px-inset py-3"
-								>
+								<div key={expense._id} className="flex items-center justify-between px-inset py-3">
 									<div className="flex flex-col gap-0.5 min-w-0 flex-1">
-										<span className="text-sm font-medium text-fg truncate">
-											{expense.name}
-										</span>
+										<span className="text-sm font-medium text-fg truncate">{expense.name}</span>
 										<InlineStack gap="200">
-											<span className="text-xs text-fg-muted">
-												{FREQ_LABELS[expense.frequency]}
-											</span>
-											{expense.amountType === "variable" && (
-												<span className="text-xs text-caution">≈ estimé</span>
-											)}
-											{expense.dayOfMonth && (
-												<span className="text-xs text-fg-muted">
-													le {expense.dayOfMonth} du mois
-												</span>
-											)}
+											<span className="text-xs text-fg-muted">{FREQ_LABELS[expense.frequency]}</span>
+											{expense.amountType === "variable" && <span className="text-xs text-caution">≈ estimé</span>}
+											{expense.dayOfMonth && <span className="text-xs text-fg-muted">le {expense.dayOfMonth} du mois</span>}
 										</InlineStack>
 									</div>
 									<InlineStack gap="200" blockAlign="center">
-										<span className="text-sm font-medium tabular-nums text-fg">
-											{formatCurrency(expense.amountCents / 100)}
-										</span>
+										<span className="text-sm font-medium tabular-nums text-fg">{formatCurrency(expense.amountCents / 100)}</span>
 										<InlineStack gap="050">
-											<Button
-												variant="ghost"
-												size="icon-sm"
-												onClick={() => handleEdit(expense)}
-												title="Modifier"
-											>
+											<Button variant="ghost" size="icon-sm" onClick={() => handleEdit(expense)} title="Modifier">
 												<Edit2 className="size-3.5" />
 											</Button>
-											<Button
-												variant="ghost"
-												size="icon-sm"
-												onClick={() => handleToggleActive(expense._id, true)}
-												title="Mettre en pause"
-											>
+											<Button variant="ghost" size="icon-sm" onClick={() => handleToggleActive(expense._id, true)} title="Mettre en pause">
 												<Pause className="size-3.5" />
 											</Button>
-											<Button
-												variant="ghost"
-												size="icon-sm"
-												onClick={() => setDeleteConfirm({ open: true, id: expense._id })}
-												title="Supprimer"
-											>
+											<Button variant="ghost" size="icon-sm" onClick={() => setDeleteConfirm({ open: true, id: expense._id })} title="Supprimer">
 												<Trash2 className="size-3.5 text-destructive" />
 											</Button>
 										</InlineStack>
@@ -295,16 +246,11 @@ export default function TreasuryPageClient() {
 			{/* Inactive expenses */}
 			{inactiveExpenses.length > 0 && (
 				<BlockStack gap="300">
-					<h2 className="text-sm font-medium text-fg-muted">
-						En pause ({inactiveExpenses.length})
-					</h2>
+					<h2 className="text-sm font-medium text-fg-muted">En pause ({inactiveExpenses.length})</h2>
 					<Card>
 						<div className="divide-y divide-separator">
 							{inactiveExpenses.map((expense) => (
-								<div
-									key={expense._id}
-									className="flex items-center justify-between px-inset py-3 opacity-60"
-								>
+								<div key={expense._id} className="flex items-center justify-between px-inset py-3 opacity-60">
 									<div className="flex flex-col gap-0.5 min-w-0 flex-1">
 										<span className="text-sm text-fg truncate">{expense.name}</span>
 										<span className="text-xs text-fg-muted">
@@ -312,20 +258,10 @@ export default function TreasuryPageClient() {
 										</span>
 									</div>
 									<InlineStack gap="050">
-										<Button
-											variant="ghost"
-											size="icon-sm"
-											onClick={() => handleToggleActive(expense._id, false)}
-											title="Réactiver"
-										>
+										<Button variant="ghost" size="icon-sm" onClick={() => handleToggleActive(expense._id, false)} title="Réactiver">
 											<Play className="size-3.5" />
 										</Button>
-										<Button
-											variant="ghost"
-											size="icon-sm"
-											onClick={() => setDeleteConfirm({ open: true, id: expense._id })}
-											title="Supprimer"
-										>
+										<Button variant="ghost" size="icon-sm" onClick={() => setDeleteConfirm({ open: true, id: expense._id })} title="Supprimer">
 											<Trash2 className="size-3.5 text-destructive" />
 										</Button>
 									</InlineStack>
@@ -359,23 +295,13 @@ export default function TreasuryPageClient() {
 									return (
 										<tr key={m.yearMonth} className="border-b border-edge/50">
 											<td className="py-2 font-medium">{m.label}</td>
-											<td className="py-2 text-right tabular-nums text-positive">
-												{formatCurrency(m.revenueCents / 100)}
-											</td>
-											<td className="py-2 text-right tabular-nums text-destructive">
-												{formatCurrency(m.expenseCents / 100)}
-											</td>
-											<td
-												className={`py-2 text-right tabular-nums ${net >= 0 ? "text-positive" : "text-critical"}`}
-											>
+											<td className="py-2 text-right tabular-nums text-positive">{formatCurrency(m.revenueCents / 100)}</td>
+											<td className="py-2 text-right tabular-nums text-destructive">{formatCurrency(m.expenseCents / 100)}</td>
+											<td className={`py-2 text-right tabular-nums ${net >= 0 ? "text-positive" : "text-critical"}`}>
 												{net >= 0 ? "+" : ""}
 												{formatCurrency(net / 100)}
 											</td>
-											<td
-												className={`py-2 text-right tabular-nums font-medium ${m.balanceCents >= 0 ? "text-fg" : "text-critical"}`}
-											>
-												{formatCurrency(m.balanceCents / 100)}
-											</td>
+											<td className={`py-2 text-right tabular-nums font-medium ${m.balanceCents >= 0 ? "text-fg" : "text-critical"}`}>{formatCurrency(m.balanceCents / 100)}</td>
 										</tr>
 									)
 								})}
@@ -406,11 +332,7 @@ export default function TreasuryPageClient() {
 				onConfirm={handleDelete}
 			/>
 
-			<TreasurySettingsDialog
-				open={settingsOpen}
-				onOpenChange={setSettingsOpen}
-				settings={settings}
-			/>
+			<TreasurySettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} settings={settings} />
 		</BlockStack>
 	)
 }

@@ -1,12 +1,7 @@
 "use client"
 
+import { Source, Sources, SourcesContent, SourcesTrigger } from "@blazz/pro/components/ai/reasoning/sources"
 import { use } from "react"
-import {
-	Source,
-	Sources,
-	SourcesContent,
-	SourcesTrigger,
-} from "@blazz/pro/components/ai/reasoning/sources"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -62,11 +57,7 @@ export default function SourcesPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Sources"
-			subtitle="A collapsible list of referenced sources that the AI used to generate its response."
-			toc={toc}
-		>
+		<DocPage title="Sources" subtitle="A collapsible list of referenced sources that the AI used to generate its response." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-lg">
 					<Sources defaultOpen>
@@ -81,12 +72,7 @@ export default function SourcesPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Expanded"
-					description="Show the sources list open by default."
-					code={examples[0].code}
-					highlightedCode={html("expanded")}
-				>
+				<DocExampleClient title="Expanded" description="Show the sources list open by default." code={examples[0].code} highlightedCode={html("expanded")}>
 					<Sources defaultOpen>
 						<SourcesTrigger count={3} />
 						<SourcesContent>
@@ -97,12 +83,7 @@ export default function SourcesPage() {
 					</Sources>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Collapsed"
-					description="By default sources are collapsed, showing only the count trigger."
-					code={examples[1].code}
-					highlightedCode={html("collapsed")}
-				>
+				<DocExampleClient title="Collapsed" description="By default sources are collapsed, showing only the count trigger." code={examples[1].code} highlightedCode={html("collapsed")}>
 					<Sources>
 						<SourcesTrigger count={5} />
 						<SourcesContent>
@@ -115,12 +96,7 @@ export default function SourcesPage() {
 					</Sources>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Single Source"
-					description="Works equally well with a single source reference."
-					code={examples[2].code}
-					highlightedCode={html("single")}
-				>
+				<DocExampleClient title="Single Source" description="Works equally well with a single source reference." code={examples[2].code} highlightedCode={html("single")}>
 					<Sources defaultOpen>
 						<SourcesTrigger count={1} />
 						<SourcesContent>

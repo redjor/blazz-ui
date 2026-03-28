@@ -1,8 +1,8 @@
 "use client"
-import { use } from "react"
 
 import { SearchInput } from "@blazz/ui/components/ui/search-input"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -22,8 +22,7 @@ const searchInputProps: DocProp[] = [
 	{
 		name: "onClear",
 		type: "() => void",
-		description:
-			"Callback when the clear button is clicked. The clear button is only visible when a value is present.",
+		description: "Callback when the clear button is clicked. The clear button is only visible when a value is present.",
 	},
 	{
 		name: "value",
@@ -72,12 +71,7 @@ function SearchInputWithClearDemo() {
 
 	return (
 		<div className="max-w-sm space-y-2">
-			<SearchInput
-				placeholder="Search..."
-				value={value}
-				onChange={(e) => setValue(e.target.value)}
-				onClear={() => setValue("")}
-			/>
+			<SearchInput placeholder="Search..." value={value} onChange={(e) => setValue(e.target.value)} onClear={() => setValue("")} />
 			<p className="text-xs text-fg-muted">Value: {value || "(empty)"}</p>
 		</div>
 	)
@@ -88,11 +82,7 @@ export default function SearchInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="SearchInput"
-			subtitle="A text input with a search icon and optional clear button for search interactions."
-			toc={toc}
-		>
+		<DocPage title="SearchInput" subtitle="A text input with a search icon and optional clear button for search interactions." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<SearchInput placeholder="Search..." className="max-w-sm" />
@@ -100,30 +90,15 @@ export default function SearchInputPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic search input with a search icon."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic search input with a search icon." code={examples[0].code} highlightedCode={html("default")}>
 					<SearchInput placeholder="Search..." className="max-w-sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Clear"
-					description="When a value is present and onClear is provided, a clear button appears."
-					code={examples[1].code}
-					highlightedCode={html("with-clear")}
-				>
+				<DocExampleClient title="With Clear" description="When a value is present and onClear is provided, a clear button appears." code={examples[1].code} highlightedCode={html("with-clear")}>
 					<SearchInputWithClearDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled search inputs prevent user interaction."
-					code={examples[2].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled search inputs prevent user interaction." code={examples[2].code} highlightedCode={html("disabled")}>
 					<SearchInput disabled placeholder="Search..." className="max-w-sm" />
 				</DocExampleClient>
 			</DocSection>

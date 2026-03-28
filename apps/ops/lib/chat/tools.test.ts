@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest"
-import {
-	allTools,
-	readTools,
-	writeDangerousToolNames,
-	writeDangerousTools,
-	writeSafeToolNames,
-	writeSafeTools,
-} from "./tools"
+import { allTools, readTools, writeDangerousToolNames, writeDangerousTools, writeSafeToolNames, writeSafeTools } from "./tools"
 
 describe("chat tools", () => {
 	it("readTools has 8 tools", () => {
@@ -22,10 +15,7 @@ describe("chat tools", () => {
 	})
 
 	it("allTools merges all tool categories", () => {
-		const total =
-			Object.keys(readTools).length +
-			Object.keys(writeSafeTools).length +
-			Object.keys(writeDangerousTools).length
+		const total = Object.keys(readTools).length + Object.keys(writeSafeTools).length + Object.keys(writeDangerousTools).length
 		expect(Object.keys(allTools)).toHaveLength(total)
 	})
 

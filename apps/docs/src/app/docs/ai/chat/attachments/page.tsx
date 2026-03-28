@@ -1,14 +1,8 @@
 "use client"
 
-import { use } from "react"
 import type { AttachmentData } from "@blazz/pro/components/ai/chat/attachments"
-import {
-	Attachment,
-	AttachmentInfo,
-	AttachmentPreview,
-	AttachmentRemove,
-	Attachments,
-} from "@blazz/pro/components/ai/chat/attachments"
+import { Attachment, AttachmentInfo, AttachmentPreview, AttachmentRemove, Attachments } from "@blazz/pro/components/ai/chat/attachments"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -80,11 +74,7 @@ export default function AttachmentsPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Attachments"
-			subtitle="Display file attachments in grid, inline, or list layouts with previews and remove actions."
-			toc={toc}
-		>
+		<DocPage title="Attachments" subtitle="Display file attachments in grid, inline, or list layouts with previews and remove actions." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-lg">
 					<Attachments variant="grid">
@@ -99,12 +89,7 @@ export default function AttachmentsPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Grid Variant"
-					description="Displays attachments as a grid of square thumbnails. Ideal for image-heavy content."
-					code={examples[0].code}
-					highlightedCode={html("grid")}
-				>
+				<DocExampleClient title="Grid Variant" description="Displays attachments as a grid of square thumbnails. Ideal for image-heavy content." code={examples[0].code} highlightedCode={html("grid")}>
 					<Attachments variant="grid">
 						{mockFiles.map((file) => (
 							<Attachment key={file.id} data={file} onRemove={() => {}}>
@@ -115,12 +100,7 @@ export default function AttachmentsPage() {
 					</Attachments>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Inline Variant"
-					description="Compact inline chips suitable for embedding in a prompt input area."
-					code={examples[1].code}
-					highlightedCode={html("inline")}
-				>
+				<DocExampleClient title="Inline Variant" description="Compact inline chips suitable for embedding in a prompt input area." code={examples[1].code} highlightedCode={html("inline")}>
 					<Attachments variant="inline">
 						{mockFiles.map((file) => (
 							<Attachment key={file.id} data={file} onRemove={() => {}}>
@@ -132,12 +112,7 @@ export default function AttachmentsPage() {
 					</Attachments>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="List Variant"
-					description="Full-width list items with file info and media type details."
-					code={examples[2].code}
-					highlightedCode={html("list")}
-				>
+				<DocExampleClient title="List Variant" description="Full-width list items with file info and media type details." code={examples[2].code} highlightedCode={html("list")}>
 					<Attachments variant="list">
 						{mockFiles.map((file) => (
 							<Attachment key={file.id} data={file} onRemove={() => {}}>

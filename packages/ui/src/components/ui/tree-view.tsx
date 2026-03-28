@@ -30,15 +30,7 @@ export interface TreeViewProps {
 	className?: string
 }
 
-function TreeView({
-	data,
-	selected: controlledSelected,
-	onSelect,
-	expanded: controlledExpanded,
-	onExpandChange,
-	multiSelect = false,
-	className,
-}: TreeViewProps) {
+function TreeView({ data, selected: controlledSelected, onSelect, expanded: controlledExpanded, onExpandChange, multiSelect = false, className }: TreeViewProps) {
 	const [internalSelected, setInternalSelected] = React.useState<string[]>([])
 	const [internalExpanded, setInternalExpanded] = React.useState<string[]>([])
 
@@ -65,15 +57,7 @@ function TreeView({
 	return (
 		<div data-slot="tree-view" role="tree" className={cn("text-sm", className)}>
 			{data.map((node) => (
-				<TreeNodeItem
-					key={node.id}
-					node={node}
-					level={0}
-					selected={selected}
-					expanded={expanded}
-					onSelect={handleSelect}
-					onToggleExpand={toggleExpand}
-				/>
+				<TreeNodeItem key={node.id} node={node} level={0} selected={selected} expanded={expanded} onSelect={handleSelect} onToggleExpand={toggleExpand} />
 			))}
 		</div>
 	)
@@ -92,14 +76,7 @@ interface TreeNodeItemProps {
 	onToggleExpand: (id: string) => void
 }
 
-function TreeNodeItem({
-	node,
-	level,
-	selected,
-	expanded,
-	onSelect,
-	onToggleExpand,
-}: TreeNodeItemProps) {
+function TreeNodeItem({ node, level, selected, expanded, onSelect, onToggleExpand }: TreeNodeItemProps) {
 	const hasChildren = node.children && node.children.length > 0
 	const isExpanded = expanded.includes(node.id)
 	const isSelected = selected.includes(node.id)
@@ -142,21 +119,13 @@ function TreeNodeItem({
 						className="shrink-0 p-0.5 text-fg-muted hover:text-fg outline-none"
 						tabIndex={-1}
 					>
-						<ChevronRightIcon
-							className={cn(
-								"size-3.5 transition-transform duration-150",
-								isExpanded && "rotate-90"
-							)}
-						/>
+						<ChevronRightIcon className={cn("size-3.5 transition-transform duration-150", isExpanded && "rotate-90")} />
 					</button>
 				) : (
 					<span className="w-[18px] shrink-0" />
 				)}
 
-				<span className="shrink-0 text-fg-muted">
-					{node.icon ??
-						(hasChildren ? <FolderIcon className="size-4" /> : <FileIcon className="size-4" />)}
-				</span>
+				<span className="shrink-0 text-fg-muted">{node.icon ?? (hasChildren ? <FolderIcon className="size-4" /> : <FileIcon className="size-4" />)}</span>
 
 				<span className="truncate">{node.label}</span>
 			</div>
@@ -164,15 +133,7 @@ function TreeNodeItem({
 			{hasChildren && isExpanded && (
 				<div role="group">
 					{node.children!.map((child) => (
-						<TreeNodeItem
-							key={child.id}
-							node={child}
-							level={level + 1}
-							selected={selected}
-							expanded={expanded}
-							onSelect={onSelect}
-							onToggleExpand={onToggleExpand}
-						/>
+						<TreeNodeItem key={child.id} node={child} level={level + 1} selected={selected} expanded={expanded} onSelect={onSelect} onToggleExpand={onToggleExpand} />
 					))}
 				</div>
 			)}

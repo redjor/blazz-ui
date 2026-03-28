@@ -1,5 +1,5 @@
-import OpenAI from "openai"
 import type { ConvexHttpClient } from "convex/browser"
+import OpenAI from "openai"
 import { api } from "./convex"
 
 let _openai: OpenAI
@@ -26,13 +26,7 @@ Réponds en JSON strict :
   "insert": [{"content": "...", "category": "fact|preference|episode|pattern|rule", "scope": "private|shared"}]
 }`
 
-export async function consolidateAgent(
-	convex: ConvexHttpClient,
-	agentId: string,
-	userId: string,
-	agentName: string,
-	agentRole: string,
-) {
+export async function consolidateAgent(convex: ConvexHttpClient, agentId: string, userId: string, agentName: string, agentRole: string) {
 	try {
 		const allMemories = await convex.query(api.worker.workerListAllMemory, {
 			agentId: agentId as any,
@@ -49,9 +43,7 @@ export async function consolidateAgent(
 			scope: m.scope,
 			content: m.content,
 			confidence: m.confidence,
-			lastConfirmedAt: m.lastConfirmedAt
-				? new Date(m.lastConfirmedAt).toISOString().slice(0, 10)
-				: "unknown",
+			lastConfirmedAt: m.lastConfirmedAt ? new Date(m.lastConfirmedAt).toISOString().slice(0, 10) : "unknown",
 		}))
 
 		const response = await getOpenAI().chat.completions.create({
@@ -99,11 +91,7 @@ export async function consolidateAgent(
 			const category = ins.category as "fact" | "preference" | "episode" | "pattern" | "rule"
 			const thirtyDays = 30 * 24 * 60 * 60 * 1000
 			const ninetyDays = 90 * 24 * 60 * 60 * 1000
-			const expiresAt = category === "fact"
-				? Date.now() + thirtyDays
-				: category === "episode"
-					? Date.now() + ninetyDays
-					: undefined
+			const expiresAt = category === "fact" ? Date.now() + thirtyDays : category === "episode" ? Date.now() + ninetyDays : undefined
 
 			await convex.mutation(api.worker.workerAddMemory, {
 				userId: userId as any,
@@ -117,9 +105,7 @@ export async function consolidateAgent(
 			})
 		}
 
-		console.log(
-			`[consolidation] ${agentName}: ${result.keep?.length ?? 0} kept, ${result.update?.length ?? 0} updated, ${result.delete?.length ?? 0} deleted, ${result.insert?.length ?? 0} inserted`,
-		)
+		console.log(`[consolidation] ${agentName}: ${result.keep?.length ?? 0} kept, ${result.update?.length ?? 0} updated, ${result.delete?.length ?? 0} deleted, ${result.insert?.length ?? 0} inserted`)
 	} catch (err) {
 		console.error(`[consolidation] ${agentName} error:`, err)
 	}

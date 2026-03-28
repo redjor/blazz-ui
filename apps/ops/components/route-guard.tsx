@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 import { type ReactNode, useEffect } from "react"
-import { useFeatureFlags, routeToFlag } from "@/lib/feature-flags-context"
+import { routeToFlag, useFeatureFlags } from "@/lib/feature-flags-context"
 
 export function RouteGuard({ children }: { children: ReactNode }) {
 	const pathname = usePathname()

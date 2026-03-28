@@ -17,9 +17,7 @@ export const forecast = query({
 			.collect()
 
 		// Draft: billable, not invoiced, status draft or missing
-		const draft = allEntries.filter(
-			(e) => e.billable && !e.invoicedAt && (!e.status || e.status === "draft")
-		)
+		const draft = allEntries.filter((e) => e.billable && !e.invoicedAt && (!e.status || e.status === "draft"))
 		const draftCents = draft.reduce((sum, e) => sum + entryCents(e), 0)
 
 		// Ready to invoice: billable, status ready_to_invoice

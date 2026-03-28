@@ -20,17 +20,7 @@ export interface RatingProps {
 	className?: string
 }
 
-function Rating({
-	value: controlledValue,
-	defaultValue = 0,
-	onValueChange,
-	max = 5,
-	allowHalf = false,
-	readOnly = false,
-	disabled = false,
-	size = "default",
-	className,
-}: RatingProps) {
+function Rating({ value: controlledValue, defaultValue = 0, onValueChange, max = 5, allowHalf = false, readOnly = false, disabled = false, size = "default", className }: RatingProps) {
 	const [internalValue, setInternalValue] = React.useState(defaultValue)
 	const [hoverValue, setHoverValue] = React.useState(0)
 	const isControlled = controlledValue !== undefined
@@ -65,11 +55,7 @@ function Rating({
 	return (
 		<div
 			data-slot="rating"
-			className={cn(
-				"inline-flex items-center gap-0.5",
-				disabled && "opacity-50 pointer-events-none",
-				className
-			)}
+			className={cn("inline-flex items-center gap-0.5", disabled && "opacity-50 pointer-events-none", className)}
 			role="radiogroup"
 			aria-label="Rating"
 			onMouseLeave={() => setHoverValue(0)}
@@ -90,27 +76,17 @@ function Rating({
 						disabled={disabled}
 						onClick={() => handleClick(starIndex)}
 						onMouseMove={(e) => handleMouseMove(starIndex, e)}
-						className={cn(
-							"relative outline-none transition-colors",
-							!readOnly && !disabled && "cursor-pointer",
-							"focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:rounded-sm"
-						)}
+						className={cn("relative outline-none transition-colors", !readOnly && !disabled && "cursor-pointer", "focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:rounded-sm")}
 					>
 						{halfFilled ? (
 							<span className="relative">
-								<StarIcon
-									className={cn(sizeClasses[size], "text-fg-muted/30")}
-									fill="currentColor"
-								/>
+								<StarIcon className={cn(sizeClasses[size], "text-fg-muted/30")} fill="currentColor" />
 								<span className="absolute inset-0 overflow-hidden w-1/2">
 									<StarIcon className={cn(sizeClasses[size], "text-warning")} fill="currentColor" />
 								</span>
 							</span>
 						) : (
-							<StarIcon
-								className={cn(sizeClasses[size], filled ? "text-warning" : "text-fg-muted/30")}
-								fill="currentColor"
-							/>
+							<StarIcon className={cn(sizeClasses[size], filled ? "text-warning" : "text-fg-muted/30")} fill="currentColor" />
 						)}
 					</button>
 				)

@@ -1,13 +1,13 @@
 "use client"
 
-import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
-import { CategoryBadge } from "@/components/manage-categories-sheet"
-import { formatDueDate, StatusIcon } from "@/components/todos-preset"
-import type { Doc } from "@/convex/_generated/dataModel"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Calendar } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { PriorityIcon, ProjectBadge } from "@/components/edit-todo-dialog"
+import { CategoryBadge } from "@/components/manage-categories-sheet"
+import { formatDueDate, StatusIcon } from "@/components/todos-preset"
+import type { Doc } from "@/convex/_generated/dataModel"
 
 type TodoCategory = {
 	_id: string
@@ -30,9 +30,7 @@ export function TodoCard({ todo, projects, categories, clickable = true }: TodoC
 	const tags = todo.tags ?? []
 
 	const handleClick = clickable ? () => router.push(`/todos/${todo._id}`) : undefined
-	const handleKeyDown = clickable
-		? (e: React.KeyboardEvent) => e.key === "Enter" && router.push(`/todos/${todo._id}`)
-		: undefined
+	const handleKeyDown = clickable ? (e: React.KeyboardEvent) => e.key === "Enter" && router.push(`/todos/${todo._id}`) : undefined
 
 	return (
 		<div
@@ -66,10 +64,7 @@ export function TodoCard({ todo, projects, categories, clickable = true }: TodoC
 				{tags.length > 0 && (
 					<InlineStack gap="100" wrap>
 						{tags.slice(0, 3).map((tag) => (
-							<span
-								key={tag}
-								className="text-xs text-fg-muted bg-card border border-edge rounded-full px-1.5 py-0"
-							>
+							<span key={tag} className="text-xs text-fg-muted bg-card border border-edge rounded-full px-1.5 py-0">
 								{tag}
 							</span>
 						))}

@@ -7,11 +7,7 @@ type Project = { tjm: number }
  * Compute the monthly revenue (in euros, NOT cents) for a contract in a given yearMonth.
  * Returns 0 if the contract is not active during that month.
  */
-export function contractMonthlyRevenue(
-	contract: Contract,
-	project: Project,
-	yearMonth: string
-): number {
+export function contractMonthlyRevenue(contract: Contract, project: Project, yearMonth: string): number {
 	// Check contract covers this month
 	const cStart = contract.startDate.slice(0, 7)
 	const cEnd = contract.endDate.slice(0, 7)
@@ -28,9 +24,7 @@ export function contractMonthlyRevenue(
 	if (contract.type === "forfait" && contract.budgetAmount) {
 		const startDate = new Date(contract.startDate)
 		const endDate = new Date(contract.endDate)
-		const totalMonths =
-			(endDate.getFullYear() - startDate.getFullYear()) * 12 +
-			(endDate.getMonth() - startDate.getMonth()) + 1
+		const totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth()) + 1
 		if (totalMonths > 0) {
 			return contract.budgetAmount / totalMonths
 		}

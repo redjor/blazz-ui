@@ -8,16 +8,7 @@ export const sheetData: ComponentData = {
 	docPath: "/docs/components/ui/sheet",
 	imports: {
 		path: "@blazz/ui/components/ui/sheet",
-		named: [
-			"Sheet",
-			"SheetTrigger",
-			"SheetContent",
-			"SheetHeader",
-			"SheetTitle",
-			"SheetDescription",
-			"SheetFooter",
-			"SheetClose",
-		],
+		named: ["Sheet", "SheetTrigger", "SheetContent", "SheetHeader", "SheetTitle", "SheetDescription", "SheetFooter", "SheetClose"],
 	},
 	props: [
 		{ name: "open", type: "boolean", description: "État d'ouverture contrôlé." },

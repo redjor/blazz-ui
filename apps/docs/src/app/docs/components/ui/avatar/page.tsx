@@ -1,14 +1,7 @@
 "use client"
 
+import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@blazz/ui/components/ui/avatar"
 import { use } from "react"
-import {
-	Avatar,
-	AvatarBadge,
-	AvatarFallback,
-	AvatarGroup,
-	AvatarGroupCount,
-	AvatarImage,
-} from "@blazz/ui/components/ui/avatar"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -93,11 +86,7 @@ export default function AvatarPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Avatar"
-			subtitle="Display user profile images with fallback support for initials or icons."
-			toc={toc}
-		>
+		<DocPage title="Avatar" subtitle="Display user profile images with fallback support for initials or icons." toc={toc}>
 			<DocHero>
 				<div className="flex items-center gap-3">
 					<Avatar>
@@ -115,24 +104,14 @@ export default function AvatarPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="With Image"
-					description="Display a user's profile picture."
-					code={examples[0].code}
-					highlightedCode={html("with-image")}
-				>
+				<DocExampleClient title="With Image" description="Display a user's profile picture." code={examples[0].code} highlightedCode={html("with-image")}>
 					<Avatar>
 						<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
 						<AvatarFallback>CN</AvatarFallback>
 					</Avatar>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Fallback"
-					description="Show initials when image is unavailable."
-					code={examples[1].code}
-					highlightedCode={html("fallback")}
-				>
+				<DocExampleClient title="Fallback" description="Show initials when image is unavailable." code={examples[1].code} highlightedCode={html("fallback")}>
 					<div className="flex gap-2">
 						<Avatar>
 							<AvatarFallback>JD</AvatarFallback>
@@ -146,12 +125,7 @@ export default function AvatarPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Available avatar sizes."
-					code={examples[2].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Available avatar sizes." code={examples[2].code} highlightedCode={html("sizes")}>
 					<div className="flex items-center gap-2">
 						<Avatar size="sm">
 							<AvatarFallback>SM</AvatarFallback>
@@ -165,12 +139,7 @@ export default function AvatarPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Badge"
-					description="Add a status indicator badge to the avatar."
-					code={examples[3].code}
-					highlightedCode={html("with-badge")}
-				>
+				<DocExampleClient title="With Badge" description="Add a status indicator badge to the avatar." code={examples[3].code} highlightedCode={html("with-badge")}>
 					<div className="flex items-center gap-4">
 						<Avatar size="sm">
 							<AvatarFallback>JD</AvatarFallback>
@@ -188,12 +157,7 @@ export default function AvatarPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Avatar Group"
-					description="Display multiple avatars in a stacked group."
-					code={examples[4].code}
-					highlightedCode={html("avatar-group")}
-				>
+				<DocExampleClient title="Avatar Group" description="Display multiple avatars in a stacked group." code={examples[4].code} highlightedCode={html("avatar-group")}>
 					<AvatarGroup>
 						<Avatar>
 							<AvatarImage src="https://github.com/shadcn.png" alt="User 1" />
@@ -223,9 +187,7 @@ export default function AvatarPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Avatar uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Avatar uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Fallback background color

@@ -82,9 +82,7 @@ export const update = mutation({
 				maxPerMonth: v.number(),
 			})
 		),
-		status: v.optional(
-			v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled"))
-		),
+		status: v.optional(v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled"))),
 	},
 	handler: async (ctx, { id, ...fields }) => {
 		const { userId } = await requireAuth(ctx)
@@ -117,8 +115,7 @@ export const addUsage = mutation({
 		const month = new Date().toISOString().slice(0, 7)
 
 		const todayUsd = agent.usage.lastResetDay === today ? agent.usage.todayUsd + costUsd : costUsd
-		const monthUsd =
-			agent.usage.lastResetMonth === month ? agent.usage.monthUsd + costUsd : costUsd
+		const monthUsd = agent.usage.lastResetMonth === month ? agent.usage.monthUsd + costUsd : costUsd
 
 		await ctx.db.patch(id, {
 			usage: {
@@ -188,7 +185,7 @@ export const internalSeed = internalMutation({
 				role: "Assistant Personnel",
 				model: "gpt-4.1-mini",
 				avatar: "🟣",
-				budget: { maxPerMission: 0.10, maxPerDay: 0.50, maxPerMonth: 5.0 },
+				budget: { maxPerMission: 0.1, maxPerDay: 0.5, maxPerMonth: 5.0 },
 				permissions: {
 					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
 					confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
@@ -201,7 +198,7 @@ export const internalSeed = internalMutation({
 				role: "Account Manager",
 				model: "gpt-4.1-mini",
 				avatar: "🟠",
-				budget: { maxPerMission: 0.10, maxPerDay: 0.30, maxPerMonth: 3.0 },
+				budget: { maxPerMission: 0.1, maxPerDay: 0.3, maxPerMonth: 3.0 },
 				permissions: {
 					safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses"],
 					confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],
@@ -216,7 +213,9 @@ export const internalSeed = internalMutation({
 				userId,
 				status: "idle" as const,
 				usage: {
-					todayUsd: 0, monthUsd: 0, totalUsd: 0,
+					todayUsd: 0,
+					monthUsd: 0,
+					totalUsd: 0,
 					lastResetDay: new Date().toISOString().slice(0, 10),
 					lastResetMonth: new Date().toISOString().slice(0, 7),
 				},
@@ -246,15 +245,7 @@ export const seed = mutation({
 				avatar: "🟡",
 				budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
 				permissions: {
-					safe: [
-						"qonto_balance",
-						"qonto_transactions",
-						"list_invoices",
-						"list_recurring_expenses",
-						"treasury_forecast",
-						"list_projects",
-						"list_time_entries",
-					],
+					safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "treasury_forecast", "list_projects", "list_time_entries"],
 					confirm: ["create_note"],
 					blocked: ["write_file", "github_create_issue"],
 				},
@@ -269,12 +260,7 @@ export const seed = mutation({
 				permissions: {
 					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
 					confirm: ["create_note", "create_todo"],
-					blocked: [
-						"qonto_balance",
-						"qonto_transactions",
-						"write_file",
-						"github_create_issue",
-					],
+					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
 				},
 			},
 			{
@@ -285,14 +271,7 @@ export const seed = mutation({
 				avatar: "🔵",
 				budget: { maxPerMission: 0.3, maxPerDay: 1.0, maxPerMonth: 8.0 },
 				permissions: {
-					safe: [
-						"git_log",
-						"git_diff",
-						"read_file",
-						"glob_files",
-						"github_issues",
-						"web_search",
-					],
+					safe: ["git_log", "git_diff", "read_file", "glob_files", "github_issues", "web_search"],
 					confirm: ["write_file", "github_create_issue", "create_note"],
 					blocked: ["qonto_balance", "qonto_transactions"],
 				},
@@ -303,7 +282,7 @@ export const seed = mutation({
 				role: "Assistant Personnel",
 				model: "gpt-4.1-mini",
 				avatar: "🟣",
-				budget: { maxPerMission: 0.10, maxPerDay: 0.50, maxPerMonth: 5.0 },
+				budget: { maxPerMission: 0.1, maxPerDay: 0.5, maxPerMonth: 5.0 },
 				permissions: {
 					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
 					confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
@@ -316,7 +295,7 @@ export const seed = mutation({
 				role: "Account Manager",
 				model: "gpt-4.1-mini",
 				avatar: "🟠",
-				budget: { maxPerMission: 0.10, maxPerDay: 0.30, maxPerMonth: 3.0 },
+				budget: { maxPerMission: 0.1, maxPerDay: 0.3, maxPerMonth: 3.0 },
 				permissions: {
 					safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses"],
 					confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],

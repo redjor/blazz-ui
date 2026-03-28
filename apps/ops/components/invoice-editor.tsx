@@ -7,13 +7,7 @@ import { Divider } from "@blazz/ui/components/ui/divider"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useAction, useMutation, useQuery } from "convex/react"
@@ -138,17 +132,8 @@ function buildSaveDraftArgs(
 
 // ── Sub-components ────────────────────────────────
 
-function LineRow({
-	line,
-	isReadOnly,
-	dispatch,
-}: {
-	line: InvoiceLine
-	isReadOnly: boolean
-	dispatch: React.Dispatch<LineAction>
-}) {
-	const updateField = (field: string, value: string | number) =>
-		dispatch({ type: "UPDATE_LINE", id: line.id, field, value })
+function LineRow({ line, isReadOnly, dispatch }: { line: InvoiceLine; isReadOnly: boolean; dispatch: React.Dispatch<LineAction> }) {
+	const updateField = (field: string, value: string | number) => dispatch({ type: "UPDATE_LINE", id: line.id, field, value })
 
 	return (
 		<tr className="border-t border-edge h-10">
@@ -194,9 +179,7 @@ function LineRow({
 			</td>
 			<td className="px-3 py-1 text-right">
 				{isReadOnly ? (
-					<span className="font-mono tabular-nums text-fg-muted">
-						{line.discountPercent ? `${line.discountPercent}%` : "—"}
-					</span>
+					<span className="font-mono tabular-nums text-fg-muted">{line.discountPercent ? `${line.discountPercent}%` : "—"}</span>
 				) : (
 					<Input
 						type="number"
@@ -209,16 +192,10 @@ function LineRow({
 					/>
 				)}
 			</td>
-			<td className="px-3 py-1 text-right font-mono tabular-nums text-fg">
-				{formatAmount(computeLineTotal(line))}
-			</td>
+			<td className="px-3 py-1 text-right font-mono tabular-nums text-fg">{formatAmount(computeLineTotal(line))}</td>
 			{!isReadOnly && (
 				<td className="px-2 py-1 text-right">
-					<Button
-						size="icon-sm"
-						variant="ghost"
-						onClick={() => dispatch({ type: "REMOVE_LINE", id: line.id })}
-					>
+					<Button size="icon-sm" variant="ghost" onClick={() => dispatch({ type: "REMOVE_LINE", id: line.id })}>
 						<Trash2 className="size-3.5 text-fg-muted" />
 					</Button>
 				</td>
@@ -254,30 +231,16 @@ function TotalsSection({
 				<BlockStack gap="200" className="w-80">
 					<InlineStack align="space-between" className="text-sm">
 						<span className="text-fg-muted">Sous-total</span>
-						<span className="font-mono font-medium text-fg tabular-nums">
-							{formatAmount(subtotal)}
-						</span>
+						<span className="font-mono font-medium text-fg tabular-nums">{formatAmount(subtotal)}</span>
 					</InlineStack>
 
-					{!isReadOnly && (
-						<GlobalDiscountRow
-							globalDiscount={globalDiscount}
-							setGlobalDiscount={setGlobalDiscount}
-						/>
-					)}
+					{!isReadOnly && <GlobalDiscountRow globalDiscount={globalDiscount} setGlobalDiscount={setGlobalDiscount} />}
 
-					{isReadOnly && globalDiscount.value > 0 && (
-						<ReadOnlyDiscountRow
-							globalDiscount={globalDiscount}
-							discountAmount={subtotal - totalHT}
-						/>
-					)}
+					{isReadOnly && globalDiscount.value > 0 && <ReadOnlyDiscountRow globalDiscount={globalDiscount} discountAmount={subtotal - totalHT} />}
 
 					<InlineStack align="space-between" className="text-sm">
 						<span className="text-fg-muted">Total HT</span>
-						<span className="font-mono font-medium text-fg tabular-nums">
-							{formatAmount(totalHT)}
-						</span>
+						<span className="font-mono font-medium text-fg tabular-nums">{formatAmount(totalHT)}</span>
 					</InlineStack>
 
 					<VatRow vatRate={vatRate} setVatRate={setVatRate} tva={tva} isReadOnly={isReadOnly} />
@@ -286,9 +249,7 @@ function TotalsSection({
 
 					<InlineStack align="space-between" className="text-sm font-medium">
 						<span className="text-fg">Total TTC</span>
-						<span className="font-mono text-fg tabular-nums text-base">
-							{formatAmount(totalTTC)}
-						</span>
+						<span className="font-mono text-fg tabular-nums text-base">{formatAmount(totalTTC)}</span>
 					</InlineStack>
 				</BlockStack>
 			</InlineStack>
@@ -296,22 +257,14 @@ function TotalsSection({
 	)
 }
 
-function GlobalDiscountRow({
-	globalDiscount,
-	setGlobalDiscount,
-}: {
-	globalDiscount: GlobalDiscount
-	setGlobalDiscount: React.Dispatch<React.SetStateAction<GlobalDiscount>>
-}) {
+function GlobalDiscountRow({ globalDiscount, setGlobalDiscount }: { globalDiscount: GlobalDiscount; setGlobalDiscount: React.Dispatch<React.SetStateAction<GlobalDiscount>> }) {
 	return (
 		<InlineStack gap="200" align="space-between" blockAlign="center">
 			<InlineStack gap="200" blockAlign="center" className="text-sm">
 				<span className="text-fg-muted">Remise globale</span>
 				<Select
 					value={globalDiscount.type}
-					onValueChange={(v) =>
-						setGlobalDiscount((d) => ({ ...d, type: v as "percent" | "fixed" }))
-					}
+					onValueChange={(v) => setGlobalDiscount((d) => ({ ...d, type: v as "percent" | "fixed" }))}
 					items={Object.fromEntries([
 						["percent", "%"],
 						["fixed", "€"],
@@ -338,17 +291,8 @@ function GlobalDiscountRow({
 	)
 }
 
-function ReadOnlyDiscountRow({
-	globalDiscount,
-	discountAmount,
-}: {
-	globalDiscount: GlobalDiscount
-	discountAmount: number
-}) {
-	const discountLabel =
-		globalDiscount.type === "percent"
-			? `(${globalDiscount.value}%)`
-			: `(${formatAmount(globalDiscount.value)})`
+function ReadOnlyDiscountRow({ globalDiscount, discountAmount }: { globalDiscount: GlobalDiscount; discountAmount: number }) {
+	const discountLabel = globalDiscount.type === "percent" ? `(${globalDiscount.value}%)` : `(${formatAmount(globalDiscount.value)})`
 
 	return (
 		<InlineStack align="space-between" className="text-sm">
@@ -358,17 +302,7 @@ function ReadOnlyDiscountRow({
 	)
 }
 
-function VatRow({
-	vatRate,
-	setVatRate,
-	tva,
-	isReadOnly,
-}: {
-	vatRate: number
-	setVatRate: (v: number) => void
-	tva: number
-	isReadOnly: boolean
-}) {
+function VatRow({ vatRate, setVatRate, tva, isReadOnly }: { vatRate: number; setVatRate: (v: number) => void; tva: number; isReadOnly: boolean }) {
 	return (
 		<InlineStack align="space-between" blockAlign="center" className="text-sm">
 			<InlineStack gap="200" blockAlign="center">
@@ -376,15 +310,7 @@ function VatRow({
 				{isReadOnly ? (
 					<span className="text-fg-muted">({(vatRate * 100).toFixed(0)}%)</span>
 				) : (
-					<Input
-						type="number"
-						step="1"
-						min={0}
-						max={100}
-						value={vatRate * 100}
-						onChange={(e) => setVatRate(Number(e.target.value) / 100)}
-						className="w-16 h-7 text-[13px] text-right tabular-nums"
-					/>
+					<Input type="number" step="1" min={0} max={100} value={vatRate * 100} onChange={(e) => setVatRate(Number(e.target.value) / 100)} className="w-16 h-7 text-[13px] text-right tabular-nums" />
 				)}
 			</InlineStack>
 			<span className="font-mono text-fg-muted tabular-nums">{formatAmount(tva)}</span>
@@ -412,12 +338,7 @@ function NotesSection({
 				{isReadOnly ? (
 					<p className="text-sm text-fg-muted whitespace-pre-wrap">{notes || "—"}</p>
 				) : (
-					<Textarea
-						value={notes}
-						onChange={(e) => setNotes(e.target.value)}
-						placeholder="Conditions de paiement, mentions légales…"
-						rows={3}
-					/>
+					<Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Conditions de paiement, mentions légales…" rows={3} />
 				)}
 			</BlockStack>
 
@@ -426,12 +347,7 @@ function NotesSection({
 				{isReadOnly ? (
 					<p className="text-sm text-fg-muted whitespace-pre-wrap">{internalNotes || "—"}</p>
 				) : (
-					<Textarea
-						value={internalNotes}
-						onChange={(e) => setInternalNotes(e.target.value)}
-						placeholder="Notes privées, contexte…"
-						rows={3}
-					/>
+					<Textarea value={internalNotes} onChange={(e) => setInternalNotes(e.target.value)} placeholder="Notes privées, contexte…" rows={3} />
 				)}
 			</BlockStack>
 		</InlineStack>
@@ -465,9 +381,7 @@ function ProjectLineLoader({
 			return
 		}
 
-		const billable = entries.filter(
-			(e) => e.billable && !e.invoicedAt && e.status !== "invoiced" && e.status !== "paid"
-		)
+		const billable = entries.filter((e) => e.billable && !e.invoicedAt && e.status !== "invoiced" && e.status !== "paid")
 
 		if (billable.length === 0) {
 			toast.error("Aucune entrée facturable pour ce projet")
@@ -514,10 +428,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
-	const invoice = useQuery(
-		api.invoices.get,
-		invoiceId ? { id: invoiceId as Id<"invoices"> } : "skip"
-	)
+	const invoice = useQuery(api.invoices.get, invoiceId ? { id: invoiceId as Id<"invoices"> } : "skip")
 	const clients = useQuery(api.clients.list)
 	const allProjects = useQuery(api.projects.listAll)
 	const saveDraft = useMutation(api.invoices.saveDraft)
@@ -541,18 +452,9 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 
 	const isReadOnly = invoice != null && invoice.status !== "draft"
 	const isEditMode = !!invoiceId
-	const clientProjects = useMemo(
-		() => allProjects?.filter((p) => p.clientId === clientId && p.status === "active") ?? [],
-		[allProjects, clientId]
-	)
-	const addedProjectIds = useMemo(
-		() => new Set(lines.filter((l) => l.projectId).map((l) => l.projectId)),
-		[lines]
-	)
-	const availableProjects = useMemo(
-		() => clientProjects.filter((p) => !addedProjectIds.has(p._id)),
-		[clientProjects, addedProjectIds]
-	)
+	const clientProjects = useMemo(() => allProjects?.filter((p) => p.clientId === clientId && p.status === "active") ?? [], [allProjects, clientId])
+	const addedProjectIds = useMemo(() => new Set(lines.filter((l) => l.projectId).map((l) => l.projectId)), [lines])
+	const availableProjects = useMemo(() => clientProjects.filter((p) => !addedProjectIds.has(p._id)), [clientProjects, addedProjectIds])
 
 	const subtotal = computeSubtotal(lines)
 	const totalHT = applyGlobalDiscount(subtotal, globalDiscount)
@@ -592,18 +494,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 		}
 		setSaving(true)
 		try {
-			const args = buildSaveDraftArgs(
-				invoiceId,
-				clientId,
-				invoiceType,
-				label,
-				lines,
-				vatRate,
-				globalDiscount,
-				notes,
-				internalNotes,
-				entryIds
-			)
+			const args = buildSaveDraftArgs(invoiceId, clientId, invoiceType, label, lines, vatRate, globalDiscount, notes, internalNotes, entryIds)
 			const id = await saveDraft(args)
 			toast.success("Brouillon enregistré")
 			router.push(`/invoices/${id}`)
@@ -612,20 +503,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 		} finally {
 			setSaving(false)
 		}
-	}, [
-		invoiceId,
-		clientId,
-		invoiceType,
-		label,
-		lines,
-		vatRate,
-		globalDiscount,
-		notes,
-		internalNotes,
-		entryIds,
-		saveDraft,
-		router,
-	])
+	}, [invoiceId, clientId, invoiceType, label, lines, vatRate, globalDiscount, notes, internalNotes, entryIds, saveDraft, router])
 
 	const handleCreate = useCallback(async () => {
 		if (!clientId || !label) {
@@ -634,18 +512,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 		}
 		setSaving(true)
 		try {
-			const args = buildSaveDraftArgs(
-				invoiceId,
-				clientId,
-				invoiceType,
-				label,
-				lines,
-				vatRate,
-				globalDiscount,
-				notes,
-				internalNotes,
-				entryIds
-			)
+			const args = buildSaveDraftArgs(invoiceId, clientId, invoiceType, label, lines, vatRate, globalDiscount, notes, internalNotes, entryIds)
 			const id = await saveDraft(args)
 
 			const selectedClient = clients?.find((c) => c._id === clientId)
@@ -669,22 +536,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 		} finally {
 			setSaving(false)
 		}
-	}, [
-		invoiceId,
-		clientId,
-		invoiceType,
-		label,
-		lines,
-		vatRate,
-		globalDiscount,
-		notes,
-		internalNotes,
-		entryIds,
-		saveDraft,
-		createQontoInvoice,
-		clients,
-		router,
-	])
+	}, [invoiceId, clientId, invoiceType, label, lines, vatRate, globalDiscount, notes, internalNotes, entryIds, saveDraft, createQontoInvoice, clients, router])
 
 	const topBarActions = useMemo(
 		() =>
@@ -694,12 +546,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 				</Button>
 			) : (
 				<InlineStack gap="200">
-					<Button
-						size="sm"
-						variant="ghost"
-						onClick={() => router.push("/invoices")}
-						disabled={saving}
-					>
+					<Button size="sm" variant="ghost" onClick={() => router.push("/invoices")} disabled={saving}>
 						Annuler
 					</Button>
 					<Button size="sm" variant="outline" onClick={handleSaveDraft} disabled={saving}>
@@ -713,10 +560,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 		[isReadOnly, saving, lines.length, handleSaveDraft, handleCreate, router]
 	)
 
-	useAppTopBar(
-		[{ label: "Factures", href: "/invoices" }, { label: breadcrumbLabel }],
-		topBarActions
-	)
+	useAppTopBar([{ label: "Factures", href: "/invoices" }, { label: breadcrumbLabel }], topBarActions)
 
 	if (isEditMode && !invoice) {
 		return (
@@ -785,13 +629,7 @@ export function InvoiceEditorClient({ invoiceId }: InvoiceEditorProps) {
 
 			<Divider />
 
-			<NotesSection
-				notes={notes}
-				setNotes={setNotes}
-				internalNotes={internalNotes}
-				setInternalNotes={setInternalNotes}
-				isReadOnly={isReadOnly}
-			/>
+			<NotesSection notes={notes} setNotes={setNotes} internalNotes={internalNotes} setInternalNotes={setInternalNotes} isReadOnly={isReadOnly} />
 		</BlockStack>
 	)
 }
@@ -853,9 +691,7 @@ function HeaderSection({
 				<BlockStack gap="100" className="flex-1">
 					<Label>Client</Label>
 					{isReadOnly ? (
-						<p className="text-sm text-fg">
-							{clients.find((c) => c._id === clientId)?.name ?? "—"}
-						</p>
+						<p className="text-sm text-fg">{clients.find((c) => c._id === clientId)?.name ?? "—"}</p>
 					) : (
 						<Select
 							value={clientId}
@@ -882,15 +718,7 @@ function HeaderSection({
 
 			<BlockStack gap="100">
 				<Label>Libellé</Label>
-				{isReadOnly ? (
-					<p className="text-sm text-fg">{label}</p>
-				) : (
-					<Input
-						value={label}
-						onChange={(e) => setLabel(e.target.value)}
-						placeholder="Prestation développement — Mars 2026"
-					/>
-				)}
+				{isReadOnly ? <p className="text-sm text-fg">{label}</p> : <Input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Prestation développement — Mars 2026" />}
 			</BlockStack>
 		</BlockStack>
 	)
@@ -950,11 +778,7 @@ function LinesSection({
 								</SelectContent>
 							</Select>
 						)}
-						<Button
-							size="sm"
-							variant="outline"
-							onClick={() => dispatch({ type: "ADD_CUSTOM_LINE" })}
-						>
+						<Button size="sm" variant="outline" onClick={() => dispatch({ type: "ADD_CUSTOM_LINE" })}>
 							<Plus className="size-3.5 mr-1" />
 							Ligne libre
 						</Button>
@@ -980,40 +804,23 @@ function LinesSection({
 				<table className="w-full text-[13px]">
 					<thead>
 						<tr className="bg-muted">
-							<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs w-[40%]">
-								Libellé
-							</th>
-							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[12%]">
-								Qté
-							</th>
-							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[16%]">
-								Prix unit.
-							</th>
-							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[12%]">
-								Remise %
-							</th>
-							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[16%]">
-								Total HT
-							</th>
-							{!isReadOnly && (
-								<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[4%]" />
-							)}
+							<th className="text-left px-3 py-2 font-medium text-fg-muted text-xs w-[40%]">Libellé</th>
+							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[12%]">Qté</th>
+							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[16%]">Prix unit.</th>
+							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[12%]">Remise %</th>
+							<th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[16%]">Total HT</th>
+							{!isReadOnly && <th className="text-right px-3 py-2 font-medium text-fg-muted text-xs w-[4%]" />}
 						</tr>
 					</thead>
 					<tbody>
 						{lines.length === 0 ? (
 							<tr>
-								<td
-									colSpan={isReadOnly ? 5 : 6}
-									className="px-3 py-8 text-center text-sm text-fg-muted"
-								>
+								<td colSpan={isReadOnly ? 5 : 6} className="px-3 py-8 text-center text-sm text-fg-muted">
 									Aucune ligne — ajoutez un projet ou une ligne libre.
 								</td>
 							</tr>
 						) : (
-							lines.map((line) => (
-								<LineRow key={line.id} line={line} isReadOnly={isReadOnly} dispatch={dispatch} />
-							))
+							lines.map((line) => <LineRow key={line.id} line={line} isReadOnly={isReadOnly} dispatch={dispatch} />)
 						)}
 					</tbody>
 				</table>

@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { Box } from "@blazz/ui/components/ui/box"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -79,8 +79,7 @@ const boxProps: DocProp[] = [
 		name: "background",
 		type: '"transparent" | "app" | "surface" | "raised" | "overlay"',
 		default: '"transparent"',
-		description:
-			"Background color of the box. Follows the surface hierarchy: app < surface < raised < overlay.",
+		description: "Background color of the box. Follows the surface hierarchy: app < surface < raised < overlay.",
 	},
 	{
 		name: "border",
@@ -98,8 +97,7 @@ const boxProps: DocProp[] = [
 		name: "shadow",
 		type: '"none" | "sm" | "md" | "lg" | "card" | "card-elevated"',
 		default: '"none"',
-		description:
-			"Shadow applied to the box. 'card' and 'card-elevated' use theme-aware shadows with inner glow in dark mode.",
+		description: "Shadow applied to the box. 'card' and 'card-elevated' use theme-aware shadows with inner glow in dark mode.",
 	},
 ]
 
@@ -108,11 +106,7 @@ export default function BoxPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Box"
-			subtitle="Box is the most primitive layout component. It's a way to access design tokens for background, padding, border, and shadow."
-			toc={toc}
-		>
+		<DocPage title="Box" subtitle="Box is the most primitive layout component. It's a way to access design tokens for background, padding, border, and shadow." toc={toc}>
 			<DocSection id="examples" title="Examples">
 				<DocExampleClient
 					title="Background"
@@ -136,12 +130,7 @@ export default function BoxPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Padding"
-					description="Apply different padding values."
-					code={examples[1].code}
-					highlightedCode={html("padding")}
-				>
+				<DocExampleClient title="Padding" description="Apply different padding values." code={examples[1].code} highlightedCode={html("padding")}>
 					<div className="flex items-start gap-4">
 						<Box padding="2" background="raised" borderRadius="md">
 							<p className="text-sm">p-2</p>
@@ -158,23 +147,13 @@ export default function BoxPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Border"
-					description="Add borders to the box."
-					code={examples[2].code}
-					highlightedCode={html("border")}
-				>
+				<DocExampleClient title="Border" description="Add borders to the box." code={examples[2].code} highlightedCode={html("border")}>
 					<Box border="default" padding="4" borderRadius="md">
 						<p className="text-sm text-fg-muted">Box with border</p>
 					</Box>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Border Radius"
-					description="Different border radius options."
-					code={examples[3].code}
-					highlightedCode={html("border-radius")}
-				>
+				<DocExampleClient title="Border Radius" description="Different border radius options." code={examples[3].code} highlightedCode={html("border-radius")}>
 					<div className="flex items-start gap-4">
 						<Box background="raised" padding="4" borderRadius="sm">
 							<p className="text-sm">sm</p>
@@ -191,12 +170,7 @@ export default function BoxPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Shadow"
-					description="Apply different shadow levels."
-					code={examples[4].code}
-					highlightedCode={html("shadow")}
-				>
+				<DocExampleClient title="Shadow" description="Apply different shadow levels." code={examples[4].code} highlightedCode={html("shadow")}>
 					<div className="flex items-start gap-4 p-4">
 						<Box shadow="sm" padding="4" background="surface" borderRadius="lg">
 							<p className="text-sm">sm</p>
@@ -226,12 +200,7 @@ export default function BoxPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Polymorphic"
-					description="Render as different HTML elements using the 'as' prop."
-					code={examples[6].code}
-					highlightedCode={html("polymorphic")}
-				>
+				<DocExampleClient title="Polymorphic" description="Render as different HTML elements using the 'as' prop." code={examples[6].code} highlightedCode={html("polymorphic")}>
 					<Box as="section" background="raised" padding="4" borderRadius="md">
 						<p className="text-sm text-fg-muted">Rendered as a section element</p>
 					</Box>

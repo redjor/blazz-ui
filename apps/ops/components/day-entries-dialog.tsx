@@ -23,16 +23,7 @@ interface DayEntriesDialogProps {
 	onAdd: () => void
 }
 
-export function DayEntriesDialog({
-	open,
-	onOpenChange,
-	projectName,
-	date,
-	entries,
-	onEdit,
-	onDelete,
-	onAdd,
-}: DayEntriesDialogProps) {
+export function DayEntriesDialog({ open, onOpenChange, projectName, date, entries, onEdit, onDelete, onAdd }: DayEntriesDialogProps) {
 	const dateLabel = date ? format(new Date(`${date}T00:00:00`), "EEEE d MMMM", { locale: fr }) : ""
 	const totalMinutes = entries.reduce((sum, e) => sum + e.minutes, 0)
 
@@ -45,27 +36,18 @@ export function DayEntriesDialog({
 
 				<div className="flex items-baseline justify-between rounded-lg bg-muted border border-edge px-4 py-3">
 					<span className="text-sm text-fg-muted capitalize">{dateLabel}</span>
-					<span className="text-sm font-medium font-mono text-fg">
-						Total : {formatMinutes(totalMinutes)}
-					</span>
+					<span className="text-sm font-medium font-mono text-fg">Total : {formatMinutes(totalMinutes)}</span>
 				</div>
 
 				<div className="space-y-1.5">
 					{entries.map((entry) => (
-						<div
-							key={entry._id}
-							className="group flex items-center gap-3 rounded-lg border border-edge px-3 py-2.5 hover:bg-muted transition-colors"
-						>
+						<div key={entry._id} className="group flex items-center gap-3 rounded-lg border border-edge px-3 py-2.5 hover:bg-muted transition-colors">
 							<div className="flex-1 min-w-0">
 								<div className="flex items-center gap-2">
-									<span className="text-sm font-mono font-medium text-fg">
-										{formatMinutes(entry.minutes)}
-									</span>
+									<span className="text-sm font-mono font-medium text-fg">{formatMinutes(entry.minutes)}</span>
 									<EntryStatusBadge status={getEffectiveStatus(entry)} />
 								</div>
-								{entry.description && (
-									<p className="text-xs text-fg-muted mt-0.5 truncate">{entry.description}</p>
-								)}
+								{entry.description && <p className="text-xs text-fg-muted mt-0.5 truncate">{entry.description}</p>}
 							</div>
 							<div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
 								<Button
@@ -80,13 +62,7 @@ export function DayEntriesDialog({
 								>
 									<Pencil className="size-3.5" />
 								</Button>
-								<Button
-									type="button"
-									variant="ghost"
-									size="icon"
-									className="size-7 text-fg-muted hover:text-destructive"
-									onClick={() => onDelete(entry._id)}
-								>
+								<Button type="button" variant="ghost" size="icon" className="size-7 text-fg-muted hover:text-destructive" onClick={() => onDelete(entry._id)}>
 									<Trash2 className="size-3.5" />
 								</Button>
 							</div>

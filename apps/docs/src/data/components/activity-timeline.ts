@@ -15,8 +15,7 @@ export const activityTimelineData: ComponentData = {
 			name: "events",
 			type: "TimelineEvent[]",
 			required: true,
-			description:
-				"Tableau d'événements. Chaque item: { date: string (ISO), user: string, action: string, detail?: string }.",
+			description: "Tableau d'événements. Chaque item: { date: string (ISO), user: string, action: string, detail?: string }.",
 		},
 		{ name: "loading", type: "boolean", default: "false", description: "Affiche un skeleton." },
 		{ name: "className", type: "string", description: "Classe CSS additionnelle sur la liste." },

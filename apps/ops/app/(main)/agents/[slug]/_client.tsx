@@ -1,67 +1,33 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport } from "ai"
-import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
-import {
-	Conversation,
-	ConversationContent,
-	ConversationScrollButton,
-} from "@blazz/pro/components/ai/chat/conversation"
+import { Conversation, ConversationContent, ConversationScrollButton } from "@blazz/pro/components/ai/chat/conversation"
 import { Message, MessageContent, MessageResponse } from "@blazz/pro/components/ai/chat/message"
-import {
-	PromptInput,
-	PromptInputFooter,
-	PromptInputSubmit,
-	PromptInputTextarea,
-} from "@blazz/pro/components/ai/chat/prompt-input"
-import { Suggestions, Suggestion } from "@blazz/pro/components/ai/chat/suggestion"
-import {
-	ChainOfThought,
-	ChainOfThoughtHeader,
-	ChainOfThoughtContent,
-	ChainOfThoughtStep,
-} from "@blazz/pro/components/ai/reasoning/chain-of-thought"
+import { PromptInput, PromptInputFooter, PromptInputSubmit, PromptInputTextarea } from "@blazz/pro/components/ai/chat/prompt-input"
+import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
 import { TaskCard } from "@blazz/pro/components/ai/generative/workflow/task-card"
+import { ChainOfThought, ChainOfThoughtContent, ChainOfThoughtHeader, ChainOfThoughtStep } from "@blazz/pro/components/ai/reasoning/chain-of-thought"
+import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { DefaultChatTransport } from "ai"
 import { useMutation, useQuery } from "convex/react"
 import { RotateCcw } from "lucide-react"
 import { useCallback, useMemo } from "react"
 import { toast } from "sonner"
-import { api } from "@/convex/_generated/api"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
+import { api } from "@/convex/_generated/api"
 
 const suggestionsMap: Record<string, string[]> = {
-	cfo: [
-		"Quel est mon solde Qonto ?",
-		"Projette ma trésorerie sur 3 mois",
-		"Audite mes dépenses du mois",
-	],
-	timekeeper: [
-		"Vérifie ma semaine",
-		"Résume mes heures par projet ce mois",
-		"Y a-t-il des anomalies ?",
-	],
-	"product-lead": [
-		"Quelles sont les issues ouvertes ?",
-		"Propose les priorités du sprint",
-		"Audite l'état du repo",
-	],
-	assistant: [
-		"Prépare mon daily brief",
-		"Trie mes nouveaux todos",
-		"Quels todos sont en retard ?",
-	],
-	"account-manager": [
-		"Résume la situation par client",
-		"Des projets qui finissent bientôt ?",
-		"Factures impayées ?",
-	],
+	cfo: ["Quel est mon solde Qonto ?", "Projette ma trésorerie sur 3 mois", "Audite mes dépenses du mois"],
+	timekeeper: ["Vérifie ma semaine", "Résume mes heures par projet ce mois", "Y a-t-il des anomalies ?"],
+	"product-lead": ["Quelles sont les issues ouvertes ?", "Propose les priorités du sprint", "Audite l'état du repo"],
+	assistant: ["Prépare mon daily brief", "Trie mes nouveaux todos", "Quels todos sont en retard ?"],
+	"account-manager": ["Résume la situation par client", "Des projets qui finissent bientôt ?", "Factures impayées ?"],
 }
 
 const TOOL_LABELS: Record<string, string> = {
@@ -102,11 +68,11 @@ function ToolCallDisplay({ part }: { part: any }) {
 
 	// Render a TaskCard for create-todo tool results
 	if (isComplete && toolName === "create-todo") {
-		const title = args?.text ?? (typeof output === "string" ? output : output?.text ?? "Todo créé")
+		const title = args?.text ?? (typeof output === "string" ? output : (output?.text ?? "Todo créé"))
 		const desc = args?.description
 		const rawPriority = args?.priority ?? "normal"
 		const priority = rawPriority === "normal" ? "medium" : rawPriority
-		const todoId = typeof output === "string" ? output : output?.id ?? output
+		const todoId = typeof output === "string" ? output : (output?.id ?? output)
 		return (
 			<BlockStack gap="100" className="my-2">
 				<TaskCard title={title} description={desc} status="todo" priority={priority} href={todoId ? `/todos/${todoId}` : undefined} />
@@ -116,8 +82,8 @@ function ToolCallDisplay({ part }: { part: any }) {
 
 	// Render a note card for create-note
 	if (isComplete && toolName === "create-note") {
-		const title = args?.title ?? (typeof output === "string" ? output : output?.title ?? "Note créée")
-		const noteId = typeof output === "string" ? output : output?.id ?? output
+		const title = args?.title ?? (typeof output === "string" ? output : (output?.title ?? "Note créée"))
+		const noteId = typeof output === "string" ? output : (output?.id ?? output)
 		return (
 			<a href={noteId ? `/notes/${noteId}` : "#"} className="block my-2 rounded-lg border border-edge bg-card p-3 transition-colors hover:bg-muted">
 				<BlockStack gap="050">
@@ -131,19 +97,11 @@ function ToolCallDisplay({ part }: { part: any }) {
 	// For read tools: show a compact chain-of-thought
 	return (
 		<ChainOfThought defaultOpen={false} className="my-1">
-			<ChainOfThoughtHeader>
-				{isComplete ? `✅ ${label}` : `⏳ ${label}...`}
-			</ChainOfThoughtHeader>
+			<ChainOfThoughtHeader>{isComplete ? `✅ ${label}` : `⏳ ${label}...`}</ChainOfThoughtHeader>
 			<ChainOfThoughtContent>
-				<ChainOfThoughtStep
-					label={label}
-					status={isComplete ? "complete" : "active"}
-					description={isComplete ? "Données récupérées" : "En cours..."}
-				/>
+				<ChainOfThoughtStep label={label} status={isComplete ? "complete" : "active"} description={isComplete ? "Données récupérées" : "En cours..."} />
 				{isComplete && output && (
-					<pre className="mt-2 text-xs bg-muted/50 rounded p-2 overflow-x-auto max-h-32 overflow-y-auto">
-						{typeof output === "string" ? output : JSON.stringify(output, null, 2).slice(0, 500)}
-					</pre>
+					<pre className="mt-2 text-xs bg-muted/50 rounded p-2 overflow-x-auto max-h-32 overflow-y-auto">{typeof output === "string" ? output : JSON.stringify(output, null, 2).slice(0, 500)}</pre>
 				)}
 			</ChainOfThoughtContent>
 		</ChainOfThought>
@@ -152,17 +110,15 @@ function ToolCallDisplay({ part }: { part: any }) {
 
 export function AgentChatClient({ slug }: { slug: string }) {
 	const agent = useQuery(api.agents.getBySlug, { slug })
-	const savedMessages = useQuery(
-		api.chatMessages.list,
-		agent ? { agentId: agent._id } : "skip",
-	)
+	const savedMessages = useQuery(api.chatMessages.list, agent ? { agentId: agent._id } : "skip")
 	const clearMessages = useMutation(api.chatMessages.clear)
 
 	const transport = useMemo(
-		() => new DefaultChatTransport({
-			body: { agentSlug: slug },
-		}),
-		[slug],
+		() =>
+			new DefaultChatTransport({
+				body: { agentSlug: slug },
+			}),
+		[slug]
 	)
 
 	// Convert saved messages to useChat format
@@ -185,11 +141,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 		},
 	})
 
-	useAppTopBar(
-		agent != null
-			? [{ label: "Agents", href: "/missions" }, { label: agent.name }]
-			: null
-	)
+	useAppTopBar(agent != null ? [{ label: "Agents", href: "/missions" }, { label: agent.name }] : null)
 
 	const handlePromptSubmit = useCallback(
 		({ text }: { text: string; files: unknown[] }) => {
@@ -233,16 +185,12 @@ export function AgentChatClient({ slug }: { slug: string }) {
 		return (
 			<BlockStack gap="200" className="h-full items-center justify-center px-4">
 				<p className="text-lg font-medium text-fg">Agent introuvable</p>
-				<p className="text-sm text-fg-subtle">
-					L'agent "{slug}" n'existe pas. Lance le seed depuis Mission Control.
-				</p>
+				<p className="text-sm text-fg-subtle">L'agent "{slug}" n'existe pas. Lance le seed depuis Mission Control.</p>
 			</BlockStack>
 		)
 	}
 
-	const budgetPercent = agent.budget.maxPerDay > 0
-		? Math.round((agent.usage.todayUsd / agent.budget.maxPerDay) * 100)
-		: 0
+	const budgetPercent = agent.budget.maxPerDay > 0 ? Math.round((agent.usage.todayUsd / agent.budget.maxPerDay) * 100) : 0
 
 	// Empty state
 	if (!hasMessages) {
@@ -251,14 +199,10 @@ export function AgentChatClient({ slug }: { slug: string }) {
 				<BlockStack gap="600" className="w-full max-w-2xl">
 					<BlockStack gap="200" className="items-center text-center">
 						<AgentAvatar name={agent.name} size={64} />
-						<h1 className="text-3xl font-semibold text-fg tracking-tight">
-							{agent.name}
-						</h1>
+						<h1 className="text-3xl font-semibold text-fg tracking-tight">{agent.name}</h1>
 						<p className="text-sm text-fg-subtle">{agent.role}</p>
 						<InlineStack gap="200" blockAlign="center">
-							<Badge variant="secondary">
-								{agent.model}
-							</Badge>
+							<Badge variant="secondary">{agent.model}</Badge>
 							<Badge variant={budgetPercent >= 80 ? "warning" : "secondary"}>
 								${agent.usage.todayUsd.toFixed(2)} / ${agent.budget.maxPerDay.toFixed(2)} jour
 							</Badge>
@@ -327,9 +271,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 					{status === "submitted" && (
 						<Message from="assistant">
 							<MessageContent>
-								<span className="text-sm text-fg-muted animate-pulse">
-									{agent.name} réfléchit...
-								</span>
+								<span className="text-sm text-fg-muted animate-pulse">{agent.name} réfléchit...</span>
 							</MessageContent>
 						</Message>
 					)}
@@ -340,10 +282,7 @@ export function AgentChatClient({ slug }: { slug: string }) {
 			<Box className="border-t border-edge bg-card px-4 py-3">
 				<Box className="max-w-3xl mx-auto">
 					<PromptInput onSubmit={handlePromptSubmit}>
-						<PromptInputTextarea
-							placeholder={`Demande quelque chose à ${agent.name}...`}
-							disabled={isStreaming}
-						/>
+						<PromptInputTextarea placeholder={`Demande quelque chose à ${agent.name}...`} disabled={isStreaming} />
 						<PromptInputFooter>
 							<Box />
 							<PromptInputSubmit status={isStreaming ? "streaming" : "ready"} onStop={stop} />

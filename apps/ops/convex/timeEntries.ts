@@ -88,14 +88,7 @@ export const create = mutation({
 		hourlyRate: v.number(),
 		description: v.optional(v.string()),
 		billable: v.boolean(),
-		status: v.optional(
-			v.union(
-				v.literal("draft"),
-				v.literal("ready_to_invoice"),
-				v.literal("invoiced"),
-				v.literal("paid")
-			)
-		),
+		status: v.optional(v.union(v.literal("draft"), v.literal("ready_to_invoice"), v.literal("invoiced"), v.literal("paid"))),
 		tags: v.optional(v.array(v.string())),
 	},
 	handler: async (ctx, args) => {
@@ -115,14 +108,7 @@ export const update = mutation({
 		hourlyRate: v.number(),
 		description: v.optional(v.string()),
 		billable: v.boolean(),
-		status: v.optional(
-			v.union(
-				v.literal("draft"),
-				v.literal("ready_to_invoice"),
-				v.literal("invoiced"),
-				v.literal("paid")
-			)
-		),
+		status: v.optional(v.union(v.literal("draft"), v.literal("ready_to_invoice"), v.literal("invoiced"), v.literal("paid"))),
 		tags: v.optional(v.array(v.string())),
 	},
 	handler: async (ctx, { id, ...fields }) => {
@@ -163,10 +149,8 @@ export const removeBatch = mutation({
 			ids.map(async (id) => {
 				const entry = await ctx.db.get(id)
 				if (!entry || entry.userId !== userId) throw new ConvexError("Entrée introuvable")
-				if (entry.status === "invoiced")
-					throw new ConvexError("Impossible de supprimer une entrée facturée")
-				if (entry.status === "paid")
-					throw new ConvexError("Impossible de supprimer une entrée payée")
+				if (entry.status === "invoiced") throw new ConvexError("Impossible de supprimer une entrée facturée")
+				if (entry.status === "paid") throw new ConvexError("Impossible de supprimer une entrée payée")
 				await ctx.db.delete(id)
 			})
 		)
@@ -211,12 +195,7 @@ export const markInvoiced = mutation({
 export const setStatus = mutation({
 	args: {
 		ids: v.array(v.id("timeEntries")),
-		status: v.union(
-			v.literal("draft"),
-			v.literal("ready_to_invoice"),
-			v.literal("invoiced"),
-			v.literal("paid")
-		),
+		status: v.union(v.literal("draft"), v.literal("ready_to_invoice"), v.literal("invoiced"), v.literal("paid")),
 	},
 	handler: async (ctx, { ids, status }) => {
 		const { userId } = await requireAuth(ctx)
@@ -259,14 +238,7 @@ export const setBillable = mutation({
 export const listPaginated = query({
 	args: {
 		projectId: v.optional(v.id("projects")),
-		status: v.optional(
-			v.union(
-				v.literal("draft"),
-				v.literal("ready_to_invoice"),
-				v.literal("invoiced"),
-				v.literal("paid")
-			)
-		),
+		status: v.optional(v.union(v.literal("draft"), v.literal("ready_to_invoice"), v.literal("invoiced"), v.literal("paid"))),
 		billable: v.optional(v.boolean()),
 		from: v.optional(v.string()),
 		to: v.optional(v.string()),

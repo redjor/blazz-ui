@@ -1,9 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "@blazz/ui/components/ui/alert"
 import { Button } from "@blazz/ui/components/ui/button"
 import { AlertCircle, CheckCircle, Info, X } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -98,11 +98,7 @@ export default function AlertPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Alert"
-			subtitle="Displays important messages in a highlighted box. Use for inline feedback and notifications."
-			toc={toc}
-		>
+		<DocPage title="Alert" subtitle="Displays important messages in a highlighted box. Use for inline feedback and notifications." toc={toc}>
 			<DocHero>
 				<Alert className="max-w-md">
 					<Info />
@@ -112,12 +108,7 @@ export default function AlertPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A simple alert with title and description."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A simple alert with title and description." code={examples[0].code} highlightedCode={html("default")}>
 					<Alert>
 						<Info />
 						<AlertTitle>Information</AlertTitle>
@@ -125,27 +116,15 @@ export default function AlertPage() {
 					</Alert>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Destructive"
-					description="Use for error messages or critical warnings."
-					code={examples[1].code}
-					highlightedCode={html("destructive")}
-				>
+				<DocExampleClient title="Destructive" description="Use for error messages or critical warnings." code={examples[1].code} highlightedCode={html("destructive")}>
 					<Alert variant="destructive">
 						<AlertCircle />
 						<AlertTitle>Error</AlertTitle>
-						<AlertDescription>
-							Your payment could not be processed. Please try again.
-						</AlertDescription>
+						<AlertDescription>Your payment could not be processed. Please try again.</AlertDescription>
 					</Alert>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Success"
-					description="Indicate successful operations."
-					code={examples[2].code}
-					highlightedCode={html("success")}
-				>
+				<DocExampleClient title="Success" description="Indicate successful operations." code={examples[2].code} highlightedCode={html("success")}>
 					<Alert>
 						<CheckCircle className="text-green-600" />
 						<AlertTitle>Success</AlertTitle>
@@ -153,12 +132,7 @@ export default function AlertPage() {
 					</Alert>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Action"
-					description="Add an action button for dismissible alerts."
-					code={examples[3].code}
-					highlightedCode={html("with-action")}
-				>
+				<DocExampleClient title="With Action" description="Add an action button for dismissible alerts." code={examples[3].code} highlightedCode={html("with-action")}>
 					<Alert>
 						<Info />
 						<AlertTitle>New update available</AlertTitle>
@@ -171,12 +145,7 @@ export default function AlertPage() {
 					</Alert>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Icon"
-					description="Alerts can be used without an icon."
-					code={examples[4].code}
-					highlightedCode={html("without-icon")}
-				>
+				<DocExampleClient title="Without Icon" description="Alerts can be used without an icon." code={examples[4].code} highlightedCode={html("without-icon")}>
 					<Alert>
 						<AlertTitle>Note</AlertTitle>
 						<AlertDescription>This is a simple alert without an icon.</AlertDescription>
@@ -189,9 +158,7 @@ export default function AlertPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Alert uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Alert uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-card</code> - Default alert background

@@ -2,13 +2,7 @@
 
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 
 type SessionKind = "focus" | "admin" | "meeting" | "break" | "personal"
 
@@ -28,10 +22,7 @@ type CurrentSessionCardProps = {
 	onSwitch?: () => void
 }
 
-const KIND_BADGE_VARIANT: Record<
-	SessionKind,
-	"default" | "warning" | "info" | "success" | "secondary"
-> = {
+const KIND_BADGE_VARIANT: Record<SessionKind, "default" | "warning" | "info" | "success" | "secondary"> = {
 	focus: "default",
 	admin: "warning",
 	meeting: "info",
@@ -47,13 +38,7 @@ const KIND_LABEL: Record<SessionKind, string> = {
 	personal: "Perso",
 }
 
-export function CurrentSessionCard({
-	session,
-	onStart,
-	onPause,
-	onStop,
-	onSwitch,
-}: CurrentSessionCardProps) {
+export function CurrentSessionCard({ session, onStart, onPause, onStop, onSwitch }: CurrentSessionCardProps) {
 	return (
 		<Card size="sm">
 			<CardHeader>
@@ -68,9 +53,7 @@ export function CurrentSessionCard({
 						</Badge>
 						<div className="space-y-1">
 							<p className="text-sm font-medium text-fg">{session.label}</p>
-							{session.projectName ? (
-								<p className="text-xs text-fg-muted">{session.projectName}</p>
-							) : null}
+							{session.projectName ? <p className="text-xs text-fg-muted">{session.projectName}</p> : null}
 						</div>
 						<div className="grid grid-cols-2 gap-3">
 							<div className="rounded-md border border-edge bg-muted px-3 py-2">
@@ -84,9 +67,7 @@ export function CurrentSessionCard({
 						</div>
 					</>
 				) : (
-					<div className="rounded-md border border-dashed border-edge px-3 py-4 text-sm text-fg-muted">
-						Aucune session en cours.
-					</div>
+					<div className="rounded-md border border-dashed border-edge px-3 py-4 text-sm text-fg-muted">Aucune session en cours.</div>
 				)}
 				<div className="flex flex-wrap gap-2 pt-1">
 					{session ? (

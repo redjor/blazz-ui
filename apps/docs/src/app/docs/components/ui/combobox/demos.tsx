@@ -56,7 +56,17 @@ export function ComboboxDefaultDemo() {
 
 export function ComboboxWithIconDemo() {
 	const [value, setValue] = React.useState("")
-	return <Combobox value={value} onValueChange={setValue} options={languages} placeholder="Select language..." searchPlaceholder="Search languages..." icon={<Globe className="h-4 w-4 text-fg-muted" />} className="w-[240px]" />
+	return (
+		<Combobox
+			value={value}
+			onValueChange={setValue}
+			options={languages}
+			placeholder="Select language..."
+			searchPlaceholder="Search languages..."
+			icon={<Globe className="h-4 w-4 text-fg-muted" />}
+			className="w-[240px]"
+		/>
+	)
 }
 
 export function ComboboxWithLabelDemo() {
@@ -71,7 +81,17 @@ export function ComboboxWithLabelDemo() {
 
 export function ComboboxCustomEmptyDemo() {
 	const [value, setValue] = React.useState("")
-	return <Combobox value={value} onValueChange={setValue} options={fruits} placeholder="Select a fruit..." searchPlaceholder="Type to search..." emptyMessage="No fruit matches your search." className="w-[240px]" />
+	return (
+		<Combobox
+			value={value}
+			onValueChange={setValue}
+			options={fruits}
+			placeholder="Select a fruit..."
+			searchPlaceholder="Type to search..."
+			emptyMessage="No fruit matches your search."
+			className="w-[240px]"
+		/>
+	)
 }
 
 export function ComboboxIconTriggerDemo() {

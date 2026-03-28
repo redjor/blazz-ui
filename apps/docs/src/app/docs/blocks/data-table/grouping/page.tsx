@@ -78,11 +78,7 @@ export default function GroupingPage() {
 	]
 
 	return (
-		<DocPage
-			title="Grouping & Expansion"
-			subtitle="Regroupement de lignes, aggregations et panels de detail."
-			toc={toc}
-		>
+		<DocPage title="Grouping & Expansion" subtitle="Regroupement de lignes, aggregations et panels de detail." toc={toc}>
 			<DocHero>
 				<div className="rounded-lg border border-separator overflow-hidden">
 					<DataTable
@@ -105,9 +101,7 @@ export default function GroupingPage() {
 
 			<DocSection id="grouping" title="Grouping">
 				<p className="text-fg-muted mb-4">
-					Activez <code>enableGrouping</code> pour permettre le regroupement de lignes par colonne.
-					Utilisez <code>defaultGrouping</code> pour grouper par defaut et{" "}
-					<code>defaultExpanded</code>
+					Activez <code>enableGrouping</code> pour permettre le regroupement de lignes par colonne. Utilisez <code>defaultGrouping</code> pour grouper par defaut et <code>defaultExpanded</code>
 					pour ouvrir tous les groupes au chargement.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
@@ -122,9 +116,8 @@ export default function GroupingPage() {
 				</pre>
 
 				<p className="text-fg-muted mt-6 mb-4">
-					La prop <code>groupAggregations</code> ajoute des valeurs agregees dans le header de
-					chaque groupe. Types disponibles : <code>sum</code>, <code>avg</code>, <code>min</code>,{" "}
-					<code>max</code>, <code>count</code>, <code>range</code>, ou une fonction custom.
+					La prop <code>groupAggregations</code> ajoute des valeurs agregees dans le header de chaque groupe. Types disponibles : <code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>
+					, <code>count</code>, <code>range</code>, ou une fonction custom.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`<DataTable
@@ -147,19 +140,15 @@ export default function GroupingPage() {
 
 			<DocSection id="group-header" title="Group Header">
 				<p className="text-fg-muted mb-4">
-					Par defaut, le header de groupe affiche : un chevron expand/collapse, le rendu de la
-					cellule de la colonne groupee, un pill avec le nombre de lignes, et les valeurs
-					d'agregation.
+					Par defaut, le header de groupe affiche : un chevron expand/collapse, le rendu de la cellule de la colonne groupee, un pill avec le nombre de lignes, et les valeurs d'agregation.
 				</p>
 				<p className="text-fg-muted mb-4">Deux render props permettent de customiser le header :</p>
 				<ul className="text-fg-muted text-sm space-y-2 mb-4 list-disc list-inside">
 					<li>
-						<code>renderGroupHeader</code> — remplacement total du group header (recoit la row + le
-						contenu par defaut)
+						<code>renderGroupHeader</code> — remplacement total du group header (recoit la row + le contenu par defaut)
 					</li>
 					<li>
-						<code>renderGroupHeaderContent</code> — remplace uniquement le contenu central (entre le
-						chevron et les agregations)
+						<code>renderGroupHeaderContent</code> — remplace uniquement le contenu central (entre le chevron et les agregations)
 					</li>
 				</ul>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
@@ -181,17 +170,13 @@ renderGroupHeader={(row, defaultContent) => (
 )}`}
 				</pre>
 				<p className="text-fg-muted mt-4 text-sm">
-					Priorite : <code>renderGroupHeader</code> {">"} <code>renderGroupHeaderContent</code>{" "}
-					{">"} rendu par defaut. Voir la page <strong>Composition & Slots</strong> pour plus de
-					details.
+					Priorite : <code>renderGroupHeader</code> {">"} <code>renderGroupHeaderContent</code> {">"} rendu par defaut. Voir la page <strong>Composition & Slots</strong> pour plus de details.
 				</p>
 			</DocSection>
 
 			<DocSection id="row-expansion" title="Row Expansion">
 				<p className="text-fg-muted mb-4">
-					Le row expansion est independant du grouping — il ajoute un panel de detail sous chaque
-					ligne. Activez-le avec <code>enableRowExpand</code> et fournissez{" "}
-					<code>renderExpandedRow</code>.
+					Le row expansion est independant du grouping — il ajoute un panel de detail sous chaque ligne. Activez-le avec <code>enableRowExpand</code> et fournissez <code>renderExpandedRow</code>.
 				</p>
 				<div className="rounded-lg border border-separator overflow-hidden mb-4">
 					<DataTable
@@ -211,9 +196,7 @@ renderGroupHeader={(row, defaultContent) => (
 								</div>
 								<div>
 									<p className="text-fg-muted text-xs mb-1">Valeur stock</p>
-									<p className="text-fg font-medium">
-										{row.original.price * row.original.stock} EUR
-									</p>
+									<p className="text-fg font-medium">{row.original.price * row.original.stock} EUR</p>
 								</div>
 							</div>
 						)}
@@ -243,8 +226,7 @@ renderGroupHeader={(row, defaultContent) => (
 />`}
 				</pre>
 				<p className="text-fg-muted mt-4 mb-4">
-					Ajoutez <code>col.expand()</code> dans vos colonnes pour afficher le chevron de toggle.
-					Sinon, le toggle se fait via <code>onRowClick</code> ou programmatiquement.
+					Ajoutez <code>col.expand()</code> dans vos colonnes pour afficher le chevron de toggle. Sinon, le toggle se fait via <code>onRowClick</code> ou programmatiquement.
 				</p>
 				<pre className="bg-muted rounded-lg p-4 text-sm overflow-x-auto">
 					{`const columns = [

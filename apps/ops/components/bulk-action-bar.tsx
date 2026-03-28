@@ -1,22 +1,12 @@
 "use client"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Trash2, X } from "lucide-react"
 import { useState } from "react"
 import type { EntryStatus } from "@/lib/time-entry-status"
-import {
-	ENTRY_STATUS_LABELS,
-	getAllowedTransitions,
-	getEffectiveStatus,
-} from "@/lib/time-entry-status"
+import { ENTRY_STATUS_LABELS, getAllowedTransitions, getEffectiveStatus } from "@/lib/time-entry-status"
 
 interface BulkActionBarProps {
 	selectedIds: Set<string>
@@ -38,14 +28,7 @@ function intersectSets<T>(sets: Set<T>[]): Set<T> {
 	return new Set([...first].filter((item) => rest.every((s) => s.has(item))))
 }
 
-export function BulkActionBar({
-	selectedIds,
-	entries,
-	onClear,
-	onStatusChange,
-	onBillableChange,
-	onDelete,
-}: BulkActionBarProps) {
+export function BulkActionBar({ selectedIds, entries, onClear, onStatusChange, onBillableChange, onDelete }: BulkActionBarProps) {
 	const [confirmOpen, setConfirmOpen] = useState(false)
 
 	if (selectedIds.size === 0) return null
@@ -55,9 +38,7 @@ export function BulkActionBar({
 	const selectedIdsArray = selectedEntries.map((e) => e._id)
 
 	// Compute common transitions across all selected entries
-	const transitionSets = selectedEntries.map(
-		(entry) => new Set(getAllowedTransitions(getEffectiveStatus(entry)))
-	)
+	const transitionSets = selectedEntries.map((entry) => new Set(getAllowedTransitions(getEffectiveStatus(entry))))
 	const commonTransitions = intersectSets(transitionSets)
 
 	// Determine billable state
@@ -89,12 +70,7 @@ export function BulkActionBar({
 
 						{/* Status transition buttons */}
 						{[...commonTransitions].map((status) => (
-							<Button
-								key={status}
-								variant="outline"
-								size="sm"
-								onClick={() => onStatusChange(selectedIdsArray, status)}
-							>
+							<Button key={status} variant="outline" size="sm" onClick={() => onStatusChange(selectedIdsArray, status)}>
 								{ENTRY_STATUS_LABELS[status]}
 							</Button>
 						))}
@@ -104,37 +80,21 @@ export function BulkActionBar({
 
 						{/* Billable toggle buttons */}
 						{allBillable && (
-							<Button
-								variant="outline"
-								size="sm"
-								onClick={() => onBillableChange(selectedIdsArray, false)}
-							>
+							<Button variant="outline" size="sm" onClick={() => onBillableChange(selectedIdsArray, false)}>
 								Non facturable
 							</Button>
 						)}
 						{allNonBillable && (
-							<Button
-								variant="outline"
-								size="sm"
-								onClick={() => onBillableChange(selectedIdsArray, true)}
-							>
+							<Button variant="outline" size="sm" onClick={() => onBillableChange(selectedIdsArray, true)}>
 								Facturable
 							</Button>
 						)}
 						{!allBillable && !allNonBillable && (
 							<>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onBillableChange(selectedIdsArray, true)}
-								>
+								<Button variant="outline" size="sm" onClick={() => onBillableChange(selectedIdsArray, true)}>
 									Facturable
 								</Button>
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => onBillableChange(selectedIdsArray, false)}
-								>
+								<Button variant="outline" size="sm" onClick={() => onBillableChange(selectedIdsArray, false)}>
 									Non facturable
 								</Button>
 							</>

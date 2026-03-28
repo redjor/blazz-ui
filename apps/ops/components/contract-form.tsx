@@ -5,13 +5,7 @@ import { DateRangeSelector, DateSelector } from "@blazz/ui/components/ui/date-se
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Switch } from "@blazz/ui/components/ui/switch"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "convex/react"
@@ -27,14 +21,8 @@ import type { Id } from "@/convex/_generated/dataModel"
 const schema = z
 	.object({
 		type: z.enum(["tma", "forfait", "regie"]),
-		daysPerMonth: z.preprocess(
-			(v) => (v === "" || v === undefined ? undefined : Number(v)),
-			z.number().positive("Requis pour TMA").optional()
-		),
-		budgetAmount: z.preprocess(
-			(v) => (v === "" || v === undefined ? undefined : Number(v)),
-			z.number().positive("Requis pour un forfait").optional()
-		),
+		daysPerMonth: z.preprocess((v) => (v === "" || v === undefined ? undefined : Number(v)), z.number().positive("Requis pour TMA").optional()),
+		budgetAmount: z.preprocess((v) => (v === "" || v === undefined ? undefined : Number(v)), z.number().positive("Requis pour un forfait").optional()),
 		carryOver: z.boolean(),
 		prestationStartDate: z.string().optional(),
 		startDate: z.string().min(1, "Date de début requise"),
@@ -194,16 +182,8 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 			{contractType === "tma" && (
 				<div className="space-y-1.5">
 					<Label htmlFor="daysPerMonth">Jours / mois *</Label>
-					<Input
-						id="daysPerMonth"
-						type="number"
-						step="0.5"
-						placeholder="Ex: 5"
-						{...register("daysPerMonth")}
-					/>
-					{errors.daysPerMonth && (
-						<p className="text-xs text-red-500">{errors.daysPerMonth.message}</p>
-					)}
+					<Input id="daysPerMonth" type="number" step="0.5" placeholder="Ex: 5" {...register("daysPerMonth")} />
+					{errors.daysPerMonth && <p className="text-xs text-red-500">{errors.daysPerMonth.message}</p>}
 				</div>
 			)}
 
@@ -211,16 +191,8 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 			{contractType === "forfait" && (
 				<div className="space-y-1.5">
 					<Label htmlFor="budgetAmount">Budget forfait (€) *</Label>
-					<Input
-						id="budgetAmount"
-						type="number"
-						step="100"
-						placeholder="Ex: 15000"
-						{...register("budgetAmount")}
-					/>
-					{errors.budgetAmount && (
-						<p className="text-xs text-red-500">{errors.budgetAmount.message}</p>
-					)}
+					<Input id="budgetAmount" type="number" step="100" placeholder="Ex: 15000" {...register("budgetAmount")} />
+					{errors.budgetAmount && <p className="text-xs text-red-500">{errors.budgetAmount.message}</p>}
 				</div>
 			)}
 
@@ -228,11 +200,7 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 			{contractType === "tma" && (
 				<div className="flex items-center justify-between">
 					<Label htmlFor="carryOver">Report des jours non consommés</Label>
-					<Switch
-						id="carryOver"
-						checked={watch("carryOver")}
-						onCheckedChange={(v) => setValue("carryOver", v)}
-					/>
+					<Switch id="carryOver" checked={watch("carryOver")} onCheckedChange={(v) => setValue("carryOver", v)} />
 				</div>
 			)}
 
@@ -240,23 +208,14 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 			{contractType === "tma" && (
 				<div className="space-y-1.5">
 					<Label>Début de prestation</Label>
-					<p className="text-xs text-fg-muted">
-						Si la prestation commence avant le contrat, les jours seront comptés sur le premier
-						mois.
-					</p>
+					<p className="text-xs text-fg-muted">Si la prestation commence avant le contrat, les jours seront comptés sur le premier mois.</p>
 					<DateSelector
-						value={
-							watch("prestationStartDate") ? parseISO(watch("prestationStartDate")!) : undefined
-						}
-						onValueChange={(date) =>
-							setValue("prestationStartDate", date ? format(date, "yyyy-MM-dd") : undefined)
-						}
+						value={watch("prestationStartDate") ? parseISO(watch("prestationStartDate")!) : undefined}
+						onValueChange={(date) => setValue("prestationStartDate", date ? format(date, "yyyy-MM-dd") : undefined)}
 						placeholder="Optionnel…"
 						className="w-full"
 					/>
-					{errors.prestationStartDate && (
-						<p className="text-xs text-red-500">{errors.prestationStartDate.message}</p>
-					)}
+					{errors.prestationStartDate && <p className="text-xs text-red-500">{errors.prestationStartDate.message}</p>}
 				</div>
 			)}
 
@@ -319,40 +278,19 @@ export function ContractForm({ projectId, defaultValues, onSuccess, onCancel }: 
 				{pendingFiles.length > 0 && (
 					<ul className="space-y-1">
 						{pendingFiles.map((file, i) => (
-							<li
-								key={`${file.name}-${i}`}
-								className="flex items-center gap-2 rounded-md border border-edge bg-card px-2.5 py-1.5 text-sm"
-							>
+							<li key={`${file.name}-${i}`} className="flex items-center gap-2 rounded-md border border-edge bg-card px-2.5 py-1.5 text-sm">
 								<FileText className="size-4 shrink-0 text-fg-muted" />
 								<span className="min-w-0 flex-1 truncate">{file.name}</span>
-								<span className="shrink-0 text-xs text-fg-muted">
-									{(file.size / 1024).toFixed(0)} Ko
-								</span>
-								<button
-									type="button"
-									onClick={() => removePendingFile(i)}
-									className="shrink-0 rounded p-0.5 text-fg-muted hover:text-fg"
-								>
+								<span className="shrink-0 text-xs text-fg-muted">{(file.size / 1024).toFixed(0)} Ko</span>
+								<button type="button" onClick={() => removePendingFile(i)} className="shrink-0 rounded p-0.5 text-fg-muted hover:text-fg">
 									<X className="size-3.5" />
 								</button>
 							</li>
 						))}
 					</ul>
 				)}
-				<input
-					ref={fileInputRef}
-					type="file"
-					accept=".pdf,application/pdf"
-					multiple
-					className="hidden"
-					onChange={handleFileSelect}
-				/>
-				<Button
-					type="button"
-					variant="outline"
-					size="sm"
-					onClick={() => fileInputRef.current?.click()}
-				>
+				<input ref={fileInputRef} type="file" accept=".pdf,application/pdf" multiple className="hidden" onChange={handleFileSelect} />
+				<Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
 					<Plus className="mr-1.5 size-3.5" />
 					Ajouter un PDF
 				</Button>

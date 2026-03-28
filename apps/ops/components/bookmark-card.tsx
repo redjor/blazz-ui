@@ -4,25 +4,8 @@ import { Badge } from "@blazz/ui/components/ui/badge"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Dialog, DialogContent } from "@blazz/ui/components/ui/dialog"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
-import {
-	Archive,
-	BookmarkPlus,
-	Globe,
-	Image,
-	MoreVertical,
-	Pencil,
-	Pin,
-	PinOff,
-	Play,
-	Trash2,
-	X,
-} from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@blazz/ui/components/ui/dropdown-menu"
+import { Archive, BookmarkPlus, Globe, MoreVertical, Pencil, Pin, PinOff, Play, Trash2, X } from "lucide-react"
 import { useState } from "react"
 import type { Doc } from "@/convex/_generated/dataModel"
 
@@ -44,31 +27,12 @@ interface BookmarkCardProps {
 	onReadLater?: () => void
 }
 
-function YouTubePlayerDialog({
-	open,
-	onOpenChange,
-	embedUrl,
-	title,
-}: {
-	open: boolean
-	onOpenChange: (open: boolean) => void
-	embedUrl: string
-	title?: string
-}) {
+function YouTubePlayerDialog({ open, onOpenChange, embedUrl, title }: { open: boolean; onOpenChange: (open: boolean) => void; embedUrl: string; title?: string }) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent
-				size="full"
-				showCloseButton={false}
-				className="!max-w-[90vw] p-0 overflow-hidden bg-black border-none ring-0"
-			>
+			<DialogContent size="full" showCloseButton={false} className="!max-w-[90vw] p-0 overflow-hidden bg-black border-none ring-0">
 				<div className="relative">
-					<Button
-						size="icon-sm"
-						variant="ghost"
-						className="absolute top-2 right-2 z-10 text-white hover:bg-white/20"
-						onClick={() => onOpenChange(false)}
-					>
+					<Button size="icon-sm" variant="ghost" className="absolute top-2 right-2 z-10 text-white hover:bg-white/20" onClick={() => onOpenChange(false)}>
 						<X className="size-4" />
 					</Button>
 					<div className="aspect-video w-full">
@@ -155,21 +119,11 @@ function ThumbnailArea({ bookmark }: { bookmark: Doc<"bookmarks"> }) {
 	)
 }
 
-export function BookmarkCard({
-	bookmark,
-	tags: allTags,
-	onEdit,
-	onArchive,
-	onDelete,
-	onPin,
-	onReadLater,
-}: BookmarkCardProps) {
+export function BookmarkCard({ bookmark, tags: allTags, onEdit, onArchive, onDelete, onPin, onReadLater }: BookmarkCardProps) {
 	const config = TYPE_CONFIG[bookmark.type] ?? TYPE_CONFIG.link
 	const [playerOpen, setPlayerOpen] = useState(false)
 
-	const tagDocs = bookmark.tags?.map((id) => allTags?.find((t) => t._id === id)).filter(Boolean) as
-		| { _id: string; name: string; color: string }[]
-		| undefined
+	const tagDocs = bookmark.tags?.map((id) => allTags?.find((t) => t._id === id)).filter(Boolean) as { _id: string; name: string; color: string }[] | undefined
 
 	const isYouTubePlayable = bookmark.type === "youtube" && bookmark.embedUrl
 
@@ -182,41 +136,22 @@ export function BookmarkCard({
 
 	return (
 		<Card className="group relative overflow-hidden transition-shadow hover:shadow-md">
-			<a
-				href={bookmark.url}
-				target="_blank"
-				rel="noopener noreferrer"
-				className="block cursor-pointer"
-				onClick={handleThumbnailClick}
-			>
+			<a href={bookmark.url} target="_blank" rel="noopener noreferrer" className="block cursor-pointer" onClick={handleThumbnailClick}>
 				<ThumbnailArea bookmark={bookmark} />
 			</a>
 
 			{/* YouTube player modal */}
-			{isYouTubePlayable && (
-				<YouTubePlayerDialog
-					open={playerOpen}
-					onOpenChange={setPlayerOpen}
-					embedUrl={bookmark.embedUrl!}
-					title={bookmark.title ?? undefined}
-				/>
-			)}
+			{isYouTubePlayable && <YouTubePlayerDialog open={playerOpen} onOpenChange={setPlayerOpen} embedUrl={bookmark.embedUrl!} title={bookmark.title ?? undefined} />}
 
 			{/* 3-dot menu */}
 			<div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
 				<DropdownMenu>
-					<DropdownMenuTrigger
-						render={<Button size="icon-sm" variant="secondary" className="size-7 shadow-sm" />}
-					>
+					<DropdownMenuTrigger render={<Button size="icon-sm" variant="secondary" className="size-7 shadow-sm" />}>
 						<MoreVertical className="size-3.5" />
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem onClick={onPin}>
-							{bookmark.pinned ? (
-								<PinOff className="size-4 mr-2" />
-							) : (
-								<Pin className="size-4 mr-2" />
-							)}
+							{bookmark.pinned ? <PinOff className="size-4 mr-2" /> : <Pin className="size-4 mr-2" />}
 							{bookmark.pinned ? "Désépingler" : "Épingler"}
 						</DropdownMenuItem>
 						{onReadLater && (
@@ -252,39 +187,23 @@ export function BookmarkCard({
 
 			<CardContent className="p-3 space-y-1.5">
 				<div className="flex items-center gap-1.5">
-					<span
-						className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium ${config.color}`}
-					>
-						{config.label}
-					</span>
+					<span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium ${config.color}`}>{config.label}</span>
 				</div>
 
 				<a href={bookmark.url} target="_blank" rel="noopener noreferrer" className="block">
-					<p className="text-sm font-medium text-fg line-clamp-2 hover:underline">
-						{bookmark.title || bookmark.url}
-					</p>
+					<p className="text-sm font-medium text-fg line-clamp-2 hover:underline">{bookmark.title || bookmark.url}</p>
 				</a>
 
-				{bookmark.type === "link" && bookmark.description && (
-					<p className="text-xs text-fg-muted line-clamp-2">{bookmark.description}</p>
-				)}
+				{bookmark.type === "link" && bookmark.description && <p className="text-xs text-fg-muted line-clamp-2">{bookmark.description}</p>}
 
 				{bookmark.type === "tweet" && (
 					<>
-						{(bookmark.author || bookmark.siteName) && (
-							<p className="text-xs text-fg-muted truncate">
-								{bookmark.author || bookmark.siteName}
-							</p>
-						)}
-						{bookmark.description && (
-							<p className="text-xs text-fg-muted line-clamp-2">{bookmark.description}</p>
-						)}
+						{(bookmark.author || bookmark.siteName) && <p className="text-xs text-fg-muted truncate">{bookmark.author || bookmark.siteName}</p>}
+						{bookmark.description && <p className="text-xs text-fg-muted line-clamp-2">{bookmark.description}</p>}
 					</>
 				)}
 
-				{bookmark.type !== "tweet" && (bookmark.author || bookmark.siteName) && (
-					<p className="text-xs text-fg-muted truncate">{bookmark.author || bookmark.siteName}</p>
-				)}
+				{bookmark.type !== "tweet" && (bookmark.author || bookmark.siteName) && <p className="text-xs text-fg-muted truncate">{bookmark.author || bookmark.siteName}</p>}
 
 				{tagDocs && tagDocs.length > 0 && (
 					<div className="flex flex-wrap gap-1 pt-0.5">

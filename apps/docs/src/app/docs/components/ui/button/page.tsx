@@ -1,9 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Spinner } from "@blazz/ui/components/ui/spinner"
 import { ChevronRight, Mail, Plus } from "lucide-react"
+import { use } from "react"
 import { DocDoDont } from "~/components/docs/doc-do-dont"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -106,11 +106,7 @@ export default function ButtonPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Button"
-			subtitle="Buttons trigger actions and events. Use them to submit forms, navigate, or perform operations."
-			toc={toc}
-		>
+		<DocPage title="Button" subtitle="Buttons trigger actions and events. Use them to submit forms, navigate, or perform operations." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<div className="flex flex-wrap items-center gap-3">
@@ -125,12 +121,7 @@ export default function ButtonPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Variants"
-					description="Visual styles for different contexts."
-					code={examples[0].code}
-					highlightedCode={html("variants")}
-				>
+				<DocExampleClient title="Variants" description="Visual styles for different contexts." code={examples[0].code} highlightedCode={html("variants")}>
 					<div className="flex flex-wrap items-center gap-2">
 						<Button variant="default">Default</Button>
 						<Button variant="outline">Outline</Button>
@@ -141,12 +132,7 @@ export default function ButtonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Available sizes for different contexts."
-					code={examples[1].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Available sizes for different contexts." code={examples[1].code} highlightedCode={html("sizes")}>
 					<div className="flex flex-wrap items-center gap-2">
 						<Button size="xs">Extra Small</Button>
 						<Button size="sm">Small</Button>
@@ -155,12 +141,7 @@ export default function ButtonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Icons"
-					description="Add icons to buttons for visual context."
-					code={examples[2].code}
-					highlightedCode={html("with-icons")}
-				>
+				<DocExampleClient title="With Icons" description="Add icons to buttons for visual context." code={examples[2].code} highlightedCode={html("with-icons")}>
 					<div className="flex flex-wrap gap-2">
 						<Button>
 							<Mail /> Send Email
@@ -174,12 +155,7 @@ export default function ButtonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Icon Only"
-					description="Compact icon-only buttons."
-					code={examples[3].code}
-					highlightedCode={html("icon-only")}
-				>
+				<DocExampleClient title="Icon Only" description="Compact icon-only buttons." code={examples[3].code} highlightedCode={html("icon-only")}>
 					<div className="flex items-center gap-2">
 						<Button size="icon-xs" variant="outline">
 							<Plus />
@@ -196,24 +172,14 @@ export default function ButtonPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Loading State"
-					description="Show a spinner while processing."
-					code={examples[4].code}
-					highlightedCode={html("loading")}
-				>
+				<DocExampleClient title="Loading State" description="Show a spinner while processing." code={examples[4].code} highlightedCode={html("loading")}>
 					<Button disabled>
 						<Spinner />
 						Please wait
 					</Button>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="On Dark Surface"
-					description="How variants render on a dark background."
-					code={examples[5].code}
-					highlightedCode={html("on-dark")}
-				>
+				<DocExampleClient title="On Dark Surface" description="How variants render on a dark background." code={examples[5].code} highlightedCode={html("on-dark")}>
 					<div className="flex flex-wrap items-center gap-2 rounded-lg bg-background p-4">
 						<Button variant="default">Default</Button>
 						<Button variant="outline">Outline</Button>

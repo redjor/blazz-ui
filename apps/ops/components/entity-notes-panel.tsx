@@ -5,10 +5,10 @@ import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { type TreeNode, TreeView } from "@blazz/ui/components/ui/tree-view"
-import type { JSONContent, Editor } from "@tiptap/react"
+import type { Editor, JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -93,7 +93,9 @@ function NoteToc({ editor }: { editor: Editor | null }) {
 		const update = () => setHeadings(extractHeadings(editor))
 		update()
 		editor.on("update", update)
-		return () => { editor.off("update", update) }
+		return () => {
+			editor.off("update", update)
+		}
 	}, [editor])
 
 	if (headings.length === 0) return null
@@ -102,7 +104,7 @@ function NoteToc({ editor }: { editor: Editor | null }) {
 		if (!editor) return
 		let targetPos = 0
 		editor.state.doc.descendants((node, pos) => {
-			if (node.type.name === "heading" && pos === Number.parseInt(heading.id.replace("heading-", ""))) {
+			if (node.type.name === "heading" && pos === Number.parseInt(heading.id.replace("heading-", ""), 10)) {
 				targetPos = pos
 				return false
 			}
@@ -115,9 +117,7 @@ function NoteToc({ editor }: { editor: Editor | null }) {
 	return (
 		<div className="w-[180px] shrink-0">
 			<div className="sticky top-8">
-				<span className="mb-2 block text-[11px] font-medium uppercase tracking-wider text-fg-muted">
-					Sur cette page
-				</span>
+				<span className="mb-2 block text-[11px] font-medium uppercase tracking-wider text-fg-muted">Sur cette page</span>
 				<nav className="flex flex-col gap-0.5">
 					{headings.map((h) => (
 						<button
@@ -169,11 +169,7 @@ function buildTreeData(noteList: Doc<"notes">[], scope: NotesScope): TreeNode[] 
 		return noteList.map((note) => ({
 			id: note._id,
 			label: getDisplayTitle(note),
-			icon: note.pinned ? (
-				<Pin className="size-3.5 text-amber-500" />
-			) : (
-				<FileText className="size-3.5" />
-			),
+			icon: note.pinned ? <Pin className="size-3.5 text-amber-500" /> : <FileText className="size-3.5" />,
 		}))
 	}
 
@@ -193,11 +189,7 @@ function buildTreeData(noteList: Doc<"notes">[], scope: NotesScope): TreeNode[] 
 			children: notes.map((note) => ({
 				id: note._id,
 				label: getDisplayTitle(note),
-				icon: note.pinned ? (
-					<Pin className="size-3.5 text-amber-500" />
-				) : (
-					<FileText className="size-3.5" />
-				),
+				icon: note.pinned ? <Pin className="size-3.5 text-amber-500" /> : <FileText className="size-3.5" />,
 			})),
 		})
 	}
@@ -232,9 +224,7 @@ export function EntityNotesPanel({
 
 	const router = useRouter()
 
-	const [selectedNoteId, setSelectedNoteIdState] = useState<Id<"notes"> | null>(
-		(initialNoteId as Id<"notes">) ?? null
-	)
+	const [selectedNoteId, setSelectedNoteIdState] = useState<Id<"notes"> | null>((initialNoteId as Id<"notes">) ?? null)
 	const [title, setTitle] = useState("")
 	const [content, setContent] = useState<EditorValue>(EMPTY_EDITOR_DOC)
 	const [isCreating, setIsCreating] = useState(false)
@@ -273,17 +263,12 @@ export function EntityNotesPanel({
 
 	const notes = scope === "all" ? recentNotes : entityNotes
 	const noteList = notes ?? []
-	const selectedNote = useMemo(
-		() => noteList.find((note) => note._id === selectedNoteId) ?? null,
-		[noteList, selectedNoteId]
-	)
+	const selectedNote = useMemo(() => noteList.find((note) => note._id === selectedNoteId) ?? null, [noteList, selectedNoteId])
 
 	const treeData = useMemo(() => buildTreeData(noteList, scope), [noteList, scope])
 
 	// Update browser tab title with selected note
-	useTabTitle(
-		scope === "all" && selectedNote ? `Notes · ${getDisplayTitle(selectedNote)}` : "Notes"
-	)
+	useTabTitle(scope === "all" && selectedNote ? `Notes · ${getDisplayTitle(selectedNote)}` : "Notes")
 
 	// Auto-expand all groups on first load
 	useEffect(() => {
@@ -299,7 +284,7 @@ export function EntityNotesPanel({
 		if (!selectedNoteId || !selectedStillExists) {
 			setSelectedNoteId(notes[0]?._id ?? null)
 		}
-	}, [notes, selectedNoteId])
+	}, [notes, selectedNoteId, setSelectedNoteId])
 
 	useEffect(() => {
 		return () => {
@@ -331,8 +316,7 @@ export function EntityNotesPanel({
 		try {
 			const id = await createNote({
 				entityType: defaultCreateEntityType ?? entityType,
-				entityId:
-					defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
+				entityId: defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
 				title: "Nouvelle note",
 			})
 			setSelectedNoteId(id)
@@ -354,8 +338,7 @@ export function EntityNotesPanel({
 			try {
 				const id = await createNote({
 					entityType: defaultCreateEntityType ?? entityType,
-					entityId:
-						defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
+					entityId: defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
 					title,
 					contentText: text,
 				})
@@ -477,9 +460,7 @@ export function EntityNotesPanel({
 			{/* ── Sidebar — TreeView ──────────────────────────────── */}
 			<div className="flex w-[240px] shrink-0 flex-col border-r border-edge">
 				<div className="flex items-center justify-between px-3 py-2.5">
-					<span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
-						Notes
-					</span>
+					<span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">Notes</span>
 					<div className="flex items-center gap-0.5">
 						<Tooltip>
 							<TooltipTrigger
@@ -502,11 +483,7 @@ export function EntityNotesPanel({
 							disabled={isCreating}
 							className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
 						>
-							{isCreating ? (
-								<Loader2 className="size-3.5 animate-spin" />
-							) : (
-								<Plus className="size-3.5" />
-							)}
+							{isCreating ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
 						</button>
 					</div>
 				</div>
@@ -526,13 +503,7 @@ export function EntityNotesPanel({
 								/>
 							</div>
 						) : (
-							<TreeView
-								data={treeData}
-								selected={selectedNoteId ? [selectedNoteId] : []}
-								onSelect={handleTreeSelect}
-								expanded={expandedGroups}
-								onExpandChange={setExpandedGroups}
-							/>
+							<TreeView data={treeData} selected={selectedNoteId ? [selectedNoteId] : []} onSelect={handleTreeSelect} expanded={expandedGroups} onExpandChange={setExpandedGroups} />
 						)}
 					</div>
 				</ScrollArea>
@@ -548,9 +519,7 @@ export function EntityNotesPanel({
 								<button
 									type="button"
 									onClick={() => void handleTogglePinned()}
-									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${
-										selectedNote.pinned ? "text-amber-500" : "text-fg-muted"
-									}`}
+									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${selectedNote.pinned ? "text-amber-500" : "text-fg-muted"}`}
 								>
 									<Pin className={`size-3 ${selectedNote.pinned ? "fill-current" : ""}`} />
 									<span>{selectedNote.pinned ? "Épinglée" : "Épingler"}</span>
@@ -558,23 +527,15 @@ export function EntityNotesPanel({
 								<button
 									type="button"
 									onClick={() => void handleToggleLocked()}
-									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${
-										selectedNote.locked ? "text-brand" : "text-fg-muted"
-									}`}
+									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${selectedNote.locked ? "text-brand" : "text-fg-muted"}`}
 								>
-									{selectedNote.locked ? (
-										<Lock className="size-3" />
-									) : (
-										<LockOpen className="size-3" />
-									)}
+									{selectedNote.locked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
 									<span>{selectedNote.locked ? "Verrouillée" : "Verrouiller"}</span>
 								</button>
 								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
 								{compositeState !== "idle" ? (
 									<span className="flex items-center gap-1.5">
-										{compositeState === "saving" || compositeState === "pending" ? (
-											<Loader2 className="size-3 animate-spin" />
-										) : null}
+										{compositeState === "saving" || compositeState === "pending" ? <Loader2 className="size-3 animate-spin" /> : null}
 										{getSaveStateLabel(compositeState)}
 									</span>
 								) : null}
@@ -590,16 +551,10 @@ export function EntityNotesPanel({
 										/>
 									}
 								>
-									{isDeleting ? (
-										<Loader2 className="size-3 animate-spin" />
-									) : (
-										<Trash2 className="size-3" />
-									)}
+									{isDeleting ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}
 									<span>Supprimer</span>
 								</TooltipTrigger>
-								{selectedNote.locked ? (
-									<TooltipContent>Déverrouille la note pour la supprimer</TooltipContent>
-								) : null}
+								{selectedNote.locked ? <TooltipContent>Déverrouille la note pour la supprimer</TooltipContent> : null}
 							</Tooltip>
 							<ConfirmationDialog
 								open={showDeleteConfirm}
@@ -632,37 +587,28 @@ export function EntityNotesPanel({
 												if (!tag) return null
 												const color = getTagColor(tag.color)
 												return (
-													<span
-														key={tagId}
-														className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${color.bg} ${color.text}`}
-													>
+													<span key={tagId} className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${color.bg} ${color.text}`}>
 														<span className={`size-1.5 rounded-full ${color.dot}`} />
 														{tag.name}
-												</span>
-											)
-										})}
-									</div>
-								) : null}
-								<p className="mb-10 text-[13px] text-fg-muted">
-									Modifiée{" "}
-									{formatDistanceToNow(selectedNote.updatedAt, {
-										addSuffix: true,
-										locale: fr,
-									})}
-									{scope === "all" && selectedNote.entityType !== "general" ? (
-										<>
-											{" · "}
-											<span className="uppercase tracking-wide">{selectedNote.entityType}</span>
-										</>
+													</span>
+												)
+											})}
+										</div>
 									) : null}
-								</p>
-									<TiptapEditor
-										content={content}
-										onUpdate={handleContentChange}
-										onEditorReady={setEditorInstance}
-										placeholder="Commence à écrire…"
-										editable={!selectedNote.locked}
-									/>
+									<p className="mb-10 text-[13px] text-fg-muted">
+										Modifiée{" "}
+										{formatDistanceToNow(selectedNote.updatedAt, {
+											addSuffix: true,
+											locale: fr,
+										})}
+										{scope === "all" && selectedNote.entityType !== "general" ? (
+											<>
+												{" · "}
+												<span className="uppercase tracking-wide">{selectedNote.entityType}</span>
+											</>
+										) : null}
+									</p>
+									<TiptapEditor content={content} onUpdate={handleContentChange} onEditorReady={setEditorInstance} placeholder="Commence à écrire…" editable={!selectedNote.locked} />
 								</div>
 								<NoteToc editor={editorInstance} />
 							</div>

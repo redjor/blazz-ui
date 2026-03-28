@@ -66,16 +66,10 @@ export function MissionCard({ mission, agent, onClick }: MissionCardProps) {
 	const budgetMax = agent ? 0.15 : undefined
 
 	return (
-		<Box
-			as="button"
-			onClick={onClick}
-			className="w-full rounded-lg border border-edge bg-card px-3 py-2.5 text-left transition-colors hover:bg-muted cursor-pointer"
-		>
+		<Box as="button" onClick={onClick} className="w-full rounded-lg border border-edge bg-card px-3 py-2.5 text-left transition-colors hover:bg-muted cursor-pointer">
 			<BlockStack gap="100">
 				<InlineStack align="space-between" blockAlign="center">
-					<span className="text-[13px] font-medium text-fg truncate">
-						{mission.title}
-					</span>
+					<span className="text-[13px] font-medium text-fg truncate">{mission.title}</span>
 					<Badge variant={STATUS_VARIANT[mission.status]} className="shrink-0 text-[10px]">
 						{STATUS_LABEL[mission.status]}
 					</Badge>
@@ -93,9 +87,7 @@ export function MissionCard({ mission, agent, onClick }: MissionCardProps) {
 				<InlineStack gap="200" blockAlign="center">
 					<InlineStack gap="100" blockAlign="center">
 						<span className={`size-2 rounded-full ${PRIORITY_DOT[mission.priority]}`} />
-						<span className="text-xs text-fg-muted">
-							{PRIORITY_LABEL[mission.priority]}
-						</span>
+						<span className="text-xs text-fg-muted">{PRIORITY_LABEL[mission.priority]}</span>
 					</InlineStack>
 
 					<span className="text-xs tabular-nums text-fg-muted">

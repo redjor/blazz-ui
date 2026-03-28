@@ -37,11 +37,7 @@ export function CodeEditor({ value, onChange, language = "typescript" }: CodeEdi
 				value={value}
 				onChange={(val) => val !== undefined && onChange(val)}
 				onMount={handleMount}
-				loading={
-					<div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
-						Loading editor...
-					</div>
-				}
+				loading={<div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">Loading editor...</div>}
 				options={{
 					minimap: { enabled: false },
 					lineNumbers: "on",

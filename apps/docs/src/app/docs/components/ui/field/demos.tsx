@@ -172,14 +172,31 @@ export function FieldValidationDemo() {
 	const [submitted, setSubmitted] = React.useState(false)
 	const error = submitted && !value.trim() ? "This field is required." : undefined
 	return (
-		<form onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }} className="w-full max-w-sm space-y-4">
+		<form
+			onSubmit={(e) => {
+				e.preventDefault()
+				setSubmitted(true)
+			}}
+			className="w-full max-w-sm space-y-4"
+		>
 			<Field>
 				<FieldLabel>Username</FieldLabel>
-				<FieldControl><Input placeholder="Enter username" value={value} onChange={(e) => { setValue(e.target.value); if (submitted) setSubmitted(false) }} /></FieldControl>
+				<FieldControl>
+					<Input
+						placeholder="Enter username"
+						value={value}
+						onChange={(e) => {
+							setValue(e.target.value)
+							if (submitted) setSubmitted(false)
+						}}
+					/>
+				</FieldControl>
 				<FieldDescription>Must be at least 3 characters.</FieldDescription>
 				<FieldError errors={error ? [error] : undefined} />
 			</Field>
-			<Button type="submit" size="sm">Submit</Button>
+			<Button type="submit" size="sm">
+				Submit
+			</Button>
 		</form>
 	)
 }
@@ -192,7 +209,9 @@ export function FieldHorizontalControlledDemo() {
 			<Field orientation="horizontal">
 				<FieldLabel>Email</FieldLabel>
 				<FieldContent>
-					<FieldControl><Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} /></FieldControl>
+					<FieldControl>
+						<Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+					</FieldControl>
 					<FieldDescription>We will never share your email.</FieldDescription>
 					<FieldError errors={error ? [error] : undefined} />
 				</FieldContent>

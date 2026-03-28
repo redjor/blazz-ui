@@ -227,7 +227,6 @@ const highlightedPromise = highlightExamples(examples as any)
 // Route
 // ---------------------------------------------------------------------------
 
-
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
@@ -237,17 +236,10 @@ export default function SplitViewPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="SplitView"
-			subtitle="A resizable two-pane layout with a draggable handle, independent scrolling, and customizable ratios. Perfect for master-detail interfaces."
-			toc={toc}
-		>
+		<DocPage title="SplitView" subtitle="A resizable two-pane layout with a draggable handle, independent scrolling, and customizable ratios. Perfect for master-detail interfaces." toc={toc}>
 			{/* Hero */}
 			<DocHero>
-				<div
-					className="w-full max-w-3xl rounded-lg border border-edge bg-card overflow-hidden"
-					style={{ height: 400 }}
-				>
+				<div className="w-full max-w-3xl rounded-lg border border-edge bg-card overflow-hidden" style={{ height: 400 }}>
 					<HeroDemo />
 				</div>
 			</DocHero>
@@ -321,8 +313,7 @@ export default function SplitViewPage() {
 			{/* Panel Props */}
 			<DocSection id="panel-props" title="Panel Props">
 				<p className="mb-4 text-sm text-fg-muted">
-					Props shared by <code className="text-xs">SplitView.Master</code> and{" "}
-					<code className="text-xs">SplitView.Detail</code>.
+					Props shared by <code className="text-xs">SplitView.Master</code> and <code className="text-xs">SplitView.Detail</code>.
 				</p>
 				<DocPropsTable props={panelProps} />
 			</DocSection>
@@ -357,23 +348,9 @@ export default function SplitViewPage() {
 // Contact List Item (shared)
 // ---------------------------------------------------------------------------
 
-function ContactListItem({
-	contact,
-	selected,
-	onClick,
-}: {
-	contact: Contact
-	selected: boolean
-	onClick: () => void
-}) {
+function ContactListItem({ contact, selected, onClick }: { contact: Contact; selected: boolean; onClick: () => void }) {
 	return (
-		<button
-			type="button"
-			onClick={onClick}
-			className={`w-full px-4 py-3 text-left transition-colors border-b border-edge last:border-0 ${
-				selected ? "bg-muted" : "hover:bg-muted/50"
-			}`}
-		>
+		<button type="button" onClick={onClick} className={`w-full px-4 py-3 text-left transition-colors border-b border-edge last:border-0 ${selected ? "bg-muted" : "hover:bg-muted/50"}`}>
 			<p className="text-sm font-medium text-fg">{contact.name}</p>
 			<p className="text-xs text-fg-muted">{contact.company}</p>
 		</button>
@@ -429,22 +406,11 @@ function HeroDemo() {
 					<p className="text-xs text-fg-muted">{contacts.length} résultats</p>
 				</div>
 				{contacts.map((c) => (
-					<ContactListItem
-						key={c.id}
-						contact={c}
-						selected={c.id === selectedId}
-						onClick={() => setSelectedId(c.id)}
-					/>
+					<ContactListItem key={c.id} contact={c} selected={c.id === selectedId} onClick={() => setSelectedId(c.id)} />
 				))}
 			</SplitView.Master>
 			<SplitView.Detail>
-				{selected ? (
-					<ContactDetail contact={selected} />
-				) : (
-					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-						Sélectionnez un contact
-					</div>
-				)}
+				{selected ? <ContactDetail contact={selected} /> : <div className="flex h-full items-center justify-center text-sm text-fg-muted">Sélectionnez un contact</div>}
 			</SplitView.Detail>
 		</SplitView>
 	)
@@ -462,22 +428,11 @@ function BasicDemo() {
 		<SplitView>
 			<SplitView.Master>
 				{contacts.map((c) => (
-					<ContactListItem
-						key={c.id}
-						contact={c}
-						selected={c.id === selectedId}
-						onClick={() => setSelectedId(c.id)}
-					/>
+					<ContactListItem key={c.id} contact={c} selected={c.id === selectedId} onClick={() => setSelectedId(c.id)} />
 				))}
 			</SplitView.Master>
 			<SplitView.Detail>
-				{selected ? (
-					<ContactDetail contact={selected} />
-				) : (
-					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-						Sélectionnez un contact
-					</div>
-				)}
+				{selected ? <ContactDetail contact={selected} /> : <div className="flex h-full items-center justify-center text-sm text-fg-muted">Sélectionnez un contact</div>}
 			</SplitView.Detail>
 		</SplitView>
 	)
@@ -495,22 +450,11 @@ function CustomWidthDemo() {
 		<SplitView defaultWidth={280} minWidth={200} maxWidth={500}>
 			<SplitView.Master>
 				{contacts.slice(0, 4).map((c) => (
-					<ContactListItem
-						key={c.id}
-						contact={c}
-						selected={c.id === selectedId}
-						onClick={() => setSelectedId(c.id)}
-					/>
+					<ContactListItem key={c.id} contact={c} selected={c.id === selectedId} onClick={() => setSelectedId(c.id)} />
 				))}
 			</SplitView.Master>
 			<SplitView.Detail>
-				{selected ? (
-					<ContactDetail contact={selected} />
-				) : (
-					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-						Sélectionnez un contact
-					</div>
-				)}
+				{selected ? <ContactDetail contact={selected} /> : <div className="flex h-full items-center justify-center text-sm text-fg-muted">Sélectionnez un contact</div>}
 			</SplitView.Detail>
 		</SplitView>
 	)
@@ -530,13 +474,7 @@ function ReversedDemo() {
 				<div className="border-b border-edge px-4 py-3">
 					<p className="text-sm font-semibold text-fg">Details</p>
 				</div>
-				{selected ? (
-					<ContactDetail contact={selected} />
-				) : (
-					<div className="flex h-full items-center justify-center text-sm text-fg-muted">
-						Sélectionnez un contact
-					</div>
-				)}
+				{selected ? <ContactDetail contact={selected} /> : <div className="flex h-full items-center justify-center text-sm text-fg-muted">Sélectionnez un contact</div>}
 			</SplitView.Master>
 			<SplitView.Detail>
 				<div className="border-b border-edge px-4 py-3">
@@ -544,12 +482,7 @@ function ReversedDemo() {
 					<p className="text-xs text-fg-muted">{contacts.length} résultats</p>
 				</div>
 				{contacts.map((c) => (
-					<ContactListItem
-						key={c.id}
-						contact={c}
-						selected={c.id === selectedId}
-						onClick={() => setSelectedId(c.id)}
-					/>
+					<ContactListItem key={c.id} contact={c} selected={c.id === selectedId} onClick={() => setSelectedId(c.id)} />
 				))}
 			</SplitView.Detail>
 		</SplitView>

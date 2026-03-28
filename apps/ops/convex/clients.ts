@@ -75,11 +75,7 @@ export const update = mutation({
 		const existing = await ctx.db.get(id)
 		if (!existing || existing.userId !== userId) throw new ConvexError("Introuvable")
 		// If logo is being replaced, delete old file from storage
-		if (
-			existing.logoStorageId &&
-			fields.logoStorageId !== undefined &&
-			fields.logoStorageId !== existing.logoStorageId
-		) {
+		if (existing.logoStorageId && fields.logoStorageId !== undefined && fields.logoStorageId !== existing.logoStorageId) {
 			await ctx.storage.delete(existing.logoStorageId)
 		}
 		return ctx.db.patch(id, fields)
@@ -122,8 +118,7 @@ export const getStats = query({
 		)
 		const allEntries = entryBatches.flat().filter((e) => e.billable)
 
-		const calc = (filter: (e: (typeof allEntries)[number]) => boolean) =>
-			Math.round(allEntries.filter(filter).reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0))
+		const calc = (filter: (e: (typeof allEntries)[number]) => boolean) => Math.round(allEntries.filter(filter).reduce((s, e) => s + (e.minutes / 60) * e.hourlyRate, 0))
 
 		return {
 			toInvoice: calc((e) => e.status === "ready_to_invoice"),

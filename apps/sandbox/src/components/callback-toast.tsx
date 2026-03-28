@@ -25,13 +25,7 @@ export function CallbackToast({ events, onDismiss }: CallbackToastProps) {
 	)
 }
 
-function ToastItem({
-	event,
-	onDismiss,
-}: {
-	event: CallbackEvent
-	onDismiss: (id: string) => void
-}) {
+function ToastItem({ event, onDismiss }: { event: CallbackEvent; onDismiss: (id: string) => void }) {
 	useEffect(() => {
 		const timer = setTimeout(() => onDismiss(event.id), 3000)
 		return () => clearTimeout(timer)

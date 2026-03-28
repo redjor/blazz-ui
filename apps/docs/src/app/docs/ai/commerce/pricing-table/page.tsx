@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { PricingTable } from "@blazz/pro/components/ai/generative/commerce/pricing-table"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "three-tiers",
@@ -32,7 +33,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function PricingTablePage() {
@@ -40,11 +40,7 @@ export default function PricingTablePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Pricing Table"
-			subtitle="A comparison table for pricing tiers with features and recommendations."
-			toc={toc}
-		>
+		<DocPage title="Pricing Table" subtitle="A comparison table for pricing tiers with features and recommendations." toc={toc}>
 			<DocHero>
 				<div className="max-w-md">
 					<PricingTable
@@ -70,12 +66,7 @@ export default function PricingTablePage() {
 								price: "$199",
 								period: "mo",
 								description: "For large organizations",
-								features: [
-									"Unlimited users",
-									"1 TB storage",
-									"24/7 support",
-									"Custom integrations",
-								],
+								features: ["Unlimited users", "1 TB storage", "24/7 support", "Custom integrations"],
 							},
 						]}
 					/>
@@ -83,12 +74,7 @@ export default function PricingTablePage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Three Tiers"
-					description="Standard three-tier pricing with a recommended plan."
-					code={examples[0].code}
-					highlightedCode={html("three-tiers")}
-				>
+				<DocExampleClient title="Three Tiers" description="Standard three-tier pricing with a recommended plan." code={examples[0].code} highlightedCode={html("three-tiers")}>
 					<div className="max-w-md">
 						<PricingTable
 							title="Choose a plan"
@@ -117,12 +103,7 @@ export default function PricingTablePage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Two Tiers"
-					description="Simple comparison between two options."
-					code={examples[1].code}
-					highlightedCode={html("two-tiers")}
-				>
+				<DocExampleClient title="Two Tiers" description="Simple comparison between two options." code={examples[1].code} highlightedCode={html("two-tiers")}>
 					<div className="max-w-sm">
 						<PricingTable
 							tiers={[

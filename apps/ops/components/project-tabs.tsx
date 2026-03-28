@@ -17,10 +17,7 @@ const allTabs: (NavTab & { flag?: string })[] = [
 export function ProjectTabs({ basePath }: { basePath: string }) {
 	const { isEnabled } = useFeatureFlags()
 
-	const tabs = useMemo(
-		() => allTabs.filter((t) => !t.flag || isEnabled(t.flag)),
-		[isEnabled]
-	)
+	const tabs = useMemo(() => allTabs.filter((t) => !t.flag || isEnabled(t.flag)), [isEnabled])
 
 	return <NavTabs tabs={tabs} basePath={basePath} />
 }

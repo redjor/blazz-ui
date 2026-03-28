@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -50,11 +50,7 @@ export default function SuggestionPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Suggestion"
-			subtitle="Horizontally scrollable suggestion chips for quick prompt selection in chat interfaces."
-			toc={toc}
-		>
+		<DocPage title="Suggestion" subtitle="Horizontally scrollable suggestion chips for quick prompt selection in chat interfaces." toc={toc}>
 			<DocHero>
 				<Suggestions>
 					<Suggestion suggestion="Summarize this document" onClick={() => {}} />
@@ -65,12 +61,7 @@ export default function SuggestionPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Suggestions"
-					description="A row of clickable suggestion pills."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Suggestions" description="A row of clickable suggestion pills." code={examples[0].code} highlightedCode={html("basic")}>
 					<Suggestions>
 						<Suggestion suggestion="Tell me a joke" onClick={() => {}} />
 						<Suggestion suggestion="Explain quantum physics" onClick={() => {}} />
@@ -78,12 +69,7 @@ export default function SuggestionPage() {
 					</Suggestions>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Labels"
-					description="Use children to render custom content inside each suggestion."
-					code={examples[1].code}
-					highlightedCode={html("custom-labels")}
-				>
+				<DocExampleClient title="Custom Labels" description="Use children to render custom content inside each suggestion." code={examples[1].code} highlightedCode={html("custom-labels")}>
 					<Suggestions>
 						<Suggestion suggestion="code-review" onClick={() => {}}>
 							Review my code
@@ -97,12 +83,7 @@ export default function SuggestionPage() {
 					</Suggestions>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Many Suggestions"
-					description="The container scrolls horizontally when suggestions overflow."
-					code={examples[2].code}
-					highlightedCode={html("many")}
-				>
+				<DocExampleClient title="Many Suggestions" description="The container scrolls horizontally when suggestions overflow." code={examples[2].code} highlightedCode={html("many")}>
 					<Suggestions>
 						<Suggestion suggestion="What is React?" onClick={() => {}} />
 						<Suggestion suggestion="Explain server components" onClick={() => {}} />

@@ -13,17 +13,13 @@ const STATUS_PRIORITY: EntryStatus[] = ["paid", "invoiced", "ready_to_invoice", 
 
 const CELL_STYLES: Record<EntryStatus, string> = {
 	draft: "bg-brand/15 text-brand hover:bg-brand/25 border border-brand/30",
-	ready_to_invoice:
-		"bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 border border-amber-500/30",
-	invoiced:
-		"bg-blue-500/15 text-blue-600 dark:text-blue-400 hover:bg-blue-500/25 border border-blue-500/30",
+	ready_to_invoice: "bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 border border-amber-500/30",
+	invoiced: "bg-blue-500/15 text-blue-600 dark:text-blue-400 hover:bg-blue-500/25 border border-blue-500/30",
 	paid: "bg-green-500/15 text-green-600 dark:text-green-400 hover:bg-green-500/25 border border-green-500/30",
 }
 
 function getDominantCellStatus(entries: TimeEntry[]): EntryStatus {
-	const statuses = new Set(
-		entries.map((e) => getEffectiveStatus(e)).filter((s): s is EntryStatus => s !== null)
-	)
+	const statuses = new Set(entries.map((e) => getEffectiveStatus(e)).filter((s): s is EntryStatus => s !== null))
 	for (const status of STATUS_PRIORITY) {
 		if (statuses.has(status)) return status
 	}
@@ -41,18 +37,9 @@ interface WeekGridProps {
 	onCellDelete?: (entryId: Id<"timeEntries">) => void
 }
 
-export function WeekGrid({
-	weekStart,
-	entries,
-	projects,
-	onCellClick,
-	onCellDelete,
-}: WeekGridProps) {
+export function WeekGrid({ weekStart, entries, projects, onCellClick, onCellDelete }: WeekGridProps) {
 	// 7 jours à partir du lundi
-	const days = useMemo(
-		() => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
-		[weekStart]
-	)
+	const days = useMemo(() => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)), [weekStart])
 
 	// Grouper les entrées par clé "projectId_date"
 	const entryMap = useMemo(() => {
@@ -99,11 +86,7 @@ export function WeekGrid({
 	const grandTotal = useMemo(() => dayTotals.reduce((s, m) => s + m, 0), [dayTotals])
 
 	if (projects.length === 0) {
-		return (
-			<div className="text-sm text-fg-muted text-center py-12">
-				Aucun projet actif. Créez un projet pour commencer.
-			</div>
-		)
+		return <div className="text-sm text-fg-muted text-center py-12">Aucun projet actif. Créez un projet pour commencer.</div>
 	}
 
 	return (
@@ -113,16 +96,8 @@ export function WeekGrid({
 					<tr>
 						<th className="text-left py-2 pr-4 font-medium text-fg-muted min-w-[160px]">Projet</th>
 						{days.map((day) => (
-							<th
-								key={day.toISOString()}
-								className={cn(
-									"text-center py-2 px-2 font-medium min-w-[72px] text-fg-muted",
-									isWeekend(day) && "opacity-50"
-								)}
-							>
-								<div className="uppercase text-xs tracking-wide">
-									{format(day, "EEE", { locale: fr })}
-								</div>
+							<th key={day.toISOString()} className={cn("text-center py-2 px-2 font-medium min-w-[72px] text-fg-muted", isWeekend(day) && "opacity-50")}>
+								<div className="uppercase text-xs tracking-wide">{format(day, "EEE", { locale: fr })}</div>
 								<div className="text-fg font-semibold">{format(day, "d")}</div>
 							</th>
 						))}
@@ -145,9 +120,7 @@ export function WeekGrid({
 									const totalMins = dayEntries.reduce((s, e) => s + e.minutes, 0)
 									const hasEntries = totalMins > 0
 
-									const inRange =
-										(!project.startDate || dateStr >= project.startDate) &&
-										(!project.endDate || dateStr <= project.endDate)
+									const inRange = (!project.startDate || dateStr >= project.startDate) && (!project.endDate || dateStr <= project.endDate)
 
 									return (
 										<td key={day.toISOString()} className="py-1.5 px-1">
@@ -160,19 +133,13 @@ export function WeekGrid({
 														className={cn(
 															"w-full h-10 rounded-md text-xs font-mono transition-colors",
 															isWeekend(day) && "opacity-50",
-															hasEntries
-																? CELL_STYLES[getDominantCellStatus(dayEntries)]
-																: "bg-muted border border-edge text-fg-muted hover:bg-card hover:border-brand/40 hover:text-fg"
+															hasEntries ? CELL_STYLES[getDominantCellStatus(dayEntries)] : "bg-muted border border-edge text-fg-muted hover:bg-card hover:border-brand/40 hover:text-fg"
 														)}
 													>
 														{hasEntries ? (
 															<span className="flex flex-col items-center leading-tight">
 																<span>{formatMinutes(totalMins)}</span>
-																{dayEntries.length > 1 && (
-																	<span className="text-[10px] opacity-70">
-																		{dayEntries.length}×
-																	</span>
-																)}
+																{dayEntries.length > 1 && <span className="text-[10px] opacity-70">{dayEntries.length}×</span>}
 															</span>
 														) : (
 															<span className="text-[10px]">+</span>
@@ -193,16 +160,12 @@ export function WeekGrid({
 													)}
 												</div>
 											) : (
-												<div
-													className={cn("w-full h-10 rounded-md", isWeekend(day) && "opacity-30")}
-												/>
+												<div className={cn("w-full h-10 rounded-md", isWeekend(day) && "opacity-30")} />
 											)}
 										</td>
 									)
 								})}
-								<td className="py-2 pl-4 text-right font-mono text-fg-muted text-xs">
-									{rowTotal > 0 ? formatMinutes(rowTotal) : "—"}
-								</td>
+								<td className="py-2 pl-4 text-right font-mono text-fg-muted text-xs">{rowTotal > 0 ? formatMinutes(rowTotal) : "—"}</td>
 							</tr>
 						)
 					})}
@@ -211,16 +174,11 @@ export function WeekGrid({
 					<tr className="border-t-2 border-edge">
 						<td className="py-2 pr-4 text-xs font-medium text-fg-muted">Total / jour</td>
 						{days.map((day, i) => (
-							<td
-								key={day.toISOString()}
-								className="py-2 px-1 text-center font-mono text-xs text-fg-muted"
-							>
+							<td key={day.toISOString()} className="py-2 px-1 text-center font-mono text-xs text-fg-muted">
 								{dayTotals[i] > 0 ? formatMinutes(dayTotals[i]) : "—"}
 							</td>
 						))}
-						<td className="py-2 pl-4 text-right font-mono text-xs font-semibold text-fg">
-							{grandTotal > 0 ? formatMinutes(grandTotal) : "—"}
-						</td>
+						<td className="py-2 pl-4 text-right font-mono text-xs font-semibold text-fg">{grandTotal > 0 ? formatMinutes(grandTotal) : "—"}</td>
 					</tr>
 				</tfoot>
 			</table>

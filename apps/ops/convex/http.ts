@@ -148,9 +148,7 @@ http.route({
 			notification = {
 				externalId: `gh-push-${payload.after?.slice(0, 12) ?? Date.now()}`,
 				title: `Push to ${branch}`,
-				description: commits.length === 1
-					? commits[0].message?.slice(0, 200) ?? ""
-					: `${commits.length} commits pushed`,
+				description: commits.length === 1 ? (commits[0].message?.slice(0, 200) ?? "") : `${commits.length} commits pushed`,
 				actionType: "added",
 				url: payload.compare,
 			}

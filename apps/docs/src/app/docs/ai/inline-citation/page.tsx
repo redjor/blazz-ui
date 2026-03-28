@@ -1,6 +1,5 @@
 "use client"
 
-import { use } from "react"
 import {
 	InlineCitation,
 	InlineCitationCard,
@@ -16,6 +15,7 @@ import {
 	InlineCitationSource,
 	InlineCitationText,
 } from "@blazz/pro/components/ai/reasoning/inline-citation"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -74,11 +74,7 @@ export default function InlineCitationPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Inline Citation"
-			subtitle="Inline citation pills that link text to source references with hover card previews and carousel navigation."
-			toc={toc}
-		>
+		<DocPage title="Inline Citation" subtitle="Inline citation pills that link text to source references with hover card previews and carousel navigation." toc={toc}>
 			<DocHero>
 				<div className="w-full max-w-lg text-sm leading-relaxed">
 					<p>
@@ -86,9 +82,7 @@ export default function InlineCitationPage() {
 						<InlineCitation>
 							<InlineCitationText>reducing the JavaScript sent to the client</InlineCitationText>
 							<InlineCitationCard>
-								<InlineCitationCardTrigger
-									sources={["https://react.dev/blog/2023/03/22/react-labs"]}
-								/>
+								<InlineCitationCardTrigger sources={["https://react.dev/blog/2023/03/22/react-labs"]} />
 								<InlineCitationCardBody>
 									<InlineCitationCarousel>
 										<InlineCitationCarouselHeader>
@@ -115,12 +109,7 @@ export default function InlineCitationPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Single Source Citation"
-					description="A citation pill linking to a single source with hover preview."
-					code={examples[0].code}
-					highlightedCode={html("single-source")}
-				>
+				<DocExampleClient title="Single Source Citation" description="A citation pill linking to a single source with hover preview." code={examples[0].code} highlightedCode={html("single-source")}>
 					<p className="text-sm leading-relaxed">
 						TypeScript provides static type checking{" "}
 						<InlineCitation>
@@ -172,18 +161,10 @@ export default function InlineCitationPage() {
 										</InlineCitationCarouselHeader>
 										<InlineCitationCarouselContent>
 											<InlineCitationCarouselItem>
-												<InlineCitationSource
-													title="React - Streaming SSR"
-													url="https://react.dev"
-													description="React 18 introduces streaming server-side rendering with Suspense."
-												/>
+												<InlineCitationSource title="React - Streaming SSR" url="https://react.dev" description="React 18 introduces streaming server-side rendering with Suspense." />
 											</InlineCitationCarouselItem>
 											<InlineCitationCarouselItem>
-												<InlineCitationSource
-													title="Next.js - Streaming"
-													url="https://nextjs.org"
-													description="Next.js supports streaming with the App Router out of the box."
-												/>
+												<InlineCitationSource title="Next.js - Streaming" url="https://nextjs.org" description="Next.js supports streaming with the App Router out of the box." />
 											</InlineCitationCarouselItem>
 										</InlineCitationCarouselContent>
 									</InlineCitationCarousel>

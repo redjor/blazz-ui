@@ -2,14 +2,8 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
-import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
-import { Empty, EmptyActions, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { Empty, EmptyIcon, EmptyTitle } from "@blazz/ui/components/ui/empty"
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useMutation, useQuery } from "convex/react"
@@ -24,9 +18,7 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { computeContractMetrics, computeForfaitMetrics } from "@/lib/contracts"
 
-export default function ProjectContractsPage({
-	params,
-}: { params: Promise<{ pid: string }> }) {
+export default function ProjectContractsPage({ params }: { params: Promise<{ pid: string }> }) {
 	const { pid } = use(params)
 	const [contractOpen, setContractOpen] = useState(false)
 	const [editingContract, setEditingContract] = useState<Doc<"contracts"> | null>(null)
@@ -122,39 +114,41 @@ export default function ProjectContractsPage({
 					</Grid.Cell>
 
 					{/* Past contracts */}
-					{allContracts?.filter((c) => c.status !== "active").map((c) => {
-									const typeLabel = c.type === "tma" ? "TMA" : c.type === "regie" ? "Régie" : "Forfait"
-									const statusLabel = c.status === "completed" ? "Terminé" : "Annulé"
-									const statusColor = c.status === "completed" ? "bg-fg-muted" : "bg-red-500"
-									let startFormatted: string
-									let endFormatted: string
-									try {
-										startFormatted = format(parse(c.startDate, "yyyy-MM-dd", new Date()), "d MMM yyyy", { locale: fr })
-										endFormatted = format(parse(c.endDate, "yyyy-MM-dd", new Date()), "d MMM yyyy", { locale: fr })
-									} catch {
-										startFormatted = c.startDate
-										endFormatted = c.endDate
-									}
-									return (
-										<Grid.Cell key={c._id} columnSpan={{ xs: 12, sm: 6 }}>
-											<Box background="surface" border="default" borderRadius="lg">
-												<BlockStack gap="050">
-													<InlineStack gap="200" blockAlign="center">
-														<span className="text-sm font-medium text-fg">{typeLabel}</span>
-														<InlineStack gap="100" blockAlign="center">
-															<span className={`size-1.5 rounded-full ${statusColor}`} />
-															<span className="text-xs text-fg-muted">{statusLabel}</span>
-														</InlineStack>
-													</InlineStack>
-													<span className="text-xs text-fg-muted">
-														{startFormatted} → {endFormatted}
-														{c.daysPerMonth && <> · {c.daysPerMonth}j/mois</>}
-													</span>
-												</BlockStack>
-											</Box>
-										</Grid.Cell>
-									)
-					})}
+					{allContracts
+						?.filter((c) => c.status !== "active")
+						.map((c) => {
+							const typeLabel = c.type === "tma" ? "TMA" : c.type === "regie" ? "Régie" : "Forfait"
+							const statusLabel = c.status === "completed" ? "Terminé" : "Annulé"
+							const statusColor = c.status === "completed" ? "bg-fg-muted" : "bg-red-500"
+							let startFormatted: string
+							let endFormatted: string
+							try {
+								startFormatted = format(parse(c.startDate, "yyyy-MM-dd", new Date()), "d MMM yyyy", { locale: fr })
+								endFormatted = format(parse(c.endDate, "yyyy-MM-dd", new Date()), "d MMM yyyy", { locale: fr })
+							} catch {
+								startFormatted = c.startDate
+								endFormatted = c.endDate
+							}
+							return (
+								<Grid.Cell key={c._id} columnSpan={{ xs: 12, sm: 6 }}>
+									<Box background="surface" border="default" borderRadius="lg">
+										<BlockStack gap="050">
+											<InlineStack gap="200" blockAlign="center">
+												<span className="text-sm font-medium text-fg">{typeLabel}</span>
+												<InlineStack gap="100" blockAlign="center">
+													<span className={`size-1.5 rounded-full ${statusColor}`} />
+													<span className="text-xs text-fg-muted">{statusLabel}</span>
+												</InlineStack>
+											</InlineStack>
+											<span className="text-xs text-fg-muted">
+												{startFormatted} → {endFormatted}
+												{c.daysPerMonth && <> · {c.daysPerMonth}j/mois</>}
+											</span>
+										</BlockStack>
+									</Box>
+								</Grid.Cell>
+							)
+						})}
 				</Grid>
 			</BlockStack>
 
@@ -164,11 +158,7 @@ export default function ProjectContractsPage({
 					<DialogHeader>
 						<DialogTitle>Nouveau contrat</DialogTitle>
 					</DialogHeader>
-					<ContractForm
-						projectId={pid as Id<"projects">}
-						onSuccess={() => setContractOpen(false)}
-						onCancel={() => setContractOpen(false)}
-					/>
+					<ContractForm projectId={pid as Id<"projects">} onSuccess={() => setContractOpen(false)} onCancel={() => setContractOpen(false)} />
 				</DialogContent>
 			</Dialog>
 

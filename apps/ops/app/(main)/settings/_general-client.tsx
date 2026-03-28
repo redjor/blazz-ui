@@ -1,30 +1,13 @@
 "use client"
 
-import {
-	SettingsHeader,
-	SettingsPage,
-	SettingsSection,
-} from "@blazz/pro/components/blocks/settings-block"
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemTitle,
-} from "@blazz/ui/components/ui/item"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { SettingsHeader, SettingsPage, SettingsSection } from "@blazz/pro/components/blocks/settings-block"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@blazz/ui/components/ui/item"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Switch } from "@blazz/ui/components/ui/switch"
 import { useMutation, useQuery } from "convex/react"
 import { useTheme } from "next-themes"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
-import type { Id } from "@/convex/_generated/dataModel"
 
 export default function SettingsGeneralClient() {
 	const { theme, setTheme } = useTheme()
@@ -65,10 +48,7 @@ export default function SettingsGeneralClient() {
 						<ItemDescription>Basculer entre le thème clair et sombre.</ItemDescription>
 					</ItemContent>
 					<ItemActions>
-						<Switch
-							checked={theme === "dark"}
-							onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-						/>
+						<Switch checked={theme === "dark"} onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")} />
 					</ItemActions>
 				</Item>
 			</SettingsSection>
@@ -77,16 +57,10 @@ export default function SettingsGeneralClient() {
 				<Item>
 					<ItemContent>
 						<ItemTitle>Collection Read Later</ItemTitle>
-						<ItemDescription>
-							Choisissez la collection utilisée pour le bouton "Read Later" sur chaque bookmark.
-						</ItemDescription>
+						<ItemDescription>Choisissez la collection utilisée pour le bouton "Read Later" sur chaque bookmark.</ItemDescription>
 					</ItemContent>
 					<ItemActions>
-						<Select
-							value={readLaterCollectionId ?? "__none__"}
-							onValueChange={handleReadLaterChange}
-							items={collectionItems}
-						>
+						<Select value={readLaterCollectionId ?? "__none__"} onValueChange={handleReadLaterChange} items={collectionItems}>
 							<SelectTrigger className="w-48">
 								<SelectValue placeholder="Aucune" />
 							</SelectTrigger>

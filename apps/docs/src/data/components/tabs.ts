@@ -25,10 +25,7 @@ export const tabsData: ComponentData = {
 			description: "Orientation des tabs.",
 		},
 	],
-	gotchas: [
-		"TabsList variant prop: 'default' (underline) | 'pills' (filled buttons)",
-		"For page-level navigation use NavigationTabs (patterns) not Tabs — it persists tab in URL",
-	],
+	gotchas: ["TabsList variant prop: 'default' (underline) | 'pills' (filled buttons)", "For page-level navigation use NavigationTabs (patterns) not Tabs — it persists tab in URL"],
 	canonicalExample: `<Tabs defaultValue="overview">
   <TabsList>
     <TabsTrigger value="overview">Overview</TabsTrigger>

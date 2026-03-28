@@ -90,9 +90,7 @@ export function ElementPanel({ element, code, onCodeChange, onDeselect }: Elemen
 			{/* Header */}
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-2">
-					<span className="text-xs font-mono bg-brand/10 text-brand px-1.5 py-0.5 rounded">
-						{element.slot}
-					</span>
+					<span className="text-xs font-mono bg-brand/10 text-brand px-1.5 py-0.5 rounded">{element.slot}</span>
 					<span className="text-sm font-medium">{componentName}</span>
 				</div>
 				<Button variant="ghost" size="icon-xs" onClick={onDeselect} aria-label="Deselect">
@@ -104,10 +102,7 @@ export function ElementPanel({ element, code, onCodeChange, onDeselect }: Elemen
 			{element.textContent && (
 				<div className="space-y-1">
 					<label className="text-xs text-fg-muted">Text content</label>
-					<Input
-						value={textValue}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTextChange(e.target.value)}
-					/>
+					<Input value={textValue} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTextChange(e.target.value)} />
 				</div>
 			)}
 
@@ -134,12 +129,7 @@ export function ElementPanel({ element, code, onCodeChange, onDeselect }: Elemen
 						placeholder="Add class (e.g. bg-red-500)"
 						className="text-xs h-7"
 					/>
-					<Button
-						variant="ghost"
-						size="icon-xs"
-						onClick={() => addClass(classInput)}
-						disabled={!classInput.trim()}
-					>
+					<Button variant="ghost" size="icon-xs" onClick={() => addClass(classInput)} disabled={!classInput.trim()}>
 						<Plus className="size-3" />
 					</Button>
 				</div>
@@ -154,9 +144,7 @@ export function ElementPanel({ element, code, onCodeChange, onDeselect }: Elemen
 								type="button"
 								onClick={() => removeClass(cls)}
 								className={`group flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono transition-colors cursor-pointer ${
-									isAdded
-										? "bg-brand/15 text-brand border border-brand/30"
-										: "bg-muted text-fg-muted hover:bg-negative/10 hover:text-negative"
+									isAdded ? "bg-brand/15 text-brand border border-brand/30" : "bg-muted text-fg-muted hover:bg-negative/10 hover:text-negative"
 								}`}
 								title={`Click to remove "${cls}"`}
 							>

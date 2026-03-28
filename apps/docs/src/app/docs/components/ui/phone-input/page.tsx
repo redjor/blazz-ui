@@ -90,11 +90,7 @@ export default function PhoneInputPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Phone Input"
-			subtitle="International phone number input with country selector, flag display, and E.164 formatting."
-			toc={toc}
-		>
+		<DocPage title="Phone Input" subtitle="International phone number input with country selector, flag display, and E.164 formatting." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<HeroExample />
@@ -102,30 +98,15 @@ export default function PhoneInputPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="Phone input with country selector and automatic formatting."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="Phone input with country selector and automatic formatting." code={examples[0].code} highlightedCode={html("default")}>
 					<DefaultExample />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Three size variants to fit different contexts."
-					code={examples[1].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Three size variants to fit different contexts." code={examples[1].code} highlightedCode={html("sizes")}>
 					<SizesExample />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled state prevents interaction."
-					code={examples[2].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled state prevents interaction." code={examples[2].code} highlightedCode={html("disabled")}>
 					<DisabledExample />
 				</DocExampleClient>
 			</DocSection>
@@ -139,13 +120,11 @@ export default function PhoneInputPage() {
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						Set <code className="font-mono text-fg-subtle">defaultCountry</code> to match your
-						primary user base
+						Set <code className="font-mono text-fg-subtle">defaultCountry</code> to match your primary user base
 					</li>
 					<li>The value is always in E.164 format — store it as-is in your database</li>
 					<li>
-						Use with <code className="font-mono text-fg-subtle">Field</code> component for label and
-						error handling
+						Use with <code className="font-mono text-fg-subtle">Field</code> component for label and error handling
 					</li>
 					<li>The country selector supports keyboard search for quick navigation</li>
 				</ul>

@@ -1,20 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { Page, PageSection, PageWrapper } from "@blazz/pro/components/blocks/page"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
-import { Badge } from "@blazz/ui/components/ui/badge"
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage as BreadcrumbPageItem,
-	BreadcrumbSeparator,
-} from "@blazz/ui/components/ui/breadcrumb"
-import { Button } from "@blazz/ui/components/ui/button"
 import { NavTabs } from "@blazz/ui/components/patterns/nav-tabs"
+import { Badge } from "@blazz/ui/components/ui/badge"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage as BreadcrumbPageItem, BreadcrumbSeparator } from "@blazz/ui/components/ui/breadcrumb"
+import { Button } from "@blazz/ui/components/ui/button"
 import { Plus } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -195,14 +188,12 @@ const pageProps: DocProp[] = [
 		name: "separator",
 		type: "boolean",
 		default: "true",
-		description:
-			"Bordure entre le header et le contenu. Désactivée automatiquement si nav est présent.",
+		description: "Bordure entre le header et le contenu. Désactivée automatiquement si nav est présent.",
 	},
 	{
 		name: "nav",
 		type: "React.ReactNode",
-		description:
-			"Slot entre le header et le contenu — full-width, sans padding. Idéal pour NavTabs. Ajoute sa propre bordure.",
+		description: "Slot entre le header et le contenu — full-width, sans padding. Idéal pour NavTabs. Ajoute sa propre bordure.",
 	},
 	{
 		name: "className",
@@ -226,8 +217,7 @@ const wrapperProps: DocProp[] = [
 		name: "size",
 		type: '"sm" | "md" | "lg" | "full"',
 		default: '"md"',
-		description:
-			"Preset de max-width. sm = max-w-2xl, md = max-w-4xl, lg = max-w-6xl, full = aucune limite.",
+		description: "Preset de max-width. sm = max-w-2xl, md = max-w-4xl, lg = max-w-6xl, full = aucune limite.",
 	},
 	{
 		name: "card",
@@ -288,13 +278,7 @@ function BreadcrumbsPreview() {
 					</BreadcrumbList>
 				</Breadcrumb>
 			}
-			header={
-				<PageHeader
-					title="MacBook Pro"
-					afterTitle={<Badge variant="outline">Active</Badge>}
-					actions={<Button size="sm">Modifier</Button>}
-				/>
-			}
+			header={<PageHeader title="MacBook Pro" afterTitle={<Badge variant="outline">Active</Badge>} actions={<Button size="sm">Modifier</Button>} />}
 		>
 			<p className="text-sm text-fg-muted">Détail du produit</p>
 		</Page>
@@ -354,24 +338,16 @@ function WrapperSizesPreview() {
 		<Page header={<PageHeader title="Comparaison" />} separator={false}>
 			<div className="space-y-3">
 				<PageWrapper size="sm">
-					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-						sm — max-w-2xl
-					</div>
+					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">sm — max-w-2xl</div>
 				</PageWrapper>
 				<PageWrapper size="md">
-					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-						md — max-w-4xl (default)
-					</div>
+					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">md — max-w-4xl (default)</div>
 				</PageWrapper>
 				<PageWrapper size="lg">
-					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-						lg — max-w-6xl
-					</div>
+					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">lg — max-w-6xl</div>
 				</PageWrapper>
 				<PageWrapper size="full">
-					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">
-						full — pas de limite
-					</div>
+					<div className="rounded border border-dashed border-edge px-3 py-2 text-xs text-fg-muted">full — pas de limite</div>
 				</PageWrapper>
 			</div>
 		</Page>
@@ -411,13 +387,7 @@ function FullPreview() {
 					</BreadcrumbList>
 				</Breadcrumb>
 			}
-			header={
-				<PageHeader
-					title="INV0012"
-					afterTitle={<Badge variant="critical">Impayée</Badge>}
-					actions={<Button size="sm">Envoyer</Button>}
-				/>
-			}
+			header={<PageHeader title="INV0012" afterTitle={<Badge variant="critical">Impayée</Badge>} actions={<Button size="sm">Envoyer</Button>} />}
 		>
 			<PageWrapper size="sm" card>
 				<div className="space-y-8">
@@ -473,12 +443,7 @@ export default function PageLayoutDocPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sans séparateur"
-					description="separator=false supprime la bordure entre le header et le contenu."
-					code={examples[3].code}
-					highlightedCode={html("no-separator")}
-				>
+				<DocExampleClient title="Sans séparateur" description="separator=false supprime la bordure entre le header et le contenu." code={examples[3].code} highlightedCode={html("no-separator")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<NoSeparatorPreview />
 					</div>
@@ -505,23 +470,13 @@ export default function PageLayoutDocPage() {
 			{/*  PAGEWRAPPER                                                 */}
 			{/* ============================================================ */}
 			<DocSection id="page-wrapper" title="PageWrapper">
-				<DocExampleClient
-					title="Card mode"
-					description="card ajoute background, border et padding. Centré par défaut (mx-auto)."
-					code={examples[4].code}
-					highlightedCode={html("wrapper-card")}
-				>
+				<DocExampleClient title="Card mode" description="card ajoute background, border et padding. Centré par défaut (mx-auto)." code={examples[4].code} highlightedCode={html("wrapper-card")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<WrapperCardPreview />
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Comparaison des tailles"
-					description="4 presets de largeur maximale, tous centrés."
-					code={examples[5].code}
-					highlightedCode={html("wrapper-sizes")}
-				>
+				<DocExampleClient title="Comparaison des tailles" description="4 presets de largeur maximale, tous centrés." code={examples[5].code} highlightedCode={html("wrapper-sizes")}>
 					<div className="rounded-lg border border-edge bg-muted">
 						<WrapperSizesPreview />
 					</div>
@@ -584,14 +539,12 @@ export default function PageLayoutDocPage() {
 						{
 							title: "PageHeader",
 							href: "/docs/blocks/page-header",
-							description:
-								"Header composable avec 4 slots (top, afterTitle, actions, bottom) — se pose dans le slot header de Page.",
+							description: "Header composable avec 4 slots (top, afterTitle, actions, bottom) — se pose dans le slot header de Page.",
 						},
 						{
 							title: "NavTabs",
 							href: "/docs/components/patterns/nav-tabs",
-							description:
-								"Tabs pill-style liées aux routes Next.js — se pose dans le slot nav de Page.",
+							description: "Tabs pill-style liées aux routes Next.js — se pose dans le slot nav de Page.",
 						},
 						{
 							title: "AppFrame",

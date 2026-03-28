@@ -31,14 +31,7 @@ function findPath(nodes: CascadingSelectNode[], id: string): CascadingSelectNode
 	return null
 }
 
-export function CascadingSelect({
-	nodes,
-	value,
-	onValueChange,
-	placeholder = "Select...",
-	className,
-	id,
-}: CascadingSelectProps) {
+export function CascadingSelect({ nodes, value, onValueChange, placeholder = "Select...", className, id }: CascadingSelectProps) {
 	const [open, setOpen] = React.useState(false)
 	const [path, setPath] = React.useState<CascadingSelectNode[]>([])
 
@@ -87,23 +80,14 @@ export function CascadingSelect({
 			<PopoverContent className="w-(--radix-popover-trigger-width) p-0" align="start">
 				{path.length > 0 && (
 					<div className="flex items-center gap-1.5 border-b border-edge px-2 py-2">
-						<button
-							type="button"
-							onClick={handleBack}
-							className="text-fg-muted hover:text-fg rounded p-0.5 transition-colors"
-							aria-label="Go back"
-						>
+						<button type="button" onClick={handleBack} className="text-fg-muted hover:text-fg rounded p-0.5 transition-colors" aria-label="Go back">
 							<ChevronLeft className="h-3.5 w-3.5" />
 						</button>
 						{path.map((node, i) => (
 							<React.Fragment key={node.id}>
 								{i > 0 && <ChevronRight className="h-3 w-3 shrink-0 text-fg-muted" />}
 								{i < path.length - 1 ? (
-									<button
-										type="button"
-										onClick={() => handleBreadcrumbJump(i)}
-										className="text-xs text-fg-muted transition-colors hover:text-fg"
-									>
+									<button type="button" onClick={() => handleBreadcrumbJump(i)} className="text-xs text-fg-muted transition-colors hover:text-fg">
 										{node.label}
 									</button>
 								) : (
@@ -122,10 +106,7 @@ export function CascadingSelect({
 								<button
 									type="button"
 									onClick={() => handleSelect(node)}
-									className={cn(
-										"flex-1 rounded-l-md px-3 py-1.5 text-left text-sm transition-colors hover:bg-muted",
-										value === node.id && "font-medium text-brand"
-									)}
+									className={cn("flex-1 rounded-l-md px-3 py-1.5 text-left text-sm transition-colors hover:bg-muted", value === node.id && "font-medium text-brand")}
 								>
 									{node.label}
 								</button>

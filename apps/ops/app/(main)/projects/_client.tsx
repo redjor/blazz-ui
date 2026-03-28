@@ -6,13 +6,7 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Plus } from "lucide-react"
@@ -60,14 +54,9 @@ export default function ProjectsPageClient() {
 
 	const clientMap = new Map(clients?.map((c) => [c._id, c.name]))
 
-	const clientItems = useMemo(
-		() => (clients ?? []).map((c) => ({ value: c._id, label: c.name })),
-		[clients]
-	)
+	const clientItems = useMemo(() => (clients ?? []).map((c) => ({ value: c._id, label: c.name })), [clients])
 
-	const filtered = projects
-		?.filter((p) => (filter === "active" ? p.status === "active" : true))
-		.sort((a, b) => a.name.localeCompare(b.name))
+	const filtered = projects?.filter((p) => (filter === "active" ? p.status === "active" : true)).sort((a, b) => a.name.localeCompare(b.name))
 
 	if (projects === undefined) {
 		return (
@@ -98,11 +87,7 @@ export default function ProjectsPageClient() {
 					{!selectedClientId ? (
 						<div className="space-y-3">
 							<p className="text-sm text-fg-muted">Sélectionnez un client</p>
-							<Select
-								value=""
-								onValueChange={(v) => setSelectedClientId(v as Id<"clients">)}
-								items={clientItems}
-							>
+							<Select value="" onValueChange={(v) => setSelectedClientId(v as Id<"clients">)} items={clientItems}>
 								<SelectTrigger className="w-full">
 									<SelectValue placeholder="Choisir un client…" />
 								</SelectTrigger>
@@ -139,11 +124,7 @@ export default function ProjectsPageClient() {
 							key={key}
 							type="button"
 							onClick={() => setFilter(key)}
-							className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
-								filter === key
-									? "bg-brand text-white"
-									: "bg-card border border-edge text-fg-muted hover:text-fg"
-							}`}
+							className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${filter === key ? "bg-brand text-white" : "bg-card border border-edge text-fg-muted hover:text-fg"}`}
 						>
 							{label}
 						</button>
@@ -156,16 +137,8 @@ export default function ProjectsPageClient() {
 			) : (
 				<div>
 					{filtered?.map((project) => (
-						<InlineStack
-							key={project._id}
-							align="space-between"
-							blockAlign="center"
-							className="py-3 border-b border-edge last:border-0"
-						>
-							<Link
-								href={`/projects/${project._id}`}
-								className="flex-1 min-w-0 hover:opacity-75 transition-opacity"
-							>
+						<InlineStack key={project._id} align="space-between" blockAlign="center" className="py-3 border-b border-edge last:border-0">
+							<Link href={`/projects/${project._id}`} className="flex-1 min-w-0 hover:opacity-75 transition-opacity">
 								<span className="block text-sm font-medium text-fg">{project.name}</span>
 								<span className="block text-xs text-fg-muted mt-0.5 tabular-nums">
 									{clientMap.get(project.clientId) ?? "…"} · {project.tjm}€/j
@@ -178,47 +151,26 @@ export default function ProjectsPageClient() {
 										<>
 											<span
 												className={
-													project.budgetPercent >= 90
-														? "text-red-600 dark:text-red-400 font-medium"
-														: project.budgetPercent >= 70
-															? "text-amber-600 dark:text-amber-400 font-medium"
-															: "text-fg"
+													project.budgetPercent >= 90 ? "text-red-600 dark:text-red-400 font-medium" : project.budgetPercent >= 70 ? "text-amber-600 dark:text-amber-400 font-medium" : "text-fg"
 												}
 											>
 												{project.billableRevenue.toLocaleString("fr-FR")}€
 											</span>
 											{" / "}
-											{project.budgetAmount.toLocaleString("fr-FR")}€
-											<span className="text-fg-muted ml-1">({project.budgetPercent}%)</span>
+											{project.budgetAmount.toLocaleString("fr-FR")}€<span className="text-fg-muted ml-1">({project.budgetPercent}%)</span>
 										</>
 									) : (
 										<>{project.daysConsumed}j facturés</>
 									)}
 								</span>
-								{project.hasActiveContract && project.contractType === "tma" && (
-									<span className="text-xs font-medium text-brand">
-										TMA {project.contractDaysPerMonth}j/mois
-									</span>
-								)}
-								{project.hasActiveContract && project.contractType === "regie" && (
-									<span className="text-xs font-medium text-brand">Régie</span>
-								)}
+								{project.hasActiveContract && project.contractType === "tma" && <span className="text-xs font-medium text-brand">TMA {project.contractDaysPerMonth}j/mois</span>}
+								{project.hasActiveContract && project.contractType === "regie" && <span className="text-xs font-medium text-brand">Régie</span>}
 								{/* Budget health dot */}
 								{project.budgetPercent !== null && (
-									<span
-										className={`inline-block size-2 rounded-full ${
-											project.budgetPercent >= 90
-												? "bg-red-500"
-												: project.budgetPercent >= 70
-													? "bg-amber-500"
-													: "bg-green-500"
-										}`}
-									/>
+									<span className={`inline-block size-2 rounded-full ${project.budgetPercent >= 90 ? "bg-red-500" : project.budgetPercent >= 70 ? "bg-amber-500" : "bg-green-500"}`} />
 								)}
 								<InlineStack gap="150" blockAlign="center" className="text-xs text-fg-muted">
-									<span
-										className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`}
-									/>
+									<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
 									{statusLabel[project.status]}
 								</InlineStack>
 							</InlineStack>

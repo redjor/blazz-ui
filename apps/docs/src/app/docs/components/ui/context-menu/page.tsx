@@ -1,16 +1,10 @@
 "use client"
-import { use } from "react"
-
-import { CheckboxItemsDemo, RadioItemsDemo } from "./demos"
 import {
 	ContextMenu,
-	ContextMenuCheckboxItem,
 	ContextMenuContent,
 	ContextMenuGroup,
 	ContextMenuItem,
 	ContextMenuLabel,
-	ContextMenuRadioGroup,
-	ContextMenuRadioItem,
 	ContextMenuSeparator,
 	ContextMenuShortcut,
 	ContextMenuSub,
@@ -18,21 +12,8 @@ import {
 	ContextMenuSubTrigger,
 	ContextMenuTrigger,
 } from "@blazz/ui/components/ui/context-menu"
-import {
-	AlignCenter,
-	AlignLeft,
-	AlignRight,
-	ClipboardPaste,
-	Copy,
-	Eye,
-	EyeOff,
-	RotateCcw,
-	RotateCw,
-	Scissors,
-	Trash2,
-	Type,
-} from "lucide-react"
-import * as React from "react"
+import { AlignCenter, AlignLeft, AlignRight, ClipboardPaste, Copy, RotateCcw, RotateCw, Scissors, Trash2, Type } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -40,6 +21,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+import { CheckboxItemsDemo, RadioItemsDemo } from "./demos"
 
 const examples = [
 	{
@@ -284,22 +266,15 @@ const contextMenuItemProps: DocProp[] = [
 	},
 ]
 
-
 export default function ContextMenuPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Context Menu"
-			subtitle="Displays a menu triggered by right-clicking an element."
-			toc={toc}
-		>
+		<DocPage title="Context Menu" subtitle="Displays a menu triggered by right-clicking an element." toc={toc}>
 			<DocHero>
 				<ContextMenu>
-					<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">
-						Right click here
-					</ContextMenuTrigger>
+					<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">Right click here</ContextMenuTrigger>
 					<ContextMenuContent>
 						<ContextMenuItem>
 							<Copy className="mr-2 h-4 w-4" />
@@ -321,16 +296,9 @@ export default function ContextMenuPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Context Menu"
-					description="A context menu with common edit actions and keyboard shortcuts."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Context Menu" description="A context menu with common edit actions and keyboard shortcuts." code={examples[0].code} highlightedCode={html("basic")}>
 					<ContextMenu>
-						<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">
-							Right click here
-						</ContextMenuTrigger>
+						<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">Right click here</ContextMenuTrigger>
 						<ContextMenuContent>
 							<ContextMenuItem>
 								<RotateCcw className="mr-2 h-4 w-4" />
@@ -367,16 +335,9 @@ export default function ContextMenuPage() {
 					</ContextMenu>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Labels and Groups"
-					description="Organize items into labeled groups."
-					code={examples[1].code}
-					highlightedCode={html("with-labels")}
-				>
+				<DocExampleClient title="With Labels and Groups" description="Organize items into labeled groups." code={examples[1].code} highlightedCode={html("with-labels")}>
 					<ContextMenu>
-						<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">
-							Right click here
-						</ContextMenuTrigger>
+						<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">Right click here</ContextMenuTrigger>
 						<ContextMenuContent>
 							<ContextMenuGroup>
 								<ContextMenuLabel>Edit</ContextMenuLabel>
@@ -404,34 +365,17 @@ export default function ContextMenuPage() {
 					</ContextMenu>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Checkbox Items"
-					description="Menu items with toggleable checkbox state."
-					code={examples[2].code}
-					highlightedCode={html("checkbox")}
-				>
+				<DocExampleClient title="With Checkbox Items" description="Menu items with toggleable checkbox state." code={examples[2].code} highlightedCode={html("checkbox")}>
 					<CheckboxItemsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Radio Items"
-					description="Menu items with single-choice radio selection."
-					code={examples[3].code}
-					highlightedCode={html("radio")}
-				>
+				<DocExampleClient title="With Radio Items" description="Menu items with single-choice radio selection." code={examples[3].code} highlightedCode={html("radio")}>
 					<RadioItemsDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Submenu"
-					description="Nested submenus for hierarchical options."
-					code={examples[4].code}
-					highlightedCode={html("submenu")}
-				>
+				<DocExampleClient title="With Submenu" description="Nested submenus for hierarchical options." code={examples[4].code} highlightedCode={html("submenu")}>
 					<ContextMenu>
-						<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">
-							Right click here
-						</ContextMenuTrigger>
+						<ContextMenuTrigger className="flex h-36 w-64 items-center justify-center rounded-lg border border-dashed text-sm text-fg-muted">Right click here</ContextMenuTrigger>
 						<ContextMenuContent>
 							<ContextMenuItem>
 								<Copy className="mr-2 h-4 w-4" />
@@ -481,9 +425,7 @@ export default function ContextMenuPage() {
 
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
-					<li>
-						Use context menus for secondary actions — primary actions should be visible in the UI
-					</li>
+					<li>Use context menus for secondary actions — primary actions should be visible in the UI</li>
 					<li>Keep the trigger area large enough to be easily right-clicked</li>
 					<li>Show keyboard shortcuts to help users discover faster alternatives</li>
 					<li>Use labels and separators to organize related items into groups</li>

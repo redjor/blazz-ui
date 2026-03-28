@@ -8,23 +8,13 @@ export const selectData: ComponentData = {
 	docPath: "/docs/components/ui/select",
 	imports: {
 		path: "@blazz/ui/components/ui/select",
-		named: [
-			"Select",
-			"SelectTrigger",
-			"SelectValue",
-			"SelectContent",
-			"SelectItem",
-			"SelectGroup",
-			"SelectLabel",
-			"SelectSeparator",
-		],
+		named: ["Select", "SelectTrigger", "SelectValue", "SelectContent", "SelectItem", "SelectGroup", "SelectLabel", "SelectSeparator"],
 	},
 	props: [
 		{
 			name: "items",
 			type: "Record<string, string> | Array<{ value: string; label: string }>",
-			description:
-				"Requis fonctionnellement — sans ce prop, SelectValue affiche la value brute au lieu du label.",
+			description: "Requis fonctionnellement — sans ce prop, SelectValue affiche la value brute au lieu du label.",
 		},
 		{
 			name: "value",

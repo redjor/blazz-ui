@@ -19,20 +19,6 @@ const borderWidthMap = {
 	"100": "border-t-4",
 }
 
-export function Divider({
-	borderColor = "secondary",
-	borderWidth = "025",
-	className,
-}: DividerProps) {
-	return (
-		<hr
-			data-slot="divider"
-			className={cn(
-				"w-full border-0",
-				borderColorMap[borderColor],
-				borderWidthMap[borderWidth],
-				className
-			)}
-		/>
-	)
+export function Divider({ borderColor = "secondary", borderWidth = "025", className }: DividerProps) {
+	return <hr data-slot="divider" className={cn("w-full border-0", borderColorMap[borderColor], borderWidthMap[borderWidth], className)} />
 }

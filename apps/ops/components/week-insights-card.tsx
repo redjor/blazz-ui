@@ -1,12 +1,6 @@
 "use client"
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@blazz/ui/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { formatMinutes } from "@/lib/format"
 
 type WeekInsightsCardProps = {
@@ -33,9 +27,7 @@ export function WeekInsightsCard({ stats, summary }: WeekInsightsCardProps) {
 					<Metric label="Non attribué" value={formatMinutes(stats.uncategorizedMinutes)} />
 					<Metric label="Temps total" value={formatMinutes(stats.totalMinutes)} />
 				</div>
-				<div className="rounded-md border border-edge bg-muted px-4 py-3 text-sm text-fg-muted">
-					{summary}
-				</div>
+				<div className="rounded-md border border-edge bg-muted px-4 py-3 text-sm text-fg-muted">{summary}</div>
 			</CardContent>
 		</Card>
 	)

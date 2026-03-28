@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { Calendar } from "@blazz/ui/components/ui/calendar"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -86,8 +86,7 @@ const calendarProps: DocProp[] = [
 	{
 		name: "disabled",
 		type: "Matcher | Matcher[]",
-		description:
-			"Days that cannot be selected. Accepts dates, date ranges, day-of-week arrays, or functions.",
+		description: "Days that cannot be selected. Accepts dates, date ranges, day-of-week arrays, or functions.",
 	},
 	{
 		name: "numberOfMonths",
@@ -124,11 +123,7 @@ export default function CalendarPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Calendar"
-			subtitle="An inline date calendar built on react-day-picker. Use as a standalone component or as the foundation for DateSelector."
-			toc={toc}
-		>
+		<DocPage title="Calendar" subtitle="An inline date calendar built on react-day-picker. Use as a standalone component or as the foundation for DateSelector." toc={toc}>
 			<DocHero>
 				<SingleSelectionDemo />
 			</DocHero>
@@ -143,63 +138,36 @@ export default function CalendarPage() {
 					<ControlledDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Outside Days"
-					description="Hide days from adjacent months for a cleaner look."
-					code={examples[1].code}
-					highlightedCode={html("without-outside-days")}
-				>
-					<Calendar
-						mode="single"
-						showOutsideDays={false}
-						className="rounded-lg border border-edge"
-					/>
+				<DocExampleClient title="Without Outside Days" description="Hide days from adjacent months for a cleaner look." code={examples[1].code} highlightedCode={html("without-outside-days")}>
+					<Calendar mode="single" showOutsideDays={false} className="rounded-lg border border-edge" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled Weekends"
-					description="Prevent selection of specific days using the disabled prop."
-					code={examples[2].code}
-					highlightedCode={html("disabled-weekends")}
-				>
-					<Calendar
-						mode="single"
-						disabled={{ dayOfWeek: [0, 6] }}
-						className="rounded-lg border border-edge"
-					/>
+				<DocExampleClient title="Disabled Weekends" description="Prevent selection of specific days using the disabled prop." code={examples[2].code} highlightedCode={html("disabled-weekends")}>
+					<Calendar mode="single" disabled={{ dayOfWeek: [0, 6] }} className="rounded-lg border border-edge" />
 				</DocExampleClient>
 			</DocSection>
 
 			<DocSection id="range" title="Range Selection">
-				<DocExampleClient
-					title="Date Range"
-					description="Select a start and end date. Uses two months side by side for better visibility."
-					code={examples[3].code}
-					highlightedCode={html("range")}
-				>
+				<DocExampleClient title="Date Range" description="Select a start and end date. Uses two months side by side for better visibility." code={examples[3].code} highlightedCode={html("range")}>
 					<RangeSelectionDemo />
 				</DocExampleClient>
 			</DocSection>
 
 			<DocSection id="calendar-props" title="Props">
 				<p className="mb-4 text-sm text-fg-muted">
-					Calendar accepts all <code className="text-xs">react-day-picker</code> DayPicker props.
-					Key ones listed below.
+					Calendar accepts all <code className="text-xs">react-day-picker</code> DayPicker props. Key ones listed below.
 				</p>
 				<DocPropsTable props={calendarProps} />
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Calendar uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Calendar uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">text-fg</code> — Day text and caption label
 					</li>
 					<li>
-						<code className="text-xs">text-fg-muted</code> — Weekday headers, nav chevrons, outside
-						days
+						<code className="text-xs">text-fg-muted</code> — Weekday headers, nav chevrons, outside days
 					</li>
 					<li>
 						<code className="text-xs">bg-muted</code> — Today highlight, day hover, range middle
@@ -224,21 +192,16 @@ export default function CalendarPage() {
 					<li>Use Calendar inline when the date picker is the primary focus of the UI</li>
 					<li>For form fields, prefer DateSelector which wraps Calendar in a Popover</li>
 					<li>
-						Use <code className="text-xs">disabled</code> to enforce constraints (no past dates,
-						weekdays only, etc.)
+						Use <code className="text-xs">disabled</code> to enforce constraints (no past dates, weekdays only, etc.)
 					</li>
 					<li>
-						Use <code className="text-xs">numberOfMonths=&#123;2&#125;</code> for range selection to
-						show context
+						Use <code className="text-xs">numberOfMonths=&#123;2&#125;</code> for range selection to show context
 					</li>
 					<li>
-						Use <code className="text-xs">captionLayout="dropdown"</code> for date-of-birth pickers
-						where users need to jump years
+						Use <code className="text-xs">captionLayout="dropdown"</code> for date-of-birth pickers where users need to jump years
 					</li>
 					<li>
-						Always provide <code className="text-xs">selected</code> and{" "}
-						<code className="text-xs">onSelect</code> for interactive use — without them, clicks
-						have no visible effect
+						Always provide <code className="text-xs">selected</code> and <code className="text-xs">onSelect</code> for interactive use — without them, clicks have no visible effect
 					</li>
 				</ul>
 			</DocSection>

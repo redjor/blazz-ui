@@ -12,8 +12,6 @@ const ALLOWED_TRANSITIONS: Record<EntryStatus, EntryStatus[]> = {
 export function validateTransition(from: EntryStatus, to: EntryStatus) {
 	const allowed = ALLOWED_TRANSITIONS[from] ?? []
 	if (!allowed.includes(to)) {
-		throw new ConvexError(
-			`Transition invalide : ${from} → ${to}. Transitions permises : ${allowed.join(", ") || "aucune"}`
-		)
+		throw new ConvexError(`Transition invalide : ${from} → ${to}. Transitions permises : ${allowed.join(", ") || "aucune"}`)
 	}
 }

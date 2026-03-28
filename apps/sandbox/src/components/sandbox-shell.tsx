@@ -38,12 +38,8 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 	const persisted = useMemo(() => loadState(entry.slug), [entry.slug])
 
 	const [code, setCode] = useState(() => persisted?.code ?? entry.defaultCode)
-	const [propValues, setPropValues] = useState<Record<string, unknown>>(
-		() => persisted?.props ?? getDefaultProps(entry)
-	)
-	const [activeTab, setActiveTab] = useState<
-		"controls" | "code" | "examples" | "element" | "theme"
-	>("controls")
+	const [propValues, setPropValues] = useState<Record<string, unknown>>(() => persisted?.props ?? getDefaultProps(entry))
+	const [activeTab, setActiveTab] = useState<"controls" | "code" | "examples" | "element" | "theme">("controls")
 	const [themeCss, setThemeCss] = useState(DEFAULT_THEME_CSS)
 	const [_callbackEvents, setCallbackEvents] = useState<CallbackEvent[]>([])
 	const [showVariants, setShowVariants] = useState(false)
@@ -71,10 +67,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 	}, [entry.props])
 
 	// ── Extra scope: prop values + callback proxies ──
-	const extraScope = useMemo(
-		() => ({ ...propValues, ...callbackProxies }),
-		[propValues, callbackProxies]
-	)
+	const extraScope = useMemo(() => ({ ...propValues, ...callbackProxies }), [propValues, callbackProxies])
 
 	// ── Auto-save (debounced) ─────────────────────
 	useEffect(() => {
@@ -177,17 +170,9 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 			<div className="flex items-center justify-between px-4 py-2 border-b border-edge">
 				<div className="flex items-center gap-2">
 					<h1 className="text-sm font-semibold">{entry.name}</h1>
-					<span className="text-xs text-fg-muted bg-muted px-1.5 py-0.5 rounded">
-						{entry.category}
-					</span>
+					<span className="text-xs text-fg-muted bg-muted px-1.5 py-0.5 rounded">{entry.category}</span>
 				</div>
-				<Button
-					variant="ghost"
-					size="xs"
-					onClick={() => setShowVariants((v) => !v)}
-					title="Toggle variants grid"
-					className={showVariants ? "bg-muted" : ""}
-				>
+				<Button variant="ghost" size="xs" onClick={() => setShowVariants((v) => !v)} title="Toggle variants grid" className={showVariants ? "bg-muted" : ""}>
 					<LayoutGrid className="size-3 mr-1" />
 					<span className="text-xs">Variants</span>
 				</Button>
@@ -198,13 +183,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 				{showVariants ? (
 					<VariantsGrid entry={entry} extraScope={callbackProxies} />
 				) : (
-					<PreviewPanel
-						code={code}
-						extraScope={extraScope}
-						inspectMode={inspectMode}
-						onInspectModeChange={setInspectMode}
-						onElementSelect={handleElementSelect}
-					/>
+					<PreviewPanel code={code} extraScope={extraScope} inspectMode={inspectMode} onInspectModeChange={setInspectMode} onElementSelect={handleElementSelect} />
 				)}
 			</div>
 
@@ -219,11 +198,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 
 			{/* Bottom panel (tabs) */}
 			<div style={{ flex: 1 - splitRatio }} className="min-h-0 overflow-hidden flex flex-col">
-				<Tabs
-					value={activeTab}
-					onValueChange={(v) => setActiveTab(v as "controls" | "code" | "examples")}
-					className="flex flex-col h-full"
-				>
+				<Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "controls" | "code" | "examples")} className="flex flex-col h-full">
 					<div className="flex items-center border-b border-edge px-2">
 						<TabsList className="bg-transparent">
 							<TabsTrigger value="controls" className="text-xs">
@@ -252,12 +227,7 @@ export function SandboxShell({ entry }: SandboxShellProps) {
 					</div>
 
 					<TabsContent value="controls" className="flex-1 min-h-0 m-0">
-						<PropsPanel
-							props={entry.props}
-							values={propValues}
-							onChange={handlePropChange}
-							onReset={handleReset}
-						/>
+						<PropsPanel props={entry.props} values={propValues} onChange={handlePropChange} onReset={handleReset} />
 					</TabsContent>
 
 					<TabsContent value="code" className="flex-1 min-h-0 m-0">

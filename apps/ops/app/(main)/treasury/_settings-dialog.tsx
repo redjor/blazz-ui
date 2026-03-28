@@ -2,14 +2,7 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { useMutation } from "convex/react"
@@ -41,9 +34,7 @@ export function TreasurySettingsDialog({ open, onOpenChange, settings }: Treasur
 		formState: { isSubmitting },
 	} = useForm<SettingsFormValues>({
 		defaultValues: {
-			manualBalance: settings?.manualBalanceCents != null
-				? String(settings.manualBalanceCents / 100)
-				: "",
+			manualBalance: settings?.manualBalanceCents != null ? String(settings.manualBalanceCents / 100) : "",
 			paymentDelayDays: String(settings?.defaultPaymentDelayDays ?? 30),
 			forecastMonths: String(settings?.forecastMonths ?? 6),
 		},
@@ -65,51 +56,25 @@ export function TreasurySettingsDialog({ open, onOpenChange, settings }: Treasur
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<DialogHeader>
 						<DialogTitle>Paramètres trésorerie</DialogTitle>
-						<DialogDescription>
-							Configurez le solde initial et les paramètres de projection.
-						</DialogDescription>
+						<DialogDescription>Configurez le solde initial et les paramètres de projection.</DialogDescription>
 					</DialogHeader>
 
 					<BlockStack gap="400" className="py-4">
 						<BlockStack gap="200">
 							<Label htmlFor="manual-balance">Solde initial (€)</Label>
-							<Input
-								id="manual-balance"
-								type="number"
-								step="0.01"
-								placeholder="ex: 25000 — laissez vide pour utiliser Qonto"
-								{...register("manualBalance")}
-							/>
-							<p className="text-xs text-fg-muted">
-								Point de départ du prévisionnel. Laissez vide si vous utilisez Qonto.
-							</p>
+							<Input id="manual-balance" type="number" step="0.01" placeholder="ex: 25000 — laissez vide pour utiliser Qonto" {...register("manualBalance")} />
+							<p className="text-xs text-fg-muted">Point de départ du prévisionnel. Laissez vide si vous utilisez Qonto.</p>
 						</BlockStack>
 
 						<BlockStack gap="200">
 							<Label htmlFor="payment-delay">Délai de paiement (jours)</Label>
-							<Input
-								id="payment-delay"
-								type="number"
-								min={0}
-								max={120}
-								placeholder="30"
-								{...register("paymentDelayDays")}
-							/>
-							<p className="text-xs text-fg-muted">
-								Délai moyen entre l'envoi d'une facture et le paiement.
-							</p>
+							<Input id="payment-delay" type="number" min={0} max={120} placeholder="30" {...register("paymentDelayDays")} />
+							<p className="text-xs text-fg-muted">Délai moyen entre l'envoi d'une facture et le paiement.</p>
 						</BlockStack>
 
 						<BlockStack gap="200">
 							<Label htmlFor="forecast-months">Horizon de projection (mois)</Label>
-							<Input
-								id="forecast-months"
-								type="number"
-								min={3}
-								max={24}
-								placeholder="6"
-								{...register("forecastMonths")}
-							/>
+							<Input id="forecast-months" type="number" min={3} max={24} placeholder="6" {...register("forecastMonths")} />
 						</BlockStack>
 					</BlockStack>
 

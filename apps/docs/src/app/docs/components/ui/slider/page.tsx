@@ -1,8 +1,8 @@
 "use client"
 
 import { Slider } from "@blazz/ui/components/ui/slider"
-import { use } from "react"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -115,49 +115,25 @@ export default function SliderPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Slider"
-			subtitle="A draggable control for selecting a numeric value within a range."
-			toc={toc}
-		>
+		<DocPage title="Slider" subtitle="A draggable control for selecting a numeric value within a range." toc={toc}>
 			<DocHero>
 				<Slider defaultValue={50} className="max-w-sm" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic slider with default range 0-100."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic slider with default range 0-100." code={examples[0].code} highlightedCode={html("default")}>
 					<Slider defaultValue={50} className="max-w-sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Min/Max/Step"
-					description="Customize the range and step increment."
-					code={examples[1].code}
-					highlightedCode={html("min-max-step")}
-				>
+				<DocExampleClient title="With Min/Max/Step" description="Customize the range and step increment." code={examples[1].code} highlightedCode={html("min-max-step")}>
 					<Slider defaultValue={20} min={0} max={50} step={5} className="max-w-sm" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the slider value programmatically and display it."
-					code={examples[2].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the slider value programmatically and display it." code={examples[2].code} highlightedCode={html("controlled")}>
 					<ControlledSliderDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled sliders prevent user interaction."
-					code={examples[3].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled sliders prevent user interaction." code={examples[3].code} highlightedCode={html("disabled")}>
 					<Slider disabled defaultValue={30} className="max-w-sm" />
 				</DocExampleClient>
 			</DocSection>
@@ -170,10 +146,7 @@ export default function SliderPage() {
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>Use sliders when the precise value matters less than the relative position</li>
 					<li>For exact numeric input, consider using NumberInput instead</li>
-					<li>
-						Use onValueCommitted for expensive operations (e.g., API calls) and onValueChange for
-						live previews
-					</li>
+					<li>Use onValueCommitted for expensive operations (e.g., API calls) and onValueChange for live previews</li>
 					<li>Always provide visible labels or context so users understand the scale</li>
 				</ul>
 			</DocSection>

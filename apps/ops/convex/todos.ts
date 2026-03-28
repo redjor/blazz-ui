@@ -2,43 +2,13 @@ import { ConvexError, v } from "convex/values"
 import { internalMutation, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const statusValidator = v.union(
-	v.literal("triage"),
-	v.literal("todo"),
-	v.literal("blocked"),
-	v.literal("in_progress"),
-	v.literal("done")
-)
+const statusValidator = v.union(v.literal("triage"), v.literal("todo"), v.literal("blocked"), v.literal("in_progress"), v.literal("done"))
 
-const priorityValidator = v.union(
-	v.literal("urgent"),
-	v.literal("high"),
-	v.literal("normal"),
-	v.literal("low")
-)
+const priorityValidator = v.union(v.literal("urgent"), v.literal("high"), v.literal("normal"), v.literal("low"))
 
-function applyTodoPatchField(
-	patch: Record<string, unknown>,
-	key:
-		| "text"
-		| "description"
-		| "descriptionJson"
-		| "priority"
-		| "dueDate"
-		| "projectId"
-		| "categoryId"
-		| "tags",
-	value: unknown
-) {
+function applyTodoPatchField(patch: Record<string, unknown>, key: "text" | "description" | "descriptionJson" | "priority" | "dueDate" | "projectId" | "categoryId" | "tags", value: unknown) {
 	if (value === undefined) return
-	if (
-		key === "description" ||
-		key === "descriptionJson" ||
-		key === "dueDate" ||
-		key === "projectId" ||
-		key === "categoryId" ||
-		key === "tags"
-	) {
+	if (key === "description" || key === "descriptionJson" || key === "dueDate" || key === "projectId" || key === "categoryId" || key === "tags") {
 		patch[key] = value ?? undefined
 		return
 	}
@@ -73,9 +43,7 @@ export const listByProject = query({
 		const { userId } = await requireAuth(ctx)
 		return ctx.db
 			.query("todos")
-			.withIndex("by_user_project", (q) =>
-				q.eq("userId", userId).eq("projectId", projectId)
-			)
+			.withIndex("by_user_project", (q) => q.eq("userId", userId).eq("projectId", projectId))
 			.order("desc")
 			.collect()
 	},
@@ -100,13 +68,7 @@ export const listByDate = query({
 			.withIndex("by_user", (q) => q.eq("userId", userId))
 			.collect()
 		const priorityOrder: Record<string, number> = { urgent: 0, high: 1, normal: 2, low: 3 }
-		return todos
-			.filter((t) => t.dueDate === date && t.status !== "done")
-			.sort(
-				(a, b) =>
-					(priorityOrder[a.priority ?? "normal"] ?? 2) -
-					(priorityOrder[b.priority ?? "normal"] ?? 2)
-			)
+		return todos.filter((t) => t.dueDate === date && t.status !== "done").sort((a, b) => (priorityOrder[a.priority ?? "normal"] ?? 2) - (priorityOrder[b.priority ?? "normal"] ?? 2))
 	},
 })
 
@@ -141,21 +103,7 @@ export const create = mutation({
 		tags: v.optional(v.array(v.string())),
 		priority: v.optional(priorityValidator),
 	},
-	handler: async (
-		ctx,
-		{
-			text,
-			description,
-			descriptionJson,
-			status = "triage",
-			source = "app",
-			dueDate,
-			projectId,
-			categoryId,
-			tags,
-			priority,
-		}
-	) => {
+	handler: async (ctx, { text, description, descriptionJson, status = "triage", source = "app", dueDate, projectId, categoryId, tags, priority }) => {
 		const { userId } = await requireAuth(ctx)
 		return ctx.db.insert("todos", {
 			text,
@@ -205,10 +153,7 @@ export const update = mutation({
 		categoryId: v.optional(v.union(v.id("categories"), v.null())),
 		tags: v.optional(v.union(v.array(v.string()), v.null())),
 	},
-	handler: async (
-		ctx,
-		{ id, text, description, descriptionJson, priority, dueDate, projectId, categoryId, tags }
-	) => {
+	handler: async (ctx, { id, text, description, descriptionJson, priority, dueDate, projectId, categoryId, tags }) => {
 		const { userId } = await requireAuth(ctx)
 		const todo = await ctx.db.get(id)
 		if (!todo || todo.userId !== userId) throw new ConvexError("Introuvable")

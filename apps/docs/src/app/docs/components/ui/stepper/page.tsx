@@ -1,8 +1,8 @@
 "use client"
-import { use } from "react"
 
 import { Stepper } from "@blazz/ui/components/ui/stepper"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -28,8 +28,7 @@ const stepperProps: DocProp[] = [
 	{
 		name: "activeStep",
 		type: "number",
-		description:
-			"The current active step index (0-based). Steps before this index are marked as completed.",
+		description: "The current active step index (0-based). Steps before this index are marked as completed.",
 	},
 	{
 		name: "variant",
@@ -193,12 +192,7 @@ function InteractiveStepperDemo() {
 	)
 }
 
-const progressBarSteps = [
-	{ label: "User Details" },
-	{ label: "Payment Info" },
-	{ label: "Auth OTP" },
-	{ label: "Preview Form" },
-]
+const progressBarSteps = [{ label: "User Details" }, { label: "Payment Info" }, { label: "Auth OTP" }, { label: "Preview Form" }]
 
 function ProgressBarStepperDemo() {
 	const [activeStep, setActiveStep] = React.useState(1)
@@ -206,9 +200,7 @@ function ProgressBarStepperDemo() {
 	return (
 		<div className="space-y-6">
 			<Stepper variant="progress-bar" steps={progressBarSteps} activeStep={activeStep} />
-			<p className="text-center text-sm text-fg-muted">
-				{progressBarSteps[activeStep]?.label} content
-			</p>
+			<p className="text-center text-sm text-fg-muted">{progressBarSteps[activeStep]?.label} content</p>
 			<div className="flex items-center justify-center gap-3">
 				<button
 					type="button"
@@ -276,9 +268,7 @@ function VerticalStepperDemo() {
 	return (
 		<div className="space-y-6">
 			<Stepper orientation="vertical" steps={verticalSteps} activeStep={activeStep} />
-			<p className="text-center text-sm text-fg-muted">
-				{verticalSteps[activeStep]?.label} content
-			</p>
+			<p className="text-center text-sm text-fg-muted">{verticalSteps[activeStep]?.label} content</p>
 			<div className="flex items-center justify-center gap-3">
 				<button
 					type="button"
@@ -306,21 +296,9 @@ export default function StepperPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Stepper"
-			subtitle="A step indicator component for multi-step workflows. Displays progress through a sequence of steps with completed, active, and pending states."
-			toc={toc}
-		>
+		<DocPage title="Stepper" subtitle="A step indicator component for multi-step workflows. Displays progress through a sequence of steps with completed, active, and pending states." toc={toc}>
 			<DocHero>
-				<Stepper
-					steps={[
-						{ label: "Account" },
-						{ label: "Profile" },
-						{ label: "Settings" },
-						{ label: "Complete" },
-					]}
-					activeStep={1}
-				/>
+				<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Settings" }, { label: "Complete" }]} activeStep={1} />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
@@ -351,75 +329,28 @@ export default function StepperPage() {
 					<VerticalStepperDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Horizontal (default)"
-					description="The default horizontal stepper with circles and connectors."
-					code={examples[3].code}
-					highlightedCode={html("horizontal")}
-				>
-					<Stepper
-						steps={[
-							{ label: "Account" },
-							{ label: "Profile" },
-							{ label: "Settings" },
-							{ label: "Complete" },
-						]}
-						activeStep={1}
-					/>
+				<DocExampleClient title="Horizontal (default)" description="The default horizontal stepper with circles and connectors." code={examples[3].code} highlightedCode={html("horizontal")}>
+					<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Settings" }, { label: "Complete" }]} activeStep={1} />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="All States"
-					description="Demonstrating completed, active, and pending step states."
-					code={examples[4].code}
-					highlightedCode={html("all-states")}
-				>
+				<DocExampleClient title="All States" description="Demonstrating completed, active, and pending step states." code={examples[4].code} highlightedCode={html("all-states")}>
 					<div className="space-y-8">
 						<div>
 							<p className="mb-2 text-xs text-fg-muted">First step active</p>
-							<Stepper
-								steps={[
-									{ label: "Account" },
-									{ label: "Profile" },
-									{ label: "Settings" },
-									{ label: "Complete" },
-								]}
-								activeStep={0}
-							/>
+							<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Settings" }, { label: "Complete" }]} activeStep={0} />
 						</div>
 						<div>
 							<p className="mb-2 text-xs text-fg-muted">Middle step active</p>
-							<Stepper
-								steps={[
-									{ label: "Account" },
-									{ label: "Profile" },
-									{ label: "Settings" },
-									{ label: "Complete" },
-								]}
-								activeStep={2}
-							/>
+							<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Settings" }, { label: "Complete" }]} activeStep={2} />
 						</div>
 						<div>
 							<p className="mb-2 text-xs text-fg-muted">All completed</p>
-							<Stepper
-								steps={[
-									{ label: "Account" },
-									{ label: "Profile" },
-									{ label: "Settings" },
-									{ label: "Complete" },
-								]}
-								activeStep={4}
-							/>
+							<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Settings" }, { label: "Complete" }]} activeStep={4} />
 						</div>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Descriptions"
-					description="Steps can include descriptions for additional context."
-					code={examples[5].code}
-					highlightedCode={html("with-descriptions")}
-				>
+				<DocExampleClient title="With Descriptions" description="Steps can include descriptions for additional context." code={examples[5].code} highlightedCode={html("with-descriptions")}>
 					<Stepper
 						steps={[
 							{ label: "Account", description: "Create your account" },
@@ -431,12 +362,7 @@ export default function StepperPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Interactive"
-					description="An interactive stepper with Previous and Next buttons."
-					code={examples[6].code}
-					highlightedCode={html("interactive")}
-				>
+				<DocExampleClient title="Interactive" description="An interactive stepper with Previous and Next buttons." code={examples[6].code} highlightedCode={html("interactive")}>
 					<InteractiveStepperDemo />
 				</DocExampleClient>
 			</DocSection>
@@ -452,16 +378,13 @@ export default function StepperPage() {
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
-						Use <code className="text-fg text-xs">progress-bar</code> variant for form wizards where
-						step names matter
+						Use <code className="text-fg text-xs">progress-bar</code> variant for form wizards where step names matter
 					</li>
 					<li>
-						Use <code className="text-fg text-xs">segmented</code> variant for minimal flows where
-						only progress matters
+						Use <code className="text-fg text-xs">segmented</code> variant for minimal flows where only progress matters
 					</li>
 					<li>
-						Use <code className="text-fg text-xs">default</code> vertical for sidebar or narrow
-						layouts with descriptions
+						Use <code className="text-fg text-xs">default</code> vertical for sidebar or narrow layouts with descriptions
 					</li>
 					<li>Keep step labels short and descriptive</li>
 					<li>Manage activeStep externally to control navigation</li>

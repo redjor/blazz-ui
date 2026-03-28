@@ -1,14 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "@blazz/ui/components/ui/collapsible"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@blazz/ui/components/ui/collapsible"
 import { ChevronsUpDown } from "lucide-react"
-import { ControlledCollapsibleDemo } from "./demos"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -16,6 +11,7 @@ import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocRelated } from "~/components/docs/doc-related"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+import { ControlledCollapsibleDemo } from "./demos"
 
 const examples = [
 	{
@@ -131,8 +127,7 @@ const triggerProps: DocProp[] = [
 	{
 		name: "render",
 		type: "React.ReactElement",
-		description:
-			"Render the trigger as a custom element. Use this to compose with Button or other components.",
+		description: "Render the trigger as a custom element. Use this to compose with Button or other components.",
 	},
 ]
 
@@ -145,17 +140,12 @@ const contentProps: DocProp[] = [
 	},
 ]
 
-
 export default function CollapsiblePage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Collapsible"
-			subtitle="An interactive section that toggles the visibility of its content. Useful for progressive disclosure of secondary information."
-			toc={toc}
-		>
+		<DocPage title="Collapsible" subtitle="An interactive section that toggles the visibility of its content. Useful for progressive disclosure of secondary information." toc={toc}>
 			<DocHero>
 				<Collapsible className="w-full max-w-sm space-y-2">
 					<div className="flex items-center justify-between gap-4">
@@ -174,12 +164,7 @@ export default function CollapsiblePage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic collapsible with a text trigger."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic collapsible with a text trigger." code={examples[0].code} highlightedCode={html("default")}>
 					<Collapsible>
 						<CollapsibleTrigger>Toggle</CollapsibleTrigger>
 						<CollapsibleContent>
@@ -188,12 +173,7 @@ export default function CollapsiblePage() {
 					</Collapsible>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Button Trigger"
-					description="Use the render prop to compose the trigger with a Button."
-					code={examples[1].code}
-					highlightedCode={html("with-button")}
-				>
+				<DocExampleClient title="With Button Trigger" description="Use the render prop to compose the trigger with a Button." code={examples[1].code} highlightedCode={html("with-button")}>
 					<Collapsible className="w-full max-w-sm space-y-2">
 						<div className="flex items-center justify-between gap-4">
 							<h4 className="text-sm font-semibold">3 items</h4>
@@ -210,43 +190,22 @@ export default function CollapsiblePage() {
 					</Collapsible>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the open state programmatically."
-					code={examples[2].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the open state programmatically." code={examples[2].code} highlightedCode={html("controlled")}>
 					<ControlledCollapsibleDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Default Open"
-					description="Start with the content expanded."
-					code={examples[3].code}
-					highlightedCode={html("default-open")}
-				>
+				<DocExampleClient title="Default Open" description="Start with the content expanded." code={examples[3].code} highlightedCode={html("default-open")}>
 					<Collapsible defaultOpen>
-						<CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
-							Toggle section
-						</CollapsibleTrigger>
+						<CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>Toggle section</CollapsibleTrigger>
 						<CollapsibleContent className="mt-2">
-							<div className="rounded-md border border-edge px-4 py-3 text-sm text-fg-muted">
-								This content is visible by default.
-							</div>
+							<div className="rounded-md border border-edge px-4 py-3 text-sm text-fg-muted">This content is visible by default.</div>
 						</CollapsibleContent>
 					</Collapsible>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Prevent the collapsible from being toggled."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Prevent the collapsible from being toggled." code={examples[4].code} highlightedCode={html("disabled")}>
 					<Collapsible disabled>
-						<CollapsibleTrigger render={<Button variant="outline" size="sm" />}>
-							Cannot toggle
-						</CollapsibleTrigger>
+						<CollapsibleTrigger render={<Button variant="outline" size="sm" />}>Cannot toggle</CollapsibleTrigger>
 						<CollapsibleContent className="mt-2">
 							<p>This content is hidden and cannot be revealed.</p>
 						</CollapsibleContent>
@@ -268,13 +227,9 @@ export default function CollapsiblePage() {
 
 			<DocSection id="guidelines" title="Guidelines">
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
+					<li>Use Collapsible for progressive disclosure — show the essential first, reveal details on demand</li>
 					<li>
-						Use Collapsible for progressive disclosure — show the essential first, reveal details on
-						demand
-					</li>
-					<li>
-						Use the <code className="text-xs">render</code> prop on CollapsibleTrigger to compose
-						with Button (never use asChild)
+						Use the <code className="text-xs">render</code> prop on CollapsibleTrigger to compose with Button (never use asChild)
 					</li>
 					<li>For multiple collapsible sections (FAQ, settings), consider Accordion instead</li>
 					<li>Keep the trigger label descriptive so users know what will be revealed</li>
@@ -293,8 +248,7 @@ export default function CollapsiblePage() {
 						{
 							title: "Dialog",
 							href: "/docs/components/ui/dialog",
-							description:
-								"For content that requires focus and blocks interaction with the rest of the page.",
+							description: "For content that requires focus and blocks interaction with the rest of the page.",
 						},
 						{
 							title: "Tabs",

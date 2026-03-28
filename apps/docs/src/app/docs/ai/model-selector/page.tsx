@@ -60,40 +60,21 @@ export default function ModelSelectorPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Model Selector"
-			subtitle="A searchable dialog for selecting AI models with provider logos and grouped categories."
-			toc={toc}
-		>
+		<DocPage title="Model Selector" subtitle="A searchable dialog for selecting AI models with provider logos and grouped categories." toc={toc}>
 			<DocHero>
 				<ModelSelectorDemo />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Model Selector"
-					description="A dialog with search input and flat list of models."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Model Selector" description="A dialog with search input and flat list of models." code={examples[0].code} highlightedCode={html("basic")}>
 					<ModelSelectorDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Grouped by Provider"
-					description="Models organized by provider with separate group headings."
-					code={examples[1].code}
-					highlightedCode={html("grouped")}
-				>
+				<DocExampleClient title="Grouped by Provider" description="Models organized by provider with separate group headings." code={examples[1].code} highlightedCode={html("grouped")}>
 					<ModelSelectorGroupedDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Logo Group"
-					description="Stack multiple provider logos in a compact overlapping layout."
-					code={examples[2].code}
-					highlightedCode={html("logo-group")}
-				>
+				<DocExampleClient title="Logo Group" description="Stack multiple provider logos in a compact overlapping layout." code={examples[2].code} highlightedCode={html("logo-group")}>
 					<LogoGroupDemo />
 				</DocExampleClient>
 			</DocSection>

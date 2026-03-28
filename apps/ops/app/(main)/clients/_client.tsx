@@ -26,17 +26,7 @@ function ClientAvatar({ name, logoUrl }: { name: string; logoUrl?: string | null
 	const initials = name.slice(0, 2).toUpperCase()
 	return (
 		<div className="size-8 rounded border border-edge bg-card flex items-center justify-center overflow-hidden shrink-0">
-			{logoUrl ? (
-				<Image
-					src={logoUrl}
-					alt={name}
-					width={24}
-					height={24}
-					className="size-full object-contain"
-				/>
-			) : (
-				<span className="text-xs font-semibold text-fg-muted">{initials}</span>
-			)}
+			{logoUrl ? <Image src={logoUrl} alt={name} width={24} height={24} className="size-full object-contain" /> : <span className="text-xs font-semibold text-fg-muted">{initials}</span>}
 		</div>
 	)
 }
@@ -97,12 +87,7 @@ export default function ClientsPageClient() {
 			{clients && clients.length > 0 && (
 				<InlineStack gap="200">
 					{(["all", "freelance", "product", "both"] as const).map((f) => (
-						<Button
-							key={f}
-							size="sm"
-							variant={filter === f ? "default" : "outline"}
-							onClick={() => setFilter(f)}
-						>
+						<Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)}>
 							{f === "all" ? "Tous" : typeLabels[f]}
 						</Button>
 					))}

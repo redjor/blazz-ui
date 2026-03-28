@@ -1,6 +1,5 @@
 "use client"
 
-import { use } from "react"
 import {
 	CellAvatarGroup,
 	CellBoolean,
@@ -18,6 +17,7 @@ import {
 	CellUser,
 	CellValidation,
 } from "@blazz/pro/components/blocks/data-table"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -264,11 +264,7 @@ export default function CellTypesPage() {
 				<div className="grid grid-cols-2 gap-x-10 gap-y-4 sm:grid-cols-3">
 					<div className="flex flex-col gap-1">
 						<span className="text-xs text-fg-muted">Tags</span>
-						<CellTags
-							items={["React", "TypeScript", "Tailwind", "Next.js"]}
-							colorMap={{ React: "info", TypeScript: "default", Tailwind: "success" }}
-							max={3}
-						/>
+						<CellTags items={["React", "TypeScript", "Tailwind", "Next.js"]} colorMap={{ React: "info", TypeScript: "default", Tailwind: "success" }} max={3} />
 					</div>
 					<div className="flex flex-col gap-1">
 						<span className="text-xs text-fg-muted">Progress</span>
@@ -288,11 +284,7 @@ export default function CellTypesPage() {
 					</div>
 					<div className="flex flex-col gap-1">
 						<span className="text-xs text-fg-muted">User</span>
-						<CellUser
-							name="Alice Martin"
-							avatar="https://i.pravatar.cc/80?u=alice"
-							subtitle="Design Lead"
-						/>
+						<CellUser name="Alice Martin" avatar="https://i.pravatar.cc/80?u=alice" subtitle="Design Lead" />
 					</div>
 				</div>
 			</DocHero>
@@ -452,16 +444,13 @@ export default function CellTypesPage() {
 
 			<DocSection id="col-usage" title="Usage with col.*">
 				<p className="text-sm text-fg-muted mb-4">
-					All cell types are available as shorthand methods on the{" "}
-					<code className="text-xs bg-muted px-1.5 py-0.5 rounded">col</code> namespace. The
-					accessor key is the first argument, options are the second. Title is auto-derived from the
-					key.
+					All cell types are available as shorthand methods on the <code className="text-xs bg-muted px-1.5 py-0.5 rounded">col</code> namespace. The accessor key is the first argument, options are
+					the second. Title is auto-derived from the key.
 				</p>
 				<DocExampleClient title="Full Example" description="A complete table definition using various cell types." code={examples[15].code} highlightedCode={html("full-example")}>
 					<div className="rounded-lg border border-edge-subtle bg-muted/50 p-6">
 						<p className="text-sm text-fg-muted text-center">
-							Each <code className="text-xs bg-muted px-1.5 py-0.5 rounded">col.*</code> method
-							returns a fully typed column definition ready to pass to{" "}
+							Each <code className="text-xs bg-muted px-1.5 py-0.5 rounded">col.*</code> method returns a fully typed column definition ready to pass to{" "}
 							<code className="text-xs bg-muted px-1.5 py-0.5 rounded">DataTable</code>.
 						</p>
 					</div>
@@ -470,21 +459,66 @@ export default function CellTypesPage() {
 
 			<DocSection id="props" title="Props Reference">
 				<div className="space-y-8">
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellTags</h3><DocPropsTable props={tagsProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellValidation</h3><DocPropsTable props={validationProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellProgress</h3><DocPropsTable props={progressProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellRating</h3><DocPropsTable props={ratingProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellLink</h3><DocPropsTable props={linkProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellBoolean</h3><DocPropsTable props={booleanProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellAvatarGroup</h3><DocPropsTable props={avatarGroupProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellRelativeDate</h3><DocPropsTable props={relativeDateProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellUser</h3><DocPropsTable props={userProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellDuration</h3><DocPropsTable props={durationProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellColorDot</h3><DocPropsTable props={colorDotProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellImage</h3><DocPropsTable props={imageProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellSparkline</h3><DocPropsTable props={sparklineProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellTwoLines</h3><DocPropsTable props={twoLinesProps} /></div>
-					<div><h3 className="text-sm font-semibold text-fg mb-3">CellKeyValue</h3><DocPropsTable props={keyValueProps} /></div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellTags</h3>
+						<DocPropsTable props={tagsProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellValidation</h3>
+						<DocPropsTable props={validationProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellProgress</h3>
+						<DocPropsTable props={progressProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellRating</h3>
+						<DocPropsTable props={ratingProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellLink</h3>
+						<DocPropsTable props={linkProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellBoolean</h3>
+						<DocPropsTable props={booleanProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellAvatarGroup</h3>
+						<DocPropsTable props={avatarGroupProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellRelativeDate</h3>
+						<DocPropsTable props={relativeDateProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellUser</h3>
+						<DocPropsTable props={userProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellDuration</h3>
+						<DocPropsTable props={durationProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellColorDot</h3>
+						<DocPropsTable props={colorDotProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellImage</h3>
+						<DocPropsTable props={imageProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellSparkline</h3>
+						<DocPropsTable props={sparklineProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellTwoLines</h3>
+						<DocPropsTable props={twoLinesProps} />
+					</div>
+					<div>
+						<h3 className="text-sm font-semibold text-fg mb-3">CellKeyValue</h3>
+						<DocPropsTable props={keyValueProps} />
+					</div>
 				</div>
 			</DocSection>
 

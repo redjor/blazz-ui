@@ -26,10 +26,7 @@ export async function GET() {
 	const projectId = process.env.VERCEL_PROJECT_ID
 
 	if (!token || !projectId) {
-		return NextResponse.json(
-			{ error: "VERCEL_TOKEN ou VERCEL_PROJECT_ID manquant" },
-			{ status: 500 }
-		)
+		return NextResponse.json({ error: "VERCEL_TOKEN ou VERCEL_PROJECT_ID manquant" }, { status: 500 })
 	}
 
 	const headers = { Authorization: `Bearer ${token}` }

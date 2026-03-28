@@ -2,13 +2,7 @@
 
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@blazz/ui/components/ui/sheet"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@blazz/ui/components/ui/sheet"
 import { useMutation, useQuery } from "convex/react"
 import {
 	Briefcase,
@@ -158,26 +152,14 @@ export const ICON_COLOR_MAP: Record<string, string> = {
 	zinc: "text-zinc-400",
 }
 
-export function CategoryBadge({
-	name,
-	color,
-	icon,
-}: {
-	name: string
-	color?: string
-	icon?: string
-}) {
+export function CategoryBadge({ name, color, icon }: { name: string; color?: string; icon?: string }) {
 	const Icon = getCategoryIcon(icon)
 	const iconColor = ICON_COLOR_MAP[color ?? "zinc"] ?? ICON_COLOR_MAP.zinc
 	const dotColor = DOT_COLOR_MAP[color ?? "zinc"] ?? DOT_COLOR_MAP.zinc
 
 	return (
 		<span className="inline-flex items-center gap-1.5 rounded-full bg-card px-1.5 py-0.5 text-[11px] font-medium text-fg-muted">
-			{Icon ? (
-				<Icon className={`size-3 shrink-0 ${iconColor}`} />
-			) : (
-				<span className={`size-2 shrink-0 rounded-full ${dotColor}`} />
-			)}
+			{Icon ? <Icon className={`size-3 shrink-0 ${iconColor}`} /> : <span className={`size-2 shrink-0 rounded-full ${dotColor}`} />}
 			{name}
 		</span>
 	)
@@ -217,13 +199,7 @@ export function ManageCategoriesSheet() {
 							(categories ?? []).map((cat) => (
 								<div key={cat._id} className="flex items-center justify-between gap-2 py-1">
 									<CategoryBadge name={cat.name} color={cat.color} icon={cat.icon} />
-									<Button
-										variant="ghost"
-										size="icon-sm"
-										onClick={() => removeCategory({ id: cat._id as Id<"categories"> })}
-										className="text-fg-muted hover:text-destructive"
-										aria-label="Supprimer"
-									>
+									<Button variant="ghost" size="icon-sm" onClick={() => removeCategory({ id: cat._id as Id<"categories"> })} className="text-fg-muted hover:text-destructive" aria-label="Supprimer">
 										<Trash2 className="size-3.5" />
 									</Button>
 								</div>

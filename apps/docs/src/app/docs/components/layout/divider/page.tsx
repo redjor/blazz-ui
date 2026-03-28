@@ -1,9 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Divider } from "@blazz/ui/components/ui/divider"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -67,12 +67,7 @@ export default function DividerPage() {
 	return (
 		<DocPage title="Divider" subtitle="Use to separate or group content." toc={toc}>
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic divider to separate content."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic divider to separate content." code={examples[0].code} highlightedCode={html("default")}>
 					<Card>
 						<CardContent>
 							<BlockStack gap="400">
@@ -84,12 +79,7 @@ export default function DividerPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Border Colors"
-					description="Different border color options."
-					code={examples[1].code}
-					highlightedCode={html("colors")}
-				>
+				<DocExampleClient title="Border Colors" description="Different border color options." code={examples[1].code} highlightedCode={html("colors")}>
 					<Card>
 						<CardContent>
 							<BlockStack gap="500">
@@ -110,12 +100,7 @@ export default function DividerPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Border Width"
-					description="Different border width options."
-					code={examples[2].code}
-					highlightedCode={html("widths")}
-				>
+				<DocExampleClient title="Border Width" description="Different border width options." code={examples[2].code} highlightedCode={html("widths")}>
 					<Card>
 						<CardContent>
 							<BlockStack gap="500">

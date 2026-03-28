@@ -20,9 +20,7 @@ import * as React from "react"
 export function MenuHeroDemo() {
 	return (
 		<Menu>
-			<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">
-				Open Menu
-			</MenuTrigger>
+			<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">Open Menu</MenuTrigger>
 			<MenuPortal>
 				<MenuPositioner sideOffset={8}>
 					<MenuPopup>
@@ -41,9 +39,7 @@ export function MenuHeroDemo() {
 export function MenuBasicDemo() {
 	return (
 		<Menu>
-			<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">
-				Open Menu
-			</MenuTrigger>
+			<MenuTrigger className="px-4 py-2 rounded-md bg-brand text-brand-fg">Open Menu</MenuTrigger>
 			<MenuPortal>
 				<MenuPositioner sideOffset={8}>
 					<MenuPopup>

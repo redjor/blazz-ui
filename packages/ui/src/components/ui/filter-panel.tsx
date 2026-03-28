@@ -16,17 +16,7 @@ interface FilterPanelProps extends React.ComponentProps<"div"> {
 }
 
 function FilterPanel({ className, width = 340, style, ...props }: FilterPanelProps) {
-	return (
-		<div
-			data-slot="filter-panel"
-			className={cn(
-				"bg-popover ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden",
-				className
-			)}
-			style={{ width, ...style }}
-			{...props}
-		/>
-	)
+	return <div data-slot="filter-panel" className={cn("bg-popover ring-edge/40 flex flex-col rounded-lg shadow-md ring-1 overflow-hidden", className)} style={{ width, ...style }} {...props} />
 }
 
 // ---------------------------------------------------------------------------
@@ -36,16 +26,7 @@ function FilterPanel({ className, width = 340, style, ...props }: FilterPanelPro
 interface FilterPanelHeaderProps extends React.ComponentProps<"div"> {}
 
 function FilterPanelHeader({ className, ...props }: FilterPanelHeaderProps) {
-	return (
-		<div
-			data-slot="filter-panel-header"
-			className={cn(
-				"flex items-center justify-between gap-2 border-b border-edge/40 px-2 py-1.5",
-				className
-			)}
-			{...props}
-		/>
-	)
+	return <div data-slot="filter-panel-header" className={cn("flex items-center justify-between gap-2 border-b border-edge/40 px-2 py-1.5", className)} {...props} />
 }
 
 // ---------------------------------------------------------------------------
@@ -61,10 +42,7 @@ interface FilterPanelTabsProps {
 
 function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelTabsProps) {
 	return (
-		<div
-			data-slot="filter-panel-tabs"
-			className={cn("flex items-center gap-0.5 rounded-md bg-muted p-0.5", className)}
-		>
+		<div data-slot="filter-panel-tabs" className={cn("flex items-center gap-0.5 rounded-md bg-muted p-0.5", className)}>
 			{tabs.map((tab) => {
 				const isActive = tab === value
 				return (
@@ -72,10 +50,7 @@ function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelT
 						key={tab}
 						type="button"
 						onClick={() => onValueChange(tab)}
-						className={cn(
-							"rounded-[5px] px-2.5 py-1 text-xs font-medium transition-colors duration-150 ease-out",
-							isActive ? "bg-card text-fg shadow-sm" : "text-fg-muted hover:text-fg"
-						)}
+						className={cn("rounded-[5px] px-2.5 py-1 text-xs font-medium transition-colors duration-150 ease-out", isActive ? "bg-card text-fg shadow-sm" : "text-fg-muted hover:text-fg")}
 					>
 						{tab}
 					</button>
@@ -92,13 +67,7 @@ function FilterPanelTabs({ tabs, value, onValueChange, className }: FilterPanelT
 interface FilterPanelActionsProps extends React.ComponentProps<"div"> {}
 
 function FilterPanelActions({ className, ...props }: FilterPanelActionsProps) {
-	return (
-		<div
-			data-slot="filter-panel-actions"
-			className={cn("flex items-center gap-0.5", className)}
-			{...props}
-		/>
-	)
+	return <div data-slot="filter-panel-actions" className={cn("flex items-center gap-0.5", className)} {...props} />
 }
 
 // ---------------------------------------------------------------------------
@@ -112,10 +81,7 @@ function FilterPanelAction({ className, ...props }: FilterPanelActionProps) {
 		<button
 			type="button"
 			data-slot="filter-panel-action"
-			className={cn(
-				"flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-150 ease-out hover:bg-muted hover:text-fg",
-				className
-			)}
+			className={cn("flex size-7 items-center justify-center rounded-md text-fg-muted transition-colors duration-150 ease-out hover:bg-muted hover:text-fg", className)}
 			{...props}
 		/>
 	)
@@ -134,9 +100,7 @@ function FilterPanelSection({ label, className, children, ...props }: FilterPane
 		<div data-slot="filter-panel-section" className={cn("flex flex-col", className)} {...props}>
 			{label && (
 				<div className="px-3 pb-1 pt-2.5">
-					<span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">
-						{label}
-					</span>
+					<span className="text-[11px] font-medium uppercase tracking-wider text-fg-muted">{label}</span>
 				</div>
 			)}
 			<div className="flex flex-col">{children}</div>
@@ -162,35 +126,17 @@ interface FilterPanelCheckboxItemProps {
 	className?: string
 }
 
-function FilterPanelCheckboxItem({
-	label,
-	count,
-	checked,
-	defaultChecked,
-	onCheckedChange,
-	disabled = false,
-	depth = 0,
-	icon,
-	className,
-}: FilterPanelCheckboxItemProps) {
+function FilterPanelCheckboxItem({ label, count, checked, defaultChecked, onCheckedChange, disabled = false, depth = 0, icon, className }: FilterPanelCheckboxItemProps) {
 	const id = React.useId()
 
 	return (
 		<label
 			htmlFor={id}
 			data-slot="filter-panel-checkbox-item"
-			className={cn(
-				"group flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-muted",
-				disabled && "cursor-not-allowed opacity-50",
-				className
-			)}
+			className={cn("group flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-muted", disabled && "cursor-not-allowed opacity-50", className)}
 			style={depth > 0 ? { paddingLeft: `${12 + depth * 16}px` } : undefined}
 		>
-			{icon && (
-				<span className="flex size-4 shrink-0 items-center justify-center text-fg-muted">
-					{icon}
-				</span>
-			)}
+			{icon && <span className="flex size-4 shrink-0 items-center justify-center text-fg-muted">{icon}</span>}
 			<CheckboxPrimitive.Root
 				id={id}
 				checked={checked}
@@ -209,9 +155,7 @@ function FilterPanelCheckboxItem({
 				</CheckboxPrimitive.Indicator>
 			</CheckboxPrimitive.Root>
 			<span className="flex-1 text-[13px] text-fg">{label}</span>
-			{count !== undefined && (
-				<span className="tabular-nums text-[13px] text-fg-muted">{count}</span>
-			)}
+			{count !== undefined && <span className="tabular-nums text-[13px] text-fg-muted">{count}</span>}
 		</label>
 	)
 }
@@ -234,39 +178,14 @@ interface FilterPanelTreeItemProps {
 	className?: string
 }
 
-function FilterPanelTreeItem({
-	label,
-	count,
-	icon,
-	open,
-	defaultOpen = true,
-	onOpenChange,
-	children,
-	className,
-}: FilterPanelTreeItemProps) {
+function FilterPanelTreeItem({ label, count, icon, open, defaultOpen = true, onOpenChange, children, className }: FilterPanelTreeItemProps) {
 	return (
-		<CollapsiblePrimitive.Root
-			data-slot="filter-panel-tree-item"
-			open={open}
-			defaultOpen={defaultOpen}
-			onOpenChange={onOpenChange}
-			className={cn("flex flex-col", className)}
-		>
-			<CollapsiblePrimitive.Trigger
-				className={cn(
-					"group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-muted"
-				)}
-			>
+		<CollapsiblePrimitive.Root data-slot="filter-panel-tree-item" open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} className={cn("flex flex-col", className)}>
+			<CollapsiblePrimitive.Trigger className={cn("group/tree flex cursor-pointer items-center gap-2 px-3 py-1.5 transition-colors duration-150 ease-out hover:bg-muted")}>
 				<ChevronRightIcon className="size-3 shrink-0 text-fg-muted transition-transform duration-150 ease-out group-data-[panel-open]/tree:rotate-90" />
-				{icon && (
-					<span className="flex size-4 shrink-0 items-center justify-center text-fg-muted">
-						{icon}
-					</span>
-				)}
+				{icon && <span className="flex size-4 shrink-0 items-center justify-center text-fg-muted">{icon}</span>}
 				<span className="flex-1 text-left text-[13px] text-fg">{label}</span>
-				{count !== undefined && (
-					<span className="tabular-nums text-[13px] text-fg-muted">{count}</span>
-				)}
+				{count !== undefined && <span className="tabular-nums text-[13px] text-fg-muted">{count}</span>}
 			</CollapsiblePrimitive.Trigger>
 			<CollapsiblePrimitive.Panel className="flex flex-col overflow-hidden transition-all duration-150 ease-out data-[ending-style]:h-0 data-[starting-style]:h-0">
 				{children}
@@ -279,16 +198,7 @@ function FilterPanelTreeItem({
 // Exports
 // ---------------------------------------------------------------------------
 
-export {
-	FilterPanel,
-	FilterPanelHeader,
-	FilterPanelTabs,
-	FilterPanelActions,
-	FilterPanelAction,
-	FilterPanelSection,
-	FilterPanelCheckboxItem,
-	FilterPanelTreeItem,
-}
+export { FilterPanel, FilterPanelHeader, FilterPanelTabs, FilterPanelActions, FilterPanelAction, FilterPanelSection, FilterPanelCheckboxItem, FilterPanelTreeItem }
 
 export type {
 	FilterPanelProps,

@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { EmailPreview } from "@blazz/pro/components/ai/generative/workflow/email-preview"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "draft",
@@ -34,7 +35,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function EmailPreviewPage() {
@@ -42,11 +42,7 @@ export default function EmailPreviewPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Email Preview"
-			subtitle="Preview a drafted or received email with sender, recipients and body."
-			toc={toc}
-		>
+		<DocPage title="Email Preview" subtitle="Preview a drafted or received email with sender, recipients and body." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<EmailPreview
@@ -64,12 +60,7 @@ export default function EmailPreviewPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Draft Email"
-					description="Email ready to be sent."
-					code={examples[0].code}
-					highlightedCode={html("draft")}
-				>
+				<DocExampleClient title="Draft Email" description="Email ready to be sent." code={examples[0].code} highlightedCode={html("draft")}>
 					<div className="max-w-sm">
 						<EmailPreview
 							subject="Follow-up: Q4 Proposal"
@@ -82,12 +73,7 @@ export default function EmailPreviewPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sent Email"
-					description="Email that has been sent."
-					code={examples[1].code}
-					highlightedCode={html("sent")}
-				>
+				<DocExampleClient title="Sent Email" description="Email that has been sent." code={examples[1].code} highlightedCode={html("sent")}>
 					<div className="max-w-sm">
 						<EmailPreview
 							subject="Invoice #2024-089"

@@ -38,16 +38,7 @@ function isPascalCase(name: string): boolean {
 	return /^[A-Z][a-zA-Z0-9]*$/.test(name)
 }
 
-type PropType =
-	| "boolean"
-	| "string"
-	| "number"
-	| "union"
-	| "enum"
-	| "slot"
-	| "function"
-	| "object"
-	| "array"
+type PropType = "boolean" | "string" | "number" | "union" | "enum" | "slot" | "function" | "object" | "array"
 type PropGroup = "main" | "style" | "slots" | "callbacks"
 
 interface PropDescriptor {
@@ -185,10 +176,7 @@ const HTML_ATTRS = new Set([
 // Type mapping
 // ---------------------------------------------------------------------------
 
-function mapType(
-	type: ts.Type,
-	checker: ts.TypeChecker
-): { propType: PropType; options?: string[] } {
+function mapType(type: ts.Type, checker: ts.TypeChecker): { propType: PropType; options?: string[] } {
 	// boolean
 	if (type.flags & ts.TypeFlags.Boolean || type.flags & ts.TypeFlags.BooleanLiteral) {
 		return { propType: "boolean" }
@@ -207,9 +195,7 @@ function mapType(
 	// Union types
 	if (type.isUnion()) {
 		// Filter out undefined/null from optional unions
-		const realTypes = type.types.filter(
-			(t) => !(t.flags & ts.TypeFlags.Undefined) && !(t.flags & ts.TypeFlags.Null)
-		)
+		const realTypes = type.types.filter((t) => !(t.flags & ts.TypeFlags.Undefined) && !(t.flags & ts.TypeFlags.Null))
 
 		// Check for boolean (union of true|false)
 		const hasBoolLiterals = realTypes.every((t) => t.flags & ts.TypeFlags.BooleanLiteral)
@@ -218,17 +204,13 @@ function mapType(
 		}
 
 		// Union of string literals → "enum"
-		const stringLiterals = realTypes
-			.filter((t) => t.isStringLiteral())
-			.map((t) => (t as ts.StringLiteralType).value)
+		const stringLiterals = realTypes.filter((t) => t.isStringLiteral()).map((t) => (t as ts.StringLiteralType).value)
 		if (stringLiterals.length > 0) {
 			return { propType: "enum", options: stringLiterals }
 		}
 
 		// If any sub-type is boolean
-		if (
-			realTypes.some((t) => t.flags & ts.TypeFlags.Boolean || t.flags & ts.TypeFlags.BooleanLiteral)
-		) {
+		if (realTypes.some((t) => t.flags & ts.TypeFlags.Boolean || t.flags & ts.TypeFlags.BooleanLiteral)) {
 			return { propType: "boolean" }
 		}
 
@@ -394,12 +376,7 @@ function isReactComponent(symbol: ts.Symbol, checker: ts.TypeChecker): boolean {
 	if (!decl) return false
 
 	// Must be a function or variable declaration
-	if (
-		!ts.isFunctionDeclaration(decl) &&
-		!ts.isVariableDeclaration(decl) &&
-		!ts.isFunctionExpression(decl) &&
-		!ts.isArrowFunction(decl)
-	) {
+	if (!ts.isFunctionDeclaration(decl) && !ts.isVariableDeclaration(decl) && !ts.isFunctionExpression(decl) && !ts.isArrowFunction(decl)) {
 		return false
 	}
 
@@ -415,12 +392,7 @@ function isReactComponent(symbol: ts.Symbol, checker: ts.TypeChecker): boolean {
 	const returnType = checker.getReturnTypeOfSignature(sig)
 	const returnTypeName = checker.typeToString(returnType)
 
-	return (
-		returnTypeName.includes("Element") ||
-		returnTypeName.includes("JSX") ||
-		returnTypeName.includes("ReactNode") ||
-		returnTypeName === "React.JSX.Element"
-	)
+	return returnTypeName.includes("Element") || returnTypeName.includes("JSX") || returnTypeName.includes("ReactNode") || returnTypeName === "React.JSX.Element"
 }
 
 // ---------------------------------------------------------------------------
@@ -450,11 +422,7 @@ function main() {
 
 	// Parse tsconfig
 	const configFile = ts.readConfigFile(UI_TSCONFIG, ts.sys.readFile)
-	const parsedConfig = ts.parseJsonConfigFileContent(
-		configFile.config,
-		ts.sys,
-		path.dirname(UI_TSCONFIG)
-	)
+	const parsedConfig = ts.parseJsonConfigFileContent(configFile.config, ts.sys, path.dirname(UI_TSCONFIG))
 
 	// Create program from the UI index
 	const program = ts.createProgram([UI_INDEX], {

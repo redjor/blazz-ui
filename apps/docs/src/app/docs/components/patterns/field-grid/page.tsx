@@ -92,15 +92,13 @@ const propGroups: DocPropGroup[] = [
 				name: "columns",
 				type: "1 | 2 | 3 | 4",
 				default: "3",
-				description:
-					"Nombre de colonnes sur grands écrans. Sur mobile la grille est toujours 1 colonne, 2 colonnes à partir de sm.",
+				description: "Nombre de colonnes sur grands écrans. Sur mobile la grille est toujours 1 colonne, 2 colonnes à partir de sm.",
 			},
 			{
 				name: "children",
 				type: "React.ReactNode",
 				required: true,
-				description:
-					"Champs à afficher — Field pour les fiches détail, FormField pour les formulaires.",
+				description: "Champs à afficher — Field pour les fiches détail, FormField pour les formulaires.",
 			},
 			{
 				name: "className",
@@ -169,12 +167,7 @@ export default function FieldGridPage() {
 					<SpanDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="2 colonnes"
-					description="Utiliser columns={2} pour les fiches avec moins de champs ou les layouts compacts."
-					code={examples[2].code}
-					highlightedCode={html("cols2")}
-				>
+				<DocExampleClient title="2 colonnes" description="Utiliser columns={2} pour les fiches avec moins de champs ou les layouts compacts." code={examples[2].code} highlightedCode={html("cols2")}>
 					<Cols2Demo />
 				</DocExampleClient>
 
@@ -198,8 +191,7 @@ export default function FieldGridPage() {
 						{
 							title: "Form Field",
 							href: "/docs/components/patterns/form-field",
-							description:
-								"Input de formulaire connecté à react-hook-form. S'utilise dans un FieldGrid.",
+							description: "Input de formulaire connecté à react-hook-form. S'utilise dans un FieldGrid.",
 						},
 						{
 							title: "Form Section",

@@ -1,16 +1,13 @@
 "use client"
 
 import { use } from "react"
-import { Button } from "@blazz/ui/components/ui/button"
-import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
-import { Archive, LogOut, Trash2 } from "lucide-react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
-import { DefaultExample, DestructiveExample, LogoutExample, ArchiveExample, HeroExample } from "./demos"
+import { ArchiveExample, DefaultExample, DestructiveExample, HeroExample, LogoutExample } from "./demos"
 
 const examples = [
 	{
@@ -178,55 +175,30 @@ const confirmationDialogProps: DocProp[] = [
 	},
 ]
 
-
 export default function ConfirmationDialogPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Confirmation Dialog"
-			subtitle="A reusable confirmation dialog for critical actions."
-			toc={toc}
-		>
+		<DocPage title="Confirmation Dialog" subtitle="A reusable confirmation dialog for critical actions." toc={toc}>
 			<DocHero>
 				<HeroExample />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default Confirmation"
-					description="A standard confirmation dialog with default variant."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default Confirmation" description="A standard confirmation dialog with default variant." code={examples[0].code} highlightedCode={html("default")}>
 					<DefaultExample />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Destructive Variant"
-					description="Use the destructive variant for dangerous actions like delete."
-					code={examples[1].code}
-					highlightedCode={html("destructive")}
-				>
+				<DocExampleClient title="Destructive Variant" description="Use the destructive variant for dangerous actions like delete." code={examples[1].code} highlightedCode={html("destructive")}>
 					<DestructiveExample />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Logout Confirmation"
-					description="Confirm user logout with custom labels."
-					code={examples[2].code}
-					highlightedCode={html("logout")}
-				>
+				<DocExampleClient title="Logout Confirmation" description="Confirm user logout with custom labels." code={examples[2].code} highlightedCode={html("logout")}>
 					<LogoutExample />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Archive Confirmation"
-					description="Confirm archiving with custom messaging."
-					code={examples[3].code}
-					highlightedCode={html("archive")}
-				>
+				<DocExampleClient title="Archive Confirmation" description="Confirm archiving with custom messaging." code={examples[3].code} highlightedCode={html("archive")}>
 					<ArchiveExample />
 				</DocExampleClient>
 			</DocSection>
@@ -236,9 +208,7 @@ export default function ConfirmationDialogPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					ConfirmationDialog inherits design tokens from the Dialog component:
-				</p>
+				<p className="text-sm text-fg-muted">ConfirmationDialog inherits design tokens from the Dialog component:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-card</code> - Dialog background color

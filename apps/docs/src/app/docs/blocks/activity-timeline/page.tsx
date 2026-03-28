@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import type { TimelineEvent } from "@blazz/pro/components/blocks/activity-timeline"
 import { ActivityTimeline } from "@blazz/pro/components/blocks/activity-timeline"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -219,11 +219,7 @@ export default function ActivityTimelinePage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Activity Timeline"
-			subtitle="A chronological event feed with connector lines, French date formatting, loading skeletons, and optional detail text."
-			toc={toc}
-		>
+		<DocPage title="Activity Timeline" subtitle="A chronological event feed with connector lines, French date formatting, loading skeletons, and optional detail text." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<div className="w-full max-w-2xl rounded-lg border border-edge bg-card overflow-hidden p-4">

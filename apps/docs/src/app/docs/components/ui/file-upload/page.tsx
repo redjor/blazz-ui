@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { FileUpload } from "@blazz/ui/components/ui/file-upload"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -108,71 +108,34 @@ const fileUploadProps: DocProp[] = [
 	},
 ]
 
-
 export default function FileUploadPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="FileUpload"
-			subtitle="A drag-and-drop file upload area with click-to-browse support and file list management."
-			toc={toc}
-		>
+		<DocPage title="FileUpload" subtitle="A drag-and-drop file upload area with click-to-browse support and file list management." toc={toc}>
 			<DocHero>
 				<FileUpload accept="image/*" description="PNG, JPG up to 10MB" className="max-w-md" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic file upload drop zone."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic file upload drop zone." code={examples[0].code} highlightedCode={html("default")}>
 					<FileUpload className="max-w-md" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Multiple Files"
-					description="Allow users to select multiple files."
-					code={examples[1].code}
-					highlightedCode={html("multiple")}
-				>
+				<DocExampleClient title="Multiple Files" description="Allow users to select multiple files." code={examples[1].code} highlightedCode={html("multiple")}>
 					<FileUpload multiple className="max-w-md" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Restrictions"
-					description="Restrict accepted file types, max size, and max number of files."
-					code={examples[2].code}
-					highlightedCode={html("restrictions")}
-				>
-					<FileUpload
-						accept="image/*,.pdf"
-						maxSize={5 * 1024 * 1024}
-						maxFiles={3}
-						multiple
-						description="Images or PDF, max 5MB each, up to 3 files"
-						className="max-w-md"
-					/>
+				<DocExampleClient title="With Restrictions" description="Restrict accepted file types, max size, and max number of files." code={examples[2].code} highlightedCode={html("restrictions")}>
+					<FileUpload accept="image/*,.pdf" maxSize={5 * 1024 * 1024} maxFiles={3} multiple description="Images or PDF, max 5MB each, up to 3 files" className="max-w-md" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage the file list programmatically."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage the file list programmatically." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledFileUploadDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled file uploads prevent interaction."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled file uploads prevent interaction." code={examples[4].code} highlightedCode={html("disabled")}>
 					<FileUpload disabled className="max-w-md" />
 				</DocExampleClient>
 			</DocSection>

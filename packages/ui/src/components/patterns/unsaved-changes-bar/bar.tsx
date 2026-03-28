@@ -31,14 +31,9 @@ function NavigationGuard() {
 	return null
 }
 
-export function UnsavedChangesBar({
-	className,
-	side = "top",
-	blockNavigation = false,
-}: UnsavedChangesBarProps) {
+export function UnsavedChangesBar({ className, side = "top", blockNavigation = false }: UnsavedChangesBarProps) {
 	const { state, dispatch } = useUnsavedChangesContext()
-	const { isDirty, message, onSave, onDiscard, saveLabel, discardLabel, isSaving, isShaking } =
-		state
+	const { isDirty, message, onSave, onDiscard, saveLabel, discardLabel, isSaving, isShaking } = state
 
 	const visible = isDirty && (onSave !== null || onDiscard !== null)
 	const yOffset = side === "top" ? -8 : 8
@@ -72,22 +67,10 @@ export function UnsavedChangesBar({
 							<AlertCircle className="size-3.5 shrink-0 text-fg-muted" />
 							<span className="flex-1 truncate text-xs font-medium text-fg">{message}</span>
 							<div className="flex shrink-0 items-center gap-1">
-								<Button
-									type="button"
-									variant="ghost"
-									size="sm"
-									onClick={onDiscard ?? undefined}
-									disabled={isSaving}
-								>
+								<Button type="button" variant="ghost" size="sm" onClick={onDiscard ?? undefined} disabled={isSaving}>
 									{discardLabel}
 								</Button>
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									onClick={onSave ?? undefined}
-									disabled={isSaving}
-								>
+								<Button type="button" variant="outline" size="sm" onClick={onSave ?? undefined} disabled={isSaving}>
 									{isSaving ? (
 										<>
 											<Loader2 className="mr-1.5 size-3.5 animate-spin" />

@@ -15,10 +15,7 @@ export const textareaData: ComponentData = {
 		{ name: "rows", type: "number", default: "3", description: "Nombre de lignes visibles." },
 		{ name: "disabled", type: "boolean", default: "false", description: "Désactive le textarea." },
 	],
-	gotchas: [
-		"With react-hook-form: spread register() props — `<Textarea {...register('description')} />`",
-		"Error state: add aria-invalid={!!errors.field} to show red border",
-	],
+	gotchas: ["With react-hook-form: spread register() props — `<Textarea {...register('description')} />`", "Error state: add aria-invalid={!!errors.field} to show red border"],
 	canonicalExample: `<Textarea
   placeholder="Enter description..."
   rows={4}

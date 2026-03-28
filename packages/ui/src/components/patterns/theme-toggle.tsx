@@ -12,11 +12,7 @@ export function ThemeToggle() {
 
 	if (!mounted) {
 		return (
-			<button
-				type="button"
-				className="rounded-lg p-2 transition-colors hover:bg-gray-800"
-				aria-label="Toggle theme"
-			>
+			<button type="button" className="rounded-lg p-2 transition-colors hover:bg-gray-800" aria-label="Toggle theme">
 				<span className="h-4 w-4 block" />
 			</button>
 		)
@@ -29,11 +25,7 @@ export function ThemeToggle() {
 			className="rounded-lg p-2 transition-colors hover:bg-gray-800"
 			aria-label={resolvedTheme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
 		>
-			{resolvedTheme === "dark" ? (
-				<Sun className="h-4 w-4 text-gray-300" />
-			) : (
-				<Moon className="h-4 w-4 text-gray-300" />
-			)}
+			{resolvedTheme === "dark" ? <Sun className="h-4 w-4 text-gray-300" /> : <Moon className="h-4 w-4 text-gray-300" />}
 		</button>
 	)
 }

@@ -1,22 +1,10 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@blazz/ui/components/ui/dialog"
-import {
-	NavMenu,
-	NavMenuGroup,
-	NavMenuItem,
-	NavMenuSeparator,
-} from "@blazz/ui/components/ui/nav-menu"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
+import { NavMenu, NavMenuGroup, NavMenuItem, NavMenuSeparator } from "@blazz/ui/components/ui/nav-menu"
 import { Bell, CreditCard, Home, Mail, Palette, Settings, Shield, Users } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -41,8 +29,7 @@ const navMenuItemProps: DocProp[] = [
 		name: "asChild",
 		type: "boolean",
 		default: "false",
-		description:
-			"Renders the child element instead of the default anchor. Use with Next.js Link or router components.",
+		description: "Renders the child element instead of the default anchor. Use with Next.js Link or router components.",
 	},
 ]
 
@@ -146,11 +133,7 @@ export default function NavMenuPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Nav Menu"
-			subtitle="Lightweight vertical navigation menu. Use in page sidebars, dialogs, sheets, or any panel that needs a list of links."
-			toc={toc}
-		>
+		<DocPage title="Nav Menu" subtitle="Lightweight vertical navigation menu. Use in page sidebars, dialogs, sheets, or any panel that needs a list of links." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<div className="w-48">
@@ -172,12 +155,7 @@ export default function NavMenuPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple navigation menu with an active item."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple navigation menu with an active item." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="w-48">
 						<NavMenu>
 							<NavMenuItem href="#" active>
@@ -193,12 +171,7 @@ export default function NavMenuPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Groups"
-					description="Organize items into labeled sections with separators."
-					code={examples[1].code}
-					highlightedCode={html("groups")}
-				>
+				<DocExampleClient title="With Groups" description="Organize items into labeled sections with separators." code={examples[1].code} highlightedCode={html("groups")}>
 					<div className="w-48">
 						<NavMenu>
 							<NavMenuGroup label="Account">
@@ -222,12 +195,7 @@ export default function NavMenuPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Without Icons"
-					description="Items work fine without icons for simpler menus."
-					code={examples[2].code}
-					highlightedCode={html("no-icons")}
-				>
+				<DocExampleClient title="Without Icons" description="Items work fine without icons for simpler menus." code={examples[2].code} highlightedCode={html("no-icons")}>
 					<div className="w-48">
 						<NavMenu>
 							<NavMenuGroup label="Settings">
@@ -241,12 +209,7 @@ export default function NavMenuPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Inside a Dialog"
-					description="NavMenu works in any context — here inside a dialog for a settings panel."
-					code={examples[3].code}
-					highlightedCode={html("in-dialog")}
-				>
+				<DocExampleClient title="Inside a Dialog" description="NavMenu works in any context — here inside a dialog for a settings panel." code={examples[3].code} highlightedCode={html("in-dialog")}>
 					<Dialog>
 						<DialogTrigger render={<Button />}>Open Settings</DialogTrigger>
 						<DialogContent size="lg">
@@ -277,12 +240,7 @@ export default function NavMenuPage() {
 					</Dialog>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Page Sidebar"
-					description="Use as a sticky sidebar in a page layout with border."
-					code={examples[4].code}
-					highlightedCode={html("sidebar")}
-				>
+				<DocExampleClient title="Page Sidebar" description="Use as a sticky sidebar in a page layout with border." code={examples[4].code} highlightedCode={html("sidebar")}>
 					<div className="flex w-full rounded-lg border bg-card">
 						<aside className="w-48 shrink-0 border-r p-3">
 							<NavMenu>

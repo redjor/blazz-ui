@@ -10,11 +10,7 @@ export function CalloutCardDismissDemo() {
 		return (
 			<div className="rounded-lg border border-dashed p-8 text-center text-sm text-fg-muted">
 				<p>Callout card was dismissed.</p>
-				<button
-					type="button"
-					className="mt-2 text-primary underline"
-					onClick={() => setDismissed(false)}
-				>
+				<button type="button" className="mt-2 text-primary underline" onClick={() => setDismissed(false)}>
 					Show again
 				</button>
 			</div>

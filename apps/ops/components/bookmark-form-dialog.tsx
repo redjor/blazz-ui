@@ -1,22 +1,10 @@
 "use client"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
@@ -51,12 +39,7 @@ interface BookmarkFormDialogProps {
 	defaultCollectionId?: Id<"bookmarkCollections">
 }
 
-export function BookmarkFormDialog({
-	open,
-	onOpenChange,
-	bookmark,
-	defaultCollectionId,
-}: BookmarkFormDialogProps) {
+export function BookmarkFormDialog({ open, onOpenChange, bookmark, defaultCollectionId }: BookmarkFormDialogProps) {
 	const create = useMutation(api.bookmarks.create)
 	const update = useMutation(api.bookmarks.update)
 	const collections = useQuery(api.bookmarkCollections.list)
@@ -108,9 +91,7 @@ export function BookmarkFormDialog({
 	// Convert tag IDs to names when editing
 	useEffect(() => {
 		if (bookmark?.tags && allTags) {
-			const names = bookmark.tags
-				.map((id) => allTags.find((t) => t._id === id)?.name)
-				.filter(Boolean) as string[]
+			const names = bookmark.tags.map((id) => allTags.find((t) => t._id === id)?.name).filter(Boolean) as string[]
 			setTagNames(names)
 		}
 	}, [bookmark?.tags, allTags])
@@ -219,9 +200,7 @@ export function BookmarkFormDialog({
 					id: bookmark._id,
 					title: values.title || undefined,
 					description: values.description || undefined,
-					collectionId: values.collectionId
-						? (values.collectionId as Id<"bookmarkCollections">)
-						: null,
+					collectionId: values.collectionId ? (values.collectionId as Id<"bookmarkCollections">) : null,
 					tags: tagIds.length > 0 ? tagIds : undefined,
 					notes: values.notes || undefined,
 				})
@@ -236,9 +215,7 @@ export function BookmarkFormDialog({
 					author: values.author || undefined,
 					siteName: values.siteName || undefined,
 					embedUrl: values.embedUrl || undefined,
-					collectionId: values.collectionId
-						? (values.collectionId as Id<"bookmarkCollections">)
-						: undefined,
+					collectionId: values.collectionId ? (values.collectionId as Id<"bookmarkCollections">) : undefined,
 					tags: tagIds.length > 0 ? tagIds : undefined,
 					notes: values.notes || undefined,
 				})
@@ -295,9 +272,7 @@ export function BookmarkFormDialog({
 					{/* Metadata preview */}
 					{(thumbnailUrl || title) && (
 						<div className="rounded-lg border border-edge bg-card p-3 space-y-2">
-							{thumbnailUrl && (
-								<img src={thumbnailUrl} alt="" className="w-full h-32 object-cover rounded-md" />
-							)}
+							{thumbnailUrl && <img src={thumbnailUrl} alt="" className="w-full h-32 object-cover rounded-md" />}
 							{title && <p className="text-sm font-medium text-fg line-clamp-2">{title}</p>}
 							{description && <p className="text-xs text-fg-muted line-clamp-3">{description}</p>}
 						</div>
@@ -310,11 +285,7 @@ export function BookmarkFormDialog({
 							control={control}
 							name="collectionId"
 							render={({ field }) => (
-								<Select
-									value={field.value ?? ""}
-									onValueChange={field.onChange}
-									items={collectionItems}
-								>
+								<Select value={field.value ?? ""} onValueChange={field.onChange} items={collectionItems}>
 									<SelectTrigger>
 										<SelectValue placeholder="Aucune collection" />
 									</SelectTrigger>
@@ -333,42 +304,21 @@ export function BookmarkFormDialog({
 					{/* Tags */}
 					<div className="space-y-1.5">
 						<Label>Tags</Label>
-						<TagInput
-							value={tagNames}
-							onChange={setTagNames}
-							suggestions={tagSuggestions}
-							placeholder="Ajouter un tag..."
-						/>
+						<TagInput value={tagNames} onChange={setTagNames} suggestions={tagSuggestions} placeholder="Ajouter un tag..." />
 					</div>
 
 					{/* Notes */}
 					<div className="space-y-1.5">
 						<Label htmlFor="bk-notes">Notes</Label>
-						<Textarea
-							id="bk-notes"
-							rows={3}
-							placeholder="Notes personnelles..."
-							{...register("notes")}
-						/>
+						<Textarea id="bk-notes" rows={3} placeholder="Notes personnelles..." {...register("notes")} />
 					</div>
 
 					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => onOpenChange(false)}
-							disabled={isSubmitting}
-						>
+						<Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
 							Annuler
 						</Button>
 						<Button type="submit" disabled={isSubmitting || fetchingMetadata}>
-							{isSubmitting ? (
-								<Loader2 className="size-4 animate-spin" />
-							) : isEdit ? (
-								"Mettre à jour"
-							) : (
-								"Ajouter"
-							)}
+							{isSubmitting ? <Loader2 className="size-4 animate-spin" /> : isEdit ? "Mettre à jour" : "Ajouter"}
 						</Button>
 					</DialogFooter>
 				</form>

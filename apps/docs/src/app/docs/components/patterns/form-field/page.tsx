@@ -115,8 +115,7 @@ const formFieldProps: DocProp[] = [
 		name: "name",
 		type: "FieldPath<TFieldValues>",
 		required: true,
-		description:
-			"Nom du champ dans le schéma react-hook-form. Doit correspondre exactement à une clé du formulaire.",
+		description: "Nom du champ dans le schéma react-hook-form. Doit correspondre exactement à une clé du formulaire.",
 	},
 	{
 		name: "label",
@@ -134,8 +133,7 @@ const formFieldProps: DocProp[] = [
 		name: "type",
 		type: '"text" | "email" | "tel" | "number" | "password" | "select" | "textarea"',
 		default: '"text"',
-		description:
-			'Type de l\'input. Utiliser "select" avec la prop options, "textarea" pour les textes longs.',
+		description: 'Type de l\'input. Utiliser "select" avec la prop options, "textarea" pour les textes longs.',
 	},
 	{
 		name: "placeholder",
@@ -145,8 +143,7 @@ const formFieldProps: DocProp[] = [
 	{
 		name: "description",
 		type: "string",
-		description:
-			"Texte d'aide affiché sous l'input. Masqué si une erreur de validation est présente.",
+		description: "Texte d'aide affiché sous l'input. Masqué si une erreur de validation est présente.",
 	},
 	{
 		name: "required",
@@ -156,8 +153,7 @@ const formFieldProps: DocProp[] = [
 	{
 		name: "options",
 		type: "FormFieldOption[]",
-		description:
-			'Options du select. Requis quand type="select". Chaque option = { value: string, label: string }.',
+		description: 'Options du select. Requis quand type="select". Chaque option = { value: string, label: string }.',
 	},
 	{
 		name: "rows",
@@ -168,8 +164,7 @@ const formFieldProps: DocProp[] = [
 	{
 		name: "span",
 		type: "number",
-		description:
-			"Nombre de colonnes occupées dans un FieldGrid via gridColumn: span N. Utile pour les champs pleine largeur.",
+		description: "Nombre de colonnes occupées dans un FieldGrid via gridColumn: span N. Utile pour les champs pleine largeur.",
 	},
 	{
 		name: "className",
@@ -183,18 +178,9 @@ export default function FormFieldPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Form Field"
-			subtitle="Champ de formulaire connecté à react-hook-form. Gère le label, l'input, la description et les erreurs de validation dans un seul composant."
-			toc={toc}
-		>
+		<DocPage title="Form Field" subtitle="Champ de formulaire connecté à react-hook-form. Gère le label, l'input, la description et les erreurs de validation dans un seul composant." toc={toc}>
 			<DocSection id="usage" title="Usage">
-				<DocExampleClient
-					title="Champ texte basique"
-					description="Passer name, label et control suffit pour un champ fonctionnel."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Champ texte basique" description="Passer name, label et control suffit pour un champ fonctionnel." code={examples[0].code} highlightedCode={html("basic")}>
 					<BasicDemo />
 				</DocExampleClient>
 			</DocSection>
@@ -209,21 +195,11 @@ export default function FormFieldPage() {
 					<RequiredDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Select"
-					description='Passer type="select" avec une prop options pour un champ de sélection.'
-					code={examples[2].code}
-					highlightedCode={html("select")}
-				>
+				<DocExampleClient title="Select" description='Passer type="select" avec une prop options pour un champ de sélection.' code={examples[2].code} highlightedCode={html("select")}>
 					<SelectDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Textarea"
-					description='Passer type="textarea" pour les textes longs. rows contrôle la hauteur initiale.'
-					code={examples[3].code}
-					highlightedCode={html("textarea")}
-				>
+				<DocExampleClient title="Textarea" description='Passer type="textarea" pour les textes longs. rows contrôle la hauteur initiale.' code={examples[3].code} highlightedCode={html("textarea")}>
 					<TextareaDemo />
 				</DocExampleClient>
 
@@ -247,8 +223,7 @@ export default function FormFieldPage() {
 						{
 							title: "Form Section",
 							href: "/docs/components/patterns/form-section",
-							description:
-								"Groupe de champs avec titre collapsible. Contient un ou plusieurs FieldGrid.",
+							description: "Groupe de champs avec titre collapsible. Contient un ou plusieurs FieldGrid.",
 						},
 						{
 							title: "Field Grid",

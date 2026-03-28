@@ -1,12 +1,6 @@
 "use client"
 
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import type { PropDescriptor } from "~/lib/registry"
 
 interface UnionControlProps {

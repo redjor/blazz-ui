@@ -82,12 +82,16 @@ export const workerComplete = mutation({
 	args: {
 		id: v.id("missions"),
 		output: v.string(),
-		actions: v.optional(v.array(v.object({
-			type: v.string(),
-			description: v.string(),
-			entityId: v.optional(v.string()),
-			reversible: v.boolean(),
-		}))),
+		actions: v.optional(
+			v.array(
+				v.object({
+					type: v.string(),
+					description: v.string(),
+					entityId: v.optional(v.string()),
+					reversible: v.boolean(),
+				})
+			)
+		),
 		costUsd: v.number(),
 		soulHash: v.string(),
 	},
@@ -141,13 +145,7 @@ export const workerListMemory = query({
 		const all = await ctx.db.query("agentMemory").collect()
 		const now = Date.now()
 		// Private memories for this agent + all shared memories
-		return all.filter((m) =>
-			(!m.expiresAt || m.expiresAt > now) &&
-			(
-				(m.scope === "private" && m.agentId === agentId) ||
-				m.scope === "shared"
-			)
-		)
+		return all.filter((m) => (!m.expiresAt || m.expiresAt > now) && ((m.scope === "private" && m.agentId === agentId) || m.scope === "shared"))
 	},
 })
 
@@ -157,10 +155,7 @@ export const workerAddMemory = mutation({
 		agentId: v.optional(v.id("agents")),
 		missionId: v.optional(v.id("missions")),
 		scope: v.union(v.literal("private"), v.literal("shared")),
-		category: v.union(
-			v.literal("fact"), v.literal("preference"), v.literal("episode"),
-			v.literal("pattern"), v.literal("rule"),
-		),
+		category: v.union(v.literal("fact"), v.literal("preference"), v.literal("episode"), v.literal("pattern"), v.literal("rule")),
 		content: v.string(),
 		confidence: v.optional(v.number()),
 		source: v.optional(v.string()),
@@ -199,10 +194,7 @@ export const workerListAllMemory = query({
 	args: { agentId: v.id("agents") },
 	handler: async (ctx, { agentId }) => {
 		const all = await ctx.db.query("agentMemory").collect()
-		return all.filter((m) =>
-			(m.scope === "private" && m.agentId === agentId) ||
-			m.scope === "shared"
-		)
+		return all.filter((m) => (m.scope === "private" && m.agentId === agentId) || m.scope === "shared")
 	},
 })
 
@@ -389,9 +381,7 @@ export const workerCreateNotification = mutation({
 		// Idempotence
 		const existing = await ctx.db
 			.query("notifications")
-			.withIndex("by_source_external", (q) =>
-				q.eq("source", "convex").eq("externalId", args.externalId),
-			)
+			.withIndex("by_source_external", (q) => q.eq("source", "convex").eq("externalId", args.externalId))
 			.first()
 		if (existing) return existing._id
 

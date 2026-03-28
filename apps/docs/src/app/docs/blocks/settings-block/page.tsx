@@ -1,23 +1,11 @@
 "use client"
 
-import { use } from "react"
-import {
-	SettingsDanger,
-	SettingsHeader,
-	SettingsPage,
-	SettingsSection,
-} from "@blazz/pro/components/blocks/settings-block"
+import { SettingsDanger, SettingsHeader, SettingsPage, SettingsSection } from "@blazz/pro/components/blocks/settings-block"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemMedia,
-	ItemTitle,
-} from "@blazz/ui/components/ui/item"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@blazz/ui/components/ui/item"
 import { Switch } from "@blazz/ui/components/ui/switch"
 import { Bell, Globe, Lock, Moon, Palette, Trash2, User } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -202,8 +190,7 @@ const settingsSectionProps: DocProp[] = [
 	{
 		name: "children",
 		type: "ReactNode",
-		description:
-			"Section content — use Item components for each setting row. Rendered inside an ItemGroup with bordered card styling. ItemSeparator is automatically inserted between each child.",
+		description: "Section content — use Item components for each setting row. Rendered inside an ItemGroup with bordered card styling. ItemSeparator is automatically inserted between each child.",
 	},
 	{
 		name: "className",
@@ -253,7 +240,6 @@ const toc = [
 // ---------------------------------------------------------------------------
 // Route
 // ---------------------------------------------------------------------------
-
 
 // ---------------------------------------------------------------------------
 // Hero demo
@@ -509,8 +495,7 @@ export default function SettingsBlockPage() {
 						{
 							title: "Item Group",
 							href: "/docs/components/ui/item",
-							description:
-								"The grouping primitive used internally by SettingsSection and SettingsDanger.",
+							description: "The grouping primitive used internally by SettingsSection and SettingsDanger.",
 						},
 						{
 							title: "Detail Panel",

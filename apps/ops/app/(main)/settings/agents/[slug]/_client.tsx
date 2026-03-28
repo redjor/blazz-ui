@@ -1,44 +1,24 @@
 "use client"
 
-import {
-	SettingsHeader,
-	SettingsPage,
-} from "@blazz/pro/components/blocks/settings-block"
+import { SettingsHeader, SettingsPage } from "@blazz/pro/components/blocks/settings-block"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemTitle,
-} from "@blazz/ui/components/ui/item"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@blazz/ui/components/ui/item"
 import { Progress } from "@blazz/ui/components/ui/progress"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Switch } from "@blazz/ui/components/ui/switch"
-import {
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger,
-} from "@blazz/ui/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
 import { useMutation, useQuery } from "convex/react"
 import { Trash2 } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { toast } from "sonner"
+import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
 
 // ── Types ──
 
@@ -107,19 +87,13 @@ function useSoulFile(slug: string, file: string) {
 
 const SOUL_DESCRIPTIONS: Record<string, string> = {
 	soul: "Définit qui est l\u2019agent\u00a0: ses valeurs, ses limites, sa personnalité.",
-	style:
-		"Comment l\u2019agent communique\u00a0: ton, format, structure des réponses.",
-	skill:
-		"Les modes opératoires de l\u2019agent et ses outils disponibles.",
-	context:
-		"Connaissances de domaine permanentes. Toujours chargées dans le prompt.",
+	style: "Comment l\u2019agent communique\u00a0: ton, format, structure des réponses.",
+	skill: "Les modes opératoires de l\u2019agent et ses outils disponibles.",
+	context: "Connaissances de domaine permanentes. Toujours chargées dans le prompt.",
 }
 
 function SoulEditorTab({ slug, file }: { slug: string; file: string }) {
-	const { content, setContent, loading, saving, save } = useSoulFile(
-		slug,
-		file,
-	)
+	const { content, setContent, loading, saving, save } = useSoulFile(slug, file)
 
 	if (loading) {
 		return (
@@ -162,7 +136,7 @@ function MemoryTab({ agentId }: { agentId: Id<"agents"> }) {
 				toast.error("Erreur lors de la suppression")
 			}
 		},
-		[deleteMemory],
+		[deleteMemory]
 	)
 
 	if (memories === undefined) {
@@ -176,39 +150,21 @@ function MemoryTab({ agentId }: { agentId: Id<"agents"> }) {
 	}
 
 	if (memories.length === 0) {
-		return (
-			<p className="text-sm text-fg-muted">
-				Aucune mémoire enregistrée pour cet agent.
-			</p>
-		)
+		return <p className="text-sm text-fg-muted">Aucune mémoire enregistrée pour cet agent.</p>
 	}
 
 	return (
 		<BlockStack gap="sm">
-			<p className="text-sm text-fg-muted">
-				Informations apprises au fil des conversations et missions.
-			</p>
+			<p className="text-sm text-fg-muted">Informations apprises au fil des conversations et missions.</p>
 			<BlockStack gap="xs">
 				{memories.map((m) => (
-					<InlineStack
-						key={m._id}
-						align="space-between"
-						blockAlign="center"
-					>
+					<InlineStack key={m._id} align="space-between" blockAlign="center">
 						<InlineStack gap="sm" blockAlign="center">
 							<Badge variant="outline">{m.category}</Badge>
-							{m.scope === "shared" && (
-								<Badge variant="secondary">partagé</Badge>
-							)}
+							{m.scope === "shared" && <Badge variant="secondary">partagé</Badge>}
 							<span className="text-sm">{m.content}</span>
 						</InlineStack>
-						<Button
-							variant="ghost"
-							size="sm"
-							onClick={() =>
-								handleDelete(m._id as Id<"agentMemory">)
-							}
-						>
+						<Button variant="ghost" size="sm" onClick={() => handleDelete(m._id as Id<"agentMemory">)}>
 							<Trash2 className="size-3.5" />
 						</Button>
 					</InlineStack>
@@ -229,20 +185,9 @@ function GeneralTab({
 	agent: Agent
 	save: (fields: Record<string, unknown>) => Promise<void>
 	handleBlur: (field: string, value: string) => void
-	handleBudgetBlur: (
-		budgetField: "maxPerMission" | "maxPerDay" | "maxPerMonth",
-		value: string,
-	) => void
+	handleBudgetBlur: (budgetField: "maxPerMission" | "maxPerDay" | "maxPerMonth", value: string) => void
 }) {
-	const usagePercent =
-		agent.budget.maxPerMonth > 0
-			? Math.min(
-					100,
-					Math.round(
-						(agent.usage.monthUsd / agent.budget.maxPerMonth) * 100,
-					),
-				)
-			: 0
+	const usagePercent = agent.budget.maxPerMonth > 0 ? Math.min(100, Math.round((agent.usage.monthUsd / agent.budget.maxPerMonth) * 100)) : 0
 
 	const isEnabled = agent.status !== "disabled"
 
@@ -251,48 +196,30 @@ function GeneralTab({
 			<Item>
 				<ItemContent>
 					<ItemTitle>Nom</ItemTitle>
-					<ItemDescription>
-						Nom affiché de l&apos;agent.
-					</ItemDescription>
+					<ItemDescription>Nom affiché de l&apos;agent.</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Input
-						className="w-48"
-						defaultValue={agent.name}
-						onBlur={(e) => handleBlur("name", e.target.value)}
-					/>
+					<Input className="w-48" defaultValue={agent.name} onBlur={(e) => handleBlur("name", e.target.value)} />
 				</ItemActions>
 			</Item>
 
 			<Item>
 				<ItemContent>
 					<ItemTitle>Rôle</ItemTitle>
-					<ItemDescription>
-						Description du rôle de l&apos;agent.
-					</ItemDescription>
+					<ItemDescription>Description du rôle de l&apos;agent.</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Input
-						className="w-48"
-						defaultValue={agent.role}
-						onBlur={(e) => handleBlur("role", e.target.value)}
-					/>
+					<Input className="w-48" defaultValue={agent.role} onBlur={(e) => handleBlur("role", e.target.value)} />
 				</ItemActions>
 			</Item>
 
 			<Item>
 				<ItemContent>
 					<ItemTitle>Modèle</ItemTitle>
-					<ItemDescription>
-						Modèle LLM utilisé par l&apos;agent.
-					</ItemDescription>
+					<ItemDescription>Modèle LLM utilisé par l&apos;agent.</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Select
-						value={agent.model}
-						onValueChange={(value) => save({ model: value })}
-						items={MODEL_OPTIONS}
-					>
+					<Select value={agent.model} onValueChange={(value) => save({ model: value })} items={MODEL_OPTIONS}>
 						<SelectTrigger className="w-48">
 							<SelectValue />
 						</SelectTrigger>
@@ -310,81 +237,40 @@ function GeneralTab({
 			<Item>
 				<ItemContent>
 					<ItemTitle>Budget par mission</ItemTitle>
-					<ItemDescription>
-						Coût max par exécution (en $).
-					</ItemDescription>
+					<ItemDescription>Coût max par exécution (en $).</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Input
-						className="w-48"
-						type="number"
-						step="0.01"
-						min="0"
-						defaultValue={agent.budget.maxPerMission}
-						onBlur={(e) =>
-							handleBudgetBlur("maxPerMission", e.target.value)
-						}
-					/>
+					<Input className="w-48" type="number" step="0.01" min="0" defaultValue={agent.budget.maxPerMission} onBlur={(e) => handleBudgetBlur("maxPerMission", e.target.value)} />
 				</ItemActions>
 			</Item>
 
 			<Item>
 				<ItemContent>
 					<ItemTitle>Budget par jour</ItemTitle>
-					<ItemDescription>
-						Dépense max quotidienne (en $).
-					</ItemDescription>
+					<ItemDescription>Dépense max quotidienne (en $).</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Input
-						className="w-48"
-						type="number"
-						step="0.01"
-						min="0"
-						defaultValue={agent.budget.maxPerDay}
-						onBlur={(e) =>
-							handleBudgetBlur("maxPerDay", e.target.value)
-						}
-					/>
+					<Input className="w-48" type="number" step="0.01" min="0" defaultValue={agent.budget.maxPerDay} onBlur={(e) => handleBudgetBlur("maxPerDay", e.target.value)} />
 				</ItemActions>
 			</Item>
 
 			<Item>
 				<ItemContent>
 					<ItemTitle>Budget par mois</ItemTitle>
-					<ItemDescription>
-						Dépense max mensuelle (en $).
-					</ItemDescription>
+					<ItemDescription>Dépense max mensuelle (en $).</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Input
-						className="w-48"
-						type="number"
-						step="0.01"
-						min="0"
-						defaultValue={agent.budget.maxPerMonth}
-						onBlur={(e) =>
-							handleBudgetBlur("maxPerMonth", e.target.value)
-						}
-					/>
+					<Input className="w-48" type="number" step="0.01" min="0" defaultValue={agent.budget.maxPerMonth} onBlur={(e) => handleBudgetBlur("maxPerMonth", e.target.value)} />
 				</ItemActions>
 			</Item>
 
 			<Item>
 				<ItemContent>
 					<ItemTitle>Activé</ItemTitle>
-					<ItemDescription>
-						Désactiver l&apos;agent l&apos;empêche d&apos;exécuter
-						des missions.
-					</ItemDescription>
+					<ItemDescription>Désactiver l&apos;agent l&apos;empêche d&apos;exécuter des missions.</ItemDescription>
 				</ItemContent>
 				<ItemActions>
-					<Switch
-						checked={isEnabled}
-						onCheckedChange={(checked) =>
-							save({ status: checked ? "idle" : "disabled" })
-						}
-					/>
+					<Switch checked={isEnabled} onCheckedChange={(checked) => save({ status: checked ? "idle" : "disabled" })} />
 				</ItemActions>
 			</Item>
 
@@ -392,8 +278,7 @@ function GeneralTab({
 				<ItemContent>
 					<ItemTitle>Usage ce mois</ItemTitle>
 					<ItemDescription>
-						${agent.usage.monthUsd.toFixed(2)} / $
-						{agent.budget.maxPerMonth.toFixed(2)} ({usagePercent}%)
+						${agent.usage.monthUsd.toFixed(2)} / ${agent.budget.maxPerMonth.toFixed(2)} ({usagePercent}%)
 					</ItemDescription>
 				</ItemContent>
 				<ItemActions>
@@ -423,7 +308,7 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 				toast.error("Erreur lors de la mise à jour")
 			}
 		},
-		[update, agent],
+		[update, agent]
 	)
 
 	const handleBlur = useCallback(
@@ -435,14 +320,11 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 				save({ role: value })
 			}
 		},
-		[save, agent],
+		[save, agent]
 	)
 
 	const handleBudgetBlur = useCallback(
-		(
-			budgetField: "maxPerMission" | "maxPerDay" | "maxPerMonth",
-			value: string,
-		) => {
+		(budgetField: "maxPerMission" | "maxPerDay" | "maxPerMonth", value: string) => {
 			if (!agent) return
 			const num = Number.parseFloat(value)
 			if (Number.isNaN(num) || num < 0) return
@@ -454,7 +336,7 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 				},
 			})
 		},
-		[save, agent],
+		[save, agent]
 	)
 
 	// Loading
@@ -475,10 +357,7 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 	if (agent === null) {
 		return (
 			<SettingsPage>
-				<SettingsHeader
-					title="Agent introuvable"
-					description="Cet agent n'existe pas."
-				/>
+				<SettingsHeader title="Agent introuvable" description="Cet agent n'existe pas." />
 			</SettingsPage>
 		)
 	}
@@ -487,10 +366,7 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 
 	return (
 		<SettingsPage>
-			<SettingsHeader
-				title={`${agent.name} — ${agent.role}`}
-				description={`Modèle: ${agent.model} · Budget: $${agent.budget.maxPerMonth}/mois`}
-			/>
+			<SettingsHeader title={`${agent.name} — ${agent.role}`} description={`Modèle: ${agent.model} · Budget: $${agent.budget.maxPerMonth}/mois`} />
 
 			<InlineStack gap="300" blockAlign="center" className="mb-4">
 				<AgentAvatar name={agent.name} size={48} />
@@ -511,12 +387,7 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 				</TabsList>
 
 				<TabsContent value="general">
-					<GeneralTab
-						agent={typedAgent}
-						save={save}
-						handleBlur={handleBlur}
-						handleBudgetBlur={handleBudgetBlur}
-					/>
+					<GeneralTab agent={typedAgent} save={save} handleBlur={handleBlur} handleBudgetBlur={handleBudgetBlur} />
 				</TabsContent>
 
 				<TabsContent value="soul">

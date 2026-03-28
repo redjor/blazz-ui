@@ -90,9 +90,7 @@ export const dashboard = query({
 		const yearEntries = (
 			await ctx.db
 				.query("timeEntries")
-				.withIndex("by_user_date", (q) =>
-					q.eq("userId", userId).gte("date", startDate).lte("date", endDate)
-				)
+				.withIndex("by_user_date", (q) => q.eq("userId", userId).gte("date", startDate).lte("date", endDate))
 				.collect()
 		).filter((e) => e.billable)
 
@@ -102,12 +100,8 @@ export const dashboard = query({
 			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "active"))
 			.collect()
 
-		const contractProjects = await Promise.all(
-			contracts.map((c) => ctx.db.get(c.projectId))
-		)
-		const projectMap = new Map(
-			contractProjects.filter(Boolean).map((p) => [p!._id, p!])
-		)
+		const contractProjects = await Promise.all(contracts.map((c) => ctx.db.get(c.projectId)))
+		const projectMap = new Map(contractProjects.filter(Boolean).map((p) => [p!._id, p!]))
 
 		// Compute contract revenue per month
 		const monthlyContractRevenue = new Array(12).fill(0) as number[]
@@ -159,11 +153,8 @@ export const dashboard = query({
 		const monthRevenuePace = bdElapsed > 0 ? monthlyRevenue[currentMonth] / bdElapsed : 0
 		const monthDaysPace = bdElapsed > 0 ? monthlyDays[currentMonth] / bdElapsed : 0
 
-		const projectedMonthRevenue = Math.round(
-			monthlyRevenue[currentMonth] + bdRemaining * monthRevenuePace
-		)
-		const projectedMonthDays =
-			Math.round((monthlyDays[currentMonth] + bdRemaining * monthDaysPace) * 10) / 10
+		const projectedMonthRevenue = Math.round(monthlyRevenue[currentMonth] + bdRemaining * monthRevenuePace)
+		const projectedMonthDays = Math.round((monthlyDays[currentMonth] + bdRemaining * monthDaysPace) * 10) / 10
 
 		// End-of-year projection (hybrid: real + current extrapolation + future max(contract, target))
 		let projectedYearRevenue = 0
@@ -220,10 +211,7 @@ export const dashboard = query({
 				quarter: {
 					target: sumRange(revenueTargets, qStart, qEnd),
 					actual: Math.round(sumRange(monthlyRevenue, qStart, qEnd)),
-					percent: pct(
-						sumRange(monthlyRevenue, qStart, qEnd),
-						sumRange(revenueTargets, qStart, qEnd)
-					),
+					percent: pct(sumRange(monthlyRevenue, qStart, qEnd), sumRange(revenueTargets, qStart, qEnd)),
 					label: `Q${currentQuarter + 1}`,
 				},
 				month: {
@@ -259,11 +247,7 @@ export const dashboard = query({
 			tjm: {
 				target: plan.tjm.target,
 				actual: totalDays > 0 ? Math.round(totalRevenue / totalDays) : 0,
-				trend:
-					totalDays > 0
-						? Math.round(((totalRevenue / totalDays - plan.tjm.target) / plan.tjm.target) * 1000) /
-							10
-						: 0,
+				trend: totalDays > 0 ? Math.round(((totalRevenue / totalDays - plan.tjm.target) / plan.tjm.target) * 1000) / 10 : 0,
 			},
 			secured: {
 				annual: securedAnnual,

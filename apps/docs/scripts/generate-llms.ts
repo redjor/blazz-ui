@@ -7,12 +7,8 @@ import { fileURLToPath } from "node:url"
 import { registry } from "../src/data/registry"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-import {
-	type ComponentData,
-	type ComponentDataLite,
-	type RegistryEntry,
-	isFullComponent,
-} from "../src/data/types"
+
+import { type ComponentData, type ComponentDataLite, isFullComponent, type RegistryEntry } from "../src/data/types"
 
 const DOCS_BASE_URL = "https://blazz.io"
 
@@ -49,12 +45,7 @@ function renderFullComponent(c: ComponentData): string {
 	}
 	lines.push("")
 
-	const propSummary = c.props
-		.map(
-			(p) =>
-				`${p.name} (${p.type}${p.required ? ", required" : ""}${p.default ? `, default: ${p.default}` : ""})`
-		)
-		.join(", ")
+	const propSummary = c.props.map((p) => `${p.name} (${p.type}${p.required ? ", required" : ""}${p.default ? `, default: ${p.default}` : ""})`).join(", ")
 	lines.push(`Props: ${propSummary}`)
 	lines.push("")
 
@@ -114,9 +105,7 @@ function generateUiAiMd(): string {
 	lines.push("### 1. Select — ALWAYS pass items")
 	lines.push("Without `items`, SelectValue shows raw value ('active'), not label ('Active').")
 	lines.push("```tsx")
-	lines.push(
-		'<Select items={[{ value: "active", label: "Active" }]} value={v} onValueChange={setV}>'
-	)
+	lines.push('<Select items={[{ value: "active", label: "Active" }]} value={v} onValueChange={setV}>')
 	lines.push("```")
 	lines.push("")
 	lines.push("### 2. Triggers — render={} not asChild (Base UI)")
@@ -135,9 +124,7 @@ function generateUiAiMd(): string {
 	lines.push("Never useState for form fields. Always useForm + zodResolver.")
 	lines.push("")
 	lines.push("### 5. 4 required states")
-	lines.push(
-		"Every data-loading component needs: loading (Skeleton), empty (Empty), error, success."
-	)
+	lines.push("Every data-loading component needs: loading (Skeleton), empty (Empty), error, success.")
 	lines.push("")
 	lines.push("---")
 	lines.push("")
@@ -187,27 +174,17 @@ function generateProAiMd(): string {
 	lines.push("")
 	lines.push("### 1. Import paths")
 	lines.push("- Blocks: `@blazz/pro/components/blocks/{name}` (e.g. data-table, stats-grid)")
-	lines.push(
-		"- AI core: `@blazz/pro/components/ai/{domain}` (e.g. chat, reasoning, tools) — direct import, NO barrel"
-	)
-	lines.push(
-		"- AI generative: `@blazz/pro/components/ai/generative/{domain}/{name}` — direct import"
-	)
+	lines.push("- AI core: `@blazz/pro/components/ai/{domain}` (e.g. chat, reasoning, tools) — direct import, NO barrel")
+	lines.push("- AI generative: `@blazz/pro/components/ai/generative/{domain}/{name}` — direct import")
 	lines.push("")
 	lines.push("### 2. No barrel export for AI")
-	lines.push(
-		'AI components are NOT exported from `@blazz/pro` barrel. Import directly from their module path. `import { ChatMessage } from "@blazz/pro"` will NOT work.'
-	)
+	lines.push('AI components are NOT exported from `@blazz/pro` barrel. Import directly from their module path. `import { ChatMessage } from "@blazz/pro"` will NOT work.')
 	lines.push("")
 	lines.push("### 3. @blazz/ui is a peer dependency")
-	lines.push(
-		"Use @blazz/ui primitives (Button, Dialog, Badge, etc.) — don't recreate them. @blazz/pro builds on top of @blazz/ui."
-	)
+	lines.push("Use @blazz/ui primitives (Button, Dialog, Badge, etc.) — don't recreate them. @blazz/pro builds on top of @blazz/ui.")
 	lines.push("")
 	lines.push("### 4. License required")
-	lines.push(
-		"All @blazz/pro components are wrapped with `withProGuard()`. Wrap your app in `<BlazzProvider licenseKey={key}>` to unlock them."
-	)
+	lines.push("All @blazz/pro components are wrapped with `withProGuard()`. Wrap your app in `<BlazzProvider licenseKey={key}>` to unlock them.")
 	lines.push("")
 	lines.push("---")
 	lines.push("")
@@ -271,9 +248,7 @@ function generateProAiMd(): string {
 	if (aiLite.length > 0) {
 		lines.push("## AI Generative Components")
 		lines.push("")
-		lines.push(
-			`> ${aiLite.length} ready-to-use UI cards for AI chat responses. Import directly from \`@blazz/pro/components/ai/generative/{domain}/{name}\`.`
-		)
+		lines.push(`> ${aiLite.length} ready-to-use UI cards for AI chat responses. Import directly from \`@blazz/pro/components/ai/generative/{domain}/{name}\`.`)
 		lines.push("")
 
 		// Group by domain (extracted from import path)
@@ -318,34 +293,18 @@ function generateLlmsTxt(): string {
 
 	sections.push("# Blazz UI Kit")
 	sections.push("")
-	sections.push(
-		"> AI-native React component kit for data-heavy pro apps. Two packages: @blazz/ui (open-source) and @blazz/pro (paid)."
-	)
+	sections.push("> AI-native React component kit for data-heavy pro apps. Two packages: @blazz/ui (open-source) and @blazz/pro (paid).")
 	sections.push("")
 	sections.push("## Critical Rules")
 	sections.push("")
-	sections.push(
-		"- ALL trigger components use `render={<Component />}` NOT `asChild` (Base UI, not Radix)"
-	)
-	sections.push(
-		'- DateSelector NOT `<input type="date">` — import from @blazz/ui/components/ui/date-selector'
-	)
-	sections.push(
-		"- Select/Combobox: `items`/`options` prop ALWAYS required to show labels instead of raw values"
-	)
-	sections.push(
-		"- @blazz/ui imports: `@blazz/ui/components/{category}/{name}` — not from barrel"
-	)
-	sections.push(
-		"- @blazz/pro blocks: `@blazz/pro/components/blocks/{name}` — not from barrel"
-	)
-	sections.push(
-		"- @blazz/pro AI: `@blazz/pro/components/ai/{domain}` — direct import, NO barrel export"
-	)
+	sections.push("- ALL trigger components use `render={<Component />}` NOT `asChild` (Base UI, not Radix)")
+	sections.push('- DateSelector NOT `<input type="date">` — import from @blazz/ui/components/ui/date-selector')
+	sections.push("- Select/Combobox: `items`/`options` prop ALWAYS required to show labels instead of raw values")
+	sections.push("- @blazz/ui imports: `@blazz/ui/components/{category}/{name}` — not from barrel")
+	sections.push("- @blazz/pro blocks: `@blazz/pro/components/blocks/{name}` — not from barrel")
+	sections.push("- @blazz/pro AI: `@blazz/pro/components/ai/{domain}` — direct import, NO barrel export")
 	sections.push("- Forms: ALWAYS use react-hook-form + zod. Never local useState for form state.")
-	sections.push(
-		"- All 4 states required: loading (Skeleton), empty (Empty component), error, success"
-	)
+	sections.push("- All 4 states required: loading (Skeleton), empty (Empty component), error, success")
 	sections.push("")
 	sections.push("---")
 	sections.push("")

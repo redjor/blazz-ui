@@ -14,11 +14,7 @@ const ThemePaletteContext = createContext<{
 export type ThemePalette = "slate"
 
 export function ThemePaletteProvider({ children }: { children: React.ReactNode }) {
-	return (
-		<ThemePaletteContext.Provider value={{ palette: "slate", setPalette: () => {} }}>
-			{children}
-		</ThemePaletteContext.Provider>
-	)
+	return <ThemePaletteContext.Provider value={{ palette: "slate", setPalette: () => {} }}>{children}</ThemePaletteContext.Provider>
 }
 
 export function useThemePalette() {

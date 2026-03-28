@@ -19,9 +19,7 @@ describe("notes auth", () => {
 
 	it("create rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(
-			t.mutation(api.notes.create, { entityType: "general" })
-		).rejects.toThrow("Non authentifié")
+		await expect(t.mutation(api.notes.create, { entityType: "general" })).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -63,9 +61,7 @@ describe("notes CRUD", () => {
 			entityType: "general",
 			title: "Private",
 		})
-		await expect(
-			user2.mutation(api.notes.update, { id, title: "Hacked" })
-		).rejects.toThrow("Introuvable")
+		await expect(user2.mutation(api.notes.update, { id, title: "Hacked" })).rejects.toThrow("Introuvable")
 	})
 
 	it("removes a note", async () => {
@@ -119,7 +115,7 @@ describe("notes pinning", () => {
 			entityType: "general",
 			title: "Unpinned",
 		})
-		const pinnedId = await asUser.mutation(api.notes.create, {
+		const _pinnedId = await asUser.mutation(api.notes.create, {
 			entityType: "general",
 			title: "Pinned",
 			pinned: true,

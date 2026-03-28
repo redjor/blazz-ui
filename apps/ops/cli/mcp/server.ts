@@ -6,14 +6,7 @@ import { loadConfig } from "../lib/config"
 import { getClient } from "../lib/convex-client"
 
 // ── Shared enums ─────────────────────────────────────────────────────────
-const entityTypeEnum = z.enum([
-	"client",
-	"project",
-	"contract",
-	"invoice",
-	"todo",
-	"general",
-])
+const entityTypeEnum = z.enum(["client", "project", "contract", "invoice", "todo", "general"])
 const statusEnum = z.enum(["triage", "todo", "blocked", "in_progress", "done"])
 const priorityEnum = z.enum(["urgent", "high", "normal", "low"])
 
@@ -45,22 +38,17 @@ export async function startMcpServer() {
 			if (pinned !== undefined) args.pinned = pinned
 			const result = await client.query(internal.cli.notesList, args)
 			return json(result)
-		},
+		}
 	)
 
-	server.tool(
-		"notes_get",
-		"Get a single note by ID.",
-		{ id: z.string() },
-		async ({ id }) => {
-			const result = await client.query(internal.cli.notesGet, {
-				userId,
-				id: id as any,
-			})
-			if (!result) return { ...json({ error: "Note not found" }), isError: true }
-			return json(result)
-		},
-	)
+	server.tool("notes_get", "Get a single note by ID.", { id: z.string() }, async ({ id }) => {
+		const result = await client.query(internal.cli.notesGet, {
+			userId,
+			id: id as any,
+		})
+		if (!result) return { ...json({ error: "Note not found" }), isError: true }
+		return json(result)
+	})
 
 	server.tool(
 		"notes_create",
@@ -79,7 +67,7 @@ export async function startMcpServer() {
 			if (pinned !== undefined) args.pinned = pinned
 			const id = await client.mutation(internal.cli.notesCreate, args)
 			return json({ _id: id })
-		},
+		}
 	)
 
 	server.tool(
@@ -100,28 +88,18 @@ export async function startMcpServer() {
 			if (rest.locked !== undefined) args.locked = rest.locked
 			await client.mutation(internal.cli.notesUpdate, args)
 			return json({ ok: true })
-		},
+		}
 	)
 
-	server.tool(
-		"notes_remove",
-		"Archive a note (soft delete). Fails if note is locked.",
-		{ id: z.string() },
-		async ({ id }) => {
-			await client.mutation(internal.cli.notesArchive, { userId, id: id as any })
-			return json({ ok: true })
-		},
-	)
+	server.tool("notes_remove", "Archive a note (soft delete). Fails if note is locked.", { id: z.string() }, async ({ id }) => {
+		await client.mutation(internal.cli.notesArchive, { userId, id: id as any })
+		return json({ ok: true })
+	})
 
-	server.tool(
-		"notes_restore",
-		"Restore an archived note.",
-		{ id: z.string() },
-		async ({ id }) => {
-			await client.mutation(internal.cli.notesRestore, { userId, id: id as any })
-			return json({ ok: true })
-		},
-	)
+	server.tool("notes_restore", "Restore an archived note.", { id: z.string() }, async ({ id }) => {
+		await client.mutation(internal.cli.notesRestore, { userId, id: id as any })
+		return json({ ok: true })
+	})
 
 	// ── Todos ──────────────────────────────────────────────────────────────
 
@@ -140,22 +118,17 @@ export async function startMcpServer() {
 			if (priority) args.priority = priority
 			const result = await client.query(internal.cli.todosList, args)
 			return json(result)
-		},
+		}
 	)
 
-	server.tool(
-		"todos_get",
-		"Get a single todo by ID.",
-		{ id: z.string() },
-		async ({ id }) => {
-			const result = await client.query(internal.cli.todosGet, {
-				userId,
-				id: id as any,
-			})
-			if (!result) return { ...json({ error: "Todo not found" }), isError: true }
-			return json(result)
-		},
-	)
+	server.tool("todos_get", "Get a single todo by ID.", { id: z.string() }, async ({ id }) => {
+		const result = await client.query(internal.cli.todosGet, {
+			userId,
+			id: id as any,
+		})
+		if (!result) return { ...json({ error: "Todo not found" }), isError: true }
+		return json(result)
+	})
 
 	server.tool(
 		"todos_create",
@@ -178,7 +151,7 @@ export async function startMcpServer() {
 			if (tags) args.tags = tags
 			const id = await client.mutation(internal.cli.todosCreate, args)
 			return json({ _id: id })
-		},
+		}
 	)
 
 	server.tool(
@@ -203,7 +176,7 @@ export async function startMcpServer() {
 			if (rest.tags !== undefined) args.tags = rest.tags
 			await client.mutation(internal.cli.todosUpdate, args)
 			return json({ ok: true })
-		},
+		}
 	)
 
 	server.tool(
@@ -220,18 +193,13 @@ export async function startMcpServer() {
 				status,
 			})
 			return json({ ok: true })
-		},
+		}
 	)
 
-	server.tool(
-		"todos_remove",
-		"Delete a todo.",
-		{ id: z.string() },
-		async ({ id }) => {
-			await client.mutation(internal.cli.todosRemove, { userId, id: id as any })
-			return json({ ok: true })
-		},
-	)
+	server.tool("todos_remove", "Delete a todo.", { id: z.string() }, async ({ id }) => {
+		await client.mutation(internal.cli.todosRemove, { userId, id: id as any })
+		return json({ ok: true })
+	})
 
 	// ── Start ──────────────────────────────────────────────────────────────
 	const transport = new StdioServerTransport()

@@ -26,10 +26,7 @@ export const formFieldData: ComponentData = {
 			description: "Le composant input.",
 		},
 	],
-	gotchas: [
-		"Always use FormField to wrap inputs in forms — never write label+input+error manually",
-		"Pass error={errors.fieldName?.message} directly from react-hook-form",
-	],
+	gotchas: ["Always use FormField to wrap inputs in forms — never write label+input+error manually", "Pass error={errors.fieldName?.message} directly from react-hook-form"],
 	canonicalExample: `<FormField
   label="Email"
   required

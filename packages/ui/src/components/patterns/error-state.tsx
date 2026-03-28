@@ -11,12 +11,7 @@ export interface ErrorStateProps {
 	className?: string
 }
 
-export function ErrorState({
-	title = "Une erreur est survenue",
-	description = "Impossible de charger les données. Veuillez réessayer.",
-	onRetry,
-	className,
-}: ErrorStateProps) {
+export function ErrorState({ title = "Une erreur est survenue", description = "Impossible de charger les données. Veuillez réessayer.", onRetry, className }: ErrorStateProps) {
 	return (
 		<div className={cn("flex flex-col items-center justify-center py-12 text-center", className)}>
 			<div className="mb-4 rounded-full bg-negative/10 p-3">

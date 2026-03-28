@@ -809,7 +809,7 @@ export function TiptapEditor({
 
 	useEffect(() => {
 		if (editor) onEditorReady?.(editor)
-	}, [editor]) // eslint-disable-line react-hooks/exhaustive-deps
+	}, [editor, onEditorReady]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	const filteredCommands = getFilteredCommands(slashFilter)
 

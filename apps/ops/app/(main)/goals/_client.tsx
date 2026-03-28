@@ -5,10 +5,10 @@ import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { StatsGrid } from "@blazz/pro/components/blocks/stats-grid"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/ui/card"
 import { Grid } from "@blazz/ui/components/ui/grid"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Banknote, Calendar, Clock, ShieldCheck, Target, TrendingDown, TrendingUp } from "lucide-react"
@@ -23,46 +23,23 @@ function formatCompact(value: number): string {
 	return `${value}€`
 }
 
-function ChartTooltip({ active, payload, label, isCurrency = true }: {
-	active?: boolean
-	payload?: Array<{ value: number; dataKey: string; color: string }>
-	label?: string
-	isCurrency?: boolean
-}) {
+function ChartTooltip({ active, payload, label, isCurrency = true }: { active?: boolean; payload?: Array<{ value: number; dataKey: string; color: string }>; label?: string; isCurrency?: boolean }) {
 	if (!active || !payload?.length) return null
 	return (
 		<div className="rounded-md border border-edge bg-raised px-3 py-2 text-[13px] shadow-sm">
 			<p className="mb-1 font-medium text-fg">{label}</p>
 			{payload.map((entry) => (
 				<InlineStack key={entry.dataKey} gap="100" blockAlign="center" className="text-fg-secondary">
-					<span
-						className="size-2 rounded-full"
-						style={{ backgroundColor: entry.color }}
-					/>
+					<span className="size-2 rounded-full" style={{ backgroundColor: entry.color }} />
 					<span>{entry.dataKey === "réel" ? "Réel" : "Cible"}</span>
-					<span className="ml-auto tabular-nums font-medium text-fg">
-						{isCurrency ? formatCurrency(entry.value) : `${entry.value}j`}
-					</span>
+					<span className="ml-auto tabular-nums font-medium text-fg">{isCurrency ? formatCurrency(entry.value) : `${entry.value}j`}</span>
 				</InlineStack>
 			))}
 		</div>
 	)
 }
 
-const MONTHS_FR = [
-	"Jan",
-	"Fév",
-	"Mar",
-	"Avr",
-	"Mai",
-	"Jun",
-	"Jul",
-	"Aoû",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Déc",
-]
+const MONTHS_FR = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"]
 
 export default function GoalsPageClient() {
 	const year = new Date().getFullYear()
@@ -96,12 +73,8 @@ export default function GoalsPageClient() {
 		() =>
 			[0, 1, 2, 3].map((qi) => {
 				const start = qi * 3
-				const target = (data?.revenue.monthlyTargets ?? [])
-					.slice(start, start + 3)
-					.reduce((a, b) => a + b, 0)
-				const actual = (data?.revenue.monthlyActuals ?? [])
-					.slice(start, start + 3)
-					.reduce((a, b) => a + b, 0)
+				const target = (data?.revenue.monthlyTargets ?? []).slice(start, start + 3).reduce((a, b) => a + b, 0)
+				const actual = (data?.revenue.monthlyActuals ?? []).slice(start, start + 3).reduce((a, b) => a + b, 0)
 				return {
 					label: `Q${qi + 1}`,
 					target,
@@ -192,29 +165,18 @@ export default function GoalsPageClient() {
 						<Card className="h-full">
 							<CardContent className="p-4">
 								<BlockStack gap="200">
-									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
-										Revenu sécurisé
-									</span>
+									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Revenu sécurisé</span>
 									<BlockStack gap="100">
 										<InlineStack gap="100" blockAlign="baseline" wrap={false}>
 											<ShieldCheck className="size-4 text-fg-muted" />
-											<span className="text-2xl font-semibold tabular-nums tracking-tight">
-												{formatCurrency(data.secured.annual)}
-											</span>
+											<span className="text-2xl font-semibold tabular-nums tracking-tight">{formatCurrency(data.secured.annual)}</span>
 										</InlineStack>
-										<span className="text-[13px] text-fg-muted">
-											/ {formatCurrency(data.revenue.annual.target)} cible annuelle
-										</span>
+										<span className="text-[13px] text-fg-muted">/ {formatCurrency(data.revenue.annual.target)} cible annuelle</span>
 									</BlockStack>
 									<div className="h-1.5 w-full rounded-full bg-surface-hover overflow-hidden">
-										<div
-											className="h-full rounded-full bg-brand transition-all duration-300 ease-out"
-											style={{ width: `${Math.min(data.secured.percent, 100)}%` }}
-										/>
+										<div className="h-full rounded-full bg-brand transition-all duration-300 ease-out" style={{ width: `${Math.min(data.secured.percent, 100)}%` }} />
 									</div>
-									<span className="text-xs tabular-nums text-fg-muted">
-										{data.secured.percent}% couvert par contrats actifs
-									</span>
+									<span className="text-xs tabular-nums text-fg-muted">{data.secured.percent}% couvert par contrats actifs</span>
 								</BlockStack>
 							</CardContent>
 						</Card>
@@ -223,9 +185,7 @@ export default function GoalsPageClient() {
 						<Card className="h-full">
 							<CardContent className="p-4">
 								<BlockStack gap="200">
-									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
-										Projection fin de mois
-									</span>
+									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Projection fin de mois</span>
 									<BlockStack gap="300">
 										<ProjectionRow
 											label="Revenu"
@@ -234,12 +194,7 @@ export default function GoalsPageClient() {
 											percent={data.projection.month.revenuePercent}
 											context={`${data.projection.month.businessDaysElapsed}/${data.projection.month.businessDaysTotal} jours ouvrés écoulés`}
 										/>
-										<ProjectionRow
-											label="Jours"
-											projected={`${data.projection.month.days}j`}
-											target={`${data.days.month.target}j`}
-											percent={data.projection.month.daysPercent}
-										/>
+										<ProjectionRow label="Jours" projected={`${data.projection.month.days}j`} target={`${data.days.month.target}j`} percent={data.projection.month.daysPercent} />
 									</BlockStack>
 								</BlockStack>
 							</CardContent>
@@ -249,9 +204,7 @@ export default function GoalsPageClient() {
 						<Card className="h-full">
 							<CardContent className="p-4">
 								<BlockStack gap="200">
-									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
-										Projection fin d'année
-									</span>
+									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Projection fin d'année</span>
 									<BlockStack gap="300">
 										<ProjectionRow
 											label="Revenu"
@@ -259,12 +212,7 @@ export default function GoalsPageClient() {
 											target={formatCurrency(data.revenue.annual.target)}
 											percent={data.projection.year.revenuePercent}
 										/>
-										<ProjectionRow
-											label="Jours"
-											projected={`${data.projection.year.days}j`}
-											target={`${data.days.annual.target}j`}
-											percent={data.projection.year.daysPercent}
-										/>
+										<ProjectionRow label="Jours" projected={`${data.projection.year.days}j`} target={`${data.days.annual.target}j`} percent={data.projection.year.daysPercent} />
 									</BlockStack>
 								</BlockStack>
 							</CardContent>
@@ -282,26 +230,12 @@ export default function GoalsPageClient() {
 						<CardContent>
 							<ResponsiveContainer width="100%" height={280}>
 								<BarChart data={revenueChartData}>
-									<CartesianGrid
-										strokeDasharray="3 3"
-										vertical={false}
-										stroke="var(--color-edge)"
-									/>
+									<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" />
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" tickFormatter={formatCompact} />
 									<Tooltip content={<ChartTooltip />} />
-									<Legend
-										iconType="circle"
-										iconSize={8}
-										wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }}
-									/>
-									<Bar
-										dataKey="cible"
-										name="Cible"
-										fill="var(--color-fg-muted)"
-										opacity={0.2}
-										radius={[4, 4, 0, 0]}
-									/>
+									<Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }} />
+									<Bar dataKey="cible" name="Cible" fill="var(--color-fg-muted)" opacity={0.2} radius={[4, 4, 0, 0]} />
 									<Bar dataKey="réel" name="Réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
@@ -316,26 +250,12 @@ export default function GoalsPageClient() {
 						<CardContent>
 							<ResponsiveContainer width="100%" height={280}>
 								<BarChart data={daysChartData}>
-									<CartesianGrid
-										strokeDasharray="3 3"
-										vertical={false}
-										stroke="var(--color-edge)"
-									/>
+									<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" />
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" tickFormatter={(v) => `${v}j`} />
 									<Tooltip content={<ChartTooltip isCurrency={false} />} />
-									<Legend
-										iconType="circle"
-										iconSize={8}
-										wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }}
-									/>
-									<Bar
-										dataKey="cible"
-										name="Cible"
-										fill="var(--color-fg-muted)"
-										opacity={0.2}
-										radius={[4, 4, 0, 0]}
-									/>
+									<Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }} />
+									<Bar dataKey="cible" name="Cible" fill="var(--color-fg-muted)" opacity={0.2} radius={[4, 4, 0, 0]} />
 									<Bar dataKey="réel" name="Réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
@@ -367,21 +287,19 @@ export default function GoalsPageClient() {
 									<td className="text-right tabular-nums">{formatCurrency(q.actual)}</td>
 									<td className="text-right tabular-nums text-fg-secondary">{q.percent}%</td>
 									<td className={`text-right tabular-nums font-medium ${q.actual - q.target >= 0 ? "text-positive" : "text-critical"}`}>
-										{q.actual - q.target >= 0 ? "+" : ""}{formatCurrency(q.actual - q.target)}
+										{q.actual - q.target >= 0 ? "+" : ""}
+										{formatCurrency(q.actual - q.target)}
 									</td>
 								</tr>
 							))}
 							<tr className="h-10 font-semibold border-t border-edge">
 								<td>{data.year}</td>
-								<td className="text-right tabular-nums text-fg-secondary">
-									{formatCurrency(data.revenue.annual.target)}
-								</td>
-								<td className="text-right tabular-nums">
-									{formatCurrency(data.revenue.annual.actual)}
-								</td>
+								<td className="text-right tabular-nums text-fg-secondary">{formatCurrency(data.revenue.annual.target)}</td>
+								<td className="text-right tabular-nums">{formatCurrency(data.revenue.annual.actual)}</td>
 								<td className="text-right tabular-nums">{data.revenue.annual.percent}%</td>
 								<td className={`text-right tabular-nums ${data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "text-positive" : "text-critical"}`}>
-									{data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "+" : ""}{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}
+									{data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "+" : ""}
+									{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}
 								</td>
 							</tr>
 						</tbody>
@@ -394,19 +312,7 @@ export default function GoalsPageClient() {
 	)
 }
 
-function ProjectionRow({
-	label,
-	projected,
-	target,
-	percent,
-	context,
-}: {
-	label: string
-	projected: string
-	target: string
-	percent: number
-	context?: string
-}) {
+function ProjectionRow({ label, projected, target, percent, context }: { label: string; projected: string; target: string; percent: number; context?: string }) {
 	const isOnTrack = percent >= 90
 	const isWarning = percent >= 70 && percent < 90
 	const colorClass = isOnTrack ? "text-positive" : isWarning ? "text-caution" : "text-critical"
@@ -428,10 +334,7 @@ function ProjectionRow({
 				</span>
 			</InlineStack>
 			<div className="h-1.5 w-full rounded-full bg-surface-hover overflow-hidden">
-				<div
-					className={`h-full rounded-full transition-all duration-300 ease-out ${barColor}`}
-					style={{ width: `${clampedPercent}%` }}
-				/>
+				<div className={`h-full rounded-full transition-all duration-300 ease-out ${barColor}`} style={{ width: `${clampedPercent}%` }} />
 			</div>
 			{context && <span className="text-xs text-fg-muted">{context}</span>}
 		</BlockStack>

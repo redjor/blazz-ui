@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { ContactCard } from "@blazz/pro/components/ai/generative/entities/contact-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "full",
@@ -34,7 +35,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function ContactCardPage() {
@@ -42,11 +42,7 @@ export default function ContactCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Contact Card"
-			subtitle="Displays a CRM contact with email, phone, company and last interaction."
-			toc={toc}
-		>
+		<DocPage title="Contact Card" subtitle="Displays a CRM contact with email, phone, company and last interaction." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<ContactCard
@@ -62,12 +58,7 @@ export default function ContactCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Full Contact"
-					description="All fields displayed."
-					code={examples[0].code}
-					highlightedCode={html("full")}
-				>
+				<DocExampleClient title="Full Contact" description="All fields displayed." code={examples[0].code} highlightedCode={html("full")}>
 					<div className="max-w-sm">
 						<ContactCard
 							name="Laura Chen"
@@ -81,19 +72,9 @@ export default function ContactCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Clickable Link"
-					description="Pass href to make the card navigable."
-					code={examples[1].code}
-					highlightedCode={html("clickable")}
-				>
+				<DocExampleClient title="Clickable Link" description="Pass href to make the card navigable." code={examples[1].code} highlightedCode={html("clickable")}>
 					<div className="max-w-sm">
-						<ContactCard
-							href="#"
-							name="Laura Chen"
-							avatar="https://i.pravatar.cc/150?u=laura"
-							company="Stripe"
-						/>
+						<ContactCard href="#" name="Laura Chen" avatar="https://i.pravatar.cc/150?u=laura" company="Stripe" />
 					</div>
 				</DocExampleClient>
 			</DocSection>

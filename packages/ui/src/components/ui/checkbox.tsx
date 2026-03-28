@@ -22,10 +22,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
 			)}
 			{...props}
 		>
-			<CheckboxPrimitive.Indicator
-				data-slot="checkbox-indicator"
-				className="[&>svg]:size-3.5 grid place-content-center text-current transition-none"
-			>
+			<CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="[&>svg]:size-3.5 grid place-content-center text-current transition-none">
 				<CheckIcon />
 			</CheckboxPrimitive.Indicator>
 		</CheckboxPrimitive.Root>
@@ -103,9 +100,7 @@ function CheckboxGroup({
 					{description && <p className="text-sm text-fg-muted">{description}</p>}
 				</div>
 			)}
-			<div
-				className={cn(orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2")}
-			>
+			<div className={cn(orientation === "vertical" ? "space-y-2" : "flex flex-wrap gap-x-6 gap-y-2")}>
 				{options.map((option) => {
 					const id = `checkbox-group-${option.value}`
 					return (
@@ -119,25 +114,10 @@ function CheckboxGroup({
 								className="mt-0.5"
 							/>
 							<div className="space-y-0.5">
-								<label
-									htmlFor={id}
-									className={cn(
-										"text-sm font-medium leading-none select-none",
-										(option.disabled || disabled) && "opacity-50 cursor-not-allowed"
-									)}
-								>
+								<label htmlFor={id} className={cn("text-sm font-medium leading-none select-none", (option.disabled || disabled) && "opacity-50 cursor-not-allowed")}>
 									{option.label}
 								</label>
-								{option.description && (
-									<p
-										className={cn(
-											"text-sm text-fg-muted",
-											(option.disabled || disabled) && "opacity-50"
-										)}
-									>
-										{option.description}
-									</p>
-								)}
+								{option.description && <p className={cn("text-sm text-fg-muted", (option.disabled || disabled) && "opacity-50")}>{option.description}</p>}
 							</div>
 						</div>
 					)

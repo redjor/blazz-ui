@@ -76,10 +76,7 @@ export function AiConversationPreview() {
 				<MessageContent>What were our top deals last quarter?</MessageContent>
 			</Message>
 			<Message from="assistant">
-				<MessageContent>
-					Based on the data, your top 3 deals were Acme Corp ($120K), TechVentures ($85K), and
-					GlobalTech ($72K).
-				</MessageContent>
+				<MessageContent>Based on the data, your top 3 deals were Acme Corp ($120K), TechVentures ($85K), and GlobalTech ($72K).</MessageContent>
 			</Message>
 		</div>
 	)
@@ -92,9 +89,7 @@ export function AiMessagePreview() {
 				<MessageContent>Analyze this quarter&apos;s performance</MessageContent>
 			</Message>
 			<Message from="assistant">
-				<MessageContent>
-					I&apos;ll analyze the key metrics for Q4 2025. Revenue grew 18% QoQ reaching $4.2M.
-				</MessageContent>
+				<MessageContent>I&apos;ll analyze the key metrics for Q4 2025. Revenue grew 18% QoQ reaching $4.2M.</MessageContent>
 			</Message>
 		</div>
 	)
@@ -104,13 +99,8 @@ export function AiPromptInputPreview() {
 	return (
 		<div className="w-[500px]">
 			<div className="flex items-end gap-2 rounded-lg border border-edge bg-card p-2">
-				<div className="flex-1 min-h-[40px] px-3 py-2 text-sm text-fg-muted">
-					What would you like to know?
-				</div>
-				<button
-					type="button"
-					className="flex size-8 shrink-0 items-center justify-center rounded-md bg-foreground text-background"
-				>
+				<div className="flex-1 min-h-[40px] px-3 py-2 text-sm text-fg-muted">What would you like to know?</div>
+				<button type="button" className="flex size-8 shrink-0 items-center justify-center rounded-md bg-foreground text-background">
 					<CornerDownLeft className="size-4" />
 				</button>
 			</div>
@@ -137,11 +127,7 @@ export function AiReasoningPreview() {
 		<div className="w-[500px]">
 			<Reasoning defaultOpen>
 				<ReasoningTrigger />
-				<ReasoningContent>
-					{
-						"Analyzing the quarterly sales data to identify trends and patterns across all regions..."
-					}
-				</ReasoningContent>
+				<ReasoningContent>{"Analyzing the quarterly sales data to identify trends and patterns across all regions..."}</ReasoningContent>
 			</Reasoning>
 		</div>
 	)
@@ -188,23 +174,15 @@ export function AiConfirmationPreview() {
 					</div>
 					<div className="min-w-0 flex-1">
 						<span className="text-sm font-semibold text-fg">Send follow-up email</span>
-						<p className="mt-1 text-xs text-fg-muted">
-							This will send an email to marc@acme.com with the Q1 contract renewal details.
-						</p>
+						<p className="mt-1 text-xs text-fg-muted">This will send an email to marc@acme.com with the Q1 contract renewal details.</p>
 					</div>
 				</div>
 				<div className="mt-3 flex items-center justify-end gap-2">
-					<button
-						type="button"
-						className="inline-flex items-center gap-1.5 rounded-md border border-edge bg-card px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:bg-muted"
-					>
+					<button type="button" className="inline-flex items-center gap-1.5 rounded-md border border-edge bg-card px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:bg-muted">
 						<XIcon className="size-3" />
 						Reject
 					</button>
-					<button
-						type="button"
-						className="inline-flex items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-colors"
-					>
+					<button type="button" className="inline-flex items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-colors">
 						<CheckIcon className="size-3" />
 						Approve
 					</button>
@@ -220,13 +198,7 @@ export function AiModelSelectorPreview() {
 			<div className="rounded-lg border border-edge bg-card overflow-hidden">
 				<div className="border-b border-edge px-3 py-2.5">
 					<div className="flex items-center gap-2 text-sm text-fg-muted">
-						<svg
-							className="size-4"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-						>
+						<svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 							<circle cx="11" cy="11" r="8" />
 							<path d="m21 21-4.35-4.35" />
 						</svg>
@@ -249,15 +221,7 @@ export function AiModelSelectorPreview() {
 // ============================================================================
 
 export function AiMetricCardPreview() {
-	return (
-		<MetricCard
-			label="Monthly Revenue"
-			value="$142,500"
-			trend={12.3}
-			trendLabel="vs last month"
-			icon={<DollarSign className="size-4" />}
-		/>
-	)
+	return <MetricCard label="Monthly Revenue" value="$142,500" trend={12.3} trendLabel="vs last month" icon={<DollarSign className="size-4" />} />
 }
 
 export function AiStatsRowPreview() {
@@ -344,57 +308,19 @@ export function AiDataGridPreview() {
 // ============================================================================
 
 export function AiCandidateCardPreview() {
-	return (
-		<CandidateCard
-			name="Sarah Chen"
-			company="Google"
-			location="San Francisco, CA"
-			matchScore={92}
-			status="available"
-			skills={["React", "TypeScript", "Node.js"]}
-			experience="8 years"
-		/>
-	)
+	return <CandidateCard name="Sarah Chen" company="Google" location="San Francisco, CA" matchScore={92} status="available" skills={["React", "TypeScript", "Node.js"]} experience="8 years" />
 }
 
 export function AiContactCardPreview() {
-	return (
-		<ContactCard
-			name="Marc Dupont"
-			company="Acme Corp"
-			email="marc@acme.com"
-			phone="+1 555 0123"
-			tags={["Enterprise", "Key Account"]}
-		/>
-	)
+	return <ContactCard name="Marc Dupont" company="Acme Corp" email="marc@acme.com" phone="+1 555 0123" tags={["Enterprise", "Key Account"]} />
 }
 
 export function AiCompanyCardPreview() {
-	return (
-		<CompanyCard
-			name="TechVentures Inc."
-			industry="Software"
-			size="500+"
-			revenue="$24M"
-			location="New York, NY"
-			status="Active"
-			statusVariant="success"
-		/>
-	)
+	return <CompanyCard name="TechVentures Inc." industry="Software" size="500+" revenue="$24M" location="New York, NY" status="Active" statusVariant="success" />
 }
 
 export function AiDealCardPreview() {
-	return (
-		<DealCard
-			title="Enterprise SaaS License"
-			amount="$85,000"
-			stage="proposal"
-			probability={65}
-			company="Acme Corp"
-			closeDate="Mar 31, 2026"
-			owner="Sarah Chen"
-		/>
-	)
+	return <DealCard title="Enterprise SaaS License" amount="$85,000" stage="proposal" probability={65} company="Acme Corp" closeDate="Mar 31, 2026" owner="Sarah Chen" />
 }
 
 export function AiUserCardPreview() {
@@ -420,28 +346,11 @@ export function AiTimelinePreview() {
 }
 
 export function AiEventCardPreview() {
-	return (
-		<EventCard
-			title="Quarterly Business Review"
-			type="meeting"
-			date="Mar 24, 2026"
-			time="2:00 PM"
-			location="Conference Room A"
-		/>
-	)
+	return <EventCard title="Quarterly Business Review" type="meeting" date="Mar 24, 2026" time="2:00 PM" location="Conference Room A" />
 }
 
 export function AiStatusUpdatePreview() {
-	return (
-		<StatusUpdate
-			title="Deal stage changed"
-			from="Qualification"
-			to="Proposal"
-			fromVariant="info"
-			toVariant="warning"
-			time="2 hours ago"
-		/>
-	)
+	return <StatusUpdate title="Deal stage changed" from="Qualification" to="Proposal" fromVariant="info" toVariant="warning" time="2 hours ago" />
 }
 
 // ============================================================================
@@ -501,9 +410,7 @@ export function AiEmailPreviewPreview() {
 			subject="Q1 Contract Renewal"
 			from={{ name: "Sarah Chen", email: "sarah@company.com" }}
 			to={[{ name: "Marc Dupont", email: "marc@acme.com" }]}
-			body={
-				"Hi Marc,\n\nI wanted to follow up regarding the Q1 contract renewal. Please let me know a good time to discuss the updated terms."
-			}
+			body={"Hi Marc,\n\nI wanted to follow up regarding the Q1 contract renewal. Please let me know a good time to discuss the updated terms."}
 			date="Feb 23, 2026"
 			status="draft"
 		/>
@@ -512,13 +419,7 @@ export function AiEmailPreviewPreview() {
 
 export function AiMessagePreviewPreview() {
 	return (
-		<MessagePreview
-			platform="slack"
-			from={{ name: "Lisa Park" }}
-			content="Just finished the client presentation. They're very interested in the enterprise plan!"
-			channel="sales"
-			time="11:30 AM"
-		/>
+		<MessagePreview platform="slack" from={{ name: "Lisa Park" }} content="Just finished the client presentation. They're very interested in the enterprise plan!" channel="sales" time="11:30 AM" />
 	)
 }
 
@@ -559,29 +460,11 @@ export function AiChecklistCardPreview() {
 // ============================================================================
 
 export function AiInvoiceCardPreview() {
-	return (
-		<InvoiceCard
-			number="INV-2026-042"
-			client="Acme Corp"
-			amount="$12,500"
-			status="sent"
-			dueDate="Mar 15, 2026"
-			issuedDate="Feb 15, 2026"
-		/>
-	)
+	return <InvoiceCard number="INV-2026-042" client="Acme Corp" amount="$12,500" status="sent" dueDate="Mar 15, 2026" issuedDate="Feb 15, 2026" />
 }
 
 export function AiQuoteSummaryPreview() {
-	return (
-		<QuoteSummary
-			number="QT-2026-018"
-			client="TechVentures Inc."
-			total="$45,000"
-			status="sent"
-			validUntil="Mar 31, 2026"
-			itemCount={5}
-		/>
-	)
+	return <QuoteSummary number="QT-2026-018" client="TechVentures Inc." total="$45,000" status="sent" validUntil="Mar 31, 2026" itemCount={5} />
 }
 
 export function AiPricingTablePreview() {
@@ -613,17 +496,7 @@ export function AiPricingTablePreview() {
 }
 
 export function AiTransactionCardPreview() {
-	return (
-		<TransactionCard
-			title="License Payment"
-			amount="$2,400"
-			type="incoming"
-			status="completed"
-			method="Wire Transfer"
-			date="Feb 20, 2026"
-			reference="TXN-8847"
-		/>
-	)
+	return <TransactionCard title="License Payment" amount="$2,400" type="incoming" status="completed" method="Wire Transfer" date="Feb 20, 2026" reference="TXN-8847" />
 }
 
 // ============================================================================
@@ -688,12 +561,7 @@ export function AiSummaryCardPreview() {
 	return (
 		<SummaryCard
 			title="Q4 Performance Summary"
-			points={[
-				"Revenue increased 18% quarter-over-quarter",
-				"12 new enterprise accounts acquired",
-				"Customer churn decreased to 2.3%",
-				"Average deal size grew by $15K",
-			]}
+			points={["Revenue increased 18% quarter-over-quarter", "12 new enterprise accounts acquired", "Customer churn decreased to 2.3%", "Average deal size grew by $15K"]}
 			conclusion="Strong quarter with growth across all key metrics."
 			source="Sales Analytics"
 		/>
@@ -701,16 +569,7 @@ export function AiSummaryCardPreview() {
 }
 
 export function AiRatingCardPreview() {
-	return (
-		<RatingCard
-			title="Customer Satisfaction"
-			score={4.5}
-			maxScore={5}
-			type="stars"
-			reviewCount={128}
-			label="Based on customer surveys"
-		/>
-	)
+	return <RatingCard title="Customer Satisfaction" score={4.5} maxScore={5} type="stars" reviewCount={128} label="Based on customer surveys" />
 }
 
 export function AiScoreCardPreview() {
@@ -734,25 +593,11 @@ export function AiScoreCardPreview() {
 // ============================================================================
 
 export function AiLocationCardPreview() {
-	return (
-		<LocationCard
-			name="Acme Corp HQ"
-			address="350 5th Avenue"
-			city="New York"
-			country="United States"
-			coordinates={{ lat: 40.7484, lng: -73.9857 }}
-		/>
-	)
+	return <LocationCard name="Acme Corp HQ" address="350 5th Avenue" city="New York" country="United States" coordinates={{ lat: 40.7484, lng: -73.9857 }} />
 }
 
 export function AiVideoCardPreview() {
-	return (
-		<VideoCard
-			title="Product Demo - Enterprise Features"
-			duration="12:45"
-			channel="Sales Enablement"
-		/>
-	)
+	return <VideoCard title="Product Demo - Enterprise Features" duration="12:45" channel="Sales Enablement" />
 }
 
 export function AiFileCardPreview() {
@@ -760,14 +605,7 @@ export function AiFileCardPreview() {
 }
 
 export function AiLinkPreviewPreview() {
-	return (
-		<LinkPreview
-			url="https://example.com/article"
-			title="The Future of Enterprise SaaS"
-			description="An in-depth analysis of emerging trends in enterprise software."
-			domain="example.com"
-		/>
-	)
+	return <LinkPreview url="https://example.com/article" title="The Future of Enterprise SaaS" description="An in-depth analysis of emerging trends in enterprise software." domain="example.com" />
 }
 
 export function AiImageGalleryPreview() {
@@ -776,13 +614,7 @@ export function AiImageGalleryPreview() {
 			<div className="relative aspect-video bg-muted">
 				<div className="flex h-full w-full items-center justify-center">
 					<div className="flex flex-col items-center gap-2 text-fg-muted/50">
-						<svg
-							className="size-10"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="1.5"
-						>
+						<svg className="size-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
 							<rect x="3" y="3" width="18" height="18" rx="2" />
 							<circle cx="8.5" cy="8.5" r="1.5" />
 							<path d="M21 15l-5-5L5 21" />

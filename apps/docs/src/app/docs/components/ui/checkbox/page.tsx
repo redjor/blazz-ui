@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Checkbox, CheckboxGroup } from "@blazz/ui/components/ui/checkbox"
 import { Label } from "@blazz/ui/components/ui/label"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -273,11 +273,7 @@ export default function CheckboxPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Checkbox"
-			subtitle="A control that allows users to select one or more items from a set."
-			toc={toc}
-		>
+		<DocPage title="Checkbox" subtitle="A control that allows users to select one or more items from a set." toc={toc}>
 			<DocHero>
 				<div className="flex items-center gap-2">
 					<Checkbox id="hero-checkbox" defaultChecked />
@@ -286,42 +282,22 @@ export default function CheckboxPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic checkbox."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic checkbox." code={examples[0].code} highlightedCode={html("default")}>
 					<Checkbox />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Checkbox with an associated label for better accessibility."
-					code={examples[1].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Checkbox with an associated label for better accessibility." code={examples[1].code} highlightedCode={html("with-label")}>
 					<div className="flex items-center gap-2">
 						<Checkbox id="terms" />
 						<Label htmlFor="terms">Accept terms and conditions</Label>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Control the checkbox state programmatically."
-					code={examples[2].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Control the checkbox state programmatically." code={examples[2].code} highlightedCode={html("controlled")}>
 					<ControlledCheckboxDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled checkboxes prevent interaction."
-					code={examples[3].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled checkboxes prevent interaction." code={examples[3].code} highlightedCode={html("disabled")}>
 					<div className="flex items-center gap-4">
 						<div className="flex items-center gap-2">
 							<Checkbox id="disabled" disabled />
@@ -338,12 +314,7 @@ export default function CheckboxPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Error State"
-					description="Show validation errors using aria-invalid."
-					code={examples[4].code}
-					highlightedCode={html("error")}
-				>
+				<DocExampleClient title="Error State" description="Show validation errors using aria-invalid." code={examples[4].code} highlightedCode={html("error")}>
 					<div className="space-y-2">
 						<div className="flex items-center gap-2">
 							<Checkbox id="error" aria-invalid />
@@ -355,12 +326,7 @@ export default function CheckboxPage() {
 			</DocSection>
 
 			<DocSection id="checkbox-group" title="CheckboxGroup">
-				<DocExampleClient
-					title="Basic"
-					description="A group of checkboxes with a label."
-					code={examples[5].code}
-					highlightedCode={html("group-basic")}
-				>
+				<DocExampleClient title="Basic" description="A group of checkboxes with a label." code={examples[5].code} highlightedCode={html("group-basic")}>
 					<CheckboxGroup
 						label="Notifications"
 						options={[
@@ -372,12 +338,7 @@ export default function CheckboxPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Descriptions"
-					description="Each option can have a description for more context."
-					code={examples[6].code}
-					highlightedCode={html("group-descriptions")}
-				>
+				<DocExampleClient title="With Descriptions" description="Each option can have a description for more context." code={examples[6].code} highlightedCode={html("group-descriptions")}>
 					<CheckboxGroup
 						label="Permissions"
 						description="Select the permissions for this role."
@@ -390,12 +351,7 @@ export default function CheckboxPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Horizontal"
-					description="Lay out checkboxes horizontally for compact groups."
-					code={examples[7].code}
-					highlightedCode={html("group-horizontal")}
-				>
+				<DocExampleClient title="Horizontal" description="Lay out checkboxes horizontally for compact groups." code={examples[7].code} highlightedCode={html("group-horizontal")}>
 					<CheckboxGroup
 						label="Tags"
 						orientation="horizontal"
@@ -409,21 +365,11 @@ export default function CheckboxPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage the selected values programmatically."
-					code={examples[8].code}
-					highlightedCode={html("group-controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage the selected values programmatically." code={examples[8].code} highlightedCode={html("group-controlled")}>
 					<ControlledCheckboxGroupDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disable the entire group."
-					code={examples[9].code}
-					highlightedCode={html("group-disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disable the entire group." code={examples[9].code} highlightedCode={html("group-disabled")}>
 					<CheckboxGroup
 						label="Features"
 						disabled
@@ -435,12 +381,7 @@ export default function CheckboxPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Partially Disabled"
-					description="Disable specific options while keeping others interactive."
-					code={examples[10].code}
-					highlightedCode={html("group-partial")}
-				>
+				<DocExampleClient title="Partially Disabled" description="Disable specific options while keeping others interactive." code={examples[10].code} highlightedCode={html("group-partial")}>
 					<CheckboxGroup
 						label="Plan features"
 						options={[
@@ -452,12 +393,7 @@ export default function CheckboxPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Error State"
-					description="Show validation errors on the entire group."
-					code={examples[11].code}
-					highlightedCode={html("group-error")}
-				>
+				<DocExampleClient title="Error State" description="Show validation errors on the entire group." code={examples[11].code} highlightedCode={html("group-error")}>
 					<div className="space-y-2">
 						<CheckboxGroup
 							label="Terms"

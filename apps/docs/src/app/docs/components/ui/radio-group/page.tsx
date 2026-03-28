@@ -1,20 +1,12 @@
 "use client"
-import { use } from "react"
 
 import { Card } from "@blazz/ui/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@blazz/ui/components/ui/radio-group"
 import { Separator } from "@blazz/ui/components/ui/separator"
 import { cn } from "@blazz/ui/lib/utils"
-import {
-	ChartNoAxesColumnDecreasingIcon,
-	CircleDollarSignIcon,
-	CreditCardIcon,
-	FileTextIcon,
-	MailIcon,
-	MessageCircleIcon,
-	SmartphoneIcon,
-} from "lucide-react"
+import { ChartNoAxesColumnDecreasingIcon, CircleDollarSignIcon, CreditCardIcon, FileTextIcon, MailIcon, MessageCircleIcon, SmartphoneIcon } from "lucide-react"
 import * as React from "react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -329,19 +321,13 @@ function ButtonGroupRadioDemo() {
 	const [value, setValue] = React.useState("monthly")
 
 	return (
-		<RadioGroup
-			value={value}
-			onValueChange={setValue}
-			className="inline-flex rounded-lg border border-edge bg-card p-1 gap-1"
-		>
+		<RadioGroup value={value} onValueChange={setValue} className="inline-flex rounded-lg border border-edge bg-card p-1 gap-1">
 			{buttonGroupOptions.map((option) => (
 				<label
 					key={option.value}
 					className={cn(
 						"cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none",
-						value === option.value
-							? "bg-muted text-fg shadow-sm"
-							: "text-fg-muted hover:text-fg"
+						value === option.value ? "bg-muted text-fg shadow-sm" : "text-fg-muted hover:text-fg"
 					)}
 				>
 					<RadioGroupItem value={option.value} className="sr-only" />
@@ -356,19 +342,12 @@ function CardGridRadioDemo() {
 	const [value, setValue] = React.useState("payments")
 
 	return (
-		<RadioGroup
-			value={value}
-			onValueChange={setValue}
-			className="grid w-full max-w-xs grid-cols-2 gap-3"
-		>
+		<RadioGroup value={value} onValueChange={setValue} className="grid w-full max-w-xs grid-cols-2 gap-3">
 			{cardGridItems.map((item) => (
 				<div
 					key={item.value}
 					onClick={() => setValue(item.value)}
-					className={cn(
-						"relative cursor-pointer rounded-lg border border-edge p-3 transition-colors",
-						value === item.value && "border-brand bg-brand/5"
-					)}
+					className={cn("relative cursor-pointer rounded-lg border border-edge p-3 transition-colors", value === item.value && "border-brand bg-brand/5")}
 				>
 					<div className="absolute top-3 right-3">
 						<RadioGroupItem value={item.value} />
@@ -397,13 +376,7 @@ function CardListRadioDemo() {
 				{cardListOptions.map((option, i) => (
 					<React.Fragment key={option.value}>
 						{i > 0 && <Separator />}
-						<div
-							onClick={() => setValue(option.value)}
-							className={cn(
-								"flex cursor-pointer items-center justify-between px-4 py-3 transition-colors",
-								value === option.value && "bg-brand/5"
-							)}
-						>
+						<div onClick={() => setValue(option.value)} className={cn("flex cursor-pointer items-center justify-between px-4 py-3 transition-colors", value === option.value && "bg-brand/5")}>
 							<span className="flex items-center gap-2 text-sm font-medium">
 								<option.icon aria-hidden="true" className="size-4 opacity-60" />
 								{option.label}
@@ -442,11 +415,7 @@ export default function RadioGroupPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="RadioGroup"
-			subtitle="A set of mutually exclusive options where only one can be selected at a time."
-			toc={toc}
-		>
+		<DocPage title="RadioGroup" subtitle="A set of mutually exclusive options where only one can be selected at a time." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<RadioGroup
@@ -462,12 +431,7 @@ export default function RadioGroupPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A simple radio group with a label."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A simple radio group with a label." code={examples[0].code} highlightedCode={html("basic")}>
 					<RadioGroup
 						label="Notifications"
 						options={[
@@ -479,12 +443,7 @@ export default function RadioGroupPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Descriptions"
-					description="Each option can have a description for more context."
-					code={examples[1].code}
-					highlightedCode={html("descriptions")}
-				>
+				<DocExampleClient title="With Descriptions" description="Each option can have a description for more context." code={examples[1].code} highlightedCode={html("descriptions")}>
 					<RadioGroup
 						label="Plan"
 						description="Select a plan that works for you."
@@ -497,12 +456,7 @@ export default function RadioGroupPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Horizontal"
-					description="Lay out radio options horizontally for compact groups."
-					code={examples[2].code}
-					highlightedCode={html("horizontal")}
-				>
+				<DocExampleClient title="Horizontal" description="Lay out radio options horizontally for compact groups." code={examples[2].code} highlightedCode={html("horizontal")}>
 					<RadioGroup
 						label="Size"
 						orientation="horizontal"
@@ -515,21 +469,11 @@ export default function RadioGroupPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage the selected value programmatically."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage the selected value programmatically." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledRadioGroupDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disable the entire group."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disable the entire group." code={examples[4].code} highlightedCode={html("disabled")}>
 					<RadioGroup
 						label="Notifications"
 						disabled
@@ -542,12 +486,7 @@ export default function RadioGroupPage() {
 					/>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Error State"
-					description="Show validation errors on the entire group."
-					code={examples[5].code}
-					highlightedCode={html("error")}
-				>
+				<DocExampleClient title="Error State" description="Show validation errors on the entire group." code={examples[5].code} highlightedCode={html("error")}>
 					<div className="space-y-2">
 						<RadioGroup
 							label="Priority"
@@ -583,12 +522,7 @@ export default function RadioGroupPage() {
 					<ButtonGroupRadioDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Card Grid"
-					description="A 2-column grid of selectable cards with active border and background."
-					code={examples[8].code}
-					highlightedCode={html("card-grid")}
-				>
+				<DocExampleClient title="Card Grid" description="A 2-column grid of selectable cards with active border and background." code={examples[8].code} highlightedCode={html("card-grid")}>
 					<CardGridRadioDemo />
 				</DocExampleClient>
 			</DocSection>

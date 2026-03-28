@@ -4,20 +4,11 @@ import type { ComponentData } from "../../types"
 export const confirmationData: ComponentData = {
 	name: "Confirmation",
 	category: "ai",
-	description:
-		"Tool execution confirmation UI with approval states: requested, accepted, rejected.",
+	description: "Tool execution confirmation UI with approval states: requested, accepted, rejected.",
 	docPath: "/docs/ai/tools/confirmation",
 	imports: {
 		path: "@blazz/pro/components/ai/tools",
-		named: [
-			"Confirmation",
-			"ConfirmationTitle",
-			"ConfirmationRequest",
-			"ConfirmationAccepted",
-			"ConfirmationRejected",
-			"ConfirmationActions",
-			"ConfirmationAction",
-		],
+		named: ["Confirmation", "ConfirmationTitle", "ConfirmationRequest", "ConfirmationAccepted", "ConfirmationRejected", "ConfirmationActions", "ConfirmationAction"],
 	},
 	props: [
 		{
@@ -53,21 +44,11 @@ export const confirmationData: ComponentData = {
 export const contextData: ComponentData = {
 	name: "Context",
 	category: "ai",
-	description:
-		"Token usage and cost visualization with pie chart trigger and detailed breakdown hover card.",
+	description: "Token usage and cost visualization with pie chart trigger and detailed breakdown hover card.",
 	docPath: "/docs/ai/tools/context",
 	imports: {
 		path: "@blazz/pro/components/ai/tools",
-		named: [
-			"Context",
-			"ContextTrigger",
-			"ContextContent",
-			"ContextContentHeader",
-			"ContextContentBody",
-			"ContextContentFooter",
-			"ContextInputUsage",
-			"ContextOutputUsage",
-		],
+		named: ["Context", "ContextTrigger", "ContextContent", "ContextContentHeader", "ContextContentBody", "ContextContentFooter", "ContextInputUsage", "ContextOutputUsage"],
 	},
 	props: [
 		{
@@ -85,8 +66,7 @@ export const contextData: ComponentData = {
 		{
 			name: "usage",
 			type: "LanguageModelUsage",
-			description:
-				"Token usage breakdown (inputTokens, outputTokens, reasoningTokens, cachedInputTokens).",
+			description: "Token usage breakdown (inputTokens, outputTokens, reasoningTokens, cachedInputTokens).",
 		},
 		{
 			name: "modelId",
@@ -116,8 +96,7 @@ export const contextData: ComponentData = {
 export const modelSelectorData: ComponentData = {
 	name: "ModelSelector",
 	category: "ai",
-	description:
-		"Command palette-style model picker with provider logos and search.",
+	description: "Command palette-style model picker with provider logos and search.",
 	docPath: "/docs/ai/tools/model-selector",
 	imports: {
 		path: "@blazz/pro/components/ai/tools",

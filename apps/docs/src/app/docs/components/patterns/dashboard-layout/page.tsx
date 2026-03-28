@@ -95,9 +95,7 @@ const dashboardLayoutProps: DocProp[] = [
 function LayoutPlaceholder() {
 	return (
 		<div className="flex h-32 overflow-hidden rounded border border-dashed border-edge-subtle text-xs text-fg-muted">
-			<div className="w-32 shrink-0 border-r border-dashed border-edge-subtle bg-muted/50 flex items-center justify-center">
-				Sidebar
-			</div>
+			<div className="w-32 shrink-0 border-r border-dashed border-edge-subtle bg-muted/50 flex items-center justify-center">Sidebar</div>
 			<div className="flex-1 flex items-center justify-center bg-card">Main content</div>
 		</div>
 	)
@@ -108,28 +106,13 @@ export default function DashboardLayoutPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Dashboard Layout"
-			subtitle="Layout alternatif bas niveau : navbar fixe + sidebar optionnelle + zone de contenu. Alternative à AppFrame pour des layouts sur mesure."
-			toc={toc}
-		>
+		<DocPage title="Dashboard Layout" subtitle="Layout alternatif bas niveau : navbar fixe + sidebar optionnelle + zone de contenu. Alternative à AppFrame pour des layouts sur mesure." toc={toc}>
 			<DocSection id="usage" title="Usage">
-				<DocExampleClient
-					title="Avec sidebar"
-					code={examples[0].code}
-					highlightedCode={html("with-sidebar")}
-				>
+				<DocExampleClient title="Avec sidebar" code={examples[0].code} highlightedCode={html("with-sidebar")}>
 					<LayoutPlaceholder />
 				</DocExampleClient>
-				<DocExampleClient
-					title="Sans sidebar"
-					description="Passer showSidebar={false} pour un layout pleine largeur."
-					code={examples[1].code}
-					highlightedCode={html("without-sidebar")}
-				>
-					<div className="h-32 rounded border border-dashed border-edge-subtle bg-card flex items-center justify-center text-xs text-fg-muted">
-						Full width content
-					</div>
+				<DocExampleClient title="Sans sidebar" description="Passer showSidebar={false} pour un layout pleine largeur." code={examples[1].code} highlightedCode={html("without-sidebar")}>
+					<div className="h-32 rounded border border-dashed border-edge-subtle bg-card flex items-center justify-center text-xs text-fg-muted">Full width content</div>
 				</DocExampleClient>
 			</DocSection>
 			<DocSection id="props" title="Props">

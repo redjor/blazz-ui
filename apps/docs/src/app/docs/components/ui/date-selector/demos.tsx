@@ -23,8 +23,19 @@ export function DateRangeSelectorDemo() {
 	const [to, setTo] = React.useState<Date | undefined>()
 	return (
 		<div className="space-y-2">
-			<DateRangeSelector from={from} to={to} onRangeChange={({ from: f, to: t }) => { setFrom(f); setTo(t) }} />
-			{from && to && <p className="text-xs text-fg-muted">{from.toLocaleDateString()} &ndash; {to.toLocaleDateString()}</p>}
+			<DateRangeSelector
+				from={from}
+				to={to}
+				onRangeChange={({ from: f, to: t }) => {
+					setFrom(f)
+					setTo(t)
+				}}
+			/>
+			{from && to && (
+				<p className="text-xs text-fg-muted">
+					{from.toLocaleDateString()} &ndash; {to.toLocaleDateString()}
+				</p>
+			)}
 		</div>
 	)
 }
@@ -32,5 +43,17 @@ export function DateRangeSelectorDemo() {
 export function DateRangeSelectorCustomDemo() {
 	const [from, setFrom] = React.useState<Date | undefined>()
 	const [to, setTo] = React.useState<Date | undefined>()
-	return <DateRangeSelector from={from} to={to} onRangeChange={({ from: f, to: t }) => { setFrom(f); setTo(t) }} fromPlaceholder="Date de début" toPlaceholder="Date de fin" formatStr="dd MMM yyyy" />
+	return (
+		<DateRangeSelector
+			from={from}
+			to={to}
+			onRangeChange={({ from: f, to: t }) => {
+				setFrom(f)
+				setTo(t)
+			}}
+			fromPlaceholder="Date de début"
+			toPlaceholder="Date de fin"
+			formatStr="dd MMM yyyy"
+		/>
+	)
 }

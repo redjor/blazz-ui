@@ -1,13 +1,7 @@
 "use client"
 
 import type { Notification } from "@blazz/pro/components/blocks/notification-center"
-import {
-	NotificationCenter,
-	NotificationGroup,
-	NotificationItem,
-	NotificationList,
-	NotificationTrigger,
-} from "@blazz/pro/components/blocks/notification-center"
+import { NotificationCenter, NotificationGroup, NotificationItem, NotificationList, NotificationTrigger } from "@blazz/pro/components/blocks/notification-center"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@blazz/ui/components/ui/sheet"
 import { AlertCircle, DollarSign, MessageSquare, ShieldAlert, UserPlus } from "lucide-react"
@@ -430,7 +424,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 function TriggerDemo() {
 	const [count, setCount] = useState(0)
 
@@ -454,11 +447,7 @@ export default function NotificationCenterPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="NotificationCenter"
-			subtitle="A composable notification panel with grouped lists, actions, and built-in loading/empty/error states."
-			toc={toc}
-		>
+		<DocPage title="NotificationCenter" subtitle="A composable notification panel with grouped lists, actions, and built-in loading/empty/error states." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<div className="w-full max-w-md rounded-lg border border-edge bg-card">
@@ -474,12 +463,7 @@ export default function NotificationCenterPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic"
-					description="A flat list of notifications without groups or actions."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic" description="A flat list of notifications without groups or actions." code={examples[0].code} highlightedCode={html("basic")}>
 					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter unreadCount={1}>
 							<NotificationList>
@@ -543,12 +527,7 @@ export default function NotificationCenterPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Empty State"
-					description="When there are no notifications, a built-in empty state is displayed automatically."
-					code={examples[4].code}
-					highlightedCode={html("empty")}
-				>
+				<DocExampleClient title="Empty State" description="When there are no notifications, a built-in empty state is displayed automatically." code={examples[4].code} highlightedCode={html("empty")}>
 					<div className="w-full max-w-md rounded-lg border border-edge bg-card">
 						<NotificationCenter />
 					</div>

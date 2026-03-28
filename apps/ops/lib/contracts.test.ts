@@ -21,9 +21,7 @@ describe("computeForfaitMetrics", () => {
 			budgetAmount: 10000,
 			startDate: "2026-01-01",
 			endDate: "2026-12-31",
-			entries: [
-				{ date: "2026-03-01", minutes: 60, hourlyRate: 100, billable: false },
-			],
+			entries: [{ date: "2026-03-01", minutes: 60, hourlyRate: 100, billable: false }],
 		})
 		expect(result.consumed).toBe(0)
 	})
@@ -171,9 +169,7 @@ describe("computeContractMetrics", () => {
 			startDate: "2026-01-01",
 			endDate: "2026-03-31",
 			hoursPerDay: 8,
-			entries: [
-				{ date: "2026-01-15", minutes: 480, billable: true },
-			],
+			entries: [{ date: "2026-01-15", minutes: 480, billable: true }],
 		})!
 		const feb = result.monthlyBreakdown.find((r) => r.month === "2026-02")
 		expect(feb).toBeDefined()
@@ -188,9 +184,7 @@ describe("computeContractMetrics", () => {
 			startDate: "2026-01-01",
 			endDate: "2026-03-31",
 			hoursPerDay: 8,
-			entries: [
-				{ date: "2026-01-15", minutes: 480, billable: false },
-			],
+			entries: [{ date: "2026-01-15", minutes: 480, billable: false }],
 		})!
 		const jan = result.monthlyBreakdown.find((r) => r.month === "2026-01")
 		expect(jan!.consumed).toBe(0)

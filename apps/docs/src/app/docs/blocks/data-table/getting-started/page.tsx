@@ -3,11 +3,11 @@
 import type { DataTableColumnDef } from "@blazz/pro/components/blocks/data-table"
 import { col, DataTable } from "@blazz/pro/components/blocks/data-table"
 import { ArrowRight, Check, LayoutTemplate, SlidersHorizontal } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
-import { use } from "react"
 import { highlightExamples } from "~/lib/highlight-examples"
 
 interface Product {
@@ -123,7 +123,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 export default function GettingStartedPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((item) => item.key === key)?.html ?? ""
@@ -175,12 +174,10 @@ export default function GettingStartedPage() {
 			<DocSection id="start-here" title="Start Here">
 				<div className="max-w-3xl space-y-3">
 					<p className="text-sm leading-6 text-fg-muted">
-						Commencez simple, puis enrichissez la table par couches: definir des colonnes lisibles,
-						activer les interactions essentielles, puis choisir un rendu adapte a votre produit.
+						Commencez simple, puis enrichissez la table par couches: definir des colonnes lisibles, activer les interactions essentielles, puis choisir un rendu adapte a votre produit.
 					</p>
 					<p className="text-sm leading-6 text-fg-muted">
-						Sous le capot, le composant s'appuie sur{" "}
-						<strong className="text-fg">TanStack Table</strong>
+						Sous le capot, le composant s'appuie sur <strong className="text-fg">TanStack Table</strong>
 						pour le moteur de colonnes, de tri et de pagination.
 					</p>
 				</div>
@@ -211,16 +208,13 @@ export default function GettingStartedPage() {
 						</div>
 						<div className="space-y-3 text-sm text-fg-muted">
 							<p>
-								<strong className="text-fg">Toolbar & Views</strong>: quand plusieurs personas
-								consomment la meme table.
+								<strong className="text-fg">Toolbar & Views</strong>: quand plusieurs personas consomment la meme table.
 							</p>
 							<p>
-								<strong className="text-fg">Filtering</strong>: quand la recherche plein texte ne
-								suffit plus.
+								<strong className="text-fg">Filtering</strong>: quand la recherche plein texte ne suffit plus.
 							</p>
 							<p>
-								<strong className="text-fg">Composition</strong>: quand vous devez injecter stats,
-								actions ou panels custom.
+								<strong className="text-fg">Composition</strong>: quand vous devez injecter stats, actions ou panels custom.
 							</p>
 						</div>
 					</div>
@@ -231,16 +225,12 @@ export default function GettingStartedPage() {
 				<div className="grid gap-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
 					<div className="space-y-4">
 						<p className="text-fg-muted">
-							Le DataTable prend deux props obligatoires: <code>data</code> et <code>columns</code>.
-							La meilleure entree de gamme consiste a partir de 3 a 5 colonnes creees avec{" "}
-							<code>col.*</code>, puis d'ajouter les comportements standards. Le socle
-							comportemental repose deja sur <code>TanStack Table</code>, donc vous recupererez ses
-							primitives mentales habituelles autour des colonnes et des row models.
+							Le DataTable prend deux props obligatoires: <code>data</code> et <code>columns</code>. La meilleure entree de gamme consiste a partir de 3 a 5 colonnes creees avec <code>col.*</code>,
+							puis d'ajouter les comportements standards. Le socle comportemental repose deja sur <code>TanStack Table</code>, donc vous recupererez ses primitives mentales habituelles autour des
+							colonnes et des row models.
 						</p>
 						<div className="rounded-xl border border-separator bg-background p-4">
-							<p className="mb-2 text-sm font-medium text-fg">
-								Ce setup couvre deja la plupart des cas CRUD
-							</p>
+							<p className="mb-2 text-sm font-medium text-fg">Ce setup couvre deja la plupart des cas CRUD</p>
 							<div className="space-y-2 text-sm text-fg-muted">
 								<p className="flex items-center gap-2">
 									<ArrowRight className="size-4 text-brand" /> Colonnes lisibles et typees
@@ -254,13 +244,7 @@ export default function GettingStartedPage() {
 							</div>
 						</div>
 					</div>
-					<DocExampleClient
-						code={gettingStartedCode}
-						highlightedCode={html("basic")}
-						defaultExpanded
-						className="rounded-xl border border-separator bg-muted/40"
-						previewClassName="hidden"
-					>
+					<DocExampleClient code={gettingStartedCode} highlightedCode={html("basic")} defaultExpanded className="rounded-xl border border-separator bg-muted/40" previewClassName="hidden">
 						{null}
 					</DocExampleClient>
 				</div>
@@ -268,13 +252,7 @@ export default function GettingStartedPage() {
 
 			<DocSection id="recipe" title="Recommended Recipe">
 				<div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-					<DocExampleClient
-						code={recipeCode}
-						highlightedCode={html("recipe")}
-						defaultExpanded
-						className="rounded-xl border border-separator bg-muted/40"
-						previewClassName="hidden"
-					>
+					<DocExampleClient code={recipeCode} highlightedCode={html("recipe")} defaultExpanded className="rounded-xl border border-separator bg-muted/40" previewClassName="hidden">
 						{null}
 					</DocExampleClient>
 					<div className="rounded-xl border border-separator bg-background p-5">
@@ -284,16 +262,13 @@ export default function GettingStartedPage() {
 						</div>
 						<div className="space-y-3 text-sm leading-6 text-fg-muted">
 							<p>
-								<code>variant="lined"</code> fonctionne bien dans une doc, un back-office ou une app
-								B2B dense.
+								<code>variant="lined"</code> fonctionne bien dans une doc, un back-office ou une app B2B dense.
 							</p>
 							<p>
-								<code>enableGlobalSearch</code> donne un point d'entree unique avant d'introduire
-								des filtres plus riches.
+								<code>enableGlobalSearch</code> donne un point d'entree unique avant d'introduire des filtres plus riches.
 							</p>
 							<p>
-								<code>locale="fr"</code> garde des labels et formatages coherents si votre UI est
-								francophone.
+								<code>locale="fr"</code> garde des labels et formatages coherents si votre UI est francophone.
 							</p>
 						</div>
 					</div>
@@ -302,8 +277,7 @@ export default function GettingStartedPage() {
 
 			<DocSection id="col-factories" title="col.* Factories">
 				<p className="text-fg-muted">
-					Les factories eliminent le boilerplate. Chaque factory derive le titre depuis la cle et
-					fournit un rendu, un tri et souvent une configuration de filtre adaptes.
+					Les factories eliminent le boilerplate. Chaque factory derive le titre depuis la cle et fournit un rendu, un tri et souvent une configuration de filtre adaptes.
 				</p>
 				<div className="grid gap-4 lg:grid-cols-3">
 					{factoryGroups.map((group) => (
@@ -324,51 +298,42 @@ export default function GettingStartedPage() {
 
 			<DocSection id="variants" title="Variants">
 				<p className="text-fg-muted mb-4">
-					Choisissez le variant selon la tonalite de l'interface. Ne partez pas sur{" "}
-					<code>editable</code> ou <code>spreadsheet</code> sans besoin produit explicite.
+					Choisissez le variant selon la tonalite de l'interface. Ne partez pas sur <code>editable</code> ou <code>spreadsheet</code> sans besoin produit explicite.
 				</p>
 				<div className="space-y-6">
-					{(["default", "lined", "striped", "flat", "editable", "spreadsheet"] as const).map(
-						(v) => (
-							<div key={v}>
-								<div className="mb-2 flex items-center justify-between gap-3">
-									<p className="text-sm font-medium">
-										<code>variant="{v}"</code>
-									</p>
-									<p className="text-xs text-fg-muted">
-										{v === "default" && "Equilibre neutre pour la plupart des listes"}
-										{v === "lined" && "Le plus propre pour des donnees denses"}
-										{v === "striped" && "Lecture de ligne plus guidee"}
-										{v === "flat" && "Aspect plus produit, moins grille"}
-										{v === "editable" && "Pour edition frequente au clavier"}
-										{v === "spreadsheet" && "Quand la table devient quasi un tableur"}
-									</p>
-								</div>
-								<div className="rounded-lg border border-separator overflow-hidden">
-									<DataTable
-										data={products.slice(0, 3)}
-										columns={[
-											col.text<Product>("name", { title: "Produit" }),
-											col.currency<Product>("price", { title: "Prix", currency: "EUR" }),
-											col.numeric<Product>("stock", { title: "Stock" }),
-										]}
-										variant={v}
-										enablePagination={false}
-										hideToolbar
-										getRowId={(row) => row.id}
-									/>
-								</div>
+					{(["default", "lined", "striped", "flat", "editable", "spreadsheet"] as const).map((v) => (
+						<div key={v}>
+							<div className="mb-2 flex items-center justify-between gap-3">
+								<p className="text-sm font-medium">
+									<code>variant="{v}"</code>
+								</p>
+								<p className="text-xs text-fg-muted">
+									{v === "default" && "Equilibre neutre pour la plupart des listes"}
+									{v === "lined" && "Le plus propre pour des donnees denses"}
+									{v === "striped" && "Lecture de ligne plus guidee"}
+									{v === "flat" && "Aspect plus produit, moins grille"}
+									{v === "editable" && "Pour edition frequente au clavier"}
+									{v === "spreadsheet" && "Quand la table devient quasi un tableur"}
+								</p>
 							</div>
-						)
-					)}
+							<div className="rounded-lg border border-separator overflow-hidden">
+								<DataTable
+									data={products.slice(0, 3)}
+									columns={[col.text<Product>("name", { title: "Produit" }), col.currency<Product>("price", { title: "Prix", currency: "EUR" }), col.numeric<Product>("stock", { title: "Stock" })]}
+									variant={v}
+									enablePagination={false}
+									hideToolbar
+									getRowId={(row) => row.id}
+								/>
+							</div>
+						</div>
+					))}
 				</div>
 			</DocSection>
 
 			<DocSection id="density" title="Density">
 				<p className="text-fg-muted mb-4">
-					La densite ajuste le rythme visuel. <code>compact</code> pour les outils experts,{" "}
-					<code>default</code> pour un bon compromis, <code>comfortable</code> pour des ecrans plus
-					explicatifs.
+					La densite ajuste le rythme visuel. <code>compact</code> pour les outils experts, <code>default</code> pour un bon compromis, <code>comfortable</code> pour des ecrans plus explicatifs.
 				</p>
 				<div className="space-y-6">
 					{(["compact", "default", "comfortable"] as const).map((d) => (
@@ -386,10 +351,7 @@ export default function GettingStartedPage() {
 							<div className="rounded-lg border border-separator overflow-hidden">
 								<DataTable
 									data={products.slice(0, 3)}
-									columns={[
-										col.text<Product>("name", { title: "Produit" }),
-										col.currency<Product>("price", { title: "Prix", currency: "EUR" }),
-									]}
+									columns={[col.text<Product>("name", { title: "Produit" }), col.currency<Product>("price", { title: "Prix", currency: "EUR" })]}
 									density={d}
 									enablePagination={false}
 									hideToolbar

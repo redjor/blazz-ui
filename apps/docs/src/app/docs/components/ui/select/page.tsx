@@ -1,17 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectSeparator,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -172,11 +163,7 @@ export default function SelectPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Select"
-			subtitle="A dropdown menu for selecting a single value from a list of options."
-			toc={toc}
-		>
+		<DocPage title="Select" subtitle="A dropdown menu for selecting a single value from a list of options." toc={toc}>
 			<DocHero>
 				<Select items={FRUIT_ITEMS}>
 					<SelectTrigger className="w-[180px]">
@@ -191,12 +178,7 @@ export default function SelectPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic select dropdown."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic select dropdown." code={examples[0].code} highlightedCode={html("default")}>
 					<Select items={FRUIT_ITEMS}>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue placeholder="Select a fruit" />
@@ -209,12 +191,7 @@ export default function SelectPage() {
 					</Select>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Label"
-					description="Select with an associated label."
-					code={examples[1].code}
-					highlightedCode={html("with-label")}
-				>
+				<DocExampleClient title="With Label" description="Select with an associated label." code={examples[1].code} highlightedCode={html("with-label")}>
 					<div className="w-[200px] space-y-2">
 						<Label htmlFor="country">Country</Label>
 						<Select items={COUNTRY_ITEMS}>
@@ -231,12 +208,7 @@ export default function SelectPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Available select trigger sizes."
-					code={examples[2].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Available select trigger sizes." code={examples[2].code} highlightedCode={html("sizes")}>
 					<div className="flex items-center gap-4">
 						<Select items={OPTION_ITEMS}>
 							<SelectTrigger size="sm" className="w-[140px]">
@@ -259,12 +231,7 @@ export default function SelectPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Groups"
-					description="Organize options into labeled groups."
-					code={examples[3].code}
-					highlightedCode={html("groups")}
-				>
+				<DocExampleClient title="With Groups" description="Organize options into labeled groups." code={examples[3].code} highlightedCode={html("groups")}>
 					<Select items={TIMEZONE_ITEMS}>
 						<SelectTrigger className="w-[200px]">
 							<SelectValue placeholder="Select timezone" />
@@ -286,12 +253,7 @@ export default function SelectPage() {
 					</Select>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled select prevents interaction."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled select prevents interaction." code={examples[4].code} highlightedCode={html("disabled")}>
 					<Select items={OPTION_ITEMS} disabled>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue placeholder="Disabled" />

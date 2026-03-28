@@ -49,8 +49,7 @@ export function computeContractMetrics(opts: {
 	const effectiveEnd = end < now ? end : now
 
 	// If we're in the prestation window (before contract start), show first contract month
-	const inPrestationWindow =
-		opts.prestationStartDate && now < start && now >= new Date(opts.prestationStartDate)
+	const inPrestationWindow = opts.prestationStartDate && now < start && now >= new Date(opts.prestationStartDate)
 
 	// Build list of months: "2026-01", "2026-02", ...
 	const months: string[] = []
@@ -83,8 +82,7 @@ export function computeContractMetrics(opts: {
 	let carry = 0
 	const rows: MonthRow[] = months.map((month) => {
 		const allocated = opts.daysPerMonth + (opts.carryOver ? carry : 0)
-		const consumed =
-			minutesPerDay > 0 ? Math.round(((minutesByMonth[month] ?? 0) / minutesPerDay) * 10) / 10 : 0
+		const consumed = minutesPerDay > 0 ? Math.round(((minutesByMonth[month] ?? 0) / minutesPerDay) * 10) / 10 : 0
 		const remaining = Math.round((allocated - consumed) * 10) / 10
 		const percentUsed = allocated > 0 ? (consumed / allocated) * 100 : 0
 
@@ -140,9 +138,7 @@ export function computeForfaitMetrics(opts: {
 	startDate: string
 	endDate: string
 }): ForfaitMetrics {
-	const consumed = opts.entries
-		.filter((e) => e.billable && e.date >= opts.startDate && e.date <= opts.endDate)
-		.reduce((sum, e) => sum + (e.minutes / 60) * e.hourlyRate, 0)
+	const consumed = opts.entries.filter((e) => e.billable && e.date >= opts.startDate && e.date <= opts.endDate).reduce((sum, e) => sum + (e.minutes / 60) * e.hourlyRate, 0)
 
 	const remaining = opts.budgetAmount - consumed
 	const percentUsed = opts.budgetAmount > 0 ? (consumed / opts.budgetAmount) * 100 : 0

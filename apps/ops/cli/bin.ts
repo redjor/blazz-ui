@@ -15,9 +15,11 @@ program
 	})
 
 import { registerNotesCommand } from "./commands/notes"
+
 registerNotesCommand(program)
 
 import { registerTodosCommand } from "./commands/todos"
+
 registerTodosCommand(program)
 
 import { startMcpServer } from "./mcp/server"

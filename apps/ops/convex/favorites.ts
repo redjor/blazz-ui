@@ -2,14 +2,7 @@ import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const entityTypeValidator = v.union(
-	v.literal("client"),
-	v.literal("project"),
-	v.literal("todo"),
-	v.literal("note"),
-	v.literal("bookmark"),
-	v.literal("feedItem"),
-)
+const entityTypeValidator = v.union(v.literal("client"), v.literal("project"), v.literal("todo"), v.literal("note"), v.literal("bookmark"), v.literal("feedItem"))
 
 // ── Queries ──────────────────────────────────────────────────
 
@@ -34,9 +27,7 @@ export const isFavorited = query({
 		const { userId } = await requireAuth(ctx)
 		const existing = await ctx.db
 			.query("favorites")
-			.withIndex("by_user_entity", (q) =>
-				q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId)
-			)
+			.withIndex("by_user_entity", (q) => q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId))
 			.first()
 		return existing !== null
 	},
@@ -56,9 +47,7 @@ export const add = mutation({
 		// Check if already favorited
 		const existing = await ctx.db
 			.query("favorites")
-			.withIndex("by_user_entity", (q) =>
-				q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId)
-			)
+			.withIndex("by_user_entity", (q) => q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId))
 			.first()
 		if (existing) return existing._id
 
@@ -89,9 +78,7 @@ export const remove = mutation({
 		const { userId } = await requireAuth(ctx)
 		const existing = await ctx.db
 			.query("favorites")
-			.withIndex("by_user_entity", (q) =>
-				q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId)
-			)
+			.withIndex("by_user_entity", (q) => q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId))
 			.first()
 		if (existing) {
 			await ctx.db.delete(existing._id)
@@ -123,9 +110,7 @@ export const updateLabel = mutation({
 		const { userId } = await requireAuth(ctx)
 		const existing = await ctx.db
 			.query("favorites")
-			.withIndex("by_user_entity", (q) =>
-				q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId)
-			)
+			.withIndex("by_user_entity", (q) => q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId))
 			.first()
 		if (existing) {
 			await ctx.db.patch(existing._id, { label: label.slice(0, 30) })
@@ -144,6 +129,7 @@ export const syncLabels = mutation({
 
 		for (const fav of favorites) {
 			// Look up the source entity (polymorphic ID, may be invalid)
+			// biome-ignore lint/suspicious/noImplicitAnyLet: polymorphic entity lookup
 			let entity
 			try {
 				entity = await ctx.db.get(fav.entityId as any)

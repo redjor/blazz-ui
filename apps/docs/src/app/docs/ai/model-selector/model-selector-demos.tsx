@@ -28,9 +28,7 @@ export function ModelSelectorDemo() {
 	const [open, setOpen] = useState(false)
 	return (
 		<ModelSelector open={open} onOpenChange={setOpen}>
-			<ModelSelectorTrigger render={<Button variant="outline" />}>
-				Select a model
-			</ModelSelectorTrigger>
+			<ModelSelectorTrigger render={<Button variant="outline" />}>Select a model</ModelSelectorTrigger>
 			<ModelSelectorContent>
 				<ModelSelectorInput placeholder="Search models..." />
 				<ModelSelectorList>
@@ -53,9 +51,7 @@ export function ModelSelectorGroupedDemo() {
 	const [open, setOpen] = useState(false)
 	return (
 		<ModelSelector open={open} onOpenChange={setOpen}>
-			<ModelSelectorTrigger render={<Button variant="outline" />}>
-				Choose model
-			</ModelSelectorTrigger>
+			<ModelSelectorTrigger render={<Button variant="outline" />}>Choose model</ModelSelectorTrigger>
 			<ModelSelectorContent>
 				<ModelSelectorInput placeholder="Search models..." />
 				<ModelSelectorList>

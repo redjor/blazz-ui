@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { CurrencyInput } from "@blazz/ui/components/ui/currency-input"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -97,70 +97,34 @@ const currencyInputProps: DocProp[] = [
 	},
 ]
 
-
 export default function CurrencyInputPage() {
 	const highlighted = use(highlightedPromise)
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="CurrencyInput"
-			subtitle="A formatted numeric input for currency values. Supports locale-aware formatting, configurable decimal places, and currency symbols."
-			toc={toc}
-		>
+		<DocPage title="CurrencyInput" subtitle="A formatted numeric input for currency values. Supports locale-aware formatting, configurable decimal places, and currency symbols." toc={toc}>
 			<DocHero>
 				<CurrencyInput value={1234.56} className="max-w-xs" />
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic currency input with default EUR formatting."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic currency input with default EUR formatting." code={examples[0].code} highlightedCode={html("default")}>
 					<CurrencyInput value={1234.56} className="max-w-xs" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="USD"
-					description="US Dollar formatting with the symbol on the left."
-					code={examples[1].code}
-					highlightedCode={html("usd")}
-				>
-					<CurrencyInput
-						value={1234.56}
-						currency="USD"
-						locale="en-US"
-						symbolPosition="left"
-						className="max-w-xs"
-					/>
+				<DocExampleClient title="USD" description="US Dollar formatting with the symbol on the left." code={examples[1].code} highlightedCode={html("usd")}>
+					<CurrencyInput value={1234.56} currency="USD" locale="en-US" symbolPosition="left" className="max-w-xs" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Custom Decimals"
-					description="Display without decimal places for whole-number currencies."
-					code={examples[2].code}
-					highlightedCode={html("custom-decimals")}
-				>
+				<DocExampleClient title="Custom Decimals" description="Display without decimal places for whole-number currencies." code={examples[2].code} highlightedCode={html("custom-decimals")}>
 					<CurrencyInput value={1234} decimals={0} className="max-w-xs" />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Controlled"
-					description="Manage the value programmatically with state."
-					code={examples[3].code}
-					highlightedCode={html("controlled")}
-				>
+				<DocExampleClient title="Controlled" description="Manage the value programmatically with state." code={examples[3].code} highlightedCode={html("controlled")}>
 					<ControlledCurrencyInputDemo />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Disabled"
-					description="Disabled currency inputs prevent user interaction."
-					code={examples[4].code}
-					highlightedCode={html("disabled")}
-				>
+				<DocExampleClient title="Disabled" description="Disabled currency inputs prevent user interaction." code={examples[4].code} highlightedCode={html("disabled")}>
 					<CurrencyInput value={500} disabled className="max-w-xs" />
 				</DocExampleClient>
 			</DocSection>

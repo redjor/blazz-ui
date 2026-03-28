@@ -117,7 +117,6 @@ function CustomRenderExample() {
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 function HeroDemo() {
 	const [company, setCompany] = useState("Acme Corporation")
 	const [revenue, setRevenue] = useState("12500000")
@@ -132,14 +131,7 @@ function HeroDemo() {
 				</div>
 				<div className="space-y-1">
 					<span className="text-xs text-fg-muted">Chiffre d'affaires</span>
-					<InlineEdit
-						value={revenue}
-						onSave={setRevenue}
-						type="number"
-						renderValue={(v) => (
-							<span className="font-semibold text-fg">{Number(v).toLocaleString("fr-FR")} €</span>
-						)}
-					/>
+					<InlineEdit value={revenue} onSave={setRevenue} type="number" renderValue={(v) => <span className="font-semibold text-fg">{Number(v).toLocaleString("fr-FR")} €</span>} />
 				</div>
 				<div className="space-y-1">
 					<span className="text-xs text-fg-muted">Contact principal</span>
@@ -178,11 +170,7 @@ function CustomRenderDemo() {
 	return (
 		<div className="space-y-1">
 			<span className="text-xs text-fg-muted">Statut du projet</span>
-			<InlineEdit
-				value={status}
-				onSave={setStatus}
-				renderValue={(v) => <span className="font-semibold text-brand">{v}</span>}
-			/>
+			<InlineEdit value={status} onSave={setStatus} renderValue={(v) => <span className="font-semibold text-brand">{v}</span>} />
 		</div>
 	)
 }
@@ -192,11 +180,7 @@ export default function InlineEditPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Inline Edit"
-			subtitle="Click-to-edit field that toggles between read and edit mode. Saves on Enter or blur, cancels on Escape."
-			toc={toc}
-		>
+		<DocPage title="Inline Edit" subtitle="Click-to-edit field that toggles between read and edit mode. Saves on Enter or blur, cancels on Escape." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<HeroDemo />
@@ -204,12 +188,7 @@ export default function InlineEditPage() {
 
 			{/* Examples */}
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Text"
-					description="Click the value to edit. Press Enter to save, Escape to cancel."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Text" description="Click the value to edit. Press Enter to save, Escape to cancel." code={examples[0].code} highlightedCode={html("basic")}>
 					<BasicDemo />
 				</DocExampleClient>
 

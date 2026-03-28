@@ -17,16 +17,7 @@ export interface OtpInputProps {
 	mask?: boolean
 }
 
-function OtpInput({
-	length = 6,
-	value = "",
-	onValueChange,
-	onComplete,
-	disabled = false,
-	className,
-	"aria-invalid": ariaInvalid,
-	mask = false,
-}: OtpInputProps) {
+function OtpInput({ length = 6, value = "", onValueChange, onComplete, disabled = false, className, "aria-invalid": ariaInvalid, mask = false }: OtpInputProps) {
 	const inputsRef = React.useRef<(HTMLInputElement | null)[]>([])
 
 	const digits = React.useMemo(() => {
@@ -94,12 +85,7 @@ function OtpInput({
 	}
 
 	return (
-		<div
-			data-slot="otp-input"
-			className={cn("flex items-center gap-2", className)}
-			role="group"
-			aria-label="One-time password"
-		>
+		<div data-slot="otp-input" className={cn("flex items-center gap-2", className)} role="group" aria-label="One-time password">
 			{digits.map((digit, i) => (
 				<input
 					key={i}

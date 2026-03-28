@@ -1,12 +1,13 @@
 "use client"
 
-import { use } from "react"
 import { InsightCard } from "@blazz/pro/components/ai/generative/content/insight-card"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
 import { DocSection } from "~/components/docs/doc-section"
 import { highlightExamples } from "~/lib/highlight-examples"
+
 const examples = [
 	{
 		key: "recommendation",
@@ -31,7 +32,6 @@ const examples = [
 
 const highlightedPromise = highlightExamples(examples as any)
 
-
 const toc = [{ id: "examples", title: "Examples" }]
 
 export default function InsightCardPage() {
@@ -39,11 +39,7 @@ export default function InsightCardPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Insight Card"
-			subtitle="An AI recommendation or finding with confidence level and source."
-			toc={toc}
-		>
+		<DocPage title="Insight Card" subtitle="An AI recommendation or finding with confidence level and source." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
 					<InsightCard
@@ -57,12 +53,7 @@ export default function InsightCardPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Recommendation"
-					description="AI-generated recommendation."
-					code={examples[0].code}
-					highlightedCode={html("recommendation")}
-				>
+				<DocExampleClient title="Recommendation" description="AI-generated recommendation." code={examples[0].code} highlightedCode={html("recommendation")}>
 					<div className="max-w-sm">
 						<InsightCard
 							title="Optimize Email Timing"
@@ -74,12 +65,7 @@ export default function InsightCardPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Warning"
-					description="AI-detected risk."
-					code={examples[1].code}
-					highlightedCode={html("warning")}
-				>
+				<DocExampleClient title="Warning" description="AI-detected risk." code={examples[1].code} highlightedCode={html("warning")}>
 					<div className="max-w-sm">
 						<InsightCard
 							title="Churn Risk: TechStart Inc."

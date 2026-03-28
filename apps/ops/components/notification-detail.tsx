@@ -1,14 +1,14 @@
 "use client"
 
-import { useMutation } from "convex/react"
-import { ExternalLink, Archive, ArrowRight } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { formatDistanceToNowStrict } from "date-fns"
 import { Button } from "@blazz/ui"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Card, CardContent, CardFooter } from "@blazz/ui/components/ui/card"
 import { Divider } from "@blazz/ui/components/ui/divider"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { useMutation } from "convex/react"
+import { formatDistanceToNowStrict } from "date-fns"
+import { Archive, ArrowRight, ExternalLink } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { api } from "@/convex/_generated/api"
 import type { Doc } from "@/convex/_generated/dataModel"
 
@@ -40,24 +40,15 @@ export function NotificationDetail({ notification }: { notification: Doc<"notifi
 
 	return (
 		<div className="flex h-full items-center justify-center p-8">
-			<Card
-				elevated
-				className="w-full max-w-[520px] animate-in fade-in slide-in-from-bottom-2 duration-200"
-			>
+			<Card elevated className="w-full max-w-[520px] animate-in fade-in slide-in-from-bottom-2 duration-200">
 				<CardContent>
 					{/* Source strip */}
 					<InlineStack gap="200" align="space-between" blockAlign="center">
 						<InlineStack gap="200" blockAlign="center">
 							{source?.logo ? (
-								<img
-									src={source.logo}
-									alt={sourceLabel}
-									className="size-5"
-								/>
+								<img src={source.logo} alt={sourceLabel} className="size-5" />
 							) : (
-								<span className="text-[9px] font-semibold uppercase text-fg-muted">
-									{notification.source.slice(0, 2)}
-								</span>
+								<span className="text-[9px] font-semibold uppercase text-fg-muted">{notification.source.slice(0, 2)}</span>
 							)}
 							<span className="text-xs font-medium text-fg">{sourceLabel}</span>
 						</InlineStack>
@@ -67,12 +58,8 @@ export function NotificationDetail({ notification }: { notification: Doc<"notifi
 					{/* Body */}
 					<BlockStack gap="400" className="pt-5">
 						<BlockStack gap="100">
-							<h2 className="text-lg font-semibold tracking-tight text-fg leading-snug">
-								{notification.title}
-							</h2>
-							<p className="text-sm text-fg-muted leading-relaxed">
-								{notification.description}
-							</p>
+							<h2 className="text-lg font-semibold tracking-tight text-fg leading-snug">{notification.title}</h2>
+							<p className="text-sm text-fg-muted leading-relaxed">{notification.description}</p>
 						</BlockStack>
 
 						{/* Author — hidden when same as source */}
@@ -81,16 +68,9 @@ export function NotificationDetail({ notification }: { notification: Doc<"notifi
 								<Divider />
 								<InlineStack gap="200" blockAlign="center">
 									{notification.authorAvatar ? (
-										<img
-											src={notification.authorAvatar}
-											alt={notification.authorName}
-											className="size-7 rounded-full"
-										/>
+										<img src={notification.authorAvatar} alt={notification.authorName} className="size-7 rounded-full" />
 									) : (
-										<div
-											className="flex size-7 items-center justify-center rounded-full text-[10px] font-semibold text-white"
-											style={{ backgroundColor: notification.authorColor ?? "#6b7280" }}
-										>
+										<div className="flex size-7 items-center justify-center rounded-full text-[10px] font-semibold text-white" style={{ backgroundColor: notification.authorColor ?? "#6b7280" }}>
 											{notification.authorInitials}
 										</div>
 									)}
@@ -105,28 +85,18 @@ export function NotificationDetail({ notification }: { notification: Doc<"notifi
 				{/* Actions */}
 				<CardFooter className="gap-2">
 					{notification.url && isAgent && (
-						<Button
-							size="sm"
-							onClick={() => router.push(notification.url!)}
-						>
+						<Button size="sm" onClick={() => router.push(notification.url!)}>
 							<ArrowRight className="mr-1.5 size-3.5" />
 							Voir la mission
 						</Button>
 					)}
 					{notification.url && !isAgent && (
-						<Button
-							size="sm"
-							onClick={() => window.open(notification.url!, "_blank")}
-						>
+						<Button size="sm" onClick={() => window.open(notification.url!, "_blank")}>
 							<ExternalLink className="mr-1.5 size-3.5" />
 							Open in {sourceLabel}
 						</Button>
 					)}
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => archiveMutation({ id: notification._id })}
-					>
+					<Button variant="outline" size="sm" onClick={() => archiveMutation({ id: notification._id })}>
 						<Archive className="mr-1.5 size-3.5" />
 						Archive
 					</Button>

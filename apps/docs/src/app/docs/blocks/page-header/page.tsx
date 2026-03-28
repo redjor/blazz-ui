@@ -1,19 +1,12 @@
 "use client"
 
-import { use } from "react"
 import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { Badge } from "@blazz/ui/components/ui/badge"
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@blazz/ui/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@blazz/ui/components/ui/breadcrumb"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
 import { Download, MoreHorizontal, Plus, Send } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -167,26 +160,22 @@ const pageHeaderProps: DocProp[] = [
 	{
 		name: "top",
 		type: "React.ReactNode",
-		description:
-			"Slot au-dessus de la ligne titre. Typiquement des breadcrumbs ou un lien retour.",
+		description: "Slot au-dessus de la ligne titre. Typiquement des breadcrumbs ou un lien retour.",
 	},
 	{
 		name: "afterTitle",
 		type: "React.ReactNode",
-		description:
-			"Slot inline après le titre. Badge de statut, metadata, compteur.",
+		description: "Slot inline après le titre. Badge de statut, metadata, compteur.",
 	},
 	{
 		name: "actions",
 		type: "React.ReactNode",
-		description:
-			"Slot à droite de la ligne titre (justify-between). Boutons d'action, menu ⋯.",
+		description: "Slot à droite de la ligne titre (justify-between). Boutons d'action, menu ⋯.",
 	},
 	{
 		name: "bottom",
 		type: "React.ReactNode",
-		description:
-			"Slot sous la ligne titre. Description, tabs, filtres.",
+		description: "Slot sous la ligne titre. Description, tabs, filtres.",
 	},
 	{
 		name: "className",
@@ -272,12 +261,12 @@ function BottomPreview() {
 			title="Clients"
 			bottom={
 				<Tabs defaultValue="all">
-						<TabsList>
-							<TabsTrigger value="all">Tous</TabsTrigger>
-							<TabsTrigger value="active">Actifs</TabsTrigger>
-							<TabsTrigger value="archived">Archivés</TabsTrigger>
-						</TabsList>
-					</Tabs>
+					<TabsList>
+						<TabsTrigger value="all">Tous</TabsTrigger>
+						<TabsTrigger value="active">Actifs</TabsTrigger>
+						<TabsTrigger value="archived">Archivés</TabsTrigger>
+					</TabsList>
+				</Tabs>
 			}
 		/>
 	)
@@ -316,27 +305,13 @@ export default function PageHeaderDocPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Page Header"
-			subtitle="Header de page composable avec 4 slots (top, afterTitle, actions, bottom) et un titre. Naked — aucun style visuel imposé, uniquement du layout."
-			toc={toc}
-		>
+		<DocPage title="Page Header" subtitle="Header de page composable avec 4 slots (top, afterTitle, actions, bottom) et un titre. Naked — aucun style visuel imposé, uniquement du layout." toc={toc}>
 			<DocSection id="usage" title="Usage">
-				<DocExampleClient
-					title="Titre seul"
-					description="Usage minimal — juste un titre."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Titre seul" description="Usage minimal — juste un titre." code={examples[0].code} highlightedCode={html("basic")}>
 					<BasicPreview />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Avec actions"
-					description="Le slot actions accepte n'importe quel ReactNode, aligné à droite."
-					code={examples[1].code}
-					highlightedCode={html("with-actions")}
-				>
+				<DocExampleClient title="Avec actions" description="Le slot actions accepte n'importe quel ReactNode, aligné à droite." code={examples[1].code} highlightedCode={html("with-actions")}>
 					<ActionsPreview />
 				</DocExampleClient>
 
@@ -367,12 +342,7 @@ export default function PageHeaderDocPage() {
 					<BottomPreview />
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Tous les slots"
-					description="Exemple complet avec les 4 slots remplis."
-					code={examples[5].code}
-					highlightedCode={html("full")}
-				>
+				<DocExampleClient title="Tous les slots" description="Exemple complet avec les 4 slots remplis." code={examples[5].code} highlightedCode={html("full")}>
 					<FullPreview />
 				</DocExampleClient>
 			</DocSection>
@@ -387,8 +357,7 @@ export default function PageHeaderDocPage() {
 						{
 							title: "Page Header Shell (patterns)",
 							href: "/docs/components/patterns/page-header-shell",
-							description:
-								"Version open-source avec breadcrumbs et description intégrés.",
+							description: "Version open-source avec breadcrumbs et description intégrés.",
 						},
 						{
 							title: "Breadcrumb",

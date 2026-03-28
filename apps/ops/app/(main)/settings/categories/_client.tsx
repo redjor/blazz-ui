@@ -1,47 +1,19 @@
 "use client"
 
-import {
-	SettingsHeader,
-	SettingsPage,
-	SettingsSection,
-} from "@blazz/pro/components/blocks/settings-block"
+import { SettingsHeader, SettingsPage, SettingsSection } from "@blazz/pro/components/blocks/settings-block"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "@blazz/ui/components/ui/dialog"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@blazz/ui/components/ui/dropdown-menu"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@blazz/ui/components/ui/dropdown-menu"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Item,
-	ItemActions,
-	ItemContent,
-	ItemDescription,
-	ItemMedia,
-	ItemTitle,
-} from "@blazz/ui/components/ui/item"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@blazz/ui/components/ui/item"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
-import {
-	CATEGORY_COLORS,
-	CATEGORY_ICONS,
-	getCategoryIcon,
-} from "@/components/manage-categories-sheet"
+import { CATEGORY_COLORS, CATEGORY_ICONS, getCategoryIcon } from "@/components/manage-categories-sheet"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -60,11 +32,7 @@ function CategoryDot({ color }: { color?: string }) {
 		sky: "bg-sky-500",
 		zinc: "bg-zinc-400",
 	}
-	return (
-		<span
-			className={`size-2.5 shrink-0 rounded-full ${colorMap[color ?? "zinc"] ?? colorMap.zinc}`}
-		/>
-	)
+	return <span className={`size-2.5 shrink-0 rounded-full ${colorMap[color ?? "zinc"] ?? colorMap.zinc}`} />
 }
 
 function CategoryIcon({ iconId, color }: { iconId?: string; color?: string }) {
@@ -82,9 +50,7 @@ function CategoryIcon({ iconId, color }: { iconId?: string; color?: string }) {
 		zinc: "text-zinc-400",
 	}
 
-	return (
-		<Icon className={`size-4 shrink-0 ${textColorMap[color ?? "zinc"] ?? textColorMap.zinc}`} />
-	)
+	return <Icon className={`size-4 shrink-0 ${textColorMap[color ?? "zinc"] ?? textColorMap.zinc}`} />
 }
 
 function ColorPicker({ value, onChange }: { value: string; onChange: (color: string) => void }) {
@@ -103,15 +69,7 @@ function ColorPicker({ value, onChange }: { value: string; onChange: (color: str
 	)
 }
 
-function IconPicker({
-	value,
-	onChange,
-	color,
-}: {
-	value: string
-	onChange: (icon: string) => void
-	color: string
-}) {
+function IconPicker({ value, onChange, color }: { value: string; onChange: (icon: string) => void; color: string }) {
 	const textColorMap: Record<string, string> = {
 		indigo: "text-indigo-500",
 		violet: "text-violet-500",
@@ -134,9 +92,7 @@ function IconPicker({
 						type="button"
 						onClick={() => onChange(item.id)}
 						className={`flex items-center justify-center size-8 rounded-md transition-all ${
-							isSelected
-								? `bg-muted ring-1 ring-edge ${iconColor}`
-								: "text-fg-muted hover:bg-card hover:text-fg-secondary"
+							isSelected ? `bg-muted ring-1 ring-edge ${iconColor}` : "text-fg-muted hover:bg-card hover:text-fg-secondary"
 						}`}
 						title={item.label}
 					>
@@ -183,12 +139,7 @@ function CreateCategoryDialog() {
 					<BlockStack gap="400" className="py-4">
 						<BlockStack gap="200">
 							<label className="text-sm font-medium text-fg">Nom</label>
-							<Input
-								placeholder="Ex: Clients, Facturation…"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								autoFocus
-							/>
+							<Input placeholder="Ex: Clients, Facturation…" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
 						</BlockStack>
 						<BlockStack gap="200">
 							<label className="text-sm font-medium text-fg">Couleur</label>
@@ -324,10 +275,7 @@ function CategoryItem({
 								Modifier
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem
-								className="text-negative"
-								onClick={() => removeCategory({ id: category._id })}
-							>
+							<DropdownMenuItem className="text-negative" onClick={() => removeCategory({ id: category._id })}>
 								<Trash2 className="size-3.5 mr-2" />
 								Supprimer
 							</DropdownMenuItem>
@@ -349,13 +297,8 @@ export default function CategoriesPageClient() {
 
 	return (
 		<SettingsPage>
-			<SettingsHeader title="Catégories">
-				{categories && categories.length > 0 && <CreateCategoryDialog />}
-			</SettingsHeader>
-			<SettingsSection
-				title="Toutes les catégories"
-				description="Utilisées pour organiser vos todos."
-			>
+			<SettingsHeader title="Catégories">{categories && categories.length > 0 && <CreateCategoryDialog />}</SettingsHeader>
+			<SettingsSection title="Toutes les catégories" description="Utilisées pour organiser vos todos.">
 				{categories === undefined ? (
 					<Item>
 						<ItemContent>
@@ -365,9 +308,7 @@ export default function CategoriesPageClient() {
 				) : categories.length === 0 ? (
 					<Item>
 						<ItemContent>
-							<ItemDescription>
-								Aucune catégorie. Créez-en une pour organiser vos todos.
-							</ItemDescription>
+							<ItemDescription>Aucune catégorie. Créez-en une pour organiser vos todos.</ItemDescription>
 						</ItemContent>
 						<ItemActions>
 							<CreateCategoryDialog />

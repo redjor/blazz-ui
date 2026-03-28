@@ -5,13 +5,7 @@ import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "convex/react"
 import { format, parseISO } from "date-fns"
@@ -26,10 +20,7 @@ const schema = z.object({
 	description: z.string().optional(),
 	tjm: z.coerce.number().min(1, "TJM requis"),
 	hoursPerDay: z.coerce.number().min(1).max(24),
-	budgetAmount: z.preprocess(
-		(v) => (v === "" || v === undefined ? undefined : Number(v)),
-		z.number().positive().optional()
-	),
+	budgetAmount: z.preprocess((v) => (v === "" || v === undefined ? undefined : Number(v)), z.number().positive().optional()),
 	currency: z.string().min(1),
 	status: z.enum(["active", "paused", "closed"]),
 	startDate: z.string().optional(),
@@ -107,12 +98,7 @@ export function ProjectForm({ clientId, defaultValues, onSuccess, onCancel }: Pr
 			</div>
 			<div className="space-y-1.5">
 				<Label htmlFor="budgetAmount">Budget (€)</Label>
-				<Input
-					id="budgetAmount"
-					type="number"
-					placeholder="Ex: 15000"
-					{...register("budgetAmount")}
-				/>
+				<Input id="budgetAmount" type="number" placeholder="Ex: 15000" {...register("budgetAmount")} />
 				{typeof budgetValue === "number" && budgetValue > 0 && tjmValue > 0 && (
 					<p className="text-xs text-fg-muted">
 						≈ {Math.round((budgetValue / tjmValue) * 10) / 10} jours à {tjmValue}€/j

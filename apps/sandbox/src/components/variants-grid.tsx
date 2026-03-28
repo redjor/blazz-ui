@@ -21,10 +21,7 @@ function generateVariantCode(entry: ComponentEntry, propName: string, value: str
 
 export function VariantsGrid({ entry, extraScope }: VariantsGridProps) {
 	// Find the first union-type prop
-	const unionProp = useMemo(
-		() => entry.props.find((p) => p.type === "union" && p.options?.length),
-		[entry.props]
-	)
+	const unionProp = useMemo(() => entry.props.find((p) => p.type === "union" && p.options?.length), [entry.props])
 
 	const variants = useMemo(() => {
 		if (!unionProp?.options) return []
@@ -36,11 +33,7 @@ export function VariantsGrid({ entry, extraScope }: VariantsGridProps) {
 	}, [entry, unionProp, extraScope])
 
 	if (!unionProp) {
-		return (
-			<div className="flex items-center justify-center h-full text-sm text-fg-muted">
-				No variant props available
-			</div>
-		)
+		return <div className="flex items-center justify-center h-full text-sm text-fg-muted">No variant props available</div>
 	}
 
 	return (
@@ -49,9 +42,7 @@ export function VariantsGrid({ entry, extraScope }: VariantsGridProps) {
 				{variants.map(({ option, element, error }) => (
 					<div key={option}>
 						<div className="text-xs text-fg-muted font-mono mb-2">{option}</div>
-						<div className="p-4 border border-edge rounded-md bg-card flex items-center justify-center min-h-[80px]">
-							{error ? <span className="text-xs text-negative">{error}</span> : element}
-						</div>
+						<div className="p-4 border border-edge rounded-md bg-card flex items-center justify-center min-h-[80px]">{error ? <span className="text-xs text-negative">{error}</span> : element}</div>
 					</div>
 				))}
 			</div>

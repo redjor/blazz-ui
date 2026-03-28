@@ -19,9 +19,7 @@ describe("todos auth", () => {
 
 	it("create rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(t.mutation(api.todos.create, { text: "Test" })).rejects.toThrow(
-			"Non authentifié"
-		)
+		await expect(t.mutation(api.todos.create, { text: "Test" })).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -78,9 +76,7 @@ describe("todos CRUD", () => {
 		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
 		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
 		const id = await user1.mutation(api.todos.create, { text: "Mine" })
-		await expect(
-			user2.mutation(api.todos.update, { id, text: "Hacked" })
-		).rejects.toThrow("Introuvable")
+		await expect(user2.mutation(api.todos.update, { id, text: "Hacked" })).rejects.toThrow("Introuvable")
 	})
 
 	it("updates status", async () => {

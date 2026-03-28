@@ -39,19 +39,11 @@ export function DocToc({ items }: DocTocProps) {
 
 	return (
 		<nav className="sticky top-20 hidden lg:block" aria-label="Table of contents">
-			<p className="mb-3 text-xs font-semibold uppercase tracking-wider text-fg-muted">
-				On this page
-			</p>
+			<p className="mb-3 text-xs font-semibold uppercase tracking-wider text-fg-muted">On this page</p>
 			<ul className="space-y-1.5 border-l border-separator pl-3">
 				{items.map((item) => (
 					<li key={item.id}>
-						<a
-							href={`#${item.id}`}
-							className={cn(
-								"block text-[13px] leading-snug transition-colors",
-								activeId === item.id ? "font-medium text-brand" : "text-fg-muted hover:text-fg"
-							)}
-						>
+						<a href={`#${item.id}`} className={cn("block text-[13px] leading-snug transition-colors", activeId === item.id ? "font-medium text-brand" : "text-fg-muted hover:text-fg")}>
 							{item.title}
 						</a>
 					</li>

@@ -31,11 +31,7 @@ export function JsonControl({ name, value, onChange, descriptor }: JsonControlPr
 			<label className="min-w-[100px] text-xs text-fg-muted" title={descriptor.description}>
 				{name}
 			</label>
-			<Textarea
-				className={`text-xs font-mono min-h-[60px] resize-y ${!isValid ? "border-negative ring-negative/20 ring-2" : ""}`}
-				value={raw}
-				onChange={(e) => handleChange(e.target.value)}
-			/>
+			<Textarea className={`text-xs font-mono min-h-[60px] resize-y ${!isValid ? "border-negative ring-negative/20 ring-2" : ""}`} value={raw} onChange={(e) => handleChange(e.target.value)} />
 		</div>
 	)
 }

@@ -32,8 +32,7 @@ const barChartProps: DocProp[] = [
 	{
 		name: "data",
 		type: "Record<string, unknown>[]",
-		description:
-			"Array of data points. Each object should contain the xKey field and one field per series defined in config.",
+		description: "Array of data points. Each object should contain the xKey field and one field per series defined in config.",
 	},
 	{
 		name: "config",
@@ -82,28 +81,15 @@ const singleConfig = {
 
 export default function BarChartPage() {
 	return (
-		<DocPage
-			title="Bar Chart"
-			subtitle="Barres verticales pour comparer des valeurs par catégorie. Basé sur Recharts et les primitives shadcn Chart."
-			toc={toc}
-		>
+		<DocPage title="Bar Chart" subtitle="Barres verticales pour comparer des valeurs par catégorie. Basé sur Recharts et les primitives shadcn Chart." toc={toc}>
 			<DocHero>
 				<div className="max-w-lg">
-					<BarChartBlock
-						title="Revenus mensuels"
-						description="Récurrent vs ponctuel"
-						data={revenueData}
-						config={revenueConfig}
-					/>
+					<BarChartBlock title="Revenus mensuels" description="Récurrent vs ponctuel" data={revenueData} config={revenueConfig} />
 				</div>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleSync
-					title="Default"
-					description="Le composant fonctionne sans props — il affiche des données de démo."
-					code={`<BarChartBlock />`}
-				>
+				<DocExampleSync title="Default" description="Le composant fonctionne sans props — il affiche des données de démo." code={`<BarChartBlock />`}>
 					<div className="max-w-lg">
 						<BarChartBlock />
 					</div>
@@ -149,12 +135,7 @@ const config = {
 />`}
 				>
 					<div className="max-w-lg">
-						<BarChartBlock
-							title="Revenus mensuels"
-							description="Récurrent vs ponctuel"
-							data={revenueData}
-							config={revenueConfig}
-						/>
+						<BarChartBlock title="Revenus mensuels" description="Récurrent vs ponctuel" data={revenueData} config={revenueConfig} />
 					</div>
 				</DocExampleSync>
 			</DocSection>

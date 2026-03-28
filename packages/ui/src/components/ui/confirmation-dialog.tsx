@@ -1,14 +1,7 @@
 "use client"
 
 import { Button } from "./button"
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "./dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./dialog"
 
 export interface ConfirmationDialogProps {
 	open: boolean
@@ -66,10 +59,7 @@ export function ConfirmationDialog({
 					<Button variant="outline" onClick={() => onOpenChange(false)}>
 						{cancelLabel}
 					</Button>
-					<Button
-						variant={variant === "destructive" ? "destructive" : "default"}
-						onClick={handleConfirm}
-					>
+					<Button variant={variant === "destructive" ? "destructive" : "default"} onClick={handleConfirm}>
 						{confirmLabel}
 					</Button>
 				</DialogFooter>

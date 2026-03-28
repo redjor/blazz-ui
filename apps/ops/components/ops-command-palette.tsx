@@ -2,43 +2,12 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-} from "@blazz/ui/components/ui/command"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@blazz/ui/components/ui/command"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Kbd } from "@blazz/ui/components/ui/kbd"
 import { useMutation } from "convex/react"
-import {
-	Banknote,
-	Bookmark,
-	CheckSquare,
-	Clock,
-	FileText,
-	FolderOpen,
-	Key,
-	LayoutDashboard,
-	MessageSquare,
-	Moon,
-	Package,
-	Plus,
-	Search,
-	Settings,
-	Sun,
-	Users,
-} from "lucide-react"
+import { Banknote, Bookmark, CheckSquare, Clock, FileText, FolderOpen, Key, LayoutDashboard, MessageSquare, Moon, Package, Plus, Search, Settings, Sun, Users } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useCallback, useEffect, useState } from "react"
@@ -50,13 +19,7 @@ import { api } from "@/convex/_generated/api"
 // Inline CreateTodoDialog
 // ---------------------------------------------------------------------------
 
-function CreateTodoDialog({
-	open,
-	onOpenChange,
-}: {
-	open: boolean
-	onOpenChange: (open: boolean) => void
-}) {
+function CreateTodoDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
 	const [title, setTitle] = useState("")
 	const [submitting, setSubmitting] = useState(false)
 	const createTodo = useMutation(api.todos.create)
@@ -178,12 +141,7 @@ const NAV_ITEMS = [
 ] as const
 
 // Build shortcut map for keyboard handling
-const SHORTCUT_MAP = Object.fromEntries(
-	NAV_ITEMS.filter((item) => "shortcut" in item && item.shortcut).map((item) => [
-		item.shortcut!.toLowerCase(),
-		item.href,
-	])
-) as Record<string, string>
+const SHORTCUT_MAP = Object.fromEntries(NAV_ITEMS.filter((item) => "shortcut" in item && item.shortcut).map((item) => [item.shortcut!.toLowerCase(), item.href])) as Record<string, string>
 
 // ---------------------------------------------------------------------------
 // OpsCommandPalette
@@ -243,11 +201,7 @@ export function OpsCommandPalette() {
 		<>
 			{/* Command palette */}
 			<CommandDialog open={open} onOpenChange={setOpen} size="lg">
-				<CommandInput
-					placeholder="Rechercher une commande..."
-					value={search}
-					onValueChange={setSearch}
-				/>
+				<CommandInput placeholder="Rechercher une commande..." value={search} onValueChange={setSearch} />
 				<CommandList>
 					<CommandEmpty>
 						<BlockStack gap="200" inlineAlign="center" align="center">
@@ -277,16 +231,10 @@ export function OpsCommandPalette() {
 					{/* Navigation */}
 					<CommandGroup heading="Navigation">
 						{NAV_ITEMS.map((item) => (
-							<CommandItem
-								key={item.href}
-								onSelect={() => handleNavigation(item.href)}
-								keywords={[...item.keywords]}
-							>
+							<CommandItem key={item.href} onSelect={() => handleNavigation(item.href)} keywords={[...item.keywords]}>
 								<item.icon className="mr-2 size-4" />
 								{item.label}
-								{"shortcut" in item && item.shortcut && (
-									<Kbd className="ml-auto">{item.shortcut}</Kbd>
-								)}
+								{"shortcut" in item && item.shortcut && <Kbd className="ml-auto">{item.shortcut}</Kbd>}
 							</CommandItem>
 						))}
 					</CommandGroup>
@@ -323,10 +271,7 @@ export function OpsCommandPalette() {
 					<DialogHeader>
 						<DialogTitle>Nouveau client</DialogTitle>
 					</DialogHeader>
-					<ClientForm
-						onSuccess={() => setClientDialogOpen(false)}
-						onCancel={() => setClientDialogOpen(false)}
-					/>
+					<ClientForm onSuccess={() => setClientDialogOpen(false)} onCancel={() => setClientDialogOpen(false)} />
 				</DialogContent>
 			</Dialog>
 

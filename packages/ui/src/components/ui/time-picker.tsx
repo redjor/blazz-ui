@@ -17,17 +17,7 @@ export interface TimePickerProps {
 	id?: string
 }
 
-function TimePicker({
-	value,
-	onValueChange,
-	disabled = false,
-	className,
-	placeholder = "HH:MM",
-	use24h = true,
-	step = 1,
-	"aria-invalid": ariaInvalid,
-	id,
-}: TimePickerProps) {
+function TimePicker({ value, onValueChange, disabled = false, className, placeholder = "HH:MM", use24h = true, step = 1, "aria-invalid": ariaInvalid, id }: TimePickerProps) {
 	return (
 		<div className="relative">
 			<ClockIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-fg-muted pointer-events-none" />

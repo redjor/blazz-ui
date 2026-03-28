@@ -4,8 +4,7 @@ import type { ComponentData } from "../types"
 export const detailPanelData: ComponentData = {
 	name: "DetailPanel",
 	category: "blocks",
-	description:
-		"Panneau de détail d'une entité composé via sous-composants Header et Section. Architecture compound component.",
+	description: "Panneau de détail d'une entité composé via sous-composants Header et Section. Architecture compound component.",
 	docPath: "/docs/blocks/detail-panel",
 	imports: {
 		path: "@blazz/pro/components/blocks/detail-panel",
@@ -42,8 +41,7 @@ export const detailPanelData: ComponentData = {
 		{
 			name: "DetailPanel.Header — actions",
 			type: "DetailPanelAction[]",
-			description:
-				"Actions du header. Chaque action: { label, onClick, icon?, variant? }. variant accepte 'default' | 'outline' | 'ghost' | 'destructive'.",
+			description: "Actions du header. Chaque action: { label, onClick, icon?, variant? }. variant accepte 'default' | 'outline' | 'ghost' | 'destructive'.",
 		},
 		{
 			name: "DetailPanel.Section — title",

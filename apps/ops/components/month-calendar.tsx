@@ -1,17 +1,7 @@
 "use client"
 
 import { cn } from "@blazz/ui/lib/utils"
-import {
-	addDays,
-	endOfMonth,
-	endOfWeek,
-	format,
-	isSameMonth,
-	isToday,
-	isWeekend,
-	startOfMonth,
-	startOfWeek,
-} from "date-fns"
+import { addDays, endOfMonth, endOfWeek, format, isSameMonth, isToday, isWeekend, startOfMonth, startOfWeek } from "date-fns"
 import { useMemo } from "react"
 import type { Doc } from "@/convex/_generated/dataModel"
 import { formatCurrency, formatMinutes } from "@/lib/format"
@@ -106,28 +96,16 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 				<SummaryCard
 					label="Facturable"
 					value={formatMinutes(monthStats.billableMinutes)}
-					sub={
-						monthStats.totalMinutes > 0
-							? `${Math.round((monthStats.billableMinutes / monthStats.totalMinutes) * 100)}% du total`
-							: undefined
-					}
+					sub={monthStats.totalMinutes > 0 ? `${Math.round((monthStats.billableMinutes / monthStats.totalMinutes) * 100)}% du total` : undefined}
 				/>
 				<SummaryCard
 					label="Montant"
 					value={formatCurrency(monthStats.amount)}
-					sub={
-						monthStats.billableMinutes > 0
-							? `${formatCurrency(monthStats.amount / (monthStats.billableMinutes / 60))}/h moy.`
-							: undefined
-					}
+					sub={monthStats.billableMinutes > 0 ? `${formatCurrency(monthStats.amount / (monthStats.billableMinutes / 60))}/h moy.` : undefined}
 				/>
 				<SummaryCard
 					label="Moy. / jour"
-					value={
-						monthStats.daysWorked > 0
-							? formatMinutes(Math.round(monthStats.totalMinutes / monthStats.daysWorked))
-							: "—"
-					}
+					value={monthStats.daysWorked > 0 ? formatMinutes(Math.round(monthStats.totalMinutes / monthStats.daysWorked)) : "—"}
 					sub={monthStats.daysWorked > 0 ? `sur ${monthStats.daysWorked} jours` : undefined}
 				/>
 			</div>
@@ -137,10 +115,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 				{/* Header row */}
 				<div className="grid grid-cols-7 border-b border-edge bg-muted">
 					{DAY_LABELS.map((label) => (
-						<div
-							key={label}
-							className="py-2 text-center text-xs font-medium text-fg-muted uppercase tracking-wide"
-						>
+						<div key={label} className="py-2 text-center text-xs font-medium text-fg-muted uppercase tracking-wide">
 							{label}
 						</div>
 					))}
@@ -148,10 +123,7 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 
 				{/* Week rows */}
 				{weeks.map((week, wi) => (
-					<div
-						key={wi}
-						className={cn("grid grid-cols-7", wi < weeks.length - 1 && "border-b border-edge")}
-					>
+					<div key={wi} className={cn("grid grid-cols-7", wi < weeks.length - 1 && "border-b border-edge")}>
 						{week.map((day) => {
 							const dateStr = format(day, "yyyy-MM-dd")
 							const inMonth = isSameMonth(day, month)
@@ -164,23 +136,11 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 							return (
 								<div
 									key={dateStr}
-									className={cn(
-										"relative min-h-[72px] p-1.5 transition-colors",
-										!inMonth && "opacity-30",
-										weekend && inMonth && "bg-card/50",
-										"[&:not(:last-child)]:border-r border-edge"
-									)}
+									className={cn("relative min-h-[72px] p-1.5 transition-colors", !inMonth && "opacity-30", weekend && inMonth && "bg-card/50", "[&:not(:last-child)]:border-r border-edge")}
 								>
 									{/* Day number */}
 									<div className="flex items-center justify-between mb-1">
-										<span
-											className={cn(
-												"text-xs font-medium leading-none",
-												today
-													? "bg-brand text-white size-5 rounded-full flex items-center justify-center"
-													: "text-fg-muted"
-											)}
-										>
+										<span className={cn("text-xs font-medium leading-none", today ? "bg-brand text-white size-5 rounded-full flex items-center justify-center" : "text-fg-muted")}>
 											{format(day, "d")}
 										</span>
 									</div>
@@ -193,14 +153,8 @@ export function MonthCalendar({ month, entries }: MonthCalendarProps) {
 												backgroundColor: `oklch(0.585 0.22 275 / ${intensity * 0.3})`,
 											}}
 										>
-											<p className="text-xs font-mono font-semibold text-fg leading-tight">
-												{formatMinutes(mins)}
-											</p>
-											{stats && stats.amount > 0 && (
-												<p className="text-[10px] text-fg-muted font-mono leading-tight">
-													{formatCurrency(stats.amount)}
-												</p>
-											)}
+											<p className="text-xs font-mono font-semibold text-fg leading-tight">{formatMinutes(mins)}</p>
+											{stats && stats.amount > 0 && <p className="text-[10px] text-fg-muted font-mono leading-tight">{formatCurrency(stats.amount)}</p>}
 										</div>
 									)}
 								</div>

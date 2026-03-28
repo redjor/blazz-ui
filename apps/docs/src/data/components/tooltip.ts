@@ -24,10 +24,7 @@ export const tooltipData: ComponentData = {
 			description: "Distance en pixels depuis le trigger.",
 		},
 	],
-	gotchas: [
-		"TooltipTrigger uses render prop: `<TooltipTrigger render={<Button />}>…</TooltipTrigger>`",
-		"For icon-only buttons always add a Tooltip for accessibility",
-	],
+	gotchas: ["TooltipTrigger uses render prop: `<TooltipTrigger render={<Button />}>…</TooltipTrigger>`", "For icon-only buttons always add a Tooltip for accessibility"],
 	canonicalExample: `<Tooltip>
   <TooltipTrigger render={<Button size="icon" variant="ghost" />}>
     <Settings className="size-4" />

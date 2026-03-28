@@ -211,7 +211,6 @@ const toc = [
 // Route
 // ---------------------------------------------------------------------------
 
-
 // ---------------------------------------------------------------------------
 // Interactive demos
 // ---------------------------------------------------------------------------
@@ -252,11 +251,7 @@ export default function DealLinesEditorPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Deal Lines Editor"
-			subtitle="An editable table for managing deal line items with product, quantity, unit price, auto-calculated totals, and multi-currency support."
-			toc={toc}
-		>
+		<DocPage title="Deal Lines Editor" subtitle="An editable table for managing deal line items with product, quantity, unit price, auto-calculated totals, and multi-currency support." toc={toc}>
 			{/* Hero */}
 			<DocHero>
 				<DealLinesHeroDemo />
@@ -311,8 +306,7 @@ export default function DealLinesEditorPage() {
 						{
 							title: "Quote Preview",
 							href: "/docs/blocks/quote-preview",
-							description:
-								"Read-only quote document with line items, totals, and PDF-ready layout.",
+							description: "Read-only quote document with line items, totals, and PDF-ready layout.",
 						},
 						{
 							title: "Multi Step Form",

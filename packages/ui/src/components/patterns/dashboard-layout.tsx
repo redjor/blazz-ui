@@ -48,10 +48,7 @@ export function DashboardLayout({
 			<div className="flex flex-1 overflow-hidden rounded-t-3xl border-t-4 border-white/10">
 				{/* Sidebar (optional) */}
 				{showSidebar && sidebar && (
-					<aside
-						style={{ width: sidebarWidth }}
-						className="flex flex-col border-r bg-gray-50 dark:bg-gray-900"
-					>
+					<aside style={{ width: sidebarWidth }} className="flex flex-col border-r bg-gray-50 dark:bg-gray-900">
 						{sidebar}
 					</aside>
 				)}

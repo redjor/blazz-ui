@@ -114,22 +114,12 @@ export default function SourcesClient() {
 							{sources.map((source) => {
 								const Icon = source.type === "youtube" ? Youtube : Rss
 								return (
-									<Box
-										key={source._id}
-										padding="4"
-										background="surface"
-										border="default"
-										borderRadius="lg"
-									>
+									<Box key={source._id} padding="4" background="surface" border="default" borderRadius="lg">
 										<InlineStack align="space-between" blockAlign="center">
 											<InlineStack gap="300" blockAlign="center">
 												<Icon className="size-5 text-fg-muted shrink-0" />
 												<BlockStack gap="100">
-													<button
-														type="button"
-														className="text-sm font-medium text-fg hover:text-brand text-left transition-colors"
-														onClick={() => setEditSource(source)}
-													>
+													<button type="button" className="text-sm font-medium text-fg hover:text-brand text-left transition-colors" onClick={() => setEditSource(source)}>
 														{source.name}
 													</button>
 													<InlineStack gap="200" blockAlign="center">
@@ -150,16 +140,8 @@ export default function SourcesClient() {
 											</InlineStack>
 
 											<InlineStack gap="200" blockAlign="center">
-												<Switch
-													checked={source.isActive}
-													onCheckedChange={() => handleToggleActive(source)}
-												/>
-												<Button
-													size="icon-sm"
-													variant="ghost"
-													onClick={() => handleDelete(source)}
-													className="text-fg-muted hover:text-destructive"
-												>
+												<Switch checked={source.isActive} onCheckedChange={() => handleToggleActive(source)} />
+												<Button size="icon-sm" variant="ghost" onClick={() => handleDelete(source)} className="text-fg-muted hover:text-destructive">
 													<Trash2 className="size-3.5" />
 												</Button>
 											</InlineStack>

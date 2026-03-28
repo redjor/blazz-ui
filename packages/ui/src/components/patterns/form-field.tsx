@@ -43,10 +43,7 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 			name={name}
 			control={control}
 			render={({ field, fieldState }) => (
-				<div
-					className={cn("space-y-1.5", className)}
-					style={span ? { gridColumn: `span ${span}` } : undefined}
-				>
+				<div className={cn("space-y-1.5", className)} style={span ? { gridColumn: `span ${span}` } : undefined}>
 					<Label htmlFor={name}>
 						{label}
 						{required && <span className="text-negative ml-0.5">*</span>}
@@ -89,20 +86,10 @@ export function FormField<TFieldValues extends FieldValues = FieldValues>({
 							onBlur={field.onBlur}
 						/>
 					) : (
-						<Input
-							id={name}
-							type={type}
-							placeholder={placeholder}
-							className={cn(fieldState.error && "border-negative")}
-							value={field.value ?? ""}
-							onChange={field.onChange}
-							onBlur={field.onBlur}
-						/>
+						<Input id={name} type={type} placeholder={placeholder} className={cn(fieldState.error && "border-negative")} value={field.value ?? ""} onChange={field.onChange} onBlur={field.onBlur} />
 					)}
 
-					{description && !fieldState.error && (
-						<p className="text-xs text-fg-muted">{description}</p>
-					)}
+					{description && !fieldState.error && <p className="text-xs text-fg-muted">{description}</p>}
 					{fieldState.error && <p className="text-xs text-negative">{fieldState.error.message}</p>}
 				</div>
 			)}

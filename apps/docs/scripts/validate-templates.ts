@@ -113,16 +113,10 @@ function validateFile(filePath: string): ValidationResult {
 
 		// 2. Vérifier 'use client' pour les composants interactifs
 		const hasUseClient = content.includes("'use client'") || content.includes('"use client"')
-		const hasInteractiveFeatures =
-			content.includes("useState") ||
-			content.includes("useEffect") ||
-			content.includes("onClick") ||
-			content.includes("onChange")
+		const hasInteractiveFeatures = content.includes("useState") || content.includes("useEffect") || content.includes("onClick") || content.includes("onChange")
 
 		if (hasInteractiveFeatures && !hasUseClient) {
-			result.warnings.push(
-				"Composant interactif sans 'use client' - Ajoutez 'use client' en haut du fichier"
-			)
+			result.warnings.push("Composant interactif sans 'use client' - Ajoutez 'use client' en haut du fichier")
 		}
 
 		// 3. Vérifier l'export default
@@ -132,11 +126,7 @@ function validateFile(filePath: string): ValidationResult {
 		}
 
 		// 4. Vérifier les types TypeScript
-		if (
-			content.includes(": any") ||
-			content.includes("as any") ||
-			content.includes("// @ts-ignore")
-		) {
+		if (content.includes(": any") || content.includes("as any") || content.includes("// @ts-ignore")) {
 			result.warnings.push("Types TypeScript faibles détectés (any, @ts-ignore)")
 		}
 
@@ -155,9 +145,7 @@ function validateFile(filePath: string): ValidationResult {
 			}
 		}
 	} catch (error) {
-		result.errors.push(
-			`Erreur de lecture du fichier: ${error instanceof Error ? error.message : String(error)}`
-		)
+		result.errors.push(`Erreur de lecture du fichier: ${error instanceof Error ? error.message : String(error)}`)
 		result.valid = false
 	}
 
@@ -225,10 +213,7 @@ function main() {
 	const warningCount = results.filter((r) => r.warnings.length > 0).length
 	const errorCount = results.filter((r) => !r.valid).length
 
-	log(
-		`\n✅ Valides: ${validCount}/${results.length}`,
-		validCount === results.length ? "green" : "yellow"
-	)
+	log(`\n✅ Valides: ${validCount}/${results.length}`, validCount === results.length ? "green" : "yellow")
 	if (warningCount > 0) {
 		log(`⚠️  Warnings: ${warningCount}`, "yellow")
 	}

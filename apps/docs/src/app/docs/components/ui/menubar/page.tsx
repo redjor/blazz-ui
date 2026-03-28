@@ -1,6 +1,5 @@
 "use client"
 
-import { use } from "react"
 import {
 	Menubar,
 	MenubarCheckboxItem,
@@ -15,6 +14,7 @@ import {
 	MenubarSubTrigger,
 	MenubarTrigger,
 } from "@blazz/ui/components/ui/menubar"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -213,17 +213,27 @@ export default function MenubarPage() {
 						<MenubarMenu>
 							<MenubarTrigger>File</MenubarTrigger>
 							<MenubarContent>
-								<MenubarItem>New Tab<MenubarShortcut>&#8984;T</MenubarShortcut></MenubarItem>
-								<MenubarItem>New Window<MenubarShortcut>&#8984;N</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									New Tab<MenubarShortcut>&#8984;T</MenubarShortcut>
+								</MenubarItem>
+								<MenubarItem>
+									New Window<MenubarShortcut>&#8984;N</MenubarShortcut>
+								</MenubarItem>
 								<MenubarSeparator />
-								<MenubarItem>Print...<MenubarShortcut>&#8984;P</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									Print...<MenubarShortcut>&#8984;P</MenubarShortcut>
+								</MenubarItem>
 							</MenubarContent>
 						</MenubarMenu>
 						<MenubarMenu>
 							<MenubarTrigger>Edit</MenubarTrigger>
 							<MenubarContent>
-								<MenubarItem>Undo<MenubarShortcut>&#8984;Z</MenubarShortcut></MenubarItem>
-								<MenubarItem>Redo<MenubarShortcut>&#8679;&#8984;Z</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									Undo<MenubarShortcut>&#8984;Z</MenubarShortcut>
+								</MenubarItem>
+								<MenubarItem>
+									Redo<MenubarShortcut>&#8679;&#8984;Z</MenubarShortcut>
+								</MenubarItem>
 							</MenubarContent>
 						</MenubarMenu>
 					</Menubar>
@@ -253,7 +263,9 @@ export default function MenubarPage() {
 									</MenubarSubContent>
 								</MenubarSub>
 								<MenubarSeparator />
-								<MenubarItem>Print...<MenubarShortcut>&#8984;P</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									Print...<MenubarShortcut>&#8984;P</MenubarShortcut>
+								</MenubarItem>
 							</MenubarContent>
 						</MenubarMenu>
 					</Menubar>
@@ -265,8 +277,12 @@ export default function MenubarPage() {
 							<MenubarTrigger>File</MenubarTrigger>
 							<MenubarContent>
 								<MenubarGroup>
-									<MenubarItem>New Tab<MenubarShortcut>&#8984;T</MenubarShortcut></MenubarItem>
-									<MenubarItem>New Window<MenubarShortcut>&#8984;N</MenubarShortcut></MenubarItem>
+									<MenubarItem>
+										New Tab<MenubarShortcut>&#8984;T</MenubarShortcut>
+									</MenubarItem>
+									<MenubarItem>
+										New Window<MenubarShortcut>&#8984;N</MenubarShortcut>
+									</MenubarItem>
 								</MenubarGroup>
 								<MenubarSeparator />
 								<MenubarSub>
@@ -277,16 +293,24 @@ export default function MenubarPage() {
 									</MenubarSubContent>
 								</MenubarSub>
 								<MenubarSeparator />
-								<MenubarItem>Print...<MenubarShortcut>&#8984;P</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									Print...<MenubarShortcut>&#8984;P</MenubarShortcut>
+								</MenubarItem>
 							</MenubarContent>
 						</MenubarMenu>
 						<MenubarMenu>
 							<MenubarTrigger>Edit</MenubarTrigger>
 							<MenubarContent>
-								<MenubarItem>Undo<MenubarShortcut>&#8984;Z</MenubarShortcut></MenubarItem>
-								<MenubarItem>Redo<MenubarShortcut>&#8679;&#8984;Z</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									Undo<MenubarShortcut>&#8984;Z</MenubarShortcut>
+								</MenubarItem>
+								<MenubarItem>
+									Redo<MenubarShortcut>&#8679;&#8984;Z</MenubarShortcut>
+								</MenubarItem>
 								<MenubarSeparator />
-								<MenubarItem>Find<MenubarShortcut>&#8984;F</MenubarShortcut></MenubarItem>
+								<MenubarItem>
+									Find<MenubarShortcut>&#8984;F</MenubarShortcut>
+								</MenubarItem>
 							</MenubarContent>
 						</MenubarMenu>
 						<MenubarMenu>
@@ -300,9 +324,15 @@ export default function MenubarPage() {
 				</DocExampleClient>
 			</DocSection>
 
-			<DocSection id="menubar-props" title="Menubar Props"><DocPropsTable props={menubarProps} /></DocSection>
-			<DocSection id="menubar-content-props" title="MenubarContent Props"><DocPropsTable props={menubarContentProps} /></DocSection>
-			<DocSection id="menubar-item-props" title="MenubarItem Props"><DocPropsTable props={menubarItemProps} /></DocSection>
+			<DocSection id="menubar-props" title="Menubar Props">
+				<DocPropsTable props={menubarProps} />
+			</DocSection>
+			<DocSection id="menubar-content-props" title="MenubarContent Props">
+				<DocPropsTable props={menubarContentProps} />
+			</DocSection>
+			<DocSection id="menubar-item-props" title="MenubarItem Props">
+				<DocPropsTable props={menubarItemProps} />
+			</DocSection>
 
 			<DocSection id="best-practices" title="Best Practices">
 				<ul className="list-disc list-inside space-y-2 text-fg-muted">
@@ -316,11 +346,13 @@ export default function MenubarPage() {
 			</DocSection>
 
 			<DocSection id="related" title="Related">
-				<DocRelated items={[
-					{ title: "Dropdown Menu", href: "/docs/components/ui/dropdown-menu", description: "Pre-styled dropdown menu with icons, shortcuts, and variants." },
-					{ title: "Menu", href: "/docs/components/ui/menu", description: "Unstyled dropdown with full keyboard navigation and accessibility." },
-					{ title: "Nav Menu", href: "/docs/components/ui/nav-menu", description: "Navigation menu for site-level wayfinding." },
-				]} />
+				<DocRelated
+					items={[
+						{ title: "Dropdown Menu", href: "/docs/components/ui/dropdown-menu", description: "Pre-styled dropdown menu with icons, shortcuts, and variants." },
+						{ title: "Menu", href: "/docs/components/ui/menu", description: "Unstyled dropdown with full keyboard navigation and accessibility." },
+						{ title: "Nav Menu", href: "/docs/components/ui/nav-menu", description: "Navigation menu for site-level wayfinding." },
+					]}
+				/>
 			</DocSection>
 		</DocPage>
 	)

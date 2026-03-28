@@ -74,28 +74,15 @@ const trafficConfig = {
 
 export default function AreaChartPage() {
 	return (
-		<DocPage
-			title="Area Chart"
-			subtitle="Courbes remplies pour visualiser des volumes et tendances cumulées. Basé sur Recharts et les primitives shadcn Chart."
-			toc={toc}
-		>
+		<DocPage title="Area Chart" subtitle="Courbes remplies pour visualiser des volumes et tendances cumulées. Basé sur Recharts et les primitives shadcn Chart." toc={toc}>
 			<DocHero>
 				<div className="max-w-lg">
-					<AreaChartBlock
-						title="Sources de trafic"
-						description="Organique vs payant"
-						data={trafficData}
-						config={trafficConfig}
-					/>
+					<AreaChartBlock title="Sources de trafic" description="Organique vs payant" data={trafficData} config={trafficConfig} />
 				</div>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleSync
-					title="Default"
-					description="Le composant fonctionne sans props avec des données de démo."
-					code={`<AreaChartBlock />`}
-				>
+				<DocExampleSync title="Default" description="Le composant fonctionne sans props avec des données de démo." code={`<AreaChartBlock />`}>
 					<div className="max-w-lg">
 						<AreaChartBlock />
 					</div>
@@ -112,12 +99,7 @@ export default function AreaChartPage() {
 />`}
 				>
 					<div className="max-w-lg">
-						<AreaChartBlock
-							title="Sources de trafic"
-							description="Organique vs payant"
-							data={trafficData}
-							config={trafficConfig}
-						/>
+						<AreaChartBlock title="Sources de trafic" description="Organique vs payant" data={trafficData} config={trafficConfig} />
 					</div>
 				</DocExampleSync>
 
@@ -133,13 +115,7 @@ export default function AreaChartPage() {
 />`}
 				>
 					<div className="max-w-lg">
-						<AreaChartBlock
-							title="Sources de trafic"
-							description="Vue cumulée"
-							data={trafficData}
-							config={trafficConfig}
-							stacked
-						/>
+						<AreaChartBlock title="Sources de trafic" description="Vue cumulée" data={trafficData} config={trafficConfig} stacked />
 					</div>
 				</DocExampleSync>
 			</DocSection>

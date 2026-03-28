@@ -9,25 +9,13 @@ export function ToastHeroDemo() {
 			<Button variant="outline" size="sm" onClick={() => toast("Fichier sauvegardé")}>
 				Default
 			</Button>
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => toast.success("Client créé avec succès")}
-			>
+			<Button variant="outline" size="sm" onClick={() => toast.success("Client créé avec succès")}>
 				Success
 			</Button>
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => toast.error("Une erreur est survenue")}
-			>
+			<Button variant="outline" size="sm" onClick={() => toast.error("Une erreur est survenue")}>
 				Error
 			</Button>
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => toast.warning("Quota presque atteint")}
-			>
+			<Button variant="outline" size="sm" onClick={() => toast.warning("Quota presque atteint")}>
 				Warning
 			</Button>
 			<Button variant="outline" size="sm" onClick={() => toast.info("Mise à jour disponible")}>
@@ -48,25 +36,13 @@ export function ToastDefaultDemo() {
 export function ToastTypesDemo() {
 	return (
 		<div className="flex flex-wrap gap-2">
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => toast.success("Client créé avec succès")}
-			>
+			<Button variant="outline" size="sm" onClick={() => toast.success("Client créé avec succès")}>
 				Success
 			</Button>
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => toast.error("Une erreur est survenue")}
-			>
+			<Button variant="outline" size="sm" onClick={() => toast.error("Une erreur est survenue")}>
 				Error
 			</Button>
-			<Button
-				variant="outline"
-				size="sm"
-				onClick={() => toast.warning("Quota presque atteint")}
-			>
+			<Button variant="outline" size="sm" onClick={() => toast.warning("Quota presque atteint")}>
 				Warning
 			</Button>
 			<Button variant="outline" size="sm" onClick={() => toast.info("Mise à jour disponible")}>

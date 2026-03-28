@@ -99,9 +99,7 @@ export const purgeOldItems = internalMutation({
 		for (const user of users) {
 			const oldItems = await ctx.db
 				.query("feedItems")
-				.withIndex("by_user_published", (q) =>
-					q.eq("userId", user._id).lt("publishedAt", cutoff)
-				)
+				.withIndex("by_user_published", (q) => q.eq("userId", user._id).lt("publishedAt", cutoff))
 				.collect()
 			for (const item of oldItems) {
 				await ctx.db.delete(item._id)
@@ -193,14 +191,9 @@ function parseRSSFeed(xml: string): ParsedFeedItem[] {
 		const title = stripHtml(extractTag(itemXml, "title"))
 		let link = extractTag(itemXml, "link")
 		if (!link) link = extractAttr(itemXml, "link", "href")
-		const description = stripHtml(
-			extractTag(itemXml, "description") || extractTag(itemXml, "content:encoded")
-		)
+		const description = stripHtml(extractTag(itemXml, "description") || extractTag(itemXml, "content:encoded"))
 		const pubDate = extractTag(itemXml, "pubDate") || extractTag(itemXml, "dc:date")
-		const thumbnail =
-			extractAttr(itemXml, "media:thumbnail", "url") ||
-			extractAttr(itemXml, "media:content", "url") ||
-			extractAttr(itemXml, "enclosure", "url")
+		const thumbnail = extractAttr(itemXml, "media:thumbnail", "url") || extractAttr(itemXml, "media:content", "url") || extractAttr(itemXml, "enclosure", "url")
 
 		if (title && link) {
 			items.push({ title, link, description, pubDate, thumbnail })
@@ -213,9 +206,7 @@ function parseRSSFeed(xml: string): ParsedFeedItem[] {
 		for (const entryXml of atomEntries) {
 			const title = stripHtml(extractTag(entryXml, "title"))
 			const link = extractAttr(entryXml, "link", "href")
-			const description = stripHtml(
-				extractTag(entryXml, "summary") || extractTag(entryXml, "content")
-			)
+			const description = stripHtml(extractTag(entryXml, "summary") || extractTag(entryXml, "content"))
 			const pubDate = extractTag(entryXml, "published") || extractTag(entryXml, "updated")
 			const thumbnail = extractAttr(entryXml, "media:thumbnail", "url")
 
@@ -408,9 +399,7 @@ Réponds UNIQUEMENT en JSON valide:
 
 				const parsed = JSON.parse(content)
 				const summary = parsed.summary || ""
-				const tags = Array.isArray(parsed.tags)
-					? parsed.tags.filter((t: unknown) => typeof t === "string").slice(0, 5)
-					: []
+				const tags = Array.isArray(parsed.tags) ? parsed.tags.filter((t: unknown) => typeof t === "string").slice(0, 5) : []
 
 				await ctx.runMutation(internal.feed.saveEnrichment, {
 					itemId,

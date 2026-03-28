@@ -1,20 +1,11 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@blazz/ui/components/ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@blazz/ui/components/ui/sheet"
 import { Menu, Settings } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -294,11 +285,7 @@ export default function SheetPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Sheet"
-			subtitle="A slide-in panel that slides from the edge of the screen."
-			toc={toc}
-		>
+		<DocPage title="Sheet" subtitle="A slide-in panel that slides from the edge of the screen." toc={toc}>
 			<DocHero>
 				<div className="flex gap-3">
 					<Sheet>
@@ -306,9 +293,7 @@ export default function SheetPage() {
 						<SheetContent side="left">
 							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
-								<p className="text-sm text-fg-muted">
-									This is a sheet component that slides in from the side.
-								</p>
+								<p className="text-sm text-fg-muted">This is a sheet component that slides in from the side.</p>
 							</div>
 						</SheetContent>
 					</Sheet>
@@ -317,9 +302,7 @@ export default function SheetPage() {
 						<SheetContent side="right">
 							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
-								<p className="text-sm text-fg-muted">
-									This is a sheet component that slides in from the right.
-								</p>
+								<p className="text-sm text-fg-muted">This is a sheet component that slides in from the right.</p>
 							</div>
 						</SheetContent>
 					</Sheet>
@@ -327,31 +310,19 @@ export default function SheetPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Basic Sheet"
-					description="A simple sheet that slides from the left."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Basic Sheet" description="A simple sheet that slides from the left." code={examples[0].code} highlightedCode={html("basic")}>
 					<Sheet>
 						<SheetTrigger render={<Button variant="outline">Open</Button>} />
 						<SheetContent>
 							<div className="p-inset">
 								<h2 className="text-lg font-semibold mb-4">Sheet Title</h2>
-								<p className="text-sm text-fg-muted">
-									This is a sheet component that slides in from the side.
-								</p>
+								<p className="text-sm text-fg-muted">This is a sheet component that slides in from the side.</p>
 							</div>
 						</SheetContent>
 					</Sheet>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Slide from Different Sides"
-					description="Control which edge the sheet slides from."
-					code={examples[1].code}
-					highlightedCode={html("sides")}
-				>
+				<DocExampleClient title="Slide from Different Sides" description="Control which edge the sheet slides from." code={examples[1].code} highlightedCode={html("sides")}>
 					<div className="flex gap-4 flex-wrap">
 						<Sheet>
 							<SheetTrigger render={<Button variant="outline">Left</Button>} />
@@ -395,12 +366,7 @@ export default function SheetPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Sizes"
-					description="Control the sheet width (left/right) or height (top/bottom) with the size prop."
-					code={examples[2].code}
-					highlightedCode={html("sizes")}
-				>
+				<DocExampleClient title="Sizes" description="Control the sheet width (left/right) or height (top/bottom) with the size prop." code={examples[2].code} highlightedCode={html("sizes")}>
 					<div className="flex gap-4 flex-wrap">
 						<Sheet>
 							<SheetTrigger render={<Button variant="outline">Small</Button>} />
@@ -421,9 +387,7 @@ export default function SheetPage() {
 									<SheetTitle>Medium (400px)</SheetTitle>
 								</SheetHeader>
 								<div className="flex-1 p-4">
-									<p className="text-sm text-fg-muted">
-										Default size, good for forms and settings.
-									</p>
+									<p className="text-sm text-fg-muted">Default size, good for forms and settings.</p>
 								</div>
 							</SheetContent>
 						</Sheet>
@@ -466,12 +430,7 @@ export default function SheetPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Settings Sheet"
-					description="A sheet with form inputs using SheetHeader and SheetFooter."
-					code={examples[3].code}
-					highlightedCode={html("settings")}
-				>
+				<DocExampleClient title="Settings Sheet" description="A sheet with form inputs using SheetHeader and SheetFooter." code={examples[3].code} highlightedCode={html("settings")}>
 					<Sheet>
 						<SheetTrigger
 							render={
@@ -508,12 +467,7 @@ export default function SheetPage() {
 					</Sheet>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Navigation Menu"
-					description="A mobile-style navigation sheet."
-					code={examples[4].code}
-					highlightedCode={html("navigation")}
-				>
+				<DocExampleClient title="Navigation Menu" description="A mobile-style navigation sheet." code={examples[4].code} highlightedCode={html("navigation")}>
 					<Sheet>
 						<SheetTrigger
 							render={
@@ -544,12 +498,7 @@ export default function SheetPage() {
 					</Sheet>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="With Footer"
-					description="A sheet with structured header and footer using SheetHeader and SheetFooter."
-					code={examples[5].code}
-					highlightedCode={html("with-footer")}
-				>
+				<DocExampleClient title="With Footer" description="A sheet with structured header and footer using SheetHeader and SheetFooter." code={examples[5].code} highlightedCode={html("with-footer")}>
 					<Sheet>
 						<SheetTrigger render={<Button variant="outline">Edit Profile</Button>} />
 						<SheetContent side="right">
@@ -592,10 +541,7 @@ export default function SheetPage() {
 								{Array.from({ length: 12 }, (_, i) => (
 									<div key={i} className="rounded-lg border border-edge p-3">
 										<p className="text-sm font-medium">Notification {i + 1}</p>
-										<p className="text-xs text-fg-muted mt-1">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-											incididunt ut labore.
-										</p>
+										<p className="text-xs text-fg-muted mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
 									</div>
 								))}
 							</div>
@@ -617,9 +563,7 @@ export default function SheetPage() {
 			</DocSection>
 
 			<DocSection id="design-tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Sheet uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Sheet uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-popover</code> - Sheet background color

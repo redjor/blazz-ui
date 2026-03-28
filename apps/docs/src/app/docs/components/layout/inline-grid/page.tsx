@@ -1,8 +1,8 @@
 "use client"
 
-import { use } from "react"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocPage } from "~/components/docs/doc-page"
 import { type DocProp, DocPropsTable } from "~/components/docs/doc-props-table"
@@ -66,8 +66,7 @@ const inlineGridProps: DocProp[] = [
 		name: "columns",
 		type: 'number | string | "oneThird" | "oneHalf" | "twoThirds" | (number | string)[]',
 		default: "2",
-		description:
-			"The number of columns to display. Accepts a number, a string, or an array of column values.",
+		description: "The number of columns to display. Accepts a number, a string, or an array of column values.",
 	},
 	{
 		name: "gap",
@@ -79,17 +78,13 @@ const inlineGridProps: DocProp[] = [
 		name: "alignItems",
 		type: '"start" | "center" | "end"',
 		default: '"start"',
-		description:
-			"Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.",
+		description: "Vertical alignment of children. If not set, inline elements will stretch to the height of the parent.",
 	},
 ]
 
 function Placeholder({ height = "80px", label }: { height?: string; label?: string }) {
 	return (
-		<div
-			className="flex items-center justify-center rounded-lg bg-brand/10 text-sm font-medium"
-			style={{ height }}
-		>
+		<div className="flex items-center justify-center rounded-lg bg-brand/10 text-sm font-medium" style={{ height }}>
 			{label || height}
 		</div>
 	)
@@ -100,18 +95,9 @@ export default function InlineGridPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Inline Grid"
-			subtitle="Use to lay out children horizontally with equal gap between columns. Based on CSS Grid."
-			toc={toc}
-		>
+		<DocPage title="Inline Grid" subtitle="Use to lay out children horizontally with equal gap between columns. Based on CSS Grid." toc={toc}>
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Gap"
-					description="Use the gap prop to set the amount of space between columns."
-					code={examples[0].code}
-					highlightedCode={html("gap")}
-				>
+				<DocExampleClient title="Gap" description="Use the gap prop to set the amount of space between columns." code={examples[0].code} highlightedCode={html("gap")}>
 					<Card>
 						<CardContent>
 							<InlineGrid gap="400" columns={3}>
@@ -123,12 +109,7 @@ export default function InlineGridPage() {
 					</Card>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Number of Columns"
-					description="Set the number of columns using a number value."
-					code={examples[1].code}
-					highlightedCode={html("columns")}
-				>
+				<DocExampleClient title="Number of Columns" description="Set the number of columns using a number value." code={examples[1].code} highlightedCode={html("columns")}>
 					<div className="space-y-6">
 						<div>
 							<p className="mb-2 text-xs font-medium">columns={2}</p>
@@ -169,12 +150,7 @@ export default function InlineGridPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Different Gap Sizes"
-					description="Compare different gap sizes."
-					code={examples[2].code}
-					highlightedCode={html("gap-sizes")}
-				>
+				<DocExampleClient title="Different Gap Sizes" description="Compare different gap sizes." code={examples[2].code} highlightedCode={html("gap-sizes")}>
 					<div className="space-y-6">
 						<div>
 							<p className="mb-2 text-xs font-medium">gap="100"</p>
@@ -215,12 +191,7 @@ export default function InlineGridPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Named Column Widths"
-					description='Use named widths like "oneThird", "oneHalf", or "twoThirds".'
-					code={examples[3].code}
-					highlightedCode={html("named-widths")}
-				>
+				<DocExampleClient title="Named Column Widths" description='Use named widths like "oneThird", "oneHalf", or "twoThirds".' code={examples[3].code} highlightedCode={html("named-widths")}>
 					<div className="space-y-6">
 						<div>
 							<p className="mb-2 text-xs font-medium">columns="oneHalf"</p>
@@ -259,12 +230,7 @@ export default function InlineGridPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Align Items"
-					description="Control vertical alignment of children."
-					code={examples[4].code}
-					highlightedCode={html("align-items")}
-				>
+				<DocExampleClient title="Align Items" description="Control vertical alignment of children." code={examples[4].code} highlightedCode={html("align-items")}>
 					<div className="space-y-6">
 						<div>
 							<p className="mb-2 text-xs font-medium">alignItems="start"</p>

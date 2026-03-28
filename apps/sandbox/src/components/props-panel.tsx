@@ -50,25 +50,16 @@ export function PropsPanel({ props, values, onChange, onReset }: PropsPanelProps
 
 				return (
 					<div key={group} className="space-y-2">
-						<h3 className="text-xs text-fg-muted font-medium tracking-wider uppercase">
-							{GROUP_LABELS[group]}
-						</h3>
+						<h3 className="text-xs text-fg-muted font-medium tracking-wider uppercase">{GROUP_LABELS[group]}</h3>
 						{groupProps.map((descriptor) => (
-							<ControlRenderer
-								key={descriptor.name}
-								descriptor={descriptor}
-								value={values[descriptor.name]}
-								onChange={(v) => onChange(descriptor.name, v)}
-							/>
+							<ControlRenderer key={descriptor.name} descriptor={descriptor} value={values[descriptor.name]} onChange={(v) => onChange(descriptor.name, v)} />
 						))}
 					</div>
 				)
 			})}
 
 			{/* Empty state */}
-			{props.length === 0 && (
-				<p className="text-xs text-fg-muted text-center py-4">No configurable props</p>
-			)}
+			{props.length === 0 && <p className="text-xs text-fg-muted text-center py-4">No configurable props</p>}
 		</div>
 	)
 }

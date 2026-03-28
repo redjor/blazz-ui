@@ -27,8 +27,7 @@ export const create = mutation({
 
 		if (parentId) {
 			const parent = await ctx.db.get(parentId)
-			if (!parent || parent.userId !== userId)
-				throw new ConvexError("Collection parente introuvable")
+			if (!parent || parent.userId !== userId) throw new ConvexError("Collection parente introuvable")
 			if (parent.parentId) throw new ConvexError("Maximum 2 niveaux de collections")
 		}
 
@@ -95,9 +94,7 @@ export const remove = mutation({
 		for (const child of children) {
 			const childBookmarks = await ctx.db
 				.query("bookmarks")
-				.withIndex("by_user_collection", (q) =>
-					q.eq("userId", userId).eq("collectionId", child._id)
-				)
+				.withIndex("by_user_collection", (q) => q.eq("userId", userId).eq("collectionId", child._id))
 				.collect()
 			for (const b of childBookmarks) {
 				await ctx.db.patch(b._id, { collectionId: undefined })

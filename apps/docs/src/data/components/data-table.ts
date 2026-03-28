@@ -4,8 +4,7 @@ import type { ComponentData } from "../types"
 export const dataTableData: ComponentData = {
 	name: "DataTable",
 	category: "blocks",
-	description:
-		"Table de données avancée avec tri, filtrage, pagination, sélection et actions bulk.",
+	description: "Table de données avancée avec tri, filtrage, pagination, sélection et actions bulk.",
 	docPath: "/docs/blocks/data-table",
 	imports: {
 		path: "@blazz/pro/components/blocks/data-table",
@@ -17,8 +16,7 @@ export const dataTableData: ComponentData = {
 			name: "columns",
 			type: "DataTableColumnDef<T>[]",
 			required: true,
-			description:
-				"Définitions des colonnes (via col() factory ou DataTableColumnDef directement).",
+			description: "Définitions des colonnes (via col() factory ou DataTableColumnDef directement).",
 		},
 		{
 			name: "onRowClick",

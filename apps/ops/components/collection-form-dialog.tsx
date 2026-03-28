@@ -1,22 +1,10 @@
 "use client"
 
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
 import { Loader2 } from "lucide-react"
@@ -27,16 +15,7 @@ import { z } from "zod"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 
-const PRESET_COLORS = [
-	"#ef4444",
-	"#f97316",
-	"#eab308",
-	"#22c55e",
-	"#06b6d4",
-	"#3b82f6",
-	"#8b5cf6",
-	"#ec4899",
-]
+const PRESET_COLORS = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#06b6d4", "#3b82f6", "#8b5cf6", "#ec4899"]
 
 const schema = z.object({
 	name: z.string().min(1, "Nom requis"),
@@ -54,20 +33,14 @@ interface CollectionFormDialogProps {
 	parentId?: Id<"bookmarkCollections">
 }
 
-export function CollectionFormDialog({
-	open,
-	onOpenChange,
-	collection,
-	parentId,
-}: CollectionFormDialogProps) {
+export function CollectionFormDialog({ open, onOpenChange, collection, parentId }: CollectionFormDialogProps) {
 	const create = useMutation(api.bookmarkCollections.create)
 	const update = useMutation(api.bookmarkCollections.update)
 	const collections = useQuery(api.bookmarkCollections.list)
 
 	const isEdit = !!collection
 
-	const topLevelCollections =
-		collections?.filter((c) => !c.parentId && c._id !== collection?._id) ?? []
+	const topLevelCollections = collections?.filter((c) => !c.parentId && c._id !== collection?._id) ?? []
 
 	const parentItems = [
 		{ value: "", label: "Aucune (niveau racine)" },
@@ -179,11 +152,7 @@ export function CollectionFormDialog({
 									key={color}
 									type="button"
 									onClick={() => setValue("color", color)}
-									className={`size-6 rounded-full transition-all ${
-										selectedColor === color
-											? "ring-2 ring-offset-2 ring-brand ring-offset-surface"
-											: "hover:scale-110"
-									}`}
+									className={`size-6 rounded-full transition-all ${selectedColor === color ? "ring-2 ring-offset-2 ring-brand ring-offset-surface" : "hover:scale-110"}`}
 									style={{ backgroundColor: color }}
 								/>
 							))}
@@ -198,11 +167,7 @@ export function CollectionFormDialog({
 								control={control}
 								name="parentId"
 								render={({ field }) => (
-									<Select
-										value={field.value ?? ""}
-										onValueChange={field.onChange}
-										items={parentItems}
-									>
+									<Select value={field.value ?? ""} onValueChange={field.onChange} items={parentItems}>
 										<SelectTrigger>
 											<SelectValue placeholder="Aucune (niveau racine)" />
 										</SelectTrigger>
@@ -220,22 +185,11 @@ export function CollectionFormDialog({
 					)}
 
 					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => onOpenChange(false)}
-							disabled={isSubmitting}
-						>
+						<Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
 							Annuler
 						</Button>
 						<Button type="submit" disabled={isSubmitting}>
-							{isSubmitting ? (
-								<Loader2 className="size-4 animate-spin" />
-							) : isEdit ? (
-								"Mettre à jour"
-							) : (
-								"Créer"
-							)}
+							{isSubmitting ? <Loader2 className="size-4 animate-spin" /> : isEdit ? "Mettre à jour" : "Créer"}
 						</Button>
 					</DialogFooter>
 				</form>

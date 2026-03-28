@@ -99,14 +99,12 @@ const pageHeaderProps: DocProp[] = [
 	{
 		name: "breadcrumbs",
 		type: "BreadcrumbItemType[]",
-		description:
-			"Fil d'Ariane affiché au-dessus du titre. Le dernier item sans href est rendu en BreadcrumbPage (non-cliquable). Les items avec href sont des liens.",
+		description: "Fil d'Ariane affiché au-dessus du titre. Le dernier item sans href est rendu en BreadcrumbPage (non-cliquable). Les items avec href sont des liens.",
 	},
 	{
 		name: "actions",
 		type: "React.ReactNode",
-		description:
-			"Slot libre pour les boutons d'action, alignés à droite du titre. Utiliser un fragment React pour plusieurs boutons.",
+		description: "Slot libre pour les boutons d'action, alignés à droite du titre. Utiliser un fragment React pour plusieurs boutons.",
 	},
 	{
 		name: "className",
@@ -125,8 +123,7 @@ const breadcrumbItemProps: DocProp[] = [
 	{
 		name: "href",
 		type: "string",
-		description:
-			"Si fourni, l'item est rendu comme un lien. Si omis (dernier item), rendu en BreadcrumbPage (texte simple, non-cliquable).",
+		description: "Si fourni, l'item est rendu comme un lien. Si omis (dernier item), rendu en BreadcrumbPage (texte simple, non-cliquable).",
 	},
 ]
 
@@ -155,23 +152,10 @@ function PageHeaderActionsPreview() {
 						<p className="mt-1 text-sm text-fg-muted">Gérez votre catalogue de produits.</p>
 					</div>
 					<div className="flex items-center gap-2">
-						<div className="flex h-8 items-center rounded border border-edge-subtle px-3 text-sm text-fg-secondary">
-							Export
-						</div>
+						<div className="flex h-8 items-center rounded border border-edge-subtle px-3 text-sm text-fg-secondary">Export</div>
 						<div className="flex h-8 items-center gap-1.5 rounded bg-brand px-3 text-sm text-white">
-							<svg
-								className="h-4 w-4"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M12 4v16m8-8H4"
-								/>
+							<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
 							</svg>
 							Ajouter un produit
 						</div>
@@ -188,22 +172,14 @@ function PageHeaderBreadcrumbPreview() {
 			<div className="border-b border-edge-subtle bg-white dark:bg-card px-6 py-4">
 				<nav className="mb-2 flex items-center gap-1 text-sm">
 					<span className="text-brand hover:underline cursor-pointer">Produits</span>
-					<svg
-						className="h-4 w-4 text-fg-muted"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						aria-hidden="true"
-					>
+					<svg className="h-4 w-4 text-fg-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 					</svg>
 					<span className="text-fg-muted">MacBook Pro</span>
 				</nav>
 				<div className="flex items-center justify-between">
 					<h1 className="text-2xl font-bold tracking-tight text-fg">MacBook Pro</h1>
-					<div className="flex h-8 items-center rounded border border-edge-subtle px-3 text-sm text-fg-secondary">
-						Modifier
-					</div>
+					<div className="flex h-8 items-center rounded border border-edge-subtle px-3 text-sm text-fg-secondary">Modifier</div>
 				</div>
 			</div>
 		</div>
@@ -221,12 +197,7 @@ export default function PageHeaderShellPage() {
 			toc={toc}
 		>
 			<DocSection id="usage" title="Usage">
-				<DocExampleClient
-					title="Titre et description"
-					description="Usage minimal — titre et sous-titre descriptif."
-					code={examples[0].code}
-					highlightedCode={html("basic")}
-				>
+				<DocExampleClient title="Titre et description" description="Usage minimal — titre et sous-titre descriptif." code={examples[0].code} highlightedCode={html("basic")}>
 					<PageHeaderPreview />
 				</DocExampleClient>
 				<DocExampleClient
@@ -245,12 +216,7 @@ export default function PageHeaderShellPage() {
 				>
 					<PageHeaderBreadcrumbPreview />
 				</DocExampleClient>
-				<DocExampleClient
-					title="Titre seul"
-					description="Tous les props sont optionnels — seul title est couramment utilisé seul."
-					code={examples[3].code}
-					highlightedCode={html("title-only")}
-				>
+				<DocExampleClient title="Titre seul" description="Tous les props sont optionnels — seul title est couramment utilisé seul." code={examples[3].code} highlightedCode={html("title-only")}>
 					<div className="rounded border border-edge-subtle overflow-hidden">
 						<div className="border-b border-edge-subtle bg-white dark:bg-card px-6 py-4">
 							<h1 className="text-2xl font-bold tracking-tight text-fg">Paramètres</h1>
@@ -270,14 +236,12 @@ export default function PageHeaderShellPage() {
 						{
 							title: "Page Header (blocks)",
 							href: "/docs/blocks/page-header",
-							description:
-								"Version métier avec actions déclaratives (tableau PageHeaderAction) et slot actionsSlot.",
+							description: "Version métier avec actions déclaratives (tableau PageHeaderAction) et slot actionsSlot.",
 						},
 						{
 							title: "Top Bar",
 							href: "/docs/components/patterns/top-bar",
-							description:
-								"Header de zone de contenu avec breadcrumbs contextuels fournis par AppFrame.",
+							description: "Header de zone de contenu avec breadcrumbs contextuels fournis par AppFrame.",
 						},
 						{
 							title: "Breadcrumb",

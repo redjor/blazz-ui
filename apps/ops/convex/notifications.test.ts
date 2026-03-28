@@ -12,9 +12,9 @@ function setup() {
 }
 
 // Helper: insert a notification directly via DB (since create is internalMutation)
-async function insertNotification(
-	asUser: ReturnType<typeof setup>["asUser"],
-	overrides: Partial<{
+async function _insertNotification(
+	_asUser: ReturnType<typeof setup>["asUser"],
+	_overrides: Partial<{
 		source: "github" | "vercel" | "convex"
 		externalId: string
 		title: string
@@ -44,9 +44,7 @@ describe("notifications auth", () => {
 
 	it("markAllRead rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(
-			t.mutation(api.notifications.markAllRead, {})
-		).rejects.toThrow("Non authentifié")
+		await expect(t.mutation(api.notifications.markAllRead, {})).rejects.toThrow("Non authentifié")
 	})
 })
 
@@ -68,15 +66,11 @@ describe("notifications mutations", () => {
 	it("markRead rejects non-existent notification", async () => {
 		const { asUser } = setup()
 		// Create a dummy ID that looks valid but doesn't exist
-		await expect(
-			asUser.mutation(api.notifications.markRead, { id: "invalid" as any })
-		).rejects.toThrow()
+		await expect(asUser.mutation(api.notifications.markRead, { id: "invalid" as any })).rejects.toThrow()
 	})
 
 	it("archiveAllRead rejects unauthenticated", async () => {
 		const { t } = setup()
-		await expect(
-			t.mutation(api.notifications.archiveAllRead)
-		).rejects.toThrow("Non authentifié")
+		await expect(t.mutation(api.notifications.archiveAllRead)).rejects.toThrow("Non authentifié")
 	})
 })

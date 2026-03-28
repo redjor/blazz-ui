@@ -1,9 +1,9 @@
 "use client"
 
-import { use } from "react"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
 import { HelpCircle, Plus, Settings } from "lucide-react"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -100,11 +100,7 @@ export default function TooltipPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Tooltip"
-			subtitle="A popup that displays information related to an element when it receives hover or keyboard focus."
-			toc={toc}
-		>
+		<DocPage title="Tooltip" subtitle="A popup that displays information related to an element when it receives hover or keyboard focus." toc={toc}>
 			<DocHero>
 				<Tooltip>
 					<TooltipTrigger render={<Button variant="outline" />}>Hover me</TooltipTrigger>
@@ -113,24 +109,14 @@ export default function TooltipPage() {
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleClient
-					title="Default"
-					description="A basic tooltip on hover."
-					code={examples[0].code}
-					highlightedCode={html("default")}
-				>
+				<DocExampleClient title="Default" description="A basic tooltip on hover." code={examples[0].code} highlightedCode={html("default")}>
 					<Tooltip>
 						<TooltipTrigger render={<Button variant="outline" />}>Hover me</TooltipTrigger>
 						<TooltipContent>This is a tooltip</TooltipContent>
 					</Tooltip>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Positions"
-					description="Tooltips can appear on different sides."
-					code={examples[1].code}
-					highlightedCode={html("positions")}
-				>
+				<DocExampleClient title="Positions" description="Tooltips can appear on different sides." code={examples[1].code} highlightedCode={html("positions")}>
 					<div className="flex gap-4">
 						<Tooltip>
 							<TooltipTrigger render={<Button variant="outline" />}>Top</TooltipTrigger>
@@ -151,12 +137,7 @@ export default function TooltipPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Icon Buttons"
-					description="Use tooltips to explain icon-only buttons."
-					code={examples[2].code}
-					highlightedCode={html("icon-buttons")}
-				>
+				<DocExampleClient title="Icon Buttons" description="Use tooltips to explain icon-only buttons." code={examples[2].code} highlightedCode={html("icon-buttons")}>
 					<div className="flex gap-2">
 						<Tooltip>
 							<TooltipTrigger render={<Button variant="outline" size="icon" />}>
@@ -179,20 +160,12 @@ export default function TooltipPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Longer Content"
-					description="Tooltips can contain longer text."
-					code={examples[3].code}
-					highlightedCode={html("longer-content")}
-				>
+				<DocExampleClient title="Longer Content" description="Tooltips can contain longer text." code={examples[3].code} highlightedCode={html("longer-content")}>
 					<Tooltip>
 						<TooltipTrigger render={<Button variant="ghost" size="icon" />}>
 							<HelpCircle />
 						</TooltipTrigger>
-						<TooltipContent className="max-w-xs">
-							This tooltip contains more detailed information about the feature or action. Keep it
-							concise but informative.
-						</TooltipContent>
+						<TooltipContent className="max-w-xs">This tooltip contains more detailed information about the feature or action. Keep it concise but informative.</TooltipContent>
 					</Tooltip>
 				</DocExampleClient>
 			</DocSection>
@@ -202,9 +175,7 @@ export default function TooltipPage() {
 			</DocSection>
 
 			<DocSection id="tokens" title="Design Tokens">
-				<p className="text-sm text-fg-muted">
-					Tooltip uses the design system tokens for consistent styling:
-				</p>
+				<p className="text-sm text-fg-muted">Tooltip uses the design system tokens for consistent styling:</p>
 				<ul className="list-inside list-disc space-y-2 text-sm text-fg-muted">
 					<li>
 						<code className="text-xs">bg-muted</code> - Tooltip background color

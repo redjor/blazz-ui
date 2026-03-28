@@ -28,23 +28,13 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 	}
 
 	return (
-		<Box
-			as="article"
-			padding="4"
-			background="surface"
-			border="default"
-			borderRadius="lg"
-			className="cursor-pointer transition-colors hover:bg-muted"
-			onClick={handleClick}
-		>
+		<Box as="article" padding="4" background="surface" border="default" borderRadius="lg" className="cursor-pointer transition-colors hover:bg-muted" onClick={handleClick}>
 			<BlockStack gap="300">
 				{/* Header: source + time + favorite */}
 				<InlineStack align="space-between" blockAlign="center">
 					<InlineStack gap="200" blockAlign="center">
 						<SourceIcon className="size-3.5 text-fg-muted shrink-0" />
-						{sourceName && (
-							<span className="text-[13px] text-fg-muted font-medium">{sourceName}</span>
-						)}
+						{sourceName && <span className="text-[13px] text-fg-muted font-medium">{sourceName}</span>}
 						<span className="text-[13px] text-fg-muted">
 							{formatDistanceToNow(new Date(item.publishedAt), {
 								addSuffix: true,
@@ -60,35 +50,19 @@ export function FeedItemCard({ item, sourceName, onToggleFavorite, onMarkRead }:
 						}}
 						className="p-1 rounded hover:bg-card-hover transition-colors"
 					>
-						<Star
-							className={`size-3.5 ${item.isFavorite ? "fill-amber-400 text-amber-400" : "text-fg-muted"}`}
-						/>
+						<Star className={`size-3.5 ${item.isFavorite ? "fill-amber-400 text-amber-400" : "text-fg-muted"}`} />
 					</button>
 				</InlineStack>
 
 				{/* YouTube thumbnail */}
-				{item.type === "youtube" && item.thumbnailUrl && (
-					<img
-						src={item.thumbnailUrl}
-						alt=""
-						className="w-full aspect-video object-cover rounded-md"
-					/>
-				)}
+				{item.type === "youtube" && item.thumbnailUrl && <img src={item.thumbnailUrl} alt="" className="w-full aspect-video object-cover rounded-md" />}
 
 				{/* Title */}
-				<h3
-					className={`text-sm font-medium leading-snug line-clamp-2 ${
-						item.isRead ? "text-fg-muted" : "text-fg"
-					}`}
-				>
-					{item.title}
-				</h3>
+				<h3 className={`text-sm font-medium leading-snug line-clamp-2 ${item.isRead ? "text-fg-muted" : "text-fg"}`}>{item.title}</h3>
 
 				{/* AI summary */}
 				{item.aiSummary ? (
-					<p className="text-[13px] text-fg-muted leading-relaxed line-clamp-2">
-						{item.aiSummary}
-					</p>
+					<p className="text-[13px] text-fg-muted leading-relaxed line-clamp-2">{item.aiSummary}</p>
 				) : (
 					<BlockStack gap="150">
 						<Skeleton className="h-3 w-full" />

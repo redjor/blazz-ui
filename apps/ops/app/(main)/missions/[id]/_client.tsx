@@ -6,33 +6,21 @@ import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
 import { Button } from "@blazz/ui/components/ui/button"
-import {
-	Dialog,
-	DialogContent,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle,
-} from "@blazz/ui/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Input } from "@blazz/ui/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@blazz/ui/components/ui/tabs"
-import { Input } from "@blazz/ui/components/ui/input"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
 import { Pencil } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
-import { MissionLogs } from "../_components/mission-logs"
-import { MissionOutput } from "../_components/mission-output"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { MissionLogs } from "../_components/mission-logs"
+import { MissionOutput } from "../_components/mission-output"
 
 const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "info" | "success" | "warning" | "critical" }> = {
 	planning: { label: "Planning", variant: "secondary" },
@@ -59,10 +47,7 @@ export function MissionDetailClient({ id }: Props) {
 	const missionId = id as Id<"missions">
 	const mission = useQuery(api.missions.get, { id: missionId })
 	const logs = useQuery(api.agentLogs.list, { missionId })
-	const agent = useQuery(
-		api.agents.get,
-		mission?.agentId ? { id: mission.agentId } : "skip"
-	)
+	const agent = useQuery(api.agents.get, mission?.agentId ? { id: mission.agentId } : "skip")
 	const updateStatus = useMutation(api.missions.updateStatus)
 	const updateMission = useMutation(api.missions.update)
 	const createMission = useMutation(api.missions.create)
@@ -72,11 +57,7 @@ export function MissionDetailClient({ id }: Props) {
 	const [loading, setLoading] = useState<string | null>(null)
 	const [editing, setEditing] = useState(false)
 
-	useAppTopBar(
-		mission != null
-			? [{ label: "Missions", href: "/missions" }, { label: mission.title }]
-			: null
-	)
+	useAppTopBar(mission != null ? [{ label: "Missions", href: "/missions" }, { label: mission.title }] : null)
 
 	if (mission === undefined) {
 		return (
@@ -97,18 +78,13 @@ export function MissionDetailClient({ id }: Props) {
 	}
 
 	if (mission === null) {
-		return (
-			<Box className="p-6 text-fg-muted text-sm">Mission introuvable.</Box>
-		)
+		return <Box className="p-6 text-fg-muted text-sm">Mission introuvable.</Box>
 	}
 
 	const status = statusConfig[mission.status] ?? statusConfig.planning
 	const priority = priorityConfig[mission.priority] ?? priorityConfig.medium
 
-	const duration =
-		mission.startedAt && mission.completedAt
-			? Math.round((mission.completedAt - mission.startedAt) / 1000)
-			: null
+	const duration = mission.startedAt && mission.completedAt ? Math.round((mission.completedAt - mission.startedAt) / 1000) : null
 
 	const formatDuration = (seconds: number) => {
 		if (seconds < 60) return `${seconds}s`
@@ -143,9 +119,7 @@ export function MissionDetailClient({ id }: Props) {
 		await createMission({
 			agentId: mission.agentId,
 			title: `${mission.title} (re-run)`,
-			prompt: mission.rejectionReason
-				? `${mission.prompt}\n\n---\nPrevious attempt was rejected: ${mission.rejectionReason}`
-				: mission.prompt,
+			prompt: mission.rejectionReason ? `${mission.prompt}\n\n---\nPrevious attempt was rejected: ${mission.rejectionReason}` : mission.prompt,
 			status: "todo",
 			priority: mission.priority,
 			mode: mission.mode,
@@ -163,11 +137,7 @@ export function MissionDetailClient({ id }: Props) {
 					actions={
 						<InlineStack gap="200">
 							{(mission.status === "planning" || mission.status === "todo") && !editing && (
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => setEditing(true)}
-								>
+								<Button variant="outline" size="sm" onClick={() => setEditing(true)}>
 									<Pencil className="size-3.5 mr-1" />
 									Modifier
 								</Button>
@@ -183,50 +153,25 @@ export function MissionDetailClient({ id }: Props) {
 								</Button>
 							)}
 							{mission.status === "in_progress" && (
-								<Button
-									variant="destructive"
-									size="sm"
-									disabled={loading === "abort"}
-									onClick={handleAbort}
-								>
+								<Button variant="destructive" size="sm" disabled={loading === "abort"} onClick={handleAbort}>
 									Abort
 								</Button>
 							)}
 							{mission.status === "review" && (
 								<>
-									<Button
-										variant="default"
-										size="sm"
-										disabled={loading === "validate"}
-										onClick={handleValidate}
-									>
+									<Button variant="default" size="sm" disabled={loading === "validate"} onClick={handleValidate}>
 										Valider
 									</Button>
-									<Button
-										variant="destructive"
-										size="sm"
-										disabled={loading === "reject"}
-										onClick={() => setRejectOpen(true)}
-									>
+									<Button variant="destructive" size="sm" disabled={loading === "reject"} onClick={() => setRejectOpen(true)}>
 										Rejeter
 									</Button>
-									<Button
-										variant="outline"
-										size="sm"
-										disabled={loading === "rerun"}
-										onClick={handleRerun}
-									>
+									<Button variant="outline" size="sm" disabled={loading === "rerun"} onClick={handleRerun}>
 										Re-run
 									</Button>
 								</>
 							)}
 							{(mission.status === "rejected" || mission.status === "done") && (
-								<Button
-									variant="outline"
-									size="sm"
-									disabled={loading === "rerun"}
-									onClick={handleRerun}
-								>
+								<Button variant="outline" size="sm" disabled={loading === "rerun"} onClick={handleRerun}>
 									Re-run
 								</Button>
 							)}
@@ -234,7 +179,7 @@ export function MissionDetailClient({ id }: Props) {
 					}
 				/>
 
-					{/* Live progress indicator */}
+				{/* Live progress indicator */}
 				{mission.status === "in_progress" && (
 					<InlineStack gap="200" blockAlign="center">
 						<span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -275,18 +220,10 @@ export function MissionDetailClient({ id }: Props) {
 				</InlineStack>
 
 				{/* Error banner */}
-				{mission.error && (
-					<Box className="rounded-lg border border-negative/30 bg-negative/10 p-3 text-sm text-negative">
-						{mission.error}
-					</Box>
-				)}
+				{mission.error && <Box className="rounded-lg border border-negative/30 bg-negative/10 p-3 text-sm text-negative">{mission.error}</Box>}
 
 				{/* Rejection reason */}
-				{mission.rejectionReason && (
-					<Box className="rounded-lg border border-caution/30 bg-caution/10 p-3 text-sm text-caution">
-						Rejet : {mission.rejectionReason}
-					</Box>
-				)}
+				{mission.rejectionReason && <Box className="rounded-lg border border-caution/30 bg-caution/10 p-3 text-sm text-caution">Rejet : {mission.rejectionReason}</Box>}
 
 				{/* Edit form */}
 				{editing && (
@@ -406,49 +343,26 @@ export function MissionDetailClient({ id }: Props) {
 						{mission.actions && mission.actions.length > 0 ? (
 							<BlockStack gap="200">
 								{mission.actions.map((action, i) => (
-									<InlineStack
-										key={i}
-										gap="300"
-										blockAlign="center"
-										className="py-2.5 border-b border-edge last:border-0"
-									>
-										<Badge
-											variant={action.reversible ? "info" : "warning"}
-											fill="subtle"
-											size="sm"
-										>
+									<InlineStack key={i} gap="300" blockAlign="center" className="py-2.5 border-b border-edge last:border-0">
+										<Badge variant={action.reversible ? "info" : "warning"} fill="subtle" size="sm">
 											{action.type}
 										</Badge>
-										<span className="text-sm text-fg flex-1">
-											{action.description}
-										</span>
-										{action.entityId && (
-											<span className="text-xs font-mono text-fg-muted">
-												{action.entityId}
-											</span>
-										)}
-										<Badge
-											variant={action.reversible ? "success" : "critical"}
-											fill="ghost"
-											size="xs"
-										>
+										<span className="text-sm text-fg flex-1">{action.description}</span>
+										{action.entityId && <span className="text-xs font-mono text-fg-muted">{action.entityId}</span>}
+										<Badge variant={action.reversible ? "success" : "critical"} fill="ghost" size="xs">
 											{action.reversible ? "reversible" : "irreversible"}
 										</Badge>
 									</InlineStack>
 								))}
 							</BlockStack>
 						) : (
-							<Box className="py-8 text-center text-sm text-fg-muted">
-								Aucune action pour cette mission.
-							</Box>
+							<Box className="py-8 text-center text-sm text-fg-muted">Aucune action pour cette mission.</Box>
 						)}
 					</TabsContent>
 
 					<TabsContent value="prompt" className="pt-4">
 						<Box className="rounded-lg border border-edge bg-card p-4">
-							<pre className="text-sm text-fg whitespace-pre-wrap break-words font-mono leading-relaxed">
-								{mission.prompt}
-							</pre>
+							<pre className="text-sm text-fg whitespace-pre-wrap break-words font-mono leading-relaxed">{mission.prompt}</pre>
 						</Box>
 					</TabsContent>
 				</Tabs>
@@ -461,22 +375,13 @@ export function MissionDetailClient({ id }: Props) {
 						<DialogTitle>Rejeter la mission</DialogTitle>
 					</DialogHeader>
 					<BlockStack gap="400">
-						<Textarea
-							placeholder="Raison du rejet..."
-							value={rejectionReason}
-							onChange={(e) => setRejectionReason(e.target.value)}
-							rows={3}
-						/>
+						<Textarea placeholder="Raison du rejet..." value={rejectionReason} onChange={(e) => setRejectionReason(e.target.value)} rows={3} />
 					</BlockStack>
 					<DialogFooter>
 						<Button variant="outline" onClick={() => setRejectOpen(false)}>
 							Annuler
 						</Button>
-						<Button
-							variant="destructive"
-							disabled={!rejectionReason.trim() || loading === "reject"}
-							onClick={handleReject}
-						>
+						<Button variant="destructive" disabled={!rejectionReason.trim() || loading === "reject"} onClick={handleReject}>
 							Rejeter
 						</Button>
 					</DialogFooter>

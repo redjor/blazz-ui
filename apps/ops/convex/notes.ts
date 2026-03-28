@@ -2,20 +2,9 @@ import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const entityTypeValidator = v.union(
-	v.literal("client"),
-	v.literal("project"),
-	v.literal("contract"),
-	v.literal("invoice"),
-	v.literal("todo"),
-	v.literal("general")
-)
+const entityTypeValidator = v.union(v.literal("client"), v.literal("project"), v.literal("contract"), v.literal("invoice"), v.literal("todo"), v.literal("general"))
 
-function applyNotePatchField(
-	patch: Record<string, unknown>,
-	key: "title" | "contentJson" | "contentText" | "pinned" | "locked",
-	value: unknown
-) {
+function applyNotePatchField(patch: Record<string, unknown>, key: "title" | "contentJson" | "contentText" | "pinned" | "locked", value: unknown) {
 	if (value === undefined) return
 	if (key === "contentJson" || key === "contentText") {
 		patch[key] = value ?? undefined
@@ -33,9 +22,7 @@ export const listByEntity = query({
 		const { userId } = await requireAuth(ctx)
 		const notes = await ctx.db
 			.query("notes")
-			.withIndex("by_entity_updated", (q) =>
-				q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId)
-			)
+			.withIndex("by_entity_updated", (q) => q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId))
 			.order("desc")
 			.collect()
 
@@ -76,10 +63,7 @@ export const create = mutation({
 		contentText: v.optional(v.string()),
 		pinned: v.optional(v.boolean()),
 	},
-	handler: async (
-		ctx,
-		{ entityType, entityId, title, contentJson, contentText, pinned = false }
-	) => {
+	handler: async (ctx, { entityType, entityId, title, contentJson, contentText, pinned = false }) => {
 		const { userId } = await requireAuth(ctx)
 		const now = Date.now()
 		return ctx.db.insert("notes", {
@@ -112,18 +96,13 @@ export const update = mutation({
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
 
 		// Locked notes only allow toggling the lock itself
-		const isContentEdit =
-			title !== undefined || contentJson !== undefined || contentText !== undefined || tags !== undefined
+		const isContentEdit = title !== undefined || contentJson !== undefined || contentText !== undefined || tags !== undefined
 		if (note.locked && locked !== false && isContentEdit) {
 			throw new ConvexError("Note verrouillée")
 		}
 
 		const patch: Record<string, unknown> = { updatedAt: Date.now() }
-		applyNotePatchField(
-			patch,
-			"title",
-			title?.trim() || (title === "" ? "Nouvelle note" : undefined)
-		)
+		applyNotePatchField(patch, "title", title?.trim() || (title === "" ? "Nouvelle note" : undefined))
 		applyNotePatchField(patch, "contentJson", contentJson)
 		applyNotePatchField(patch, "contentText", contentText)
 		applyNotePatchField(patch, "pinned", pinned)

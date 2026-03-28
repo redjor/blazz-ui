@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
 import { Text } from "@blazz/ui/components/ui/text"
+import { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
 import { DocPage } from "~/components/docs/doc-page"
@@ -26,8 +26,7 @@ const textProps: DocProp[] = [
 		name: "as",
 		type: '"h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "strong" | "em" | "dt" | "dd" | "label" | "legend"',
 		default: "varies by variant",
-		description:
-			"The HTML element to render. Defaults to the semantic element for the variant (e.g. heading-xl renders as h3, body-md as p).",
+		description: "The HTML element to render. Defaults to the semantic element for the variant (e.g. heading-xl renders as h3, body-md as p).",
 	},
 	{
 		name: "tone",
@@ -120,11 +119,7 @@ export default function TextPage() {
 	const html = (key: string) => highlighted.find((h) => h.key === key)?.html ?? ""
 
 	return (
-		<DocPage
-			title="Text"
-			subtitle="Consistent typography across your application. Enforces a type scale so every heading and paragraph stays in sync."
-			toc={toc}
-		>
+		<DocPage title="Text" subtitle="Consistent typography across your application. Enforces a type scale so every heading and paragraph stays in sync." toc={toc}>
 			<DocHero>
 				<div className="space-y-1 text-center">
 					<Text variant="heading-lg">Invoice #1042</Text>
@@ -150,12 +145,7 @@ export default function TextPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Body Scale"
-					description="Four body sizes for content, descriptions, and captions."
-					code={examples[1].code}
-					highlightedCode={html("body-scale")}
-				>
+				<DocExampleClient title="Body Scale" description="Four body sizes for content, descriptions, and captions." code={examples[1].code} highlightedCode={html("body-scale")}>
 					<div className="space-y-3">
 						<Text variant="body-lg">Large body text for introductory paragraphs.</Text>
 						<Text variant="body-md">Medium body text (default) for most content.</Text>
@@ -180,12 +170,7 @@ export default function TextPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Tones"
-					description="Semantic color tones for meaning."
-					code={examples[3].code}
-					highlightedCode={html("tones")}
-				>
+				<DocExampleClient title="Tones" description="Semantic color tones for meaning." code={examples[3].code} highlightedCode={html("tones")}>
 					<div className="space-y-2">
 						<div>
 							<Text tone="default">Default text</Text>
@@ -211,26 +196,13 @@ export default function TextPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Truncate"
-					description="Cut off long text with ellipsis."
-					code={examples[4].code}
-					highlightedCode={html("truncate")}
-				>
+				<DocExampleClient title="Truncate" description="Cut off long text with ellipsis." code={examples[4].code} highlightedCode={html("truncate")}>
 					<div className="max-w-xs border border-edge rounded-lg p-4">
-						<Text truncate>
-							This is a very long text that will be truncated with an ellipsis when it exceeds the
-							container width.
-						</Text>
+						<Text truncate>This is a very long text that will be truncated with an ellipsis when it exceeds the container width.</Text>
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Numeric"
-					description="Tabular figures for aligned numbers in tables and financial data."
-					code={examples[5].code}
-					highlightedCode={html("numeric")}
-				>
+				<DocExampleClient title="Numeric" description="Tabular figures for aligned numbers in tables and financial data." code={examples[5].code} highlightedCode={html("numeric")}>
 					<div className="space-y-2">
 						<div>
 							<Text>Regular: $1,234.56</Text>
@@ -244,12 +216,7 @@ export default function TextPage() {
 					</div>
 				</DocExampleClient>
 
-				<DocExampleClient
-					title="Composition"
-					description="Combine variant, tone, and className for full control."
-					code={examples[6].code}
-					highlightedCode={html("composition")}
-				>
+				<DocExampleClient title="Composition" description="Combine variant, tone, and className for full control." code={examples[6].code} highlightedCode={html("composition")}>
 					<div className="space-y-2">
 						<Text variant="heading-lg">Invoice #1042</Text>
 						<Text tone="muted">Due in 14 days</Text>
@@ -278,12 +245,10 @@ export default function TextPage() {
 						Use <code>tone</code> for semantic color -- not <code>className="text-red-500"</code>
 					</li>
 					<li>
-						Omit <code>as</code> to get the right semantic element automatically (heading-xl = h3,
-						body-md = p)
+						Omit <code>as</code> to get the right semantic element automatically (heading-xl = h3, body-md = p)
 					</li>
 					<li>
-						Use <code>as</code> only when the visual variant and semantic element differ (e.g.
-						heading-xl styled as h1)
+						Use <code>as</code> only when the visual variant and semantic element differ (e.g. heading-xl styled as h1)
 					</li>
 					<li>
 						For anything else (alignment, decoration, weight override), use <code>className</code>

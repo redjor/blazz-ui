@@ -4,13 +4,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
 import { Loader2 } from "lucide-react"
@@ -145,10 +139,7 @@ export function LicenseKeyForm({ onSuccess, onCancel }: Props) {
 									if (client.email) setValue("email", client.email)
 								}
 							}}
-							items={[
-								{ value: "", label: "Aucun" },
-								...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? []),
-							]}
+							items={[{ value: "", label: "Aucun" }, ...(clients?.map((c) => ({ value: c._id, label: c.name })) ?? [])]}
 						>
 							<SelectTrigger>
 								<SelectValue placeholder="Lier à un client..." />
@@ -174,12 +165,7 @@ export function LicenseKeyForm({ onSuccess, onCancel }: Props) {
 					</div>
 					<div className="space-y-1.5">
 						<Label htmlFor="email">Email</Label>
-						<Input
-							id="email"
-							type="email"
-							placeholder="client@example.com"
-							{...register("email")}
-						/>
+						<Input id="email" type="email" placeholder="client@example.com" {...register("email")} />
 					</div>
 				</>
 			)}

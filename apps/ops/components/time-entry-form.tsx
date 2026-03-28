@@ -6,13 +6,7 @@ import { DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@blazz/ui/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery } from "convex/react"
@@ -100,9 +94,7 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 				toast.error("Projet introuvable")
 				return
 			}
-			const hourlyRate =
-				(project as { tjm: number; hoursPerDay: number }).tjm /
-				(project as { tjm: number; hoursPerDay: number }).hoursPerDay
+			const hourlyRate = (project as { tjm: number; hoursPerDay: number }).tjm / (project as { tjm: number; hoursPerDay: number }).hoursPerDay
 
 			if (isEdit) {
 				await update({
@@ -186,29 +178,15 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 				<div className="space-y-1.5">
 					<Label>Durée *</Label>
 					{(() => {
-						const selectedProject = projects?.find(
-							(p: { _id: string }) => p._id === watch("projectId")
-						)
+						const selectedProject = projects?.find((p: { _id: string }) => p._id === watch("projectId"))
 						const hpd = (selectedProject as { hoursPerDay?: number } | undefined)?.hoursPerDay
 						if (!hpd || hpd <= 0) return null
 						return (
 							<div className="flex gap-2">
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									className="flex-1 h-8 text-xs"
-									onClick={() => setValue("hours", hpd / 2)}
-								>
+								<Button type="button" variant="outline" size="sm" className="flex-1 h-8 text-xs" onClick={() => setValue("hours", hpd / 2)}>
 									½ j ({hpd / 2}h)
 								</Button>
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									className="flex-1 h-8 text-xs"
-									onClick={() => setValue("hours", hpd)}
-								>
+								<Button type="button" variant="outline" size="sm" className="flex-1 h-8 text-xs" onClick={() => setValue("hours", hpd)}>
 									1 j ({hpd}h)
 								</Button>
 							</div>
@@ -226,19 +204,11 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 
 			<div className="space-y-1.5">
 				<Label>Tags</Label>
-				<TagInput
-					value={watch("tags") ?? []}
-					onChange={(tags) => setValue("tags", tags)}
-					suggestions={allTags ?? []}
-				/>
+				<TagInput value={watch("tags") ?? []} onChange={(tags) => setValue("tags", tags)} suggestions={allTags ?? []} />
 			</div>
 
 			<div className="flex items-center gap-2">
-				<Checkbox
-					id="billable"
-					checked={watch("billable")}
-					onCheckedChange={(v) => setValue("billable", !!v)}
-				/>
+				<Checkbox id="billable" checked={watch("billable")} onCheckedChange={(v) => setValue("billable", !!v)} />
 				<Label htmlFor="billable" className="font-normal cursor-pointer">
 					Facturable
 				</Label>

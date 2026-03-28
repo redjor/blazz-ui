@@ -43,13 +43,7 @@ function bytesToHex(bytes: Uint8Array): string {
 async function main() {
 	const payload = `${plan}-${orgId}-${expiry}`
 	const enc = new TextEncoder()
-	const key = await crypto.subtle.importKey(
-		"raw",
-		enc.encode(secret),
-		{ name: "HMAC", hash: "SHA-256" },
-		false,
-		["sign"]
-	)
+	const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"])
 	const sig = await crypto.subtle.sign("HMAC", key, enc.encode(payload))
 	const signature = bytesToHex(new Uint8Array(sig)).slice(0, 16)
 

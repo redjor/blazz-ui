@@ -100,8 +100,7 @@ const selectorProps: DocProp[] = [
 	{
 		name: "forceShow",
 		type: "boolean",
-		description:
-			"Show the selector even in production. Do not use in production builds. Default: false.",
+		description: "Show the selector even in production. Do not use in production builds. Default: false.",
 	},
 	{
 		name: "position",
@@ -152,8 +151,7 @@ const accountProps: DocProp[] = [
 	{
 		name: "avatarUrl",
 		type: "string",
-		description:
-			"Optional avatar image URL. Falls back to initials if not provided or fails to load.",
+		description: "Optional avatar image URL. Falls back to initials if not provided or fails to load.",
 	},
 ]
 
@@ -199,19 +197,14 @@ export default function QuickLoginPage() {
 						Add <code className="text-fg">@blazz/quick-login</code> to your app's dependencies.
 					</li>
 					<li>
-						Import the CSS once at the root of your app:{" "}
-						<code className="text-fg">import "@blazz/quick-login/styles.css"</code> — required for
-						the slide animations to work.
+						Import the CSS once at the root of your app: <code className="text-fg">import "@blazz/quick-login/styles.css"</code> — required for the slide animations to work.
 					</li>
 					<li>
-						Drop <code className="text-fg">{"<QuickAccountSelector />"}</code> anywhere in your
-						login page tree. It renders as <code className="text-fg">null</code> outside of{" "}
-						<code className="text-fg">NODE_ENV === "development"</code> unless you pass{" "}
-						<code className="text-fg">forceShow</code>.
+						Drop <code className="text-fg">{"<QuickAccountSelector />"}</code> anywhere in your login page tree. It renders as <code className="text-fg">null</code> outside of{" "}
+						<code className="text-fg">NODE_ENV === "development"</code> unless you pass <code className="text-fg">forceShow</code>.
 					</li>
 					<li>
-						In <code className="text-fg">onAccountSelect</code>, fill your form's username and
-						password fields (or call your auth mutation directly).
+						In <code className="text-fg">onAccountSelect</code>, fill your form's username and password fields (or call your auth mutation directly).
 					</li>
 				</ol>
 			</DocSection>
@@ -221,12 +214,7 @@ export default function QuickLoginPage() {
 			</DocSection>
 
 			<DocSection id="account-type" title="TestAccount Type">
-				<DocExampleClient
-					title="TestAccount interface"
-					description="Shape of each account object passed to the accounts array."
-					code={examples[2].code}
-					highlightedCode={html("account-type")}
-				>
+				<DocExampleClient title="TestAccount interface" description="Shape of each account object passed to the accounts array." code={examples[2].code} highlightedCode={html("account-type")}>
 					{null}
 				</DocExampleClient>
 				<DocPropsTable props={accountProps} />

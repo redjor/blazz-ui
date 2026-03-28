@@ -1,8 +1,8 @@
 "use client"
 
 import { Page } from "@blazz/ui/components/ui/page"
-import Link from "next/link"
 import { ArrowRight, Circle } from "lucide-react"
+import Link from "next/link"
 import { getSectionNavigation } from "~/config/navigation"
 
 const section = getSectionNavigation("guide")
@@ -22,9 +22,7 @@ export default function GuidePage() {
 				/>
 				<div className="relative z-10 mx-auto max-w-2xl space-y-3">
 					<h1 className="text-4xl font-bold tracking-tight text-fg">Guide</h1>
-					<p className="text-base text-fg-muted">
-						{totalItems} resources — design tokens, concepts, outils et utilitaires.
-					</p>
+					<p className="text-base text-fg-muted">{totalItems} resources — design tokens, concepts, outils et utilitaires.</p>
 				</div>
 			</div>
 			<div className="space-y-10 py-8">
@@ -39,19 +37,13 @@ export default function GuidePage() {
 								<div className="min-w-0">
 									<div className="flex items-center gap-2">
 										<h2 className="text-sm font-semibold text-fg">{category.title}</h2>
-										<span className="text-xs text-fg-muted tabular-nums">
-											{category.items?.length ?? 0}
-										</span>
+										<span className="text-xs text-fg-muted tabular-nums">{category.items?.length ?? 0}</span>
 									</div>
 								</div>
 							</div>
 							<div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
 								{category.items?.map((item) => (
-									<Link
-										key={item.url}
-										href={item.url ?? "/"}
-										className="group flex items-center justify-between rounded-lg border border-edge bg-card px-3.5 py-2.5 transition-colors hover:bg-muted"
-									>
+									<Link key={item.url} href={item.url ?? "/"} className="group flex items-center justify-between rounded-lg border border-edge bg-card px-3.5 py-2.5 transition-colors hover:bg-muted">
 										<span className="text-sm text-fg group-hover:text-fg">{item.title}</span>
 										<ArrowRight className="h-3.5 w-3.5 text-fg-muted opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
 									</Link>

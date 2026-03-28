@@ -32,8 +32,7 @@ const pieChartProps: DocProp[] = [
 	{
 		name: "data",
 		type: "Record<string, unknown>[]",
-		description:
-			"Array of data points. Each object should contain the dataKey, nameKey, and a fill field referencing var(--color-{key}).",
+		description: "Array of data points. Each object should contain the dataKey, nameKey, and a fill field referencing var(--color-{key}).",
 	},
 	{
 		name: "config",
@@ -96,32 +95,15 @@ const sourceConfig = {
 
 export default function PieChartPage() {
 	return (
-		<DocPage
-			title="Pie Chart"
-			subtitle="Camembert et donut pour visualiser des répartitions en pourcentages. Basé sur Recharts et les primitives shadcn Chart."
-			toc={toc}
-		>
+		<DocPage title="Pie Chart" subtitle="Camembert et donut pour visualiser des répartitions en pourcentages. Basé sur Recharts et les primitives shadcn Chart." toc={toc}>
 			<DocHero>
 				<div className="max-w-sm">
-					<PieChartBlock
-						title="Sources de leads"
-						data={sourceData}
-						config={sourceConfig}
-						dataKey="leads"
-						nameKey="source"
-						donut
-						showTotal
-						totalLabel="Leads"
-					/>
+					<PieChartBlock title="Sources de leads" data={sourceData} config={sourceConfig} dataKey="leads" nameKey="source" donut showTotal totalLabel="Leads" />
 				</div>
 			</DocHero>
 
 			<DocSection id="examples" title="Examples">
-				<DocExampleSync
-					title="Default (Pie)"
-					description="Camembert classique avec données par défaut."
-					code={`<PieChartBlock />`}
-				>
+				<DocExampleSync title="Default (Pie)" description="Camembert classique avec données par défaut." code={`<PieChartBlock />`}>
 					<div className="max-w-sm">
 						<PieChartBlock />
 					</div>
@@ -140,14 +122,7 @@ export default function PieChartPage() {
 />`}
 				>
 					<div className="max-w-sm">
-						<PieChartBlock
-							title="Sources de leads"
-							data={sourceData}
-							config={sourceConfig}
-							dataKey="leads"
-							nameKey="source"
-							donut
-						/>
+						<PieChartBlock title="Sources de leads" data={sourceData} config={sourceConfig} dataKey="leads" nameKey="source" donut />
 					</div>
 				</DocExampleSync>
 
@@ -166,16 +141,7 @@ export default function PieChartPage() {
 />`}
 				>
 					<div className="max-w-sm">
-						<PieChartBlock
-							title="Sources de leads"
-							data={sourceData}
-							config={sourceConfig}
-							dataKey="leads"
-							nameKey="source"
-							donut
-							showTotal
-							totalLabel="Leads"
-						/>
+						<PieChartBlock title="Sources de leads" data={sourceData} config={sourceConfig} dataKey="leads" nameKey="source" donut showTotal totalLabel="Leads" />
 					</div>
 				</DocExampleSync>
 			</DocSection>

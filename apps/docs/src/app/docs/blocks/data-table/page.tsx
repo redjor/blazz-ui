@@ -1,26 +1,9 @@
 "use client"
-import Link from "next/link"
 
-import type {
-	DataTableColumnDef,
-	DataTableView,
-	RowAction,
-} from "@blazz/pro/components/blocks/data-table"
+import type { DataTableColumnDef, DataTableView, RowAction } from "@blazz/pro/components/blocks/data-table"
 import { col, createStatusViews, DataTable } from "@blazz/pro/components/blocks/data-table"
-import {
-	ArrowRight,
-	Columns3,
-	Filter,
-	Grid3X3,
-	Keyboard,
-	Layers,
-	LayoutList,
-	Pencil,
-	Puzzle,
-	Settings2,
-	Table2,
-	Trash2,
-} from "lucide-react"
+import { ArrowRight, Columns3, Filter, Grid3X3, Keyboard, Layers, LayoutList, Pencil, Puzzle, Settings2, Table2, Trash2 } from "lucide-react"
+import Link from "next/link"
 import React, { use } from "react"
 import { DocExampleClient } from "~/components/docs/doc-example-client"
 import { DocHero } from "~/components/docs/doc-hero"
@@ -196,8 +179,7 @@ const subPages = [
 	{
 		title: "Composition & Slots",
 		href: "/docs/blocks/data-table/composition",
-		description:
-			"renderGroupHeader, renderRowActions, renderPagination, toolbar slots, footerSlot.",
+		description: "renderGroupHeader, renderRowActions, renderPagination, toolbar slots, footerSlot.",
 		icon: Puzzle,
 	},
 	{
@@ -320,7 +302,6 @@ const toc = [
 	{ id: "features", title: "Features" },
 	{ id: "pages", title: "Documentation" },
 ]
-
 
 export default function DataTableIndexPage() {
 	const highlighted = use(highlightedPromise)
@@ -475,21 +456,9 @@ export default function DataTableIndexPage() {
 			{/* Quick Start */}
 			{/* ----------------------------------------------------------------- */}
 			<DocSection id="quick-start" title="Quick Start">
-				<DocExampleClient
-					title="Usage minimal"
-					description="Le minimum pour afficher un DataTable avec tri et pagination."
-					code={examples[0].code}
-					highlightedCode={getHighlighted("quick-start")}
-				>
+				<DocExampleClient title="Usage minimal" description="Le minimum pour afficher un DataTable avec tri et pagination." code={examples[0].code} highlightedCode={getHighlighted("quick-start")}>
 					<div className="rounded-lg border border-separator overflow-hidden">
-						<DataTable
-							data={deals}
-							columns={basicColumns}
-							enableSorting
-							enablePagination
-							locale="fr"
-							getRowId={(row) => row.id}
-						/>
+						<DataTable data={deals} columns={basicColumns} enableSorting enablePagination locale="fr" getRowId={(row) => row.id} />
 					</div>
 				</DocExampleClient>
 			</DocSection>
@@ -598,11 +567,7 @@ export default function DataTableIndexPage() {
 					{subPages.map((page) => {
 						const Icon = page.icon
 						return (
-							<Link
-								key={page.href}
-								href={page.href}
-								className="group rounded-lg border border-separator p-4 hover:border-brand/50 transition-colors"
-							>
+							<Link key={page.href} href={page.href} className="group rounded-lg border border-separator p-4 hover:border-brand/50 transition-colors">
 								<div className="flex items-start gap-3">
 									<div className="rounded-md bg-muted p-2 shrink-0">
 										<Icon className="size-4 text-fg-muted group-hover:text-brand transition-colors" />
