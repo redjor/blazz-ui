@@ -13,7 +13,7 @@ function PasswordInput({ className, showToggle = true, ...props }: PasswordInput
 	const [visible, setVisible] = React.useState(false)
 
 	return (
-		<div className="relative">
+		<div className={cn("relative", className)}>
 			<input
 				type={visible ? "text" : "password"}
 				data-slot="password-input"
@@ -26,13 +26,12 @@ function PasswordInput({ className, showToggle = true, ...props }: PasswordInput
 					"focus:border-brand",
 					"focus:ring-[3px] focus:ring-brand/20",
 					"h-8 rounded-md px-2.5 py-1",
-					showToggle && "pr-8",
-					"text-sm text-fg",
+					showToggle && "pr-9",
+					"text-sm/[2rem] text-fg",
 					"placeholder:text-fg-subtle",
 					"transition-colors duration-150 ease-out",
 					"disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
-					"aria-invalid:border-negative aria-invalid:ring-[3px] aria-invalid:ring-negative/20",
-					className
+					"aria-invalid:border-negative aria-invalid:ring-[3px] aria-invalid:ring-negative/20"
 				)}
 				{...props}
 			/>
@@ -41,7 +40,7 @@ function PasswordInput({ className, showToggle = true, ...props }: PasswordInput
 					type="button"
 					tabIndex={-1}
 					onClick={() => setVisible((v) => !v)}
-					className="absolute right-2 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg transition-colors outline-none"
+					className="absolute right-2.5 top-1/2 -translate-y-1/2 text-fg-muted hover:text-fg transition-colors outline-none"
 					aria-label={visible ? "Hide password" : "Show password"}
 				>
 					{visible ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}

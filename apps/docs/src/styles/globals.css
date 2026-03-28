@@ -16,7 +16,6 @@
 
 	/* Custom font sizes */
 	--text-2xs: 0.6875rem; /* 11px */
-	--text-tiny: 0.75rem;
 	--text-xs: 0.8125rem;
 
 	/* =============================================
@@ -49,20 +48,9 @@
 	--color-negative: var(--destructive);
 	--color-inform: var(--info);
 
-	/* Spacing */
-	--spacing-section: var(--section-gap);
-	--spacing-cell-x: var(--cell-padding-x);
-	--spacing-cell-y: var(--cell-padding-y);
-
 	/* Component config */
 	--badge-radius: var(--radius-md); /* 9999px = pill | var(--radius-lg) | 0px */
 
-	/* =============================================
-	   shadcn compatibility (consumed by AI Elements
-	   and shadcn primitives like HoverCard, Progress,
-	   InputGroup). Maps standard --color-* variables
-	   to the Blazz design-token equivalents.
-	   ============================================= */
 	--color-background: var(--background);
 	--color-foreground: var(--text-primary);
 	--color-card: var(--card);
@@ -113,7 +101,7 @@
 	--text-muted: oklch(0.55 0 0);
 
 	/* Accent — Violet */
-	--accent-color: oklch(0.49 0.19 270);
+	--accent-color: oklch(0% 0 0);
 	--accent-color-hover: oklch(0.42 0.19 270);
 	--accent-foreground: oklch(0.985 0 0);
 
@@ -128,11 +116,6 @@
 	--card-shadow-elevated: 0 0 0 1px var(--border-container), 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
 
 	/* Density */
-	--row-height: 40px;
-	--cell-padding-x: 12px;
-	--cell-padding-y: 8px;
-	--input-height: 32px;
-	--section-gap: 24px;
 	--inset: 1rem;
 	--sidebar-width: 240px;
 	--sidebar-collapsed: 64px;
@@ -143,20 +126,11 @@
 	--main-radius: 10px;
 
 	/* Chart colors — muted palette, well-separated hues */
-	--chart-1: oklch(0.52 0.12 270);
-	--chart-2: oklch(0.5 0.11 162);
-	--chart-3: oklch(0.56 0.1 78);
-	--chart-4: oklch(0.5 0.12 330);
-	--chart-5: oklch(0.5 0.1 15);
-
-	/* Sidebar (consumed by navigation-tabs) */
-	--sidebar-foreground: oklch(0.4 0 0);
-	--sidebar-primary: oklch(0.3 0 0);
-	--sidebar-primary-foreground: oklch(0.99 0 0);
-	--sidebar-accent: oklch(1 0 0);
-	--sidebar-accent-foreground: oklch(0.18 0 0);
-	--sidebar-border: oklch(0.82 0 0);
-	--sidebar-ring: oklch(0.3 0 0);
+	--chart-1: oklch(0.646 0.222 41.116);
+	--chart-2: oklch(0.6 0.118 184.704);
+	--chart-3: oklch(0.398 0.07 227.392);
+	--chart-4: oklch(0.828 0.189 84.429);
+	--chart-5: oklch(0.769 0.188 70.08);
 }
 
 /* =============================================
@@ -194,7 +168,7 @@ html.dark {
 	--text-muted: oklch(0.58 0.01 270);
 
 	/* Accent — Violet */
-	--accent-color: oklch(0.64 0.19 270);
+	--accent-color: oklch(36.686% 0.17828 273.273);
 	--accent-color-hover: oklch(0.57 0.19 270);
 	--accent-foreground: oklch(0.985 0 0);
 
@@ -205,20 +179,11 @@ html.dark {
 	--info: oklch(0.64 0.14 238);
 
 	/* Chart colors — lightened for dark backgrounds */
-	--chart-1: oklch(0.66 0.12 270);
-	--chart-2: oklch(0.64 0.11 162);
-	--chart-3: oklch(0.7 0.1 78);
-	--chart-4: oklch(0.64 0.12 330);
-	--chart-5: oklch(0.64 0.1 15);
-
-	/* Sidebar (consumed by navigation-tabs) */
-	--sidebar-foreground: oklch(0.85 0 0);
-	--sidebar-primary: oklch(0.85 0 0);
-	--sidebar-primary-foreground: oklch(0.175 0 0);
-	--sidebar-accent: oklch(0.22 0.002 264);
-	--sidebar-accent-foreground: oklch(0.95 0 0);
-	--sidebar-border: oklch(0.25 0.002 264);
-	--sidebar-ring: oklch(0.85 0 0);
+	--chart-1: oklch(0.488 0.243 264.376);
+	--chart-2: oklch(0.696 0.17 162.48);
+	--chart-3: oklch(0.769 0.188 70.08);
+	--chart-4: oklch(0.627 0.265 303.9);
+	--chart-5: oklch(0.645 0.246 16.439);
 }
 
 @layer base {

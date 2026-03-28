@@ -17,7 +17,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
 				"focus:border-brand",
 				"focus:ring-[3px] focus:ring-brand/20",
 				"h-8 rounded-md px-2.5 py-1",
-				"text-sm text-fg",
+				"text-sm/[2rem] text-fg",
 				"placeholder:text-fg-subtle",
 				"transition-colors duration-150 ease-out",
 				"disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",

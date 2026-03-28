@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, ChevronsUpDown } from "lucide-react"
+import { ChevronsUpDown } from "lucide-react"
 import * as React from "react"
 import { cn } from "../../lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./command"
@@ -100,7 +100,16 @@ export function Combobox({
 										<span className={cn(option.description && "font-medium")}>{option.label}</span>
 										{option.description && <p className="text-xs text-fg-muted truncate">{option.description}</p>}
 									</div>
-									<Check className={cn("ml-auto h-4 w-4 shrink-0", value === option.value ? "opacity-100" : "opacity-0")} />
+									<svg
+										width="12"
+										height="12"
+										viewBox="0 0 12 12"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										className={cn("ml-auto shrink-0", value === option.value ? "opacity-100" : "opacity-0")}
+									>
+										<path d="M2.5 6.5L5 9L9.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
 								</CommandItem>
 							))}
 						</CommandGroup>

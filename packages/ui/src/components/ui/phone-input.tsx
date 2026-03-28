@@ -46,7 +46,7 @@ function PhoneInput({ className, variant, onChange, value, ...props }: PhoneInpu
 function InputComponent({ className, ...props }: React.ComponentProps<typeof Input>) {
 	const { variant } = useContext(PhoneInputContext)
 
-	return <Input className={cn("rounded-s-none focus:z-10", variant === "sm" && "h-7", variant === "lg" && "h-9", className)} {...props} />
+	return <Input className={cn("rounded-s-none focus:z-10", variant === "sm" && "h-7 text-sm/[1.75rem]", variant === "lg" && "h-9 text-sm/[2.25rem]", className)} {...props} />
 }
 
 type CountryEntry = { label: string; value: BasePhoneInput.Country | undefined }
@@ -67,10 +67,15 @@ function CountrySelect({ disabled, value: selectedCountry, options: countryList,
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
-					size={variant}
 					role="combobox"
 					aria-expanded={open}
-					className={cn("rounded-s-lg rounded-e-none flex gap-1 border-e-0 px-2.5 py-0 leading-none hover:bg-transparent focus:z-10", disabled && "opacity-50")}
+					className={cn(
+						"rounded-s-lg rounded-e-none flex gap-1 border-e-0 px-2.5 py-0 leading-none hover:bg-transparent focus:z-10",
+						variant === "sm" && "h-7",
+						variant === "default" && "h-8",
+						variant === "lg" && "h-9",
+						disabled && "opacity-50"
+					)}
 					disabled={disabled}
 				>
 					<FlagComponent country={selectedCountry} countryName={selectedCountry} />

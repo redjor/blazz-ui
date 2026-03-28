@@ -77,9 +77,9 @@ export function CascadingSelect({ nodes, value, onValueChange, placeholder = "Se
 				<span className="truncate">{triggerLabel}</span>
 				<ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 			</PopoverTrigger>
-			<PopoverContent className="w-(--radix-popover-trigger-width) p-0" align="start">
+			<PopoverContent className="w-(--radix-popover-trigger-width) gap-0 p-1" align="start">
 				{path.length > 0 && (
-					<div className="flex items-center gap-1.5 border-b border-edge px-2 py-2">
+					<div className="flex items-center gap-1 rounded-md bg-muted/50 px-1.5 pr-2.5 py-1.5">
 						<button type="button" onClick={handleBack} className="text-fg-muted hover:text-fg rounded p-0.5 transition-colors" aria-label="Go back">
 							<ChevronLeft className="h-3.5 w-3.5" />
 						</button>
@@ -97,30 +97,23 @@ export function CascadingSelect({ nodes, value, onValueChange, placeholder = "Se
 						))}
 					</div>
 				)}
-				<div className="max-h-64 overflow-y-auto py-1">
+				<div className="max-h-64 overflow-y-auto">
 					{currentItems.length === 0 ? (
-						<p className="px-3 py-2 text-xs text-fg-muted">No items</p>
+						<p className="px-2 py-1.5 text-xs text-fg-muted">No items</p>
 					) : (
 						currentItems.map((node) => (
-							<div key={node.id} className="flex items-stretch">
-								<button
-									type="button"
-									onClick={() => handleSelect(node)}
-									className={cn("flex-1 rounded-l-md px-3 py-1.5 text-left text-sm transition-colors hover:bg-muted", value === node.id && "font-medium text-brand")}
-								>
-									{node.label}
-								</button>
-								{node.children?.length ? (
-									<button
-										type="button"
-										onClick={(e) => handleDrillDown(e, node)}
-										className="rounded-r-md border-l border-edge/40 px-2.5 py-1.5 text-fg-muted transition-colors hover:bg-muted hover:text-fg"
-										aria-label={`Expand ${node.label}`}
-									>
-										<ChevronRight className="h-4 w-4" />
-									</button>
-								) : null}
-							</div>
+							<button
+								key={node.id}
+								type="button"
+								onClick={node.children?.length ? (e) => handleDrillDown(e, node) : () => handleSelect(node)}
+								className={cn(
+									"flex w-full items-center justify-between gap-3 rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted",
+									value === node.id && "font-medium text-brand"
+								)}
+							>
+								<span>{node.label}</span>
+								{node.children?.length ? <ChevronRight className="h-4 w-4 text-fg-muted" /> : null}
+							</button>
 						))
 					)}
 				</div>
