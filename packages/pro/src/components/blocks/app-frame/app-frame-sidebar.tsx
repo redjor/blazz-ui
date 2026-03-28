@@ -148,18 +148,9 @@ export function AppFrameSidebar({
 				</SidebarHeader>
 			)}
 			<SidebarContent>
-				{navGroups.map((group, i) => {
-					if (group.display === "shortcuts") {
-						return (
-							<SidebarGroup key={group.label ?? `group-${i}`}>
-								{group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
-								<SidebarGroupContent>
-									<SidebarShortcuts items={group.items} isActive={isActive} />
-								</SidebarGroupContent>
-							</SidebarGroup>
-						)
-					}
-					return (
+				{navGroups
+					.filter((g) => g.display !== "shortcuts")
+					.map((group, i) => (
 						<SidebarGroup key={group.label ?? `group-${i}`}>
 							{group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
 							<SidebarGroupContent>
@@ -168,10 +159,16 @@ export function AppFrameSidebar({
 								</SidebarMenu>
 							</SidebarGroupContent>
 						</SidebarGroup>
-					)
-				})}
+					))}
 			</SidebarContent>
-			{footer && <SidebarFooter>{footer}</SidebarFooter>}
+			<SidebarFooter>
+				{navGroups
+					.filter((g) => g.display === "shortcuts")
+					.map((group, i) => (
+						<SidebarShortcuts key={group.label ?? `shortcuts-${i}`} items={group.items} isActive={isActive} />
+					))}
+				{footer}
+			</SidebarFooter>
 			<SidebarResizeHandle />
 		</Sidebar>
 	)
