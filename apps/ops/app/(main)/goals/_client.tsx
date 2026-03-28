@@ -156,40 +156,29 @@ export default function GoalsPageClient() {
 			/>
 
 			<StatsGrid
-				columns={5}
+				columns={4}
 				stats={[
 					{
 						label: "CA Annuel",
 						value: formatCurrency(data.revenue.annual.actual),
-						description: `/ ${formatCurrency(data.revenue.annual.target)}`,
 						icon: Banknote,
 						trend: data.revenue.annual.percent - 100,
 					},
 					{
-						label: "Sécurisé",
-						value: formatCurrency(data.secured.annual),
-						description: `/ ${formatCurrency(data.revenue.annual.target)}`,
-						icon: ShieldCheck,
-						trend: data.secured.percent - 100,
-					},
-					{
 						label: `CA ${data.revenue.month.label}`,
 						value: formatCurrency(data.revenue.month.actual),
-						description: `/ ${formatCurrency(data.revenue.month.target)}`,
 						icon: Calendar,
 						trend: data.revenue.month.percent - 100,
 					},
 					{
 						label: "Jours",
 						value: `${data.days.month.actual}j`,
-						description: `/ ${data.days.month.target}j`,
 						icon: Clock,
 						trend: data.days.month.percent - 100,
 					},
 					{
 						label: "TJM moyen",
 						value: formatCurrency(data.tjm.actual),
-						description: `cible ${formatCurrency(data.tjm.target)}`,
 						icon: TrendingUp,
 						trend: data.tjm.trend,
 					},
@@ -199,8 +188,39 @@ export default function GoalsPageClient() {
 			{/* ── Projections ── */}
 			{data.projection && (
 				<Grid>
-					<Grid.Cell columnSpan={{ xs: 12, md: 6 }}>
-						<Card>
+					<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
+						<Card className="h-full">
+							<CardContent className="p-4">
+								<BlockStack gap="200">
+									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
+										Revenu sécurisé
+									</span>
+									<BlockStack gap="100">
+										<InlineStack gap="100" blockAlign="baseline" wrap={false}>
+											<ShieldCheck className="size-4 text-fg-muted" />
+											<span className="text-2xl font-semibold tabular-nums tracking-tight">
+												{formatCurrency(data.secured.annual)}
+											</span>
+										</InlineStack>
+										<span className="text-[13px] text-fg-muted">
+											/ {formatCurrency(data.revenue.annual.target)} cible annuelle
+										</span>
+									</BlockStack>
+									<div className="h-1.5 w-full rounded-full bg-surface-hover overflow-hidden">
+										<div
+											className="h-full rounded-full bg-brand transition-all duration-300 ease-out"
+											style={{ width: `${Math.min(data.secured.percent, 100)}%` }}
+										/>
+									</div>
+									<span className="text-xs tabular-nums text-fg-muted">
+										{data.secured.percent}% couvert par contrats actifs
+									</span>
+								</BlockStack>
+							</CardContent>
+						</Card>
+					</Grid.Cell>
+					<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
+						<Card className="h-full">
 							<CardContent className="p-4">
 								<BlockStack gap="200">
 									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
@@ -225,8 +245,8 @@ export default function GoalsPageClient() {
 							</CardContent>
 						</Card>
 					</Grid.Cell>
-					<Grid.Cell columnSpan={{ xs: 12, md: 6 }}>
-						<Card>
+					<Grid.Cell columnSpan={{ xs: 12, md: 4 }}>
+						<Card className="h-full">
 							<CardContent className="p-4">
 								<BlockStack gap="200">
 									<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">
