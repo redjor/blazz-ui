@@ -13,10 +13,41 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
 import { Banknote, Calendar, Clock, ShieldCheck, Target, TrendingDown, TrendingUp } from "lucide-react"
 import { useMemo, useState } from "react"
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { api } from "@/convex/_generated/api"
 import { formatCurrency } from "@/lib/format"
 import { GoalsConfigDialog } from "./_config-dialog"
+
+function formatCompact(value: number): string {
+	if (value >= 1000) return `${Math.round(value / 1000)}k€`
+	return `${value}€`
+}
+
+function ChartTooltip({ active, payload, label, isCurrency = true }: {
+	active?: boolean
+	payload?: Array<{ value: number; dataKey: string; color: string }>
+	label?: string
+	isCurrency?: boolean
+}) {
+	if (!active || !payload?.length) return null
+	return (
+		<div className="rounded-md border border-edge bg-raised px-3 py-2 text-[13px] shadow-sm">
+			<p className="mb-1 font-medium text-fg">{label}</p>
+			{payload.map((entry) => (
+				<InlineStack key={entry.dataKey} gap="100" blockAlign="center" className="text-fg-secondary">
+					<span
+						className="size-2 rounded-full"
+						style={{ backgroundColor: entry.color }}
+					/>
+					<span>{entry.dataKey === "réel" ? "Réel" : "Cible"}</span>
+					<span className="ml-auto tabular-nums font-medium text-fg">
+						{isCurrency ? formatCurrency(entry.value) : `${entry.value}j`}
+					</span>
+				</InlineStack>
+			))}
+		</div>
+	)
+}
 
 const MONTHS_FR = [
 	"Jan",
@@ -237,15 +268,21 @@ export default function GoalsPageClient() {
 										stroke="var(--color-edge)"
 									/>
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
-									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
-									<Tooltip />
+									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" tickFormatter={formatCompact} />
+									<Tooltip content={<ChartTooltip />} />
+									<Legend
+										iconType="circle"
+										iconSize={8}
+										wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }}
+									/>
 									<Bar
 										dataKey="cible"
+										name="Cible"
 										fill="var(--color-fg-muted)"
 										opacity={0.2}
 										radius={[4, 4, 0, 0]}
 									/>
-									<Bar dataKey="réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
+									<Bar dataKey="réel" name="Réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
 						</CardContent>
@@ -265,15 +302,21 @@ export default function GoalsPageClient() {
 										stroke="var(--color-edge)"
 									/>
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
-									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
-									<Tooltip />
+									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" tickFormatter={(v) => `${v}j`} />
+									<Tooltip content={<ChartTooltip isCurrency={false} />} />
+									<Legend
+										iconType="circle"
+										iconSize={8}
+										wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }}
+									/>
 									<Bar
 										dataKey="cible"
+										name="Cible"
 										fill="var(--color-fg-muted)"
 										opacity={0.2}
 										radius={[4, 4, 0, 0]}
 									/>
-									<Bar dataKey="réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
+									<Bar dataKey="réel" name="Réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
 						</CardContent>
@@ -286,9 +329,9 @@ export default function GoalsPageClient() {
 					<CardTitle className="text-sm font-medium">Récapitulatif trimestriel</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<table className="w-full text-sm">
+					<table className="w-full text-[13px]">
 						<thead>
-							<tr className="border-b border-edge text-fg-muted text-left">
+							<tr className="border-b border-edge text-fg-muted text-left text-xs uppercase tracking-wider">
 								<th className="pb-2 font-medium">Période</th>
 								<th className="pb-2 font-medium text-right">Cible</th>
 								<th className="pb-2 font-medium text-right">Réel</th>
@@ -298,26 +341,26 @@ export default function GoalsPageClient() {
 						</thead>
 						<tbody>
 							{quarters.map((q) => (
-								<tr key={q.label} className="border-b border-edge/50">
-									<td className="py-2 font-medium">{q.label}</td>
-									<td className="py-2 text-right tabular-nums">{formatCurrency(q.target)}</td>
-									<td className="py-2 text-right tabular-nums">{formatCurrency(q.actual)}</td>
-									<td className="py-2 text-right tabular-nums">{q.percent}%</td>
-									<td className={`py-2 text-right tabular-nums ${q.actual - q.target >= 0 ? "text-positive" : "text-critical"}`}>
+								<tr key={q.label} className="border-b border-edge/50 h-10">
+									<td className="font-medium">{q.label}</td>
+									<td className="text-right tabular-nums text-fg-secondary">{formatCurrency(q.target)}</td>
+									<td className="text-right tabular-nums">{formatCurrency(q.actual)}</td>
+									<td className="text-right tabular-nums text-fg-secondary">{q.percent}%</td>
+									<td className={`text-right tabular-nums font-medium ${q.actual - q.target >= 0 ? "text-positive" : "text-critical"}`}>
 										{q.actual - q.target >= 0 ? "+" : ""}{formatCurrency(q.actual - q.target)}
 									</td>
 								</tr>
 							))}
-							<tr className="font-semibold">
-								<td className="py-2">{data.year}</td>
-								<td className="py-2 text-right tabular-nums">
+							<tr className="h-10 font-semibold border-t border-edge">
+								<td>{data.year}</td>
+								<td className="text-right tabular-nums text-fg-secondary">
 									{formatCurrency(data.revenue.annual.target)}
 								</td>
-								<td className="py-2 text-right tabular-nums">
+								<td className="text-right tabular-nums">
 									{formatCurrency(data.revenue.annual.actual)}
 								</td>
-								<td className="py-2 text-right tabular-nums">{data.revenue.annual.percent}%</td>
-								<td className={`py-2 text-right tabular-nums ${data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "text-positive" : "text-critical"}`}>
+								<td className="text-right tabular-nums">{data.revenue.annual.percent}%</td>
+								<td className={`text-right tabular-nums ${data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "text-positive" : "text-critical"}`}>
 									{data.revenue.annual.actual - data.revenue.annual.target >= 0 ? "+" : ""}{formatCurrency(data.revenue.annual.actual - data.revenue.annual.target)}
 								</td>
 							</tr>
@@ -349,19 +392,28 @@ function ProjectionRow({
 	const colorClass = isOnTrack ? "text-positive" : isWarning ? "text-caution" : "text-critical"
 	const Icon = percent >= 100 ? TrendingUp : TrendingDown
 
+	const barColor = isOnTrack ? "bg-positive" : isWarning ? "bg-caution" : "bg-critical"
+	const clampedPercent = Math.min(percent, 100)
+
 	return (
-		<BlockStack gap="050">
+		<BlockStack gap="100">
 			<InlineStack align="space-between" blockAlign="center" wrap={false}>
 				<InlineStack gap="100" blockAlign="center" wrap={false}>
 					<Icon className={`size-3.5 ${colorClass}`} />
-					<span className="text-sm text-fg-secondary">{label}</span>
+					<span className="text-[13px] text-fg-secondary">{label}</span>
 				</InlineStack>
-				<span className="text-sm tabular-nums">
+				<span className="text-[13px] tabular-nums">
 					{projected} <span className="text-fg-muted">/ {target}</span>
 					<span className={`ml-2 font-medium ${colorClass}`}>{percent}%</span>
 				</span>
 			</InlineStack>
-			{context && <span className="text-xs text-fg-muted ml-5">{context}</span>}
+			<div className="h-1.5 w-full rounded-full bg-surface-hover overflow-hidden">
+				<div
+					className={`h-full rounded-full transition-all duration-300 ease-out ${barColor}`}
+					style={{ width: `${clampedPercent}%` }}
+				/>
+			</div>
+			{context && <span className="text-xs text-fg-muted">{context}</span>}
 		</BlockStack>
 	)
 }
