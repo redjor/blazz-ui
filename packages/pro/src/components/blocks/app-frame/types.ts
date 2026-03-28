@@ -11,6 +11,8 @@ export interface NavItem {
 export interface NavGroup {
 	label?: string
 	items: NavItem[]
+	/** "shortcuts" renders a compact grid of icon-only buttons with tooltips */
+	display?: "list" | "shortcuts"
 }
 
 export interface TabsConfig {

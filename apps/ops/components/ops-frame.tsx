@@ -74,9 +74,25 @@ interface NavItemWithFlag extends NavItem {
 interface NavGroupWithFlag {
   label?: string;
   items: NavItemWithFlag[];
+  display?: "list" | "shortcuts";
 }
 
 const allNavGroups: NavGroupWithFlag[] = [
+  {
+    display: "shortcuts",
+    items: [
+      { title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
+      { title: "Notes", url: "/notes", icon: FileText },
+      {
+        title: "Bookmarks",
+        url: "/bookmarks",
+        icon: Bookmark,
+        flag: "bookmarks",
+      },
+      { title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
+      { title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
+    ],
+  },
   {
     items: [
       {
@@ -119,8 +135,9 @@ const allNavGroups: NavGroupWithFlag[] = [
     ],
   },
   {
-    label: "Temps & Argent",
+    label: "Finances",
     items: [
+      { title: "Objectifs", url: "/goals", icon: Target, flag: "goals" },
       {
         title: "Suivi de temps",
         url: "/time",
@@ -136,27 +153,6 @@ const allNavGroups: NavGroupWithFlag[] = [
         icon: PiggyBank,
         flag: "treasury",
       },
-    ],
-  },
-  {
-    label: "Productivité",
-    items: [
-      { title: "Objectifs", url: "/goals", icon: Target, flag: "goals" },
-      { title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
-    ],
-  },
-  {
-    label: "Outils",
-    items: [
-      { title: "Notes", url: "/notes", icon: FileText },
-      {
-        title: "Bookmarks",
-        url: "/bookmarks",
-        icon: Bookmark,
-        flag: "bookmarks",
-      },
-      { title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
-      { title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
     ],
   },
   {
@@ -203,6 +199,7 @@ function filterGroups(
   return groups
     .map((group) => ({
       label: group.label,
+      display: group.display,
       items: filterItems(group.items, isEnabled),
     }))
     .filter((group) => group.items.length > 0);

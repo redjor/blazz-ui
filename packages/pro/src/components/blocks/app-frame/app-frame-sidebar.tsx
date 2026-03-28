@@ -19,11 +19,42 @@ import {
 	SidebarMenuSubItem,
 	SidebarResizeHandle,
 } from "@blazz/ui/components/ui/sidebar"
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@blazz/ui/components/ui/tooltip"
 import { Badge } from "@blazz/ui"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
 import type { NavGroup, NavItem } from "./types"
+
+function SidebarShortcuts({
+	items,
+	isActive,
+}: { items: NavItem[]; isActive: (url?: string) => boolean }) {
+	return (
+		<div className="grid grid-cols-[repeat(auto-fill,minmax(40px,1fr))] gap-2 px-2">
+			{items.map((item) => (
+				<Tooltip key={item.url} delay={1000}>
+					<TooltipTrigger asChild>
+						<Link
+							href={item.url}
+							data-active={isActive(item.url) || undefined}
+							className="flex items-center justify-center aspect-square rounded-lg bg-fg-muted/5 text-fg-muted transition-colors hover:bg-surface-hover hover:text-fg data-[active]:bg-surface-hover data-[active]:text-fg"
+						>
+							{item.icon && <item.icon className="size-4" />}
+						</Link>
+					</TooltipTrigger>
+					<TooltipContent side="bottom" className="text-xs">
+						{item.title}
+					</TooltipContent>
+				</Tooltip>
+			))}
+		</div>
+	)
+}
 
 interface AppFrameSidebarProps {
 	logo?: ReactNode
@@ -117,16 +148,28 @@ export function AppFrameSidebar({
 				</SidebarHeader>
 			)}
 			<SidebarContent>
-				{navGroups.map((group, i) => (
-					<SidebarGroup key={group.label ?? `group-${i}`}>
-						{group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
-						<SidebarGroupContent>
-							<SidebarMenu>
-								{group.items.map(renderItem)}
-							</SidebarMenu>
-						</SidebarGroupContent>
-					</SidebarGroup>
-				))}
+				{navGroups.map((group, i) => {
+					if (group.display === "shortcuts") {
+						return (
+							<SidebarGroup key={group.label ?? `group-${i}`}>
+								{group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
+								<SidebarGroupContent>
+									<SidebarShortcuts items={group.items} isActive={isActive} />
+								</SidebarGroupContent>
+							</SidebarGroup>
+						)
+					}
+					return (
+						<SidebarGroup key={group.label ?? `group-${i}`}>
+							{group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
+							<SidebarGroupContent>
+								<SidebarMenu>
+									{group.items.map(renderItem)}
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					)
+				})}
 			</SidebarContent>
 			{footer && <SidebarFooter>{footer}</SidebarFooter>}
 			<SidebarResizeHandle />
