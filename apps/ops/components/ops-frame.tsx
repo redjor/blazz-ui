@@ -9,7 +9,7 @@ import {
 	type NavGroup,
 	type NavItem,
 } from "@blazz/pro/components/blocks/app-frame";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import {
 	Banknote,
 	Bell,
@@ -35,7 +35,7 @@ import {
 	Users,
 } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { OpsUserMenu } from "./ops-user-menu";
 
 function AgentNavIcon({ name, status }: { name: string; status: string }) {
@@ -229,6 +229,11 @@ export function OpsFrame({ children }: { children: ReactNode }) {
   const unreadCount = useQuery(api.notifications.unreadCount);
   const agents = useQuery(api.agents.list);
   const favorites = useQuery(api.favorites.list);
+  const syncFavoriteLabels = useMutation(api.favorites.syncLabels);
+
+  useEffect(() => {
+    syncFavoriteLabels();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const navGroups = useMemo(() => {
     const filtered = filterGroups(allNavGroups, isEnabled);
