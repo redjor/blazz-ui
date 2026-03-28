@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@blazz/ui/components/u
 import { Grid } from "@blazz/ui/components/ui/grid"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
-import { Banknote, Calendar, Clock, Target, TrendingDown, TrendingUp } from "lucide-react"
+import { Banknote, Calendar, Clock, ShieldCheck, Target, TrendingDown, TrendingUp } from "lucide-react"
 import { useMemo, useState } from "react"
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { api } from "@/convex/_generated/api"
@@ -125,7 +125,7 @@ export default function GoalsPageClient() {
 			/>
 
 			<StatsGrid
-				columns={4}
+				columns={5}
 				stats={[
 					{
 						label: "CA Annuel",
@@ -133,6 +133,13 @@ export default function GoalsPageClient() {
 						description: `/ ${formatCurrency(data.revenue.annual.target)}`,
 						icon: Banknote,
 						trend: data.revenue.annual.percent - 100,
+					},
+					{
+						label: "Sécurisé",
+						value: formatCurrency(data.secured.annual),
+						description: `/ ${formatCurrency(data.revenue.annual.target)}`,
+						icon: ShieldCheck,
+						trend: data.secured.percent - 100,
 					},
 					{
 						label: `CA ${data.revenue.month.label}`,
