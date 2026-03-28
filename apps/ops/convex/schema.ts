@@ -567,4 +567,23 @@ export default defineSchema({
 	})
 		.index("by_agent", ["userId", "agentId"])
 		.index("by_scope", ["userId", "scope"]),
+
+	// ── Favorites ──────────────────────────────────────────────────
+	favorites: defineTable({
+		userId: v.string(),
+		entityType: v.union(
+			v.literal("client"),
+			v.literal("project"),
+			v.literal("todo"),
+			v.literal("note"),
+			v.literal("bookmark"),
+			v.literal("feedItem"),
+		),
+		entityId: v.string(),
+		label: v.string(),
+		order: v.number(),
+		createdAt: v.number(),
+	})
+		.index("by_user_order", ["userId", "order"])
+		.index("by_user_entity", ["userId", "entityType", "entityId"]),
 })
