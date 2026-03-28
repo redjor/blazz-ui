@@ -29,6 +29,7 @@ import {
 	Rocket,
 	Rss,
 	Settings,
+	Star,
 	Sun,
 	Target,
 	Users,
@@ -64,6 +65,24 @@ function createAgentIconWithStatus(name: string, status: string): ComponentType<
   }
   Icon.displayName = `AgentIcon(${name})`;
   return Icon;
+}
+
+const entityTypeIcons: Record<string, ComponentType<{ className?: string }>> = {
+	client: Users,
+	project: FolderOpen,
+	todo: CheckSquare,
+	note: FileText,
+	bookmark: Bookmark,
+	feedItem: Rss,
+}
+
+const urlMap: Record<string, (id: string) => string> = {
+	client: (id) => `/clients/${id}`,
+	project: (id) => `/projects/${id}`,
+	todo: () => "/todos",
+	note: (id) => `/notes/${id}`,
+	bookmark: () => "/bookmarks",
+	feedItem: () => "/veille",
 }
 
 interface NavItemWithFlag extends NavItem {
@@ -209,9 +228,29 @@ export function OpsFrame({ children }: { children: ReactNode }) {
   const { isEnabled } = useFeatureFlags();
   const unreadCount = useQuery(api.notifications.unreadCount);
   const agents = useQuery(api.agents.list);
+  const favorites = useQuery(api.favorites.list);
 
   const navGroups = useMemo(() => {
     const filtered = filterGroups(allNavGroups, isEnabled);
+
+    // Insert Favoris group after main nav (after Inbox)
+    if (favorites && favorites.length > 0) {
+      const favGroup: NavGroup = {
+        label: "Favoris",
+        items: favorites.map((fav) => ({
+          title: fav.label,
+          url: (urlMap[fav.entityType] ?? (() => "/"))(fav.entityId),
+          icon: entityTypeIcons[fav.entityType] ?? Star,
+        })),
+      };
+      // Insert before Clients group
+      const insertIdx = filtered.findIndex((g) => g.label === "Clients");
+      if (insertIdx >= 0) {
+        filtered.splice(insertIdx, 0, favGroup);
+      } else {
+        filtered.push(favGroup);
+      }
+    }
 
     // Build Agents group dynamically from live data
     if (agents && agents.length > 0 && isEnabled("agents")) {
@@ -243,7 +282,7 @@ export function OpsFrame({ children }: { children: ReactNode }) {
         item.url === "/notifications" ? { ...item, badge: unreadCount } : item,
       ),
     }));
-  }, [isEnabled, unreadCount, agents]);
+  }, [isEnabled, unreadCount, agents, favorites]);
 
   return (
     <AppFrame
