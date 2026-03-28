@@ -3,7 +3,7 @@ import { resolve } from "node:path"
 
 dotenv.config({ path: resolve(import.meta.dirname, "../../.env.local") })
 
-import { ConvexHttpClient } from "convex/browser"
+import { ConvexHttpClient, ConvexClient } from "convex/browser"
 import { api } from "./convex"
 import { runMission } from "./runner"
 import { createToolRegistry } from "./tools/index"
@@ -13,42 +13,41 @@ import { runWeeklyConsolidation } from "./consolidation"
 const CONVEX_URL = process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL
 if (!CONVEX_URL) throw new Error("NEXT_PUBLIC_CONVEX_URL or CONVEX_URL required")
 
+// HTTP client for mutations and one-shot queries (used by runner, tools, etc.)
 const convex = new ConvexHttpClient(CONVEX_URL)
+// WebSocket client for reactive subscription (replaces polling)
+const subscriber = new ConvexClient(CONVEX_URL)
 const running = new Map<string, AbortController>()
 
-async function pollMissions() {
-  try {
-    const todoMissions = await convex.query(api.worker.workerListByStatus, { status: "todo" })
+async function handleMissions(todoMissions: any[]) {
+  for (const mission of todoMissions) {
+    if (running.has(mission._id)) continue
 
-    for (const mission of todoMissions) {
-      if (running.has(mission._id)) continue
+    const agent = await convex.query(api.worker.workerGetAgent, { id: mission.agentId })
+    if (!agent || agent.status === "disabled" || agent.status === "paused" || agent.status === "error") continue
 
-      const agent = await convex.query(api.worker.workerGetAgent, { id: mission.agentId })
-      if (!agent || agent.status === "disabled" || agent.status === "paused" || agent.status === "error") continue
+    // Mark as running immediately to prevent double-pickup
+    const controller = new AbortController()
+    running.set(mission._id, controller)
 
-      // Mark as running immediately to prevent double-pickup
-      const controller = new AbortController()
-      running.set(mission._id, controller)
+    // Set status to in_progress NOW before the async runMission starts
+    await convex.mutation(api.worker.workerUpdateStatus, { id: mission._id, status: "in_progress" })
 
-      // Set status to in_progress NOW before the async runMission starts
-      await convex.mutation(api.worker.workerUpdateStatus, { id: mission._id, status: "in_progress" })
+    const tools = createToolRegistry(convex)
 
-      const tools = createToolRegistry(convex)
+    console.log(`[worker] starting mission: ${mission.title} (agent: ${agent.name})`)
 
-      console.log(`[worker] starting mission: ${mission.title} (agent: ${agent.name})`)
-
-      runMission(convex, mission as any, agent as any, tools, controller.signal)
-        .then(() => console.log(`[worker] mission completed: ${mission.title}`))
-        .catch((err) => console.error(`[worker] mission failed: ${mission.title}`, err))
-        .finally(() => running.delete(mission._id))
-    }
-  } catch (err) {
-    console.error("[worker] poll error:", err)
+    runMission(convex, mission as any, agent as any, tools, controller.signal)
+      .then(() => console.log(`[worker] mission completed: ${mission.title}`))
+      .catch((err) => console.error(`[worker] mission failed: ${mission.title}`, err))
+      .finally(() => running.delete(mission._id))
   }
 }
 
-setInterval(pollMissions, 5000)
-console.log("[worker] started, polling every 5s")
+subscriber.onUpdate(api.worker.workerListByStatus, { status: "todo" }, (missions) => {
+  handleMissions(missions).catch((err) => console.error("[worker] mission handler error:", err))
+})
+console.log("[worker] started, watching for new missions (realtime)")
 
 // Cron scheduler
 async function startCronScheduler() {
@@ -82,10 +81,11 @@ process.on("SIGUSR2", () => {
   runWeeklyConsolidation(convex)
 })
 
-process.on("SIGINT", () => {
+process.on("SIGINT", async () => {
   console.log("[worker] shutting down...")
   for (const [, controller] of running) {
     controller.abort()
   }
+  await subscriber.close()
   process.exit(0)
 })
