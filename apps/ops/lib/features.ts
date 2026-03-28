@@ -19,8 +19,8 @@ export const defaults = {
 	veille: true,
 	notifications: true,
 	treasury: true,
-	missions: true,
-	agents: true,
+	missions: false,
+	agents: false,
 } as const satisfies Record<string, boolean>
 
 export type FeatureFlag = keyof typeof defaults

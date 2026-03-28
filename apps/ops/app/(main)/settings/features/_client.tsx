@@ -46,6 +46,14 @@ const featureGroups: { title: string; description: string; items: FeatureItem[] 
 		],
 	},
 	{
+		title: "Agents",
+		description: "Système d'agents autonomes et Mission Control.",
+		items: [
+			{ flag: "agents", label: "Agents", description: "Agents IA autonomes et conversations." },
+			{ flag: "missions", label: "Missions", description: "Mission Control, activité et exécution automatique." },
+		],
+	},
+	{
 		title: "Admin",
 		description: "Outils d'administration et de suivi technique.",
 		items: [

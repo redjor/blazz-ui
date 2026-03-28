@@ -69,6 +69,7 @@ export const DragHandle = Extension.create({
 		// Drag state
 		let isDragging = false
 		let dragSourcePos: number | null = null
+		let dragSourceSize: number | null = null
 
 		function showHandle() {
 			if (hideTimeout) {
