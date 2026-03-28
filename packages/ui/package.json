@@ -24,12 +24,12 @@
 		"lint": "biome check ."
 	},
 	"peerDependencies": {
+		"@hookform/resolvers": "^5.0.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"tailwindcss": "^4.0.0",
-		"recharts": "^3.0.0",
 		"react-hook-form": "^7.0.0",
-		"@hookform/resolvers": "^5.0.0",
+		"recharts": "^3.0.0",
+		"tailwindcss": "^4.0.0",
 		"zod": "^4.0.0"
 	},
 	"peerDependenciesMeta": {
@@ -47,20 +47,20 @@
 		}
 	},
 	"dependencies": {
-		"@blazz/tabs": "workspace:*",
 		"@base-ui/react": "^1.3.0",
+		"@blazz/tabs": "workspace:*",
 		"@radix-ui/react-slot": "^1.2.4",
 		"@radix-ui/react-use-controllable-state": "^1.2.2",
 		"class-variance-authority": "^0.7.1",
 		"cmdk": "^1.1.1",
 		"date-fns": "^4.1.0",
 		"embla-carousel-react": "^8.6.0",
-		"lucide-react": "^0.562.0",
-		"motion": "^12.36.0",
-		"nanoid": "^5.1.6",
+		"lucide-react": "^1.7.0",
+		"motion": "^12.38.0",
+		"nanoid": "^5.1.7",
 		"next-themes": "^0.4.6",
 		"react-day-picker": "^9.14.0",
-		"react-dropzone": "^14.3.8",
+		"react-dropzone": "^15.0.0",
 		"react-phone-number-input": "^3.4.14",
 		"sonner": "^2.0.7",
 		"tailwind-merge": "^3.4.0"
@@ -68,8 +68,8 @@
 	"devDependencies": {
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19",
-		"next": "^16.1.6",
+		"next": "^16.2.1",
 		"tsup": "^8",
-		"typescript": "^5"
+		"typescript": "^6.0.2"
 	}
 }
