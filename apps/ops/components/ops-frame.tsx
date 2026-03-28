@@ -232,8 +232,10 @@ export function OpsFrame({ children }: { children: ReactNode }) {
   const syncFavoriteLabels = useMutation(api.favorites.syncLabels);
 
   useEffect(() => {
-    syncFavoriteLabels();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (favorites && favorites.length > 0) {
+      syncFavoriteLabels();
+    }
+  }, [favorites?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const navGroups = useMemo(() => {
     const filtered = filterGroups(allNavGroups, isEnabled);

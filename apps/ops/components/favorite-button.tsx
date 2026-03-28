@@ -22,6 +22,7 @@ export function FavoriteButton({ entityType, entityId, label }: FavoriteButtonPr
 		<Button
 			variant="ghost"
 			size="icon-sm"
+			aria-label={isFavorited ? "Retirer des favoris" : "Ajouter aux favoris"}
 			onClick={() => {
 				if (isFavorited) {
 					removeFavorite({ entityType, entityId })

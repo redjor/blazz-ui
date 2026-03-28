@@ -143,8 +143,14 @@ export const syncLabels = mutation({
 			.collect()
 
 		for (const fav of favorites) {
-			// Look up the source entity
-			const entity = await ctx.db.get(fav.entityId as any)
+			// Look up the source entity (polymorphic ID, may be invalid)
+			let entity
+			try {
+				entity = await ctx.db.get(fav.entityId as any)
+			} catch {
+				await ctx.db.delete(fav._id)
+				continue
+			}
 
 			// If entity deleted → delete the favorite
 			if (!entity) {
