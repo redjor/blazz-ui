@@ -550,4 +550,14 @@ export default defineSchema({
 	})
 		.index("by_agent", ["agentId"])
 		.index("by_connection", ["connectionId"]),
+
+	providerConfigs: defineTable({
+		userId: v.string(),
+		provider: v.string(),
+		clientId: v.string(),
+		clientSecret: v.string(),
+		configuredAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_provider", ["userId", "provider"]),
 })

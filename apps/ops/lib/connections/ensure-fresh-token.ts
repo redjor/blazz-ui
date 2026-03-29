@@ -1,17 +1,23 @@
+import { ConvexHttpClient } from "convex/browser"
+import { internal } from "@/convex/_generated/api"
 import { providerMap } from "./providers"
 
 type Connection = {
 	_id: string
 	provider: string
+	userId?: string
 	accessToken?: string
 	refreshToken?: string
 	tokenExpiresAt?: number
 	status: string
 }
 
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+
 /**
  * Returns a fresh access token for the given connection.
  * Refreshes automatically if expired or about to expire (1 min margin).
+ * Fetches OAuth credentials from providerConfigs in Convex.
  * Throws if refresh fails — caller should mark connection as expired.
  */
 export async function ensureFreshToken(connection: Connection): Promise<string> {
@@ -34,8 +40,20 @@ export async function ensureFreshToken(connection: Connection): Promise<string> 
 		throw new Error(`Provider ${connection.provider} has no tokenUrl`)
 	}
 
-	const clientId = process.env[`${connection.provider.toUpperCase()}_CLIENT_ID`]
-	const clientSecret = process.env[`${connection.provider.toUpperCase()}_CLIENT_SECRET`]
+	// Fetch OAuth credentials from Convex
+	const userId = connection.userId
+	if (!userId) {
+		throw new Error(`Connection ${connection._id} has no userId for credential lookup`)
+	}
+
+	const config = await convex.query(internal.providerConfigs.internalGetByProvider, {
+		userId,
+		provider: connection.provider,
+	})
+
+	if (!config?.clientId || !config?.clientSecret) {
+		throw new Error(`No credentials configured for provider ${connection.provider}`)
+	}
 
 	const res = await fetch(provider.tokenUrl, {
 		method: "POST",
@@ -43,8 +61,8 @@ export async function ensureFreshToken(connection: Connection): Promise<string> 
 		body: new URLSearchParams({
 			grant_type: "refresh_token",
 			refresh_token: connection.refreshToken,
-			client_id: clientId!,
-			client_secret: clientSecret!,
+			client_id: config.clientId,
+			client_secret: config.clientSecret,
 		}),
 	})
 
