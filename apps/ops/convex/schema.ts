@@ -516,4 +516,38 @@ export default defineSchema({
 	})
 		.index("by_user_order", ["userId", "order"])
 		.index("by_user_entity", ["userId", "entityType", "entityId"]),
+
+	// ── External Connections ──────────────────────────────────────────
+	connections: defineTable({
+		userId: v.string(),
+		provider: v.string(),
+		label: v.string(),
+		authType: v.union(v.literal("oauth2"), v.literal("api_key")),
+		status: v.union(v.literal("active"), v.literal("expired"), v.literal("error"), v.literal("disconnected")),
+		accessToken: v.optional(v.string()),
+		refreshToken: v.optional(v.string()),
+		tokenExpiresAt: v.optional(v.number()),
+		scopes: v.optional(v.array(v.string())),
+		apiKey: v.optional(v.string()),
+		accountInfo: v.optional(
+			v.object({
+				email: v.optional(v.string()),
+				name: v.optional(v.string()),
+				avatar: v.optional(v.string()),
+			})
+		),
+		lastUsedAt: v.optional(v.number()),
+		errorMessage: v.optional(v.string()),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_provider", ["userId", "provider"]),
+
+	agentConnections: defineTable({
+		userId: v.string(),
+		agentId: v.id("agents"),
+		connectionId: v.id("connections"),
+		addedAt: v.number(),
+	})
+		.index("by_agent", ["agentId"])
+		.index("by_connection", ["connectionId"]),
 })
