@@ -2,7 +2,7 @@
 
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { NavMenu, NavMenuGroup, NavMenuItem } from "@blazz/ui/components/ui/nav-menu"
-import { Bot, Settings, Tag, ToggleRight } from "lucide-react"
+import { Bot, Plug, Settings, Tag, ToggleRight } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ReactNode } from "react"
@@ -20,6 +20,7 @@ const settingsNav: {
 		items: [
 			{ label: "Préférences", href: "/settings", icon: Settings },
 			{ label: "Fonctionnalités", href: "/settings/features", icon: ToggleRight },
+			{ label: "Connexions", href: "/settings/connections", icon: Plug },
 		],
 	},
 	{

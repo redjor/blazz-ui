@@ -7,6 +7,7 @@ import { ConvexHttpClient } from "convex/browser"
 import { z } from "zod"
 import { api } from "@/convex/_generated/api"
 import { readTools } from "@/lib/chat/tools"
+import { buildConnectionTools } from "@/lib/connections/build-connection-tools"
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
@@ -357,6 +358,19 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
 	console.log(`[agent-chat] ${slug} tools registered:`, Object.keys(tools))
 	console.log(`[agent-chat] ${slug} permissions.safe:`, agent.permissions.safe)
+
+	// ── Connection tools ──
+	try {
+		convex.setAuth(token)
+		const agentConns = await convex.query(api.agentConnections.listByAgent, { agentId: agent._id })
+		if (agentConns.length > 0) {
+			const connectionTools = buildConnectionTools(agentConns as any)
+			Object.assign(tools, connectionTools)
+			console.log(`[agent-chat] ${slug} connection tools added:`, Object.keys(connectionTools))
+		}
+	} catch (err) {
+		console.error(`[agent-chat] ${slug} failed to load connection tools:`, err)
+	}
 
 	// Add create_mission tool for all agents
 	tools["create-mission"] = {

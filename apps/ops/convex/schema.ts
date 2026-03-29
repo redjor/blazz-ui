@@ -365,7 +365,7 @@ export default defineSchema({
 
 	notifications: defineTable({
 		userId: v.string(),
-		source: v.union(v.literal("github"), v.literal("vercel"), v.literal("convex")),
+		source: v.union(v.literal("github"), v.literal("vercel"), v.literal("convex"), v.literal("system")),
 		externalId: v.string(),
 		title: v.string(),
 		description: v.string(),

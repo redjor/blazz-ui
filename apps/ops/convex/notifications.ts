@@ -2,7 +2,7 @@ import { ConvexError, v } from "convex/values"
 import { internalMutation, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
-const sourceValidator = v.union(v.literal("github"), v.literal("vercel"), v.literal("convex"))
+const sourceValidator = v.union(v.literal("github"), v.literal("vercel"), v.literal("convex"), v.literal("system"))
 
 // ── Queries ──
 

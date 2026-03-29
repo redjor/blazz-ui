@@ -19,6 +19,7 @@ import { toast } from "sonner"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { providerMap } from "@/lib/connections/providers"
 
 // ── Types ──
 
@@ -169,6 +170,95 @@ function MemoryTab({ agentId }: { agentId: Id<"agents"> }) {
 						</Button>
 					</InlineStack>
 				))}
+			</BlockStack>
+		</BlockStack>
+	)
+}
+
+// ── Connections tab ──
+
+function ConnectionsTab({ agentId }: { agentId: Id<"agents"> }) {
+	const connections = useQuery(api.connections.list)
+	const agentConns = useQuery(api.agentConnections.listByAgent, { agentId })
+	const linkMut = useMutation(api.agentConnections.link)
+	const unlinkMut = useMutation(api.agentConnections.unlink)
+
+	if (connections === undefined || agentConns === undefined) {
+		return (
+			<BlockStack gap="200">
+				{[1, 2, 3].map((i) => (
+					<Skeleton key={i} className="h-16 w-full rounded-lg" />
+				))}
+			</BlockStack>
+		)
+	}
+
+	const activeConnections = connections.filter((c) => c.status === "active")
+
+	if (activeConnections.length === 0) {
+		return (
+			<BlockStack gap="200">
+				<p className="text-sm text-fg-muted">
+					Aucune connexion active. Configurez des connexions dans{" "}
+					<a href="/settings/connections" className="text-brand underline">
+						Paramètres &gt; Connexions
+					</a>
+					.
+				</p>
+			</BlockStack>
+		)
+	}
+
+	const linkedIds = new Set(agentConns.map((c) => c._id))
+
+	const handleToggle = async (connectionId: Id<"connections">, checked: boolean) => {
+		try {
+			if (checked) {
+				await linkMut({ agentId, connectionId })
+			} else {
+				await unlinkMut({ agentId, connectionId })
+			}
+			toast.success(checked ? "Connexion activée" : "Connexion désactivée")
+		} catch {
+			toast.error("Erreur")
+		}
+	}
+
+	return (
+		<BlockStack gap="200">
+			<p className="text-sm text-fg-muted">Activez les connexions que cet agent peut utiliser. Les outils associés seront automatiquement disponibles.</p>
+			<BlockStack gap="none">
+				{activeConnections.map((conn) => {
+					const isLinked = linkedIds.has(conn._id)
+					const provider = providerMap[conn.provider]
+					if (!provider) return null
+					const Icon = provider.icon
+
+					return (
+						<Item key={conn._id}>
+							<ItemContent>
+								<InlineStack gap="200" blockAlign="center">
+									<Icon className="size-4 text-fg-muted" />
+									<ItemTitle>{conn.label}</ItemTitle>
+								</InlineStack>
+								{isLinked && (
+									<ItemDescription>
+										<InlineStack gap="100" wrap>
+											{provider.tools.map((t) => (
+												<Badge key={t} variant="outline" className="text-xs">
+													{t}
+												</Badge>
+											))}
+										</InlineStack>
+									</ItemDescription>
+								)}
+							</ItemContent>
+							<ItemActions>
+								<Switch checked={isLinked} onCheckedChange={(checked) => handleToggle(conn._id, checked)} />
+							</ItemActions>
+						</Item>
+					)
+				})}
 			</BlockStack>
 		</BlockStack>
 	)
@@ -384,6 +474,7 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 					<TabsTrigger value="skill">Compétences</TabsTrigger>
 					<TabsTrigger value="context">Contexte</TabsTrigger>
 					<TabsTrigger value="memory">Mémoire</TabsTrigger>
+					<TabsTrigger value="connections">Connexions</TabsTrigger>
 				</TabsList>
 
 				<TabsContent value="general">
@@ -408,6 +499,10 @@ export function AgentDetailClient({ slug }: { slug: string }) {
 
 				<TabsContent value="memory">
 					<MemoryTab agentId={typedAgent._id} />
+				</TabsContent>
+
+				<TabsContent value="connections">
+					<ConnectionsTab agentId={typedAgent._id} />
 				</TabsContent>
 			</Tabs>
 		</SettingsPage>
