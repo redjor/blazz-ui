@@ -123,7 +123,7 @@ export default function ProjectTimePage({ params }: { params: Promise<{ pid: str
 				enableSorting: true,
 			},
 		],
-		[statusConfig[s]]
+		[statusConfig]
 	)
 
 	const entryViews = useMemo<DataTableView[]>(
