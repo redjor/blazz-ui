@@ -13,7 +13,7 @@ import { Input } from "@blazz/ui/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
-import { CircleCheck, CircleDashed, CircleDot, CircleSlash, Columns3, LayoutList, Pencil, Plus, Trash2 } from "lucide-react"
+import { CircleCheck, CircleDashed, CircleDot, CircleSlash, Columns3, Flag, LayoutList, Minus, Pencil, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -28,6 +28,122 @@ import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 
 type TodoStatus = "triage" | "todo" | "blocked" | "in_progress" | "done"
+
+const allStatuses: { value: TodoStatus; label: string }[] = [
+	{ value: "triage", label: "Triage" },
+	{ value: "todo", label: "Todo" },
+	{ value: "blocked", label: "Bloqué" },
+	{ value: "in_progress", label: "En cours" },
+	{ value: "done", label: "Fait" },
+]
+
+function StatusDropdown({
+	todoId,
+	currentStatus,
+	updateStatus,
+}: {
+	todoId: Id<"todos">
+	currentStatus: TodoStatus
+	updateStatus: (args: { id: Id<"todos">; status: TodoStatus }) => Promise<unknown>
+}) {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger
+				render={
+					<button type="button" className="cursor-pointer rounded p-0.5 hover:bg-raised transition-colors" onClick={(e) => e.stopPropagation()}>
+						<StatusIcon status={currentStatus} />
+					</button>
+				}
+			/>
+			<DropdownMenuContent align="start" className="min-w-[180px]" onClick={(e) => e.stopPropagation()}>
+				<div className="px-2 py-1.5 text-xs text-fg-muted font-medium">Changer le statut…</div>
+				{allStatuses.map((s, i) => (
+					<DropdownMenuItem
+						key={s.value}
+						onClick={async () => {
+							if (s.value !== currentStatus) {
+								await updateStatus({ id: todoId, status: s.value })
+								toast.success(`Statut → ${s.label}`)
+							}
+						}}
+					>
+						<StatusIcon status={s.value} />
+						<span className="flex-1">{s.label}</span>
+						{s.value === currentStatus && <span className="text-fg-muted">✓</span>}
+						<kbd className="ml-auto text-[11px] text-fg-muted/50">{i + 1}</kbd>
+					</DropdownMenuItem>
+				))}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	)
+}
+
+type TodoPriority = "urgent" | "high" | "normal" | "low"
+
+const allPriorities: { value: TodoPriority | null; label: string; icon: React.ReactNode }[] = [
+	{ value: null, label: "No priority", icon: <Minus className="size-3 text-fg-muted/50" /> },
+	{ value: "urgent", label: "Urgent", icon: <Flag fill="currentColor" className="size-3 text-destructive" /> },
+	{ value: "high", label: "High", icon: <Flag fill="currentColor" className="size-3 text-orange-500" /> },
+	{ value: "normal", label: "Medium", icon: <Flag className="size-3 text-fg-muted" /> },
+	{ value: "low", label: "Low", icon: <Flag className="size-3 text-fg-muted opacity-40" /> },
+]
+
+function PriorityIcon({ priority }: { priority?: string }) {
+	switch (priority) {
+		case "urgent":
+			return <Flag fill="currentColor" className="size-3 shrink-0 text-destructive" />
+		case "high":
+			return <Flag fill="currentColor" className="size-3 shrink-0 text-orange-500" />
+		case "normal":
+			return <Flag className="size-3 shrink-0 text-fg-muted" />
+		case "low":
+			return <Flag className="size-3 shrink-0 text-fg-muted opacity-40" />
+		default:
+			return <Minus className="size-3 shrink-0 text-fg-muted/30" />
+	}
+}
+
+function PriorityDropdown({
+	todoId,
+	currentPriority,
+	updateTodo,
+}: {
+	todoId: Id<"todos">
+	currentPriority?: TodoPriority
+	updateTodo: (args: { id: Id<"todos">; priority: TodoPriority | undefined }) => Promise<unknown>
+}) {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger
+				render={
+					<button type="button" className="cursor-pointer rounded p-0.5 hover:bg-raised transition-colors" onClick={(e) => e.stopPropagation()}>
+						<PriorityIcon priority={currentPriority} />
+					</button>
+				}
+			/>
+			<DropdownMenuContent align="start" className="min-w-[180px]" onClick={(e) => e.stopPropagation()}>
+				<div className="px-2 py-1.5 text-xs text-fg-muted font-medium">Set priority to…</div>
+				{allPriorities.map((p, i) => (
+					<DropdownMenuItem
+						key={p.value ?? "none"}
+						onClick={async () => {
+							const newVal = p.value ?? undefined
+							if (newVal !== currentPriority) {
+								await updateTodo({ id: todoId, priority: newVal })
+								toast.success(`Priorité → ${p.label}`)
+							}
+						}}
+					>
+						{p.icon}
+						<span className="flex-1">{p.label}</span>
+						{(p.value ?? undefined) === currentPriority && <span className="text-fg-muted">✓</span>}
+						<kbd className="ml-auto text-[11px] text-fg-muted/50">{i}</kbd>
+					</DropdownMenuItem>
+				))}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	)
+}
 
 // ---------------------------------------------------------------------------
 // AddTodoDialog
@@ -195,6 +311,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 	const allTagsList = allTags ?? []
 
 	const updateStatus = useMutation(api.todos.updateStatus)
+	const updateTodo = useMutation(api.todos.update)
 	const remove = useMutation(api.todos.remove)
 
 	const storageKeyPrefix = projectId ? `ops-project-todos` : "ops-todos"
@@ -215,18 +332,26 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 		} catch {}
 	}
 
-	// Build rows with resolved names for the list view
+	// Build rows sorted by status (group order) then priority (within each group)
+	const statusOrder: Record<string, number> = { triage: 0, todo: 1, blocked: 2, in_progress: 3, done: 4 }
+	const priorityOrder: Record<string, number> = { urgent: 0, high: 1, normal: 2, low: 3 }
 	const todoRows = useMemo<Todo[]>(() => {
 		if (!todos) return []
-		return todos.map((t) => {
-			const cat = categoryList.find((c) => c._id === t.categoryId)
-			return {
-				...t,
-				projectName: projectList.find((p) => p._id === t.projectId)?.name,
-				categoryName: cat?.name,
-				categoryColor: cat?.color,
-			}
-		})
+		return todos
+			.map((t) => {
+				const cat = categoryList.find((c) => c._id === t.categoryId)
+				return {
+					...t,
+					projectName: projectList.find((p) => p._id === t.projectId)?.name,
+					categoryName: cat?.name,
+					categoryColor: cat?.color,
+				}
+			})
+			.sort((a, b) => {
+				const s = (statusOrder[a.status] ?? 99) - (statusOrder[b.status] ?? 99)
+				if (s !== 0) return s
+				return (priorityOrder[a.priority ?? "normal"] ?? 2) - (priorityOrder[b.priority ?? "normal"] ?? 2)
+			})
 	}, [todos, projectList, categoryList])
 
 	// ---------------------------------------------------------------------------
@@ -263,6 +388,11 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 							{statusLabel[s] ?? s}
 						</span>
 					)
+				},
+				sortingFn: (rowA, rowB) => {
+					const a = statusOrder[rowA.getValue("status") as string] ?? 99
+					const b = statusOrder[rowB.getValue("status") as string] ?? 99
+					return a - b
 				},
 				enableSorting: true,
 				filterConfig: {
@@ -513,6 +643,7 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 							enableRowSelection={viewMode === "list"}
 							enableGrouping
 							defaultGrouping={["status"]}
+							defaultSorting={[{ id: "status", desc: false }]}
 							defaultExpanded
 							renderGroupHeaderEnd={(row) => (
 								<Button variant="ghost" size="icon-sm" onClick={() => setAddFor((row.getValue("status") as TodoStatus) ?? "triage")} className="text-fg-muted hover:text-fg">
@@ -541,7 +672,8 @@ export function TodosDataTable({ projectId }: TodosDataTableProps) {
 								return (
 									<>
 										<div className={`flex min-w-0 flex-1 items-center gap-3 ${isDone ? "opacity-50" : ""}`}>
-											<StatusIcon status={todo.status} />
+											<StatusDropdown todoId={todo._id} currentStatus={todo.status} updateStatus={updateStatus} />
+											<PriorityDropdown todoId={todo._id} currentPriority={todo.priority as TodoPriority | undefined} updateTodo={updateTodo} />
 											<span className={`truncate text-fg ${isDone ? "line-through" : ""}`} style={{ fontSize: 13 }}>
 												{todo.text}
 											</span>
