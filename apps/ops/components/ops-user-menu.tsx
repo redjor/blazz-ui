@@ -18,6 +18,7 @@ export function OpsUserMenu() {
 			}}
 			showEmail
 			onLogout={() => void signOut()}
+			className="w-full"
 		/>
 	)
 }

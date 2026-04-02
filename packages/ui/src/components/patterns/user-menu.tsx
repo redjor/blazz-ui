@@ -45,7 +45,7 @@ export function UserMenu({ user, badge, onProfile, onSettings, onLogout, showEma
 				render={
 					<button
 						type="button"
-						className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+						className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 w-full"
 					/>
 				}
 			>

@@ -85,13 +85,13 @@ const examples = [
       </div>
       <div className="text-sm font-medium">$29/mo</div>
     </div>
+	</FramePanel>
     <FrameFooter>
       <div className="flex items-center justify-between">
         <div className="text-xs text-fg-muted">Renews on March 15, 2026</div>
         <Button size="sm" variant="outline">Manage</Button>
       </div>
     </FrameFooter>
-  </FramePanel>
 </Frame>`,
 	},
 	{
@@ -329,15 +329,15 @@ export default function FramePanelPage() {
 								</div>
 								<div className="text-sm font-medium">$29/mo</div>
 							</div>
-							<FrameFooter>
-								<div className="flex items-center justify-between">
-									<div className="text-xs text-fg-muted">Renews on March 15, 2026</div>
-									<Button size="sm" variant="outline">
-										Manage
-									</Button>
-								</div>
-							</FrameFooter>
 						</FramePanel>
+						<FrameFooter>
+							<div className="flex items-center justify-between">
+								<div className="text-xs text-fg-muted">Renews on March 15, 2026</div>
+								<Button size="sm" variant="outline">
+									Manage
+								</Button>
+							</div>
+						</FrameFooter>
 					</Frame>
 				</DocExampleClient>
 
