@@ -579,6 +579,7 @@ export default defineSchema({
 		destination: v.optional(v.string()),
 		distanceKm: v.optional(v.number()),
 		reimbursementCents: v.optional(v.number()),
+		qontoTransactionId: v.optional(v.string()),
 		createdAt: v.number(),
 	})
 		.index("by_user", ["userId"])
@@ -590,4 +591,18 @@ export default defineSchema({
 		fiscalPower: v.number(),
 		vehicleType: v.union(v.literal("car"), v.literal("motorcycle")),
 	}).index("by_user", ["userId"]),
+
+	expenseSuggestions: defineTable({
+		userId: v.string(),
+		source: v.literal("qonto"),
+		status: v.union(v.literal("pending"), v.literal("accepted"), v.literal("rejected")),
+		qontoTransactionId: v.string(),
+		label: v.string(),
+		amountCents: v.number(),
+		date: v.string(),
+		confidence: v.number(),
+		syncedAt: v.number(),
+	})
+		.index("by_user_status", ["userId", "status"])
+		.index("by_user_txn", ["userId", "qontoTransactionId"]),
 })

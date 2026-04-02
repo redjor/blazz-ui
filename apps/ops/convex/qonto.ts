@@ -330,3 +330,151 @@ Si aucune dépense récurrente n'est détectée, retourne { "suggestions": [] }.
 		return { count: newSuggestions.length, syncedAt }
 	},
 })
+
+/** Scan Qonto transactions since 2025-01-01 to detect restaurant expenses via OpenAI */
+export const scanRestaurantExpenses = action({
+	args: { bankAccountSlug: v.string() },
+	handler: async (ctx, { bankAccountSlug }) => {
+		const { userId } = await requireAuth(ctx)
+
+		// 1. Fetch all debit transactions since 2025-01-01 (paginated)
+		const settledAtFrom = "2025-01-01"
+		const allTransactions: Array<{
+			id: string
+			amount: number
+			amountCents: number
+			side: string
+			label: string
+			settledAt: string
+		}> = []
+
+		let currentPage = 1
+		let hasMore = true
+
+		while (hasMore) {
+			const data = await qontoFetch(`/transactions?slug=${bankAccountSlug}&settled_at_from=${settledAtFrom}&side=debit&sort_by=settled_at:desc&per_page=100&current_page=${currentPage}`)
+
+			const transactions = (data.transactions ?? []).map((t: Record<string, unknown>) => ({
+				id: t.id as string,
+				amount: t.amount as number,
+				amountCents: t.amount_cents as number,
+				side: t.side as string,
+				label: t.label as string,
+				settledAt: t.settled_at as string,
+			}))
+
+			allTransactions.push(...transactions.filter((t: { side: string }) => t.side === "debit"))
+
+			if (data.meta?.next_page) {
+				currentPage = data.meta.next_page
+			} else {
+				hasMore = false
+			}
+		}
+
+		if (allTransactions.length === 0) {
+			return { count: 0, syncedAt: Date.now() }
+		}
+
+		// 2. Get already-known transaction IDs (from expenseSuggestions + expenses)
+		const knownSuggestionIds: string[] = await ctx.runQuery(internal.expenseSuggestions.listProcessedTransactionIds)
+		const existingExpenses = await ctx.runQuery(api.expenses.list, {})
+		const knownExpenseIds = existingExpenses.filter((e: any) => e.qontoTransactionId).map((e: any) => e.qontoTransactionId as string)
+
+		const knownIds = new Set([...knownSuggestionIds, ...knownExpenseIds])
+
+		// Filter out already-known transactions
+		const newTransactions = allTransactions.filter((t) => !knownIds.has(t.id))
+
+		if (newTransactions.length === 0) {
+			return { count: 0, syncedAt: Date.now() }
+		}
+
+		// 3. Call OpenAI to identify restaurant transactions
+		const openai = new OpenAI()
+
+		const transactionSummary = newTransactions.map((t) => ({
+			id: t.id,
+			label: t.label,
+			amountCents: t.amountCents,
+			settledAt: t.settledAt,
+		}))
+
+		const completion = await openai.chat.completions.create({
+			model: "gpt-4o-mini",
+			response_format: { type: "json_object" },
+			messages: [
+				{
+					role: "system",
+					content: `Tu es un assistant qui analyse des transactions bancaires pour identifier les dépenses de restaurant/repas d'un freelance.
+
+Analyse les transactions et identifie UNIQUEMENT celles qui sont des repas au restaurant, brasserie, café, fast-food, livraison repas, etc.
+
+Règles :
+- Ne retourne QUE les transactions qui sont clairement des repas/restaurants
+- confidence : entre 0 et 1 (1 = très sûr que c'est un restaurant)
+- Ne pas inclure les courses alimentaires (supermarché, épicerie)
+- Inclure : restaurants, brasseries, cafés, fast-food, Uber Eats, Deliveroo, etc.
+
+Réponds en JSON :
+{
+  "restaurants": [
+    {
+      "transactionId": "tx_123",
+      "label": "Label original",
+      "amountCents": 2500,
+      "date": "2025-03-15",
+      "confidence": 0.95
+    }
+  ]
+}
+
+Si aucune transaction restaurant n'est trouvée, retourne { "restaurants": [] }.`,
+				},
+				{
+					role: "user",
+					content: `Voici ${newTransactions.length} transactions débit à analyser :\n\n${JSON.stringify(transactionSummary)}`,
+				},
+			],
+		})
+
+		const content = completion.choices[0]?.message?.content ?? "{}"
+		let parsed: {
+			restaurants: Array<{
+				transactionId: string
+				label: string
+				amountCents: number
+				date: string
+				confidence: number
+			}>
+		}
+		try {
+			parsed = JSON.parse(content)
+		} catch {
+			throw new Error(`OpenAI returned invalid JSON: ${content.slice(0, 200)}`)
+		}
+
+		const restaurants = parsed.restaurants ?? []
+
+		if (restaurants.length === 0) {
+			return { count: 0, syncedAt: Date.now() }
+		}
+
+		// 4. Insert suggestions
+		const syncedAt = Date.now()
+		await ctx.runMutation(internal.expenseSuggestions.insertFromAction, {
+			userId,
+			source: "qonto",
+			syncedAt,
+			suggestions: restaurants.map((r) => ({
+				qontoTransactionId: r.transactionId,
+				label: r.label,
+				amountCents: Math.abs(r.amountCents),
+				date: r.date.slice(0, 10),
+				confidence: r.confidence,
+			})),
+		})
+
+		return { count: restaurants.length, syncedAt }
+	},
+})

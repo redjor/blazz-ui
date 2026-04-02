@@ -12,15 +12,17 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { useMutation, useQuery } from "convex/react"
+import { useAction, useMutation, useQuery } from "convex/react"
 import { endOfMonth, format, startOfMonth } from "date-fns"
 import { fr } from "date-fns/locale"
 import { Car, ChevronLeft, ChevronRight, Edit2, MapPin, MoreHorizontal, Plus, ReceiptText, Trash2, Utensils } from "lucide-react"
 import { useState } from "react"
+import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { formatCurrency } from "@/lib/format"
 import { ExpenseDialog } from "./_expense-dialog"
+import { ExpenseSuggestionsSection } from "./_suggestions-section"
 
 const TYPE_FILTER_ITEMS = [
 	{ value: "all", label: "Tous les types" },
@@ -49,6 +51,31 @@ export default function ExpensesPageClient() {
 	})
 	const stats = useQuery(api.expenses.stats, { from, to })
 	const removeExpense = useMutation(api.expenses.remove)
+	const getOrganization = useAction(api.qonto.getOrganization)
+	const scanRestaurants = useAction(api.qonto.scanRestaurantExpenses)
+	const [syncing, setSyncing] = useState(false)
+
+	async function handleSync() {
+		setSyncing(true)
+		try {
+			const org = await getOrganization({})
+			const mainAccount = org.bankAccounts[0]
+			if (!mainAccount) {
+				toast.error("Aucun compte bancaire trouvé sur Qonto")
+				return
+			}
+			const result = await scanRestaurants({ bankAccountSlug: mainAccount.slug })
+			if (result.count > 0) {
+				toast.success(`${result.count} restaurant${result.count > 1 ? "s" : ""} détecté${result.count > 1 ? "s" : ""}`)
+			} else {
+				toast.info("Aucun nouveau restaurant détecté")
+			}
+		} catch (err) {
+			toast.error(err instanceof Error ? err.message : "Erreur lors du scan Qonto")
+		} finally {
+			setSyncing(false)
+		}
+	}
 
 	useAppTopBar([{ label: "Frais pro" }])
 
@@ -105,22 +132,27 @@ export default function ExpensesPageClient() {
 			<PageHeader
 				title="Frais professionnels"
 				actions={
-					<DropdownMenu>
-						<DropdownMenuTrigger render={<Button />}>
-							<Plus className="size-4 mr-1" />
-							Ajouter
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							<DropdownMenuItem onClick={() => handleNewExpense("restaurant")}>
-								<Utensils className="size-4 mr-2" />
-								Restaurant
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => handleNewExpense("mileage")}>
-								<Car className="size-4 mr-2" />
-								Déplacement
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
+					<InlineStack gap="200">
+						<Button variant="outline" onClick={handleSync} disabled={syncing}>
+							{syncing ? "Scan en cours…" : "Sync Qonto"}
+						</Button>
+						<DropdownMenu>
+							<DropdownMenuTrigger render={<Button />}>
+								<Plus className="size-4 mr-1" />
+								Ajouter
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuItem onClick={() => handleNewExpense("restaurant")}>
+									<Utensils className="size-4 mr-2" />
+									Restaurant
+								</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => handleNewExpense("mileage")}>
+									<Car className="size-4 mr-2" />
+									Déplacement
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</InlineStack>
 				}
 				bottom={
 					<InlineStack align="space-between" blockAlign="center">
@@ -173,6 +205,9 @@ export default function ExpensesPageClient() {
 					},
 				]}
 			/>
+
+			{/* Qonto suggestions */}
+			<ExpenseSuggestionsSection />
 
 			{/* Expense list */}
 			{expenses.length === 0 ? (
