@@ -408,13 +408,16 @@ export const scanRestaurantExpenses = action({
 					role: "system",
 					content: `Tu es un assistant qui analyse des transactions bancaires pour identifier les dépenses de restaurant/repas d'un freelance.
 
-Analyse les transactions et identifie UNIQUEMENT celles qui sont des repas au restaurant, brasserie, café, fast-food, livraison repas, etc.
+Analyse les transactions et identifie celles qui POURRAIENT être des repas au restaurant, brasserie, café, fast-food, livraison repas, traiteur, etc.
 
 Règles :
-- Ne retourne QUE les transactions qui sont clairement des repas/restaurants
+- EN CAS DE DOUTE, INCLURE la transaction avec une confidence basse (0.3-0.5). L'utilisateur préfère trier des faux positifs que rater des vrais restos.
 - confidence : entre 0 et 1 (1 = très sûr que c'est un restaurant)
-- Ne pas inclure les courses alimentaires (supermarché, épicerie)
-- Inclure : restaurants, brasseries, cafés, fast-food, Uber Eats, Deliveroo, etc.
+  - 0.9+ : label contient explicitement "restaurant", "brasserie", etc.
+  - 0.6-0.9 : nom propre qui ressemble à un établissement de restauration
+  - 0.3-0.6 : doute mais montant et label compatibles avec un repas (5-150€, nom propre inconnu)
+- Ne PAS inclure : supermarchés, épiceries, stations-service, abonnements SaaS, charges sociales, loyers
+- INCLURE même si tu n'es pas sûr : noms propres inconnus avec un montant typique de repas (10-80€), bars, pubs, boulangeries, traiteurs, Uber Eats, Deliveroo, Just Eat, etc.
 
 Réponds en JSON :
 {

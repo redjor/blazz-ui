@@ -13,17 +13,20 @@ export const listPending = query({
 	},
 })
 
-/** All qontoTransactionIds that have been processed (for deduplication) */
+/** Transaction IDs that should NOT be re-suggested (pending + accepted only, NOT rejected) */
 export const listProcessedTransactionIds = internalQuery({
 	args: {},
 	handler: async (ctx) => {
 		const { userId } = await requireAuth(ctx)
-		const all = await ctx.db
+		const pending = await ctx.db
 			.query("expenseSuggestions")
-			.withIndex("by_user_status", (q) => q.eq("userId", userId))
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "pending"))
 			.collect()
-		// Return ALL transaction IDs (pending + accepted + rejected) to avoid re-suggesting
-		return all.map((s) => s.qontoTransactionId)
+		const accepted = await ctx.db
+			.query("expenseSuggestions")
+			.withIndex("by_user_status", (q) => q.eq("userId", userId).eq("status", "accepted"))
+			.collect()
+		return [...pending, ...accepted].map((s) => s.qontoTransactionId)
 	},
 })
 
@@ -122,6 +125,18 @@ export const insertFromAction = internalMutation({
 	handler: async (ctx, { userId, source, syncedAt, suggestions }) => {
 		let inserted = 0
 		for (const suggestion of suggestions) {
+			// Delete any previously rejected suggestion for this transaction (allows re-detection)
+			const existing = await ctx.db
+				.query("expenseSuggestions")
+				.withIndex("by_user_txn", (q) => q.eq("userId", userId).eq("qontoTransactionId", suggestion.qontoTransactionId))
+				.first()
+			if (existing) {
+				if (existing.status === "rejected") {
+					await ctx.db.delete(existing._id)
+				} else {
+					continue // skip pending or accepted
+				}
+			}
 			await ctx.db.insert("expenseSuggestions", {
 				userId,
 				source,
