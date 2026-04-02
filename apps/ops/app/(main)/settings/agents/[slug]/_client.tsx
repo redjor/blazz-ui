@@ -232,13 +232,11 @@ function ConnectionsTab({ agentId }: { agentId: Id<"agents"> }) {
 					const isLinked = linkedIds.has(conn._id)
 					const provider = providerMap[conn.provider]
 					if (!provider) return null
-					const Icon = provider.icon
-
 					return (
 						<Item key={conn._id}>
 							<ItemContent>
 								<InlineStack gap="200" blockAlign="center">
-									<Icon className="size-4 text-fg-muted" />
+									<img src={provider.logo} alt={provider.name} className="size-4" />
 									<ItemTitle>{conn.label}</ItemTitle>
 								</InlineStack>
 								{isLinked && (

@@ -1,10 +1,7 @@
-import type { LucideIcon } from "lucide-react"
-import { HardDrive, Mail } from "lucide-react"
-
 export type ProviderDef = {
 	id: string
 	name: string
-	icon: LucideIcon
+	logo: string
 	authType: "oauth2" | "api_key"
 	description: string
 	capabilities: string[]
@@ -22,7 +19,7 @@ export const providers: ProviderDef[] = [
 	{
 		id: "google_drive",
 		name: "Google Drive",
-		icon: HardDrive,
+		logo: "/logos/google-drive.svg",
 		authType: "oauth2",
 		description: "Rechercher et lire des fichiers Google Drive.",
 		capabilities: ["Recherche", "Lecture"],
@@ -35,7 +32,7 @@ export const providers: ProviderDef[] = [
 	{
 		id: "google_mail",
 		name: "Google Mail",
-		icon: Mail,
+		logo: "/logos/gmail.svg",
 		authType: "oauth2",
 		description: "Rechercher et lire des emails Gmail.",
 		capabilities: ["Recherche", "Lecture"],

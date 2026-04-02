@@ -139,8 +139,6 @@ export function ConnectionDetailClient({ providerId }: { providerId: string }) {
 
 	const conn = connections?.find((c) => c.provider === providerId)
 	const credKey = provider.credentialsKey ?? providerId
-	const Icon = provider.icon
-
 	const handleConnect = () => {
 		window.location.href = `/api/connections/${providerId}/authorize`
 	}
@@ -160,7 +158,7 @@ export function ConnectionDetailClient({ providerId }: { providerId: string }) {
 			<SettingsHeader
 				title={
 					<InlineStack gap="200" blockAlign="center">
-						<Icon className="size-5" />
+						<img src={provider.logo} alt={provider.name} className="size-5" />
 						<span>{provider.name}</span>
 					</InlineStack>
 				}

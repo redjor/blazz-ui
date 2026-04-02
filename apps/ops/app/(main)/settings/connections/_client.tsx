@@ -112,12 +112,10 @@ export function ConnectionsClient() {
 					const config = configsByKey.get(provider.credentialsKey ?? provider.id)
 					const isConfigured = provider.authType === "api_key" || !!config?.hasSecret
 					const status = statusBadge[conn?.status ?? ""]
-					const Icon = provider.icon
-
 					return (
 						<Item key={provider.id}>
 							<InlineStack gap="200" blockAlign="center">
-								<Icon className="size-5 text-fg-muted" />
+								<img src={provider.logo} alt={provider.name} className="size-5" />
 							</InlineStack>
 							<ItemContent>
 								<ItemTitle>
