@@ -560,4 +560,34 @@ export default defineSchema({
 	})
 		.index("by_user", ["userId"])
 		.index("by_user_provider", ["userId", "provider"]),
+
+	// ── Frais professionnels ──
+
+	expenses: defineTable({
+		userId: v.string(),
+		type: v.union(v.literal("restaurant"), v.literal("mileage")),
+		date: v.string(),
+		amountCents: v.optional(v.number()),
+		clientId: v.optional(v.id("clients")),
+		projectId: v.optional(v.id("projects")),
+		notes: v.optional(v.string()),
+		// Restaurant
+		guests: v.optional(v.string()),
+		purpose: v.optional(v.string()),
+		// Mileage
+		departure: v.optional(v.string()),
+		destination: v.optional(v.string()),
+		distanceKm: v.optional(v.number()),
+		reimbursementCents: v.optional(v.number()),
+		createdAt: v.number(),
+	})
+		.index("by_user", ["userId"])
+		.index("by_user_date", ["userId", "date"])
+		.index("by_user_type", ["userId", "type"]),
+
+	vehicleSettings: defineTable({
+		userId: v.string(),
+		fiscalPower: v.number(),
+		vehicleType: v.union(v.literal("car"), v.literal("motorcycle")),
+	}).index("by_user", ["userId"]),
 })

@@ -15,6 +15,33 @@ export default function SettingsGeneralClient() {
 	const readLaterCollectionId = useQuery(api.settings.get, { key: "readLaterCollectionId" })
 	const setSetting = useMutation(api.settings.set)
 	const removeSetting = useMutation(api.settings.remove)
+	const vehicleSettings = useQuery(api.vehicleSettings.get)
+	const saveVehicle = useMutation(api.vehicleSettings.save)
+
+	const fiscalPowerItems = [
+		{ value: "3", label: "3 CV" },
+		{ value: "4", label: "4 CV" },
+		{ value: "5", label: "5 CV" },
+		{ value: "6", label: "6 CV" },
+		{ value: "7", label: "7 CV+" },
+	]
+
+	const vehicleTypeItems = [
+		{ value: "car", label: "Voiture" },
+		{ value: "motorcycle", label: "Moto" },
+	]
+
+	async function handleVehicleSave(partial: { fiscalPower?: number; vehicleType?: "car" | "motorcycle" }) {
+		try {
+			await saveVehicle({
+				fiscalPower: partial.fiscalPower ?? vehicleSettings?.fiscalPower ?? 5,
+				vehicleType: partial.vehicleType ?? vehicleSettings?.vehicleType ?? "car",
+			})
+			toast.success("Véhicule mis à jour")
+		} catch {
+			toast.error("Erreur")
+		}
+	}
 
 	const handleReadLaterChange = async (value: string) => {
 		try {
@@ -66,6 +93,49 @@ export default function SettingsGeneralClient() {
 							</SelectTrigger>
 							<SelectContent>
 								{collectionItems.map((item) => (
+									<SelectItem key={item.value} value={item.value}>
+										{item.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</ItemActions>
+				</Item>
+			</SettingsSection>
+
+			<SettingsSection title="Véhicule" description="Configuration pour le calcul des indemnités kilométriques URSSAF.">
+				<Item>
+					<ItemContent>
+						<ItemTitle>Puissance fiscale</ItemTitle>
+						<ItemDescription>Puissance fiscale de votre véhicule (en CV).</ItemDescription>
+					</ItemContent>
+					<ItemActions>
+						<Select value={vehicleSettings?.fiscalPower?.toString() ?? "5"} onValueChange={(v) => handleVehicleSave({ fiscalPower: Number(v) })} items={fiscalPowerItems}>
+							<SelectTrigger className="w-24">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								{fiscalPowerItems.map((item) => (
+									<SelectItem key={item.value} value={item.value}>
+										{item.label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</ItemActions>
+				</Item>
+				<Item>
+					<ItemContent>
+						<ItemTitle>Type de véhicule</ItemTitle>
+						<ItemDescription>Voiture ou moto (barème différent).</ItemDescription>
+					</ItemContent>
+					<ItemActions>
+						<Select value={vehicleSettings?.vehicleType ?? "car"} onValueChange={(v) => handleVehicleSave({ vehicleType: v as "car" | "motorcycle" })} items={vehicleTypeItems}>
+							<SelectTrigger className="w-32">
+								<SelectValue />
+							</SelectTrigger>
+							<SelectContent>
+								{vehicleTypeItems.map((item) => (
 									<SelectItem key={item.value} value={item.value}>
 										{item.label}
 									</SelectItem>

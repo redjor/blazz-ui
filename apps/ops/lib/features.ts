@@ -19,6 +19,7 @@ export const defaults = {
 	veille: true,
 	notifications: true,
 	treasury: true,
+	expenses: true,
 	missions: false,
 	agents: false,
 } as const satisfies Record<string, boolean>
@@ -51,6 +52,7 @@ const routeMap: Record<string, FeatureFlag> = {
 	"/veille": "veille",
 	"/notifications": "notifications",
 	"/treasury": "treasury",
+	"/expenses": "expenses",
 	"/missions": "missions",
 	"/agents": "agents",
 	"/activity": "agents",

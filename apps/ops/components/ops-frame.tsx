@@ -1,6 +1,7 @@
 "use client"
 
 import { AppFrame, type NavGroup, type NavItem } from "@blazz/pro/components/blocks/app-frame"
+import { Frame, FrameFooter, FramePanel } from "@blazz/ui/components/ui/frame-panel"
 import { useMutation, useQuery } from "convex/react"
 import {
 	Activity,
@@ -18,6 +19,7 @@ import {
 	Package,
 	PiggyBank,
 	Receipt,
+	ReceiptText,
 	Rocket,
 	Rss,
 	Settings,
@@ -26,6 +28,9 @@ import {
 	Target,
 	Users,
 } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import type { ComponentType, ReactNode } from "react"
 import { useEffect, useMemo } from "react"
 import { BlazzLogo } from "@/components/blazz-logo"
@@ -38,7 +43,7 @@ function AgentNavIcon({ name, status }: { name: string; status: string }) {
 	const url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(name)}`
 	return (
 		<span className="relative">
-			<img src={url} alt={name} width={16} height={16} className="size-4 rounded-full shrink-0" />
+			<Image src={url} alt={name} width={16} height={16} className="size-4 rounded-full shrink-0" />
 			{status === "busy" && <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-emerald-500 animate-pulse ring-1 ring-surface" />}
 			{status === "paused" && <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-amber-400 ring-1 ring-surface" />}
 			{status === "error" && <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-red-500 ring-1 ring-surface" />}
@@ -84,22 +89,15 @@ interface NavGroupWithFlag {
 	display?: "list" | "shortcuts"
 }
 
+const shortcutItems: NavItemWithFlag[] = [
+	{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
+	{ title: "Notes", url: "/notes", icon: FileText },
+	{ title: "Bookmarks", url: "/bookmarks", icon: Bookmark, flag: "bookmarks" },
+	{ title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
+	{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
+]
+
 const allNavGroups: NavGroupWithFlag[] = [
-	{
-		display: "shortcuts",
-		items: [
-			{ title: "Todos", url: "/todos", icon: CheckSquare, flag: "todos" },
-			{ title: "Notes", url: "/notes", icon: FileText },
-			{
-				title: "Bookmarks",
-				url: "/bookmarks",
-				icon: Bookmark,
-				flag: "bookmarks",
-			},
-			{ title: "Veille", url: "/veille", icon: Rss, flag: "veille" },
-			{ title: "Chat", url: "/chat", icon: MessageSquare, flag: "chat" },
-		],
-	},
 	{
 		items: [
 			{
@@ -160,6 +158,7 @@ const allNavGroups: NavGroupWithFlag[] = [
 				icon: PiggyBank,
 				flag: "treasury",
 			},
+			{ title: "Frais pro", url: "/expenses", icon: ReceiptText, flag: "expenses" },
 		],
 	},
 	{
@@ -206,6 +205,37 @@ function filterGroups(groups: NavGroupWithFlag[], isEnabled: (flag: FeatureFlag)
 		.filter((group) => group.items.length > 0)
 }
 
+function OpsFooterPanel({ shortcuts }: { shortcuts: NavItem[] }) {
+	const pathname = usePathname()
+	const isActive = (url?: string) => {
+		if (!pathname || !url) return false
+		if (url === "/") return pathname === "/"
+		return pathname.startsWith(url)
+	}
+
+	return (
+		<Frame spacing="none">
+			<FramePanel>
+				<div className="grid grid-cols-[repeat(auto-fill,minmax(48px,1fr))] gap-1">
+					{shortcuts.map((item) => (
+						<Link
+							key={item.title}
+							href={item.url}
+							data-active={isActive(item.url) || undefined}
+							className="flex items-center justify-center aspect-square rounded-lg bg-background border border-transparent text-fg-muted transition-colors hover:border-border hover:bg-muted-foreground hover:text-fg data-[active]:bg-muted data-[active]:text-fg data-[active]:border-primary"
+						>
+							{item.icon && <item.icon className="size-4" />}
+						</Link>
+					))}
+				</div>
+			</FramePanel>
+			<FrameFooter>
+				<OpsUserMenu />
+			</FrameFooter>
+		</Frame>
+	)
+}
+
 export function OpsFrame({ children }: { children: ReactNode }) {
 	const { isEnabled } = useFeatureFlags()
 	const unreadCount = useQuery(api.notifications.unreadCount)
@@ -218,6 +248,8 @@ export function OpsFrame({ children }: { children: ReactNode }) {
 			syncFavoriteLabels()
 		}
 	}, [favorites?.length, favorites, syncFavoriteLabels]) // eslint-disable-line react-hooks/exhaustive-deps
+
+	const filteredShortcuts = useMemo(() => filterItems(shortcutItems, isEnabled), [isEnabled])
 
 	const navGroups = useMemo(() => {
 		const filtered = filterGroups(allNavGroups, isEnabled)
@@ -273,7 +305,7 @@ export function OpsFrame({ children }: { children: ReactNode }) {
 		<AppFrame
 			logo={<BlazzLogo className="text-fg" />}
 			navItems={navGroups}
-			sidebarFooter={<OpsUserMenu />}
+			sidebarFooter={<OpsFooterPanel shortcuts={filteredShortcuts} />}
 			tabs={{
 				storageKey: "ops-tabs",
 				alwaysShow: true,
