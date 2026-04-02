@@ -34,10 +34,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ provide
 		return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
 	}
 
-	// Fetch provider credentials from Convex
+	// Fetch provider credentials from Convex (use credentialsKey for shared OAuth apps)
+	const credKey = provider.credentialsKey ?? providerId
 	const config = await convex.query(internal.providerConfigs.internalGetByProvider, {
 		userId,
-		provider: providerId,
+		provider: credKey,
 	})
 
 	if (!config?.clientId || !config?.clientSecret) {

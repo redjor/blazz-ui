@@ -67,7 +67,7 @@ function ProviderSetupForm({ provider, existingConfig }: { provider: ProviderDef
 		}
 		setSaving(true)
 		try {
-			await upsert({ provider: provider.id, clientId: clientId.trim(), clientSecret: clientSecret.trim() })
+			await upsert({ provider: provider.credentialsKey ?? provider.id, clientId: clientId.trim(), clientSecret: clientSecret.trim() })
 			toast.success("Credentials sauvegardées")
 			setClientSecret("")
 		} catch {
@@ -256,7 +256,13 @@ export function ConnectionsClient() {
 			<SettingsHeader title="Connexions" description="Connectez vos applications externes pour les rendre accessibles à vos agents." />
 			<InlineGrid columns={3} gap="300">
 				{providers.map((provider) => (
-					<ConnectionCard key={provider.id} provider={provider} connection={connectionsByProvider.get(provider.id)} config={configsByProvider.get(provider.id)} onDisconnect={handleDisconnect} />
+					<ConnectionCard
+						key={provider.id}
+						provider={provider}
+						connection={connectionsByProvider.get(provider.id)}
+						config={configsByProvider.get(provider.credentialsKey ?? provider.id)}
+						onDisconnect={handleDisconnect}
+					/>
 				))}
 			</InlineGrid>
 		</SettingsPage>

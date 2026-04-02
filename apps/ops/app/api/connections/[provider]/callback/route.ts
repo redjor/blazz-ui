@@ -41,10 +41,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ provider
 		return NextResponse.redirect(`${appUrl()}/settings/connections?error=state_expired`)
 	}
 
-	// Fetch provider credentials from Convex
+	// Fetch provider credentials from Convex (use credentialsKey for shared OAuth apps)
+	const credKey = provider.credentialsKey ?? providerId
 	const config = await convex.query(internal.providerConfigs.internalGetByProvider, {
 		userId,
-		provider: providerId,
+		provider: credKey,
 	})
 
 	if (!config?.clientId || !config?.clientSecret) {

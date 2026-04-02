@@ -1,9 +1,5 @@
 import { buildGoogleDriveTools } from "./adapters/google-drive"
 
-// import { buildGoogleMailTools } from "./adapters/google-mail"
-// import { buildNotionTools } from "./adapters/notion"
-// import { buildAirtableTools } from "./adapters/airtable"
-
 type Connection = {
 	_id: string
 	provider: string
@@ -16,9 +12,6 @@ type Connection = {
 
 const adapterMap: Record<string, (conn: Connection) => Record<string, unknown>> = {
 	google_drive: buildGoogleDriveTools,
-	// google_mail: buildGoogleMailTools,
-	// notion: buildNotionTools,
-	// airtable: buildAirtableTools,
 }
 
 /**

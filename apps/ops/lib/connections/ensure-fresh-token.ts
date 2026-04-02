@@ -46,9 +46,10 @@ export async function ensureFreshToken(connection: Connection): Promise<string> 
 		throw new Error(`Connection ${connection._id} has no userId for credential lookup`)
 	}
 
+	const credKey = provider.credentialsKey ?? connection.provider
 	const config = await convex.query(internal.providerConfigs.internalGetByProvider, {
 		userId,
-		provider: connection.provider,
+		provider: credKey,
 	})
 
 	if (!config?.clientId || !config?.clientSecret) {
