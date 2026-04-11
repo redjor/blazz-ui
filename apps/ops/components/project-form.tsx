@@ -3,6 +3,7 @@
 import { Button } from "@blazz/ui/components/ui/button"
 import { DateRangeSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
@@ -12,6 +13,7 @@ import { format, parseISO } from "date-fns"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import { IconPickerField } from "@/components/icon-picker"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -25,6 +27,8 @@ const schema = z.object({
 	status: z.enum(["active", "paused", "closed"]),
 	startDate: z.string().optional(),
 	endDate: z.string().optional(),
+	icon: z.string().optional(),
+	color: z.string().optional(),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -79,7 +83,17 @@ export function ProjectForm({ clientId, defaultValues, onSuccess, onCancel }: Pr
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 			<div className="space-y-1.5">
 				<Label htmlFor="proj-name">Nom *</Label>
-				<Input id="proj-name" {...register("name")} />
+				<InlineStack gap="300" blockAlign="center">
+					<IconPickerField
+						icon={watch("icon")}
+						color={watch("color")}
+						onIconChange={(v) => setValue("icon", v, { shouldDirty: true })}
+						onColorChange={(v) => setValue("color", v, { shouldDirty: true })}
+					/>
+					<div className="flex-1 min-w-0">
+						<Input id="proj-name" {...register("name")} />
+					</div>
+				</InlineStack>
 				{errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
 			</div>
 			<div className="grid grid-cols-3 gap-4">
