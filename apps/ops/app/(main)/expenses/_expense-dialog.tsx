@@ -3,6 +3,7 @@
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
@@ -10,6 +11,7 @@ import { Textarea } from "@blazz/ui/components/ui/textarea"
 import { useMutation, useQuery } from "convex/react"
 import { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
+import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { computeMileageReimbursement } from "@/convex/lib/urssaf"
@@ -295,20 +297,33 @@ export function ExpenseDialog({ open, onOpenChange, type, expense }: ExpenseDial
 								<Controller
 									control={control}
 									name="projectId"
-									render={({ field }) => (
-										<Select value={field.value} onValueChange={field.onChange} items={projectItems}>
-											<SelectTrigger>
-												<SelectValue placeholder="Aucun" />
-											</SelectTrigger>
-											<SelectContent>
-												{projectItems.map((item) => (
-													<SelectItem key={item.value} value={item.value}>
-														{item.label}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-									)}
+									render={({ field }) => {
+										const selectedProject = projects?.find((p) => p._id === field.value)
+										return (
+											<Select value={field.value} onValueChange={field.onChange} items={projectItems}>
+												<SelectTrigger>
+													{selectedProject ? (
+														<InlineStack gap="200" blockAlign="center">
+															<ProjectIcon icon={selectedProject.icon} color={selectedProject.color} size="xs" />
+															<span className="truncate">{selectedProject.name}</span>
+														</InlineStack>
+													) : (
+														<SelectValue placeholder="Aucun" />
+													)}
+												</SelectTrigger>
+												<SelectContent>
+													{projects?.map((p) => (
+														<SelectItem key={p._id} value={p._id} label={p.name}>
+															<InlineStack gap="200" blockAlign="center">
+																<ProjectIcon icon={p.icon} color={p.color} size="xs" />
+																<span>{p.name}</span>
+															</InlineStack>
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+										)
+									}}
 								/>
 							</div>
 						)}
