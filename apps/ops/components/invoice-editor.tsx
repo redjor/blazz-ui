@@ -15,6 +15,7 @@ import { Plus, Trash2 } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react"
 import { toast } from "sonner"
+import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -742,7 +743,7 @@ function LinesSection({
 	dispatch: React.Dispatch<LineAction>
 	isReadOnly: boolean
 	clientId: string
-	availableProjects: Array<{ _id: string; name: string }>
+	availableProjects: Array<{ _id: string; name: string; icon?: string; color?: string }>
 	addingProjectId: string | null
 	setAddingProjectId: (v: string | null) => void
 	allProjects: Array<{ _id: Id<"projects">; name: string; tjm: number; hoursPerDay: number }>
@@ -771,8 +772,11 @@ function LinesSection({
 								</SelectTrigger>
 								<SelectContent>
 									{availableProjects.map((p) => (
-										<SelectItem key={p._id} value={p._id}>
-											{p.name}
+										<SelectItem key={p._id} value={p._id} label={p.name}>
+											<InlineStack gap="200" blockAlign="center">
+												<ProjectIcon icon={p.icon} color={p.color} size="xs" />
+												<span>{p.name}</span>
+											</InlineStack>
 										</SelectItem>
 									))}
 								</SelectContent>
