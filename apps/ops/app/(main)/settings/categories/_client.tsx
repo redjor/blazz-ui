@@ -15,7 +15,7 @@ import { useState } from "react"
 import { ColorPicker, IconPicker } from "@/components/icon-picker"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import { getIcon } from "@/lib/icon-palette"
+import { getIcon, ICON_COLOR_MAP } from "@/lib/icon-palette"
 
 // ---------------------------------------------------------------------------
 // Sub-components
@@ -39,18 +39,7 @@ function CategoryIcon({ iconId, color }: { iconId?: string; color?: string }) {
 	const Icon = getIcon(iconId)
 	if (!Icon) return <CategoryDot color={color} />
 
-	const textColorMap: Record<string, string> = {
-		indigo: "text-indigo-500",
-		violet: "text-violet-500",
-		rose: "text-rose-500",
-		orange: "text-orange-500",
-		amber: "text-amber-500",
-		emerald: "text-emerald-500",
-		sky: "text-sky-500",
-		zinc: "text-zinc-400",
-	}
-
-	return <Icon className={`size-4 shrink-0 ${textColorMap[color ?? "zinc"] ?? textColorMap.zinc}`} />
+	return <Icon className={`size-4 shrink-0 ${ICON_COLOR_MAP[color ?? "zinc"] ?? ICON_COLOR_MAP.zinc}`} />
 }
 
 // ---------------------------------------------------------------------------
