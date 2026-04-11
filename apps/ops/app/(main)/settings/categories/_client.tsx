@@ -5,7 +5,6 @@ import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@blazz/ui/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@blazz/ui/components/ui/dropdown-menu"
-import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@blazz/ui/components/ui/item"
 import { useMutation, useQuery } from "convex/react"
@@ -13,9 +12,10 @@ import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
 import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react"
 import { useState } from "react"
-import { CATEGORY_COLORS, CATEGORY_ICONS, getCategoryIcon } from "@/components/manage-categories-sheet"
+import { ColorPicker, IconPicker } from "@/components/icon-picker"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { getIcon } from "@/lib/icon-palette"
 
 // ---------------------------------------------------------------------------
 // Sub-components
@@ -36,7 +36,7 @@ function CategoryDot({ color }: { color?: string }) {
 }
 
 function CategoryIcon({ iconId, color }: { iconId?: string; color?: string }) {
-	const Icon = getCategoryIcon(iconId)
+	const Icon = getIcon(iconId)
 	if (!Icon) return <CategoryDot color={color} />
 
 	const textColorMap: Record<string, string> = {
@@ -51,57 +51,6 @@ function CategoryIcon({ iconId, color }: { iconId?: string; color?: string }) {
 	}
 
 	return <Icon className={`size-4 shrink-0 ${textColorMap[color ?? "zinc"] ?? textColorMap.zinc}`} />
-}
-
-function ColorPicker({ value, onChange }: { value: string; onChange: (color: string) => void }) {
-	return (
-		<InlineStack gap="100" wrap>
-			{CATEGORY_COLORS.map((c) => (
-				<button
-					key={c.id}
-					type="button"
-					onClick={() => onChange(c.id)}
-					className={`size-6 rounded-full border-2 transition-all ${c.bg} ${value === c.id ? "border-fg scale-110" : "border-transparent"}`}
-					title={c.label}
-				/>
-			))}
-		</InlineStack>
-	)
-}
-
-function IconPicker({ value, onChange, color }: { value: string; onChange: (icon: string) => void; color: string }) {
-	const textColorMap: Record<string, string> = {
-		indigo: "text-indigo-500",
-		violet: "text-violet-500",
-		rose: "text-rose-500",
-		orange: "text-orange-500",
-		amber: "text-amber-500",
-		emerald: "text-emerald-500",
-		sky: "text-sky-500",
-		zinc: "text-zinc-400",
-	}
-	const iconColor = textColorMap[color] ?? textColorMap.zinc
-
-	return (
-		<div className="grid grid-cols-8 gap-1">
-			{CATEGORY_ICONS.map((item) => {
-				const isSelected = value === item.id
-				return (
-					<button
-						key={item.id}
-						type="button"
-						onClick={() => onChange(item.id)}
-						className={`flex items-center justify-center size-8 rounded-md transition-all ${
-							isSelected ? `bg-muted ring-1 ring-edge ${iconColor}` : "text-fg-muted hover:bg-card hover:text-fg-secondary"
-						}`}
-						title={item.label}
-					>
-						<item.icon className="size-4" />
-					</button>
-				)
-			})}
-		</div>
-	)
 }
 
 // ---------------------------------------------------------------------------
