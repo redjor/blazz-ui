@@ -23,7 +23,7 @@ export function ColorPicker({ value, onChange }: ColorPickerProps) {
 					key={c.id}
 					type="button"
 					onClick={() => onChange(c.id)}
-					className={`size-6 rounded-full border-2 transition-all ${c.bg} ${value === c.id ? "border-fg scale-110" : "border-transparent"}`}
+					className={`size-6 rounded-full border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand ${c.bg} ${value === c.id ? "border-fg scale-110" : "border-transparent"}`}
 					title={c.label}
 					aria-label={c.label}
 					aria-pressed={value === c.id}
@@ -82,7 +82,7 @@ interface IconPickerTileProps {
 }
 
 export function IconPickerTile({ icon, color, size = "md" }: IconPickerTileProps) {
-	const Icon = getIcon(icon) ?? getIcon("folder")!
+	const Icon = getIcon(icon) ?? ICON_SET[0].icon
 	const classes = getIconColorClasses(color)
 	const sizeCls = size === "md" ? "size-10" : "size-8"
 	const iconCls = size === "md" ? "size-5" : "size-4"
@@ -119,19 +119,27 @@ export function IconPickerField({ icon, color, onIconChange, onColorChange, aria
 			<PopoverContent align="start" className="w-[320px] p-3">
 				<BlockStack gap="300">
 					<BlockStack gap="150">
-						<p className="text-xs font-medium text-fg-muted">Couleur</p>
-						<ColorPicker value={resolvedColor} onChange={onColorChange} />
+						<p id="icon-picker-color-label" className="text-xs font-medium text-fg-muted">
+							Couleur
+						</p>
+						<div role="group" aria-labelledby="icon-picker-color-label">
+							<ColorPicker value={resolvedColor} onChange={onColorChange} />
+						</div>
 					</BlockStack>
 					<BlockStack gap="150">
-						<p className="text-xs font-medium text-fg-muted">Icône</p>
-						<IconPicker
-							value={resolvedIcon}
-							color={resolvedColor}
-							onChange={(id) => {
-								onIconChange(id)
-								setOpen(false)
-							}}
-						/>
+						<p id="icon-picker-icon-label" className="text-xs font-medium text-fg-muted">
+							Icône
+						</p>
+						<div role="group" aria-labelledby="icon-picker-icon-label">
+							<IconPicker
+								value={resolvedIcon}
+								color={resolvedColor}
+								onChange={(id) => {
+									onIconChange(id)
+									setOpen(false)
+								}}
+							/>
+						</div>
 					</BlockStack>
 				</BlockStack>
 			</PopoverContent>
