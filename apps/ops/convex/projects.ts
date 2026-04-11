@@ -197,6 +197,8 @@ export const create = mutation({
 		status: statusValidator,
 		startDate: v.optional(v.string()),
 		endDate: v.optional(v.string()),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
 	},
 	handler: async (ctx, args) => {
 		const { userId } = await requireAuth(ctx)
@@ -218,6 +220,8 @@ export const update = mutation({
 		status: statusValidator,
 		startDate: v.optional(v.string()),
 		endDate: v.optional(v.string()),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
 	},
 	handler: async (ctx, { id, ...fields }) => {
 		const { userId } = await requireAuth(ctx)

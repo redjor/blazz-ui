@@ -153,6 +153,66 @@ describe("projects CRUD", () => {
 			})
 		).rejects.toThrow("Introuvable")
 	})
+
+	it("creates a project with icon and color", async () => {
+		const { asUser } = setup()
+		const clientId = await createClient(asUser)
+		const id = await asUser.mutation(api.projects.create, {
+			clientId,
+			name: "Website",
+			tjm: 800,
+			hoursPerDay: 8,
+			currency: "EUR",
+			status: "active",
+			icon: "briefcase",
+			color: "indigo",
+		})
+		const project = await asUser.query(api.projects.get, { id })
+		expect(project?.icon).toBe("briefcase")
+		expect(project?.color).toBe("indigo")
+	})
+
+	it("creates a project without icon and color (fields undefined)", async () => {
+		const { asUser } = setup()
+		const clientId = await createClient(asUser)
+		const id = await asUser.mutation(api.projects.create, {
+			clientId,
+			name: "No icon",
+			tjm: 800,
+			hoursPerDay: 8,
+			currency: "EUR",
+			status: "active",
+		})
+		const project = await asUser.query(api.projects.get, { id })
+		expect(project?.icon).toBeUndefined()
+		expect(project?.color).toBeUndefined()
+	})
+
+	it("updates icon and color on an existing project", async () => {
+		const { asUser } = setup()
+		const clientId = await createClient(asUser)
+		const id = await asUser.mutation(api.projects.create, {
+			clientId,
+			name: "Website",
+			tjm: 800,
+			hoursPerDay: 8,
+			currency: "EUR",
+			status: "active",
+		})
+		await asUser.mutation(api.projects.update, {
+			id,
+			name: "Website",
+			tjm: 800,
+			hoursPerDay: 8,
+			currency: "EUR",
+			status: "active",
+			icon: "code",
+			color: "emerald",
+		})
+		const project = await asUser.query(api.projects.get, { id })
+		expect(project?.icon).toBe("code")
+		expect(project?.color).toBe("emerald")
+	})
 })
 
 describe("projects listByClient", () => {
