@@ -61,9 +61,7 @@ export function CellRelativeDate({ value, locale = "fr-FR" }: CellRelativeDatePr
 
 	return (
 		<Tooltip>
-			<TooltipTrigger asChild>
-				<span className="text-body-md text-fg-muted cursor-default">{relative}</span>
-			</TooltipTrigger>
+			<TooltipTrigger render={<span className="text-body-md text-fg-muted cursor-default" />}>{relative}</TooltipTrigger>
 			<TooltipContent>{exact}</TooltipContent>
 		</Tooltip>
 	)

@@ -1,11 +1,8 @@
 "use client"
 
+import { cn, DateSelector, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui"
 import { AlertTriangle, Info, XCircle } from "lucide-react"
 import { useCallback, useRef, useState } from "react"
-import { cn } from "@blazz/ui"
-import { DateSelector } from "@blazz/ui"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@blazz/ui"
 import type { DataTableColumnDef } from "../data-table.types"
 import { DataTableColumnHeader } from "../data-table-column-header"
 
@@ -118,17 +115,7 @@ function useEditableCell<T>({
 		if (parsed !== value) {
 			onCellEdit(rowId, columnId, parsed)
 		}
-	}, [
-		localValue,
-		value,
-		rowId,
-		columnId,
-		onCellEdit,
-		parse,
-		validateOn,
-		runValidation,
-		validationResult,
-	])
+	}, [localValue, value, rowId, columnId, onCellEdit, parse, validateOn, runValidation, validationResult])
 
 	const handleChange = useCallback(
 		(newValue: string) => {
@@ -195,10 +182,8 @@ function ValidationFeedback({ result }: { result: CellValidationResult | null })
 	return (
 		<TooltipProvider delay={200}>
 			<Tooltip>
-				<TooltipTrigger asChild>
-					<span className="absolute right-1 top-1/2 -translate-y-1/2">
-						<ValidationIcon level={result.level} />
-					</span>
+				<TooltipTrigger render={<span className="absolute right-1 top-1/2 -translate-y-1/2" />}>
+					<ValidationIcon level={result.level} />
 				</TooltipTrigger>
 				<TooltipContent side="top" className="max-w-60 text-xs">
 					{result.message}
@@ -223,16 +208,7 @@ interface EditableTextCellProps {
 	validateOn?: "blur" | "change"
 }
 
-function EditableTextCell({
-	value,
-	rowId,
-	columnId,
-	onCellEdit,
-	placeholder,
-	className,
-	validate,
-	validateOn,
-}: EditableTextCellProps) {
+function EditableTextCell({ value, rowId, columnId, onCellEdit, placeholder, className, validate, validateOn }: EditableTextCellProps) {
 	const [editing, setEditing] = useState(false)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const {
@@ -283,11 +259,7 @@ function EditableTextCell({
 				onBlur={handleBlur}
 				onKeyDown={handleKeyDown}
 				placeholder={placeholder}
-				className={cn(
-					editInput,
-					validationResult && validationRingColor[validationResult.level],
-					className
-				)}
+				className={cn(editInput, validationResult && validationRingColor[validationResult.level], className)}
 			/>
 			<ValidationFeedback result={validationResult} />
 		</div>
@@ -314,18 +286,7 @@ const parseNumber = (raw: string): number | undefined => {
 	return Number.isNaN(n) ? undefined : n
 }
 
-function EditableNumberCell({
-	value,
-	rowId,
-	columnId,
-	onCellEdit,
-	min,
-	max,
-	step,
-	className,
-	validate,
-	validateOn,
-}: EditableNumberCellProps) {
+function EditableNumberCell({ value, rowId, columnId, onCellEdit, min, max, step, className, validate, validateOn }: EditableNumberCellProps) {
 	const [editing, setEditing] = useState(false)
 	const {
 		localValue,
@@ -376,12 +337,7 @@ function EditableNumberCell({
 				onChange={(e) => setLocalValue(e.target.value)}
 				onBlur={handleBlur}
 				onKeyDown={handleKeyDown}
-				className={cn(
-					editInput,
-					"text-right",
-					validationResult && validationRingColor[validationResult.level],
-					className
-				)}
+				className={cn(editInput, "text-right", validationResult && validationRingColor[validationResult.level], className)}
 			/>
 			<ValidationFeedback result={validationResult} />
 		</div>
@@ -402,17 +358,7 @@ interface EditableCurrencyCellProps {
 	validateOn?: "blur" | "change"
 }
 
-function EditableCurrencyCell({
-	value,
-	rowId,
-	columnId,
-	onCellEdit,
-	currency,
-	locale,
-	className,
-	validate,
-	validateOn,
-}: EditableCurrencyCellProps) {
+function EditableCurrencyCell({ value, rowId, columnId, onCellEdit, currency, locale, className, validate, validateOn }: EditableCurrencyCellProps) {
 	const [editing, setEditing] = useState(false)
 	const {
 		localValue,
@@ -468,12 +414,7 @@ function EditableCurrencyCell({
 				onChange={(e) => setLocalValue(e.target.value)}
 				onBlur={handleBlur}
 				onKeyDown={handleKeyDown}
-				className={cn(
-					editInput,
-					"text-right",
-					validationResult && validationRingColor[validationResult.level],
-					className
-				)}
+				className={cn(editInput, "text-right", validationResult && validationRingColor[validationResult.level], className)}
 			/>
 			<ValidationFeedback result={validationResult} />
 		</div>
@@ -493,15 +434,7 @@ interface EditableSelectCellProps {
 	validateOn?: "blur" | "change"
 }
 
-function EditableSelectCell({
-	value,
-	rowId,
-	columnId,
-	onCellEdit,
-	options,
-	className,
-	validate,
-}: EditableSelectCellProps) {
+function EditableSelectCell({ value, rowId, columnId, onCellEdit, options, className, validate }: EditableSelectCellProps) {
 	const [editing, setEditing] = useState(false)
 	const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null)
 	const selectedOption = options.find((opt) => opt.value === value)
@@ -546,14 +479,7 @@ function EditableSelectCell({
 					if (!open) setEditing(false)
 				}}
 			>
-				<SelectTrigger
-					className={cn(
-						editInput,
-						"!h-auto !rounded-none !border-0 !bg-transparent shadow-none",
-						validationResult && validationRingColor[validationResult.level],
-						className
-					)}
-				>
+				<SelectTrigger className={cn(editInput, "!h-auto !rounded-none !border-0 !bg-transparent shadow-none", validationResult && validationRingColor[validationResult.level], className)}>
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent alignItemWithTrigger={false} side="bottom">
@@ -590,14 +516,7 @@ function formatDateDisplay(value: string): string {
 	}
 }
 
-function EditableDateCell({
-	value,
-	rowId,
-	columnId,
-	onCellEdit,
-	className,
-	validate,
-}: EditableDateCellProps) {
+function EditableDateCell({ value, rowId, columnId, onCellEdit, className, validate }: EditableDateCellProps) {
 	const [editing, setEditing] = useState(false)
 	const [validationResult, setValidationResult] = useState<CellValidationResult | null>(null)
 
@@ -623,11 +542,7 @@ function EditableDateCell({
 	if (!editing) {
 		return (
 			<div className={cellWrapper}>
-				<button
-					type="button"
-					className={cn(idleCell, className)}
-					onClick={() => setEditing(true)}
-				>
+				<button type="button" className={cn(idleCell, className)} onClick={() => setEditing(true)}>
 					{value ? formatDateDisplay(value) : <span className="text-fg-muted">—</span>}
 				</button>
 				<ValidationFeedback result={validationResult} />
@@ -642,12 +557,7 @@ function EditableDateCell({
 				onValueChange={handleChange}
 				placeholder="—"
 				formatStr="dd/MM/yyyy"
-				className={cn(
-					editInput,
-					"!h-auto !rounded-none !border-0 !bg-transparent shadow-none",
-					validationResult && validationRingColor[validationResult.level],
-					className
-				)}
+				className={cn(editInput, "!h-auto !rounded-none !border-0 !bg-transparent shadow-none", validationResult && validationRingColor[validationResult.level], className)}
 			/>
 			<ValidationFeedback result={validationResult} />
 		</div>
@@ -662,19 +572,8 @@ function EditableDateCell({
  * Creates an editable text column.
  * Displays plain text when idle; shows an Input on click.
  */
-export function createEditableTextColumn<TData>(
-	config: EditableTextColumnConfig<TData>
-): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		placeholder,
-		className,
-		enableSorting = true,
-		onCellEdit,
-		validate,
-		validateOn,
-	} = config
+export function createEditableTextColumn<TData>(config: EditableTextColumnConfig<TData>): DataTableColumnDef<TData> {
+	const { accessorKey, title, placeholder, className, enableSorting = true, onCellEdit, validate, validateOn } = config
 
 	return {
 		accessorKey,
@@ -683,18 +582,7 @@ export function createEditableTextColumn<TData>(
 			const value = row.getValue(accessorKey) as string
 			const rowId = row.id
 
-			return (
-				<EditableTextCell
-					value={value}
-					rowId={rowId}
-					columnId={accessorKey}
-					onCellEdit={onCellEdit}
-					placeholder={placeholder}
-					className={className}
-					validate={validate}
-					validateOn={validateOn}
-				/>
-			)
+			return <EditableTextCell value={value} rowId={rowId} columnId={accessorKey} onCellEdit={onCellEdit} placeholder={placeholder} className={className} validate={validate} validateOn={validateOn} />
 		},
 		enableSorting,
 	} as DataTableColumnDef<TData>
@@ -704,21 +592,8 @@ export function createEditableTextColumn<TData>(
  * Creates an editable number column.
  * Displays the number as plain text when idle; shows an Input on click.
  */
-export function createEditableNumberColumn<TData>(
-	config: EditableNumberColumnConfig<TData>
-): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		min,
-		max,
-		step,
-		className,
-		enableSorting = true,
-		onCellEdit,
-		validate,
-		validateOn,
-	} = config
+export function createEditableNumberColumn<TData>(config: EditableNumberColumnConfig<TData>): DataTableColumnDef<TData> {
+	const { accessorKey, title, min, max, step, className, enableSorting = true, onCellEdit, validate, validateOn } = config
 
 	return {
 		accessorKey,
@@ -753,20 +628,8 @@ export function createEditableNumberColumn<TData>(
  * Creates an editable currency column.
  * Displays formatted currency when idle; shows a raw number input when editing.
  */
-export function createEditableCurrencyColumn<TData>(
-	config: EditableCurrencyColumnConfig<TData>
-): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		currency = "EUR",
-		locale = "fr-FR",
-		className,
-		enableSorting = true,
-		onCellEdit,
-		validate,
-		validateOn,
-	} = config
+export function createEditableCurrencyColumn<TData>(config: EditableCurrencyColumnConfig<TData>): DataTableColumnDef<TData> {
+	const { accessorKey, title, currency = "EUR", locale = "fr-FR", className, enableSorting = true, onCellEdit, validate, validateOn } = config
 
 	return {
 		accessorKey,
@@ -800,19 +663,8 @@ export function createEditableCurrencyColumn<TData>(
  * Creates an editable select column.
  * Displays the selected option label when idle; opens a Select on click.
  */
-export function createEditableSelectColumn<TData>(
-	config: EditableSelectColumnConfig<TData>
-): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		options,
-		className,
-		enableSorting = true,
-		onCellEdit,
-		validate,
-		validateOn,
-	} = config
+export function createEditableSelectColumn<TData>(config: EditableSelectColumnConfig<TData>): DataTableColumnDef<TData> {
+	const { accessorKey, title, options, className, enableSorting = true, onCellEdit, validate, validateOn } = config
 
 	return {
 		accessorKey,
@@ -821,18 +673,7 @@ export function createEditableSelectColumn<TData>(
 			const value = row.getValue(accessorKey) as string
 			const rowId = row.id
 
-			return (
-				<EditableSelectCell
-					value={value}
-					rowId={rowId}
-					columnId={accessorKey}
-					onCellEdit={onCellEdit}
-					options={options}
-					className={className}
-					validate={validate}
-					validateOn={validateOn}
-				/>
-			)
+			return <EditableSelectCell value={value} rowId={rowId} columnId={accessorKey} onCellEdit={onCellEdit} options={options} className={className} validate={validate} validateOn={validateOn} />
 		},
 		enableSorting,
 	} as DataTableColumnDef<TData>
@@ -842,18 +683,8 @@ export function createEditableSelectColumn<TData>(
  * Creates an editable date column.
  * Displays a formatted date when idle; shows an Input[type=date] on click.
  */
-export function createEditableDateColumn<TData>(
-	config: EditableDateColumnConfig<TData>
-): DataTableColumnDef<TData> {
-	const {
-		accessorKey,
-		title,
-		className,
-		enableSorting = true,
-		onCellEdit,
-		validate,
-		validateOn,
-	} = config
+export function createEditableDateColumn<TData>(config: EditableDateColumnConfig<TData>): DataTableColumnDef<TData> {
+	const { accessorKey, title, className, enableSorting = true, onCellEdit, validate, validateOn } = config
 
 	return {
 		accessorKey,
@@ -862,17 +693,7 @@ export function createEditableDateColumn<TData>(
 			const value = row.getValue(accessorKey) as string
 			const rowId = row.id
 
-			return (
-				<EditableDateCell
-					value={value}
-					rowId={rowId}
-					columnId={accessorKey}
-					onCellEdit={onCellEdit}
-					className={className}
-					validate={validate}
-					validateOn={validateOn}
-				/>
-			)
+			return <EditableDateCell value={value} rowId={rowId} columnId={accessorKey} onCellEdit={onCellEdit} className={className} validate={validate} validateOn={validateOn} />
 		},
 		enableSorting,
 	} as DataTableColumnDef<TData>

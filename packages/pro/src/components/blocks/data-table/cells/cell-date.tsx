@@ -1,7 +1,6 @@
 "use client"
 
-import { cn } from "@blazz/ui"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui"
+import { cn, Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui"
 
 export interface CellDateProps {
 	/** Date value as string or Date object */
@@ -45,11 +44,7 @@ export function CellDate({ value, locale = "fr-FR", format, className }: CellDat
 
 	return (
 		<Tooltip>
-			<TooltipTrigger asChild>
-				<span className={cn("text-body-md text-fg-muted cursor-default", className)}>
-					{formatted}
-				</span>
-			</TooltipTrigger>
+			<TooltipTrigger render={<span className={cn("text-body-md text-fg-muted cursor-default", className)} />}>{formatted}</TooltipTrigger>
 			<TooltipContent>{exact}</TooltipContent>
 		</Tooltip>
 	)
