@@ -157,7 +157,18 @@ export default function ProjectOverviewPage({ params }: Props) {
 						<CardContent className="p-4">
 							<p className="text-xs text-fg-muted mb-1">Temps passé</p>
 							<p className="text-xl font-semibold font-pixel">{formatMinutes(stats.totalMinutes)}</p>
-							<p className="text-xs text-fg-muted mt-1 tabular-nums">{(stats.totalMinutes / (project.hoursPerDay * 60)).toFixed(1).replace(".", ",")} jours</p>
+							{(() => {
+								const daysConsumed = project.hoursPerDay > 0 ? stats.totalMinutes / (project.hoursPerDay * 60) : 0
+								const daysTotal = project.budgetAmount && project.tjm > 0 ? project.budgetAmount / project.tjm : null
+								const daysRemaining = daysTotal !== null ? daysTotal - daysConsumed : null
+								const fmt = (n: number) => (Math.round(n * 10) / 10).toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+								return (
+									<p className="text-xs text-fg-muted mt-1 tabular-nums">
+										{fmt(daysConsumed)} jours
+										{daysRemaining !== null && ` · reste ${fmt(daysRemaining)}j`}
+									</p>
+								)
+							})()}
 						</CardContent>
 					</Card>
 				</div>
