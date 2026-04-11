@@ -1,6 +1,5 @@
 "use client"
 
-import { PageHeader } from "@blazz/pro/components/blocks/page-header"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Card, CardContent } from "@blazz/ui/components/ui/card"
@@ -16,6 +15,7 @@ import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
 import { FavoriteButton } from "@/components/favorite-button"
 import { ProjectForm } from "@/components/project-form"
+import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 import { computeBudgetMetrics } from "@/lib/budget"
@@ -116,17 +116,18 @@ export default function ProjectOverviewPage({ params }: Props) {
 		<>
 			<BlockStack gap="800" className="p-6">
 				<BlockStack gap="150">
-					<PageHeader
-						title={project.name}
-						actions={
-							<InlineStack gap="200" blockAlign="center">
-								<FavoriteButton entityType="project" entityId={pid} label={project.name} />
-								<Button variant="outline" onClick={() => setEditOpen(true)}>
-									Modifier
-								</Button>
-							</InlineStack>
-						}
-					/>
+					<InlineStack align="space-between" blockAlign="center" gap="400">
+						<InlineStack blockAlign="center" gap="300" className="min-w-0">
+							<ProjectIcon icon={project.icon} color={project.color} size="md" />
+							<h1 className="text-lg font-semibold leading-normal text-fg truncate">{project.name}</h1>
+						</InlineStack>
+						<InlineStack gap="200" blockAlign="center" className="shrink-0">
+							<FavoriteButton entityType="project" entityId={pid} label={project.name} />
+							<Button variant="outline" onClick={() => setEditOpen(true)}>
+								Modifier
+							</Button>
+						</InlineStack>
+					</InlineStack>
 					<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted">
 						<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
 						{statusLabel[project.status]}
