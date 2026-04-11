@@ -4,6 +4,7 @@ import { Button } from "@blazz/ui/components/ui/button"
 import { Checkbox } from "@blazz/ui/components/ui/checkbox"
 import { DateSelector } from "@blazz/ui/components/ui/date-selector"
 import { DialogFooter } from "@blazz/ui/components/ui/dialog"
+import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Input } from "@blazz/ui/components/ui/input"
 import { Label } from "@blazz/ui/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
@@ -14,6 +15,7 @@ import { format, parseISO } from "date-fns"
 import { type Resolver, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+import { ProjectIcon } from "@/components/project-icon"
 import { TagInput } from "@/components/tag-input"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -144,19 +146,31 @@ export function TimeEntryForm({ defaultValues, defaultDate, onSuccess, onCancel 
 					value={watch("projectId") ?? ""}
 					onValueChange={(v) => setValue("projectId", v ?? "")}
 					items={
-						projects?.map((p: { _id: string; name: string }) => ({
+						projects?.map((p: { _id: string; name: string; icon?: string; color?: string }) => ({
 							value: p._id,
 							label: p.name,
 						})) ?? []
 					}
 				>
 					<SelectTrigger className="w-full">
-						<SelectValue placeholder="Choisir un projet…" />
+						{(() => {
+							const selected = projects?.find((p: { _id: string; name: string; icon?: string; color?: string }) => p._id === watch("projectId"))
+							if (!selected) return <SelectValue placeholder="Choisir un projet…" />
+							return (
+								<InlineStack gap="200" blockAlign="center">
+									<ProjectIcon icon={selected.icon} color={selected.color} size="xs" />
+									<span className="truncate">{selected.name}</span>
+								</InlineStack>
+							)
+						})()}
 					</SelectTrigger>
 					<SelectContent>
-						{projects?.map((p: { _id: string; name: string }) => (
+						{projects?.map((p: { _id: string; name: string; icon?: string; color?: string }) => (
 							<SelectItem key={p._id} value={p._id} label={p.name}>
-								{p.name}
+								<InlineStack gap="200" blockAlign="center">
+									<ProjectIcon icon={p.icon} color={p.color} size="xs" />
+									<span>{p.name}</span>
+								</InlineStack>
 							</SelectItem>
 						))}
 					</SelectContent>
