@@ -26,7 +26,7 @@ function formatCompact(value: number): string {
 function ChartTooltip({ active, payload, label, isCurrency = true }: { active?: boolean; payload?: Array<{ value: number; dataKey: string; color: string }>; label?: string; isCurrency?: boolean }) {
 	if (!active || !payload?.length) return null
 	return (
-		<div className="rounded-md border border-edge bg-raised px-3 py-2 text-[13px] shadow-sm">
+		<div className="rounded-md border border-edge bg-popover px-3 py-2 text-[13px] shadow-md">
 			<p className="mb-1 font-medium text-fg">{label}</p>
 			{payload.map((entry) => (
 				<InlineStack key={entry.dataKey} gap="100" blockAlign="center" className="text-fg-secondary">
@@ -233,7 +233,7 @@ export default function GoalsPageClient() {
 									<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" />
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" tickFormatter={formatCompact} />
-									<Tooltip content={<ChartTooltip />} />
+									<Tooltip content={<ChartTooltip />} cursor={{ fill: "var(--color-fg)", fillOpacity: 0.06 }} />
 									<Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }} />
 									<Bar dataKey="cible" name="Cible" fill="var(--color-fg-muted)" opacity={0.2} radius={[4, 4, 0, 0]} />
 									<Bar dataKey="réel" name="Réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
@@ -253,7 +253,7 @@ export default function GoalsPageClient() {
 									<CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" />
 									<XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" />
 									<YAxis tick={{ fontSize: 12 }} stroke="var(--color-fg-muted)" tickFormatter={(v) => `${v}j`} />
-									<Tooltip content={<ChartTooltip isCurrency={false} />} />
+									<Tooltip content={<ChartTooltip isCurrency={false} />} cursor={{ fill: "var(--color-fg)", fillOpacity: 0.06 }} />
 									<Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, color: "var(--color-fg-muted)" }} />
 									<Bar dataKey="cible" name="Cible" fill="var(--color-fg-muted)" opacity={0.2} radius={[4, 4, 0, 0]} />
 									<Bar dataKey="réel" name="Réel" fill="var(--color-brand)" radius={[4, 4, 0, 0]} />
