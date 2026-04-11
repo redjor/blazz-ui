@@ -8,18 +8,21 @@ import { Settings2, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import { ICON_COLORS as CATEGORY_COLORS, DOT_COLOR_MAP, getIcon as getCategoryIcon, ICON_COLOR_MAP } from "@/lib/icon-palette"
-
-// Ré-exports depuis le module partagé — conserve les anciens noms pour les
-// call sites existants (todos, chat, catégories...). À migrer progressivement.
-export {
-	DOT_COLOR_MAP,
-	getIcon as getCategoryIcon,
-	getIconColorClasses as getCategoryColorClasses,
-	ICON_COLOR_MAP,
+// Import everything we need from the shared icon palette module.
+// Aliases preserve the legacy `Category*` names so downstream callers
+// (todos, chat, edit-todo dialog…) keep working without modification.
+import {
 	ICON_COLORS as CATEGORY_COLORS,
 	ICON_SET as CATEGORY_ICONS,
+	DOT_COLOR_MAP,
+	getIconColorClasses as getCategoryColorClasses,
+	getIcon as getCategoryIcon,
+	ICON_COLOR_MAP,
 } from "@/lib/icon-palette"
+
+// Re-export the legacy names so downstream callers can keep importing
+// from this file. To be migrated progressively to `@/lib/icon-palette`.
+export { CATEGORY_COLORS, CATEGORY_ICONS, DOT_COLOR_MAP, getCategoryColorClasses, getCategoryIcon, ICON_COLOR_MAP }
 
 export function CategoryBadge({ name, color, icon }: { name: string; color?: string; icon?: string }) {
 	const Icon = getCategoryIcon(icon)
