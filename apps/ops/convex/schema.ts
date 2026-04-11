@@ -32,6 +32,8 @@ export default defineSchema({
 		startDate: v.optional(v.string()),
 		endDate: v.optional(v.string()),
 		tags: v.optional(v.array(v.id("tags"))),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
 		createdAt: v.number(),
 	})
 		.index("by_client", ["clientId"])

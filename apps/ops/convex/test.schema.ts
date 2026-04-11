@@ -32,6 +32,8 @@ export default defineSchema({
 		status: v.union(v.literal("active"), v.literal("paused"), v.literal("closed")),
 		startDate: v.optional(v.string()),
 		endDate: v.optional(v.string()),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
 		createdAt: v.number(),
 	})
 		.index("by_client", ["clientId"])
