@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values"
+import type { Id } from "./_generated/dataModel"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
@@ -109,6 +110,34 @@ export const update = mutation({
 		applyNotePatchField(patch, "locked", locked)
 		if (tags !== undefined) patch.tags = tags
 		return ctx.db.patch(id, patch)
+	},
+})
+
+export const move = mutation({
+	args: {
+		id: v.id("notes"),
+		entityType: entityTypeValidator,
+		entityId: v.optional(v.string()),
+	},
+	handler: async (ctx, { id, entityType, entityId }) => {
+		const { userId } = await requireAuth(ctx)
+		const note = await ctx.db.get(id)
+		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
+
+		// "general" notes have no linked entity
+		const normalizedEntityId = entityType === "general" ? undefined : entityId
+
+		// If moving to a project, validate ownership of the target project
+		if (entityType === "project" && normalizedEntityId) {
+			const project = await ctx.db.get(normalizedEntityId as Id<"projects">)
+			if (!project || project.userId !== userId) throw new ConvexError("Projet introuvable")
+		}
+
+		return ctx.db.patch(id, {
+			entityType,
+			entityId: normalizedEntityId,
+			updatedAt: Date.now(),
+		})
 	},
 })
 

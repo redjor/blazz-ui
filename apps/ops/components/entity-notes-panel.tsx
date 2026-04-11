@@ -1,9 +1,11 @@
 "use client"
 
 import { useTabTitle } from "@blazz/tabs"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@blazz/ui/components/ui/command"
 import { ConfirmationDialog } from "@blazz/ui/components/ui/confirmation-dialog"
 import { Empty } from "@blazz/ui/components/ui/empty"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
+import { Popover, PopoverContent, PopoverTrigger } from "@blazz/ui/components/ui/popover"
 import { ScrollArea } from "@blazz/ui/components/ui/scroll-area"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@blazz/ui/components/ui/tooltip"
@@ -12,7 +14,7 @@ import type { Editor, JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import { FileText, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
+import { FileText, Folder, FolderInput, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import type { ChangeEvent } from "react"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -164,13 +166,58 @@ function getDisplayTitle(note: Doc<"notes">) {
 	return title || "Nouvelle note"
 }
 
-function buildTreeData(noteList: Doc<"notes">[], scope: NotesScope): TreeNode[] {
+function collectExpandableGroupIds(nodes: TreeNode[]): string[] {
+	const ids: string[] = []
+	for (const node of nodes) {
+		if (!node.children) continue
+		ids.push(node.id)
+		for (const child of node.children) {
+			if (child.children) ids.push(child.id)
+		}
+	}
+	return ids
+}
+
+function noteToTreeNode(note: Doc<"notes">): TreeNode {
+	return {
+		id: note._id,
+		label: getDisplayTitle(note),
+		icon: note.pinned ? <Pin className="size-3.5 text-amber-500" /> : <FileText className="size-3.5" />,
+	}
+}
+
+function buildProjectChildren(projectNotes: Doc<"notes">[], projects: Doc<"projects">[] | undefined): TreeNode[] {
+	const projectMap = new Map(projects?.map((p) => [p._id as string, p]) ?? [])
+	const byProject = new Map<string, Doc<"notes">[]>()
+	const orphans: Doc<"notes">[] = []
+	for (const note of projectNotes) {
+		if (!note.entityId) {
+			orphans.push(note)
+			continue
+		}
+		if (!byProject.has(note.entityId)) byProject.set(note.entityId, [])
+		byProject.get(note.entityId)!.push(note)
+	}
+
+	const sortedProjectIds = [...byProject.keys()].sort((a, b) => {
+		const nameA = projectMap.get(a)?.name ?? "~"
+		const nameB = projectMap.get(b)?.name ?? "~"
+		return nameA.localeCompare(nameB, "fr")
+	})
+
+	const children: TreeNode[] = sortedProjectIds.map((projectId) => ({
+		id: `project:${projectId}`,
+		label: projectMap.get(projectId)?.name ?? "Projet supprimé",
+		icon: <FolderOpen className="size-3.5" />,
+		children: byProject.get(projectId)!.map(noteToTreeNode),
+	}))
+	for (const orphan of orphans) children.push(noteToTreeNode(orphan))
+	return children
+}
+
+function buildTreeData(noteList: Doc<"notes">[], scope: NotesScope, projects: Doc<"projects">[] | undefined): TreeNode[] {
 	if (scope === "entity") {
-		return noteList.map((note) => ({
-			id: note._id,
-			label: getDisplayTitle(note),
-			icon: note.pinned ? <Pin className="size-3.5 text-amber-500" /> : <FileText className="size-3.5" />,
-		}))
+		return noteList.map(noteToTreeNode)
 	}
 
 	const groups = new Map<NoteEntityType, Doc<"notes">[]>()
@@ -182,15 +229,12 @@ function buildTreeData(noteList: Doc<"notes">[], scope: NotesScope): TreeNode[] 
 
 	const tree: TreeNode[] = []
 	for (const [type, notes] of groups) {
+		const children = type === "project" ? buildProjectChildren(notes, projects) : notes.map(noteToTreeNode)
 		tree.push({
 			id: `group:${type}`,
 			label: ENTITY_TYPE_LABELS[type] ?? type,
 			icon: <FolderOpen className="size-3.5" />,
-			children: notes.map((note) => ({
-				id: note._id,
-				label: getDisplayTitle(note),
-				icon: note.pinned ? <Pin className="size-3.5 text-amber-500" /> : <FileText className="size-3.5" />,
-			})),
+			children,
 		})
 	}
 
@@ -218,9 +262,11 @@ export function EntityNotesPanel({
 	const entityNotes = useQuery(api.notes.listByEntity, { entityType, entityId })
 	const recentNotes = useQuery(api.notes.listRecent, {})
 	const allTags = useQuery(api.tags.list)
+	const allProjects = useQuery(api.projects.listAll)
 	const createNote = useMutation(api.notes.create)
 	const updateNote = useMutation(api.notes.update)
 	const archiveNote = useMutation(api.notes.archive)
+	const moveNote = useMutation(api.notes.move)
 
 	const router = useRouter()
 
@@ -236,6 +282,7 @@ export function EntityNotesPanel({
 		content: "idle",
 	})
 	const [expandedGroups, setExpandedGroups] = useState<string[]>([])
+	const [moveOpen, setMoveOpen] = useState(false)
 
 	const saveTimeouts = useRef<Record<SaveField, ReturnType<typeof setTimeout> | null>>({
 		title: null,
@@ -265,16 +312,16 @@ export function EntityNotesPanel({
 	const noteList = notes ?? []
 	const selectedNote = useMemo(() => noteList.find((note) => note._id === selectedNoteId) ?? null, [noteList, selectedNoteId])
 
-	const treeData = useMemo(() => buildTreeData(noteList, scope), [noteList, scope])
+	const treeData = useMemo(() => buildTreeData(noteList, scope, allProjects), [noteList, scope, allProjects])
 
 	// Update browser tab title with selected note
 	useTabTitle(scope === "all" && selectedNote ? `Notes · ${getDisplayTitle(selectedNote)}` : "Notes")
 
-	// Auto-expand all groups on first load
+	// Auto-expand all groups (and nested project sub-groups) on first load
 	useEffect(() => {
 		if (notes === undefined || expandedGroups.length > 0) return
-		const groupIds = treeData.filter((n) => n.children).map((n) => n.id)
-		if (groupIds.length > 0) setExpandedGroups(groupIds)
+		const ids = collectExpandableGroupIds(treeData)
+		if (ids.length > 0) setExpandedGroups(ids)
 	}, [notes, treeData, expandedGroups.length])
 
 	useEffect(() => {
@@ -426,9 +473,33 @@ export function EntityNotesPanel({
 		}
 	}
 
+	async function handleMoveToGeneral() {
+		if (!selectedNote) return
+		setMoveOpen(false)
+		await moveNote({ id: selectedNote._id, entityType: "general" })
+	}
+
+	async function handleMoveToProject(projectId: Id<"projects">) {
+		if (!selectedNote) return
+		setMoveOpen(false)
+		await moveNote({ id: selectedNote._id, entityType: "project", entityId: projectId })
+	}
+
+	const currentProject = useMemo(() => {
+		if (!selectedNote || selectedNote.entityType !== "project" || !selectedNote.entityId) return null
+		return allProjects?.find((p) => p._id === selectedNote.entityId) ?? null
+	}, [selectedNote, allProjects])
+
+	const currentLocationLabel = useMemo(() => {
+		if (!selectedNote) return null
+		if (selectedNote.entityType === "general") return "Général"
+		if (selectedNote.entityType === "project") return currentProject?.name ?? "Projet"
+		return ENTITY_TYPE_LABELS[selectedNote.entityType as NoteEntityType] ?? selectedNote.entityType
+	}, [selectedNote, currentProject])
+
 	function handleTreeSelect(ids: string[]) {
 		const id = ids[0]
-		if (!id || id.startsWith("group:")) return
+		if (!id || id.startsWith("group:") || id.startsWith("project:")) return
 		setSelectedNoteId(id as Id<"notes">)
 	}
 
@@ -533,6 +604,43 @@ export function EntityNotesPanel({
 									<span>{selectedNote.locked ? "Verrouillée" : "Verrouiller"}</span>
 								</button>
 								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
+								<Popover open={moveOpen} onOpenChange={setMoveOpen}>
+									<PopoverTrigger
+										render={<button type="button" className="flex max-w-[160px] items-center gap-1 rounded-md px-2 py-1 text-xs text-fg-muted transition-colors hover:bg-card hover:text-fg" />}
+									>
+										<FolderInput className="size-3 shrink-0" />
+										<span className="truncate">{currentLocationLabel ?? "Déplacer"}</span>
+									</PopoverTrigger>
+									<PopoverContent align="start" className="w-64 p-0">
+										<Command>
+											<CommandInput placeholder="Rechercher un projet…" />
+											<CommandList>
+												<CommandEmpty>Aucun projet</CommandEmpty>
+												<CommandGroup>
+													<CommandItem value="general" onSelect={() => void handleMoveToGeneral()} className="gap-2">
+														<Folder className="size-3.5" />
+														<span className="flex-1 truncate">Général</span>
+														{selectedNote.entityType === "general" ? <span className="text-fg-muted">✓</span> : null}
+													</CommandItem>
+												</CommandGroup>
+												{allProjects && allProjects.length > 0 ? (
+													<CommandGroup heading="Projets">
+														{allProjects.map((project) => {
+															const isCurrent = selectedNote.entityType === "project" && selectedNote.entityId === project._id
+															return (
+																<CommandItem key={project._id} value={`project ${project.name}`} onSelect={() => void handleMoveToProject(project._id)} className="gap-2">
+																	<FolderOpen className="size-3.5" />
+																	<span className="flex-1 truncate">{project.name}</span>
+																	{isCurrent ? <span className="text-fg-muted">✓</span> : null}
+																</CommandItem>
+															)
+														})}
+													</CommandGroup>
+												) : null}
+											</CommandList>
+										</Command>
+									</PopoverContent>
+								</Popover>
 								{compositeState !== "idle" ? (
 									<span className="flex items-center gap-1.5">
 										{compositeState === "saving" || compositeState === "pending" ? <Loader2 className="size-3 animate-spin" /> : null}
@@ -604,7 +712,7 @@ export function EntityNotesPanel({
 										{scope === "all" && selectedNote.entityType !== "general" ? (
 											<>
 												{" · "}
-												<span className="uppercase tracking-wide">{selectedNote.entityType}</span>
+												<span>{currentLocationLabel}</span>
 											</>
 										) : null}
 									</p>

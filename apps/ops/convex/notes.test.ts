@@ -108,6 +108,93 @@ describe("notes by entity", () => {
 	})
 })
 
+describe("notes move", () => {
+	async function createProject(asUser: ReturnType<typeof setup>["asUser"], name = "Projet A") {
+		const clientId = await asUser.mutation(api.clients.create, { name: "C" })
+		return asUser.mutation(api.projects.create, {
+			clientId,
+			name,
+			tjm: 500,
+			hoursPerDay: 7,
+			currency: "EUR",
+			status: "active",
+		})
+	}
+
+	it("moves a general note into a project", async () => {
+		const { asUser } = setup()
+		const projectId = await createProject(asUser)
+		const id = await asUser.mutation(api.notes.create, {
+			entityType: "general",
+			title: "Draft",
+		})
+		await asUser.mutation(api.notes.move, {
+			id,
+			entityType: "project",
+			entityId: projectId,
+		})
+		const projectNotes = await asUser.query(api.notes.listByEntity, {
+			entityType: "project",
+			entityId: projectId,
+		})
+		expect(projectNotes).toHaveLength(1)
+		expect(projectNotes[0]._id).toBe(id)
+	})
+
+	it("moves a project note back to general", async () => {
+		const { asUser } = setup()
+		const projectId = await createProject(asUser)
+		const id = await asUser.mutation(api.notes.create, {
+			entityType: "project",
+			entityId: projectId,
+			title: "Note",
+		})
+		await asUser.mutation(api.notes.move, { id, entityType: "general" })
+		const generalNotes = await asUser.query(api.notes.listByEntity, {
+			entityType: "general",
+		})
+		expect(generalNotes).toHaveLength(1)
+		expect(generalNotes[0]._id).toBe(id)
+	})
+
+	it("rejects moving another user's note", async () => {
+		const { t } = setup()
+		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
+		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+		const id = await user1.mutation(api.notes.create, {
+			entityType: "general",
+			title: "Mine",
+		})
+		await expect(user2.mutation(api.notes.move, { id, entityType: "general" })).rejects.toThrow("Introuvable")
+	})
+
+	it("rejects moving into a project owned by another user", async () => {
+		const { t } = setup()
+		const user1 = t.withIdentity({ subject: "user1", issuer: "https://auth.test" })
+		const user2 = t.withIdentity({ subject: "user2", issuer: "https://auth.test" })
+		const clientId = await user2.mutation(api.clients.create, { name: "Other" })
+		const projectId = await user2.mutation(api.projects.create, {
+			clientId,
+			name: "Other project",
+			tjm: 500,
+			hoursPerDay: 7,
+			currency: "EUR",
+			status: "active",
+		})
+		const id = await user1.mutation(api.notes.create, {
+			entityType: "general",
+			title: "Mine",
+		})
+		await expect(
+			user1.mutation(api.notes.move, {
+				id,
+				entityType: "project",
+				entityId: projectId,
+			})
+		).rejects.toThrow("Projet introuvable")
+	})
+})
+
 describe("notes pinning", () => {
 	it("pinned notes appear first", async () => {
 		const { asUser } = setup()
