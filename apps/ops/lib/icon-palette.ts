@@ -38,21 +38,25 @@ export interface IconColorDef {
 	bg: string
 	/** Classes Tailwind pour la couleur du texte/icon sur la tuile */
 	text: string
+	/** Classe bg-* pour les dots inline */
+	dot: string
+	/** Classe text-* pour les icons inline */
+	iconText: string
 }
 
 export const ICON_COLORS: IconColorDef[] = [
-	{ id: "indigo", label: "Indigo", bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400" },
-	{ id: "violet", label: "Violet", bg: "bg-violet-100 dark:bg-violet-900/30", text: "text-violet-700 dark:text-violet-400" },
-	{ id: "rose", label: "Rose", bg: "bg-rose-100 dark:bg-rose-900/30", text: "text-rose-700 dark:text-rose-400" },
-	{ id: "orange", label: "Orange", bg: "bg-orange-100 dark:bg-orange-900/30", text: "text-orange-700 dark:text-orange-400" },
-	{ id: "amber", label: "Ambre", bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400" },
-	{ id: "emerald", label: "Émeraude", bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-400" },
-	{ id: "sky", label: "Ciel", bg: "bg-sky-100 dark:bg-sky-900/30", text: "text-sky-700 dark:text-sky-400" },
-	{ id: "zinc", label: "Zinc", bg: "bg-zinc-100 dark:bg-zinc-800", text: "text-zinc-700 dark:text-zinc-300" },
+	{ id: "indigo", label: "Indigo", bg: "bg-indigo-100 dark:bg-indigo-900/30", text: "text-indigo-700 dark:text-indigo-400", dot: "bg-indigo-500", iconText: "text-indigo-500" },
+	{ id: "violet", label: "Violet", bg: "bg-violet-100 dark:bg-violet-900/30", text: "text-violet-700 dark:text-violet-400", dot: "bg-violet-500", iconText: "text-violet-500" },
+	{ id: "rose", label: "Rose", bg: "bg-rose-100 dark:bg-rose-900/30", text: "text-rose-700 dark:text-rose-400", dot: "bg-rose-500", iconText: "text-rose-500" },
+	{ id: "orange", label: "Orange", bg: "bg-orange-100 dark:bg-orange-900/30", text: "text-orange-700 dark:text-orange-400", dot: "bg-orange-500", iconText: "text-orange-500" },
+	{ id: "amber", label: "Ambre", bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-700 dark:text-amber-400", dot: "bg-amber-500", iconText: "text-amber-500" },
+	{ id: "emerald", label: "Émeraude", bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-400", dot: "bg-emerald-500", iconText: "text-emerald-500" },
+	{ id: "sky", label: "Ciel", bg: "bg-sky-100 dark:bg-sky-900/30", text: "text-sky-700 dark:text-sky-400", dot: "bg-sky-500", iconText: "text-sky-500" },
+	{ id: "zinc", label: "Zinc", bg: "bg-zinc-100 dark:bg-zinc-800", text: "text-zinc-700 dark:text-zinc-300", dot: "bg-zinc-400", iconText: "text-zinc-400" },
 ]
 
 export function getIconColorClasses(color?: string): IconColorDef {
-	return ICON_COLORS.find((c) => c.id === color) ?? ICON_COLORS[7] // zinc = fallback
+	return ICON_COLORS.find((c) => c.id === color) ?? ICON_COLORS.find((c) => c.id === "zinc")!
 }
 
 // ---------------------------------------------------------------------------
@@ -102,24 +106,6 @@ export function getIcon(iconId?: string): LucideIcon | null {
 // Dot / text color maps (used for inline dot + icon rendering without tile)
 // ---------------------------------------------------------------------------
 
-export const DOT_COLOR_MAP: Record<string, string> = {
-	indigo: "bg-indigo-500",
-	violet: "bg-violet-500",
-	rose: "bg-rose-500",
-	orange: "bg-orange-500",
-	amber: "bg-amber-500",
-	emerald: "bg-emerald-500",
-	sky: "bg-sky-500",
-	zinc: "bg-zinc-400",
-}
+export const DOT_COLOR_MAP: Record<string, string> = Object.fromEntries(ICON_COLORS.map((c) => [c.id, c.dot]))
 
-export const ICON_COLOR_MAP: Record<string, string> = {
-	indigo: "text-indigo-500",
-	violet: "text-violet-500",
-	rose: "text-rose-500",
-	orange: "text-orange-500",
-	amber: "text-amber-500",
-	emerald: "text-emerald-500",
-	sky: "text-sky-500",
-	zinc: "text-zinc-400",
-}
+export const ICON_COLOR_MAP: Record<string, string> = Object.fromEntries(ICON_COLORS.map((c) => [c.id, c.iconText]))
