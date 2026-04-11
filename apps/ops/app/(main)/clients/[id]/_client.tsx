@@ -19,6 +19,7 @@ import { use, useState } from "react"
 import { ClientForm } from "@/components/client-form"
 import { FavoriteButton } from "@/components/favorite-button"
 import { ProjectForm } from "@/components/project-form"
+import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
 import type { Doc, Id } from "@/convex/_generated/dataModel"
 
@@ -147,11 +148,16 @@ export default function ClientDetailPageClient({ params }: Props) {
 						{projects?.map((project) => (
 							<InlineStack key={project._id} align="space-between" blockAlign="center" className="py-2.5 border-b border-edge last:border-0">
 								<Link href={`/projects/${project._id}`} className="flex-1 min-w-0 hover:opacity-75 transition-opacity">
-									<span className="block text-sm font-medium text-fg">{project.name}</span>
-									<span className="block text-xs text-fg-muted mt-0.5 font-mono">
-										{project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
-										{project.startDate && ` · depuis ${project.startDate}`}
-									</span>
+									<InlineStack gap="300" blockAlign="center">
+										<ProjectIcon icon={project.icon} color={project.color} size="sm" />
+										<div className="min-w-0 flex-1">
+											<span className="block text-sm font-medium text-fg truncate">{project.name}</span>
+											<span className="block text-xs text-fg-muted mt-0.5 font-mono truncate">
+												{project.tjm}€/j · {project.hoursPerDay}h/j · {project.currency}
+												{project.startDate && ` · depuis ${project.startDate}`}
+											</span>
+										</div>
+									</InlineStack>
 								</Link>
 								<InlineStack gap="300" blockAlign="center" className="shrink-0 ml-4">
 									{project.budgetPercent !== null && (
