@@ -114,7 +114,7 @@ export default function ProjectOverviewPage({ params }: Props) {
 					<InlineStack align="space-between" blockAlign="center" gap="400">
 						<InlineStack blockAlign="center" gap="300" className="min-w-0">
 							<ProjectIcon icon={project.icon} color={project.color} size="md" />
-							<InlineStack blockAlign="baseline" gap="200" className="min-w-0">
+							<InlineStack blockAlign="center" gap="200" className="min-w-0">
 								<h1 className="text-lg font-semibold leading-normal text-fg truncate">{project.name}</h1>
 								<Badge dot variant={statusBadge[project.status].variant} fill="ghost-dot" size="sm">
 									{statusBadge[project.status].label}
