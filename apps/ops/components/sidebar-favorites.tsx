@@ -81,7 +81,18 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 
 export function SidebarFavorites() {
 	const favorites = useQuery(api.favorites.list)
+	const projects = useQuery(api.projects.listAll)
 	const reorder = useMutation(api.favorites.reorder)
+
+	// Build a lookup map: projectId → { icon, color }
+	const projectIconMap = new Map<string, { icon?: string; color?: string }>()
+	if (projects) {
+		for (const p of projects) {
+			if (p.icon || p.color) {
+				projectIconMap.set(p._id, { icon: p.icon, color: p.color })
+			}
+		}
+	}
 
 	const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }))
 
@@ -107,9 +118,10 @@ export function SidebarFavorites() {
 			<div className="px-2 py-1 text-xs font-medium text-fg-muted uppercase tracking-wider">Favoris</div>
 			<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
 				<SortableContext items={favorites.map((f) => f._id)} strategy={verticalListSortingStrategy}>
-					{favorites.map((fav) => (
-						<SortableFavorite key={fav._id} item={fav} />
-					))}
+					{favorites.map((fav) => {
+						const enriched = fav.entityType === "project" ? { ...fav, ...projectIconMap.get(fav.entityId) } : fav
+						return <SortableFavorite key={fav._id} item={enriched} />
+					})}
 				</SortableContext>
 			</DndContext>
 		</div>
