@@ -1,5 +1,6 @@
 "use client"
 
+import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
@@ -100,15 +101,10 @@ export default function ProjectOverviewPage({ params }: Props) {
 				})
 			: null
 
-	const statusDot: Record<string, string> = {
-		active: "bg-green-500",
-		paused: "bg-amber-500",
-		closed: "bg-fg-muted",
-	}
-	const statusLabel: Record<string, string> = {
-		active: "Actif",
-		paused: "En pause",
-		closed: "Clôturé",
+	const statusBadge: Record<string, { variant: "success" | "warning" | "secondary"; label: string }> = {
+		active: { variant: "success", label: "Actif" },
+		paused: { variant: "warning", label: "En pause" },
+		closed: { variant: "secondary", label: "Clôturé" },
 	}
 
 	return (
@@ -120,10 +116,9 @@ export default function ProjectOverviewPage({ params }: Props) {
 							<ProjectIcon icon={project.icon} color={project.color} size="md" />
 							<InlineStack blockAlign="baseline" gap="200" className="min-w-0">
 								<h1 className="text-lg font-semibold leading-normal text-fg truncate">{project.name}</h1>
-								<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted shrink-0">
-									<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
-									{statusLabel[project.status]}
-								</InlineStack>
+								<Badge dot variant={statusBadge[project.status].variant} fill="ghost-dot" size="sm">
+									{statusBadge[project.status].label}
+								</Badge>
 							</InlineStack>
 						</InlineStack>
 						<InlineStack gap="200" blockAlign="center" className="shrink-0">
