@@ -8,9 +8,9 @@ import { Bookmark, CheckSquare, FileText, FolderOpen, GripVertical, Rss, Star, U
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { type ComponentType, useEffect, useRef } from "react"
-import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { getIcon, ICON_COLOR_MAP } from "@/lib/icon-palette"
 
 const entityTypeIcons: Record<string, ComponentType<{ className?: string }>> = {
 	client: Users,
@@ -65,7 +65,14 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 					isActive ? "bg-raised text-fg font-medium" : "text-fg-muted hover:text-fg hover:bg-raised/50"
 				}`}
 			>
-				{item.entityType === "project" ? <ProjectIcon icon={item.icon} color={item.color} size="xs" /> : <Icon className="size-4 shrink-0" />}
+				{(() => {
+					if (item.entityType === "project") {
+						const ProjIcon = getIcon(item.icon) ?? FolderOpen
+						const iconColor = item.color ? (ICON_COLOR_MAP[item.color] ?? "") : ""
+						return <ProjIcon className={`size-4 shrink-0 ${iconColor}`} />
+					}
+					return <Icon className="size-4 shrink-0" />
+				})()}
 				<span className="truncate">{item.label}</span>
 			</Link>
 		</div>
