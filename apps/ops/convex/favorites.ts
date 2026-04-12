@@ -16,22 +16,18 @@ export const list = query({
 			.collect()
 		const sorted = favorites.sort((a, b) => a.order - b.order)
 
-		// Batch-fetch all project icons in one pass
-		const projectIds = sorted.filter((f) => f.entityType === "project").map((f) => f.entityId)
-		const projectIconMap = new Map<string, { icon?: string; color?: string }>()
-		for (const pid of projectIds) {
-			const project = await ctx.db
-				.query("projects")
-				.withIndex("by_user", (q) => q.eq("userId", userId))
-				.filter((q) => q.eq(q.field("_id"), pid))
-				.first()
-			if (project) {
-				projectIconMap.set(pid, { icon: project.icon, color: project.color })
-			}
-		}
+		// Fetch all user projects once, build icon map
+		const hasProjectFavs = sorted.some((f) => f.entityType === "project")
+		if (!hasProjectFavs) return sorted.map((f) => ({ ...f, projectIcon: undefined, projectColor: undefined }))
+
+		const allProjects = await ctx.db
+			.query("projects")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const projectMap = new Map(allProjects.map((p) => [p._id as string, { icon: p.icon, color: p.color }]))
 
 		return sorted.map((fav) => {
-			const proj = projectIconMap.get(fav.entityId)
+			const proj = fav.entityType === "project" ? projectMap.get(fav.entityId) : undefined
 			return {
 				...fav,
 				projectIcon: proj?.icon,
