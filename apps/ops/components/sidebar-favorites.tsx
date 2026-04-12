@@ -65,7 +65,7 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 					isActive ? "bg-raised text-fg font-medium" : "text-fg-muted hover:text-fg hover:bg-raised/50"
 				}`}
 			>
-				{item.entityType === "project" && (item.icon || item.color) ? <ProjectIcon icon={item.icon} color={item.color} size="xs" /> : <Icon className="size-4 shrink-0" />}
+				{item.entityType === "project" ? <ProjectIcon icon={item.icon} color={item.color} size="xs" /> : <Icon className="size-4 shrink-0" />}
 				<span className="truncate">{item.label}</span>
 			</Link>
 		</div>
