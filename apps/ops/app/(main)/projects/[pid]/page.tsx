@@ -114,12 +114,18 @@ export default function ProjectOverviewPage({ params }: Props) {
 
 	return (
 		<>
-			<BlockStack gap="800" className="p-6">
-				<BlockStack gap="150">
+			<BlockStack gap="600" className="p-6">
+				<BlockStack gap="100">
 					<InlineStack align="space-between" blockAlign="center" gap="400">
 						<InlineStack blockAlign="center" gap="300" className="min-w-0">
 							<ProjectIcon icon={project.icon} color={project.color} size="md" />
-							<h1 className="text-lg font-semibold leading-normal text-fg truncate">{project.name}</h1>
+							<InlineStack blockAlign="baseline" gap="200" className="min-w-0">
+								<h1 className="text-lg font-semibold leading-normal text-fg truncate">{project.name}</h1>
+								<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted shrink-0">
+									<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
+									{statusLabel[project.status]}
+								</InlineStack>
+							</InlineStack>
 						</InlineStack>
 						<InlineStack gap="200" blockAlign="center" className="shrink-0">
 							<FavoriteButton entityType="project" entityId={pid} label={project.name} />
@@ -128,14 +134,15 @@ export default function ProjectOverviewPage({ params }: Props) {
 							</Button>
 						</InlineStack>
 					</InlineStack>
-					<InlineStack as="span" gap="150" blockAlign="center" className="text-xs text-fg-muted">
-						<span className={`inline-block size-1.5 rounded-full ${statusDot[project.status]}`} />
-						{statusLabel[project.status]}
-					</InlineStack>
+					<p className="text-xs text-fg-muted ml-[52px]">
+						{project.tjm} €/j · {project.hoursPerDay}h/j
+						{project.startDate && ` · depuis ${project.startDate}`}
+						{project.budgetAmount && ` · budget ${project.budgetAmount.toLocaleString("fr-FR")} €`}
+					</p>
 				</BlockStack>
 
 				{/* KPI cards */}
-				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+				<InlineGrid columns={[2, 4]} gap="400">
 					<Card>
 						<CardContent className="p-4">
 							<p className="text-xs text-fg-muted mb-1">CA total</p>
@@ -172,7 +179,7 @@ export default function ProjectOverviewPage({ params }: Props) {
 							})()}
 						</CardContent>
 					</Card>
-				</div>
+				</InlineGrid>
 
 				{/* Budget section */}
 				{budgetMetrics && <BudgetSection metrics={budgetMetrics} tjm={project.tjm} weeklyBurnDown={data.weeklyBurnDown ?? null} />}
