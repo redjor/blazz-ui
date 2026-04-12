@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "convex/react"
 import { Bookmark, CheckSquare, FileText, FolderOpen, GripVertical, Rss, Star, Users } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { type ComponentType, useEffect, useRef } from "react"
+import type { ComponentType } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 import { getIcon, ICON_COLOR_MAP } from "@/lib/icon-palette"
@@ -82,19 +82,6 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 export function SidebarFavorites() {
 	const favorites = useQuery(api.favorites.list)
 	const reorder = useMutation(api.favorites.reorder)
-	const syncLabels = useMutation(api.favorites.syncLabels)
-	const hasSynced = useRef(false)
-
-	// One-time sync to backfill icon/color on old favorites
-	useEffect(() => {
-		if (favorites && favorites.length > 0 && !hasSynced.current) {
-			const needsSync = favorites.some((f) => f.entityType === "project" && !f.icon)
-			if (needsSync) {
-				hasSynced.current = true
-				syncLabels({})
-			}
-		}
-	}, [favorites, syncLabels])
 
 	const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }))
 

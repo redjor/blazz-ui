@@ -14,7 +14,24 @@ export const list = query({
 			.query("favorites")
 			.withIndex("by_user_order", (q) => q.eq("userId", userId))
 			.collect()
-		return favorites.sort((a, b) => a.order - b.order)
+		const sorted = favorites.sort((a, b) => a.order - b.order)
+
+		// Enrich project favorites with live icon/color from the projects table
+		return Promise.all(
+			sorted.map(async (fav) => {
+				if (fav.entityType === "project") {
+					try {
+						const project = await ctx.db.get(fav.entityId as any)
+						if (project) {
+							return { ...fav, icon: (project as any).icon as string | undefined, color: (project as any).color as string | undefined }
+						}
+					} catch {
+						// entity ID invalid — return as-is
+					}
+				}
+				return fav
+			})
+		)
 	},
 })
 
