@@ -51,7 +51,13 @@ export const add = mutation({
 			.query("favorites")
 			.withIndex("by_user_entity", (q) => q.eq("userId", userId).eq("entityType", entityType).eq("entityId", entityId))
 			.first()
-		if (existing) return existing._id
+		if (existing) {
+			// Update icon/color if they changed (e.g. project icon was set after favoriting)
+			if (icon !== existing.icon || color !== existing.color) {
+				await ctx.db.patch(existing._id, { icon, color })
+			}
+			return existing._id
+		}
 
 		// Get max order
 		const all = await ctx.db
