@@ -9,9 +9,11 @@ interface FavoriteButtonProps {
 	entityType: "client" | "project" | "todo" | "note" | "bookmark" | "feedItem"
 	entityId: string
 	label: string
+	icon?: string
+	color?: string
 }
 
-export function FavoriteButton({ entityType, entityId, label }: FavoriteButtonProps) {
+export function FavoriteButton({ entityType, entityId, label, icon, color }: FavoriteButtonProps) {
 	const isFavorited = useQuery(api.favorites.isFavorited, { entityType, entityId })
 	const addFavorite = useMutation(api.favorites.add)
 	const removeFavorite = useMutation(api.favorites.remove)
@@ -27,7 +29,7 @@ export function FavoriteButton({ entityType, entityId, label }: FavoriteButtonPr
 				if (isFavorited) {
 					removeFavorite({ entityType, entityId })
 				} else {
-					addFavorite({ entityType, entityId, label })
+					addFavorite({ entityType, entityId, label, icon, color })
 				}
 			}}
 		>

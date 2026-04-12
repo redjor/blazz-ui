@@ -128,7 +128,7 @@ export default function ProjectOverviewPage({ params }: Props) {
 							</InlineStack>
 						</InlineStack>
 						<InlineStack gap="200" blockAlign="center" className="shrink-0">
-							<FavoriteButton entityType="project" entityId={pid} label={project.name} />
+							<FavoriteButton entityType="project" entityId={pid} label={project.name} icon={project.icon} color={project.color} />
 							<Button variant="outline" onClick={() => setEditOpen(true)}>
 								Modifier
 							</Button>

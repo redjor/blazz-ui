@@ -40,8 +40,10 @@ export const add = mutation({
 		entityType: entityTypeValidator,
 		entityId: v.string(),
 		label: v.string(),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
 	},
-	handler: async (ctx, { entityType, entityId, label }) => {
+	handler: async (ctx, { entityType, entityId, label, icon, color }) => {
 		const { userId } = await requireAuth(ctx)
 
 		// Check if already favorited
@@ -63,6 +65,8 @@ export const add = mutation({
 			entityType,
 			entityId,
 			label: label.slice(0, 30),
+			icon,
+			color,
 			order: maxOrder + 1,
 			createdAt: Date.now(),
 		})
@@ -155,8 +159,19 @@ export const syncLabels = mutation({
 				newLabel = (entity as any).name ?? (entity as any).title
 			}
 
+			const patch: Record<string, any> = {}
 			if (newLabel && newLabel.slice(0, 30) !== fav.label) {
-				await ctx.db.patch(fav._id, { label: newLabel.slice(0, 30) })
+				patch.label = newLabel.slice(0, 30)
+			}
+			// Sync icon/color for projects
+			if (fav.entityType === "project") {
+				const projIcon = (entity as any).icon as string | undefined
+				const projColor = (entity as any).color as string | undefined
+				if (projIcon !== fav.icon) patch.icon = projIcon
+				if (projColor !== fav.color) patch.color = projColor
+			}
+			if (Object.keys(patch).length > 0) {
+				await ctx.db.patch(fav._id, patch)
 			}
 		}
 	},

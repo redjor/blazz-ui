@@ -8,6 +8,7 @@ import { Bookmark, CheckSquare, FileText, FolderOpen, GripVertical, Rss, Star, U
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ComponentType } from "react"
+import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -34,6 +35,8 @@ interface FavoriteItem {
 	entityType: string
 	entityId: string
 	label: string
+	icon?: string
+	color?: string
 	order: number
 }
 
@@ -62,7 +65,7 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 					isActive ? "bg-raised text-fg font-medium" : "text-fg-muted hover:text-fg hover:bg-raised/50"
 				}`}
 			>
-				<Icon className="size-4 shrink-0" />
+				{item.entityType === "project" && (item.icon || item.color) ? <ProjectIcon icon={item.icon} color={item.color} size="xs" /> : <Icon className="size-4 shrink-0" />}
 				<span className="truncate">{item.label}</span>
 			</Link>
 		</div>

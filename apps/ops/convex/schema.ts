@@ -513,6 +513,8 @@ export default defineSchema({
 		entityType: v.union(v.literal("client"), v.literal("project"), v.literal("todo"), v.literal("note"), v.literal("bookmark"), v.literal("feedItem")),
 		entityId: v.string(),
 		label: v.string(),
+		icon: v.optional(v.string()),
+		color: v.optional(v.string()),
 		order: v.number(),
 		createdAt: v.number(),
 	})
