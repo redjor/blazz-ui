@@ -1,6 +1,6 @@
 # Gmail Invoice Filer — Design
 
-**Date:** 2026-04-11
+**Date:** 2026-04-11 (rev. 2026-04-12)
 **Status:** Approved (brainstorming)
 **Owner:** apps/ops
 **Related:** account-manager agent, expenseSuggestions, connections
@@ -32,6 +32,7 @@ Mettre en place un système qui récupère automatiquement les factures fourniss
 │   • gmail.applyProcessedLabel                                   │
 │   • drive.uploadInvoice                                         │
 │   • llm.extractInvoiceMetadata        (Haiku 4.5 vision)        │
+│   • attachmentClaims.claim            (lock par attachment)     │
 │   • invoiceSuggestions.create         (→ expenseSuggestions)    │
 └────────────────────┬────────────────────────────────────────────┘
                      │ exposées comme 5 tools
@@ -45,17 +46,19 @@ Mettre en place un système qui récupère automatiquement les factures fourniss
                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  account-manager agent — mode "invoice-filing"                  │
-│  Loop: pour chaque mail labelé, extraction → upload → suggest   │
-│         → relabel.                                              │
+│  Loop: pour chaque mail → pour chaque attachment PDF →          │
+│         claim → extraction → upload → suggest.                  │
+│         Relabel le mail quand TOUS ses attachments sont traités. │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ### Principes
 
-- **Auth réutilisée** — table `connections` existante (provider `"google"`, OAuth2 + refresh token). Une seule connection couvre Gmail + Drive avec scopes minimaux.
+- **Unité de travail = attachment** — un mail peut contenir plusieurs PDFs (facture + avoir, etc.). Chaque attachment est traité, claimé, et tracé individuellement via la clé composite `(gmailMessageId, gmailAttachmentId)`. Le relabel du mail (message-level) ne se fait que quand tous ses attachments sont en état terminal.
+- **Claim atomique avant tout travail coûteux** — avant d'extraire ou d'uploader quoi que ce soit, `process_invoice_pdf` tente un claim transactionnel dans la table `attachmentClaims`. Si le claim échoue (attachement déjà traité ou en cours par une mission concurrente), le tool retourne `{ skipped: "already_claimed" }` sans LLM call ni upload. Ceci empêche deux missions (cron + bouton manuel) de dupliquer le travail ou les fichiers Drive.
+- **Auth réutilisée** — table `connections` existante (provider `"google"`, OAuth2 + refresh token). Une seule connection couvre Gmail + Drive.
 - **Pas de tokens dans le worker** — les actions Convex chargent et rafraîchissent les tokens en interne. Le worker ne voit jamais les credentials.
 - **Pas de base64 dans le LLM context** — le PDF voyage de Gmail vers Anthropic vision API côté serveur Convex uniquement. L'agent ne reçoit que des métadonnées extraites.
-- **Idempotence multi-source** — le label Gmail (`facture/traitée`), un index sur `expenseSuggestions.gmailMessageId`, et un check sur `expenses.gmailMessageId` se complètent pour empêcher tout doublon.
 
 ## Tools exposés à l'agent
 
@@ -71,7 +74,7 @@ gmail_list_invoices(): {
     subject: string
     receivedAt: string  // ISO
     attachments: Array<{
-      id: string
+      attachmentId: string
       filename: string
       mimeType: string
       sizeBytes: number
@@ -97,12 +100,22 @@ process_invoice_pdf({
   invoiceNumber?: string
   currency: string       // "EUR", "USD"...
   confidence: number     // 0..1
-} | { error: string }
+} | { skipped: "already_claimed" | "already_terminal" }
+  | { error: "low_confidence" | "invalid_date" | "extraction_failed" }
 ```
 
-- En interne : fetch le PDF depuis Gmail (binaire) → envoie à l'API Anthropic Haiku 4.5 vision avec un prompt structuré → parse la réponse JSON
-- Le base64 ne quitte jamais Convex
-- Si confidence < 0.7 ou date hors range plausible (< 2020 ou > today + 30 jours) → retourne `{ error: "low_confidence" | "invalid_date" }`
+Séquence interne :
+
+1. **Claim** — appelle la mutation `attachmentClaims.claim(messageId, attachmentId, missionId)`. La mutation est transactionnelle (Convex serializable) :
+   - Si aucun row n'existe → insert `status: "claimed"`, retourne `{ claimed: true }`
+   - Si un row existe en état terminal (`uploaded`, `suggested`, `failed`) → retourne `{ claimed: false, terminal: true }`
+   - Si un row existe en état `claimed` ET `claimedAt < now - 10min` (stale) → patch pour re-claim, retourne `{ claimed: true }`
+   - Si un row existe en état `claimed` ET `claimedAt >= now - 10min` → retourne `{ claimed: false, locked: true }`
+2. Si claim échoue → retourne `{ skipped: "already_claimed" | "already_terminal" }`. **Aucune extraction ni API call.**
+3. Si claim OK → fetch le PDF depuis Gmail (binaire) → envoie à l'API Anthropic Haiku 4.5 vision avec un prompt structuré → parse la réponse JSON
+4. Le base64 ne quitte jamais Convex
+5. Si confidence < 0.7 ou date hors range plausible (< 2020 ou > today + 30j) → patch claim `status: "failed"`, retourne `{ error: "..." }`
+6. Si extraction OK → patch claim `status: "extracted"` (étape intermédiaire), retourne les métadonnées
 
 ### 3. `drive_upload_invoice`
 
@@ -124,14 +137,16 @@ drive_upload_invoice({
 - Re-fetch le PDF depuis Gmail côté serveur (pas de base64 dans les arguments)
 - Format de nom : `YYYY-MM-DD_Vendor_Amount.pdf` (ex : `2026-04-11_OVH_23.99.pdf`)
 - Vendor : sluggifié pour file system safety (espaces → `-`, ASCII only)
-- Auto-crée le sous-dossier `YYYY/MM` dans le dossier parent configuré si absent
+- Auto-crée le sous-dossier `YYYY/MM` dans le dossier parent (obtenu via Picker à l'onboarding) si absent
 - Si un fichier de même nom existe : suffixe `_2`, `_3`...
+- En cas de succès → patch claim `status: "uploaded"`, stocke `driveFileId` sur le claim
 
 ### 4. `create_invoice_suggestion`
 
 ```ts
 create_invoice_suggestion({
   messageId: string,
+  attachmentId: string,
   vendor: string,
   invoiceDate: string,
   amountCents: number,
@@ -144,19 +159,61 @@ create_invoice_suggestion({
 ```
 
 - Écrit dans `expenseSuggestions` avec `source: "gmail"`, `status: "pending"`
-- Avant insertion : check via index `by_user_message` qu'aucune suggestion n'existe déjà pour ce `gmailMessageId`
+- Avant insertion : check via index `by_user_attachment` qu'aucune suggestion n'existe déjà pour ce `(gmailMessageId, gmailAttachmentId)`
 - Si une existe : pas d'erreur, retourne l'`_id` existant (idempotence)
+- En cas de succès → patch claim `status: "suggested"`, stocke `suggestionId`
 
 ### 5. `gmail_mark_processed`
 
 ```ts
-gmail_mark_processed({ messageId: string }): { ok: true }
+gmail_mark_processed({ messageId: string }): {
+  ok: true
+  relabeled: boolean  // false si certains attachments ne sont pas terminaux
+}
 ```
 
-- Retire le label `facture`, ajoute le label `facture/traitée`
+- Avant de relabeler : requête `attachmentClaims` pour ce `messageId`. Vérifie que **tous** les attachments ont un status terminal (`suggested`, `failed`).
+  - Si tous terminaux → retire le label `facture`, ajoute `facture/traitée`, retourne `{ ok: true, relabeled: true }`
+  - Si certains encore en cours (`claimed`, `extracted`, `uploaded`) → ne relabel PAS, retourne `{ ok: true, relabeled: false }`. L'agent est informé et peut retenter ou créer un todo.
 - Crée le label `facture/traitée` au premier appel s'il n'existe pas
+- Patch les claims terminaux à `status: "relabeled"`
 
 ## Schema changes (Convex)
+
+### `attachmentClaims` — NOUVEAU : lock et état par attachment
+
+```ts
+attachmentClaims: defineTable({
+  userId: v.string(),
+  gmailMessageId: v.string(),
+  gmailAttachmentId: v.string(),
+  missionId: v.optional(v.string()),  // ID de la mission qui a claimé
+  status: v.union(
+    v.literal("claimed"),     // lock acquis, extraction en cours
+    v.literal("extracted"),   // métadonnées extraites, pas encore uploadé
+    v.literal("uploaded"),    // fichier dans Drive, suggestion pas encore créée
+    v.literal("suggested"),   // suggestion créée dans expenseSuggestions
+    v.literal("relabeled"),   // mail relabelé dans Gmail, terminé
+    v.literal("failed"),      // échec non-récupérable (low confidence, etc.)
+  ),
+  driveFileId: v.optional(v.string()),
+  suggestionId: v.optional(v.id("expenseSuggestions")),
+  errorMessage: v.optional(v.string()),
+  claimedAt: v.number(),
+  updatedAt: v.number(),
+})
+  .index("by_user_message_attachment", ["userId", "gmailMessageId", "gmailAttachmentId"])
+  .index("by_user_message", ["userId", "gmailMessageId"])  // pour gmail_mark_processed
+  .index("by_user_status", ["userId", "status"])
+```
+
+**Rôles de cette table :**
+1. **Claim/lock** — empêche deux missions concurrentes de traiter le même PDF
+2. **État du pipeline** — sait exactement où en est chaque attachment (utile pour debug, retry)
+3. **Stale recovery** — claim de plus de 10min sans progression → éligible au re-claim
+4. **Condition de relabel** — `gmail_mark_processed` vérifie que tous les claims d'un message sont terminaux
+
+**Concurrency model :** Les mutations Convex sont sérialisables. `claimAttachment()` fait un read-then-insert/patch atomique dans une seule mutation. Deux appels concurrents (cron + bouton) sont sérialisés par Convex OCC. Le premier commit gagne, le second voit le row existant et retourne `{ claimed: false }`. Aucun risque de double-upload ni double-suggestion.
 
 ### `expenseSuggestions` — étendre pour Gmail
 
@@ -178,6 +235,7 @@ expenseSuggestions: defineTable({
 
   // Source = gmail
   gmailMessageId: v.optional(v.string()),
+  gmailAttachmentId: v.optional(v.string()),   // ← attachment-level
   driveFileId: v.optional(v.string()),
   driveWebViewLink: v.optional(v.string()),
   invoiceNumber: v.optional(v.string()),
@@ -185,12 +243,12 @@ expenseSuggestions: defineTable({
 })
   .index("by_user_status", ["userId", "status"])
   .index("by_user_txn", ["userId", "qontoTransactionId"])
-  .index("by_user_message", ["userId", "gmailMessageId"])  // ← nouveau
+  .index("by_user_attachment", ["userId", "gmailMessageId", "gmailAttachmentId"])  // ← composite
 ```
 
 ⚠️ **Migration** : `source` devient une union, et `qontoTransactionId` devient optional. Les rows existants restent valides (déjà tous source `"qonto"` avec `qontoTransactionId` set). Aucun backfill nécessaire.
 
-⚠️ **Code à mettre à jour** : `convex/expenseSuggestions.ts` `accept()` actuellement insert dans `expenses` avec `qontoTransactionId`. Faut adapter pour propager `driveFileId`/`driveWebViewLink`/`gmailMessageId` quand source = gmail.
+⚠️ **Code à mettre à jour** : `convex/expenseSuggestions.ts` `accept()` actuellement insert dans `expenses` avec `qontoTransactionId`. Faut adapter pour propager `driveFileId`/`driveWebViewLink`/`gmailMessageId`/`gmailAttachmentId` quand source = gmail.
 
 ### `expenses` — ajouter le lien vers Drive + étendre `type`
 
@@ -203,11 +261,12 @@ expenses: defineTable({
     v.literal("invoice"),  // ← nouveau : facture fournisseur classique
   ),
   // ... (champs existants)
-  driveFileId: v.optional(v.string()),       // ← nouveau
-  driveWebViewLink: v.optional(v.string()),  // ← nouveau
-  gmailMessageId: v.optional(v.string()),    // ← nouveau (traçabilité)
-  vendor: v.optional(v.string()),            // ← nouveau (utilisé seulement pour type "invoice")
-  invoiceNumber: v.optional(v.string()),     // ← nouveau
+  driveFileId: v.optional(v.string()),           // ← nouveau
+  driveWebViewLink: v.optional(v.string()),      // ← nouveau
+  gmailMessageId: v.optional(v.string()),        // ← nouveau (traçabilité)
+  gmailAttachmentId: v.optional(v.string()),     // ← nouveau (attachment-level)
+  vendor: v.optional(v.string()),                // ← nouveau (utilisé seulement pour type "invoice")
+  invoiceNumber: v.optional(v.string()),         // ← nouveau
 })
 ```
 
@@ -215,47 +274,65 @@ expenses: defineTable({
 
 ⚠️ **Code à mettre à jour** : `convex/expenses.ts` doit accepter le nouveau type dans ses validateurs et ne pas exiger les champs `restaurant`-spécifiques (`guests`, `purpose`) ou `mileage`-spécifiques (`distanceKm`, etc.) pour ce type. L'UI expense list/detail ajoutera un rendu spécifique au type `"invoice"` (vendor, invoice number, bouton "Voir le PDF" qui ouvre `driveWebViewLink`).
 
-### `settings` — ID du dossier Drive parent
+### `settings` — aucun changement de schema
 
-```ts
-settings: defineTable({
-  // ... (champs existants)
-  googleDriveInvoiceFolderId: v.optional(v.string()),  // ← nouveau
-})
-```
-
-Configuré une fois via la page Settings de Ops.
+La table `settings` est un K/V `(userId, key, value)` avec helpers `get(key)`, `set(key, value)`. L'ID du dossier Drive parent sera stocké sous la clé `googleDriveInvoiceFolderId` via `settings.set("googleDriveInvoiceFolderId", folderId)`. Pas de modification du schema.
 
 ### `providerConfigs` — pas de changement
 
 Réutilisation de la table existante. Une row `provider: "google"` sera créée à la configuration initiale.
 
-### Pas de table `processedEmails`
-
-L'idempotence vient de 3 sources combinées :
-1. Le label Gmail (`facture/traitée`) — premier filtre, le plus naturel
-2. L'index `by_user_message` sur `expenseSuggestions` — fallback si le relabel a foiré
-3. Check de `expenses.gmailMessageId` lors de l'acceptation — empêche les doubles expenses
-
-## Auth Google — flow OAuth
+## Auth Google — flow OAuth + Picker
 
 ### Setup une fois (manuel)
 
 1. Créer un projet Google Cloud + OAuth client (type "Web app")
-2. Configurer redirect URI : `https://<convex-deployment>.convex.site/oauth/google/callback`
-3. Copier clientId + clientSecret
+2. Activer les APIs : Gmail API, Google Drive API, Google Picker API
+3. Configurer redirect URI : `https://<convex-deployment>.convex.site/oauth/google/callback`
+4. Copier clientId + clientSecret + API key (Picker requiert une API key distincte)
 
 ### Configuration via UI Ops (page Settings → Connections)
 
-1. Section "Google" avec deux champs : Client ID, Client Secret → bouton "Sauvegarder" (écrit dans `providerConfigs` provider=`"google"`)
-2. Bouton "Connecter Google" → redirige vers consent screen Google avec scopes :
+1. **Credentials** — Section "Google" avec trois champs : Client ID, Client Secret, API Key → bouton "Sauvegarder" (écrit dans `providerConfigs` provider=`"google"`)
+
+2. **OAuth consent** — Bouton "Connecter Google" → redirige vers consent screen Google avec scopes :
    - `https://www.googleapis.com/auth/gmail.modify` (lire mails + modifier labels, pas de suppression)
-   - `https://www.googleapis.com/auth/drive.file` (créer/écrire seulement les fichiers créés par l'app)
-3. Callback Convex HTTP action `oauth/google/callback` :
+   - `https://www.googleapis.com/auth/drive.file` (créer/écrire seulement les fichiers que l'app crée OU que l'utilisateur ouvre/sélectionne via Picker)
+
+3. **Callback** — Convex HTTP action `oauth/google/callback` :
    - Échange `code` contre `{ accessToken, refreshToken, expiresIn }`
    - Écrit dans `connections` provider=`"google"` avec `authType: "oauth2"`, `status: "active"`
-4. Champ texte "Folder ID Drive parent factures" : tu colles l'ID de ton dossier `Compta/Factures` existant → sauvegarde dans `settings.googleDriveInvoiceFolderId`
-5. **Étape critique côté Drive UI** : tu ouvres le dossier parent dans Google Drive et tu fais "Partager" → ajoute l'email associé au consent OAuth (= ton compte). Le scope `drive.file` ne donne accès qu'aux fichiers créés par l'app, donc l'app doit avoir explicitement reçu un share sur le dossier parent pour pouvoir y créer des sous-dossiers.
+
+4. **Sélection du dossier Drive via Picker** — Après connexion réussie, un bouton "Choisir le dossier factures" ouvre le Google Picker en mode dossier. L'utilisateur navigue jusqu'à son dossier `Compta/Factures` et le sélectionne.
+
+   Le Picker SDK retourne le folder ID. Le scope `drive.file` accorde alors à l'app le droit de créer des fichiers et sous-dossiers dans ce dossier spécifique (le Picker agit comme un grant explicite de l'utilisateur). Le folder ID est stocké via `settings.set("googleDriveInvoiceFolderId", folderId)`.
+
+   **Pourquoi Picker et pas un ID collé** : le scope `drive.file` ne donne accès qu'aux fichiers que l'app a créés ou que l'utilisateur a explicitement ouverts/sélectionnés avec l'app. Coller un folder ID dans un champ texte ne constitue pas un "explicit user selection" au sens de Google — l'API refuserait l'accès au dossier. Le Picker est le mécanisme officiel pour obtenir cet accès.
+
+5. **Test de connexion** — Après sélection, le système crée un fichier test `_blazz_test.txt` dans le dossier, vérifie qu'il est lisible, puis le supprime. Si succès → affiche "Connexion Drive OK". Si échec → message d'erreur clair.
+
+### Intégration Picker côté frontend
+
+Le Google Picker est un SDK JavaScript qui s'exécute dans le navigateur. Intégration :
+
+```ts
+// Chargement du SDK (page Settings)
+await gapi.load("picker")
+
+// Ouverture du Picker en mode dossier
+const picker = new google.picker.PickerBuilder()
+  .addView(
+    new google.picker.DocsView(google.picker.ViewId.FOLDERS)
+      .setSelectFolderEnabled(true)
+  )
+  .setOAuthToken(accessToken)  // token de la connection active
+  .setDeveloperKey(apiKey)     // API key du projet GCP
+  .setCallback(handlePickerResult)
+  .build()
+picker.setVisible(true)
+```
+
+Le callback `handlePickerResult` récupère `response.docs[0].id` (folder ID) et appelle `settings.set("googleDriveInvoiceFolderId", folderId)`.
 
 ### Refresh token flow
 
@@ -289,8 +366,9 @@ async function getValidAccessToken(ctx, userId): Promise<string> {
 ### Sécurité — scopes minimaux
 
 - ❌ Pas `gmail.readonly` (peut tout lire) ni `https://mail.google.com/` (full access)
+- ❌ Pas `drive` (full access à tout le Drive)
 - ✅ `gmail.modify` — lire et modifier labels uniquement, pas de suppression
-- ✅ `drive.file` — l'app ne voit que les fichiers qu'elle a créés. Zéro accès au reste de ton Drive existant.
+- ✅ `drive.file` — l'app ne voit que les fichiers qu'elle a créés + le dossier sélectionné via Picker. Zéro accès au reste du Drive.
 
 ## Account-manager — nouveau mode `invoice-filing`
 
@@ -302,12 +380,23 @@ async function getValidAccessToken(ctx, userId): Promise<string> {
 Tools: gmail_list_invoices, process_invoice_pdf, drive_upload_invoice,
        create_invoice_suggestion, gmail_mark_processed, create_todo, ask_agent
 Prompt: "Récupère tous les mails labelés 'facture' non encore traités via
-gmail_list_invoices. Pour chaque mail :
-1. Appelle process_invoice_pdf pour extraire vendor/date/montant.
-2. Si l'extraction renvoie une erreur (low_confidence, invalid_date, etc.),
-   crée un todo 'Vérifier facture <subject>' et SKIP ce mail (ne PAS relabeler).
-3. Sinon : drive_upload_invoice → create_invoice_suggestion → gmail_mark_processed.
-4. À la fin, résume : N factures classées, M ignorées (avec raisons), total TTC."
+gmail_list_invoices. Si la liste est vide, retourne 'Rien à traiter
+aujourd'hui' immédiatement sans appeler d'autres tools.
+
+Pour chaque mail, pour chaque attachment PDF :
+1. Appelle process_invoice_pdf(messageId, attachmentId) pour claim + extraire.
+   - Si retourne { skipped }, passe à l'attachment suivant (déjà traité).
+   - Si retourne { error }, crée un todo 'Vérifier facture <subject> / <filename>'
+     et passe au suivant.
+2. drive_upload_invoice(messageId, attachmentId, vendor, date, amount)
+3. create_invoice_suggestion(messageId, attachmentId, ...)
+
+Quand TOUS les attachments d'un mail sont traités, appelle
+gmail_mark_processed(messageId).
+- Si relabeled: false, certains attachments sont encore en cours (mission
+  concurrente ?) — laisse le mail, il sera relabelé au prochain run.
+
+À la fin, résume : N factures classées, M ignorées (avec raisons), total TTC."
 ```
 
 ### Triggers
@@ -316,9 +405,11 @@ Deux triggers complémentaires :
 - **Bouton manuel** dans Mission Control UI : "Lancer le filing factures" → crée une mission `account-manager` mode `invoice-filing`
 - **Cron Convex quotidien** : 9h00 chaque jour ouvré → crée la mission automatiquement (ajouter à `apps/ops/convex/crons.ts`)
 
+**Pas de mission-level lock** : la concurrency est gérée au niveau attachment (claim atomique). Deux missions concurrentes (cron + bouton) se répartissent le travail sans duplication. Si le bouton est cliqué pendant que le cron tourne, le pire qui arrive : certains claims retournent `{ skipped }` → zéro impact.
+
 ### `maxIterations`
 
-Par mail : ~5 tool calls (list inclus). Pour 15 factures par run : ~76 tool calls. On prend `maxIterations: 120` pour avoir une marge confortable (quelques retries, plusieurs appels parallèles). Configuration spécifique au mode `invoice-filing`.
+Par attachment : ~4 tool calls (process + upload + suggest, plus list et mark_processed amortis). Pour un mail typique (1 PDF) : 5 calls. Pire cas 15 factures / 20 attachments : ~85 calls. On prend `maxIterations: 120` pour marge confortable (skips, retries, mark_processed calls). Configuration spécifique au mode `invoice-filing`.
 
 ### Coût estimé
 
@@ -329,49 +420,56 @@ Pour ~15 factures/mois et un cron quotidien :
 
 **Total attendu : ~50ct–1€/mois**
 
-⚠️ **Optimisation critique** : `gmail_list_invoices` retourne `{ emails: [] }` si rien à traiter. Le prompt du mode doit explicitement instructer : *"Si la liste est vide, retourne 'Rien à traiter aujourd'hui' immédiatement sans appeler d'autres tools."* Sans ça, certains modèles bouclent inutilement.
-
 ## Erreurs et edge cases
 
 | Cas | Comportement |
 |---|---|
 | Mail sans pièce jointe PDF | `gmail_list_invoices` filtre. Le mail reste avec son label `facture`, l'agent ne le traite pas. Visible dans le label Gmail. |
-| Plusieurs PDFs dans un mail | L'agent traite chacun comme une facture séparée. Risque de doublon accepté. |
-| Extraction LLM faible confidence (< 0.7) | Tool retourne `error: "low_confidence"`. Agent crée un todo + skip + ne relabel pas. |
-| Date impossible (futur > 30j, ou < 2020) | Tool retourne `error: "invalid_date"`. Même comportement → todo + skip. |
-| Upload Drive échoue (réseau, quota, dossier supprimé) | Tool retourne `error`. Skip ce mail, log dans `agentLogs`, continue les autres. |
+| Plusieurs PDFs dans un mail | L'agent traite chaque attachment individuellement. Chacun a son propre claim, sa propre suggestion, son propre fichier Drive. Le mail n'est relabelé que quand tous les attachments sont en état terminal. |
+| Extraction LLM faible confidence (< 0.7) | Tool retourne `{ error: "low_confidence" }`. Agent crée un todo + skip. Claim passe en `status: "failed"`. Le mail n'est PAS relabelé (cet attachment bloquant n'est pas terminal au sens du relabel — il est terminal au sens du claim, le prochain run ne le re-traitera pas). |
+| Date impossible (futur > 30j, ou < 2020) | Tool retourne `{ error: "invalid_date" }`. Même comportement → todo + skip + claim `failed`. |
+| Upload Drive échoue (réseau, quota, dossier supprimé) | Tool retourne `{ error }`. Skip ce attachment, claim reste en `extracted`. Sera re-traité au prochain run (re-claimable car stale après 10min). |
 | Refresh token Google révoqué | `getValidAccessToken` lève. Mission échoue avec message clair. `connections.status` passe en `"error"`. UI affiche "Reconnecter Google". |
-| Doublon (mail relabel mais pipeline crashed entre upload et suggestion) | Au prochain run : index `by_user_message` détecte qu'une suggestion existe déjà → `create_invoice_suggestion` retourne l'ID existant, pas d'erreur. |
+| Missions concurrentes (cron + bouton simultanés) | La mutation `claimAttachment` est sérialisable (Convex OCC). Le premier claim gagne, le second voit `{ claimed: false }` → skip. Aucune extraction ni upload dupliqué. Les fichiers Drive ne sont jamais créés en double. |
+| Claim stale (mission crash après claim, avant upload) | Claim de plus de 10 min sans progression (status `claimed` ou `extracted`) → éligible au re-claim par la prochaine mission. TTL = 10 min. |
 | Fichier de même nom dans Drive | Suffixe auto `_2`, `_3`. Pas d'overwrite. |
 | Conflit de fournisseur (LLM dit "OVH" mais le mail vient de "ovhcloud.com") | On garde la version LLM (qui lit le PDF, plus fiable). |
-| Suggestion orpheline (PDF uploadé mais création de suggestion crash) | Acceptable. Le fichier est dans Drive, tu peux le voir. Pas de cleanup automatique pour rester simple. |
+| Suggestion orpheline (PDF uploadé mais création de suggestion crash) | Le claim reste en `uploaded`. Prochain run : re-claimable (stale). La re-exécution verra le `driveFileId` déjà sur le claim et sautera directement à `create_invoice_suggestion`. **Pas de doublon Drive.** |
+| Picker non complété (dossier pas sélectionné) | Les tools Drive échouent avec `error: "no_folder_configured"`. L'agent reçoit l'erreur, log, et termine. Résolu en allant dans Settings et en sélectionnant un dossier. |
 
 ### Diagramme du flow par mail
 
 ```
-┌─────────────┐
-│ list emails │ (filtrés label + PDF présent)
-└──────┬──────┘
+┌──────────────┐
+│ list emails  │ (filtrés label + PDF présent)
+└──────┬───────┘
        │
-       ▼ pour chaque mail (boucle LLM)
-┌─────────────────┐
-│ extract metadata│ ──fail──► todo + skip (mail reste labelé)
-└──────┬──────────┘
-       │ ok
-       ▼
-┌─────────────────┐
-│ upload Drive    │ ──fail──► log error + skip
-└──────┬──────────┘
-       │ ok
-       ▼
-┌─────────────────┐
-│ create suggest. │ ──fail──► log error + skip (orphan PDF acceptable)
-└──────┬──────────┘
-       │ ok
-       ▼
-┌─────────────────┐
-│ relabel Gmail   │ ──fail──► log warning, suggestion existe déjà,
-└─────────────────┘             prochain run skip via index
+       ▼ pour chaque mail
+       │
+       ├──▶ pour chaque attachment PDF
+       │    │
+       │    ▼
+       │    ┌──────────────┐
+       │    │ claim + extract│ ──skipped──► next attachment
+       │    └──────┬────────┘
+       │           │ ok                    ──error──► todo + claim "failed"
+       │           ▼
+       │    ┌──────────────┐
+       │    │ upload Drive  │ ──fail──► log, claim stays "extracted" (retry later)
+       │    └──────┬────────┘
+       │           │ ok
+       │           ▼
+       │    ┌──────────────────┐
+       │    │ create suggestion │ ──fail──► log, claim stays "uploaded" (retry later)
+       │    └──────┬───────────┘
+       │           │ ok
+       │           ▼ claim "suggested"
+       │    ◄──────┘
+       │
+       ▼ tous attachments traités
+┌───────────────────┐
+│ gmail_mark_processed│ → relabel si TOUS terminaux
+└────────────────────┘   sinon no-op (prochain run rattrapera)
 ```
 
 ## Tests
@@ -391,12 +489,22 @@ Pour ~15 factures/mois et un cron quotidien :
   - Token expiré → refresh + write back
   - Pas de connection → throw clair
 
+### Claims (`apps/ops/convex/attachmentClaims.test.ts`)
+
+- Claim sur attachment inexistant → insert + `{ claimed: true }`
+- Claim sur attachment déjà claimé (< 10 min) → `{ claimed: false, locked: true }`
+- Claim sur attachment stale (> 10 min, status `claimed`) → re-claim OK
+- Claim sur attachment terminal (`suggested`, `relabeled`, `failed`) → `{ claimed: false, terminal: true }`
+- Deux claims concurrents (simulés via 2 mutations séquentielles rapides) → un seul gagne
+- `gmail_mark_processed` avec 3 attachments : 2 `suggested` + 1 `failed` → relabel OK (tous terminaux)
+- `gmail_mark_processed` avec 2 attachments : 1 `suggested` + 1 `claimed` → pas de relabel
+
 ### Schema/integration (`apps/ops/convex/expenseSuggestions.test.ts` à étendre)
 
-- Création d'une suggestion `source: "gmail"` avec tous les nouveaux champs
-- `accept()` d'une suggestion gmail crée un `expense` avec `driveFileId`, `driveWebViewLink`, `gmailMessageId` propagés
+- Création d'une suggestion `source: "gmail"` avec tous les nouveaux champs (dont `gmailAttachmentId`)
+- `accept()` d'une suggestion gmail crée un `expense` avec `driveFileId`, `driveWebViewLink`, `gmailMessageId`, `gmailAttachmentId` propagés
 - `accept()` d'une suggestion qonto continue de fonctionner (regression)
-- Idempotence : créer 2x la même suggestion (même `gmailMessageId`) → retourne le même `_id`
+- Idempotence : créer 2x la même suggestion (même `gmailMessageId + gmailAttachmentId`) → retourne le même `_id`
 
 ### Pas de E2E pour le bouclage agent
 
@@ -415,10 +523,12 @@ Dossier `apps/ops/convex/test-fixtures/invoices/` avec ~5 PDFs anonymisés (OVH,
 - UI de "réessayer une suggestion ratée" dans Ops — passe par le todo manuel
 - Multi-utilisateurs (l'app est mono-user freelance)
 - Support d'autres providers mail (Outlook, iCloud) — Gmail uniquement
+- Mission-level lock — le claim atomique par attachment suffit, pas de mutex global sur les missions
 
 ## Open questions / risques connus
 
-1. **Accès au dossier parent Drive** — le scope `drive.file` impose un share manuel. Si tu oublies cette étape, l'app ne pourra pas créer le sous-dossier `YYYY/MM` et échouera. À documenter clairement dans l'UI Settings (avec une étape "Test de connexion" qui crée un fichier dummy puis le supprime).
-2. **Qualité d'extraction Haiku vision** — non testée à ce jour sur tes vrais PDFs. Phase de validation à prévoir : utiliser un label `facture-test` pendant 1–2 semaines avant de basculer sur `facture` en production.
-3. **Coût du cron quotidien** — l'optimisation "list vide → terminer immédiatement" est critique. À monitorer pendant le premier mois ; si dérive > 2€/mois, basculer le cron en hebdomadaire ou ne déclencher que via webhook Gmail push.
-4. **Pas de webhook Gmail push** — Gmail propose un Pub/Sub push pour notifier les nouveaux mails. On utilise du polling cron au lieu de ça pour rester simple (Pub/Sub demande un endpoint HTTPS public + topic GCP). Si le coût du cron devient un problème, c'est l'optimisation logique suivante.
+1. **Qualité d'extraction Haiku vision** — non testée à ce jour sur tes vrais PDFs. Phase de validation à prévoir : utiliser un label `facture-test` pendant 1–2 semaines avant de basculer sur `facture` en production.
+2. **Coût du cron quotidien** — l'optimisation "list vide → terminer immédiatement" est critique. À monitorer pendant le premier mois ; si dérive > 2€/mois, basculer le cron en hebdomadaire ou ne déclencher que via webhook Gmail push.
+3. **Pas de webhook Gmail push** — Gmail propose un Pub/Sub push pour notifier les nouveaux mails. On utilise du polling cron au lieu de ça pour rester simple (Pub/Sub demande un endpoint HTTPS public + topic GCP). Si le coût du cron devient un problème, c'est l'optimisation logique suivante.
+4. **Sous-dossiers via Picker** — le scope `drive.file` + sélection Picker accorde l'accès au dossier sélectionné. La documentation Google indique que ceci permet de créer des fichiers dans ce dossier, mais la capacité à **créer des sous-dossiers** (`YYYY/MM`) doit être validée empiriquement lors de l'implémentation. Si ça ne fonctionne pas, fallback : créer la structure YYYY/MM à plat en préfixant les noms (`2026-04_OVH_23.99.pdf`) ou demander à l'utilisateur de sélectionner chaque sous-dossier mensuel.
+5. **Claim TTL de 10 min** — choisi comme heuristique. Si les missions prennent plus de 10 min pour traiter un seul attachment (réseau lent, LLM queue), un claim pourrait être re-pris prématurément. À ajuster si observé en prod.
