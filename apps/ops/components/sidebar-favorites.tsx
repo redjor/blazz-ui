@@ -35,9 +35,17 @@ interface FavoriteItem {
 	entityType: string
 	entityId: string
 	label: string
-	icon?: string
-	color?: string
 	order: number
+}
+
+function ProjectFavoriteIcon({ projectId }: { projectId: string }) {
+	const project = useQuery(api.projects.get, { id: projectId as Id<"projects"> })
+	if (project?.icon || project?.color) {
+		const ProjIcon = getIcon(project.icon) ?? FolderOpen
+		const iconColor = project.color ? (ICON_COLOR_MAP[project.color] ?? "") : ""
+		return <ProjIcon className={`size-4 shrink-0 ${iconColor}`} />
+	}
+	return <FolderOpen className="size-4 shrink-0" />
 }
 
 function SortableFavorite({ item }: { item: FavoriteItem }) {
@@ -65,14 +73,7 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 					isActive ? "bg-raised text-fg font-medium" : "text-fg-muted hover:text-fg hover:bg-raised/50"
 				}`}
 			>
-				{(() => {
-					if (item.entityType === "project") {
-						const ProjIcon = getIcon(item.icon) ?? FolderOpen
-						const iconColor = item.color ? (ICON_COLOR_MAP[item.color] ?? "") : ""
-						return <ProjIcon className={`size-4 shrink-0 ${iconColor}`} />
-					}
-					return <Icon className="size-4 shrink-0" />
-				})()}
+				{item.entityType === "project" ? <ProjectFavoriteIcon projectId={item.entityId} /> : <Icon className="size-4 shrink-0" />}
 				<span className="truncate">{item.label}</span>
 			</Link>
 		</div>
@@ -81,18 +82,7 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 
 export function SidebarFavorites() {
 	const favorites = useQuery(api.favorites.list)
-	const projects = useQuery(api.projects.listAll)
 	const reorder = useMutation(api.favorites.reorder)
-
-	// Build a lookup map: projectId → { icon, color }
-	const projectIconMap = new Map<string, { icon?: string; color?: string }>()
-	if (projects) {
-		for (const p of projects) {
-			if (p.icon || p.color) {
-				projectIconMap.set(p._id, { icon: p.icon, color: p.color })
-			}
-		}
-	}
 
 	const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }))
 
@@ -118,10 +108,9 @@ export function SidebarFavorites() {
 			<div className="px-2 py-1 text-xs font-medium text-fg-muted uppercase tracking-wider">Favoris</div>
 			<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
 				<SortableContext items={favorites.map((f) => f._id)} strategy={verticalListSortingStrategy}>
-					{favorites.map((fav) => {
-						const enriched = fav.entityType === "project" ? { ...fav, ...projectIconMap.get(fav.entityId) } : fav
-						return <SortableFavorite key={fav._id} item={enriched} />
-					})}
+					{favorites.map((fav) => (
+						<SortableFavorite key={fav._id} item={fav} />
+					))}
 				</SortableContext>
 			</DndContext>
 		</div>
