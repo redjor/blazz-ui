@@ -10,7 +10,18 @@ import { usePathname } from "next/navigation"
 import type { ComponentType } from "react"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
-import { getIcon, ICON_COLOR_MAP } from "@/lib/icon-palette"
+import { getIcon } from "@/lib/icon-palette"
+
+const PROJECT_ICON_COLORS: Record<string, string> = {
+	indigo: "#818cf8",
+	violet: "#a78bfa",
+	rose: "#fb7185",
+	orange: "#fb923c",
+	amber: "#fbbf24",
+	emerald: "#34d399",
+	sky: "#38bdf8",
+	zinc: "#a1a1aa",
+}
 
 const entityTypeIcons: Record<string, ComponentType<{ className?: string }>> = {
 	client: Users,
@@ -40,12 +51,9 @@ interface FavoriteItem {
 
 function ProjectFavoriteIcon({ projectId }: { projectId: string }) {
 	const project = useQuery(api.projects.get, { id: projectId as Id<"projects"> })
-	if (project?.icon || project?.color) {
-		const ProjIcon = getIcon(project.icon) ?? FolderOpen
-		const iconColor = project.color ? (ICON_COLOR_MAP[project.color] ?? "") : ""
-		return <ProjIcon className={`size-4 shrink-0 ${iconColor}`} />
-	}
-	return <FolderOpen className="size-4 shrink-0" />
+	const ProjIcon = getIcon(project?.icon) ?? FolderOpen
+	const hex = project?.color ? PROJECT_ICON_COLORS[project.color] : undefined
+	return <ProjIcon className="size-4 shrink-0" style={hex ? { color: hex } : undefined} />
 }
 
 function SortableFavorite({ item }: { item: FavoriteItem }) {
