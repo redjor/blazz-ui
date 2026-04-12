@@ -2,7 +2,6 @@
 
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Button } from "@blazz/ui/components/ui/button"
-import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@blazz/ui/components/ui/dialog"
 import { InlineGrid } from "@blazz/ui/components/ui/inline-grid"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
@@ -141,45 +140,38 @@ export default function ProjectOverviewPage({ params }: Props) {
 					</p>
 				</BlockStack>
 
-				{/* KPI cards */}
-				<InlineGrid columns={[2, 4]} gap="400">
-					<Card>
-						<CardContent className="p-4">
-							<p className="text-xs text-fg-muted mb-1">CA total</p>
-							<p className="text-xl font-semibold font-pixel">{stats.totalRevenue.toLocaleString("fr-FR")} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardContent className="p-4">
-							<p className="text-xs text-fg-muted mb-1">Facturé</p>
-							<p className="text-xl font-semibold font-pixel text-green-600 dark:text-green-400">{stats.invoicedRevenue.toLocaleString("fr-FR")} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardContent className="p-4">
-							<p className="text-xs text-fg-muted mb-1">À facturer</p>
-							<p className="text-xl font-semibold font-pixel text-amber-600 dark:text-amber-400">{stats.pendingRevenue.toLocaleString("fr-FR")} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardContent className="p-4">
-							<p className="text-xs text-fg-muted mb-1">Temps passé</p>
-							<p className="text-xl font-semibold font-pixel">{formatMinutes(stats.totalMinutes)}</p>
-							{(() => {
-								const daysConsumed = project.hoursPerDay > 0 ? stats.totalMinutes / (project.hoursPerDay * 60) : 0
-								const daysTotal = project.budgetAmount && project.tjm > 0 ? project.budgetAmount / project.tjm : null
-								const daysRemaining = daysTotal !== null ? daysTotal - daysConsumed : null
-								const fmt = (n: number) => (Math.round(n * 10) / 10).toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-								return (
-									<p className="text-xs text-fg-muted mt-1 tabular-nums">
-										{fmt(daysConsumed)} jours
-										{daysRemaining !== null && ` · reste ${fmt(daysRemaining)}j`}
+				{/* KPI stats */}
+				{(() => {
+					const daysConsumed = project.hoursPerDay > 0 ? stats.totalMinutes / (project.hoursPerDay * 60) : 0
+					const daysTotal = project.budgetAmount && project.tjm > 0 ? project.budgetAmount / project.tjm : null
+					const daysRemaining = daysTotal !== null ? daysTotal - daysConsumed : null
+					const fmtDays = (n: number) => (Math.round(n * 10) / 10).toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+					return (
+						<InlineStack gap="600" className="border-b border-edge pb-4">
+							<BlockStack gap="050" className="flex-1">
+								<p className="text-xs text-fg-muted">CA total</p>
+								<p className="text-lg font-semibold font-pixel tabular-nums">{stats.totalRevenue.toLocaleString("fr-FR")} €</p>
+							</BlockStack>
+							<BlockStack gap="050" className="flex-1">
+								<p className="text-xs text-fg-muted">Facturé</p>
+								<p className="text-lg font-semibold font-pixel tabular-nums text-green-600 dark:text-green-400">{stats.invoicedRevenue.toLocaleString("fr-FR")} €</p>
+							</BlockStack>
+							<BlockStack gap="050" className="flex-1">
+								<p className="text-xs text-fg-muted">À facturer</p>
+								<p className="text-lg font-semibold font-pixel tabular-nums text-amber-600 dark:text-amber-400">{stats.pendingRevenue.toLocaleString("fr-FR")} €</p>
+							</BlockStack>
+							<BlockStack gap="050" className="flex-1">
+								<p className="text-xs text-fg-muted">Temps passé</p>
+								<InlineStack gap="200" blockAlign="baseline">
+									<p className="text-lg font-semibold font-pixel tabular-nums">{formatMinutes(stats.totalMinutes)}</p>
+									<p className="text-xs text-fg-muted tabular-nums">
+										{fmtDays(daysConsumed)}j{daysRemaining !== null && ` · reste ${fmtDays(daysRemaining)}j`}
 									</p>
-								)
-							})()}
-						</CardContent>
-					</Card>
-				</InlineGrid>
+								</InlineStack>
+							</BlockStack>
+						</InlineStack>
+					)
+				})()}
 
 				{/* Budget section */}
 				{budgetMetrics && <BudgetSection metrics={budgetMetrics} tjm={project.tjm} weeklyBurnDown={data.weeklyBurnDown ?? null} />}
