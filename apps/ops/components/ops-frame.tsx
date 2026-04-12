@@ -37,6 +37,7 @@ import { BlazzLogo } from "@/components/blazz-logo"
 import { api } from "@/convex/_generated/api"
 import { useFeatureFlags } from "@/lib/feature-flags-context"
 import type { FeatureFlag } from "@/lib/features"
+import { getIcon } from "@/lib/icon-palette"
 import { OpsUserMenu } from "./ops-user-menu"
 
 function AgentNavIcon({ name, status }: { name: string; status: string }) {
@@ -58,6 +59,27 @@ function createAgentIconWithStatus(name: string, status: string): ComponentType<
 	}
 	Icon.displayName = `AgentIcon(${name})`
 	return Icon
+}
+
+const projectIconHex: Record<string, string> = {
+	indigo: "#818cf8",
+	violet: "#a78bfa",
+	rose: "#fb7185",
+	orange: "#fb923c",
+	amber: "#fbbf24",
+	emerald: "#34d399",
+	sky: "#38bdf8",
+	zinc: "#a1a1aa",
+}
+
+function createProjectIcon(iconId?: string, color?: string): ComponentType<{ className?: string }> {
+	const ResolvedIcon = getIcon(iconId) ?? FolderOpen
+	const hex = color ? projectIconHex[color] : undefined
+	function ProjectNavIcon({ className }: { className?: string }) {
+		return <ResolvedIcon className={className} style={hex ? { color: hex } : undefined} />
+	}
+	ProjectNavIcon.displayName = `ProjectIcon(${iconId})`
+	return ProjectNavIcon
 }
 
 const entityTypeIcons: Record<string, ComponentType<{ className?: string }>> = {
@@ -261,7 +283,7 @@ export function OpsFrame({ children }: { children: ReactNode }) {
 				items: favorites.map((fav) => ({
 					title: fav.label,
 					url: (urlMap[fav.entityType] ?? (() => "/"))(fav.entityId),
-					icon: entityTypeIcons[fav.entityType] ?? Star,
+					icon: fav.entityType === "project" ? createProjectIcon((fav as any).projectIcon, (fav as any).projectColor) : (entityTypeIcons[fav.entityType] ?? Star),
 				})),
 			}
 			// Insert before Clients group
