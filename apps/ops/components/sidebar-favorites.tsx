@@ -47,13 +47,8 @@ interface FavoriteItem {
 	entityId: string
 	label: string
 	order: number
-}
-
-function ProjectFavoriteIcon({ projectId }: { projectId: string }) {
-	const project = useQuery(api.projects.get, { id: projectId as Id<"projects"> })
-	const ProjIcon = getIcon(project?.icon) ?? FolderOpen
-	const hex = project?.color ? PROJECT_ICON_COLORS[project.color] : undefined
-	return <ProjIcon className="size-4 shrink-0" style={hex ? { color: hex } : undefined} />
+	projectIcon?: string
+	projectColor?: string
 }
 
 function SortableFavorite({ item }: { item: FavoriteItem }) {
@@ -81,7 +76,15 @@ function SortableFavorite({ item }: { item: FavoriteItem }) {
 					isActive ? "bg-raised text-fg font-medium" : "text-fg-muted hover:text-fg hover:bg-raised/50"
 				}`}
 			>
-				{item.entityType === "project" ? <ProjectFavoriteIcon projectId={item.entityId} /> : <Icon className="size-4 shrink-0" />}
+				{item.entityType === "project" ? (
+					(() => {
+						const ProjIcon = getIcon(item.projectIcon) ?? FolderOpen
+						const hex = item.projectColor ? PROJECT_ICON_COLORS[item.projectColor] : undefined
+						return <ProjIcon className="size-4 shrink-0" style={hex ? { color: hex } : undefined} />
+					})()
+				) : (
+					<Icon className="size-4 shrink-0" />
+				)}
 				<span className="truncate">{item.label}</span>
 			</Link>
 		</div>

@@ -14,7 +14,30 @@ export const list = query({
 			.query("favorites")
 			.withIndex("by_user_order", (q) => q.eq("userId", userId))
 			.collect()
-		return favorites.sort((a, b) => a.order - b.order)
+		const sorted = favorites.sort((a, b) => a.order - b.order)
+
+		// Batch-fetch all project icons in one pass
+		const projectIds = sorted.filter((f) => f.entityType === "project").map((f) => f.entityId)
+		const projectIconMap = new Map<string, { icon?: string; color?: string }>()
+		for (const pid of projectIds) {
+			const project = await ctx.db
+				.query("projects")
+				.withIndex("by_user", (q) => q.eq("userId", userId))
+				.filter((q) => q.eq(q.field("_id"), pid))
+				.first()
+			if (project) {
+				projectIconMap.set(pid, { icon: project.icon, color: project.color })
+			}
+		}
+
+		return sorted.map((fav) => {
+			const proj = projectIconMap.get(fav.entityId)
+			return {
+				...fav,
+				projectIcon: proj?.icon,
+				projectColor: proj?.color,
+			}
+		})
 	},
 })
 
