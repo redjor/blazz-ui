@@ -293,6 +293,7 @@ export function EntityNotesPanel({
 		content: 0,
 	})
 	const selectedNoteRef = useRef<Id<"notes"> | null>(null)
+	const suppressNextContentSave = useRef(false)
 
 	const setSelectedNoteId = useCallback(
 		(id: Id<"notes"> | null) => {
@@ -353,6 +354,7 @@ export function EntityNotesPanel({
 		if (selectedNoteRef.current === selectedNote._id) return
 
 		selectedNoteRef.current = selectedNote._id
+		suppressNextContentSave.current = true
 		setTitle(selectedNote.title)
 		setContent(selectedNote.contentJson ? getStoredContent(selectedNote.contentJson) : selectedNote.contentText || EMPTY_EDITOR_DOC)
 		setSaveState({ title: "idle", content: "idle" })
@@ -439,6 +441,11 @@ export function EntityNotesPanel({
 	function handleContentChange(payload: TiptapUpdatePayload) {
 		setContent(payload.json)
 		if (!selectedNote || selectedNote.locked) return
+
+		if (suppressNextContentSave.current) {
+			suppressNextContentSave.current = false
+			return
+		}
 
 		scheduleSave("content", async () => {
 			await updateNote({
@@ -680,42 +687,44 @@ export function EntityNotesPanel({
 						<div className="min-h-0 flex-1 overflow-y-auto">
 							<div className="mx-auto flex max-w-5xl gap-8 px-10 py-12">
 								<div className="min-w-0 flex-1">
-									<textarea
-										value={title}
-										onChange={handleTitleChange}
-										readOnly={!!selectedNote.locked}
-										rows={1}
-										className="mb-2 w-full resize-none overflow-hidden bg-transparent text-[32px] font-bold leading-tight text-fg outline-none placeholder:text-fg-muted field-sizing-content"
-										placeholder="Titre de la note"
-									/>
-									{selectedNote.tags && selectedNote.tags.length > 0 && allTags ? (
-										<div className="mb-3 flex flex-wrap items-center gap-1.5">
-											{selectedNote.tags.map((tagId) => {
-												const tag = allTags.find((t) => t._id === tagId)
-												if (!tag) return null
-												const color = getTagColor(tag.color)
-												return (
-													<span key={tagId} className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${color.bg} ${color.text}`}>
-														<span className={`size-1.5 rounded-full ${color.dot}`} />
-														{tag.name}
-													</span>
-												)
-											})}
-										</div>
-									) : null}
-									<p className="mb-10 text-[13px] text-fg-muted">
-										Modifiée{" "}
-										{formatDistanceToNow(selectedNote.updatedAt, {
-											addSuffix: true,
-											locale: fr,
-										})}
-										{scope === "all" && selectedNote.entityType !== "general" ? (
-											<>
-												{" · "}
-												<span>{currentLocationLabel}</span>
-											</>
+									<div className={selectedNote.locked ? "" : "pl-14"}>
+										<textarea
+											value={title}
+											onChange={handleTitleChange}
+											readOnly={!!selectedNote.locked}
+											rows={1}
+											className="mb-2 w-full resize-none overflow-hidden bg-transparent text-[32px] font-bold leading-tight text-fg outline-none placeholder:text-fg-muted field-sizing-content"
+											placeholder="Titre de la note"
+										/>
+										{selectedNote.tags && selectedNote.tags.length > 0 && allTags ? (
+											<div className="mb-3 flex flex-wrap items-center gap-1.5">
+												{selectedNote.tags.map((tagId) => {
+													const tag = allTags.find((t) => t._id === tagId)
+													if (!tag) return null
+													const color = getTagColor(tag.color)
+													return (
+														<span key={tagId} className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${color.bg} ${color.text}`}>
+															<span className={`size-1.5 rounded-full ${color.dot}`} />
+															{tag.name}
+														</span>
+													)
+												})}
+											</div>
 										) : null}
-									</p>
+										<p className="mb-10 text-[13px] text-fg-muted">
+											Modifiée{" "}
+											{formatDistanceToNow(selectedNote.updatedAt, {
+												addSuffix: true,
+												locale: fr,
+											})}
+											{scope === "all" && selectedNote.entityType !== "general" ? (
+												<>
+													{" · "}
+													<span>{currentLocationLabel}</span>
+												</>
+											) : null}
+										</p>
+									</div>
 									<TiptapEditor content={content} onUpdate={handleContentChange} onEditorReady={setEditorInstance} placeholder="Commence à écrire…" editable={!selectedNote.locked} />
 								</div>
 								<NoteToc editor={editorInstance} />

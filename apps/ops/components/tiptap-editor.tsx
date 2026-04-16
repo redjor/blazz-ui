@@ -694,7 +694,7 @@ export function TiptapEditor({
 			TableRow,
 			TableHeader,
 			TableCell,
-			DragHandle,
+			...(editable ? [DragHandle] : []),
 			Placeholder.configure({
 				placeholder: ({ node }) => {
 					if (node.type.name === "heading") {
@@ -858,75 +858,77 @@ export function TiptapEditor({
 	if (!editor) return null
 
 	return (
-		<div className="relative pl-14">
+		<div className={`relative ${editable ? "pl-14" : ""}`}>
 			{/* Bubble menu on text selection */}
-			<BubbleMenu editor={editor} options={{ placement: "top", offset: 8 }} className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1 py-0.5 shadow-xl">
-				<BubbleButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Gras">
-					<Bold className="size-3.5" />
-				</BubbleButton>
-				<BubbleButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} title="Italique">
-					<Italic className="size-3.5" />
-				</BubbleButton>
-				<BubbleButton onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive("strike")} title="Barré">
-					<Strikethrough className="size-3.5" />
-				</BubbleButton>
-				<BubbleButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive("code")} title="Code inline">
-					<Code className="size-3.5" />
-				</BubbleButton>
-				<div className="w-px h-4 bg-white/20 mx-0.5" />
-				<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Titre">
-					<Heading2 className="size-3.5" />
-				</BubbleButton>
-				<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Sous-titre">
-					<Heading3 className="size-3.5" />
-				</BubbleButton>
-				<div className="w-px h-4 bg-white/20 mx-0.5" />
-				{/* Text color */}
-				<div className="relative group/color">
-					<BubbleButton onClick={() => {}} active={!!editor.getAttributes("textStyle").color} title="Couleur du texte">
-						<Baseline className="size-3.5" />
+			{editable && (
+				<BubbleMenu editor={editor} options={{ placement: "top", offset: 8 }} className="flex items-center gap-0.5 bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg px-1 py-0.5 shadow-xl">
+					<BubbleButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Gras">
+						<Bold className="size-3.5" />
 					</BubbleButton>
-					<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/color:block z-50">
-						<div className="bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg shadow-xl p-1">
-							<ColorPicker
-								colors={TEXT_COLORS}
-								activeColor={editor.getAttributes("textStyle").color ?? ""}
-								onSelect={(color) => {
-									if (color) {
-										editor.chain().focus().setColor(color).run()
-									} else {
-										editor.chain().focus().unsetColor().run()
-									}
-								}}
-							/>
+					<BubbleButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} title="Italique">
+						<Italic className="size-3.5" />
+					</BubbleButton>
+					<BubbleButton onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive("strike")} title="Barré">
+						<Strikethrough className="size-3.5" />
+					</BubbleButton>
+					<BubbleButton onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive("code")} title="Code inline">
+						<Code className="size-3.5" />
+					</BubbleButton>
+					<div className="w-px h-4 bg-white/20 mx-0.5" />
+					<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Titre">
+						<Heading2 className="size-3.5" />
+					</BubbleButton>
+					<BubbleButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Sous-titre">
+						<Heading3 className="size-3.5" />
+					</BubbleButton>
+					<div className="w-px h-4 bg-white/20 mx-0.5" />
+					{/* Text color */}
+					<div className="relative group/color">
+						<BubbleButton onClick={() => {}} active={!!editor.getAttributes("textStyle").color} title="Couleur du texte">
+							<Baseline className="size-3.5" />
+						</BubbleButton>
+						<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/color:block z-50">
+							<div className="bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg shadow-xl p-1">
+								<ColorPicker
+									colors={TEXT_COLORS}
+									activeColor={editor.getAttributes("textStyle").color ?? ""}
+									onSelect={(color) => {
+										if (color) {
+											editor.chain().focus().setColor(color).run()
+										} else {
+											editor.chain().focus().unsetColor().run()
+										}
+									}}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
-				{/* Highlight */}
-				<div className="relative group/highlight">
-					<BubbleButton onClick={() => {}} active={!!editor.getAttributes("highlight").color} title="Surlignage">
-						<Highlighter className="size-3.5" />
-					</BubbleButton>
-					<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/highlight:block z-50">
-						<div className="bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg shadow-xl p-1">
-							<ColorPicker
-								colors={HIGHLIGHT_COLORS}
-								activeColor={editor.getAttributes("highlight").color ?? ""}
-								onSelect={(color) => {
-									if (color) {
-										editor.chain().focus().toggleHighlight({ color }).run()
-									} else {
-										editor.chain().focus().unsetHighlight().run()
-									}
-								}}
-							/>
+					{/* Highlight */}
+					<div className="relative group/highlight">
+						<BubbleButton onClick={() => {}} active={!!editor.getAttributes("highlight").color} title="Surlignage">
+							<Highlighter className="size-3.5" />
+						</BubbleButton>
+						<div className="absolute left-1/2 -translate-x-1/2 top-full mt-1 hidden group-hover/highlight:block z-50">
+							<div className="bg-[oklch(0.2_0.005_285)] border border-white/10 rounded-lg shadow-xl p-1">
+								<ColorPicker
+									colors={HIGHLIGHT_COLORS}
+									activeColor={editor.getAttributes("highlight").color ?? ""}
+									onSelect={(color) => {
+										if (color) {
+											editor.chain().focus().toggleHighlight({ color }).run()
+										} else {
+											editor.chain().focus().unsetHighlight().run()
+										}
+									}}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
-			</BubbleMenu>
+				</BubbleMenu>
+			)}
 
 			{/* Slash command menu */}
-			{slashOpen && slashPos && filteredCommands.length > 0 && (
+			{editable && slashOpen && slashPos && filteredCommands.length > 0 && (
 				<div ref={menuContainerRef} className="absolute z-50" style={{ top: slashPos.top, left: slashPos.left }}>
 					<SlashMenu
 						commands={filteredCommands}
@@ -941,7 +943,7 @@ export function TiptapEditor({
 			)}
 
 			{/* Table toolbar */}
-			{isInTable && <TableToolbar editor={editor} />}
+			{editable && isInTable && <TableToolbar editor={editor} />}
 
 			{/* Editor */}
 			<EditorContent editor={editor} />
