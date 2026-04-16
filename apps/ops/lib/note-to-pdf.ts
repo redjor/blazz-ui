@@ -1,4 +1,5 @@
-import type { Content, ContentText, StyleDictionary, TableCell, TDocumentDefinitions } from "pdfmake/interfaces"
+import { readFileSync } from "node:fs"
+import { join } from "node:path"
 
 // ── Types ───────────────────────────────────────────────────────────────
 interface TiptapNode {
@@ -9,382 +10,512 @@ interface TiptapNode {
 	marks?: { type: string; attrs?: Record<string, unknown> }[]
 }
 
-// ── Styles ──────────────────────────────────────────────────────────────
-const styles: StyleDictionary = {
-	title: { fontSize: 24, bold: true, margin: [0, 0, 0, 4] },
-	meta: { fontSize: 9, color: "#888", margin: [0, 0, 0, 24] },
-	h1: { fontSize: 20, bold: true, margin: [0, 20, 0, 6] },
-	h2: { fontSize: 16, bold: true, margin: [0, 16, 0, 4] },
-	h3: { fontSize: 13, bold: true, margin: [0, 12, 0, 4] },
-	body: { fontSize: 10, lineHeight: 1.5 },
-	code: { font: "Courier", fontSize: 9, background: "#f4f4f5", margin: [0, 8, 0, 8] },
-	blockquote: { italics: true, color: "#666", margin: [12, 6, 0, 6] },
-	tableHeader: { bold: true, fontSize: 9, fillColor: "#f4f4f5", margin: [4, 4, 4, 4] },
-	tableCell: { fontSize: 9, margin: [4, 3, 4, 3] },
+// ── Logo ────────────────────────────────────────────────────────────────
+let cachedLogoBase64: string | null = null
+function getLogoDataUri(): string {
+	if (cachedLogoBase64) return cachedLogoBase64
+	try {
+		const logoPath = join(process.cwd(), "public/logos/blazz-dark.png")
+		cachedLogoBase64 = `data:image/png;base64,${readFileSync(logoPath).toString("base64")}`
+		return cachedLogoBase64
+	} catch {
+		return ""
+	}
 }
 
-// ── Inline text extraction ──────────────────────────────────────────────
-function extractInlineText(nodes: TiptapNode[] | undefined): ContentText[] {
-	if (!nodes) return []
-	const parts: ContentText[] = []
+// ── Escape HTML ─────────────────────────────────────────────────────────
+function esc(text: string): string {
+	return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+}
 
-	for (const node of nodes) {
-		if (node.type === "text" && node.text) {
-			const part: ContentText = { text: node.text }
+// ── Inline marks → HTML ─────────────────────────────────────────────────
+function renderInline(nodes: TiptapNode[] | undefined): string {
+	if (!nodes) return ""
+	return nodes
+		.map((node) => {
+			if (node.type === "hardBreak") return "<br/>"
+			if (node.type !== "text" || !node.text) {
+				return node.content ? renderInline(node.content) : ""
+			}
+			let html = esc(node.text)
 			if (node.marks) {
 				for (const mark of node.marks) {
-					if (mark.type === "bold") part.bold = true
-					if (mark.type === "italic") part.italics = true
-					if (mark.type === "strike") part.decoration = "lineThrough"
-					if (mark.type === "code") {
-						part.font = "Courier"
-						part.fontSize = 9
-						part.background = "#f0f0f0"
-					}
+					if (mark.type === "bold") html = `<strong>${html}</strong>`
+					if (mark.type === "italic") html = `<em>${html}</em>`
+					if (mark.type === "strike") html = `<s>${html}</s>`
+					if (mark.type === "code") html = `<code>${html}</code>`
+					if (mark.type === "link") html = `<a href="${esc(String(mark.attrs?.href ?? ""))}">${html}</a>`
 					if (mark.type === "highlight") {
-						part.background = (mark.attrs?.color as string) || "#fef08a"
+						const color = (mark.attrs?.color as string) || "#fef08a"
+						html = `<mark style="background:${esc(color)}">${html}</mark>`
 					}
 				}
 			}
-			parts.push(part)
-		} else if (node.type === "hardBreak") {
-			parts.push({ text: "\n" })
-		} else if (node.content) {
-			parts.push(...extractInlineText(node.content))
-		}
-	}
-	return parts
+			return html
+		})
+		.join("")
 }
 
-function inlineToString(nodes: TiptapNode[] | undefined): string {
-	if (!nodes) return ""
-	return nodes.map((n) => n.text || "").join("")
-}
-
-// ── Block conversion ────────────────────────────────────────────────────
-function convertNode(node: TiptapNode): Content | null {
+// ── Block node → HTML ───────────────────────────────────────────────────
+function renderNode(node: TiptapNode): string {
 	switch (node.type) {
+		case "doc":
+			return renderChildren(node.content)
+
 		case "heading": {
 			const level = (node.attrs?.level as number) || 1
-			const style = level === 1 ? "h1" : level === 2 ? "h2" : "h3"
-			return { text: extractInlineText(node.content), style }
+			const text = renderInline(node.content)
+			const slug = (node.content?.map((n) => n.text || "").join("") || "")
+				.toLowerCase()
+				.replace(/[^a-z0-9]+/g, "-")
+				.replace(/^-|-$/g, "")
+			return `<h${level} id="h-${slug}" class="pdf-heading">${text}</h${level}>`
 		}
 
-		case "paragraph": {
-			const parts = extractInlineText(node.content)
-			if (parts.length === 0) return { text: " ", style: "body", margin: [0, 2, 0, 2] }
-			return { text: parts, style: "body" }
-		}
+		case "paragraph":
+			return `<p>${renderInline(node.content)}</p>`
 
 		case "bulletList":
-			return {
-				ul: (node.content || []).map((li) => convertListItem(li)).filter(Boolean) as Content[],
-				margin: [0, 4, 0, 4],
-				style: "body",
-			}
+			return `<ul>${renderChildren(node.content)}</ul>`
 
 		case "orderedList":
-			return {
-				ol: (node.content || []).map((li) => convertListItem(li)).filter(Boolean) as Content[],
-				margin: [0, 4, 0, 4],
-				style: "body",
-			}
+			return `<ol>${renderChildren(node.content)}</ol>`
+
+		case "listItem":
+			return `<li>${renderChildren(node.content)}</li>`
 
 		case "taskList":
-			return {
-				ul: (node.content || []).map((li) => {
-					const checked = li.attrs?.checked as boolean
-					const prefix = checked ? "☑ " : "☐ "
-					const inner = extractInlineText(li.content?.[0]?.content)
-					return {
-						text: [{ text: prefix, bold: true }, ...inner],
-						...(checked ? { decoration: "lineThrough" as const, color: "#999" } : {}),
-					}
-				}),
-				margin: [0, 4, 0, 4],
-				style: "body",
-				listType: "none",
-			}
+			return `<ul class="task-list">${renderChildren(node.content)}</ul>`
+
+		case "taskItem": {
+			const checked = node.attrs?.checked as boolean
+			const checkbox = checked ? '<span class="check checked">&#10003;</span>' : '<span class="check"></span>'
+			return `<li class="task-item${checked ? " done" : ""}">${checkbox}${renderChildren(node.content)}</li>`
+		}
 
 		case "blockquote":
-			return {
-				stack: convertChildren(node.content),
-				style: "blockquote",
-			}
+			return `<blockquote>${renderChildren(node.content)}</blockquote>`
 
-		case "codeBlock":
-			return {
-				text: inlineToString(node.content) || " ",
-				style: "code",
-				preserveLeadingSpaces: true,
+		case "codeBlock": {
+			const lang = (node.attrs?.language as string) || ""
+			const code = node.content?.map((n) => n.text || "").join("") || ""
+			if (lang === "mermaid") {
+				return `<div class="mermaid-wrapper"><pre class="mermaid">${esc(code)}</pre></div>`
 			}
+			return `<pre class="code-block"><code${lang ? ` class="language-${esc(lang)}"` : ""}>${esc(code)}</code></pre>`
+		}
 
 		case "table":
-			return convertTable(node)
+			return `<table>${renderChildren(node.content)}</table>`
+
+		case "tableRow":
+			return `<tr>${renderChildren(node.content)}</tr>`
+
+		case "tableHeader":
+			return `<th>${renderChildren(node.content)}</th>`
+
+		case "tableCell":
+			return `<td>${renderChildren(node.content)}</td>`
 
 		case "horizontalRule":
-			return {
-				canvas: [{ type: "line", x1: 0, y1: 0, x2: 500, y2: 0, lineWidth: 0.5, lineColor: "#ddd" }],
-				margin: [0, 12, 0, 12],
-			}
+			return "<hr/>"
 
 		case "image": {
-			// Skip images in PDF for now — could add base64 support later
-			return { text: `[Image: ${(node.attrs?.alt as string) || ""}]`, italics: true, color: "#999", fontSize: 9 }
+			const src = node.attrs?.src as string
+			const alt = (node.attrs?.alt as string) || ""
+			if (src?.startsWith("data:") || src?.startsWith("http")) {
+				return `<img src="${esc(src)}" alt="${esc(alt)}" />`
+			}
+			return `<p class="image-placeholder">[Image: ${esc(alt)}]</p>`
 		}
 
 		default:
-			if (node.content) return { stack: convertChildren(node.content) }
-			return null
+			return node.content ? renderChildren(node.content) : ""
 	}
 }
 
-function convertListItem(node: TiptapNode): Content | null {
-	if (!node.content) return null
-	const children = convertChildren(node.content)
-	if (children.length === 1) return children[0]
-	return { stack: children }
+function renderChildren(nodes: TiptapNode[] | undefined): string {
+	if (!nodes) return ""
+	return nodes.map(renderNode).join("")
 }
 
-function convertChildren(nodes: TiptapNode[] | undefined): Content[] {
-	if (!nodes) return []
-	return nodes.map(convertNode).filter(Boolean) as Content[]
+// ── Extract H1 headings for TOC ─────────────────────────────────────────
+interface TocEntry {
+	slug: string
+	text: string
 }
 
-// ── Table conversion ────────────────────────────────────────────────────
-function convertTable(node: TiptapNode): Content {
-	const rows = node.content || []
-	const body: TableCell[][] = []
-	const widths: string[] = []
+function extractTopHeadings(node: TiptapNode): TocEntry[] {
+	const entries: TocEntry[] = []
 
-	for (const row of rows) {
-		const cells: TableCell[] = []
-		for (const cell of row.content || []) {
-			const isHeader = cell.type === "tableHeader"
-			const parts = extractInlineText(cell.content?.[0]?.content)
-			cells.push({
-				text: parts.length > 0 ? parts : " ",
-				style: isHeader ? "tableHeader" : "tableCell",
-			})
+	// First pass: find the top-level heading level used (H1 or H2)
+	let topLevel = 0
+	function findTopLevel(n: TiptapNode) {
+		if (n.type === "heading") {
+			const level = (n.attrs?.level as number) || 1
+			if (level <= 2 && (topLevel === 0 || level < topLevel)) topLevel = level
 		}
-		if (widths.length === 0) {
-			widths.push(...cells.map(() => "*"))
+		if (n.content) for (const child of n.content) findTopLevel(child)
+	}
+	findTopLevel(node)
+	if (topLevel === 0) return entries
+
+	// Second pass: extract headings at that level
+	function collect(n: TiptapNode) {
+		if (n.type === "heading" && (n.attrs?.level as number) === topLevel) {
+			const text = n.content?.map((c) => c.text || "").join("") || ""
+			const slug = text
+				.toLowerCase()
+				.replace(/[^a-z0-9]+/g, "-")
+				.replace(/^-|-$/g, "")
+			if (text.trim()) entries.push({ slug, text: text.trim() })
 		}
-		body.push(cells)
+		if (n.content) for (const child of n.content) collect(child)
 	}
-
-	if (body.length === 0) return { text: "" }
-
-	return {
-		table: {
-			headerRows: 1,
-			widths,
-			body,
-		},
-		layout: {
-			hLineWidth: () => 0.5,
-			vLineWidth: () => 0.5,
-			hLineColor: () => "#ddd",
-			vLineColor: () => "#ddd",
-			paddingLeft: () => 4,
-			paddingRight: () => 4,
-			paddingTop: () => 3,
-			paddingBottom: () => 3,
-		},
-		margin: [0, 6, 0, 6],
-	}
+	collect(node)
+	return entries
 }
 
-// ── Markdown fallback ───────────────────────────────────────────────────
-function parseMarkdownInline(text: string): ContentText[] {
-	const parts: ContentText[] = []
-	const regex = /\*\*(.+?)\*\*|__(.+?)__|`(.+?)`|~~(.+?)~~|(\*|_)(.+?)\5/g
-	let lastIndex = 0
-	let match: RegExpExecArray | null
-
-	// biome-ignore lint/suspicious/noAssignInExpressions: standard regex exec loop
-	while ((match = regex.exec(text)) !== null) {
-		if (match.index > lastIndex) {
-			parts.push({ text: text.slice(lastIndex, match.index) })
-		}
-		if (match[1] || match[2]) {
-			parts.push({ text: match[1] || match[2], bold: true })
-		} else if (match[3]) {
-			parts.push({ text: match[3], font: "Courier", fontSize: 9, background: "#f0f0f0" })
-		} else if (match[4]) {
-			parts.push({ text: match[4], decoration: "lineThrough" })
-		} else if (match[6]) {
-			parts.push({ text: match[6], italics: true })
-		}
-		lastIndex = match.index + match[0].length
-	}
-	if (lastIndex < text.length) {
-		parts.push({ text: text.slice(lastIndex) })
-	}
-	return parts.length > 0 ? parts : [{ text }]
+// ── Markdown fallback → HTML ────────────────────────────────────────────
+function markdownToHtml(text: string): string {
+	return text
+		.split("\n")
+		.map((line) => {
+			// Headings
+			const hm = line.match(/^(#{1,3})\s+(.+)/)
+			if (hm) return `<h${hm[1].length}>${esc(hm[2])}</h${hm[1].length}>`
+			// HR
+			if (/^(-{3,}|\*{3,}|_{3,})$/.test(line.trim())) return "<hr/>"
+			// Empty
+			if (line.trim() === "") return ""
+			// Inline bold/code
+			let html = esc(line)
+			html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+			html = html.replace(/`(.+?)`/g, "<code>$1</code>")
+			return `<p>${html}</p>`
+		})
+		.join("\n")
 }
 
-function markdownToContent(text: string): Content[] {
-	const lines = text.split("\n")
-	const result: Content[] = []
-	let i = 0
-
-	while (i < lines.length) {
-		const line = lines[i]
-
-		// Headings
-		const headingMatch = line.match(/^(#{1,3})\s+(.+)/)
-		if (headingMatch) {
-			const level = headingMatch[1].length
-			const style = level === 1 ? "h1" : level === 2 ? "h2" : "h3"
-			result.push({ text: parseMarkdownInline(headingMatch[2]), style })
-			i++
-			continue
-		}
-
-		// Horizontal rule
-		if (/^(-{3,}|\*{3,}|_{3,})$/.test(line.trim())) {
-			result.push({
-				canvas: [{ type: "line", x1: 0, y1: 0, x2: 500, y2: 0, lineWidth: 0.5, lineColor: "#ddd" }],
-				margin: [0, 12, 0, 12],
-			})
-			i++
-			continue
-		}
-
-		// Table
-		if (line.includes("|") && i + 1 < lines.length && /^\|?\s*[-:]+/.test(lines[i + 1])) {
-			const tableLines: string[] = [line]
-			i++ // skip header
-			i++ // skip separator
-			while (i < lines.length && lines[i].includes("|")) {
-				tableLines.push(lines[i])
-				i++
-			}
-			// Determine column count from header row
-			const headerCells = line.split("|").slice(line.startsWith("|") ? 1 : 0)
-			const colCount = headerCells.filter((_, idx, arr) => !(idx === arr.length - 1 && arr[arr.length - 1].trim() === "")).length
-
-			const tableBody: TableCell[][] = tableLines.map((tl, rowIdx) => {
-				const raw = tl.split("|")
-				// Trim leading/trailing empty segments from pipes
-				if (raw[0]?.trim() === "") raw.shift()
-				if (raw[raw.length - 1]?.trim() === "") raw.pop()
-				// Pad or trim to match column count
-				const cells = Array.from({ length: colCount }, (_, idx) => (raw[idx] ?? "").trim())
-				return cells.map((c) => ({
-					text: c ? parseMarkdownInline(c) : " ",
-					style: rowIdx === 0 ? "tableHeader" : "tableCell",
-				}))
-			})
-			if (tableBody.length > 0) {
-				const widths = tableBody[0].map(() => "*")
-				result.push({
-					table: { headerRows: 1, widths, body: tableBody },
-					layout: {
-						hLineWidth: () => 0.5,
-						vLineWidth: () => 0.5,
-						hLineColor: () => "#ddd",
-						vLineColor: () => "#ddd",
-						paddingLeft: () => 4,
-						paddingRight: () => 4,
-						paddingTop: () => 3,
-						paddingBottom: () => 3,
-					},
-					margin: [0, 6, 0, 6],
-				})
-			}
-			continue
-		}
-
-		// Checklist
-		if (/^- \[[ x]\] /.test(line)) {
-			const items: Content[] = []
-			while (i < lines.length && /^- \[[ x]\] /.test(lines[i])) {
-				const checked = lines[i].startsWith("- [x] ")
-				const text = lines[i].replace(/^- \[[ x]\] /, "")
-				const prefix = checked ? "☑ " : "☐ "
-				items.push({
-					text: [{ text: prefix, bold: true }, ...parseMarkdownInline(text)],
-					...(checked ? { decoration: "lineThrough" as const, color: "#999" } : {}),
-				})
-				i++
-			}
-			// biome-ignore lint/suspicious/noExplicitAny: pdfmake listType typing
-			result.push({ ul: items, margin: [0, 4, 0, 4], style: "body", listType: "none" as any })
-			continue
-		}
-
-		// Unordered list
-		if (/^[-*] /.test(line)) {
-			const items: Content[] = []
-			while (i < lines.length && /^[-*] /.test(lines[i])) {
-				items.push({ text: parseMarkdownInline(lines[i].replace(/^[-*] /, "")), style: "body" })
-				i++
-			}
-			result.push({ ul: items, margin: [0, 4, 0, 4], style: "body" })
-			continue
-		}
-
-		// Ordered list
-		if (/^\d+\. /.test(line)) {
-			const items: Content[] = []
-			while (i < lines.length && /^\d+\. /.test(lines[i])) {
-				items.push({ text: parseMarkdownInline(lines[i].replace(/^\d+\. /, "")), style: "body" })
-				i++
-			}
-			result.push({ ol: items, margin: [0, 4, 0, 4], style: "body" })
-			continue
-		}
-
-		// Empty line
-		if (line.trim() === "") {
-			i++
-			continue
-		}
-
-		// Regular paragraph
-		result.push({ text: parseMarkdownInline(line), style: "body" })
-		i++
-	}
-
-	return result
+// ── HTML template ───────────────────────────────────────────────────────
+const CSS = `
+@page {
+  size: A4;
+  margin: 48px 48px 64px 48px;
+  @bottom-left { content: attr(data-title); font-size: 7px; color: #aaa; }
+  @bottom-right { content: counter(page) " / " counter(pages); font-size: 7px; color: #aaa; }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
-// ── Main export ─────────────────────────────────────────────────────────
-export function noteToDocDefinition(title: string, meta: string, content: TiptapNode | null, contentText?: string | null, logoBase64?: string | null): TDocumentDefinitions {
-	const body: Content[] = []
+/* ── Cover page ── */
+.cover {
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 112px);
+}
+.cover-logo img { height: 32px; }
+.cover-hero {
+  margin: 32px 0 28px;
+  height: 220px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e8eeff 0%, #c7d2fe 30%, #818cf8 70%, #6366f1 100%);
+  position: relative;
+  overflow: hidden;
+}
+.cover-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+}
+.cover-hero-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.cover-hero::after {
+  content: "";
+  position: absolute;
+  bottom: -60px; left: 30%;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+}
+.cover-ref {
+  font-size: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 12px;
+}
+.cover-title {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #111;
+  margin-bottom: 10px;
+}
+.cover-subtitle {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: auto;
+}
+.cover-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 48px;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 20px;
+  margin-top: 32px;
+}
+.cover-meta dt {
+  font-size: 7px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 2px;
+}
+.cover-meta dd {
+  font-size: 10px;
+  color: #333;
+  margin-bottom: 12px;
+}
 
-	if (logoBase64) {
-		body.push({ image: logoBase64, width: 80, margin: [0, 0, 0, 12] })
-	}
+/* ── Content pages ── */
+/* Logo */
+.logo { margin-bottom: 16px; }
+.logo img { height: 28px; }
 
-	body.push({ text: title, style: "title" })
-	body.push({ text: meta, style: "meta" })
+/* Title block */
+.note-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
+.note-meta { font-size: 9px; color: #888; margin-bottom: 28px; }
 
-	if (content?.content) {
-		body.push(...convertChildren(content.content))
+/* Headings */
+h1 { font-size: 20px; font-weight: 700; margin: 28px 0 8px; letter-spacing: -0.01em; }
+h2 { font-size: 16px; font-weight: 700; margin: 24px 0 6px; }
+h3 { font-size: 13px; font-weight: 600; margin: 18px 0 4px; }
+
+/* ── Table of contents ── */
+.toc-page { page-break-after: always; }
+.toc-label {
+  font-size: 9px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #2563eb; margin-bottom: 6px;
+}
+.toc-heading { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 48px; }
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-entry {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+}
+.toc-num {
+  font-size: 14px; font-weight: 700; color: #2563eb;
+  min-width: 28px; font-variant-numeric: tabular-nums;
+}
+.toc-text { font-size: 13px; font-weight: 500; color: #222; flex: 1; }
+.toc-dots {
+  flex: 1; border-bottom: 1px dotted #ccc;
+  margin: 0 4px; min-width: 40px; align-self: center;
+  height: 0; position: relative; top: -3px;
+}
+.toc-page-num {
+  font-size: 13px; font-weight: 500; color: #222;
+  font-variant-numeric: tabular-nums; min-width: 20px; text-align: right;
+}
+
+/* Text */
+p { margin: 4px 0; font-size: 10px; line-height: 1.6; }
+a { color: #2563eb; text-decoration: none; }
+strong { font-weight: 600; }
+code { font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace; font-size: 9px; background: #f4f4f5; padding: 1px 4px; border-radius: 3px; }
+mark { padding: 1px 2px; border-radius: 2px; }
+
+/* Lists */
+ul, ol { margin: 6px 0 6px 20px; font-size: 10px; }
+li { margin: 2px 0; }
+li > p { margin: 0; display: inline; }
+
+/* Task list */
+.task-list { list-style: none; margin-left: 0; padding: 0; }
+.task-item { display: flex; align-items: flex-start; gap: 6px; margin: 3px 0; }
+.task-item.done { color: #999; text-decoration: line-through; }
+.check {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 14px; height: 14px; min-width: 14px;
+  border: 1.5px solid #ccc; border-radius: 3px;
+  font-size: 10px; line-height: 1; margin-top: 1px;
+}
+.check.checked { background: #2563eb; border-color: #2563eb; color: white; }
+
+/* Blockquote */
+blockquote {
+  border-left: 3px solid #e5e5e5;
+  padding: 4px 0 4px 16px;
+  margin: 8px 0;
+  color: #666;
+  font-style: italic;
+}
+
+/* Code block */
+.code-block {
+  background: #18181b;
+  color: #e4e4e7;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 12px 0;
+  font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace;
+  font-size: 9px;
+  line-height: 1.65;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-block code { background: none; padding: 0; color: inherit; font-size: inherit; }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 9px;
+}
+th, td {
+  border: 1px solid #e5e5e5;
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  font-weight: 600;
+  background: #f9f9fb;
+  font-size: 9px;
+}
+td { font-size: 9px; }
+th > p, td > p { margin: 0; font-size: 9px; }
+
+/* HR */
+hr {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 20px 0;
+}
+
+/* Image */
+img { max-width: 100%; border-radius: 6px; margin: 8px 0; }
+.image-placeholder { font-style: italic; color: #999; font-size: 9px; }
+
+/* Mermaid diagrams */
+.mermaid-wrapper {
+  margin: 16px 0;
+  padding: 24px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  text-align: center;
+  page-break-inside: avoid;
+}
+.mermaid-wrapper svg { max-width: 100%; height: auto; }
+
+/* Footer */
+.pdf-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 7px;
+  color: #aaa;
+  padding: 0 48px 24px;
+}
+`
+
+export function buildNoteHtml(title: string, meta: string, contentJson: unknown, contentText?: string | null, coverImageDataUri?: string | null): string {
+	const logo = getLogoDataUri()
+
+	let bodyHtml = ""
+	let tocEntries: TocEntry[] = []
+
+	if (contentJson) {
+		const doc = (typeof contentJson === "string" ? JSON.parse(contentJson) : contentJson) as TiptapNode
+		bodyHtml = renderNode(doc)
+		tocEntries = extractTopHeadings(doc)
 	} else if (contentText) {
-		body.push(...markdownToContent(contentText))
+		bodyHtml = markdownToHtml(contentText)
 	}
+	const hasMermaid = bodyHtml.includes('class="mermaid"')
+	const hasToc = tocEntries.length >= 3
 
-	return {
-		footer: (currentPage: number, pageCount: number) => ({
-			columns: [
-				{ text: title, fontSize: 7, color: "#aaa", margin: [48, 0, 0, 0] },
-				{
-					text: `${currentPage} / ${pageCount}`,
-					fontSize: 7,
-					color: "#aaa",
-					alignment: "right" as const,
-					margin: [0, 0, 48, 0],
-				},
-			],
-		}),
-		content: body,
-		styles,
-		defaultStyle: { font: "Helvetica", fontSize: 10, lineHeight: 1.4 },
-		pageMargins: [48, 56, 48, 40],
-		info: { title },
-	}
+	// ── Cover page ──
+	const heroHtml = coverImageDataUri ? `<div class="cover-hero"><img src="${coverImageDataUri}" class="cover-hero-img" /></div>` : `<div class="cover-hero"></div>`
+
+	const coverHtml = `
+<div class="cover">
+	${logo ? `<div class="cover-logo"><img src="${logo}" /></div>` : ""}
+	${heroHtml}
+	<div class="cover-title">${esc(title)}</div>
+	<div class="cover-subtitle">${esc(meta)}</div>
+	<dl class="cover-meta">
+		<dt>Auteur</dt><dd>Jonathan RUAS</dd>
+		<dt>Date</dt><dd>${esc(meta.replace("Dernière modification : ", ""))}</dd>
+		<dt>Statut</dt><dd>Document de travail</dd>
+		<dt>Confidentialité</dt><dd>Interne</dd>
+	</dl>
+</div>`
+
+	// ── TOC page ──
+	const tocHtml = hasToc
+		? `
+<div class="toc-page">
+	<div class="toc-label">Sommaire</div>
+	<div class="toc-heading">Table des matières</div>
+	<ol class="toc-list">
+		${tocEntries
+			.map(
+				(entry, i) => `
+		<li class="toc-entry">
+			<span class="toc-num">${String(i + 1).padStart(2, "0")}</span>
+			<span class="toc-text">${esc(entry.text)}</span>
+			<span class="toc-dots"></span>
+			<span class="toc-page-num" data-heading-id="h-${entry.slug}">—</span>
+		</li>`
+			)
+			.join("")}
+	</ol>
+</div>`
+		: ""
+
+	return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<style>${CSS}</style>
+</head>
+<body>
+${coverHtml}
+${tocHtml}
+<div class="content-pages">
+${bodyHtml}
+</div>
+${
+	hasMermaid
+		? `<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });</script>`
+		: ""
+}
+</body>
+</html>`
 }
