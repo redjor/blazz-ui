@@ -102,6 +102,10 @@ function renderNode(node: TiptapNode): string {
 			if (lang === "mermaid") {
 				return `<div class="mermaid-wrapper"><pre class="mermaid">${esc(code)}</pre></div>`
 			}
+			// Detect tree structures (├─, └─, │) and render as styled tree
+			if (/[├└│┌┐┘┤┬┴┼─]/.test(code) || /├─|└─|│/.test(code)) {
+				return renderTreeBlock(code)
+			}
 			return `<pre class="code-block"><code${lang ? ` class="language-${esc(lang)}"` : ""}>${esc(code)}</code></pre>`
 		}
 
@@ -132,6 +136,42 @@ function renderNode(node: TiptapNode): string {
 		default:
 			return node.content ? renderChildren(node.content) : ""
 	}
+}
+
+// ── Tree block rendering ────────────────────────────────────────────────
+function renderTreeBlock(code: string): string {
+	const lines = code.split("\n").filter((l) => l.trim())
+	const items: string[] = []
+
+	for (const line of lines) {
+		// Detect indentation level by counting tree characters
+		const stripped = line.replace(/^[\s│├└┌┐┘┤┬┴┼─|]+/, "")
+		const depth = line.length - stripped.length > 0 ? 1 : 0
+
+		// Parse "Name — Description" pattern
+		const dashMatch = stripped.match(/^(.+?)\s*[—–-]{1,2}\s*(.+)$/)
+		if (dashMatch) {
+			const name = dashMatch[1].trim()
+			const desc = dashMatch[2].trim()
+			items.push(`<div class="tree-item" style="margin-left:${depth * 20}px">
+				<span class="tree-name">${esc(name)}</span>
+				<span class="tree-desc">${esc(desc)}</span>
+			</div>`)
+		} else {
+			// Section header or standalone item
+			const text = stripped.trim()
+			if (text.match(/^[A-ZÉÈÀÊÂÔÙÛÜÏ\s]+\(/)) {
+				// Section header like "MODULES DÉFENSIFS (kiosk/)"
+				items.push(`<div class="tree-section">${esc(text)}</div>`)
+			} else {
+				items.push(`<div class="tree-item" style="margin-left:${depth * 20}px">
+					<span class="tree-name">${esc(text)}</span>
+				</div>`)
+			}
+		}
+	}
+
+	return `<div class="tree-block">${items.join("")}</div>`
 }
 
 function renderChildren(nodes: TiptapNode[] | undefined): string {
@@ -208,7 +248,7 @@ const CSS = `
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.6;
   color: #1a1a1a;
   -webkit-print-color-adjust: exact;
@@ -303,7 +343,7 @@ body {
 
 /* Title block */
 .note-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
-.note-meta { font-size: 9px; color: #888; margin-bottom: 28px; }
+.note-meta { font-size: 10px; color: #888; margin-bottom: 28px; }
 
 /* Headings */
 h1 { font-size: 20px; font-weight: 700; margin: 28px 0 8px; letter-spacing: -0.01em; }
@@ -338,14 +378,14 @@ h3 { font-size: 13px; font-weight: 600; margin: 18px 0 4px; }
 }
 
 /* Text */
-p { margin: 4px 0; font-size: 10px; line-height: 1.6; }
+p { margin: 4px 0; font-size: 12px; line-height: 1.6; }
 a { color: #2563eb; text-decoration: none; }
 strong { font-weight: 600; }
-code { font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace; font-size: 9px; background: #f4f4f5; padding: 1px 4px; border-radius: 3px; }
+code { font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace; font-size: 11px; background: #f4f4f5; padding: 1px 4px; border-radius: 3px; }
 mark { padding: 1px 2px; border-radius: 2px; }
 
 /* Lists */
-ul, ol { margin: 6px 0 6px 20px; font-size: 10px; }
+ul, ol { margin: 6px 0 6px 20px; font-size: 12px; }
 li { margin: 2px 0; }
 li > p { margin: 0; display: inline; }
 
@@ -357,7 +397,7 @@ li > p { margin: 0; display: inline; }
   display: inline-flex; align-items: center; justify-content: center;
   width: 14px; height: 14px; min-width: 14px;
   border: 1.5px solid #ccc; border-radius: 3px;
-  font-size: 10px; line-height: 1; margin-top: 1px;
+  font-size: 11px; line-height: 1; margin-top: 1px;
 }
 .check.checked { background: #2563eb; border-color: #2563eb; color: white; }
 
@@ -370,19 +410,20 @@ blockquote {
   font-style: italic;
 }
 
-/* Code block */
+/* Code block — highlight.js theme overrides */
 .code-block {
-  background: #18181b;
-  color: #e4e4e7;
+  background: #1e1e2e !important;
   border-radius: 8px;
   padding: 16px 20px;
   margin: 12px 0;
   font-family: "JetBrains Mono", "Fira Code", "SF Mono", monospace;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.65;
   overflow-x: auto;
   white-space: pre;
 }
+/* Fallback if highlight.js doesn't load */
+.code-block:not(.hljs) { color: #e4e4e7; background: #18181b !important; }
 .code-block code { background: none; padding: 0; color: inherit; font-size: inherit; }
 
 /* Table */
@@ -390,7 +431,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin: 10px 0;
-  font-size: 9px;
+  font-size: 11px;
 }
 th, td {
   border: 1px solid #e5e5e5;
@@ -401,10 +442,10 @@ th, td {
 th {
   font-weight: 600;
   background: #f9f9fb;
-  font-size: 9px;
+  font-size: 11px;
 }
-td { font-size: 9px; }
-th > p, td > p { margin: 0; font-size: 9px; }
+td { font-size: 11px; }
+th > p, td > p { margin: 0; font-size: 11px; }
 
 /* HR */
 hr {
@@ -415,7 +456,47 @@ hr {
 
 /* Image */
 img { max-width: 100%; border-radius: 6px; margin: 8px 0; }
-.image-placeholder { font-style: italic; color: #999; font-size: 9px; }
+.image-placeholder { font-style: italic; color: #999; font-size: 11px; }
+
+/* Tree block (detected from code blocks with ├─ └─ │) */
+.tree-block {
+  background: #f9f9fb;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 12px 0;
+  page-break-inside: avoid;
+}
+.tree-section {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #333;
+  padding: 12px 0 6px;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 8px;
+}
+.tree-section:first-child { padding-top: 0; }
+.tree-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 11px;
+  border-left: 2px solid #e5e5e5;
+  padding-left: 12px;
+  margin-left: 4px;
+}
+.tree-name {
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+}
+.tree-desc {
+  color: #666;
+  font-size: 11px;
+}
 
 /* Mermaid diagrams */
 .mermaid-wrapper {
@@ -498,10 +579,13 @@ export function buildNoteHtml(title: string, meta: string, contentJson: unknown,
 </div>`
 		: ""
 
+	const hasCode = bodyHtml.includes('class="code-block"')
+
 	return `<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8"/>
+${hasCode ? `<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/tokyo-night-dark.min.css"/>` : ""}
 <style>${CSS}</style>
 </head>
 <body>
@@ -510,6 +594,17 @@ ${tocHtml}
 <div class="content-pages">
 ${bodyHtml}
 </div>
+${
+	hasCode
+		? `<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+<script>
+document.querySelectorAll('.code-block code').forEach(el => {
+  hljs.highlightElement(el);
+  el.parentElement.classList.add('hljs');
+});
+</script>`
+		: ""
+}
 ${
 	hasMermaid
 		? `<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
