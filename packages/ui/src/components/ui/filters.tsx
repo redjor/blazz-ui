@@ -561,10 +561,8 @@ function FilterInput<T = unknown>({
 				/>
 				{!isValid && validationMessage && (
 					<Tooltip>
-						<TooltipTrigger asChild>
-							<div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
-								<AlertCircle className="size-3.5 text-negative" />
-							</div>
+						<TooltipTrigger render={<div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center" />}>
+							<AlertCircle className="size-3.5 text-negative" />
 						</TooltipTrigger>
 						<TooltipContent>
 							<p className="text-sm">{validationMessage}</p>
