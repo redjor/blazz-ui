@@ -14,7 +14,7 @@ import type { Editor, JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import { BookTemplate, Copy, FileText, Folder, FolderInput, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
+import { BookTemplate, Download, FileText, Folder, FolderInput, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import type { ChangeEvent } from "react"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -672,6 +672,10 @@ export function EntityNotesPanel({
 									<BookTemplate className="size-3" />
 									<span>{selectedNote.isTemplate ? "Template" : "Sauver comme template"}</span>
 								</button>
+								<a href={`/api/notes/${selectedNote._id}/pdf`} download className="flex items-center gap-1 rounded-md px-2 py-1 text-fg-muted transition-colors hover:bg-card hover:text-fg">
+									<Download className="size-3" />
+									<span>PDF</span>
+								</a>
 								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
 								<Popover open={moveOpen} onOpenChange={setMoveOpen}>
 									<PopoverTrigger

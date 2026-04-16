@@ -3,6 +3,7 @@ const config = {
 	output: "standalone",
 	images: { unoptimized: true },
 	transpilePackages: ["@blazz/ui", "@blazz/pro", "@blazz/tabs"],
+	serverExternalPackages: ["pdfmake"],
 	// ignoreBuildErrors required because convex/_generated/ is gitignored.
 	// Types are generated at runtime by `npx convex dev` but don't exist at build/CI time.
 	// TODO: Add `npx convex codegen` to CI prebuild step to remove this workaround.
