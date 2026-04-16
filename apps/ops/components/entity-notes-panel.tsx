@@ -278,6 +278,7 @@ export function EntityNotesPanel({
 	const [isCreating, setIsCreating] = useState(false)
 	const [editorInstance, setEditorInstance] = useState<Editor | null>(null)
 	const [isDeleting, setIsDeleting] = useState(false)
+	const [isExportingPdf, setIsExportingPdf] = useState(false)
 	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 	const [saveState, setSaveState] = useState<Record<SaveField, SaveState>>({
 		title: "idle",
@@ -672,10 +673,30 @@ export function EntityNotesPanel({
 									<BookTemplate className="size-3" />
 									<span>{selectedNote.isTemplate ? "Template" : "Sauver comme template"}</span>
 								</button>
-								<a href={`/api/notes/${selectedNote._id}/pdf`} download className="flex items-center gap-1 rounded-md px-2 py-1 text-fg-muted transition-colors hover:bg-card hover:text-fg">
-									<Download className="size-3" />
-									<span>PDF</span>
-								</a>
+								<button
+									type="button"
+									disabled={isExportingPdf}
+									onClick={async () => {
+										setIsExportingPdf(true)
+										try {
+											const res = await fetch(`/api/notes/${selectedNote._id}/pdf`)
+											if (!res.ok) throw new Error("Export failed")
+											const blob = await res.blob()
+											const url = URL.createObjectURL(blob)
+											const a = document.createElement("a")
+											a.href = url
+											a.download = `${selectedNote.title.replace(/[^a-zA-Z0-9\s-]/g, "").replace(/\s+/g, "-")}.pdf`
+											a.click()
+											URL.revokeObjectURL(url)
+										} finally {
+											setIsExportingPdf(false)
+										}
+									}}
+									className="flex items-center gap-1 rounded-md px-2 py-1 text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
+								>
+									{isExportingPdf ? <Loader2 className="size-3 animate-spin" /> : <Download className="size-3" />}
+									<span>{isExportingPdf ? "Export..." : "PDF"}</span>
+								</button>
 								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
 								<Popover open={moveOpen} onOpenChange={setMoveOpen}>
 									<PopoverTrigger
