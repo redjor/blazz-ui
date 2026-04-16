@@ -17,8 +17,8 @@
 		"build-storybook": "storybook build",
 		"changeset": "changeset",
 		"version-packages": "changeset version",
-		"release": "turbo build && changeset publish",
-		"release:dry": "turbo build && changeset publish --dry-run",
+		"release": "turbo build --filter='!ops' && changeset publish",
+		"release:dry": "turbo build --filter='!ops' && changeset publish --dry-run",
 		"prepare": "husky"
 	},
 	"devDependencies": {
