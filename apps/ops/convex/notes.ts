@@ -28,7 +28,7 @@ export const listByEntity = query({
 			.collect()
 
 		return notes
-			.filter((n) => !n.archivedAt)
+			.filter((n) => !n.archivedAt && !n.isTemplate)
 			.sort((a, b) => {
 				if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
 				return b.updatedAt - a.updatedAt
@@ -47,11 +47,25 @@ export const listRecent = query({
 			.collect()
 
 		return notes
-			.filter((n) => !n.archivedAt)
+			.filter((n) => !n.archivedAt && !n.isTemplate)
 			.sort((a, b) => {
 				if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
 				return b.updatedAt - a.updatedAt
 			})
+	},
+})
+
+export const listTemplates = query({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const notes = await ctx.db
+			.query("notes")
+			.withIndex("by_user_updated", (q) => q.eq("userId", userId))
+			.order("desc")
+			.collect()
+
+		return notes.filter((n) => !n.archivedAt && n.isTemplate).sort((a, b) => b.updatedAt - a.updatedAt)
 	},
 })
 
@@ -63,8 +77,9 @@ export const create = mutation({
 		contentJson: v.optional(v.any()),
 		contentText: v.optional(v.string()),
 		pinned: v.optional(v.boolean()),
+		isTemplate: v.optional(v.boolean()),
 	},
-	handler: async (ctx, { entityType, entityId, title, contentJson, contentText, pinned = false }) => {
+	handler: async (ctx, { entityType, entityId, title, contentJson, contentText, pinned = false, isTemplate }) => {
 		const { userId } = await requireAuth(ctx)
 		const now = Date.now()
 		return ctx.db.insert("notes", {
@@ -75,6 +90,34 @@ export const create = mutation({
 			contentJson,
 			contentText,
 			pinned,
+			isTemplate: isTemplate || undefined,
+			createdAt: now,
+			updatedAt: now,
+		})
+	},
+})
+
+export const createFromTemplate = mutation({
+	args: {
+		templateId: v.id("notes"),
+		entityType: v.optional(entityTypeValidator),
+		entityId: v.optional(v.string()),
+	},
+	handler: async (ctx, { templateId, entityType, entityId }) => {
+		const { userId } = await requireAuth(ctx)
+		const template = await ctx.db.get(templateId)
+		if (!template || template.userId !== userId) throw new ConvexError("Template introuvable")
+		if (!template.isTemplate) throw new ConvexError("Ce n'est pas un template")
+
+		const now = Date.now()
+		return ctx.db.insert("notes", {
+			userId,
+			entityType: entityType ?? template.entityType,
+			entityId: entityId ?? template.entityId,
+			title: template.title,
+			contentJson: template.contentJson,
+			contentText: template.contentText,
+			pinned: false,
 			createdAt: now,
 			updatedAt: now,
 		})
@@ -89,9 +132,10 @@ export const update = mutation({
 		contentText: v.optional(v.union(v.string(), v.null())),
 		pinned: v.optional(v.boolean()),
 		locked: v.optional(v.boolean()),
+		isTemplate: v.optional(v.boolean()),
 		tags: v.optional(v.array(v.id("tags"))),
 	},
-	handler: async (ctx, { id, title, contentJson, contentText, pinned, locked, tags }) => {
+	handler: async (ctx, { id, title, contentJson, contentText, pinned, locked, isTemplate, tags }) => {
 		const { userId } = await requireAuth(ctx)
 		const note = await ctx.db.get(id)
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
@@ -108,6 +152,7 @@ export const update = mutation({
 		applyNotePatchField(patch, "contentText", contentText)
 		applyNotePatchField(patch, "pinned", pinned)
 		applyNotePatchField(patch, "locked", locked)
+		if (isTemplate !== undefined) patch.isTemplate = isTemplate || undefined
 		if (tags !== undefined) patch.tags = tags
 		return ctx.db.patch(id, patch)
 	},

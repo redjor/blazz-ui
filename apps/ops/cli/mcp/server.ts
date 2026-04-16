@@ -101,6 +101,28 @@ export async function startMcpServer() {
 		return json({ ok: true })
 	})
 
+	server.tool("notes_list_templates", "List all note templates.", {}, async () => {
+		const result = await client.query(internal.cli.notesListTemplates, { userId })
+		return json(result)
+	})
+
+	server.tool(
+		"notes_create_from_template",
+		"Create a new note from a template.",
+		{
+			templateId: z.string(),
+			entityType: entityTypeEnum.optional(),
+			entityId: z.string().optional(),
+		},
+		async ({ templateId, entityType, entityId }) => {
+			const args: Record<string, unknown> = { userId, templateId: templateId as any }
+			if (entityType) args.entityType = entityType
+			if (entityId) args.entityId = entityId
+			const id = await client.mutation(internal.cli.notesCreateFromTemplate, args)
+			return json({ _id: id })
+		}
+	)
+
 	// ── Todos ──────────────────────────────────────────────────────────────
 
 	server.tool(

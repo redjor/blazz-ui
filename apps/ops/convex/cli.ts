@@ -88,6 +88,7 @@ export const notesUpdate = internalMutation({
 		contentText: v.optional(v.union(v.string(), v.null())),
 		pinned: v.optional(v.boolean()),
 		locked: v.optional(v.boolean()),
+		isTemplate: v.optional(v.boolean()),
 	},
 	handler: async (ctx, args) => {
 		const note = await ctx.db.get(args.id)
@@ -108,6 +109,7 @@ export const notesUpdate = internalMutation({
 		if (args.contentText !== undefined) patch.contentText = args.contentText ?? undefined
 		if (args.pinned !== undefined) patch.pinned = args.pinned
 		if (args.locked !== undefined) patch.locked = args.locked
+		if (args.isTemplate !== undefined) patch.isTemplate = args.isTemplate || undefined
 
 		await ctx.db.patch(args.id, patch)
 	},
@@ -141,6 +143,44 @@ export const notesRestore = internalMutation({
 			throw new Error("Note not found or access denied")
 		}
 		await ctx.db.patch(args.id, { archivedAt: undefined })
+	},
+})
+
+export const notesListTemplates = internalQuery({
+	args: { userId: v.string() },
+	handler: async (ctx, args) => {
+		const notes = await ctx.db
+			.query("notes")
+			.withIndex("by_user", (q) => q.eq("userId", args.userId))
+			.collect()
+		return notes.filter((n) => n.isTemplate && !n.archivedAt).sort((a, b) => b.updatedAt - a.updatedAt)
+	},
+})
+
+export const notesCreateFromTemplate = internalMutation({
+	args: {
+		userId: v.string(),
+		templateId: v.id("notes"),
+		entityType: v.optional(entityTypeValidator),
+		entityId: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		const template = await ctx.db.get(args.templateId)
+		if (!template || template.userId !== args.userId) throw new Error("Template not found")
+		if (!template.isTemplate) throw new Error("Not a template")
+
+		const now = Date.now()
+		return await ctx.db.insert("notes", {
+			userId: args.userId,
+			entityType: args.entityType ?? template.entityType,
+			entityId: args.entityId ?? template.entityId,
+			title: template.title,
+			contentJson: template.contentJson,
+			contentText: template.contentText,
+			pinned: false,
+			createdAt: now,
+			updatedAt: now,
+		})
 	},
 })
 

@@ -14,7 +14,7 @@ import type { Editor, JSONContent } from "@tiptap/react"
 import { useMutation, useQuery } from "convex/react"
 import { formatDistanceToNow } from "date-fns"
 import { fr } from "date-fns/locale"
-import { FileText, Folder, FolderInput, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
+import { BookTemplate, Copy, FileText, Folder, FolderInput, FolderOpen, Import, Loader2, Lock, LockOpen, Pin, Plus, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import type { ChangeEvent } from "react"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -261,12 +261,14 @@ export function EntityNotesPanel({
 }) {
 	const entityNotes = useQuery(api.notes.listByEntity, { entityType, entityId })
 	const recentNotes = useQuery(api.notes.listRecent, {})
+	const templates = useQuery(api.notes.listTemplates, {})
 	const allTags = useQuery(api.tags.list)
 	const allProjects = useQuery(api.projects.listAll)
 	const createNote = useMutation(api.notes.create)
 	const updateNote = useMutation(api.notes.update)
 	const archiveNote = useMutation(api.notes.archive)
 	const moveNote = useMutation(api.notes.move)
+	const createFromTemplate = useMutation(api.notes.createFromTemplate)
 
 	const router = useRouter()
 
@@ -480,6 +482,25 @@ export function EntityNotesPanel({
 		}
 	}
 
+	async function handleToggleTemplate() {
+		if (!selectedNote) return
+		await updateNote({ id: selectedNote._id, isTemplate: !selectedNote.isTemplate })
+	}
+
+	async function handleCreateFromTemplate(templateId: Id<"notes">) {
+		setIsCreating(true)
+		try {
+			const id = await createFromTemplate({
+				templateId,
+				entityType: defaultCreateEntityType ?? entityType,
+				entityId: defaultCreateEntityType && defaultCreateEntityType !== entityType ? undefined : entityId,
+			})
+			setSelectedNoteId(id)
+		} finally {
+			setIsCreating(false)
+		}
+	}
+
 	async function handleMoveToGeneral() {
 		if (!selectedNote) return
 		setMoveOpen(false)
@@ -555,14 +576,47 @@ export function EntityNotesPanel({
 							</TooltipTrigger>
 							<TooltipContent>Importer un fichier .md</TooltipContent>
 						</Tooltip>
-						<button
-							type="button"
-							onClick={() => void handleCreateNote()}
-							disabled={isCreating}
-							className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
-						>
-							{isCreating ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
-						</button>
+						{templates && templates.length > 0 ? (
+							<Popover>
+								<PopoverTrigger
+									render={
+										<button
+											type="button"
+											disabled={isCreating}
+											className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
+										/>
+									}
+								>
+									{isCreating ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
+								</PopoverTrigger>
+								<PopoverContent align="end" className="w-56 p-1">
+									<button type="button" onClick={() => void handleCreateNote()} className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-fg hover:bg-card">
+										<FileText className="size-3.5 text-fg-muted" />
+										Note vide
+									</button>
+									{templates.map((t) => (
+										<button
+											key={t._id}
+											type="button"
+											onClick={() => void handleCreateFromTemplate(t._id)}
+											className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-fg hover:bg-card"
+										>
+											<BookTemplate className="size-3.5 text-fg-muted" />
+											<span className="truncate">{t.title}</span>
+										</button>
+									))}
+								</PopoverContent>
+							</Popover>
+						) : (
+							<button
+								type="button"
+								onClick={() => void handleCreateNote()}
+								disabled={isCreating}
+								className="flex size-6 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-card hover:text-fg disabled:opacity-50"
+							>
+								{isCreating ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
+							</button>
+						)}
 					</div>
 				</div>
 				<ScrollArea className="min-h-0 flex-1">
@@ -609,6 +663,14 @@ export function EntityNotesPanel({
 								>
 									{selectedNote.locked ? <Lock className="size-3" /> : <LockOpen className="size-3" />}
 									<span>{selectedNote.locked ? "Verrouillée" : "Verrouiller"}</span>
+								</button>
+								<button
+									type="button"
+									onClick={() => void handleToggleTemplate()}
+									className={`flex items-center gap-1 rounded-md px-2 py-1 transition-colors hover:bg-card ${selectedNote.isTemplate ? "text-brand" : "text-fg-muted"}`}
+								>
+									<BookTemplate className="size-3" />
+									<span>{selectedNote.isTemplate ? "Template" : "Sauver comme template"}</span>
 								</button>
 								<NoteTagPicker noteId={selectedNote._id} noteTagIds={selectedNote.tags ?? []} />
 								<Popover open={moveOpen} onOpenChange={setMoveOpen}>
