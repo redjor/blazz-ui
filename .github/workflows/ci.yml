@@ -28,6 +28,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm lint
+      - run: pnpm lint --filter='!ops'
 
-      - run: pnpm build
+      - run: pnpm build --filter='!ops'

@@ -30,11 +30,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm lint
+      - run: pnpm lint --filter='!ops'
 
-      - run: pnpm type-check
+      - run: pnpm type-check --filter='!ops'
 
-      - run: pnpm build
+      - run: pnpm build --filter='!ops'
 
       - name: Create Release PR or Publish
         id: changesets

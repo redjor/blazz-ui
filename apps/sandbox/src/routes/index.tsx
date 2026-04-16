@@ -6,12 +6,12 @@ export const Route = createFileRoute("/")({
 })
 
 const QUICK_LINKS = [
-	{ name: "Button", path: "/ui/button" },
-	{ name: "Input", path: "/ui/input" },
-	{ name: "Card", path: "/ui/card" },
-	{ name: "Select", path: "/ui/select" },
-	{ name: "Tabs", path: "/ui/tabs" },
-] as const
+	{ name: "Button", category: "ui", component: "button" },
+	{ name: "Input", category: "ui", component: "input" },
+	{ name: "Card", category: "ui", component: "card" },
+	{ name: "Select", category: "ui", component: "select" },
+	{ name: "Tabs", category: "ui", component: "tabs" },
+]
 
 const CATEGORIES = ["ui", "patterns", "blocks", "ai"] as const
 
@@ -42,8 +42,13 @@ function HomePage() {
 			<div className="space-y-3">
 				<p className="text-xs font-medium text-fg-muted uppercase tracking-wider text-center">Popular components</p>
 				<div className="flex gap-2">
-					{QUICK_LINKS.map(({ name, path }) => (
-						<Link key={path} to={path} className="px-4 py-2 text-sm border border-edge rounded-lg hover:bg-muted hover:border-brand/30 transition-colors">
+					{QUICK_LINKS.map(({ name, category, component }) => (
+						<Link
+							key={`${category}/${component}`}
+							to="/$category/$component"
+							params={{ category, component }}
+							className="px-4 py-2 text-sm border border-edge rounded-lg hover:bg-muted hover:border-brand/30 transition-colors"
+						>
 							{name}
 						</Link>
 					))}
