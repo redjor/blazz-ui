@@ -18,6 +18,7 @@ import { ActiveMissionsPanel } from "./_components/active-missions-panel"
 import { ActivityStreamPanel } from "./_components/activity-stream-panel"
 import { AgentRosterPanel } from "./_components/agent-roster-panel"
 import { BudgetMeter } from "./_components/budget-meter"
+import { ScheduledMissionsPanel } from "./_components/scheduled-missions-panel"
 
 function SectionHeader({ title, href }: { title: string; href?: string }) {
 	return (
@@ -154,10 +155,17 @@ export function MissionControlClient() {
 				</BlockStack>
 			</div>
 
-			<BlockStack gap="200">
-				<SectionHeader title="Missions actives" href="/missions" />
-				<ActiveMissionsPanel />
-			</BlockStack>
+			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+				<BlockStack gap="200">
+					<SectionHeader title="Missions actives" href="/missions" />
+					<ActiveMissionsPanel />
+				</BlockStack>
+
+				<BlockStack gap="200">
+					<SectionHeader title="Planifiées" />
+					<ScheduledMissionsPanel />
+				</BlockStack>
+			</div>
 
 			{agents && <MissionForm open={formOpen} onOpenChange={setFormOpen} agents={agents} />}
 		</BlockStack>
