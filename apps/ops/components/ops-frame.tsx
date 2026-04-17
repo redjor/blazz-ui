@@ -143,9 +143,10 @@ const allNavGroups: NavGroupWithFlag[] = [
 			},
 			{
 				title: "Mission Control",
-				url: "/missions",
+				url: "/mission-control",
 				icon: Bot,
 				flag: "missions",
+				children: [{ title: "Toutes les missions", url: "/missions", flag: "missions" }],
 			},
 		],
 	},

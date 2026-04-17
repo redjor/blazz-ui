@@ -1,295 +1,346 @@
 "use client"
 
-import { useChat } from "@ai-sdk/react"
-import { Conversation, ConversationContent, ConversationScrollButton } from "@blazz/pro/components/ai/chat/conversation"
-import { Message, MessageContent, MessageResponse } from "@blazz/pro/components/ai/chat/message"
-import { PromptInput, PromptInputFooter, PromptInputSubmit, PromptInputTextarea } from "@blazz/pro/components/ai/chat/prompt-input"
-import { Suggestion, Suggestions } from "@blazz/pro/components/ai/chat/suggestion"
-import { TaskCard } from "@blazz/pro/components/ai/generative/workflow/task-card"
-import { ChainOfThought, ChainOfThoughtContent, ChainOfThoughtHeader, ChainOfThoughtStep } from "@blazz/pro/components/ai/reasoning/chain-of-thought"
 import { useAppTopBar } from "@blazz/pro/components/blocks/app-frame"
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
-import { Box } from "@blazz/ui/components/ui/box"
-import { Button } from "@blazz/ui/components/ui/button"
+import { Button, buttonVariants } from "@blazz/ui/components/ui/button"
+import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
-import { DefaultChatTransport } from "ai"
-import { useMutation, useQuery } from "convex/react"
-import { RotateCcw } from "lucide-react"
-import { useCallback, useMemo } from "react"
-import { toast } from "sonner"
+import { useQuery } from "convex/react"
+import { ArrowRight, MessageSquare, Plus, Settings } from "lucide-react"
+import Link from "next/link"
+import { useMemo, useState } from "react"
+import { BudgetMeter } from "@/app/(main)/mission-control/_components/budget-meter"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
+import { MissionForm } from "@/app/(main)/missions/_components/mission-form"
 import { api } from "@/convex/_generated/api"
 
-const suggestionsMap: Record<string, string[]> = {
-	cfo: ["Quel est mon solde Qonto ?", "Projette ma trésorerie sur 3 mois", "Audite mes dépenses du mois"],
-	timekeeper: ["Vérifie ma semaine", "Résume mes heures par projet ce mois", "Y a-t-il des anomalies ?"],
-	"product-lead": ["Quelles sont les issues ouvertes ?", "Propose les priorités du sprint", "Audite l'état du repo"],
-	assistant: ["Prépare mon daily brief", "Trie mes nouveaux todos", "Quels todos sont en retard ?"],
-	"account-manager": ["Résume la situation par client", "Des projets qui finissent bientôt ?", "Factures impayées ?"],
+type AgentStatus = "idle" | "busy" | "paused" | "error" | "disabled"
+
+const STATUS_DOT: Record<AgentStatus, string> = {
+	busy: "bg-emerald-500 animate-pulse",
+	idle: "bg-fg-muted/40",
+	paused: "bg-caution",
+	error: "bg-critical",
+	disabled: "bg-fg-muted/20",
 }
 
-const TOOL_LABELS: Record<string, string> = {
-	"create-todo": "Création de todo",
-	"create-note": "Création de note",
-	"create-mission": "Création de mission",
-	"list-todos": "Lecture des todos",
-	"list-projects": "Lecture des projets",
-	"list-clients": "Lecture des clients",
-	"list-time-entries": "Lecture du temps",
-	"list-invoices": "Lecture des factures",
-	"list-categories": "Lecture des catégories",
-	"list-recurring-expenses": "Dépenses récurrentes",
-	"qonto-balance": "Solde Qonto",
-	"qonto-transactions": "Transactions Qonto",
-	"treasury-forecast": "Prévision trésorerie",
-	"check-time-anomalies": "Anomalies de temps",
-	"get-project": "Détail projet",
-	"get-client": "Détail client",
-	"get-todo": "Détail todo",
+const STATUS_LABEL: Record<AgentStatus, string> = {
+	busy: "En mission",
+	idle: "Au repos",
+	paused: "En pause",
+	error: "Erreur",
+	disabled: "Désactivé",
 }
 
-function extractToolName(part: any): string {
-	// part.type can be "tool-create-todo" or "dynamic-tool"
-	if (part.toolName) return part.toolName
-	if (typeof part.type === "string" && part.type.startsWith("tool-")) {
-		return part.type.slice(5) // "tool-create-todo" → "create-todo"
-	}
-	return "outil"
+const MISSION_STATUS_LABEL: Record<string, string> = {
+	planning: "Planification",
+	todo: "À faire",
+	in_progress: "En cours",
+	review: "À valider",
+	done: "Terminée",
+	rejected: "Rejetée",
+	aborted: "Annulée",
 }
 
-function ToolCallDisplay({ part }: { part: any }) {
-	const toolName = extractToolName(part)
-	const label = TOOL_LABELS[toolName] ?? toolName
-	const isComplete = part.state === "output-available"
-	const output = isComplete ? (part.output ?? part.result) : null
-	const args = part.args ?? part.input
+const MEMORY_CATEGORY_LABEL: Record<string, string> = {
+	fact: "Fait",
+	preference: "Préférence",
+	episode: "Épisode",
+	pattern: "Pattern",
+	rule: "Règle",
+}
 
-	// Render a TaskCard for create-todo tool results
-	if (isComplete && toolName === "create-todo") {
-		const title = args?.text ?? (typeof output === "string" ? output : (output?.text ?? "Todo créé"))
-		const desc = args?.description
-		const rawPriority = args?.priority ?? "normal"
-		const priority = rawPriority === "normal" ? "medium" : rawPriority
-		const todoId = typeof output === "string" ? output : (output?.id ?? output)
-		return (
-			<BlockStack gap="100" className="my-2">
-				<TaskCard title={title} description={desc} status="todo" priority={priority} href={todoId ? `/todos/${todoId}` : undefined} />
-			</BlockStack>
-		)
-	}
-
-	// Render a note card for create-note
-	if (isComplete && toolName === "create-note") {
-		const title = args?.title ?? (typeof output === "string" ? output : (output?.title ?? "Note créée"))
-		const noteId = typeof output === "string" ? output : (output?.id ?? output)
-		return (
-			<a href={noteId ? `/notes/${noteId}` : "#"} className="block my-2 rounded-lg border border-edge bg-card p-3 transition-colors hover:bg-muted">
-				<BlockStack gap="050">
-					<span className="text-xs text-fg-muted">📝 Note créée</span>
-					<span className="text-sm font-medium text-fg">{title}</span>
-				</BlockStack>
-			</a>
-		)
-	}
-
-	// For read tools: show a compact chain-of-thought
+function SectionHeader({ title, href }: { title: string; href?: string }) {
 	return (
-		<ChainOfThought defaultOpen={false} className="my-1">
-			<ChainOfThoughtHeader>{isComplete ? `✅ ${label}` : `⏳ ${label}...`}</ChainOfThoughtHeader>
-			<ChainOfThoughtContent>
-				<ChainOfThoughtStep label={label} status={isComplete ? "complete" : "active"} description={isComplete ? "Données récupérées" : "En cours..."} />
-				{isComplete && output && (
-					<pre className="mt-2 text-xs bg-muted/50 rounded p-2 overflow-x-auto max-h-32 overflow-y-auto">{typeof output === "string" ? output : JSON.stringify(output, null, 2).slice(0, 500)}</pre>
-				)}
-			</ChainOfThoughtContent>
-		</ChainOfThought>
+		<InlineStack align="space-between" blockAlign="center">
+			<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">{title}</span>
+			{href && (
+				<Link href={href} className="text-xs text-brand hover:underline">
+					Voir tout →
+				</Link>
+			)}
+		</InlineStack>
 	)
 }
 
-export function AgentChatClient({ slug }: { slug: string }) {
+function StatBlock({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
+	return (
+		<Card>
+			<CardContent className="pt-4">
+				<BlockStack gap="100">
+					<span className="text-xs text-fg-muted">{label}</span>
+					<span className="text-xl font-semibold tabular-nums tracking-tight">{value}</span>
+					{hint && <span className="text-xs text-fg-muted">{hint}</span>}
+				</BlockStack>
+			</CardContent>
+		</Card>
+	)
+}
+
+export function AgentOverviewClient({ slug }: { slug: string }) {
 	const agent = useQuery(api.agents.getBySlug, { slug })
-	const savedMessages = useQuery(api.chatMessages.list, agent ? { agentId: agent._id } : "skip")
-	const clearMessages = useMutation(api.chatMessages.clear)
+	const missions = useQuery(api.missions.listByAgent, agent ? { agentId: agent._id } : "skip")
+	const memories = useQuery(api.agentMemory.list, agent ? { agentId: agent._id } : "skip")
+	const [formOpen, setFormOpen] = useState(false)
 
-	const transport = useMemo(
-		() =>
-			new DefaultChatTransport({
-				body: { agentSlug: slug },
-			}),
-		[slug]
-	)
+	useAppTopBar(agent != null ? [{ label: "Mission Control", href: "/mission-control" }, { label: agent.name }] : null)
 
-	// Convert saved messages to useChat format
-	const initialMessages = useMemo(() => {
-		if (!savedMessages || savedMessages.length === 0) return undefined
-		return savedMessages.map((m) => ({
-			id: m._id,
-			role: m.role as "user" | "assistant",
-			content: m.content,
-			parts: [{ type: "text" as const, text: m.content }],
-		}))
-	}, [savedMessages])
+	const stats = useMemo(() => {
+		if (!missions) return null
+		const total = missions.length
+		const thisMonth = missions.filter((m) => {
+			const d = new Date(m._creationTime)
+			const now = new Date()
+			return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+		}).length
+		const completed = missions.filter((m) => m.status === "done").length
+		const inProgress = missions.filter((m) => m.status === "in_progress" || m.status === "review").length
+		const totalCost = missions.reduce((s, m) => s + (m.costUsd ?? 0), 0)
+		return { total, thisMonth, completed, inProgress, totalCost }
+	}, [missions])
 
-	const { messages, sendMessage, status, stop, setMessages } = useChat({
-		transport,
-		messages: initialMessages,
-		maxSteps: 5,
-		onError: (err) => {
-			toast.error(`Erreur agent : ${err.message}`)
-		},
-	})
+	const recentMissions = useMemo(() => {
+		if (!missions) return []
+		return [...missions].sort((a, b) => b._creationTime - a._creationTime).slice(0, 5)
+	}, [missions])
 
-	useAppTopBar(agent != null ? [{ label: "Agents", href: "/missions" }, { label: agent.name }] : null)
-
-	const handlePromptSubmit = useCallback(
-		({ text }: { text: string; files: unknown[] }) => {
-			const trimmed = text.trim()
-			if (!trimmed) return
-			sendMessage({ text: trimmed })
-		},
-		[sendMessage]
-	)
-
-	const handleSuggestion = useCallback(
-		(text: string) => {
-			sendMessage({ text })
-		},
-		[sendMessage]
-	)
-
-	const handleClear = useCallback(() => {
-		setMessages([])
-		if (agent) {
-			clearMessages({ agentId: agent._id })
-		}
-	}, [setMessages, agent, clearMessages])
-
-	const isStreaming = status === "streaming" || status === "submitted"
-	const hasMessages = messages.length > 0
-	const suggestions = suggestionsMap[slug] ?? []
-
-	// Loading state
 	if (agent === undefined) {
 		return (
-			<BlockStack gap="400" className="h-full items-center justify-center px-4">
-				<Skeleton className="h-10 w-48" />
-				<Skeleton className="h-6 w-64" />
+			<BlockStack gap="600" className="p-6">
+				<Skeleton className="h-24 w-full" />
+				<Skeleton className="h-32 w-full" />
+				<Skeleton className="h-64 w-full" />
 			</BlockStack>
 		)
 	}
 
-	// Agent not found
 	if (agent === null) {
 		return (
-			<BlockStack gap="200" className="h-full items-center justify-center px-4">
+			<BlockStack gap="400" className="p-6 items-center justify-center">
 				<p className="text-lg font-medium text-fg">Agent introuvable</p>
-				<p className="text-sm text-fg-subtle">L'agent "{slug}" n'existe pas. Lance le seed depuis Mission Control.</p>
+				<p className="text-sm text-fg-muted">L&apos;agent "{slug}" n&apos;existe pas.</p>
+				<Link href="/mission-control" className={buttonVariants({ variant: "secondary", size: "sm" })}>
+					Retour Mission Control
+				</Link>
 			</BlockStack>
 		)
 	}
 
-	const budgetPercent = agent.budget.maxPerDay > 0 ? Math.round((agent.usage.todayUsd / agent.budget.maxPerDay) * 100) : 0
+	const status = (agent.status ?? "idle") as AgentStatus
 
-	// Empty state
-	if (!hasMessages) {
-		return (
-			<BlockStack className="h-full items-center justify-center px-4">
-				<BlockStack gap="600" className="w-full max-w-2xl">
-					<BlockStack gap="200" className="items-center text-center">
-						<AgentAvatar name={agent.name} size={64} />
-						<h1 className="text-3xl font-semibold text-fg tracking-tight">{agent.name}</h1>
-						<p className="text-sm text-fg-subtle">{agent.role}</p>
-						<InlineStack gap="200" blockAlign="center">
-							<Badge variant="secondary">{agent.model}</Badge>
-							<Badge variant={budgetPercent >= 80 ? "warning" : "secondary"}>
-								${agent.usage.todayUsd.toFixed(2)} / ${agent.budget.maxPerDay.toFixed(2)} jour
-							</Badge>
-						</InlineStack>
-					</BlockStack>
-
-					<PromptInput onSubmit={handlePromptSubmit}>
-						<PromptInputTextarea placeholder={`Demande quelque chose à ${agent.name}...`} />
-						<PromptInputFooter>
-							<Box />
-							<PromptInputSubmit status="ready" />
-						</PromptInputFooter>
-					</PromptInput>
-
-					{suggestions.length > 0 && (
-						<Suggestions className="justify-center">
-							{suggestions.map((text) => (
-								<Suggestion key={text} suggestion={text} onClick={handleSuggestion} />
-							))}
-						</Suggestions>
-					)}
-				</BlockStack>
-			</BlockStack>
-		)
-	}
-
-	// Conversation state
 	return (
-		<BlockStack className="h-full">
-			<InlineStack align="space-between" blockAlign="center" className="px-4 py-2 border-b border-edge">
-				<InlineStack gap="200" blockAlign="center">
-					<AgentAvatar name={agent.name} size={28} />
-					<span className="text-sm font-medium text-fg">{agent.name}</span>
-					<Badge variant="secondary" className="text-xs">
-						{agent.role}
-					</Badge>
-				</InlineStack>
-				<InlineStack gap="200" blockAlign="center">
-					<Badge variant={budgetPercent >= 80 ? "warning" : "secondary"} className="text-xs">
-						${agent.usage.todayUsd.toFixed(2)} / ${agent.budget.maxPerDay.toFixed(2)}
-					</Badge>
-					<Button variant="outline" size="sm" onClick={handleClear}>
-						<RotateCcw className="size-3.5" />
-						Effacer
-					</Button>
-				</InlineStack>
-			</InlineStack>
+		<BlockStack gap="600" className="p-6">
+			{/* ── Header ── */}
+			<Card>
+				<CardContent className="p-5">
+					<InlineStack align="space-between" blockAlign="start" wrap>
+						<InlineStack gap="400" blockAlign="center" wrap={false}>
+							<span className="relative shrink-0">
+								<AgentAvatar name={agent.name} size={64} />
+								<span className={`absolute -bottom-0.5 -right-0.5 size-3 rounded-full ring-2 ring-surface ${STATUS_DOT[status]}`} />
+							</span>
+							<BlockStack gap="100">
+								<InlineStack gap="200" blockAlign="center">
+									<h1 className="text-xl font-semibold tracking-tight">{agent.name}</h1>
+									<Badge variant="outline" className="text-[11px]">
+										{STATUS_LABEL[status]}
+									</Badge>
+								</InlineStack>
+								<span className="text-sm text-fg-muted">{agent.role}</span>
+								<InlineStack gap="150">
+									<Badge variant="secondary" className="text-[11px]">
+										{agent.model}
+									</Badge>
+									<span className="text-xs text-fg-muted tabular-nums">${agent.budget.maxPerMission.toFixed(2)} / mission</span>
+								</InlineStack>
+							</BlockStack>
+						</InlineStack>
 
-			<Conversation className="flex-1 min-h-0">
-				<ConversationContent className="max-w-3xl mx-auto px-4">
-					{messages.map((message) => (
-						<Message key={message.id} from={message.role as "user" | "assistant"}>
-							<MessageContent>
-								{message.parts.map((part, i) => {
-									if (part.type === "text" && part.text) {
-										return <MessageResponse key={`text-${i}`}>{part.text}</MessageResponse>
-									}
-									if ("toolCallId" in part && "state" in part) {
-										return <ToolCallDisplay key={(part as any).toolCallId} part={part} />
-									}
-									return null
-								})}
-							</MessageContent>
-						</Message>
-					))}
-					{status === "submitted" && (
-						<Message from="assistant">
-							<MessageContent>
-								<span className="text-sm text-fg-muted animate-pulse">{agent.name} réfléchit...</span>
-							</MessageContent>
-						</Message>
-					)}
-				</ConversationContent>
-				<ConversationScrollButton />
-			</Conversation>
+						<InlineStack gap="200">
+							<Link href={`/agents/${slug}/chat`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+								<MessageSquare className="size-4 mr-1.5" />
+								Discuter
+							</Link>
+							<Link href={`/settings/agents/${slug}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+								<Settings className="size-4 mr-1.5" />
+								Paramètres
+							</Link>
+							<Button size="sm" onClick={() => setFormOpen(true)}>
+								<Plus className="size-4 mr-1" />
+								Nouvelle mission
+							</Button>
+						</InlineStack>
+					</InlineStack>
+				</CardContent>
+			</Card>
 
-			<Box className="border-t border-edge bg-card px-4 py-3">
-				<Box className="max-w-3xl mx-auto">
-					<PromptInput onSubmit={handlePromptSubmit}>
-						<PromptInputTextarea placeholder={`Demande quelque chose à ${agent.name}...`} disabled={isStreaming} />
-						<PromptInputFooter>
-							<Box />
-							<PromptInputSubmit status={isStreaming ? "streaming" : "ready"} onStop={stop} />
-						</PromptInputFooter>
-					</PromptInput>
-				</Box>
-			</Box>
+			{/* ── KPIs ── */}
+			<div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+				{stats == null ? (
+					[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-24 w-full rounded-lg" />)
+				) : (
+					<>
+						<StatBlock label="Missions totales" value={stats.total} hint={stats.completed > 0 ? `${stats.completed} terminées` : undefined} />
+						<StatBlock label="Ce mois" value={stats.thisMonth} hint={stats.inProgress > 0 ? `${stats.inProgress} actives` : undefined} />
+						<StatBlock label="Coût total" value={`$${stats.totalCost.toFixed(2)}`} />
+						<StatBlock label="Aujourd'hui" value={`$${agent.usage.todayUsd.toFixed(2)}`} hint={`sur $${agent.budget.maxPerDay.toFixed(2)}`} />
+					</>
+				)}
+			</div>
+
+			{/* ── Budget + Permissions ── */}
+			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+				<BlockStack gap="200">
+					<SectionHeader title="Budget" />
+					<Card>
+						<CardContent className="p-4">
+							<BlockStack gap="400">
+								<BudgetMeter label="Aujourd'hui" used={agent.usage.todayUsd} limit={agent.budget.maxPerDay} />
+								<BudgetMeter label="Ce mois" used={agent.usage.monthUsd} limit={agent.budget.maxPerMonth} />
+								<InlineStack align="space-between" className="pt-2 border-t border-edge">
+									<span className="text-xs text-fg-muted">Total cumulé</span>
+									<span className="text-xs tabular-nums text-fg">${agent.usage.totalUsd.toFixed(2)}</span>
+								</InlineStack>
+							</BlockStack>
+						</CardContent>
+					</Card>
+				</BlockStack>
+
+				<BlockStack gap="200">
+					<SectionHeader title="Permissions" />
+					<Card>
+						<CardContent className="p-4">
+							<BlockStack gap="300">
+								<BlockStack gap="100">
+									<InlineStack gap="150" blockAlign="center">
+										<span className="size-2 rounded-full bg-positive" />
+										<span className="text-xs font-medium text-fg">Autorisées ({agent.permissions.safe.length})</span>
+									</InlineStack>
+									<InlineStack gap="100" wrap>
+										{agent.permissions.safe.map((p) => (
+											<Badge key={p} variant="outline" className="text-[10px] font-mono">
+												{p}
+											</Badge>
+										))}
+									</InlineStack>
+								</BlockStack>
+
+								{agent.permissions.confirm.length > 0 && (
+									<BlockStack gap="100">
+										<InlineStack gap="150" blockAlign="center">
+											<span className="size-2 rounded-full bg-caution" />
+											<span className="text-xs font-medium text-fg">Avec confirmation ({agent.permissions.confirm.length})</span>
+										</InlineStack>
+										<InlineStack gap="100" wrap>
+											{agent.permissions.confirm.map((p) => (
+												<Badge key={p} variant="outline" className="text-[10px] font-mono">
+													{p}
+												</Badge>
+											))}
+										</InlineStack>
+									</BlockStack>
+								)}
+
+								{agent.permissions.blocked.length > 0 && (
+									<BlockStack gap="100">
+										<InlineStack gap="150" blockAlign="center">
+											<span className="size-2 rounded-full bg-critical" />
+											<span className="text-xs font-medium text-fg">Bloquées ({agent.permissions.blocked.length})</span>
+										</InlineStack>
+										<InlineStack gap="100" wrap>
+											{agent.permissions.blocked.map((p) => (
+												<Badge key={p} variant="outline" className="text-[10px] font-mono">
+													{p}
+												</Badge>
+											))}
+										</InlineStack>
+									</BlockStack>
+								)}
+							</BlockStack>
+						</CardContent>
+					</Card>
+				</BlockStack>
+			</div>
+
+			{/* ── Recent missions ── */}
+			<BlockStack gap="200">
+				<SectionHeader title="Missions récentes" href="/missions" />
+				{missions === undefined ? (
+					<Skeleton className="h-40 w-full rounded-lg" />
+				) : recentMissions.length === 0 ? (
+					<Card>
+						<CardContent className="py-8 text-center">
+							<BlockStack gap="200" className="items-center">
+								<span className="text-sm text-fg-muted">Aucune mission confiée à {agent.name} pour l&apos;instant.</span>
+								<Button variant="outline" size="sm" onClick={() => setFormOpen(true)}>
+									<Plus className="size-3 mr-1" />
+									Créer la première mission
+								</Button>
+							</BlockStack>
+						</CardContent>
+					</Card>
+				) : (
+					<Card>
+						<CardContent className="p-0">
+							<BlockStack>
+								{recentMissions.map((mission) => (
+									<Link key={mission._id} href={`/missions/${mission._id}`} className="flex items-center gap-3 px-4 py-3 border-b border-edge last:border-b-0 transition-colors hover:bg-muted/50">
+										<BlockStack gap="050" className="min-w-0 flex-1">
+											<span className="text-sm font-medium text-fg truncate">{mission.title}</span>
+											<InlineStack gap="200" blockAlign="center">
+												<Badge variant="outline" className="text-[10px]">
+													{MISSION_STATUS_LABEL[mission.status] ?? mission.status}
+												</Badge>
+												<span className="text-[11px] text-fg-muted tabular-nums">${(mission.costUsd ?? 0).toFixed(3)}</span>
+												<span className="text-[11px] text-fg-muted">{new Date(mission._creationTime).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}</span>
+											</InlineStack>
+										</BlockStack>
+										<ArrowRight className="size-3.5 text-fg-muted shrink-0" />
+									</Link>
+								))}
+							</BlockStack>
+						</CardContent>
+					</Card>
+				)}
+			</BlockStack>
+
+			{/* ── Memory preview ── */}
+			<BlockStack gap="200">
+				<SectionHeader title="Mémoire" href={`/settings/agents/${slug}`} />
+				{memories === undefined ? (
+					<Skeleton className="h-32 w-full rounded-lg" />
+				) : memories.length === 0 ? (
+					<Card>
+						<CardContent className="py-6 text-center">
+							<span className="text-sm text-fg-muted">Aucune mémoire enregistrée. {agent.name} apprendra au fil des missions.</span>
+						</CardContent>
+					</Card>
+				) : (
+					<Card>
+						<CardContent className="p-4">
+							<BlockStack gap="200">
+								{memories.slice(0, 5).map((m) => (
+									<InlineStack key={m._id} gap="200" blockAlign="start" wrap={false}>
+										<Badge variant="outline" className="text-[10px] shrink-0">
+											{MEMORY_CATEGORY_LABEL[m.category] ?? m.category}
+										</Badge>
+										{m.scope === "shared" && (
+											<Badge variant="secondary" className="text-[10px] shrink-0">
+												partagé
+											</Badge>
+										)}
+										<span className="text-sm text-fg min-w-0 flex-1">{m.content}</span>
+									</InlineStack>
+								))}
+							</BlockStack>
+						</CardContent>
+					</Card>
+				)}
+			</BlockStack>
+
+			<MissionForm open={formOpen} onOpenChange={setFormOpen} agents={[agent]} defaultAgentId={agent._id} />
 		</BlockStack>
 	)
 }

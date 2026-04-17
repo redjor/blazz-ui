@@ -52,6 +52,7 @@
 	--color-positive: var(--success);
 	--color-caution: var(--warning);
 	--color-negative: var(--destructive);
+	--color-critical: var(--destructive);
 	--color-inform: var(--info);
 
 	/* Spacing */
