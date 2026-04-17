@@ -9,7 +9,7 @@ import { Card, CardContent } from "@blazz/ui/components/ui/card"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useQuery } from "convex/react"
-import { Activity, Bot, DollarSign, type LucideIcon, Plus, Zap } from "lucide-react"
+import { Activity, Bot, DollarSign, LayoutList, type LucideIcon, Network, Plus, Zap } from "lucide-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import { MissionForm } from "@/app/(main)/missions/_components/mission-form"
@@ -17,7 +17,9 @@ import { api } from "@/convex/_generated/api"
 import { ActiveMissionsPanel } from "./_components/active-missions-panel"
 import { ActivityStreamPanel } from "./_components/activity-stream-panel"
 import { AgentRosterPanel } from "./_components/agent-roster-panel"
+import { ApprovalsPanel } from "./_components/approvals-panel"
 import { BudgetMeter } from "./_components/budget-meter"
+import { OrgChartPanel } from "./_components/org-chart-panel"
 import { ScheduledMissionsPanel } from "./_components/scheduled-missions-panel"
 
 function SectionHeader({ title, href }: { title: string; href?: string }) {
@@ -75,8 +77,10 @@ function StatCardSkeleton() {
 
 export function MissionControlClient() {
 	const [formOpen, setFormOpen] = useState(false)
+	const [teamView, setTeamView] = useState<"list" | "org">("list")
 	const agents = useQuery(api.agents.list)
 	const missions = useQuery(api.missions.list, {})
+	const pendingApprovals = useQuery(api.missionApprovals.listPending)
 
 	useAppTopBar([{ label: "Mission Control" }])
 
@@ -120,6 +124,17 @@ export function MissionControlClient() {
 				}
 			/>
 
+			{pendingApprovals && pendingApprovals.length > 0 && (
+				<BlockStack gap="200">
+					<InlineStack gap="200" blockAlign="center">
+						<span className="text-xs font-medium text-caution uppercase tracking-wider">À valider</span>
+						<span className="size-1.5 rounded-full bg-caution animate-pulse" />
+						<span className="text-xs text-fg-muted tabular-nums">{pendingApprovals.length}</span>
+					</InlineStack>
+					<ApprovalsPanel />
+				</BlockStack>
+			)}
+
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 				{stats == null ? (
 					[1, 2, 3, 4].map((i) => <StatCardSkeleton key={i} />)
@@ -145,8 +160,21 @@ export function MissionControlClient() {
 
 			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 				<BlockStack gap="200">
-					<SectionHeader title="Équipe" href="/settings/agents" />
-					<AgentRosterPanel />
+					<InlineStack align="space-between" blockAlign="center">
+						<span className="text-xs font-medium text-fg-muted uppercase tracking-wider">Équipe</span>
+						<InlineStack gap="100">
+							<Button variant={teamView === "list" ? "secondary" : "ghost"} size="sm" onClick={() => setTeamView("list")} aria-label="Vue liste">
+								<LayoutList className="size-3.5" />
+							</Button>
+							<Button variant={teamView === "org" ? "secondary" : "ghost"} size="sm" onClick={() => setTeamView("org")} aria-label="Organigramme">
+								<Network className="size-3.5" />
+							</Button>
+							<Link href="/settings/agents" className="text-xs text-brand hover:underline ml-2">
+								Gérer →
+							</Link>
+						</InlineStack>
+					</InlineStack>
+					{teamView === "list" ? <AgentRosterPanel /> : <OrgChartPanel />}
 				</BlockStack>
 
 				<BlockStack gap="200">

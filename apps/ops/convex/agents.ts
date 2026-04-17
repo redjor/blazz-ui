@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values"
+import type { Id } from "./_generated/dataModel"
 import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
@@ -75,6 +76,7 @@ export const update = mutation({
 		name: v.optional(v.string()),
 		role: v.optional(v.string()),
 		model: v.optional(v.string()),
+		reportsTo: v.optional(v.union(v.id("agents"), v.null())),
 		budget: v.optional(
 			v.object({
 				maxPerMission: v.number(),
@@ -84,11 +86,56 @@ export const update = mutation({
 		),
 		status: v.optional(v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled"))),
 	},
-	handler: async (ctx, { id, ...fields }) => {
+	handler: async (ctx, { id, reportsTo, ...fields }) => {
 		const { userId } = await requireAuth(ctx)
 		const agent = await ctx.db.get(id)
 		if (!agent || agent.userId !== userId) throw new ConvexError("Introuvable")
-		await ctx.db.patch(id, fields)
+		// reportsTo === null means "clear". undefined means "leave unchanged".
+		const patch: Record<string, unknown> = { ...fields }
+		if (reportsTo !== undefined) {
+			if (reportsTo === null) {
+				patch.reportsTo = undefined
+			} else {
+				if (reportsTo === id) throw new ConvexError("Un agent ne peut pas se rapporter à lui-même")
+				const manager = await ctx.db.get(reportsTo)
+				if (!manager || manager.userId !== userId) throw new ConvexError("Manager introuvable")
+				patch.reportsTo = reportsTo
+			}
+		}
+		await ctx.db.patch(id, patch)
+	},
+})
+
+// Apply the default hierarchy to existing agents: Alex is root,
+// Marc/Léo/Sarah/Jules report to Alex. Idempotent — only touches
+// agents whose reportsTo isn't already set correctly.
+export const applyDefaultHierarchy = mutation({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const agents = await ctx.db
+			.query("agents")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const alex = agents.find((a) => a.slug === "assistant")
+		if (!alex) return { updated: 0, message: "Alex introuvable" }
+
+		const subordinateSlugs = new Set(["cfo", "timekeeper", "product-lead", "account-manager"])
+		let updated = 0
+		for (const agent of agents) {
+			if (agent.slug === "assistant") {
+				if (agent.reportsTo !== undefined) {
+					await ctx.db.patch(agent._id, { reportsTo: undefined })
+					updated++
+				}
+				continue
+			}
+			if (subordinateSlugs.has(agent.slug) && agent.reportsTo !== alex._id) {
+				await ctx.db.patch(agent._id, { reportsTo: alex._id })
+				updated++
+			}
+		}
+		return { updated, message: `${updated} agent(s) mis à jour` }
 	},
 })
 
@@ -207,8 +254,9 @@ export const internalSeed = internalMutation({
 			},
 		]
 
+		const insertedBySlug = new Map<string, Id<"agents">>()
 		for (const agent of agents) {
-			await ctx.db.insert("agents", {
+			const id = await ctx.db.insert("agents", {
 				...agent,
 				userId,
 				status: "idle" as const,
@@ -220,6 +268,16 @@ export const internalSeed = internalMutation({
 					lastResetMonth: new Date().toISOString().slice(0, 7),
 				},
 			})
+			insertedBySlug.set(agent.slug, id)
+		}
+		// Wire hierarchy: Alex (assistant) is root, everyone else reports to him.
+		const alexId = insertedBySlug.get("assistant")
+		if (alexId) {
+			for (const [slug, id] of insertedBySlug) {
+				if (slug !== "assistant") {
+					await ctx.db.patch(id, { reportsTo: alexId })
+				}
+			}
 		}
 		return "Seeded 5 agents"
 	},
@@ -304,8 +362,9 @@ export const seed = mutation({
 			},
 		]
 
+		const insertedBySlug = new Map<string, Id<"agents">>()
 		for (const agent of agents) {
-			await ctx.db.insert("agents", {
+			const id = await ctx.db.insert("agents", {
 				...agent,
 				userId,
 				status: "idle",
@@ -317,6 +376,15 @@ export const seed = mutation({
 					lastResetMonth: new Date().toISOString().slice(0, 7),
 				},
 			})
+			insertedBySlug.set(agent.slug, id)
+		}
+		const alexId = insertedBySlug.get("assistant")
+		if (alexId) {
+			for (const [slug, id] of insertedBySlug) {
+				if (slug !== "assistant") {
+					await ctx.db.patch(id, { reportsTo: alexId })
+				}
+			}
 		}
 	},
 })

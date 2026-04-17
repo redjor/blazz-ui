@@ -408,6 +408,7 @@ export default defineSchema({
 		avatar: v.optional(v.string()),
 		status: v.union(v.literal("idle"), v.literal("busy"), v.literal("paused"), v.literal("error"), v.literal("disabled")),
 		lastActiveAt: v.optional(v.number()),
+		reportsTo: v.optional(v.id("agents")),
 		budget: v.object({
 			maxPerMission: v.number(),
 			maxPerDay: v.number(),
@@ -427,7 +428,8 @@ export default defineSchema({
 		}),
 	})
 		.index("by_user", ["userId"])
-		.index("by_slug", ["userId", "slug"]),
+		.index("by_slug", ["userId", "slug"])
+		.index("by_reports_to", ["userId", "reportsTo"]),
 
 	missions: defineTable({
 		userId: v.id("users"),
@@ -486,6 +488,20 @@ export default defineSchema({
 		toolName: v.optional(v.string()),
 		duration: v.optional(v.number()),
 	}).index("by_mission", ["missionId"]),
+
+	missionApprovals: defineTable({
+		userId: v.id("users"),
+		missionId: v.id("missions"),
+		agentId: v.id("agents"),
+		toolName: v.string(),
+		toolArgs: v.any(),
+		status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
+		requestedAt: v.number(),
+		resolvedAt: v.optional(v.number()),
+		rejectionReason: v.optional(v.string()),
+	})
+		.index("by_user_status", ["userId", "status"])
+		.index("by_mission", ["missionId"]),
 
 	agentMemory: defineTable({
 		userId: v.id("users"),

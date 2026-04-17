@@ -401,3 +401,34 @@ export const workerCreateNotification = mutation({
 		})
 	},
 })
+
+// ── Approvals (worker side) ──
+
+export const workerRequestApproval = mutation({
+	args: {
+		missionId: v.id("missions"),
+		agentId: v.id("agents"),
+		toolName: v.string(),
+		toolArgs: v.any(),
+	},
+	handler: async (ctx, { missionId, agentId, toolName, toolArgs }) => {
+		const mission = await ctx.db.get(missionId)
+		if (!mission) throw new ConvexError("Mission introuvable")
+		return ctx.db.insert("missionApprovals", {
+			userId: mission.userId,
+			missionId,
+			agentId,
+			toolName,
+			toolArgs,
+			status: "pending" as const,
+			requestedAt: Date.now(),
+		})
+	},
+})
+
+export const workerGetApproval = query({
+	args: { id: v.id("missionApprovals") },
+	handler: async (ctx, { id }) => {
+		return ctx.db.get(id)
+	},
+})
