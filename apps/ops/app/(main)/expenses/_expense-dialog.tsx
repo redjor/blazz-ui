@@ -228,7 +228,7 @@ export function ExpenseDialog({ open, onOpenChange, type, expense }: ExpenseDial
 						)}
 
 						{type === "mileage" && (
-							<>
+							<BlockStack gap="4">
 								{/* Départ + Destination */}
 								<div className="grid grid-cols-2 gap-3">
 									<div className="space-y-2">
@@ -257,7 +257,7 @@ export function ExpenseDialog({ open, onOpenChange, type, expense }: ExpenseDial
 										<div className="flex h-9 items-center rounded-md border border-edge bg-muted px-3 text-sm text-fg-muted">{mileagePreview !== null ? formatCurrency(mileagePreview) : "—"}</div>
 									</div>
 								</div>
-							</>
+							</BlockStack>
 						)}
 
 						{/* Client */}
