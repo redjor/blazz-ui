@@ -106,9 +106,10 @@ export const update = mutation({
 	},
 })
 
-// Apply the default hierarchy to existing agents: Alex is root,
-// Marc/Léo/Sarah/Jules report to Alex. Idempotent — only touches
-// agents whose reportsTo isn't already set correctly.
+// Migration: seed the default hierarchy (Alex root, others report to him) on
+// agents that haven't been configured yet. Only touches agents whose reportsTo
+// is currently undefined — user customizations are preserved. Run once after
+// pulling the org-chart change; subsequent runs are safe no-ops.
 export const applyDefaultHierarchy = mutation({
 	args: {},
 	handler: async (ctx) => {
@@ -123,14 +124,8 @@ export const applyDefaultHierarchy = mutation({
 		const subordinateSlugs = new Set(["cfo", "timekeeper", "product-lead", "account-manager"])
 		let updated = 0
 		for (const agent of agents) {
-			if (agent.slug === "assistant") {
-				if (agent.reportsTo !== undefined) {
-					await ctx.db.patch(agent._id, { reportsTo: undefined })
-					updated++
-				}
-				continue
-			}
-			if (subordinateSlugs.has(agent.slug) && agent.reportsTo !== alex._id) {
+			if (agent.slug === "assistant") continue
+			if (subordinateSlugs.has(agent.slug) && agent.reportsTo === undefined) {
 				await ctx.db.patch(agent._id, { reportsTo: alex._id })
 				updated++
 			}

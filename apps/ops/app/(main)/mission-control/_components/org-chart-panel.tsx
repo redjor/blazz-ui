@@ -36,22 +36,50 @@ type OrgNode = {
 	children: OrgNode[]
 }
 
-function buildTree(agents: AgentLite[]): OrgNode[] {
+// Walk up reportsTo; return true if we encounter `agent._id` → cycle detected.
+function isInCycle(agent: AgentLite, byId: Map<Id<"agents">, AgentLite>): boolean {
+	const seen = new Set<Id<"agents">>([agent._id])
+	let current = agent.reportsTo
+	while (current) {
+		if (seen.has(current)) return true
+		seen.add(current)
+		const parent = byId.get(current)
+		if (!parent) return false
+		current = parent.reportsTo
+	}
+	return false
+}
+
+function buildTree(agents: AgentLite[]): { roots: OrgNode[]; cycledIds: Set<Id<"agents">> } {
 	const byId = new Map<Id<"agents">, OrgNode>()
+	const agentsById = new Map<Id<"agents">, AgentLite>()
 	for (const agent of agents) {
 		byId.set(agent._id, { agent, children: [] })
+		agentsById.set(agent._id, agent)
 	}
+
+	// Find all agents whose reportsTo chain loops back — they need to be
+	// promoted to roots so they don't vanish from the tree.
+	const cycledIds = new Set<Id<"agents">>()
+	for (const agent of agents) {
+		if (agent.reportsTo && isInCycle(agent, agentsById)) {
+			cycledIds.add(agent._id)
+		}
+	}
+
 	const roots: OrgNode[] = []
 	for (const agent of agents) {
 		const node = byId.get(agent._id)
 		if (!node) continue
-		if (agent.reportsTo && byId.has(agent.reportsTo)) {
+		const isCycled = cycledIds.has(agent._id)
+		const hasValidParent = agent.reportsTo && byId.has(agent.reportsTo)
+		if (!isCycled && hasValidParent && agent.reportsTo) {
 			byId.get(agent.reportsTo)?.children.push(node)
 		} else {
 			roots.push(node)
 		}
 	}
-	return roots
+	return { roots, cycledIds }
 }
 
 function OrgCard({ agent }: { agent: AgentLite }) {
@@ -116,12 +144,12 @@ function OrgChartSkeleton() {
 export function OrgChartPanel() {
 	const agents = useQuery(api.agents.list)
 
-	const tree = useMemo(() => (agents ? buildTree(agents) : []), [agents])
-	const orphanCount = useMemo(() => {
-		if (!agents) return 0
-		// Orphan = reportsTo points to a missing agent. Treated as root in buildTree.
+	const { roots, cycledIds, orphanCount } = useMemo(() => {
+		if (!agents) return { roots: [] as OrgNode[], cycledIds: new Set<Id<"agents">>(), orphanCount: 0 }
+		const { roots, cycledIds } = buildTree(agents)
 		const ids = new Set(agents.map((a) => a._id))
-		return agents.filter((a) => a.reportsTo && !ids.has(a.reportsTo)).length
+		const orphanCount = agents.filter((a) => a.reportsTo && !ids.has(a.reportsTo)).length
+		return { roots, cycledIds, orphanCount }
 	}, [agents])
 
 	if (agents === undefined) return <OrgChartSkeleton />
@@ -157,13 +185,22 @@ export function OrgChartPanel() {
 		<Card>
 			<CardContent className="p-6 overflow-x-auto">
 				<BlockStack gap="400" className="items-center min-w-fit">
-					{tree.map((root) => (
+					{roots.map((root) => (
 						<OrgSubtree key={root.agent._id} node={root} />
 					))}
-					{orphanCount > 0 && (
-						<Badge variant="outline" className="text-[10px]">
-							{orphanCount} agent(s) sans manager valide
-						</Badge>
+					{(orphanCount > 0 || cycledIds.size > 0) && (
+						<InlineStack gap="200" wrap>
+							{orphanCount > 0 && (
+								<Badge variant="outline" className="text-[10px]">
+									{orphanCount} agent(s) sans manager valide
+								</Badge>
+							)}
+							{cycledIds.size > 0 && (
+								<Badge variant="outline" className="text-[10px] border-critical/50 text-critical">
+									Cycle détecté sur {cycledIds.size} agent(s)
+								</Badge>
+							)}
+						</InlineStack>
 					)}
 				</BlockStack>
 			</CardContent>

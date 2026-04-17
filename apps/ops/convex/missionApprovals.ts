@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
+import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 export const listPending = query({
@@ -28,13 +28,16 @@ export const listByMission = query({
 	},
 })
 
+// Idempotent: no-op if already resolved. Races between tabs or between user
+// and worker cleanup resolve cleanly — whoever wins, wins. Throwing would
+// surface scary errors on a second click; silent no-op is the right UX.
 export const approve = mutation({
 	args: { id: v.id("missionApprovals") },
 	handler: async (ctx, { id }) => {
 		const { userId } = await requireAuth(ctx)
 		const approval = await ctx.db.get(id)
 		if (!approval || approval.userId !== userId) throw new ConvexError("Introuvable")
-		if (approval.status !== "pending") throw new ConvexError("Déjà résolu")
+		if (approval.status !== "pending") return
 		await ctx.db.patch(id, { status: "approved", resolvedAt: Date.now() })
 	},
 })
@@ -45,42 +48,11 @@ export const reject = mutation({
 		const { userId } = await requireAuth(ctx)
 		const approval = await ctx.db.get(id)
 		if (!approval || approval.userId !== userId) throw new ConvexError("Introuvable")
-		if (approval.status !== "pending") throw new ConvexError("Déjà résolu")
+		if (approval.status !== "pending") return
 		await ctx.db.patch(id, {
 			status: "rejected",
 			resolvedAt: Date.now(),
 			rejectionReason: reason,
 		})
-	},
-})
-
-// ── Internal (worker) ──
-
-export const internalRequest = internalMutation({
-	args: {
-		missionId: v.id("missions"),
-		agentId: v.id("agents"),
-		toolName: v.string(),
-		toolArgs: v.any(),
-	},
-	handler: async (ctx, { missionId, agentId, toolName, toolArgs }) => {
-		const mission = await ctx.db.get(missionId)
-		if (!mission) throw new ConvexError("Mission introuvable")
-		return ctx.db.insert("missionApprovals", {
-			userId: mission.userId,
-			missionId,
-			agentId,
-			toolName,
-			toolArgs,
-			status: "pending",
-			requestedAt: Date.now(),
-		})
-	},
-})
-
-export const internalGet = internalQuery({
-	args: { id: v.id("missionApprovals") },
-	handler: async (ctx, { id }) => {
-		return ctx.db.get(id)
 	},
 })

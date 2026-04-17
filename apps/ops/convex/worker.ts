@@ -432,3 +432,19 @@ export const workerGetApproval = query({
 		return ctx.db.get(id)
 	},
 })
+
+// Idempotent: only transitions a pending record to rejected. If the user has
+// already resolved the approval (approve or reject), this is a no-op — the
+// user's decision wins over the worker's cleanup.
+export const workerResolveApproval = mutation({
+	args: { id: v.id("missionApprovals"), reason: v.optional(v.string()) },
+	handler: async (ctx, { id, reason }) => {
+		const approval = await ctx.db.get(id)
+		if (!approval || approval.status !== "pending") return
+		await ctx.db.patch(id, {
+			status: "rejected" as const,
+			resolvedAt: Date.now(),
+			rejectionReason: reason,
+		})
+	},
+})

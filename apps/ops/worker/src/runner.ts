@@ -1,5 +1,6 @@
 import type { ConvexHttpClient } from "convex/browser"
 import OpenAI from "openai"
+import type { Id } from "../../convex/_generated/dataModel"
 import { calculateCost, canStartMission, isMissionBudgetExceeded } from "./budget"
 import { api } from "./convex"
 import { consolidatePostMission, extractAndSaveMemories } from "./memory"
@@ -14,8 +15,8 @@ function getOpenAI() {
 }
 
 interface Mission {
-	_id: string
-	agentId: string
+	_id: Id<"missions">
+	agentId: Id<"agents">
 	title: string
 	prompt: string
 	mode?: string
@@ -24,8 +25,8 @@ interface Mission {
 }
 
 interface Agent {
-	_id: string
-	userId: string
+	_id: Id<"agents">
+	userId: Id<"users">
 	slug: string
 	name: string
 	role: string
@@ -183,13 +184,15 @@ export async function runMission(convex: ConvexHttpClient, mission: Mission, age
 						result = JSON.stringify({ skipped: true, reason: "dry-run mode" })
 					} else {
 						// Approval gate: tools listed in permissions.confirm require human sign-off.
-						// The worker creates a pending approval and polls until the user resolves it.
+						// Skipped entirely in dry-run mode since the tool won't execute anyway.
 						let approvalOutcome: "approved" | "rejected" | "timeout" | "skipped" = "skipped"
 						let rejectionReason: string | undefined
-						if (agent.permissions.confirm.includes(tool.name)) {
-							const approvalId = await convex.mutation(api.worker.workerRequestApproval, {
-								missionId: mission._id as any,
-								agentId: agent._id as any,
+						let approvalId: Id<"missionApprovals"> | null = null
+						const gateRequired = mission.mode !== "dry-run" && agent.permissions.confirm.includes(tool.name)
+						if (gateRequired) {
+							approvalId = await convex.mutation(api.worker.workerRequestApproval, {
+								missionId: mission._id,
+								agentId: agent._id,
 								toolName: tool.name,
 								toolArgs: JSON.parse(call.function.arguments),
 							})
@@ -215,7 +218,36 @@ export async function runMission(convex: ConvexHttpClient, mission: Mission, age
 									rejectionReason = approval.rejectionReason
 									break
 								}
-								await new Promise((r) => setTimeout(r, pollInterval))
+								// Race the sleep against the abort signal so shutdown is immediate
+								// instead of waiting up to `pollInterval` per pending approval.
+								await new Promise<void>((resolve) => {
+									if (signal.aborted) {
+										resolve()
+										return
+									}
+									const timer = setTimeout(resolve, pollInterval)
+									signal.addEventListener(
+										"abort",
+										() => {
+											clearTimeout(timer)
+											resolve()
+										},
+										{ once: true }
+									)
+								})
+							}
+
+							// Cleanup: flip a stranded pending record (timeout or abort) to rejected
+							// so the approvals panel doesn't accumulate ghosts.
+							if (approvalOutcome !== "approved") {
+								try {
+									await convex.mutation(api.worker.workerResolveApproval, {
+										id: approvalId,
+										reason: approvalOutcome === "timeout" ? "Timeout (5 min)" : (rejectionReason ?? "Annulé"),
+									})
+								} catch {
+									/* already resolved by user — ignore */
+								}
 							}
 						}
 

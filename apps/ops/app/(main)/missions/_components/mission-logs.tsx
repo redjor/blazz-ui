@@ -270,7 +270,7 @@ export function MissionLogs({ logs, live }: MissionLogsProps) {
 	}
 
 	return (
-		<BlockStack gap="300" className="max-h-[600px] overflow-y-auto">
+		<BlockStack gap="300">
 			<InlineStack gap="100">
 				<Button variant={view === "detailed" ? "secondary" : "ghost"} size="sm" onClick={() => setView("detailed")}>
 					Détail
@@ -286,10 +286,12 @@ export function MissionLogs({ logs, live }: MissionLogsProps) {
 				</Badge>
 			</InlineStack>
 
-			{view === "detailed" && <DetailedLogs logs={logs} />}
-			{view === "timeline" && <TimelineOverview logs={logs} />}
-			{view === "raw" && <RawLogs logs={logs} />}
-			<div ref={logsEndRef} />
+			<div className="max-h-[600px] overflow-y-auto">
+				{view === "detailed" && <DetailedLogs logs={logs} />}
+				{view === "timeline" && <TimelineOverview logs={logs} />}
+				{view === "raw" && <RawLogs logs={logs} />}
+				<div ref={logsEndRef} />
+			</div>
 		</BlockStack>
 	)
 }
