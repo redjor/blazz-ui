@@ -9,13 +9,19 @@
 
 export type ToolCategory = "read" | "write"
 
+export type ToolParamSchema = {
+	type: "string" | "number" | "boolean"
+	description?: string
+	enum?: readonly string[]
+}
+
 export type ToolSchema = {
 	name: string
 	category: ToolCategory
 	description: string
 	parameters: {
 		type: "object"
-		properties: Record<string, unknown>
+		properties: Record<string, ToolParamSchema>
 		required?: readonly string[]
 	}
 }
@@ -139,8 +145,6 @@ export const TOOL_SCHEMAS: readonly ToolSchema[] = [
 		},
 	},
 ] as const
-
-export const MCP_TOOL_NAMES: readonly string[] = TOOL_SCHEMAS.map((t) => t.name)
 
 export function getToolSchema(name: string): ToolSchema | undefined {
 	return TOOL_SCHEMAS.find((t) => t.name === name)

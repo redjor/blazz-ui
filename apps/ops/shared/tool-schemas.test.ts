@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { MCP_TOOL_NAMES, TOOL_SCHEMAS, type ToolSchema } from "./tool-schemas"
+import { getToolSchema, TOOL_SCHEMAS, type ToolSchema } from "./tool-schemas"
 
 describe("tool-schemas", () => {
 	it("exports exactly 10 tools", () => {
@@ -19,10 +19,6 @@ describe("tool-schemas", () => {
 		expect(new Set(names).size).toBe(names.length)
 	})
 
-	it("MCP_TOOL_NAMES matches TOOL_SCHEMAS", () => {
-		expect(MCP_TOOL_NAMES.sort()).toEqual(TOOL_SCHEMAS.map((t) => t.name).sort())
-	})
-
 	it("write tools are marked as such", () => {
 		const writeTools = TOOL_SCHEMAS.filter((t) => t.category === "write")
 		expect(writeTools.map((t) => t.name)).toEqual(["create_expense"])
@@ -33,10 +29,20 @@ describe("tool-schemas", () => {
 			const props = t.parameters.properties ?? {}
 			for (const [key, schema] of Object.entries(props)) {
 				if (key === "date" || key === "from" || key === "to") {
-					const desc = (schema as { description?: string }).description ?? ""
+					const desc = schema.description ?? ""
 					expect(desc).toMatch(/Europe\/Paris/)
 				}
 			}
 		}
+	})
+
+	it("getToolSchema returns the schema by name", () => {
+		const schema = getToolSchema("qonto_balance")
+		expect(schema?.name).toBe("qonto_balance")
+		expect(schema?.category).toBe("read")
+	})
+
+	it("getToolSchema returns undefined for unknown name", () => {
+		expect(getToolSchema("nuke_db")).toBeUndefined()
 	})
 })
