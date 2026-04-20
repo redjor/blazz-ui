@@ -1,7 +1,8 @@
 import { httpRouter } from "convex/server"
-import { internal } from "./_generated/api"
+import { api, internal } from "./_generated/api"
 import { httpAction } from "./_generated/server"
 import { auth } from "./auth"
+import { dispatchMcpRequest } from "./mcp"
 
 const http = httpRouter()
 
@@ -311,6 +312,109 @@ http.route({
 				},
 			}
 		)
+	}),
+})
+
+// ── MCP Server (JSON-RPC 2.0 over HTTP POST) ──
+
+// Health check — public, no auth. Ping to verify MCP server is alive.
+http.route({
+	path: "/mcp",
+	method: "GET",
+	handler: httpAction(async () => {
+		return new Response(JSON.stringify({ ok: true, server: "blazz-ops-mcp", version: "0.1.0" }), {
+			status: 200,
+			headers: { "Content-Type": "application/json" },
+		})
+	}),
+})
+
+// Main MCP endpoint — Bearer-protected.
+http.route({
+	path: "/mcp",
+	method: "POST",
+	handler: httpAction(async (ctx, request) => {
+		const expected = process.env.MCP_SECRET
+		if (!expected) {
+			return new Response("MCP_SECRET not configured", { status: 500 })
+		}
+
+		const authHeader = request.headers.get("Authorization") ?? ""
+		const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : ""
+		if (bearer !== expected) {
+			return new Response("Unauthorized", { status: 401 })
+		}
+
+		let body: unknown
+		try {
+			body = await request.json()
+		} catch {
+			return new Response(JSON.stringify({ jsonrpc: "2.0", id: null, error: { code: -32700, message: "Parse error" } }), { status: 400, headers: { "Content-Type": "application/json" } })
+		}
+
+		const response = await dispatchMcpRequest(body, {
+			executeTool: async (name, args) => {
+				switch (name) {
+					case "qonto_balance": {
+						const settings = await ctx.runQuery(api.worker.workerGetTreasurySettings, {})
+						return {
+							balanceCents: settings?.qontoBalanceCents ?? 0,
+							balanceEur: (settings?.qontoBalanceCents ?? 0) / 100,
+							lastUpdated: settings?._creationTime,
+						}
+					}
+					case "qonto_transactions": {
+						try {
+							return await ctx.runAction(api.qonto.listTransactions, {})
+						} catch {
+							return { error: "Qonto API not configured or unavailable" }
+						}
+					}
+					case "treasury_forecast": {
+						const [settings, expenses] = await Promise.all([ctx.runQuery(api.worker.workerGetTreasurySettings, {}), ctx.runQuery(api.worker.workerExpenseSummary, {})])
+						return { settings, expenses }
+					}
+					case "list_invoices":
+						return ctx.runQuery(api.worker.workerListInvoices, args as any)
+					case "list_expenses":
+						return ctx.runQuery(api.worker.workerListExpenses, {
+							type: args.type as "restaurant" | "mileage" | undefined,
+							from: args.from as string | undefined,
+							to: args.to as string | undefined,
+							limit: Math.min((args.limit as number) ?? 30, 100),
+						})
+					case "list_time_entries":
+						return ctx.runQuery(api.worker.workerListTimeEntries, args as any)
+					case "list_todos":
+						return ctx.runQuery(api.worker.workerListTodos, {
+							status: args.status as string | undefined,
+							limit: Math.min((args.limit as number) ?? 50, 100),
+						})
+					case "list_clients":
+						return ctx.runQuery(api.worker.workerListClients, {})
+					case "list_projects":
+						return ctx.runQuery(api.worker.workerListProjects, {})
+					case "create_expense":
+						return ctx.runMutation(api.worker.workerCreateExpense, args as any)
+					default:
+						throw new Error(`Unhandled tool in switch: ${name}`)
+				}
+			},
+			appendAudit: async (entry) => {
+				await ctx.runMutation(api.worker.workerAppendMcpAudit, {
+					method: entry.method,
+					tool: entry.tool,
+					success: entry.success,
+					errorMessage: entry.errorMessage,
+					argsPreview: entry.argsPreview,
+				})
+			},
+		})
+
+		return new Response(JSON.stringify(response), {
+			status: 200,
+			headers: { "Content-Type": "application/json" },
+		})
 	}),
 })
 
