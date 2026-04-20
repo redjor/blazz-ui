@@ -19,7 +19,6 @@ import { ChatToolHandler } from "@/components/chat/chat-tool-handler"
 export default function ChatPageClient() {
 	const { messages, sendMessage, status, stop, setMessages, addToolResult } = useChat({
 		api: "/api/chat",
-		maxSteps: 5,
 		onError: (err) => {
 			toast.error(`Erreur chat : ${err.message}`)
 		},

@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { openai } from "@ai-sdk/openai"
 import { convexAuthNextjsToken } from "@convex-dev/auth/nextjs/server"
-import { convertToModelMessages, streamText } from "ai"
+import { convertToModelMessages, stepCountIs, streamText } from "ai"
 import { ConvexHttpClient } from "convex/browser"
 import { z } from "zod"
 import { api } from "@/convex/_generated/api"
@@ -516,7 +516,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 		model,
 		messages: messagesWithSystem,
 		tools,
-		maxSteps: 5,
+		stopWhen: stepCountIs(5),
 		onFinish: async ({ usage, text }) => {
 			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.15
 			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 0.6

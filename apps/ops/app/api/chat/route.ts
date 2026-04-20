@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { openai } from "@ai-sdk/openai"
 import { convexAuthNextjsToken } from "@convex-dev/auth/nextjs/server"
-import { convertToModelMessages, streamText } from "ai"
+import { convertToModelMessages, stepCountIs, streamText } from "ai"
 import { ConvexHttpClient } from "convex/browser"
 import { z } from "zod"
 import { api } from "@/convex/_generated/api"
@@ -292,7 +292,7 @@ export async function POST(req: Request) {
 		system: systemPrompt,
 		messages: modelMessages,
 		tools,
-		maxSteps: 5,
+		stopWhen: stepCountIs(5),
 	})
 
 	return result.toUIMessageStreamResponse()
@@ -444,7 +444,7 @@ async function handleAgentChat(token: string, slug: string, messages: any[]) {
 		system: systemPrompt,
 		messages: modelMessages,
 		tools,
-		maxSteps: 5,
+		stopWhen: stepCountIs(5),
 		onFinish: async ({ usage, text }) => {
 			const inputCost = ((usage?.inputTokens ?? 0) / 1_000_000) * 0.4
 			const outputCost = ((usage?.outputTokens ?? 0) / 1_000_000) * 1.6
