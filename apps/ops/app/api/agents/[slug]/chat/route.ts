@@ -551,6 +551,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 		JSON.stringify(
 			{
 				slug,
+				permissions: agent.permissions,
+				toolNames: Object.keys(tools),
 				systemPromptLength: systemPrompt.length,
 				systemPromptStart: systemPrompt.slice(0, 200),
 				modelMessagesCount: modelMessages.length,
