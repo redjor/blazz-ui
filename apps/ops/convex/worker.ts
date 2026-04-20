@@ -5,6 +5,7 @@
  */
 import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { computeMileageReimbursement } from "./lib/urssaf"
 
 // ── Agents ──
 
@@ -287,6 +288,102 @@ export const workerListClients = query({
 	args: {},
 	handler: async (ctx) => {
 		return ctx.db.query("clients").collect()
+	},
+})
+
+// ── Expenses (frais pro, distinct from recurringExpenses) ──
+
+export const workerListExpenses = query({
+	args: {
+		type: v.optional(v.union(v.literal("restaurant"), v.literal("mileage"))),
+		from: v.optional(v.string()),
+		to: v.optional(v.string()),
+		limit: v.optional(v.number()),
+	},
+	handler: async (ctx, { type, from, to, limit = 30 }) => {
+		let entries = await ctx.db.query("expenses").collect()
+		if (type) entries = entries.filter((e) => e.type === type)
+		if (from) entries = entries.filter((e) => e.date >= from)
+		if (to) entries = entries.filter((e) => e.date <= to)
+		return entries
+			.sort((a, b) => (b.date > a.date ? 1 : -1))
+			.slice(0, limit)
+			.map((e) => ({
+				id: e._id,
+				type: e.type,
+				date: e.date,
+				amountCents: e.amountCents,
+				reimbursementCents: e.reimbursementCents,
+				clientId: e.clientId,
+				projectId: e.projectId,
+				notes: e.notes,
+				guests: e.guests,
+				purpose: e.purpose,
+				departure: e.departure,
+				destination: e.destination,
+				distanceKm: e.distanceKm,
+			}))
+	},
+})
+
+export const workerCreateExpense = mutation({
+	args: {
+		type: v.union(v.literal("restaurant"), v.literal("mileage")),
+		date: v.string(),
+		amountCents: v.optional(v.number()),
+		clientId: v.optional(v.id("clients")),
+		projectId: v.optional(v.id("projects")),
+		notes: v.optional(v.string()),
+		// Restaurant
+		guests: v.optional(v.string()),
+		purpose: v.optional(v.string()),
+		// Mileage
+		departure: v.optional(v.string()),
+		destination: v.optional(v.string()),
+		distanceKm: v.optional(v.number()),
+	},
+	handler: async (ctx, args) => {
+		// Resolve user (single-user deployment, same pattern as workerCreateNote).
+		const users = await ctx.db.query("users").take(1)
+		const userId = users[0]?._id
+		if (!userId) throw new ConvexError("Aucun utilisateur configuré")
+
+		// Validate ownership of optional FK references.
+		if (args.clientId) {
+			const client = await ctx.db.get(args.clientId)
+			if (!client || client.userId !== userId) throw new ConvexError("Client non trouvé")
+		}
+		if (args.projectId) {
+			const project = await ctx.db.get(args.projectId)
+			if (!project || project.userId !== userId) throw new ConvexError("Projet non trouvé")
+		}
+
+		// Mileage: compute URSSAF reimbursement using cumulative annual km.
+		let reimbursementCents: number | undefined
+		if (args.type === "mileage" && args.distanceKm) {
+			const vehicle = await ctx.db
+				.query("vehicleSettings")
+				.withIndex("by_user", (q) => q.eq("userId", userId))
+				.first()
+			if (vehicle) {
+				const year = args.date.slice(0, 4)
+				const from = `${year}-01-01`
+				const to = `${year}-12-31`
+				const entries = await ctx.db
+					.query("expenses")
+					.withIndex("by_user_type", (q) => q.eq("userId", userId).eq("type", "mileage"))
+					.collect()
+				const annualKm = entries.filter((e) => e.date >= from && e.date <= to).reduce((sum, e) => sum + (e.distanceKm ?? 0), 0)
+				reimbursementCents = computeMileageReimbursement(args.distanceKm, annualKm, vehicle.fiscalPower)
+			}
+		}
+
+		return ctx.db.insert("expenses", {
+			...args,
+			userId,
+			reimbursementCents,
+			createdAt: Date.now(),
+		})
 	},
 })
 

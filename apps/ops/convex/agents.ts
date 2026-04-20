@@ -14,8 +14,8 @@ const SEED_AGENTS = [
 		avatar: "🟡",
 		budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
 		permissions: {
-			safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "treasury_forecast", "list_projects", "list_time_entries", "list_goals", "list_notes"],
-			confirm: ["create_note"],
+			safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "list_expenses", "treasury_forecast", "list_projects", "list_time_entries", "list_goals", "list_notes"],
+			confirm: ["create_note", "create_expense"],
 			blocked: ["write_file", "github_create_issue"],
 		},
 	},
