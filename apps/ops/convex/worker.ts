@@ -672,3 +672,25 @@ export const workerResolveApproval = mutation({
 		})
 	},
 })
+
+// ── MCP Audit Log ──
+
+export const workerAppendMcpAudit = mutation({
+	args: {
+		method: v.string(),
+		tool: v.optional(v.string()),
+		success: v.boolean(),
+		errorMessage: v.optional(v.string()),
+		argsPreview: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		await ctx.db.insert("mcpAuditLog", {
+			ts: Date.now(),
+			method: args.method,
+			tool: args.tool,
+			success: args.success,
+			errorMessage: args.errorMessage,
+			argsPreview: args.argsPreview,
+		})
+	},
+})
