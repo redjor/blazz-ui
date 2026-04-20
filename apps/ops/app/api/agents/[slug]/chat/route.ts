@@ -359,7 +359,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 		context ? `\n## Contexte Projet\n${context}` : "",
 		memoryBlock,
 		`\n## Contexte temporel\nAujourd'hui : ${todayFormatted} (${todayISO})`,
-		`\n## Règles\n- Réponds TOUJOURS en français\n- Reste dans ton rôle de ${agent.role}\n- Formate les dates en ISO: YYYY-MM-DD\n- "aujourd'hui" = ${todayISO}\n- N'invente jamais un ID Convex`,
+		`\n## Règles\n- Réponds TOUJOURS en français\n- Reste dans ton rôle de ${agent.role}\n- Formate les dates en ISO: YYYY-MM-DD\n- "aujourd'hui" = ${todayISO}\n- N'invente jamais un ID Convex\n- **Quand un tool dédié existe pour une tâche, utilise-le DIRECTEMENT**. Ne tombe jamais back sur create_note ou create_todo pour "garder trace" — l'action laisse sa propre trace en DB.\n- **N'utilise JAMAIS create_note pour commenter tes erreurs, tes corrections, ou tes actions.** Si tu viens de faire quelque chose, la DB en a déjà la trace.\n- **Exécute les actions demandées sans demander de confirmation en plus.** La validation côté UI gère déjà les actions à confirmer. Ne crée pas de note "je confirme…" ou "merci de valider…" — appelle le tool, point.`,
 	]
 		.filter(Boolean)
 		.join("\n")
