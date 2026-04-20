@@ -17,7 +17,7 @@ import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { DefaultChatTransport } from "ai"
 import { useMutation, useQuery } from "convex/react"
 import { RotateCcw } from "lucide-react"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { toast } from "sonner"
 import { AgentAvatar } from "@/app/(main)/missions/_components/agent-avatar"
 import { api } from "@/convex/_generated/api"
@@ -123,24 +123,31 @@ export function AgentChatClient({ slug }: { slug: string }) {
 		[slug]
 	)
 
-	// Convert saved messages to useChat format
-	const initialMessages = useMemo(() => {
-		if (!savedMessages || savedMessages.length === 0) return undefined
-		return savedMessages.map((m) => ({
-			id: m._id,
-			role: m.role as "user" | "assistant",
-			content: m.content,
-			parts: [{ type: "text" as const, text: m.content }],
-		}))
-	}, [savedMessages])
-
 	const { messages, sendMessage, status, stop, setMessages } = useChat({
 		transport,
-		messages: initialMessages,
 		onError: (err) => {
 			toast.error(`Erreur agent : ${err.message}`)
 		},
 	})
+
+	// Hydrate chat history from Convex once — passing `messages` to useChat
+	// makes it controlled, which resets internal state on every reactive tick
+	// of `savedMessages` (e.g. after the backend appends a new message),
+	// causing "Maximum update depth exceeded".
+	const hydratedRef = useRef(false)
+	useEffect(() => {
+		if (hydratedRef.current || savedMessages === undefined) return
+		if (savedMessages.length > 0) {
+			setMessages(
+				savedMessages.map((m) => ({
+					id: m._id,
+					role: m.role as "user" | "assistant",
+					parts: [{ type: "text" as const, text: m.content }],
+				}))
+			)
+		}
+		hydratedRef.current = true
+	}, [savedMessages, setMessages])
 
 	useAppTopBar(agent != null ? [{ label: "Mission Control", href: "/mission-control" }, { label: agent.name, href: `/agents/${slug}` }, { label: "Chat" }] : null)
 
