@@ -230,6 +230,155 @@ export const applyDefaultHierarchy = mutation({
 	},
 })
 
+// Insert any SEED_AGENTS slug missing from the DB without touching existing
+// records. Wires reportsTo (Alex as root) for newly-inserted agents only.
+// Safe to run anytime — idempotent, non-destructive.
+export const ensureAgents = mutation({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const existing = await ctx.db
+			.query("agents")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const existingSlugs = new Set(existing.map((a) => a.slug))
+
+		const insertedIds = new Map<string, Id<"agents">>()
+		for (const agent of SEED_AGENTS) {
+			if (existingSlugs.has(agent.slug)) continue
+			const id = await ctx.db.insert("agents", {
+				...agent,
+				permissions: {
+					safe: [...agent.permissions.safe],
+					confirm: [...agent.permissions.confirm],
+					blocked: [...agent.permissions.blocked],
+				},
+				userId,
+				status: "idle" as const,
+				usage: {
+					todayUsd: 0,
+					monthUsd: 0,
+					totalUsd: 0,
+					lastResetDay: new Date().toISOString().slice(0, 10),
+					lastResetMonth: new Date().toISOString().slice(0, 7),
+				},
+			})
+			insertedIds.set(agent.slug, id)
+		}
+
+		// Wire reportsTo for newly-inserted subordinates. Alex may be a
+		// pre-existing record or a fresh insert — handle both.
+		const alexExisting = existing.find((a) => a.slug === "assistant")
+		const alexId = alexExisting?._id ?? insertedIds.get("assistant") ?? null
+		if (alexId) {
+			for (const [slug, id] of insertedIds) {
+				if (slug === "assistant") continue
+				await ctx.db.patch(id, { reportsTo: alexId })
+			}
+		}
+
+		const inserted = [...insertedIds.keys()]
+		return { inserted, count: inserted.length, message: inserted.length === 0 ? "Aucun agent à ajouter" : `${inserted.length} agent(s) inséré(s) : ${inserted.join(", ")}` }
+	},
+})
+
+// Full reconciliation: insert missing slugs AND update existing records whose
+// name / role / model / avatar / budget / permissions have drifted from
+// SEED_AGENTS. Use when you change the seed const and want existing DBs to
+// pick up the change. Leaves `usage`, `status`, `lastActiveAt`, `reportsTo`
+// alone so user customizations and runtime state survive.
+export const syncAgentsFromSeed = mutation({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const existing = await ctx.db
+			.query("agents")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		const bySlug = new Map(existing.map((a) => [a.slug, a]))
+
+		const setEq = (a: readonly string[], b: readonly string[]) => {
+			if (a.length !== b.length) return false
+			const setA = new Set(a)
+			for (const x of b) if (!setA.has(x)) return false
+			return true
+		}
+
+		const inserted: string[] = []
+		const updated: string[] = []
+		const insertedIds = new Map<string, Id<"agents">>()
+
+		for (const seedAgent of SEED_AGENTS) {
+			const current = bySlug.get(seedAgent.slug)
+			if (!current) {
+				const id = await ctx.db.insert("agents", {
+					...seedAgent,
+					permissions: {
+						safe: [...seedAgent.permissions.safe],
+						confirm: [...seedAgent.permissions.confirm],
+						blocked: [...seedAgent.permissions.blocked],
+					},
+					userId,
+					status: "idle" as const,
+					usage: {
+						todayUsd: 0,
+						monthUsd: 0,
+						totalUsd: 0,
+						lastResetDay: new Date().toISOString().slice(0, 10),
+						lastResetMonth: new Date().toISOString().slice(0, 7),
+					},
+				})
+				insertedIds.set(seedAgent.slug, id)
+				inserted.push(seedAgent.slug)
+				continue
+			}
+
+			const patch: Record<string, unknown> = {}
+			if (current.name !== seedAgent.name) patch.name = seedAgent.name
+			if (current.role !== seedAgent.role) patch.role = seedAgent.role
+			if (current.model !== seedAgent.model) patch.model = seedAgent.model
+			if (current.avatar !== seedAgent.avatar) patch.avatar = seedAgent.avatar
+
+			const budgetDiffers =
+				current.budget.maxPerMission !== seedAgent.budget.maxPerMission || current.budget.maxPerDay !== seedAgent.budget.maxPerDay || current.budget.maxPerMonth !== seedAgent.budget.maxPerMonth
+			if (budgetDiffers) patch.budget = { ...seedAgent.budget }
+
+			const permsDiffer =
+				!setEq(current.permissions.safe, seedAgent.permissions.safe) ||
+				!setEq(current.permissions.confirm, seedAgent.permissions.confirm) ||
+				!setEq(current.permissions.blocked, seedAgent.permissions.blocked)
+			if (permsDiffer) {
+				patch.permissions = {
+					safe: [...seedAgent.permissions.safe],
+					confirm: [...seedAgent.permissions.confirm],
+					blocked: [...seedAgent.permissions.blocked],
+				}
+			}
+
+			if (Object.keys(patch).length > 0) {
+				await ctx.db.patch(current._id, patch)
+				updated.push(seedAgent.slug)
+			}
+		}
+
+		// Wire reportsTo for newly-inserted subordinates.
+		const alexExisting = existing.find((a) => a.slug === "assistant")
+		const alexId = alexExisting?._id ?? insertedIds.get("assistant") ?? null
+		if (alexId) {
+			for (const [slug, id] of insertedIds) {
+				if (slug === "assistant") continue
+				await ctx.db.patch(id, { reportsTo: alexId })
+			}
+		}
+
+		return {
+			inserted,
+			updated,
+			message: `${inserted.length} inséré(s), ${updated.length} mis à jour`,
+		}
+	},
+})
+
 export const updateStatus = mutation({
 	args: {
 		id: v.id("agents"),

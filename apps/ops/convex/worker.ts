@@ -384,7 +384,14 @@ export const workerListGoals = query({
 	handler: async (ctx, { year }) => {
 		const resolvedYear = year ?? new Date().getFullYear()
 		const all = await ctx.db.query("goalPlans").collect()
-		return all.filter((g) => g.year === resolvedYear)
+		return all
+			.filter((g) => g.year === resolvedYear)
+			.map((g) => ({
+				year: g.year,
+				revenue: g.revenue,
+				days: g.days,
+				tjm: g.tjm,
+			}))
 	},
 })
 

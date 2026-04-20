@@ -95,7 +95,7 @@ export function knowledgeTools(convex: ConvexHttpClient): Tool[] {
 				type: "function",
 				function: {
 					name: "list_missions",
-					description: "List recent agent missions. Useful for a meta-view of what the team has been working on. Only accessible to Alex by default.",
+					description: "List recent agent missions across the team. Useful for a meta-view of what everyone has been working on — daily briefs, team summaries, pattern detection.",
 					parameters: {
 						type: "object",
 						properties: {
