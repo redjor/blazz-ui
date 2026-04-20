@@ -28,6 +28,8 @@ const suggestionsMap: Record<string, string[]> = {
 	"product-lead": ["Quelles sont les issues ouvertes ?", "Propose les priorités du sprint", "Audite l'état du repo"],
 	assistant: ["Prépare mon daily brief", "Trie mes nouveaux todos", "Quels todos sont en retard ?"],
 	"account-manager": ["Résume la situation par client", "Des projets qui finissent bientôt ?", "Factures impayées ?"],
+	curator: ["Synthèse de ma semaine (notes + bookmarks)", "Cartographie les thèmes de mes notes clients", "Quelles notes anciennes sont encore pertinentes ?"],
+	growth: ["Scan ma veille du jour", "Quels trends se confirment cette semaine ?", "3 idées de contenu depuis mes bookmarks"],
 }
 
 const TOOL_LABELS: Record<string, string> = {

@@ -290,6 +290,126 @@ export const workerListClients = query({
 	},
 })
 
+// ── Knowledge queries (notes, bookmarks, todos, missions, goals, feed) ──
+
+export const workerListNotes = query({
+	args: { entityType: v.optional(v.string()), limit: v.optional(v.number()) },
+	handler: async (ctx, { entityType, limit = 20 }) => {
+		let notes = await ctx.db.query("notes").collect()
+		if (entityType) notes = notes.filter((n) => n.entityType === entityType)
+		notes = notes.filter((n) => !n.archivedAt)
+		return notes
+			.sort((a, b) => b.updatedAt - a.updatedAt)
+			.slice(0, limit)
+			.map((n) => ({
+				id: n._id,
+				title: n.title,
+				content: n.contentText?.slice(0, 500) ?? "",
+				entityType: n.entityType,
+				entityId: n.entityId,
+				pinned: n.pinned,
+				updatedAt: n.updatedAt,
+			}))
+	},
+})
+
+export const workerListBookmarks = query({
+	args: { type: v.optional(v.string()), limit: v.optional(v.number()) },
+	handler: async (ctx, { type, limit = 20 }) => {
+		let bookmarks = await ctx.db.query("bookmarks").collect()
+		if (type) bookmarks = bookmarks.filter((b) => b.type === type)
+		bookmarks = bookmarks.filter((b) => !b.archivedAt)
+		return bookmarks
+			.sort((a, b) => b.createdAt - a.createdAt)
+			.slice(0, limit)
+			.map((b) => ({
+				id: b._id,
+				url: b.url,
+				type: b.type,
+				title: b.title,
+				description: b.description,
+				author: b.author,
+				siteName: b.siteName,
+				pinned: b.pinned,
+				createdAt: b.createdAt,
+			}))
+	},
+})
+
+export const workerListTodos = query({
+	args: { status: v.optional(v.string()), limit: v.optional(v.number()) },
+	handler: async (ctx, { status, limit = 50 }) => {
+		let todos = await ctx.db.query("todos").collect()
+		if (status) todos = todos.filter((t) => t.status === status)
+		return todos
+			.sort((a, b) => b.createdAt - a.createdAt)
+			.slice(0, limit)
+			.map((t) => ({
+				id: t._id,
+				text: t.text,
+				status: t.status,
+				priority: t.priority,
+				dueDate: t.dueDate,
+				projectId: t.projectId,
+				tags: t.tags,
+				createdAt: t.createdAt,
+			}))
+	},
+})
+
+export const workerListMissions = query({
+	args: { status: v.optional(v.string()), agentId: v.optional(v.id("agents")), limit: v.optional(v.number()) },
+	handler: async (ctx, { status, agentId, limit = 20 }) => {
+		let missions = await ctx.db.query("missions").collect()
+		if (status) missions = missions.filter((m) => m.status === status)
+		if (agentId) missions = missions.filter((m) => m.agentId === agentId)
+		return missions
+			.sort((a, b) => b._creationTime - a._creationTime)
+			.slice(0, limit)
+			.map((m) => ({
+				id: m._id,
+				title: m.title,
+				status: m.status,
+				priority: m.priority,
+				agentId: m.agentId,
+				costUsd: m.costUsd,
+				completedAt: m.completedAt,
+				createdAt: m._creationTime,
+			}))
+	},
+})
+
+export const workerListGoals = query({
+	args: { year: v.optional(v.number()) },
+	handler: async (ctx, { year }) => {
+		const resolvedYear = year ?? new Date().getFullYear()
+		const all = await ctx.db.query("goalPlans").collect()
+		return all.filter((g) => g.year === resolvedYear)
+	},
+})
+
+export const workerListFeedItems = query({
+	args: { unreadOnly: v.optional(v.boolean()), limit: v.optional(v.number()) },
+	handler: async (ctx, { unreadOnly, limit = 20 }) => {
+		let items = await ctx.db.query("feedItems").collect()
+		if (unreadOnly) items = items.filter((i) => !i.isRead)
+		return items
+			.sort((a, b) => b.publishedAt - a.publishedAt)
+			.slice(0, limit)
+			.map((i) => ({
+				id: i._id,
+				title: i.title,
+				url: i.url,
+				type: i.type,
+				summary: i.aiSummary,
+				tags: i.aiTags,
+				publishedAt: i.publishedAt,
+				isRead: i.isRead,
+				isFavorite: i.isFavorite,
+			}))
+	},
+})
+
 // ── Write mutations (for agent tools) ──
 
 export const workerCreateNote = mutation({

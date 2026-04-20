@@ -3,6 +3,102 @@ import type { Id } from "./_generated/dataModel"
 import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
+// Shared seed definition used by both internalSeed (CLI) and seed (user-facing).
+// Keep this in sync with the SOUL/STYLE/SKILL markdown files in apps/ops/agents/<slug>/.
+const SEED_AGENTS = [
+	{
+		slug: "cfo",
+		name: "Marc",
+		role: "Directeur Financier",
+		model: "gpt-4.1-mini",
+		avatar: "🟡",
+		budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
+		permissions: {
+			safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "treasury_forecast", "list_projects", "list_time_entries", "list_goals", "list_notes"],
+			confirm: ["create_note"],
+			blocked: ["write_file", "github_create_issue"],
+		},
+	},
+	{
+		slug: "timekeeper",
+		name: "Léo",
+		role: "Suivi de temps",
+		model: "gpt-4.1-mini",
+		avatar: "🟢",
+		budget: { maxPerMission: 0.05, maxPerDay: 0.2, maxPerMonth: 2.0 },
+		permissions: {
+			safe: ["list_time_entries", "list_projects", "check_time_anomalies", "list_todos", "list_goals"],
+			confirm: ["create_note", "create_todo"],
+			blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
+		},
+	},
+	{
+		slug: "product-lead",
+		name: "Sarah",
+		role: "Chef de Produit Blazz UI",
+		model: "gpt-4.1",
+		avatar: "🔵",
+		budget: { maxPerMission: 0.3, maxPerDay: 1.0, maxPerMonth: 8.0 },
+		permissions: {
+			safe: ["git_log", "git_diff", "read_file", "glob_files", "github_issues", "web_search", "list_notes", "list_todos", "list_bookmarks"],
+			confirm: ["write_file", "github_create_issue", "create_note"],
+			blocked: ["qonto_balance", "qonto_transactions"],
+		},
+	},
+	{
+		slug: "assistant",
+		name: "Alex",
+		role: "Assistant Personnel",
+		model: "gpt-4.1-mini",
+		avatar: "🟣",
+		budget: { maxPerMission: 0.1, maxPerDay: 0.5, maxPerMonth: 5.0 },
+		permissions: {
+			safe: ["list_time_entries", "list_projects", "check_time_anomalies", "list_notes", "list_todos", "list_bookmarks", "list_missions", "list_goals", "list_feed_items"],
+			confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
+			blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
+		},
+	},
+	{
+		slug: "account-manager",
+		name: "Jules",
+		role: "Account Manager",
+		model: "gpt-4.1-mini",
+		avatar: "🟠",
+		budget: { maxPerMission: 0.1, maxPerDay: 0.3, maxPerMonth: 3.0 },
+		permissions: {
+			safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses", "list_notes", "list_todos"],
+			confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],
+			blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue", "git_log", "git_diff", "read_file"],
+		},
+	},
+	{
+		slug: "curator",
+		name: "Aria",
+		role: "Curatrice de connaissances",
+		model: "gpt-4.1-mini",
+		avatar: "🟤",
+		budget: { maxPerMission: 0.1, maxPerDay: 0.3, maxPerMonth: 3.0 },
+		permissions: {
+			safe: ["list_notes", "list_bookmarks", "list_feed_items", "list_todos", "web_search"],
+			confirm: ["create_note", "save_memory", "ask_agent"],
+			blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue", "create_todo"],
+		},
+	},
+	{
+		slug: "growth",
+		name: "Victor",
+		role: "Veille & croissance",
+		model: "gpt-4.1-mini",
+		avatar: "⚪",
+		budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 4.0 },
+		permissions: {
+			safe: ["list_feed_items", "list_bookmarks", "list_notes", "web_search"],
+			confirm: ["create_todo", "create_note", "save_memory", "ask_agent"],
+			blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
+		},
+	},
+] as const
+
 export const list = query({
 	args: {},
 	handler: async (ctx) => {
@@ -121,7 +217,7 @@ export const applyDefaultHierarchy = mutation({
 		const alex = agents.find((a) => a.slug === "assistant")
 		if (!alex) return { updated: 0, message: "Alex introuvable" }
 
-		const subordinateSlugs = new Set(["cfo", "timekeeper", "product-lead", "account-manager"])
+		const subordinateSlugs = new Set(["cfo", "timekeeper", "product-lead", "account-manager", "curator", "growth"])
 		let updated = 0
 		for (const agent of agents) {
 			if (agent.slug === "assistant") continue
@@ -181,78 +277,15 @@ export const internalSeed = internalMutation({
 			.collect()
 		if (existing.length > 0) return "Already seeded"
 
-		const agents = [
-			{
-				slug: "cfo",
-				name: "Marc",
-				role: "Directeur Financier",
-				model: "gpt-4.1-mini",
-				avatar: "🟡",
-				budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
-				permissions: {
-					safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "treasury_forecast", "list_projects", "list_time_entries"],
-					confirm: ["create_note"],
-					blocked: ["write_file", "github_create_issue"],
-				},
-			},
-			{
-				slug: "timekeeper",
-				name: "Léo",
-				role: "Suivi de temps",
-				model: "gpt-4.1-mini",
-				avatar: "🟢",
-				budget: { maxPerMission: 0.05, maxPerDay: 0.2, maxPerMonth: 2.0 },
-				permissions: {
-					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
-					confirm: ["create_note", "create_todo"],
-					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
-				},
-			},
-			{
-				slug: "product-lead",
-				name: "Sarah",
-				role: "Chef de Produit Blazz UI",
-				model: "gpt-4.1",
-				avatar: "🔵",
-				budget: { maxPerMission: 0.3, maxPerDay: 1.0, maxPerMonth: 8.0 },
-				permissions: {
-					safe: ["git_log", "git_diff", "read_file", "glob_files", "github_issues", "web_search"],
-					confirm: ["write_file", "github_create_issue", "create_note"],
-					blocked: ["qonto_balance", "qonto_transactions"],
-				},
-			},
-			{
-				slug: "assistant",
-				name: "Alex",
-				role: "Assistant Personnel",
-				model: "gpt-4.1-mini",
-				avatar: "🟣",
-				budget: { maxPerMission: 0.1, maxPerDay: 0.5, maxPerMonth: 5.0 },
-				permissions: {
-					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
-					confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
-					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
-				},
-			},
-			{
-				slug: "account-manager",
-				name: "Jules",
-				role: "Account Manager",
-				model: "gpt-4.1-mini",
-				avatar: "🟠",
-				budget: { maxPerMission: 0.1, maxPerDay: 0.3, maxPerMonth: 3.0 },
-				permissions: {
-					safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses"],
-					confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],
-					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue", "git_log", "git_diff", "read_file"],
-				},
-			},
-		]
-
 		const insertedBySlug = new Map<string, Id<"agents">>()
-		for (const agent of agents) {
+		for (const agent of SEED_AGENTS) {
 			const id = await ctx.db.insert("agents", {
 				...agent,
+				permissions: {
+					safe: [...agent.permissions.safe],
+					confirm: [...agent.permissions.confirm],
+					blocked: [...agent.permissions.blocked],
+				},
 				userId,
 				status: "idle" as const,
 				usage: {
@@ -274,7 +307,7 @@ export const internalSeed = internalMutation({
 				}
 			}
 		}
-		return "Seeded 5 agents"
+		return `Seeded ${SEED_AGENTS.length} agents`
 	},
 })
 
@@ -289,78 +322,15 @@ export const seed = mutation({
 			.collect()
 		if (existing.length > 0) return
 
-		const agents = [
-			{
-				slug: "cfo",
-				name: "Marc",
-				role: "Directeur Financier",
-				model: "gpt-4.1-mini",
-				avatar: "🟡",
-				budget: { maxPerMission: 0.15, maxPerDay: 0.5, maxPerMonth: 5.0 },
-				permissions: {
-					safe: ["qonto_balance", "qonto_transactions", "list_invoices", "list_recurring_expenses", "treasury_forecast", "list_projects", "list_time_entries"],
-					confirm: ["create_note"],
-					blocked: ["write_file", "github_create_issue"],
-				},
-			},
-			{
-				slug: "timekeeper",
-				name: "Léo",
-				role: "Suivi de temps",
-				model: "gpt-4.1-mini",
-				avatar: "🟢",
-				budget: { maxPerMission: 0.05, maxPerDay: 0.2, maxPerMonth: 2.0 },
-				permissions: {
-					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
-					confirm: ["create_note", "create_todo"],
-					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
-				},
-			},
-			{
-				slug: "product-lead",
-				name: "Sarah",
-				role: "Chef de Produit Blazz UI",
-				model: "gpt-4.1",
-				avatar: "🔵",
-				budget: { maxPerMission: 0.3, maxPerDay: 1.0, maxPerMonth: 8.0 },
-				permissions: {
-					safe: ["git_log", "git_diff", "read_file", "glob_files", "github_issues", "web_search"],
-					confirm: ["write_file", "github_create_issue", "create_note"],
-					blocked: ["qonto_balance", "qonto_transactions"],
-				},
-			},
-			{
-				slug: "assistant",
-				name: "Alex",
-				role: "Assistant Personnel",
-				model: "gpt-4.1-mini",
-				avatar: "🟣",
-				budget: { maxPerMission: 0.1, maxPerDay: 0.5, maxPerMonth: 5.0 },
-				permissions: {
-					safe: ["list_time_entries", "list_projects", "check_time_anomalies"],
-					confirm: ["create_todo", "create_note", "delegate_to_agent", "ask_agent", "save_memory"],
-					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue"],
-				},
-			},
-			{
-				slug: "account-manager",
-				name: "Jules",
-				role: "Account Manager",
-				model: "gpt-4.1-mini",
-				avatar: "🟠",
-				budget: { maxPerMission: 0.1, maxPerDay: 0.3, maxPerMonth: 3.0 },
-				permissions: {
-					safe: ["list_projects", "list_invoices", "list_time_entries", "list_recurring_expenses"],
-					confirm: ["create_note", "create_todo", "ask_agent", "save_memory"],
-					blocked: ["qonto_balance", "qonto_transactions", "write_file", "github_create_issue", "git_log", "git_diff", "read_file"],
-				},
-			},
-		]
-
 		const insertedBySlug = new Map<string, Id<"agents">>()
-		for (const agent of agents) {
+		for (const agent of SEED_AGENTS) {
 			const id = await ctx.db.insert("agents", {
 				...agent,
+				permissions: {
+					safe: [...agent.permissions.safe],
+					confirm: [...agent.permissions.confirm],
+					blocked: [...agent.permissions.blocked],
+				},
 				userId,
 				status: "idle",
 				usage: {

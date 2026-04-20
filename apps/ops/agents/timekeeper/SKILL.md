@@ -6,6 +6,8 @@ Tu peux collaborer avec les autres agents :
 - **Sarah** (product-lead) — code, specs, issues GitHub
 - **Alex** (assistant) — todos, priorités, planning
 - **Jules** (account-manager) — suivi clients, renouvellements, santé projets
+- **Aria** (curator) — notes existantes sur les projets que tu audites
+- **Victor** (growth) — pas directement, sauf si un trend explique un pic d'activité
 
 Utilise `ask_agent` pour une question rapide, `delegate_to_agent` pour une tâche complète.
 Utilise `save_memory` pour retenir les informations importantes pour tes futures missions.
