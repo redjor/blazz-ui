@@ -181,6 +181,29 @@ function buildReadToolExecutors(token: string) {
 			return convex.query(api.treasury.expenseSummary, {})
 		},
 
+		"list-expenses": async ({ type, from, to, limit }: { type?: string; from?: string; to?: string; limit?: number }) => {
+			const entries = await convex.query(api.expenses.list, {
+				type: type as "restaurant" | "mileage" | undefined,
+				from,
+				to,
+			})
+			return entries.slice(0, Math.min(limit ?? 30, 100)).map((e: any) => ({
+				id: e._id,
+				type: e.type,
+				date: e.date,
+				amountCents: e.amountCents,
+				reimbursementCents: e.reimbursementCents,
+				clientId: e.clientId,
+				projectId: e.projectId,
+				notes: e.notes,
+				guests: e.guests,
+				purpose: e.purpose,
+				departure: e.departure,
+				destination: e.destination,
+				distanceKm: e.distanceKm,
+			}))
+		},
+
 		"treasury-forecast": async ({ months }: { months?: number }) => {
 			return convex.query(api.treasury.forecast, { months: months ?? 6 })
 		},
@@ -223,6 +246,7 @@ const permissionToToolName: Record<string, string> = {
 	qonto_transactions: "qonto-transactions",
 	list_invoices: "list-invoices",
 	list_recurring_expenses: "list-recurring-expenses",
+	list_expenses: "list-expenses",
 	treasury_forecast: "treasury-forecast",
 	// Time tools
 	check_time_anomalies: "check-time-anomalies",
@@ -247,6 +271,15 @@ const financeToolDefs: Record<string, any> = {
 	"list-recurring-expenses": tool({
 		description: "Lister les dépenses récurrentes actives (abonnements, charges, etc.)",
 		parameters: z.object({}),
+	}),
+	"list-expenses": tool({
+		description: "Lister les frais pro (restaurants et kilométriques). Distinct de list-recurring-expenses (abonnements).",
+		parameters: z.object({
+			type: z.enum(["restaurant", "mileage"]).optional().describe("Filtrer par type"),
+			from: z.string().optional().describe("Date de début YYYY-MM-DD"),
+			to: z.string().optional().describe("Date de fin YYYY-MM-DD"),
+			limit: z.number().optional().describe("Max entrées (défaut 30)"),
+		}),
 	}),
 	"treasury-forecast": tool({
 		description: "Obtenir la prévision de trésorerie sur N mois",
@@ -450,6 +483,32 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 					return { id, title, status: "created" }
 				},
 			}
+		}
+	}
+
+	if (agent.permissions.confirm.includes("create_expense")) {
+		tools["create-expense"] = {
+			...tool({
+				description:
+					"Créer un frais pro. Type 'restaurant' : fournir amountCents + guests + purpose. Type 'mileage' : fournir departure + destination + distanceKm (le remboursement URSSAF est auto-calculé si les réglages véhicule existent).",
+				parameters: z.object({
+					type: z.enum(["restaurant", "mileage"]).describe("Type de frais"),
+					date: z.string().describe("Date YYYY-MM-DD"),
+					amountCents: z.number().optional().describe("Montant en centimes (restaurant uniquement)"),
+					clientId: z.string().optional().describe("ID client associé"),
+					projectId: z.string().optional().describe("ID projet associé"),
+					notes: z.string().optional().describe("Notes libres"),
+					guests: z.string().optional().describe("Restaurant : qui était invité"),
+					purpose: z.string().optional().describe("Restaurant : but professionnel"),
+					departure: z.string().optional().describe("Mileage : adresse/ville de départ"),
+					destination: z.string().optional().describe("Mileage : adresse/ville d'arrivée"),
+					distanceKm: z.number().optional().describe("Mileage : distance en km"),
+				}),
+			}),
+			execute: async (args: Record<string, unknown>) => {
+				const id = await convex.mutation(api.worker.workerCreateExpense, args as any)
+				return { id, type: args.type, date: args.date, status: "created" }
+			},
 		}
 	}
 
