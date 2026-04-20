@@ -626,4 +626,13 @@ export default defineSchema({
 	})
 		.index("by_user_status", ["userId", "status"])
 		.index("by_user_txn", ["userId", "qontoTransactionId"]),
+
+	mcpAuditLog: defineTable({
+		ts: v.number(), // Date.now()
+		method: v.string(), // "tools/call" | "tools/list" | "initialize"
+		tool: v.optional(v.string()), // tool name when method is tools/call
+		success: v.boolean(),
+		errorMessage: v.optional(v.string()),
+		argsPreview: v.optional(v.string()), // JSON stringified + truncated to 500 chars, secrets redacted
+	}).index("by_ts", ["ts"]),
 })
