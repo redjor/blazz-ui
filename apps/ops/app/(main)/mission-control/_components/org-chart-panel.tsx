@@ -100,21 +100,19 @@ function OrgCard({ agent }: { agent: AgentLite }) {
 	)
 }
 
-function OrgSubtree({ node }: { node: OrgNode }) {
+function OrgSubtree({ node, connectorAbove = false }: { node: OrgNode; connectorAbove?: boolean }) {
 	return (
-		<BlockStack gap="0" className="items-center">
+		<BlockStack gap="0" className="w-auto items-center shrink-0">
+			{connectorAbove && <div className="h-4 w-px bg-edge" />}
 			<OrgCard agent={node.agent} />
 			{node.children.length > 0 && (
 				<>
 					<div className="h-4 w-px bg-edge" />
-					<div className="relative pt-0">
-						{node.children.length > 1 && <div className="absolute top-0 left-4 right-4 h-px bg-edge" />}
-						<InlineStack gap="400" align="center" blockAlign="start" className="relative">
+					<div className="relative">
+						{node.children.length > 1 && <div className="absolute top-0 left-[88px] right-[88px] h-px bg-edge" />}
+						<InlineStack gap="400" blockAlign="start" wrap={false}>
 							{node.children.map((child) => (
-								<BlockStack key={child.agent._id} gap="0" className="items-center">
-									<div className="h-4 w-px bg-edge" />
-									<OrgSubtree node={child} />
-								</BlockStack>
+								<OrgSubtree key={child.agent._id} node={child} connectorAbove />
 							))}
 						</InlineStack>
 					</div>
