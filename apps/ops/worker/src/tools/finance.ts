@@ -1,20 +1,7 @@
 import type { ConvexHttpClient } from "convex/browser"
-import { getToolSchema } from "../../../shared/tool-schemas"
 import { api } from "../convex"
 import type { Tool } from "./index"
-
-function toOpenAIDef(name: string) {
-	const schema = getToolSchema(name)
-	if (!schema) throw new Error(`Unknown tool schema: ${name}`)
-	return {
-		type: "function" as const,
-		function: {
-			name: schema.name,
-			description: schema.description,
-			parameters: schema.parameters,
-		},
-	}
-}
+import { toOpenAIDef } from "./shared"
 
 export function financeTools(convex: ConvexHttpClient): Tool[] {
 	return [
