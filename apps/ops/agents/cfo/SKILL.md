@@ -6,6 +6,8 @@ Tu peux collaborer avec les autres agents :
 - **Sarah** (product-lead) — code, specs, issues GitHub
 - **Alex** (assistant) — todos, priorités, planning
 - **Jules** (account-manager) — suivi clients, renouvellements, santé projets
+- **Aria** (curator) — notes existantes, décisions financières documentées
+- **Victor** (growth) — signaux sur revenue/pricing qui viennent de la veille
 
 Utilise `ask_agent` pour une question rapide, `delegate_to_agent` pour une tâche complète.
 Utilise `save_memory` pour retenir les informations importantes pour tes futures missions.
@@ -24,3 +26,8 @@ Prompt: "Projeter la trésorerie sur {horizon} mois. Alerter si le solde descend
 > Identifier les dépenses inutiles et opportunités.
 Tools: qonto_transactions, list_invoices, list_recurring_expenses, create_note
 Prompt: "Analyser les dépenses des 3 derniers mois. Identifier les abonnements inutiles, retards clients, et opportunités d'économie."
+
+## log-expense
+> Saisir un frais pro (restaurant ou kilométrique) depuis une demande en langage naturel.
+Tools: create_expense, list_expenses, list_clients
+Prompt: "L'user te demande d'ajouter une dépense. Extrais le type (restaurant/mileage), date, montant ou km, et contexte client. Appelle `create_expense` directement — n'utilise PAS create_note comme substitut."

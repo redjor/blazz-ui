@@ -1,5 +1,6 @@
 import type { ConvexHttpClient } from "convex/browser"
 import OpenAI from "openai"
+import type { Id } from "../../convex/_generated/dataModel"
 import { calculateCost, canStartMission, isMissionBudgetExceeded } from "./budget"
 import { api } from "./convex"
 import { consolidatePostMission, extractAndSaveMemories } from "./memory"
@@ -14,8 +15,8 @@ function getOpenAI() {
 }
 
 interface Mission {
-	_id: string
-	agentId: string
+	_id: Id<"missions">
+	agentId: Id<"agents">
 	title: string
 	prompt: string
 	mode?: string
@@ -24,8 +25,8 @@ interface Mission {
 }
 
 interface Agent {
-	_id: string
-	userId: string
+	_id: Id<"agents">
+	userId: Id<"users">
 	slug: string
 	name: string
 	role: string
@@ -182,15 +183,89 @@ export async function runMission(convex: ConvexHttpClient, mission: Mission, age
 					if (mission.mode === "dry-run" && tool.category === "write") {
 						result = JSON.stringify({ skipped: true, reason: "dry-run mode" })
 					} else {
-						try {
-							const output = await tool.execute(JSON.parse(call.function.arguments), convex)
-							result = JSON.stringify(output)
-							if (agent.permissions.confirm.includes(tool.name)) {
-								actions.push({ type: tool.name, description: `${tool.name}(${call.function.arguments})`, reversible: tool.category === "write" })
+						// Approval gate: tools listed in permissions.confirm require human sign-off.
+						// Skipped entirely in dry-run mode since the tool won't execute anyway.
+						let approvalOutcome: "approved" | "rejected" | "timeout" | "skipped" = "skipped"
+						let rejectionReason: string | undefined
+						let approvalId: Id<"missionApprovals"> | null = null
+						const gateRequired = mission.mode !== "dry-run" && agent.permissions.confirm.includes(tool.name)
+						if (gateRequired) {
+							approvalId = await convex.mutation(api.worker.workerRequestApproval, {
+								missionId: mission._id,
+								agentId: agent._id,
+								toolName: tool.name,
+								toolArgs: JSON.parse(call.function.arguments),
+							})
+							await log("thinking", `⏸ En attente d'approbation pour ${tool.name}`, tool.name)
+
+							const maxWaitMs = 5 * 60_000
+							const pollInterval = 2000
+							const startedAt = Date.now()
+							approvalOutcome = "timeout"
+							while (Date.now() - startedAt < maxWaitMs) {
+								if (signal.aborted) {
+									approvalOutcome = "rejected"
+									rejectionReason = "Mission annulée"
+									break
+								}
+								const approval = await convex.query(api.worker.workerGetApproval, { id: approvalId })
+								if (approval?.status === "approved") {
+									approvalOutcome = "approved"
+									break
+								}
+								if (approval?.status === "rejected") {
+									approvalOutcome = "rejected"
+									rejectionReason = approval.rejectionReason
+									break
+								}
+								// Race the sleep against the abort signal so shutdown is immediate
+								// instead of waiting up to `pollInterval` per pending approval.
+								await new Promise<void>((resolve) => {
+									if (signal.aborted) {
+										resolve()
+										return
+									}
+									const timer = setTimeout(resolve, pollInterval)
+									signal.addEventListener(
+										"abort",
+										() => {
+											clearTimeout(timer)
+											resolve()
+										},
+										{ once: true }
+									)
+								})
 							}
-						} catch (err) {
-							result = JSON.stringify({ error: String(err) })
-							await log("error", `Tool ${call.function.name} failed: ${err}`, call.function.name)
+
+							// Cleanup: flip a stranded pending record (timeout or abort) to rejected
+							// so the approvals panel doesn't accumulate ghosts.
+							if (approvalOutcome !== "approved") {
+								try {
+									await convex.mutation(api.worker.workerResolveApproval, {
+										id: approvalId,
+										reason: approvalOutcome === "timeout" ? "Timeout (5 min)" : (rejectionReason ?? "Annulé"),
+									})
+								} catch {
+									/* already resolved by user — ignore */
+								}
+							}
+						}
+
+						if (approvalOutcome === "rejected" || approvalOutcome === "timeout") {
+							const reason = approvalOutcome === "timeout" ? "Timeout d'approbation (5 min)" : (rejectionReason ?? "Rejeté par l'utilisateur")
+							result = JSON.stringify({ error: `Approval denied: ${reason}` })
+							await log("error", `${tool.name} refusé: ${reason}`, tool.name)
+						} else {
+							try {
+								const output = await tool.execute(JSON.parse(call.function.arguments), convex)
+								result = JSON.stringify(output)
+								if (agent.permissions.confirm.includes(tool.name)) {
+									actions.push({ type: tool.name, description: `${tool.name}(${call.function.arguments})`, reversible: tool.category === "write" })
+								}
+							} catch (err) {
+								result = JSON.stringify({ error: String(err) })
+								await log("error", `Tool ${call.function.name} failed: ${err}`, call.function.name)
+							}
 						}
 					}
 

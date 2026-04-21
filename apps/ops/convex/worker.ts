@@ -5,6 +5,7 @@
  */
 import { ConvexError, v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { computeMileageReimbursement } from "./lib/urssaf"
 
 // ── Agents ──
 
@@ -290,6 +291,229 @@ export const workerListClients = query({
 	},
 })
 
+// ── Expenses (frais pro, distinct from recurringExpenses) ──
+
+export const workerListExpenses = query({
+	args: {
+		type: v.optional(v.union(v.literal("restaurant"), v.literal("mileage"))),
+		from: v.optional(v.string()),
+		to: v.optional(v.string()),
+		limit: v.optional(v.number()),
+	},
+	handler: async (ctx, { type, from, to, limit = 30 }) => {
+		let entries = await ctx.db.query("expenses").collect()
+		if (type) entries = entries.filter((e) => e.type === type)
+		if (from) entries = entries.filter((e) => e.date >= from)
+		if (to) entries = entries.filter((e) => e.date <= to)
+		return entries
+			.sort((a, b) => (b.date > a.date ? 1 : -1))
+			.slice(0, limit)
+			.map((e) => ({
+				id: e._id,
+				type: e.type,
+				date: e.date,
+				amountCents: e.amountCents,
+				reimbursementCents: e.reimbursementCents,
+				clientId: e.clientId,
+				projectId: e.projectId,
+				notes: e.notes,
+				guests: e.guests,
+				purpose: e.purpose,
+				departure: e.departure,
+				destination: e.destination,
+				distanceKm: e.distanceKm,
+			}))
+	},
+})
+
+export const workerCreateExpense = mutation({
+	args: {
+		type: v.union(v.literal("restaurant"), v.literal("mileage")),
+		date: v.string(),
+		amountCents: v.optional(v.number()),
+		clientId: v.optional(v.id("clients")),
+		projectId: v.optional(v.id("projects")),
+		notes: v.optional(v.string()),
+		// Restaurant
+		guests: v.optional(v.string()),
+		purpose: v.optional(v.string()),
+		// Mileage
+		departure: v.optional(v.string()),
+		destination: v.optional(v.string()),
+		distanceKm: v.optional(v.number()),
+	},
+	handler: async (ctx, args) => {
+		// Resolve user (single-user deployment, same pattern as workerCreateNote).
+		const users = await ctx.db.query("users").take(1)
+		const userId = users[0]?._id
+		if (!userId) throw new ConvexError("Aucun utilisateur configuré")
+
+		// Validate ownership of optional FK references.
+		if (args.clientId) {
+			const client = await ctx.db.get(args.clientId)
+			if (!client || client.userId !== userId) throw new ConvexError("Client non trouvé")
+		}
+		if (args.projectId) {
+			const project = await ctx.db.get(args.projectId)
+			if (!project || project.userId !== userId) throw new ConvexError("Projet non trouvé")
+		}
+
+		// Mileage: compute URSSAF reimbursement using cumulative annual km.
+		let reimbursementCents: number | undefined
+		if (args.type === "mileage" && args.distanceKm) {
+			const vehicle = await ctx.db
+				.query("vehicleSettings")
+				.withIndex("by_user", (q) => q.eq("userId", userId))
+				.first()
+			if (vehicle) {
+				const year = args.date.slice(0, 4)
+				const from = `${year}-01-01`
+				const to = `${year}-12-31`
+				const entries = await ctx.db
+					.query("expenses")
+					.withIndex("by_user_type", (q) => q.eq("userId", userId).eq("type", "mileage"))
+					.collect()
+				const annualKm = entries.filter((e) => e.date >= from && e.date <= to).reduce((sum, e) => sum + (e.distanceKm ?? 0), 0)
+				reimbursementCents = computeMileageReimbursement(args.distanceKm, annualKm, vehicle.fiscalPower)
+			}
+		}
+
+		return ctx.db.insert("expenses", {
+			...args,
+			userId,
+			reimbursementCents,
+			createdAt: Date.now(),
+		})
+	},
+})
+
+// ── Knowledge queries (notes, bookmarks, todos, missions, goals, feed) ──
+
+export const workerListNotes = query({
+	args: { entityType: v.optional(v.string()), limit: v.optional(v.number()) },
+	handler: async (ctx, { entityType, limit = 20 }) => {
+		let notes = await ctx.db.query("notes").collect()
+		if (entityType) notes = notes.filter((n) => n.entityType === entityType)
+		notes = notes.filter((n) => !n.archivedAt)
+		return notes
+			.sort((a, b) => b.updatedAt - a.updatedAt)
+			.slice(0, limit)
+			.map((n) => ({
+				id: n._id,
+				title: n.title,
+				content: n.contentText?.slice(0, 500) ?? "",
+				entityType: n.entityType,
+				entityId: n.entityId,
+				pinned: n.pinned,
+				updatedAt: n.updatedAt,
+			}))
+	},
+})
+
+export const workerListBookmarks = query({
+	args: { type: v.optional(v.string()), limit: v.optional(v.number()) },
+	handler: async (ctx, { type, limit = 20 }) => {
+		let bookmarks = await ctx.db.query("bookmarks").collect()
+		if (type) bookmarks = bookmarks.filter((b) => b.type === type)
+		bookmarks = bookmarks.filter((b) => !b.archivedAt)
+		return bookmarks
+			.sort((a, b) => b.createdAt - a.createdAt)
+			.slice(0, limit)
+			.map((b) => ({
+				id: b._id,
+				url: b.url,
+				type: b.type,
+				title: b.title,
+				description: b.description,
+				author: b.author,
+				siteName: b.siteName,
+				pinned: b.pinned,
+				createdAt: b.createdAt,
+			}))
+	},
+})
+
+export const workerListTodos = query({
+	args: { status: v.optional(v.string()), limit: v.optional(v.number()) },
+	handler: async (ctx, { status, limit = 50 }) => {
+		let todos = await ctx.db.query("todos").collect()
+		if (status) todos = todos.filter((t) => t.status === status)
+		return todos
+			.sort((a, b) => b.createdAt - a.createdAt)
+			.slice(0, limit)
+			.map((t) => ({
+				id: t._id,
+				text: t.text,
+				status: t.status,
+				priority: t.priority,
+				dueDate: t.dueDate,
+				projectId: t.projectId,
+				tags: t.tags,
+				createdAt: t.createdAt,
+			}))
+	},
+})
+
+export const workerListMissions = query({
+	args: { status: v.optional(v.string()), agentId: v.optional(v.id("agents")), limit: v.optional(v.number()) },
+	handler: async (ctx, { status, agentId, limit = 20 }) => {
+		let missions = await ctx.db.query("missions").collect()
+		if (status) missions = missions.filter((m) => m.status === status)
+		if (agentId) missions = missions.filter((m) => m.agentId === agentId)
+		return missions
+			.sort((a, b) => b._creationTime - a._creationTime)
+			.slice(0, limit)
+			.map((m) => ({
+				id: m._id,
+				title: m.title,
+				status: m.status,
+				priority: m.priority,
+				agentId: m.agentId,
+				costUsd: m.costUsd,
+				completedAt: m.completedAt,
+				createdAt: m._creationTime,
+			}))
+	},
+})
+
+export const workerListGoals = query({
+	args: { year: v.optional(v.number()) },
+	handler: async (ctx, { year }) => {
+		const resolvedYear = year ?? new Date().getFullYear()
+		const all = await ctx.db.query("goalPlans").collect()
+		return all
+			.filter((g) => g.year === resolvedYear)
+			.map((g) => ({
+				year: g.year,
+				revenue: g.revenue,
+				days: g.days,
+				tjm: g.tjm,
+			}))
+	},
+})
+
+export const workerListFeedItems = query({
+	args: { unreadOnly: v.optional(v.boolean()), limit: v.optional(v.number()) },
+	handler: async (ctx, { unreadOnly, limit = 20 }) => {
+		let items = await ctx.db.query("feedItems").collect()
+		if (unreadOnly) items = items.filter((i) => !i.isRead)
+		return items
+			.sort((a, b) => b.publishedAt - a.publishedAt)
+			.slice(0, limit)
+			.map((i) => ({
+				id: i._id,
+				title: i.title,
+				url: i.url,
+				type: i.type,
+				summary: i.aiSummary,
+				tags: i.aiTags,
+				publishedAt: i.publishedAt,
+				isRead: i.isRead,
+				isFavorite: i.isFavorite,
+			}))
+	},
+})
+
 // ── Write mutations (for agent tools) ──
 
 export const workerCreateNote = mutation({
@@ -398,6 +622,75 @@ export const workerCreateNotification = mutation({
 			url: args.url,
 			read: false,
 			createdAt: Date.now(),
+		})
+	},
+})
+
+// ── Approvals (worker side) ──
+
+export const workerRequestApproval = mutation({
+	args: {
+		missionId: v.id("missions"),
+		agentId: v.id("agents"),
+		toolName: v.string(),
+		toolArgs: v.any(),
+	},
+	handler: async (ctx, { missionId, agentId, toolName, toolArgs }) => {
+		const mission = await ctx.db.get(missionId)
+		if (!mission) throw new ConvexError("Mission introuvable")
+		return ctx.db.insert("missionApprovals", {
+			userId: mission.userId,
+			missionId,
+			agentId,
+			toolName,
+			toolArgs,
+			status: "pending" as const,
+			requestedAt: Date.now(),
+		})
+	},
+})
+
+export const workerGetApproval = query({
+	args: { id: v.id("missionApprovals") },
+	handler: async (ctx, { id }) => {
+		return ctx.db.get(id)
+	},
+})
+
+// Idempotent: only transitions a pending record to rejected. If the user has
+// already resolved the approval (approve or reject), this is a no-op — the
+// user's decision wins over the worker's cleanup.
+export const workerResolveApproval = mutation({
+	args: { id: v.id("missionApprovals"), reason: v.optional(v.string()) },
+	handler: async (ctx, { id, reason }) => {
+		const approval = await ctx.db.get(id)
+		if (!approval || approval.status !== "pending") return
+		await ctx.db.patch(id, {
+			status: "rejected" as const,
+			resolvedAt: Date.now(),
+			rejectionReason: reason,
+		})
+	},
+})
+
+// ── MCP Audit Log ──
+
+export const workerAppendMcpAudit = mutation({
+	args: {
+		method: v.string(),
+		tool: v.optional(v.string()),
+		success: v.boolean(),
+		errorMessage: v.optional(v.string()),
+		argsPreview: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		await ctx.db.insert("mcpAuditLog", {
+			ts: Date.now(),
+			method: args.method,
+			tool: args.tool,
+			success: args.success,
+			errorMessage: args.errorMessage,
+			argsPreview: args.argsPreview,
 		})
 	},
 })

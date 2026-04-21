@@ -6,6 +6,7 @@ import { ChainOfThought, ChainOfThoughtContent, ChainOfThoughtHeader, ChainOfTho
 import { Badge } from "@blazz/ui/components/ui/badge"
 import { BlockStack } from "@blazz/ui/components/ui/block-stack"
 import { Box } from "@blazz/ui/components/ui/box"
+import { Button } from "@blazz/ui/components/ui/button"
 import { InlineStack } from "@blazz/ui/components/ui/inline-stack"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { AgentAvatar } from "./agent-avatar"
@@ -232,9 +233,31 @@ function DetailedLogs({ logs }: { logs: LogEntry[] }) {
 	)
 }
 
+function RawLogs({ logs }: { logs: LogEntry[] }) {
+	const text = useMemo(
+		() =>
+			logs
+				.map((log) => {
+					const time = new Date(log._creationTime).toLocaleTimeString("fr-FR", {
+						hour: "2-digit",
+						minute: "2-digit",
+						second: "2-digit",
+					})
+					const meta = [log.type.toUpperCase(), log.toolName, log.duration != null ? `${log.duration}ms` : null].filter(Boolean).join(" · ")
+					return `[${time}] ${meta}\n${tryFormatJson(log.content)}`
+				})
+				.join("\n\n"),
+		[logs]
+	)
+
+	return <pre className="text-[11px] font-mono bg-muted/30 rounded p-3 overflow-x-auto whitespace-pre-wrap">{text}</pre>
+}
+
+type LogView = "detailed" | "timeline" | "raw"
+
 export function MissionLogs({ logs, live }: MissionLogsProps) {
 	const logsEndRef = useRef<HTMLDivElement>(null)
-	const [view, setView] = useState<"timeline" | "detailed">("detailed")
+	const [view, setView] = useState<LogView>("detailed")
 
 	useEffect(() => {
 		if (live) {
@@ -247,18 +270,28 @@ export function MissionLogs({ logs, live }: MissionLogsProps) {
 	}
 
 	return (
-		<div className="max-h-[600px] overflow-y-auto">
-			<InlineStack gap="200" className="mb-3">
-				<button type="button" onClick={() => setView("detailed")} className={`text-xs px-2 py-1 rounded cursor-pointer ${view === "detailed" ? "bg-brand text-white" : "text-fg-muted hover:text-fg"}`}>
-					Detail
-				</button>
-				<button type="button" onClick={() => setView("timeline")} className={`text-xs px-2 py-1 rounded cursor-pointer ${view === "timeline" ? "bg-brand text-white" : "text-fg-muted hover:text-fg"}`}>
+		<BlockStack gap="300">
+			<InlineStack gap="100">
+				<Button variant={view === "detailed" ? "secondary" : "ghost"} size="sm" onClick={() => setView("detailed")}>
+					Détail
+				</Button>
+				<Button variant={view === "timeline" ? "secondary" : "ghost"} size="sm" onClick={() => setView("timeline")}>
 					Timeline
-				</button>
+				</Button>
+				<Button variant={view === "raw" ? "secondary" : "ghost"} size="sm" onClick={() => setView("raw")}>
+					Raw
+				</Button>
+				<Badge variant="outline" className="ml-auto text-[10px] tabular-nums">
+					{logs.length} {logs.length > 1 ? "entrées" : "entrée"}
+				</Badge>
 			</InlineStack>
 
-			{view === "timeline" ? <TimelineOverview logs={logs} /> : <DetailedLogs logs={logs} />}
-			<div ref={logsEndRef} />
-		</div>
+			<div className="max-h-[600px] overflow-y-auto">
+				{view === "detailed" && <DetailedLogs logs={logs} />}
+				{view === "timeline" && <TimelineOverview logs={logs} />}
+				{view === "raw" && <RawLogs logs={logs} />}
+				<div ref={logsEndRef} />
+			</div>
+		</BlockStack>
 	)
 }

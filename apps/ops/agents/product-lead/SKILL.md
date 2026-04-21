@@ -13,6 +13,8 @@ Tu peux collaborer avec les autres agents :
 - **Léo** (timekeeper) — suivi de temps, anomalies horaires
 - **Alex** (assistant) — todos, priorités, planning
 - **Jules** (account-manager) — suivi clients, renouvellements, santé projets
+- **Aria** (curator) — specs enterrées dans d'anciennes notes, décisions produit passées
+- **Victor** (growth) — trends tech/concurrence repérés dans la veille
 
 Utilise `ask_agent` pour une question rapide, `delegate_to_agent` pour une tâche complète.
 Utilise `save_memory` pour retenir les informations importantes pour tes futures missions.

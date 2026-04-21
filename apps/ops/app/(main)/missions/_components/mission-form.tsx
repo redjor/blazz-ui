@@ -36,10 +36,12 @@ interface MissionFormProps {
 	open: boolean
 	onOpenChange: (open: boolean) => void
 	agents: Agent[]
+	defaultAgentId?: Id<"agents">
 }
 
-export function MissionForm({ open, onOpenChange, agents }: MissionFormProps) {
+export function MissionForm({ open, onOpenChange, agents, defaultAgentId }: MissionFormProps) {
 	const createMission = useMutation(api.missions.create)
+	const lockedAgent = agents.length === 1 ? agents[0] : null
 
 	const {
 		register,
@@ -49,7 +51,7 @@ export function MissionForm({ open, onOpenChange, agents }: MissionFormProps) {
 		formState: { isSubmitting },
 	} = useForm<MissionFormValues>({
 		defaultValues: {
-			agentId: "",
+			agentId: defaultAgentId ?? lockedAgent?._id ?? "",
 			title: "",
 			prompt: "",
 			priority: "medium",
@@ -89,11 +91,13 @@ export function MissionForm({ open, onOpenChange, agents }: MissionFormProps) {
 					</DialogHeader>
 
 					<BlockStack gap="400" className="py-4">
-						{/* Agent picker */}
-						<BlockStack gap="200">
-							<Label>Agent</Label>
-							<Controller control={control} name="agentId" rules={{ required: true }} render={({ field }) => <AgentPicker agents={agents} value={field.value} onValueChange={field.onChange} />} />
-						</BlockStack>
+						{/* Agent picker — hidden when the caller already scoped to a single agent */}
+						{!lockedAgent && (
+							<BlockStack gap="200">
+								<Label>Agent</Label>
+								<Controller control={control} name="agentId" rules={{ required: true }} render={({ field }) => <AgentPicker agents={agents} value={field.value} onValueChange={field.onChange} />} />
+							</BlockStack>
+						)}
 
 						{/* Title */}
 						<BlockStack gap="200">

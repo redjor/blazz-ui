@@ -2,6 +2,7 @@ import type { ConvexHttpClient } from "convex/browser"
 import type OpenAI from "openai"
 import { agentTools } from "./agents"
 import { financeTools } from "./finance"
+import { knowledgeTools } from "./knowledge"
 import { productTools } from "./product"
 import { sharedTools } from "./shared"
 import { timeTools } from "./time"
@@ -14,5 +15,5 @@ export interface Tool {
 }
 
 export function createToolRegistry(convex: ConvexHttpClient): Tool[] {
-	return [...financeTools(convex), ...timeTools(convex), ...productTools(), ...sharedTools(convex), ...agentTools(convex)]
+	return [...financeTools(convex), ...timeTools(convex), ...productTools(), ...sharedTools(convex), ...agentTools(convex), ...knowledgeTools(convex)]
 }

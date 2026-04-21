@@ -19,6 +19,7 @@ import { useState } from "react"
 import { toast } from "sonner"
 import { api } from "@/convex/_generated/api"
 import type { Id } from "@/convex/_generated/dataModel"
+import { MissionApprovalsInline } from "../_components/mission-approvals"
 import { MissionLogs } from "../_components/mission-logs"
 import { MissionOutput } from "../_components/mission-output"
 
@@ -314,6 +315,8 @@ export function MissionDetailClient({ id }: Props) {
 						</InlineStack>
 					</BlockStack>
 				)}
+
+				<MissionApprovalsInline missionId={missionId} />
 
 				{/* Tabs */}
 				<Tabs defaultValue="output">
