@@ -2,6 +2,7 @@ import { httpRouter } from "convex/server"
 import { api, internal } from "./_generated/api"
 import { httpAction } from "./_generated/server"
 import { auth } from "./auth"
+import { classifyUrl, extractHost } from "./lib/bookmarkUrl"
 import { dispatchMcpRequest } from "./mcp"
 
 const http = httpRouter()
@@ -412,6 +413,64 @@ http.route({
 		})
 
 		return new Response(JSON.stringify(response), {
+			status: 200,
+			headers: { "Content-Type": "application/json" },
+		})
+	}),
+})
+
+// ── Bookmark capture (iOS Shortcut / any Bearer-auth client) ──
+
+http.route({
+	path: "/bookmark",
+	method: "POST",
+	handler: httpAction(async (ctx, request) => {
+		const expected = process.env.BOOKMARK_SECRET
+		if (!expected) {
+			return new Response("BOOKMARK_SECRET not configured", { status: 500 })
+		}
+		const opsUserId = process.env.OPS_USER_ID
+		if (!opsUserId) {
+			return new Response("OPS_USER_ID not configured", { status: 500 })
+		}
+
+		const authHeader = request.headers.get("Authorization") ?? ""
+		const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : ""
+		if (bearer !== expected) {
+			return new Response("Unauthorized", { status: 401 })
+		}
+
+		let body: { url?: string; note?: string; sourceApp?: string; title?: string }
+		try {
+			body = await request.json()
+		} catch {
+			return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+				status: 400,
+				headers: { "Content-Type": "application/json" },
+			})
+		}
+
+		const rawUrl = (body.url ?? "").trim()
+		if (!rawUrl) {
+			return new Response(JSON.stringify({ error: "url is required" }), {
+				status: 400,
+				headers: { "Content-Type": "application/json" },
+			})
+		}
+
+		const sourceApp = body.sourceApp ?? extractHost(rawUrl) ?? undefined
+		const type = classifyUrl(rawUrl)
+
+		const id = await ctx.runMutation(internal.bookmarks.internalCreateFromUrl, {
+			userId: opsUserId,
+			url: rawUrl,
+			type,
+			title: body.title,
+			note: body.note,
+			sourceApp,
+		})
+
+		return new Response(JSON.stringify({ ok: true, id, type, sourceApp }), {
 			status: 200,
 			headers: { "Content-Type": "application/json" },
 		})
