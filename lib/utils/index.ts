@@ -19,6 +19,7 @@
 // New Unified Utilities (Recommended)
 // ============================================================
 
+export { cn } from "../utils"
 // Array utilities
 export {
 	chunk,
@@ -44,7 +45,6 @@ export {
 	unique,
 	uniqueBy,
 } from "./arrays"
-
 // Card utilities (unified)
 export * from "./cards-unified"
 // Currency utilities (unified)
@@ -101,13 +101,3 @@ export {
 } from "./safe"
 // String utilities
 export * from "./strings"
-
-// ============================================================
-// Legacy Exports (For Backward Compatibility)
-// ============================================================
-
-export { cn } from "./cn"
-export { maskCardNumber } from "./mask-card"
-
-// Note: Legacy /lib/utils/mask-card.ts is kept for backward compatibility
-// Prefer cards-unified.ts for new code

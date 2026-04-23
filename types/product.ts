@@ -3,7 +3,7 @@ import * as z from "zod"
 export const productSchema = z.object({
 	title: z.string().min(1, "Le titre est requis"),
 	description: z.string().optional(),
-	images: z.array(z.any()).optional(),
+	images: z.array(z.string()).optional(),
 	category: z.string().optional(),
 	pricing: z.object({
 		price: z.number().min(0, "Le prix doit être positif"),
