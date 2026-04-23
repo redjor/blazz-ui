@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { mutation, query } from "./_generated/server"
+import { internalMutation, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 const bookmarkTypeValidator = v.union(v.literal("tweet"), v.literal("youtube"), v.literal("image"), v.literal("video"), v.literal("link"))
@@ -188,5 +188,35 @@ export const move = mutation({
 			if (!bookmark || bookmark.userId !== userId) throw new ConvexError("Introuvable")
 			await ctx.db.patch(id, { collectionId: collectionId ?? undefined })
 		}
+	},
+})
+
+// ── Internal: create from HTTP endpoint (no user session auth) ──
+
+export const internalCreateFromUrl = internalMutation({
+	args: {
+		userId: v.string(),
+		url: v.string(),
+		type: v.union(v.literal("tweet"), v.literal("youtube"), v.literal("image"), v.literal("video"), v.literal("link")),
+		title: v.optional(v.string()),
+		note: v.optional(v.string()),
+		sourceApp: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		const url = args.url.trim()
+		if (!url) throw new ConvexError("L'URL est requise")
+
+		// Compose notes: "[from: Instagram] user note..." if sourceApp given
+		const notes = args.sourceApp && args.note ? `[from: ${args.sourceApp}] ${args.note}` : args.sourceApp ? `[from: ${args.sourceApp}]` : args.note
+
+		return ctx.db.insert("bookmarks", {
+			userId: args.userId,
+			url,
+			type: args.type,
+			title: args.title,
+			notes,
+			pinned: false,
+			createdAt: Date.now(),
+		})
 	},
 })

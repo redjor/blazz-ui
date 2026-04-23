@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { classifyUrl, extractHost } from "./bookmark-url"
+import { classifyUrl, extractHost } from "./bookmarkUrl"
 
 describe("classifyUrl", () => {
 	it("classifies twitter/x posts as tweet", () => {
