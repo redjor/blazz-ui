@@ -398,10 +398,12 @@ http.route({
 					case "create_expense":
 						return ctx.runMutation(api.worker.workerCreateExpense, args as any)
 					case "search_knowledge":
+						// NOTE: sourceTable filter intentionally dropped — gpt-4o-mini filters too
+						// eagerly (always passes "notes"), missing valid bookmark hits. Corpus is
+						// small enough that returning both sources is acceptable.
 						return ctx.runAction(api.rag.searchKnowledge, {
 							query: String(args.query ?? ""),
 							limit: Math.min((args.limit as number) ?? 10, 30),
-							sourceTable: args.sourceTable as "notes" | "bookmarks" | undefined,
 						})
 					default:
 						throw new Error(`Unhandled tool in switch: ${name}`)
