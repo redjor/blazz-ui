@@ -289,7 +289,7 @@ export const searchKnowledge = action({
 		})
 
 		// Filter by score threshold + fetch text
-		const filtered = results.filter((r) => r._score >= 0.35).slice(0, effectiveLimit)
+		const filtered = results.filter((r) => r._score >= 0.25).slice(0, effectiveLimit)
 
 		const hits: SearchHit[] = []
 		for (const r of filtered) {
