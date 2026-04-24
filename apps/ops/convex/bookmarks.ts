@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values"
+import { internal } from "./_generated/api"
 import { internalMutation, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
@@ -90,7 +91,7 @@ export const create = mutation({
 		const url = args.url.trim()
 		if (!url) throw new ConvexError("L'URL est requise")
 
-		return ctx.db.insert("bookmarks", {
+		const id = await ctx.db.insert("bookmarks", {
 			userId,
 			url,
 			type: args.type,
@@ -106,6 +107,8 @@ export const create = mutation({
 			pinned: false,
 			createdAt: Date.now(),
 		})
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
+		return id
 	},
 })
 
@@ -130,7 +133,8 @@ export const update = mutation({
 				patch[key] = value === null ? undefined : value
 			}
 		}
-		return ctx.db.patch(id, patch)
+		await ctx.db.patch(id, patch)
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
 	},
 })
 
@@ -140,7 +144,8 @@ export const remove = mutation({
 		const { userId } = await requireAuth(ctx)
 		const bookmark = await ctx.db.get(id)
 		if (!bookmark || bookmark.userId !== userId) throw new ConvexError("Introuvable")
-		return ctx.db.delete(id)
+		await ctx.runMutation(internal.rag.removeForSource, { sourceTable: "bookmarks", sourceId: id })
+		await ctx.db.delete(id)
 	},
 })
 
@@ -209,7 +214,7 @@ export const internalCreateFromUrl = internalMutation({
 		// Compose notes: "[from: Instagram] user note..." if sourceApp given
 		const notes = args.sourceApp && args.note ? `[from: ${args.sourceApp}] ${args.note}` : args.sourceApp ? `[from: ${args.sourceApp}]` : args.note
 
-		return ctx.db.insert("bookmarks", {
+		const id = await ctx.db.insert("bookmarks", {
 			userId: args.userId,
 			url,
 			type: args.type,
@@ -218,5 +223,7 @@ export const internalCreateFromUrl = internalMutation({
 			pinned: false,
 			createdAt: Date.now(),
 		})
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
+		return id
 	},
 })

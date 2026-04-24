@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values"
+import { internal } from "./_generated/api"
 import type { Id } from "./_generated/dataModel"
 import { mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
@@ -82,7 +83,7 @@ export const create = mutation({
 	handler: async (ctx, { entityType, entityId, title, contentJson, contentText, pinned = false, isTemplate }) => {
 		const { userId } = await requireAuth(ctx)
 		const now = Date.now()
-		return ctx.db.insert("notes", {
+		const id = await ctx.db.insert("notes", {
 			userId,
 			entityType,
 			entityId,
@@ -94,6 +95,8 @@ export const create = mutation({
 			createdAt: now,
 			updatedAt: now,
 		})
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "notes", sourceId: id })
+		return id
 	},
 })
 
@@ -110,7 +113,7 @@ export const createFromTemplate = mutation({
 		if (!template.isTemplate) throw new ConvexError("Ce n'est pas un template")
 
 		const now = Date.now()
-		return ctx.db.insert("notes", {
+		const id = await ctx.db.insert("notes", {
 			userId,
 			entityType: entityType ?? template.entityType,
 			entityId: entityId ?? template.entityId,
@@ -121,6 +124,8 @@ export const createFromTemplate = mutation({
 			createdAt: now,
 			updatedAt: now,
 		})
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "notes", sourceId: id })
+		return id
 	},
 })
 
@@ -154,7 +159,11 @@ export const update = mutation({
 		applyNotePatchField(patch, "locked", locked)
 		if (isTemplate !== undefined) patch.isTemplate = isTemplate || undefined
 		if (tags !== undefined) patch.tags = tags
-		return ctx.db.patch(id, patch)
+		await ctx.db.patch(id, patch)
+		// Re-index only if content-relevant fields changed
+		if (title !== undefined || contentText !== undefined || contentJson !== undefined) {
+			await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "notes", sourceId: id })
+		}
 	},
 })
 
@@ -214,6 +223,7 @@ export const remove = mutation({
 		const note = await ctx.db.get(id)
 		if (!note || note.userId !== userId) throw new ConvexError("Introuvable")
 		if (!note.archivedAt) throw new ConvexError("Archiver avant de supprimer")
-		return ctx.db.delete(id)
+		await ctx.runMutation(internal.rag.removeForSource, { sourceTable: "notes", sourceId: id })
+		await ctx.db.delete(id)
 	},
 })
