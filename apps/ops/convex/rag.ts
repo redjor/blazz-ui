@@ -280,21 +280,24 @@ export const searchKnowledge = action({
 		const { vectors } = await embedBatch([query], apiKey)
 		const queryVector = vectors[0]
 
-		// Vector search
+		// Vector search — Convex filter DSL only supports a single .eq() per call.
+		// Single-user app → skip userId filter (redundant). Post-filter userId in memory below.
 		const effectiveLimit = Math.min(limit, 30)
 		const results = await ctx.vectorSearch("embeddings", "by_vector", {
 			vector: queryVector,
 			limit: Math.min(effectiveLimit * 2, 60),
-			filter: sourceTable ? (q) => q.eq("userId", userId).eq("sourceTable", sourceTable) : (q) => q.eq("userId", userId),
+			filter: sourceTable ? (q) => q.eq("sourceTable", sourceTable) : undefined,
 		})
 
-		// Filter by score threshold + fetch text
-		const filtered = results.filter((r) => r._score >= 0.25).slice(0, effectiveLimit)
+		// Filter by score threshold + userId (defensive) + fetch text
+		const filtered = results.filter((r) => r._score >= 0.25).slice(0, effectiveLimit * 2)
 
 		const hits: SearchHit[] = []
 		for (const r of filtered) {
+			if (hits.length >= effectiveLimit) break
 			const emb = await ctx.runQuery(internal.rag._getEmbeddingById, { id: r._id })
 			if (!emb) continue
+			if (emb.userId !== userId) continue
 			hits.push({
 				sourceTable: emb.sourceTable,
 				sourceId: emb.sourceId,
