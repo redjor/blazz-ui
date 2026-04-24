@@ -251,3 +251,115 @@ export const indexPendingJobs = action({
 		return { processed: batch.length - failed, skipped, failed }
 	},
 })
+
+// ── Search (appelée par le MCP tool search_knowledge) ──
+
+export type SearchHit = {
+	sourceTable: "notes" | "bookmarks"
+	sourceId: string
+	text: string
+	score: number
+}
+
+export const searchKnowledge = action({
+	args: {
+		query: v.string(),
+		limit: v.number(),
+		sourceTable: v.optional(sourceTableValidator),
+	},
+	handler: async (ctx, { query, limit, sourceTable }): Promise<SearchHit[]> => {
+		const apiKey = process.env.OPENAI_API_KEY
+		if (!apiKey) throw new ConvexError("OPENAI_API_KEY not configured")
+
+		const userId = process.env.OPS_USER_ID
+		if (!userId) throw new ConvexError("OPS_USER_ID not configured")
+
+		if (!query.trim()) return []
+
+		// Embed la query
+		const { vectors } = await embedBatch([query], apiKey)
+		const queryVector = vectors[0]
+
+		// Vector search
+		const effectiveLimit = Math.min(limit, 30)
+		const results = await ctx.vectorSearch("embeddings", "by_vector", {
+			vector: queryVector,
+			limit: Math.min(effectiveLimit * 2, 60),
+			filter: sourceTable ? (q) => q.eq("userId", userId).eq("sourceTable", sourceTable) : (q) => q.eq("userId", userId),
+		})
+
+		// Filter by score threshold + fetch text
+		const filtered = results.filter((r) => r._score >= 0.35).slice(0, effectiveLimit)
+
+		const hits: SearchHit[] = []
+		for (const r of filtered) {
+			const emb = await ctx.runQuery(internal.rag._getEmbeddingById, { id: r._id })
+			if (!emb) continue
+			hits.push({
+				sourceTable: emb.sourceTable,
+				sourceId: emb.sourceId,
+				text: emb.text.slice(0, 300),
+				score: r._score,
+			})
+		}
+		return hits
+	},
+})
+
+export const _getEmbeddingById = internalQuery({
+	args: { id: v.id("embeddings") },
+	handler: async (ctx, { id }) => ctx.db.get(id),
+})
+
+// ── Admin : backfill one-shot pour les data existantes ──
+
+export const backfillAll = mutation({
+	args: {},
+	handler: async (ctx) => {
+		const notes = await ctx.db.query("notes").collect()
+		const bookmarks = await ctx.db.query("bookmarks").collect()
+
+		let enqueued = 0
+		for (const n of notes) {
+			await ctx.db.insert("embeddingJobs", {
+				sourceTable: "notes",
+				sourceId: n._id,
+				attempts: 0,
+				createdAt: Date.now(),
+			})
+			enqueued++
+		}
+		for (const b of bookmarks) {
+			await ctx.db.insert("embeddingJobs", {
+				sourceTable: "bookmarks",
+				sourceId: b._id,
+				attempts: 0,
+				createdAt: Date.now(),
+			})
+			enqueued++
+		}
+		return { enqueued, notes: notes.length, bookmarks: bookmarks.length }
+	},
+})
+
+// ── Stats pour debug ──
+
+export const stats = query({
+	args: {},
+	handler: async (ctx) => {
+		const embeddings = await ctx.db.query("embeddings").collect()
+		const jobs = await ctx.db.query("embeddingJobs").collect()
+
+		const byTable: Record<string, number> = {}
+		for (const e of embeddings) {
+			byTable[e.sourceTable] = (byTable[e.sourceTable] ?? 0) + 1
+		}
+
+		return {
+			totalEmbeddings: embeddings.length,
+			byTable,
+			pendingJobs: jobs.length,
+			failedJobs: jobs.filter((j) => j.attempts > 0).length,
+		}
+	},
+})
