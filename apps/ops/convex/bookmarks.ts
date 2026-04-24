@@ -1,6 +1,6 @@
 import { ConvexError, v } from "convex/values"
 import { internal } from "./_generated/api"
-import { internalMutation, mutation, query } from "./_generated/server"
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { requireAuth } from "./lib/auth"
 
 const bookmarkTypeValidator = v.union(v.literal("tweet"), v.literal("youtube"), v.literal("image"), v.literal("video"), v.literal("link"))
@@ -108,6 +108,9 @@ export const create = mutation({
 			createdAt: Date.now(),
 		})
 		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
+		if (!args.title || args.title.trim() === "") {
+			await ctx.scheduler.runAfter(0, internal.bookmarkMetadata.enrichBookmark, { bookmarkId: id })
+		}
 		return id
 	},
 })
@@ -197,6 +200,73 @@ export const move = mutation({
 	},
 })
 
+export const listMissingMetadata = query({
+	args: {},
+	handler: async (ctx) => {
+		const { userId } = await requireAuth(ctx)
+		const all = await ctx.db
+			.query("bookmarks")
+			.withIndex("by_user", (q) => q.eq("userId", userId))
+			.collect()
+		return all.filter((b) => b.archivedAt == null && (!b.title || b.title.trim() === ""))
+	},
+})
+
+export const getInternal = internalQuery({
+	args: { id: v.id("bookmarks") },
+	handler: async (ctx, { id }) => ctx.db.get(id),
+})
+
+export const internalEnrich = internalMutation({
+	args: {
+		id: v.id("bookmarks"),
+		title: v.optional(v.string()),
+		description: v.optional(v.string()),
+		thumbnailUrl: v.optional(v.string()),
+		author: v.optional(v.string()),
+		siteName: v.optional(v.string()),
+		embedUrl: v.optional(v.string()),
+		type: v.optional(bookmarkTypeValidator),
+	},
+	handler: async (ctx, { id, ...fields }) => {
+		const bookmark = await ctx.db.get(id)
+		if (!bookmark) return
+		const patch: Record<string, unknown> = {}
+		for (const [key, value] of Object.entries(fields)) {
+			if (value !== undefined && value !== "") patch[key] = value
+		}
+		if (Object.keys(patch).length === 0) return
+		await ctx.db.patch(id, patch)
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
+	},
+})
+
+export const enrichMetadata = mutation({
+	args: {
+		id: v.id("bookmarks"),
+		title: v.optional(v.string()),
+		description: v.optional(v.string()),
+		thumbnailUrl: v.optional(v.string()),
+		author: v.optional(v.string()),
+		siteName: v.optional(v.string()),
+		embedUrl: v.optional(v.string()),
+		type: v.optional(bookmarkTypeValidator),
+	},
+	handler: async (ctx, { id, ...fields }) => {
+		const { userId } = await requireAuth(ctx)
+		const bookmark = await ctx.db.get(id)
+		if (!bookmark || bookmark.userId !== userId) throw new ConvexError("Introuvable")
+
+		const patch: Record<string, unknown> = {}
+		for (const [key, value] of Object.entries(fields)) {
+			if (value !== undefined && value !== "") patch[key] = value
+		}
+		if (Object.keys(patch).length === 0) return
+		await ctx.db.patch(id, patch)
+		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
+	},
+})
+
 // ── Internal: create from HTTP endpoint (no user session auth) ──
 
 export const internalCreateFromUrl = internalMutation({
@@ -225,6 +295,9 @@ export const internalCreateFromUrl = internalMutation({
 			createdAt: Date.now(),
 		})
 		await ctx.runMutation(internal.rag.enqueueJob, { sourceTable: "bookmarks", sourceId: id })
+		if (!args.title || args.title.trim() === "") {
+			await ctx.scheduler.runAfter(0, internal.bookmarkMetadata.enrichBookmark, { bookmarkId: id })
+		}
 		return id
 	},
 })

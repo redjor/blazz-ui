@@ -7,7 +7,7 @@ import { Input } from "@blazz/ui/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@blazz/ui/components/ui/select"
 import { Skeleton } from "@blazz/ui/components/ui/skeleton"
 import { useMutation, useQuery } from "convex/react"
-import { Bookmark, Plus, Search } from "lucide-react"
+import { Bookmark, Plus, RefreshCw, Search } from "lucide-react"
 import { useCallback, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { BookmarkCard } from "@/components/bookmark-card"
@@ -69,6 +69,11 @@ export default function BookmarksPageClient() {
 	const archiveBookmark = useMutation(api.bookmarks.archive)
 	const removeBookmark = useMutation(api.bookmarks.remove)
 	const updateBookmark = useMutation(api.bookmarks.update)
+	const enrichMetadata = useMutation(api.bookmarks.enrichMetadata)
+
+	// Missing metadata backfill
+	const missingMetadata = useQuery(api.bookmarks.listMissingMetadata)
+	const [backfilling, setBackfilling] = useState(false)
 
 	// Query
 	const bookmarks = useQuery(api.bookmarks.list, {
@@ -128,6 +133,46 @@ export default function BookmarksPageClient() {
 		}
 	}
 
+	const handleBackfill = async () => {
+		if (!missingMetadata || missingMetadata.length === 0) return
+		setBackfilling(true)
+		const total = missingMetadata.length
+		let enriched = 0
+		let failed = 0
+		const toastId = toast.loading(`Enrichissement… 0/${total}`)
+		for (const bk of missingMetadata) {
+			try {
+				const res = await fetch("/api/bookmarks/metadata", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ url: bk.url }),
+				})
+				if (!res.ok) {
+					failed++
+					continue
+				}
+				const data = await res.json()
+				await enrichMetadata({
+					id: bk._id,
+					type: data.type,
+					title: data.title || undefined,
+					description: data.description || undefined,
+					thumbnailUrl: data.thumbnailUrl || undefined,
+					author: data.author || undefined,
+					siteName: data.siteName || undefined,
+					embedUrl: data.embedUrl || undefined,
+				})
+				if (data.title) enriched++
+				else failed++
+			} catch {
+				failed++
+			}
+			toast.loading(`Enrichissement… ${enriched + failed}/${total}`, { id: toastId })
+		}
+		toast.success(`${enriched} enrichi${enriched > 1 ? "s" : ""}${failed > 0 ? `, ${failed} échec${failed > 1 ? "s" : ""}` : ""}`, { id: toastId })
+		setBackfilling(false)
+	}
+
 	const handleReadLater = async (id: Id<"bookmarks">) => {
 		if (!readLaterCollectionId) return
 		try {
@@ -178,6 +223,14 @@ export default function BookmarksPageClient() {
 							))}
 						</SelectContent>
 					</Select>
+				)}
+
+				{/* Backfill missing metadata */}
+				{missingMetadata && missingMetadata.length > 0 && (
+					<Button size="sm" variant="outline" onClick={handleBackfill} disabled={backfilling}>
+						<RefreshCw className={`size-3.5 mr-1.5 ${backfilling ? "animate-spin" : ""}`} />
+						Enrichir ({missingMetadata.length})
+					</Button>
 				)}
 
 				{/* Search */}
