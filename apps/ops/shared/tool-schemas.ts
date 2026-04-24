@@ -144,6 +144,25 @@ export const TOOL_SCHEMAS: readonly ToolSchema[] = [
 			required: ["type", "date"],
 		},
 	},
+	{
+		name: "search_knowledge",
+		category: "read",
+		description:
+			"Recherche sémantique dans les notes et bookmarks de l'utilisateur. Retourne les entrées les plus pertinentes avec un score de similarité. Utile pour retrouver une note ou un lien sans en connaître le titre exact.",
+		parameters: {
+			type: "object",
+			properties: {
+				query: { type: "string", description: "Requête en langage naturel." },
+				limit: { type: "number", description: "Max résultats (default 10, max 30)." },
+				sourceTable: {
+					type: "string",
+					enum: ["notes", "bookmarks"],
+					description: "Filtrer par type de source (optionnel).",
+				},
+			},
+			required: ["query"],
+		},
+	},
 ] as const
 
 export function getToolSchema(name: string): ToolSchema | undefined {

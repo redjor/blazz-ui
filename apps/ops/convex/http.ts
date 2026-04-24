@@ -397,6 +397,12 @@ http.route({
 						return ctx.runQuery(api.worker.workerListProjects, {})
 					case "create_expense":
 						return ctx.runMutation(api.worker.workerCreateExpense, args as any)
+					case "search_knowledge":
+						return ctx.runAction(api.rag.searchKnowledge, {
+							query: String(args.query ?? ""),
+							limit: Math.min((args.limit as number) ?? 10, 30),
+							sourceTable: args.sourceTable as "notes" | "bookmarks" | undefined,
+						})
 					default:
 						throw new Error(`Unhandled tool in switch: ${name}`)
 				}

@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest"
 import { getToolSchema, TOOL_SCHEMAS, type ToolSchema } from "./tool-schemas"
 
 describe("tool-schemas", () => {
-	it("exports exactly 10 tools", () => {
-		expect(TOOL_SCHEMAS).toHaveLength(10)
+	it("exports exactly 11 tools", () => {
+		expect(TOOL_SCHEMAS).toHaveLength(11)
 	})
 
 	it("all tools have name, description, parameters", () => {
