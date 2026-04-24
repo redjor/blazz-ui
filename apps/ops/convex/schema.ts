@@ -635,4 +635,28 @@ export default defineSchema({
 		errorMessage: v.optional(v.string()),
 		argsPreview: v.optional(v.string()), // JSON stringified + truncated to 500 chars, secrets redacted
 	}).index("by_ts", ["ts"]),
+
+	embeddingJobs: defineTable({
+		sourceTable: v.union(v.literal("notes"), v.literal("bookmarks")),
+		sourceId: v.union(v.id("notes"), v.id("bookmarks")),
+		attempts: v.number(),
+		lastError: v.optional(v.string()),
+		createdAt: v.number(),
+	}).index("by_created", ["createdAt"]),
+
+	embeddings: defineTable({
+		userId: v.string(),
+		sourceTable: v.union(v.literal("notes"), v.literal("bookmarks")),
+		sourceId: v.union(v.id("notes"), v.id("bookmarks")),
+		contentHash: v.string(),
+		text: v.string(),
+		vector: v.array(v.number()),
+		updatedAt: v.number(),
+	})
+		.index("by_source", ["sourceTable", "sourceId"])
+		.vectorIndex("by_vector", {
+			vectorField: "vector",
+			dimensions: 1536,
+			filterFields: ["userId", "sourceTable"],
+		}),
 })

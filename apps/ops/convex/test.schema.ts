@@ -274,4 +274,28 @@ export default defineSchema({
 		.index("by_user_read", ["userId", "read"])
 		.index("by_user_source", ["userId", "source"])
 		.index("by_source_external", ["source", "externalId"]),
+
+	embeddingJobs: defineTable({
+		sourceTable: v.union(v.literal("notes"), v.literal("bookmarks")),
+		sourceId: v.union(v.id("notes"), v.id("bookmarks")),
+		attempts: v.number(),
+		lastError: v.optional(v.string()),
+		createdAt: v.number(),
+	}).index("by_created", ["createdAt"]),
+
+	embeddings: defineTable({
+		userId: v.string(),
+		sourceTable: v.union(v.literal("notes"), v.literal("bookmarks")),
+		sourceId: v.union(v.id("notes"), v.id("bookmarks")),
+		contentHash: v.string(),
+		text: v.string(),
+		vector: v.array(v.number()),
+		updatedAt: v.number(),
+	})
+		.index("by_source", ["sourceTable", "sourceId"])
+		.vectorIndex("by_vector", {
+			vectorField: "vector",
+			dimensions: 1536,
+			filterFields: ["userId", "sourceTable"],
+		}),
 })
