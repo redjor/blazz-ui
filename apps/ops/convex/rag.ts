@@ -4,6 +4,7 @@ import type { Id } from "./_generated/dataModel"
 import { action, internalMutation, internalQuery, mutation, query } from "./_generated/server"
 import { buildIndexableText } from "./lib/rag/buildIndexableText"
 import { contentHash } from "./lib/rag/contentHash"
+import { shouldIndex } from "./lib/rag/indexFilter"
 import { embedBatch, OpenAIError } from "./lib/rag/openai"
 
 const sourceTableValidator = v.union(v.literal("notes"), v.literal("bookmarks"))
@@ -185,6 +186,19 @@ export const indexPendingJobs = action({
 								url: (doc as { url: string }).url,
 							})
 
+				// Filter out empty / agent-noise docs
+				const titleForFilter = (doc as { title?: string }).title
+				const filter = shouldIndex(text, titleForFilter)
+				if (!filter.indexable) {
+					// Mark as handled but don't embed. Also delete existing embedding if any (in case it was indexed before the filter existed).
+					await ctx.runMutation(internal.rag.removeForSource, {
+						sourceTable: job.sourceTable,
+						sourceId: job.sourceId,
+					})
+					skipped++
+					continue
+				}
+
 				const hash = await contentHash(text)
 
 				const existing = await ctx.runQuery(internal.rag._getExistingEmbedding, {
@@ -342,6 +356,46 @@ export const backfillAll = mutation({
 			enqueued++
 		}
 		return { enqueued, notes: notes.length, bookmarks: bookmarks.length }
+	},
+})
+
+// ── Admin : nuke all embeddings + re-enqueue all sources ──
+
+export const resetAndBackfill = mutation({
+	args: {},
+	handler: async (ctx) => {
+		// Delete all existing embeddings + jobs
+		const embeddings = await ctx.db.query("embeddings").collect()
+		for (const e of embeddings) await ctx.db.delete(e._id)
+		const jobs = await ctx.db.query("embeddingJobs").collect()
+		for (const j of jobs) await ctx.db.delete(j._id)
+
+		// Re-enqueue all notes + bookmarks
+		const notes = await ctx.db.query("notes").collect()
+		const bookmarks = await ctx.db.query("bookmarks").collect()
+		for (const n of notes) {
+			await ctx.db.insert("embeddingJobs", {
+				sourceTable: "notes",
+				sourceId: n._id,
+				attempts: 0,
+				createdAt: Date.now(),
+			})
+		}
+		for (const b of bookmarks) {
+			await ctx.db.insert("embeddingJobs", {
+				sourceTable: "bookmarks",
+				sourceId: b._id,
+				attempts: 0,
+				createdAt: Date.now(),
+			})
+		}
+		return {
+			deletedEmbeddings: embeddings.length,
+			deletedJobs: jobs.length,
+			enqueued: notes.length + bookmarks.length,
+			notes: notes.length,
+			bookmarks: bookmarks.length,
+		}
 	},
 })
 
