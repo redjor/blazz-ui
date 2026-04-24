@@ -156,6 +156,7 @@ export const removeBatch = mutation({
 		for (const id of ids) {
 			const bookmark = await ctx.db.get(id)
 			if (!bookmark || bookmark.userId !== userId) throw new ConvexError("Introuvable")
+			await ctx.runMutation(internal.rag.removeForSource, { sourceTable: "bookmarks", sourceId: id })
 			await ctx.db.delete(id)
 		}
 	},
