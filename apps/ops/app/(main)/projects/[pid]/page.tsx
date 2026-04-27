@@ -14,6 +14,7 @@ import { BudgetSection } from "@/components/budget-section"
 import { ContractForm } from "@/components/contract-form"
 import { ContractSection } from "@/components/contract-section"
 import { FavoriteButton } from "@/components/favorite-button"
+import { MonthlyBreakdown } from "@/components/monthly-breakdown"
 import { ProjectForm } from "@/components/project-form"
 import { ProjectIcon } from "@/components/project-icon"
 import { api } from "@/convex/_generated/api"
@@ -59,7 +60,7 @@ export default function ProjectOverviewPage({ params }: Props) {
 		return <div className="p-6 text-fg-muted text-sm">Projet introuvable.</div>
 	}
 
-	const { project, entries, stats } = data
+	const { project, entries, stats, monthlyData } = data
 
 	const budgetMetrics = computeBudgetMetrics({
 		budgetAmount: project.budgetAmount,
@@ -170,6 +171,9 @@ export default function ProjectOverviewPage({ params }: Props) {
 
 				{/* Budget section */}
 				{budgetMetrics && <BudgetSection metrics={budgetMetrics} tjm={project.tjm} weeklyBurnDown={data.weeklyBurnDown ?? null} />}
+
+				{/* Monthly breakdown */}
+				<MonthlyBreakdown data={monthlyData} hoursPerDay={project.hoursPerDay} />
 
 				{/* Contract section */}
 				{activeContract && (

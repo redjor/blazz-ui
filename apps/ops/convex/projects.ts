@@ -291,8 +291,8 @@ export const getWithStats = query({
 			.sort(([a], [b]) => a.localeCompare(b))
 			.map(([month, data]) => ({
 				month,
-				heures: Math.round((data.minutes / 60) * 10) / 10,
-				ca: Math.round(data.revenue),
+				minutes: data.minutes,
+				revenue: Math.round(data.revenue),
 			}))
 
 		return {
